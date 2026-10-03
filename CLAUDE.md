@@ -2,7 +2,7 @@
 
 ## 2026-10-02 当前状态：累计 cap $100，完整日常链
 
-当前产品与执行优先级以 `docs/CURRENT_DELIVERY_PLAN.md`、`docs/DAILY_PIPELINE.md` 为准。下方各节是历史快照；其中 $50/$60、密钥待提供、默认 Apify、同事件广播、强制重写/禁止直译等旧结论不再适用。用户要各账号自己的 source universe → 增量跟踪 → 原文选段 → 翻译/最小轻编 → QA → 人工审稿，不以更多稿件数量代替自动化完成。
+当前产品与执行优先级以 `docs/CURRENT_DELIVERY_PLAN.md`、`docs/DAILY_PIPELINE.md` 为准。下方各节是历史快照；其中 $50/$60、密钥待提供、默认 Apify、同事件广播、强制重写/禁止直译等旧结论不再适用。目标产品形态按帖型（post_type）成帖：各账号自己的 source universe → 增量跟踪 → 内容单元抽取 → 按帖型和人设成帖（带署名 frame）→ QA → 人工审稿。帖型为 data_take、mechanism_explainer、view_relay、earnings_take、aphorism_translation，定义见 `live/post_types.json`（P0-4b 落地）。“原文选段 → 翻译 → 最小轻编”只是 aphorism_translation（Morris）的实现，不是中文号的产品规格。不以更多稿件数量代替自动化完成。
 
 累计预算上限已按用户指令改为 $100，保留历史支出与预留。现有 `.env` 凭据一直可用，默认 `ACCOUNT_CONTENT_PROVIDER=erisedai_relay` / `claude-opus-5` 已显式持久化，不要求用户重发 key，不自动 fallback。只运行 `en_morris_archive`、`zh_macro`、`zh_industry`，无自动发布。每日 3 条是上限而非配额，QA-only 续检不算新文章。
 

@@ -12,7 +12,7 @@
       ],
       "platform": "unbound",
       "enabled": true,
-      "treatment": "historical_translation_light_edit"
+      "treatment": "aphorism_translation"
     },
     {
       "id": "zh_macro",
@@ -22,7 +22,7 @@
       "research_inputs": [],
       "platform": "unbound",
       "enabled": true,
-      "treatment": "source_grounded_translation_or_light_edit"
+      "treatment": "composed_post"
     },
     {
       "id": "en_macro",
@@ -32,7 +32,7 @@
       "research_inputs": [],
       "platform": "unbound",
       "enabled": false,
-      "treatment": "source_grounded_translation_or_light_edit"
+      "treatment": "composed_post"
     },
     {
       "id": "zh_industry",
@@ -42,7 +42,7 @@
       "research_inputs": [],
       "platform": "unbound",
       "enabled": true,
-      "treatment": "source_grounded_translation_or_light_edit"
+      "treatment": "composed_post"
     },
     {
       "id": "en_industry",
@@ -52,7 +52,7 @@
       "research_inputs": [],
       "platform": "unbound",
       "enabled": false,
-      "treatment": "source_grounded_translation_or_light_edit"
+      "treatment": "composed_post"
     }
   ],
   "shared": {

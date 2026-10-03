@@ -6,7 +6,7 @@ Jev 本轮增量：用户授权实现独立参考复核后，现已接入只读�
 
 ## 目标与范围
 
-每个账号从自己的信息世界挑内容，完整原文选段进入翻译与轻编，保留信息、逻辑、例子、判断力度和表达节奏，再进入人工审核。机器检查在后台，不写进正文。NONE 真正停止；没有选题时不凑配额。
+每个账号从自己的信息世界挑内容，按帖型（post_type）成帖，再进入人工审核。帖型：data_take、mechanism_explainer、view_relay、earnings_take 由内容单元按人设声音成帖，开头署名或结尾注明来源（attribution frame）；aphorism_translation 只用于 Morris，完整原文选段进入翻译与轻编，保留信息、逻辑、例子、判断力度和表达节奏。帖型定义以 `live/post_types.json` 为准。过渡期：P0-4e 的 COMPOSE 上线前，中文号的跨语言源仍走旧的翻译链，产出只作过渡稿，不代表目标形态。机器检查在后台，不写进正文。NONE 真正停止；没有选题时不凑配额。
 
 当前三个运行账号：`en_morris_archive`、`zh_macro`、`zh_industry`。五个逻辑 profile 已存在，另外两个英文 profile 保留停用。Morris 是自己的历史中文 → 英文 evergreen 账号。官方发布仅作事实依据，不作为整篇待翻译帖子。按账号保存订阅、cursor、候选、消费状态与队列，不广播同一个 event 给所有账号。
 
