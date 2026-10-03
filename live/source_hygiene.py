@@ -55,6 +55,34 @@ def annotate(source):
             'original_unchanged':True,'method':'pattern hints + source metadata; not semantic adjudication'}
 
 
+RESOLVED_METADATA_FIELDS = {'thread_id', 'thread_post_ids'}
+
+
+def resolved_metadata(annotation):
+    """P0-3d: source metadata that carries no unresolved premise.
+
+    Only conversation grouping ids and a quoted post whose body was captured are
+    resolved. Media, unretrieved replies/quotes and unresolved media clues are
+    open dependencies and still need editorial judgment.
+    """
+    if annotation.get('start') is not None or annotation.get('basis') != 'source_metadata':
+        return False
+    meta = annotation.get('metadata') or {}
+    field = meta.get('field')
+    if field in RESOLVED_METADATA_FIELDS:
+        return True
+    value = meta.get('value')
+    return (field == 'quoted_post' and isinstance(value, dict)
+            and value.get('status') == 'captured_nested_context'
+            and isinstance(value.get('text'), str) and bool(value['text'].strip()))
+
+
+def deterministic_decision(annotation):
+    field = (annotation.get('metadata') or {}).get('field')
+    return {'annotation_id': annotation['id'], 'action': 'retain', 'deterministic': True,
+            'reason': f'Deterministic: resolved source metadata ({field}); no editorial judgment required'}
+
+
 def selected_annotations(report,selection):
     return [a for a in report['annotations'] if a['start'] is None or any(
         a['start']<p['end'] and a['end']>p['start'] for p in selection['passages'])]

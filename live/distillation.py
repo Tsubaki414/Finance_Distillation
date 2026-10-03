@@ -245,9 +245,16 @@ class Pipeline:
             attempt['hygiene_decisions']=[];return True
         value=attempt.get('editorial_judgment',{}).get('hygiene_decisions')
         if value is None:
-            result=self.ask(attempt,'source_hygiene',prompt_assembly.SOURCE_HYGIENE,
-                {'source':source,'selected_passages':selection['passages'],'annotations':annotations,'target_account':account},4500)
-            value=result.get('hygiene_decisions')
+            # P0-3d: resolved metadata is retained without a model call; only open
+            # dependencies and text-anchored annotations go to editorial judgment.
+            fixed=[hygiene.deterministic_decision(a) for a in annotations if hygiene.resolved_metadata(a)]
+            judged=[a for a in annotations if not hygiene.resolved_metadata(a)]
+            value=fixed
+            if judged:
+                result=self.ask(attempt,'source_hygiene',prompt_assembly.SOURCE_HYGIENE,
+                    {'source':source,'selected_passages':selection['passages'],'annotations':judged,'target_account':account},4500)
+                model_value=result.get('hygiene_decisions')
+                value=fixed+model_value if isinstance(model_value,list) else model_value
         try:attempt['hygiene_decisions']=hygiene.validate_decisions(value,annotations)
         except ValueError as exc:raise ContractError(str(exc)) from exc
         if any(d['action']=='needs_context' for d in value):
