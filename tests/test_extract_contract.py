@@ -56,7 +56,7 @@ class ExtractContractTests(unittest.TestCase):
         self.assertTrue(units[0]['unit_id'].startswith('cu-'))
         self.assertEqual(units[0]['licence_tier'], 'B')
         self.assertEqual(units[0]['usage'], 'paraphrase')
-        self.assertEqual(units[0]['numbers'][0]['quantity'], ['5.423E+10', 'USD'])
+        self.assertEqual(units[0]['numbers'][0]['quantity'], [['5.423E+10', 'USD']])
         self.assertEqual(result['prompt_assembly']['effective_template_id'], 'content_units.EXTRACT')
         self.assertEqual(result['span_match_rate'], 1.0)
 
@@ -64,6 +64,22 @@ class ExtractContractTests(unittest.TestCase):
         bad = unit(source_spans=[{'paragraph_id': 'P1', 'exact_text': 'Micron revenue soared to $54.23 billion'}])
         with self.assertRaises(ContractError):
             self.run_extract([bad])
+
+    def test_typographic_variants_resolve_to_original_text(self):
+        source = {**SOURCE, 'original_text': TEXT + '\n\nThe company\u2019s \u201chigh teens\u201d\u00a0guide held.'}
+        good = unit(kind='view', numbers=[], source_spans=[
+            {'paragraph_id': 'P4', 'exact_text': 'The company\'s "high teens" guide held.'}])
+        result, _ = self.run_extract([good], source=source)
+        span = result['units'][0]['source_spans'][0]
+        self.assertEqual(span['exact_text'], 'The company\u2019s \u201chigh teens\u201d\u00a0guide held.')
+        self.assertEqual(source['original_text'][span['start']:span['end']], span['exact_text'])
+        self.assertTrue(span['typography_normalized'])
+        self.assertEqual(result['span_match_rate'], 1.0)
+        self.assertEqual(result['spans_typography_normalized'], 1)
+        reworded = unit(kind='view', numbers=[], source_spans=[
+            {'paragraph_id': 'P4', 'exact_text': 'The company\'s "high teens" guidance held.'}])
+        with self.assertRaises(ContractError):
+            self.run_extract([reworded], source=source)
 
     def test_span_from_other_paragraph_rejected(self):
         bad = unit(source_spans=[{'paragraph_id': 'P2', 'exact_text': 'Micron revenue rose 4.8x to $54.23 billion'}])
@@ -79,6 +95,16 @@ class ExtractContractTests(unittest.TestCase):
         bad = unit(numbers=[{'text': 'revenue', 'metric': 'revenue', 'period': 'q', 'span_ref': 0}])
         with self.assertRaises(ContractError):
             self.run_extract([bad])
+
+    def test_range_is_one_number(self):
+        source = {**SOURCE, 'original_text': TEXT + '\n\nPrices run $500 to $600 per unit.'}
+        good = unit(source_spans=[{'paragraph_id': 'P4', 'exact_text': 'Prices run $500 to $600 per unit.'}],
+                    numbers=[{'text': '$500 to $600', 'metric': 'price', 'period': None, 'span_ref': 0}])
+        result, _ = self.run_extract([good], source=source)
+        self.assertEqual(result['units'][0]['numbers'][0]['quantity'], [['5E+2', 'USD'], ['6E+2', 'USD']])
+        two = unit(numbers=[{'text': '4.8x to $54.23 billion', 'metric': 'revenue', 'period': None, 'span_ref': 0}])
+        with self.assertRaises(ContractError):
+            self.run_extract([two])
 
     def test_metric_binding_mismatch_detected(self):
         spans = [{'paragraph_id': 'P1', 'exact_text': 'Micron revenue rose 4.8x to $54.23 billion'},

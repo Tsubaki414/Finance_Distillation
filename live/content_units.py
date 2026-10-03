@@ -1,10 +1,13 @@
 """EXTRACT: source -> ContentUnits, contract enforced by code (P0-4d).
 
 The model proposes units; code rejects the whole response unless every
-evidence span is an exact substring of the paragraph it names, every number
+evidence span is found in the paragraph it names (exactly, or after a
+length-preserving fold of curly quotes / non-breaking spaces / newlines that
+models routinely normalise; the stored span is then the original source
+slice, so it is always an exact substring), every number
 is an exact substring of its span and parses (live/numeric_fidelity.py) to a
 quantity present in that span, and a number bound to a recognised metric
-agrees with the metric the span itself binds it to. Licence tier gates the
+agrees with the nearest metric term before it in its span clause. Licence tier gates the
 call: missing or D -> no extraction and no model call; C -> topic_only.
 Units are not stored here (unit store is plan 2.2).
 """
@@ -15,9 +18,9 @@ import re
 from live import prompt_assembly
 from live.distillation import ContractError, require
 from live.distillation_source import digest, paragraphs
-from live.finance_policy import METRIC_ALIASES
+from live.fidelity import METRICS, metric_name
 from live.model_json import parse_object
-from live.numeric_fidelity import inventory, metric_bindings
+from live.numeric_fidelity import RANGE, inventory
 
 VERSION = 'content-units-extract-v1'
 KINDS = ('fact', 'mechanism', 'view', 'aphorism')
@@ -47,16 +50,45 @@ Schema: {"units":[{"kind":"fact","statement":"...","source_spans":[{"paragraph_i
 "speaker_type":"media","freshness_class":"current"}]}''')
 
 
+# One-to-one character folds (length preserving), so a folded match maps back
+# to original offsets. The stored span is always the original source text.
+_FOLD = str.maketrans({'\u2018': "'", '\u2019': "'", '\u201a': "'", '\u2032': "'",
+                       '\u201c': '"', '\u201d': '"', '\u201e': '"', '\u2033': '"',
+                       '\u00a0': ' ', '\u2009': ' ', '\u202f': ' ', '\u2007': ' ',
+                       '\n': ' ', '\t': ' ', '\r': ' '})
+
+
+def fold(text):
+    return text.translate(_FOLD)
+
+
+def locate(paragraph, span):
+    """Offset of span in paragraph: exact first, then typographic fold. (-1, False) if absent."""
+    offset = paragraph.find(span)
+    if offset >= 0:
+        return offset, False
+    offset = fold(paragraph).find(fold(span))
+    return offset, offset >= 0
+
+
 class LicenceRefused(ValueError):
     """The source's licence tier does not allow extraction; no model call was made."""
 
 
-def _metric_key(name):
-    lowered = (name or '').lower()
-    if lowered in METRIC_ALIASES:
-        return METRIC_ALIASES[lowered]
-    hits = [k for k in METRIC_ALIASES if (re.search(r'\b' + re.escape(k) + r'\b', lowered) if k.isascii() else k in lowered)]
-    return METRIC_ALIASES[max(hits, key=len)] if hits else None
+CLAUSE_END = re.compile(r'[.;!?。；！？](?=\s|$)|\n')
+
+
+def _claimed_metric(name):
+    match = METRICS.search(name or '')
+    return metric_name(match.group()) if match else None
+
+
+def _span_metric(span, at):
+    """Nearest recognised metric term before the number, within its clause (fidelity.METRICS)."""
+    ends = [m.end() for m in CLAUSE_END.finditer(span, 0, at)]
+    start = ends[-1] if ends else 0
+    found = list(METRICS.finditer(span, start, at))
+    return metric_name(found[-1].group()) if found else None
 
 
 def _number(number, spans, where):
@@ -67,20 +99,27 @@ def _number(number, spans, where):
     ref = number['span_ref']
     require(type(ref) is int and 0 <= ref < len(spans), where + ': span_ref out of range')
     text, span = number['text'], spans[ref]['exact_text']
-    require(isinstance(text, str) and text and text in span, where + ': number text is not in its span')
+    require(isinstance(text, str) and text, where + ': number text required')
+    at, _ = locate(span, text)
+    require(at >= 0, where + ': number text is not in its span')
+    text = span[at:at + len(text)]
     found = inventory(text)
-    require(sum(found.values()) == 1, where + ': number text must hold exactly one quantity')
-    quantity = next(iter(found))
-    require(inventory(span)[quantity] >= 1, where + ': number does not parse to a quantity in its span')
+    quantities = sorted(found.elements())
+    is_range = (len(quantities) == 2 and RANGE.fullmatch(text.strip()) is not None
+                and quantities[0][1] == quantities[1][1])
+    require(len(quantities) == 1 or is_range, where + ': number text must hold one quantity or one range')
+    present = inventory(span)
+    require(all(present[q] >= 1 for q in quantities), where + ': number does not parse to a quantity in its span')
     require(isinstance(number['metric'], str) and number['metric'].strip(), where + ': metric required')
-    claimed = _metric_key(number['metric'])
-    bound = {b[0] for b in metric_bindings(span, METRIC_ALIASES) if tuple(b[1:]) == quantity}
+    # Binding check only where both sides use the recognised metric lexicon
+    # (fidelity.METRICS); other metrics are left to semantic QA.
+    claimed, bound = _claimed_metric(number['metric']), _span_metric(span, at)
     if claimed and bound:
-        require(claimed in bound, f'{where}: metric binding mismatch ({number["metric"]} vs span {sorted(bound)})')
+        require(claimed == bound, f'{where}: metric binding mismatch ({number["metric"]} vs span {bound})')
     period = number['period']
     require(period is None or isinstance(period, str), where + ': period must be text or null')
     return {'text': text, 'metric': number['metric'], 'period': period, 'span_ref': ref,
-            'quantity': list(quantity)}
+            'quantity': [list(q) for q in quantities]}
 
 
 def validate_units(source, value, licence_tier):
@@ -102,11 +141,13 @@ def validate_units(source, value, licence_tier):
             exact = s.get('exact_text')
             require(paragraph is not None, where + ': unknown paragraph_id')
             require(isinstance(exact, str) and exact.strip(), where + ': empty span')
-            offset = paragraph['exact_text'].find(exact)
+            offset, folded = locate(paragraph['exact_text'], exact)
             require(offset >= 0, where + ': span is not an exact substring of its paragraph')
             start = paragraph['start'] + offset
+            original = text[start:start + len(exact)]
             resolved.append({'source_hash': source['source_hash'], 'paragraph_id': s['paragraph_id'],
-                             'start': start, 'end': start + len(exact), 'exact_text': exact})
+                             'start': start, 'end': start + len(exact), 'exact_text': original,
+                             'typography_normalized': folded})
         numbers = raw.get('numbers', [])
         require(isinstance(numbers, list), where + ': numbers must be a list')
         bound = [_number(n, resolved, f'{where} number {i}') for i, n in enumerate(numbers)]
@@ -143,6 +184,9 @@ def extract(source, client, *, licence_tier, publisher=None):
     except ValueError as exc:
         raise ContractError('extract: ' + str(exc)) from exc
     units = validate_units(source, value, licence_tier)
+    spans = [s for u in units for s in u['source_spans']]
     return {'version': VERSION, 'units': units, 'prompt_assembly': record,
             'response': {k: response.get(k) for k in ('model', 'response_model', 'finish_reason', 'usage')},
-            'span_match_rate': 1.0}
+            # Every accepted span is an exact substring of the source (code enforced).
+            'span_match_rate': 1.0,
+            'spans_typography_normalized': sum(1 for s in spans if s['typography_normalized'])}
