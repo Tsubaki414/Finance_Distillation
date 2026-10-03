@@ -1,0 +1,265 @@
+{
+ "account_id": "en_morris_archive",
+ "source": {
+  "id": "source-5bd1d87833eed2ee6d4691c8",
+  "source_id": "x_Morris_LT",
+  "source_hash": "fe305e89956f99cb40ed019b9cdee66d2eff6b98421f706e499c97bd3a9f9c39",
+  "original_text": "当前世界另一种维度的竞争关系：\n\n互联网 vs 政府机构（The Internet vs the Government）：\n自由和开放性与政府监管之间的冲突。\n\n社交媒体 vs 传统媒体（Social Media vs Legacy Media）：\n强调社交媒体和传统媒体之间的竞争，以及信息的传播方式和控制权的变化。\n\n创新 vs 规制（Innovation vs Regulation）：\n探讨创新与政府制定的规定之间的紧张关系，创新是否受到过多的法规限制。\n\nUber vs 出租车牌（Uber vs Taxi Medallions）：\n突显了新型共享经济模式（Uber）与传统出租车行业之间的竞争和冲突。\n\n技术 vs 政治（Technology vs Politics）：\n强调科技和政治之间的交叉点，包括科技对政治体系的影响和政治对科技发展的影响。\n\n比特币 vs 美元（Bitcoin vs the Dollar）：\n讨论加密货币（比特币）与传统货币（美元）之间的竞争，以及它们对全球金融体系的影响。\n\nSpaceX vs FAA：\n强调私人航天公司（SpaceX）与联邦航空管理局（FAA）之间的关系，特别是在航天活动的规范和许可方面。\n\nOpenAI vs 纽约时报（OpenAI vs NYT）：\n突显了新兴技术公司（OpenAI）与传统媒体机构（纽约时报）之间的竞争，以及信息传播和创新的不同方式。\n\n加密货币 vs 证券交易委员会（Crypto vs SEC）：\n涉及加密货币市场与美国证券交易委员会（SEC）之间的法规和监管问题。\n\n云 vs 土地（Cloud vs Land）：\n探讨云计算与传统本地计算之间的差异，以及对数据存储和处理方式的影响。\n\n比特 vs 原子（Bits vs Atoms）：\n强调数字信息（比特）与物质实体（原子）之间的对比，特别是在数字化和物理实体之间的交互方面。",
+  "normalized_text": "当前世界另一种维度的竞争关系： 互联网 vs 政府机构（The Internet vs the Government）： 自由和开放性与政府监管之间的冲突。 社交媒体 vs 传统媒体（Social Media vs Legacy Media）： 强调社交媒体和传统媒体之间的竞争，以及信息的传播方式和控制权的变化。 创新 vs 规制（Innovation vs Regulation）： 探讨创新与政府制定的规定之间的紧张关系，创新是否受到过多的法规限制。 Uber vs 出租车牌（Uber vs Taxi Medallions）： 突显了新型共享经济模式（Uber）与传统出租车行业之间的竞争和冲突。 技术 vs 政治（Technology vs Politics）： 强调科技和政治之间的交叉点，包括科技对政治体系的影响和政治对科技发展的影响。 比特币 vs 美元（Bitcoin vs the Dollar）： 讨论加密货币（比特币）与传统货币（美元）之间的竞争，以及它们对全球金融体系的影响。 SpaceX vs FAA： 强调私人航天公司（SpaceX）与联邦航空管理局（FAA）之间的关系，特别是在航天活动的规范和许可方面。 OpenAI vs 纽约时报（OpenAI vs NYT）： 突显了新兴技术公司（OpenAI）与传统媒体机构（纽约时报）之间的竞争，以及信息传播和创新的不同方式。 加密货币 vs 证券交易委员会（Crypto vs SEC）： 涉及加密货币市场与美国证券交易委员会（SEC）之间的法规和监管问题。 云 vs 土地（Cloud vs Land）： 探讨云计算与传统本地计算之间的差异，以及对数据存储和处理方式的影响。 比特 vs 原子（Bits vs Atoms）： 强调数字信息（比特）与物质实体（原子）之间的对比，特别是在数字化和物理实体之间的交互方面。",
+  "author_name": "Morris",
+  "author_id": "51904755",
+  "url": "https://x.com/Morris_LT/status/1749041977017110753",
+  "title": "",
+  "published_at": "2024-01-21T12:11:17+00:00",
+  "fetched_at": "2026-09-30T20:08:29.246185+00:00",
+  "snapshot_at": "2026-10-03T20:49:43.166823+00:00",
+  "source_type": "x",
+  "platform": "x",
+  "source_language": "zh",
+  "language_confidence": 0.95,
+  "language_method": "en-zh-heuristic-v1",
+  "content_complete": true,
+  "extraction_status": "provider_body_completeness_unverified",
+  "extractor_version": "apify-preserved-capture-v2",
+  "media_dependencies": [],
+  "entity_glossary": {},
+  "synthetic": false,
+  "post_type": "original",
+  "reply_to": null,
+  "quoted_post": null,
+  "thread_id": "1749041977017110753",
+  "media": [],
+  "external_links": [],
+  "context_items": [
+   {
+    "kind": "x_capture_metadata",
+    "author": {
+     "type": "user",
+     "userName": "Morris_LT",
+     "url": "https://x.com/Morris_LT",
+     "twitterUrl": "https://twitter.com/Morris_LT",
+     "id": "51904755",
+     "name": "Morris",
+     "isVerified": false,
+     "isBlueVerified": true,
+     "profilePicture": "https://pbs.twimg.com/profile_images/1661240746018754560/8Shwdpaj_normal.jpg",
+     "coverPicture": "https://pbs.twimg.com/profile_banners/51904755/1789454141",
+     "description": "某不知名Web3.0&AI科技创业公司创始人｜长期观察世界、商业、投资与个人成长｜《旷野之心》作者｜DLL「人生实时顾问」",
+     "location": "𝕏Ɖ",
+     "followers": 247645,
+     "following": 446,
+     "protected": false,
+     "status": "",
+     "canDm": true,
+     "canMediaTag": false,
+     "advertiserAccountType": "promotable_user",
+     "analyticsType": "disabled",
+     "createdAt": "Mon Jun 29 01:07:03 +0000 2009",
+     "entities": {
+      "description": {},
+      "url": {
+       "urls": [
+        {
+         "display_url": "dll.io",
+         "expanded_url": "https://dll.io",
+         "indices": [
+          0,
+          23
+         ],
+         "url": "https://t.co/0IeN54heLv"
+        }
+       ]
+      }
+     },
+     "fastFollowersCount": 0,
+     "favouritesCount": 70236,
+     "geoEnabled": false,
+     "hasCustomTimelines": true,
+     "hasExtendedProfile": true,
+     "isTranslator": false,
+     "mediaCount": 7238,
+     "profileBackgroundColor": "1A1B1F",
+     "statusesCount": 78057,
+     "translatorTypeEnum": "None",
+     "affiliatesHighlightedLabel": {},
+     "pinnedTweetIds": [
+      "2105197200917852602"
+     ]
+    },
+    "text_variants": {
+     "text": "当前世界另一种维度的竞争关系：\n\n互联网 vs 政府机构（The Internet vs the Government）：\n自由和开放性与政府监管之间的冲突。\n\n社交媒体 vs 传统媒体（Social Media vs Legacy Media）：\n强调社交媒体和传统媒体之间的竞争，以及信息的传播方式和控制权的变化。\n\n创新 vs 规制（Innovation vs Regulation）：\n探讨创新与政府制定的规定之间的紧张关系，创新是否受到过多的法规限制。\n\nUber vs 出租车牌（Uber vs Taxi Medallions）：\n突显了新型共享经济模式（Uber）与传统出租车行业之间的竞争和冲突。\n\n技术 vs 政治（Technology vs Politics）：\n强调科技和政治之间的交叉点，包括科技对政治体系的影响和政治对科技发展的影响。\n\n比特币 vs 美元（Bitcoin vs the Dollar）：\n讨论加密货币（比特币）与传统货币（美元）之间的竞争，以及它们对全球金融体系的影响。\n\nSpaceX vs FAA：\n强调私人航天公司（SpaceX）与联邦航空管理局（FAA）之间的关系，特别是在航天活动的规范和许可方面。\n\nOpenAI vs 纽约时报（OpenAI vs NYT）：\n突显了新兴技术公司（OpenAI）与传统媒体机构（纽约时报）之间的竞争，以及信息传播和创新的不同方式。\n\n加密货币 vs 证券交易委员会（Crypto vs SEC）：\n涉及加密货币市场与美国证券交易委员会（SEC）之间的法规和监管问题。\n\n云 vs 土地（Cloud vs Land）：\n探讨云计算与传统本地计算之间的差异，以及对数据存储和处理方式的影响。\n\n比特 vs 原子（Bits vs Atoms）：\n强调数字信息（比特）与物质实体（原子）之间的对比，特别是在数字化和物理实体之间的交互方面。",
+     "fullText": "当前世界另一种维度的竞争关系：\n\n互联网 vs 政府机构（The Internet vs the Government）：\n自由和开放性与政府监管之间的冲突。\n\n社交媒体 vs 传统媒体（Social Media vs Legacy Media）：\n强调社交媒体和传统媒体之间的竞争，以及信息的传播方式和控制权的变化。\n\n创新 vs 规制（Innovation vs"
+    },
+    "selected_text_field": "text",
+    "text_variants_conflict": false,
+    "entities": {
+     "hashtags": [],
+     "symbols": [],
+     "urls": [],
+     "user_mentions": []
+    },
+    "extendedEntities": {},
+    "card": {},
+    "isReply": false,
+    "isQuote": false,
+    "isRetweet": false,
+    "quoteId": null,
+    "conversationId": "1749041977017110753",
+    "reply_fields": {},
+    "thread_completeness": "unknown",
+    "raw_import_ref": "/Users/fionama/Desktop/Crypto/Mango_Works/Finance_Distillation/runs/account_sources_v1/discovery/apify_stratified/Morris-2024-01/items.raw.json#/3",
+    "raw_import_hash": "fe1fd71db10a1fda8b4c4c61ff1c30aa0d24c7ee4bc5707f4c72d2756e00571c"
+   },
+   {
+    "kind": "discovery_capture",
+    "raw_metadata": {
+     "type": "tweet",
+     "id": "1749041977017110753",
+     "url": "https://x.com/Morris_LT/status/1749041977017110753",
+     "twitterUrl": "https://twitter.com/Morris_LT/status/1749041977017110753",
+     "text": "当前世界另一种维度的竞争关系：\n\n互联网 vs 政府机构（The Internet vs the Government）：\n自由和开放性与政府监管之间的冲突。\n\n社交媒体 vs 传统媒体（Social Media vs Legacy Media）：\n强调社交媒体和传统媒体之间的竞争，以及信息的传播方式和控制权的变化。\n\n创新 vs 规制（Innovation vs Regulation）：\n探讨创新与政府制定的规定之间的紧张关系，创新是否受到过多的法规限制。\n\nUber vs 出租车牌（Uber vs Taxi Medallions）：\n突显了新型共享经济模式（Uber）与传统出租车行业之间的竞争和冲突。\n\n技术 vs 政治（Technology vs Politics）：\n强调科技和政治之间的交叉点，包括科技对政治体系的影响和政治对科技发展的影响。\n\n比特币 vs 美元（Bitcoin vs the Dollar）：\n讨论加密货币（比特币）与传统货币（美元）之间的竞争，以及它们对全球金融体系的影响。\n\nSpaceX vs FAA：\n强调私人航天公司（SpaceX）与联邦航空管理局（FAA）之间的关系，特别是在航天活动的规范和许可方面。\n\nOpenAI vs 纽约时报（OpenAI vs NYT）：\n突显了新兴技术公司（OpenAI）与传统媒体机构（纽约时报）之间的竞争，以及信息传播和创新的不同方式。\n\n加密货币 vs 证券交易委员会（Crypto vs SEC）：\n涉及加密货币市场与美国证券交易委员会（SEC）之间的法规和监管问题。\n\n云 vs 土地（Cloud vs Land）：\n探讨云计算与传统本地计算之间的差异，以及对数据存储和处理方式的影响。\n\n比特 vs 原子（Bits vs Atoms）：\n强调数字信息（比特）与物质实体（原子）之间的对比，特别是在数字化和物理实体之间的交互方面。",
+     "fullText": "当前世界另一种维度的竞争关系：\n\n互联网 vs 政府机构（The Internet vs the Government）：\n自由和开放性与政府监管之间的冲突。\n\n社交媒体 vs 传统媒体（Social Media vs Legacy Media）：\n强调社交媒体和传统媒体之间的竞争，以及信息的传播方式和控制权的变化。\n\n创新 vs 规制（Innovation vs",
+     "source": "",
+     "retweetCount": 1,
+     "replyCount": 0,
+     "likeCount": 0,
+     "quoteCount": 0,
+     "viewCount": 1332,
+     "createdAt": "Sun Jan 21 12:11:17 +0000 2024",
+     "lang": "zh",
+     "bookmarkCount": 1,
+     "isReply": false,
+     "conversationId": "1749041977017110753",
+     "isPinned": false,
+     "author": {
+      "type": "user",
+      "userName": "Morris_LT",
+      "url": "https://x.com/Morris_LT",
+      "twitterUrl": "https://twitter.com/Morris_LT",
+      "id": "51904755",
+      "name": "Morris",
+      "isVerified": false,
+      "isBlueVerified": true,
+      "profilePicture": "https://pbs.twimg.com/profile_images/1661240746018754560/8Shwdpaj_normal.jpg",
+      "coverPicture": "https://pbs.twimg.com/profile_banners/51904755/1789454141",
+      "description": "某不知名Web3.0&AI科技创业公司创始人｜长期观察世界、商业、投资与个人成长｜《旷野之心》作者｜DLL「人生实时顾问」",
+      "location": "𝕏Ɖ",
+      "followers": 247645,
+      "following": 446,
+      "protected": false,
+      "status": "",
+      "canDm": true,
+      "canMediaTag": false,
+      "advertiserAccountType": "promotable_user",
+      "analyticsType": "disabled",
+      "createdAt": "Mon Jun 29 01:07:03 +0000 2009",
+      "entities": {
+       "description": {},
+       "url": {
+        "urls": [
+         {
+          "display_url": "dll.io",
+          "expanded_url": "https://dll.io",
+          "indices": [
+           0,
+           23
+          ],
+          "url": "https://t.co/0IeN54heLv"
+         }
+        ]
+       }
+      },
+      "fastFollowersCount": 0,
+      "favouritesCount": 70236,
+      "geoEnabled": false,
+      "hasCustomTimelines": true,
+      "hasExtendedProfile": true,
+      "isTranslator": false,
+      "mediaCount": 7238,
+      "profileBackgroundColor": "1A1B1F",
+      "statusesCount": 78057,
+      "translatorTypeEnum": "None",
+      "affiliatesHighlightedLabel": {},
+      "pinnedTweetIds": [
+       "2105197200917852602"
+      ]
+     },
+     "extendedEntities": {},
+     "card": {},
+     "place": {},
+     "entities": {
+      "hashtags": [],
+      "symbols": [],
+      "urls": [],
+      "user_mentions": []
+     },
+     "isRetweet": false,
+     "isQuote": false,
+     "media": [],
+     "videos": [],
+     "isConversationControlled": false
+    },
+    "all_capture_refs": [
+     {
+      "raw_snapshot": "runs/account_sources_v1/discovery/apify_stratified/Morris-2024-01/items.raw.json",
+      "json_pointer": "/3",
+      "raw_items_sha256": "9e69b5b7710684399303296013b4e9817cd8e38d3f9f672abdb4128f805b6f14",
+      "run_id": "QDsakmI37WIClFWZ2",
+      "dataset_id": "Vogp4pD6aLC1pO7TB",
+      "query_id": "Morris-2024-01",
+      "batch": "apify_stratified",
+      "fetched_at": "2026-09-30T20:08:29.246185+00:00"
+     }
+    ],
+    "source_quality_review": "pending_human",
+    "claims_verified": false,
+    "selection_review_ref": "/Users/fionama/Desktop/Crypto/Mango_Works/Finance_Distillation/runs/account_sources_v1/discovery/x_editorial_review.json#1749041977017110753"
+   }
+  ],
+  "truncated": false,
+  "raw_import_ref": "/Users/fionama/Desktop/Crypto/Mango_Works/Finance_Distillation/runs/account_sources_v1/discovery/apify_stratified/Morris-2024-01/items.raw.json#/3",
+  "raw_import_hash": "fe1fd71db10a1fda8b4c4c61ff1c30aa0d24c7ee4bc5707f4c72d2756e00571c",
+  "author_handle": "Morris_LT",
+  "source_hygiene": {
+   "version": "source-hygiene-v2-research-history-context",
+   "source_hash": "fe305e89956f99cb40ed019b9cdee66d2eff6b98421f706e499c97bd3a9f9c39",
+   "annotations": [
+    {
+     "id": "f953a87b9cc2b42d0239",
+     "kind": "context_dependency",
+     "start": null,
+     "end": null,
+     "quote": "",
+     "context": "",
+     "speaker_hint": "source_author_or_unspecified",
+     "basis": "source_metadata",
+     "semantic_necessity": "unreviewed",
+     "metadata": {
+      "field": "thread_id",
+      "value": "1749041977017110753"
+     }
+    }
+   ],
+   "original_unchanged": true,
+   "method": "pattern hints + source metadata; not semantic adjudication"
+  },
+  "source_version": "aa3a5696d6bb23e6577134eaab9565f6aec2c9e8055f59b7a2e61c815ae502f6",
+  "missing_fields": [
+   "engagement_snapshot"
+  ],
+  "completeness_basis": "truncated_variant_extended",
+  "original_id": "fe305e89956f99cb",
+  "known_at": "2026-09-30T20:08:29.246185+00:00",
+  "relationship": {
+   "author": "Morris",
+   "author_id": "51904755",
+   "publication": null,
+   "platform": "x",
+   "reply_to": null,
+   "quoted_post": null,
+   "thread_id": "1749041977017110753",
+   "post_type": "original",
+   "context_status": "standalone_or_unknown"
+  }
+ }
+}
