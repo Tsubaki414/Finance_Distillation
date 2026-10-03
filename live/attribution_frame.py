@@ -36,6 +36,17 @@ def publisher_name(source_id):
     return None
 
 
+# Attribution to anyone outside the frame: the frame is the only attribution.
+OTHER_ATTRIBUTION = re.compile(r'据[^，。,.；;]{1,24}(?:报道|称|消息|透露|援引|统计|测算|估计|表示)|援引|'
+                               r'\baccording to\b|\breported by\b|\bper (?:a|the) report\b', re.I)
+
+
+def aliases(source_id):
+    from live import registry
+    entry = json.loads(registry.LICENCE.read_text())['tiers'].get(source_id) or {}
+    return list(entry.get('aliases') or [])
+
+
 def _fields(source, speaker=None):
     publisher = publisher_name(source.get('source_id')) or source.get('publisher') or ''
     author = (source.get('author_name') or '').strip()
@@ -63,8 +74,10 @@ def render(post_type, source, post_types=None, speaker=None):
     for name in [spec['frame'], *(spec.get('alternate_frames') or [])]:
         frame = table['frames'][name]
         if all(values.get(key) for key in frame.get('requires') or []):
+            names = [v for v in (values['publisher'], values['speaker']) if v]
+            names += [a for a in aliases(source.get('source_id')) if a not in names]
             return {'name': name, 'placement': frame['placement'], 'text': frame['template'].format(**values),
-                    'names': [v for v in (values['publisher'], values['speaker']) if v]}
+                    'names': names}
     raise ValueError(f'{post_type}: no attribution frame can be rendered for {source.get("source_id")}')
 
 
@@ -108,6 +121,8 @@ def check(post_type, text, frame, licence_tier, post_types=None):
     named = [n for n in (frame or {}).get('names', []) if n.casefold() in body.casefold()]
     if PROVENANCE.search(body) or INLINE_PROVENANCE.search(body) or (frame and frame['text'] in body) or named:
         flag('provenance_in_body', 'Source named or linked outside the attribution frame')
+    if spec['voice'] == 'persona' and OTHER_ATTRIBUTION.search(body):
+        flag('attribution_outside_frame', 'Attribution to a source outside the frame')
     if EXPERIENCE.search(text) or (spec['voice'] == 'persona' and FIRST_PERSON.search(body)):
         flag('author_identity', 'Source experience/positions or first person written as the account')
     return findings

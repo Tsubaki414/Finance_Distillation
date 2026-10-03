@@ -145,3 +145,28 @@ class ReviewFixFrameTests(unittest.TestCase):
         frame = af.render('view_relay', SOURCE)
         text = frame['text'] + '我国的准备金需求存在自我强化的机制，' + BODY
         self.assertNotIn('author_identity', codes(af.check('view_relay', text, frame, 'B')))
+
+
+class ReviewFixAttributionTests(unittest.TestCase):
+    """Cross-check fixes (Claude #1, Codex invented source names)."""
+
+    def test_translated_source_alias_outside_frame_is_flagged(self):
+        frame = af.render('data_take', {'source_id': 'libertystreet', 'author_name': ''})
+        text = frame['text'] + '纽约联储研究人员指出，' + BODY
+        self.assertIn('provenance_in_body', codes(af.check('data_take', text, frame, 'B')))
+        bls = af.render('data_take', {'source_id': 'primary_bls', 'author_name': ''})
+        text = bls['text'] + '美国劳工统计局公布的数据显示，' + BODY
+        self.assertIn('provenance_in_body', codes(af.check('data_take', text, bls, 'A')))
+
+    def test_other_attribution_outside_frame_is_flagged(self):
+        frame = af.render('data_take', {'source_id': 'primary_bls', 'author_name': ''})
+        for phrase in ('据彭博社报道，', '援引知情人士，', 'According to Reuters, '):
+            text = frame['text'] + phrase + BODY
+            self.assertIn('attribution_outside_frame', codes(af.check('data_take', text, frame, 'A')), phrase)
+
+    def test_every_subscribed_source_has_aliases(self):
+        import json
+        from live import registry
+        tiers = json.loads(registry.LICENCE.read_text())['tiers']
+        for sid, entry in tiers.items():
+            self.assertIsInstance(entry.get('aliases'), list, sid)

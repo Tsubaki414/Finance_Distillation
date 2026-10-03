@@ -1,30 +1,184 @@
 {
   "version": "source-licence-v1",
   "review_status": "provisional_unreviewed",
-  "note": "P0 default tiers for subscribed sources; full SourceStore and human review are plan 2.1. A: official / owner-approved, may be quoted or translated. B: analysis to paraphrase with attribution. C: topic lead only. D: never used.",
+  "note": "P0 default tiers for subscribed sources; full SourceStore and human review are plan 2.1. A: official / owner-approved, may be quoted or translated. B: analysis to paraphrase with attribution. C: topic lead only. D: never used. aliases: other names of the source (translated, short or author names) that may only appear inside the attribution frame.",
   "tiers": {
-    "x_Morris_LT": {"tier": "A", "basis": "owner-approved archive translated by the en_morris_archive charter"},
-    "primary_bls": {"tier": "A", "basis": "official statistics"},
-    "primary_bea": {"tier": "A", "basis": "official statistics"},
-    "primary_fed": {"tier": "A", "basis": "official release"},
-    "primary_treasury": {"tier": "A", "basis": "official release"},
-    "primary_nvidia": {"tier": "A", "basis": "company IR release"},
-    "primary_amd": {"tier": "A", "basis": "company IR release"},
-    "libertystreet": {"tier": "B", "basis": "Fed research blog; paraphrase with attribution"},
-    "overshoot": {"tier": "B", "basis": "newsletter analysis"},
-    "conks": {"tier": "B", "basis": "newsletter analysis"},
-    "chartbook": {"tier": "B", "basis": "newsletter analysis"},
-    "claudiasahm": {"tier": "B", "basis": "newsletter analysis"},
-    "crisesnotes": {"tier": "B", "basis": "newsletter analysis"},
-    "x_qinbafrank": {"tier": "B", "basis": "X analyst posts"},
-    "x_HAOHONG_CFA": {"tier": "B", "basis": "X analyst posts"},
-    "semianalysis": {"tier": "B", "basis": "industry analysis"},
-    "fabricatedknowledge": {"tier": "B", "basis": "industry analysis"},
-    "stratechery": {"tier": "B", "basis": "industry analysis"},
-    "clausaasholm": {"tier": "B", "basis": "industry analysis"},
-    "semiengineer": {"tier": "B", "basis": "industry analysis"},
-    "nextplatform": {"tier": "B", "basis": "industry media"},
-    "servethehome": {"tier": "B", "basis": "industry media"},
-    "x_dylan522p": {"tier": "B", "basis": "X analyst posts"}
+    "x_Morris_LT": {
+      "tier": "A",
+      "basis": "owner-approved archive translated by the en_morris_archive charter",
+      "aliases": [
+        "Morris"
+      ]
+    },
+    "primary_bls": {
+      "tier": "A",
+      "basis": "official statistics",
+      "aliases": [
+        "BLS",
+        "劳工统计局",
+        "美国劳工部"
+      ]
+    },
+    "primary_bea": {
+      "tier": "A",
+      "basis": "official statistics",
+      "aliases": [
+        "BEA",
+        "经济分析局"
+      ]
+    },
+    "primary_fed": {
+      "tier": "A",
+      "basis": "official release",
+      "aliases": [
+        "美联储",
+        "Federal Reserve",
+        "联储"
+      ]
+    },
+    "primary_treasury": {
+      "tier": "A",
+      "basis": "official release",
+      "aliases": [
+        "美国财政部",
+        "财政部",
+        "Treasury"
+      ]
+    },
+    "primary_nvidia": {
+      "tier": "A",
+      "basis": "company IR release",
+      "aliases": [
+        "NVIDIA IR",
+        "英伟达官网"
+      ]
+    },
+    "primary_amd": {
+      "tier": "A",
+      "basis": "company IR release",
+      "aliases": [
+        "AMD IR"
+      ]
+    },
+    "libertystreet": {
+      "tier": "B",
+      "basis": "Fed research blog; paraphrase with attribution",
+      "aliases": [
+        "Liberty Street",
+        "纽约联储",
+        "New York Fed"
+      ]
+    },
+    "overshoot": {
+      "tier": "B",
+      "basis": "newsletter analysis",
+      "aliases": [
+        "Overshoot"
+      ]
+    },
+    "conks": {
+      "tier": "B",
+      "basis": "newsletter analysis",
+      "aliases": [
+        "Conks"
+      ]
+    },
+    "chartbook": {
+      "tier": "B",
+      "basis": "newsletter analysis",
+      "aliases": [
+        "Chartbook",
+        "Adam Tooze"
+      ]
+    },
+    "claudiasahm": {
+      "tier": "B",
+      "basis": "newsletter analysis",
+      "aliases": [
+        "Claudia Sahm"
+      ]
+    },
+    "crisesnotes": {
+      "tier": "B",
+      "basis": "newsletter analysis",
+      "aliases": [
+        "Crises Notes"
+      ]
+    },
+    "x_qinbafrank": {
+      "tier": "B",
+      "basis": "X analyst posts",
+      "aliases": [
+        "qinbafrank"
+      ]
+    },
+    "x_HAOHONG_CFA": {
+      "tier": "B",
+      "basis": "X analyst posts",
+      "aliases": [
+        "HAOHONG"
+      ]
+    },
+    "semianalysis": {
+      "tier": "B",
+      "basis": "industry analysis",
+      "aliases": [
+        "SemiAnalysis",
+        "Dylan Patel"
+      ]
+    },
+    "fabricatedknowledge": {
+      "tier": "B",
+      "basis": "industry analysis",
+      "aliases": [
+        "Fabricated Knowledge"
+      ]
+    },
+    "stratechery": {
+      "tier": "B",
+      "basis": "industry analysis",
+      "aliases": [
+        "Stratechery",
+        "Ben Thompson"
+      ]
+    },
+    "clausaasholm": {
+      "tier": "B",
+      "basis": "industry analysis",
+      "aliases": [
+        "Claus Aasholm"
+      ]
+    },
+    "semiengineer": {
+      "tier": "B",
+      "basis": "industry analysis",
+      "aliases": [
+        "Semiconductor Engineering"
+      ]
+    },
+    "nextplatform": {
+      "tier": "B",
+      "basis": "industry media",
+      "aliases": [
+        "Next Platform",
+        "Timothy Prickett Morgan"
+      ]
+    },
+    "servethehome": {
+      "tier": "B",
+      "basis": "industry media",
+      "aliases": [
+        "ServeTheHome",
+        "STH"
+      ]
+    },
+    "x_dylan522p": {
+      "tier": "B",
+      "basis": "X analyst posts",
+      "aliases": [
+        "dylan522p",
+        "Dylan Patel"
+      ]
+    }
   }
 }
