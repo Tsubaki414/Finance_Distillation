@@ -136,6 +136,23 @@ class ComposeTests(unittest.TestCase):
             run(account='en_morris_archive')
 
 
+class ComposeRequestTests(unittest.TestCase):
+    def test_request_states_hard_length_bounds_and_frame_language(self):
+        seen = {}
+
+        class Spy(Fake):
+            def __call__(self, stage, messages, max_tokens):
+                if stage == 'compose':
+                    seen['system'] = messages[0]['content']
+                    seen['payload'] = json.loads(messages[-1]['content'])
+                return super().__call__(stage, messages, max_tokens)
+        run(Spy(), post_type='data_take')
+        rules = seen['payload']['post_type_rules']
+        self.assertEqual(rules['body_length'], {'min': 150, 'max': 400, 'unit': 'characters excluding whitespace'})
+        self.assertIn('at least', seen['system'])
+        self.assertIn('Do not add years, dates', seen['system'])
+
+
 class DispatchTests(unittest.TestCase):
     def test_compose_dispatch_is_opt_in(self):
         from live.account_source_adaptation import uses_compose
