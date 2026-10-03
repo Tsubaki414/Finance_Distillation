@@ -251,3 +251,20 @@ class ReviewFixNumberTests(unittest.TestCase):
         body = GOOD_BODY.replace('营收同比增长4.8倍', '利润率同比增长4.8倍')
         result, _ = run(Fake(body=body, units=units), post_type='data_take')
         self.assertIn('number_metric_binding', codes(result))
+
+
+class ReviewFixLedgerTests(unittest.TestCase):
+    def test_claim_text_required(self):
+        def ledger(fake_ids):
+            return [{'unit_id': fake_ids, 'span_ref': 0}]
+        fake = Fake()
+        fake.ledger = None
+
+        class NoClaim(Fake):
+            def __call__(self, stage, messages, max_tokens):
+                if stage == 'compose':
+                    ids = [u['unit_id'] for u in json.loads(messages[-1]['content'])['units']]
+                    self.ledger = [{'unit_id': ids[0], 'span_ref': 0}]
+                return super().__call__(stage, messages, max_tokens)
+        with self.assertRaises(ContractError):
+            run(NoClaim(), post_type='data_take')

@@ -265,6 +265,8 @@ def compose_source(source, account_id, client, *, post_type=None):
     by_id = {u['unit_id']: u for u in chosen}
     for row in ledger:
         require(isinstance(row, dict) and row.get('unit_id') in by_id, 'compose: claim_ledger unit not supplied')
+        require(isinstance(row.get('claim'), str) and row['claim'].strip(), 'compose: claim_ledger claim text required')
+        # Whether the span supports the claim is semantic QA (plan 5.3), not checked here.
         ref = row.get('span_ref')
         require(type(ref) is int and 0 <= ref < len(by_id[row['unit_id']]['source_spans']),
                 'compose: claim_ledger span_ref out of range')
