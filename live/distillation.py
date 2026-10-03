@@ -15,6 +15,7 @@ from live.language_support import DEFAULT as DEFAULT_LANGUAGES
 from live.domain_policy import policies,account_domain
 from live.model_json import parse_object
 from live import source_hygiene as hygiene
+from live import prompt_assembly
 
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = 'localization_v1.2-hygiene'
@@ -147,22 +148,29 @@ class Pipeline:
         path = self.store / 'completed' / (self.key(source) + '.json')
         return json.loads(path.read_text()) if path.exists() else None
 
+    def outer_rules(self, stage):
+        """Ordered (rule_id, text) appended to the base template; subclasses extend."""
+        return []
+
     def ask(self, attempt, stage, system, payload, max_tokens):
         attempt['stage'] = stage
         attempt['stage_calls'][stage] = attempt['stage_calls'].get(stage, 0) + 1
         account=next((a for a in self.accounts if a['id']==attempt.get('account_id')),None)
+        rules=list(self.outer_rules(stage))
         if account:
             policy=self.policy(account)
-            if policy.review_guidance:system+='\n\n'+policy.review_guidance
+            if policy.review_guidance:rules.append(('policy.'+policy.id+'.review_guidance',policy.review_guidance))
             attempt['domain_policy']={'id':policy.id,'version':policy.version,'fingerprint':policy.fingerprint}
             if hygiene.enabled(account):
-                if stage == 'editorial':system+='\n\n'+hygiene.editorial_prompt()
+                if stage == 'editorial':rules.append(('hygiene.editorial_prompt',hygiene.editorial_prompt()))
                 elif stage in ('translation','localization','adaptation','repair','qa','identity_qa'):
-                    system+='\n\n'+hygiene.WRITER_BOUNDARY
+                    rules.append(('hygiene.WRITER_BOUNDARY',hygiene.WRITER_BOUNDARY))
                 payload={**payload,'source_hygiene_decisions':attempt.get('hygiene_decisions',[]),
                          'source_hygiene_annotations':attempt.get('hygiene_annotations',[])}
-        messages = [{'role': 'system', 'content': system},
-                    {'role': 'user', 'content': json.dumps(payload, ensure_ascii=False)}]
+        context_for=getattr(self.client,'prompt_context',None)
+        messages, record = prompt_assembly.assemble(stage, system, payload, outer_rules=rules,
+                                                    stage_context=context_for(stage) if callable(context_for) else None)
+        attempt.setdefault('prompt_assembly', []).append(record)
         response = self.client(stage, messages, max_tokens)
         attempt['model_responses'].append({'stage': stage, **response})
         require(response.get('finish_reason') == 'stop', f'{stage}: incomplete/unknown finish_reason')
@@ -237,7 +245,7 @@ class Pipeline:
             attempt['hygiene_decisions']=[];return True
         value=attempt.get('editorial_judgment',{}).get('hygiene_decisions')
         if value is None:
-            result=self.ask(attempt,'source_hygiene',prompts.DATA_RULE+'\n'+hygiene.editorial_prompt(),
+            result=self.ask(attempt,'source_hygiene',prompt_assembly.SOURCE_HYGIENE,
                 {'source':source,'selected_passages':selection['passages'],'annotations':annotations,'target_account':account},4500)
             value=result.get('hygiene_decisions')
         try:attempt['hygiene_decisions']=hygiene.validate_decisions(value,annotations)

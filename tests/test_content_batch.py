@@ -8,6 +8,14 @@ from unittest.mock import patch
 from scripts.run_content_batch import BatchStages, LOCALIZE, ResumePrefix, validate_item, execute
 
 
+
+def assembled_call(stages, stage, messages, max_tokens):
+    """P0-2: stage clients no longer mutate requests; assembly happens once."""
+    from live import prompt_assembly
+    sent, _ = prompt_assembly.assemble(stage, messages[0]['content'], json.loads(messages[1]['content']),
+                                       stage_context=stages.prompt_context(stage))
+    return stages(stage, sent, max_tokens)
+
 class ContentBatchTests(unittest.TestCase):
     def test_followup_of_reingested_source_keeps_explicit_parent_not_cached_result(self):
         from unittest.mock import Mock
@@ -79,7 +87,7 @@ class ContentBatchTests(unittest.TestCase):
             payload = {'selected_passages': ['exact complete original'], 'annotations': [{'id': 'actual'}]}
             messages = [{'role': 'system', 'content': 'original semantic rules'},
                         {'role': 'user', 'content': json.dumps(payload)}]
-            stages('source_hygiene', messages, 4500)
+            assembled_call(stages, 'source_hygiene', messages, 4500)
             sent = client.return_value.call_args.args[1]
             self.assertTrue(sent[0]['content'].startswith('original semantic rules'))
             self.assertEqual(json.loads(sent[1]['content']), payload)
@@ -111,7 +119,7 @@ class ContentBatchTests(unittest.TestCase):
                        'source_hygiene_decisions': [{'action': 'attribute'}]}
             messages = [{'role': 'system', 'content': 'old'},
                         {'role': 'user', 'content': json.dumps(payload)}]
-            stages('localization', messages, 28000)
+            assembled_call(stages, 'localization', messages, 28000)
             stage, sent, limit = client.return_value.call_args.args
             self.assertEqual(stage, 'localization')
             self.assertEqual(sent[0]['content'], LOCALIZE)
@@ -138,7 +146,7 @@ class ContentBatchTests(unittest.TestCase):
         with patch('scripts.run_content_batch.ApifyClient') as client:
             stages = BatchStages('/unused', {'style_exception': {'allowed': True}}, {})
             messages = [{'role': 'system', 'content': 'Original QA'}, {'role': 'user', 'content': '{}'}]
-            stages('qa', messages, 6500)
+            assembled_call(stages, 'qa', messages, 6500)
             system = client.return_value.call_args.args[1][0]['content']
             self.assertTrue(system.startswith('Original QA'))
             self.assertIn('all other fidelity and unnecessary-edit checks still apply', system)

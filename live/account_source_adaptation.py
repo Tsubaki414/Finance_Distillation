@@ -13,6 +13,7 @@ from pathlib import Path
 
 from live import distillation_prompts as prompts
 from live import source_hygiene as hygiene
+from live import prompt_assembly
 from live.distillation import ContractError, Pipeline, accounts_from_file, comparison_rows, require, parse_object
 from live.distillation_source import digest, now
 from live.content_stages import VERSION as CONTENT_VERSION, make_content_stages
@@ -139,6 +140,9 @@ def _account(account_id):
     return account
 
 
+prompt_assembly.register("account.ARCHIVE_GATE", ARCHIVE_GATE)
+
+
 class AccountSourcePipeline(Pipeline):
     pipeline_mode = "account_source_adaptation"
     pipeline_version = VERSION
@@ -213,6 +217,11 @@ class AccountSourcePipeline(Pipeline):
         source["source_version"] = digest({k: v for k, v in source.items()
                                           if k not in {"fetched_at", "snapshot_at", "recovery", "source_version", "missing_fields"}})
         return source
+
+    def outer_rules(self, stage):
+        if stage in {"routing", "selection", "source_hygiene", "evergreen_gate"}:
+            return [("account.MEDIA_SELECTION_BOUNDARY", MEDIA_SELECTION_BOUNDARY)]
+        return []
 
     def route(self, source, attempt):
         account = self.accounts[0]
@@ -326,8 +335,6 @@ class AccountSourcePipeline(Pipeline):
             except (ContractError, KeyError, TypeError) as exc:
                 self.checkpoint_failure = {"stage": stage, "code": "checkpoint_mismatch", "error_type": type(exc).__name__}
                 raise
-        if stage in {"routing", "selection", "source_hygiene", "evergreen_gate"}:
-            system += "\n\n" + MEDIA_SELECTION_BOUNDARY
         require(stage != "translation" or payload["source_language"] != payload["target_language"],
                 "Same-language source cannot pass through translation")
         return super().ask(attempt, stage, system, payload, max_tokens)

@@ -18,6 +18,14 @@ from ml import budget
 from tests.test_account_source_adaptation import FakeClient, EN, ZH, source
 
 
+
+def assembled_call(stages, stage, messages, max_tokens):
+    """P0-2: stage clients no longer mutate requests; assembly happens once."""
+    from live import prompt_assembly
+    sent, _ = prompt_assembly.assemble(stage, messages[0]['content'], json.loads(messages[1]['content']),
+                                       stage_context=stages.prompt_context(stage))
+    return stages(stage, sent, max_tokens)
+
 class ContentStagesTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
@@ -215,8 +223,8 @@ class ContentStagesTests(unittest.TestCase):
             {'role':'user','content':json.dumps({'translation':{'text':'The faithful translation.'},
               'selected_passages':[{'paragraph_id':'P1','exact_text':'Original argument.'}]})}]
         ordinary,repaired = Mock(return_value={}),Mock(return_value={})
-        ContentStages(self.root,client=ordinary,execution_repairs=[inherited])('localization',messages,12000)
-        ContentStages(self.root,client=repaired,execution_repairs=repairs)('localization',messages,12000)
+        assembled_call(ContentStages(self.root,client=ordinary,execution_repairs=[inherited]),'localization',messages,12000)
+        assembled_call(ContentStages(self.root,client=repaired,execution_repairs=repairs),'localization',messages,12000)
         self.assertEqual(ordinary.call_args.args[1],repaired.call_args.args[1])
         self.assertEqual(repaired.call_args.args[1][0]['content'],LOCALIZE)
         self.assertEqual((ordinary.call_args.args[2],repaired.call_args.args[2]),(5000,11000))
@@ -246,8 +254,8 @@ class ContentStagesTests(unittest.TestCase):
         messages = [{'role':'system','content':TRANSLATE},
                     {'role':'user','content':json.dumps(payload,ensure_ascii=False)}]
         original_messages = copy.deepcopy(messages)
-        ContentStages(self.root,client=ordinary,execution_repairs=[inherited])('translation',messages,9000)
-        output = ContentStages(self.root,client=repaired,execution_repairs=repairs)('translation',messages,9000)
+        assembled_call(ContentStages(self.root,client=ordinary,execution_repairs=[inherited]),'translation',messages,9000)
+        output = assembled_call(ContentStages(self.root,client=repaired,execution_repairs=repairs),'translation',messages,9000)
         plain_request, repaired_request = ordinary.call_args.args, repaired.call_args.args
         self.assertEqual(plain_request[1][0]['content'],TRANSLATE)
         self.assertTrue(repaired_request[1][0]['content'].startswith(TRANSLATE+'\n\n'))

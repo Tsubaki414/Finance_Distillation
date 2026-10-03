@@ -14,6 +14,7 @@ from pathlib import Path
 
 from live.apify_distillation_client import ApifyClient
 from live.distillation_source import digest
+from live import prompt_assembly
 from live.erisedai_distillation_client import ErisedaiClient, RESPONSE_FORMAT, relay_config
 from live.writer_backend import _dotenv
 from ml import budget
@@ -85,6 +86,25 @@ def follow_up_repairs(parent):
     return repairs
 
 
+HYGIENE_CONTRACT_REPAIR = ('This call returns only the private annotation decisions. '
+    'Return one JSON object with exactly this top-level key: '
+    '{"hygiene_decisions":[{"annotation_id":"supplied ID",'
+    '"action":"retain|remove|attribute|needs_context|out_of_scope",'
+    '"reason":"private semantic reason","attribution":"actual speaker if needed"}]}. '
+    'Do not return a title, body, translation, passages or duplicate text. '
+    'Escape any quotation marks inside JSON string values. '
+    'Apply the existing semantic rules above to every supplied annotation.')
+TRANSLATION_JSON_REPAIR = ('Serialize the response as one valid JSON object, without Markdown fences '
+    'or surrounding prose. Within every JSON string, correctly escape embedded quotation marks, '
+    'backslashes and control characters; these escapes are serialization only and must preserve '
+    'the translated text. Keep the existing segments schema and all translation instructions unchanged.')
+MORRIS_STYLE_QA = (MORRIS_STYLE +
+    '\nTreat only that faithful construction change as an authorized minimal edit; '
+    'all other fidelity and unnecessary-edit checks still apply.')
+for _id, _text in (('content_stages.LOCALIZE', LOCALIZE), ('content_stages.SELECT', SELECT)):
+    prompt_assembly.register(_id, _text)
+
+
 class ContentStages:
     """The same stage configuration for manual, scheduled and batch generation.
 
@@ -153,46 +173,43 @@ class ContentStages:
     def _uses_repair(self, name):
         return any(repair['name'] == name for repair in self.execution_repairs)
 
-    def _call(self, stage, messages, max_tokens):
-        messages = copy.deepcopy(messages)
-        payload = json.loads(messages[1]['content'])
+    def prompt_context(self, stage):
+        """This layer's contribution to request assembly (see live/prompt_assembly.py).
+
+        localization/selection replace the base template with the validated
+        account-content prompt; the outer rules are then explicitly dropped.
+        """
+        context = {'append': [], 'payload_extras': {}}
         if stage == 'source_hygiene' and self._uses_repair('hygiene_contract'):
-            messages[0]['content'] += ('\n\nThis call returns only the private annotation decisions. '
-                'Return one JSON object with exactly this top-level key: '
-                '{"hygiene_decisions":[{"annotation_id":"supplied ID",'
-                '"action":"retain|remove|attribute|needs_context|out_of_scope",'
-                '"reason":"private semantic reason","attribution":"actual speaker if needed"}]}. '
-                'Do not return a title, body, translation, passages or duplicate text. '
-                'Escape any quotation marks inside JSON string values. '
-                'Apply the existing semantic rules above to every supplied annotation.')
+            context['append'].append(('repair.hygiene_contract', HYGIENE_CONTRACT_REPAIR))
         if stage == 'translation' and self._uses_repair('translation_json_contract'):
-            messages[0]['content'] += ('\n\nSerialize the response as one valid JSON object, without Markdown fences '
-                'or surrounding prose. Within every JSON string, correctly escape embedded quotation marks, '
-                'backslashes and control characters; these escapes are serialization only and must preserve '
-                'the translated text. Keep the existing segments schema and all translation instructions unchanged.')
+            context['append'].append(('repair.translation_json_contract', TRANSLATION_JSON_REPAIR))
         if stage == 'localization':
             # Exact prompt verified on the original previously refused Morris input.
             # The entire source/translation/hygiene payload remains present.
-            messages[0]['content'] = LOCALIZE
+            context['replace'] = ('content_stages.LOCALIZE', LOCALIZE)
             if self.item.get('style_exception'):
-                messages[0]['content'] += '\n\n' + MORRIS_STYLE
+                context['append'].append(('content_stages.MORRIS_STYLE', MORRIS_STYLE))
         if stage == 'qa' and self.item.get('style_exception'):
-            messages[0]['content'] += ('\n\n' + MORRIS_STYLE +
-                '\nTreat only that faithful construction change as an authorized minimal edit; '
-                'all other fidelity and unnecessary-edit checks still apply.')
+            context['append'].append(('content_stages.MORRIS_STYLE_QA', MORRIS_STYLE_QA))
         if stage == 'selection':
-            messages[0]['content'] = SELECT
-            payload['curation_proposal'] = self.item.get('proposed_passages', [])
-            payload['reference_length_observation'] = self.baseline.get('summary', self.baseline.get('statistics', {}))
+            context['replace'] = ('content_stages.SELECT', SELECT)
+            context['payload_extras'] = {
+                'curation_proposal': self.item.get('proposed_passages', []),
+                'reference_length_observation': self.baseline.get('summary', self.baseline.get('statistics', {}))}
         if stage == 'routing':
-            payload['publication_task'] = {
+            context['payload_extras'] = {'publication_task': {
                 'format': 'one standalone post, source-grounded translation and minimal editing',
                 'source_role': 'KOL original analysis/framework; official releases only factual context',
                 'curation_reason': self.item.get('selection_reason'),
                 'proposed_passages': self.item.get('proposed_passages', []),
                 'length_reference': self.baseline.get('summary', self.baseline.get('statistics', {})),
-                'do_not_force_generation': True}
-        messages[1]['content'] = json.dumps(payload, ensure_ascii=False)
+                'do_not_force_generation': True}}
+        return context
+
+    def _call(self, stage, messages, max_tokens):
+        # Messages arrive fully assembled (live/prompt_assembly.py); only the
+        # response ceiling is decided here.
         # One complete post does not need a 28k-token editing response. A length
         # stop is saved as a failed execution; no silent retry or truncated draft.
         caps = {'routing': 1600, 'selection': 2200, 'evergreen_gate': 2400,
