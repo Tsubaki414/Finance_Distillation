@@ -22,7 +22,7 @@ Run: .venv/bin/python -B live/xsearch.py --query='$NVDA' [--max=25] [--lang=zh]
 """
 from __future__ import annotations
 from pathlib import Path
-import sys, os, json, time, datetime, hashlib, copy, urllib.request, urllib.error
+import sys, os, json, time, datetime, hashlib, copy, re, urllib.request, urllib.error
 
 ROOT = Path(__file__).resolve().parents[1]
 STORE = ROOT / 'live/store'
@@ -97,6 +97,60 @@ def _hash(value):
     return hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True).encode()).hexdigest()
 
 
+TCO_TAIL = re.compile(r'\s*https?://t\.co/\w+\s*$')
+ELLIPSIS_TAIL = re.compile(r'\s*(?:…|\.\.\.)\s*$')
+LEADING_MENTIONS = re.compile(r'^(?:@\w{1,15}\s*)+')
+COMPLETE_BASES = {'explicit_provider_completeness', 'note_tweet_body', 'variants_identical',
+                  'truncated_variant_extended'}
+PLATFORM_LIMIT = (270, 280)  # X weighted characters; CJK counts double
+
+
+def _core(text):
+    previous = None
+    while previous != text:
+        previous, text = text, TCO_TAIL.sub('', text)
+    return text.rstrip()
+
+
+_WEIGHT_ONE = ((0, 4351), (8192, 8205), (8208, 8223), (8242, 8247))  # twitter-text v3
+
+
+def _weighted(text):
+    return sum(1 if any(lo <= ord(ch) <= hi for lo, hi in _WEIGHT_ONE) else 2 for ch in text)
+
+
+def body_completeness(variants):
+    """Deterministic body choice and completeness basis from one capture (P0-3a).
+
+    Returns (chosen_field, conflict, basis). The basis describes internal
+    consistency of the capture; it is not independent full-text verification.
+    """
+    order = ['note_text', 'text', 'fullText', 'full_text']
+    keys = sorted(variants, key=lambda k: order.index(k) if k in order else len(order))
+    if 'note_text' in variants:
+        chosen = 'note_text'
+    else:
+        chosen = max(keys, key=lambda k: len(LEADING_MENTIONS.sub('', _core(variants[k]))))  # first longest wins
+    body = _core(variants[chosen])
+    lead = lambda t: LEADING_MENTIONS.sub('', t)  # reply @mentions are display-only
+    conflict = any(not lead(body).startswith(lead(ELLIPSIS_TAIL.sub('', _core(v)).rstrip()))
+                   for v in variants.values())
+    if conflict:
+        return chosen, True, 'conflicting_text_variants'
+    if chosen == 'note_text':
+        return chosen, False, 'note_tweet_body'
+    if ELLIPSIS_TAIL.search(body):
+        return chosen, False, 'ellipsis_tail'
+    if len(variants) < 2:
+        return chosen, False, 'single_variant_unverified'
+    if all(_core(v) == body for v in variants.values()):
+        low, high = PLATFORM_LIMIT
+        if low <= _weighted(body) <= high:
+            return chosen, False, 'at_platform_limit_unverified'
+        return chosen, False, 'variants_identical'
+    return chosen, False, 'truncated_variant_extended'
+
+
 def normalize_item(item, *, query, run_id, dataset_id, fetched_at, raw_import_ref):
     """Preserve the capture, separating a post's body from other speakers/context.
 
@@ -116,13 +170,15 @@ def normalize_item(item, *, query, run_id, dataset_id, fetched_at, raw_import_re
             variants['note_text'] = note_text
     if not variants:
         return None
-    chosen = max(variants, key=lambda k: len(variants[k]))
+    chosen, conflict, basis = body_completeness(variants)
     text = variants[chosen]
-    conflict = any(not text.startswith(value) for value in variants.values())
     truncated = any(x.get(k) is True for k in ('truncated', 'isTruncated', 'is_truncated'))
     explicit_complete = x.get('content_complete') is True or any(x.get(k) is False for k in ('truncated', 'isTruncated', 'is_truncated'))
-    complete = explicit_complete and not truncated and not conflict
-    basis = 'explicit_provider_completeness' if complete else ('conflicting_text_variants' if conflict else 'provider_truncated' if truncated else 'provider_body_completeness_unverified')
+    if truncated:
+        basis = 'provider_truncated'
+    elif explicit_complete and not conflict:
+        basis = 'explicit_provider_completeness'
+    complete = basis in COMPLETE_BASES
     handle = a.get('userName') or a.get('username') or x.get('handle')
     post_id = str(x.get('id') or x.get('tweetId') or '')
     quote = copy.deepcopy(x.get('quote') or x.get('quotedTweet') or x.get('quoted_status'))
@@ -150,7 +206,9 @@ def normalize_item(item, *, query, run_id, dataset_id, fetched_at, raw_import_re
             'created_at': x.get('createdAt'), 'published_at': x.get('createdAt'),
             'url': x.get('url') or x.get('twitterUrl') or (f'https://x.com/{handle}/status/{post_id}' if handle and post_id else None),
             'source_type': 'x', 'platform': 'x', 'content_complete': complete, 'extraction_status': basis,
-            'completeness_basis': basis, 'extractor_version': 'apify-preserved-capture-v2', 'truncated': truncated,
+            'completeness_basis': basis, 'extractor_version': 'apify-preserved-capture-v3', 'truncated': truncated,
+            'completeness_evidence': ('provider_flag' if basis == 'explicit_provider_completeness'
+                                      else 'capture_internal_consistency' if complete else None),
             'post_type': ('repost' if x.get('isRetweet') else 'reply' if x.get('isReply') or reply else
                           'quote' if x.get('isQuote') or quoted else 'original' if x.get('isRetweet') is False and x.get('isReply') is False and x.get('isQuote') is False else 'unknown'),
             'reply_to': reply, 'quoted_post': quoted, 'thread_id': x.get('conversationId'),

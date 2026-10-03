@@ -178,7 +178,10 @@ class XCaptureTests(unittest.TestCase):
         self.assertFalse(row['content_complete'])
         self.assertEqual(row['extraction_status'], 'conflicting_text_variants')
         self.assertEqual(row['context_items'][0]['text_variants']['fullText'], item['fullText'])
-        self.assertFalse(self.normalize(self.item())['content_complete'])
+        # P0-3a: two identical variants below the platform limit are internally consistent.
+        self.assertTrue(self.normalize(self.item())['content_complete'])
+        self.assertEqual(self.normalize(self.item())['completeness_basis'], 'variants_identical')
+        self.assertFalse(self.normalize(self.item(fullText=None))['content_complete'])
         self.assertTrue(self.normalize(self.item(truncated=False))['content_complete'])
         self.assertFalse(self.normalize(self.item(truncated=True))['content_complete'])
 
