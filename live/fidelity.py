@@ -91,13 +91,20 @@ def segment_language_matches(original, output, target_language, document, detect
             and re.fullmatch(r'[\u4e00-\u9fff\d\s年月份—–:：/()（）-]+', output.strip()) is not None)
 
 
-def deterministic(source, passages, segments, target_language, stage, detector=detect_language):
+def deterministic(source, passages, segments, target_language, stage, detector=detect_language, frame=None):
+    """frame: the rendered post_type attribution frame (live/attribution_frame.py), if any.
+
+    The declared frame is removed from its placement before the provenance and
+    author-metadata checks; identity, numeric and language checks still see it.
+    """
+    from live.attribution_frame import strip_segments
     findings = []
+    unframed = strip_segments(segments, frame)
 
     def flag(pid, code, detail):
         findings.append({'paragraph_id': pid, 'stage': stage, 'code': code, 'detail': detail})
 
-    for p, segment in zip(passages, segments):
+    for p, segment, body in zip(passages, segments, unframed):
         original, output, pid = p['exact_text'], segment['text'], p['paragraph_id']
         if not segment_language_matches(original, output, target_language, '\n\n'.join(s['text'] for s in segments), detector):
             flag(pid, 'wrong_or_uncertain_language', 'Language not established for target account')
@@ -124,9 +131,9 @@ def deterministic(source, passages, segments, target_language, stage, detector=d
         if biography and FIRST_PERSON.search(output):
             flag(pid, 'author_identity', 'Source biography still uses account first person')
         author = source.get('author_name') or ''
-        if author and author not in original and author.casefold() in output.casefold() and not biography:
+        if author and author not in original and author.casefold() in body.casefold() and not biography:
             flag(pid, 'added_author_attribution', 'Author metadata was inserted unnecessarily')
-        if re.search(r'https?://|(?:^|\n)(?:来源|出处|译自|Source|Translated from)\s*[:：]', output, re.I):
+        if re.search(r'https?://|(?:^|\n)(?:来源|出处|译自|Source|Translated from)\s*[:：]', body, re.I):
             flag(pid, 'provenance_in_body', 'URL or provenance footer belongs in metadata')
         if PROMO.search(output):
             flag(pid, 'promotion', 'Promotion survives into draft')

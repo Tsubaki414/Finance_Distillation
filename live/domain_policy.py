@@ -8,16 +8,18 @@ from live import finance_policy
 from live.fidelity import segment_language_matches
 
 
-def generic_checks(source,passages,segments,target_language,stage,detector):
+def generic_checks(source,passages,segments,target_language,stage,detector,frame=None):
+    # frame: rendered post_type attribution frame; only removed for the provenance check.
+    from live.attribution_frame import strip_segments
     findings=[]
-    for passage,segment in zip(passages,segments):
+    for passage,segment,body in zip(passages,segments,strip_segments(segments,frame)):
         original,output=passage['exact_text'],segment['text']
         def flag(code,detail):findings.append({'paragraph_id':passage['paragraph_id'],'stage':stage,'code':code,'detail':detail})
         if not segment_language_matches(original,output,target_language,'\n\n'.join(s['text'] for s in segments),detector):flag('wrong_or_uncertain_language','Language not established for target account')
         if re.search(r'^(?:I (?:cannot|can\x27t|am unable)|Sorry[,，]|抱歉|对不起|无法生成)',output.strip(),re.I):flag('refusal_prose','Refusal is not a draft')
         for entity,translated in source.get('entity_glossary',{}).items():
             if entity in original and translated.casefold() not in output.casefold():flag('entity_glossary','Missing entity: '+translated)
-        if re.search(r'https?://|(?:^|\n)(?:来源|出处|译自|Source|Translated from)\s*[:：]',output,re.I):flag('provenance_in_body','Unrequested provenance in body')
+        if re.search(r'https?://|(?:^|\n)(?:来源|出处|译自|Source|Translated from)\s*[:：]',body,re.I):flag('provenance_in_body','Unrequested provenance in body')
         if re.search(r'link in (?:bio|profile)|use code|join our paid|领取邀请码|扫码加群',output,re.I):flag('promotion','Promotion survives into draft')
         numeric,_=compare(original,output,source=source)
         for item in numeric:flag(item['code'],item['detail'])
@@ -39,12 +41,12 @@ class DomainPolicy:
     def numeric(self,original,output,source=None):
         return compare(original,output,metric_aliases=self.metric_aliases,source=source)
 
-    def deterministic(self,source,passages,segments,target_language,stage,detector):
+    def deterministic(self,source,passages,segments,target_language,stage,detector,frame=None):
         # Domain hooks are additive. An empty extension cannot disable generic
         # language, numeric, provenance or entity checks.
-        rows=generic_checks(source,passages,segments,target_language,stage,detector)
+        rows=generic_checks(source,passages,segments,target_language,stage,detector,frame=frame)
         if self.extra_checks:
-            rows+=self.extra_checks(source,passages,segments,target_language,stage,detector=detector)
+            rows+=self.extra_checks(source,passages,segments,target_language,stage,detector=detector,**({'frame':frame} if frame else {}))
         unique={}
         for row in rows:unique.setdefault((row['paragraph_id'],row['stage'],row['code']),row)
         return list(unique.values())
