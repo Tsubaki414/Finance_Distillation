@@ -220,6 +220,12 @@ class Pipeline:
         else:
             choice = self.ask(attempt, 'selection', prompts.SELECT,
                               {'source': source, 'paragraphs': spans, 'account': account}, 1800)
+        # P0-3e1: a well-formed "needs more source" answer is a source state that
+        # run() maps to needs_source; only malformed answers are contract errors.
+        if choice.get('needs_source') is True or choice.get('dependencies_complete') is False:
+            require(isinstance(choice.get('reason'), str) and choice['reason'].strip(), 'needs_source requires reason')
+            return {'source_hash': source['source_hash'], 'needs_source': True, 'passages': [],
+                    'reason': choice['reason']}
         require(choice.get('needs_source') is False, 'selection requires missing source')
         require(choice.get('dependencies_complete') is True, 'selection dependencies uncertain')
         ids = choice.get('paragraph_ids')
