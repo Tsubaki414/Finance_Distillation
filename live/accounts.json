@@ -1,0 +1,397 @@
+{
+  "note": "Five logical accounts. Route to account, then its language. Source voice is primary; personas guide audience fit, not a writing template.",
+  "publishing": "Human review only. No real platform accounts have been created or bound; no automatic publishing.",
+  "daily_target": {
+    "min": 1,
+    "max": 2,
+    "per": "account",
+    "may_publish_nothing": true,
+    "why": "an account with nothing worth saying should say nothing"
+  },
+  "accounts": [
+    {
+      "id": "en_morris_archive",
+      "name": "EN · Morris 历史精选",
+      "lang": "en",
+      "enabled": true,
+      "persona_id": "source_led",
+      "persona_description": "An English-language selection of valuable historical Chinese ideas sourced from Morris_LT. Not Morris, not a summary of his persona, and not an endorsement by him.",
+      "platform": "unbound",
+      "handle": null,
+      "binding_status": "logical_account_only",
+      "domain": "finance",
+      "fidelity_policy": "finance",
+      "audience": "English readers who can benefit from the original Chinese material: retain the author’s useful logic, examples, human texture and strength of judgment.",
+      "beats": [
+        "markets",
+        "trading_reasoning",
+        "decision_making",
+        "historical_ideas"
+      ],
+      "selection_scope": "Only historical Chinese originals by Morris_LT. Select genuinely useful content, not a summary of Morris or a personality imitation. Exclude empty promotion, isolated updates and passages that cannot be understood without missing context. Historical time and personal experience retain their true ownership.",
+      "source_preferences": {
+        "only_handles": [
+          "Morris_LT"
+        ],
+        "languages": [
+          "zh"
+        ],
+        "exclusive_source": true,
+        "historical_content_allowed": true
+      },
+      "editorial_preferences": {
+        "source_first": true,
+        "preserve_order_examples_rhythm": true,
+        "no_mandatory_template": true,
+        "no_default_author_prefix": true,
+        "no_ownership_transfer": true
+      },
+      "localization_preferences": {
+        "tone": "Faithful natural English. Leave effective order, examples and rhythm intact. No default Morris said wrapper; use local attribution only when personal identity or quoted speech needs it."
+      },
+      "source_hygiene": {
+        "enabled": true
+      },
+      "glossary": {},
+      "formats": [
+        "post",
+        "long_post"
+      ],
+      "lanes": [
+        "historical_cross_language"
+      ]
+    },
+    {
+      "id": "zh_macro",
+      "name": "中文 Macro / Data Flow",
+      "lang": "zh",
+      "persona_id": "macro",
+      "beats": [
+        "fed_policy",
+        "inflation",
+        "jobs",
+        "yen_fx",
+        "tariffs",
+        "china_policy",
+        "oil"
+      ],
+      "lanes": [
+        "hot_signal",
+        "scheduled_catalyst",
+        "cross_language_gap",
+        "prediction_ledger",
+        "deep_research"
+      ],
+      "formats": [
+        "post",
+        "long_post"
+      ],
+      "audience": "把英文宏观数据、政策机制和资金流观察带给中文读者，保留原文解释、例子及判断力度。",
+      "language_donor": {
+        "handle": "qinbafrank",
+        "why": "宏观与资金流同题材，中文语料最深的宏观作者",
+        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
+        "active_in_localization": false
+      },
+      "enabled": true,
+      "selection_scope": "Monetary policy, inflation, jobs, rates, FX, liquidity and cross-asset flows. Incidental finance keywords in unrelated essays do not qualify.",
+      "glossary": {},
+      "localization_preferences": {
+        "tone": "Preserve source stance and strength; natural target-language syntax; no mandatory structure."
+      },
+      "domain": "finance",
+      "fidelity_policy": "finance",
+      "platform": "unbound",
+      "handle": null,
+      "binding_status": "logical_account_only",
+      "source_hygiene": {
+        "enabled": true
+      },
+      "persona_description": "把英文宏观数据、政策机制和资金流观察带给中文读者，保留原文解释、例子及判断力度。",
+      "editorial_preferences": {
+        "source_first": true,
+        "preserve_order_examples_rhythm": true,
+        "no_mandatory_template": true,
+        "no_default_author_prefix": true,
+        "no_ownership_transfer": true
+      },
+      "source_preferences": {
+        "languages": [
+          "en"
+        ],
+        "prefer": [
+          "original explanations",
+          "concrete examples",
+          "useful observations"
+        ],
+        "historical_content_allowed": true
+      }
+    },
+    {
+      "id": "en_macro",
+      "name": "EN Macro / Data Flow",
+      "lang": "en",
+      "persona_id": "macro",
+      "beats": [
+        "fed_policy",
+        "inflation",
+        "jobs",
+        "yen_fx",
+        "tariffs",
+        "oil"
+      ],
+      "lanes": [
+        "hot_signal",
+        "scheduled_catalyst",
+        "cross_language_gap",
+        "deep_research"
+      ],
+      "formats": [
+        "post",
+        "long_post"
+      ],
+      "audience": "Bring valuable Chinese macro, policy, data and flow observations into natural English, preserving the original reasoning and force.",
+      "language_donor": {
+        "handle": "globalmktobserv",
+        "why": "英文宏观，语料量刚够建立区间",
+        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
+        "beat_fit": {
+          "macro_score": 1.51,
+          "industry_score": 0.95,
+          "n": 77,
+          "rank_among_english_candidates": 1
+        },
+        "selected_from": "21 位有足够语料的英文 donor（英文 KOL 表导入后），按其历史帖中该题材词频与样本量选出，不是「谁语料够多用谁」",
+        "active_in_localization": false
+      },
+      "enabled": true,
+      "selection_scope": "Monetary policy, inflation, jobs, rates, FX, liquidity and cross-asset flows. Incidental finance keywords in unrelated essays do not qualify.",
+      "glossary": {},
+      "localization_preferences": {
+        "tone": "Preserve source stance and strength; natural target-language syntax; no mandatory structure."
+      },
+      "domain": "finance",
+      "fidelity_policy": "finance",
+      "platform": "unbound",
+      "handle": null,
+      "binding_status": "logical_account_only",
+      "source_hygiene": {
+        "enabled": true
+      },
+      "persona_description": "Bring valuable Chinese macro, policy, data and flow observations into natural English, preserving the original reasoning and force.",
+      "editorial_preferences": {
+        "source_first": true,
+        "preserve_order_examples_rhythm": true,
+        "no_mandatory_template": true,
+        "no_default_author_prefix": true,
+        "no_ownership_transfer": true
+      },
+      "source_preferences": {
+        "languages": [
+          "zh"
+        ],
+        "prefer": [
+          "original explanations",
+          "concrete examples",
+          "useful observations"
+        ],
+        "historical_content_allowed": true
+      }
+    },
+    {
+      "id": "zh_industry",
+      "name": "中文 Stocks / Industry",
+      "lang": "zh",
+      "persona_id": "industry",
+      "beats": [
+        "ai_capex",
+        "earnings",
+        "china_policy"
+      ],
+      "lanes": [
+        "hot_signal",
+        "scheduled_catalyst",
+        "cross_language_gap",
+        "deep_research"
+      ],
+      "formats": [
+        "post",
+        "long_post"
+      ],
+      "audience": "把英文个股、产业机制、财报与供应链内容带给中文读者，保留技术逻辑、条件和有用细节。",
+      "language_donor": {
+        "handle": "michael_qqq2025",
+        "why": "产业链与宏观兼具（光通信供应链、磷化铟涨价、FOMC），中文；替换 xingpt——合并语料下 xingpt recall 0.290，与 michael_qqq2025/qinbafrank 混淆，无法承载可区分的声音",
+        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
+        "evidence": {
+          "authorship_recall": 0.8108,
+          "authorship_test_n": 74,
+          "corpus": "ml_experiments/authorship_merged.json（归档+实时清洗后 4,480 行，14 位可评估作者）",
+          "note": "归档单独评估时只有 6 位作者达到支持度门槛，合并语料后才看得出谁真的可分辨——换人依据的是后者"
+        },
+        "assigned_at": "2026-09-22",
+        "active_in_localization": false
+      },
+      "language_donor_history": [
+        {
+          "handle": "xingpt",
+          "until": "2026-09-22",
+          "replaced_because": "替换 xingpt——合并语料下 xingpt recall 0.290，与 michael_qqq2025/qinbafrank 混淆，无法承载可区分的声音",
+          "evidence": {
+            "test_n": 31,
+            "recall": 0.2903
+          },
+          "previous_record": {
+            "handle": "xingpt",
+            "why": "半导体与产业链同题材，中文",
+            "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者"
+          }
+        }
+      ],
+      "enabled": true,
+      "selection_scope": "Company fundamentals, earnings, products, business economics, technology and supply chains.",
+      "glossary": {},
+      "localization_preferences": {
+        "tone": "Preserve source stance and strength; natural target-language syntax; no mandatory structure."
+      },
+      "domain": "finance",
+      "fidelity_policy": "finance",
+      "platform": "unbound",
+      "handle": null,
+      "binding_status": "logical_account_only",
+      "source_hygiene": {
+        "enabled": true
+      },
+      "persona_description": "把英文个股、产业机制、财报与供应链内容带给中文读者，保留技术逻辑、条件和有用细节。",
+      "editorial_preferences": {
+        "source_first": true,
+        "preserve_order_examples_rhythm": true,
+        "no_mandatory_template": true,
+        "no_default_author_prefix": true,
+        "no_ownership_transfer": true
+      },
+      "source_preferences": {
+        "languages": [
+          "en"
+        ],
+        "prefer": [
+          "original explanations",
+          "concrete examples",
+          "useful observations"
+        ],
+        "historical_content_allowed": true
+      }
+    },
+    {
+      "id": "en_industry",
+      "name": "EN Stocks / Industry",
+      "lang": "en",
+      "persona_id": "industry",
+      "beats": [
+        "ai_capex",
+        "earnings"
+      ],
+      "lanes": [
+        "hot_signal",
+        "cross_language_gap",
+        "deep_research"
+      ],
+      "formats": [
+        "post",
+        "long_post"
+      ],
+      "audience": "Bring Chinese company, earnings, industry and supply-chain material into natural English, preserving useful detail, examples and source judgments.",
+      "language_donor": {
+        "handle": "aleabitoreddit",
+        "why": "英文个股与供应链（$SIVE 激光产能、光模块、代工），语料最深的英文作者；替换 beth_kindig——她可分辨（recall 0.929）但可测句长帖仅 10 篇，撑不起风格区间",
+        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
+        "evidence": {
+          "authorship_recall": 0.8962,
+          "authorship_test_n": 106,
+          "corpus": "ml_experiments/authorship_merged.json（归档+实时清洗后 4,480 行，14 位可评估作者）",
+          "note": "归档单独评估时只有 6 位作者达到支持度门槛，合并语料后才看得出谁真的可分辨——换人依据的是后者"
+        },
+        "assigned_at": "2026-09-22",
+        "active_in_localization": false
+      },
+      "language_donor_history": [
+        {
+          "handle": "beth_kindig",
+          "until": "2026-09-22",
+          "replaced_because": "替换 beth_kindig——她可分辨（recall 0.929）但可测句长帖仅 10 篇，撑不起风格区间",
+          "evidence": {
+            "test_n": 28,
+            "recall": 0.9286
+          },
+          "previous_record": {
+            "handle": "beth_kindig",
+            "why": "英文科技个股，语料量最深的英文作者",
+            "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
+            "beat_fit": {
+              "macro_score": 0.18,
+              "industry_score": 1.59,
+              "n": 111,
+              "rank_among_english_candidates": 1
+            },
+            "selected_from": "21 位有足够语料的英文 donor（英文 KOL 表导入后），按其历史帖中该题材词频与样本量选出，不是「谁语料够多用谁」"
+          }
+        }
+      ],
+      "enabled": true,
+      "selection_scope": "Company fundamentals, earnings, products, business economics, technology and supply chains.",
+      "glossary": {},
+      "localization_preferences": {
+        "tone": "Preserve source stance and strength; natural target-language syntax; no mandatory structure."
+      },
+      "domain": "finance",
+      "fidelity_policy": "finance",
+      "platform": "unbound",
+      "handle": null,
+      "binding_status": "logical_account_only",
+      "source_hygiene": {
+        "enabled": true
+      },
+      "persona_description": "Bring Chinese company, earnings, industry and supply-chain material into natural English, preserving useful detail, examples and source judgments.",
+      "editorial_preferences": {
+        "source_first": true,
+        "preserve_order_examples_rhythm": true,
+        "no_mandatory_template": true,
+        "no_default_author_prefix": true,
+        "no_ownership_transfer": true
+      },
+      "source_preferences": {
+        "languages": [
+          "zh"
+        ],
+        "prefer": [
+          "original explanations",
+          "concrete examples",
+          "useful observations"
+        ],
+        "historical_content_allowed": true
+      }
+    }
+  ],
+  "unassigned_personas": [
+    {
+      "persona_id": "trading",
+      "why": "no account was requested for it; it still serves the Evergreen trading-principle line and event reactivation"
+    }
+  ],
+  "distinctness": {
+    "rule": "no two accounts may ship pieces that share both the same primary event and the same lead claim on the same day",
+    "checked_by": "live/opportunities.py assign() and a similarity gate before the queue"
+  },
+  "lane_note": "All five accounts route by source fit and target language. Historical source timestamps remain visible in review.",
+  "language_distillation": {
+    "targets": "live/store/style_targets.json，由 live/style.py 从该作者真实帖子实测",
+    "enforced": "legacy generation only; localization_v1 does not enforce donor length or style ranges",
+    "measured_by": "ml/style_eval.py"
+  },
+  "localization_policy": {
+    "mode": "localization_v1",
+    "cross_language_only": true,
+    "body_attribution": "only necessary in-source attribution / identity context; no default footer",
+    "external_background_additions": false
+  }
+}

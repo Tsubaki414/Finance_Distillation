@@ -1,0 +1,203 @@
+{
+  "donor": "tradexwhisperer",
+  "sample_n": 4,
+  "features": [
+    {
+      "feature": "macro_liquidity",
+      "support_count": 1,
+      "support_post_ids": [
+        "2096068275100914018"
+      ],
+      "interpretation": "observed textual pattern; not verified expertise"
+    },
+    {
+      "feature": "equity_industry",
+      "support_count": 3,
+      "support_post_ids": [
+        "2096036413682893103",
+        "2096068275100914018",
+        "2096266331524125077"
+      ],
+      "interpretation": "observed textual pattern; not verified expertise"
+    },
+    {
+      "feature": "risk_process",
+      "support_count": 0,
+      "support_post_ids": [],
+      "interpretation": "observed textual pattern; not verified expertise"
+    },
+    {
+      "feature": "conditional_reasoning",
+      "support_count": 2,
+      "support_post_ids": [
+        "2096068275100914018",
+        "2096266331524125077"
+      ],
+      "interpretation": "observed textual pattern; not verified expertise"
+    }
+  ],
+  "frequent_entities": [
+    {
+      "entity": "$MU",
+      "count": 4,
+      "post_ids": [
+        "2096036413682893103",
+        "2096068275100914018",
+        "2096084096531542050",
+        "2096266331524125077"
+      ]
+    },
+    {
+      "entity": "$SKHY",
+      "count": 3,
+      "post_ids": [
+        "2096036413682893103",
+        "2096068275100914018",
+        "2096266331524125077"
+      ]
+    },
+    {
+      "entity": "HBM",
+      "count": 2,
+      "post_ids": [
+        "2096036413682893103",
+        "2096068275100914018"
+      ]
+    },
+    {
+      "entity": "$DRAM",
+      "count": 2,
+      "post_ids": [
+        "2096036413682893103",
+        "2096068275100914018"
+      ]
+    },
+    {
+      "entity": "$TSM",
+      "count": 2,
+      "post_ids": [
+        "2096068275100914018",
+        "2096266331524125077"
+      ]
+    },
+    {
+      "entity": "$NVDA",
+      "count": 1,
+      "post_ids": [
+        "2096266331524125077"
+      ]
+    }
+  ],
+  "observed_sources": [],
+  "framework_status": "hypotheses derived from observable language; model enrichment separate",
+  "claims_verified_or_falsified": null,
+  "knowledge_boundary": "not inferred beyond linked samples",
+  "excluded_migration": [
+    "advertisements",
+    "self-reported returns",
+    "unsupported certainty",
+    "signature expressions"
+  ],
+  "time_horizon": {
+    "short_term_post_ids": [
+      "2096068275100914018"
+    ],
+    "long_term_post_ids": []
+  },
+  "risk_post_ids": [],
+  "causal_candidate_post_ids": [
+    "2096036413682893103",
+    "2096068275100914018",
+    "2096266331524125077"
+  ],
+  "model_enrichment": {
+    "status": "exact_source_linked_model_support_proxy",
+    "frameworks": [
+      {
+        "claim": "Thermal constraints limit the performance and reliability of high-bandwidth memory (HBM) in compute systems.",
+        "mechanism": "The base die of an HBM cube, which performs the most complex work, generates the most heat. This heat can lead to reliability issues with DRAM refreshes, necessitating architectural solutions that prioritize thermal management over performance optimizations.",
+        "boundary": "This reasoning is based on the specific limitations of HBM technology and the thermal challenges it faces, as evidenced by the author's observations on heat extraction and die temperature.",
+        "evidence": [
+          {
+            "post_id": "2096036413682893103",
+            "quote": "“Compute is scaling at roughly 3x every 2 years. HBM, while it has solved a lot of the bandwidth issues and scaled up bandwidth, is lagging and is more like 2x every 2 years. So the memory wall is still present, and in fact, it may be getting worse.” ",
+            "selection": "model-selected indexed source"
+          },
+          {
+            "post_id": "2096068275100914018",
+            "quote": "“If you think of an HBM cube, the heat is getting extracted at the top. The base die is typically the hottest part of the die, because it’s doing some of the most complex work. … DRAM doesn’t like to be hot. So refreshes of DRAM start to become a problem for reliability if it gets too hot. Figuring out what the thermal solutions are is very, very critical, and it’s getting to the point where we are now architecting solutions around thermals instead of the other way around.” — Raghu Sreeramaneni",
+            "selection": "model-selected indexed source"
+          }
+        ]
+      }
+    ],
+    "candidate_frameworks": [
+      {
+        "claim": "Thermal constraints limit the performance and reliability of high-bandwidth memory (HBM) in compute systems.",
+        "mechanism": "The base die of an HBM cube, which performs the most complex work, generates the most heat. This heat can lead to reliability issues with DRAM refreshes, necessitating architectural solutions that prioritize thermal management over performance optimizations.",
+        "boundary": "This reasoning is based on the specific limitations of HBM technology and the thermal challenges it faces, as evidenced by the author's observations on heat extraction and die temperature.",
+        "evidence": [
+          {
+            "post_id": "2096036413682893103",
+            "evidence_id": "S1",
+            "quote": "“Compute is scaling at roughly 3x every 2 years. HBM, while it has solved a lot of the bandwidth issues and scaled up bandwidth, is lagging and is more like 2x every 2 years. So the memory wall is still present, and in fact, it may be getting worse.” "
+          },
+          {
+            "post_id": "2096068275100914018",
+            "evidence_id": "S2",
+            "quote": "“If you think of an HBM cube, the heat is getting extracted at the top. The base die is typically the hottest part of the die, because it’s doing some of the most complex work. … DRAM doesn’t like to be hot. So refreshes of DRAM start to become a problem for reliability if it gets too hot. Figuring out what the thermal solutions are is very, very critical, and it’s getting to the point where we are now architecting solutions around thermals instead of the other way around.” — Raghu Sreeramaneni"
+          }
+        ]
+      }
+    ],
+    "run_id": "local-4aed75bbc48a4066",
+    "verifier_run_id": "local-e4c1c0e996274a3b",
+    "model_role": "comparison",
+    "selected_post_ids": [
+      "2096036413682893103",
+      "2096068275100914018",
+      "2096084096531542050",
+      "2096266331524125077"
+    ],
+    "selected_excerpts": [
+      {
+        "evidence_id": "S1",
+        "post_id": "2096036413682893103",
+        "excerpt": "“Compute is scaling at roughly 3x every 2 years. HBM, while it has solved a lot of the bandwidth issues and scaled up bandwidth, is lagging and is more like 2x every 2 years. So the memory wall is still present, and in fact, it may be getting worse.” "
+      },
+      {
+        "evidence_id": "S2",
+        "post_id": "2096068275100914018",
+        "excerpt": "“If you think of an HBM cube, the heat is getting extracted at the top. The base die is typically the hottest part of the die, because it’s doing some of the most complex work. … DRAM doesn’t like to be hot. So refreshes of DRAM start to become a problem for reliability if it gets too hot. Figuring out what the thermal solutions are is very, very critical, and it’s getting to the point where we are now architecting solutions around thermals instead of the other way around.” — Raghu Sreeramaneni"
+      },
+      {
+        "evidence_id": "S3",
+        "post_id": "2096084096531542050",
+        "excerpt": "$MU BLUE-GREEN candle set → +6.1% pop and I don't know how many times I've said this, everything under Fib 0 was a gift."
+      },
+      {
+        "evidence_id": "S4",
+        "post_id": "2096266331524125077",
+        "excerpt": "If equipment demand at the end of last year was 1x, it rose to 1.5x after one quarter and reached 1.9x by July—a 90% increase in just over half a year, nearly doubling."
+      }
+    ],
+    "sample_n": 4,
+    "selection": "evenly spaced chronological substantive posts; exclude temporal author-test posts; prefer causal paragraphs",
+    "corpus_sha256": "0ae5022f72f416571150f410b2219413c50c83bbcc6c3b6c9a510024afa0fe89",
+    "rejections": [],
+    "validation_scope": "Exact source membership and >=2 distinct posts; any added neighbors use frozen embedding retrieval with thread/date separation. Same-model 0/1 support is a diagnostic, not human validation or verified expertise.",
+    "support_diagnostics_v3": [
+      {
+        "claim": "Thermal constraints limit the performance and reliability of high-bandwidth memory (HBM) in compute systems.",
+        "run_id": "local-ac14a42f210e44e9",
+        "response": "1",
+        "accepted": true,
+        "neighbor_retrieval": [],
+        "evidence_ids": [
+          "2096036413682893103",
+          "2096068275100914018"
+        ]
+      }
+    ]
+  }
+}

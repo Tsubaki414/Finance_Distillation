@@ -1,0 +1,239 @@
+{
+  "note": "Frozen from the 2026-09-27 source-monitoring research round. Items are what that round actually read or indexed. They are not a live feed. Do not treat index time as publication time.",
+  "researched_at": "2026-09-27T12:00:00+00:00",
+  "research_limits": [
+    "X keyword search returned HTTP 404",
+    "X user timelines hit HTTP 429 after a few reads",
+    "NYT and Reuters article bodies returned 403 via the reader proxy",
+    "Friday settlement prices are wire reports, not an exchange tape"
+  ],
+  "items": [
+    {
+      "story_id": "hormuz-reopen",
+      "id": "gn-france24",
+      "tier": "WIRE_MAJOR",
+      "name": "France 24",
+      "platform": "news",
+      "lang": "en",
+      "published_at": "2026-09-26T02:06:07+00:00",
+      "timestamp_kind": "google_news_index",
+      "title": "Trump rejects Iran’s seven-day plan to reopen Strait of Hormuz",
+      "url": "https://news.google.com/rss/search?q=Strait+of+Hormuz+Trump",
+      "text": "Indexed headline only. France 24 is the earliest English item in the Google News RSS pull for this query. Index time is not publication time.",
+      "body_read": false,
+      "confidence": "index"
+    },
+    {
+      "story_id": "hormuz-reopen",
+      "id": "gn-cctv",
+      "tier": "WIRE_MAJOR",
+      "name": "央视网",
+      "platform": "news",
+      "lang": "zh",
+      "published_at": "2026-09-26T03:45:17+00:00",
+      "timestamp_kind": "google_news_index",
+      "title": "美媒：特朗普拒绝伊朗七日内重开霍尔木兹海峡提议",
+      "url": "https://news.cctv.com/",
+      "text": "Indexed Chinese headline. A wire paraphrase of US media, not a primary document.",
+      "body_read": false,
+      "confidence": "index"
+    },
+    {
+      "story_id": "hormuz-reopen",
+      "id": "gn-wsj",
+      "tier": "WIRE_MAJOR",
+      "name": "WSJ",
+      "platform": "news",
+      "lang": "en",
+      "published_at": "2026-09-26T15:01:40+00:00",
+      "timestamp_kind": "google_news_index",
+      "title": "Exclusive | Trump Rejects Iran Ceasefire, Expects Renewed Bombing After Midterms",
+      "url": "https://www.wsj.com/",
+      "text": "Headline only. The midterms-bombing claim was not confirmed in a body we read. Keep it as a headline-grade claim.",
+      "body_read": false,
+      "confidence": "headline"
+    },
+    {
+      "id": "x-deltaone-cuba",
+      "tier": "SOCIAL_SIGNAL",
+      "name": "DeItaone",
+      "handle": "DeItaone",
+      "platform": "x",
+      "lang": "en",
+      "published_at": "2026-09-26T15:39:29+00:00",
+      "timestamp_kind": "post",
+      "title": "TRUMP PREDICTS U.S.-CUBA DEAL",
+      "url": "https://x.com/DeItaone",
+      "text": "TRUMP PREDICTS U.S.-CUBA DEAL, DOWNPLAYS MILITARY ACTION. President Trump said he expects the U.S. and Cuba to reach an agreement.",
+      "body_read": true,
+      "on_event": false,
+      "note": "Latest post read in the research window was about Cuba, not Hormuz. A watched squawk account can miss the event."
+    },
+    {
+      "story_id": "hormuz-reopen",
+      "id": "bbc-body",
+      "tier": "WIRE_MAJOR",
+      "name": "BBC",
+      "platform": "news",
+      "lang": "en",
+      "published_at": "2026-09-27T02:16:52+00:00",
+      "timestamp_kind": "article_published",
+      "title": "Iranian minister says only negotiation can end conflict after Trump rejects Hormuz deal",
+      "url": "https://www.bbc.com/news/articles/cmvgyyw2jeego",
+      "text": "Only a negotiated solution can end the conflict between the US and Iran, Tehran's foreign minister has said, after President Donald Trump publicly rejected a proposal to reopen the Strait of Hormuz. Trump told reporters at the White House that Iran's proposal was not acceptable and that Tehran wanted to make a deal to open the strait to commercial shipping within seven days because they're losing so badly. In a post on Telegram, Iranian Foreign Minister Abbas Araghchi acknowledged Trump's rejection, but said Iran would wait for a definitive official US response. He said the president had made contradictory statements in the past. Araghchi said the conditions to open the strait were the same that had been included in a memorandum of understanding between the US and Iran that was signed in June. Iran said it had raised reopening the strait and ending hostilities during negotiations on the sidelines of the UN General Assembly. The vital waterway through which around a fifth of the world's gas and oil supply usually flows has been effectively closed since the outbreak of war in February. I'm rejecting their deal, Trump said.",
+      "body_read": true,
+      "confidence": "body_read",
+      "facts": [
+        {
+          "id": "f-oral-reject",
+          "text": "Trump told reporters at the White House that Iran's seven-day proposal was not acceptable.",
+          "kind": "quote_paraphrase"
+        },
+        {
+          "id": "f-rejecting-deal",
+          "text": "Trump said: I'm rejecting their deal.",
+          "kind": "quote"
+        },
+        {
+          "id": "f-losing",
+          "text": "Trump said Tehran wanted a seven-day reopening because they're losing so badly.",
+          "kind": "quote"
+        },
+        {
+          "id": "f-await-official",
+          "text": "Iranian Foreign Minister Abbas Araghchi said Iran would wait for a definitive official US response.",
+          "kind": "quote_paraphrase"
+        },
+        {
+          "id": "f-june-mou",
+          "text": "Araghchi said the conditions to open the strait were the same as the June US-Iran memorandum.",
+          "kind": "quote_paraphrase"
+        },
+        {
+          "id": "f-fifth",
+          "text": "The strait usually carries around a fifth of the world's gas and oil.",
+          "kind": "number",
+          "value": 0.2,
+          "unit": "share_of_usual_flows",
+          "scope": "usual, not current"
+        },
+        {
+          "id": "f-closed-since-feb",
+          "text": "The strait has been effectively closed since the war began in February.",
+          "kind": "status"
+        }
+      ]
+    },
+    {
+      "story_id": "iran-funds-wording",
+      "id": "x-qinbafrank",
+      "tier": "SOCIAL_SIGNAL",
+      "name": "qinbafrank",
+      "handle": "qinbafrank",
+      "platform": "x",
+      "lang": "zh",
+      "published_at": "2026-09-27T02:46:57+00:00",
+      "timestamp_kind": "post",
+      "title": "中国冻结了伊朗在中国的资金么",
+      "url": "https://x.com/qinbafrank",
+      "text": "中国冻结了伊朗在中国的资金么？真实情况是什么？伊朗总统前两天接受福布斯的采访，他的原话是在中国的资金被 blocked（卡住了/受阻了），到社交媒体上就变成了 has been frozen（被冻结了）。这是两个完全不同程度和性质的表达。被卡住了只是资金使用不便；被冻结了则是资金完全不能使用。",
+      "body_read": true,
+      "related_not_same_event": true,
+      "note": "Wording dispute about funds in China. Do not merge into the Hormuz reopen event. Persian original was not independently checked."
+    },
+    {
+      "story_id": "hormuz-reopen",
+      "id": "gn-chinanews-fm",
+      "tier": "WIRE_MAJOR",
+      "name": "chinanews",
+      "platform": "news",
+      "lang": "zh",
+      "published_at": "2026-09-27T05:21:52+00:00",
+      "timestamp_kind": "google_news_index",
+      "title": "伊朗外长：仍等待美国明确回应霍尔木兹海峡重开方案",
+      "url": "https://www.chinanews.com.cn/",
+      "text": "Indexed headline agreeing with the BBC reading that Tehran is still waiting for a definitive US response.",
+      "body_read": false,
+      "confidence": "index"
+    },
+    {
+      "story_id": "hormuz-reopen",
+      "id": "gn-cls-friday",
+      "tier": "WIRE_MAJOR",
+      "name": "财联社",
+      "platform": "news",
+      "lang": "zh",
+      "published_at": "2026-09-27T05:19:00+00:00",
+      "timestamp_kind": "google_news_index",
+      "title": "美股收盘：三大指数全线走高纳指涨逾2% 美伊局势缓和提振风险偏好",
+      "url": "https://www.cls.cn/",
+      "text": "Indexed headline still describing Friday's close as an easing of US-Iran tension. That clock is Friday's, not Saturday's rejection. The Nasdaq-up-over-2% figure was not confirmed in a body we read.",
+      "body_read": false,
+      "confidence": "headline",
+      "do_not_promote": ["纳指涨逾2%"]
+    },
+    {
+      "story_id": "hormuz-reopen",
+      "id": "wx-yicai",
+      "tier": "ANALYSIS",
+      "name": "第一财经",
+      "platform": "wechat",
+      "lang": "zh",
+      "published_at": "2026-09-27T01:06:15+00:00",
+      "timestamp_kind": "wechat_feed",
+      "title": "霍尔木兹海峡，突传大消息",
+      "url": "https://wechat2rss.bestblogs.dev/feed/e2cc4ff2ae914ebfd4150420ece80dd93be7a6d9.xml",
+      "text": "WeChat feed title only. Useful as a second-wave Chinese clock, not as a breaking or primary source.",
+      "body_read": false,
+      "confidence": "title"
+    },
+    {
+      "story_id": "hormuz-reopen",
+      "id": "wire-friday-settle",
+      "tier": "WIRE_MAJOR",
+      "name": "Reuters/WSJ settlement reports",
+      "platform": "news",
+      "lang": "en",
+      "published_at": "2026-09-25T21:00:00+00:00",
+      "timestamp_kind": "session_date",
+      "title": "Friday 25 Sep 2026 crude settlements",
+      "url": "https://www.reuters.com/",
+      "text": "Reported settlements for 25 September 2026: WTI front-month 92.41 dollars, down 2.20; ICE Brent front-month 104.32 dollars, down 2.28. Not read from an exchange tape.",
+      "body_read": false,
+      "confidence": "reported_settlement",
+      "facts": [
+        {
+          "id": "f-wti",
+          "text": "WTI front-month settled at 92.41 dollars on 25 September 2026.",
+          "kind": "number",
+          "value": 92.41,
+          "unit": "USD_per_barrel",
+          "confidence": "reported_settlement"
+        },
+        {
+          "id": "f-brent",
+          "text": "ICE Brent front-month settled at 104.32 dollars on 25 September 2026.",
+          "kind": "number",
+          "value": 104.32,
+          "unit": "USD_per_barrel",
+          "confidence": "reported_settlement"
+        }
+      ]
+    },
+    {
+      "id": "x-andurand-offtopic",
+      "tier": "SOCIAL_SIGNAL",
+      "name": "AndurandPierre",
+      "handle": "AndurandPierre",
+      "platform": "x",
+      "lang": "en",
+      "published_at": "2026-09-25T15:06:29+00:00",
+      "timestamp_kind": "post",
+      "title": "anti-war spot",
+      "url": "https://x.com/AndurandPierre",
+      "text": "Russian actor, Nikita Kukushkin recorded this anti-war spot. Not about Hormuz.",
+      "body_read": true,
+      "on_event": false
+    }
+  ]
+}

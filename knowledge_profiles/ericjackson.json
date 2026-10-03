@@ -1,0 +1,93 @@
+{
+  "donor": "ericjackson",
+  "sample_n": 3,
+  "features": [
+    {
+      "feature": "macro_liquidity",
+      "support_count": 0,
+      "support_post_ids": [],
+      "interpretation": "observed textual pattern; not verified expertise"
+    },
+    {
+      "feature": "equity_industry",
+      "support_count": 1,
+      "support_post_ids": [
+        "2095672922132169211"
+      ],
+      "interpretation": "observed textual pattern; not verified expertise"
+    },
+    {
+      "feature": "risk_process",
+      "support_count": 0,
+      "support_post_ids": [],
+      "interpretation": "observed textual pattern; not verified expertise"
+    },
+    {
+      "feature": "conditional_reasoning",
+      "support_count": 1,
+      "support_post_ids": [
+        "2095824299881894398"
+      ],
+      "interpretation": "observed textual pattern; not verified expertise"
+    }
+  ],
+  "frequent_entities": [],
+  "observed_sources": [],
+  "framework_status": "hypotheses derived from observable language; model enrichment separate",
+  "claims_verified_or_falsified": null,
+  "knowledge_boundary": "not inferred beyond linked samples",
+  "excluded_migration": [
+    "advertisements",
+    "self-reported returns",
+    "unsupported certainty",
+    "signature expressions"
+  ],
+  "time_horizon": {
+    "short_term_post_ids": [
+      "2095672922132169211"
+    ],
+    "long_term_post_ids": []
+  },
+  "risk_post_ids": [],
+  "causal_candidate_post_ids": [
+    "2095824299881894398"
+  ],
+  "model_enrichment": {
+    "status": "no_supported_recurring_framework",
+    "frameworks": [],
+    "candidate_frameworks": [],
+    "run_id": "local-6fae497995e74feb",
+    "verifier_run_id": null,
+    "model_role": "comparison",
+    "selected_post_ids": [
+      "2095672922132169211",
+      "2095824299881894398",
+      "2096242921292939624"
+    ],
+    "selected_excerpts": [
+      {
+        "evidence_id": "S1",
+        "post_id": "2095672922132169211",
+        "excerpt": "Aug 24: news breaks that federal prosecutors and the SEC are investigating Walter over more than $20 billion of loans from life insurers he controls to affiliated businesses, routed through intermediary entities."
+      },
+      {
+        "evidence_id": "S2",
+        "post_id": "2095824299881894398",
+        "excerpt": "The trademark never moved because it was never what got sold. What moved was a membership interest in a Delaware LLC."
+      },
+      {
+        "evidence_id": "S3",
+        "post_id": "2096242921292939624",
+        "excerpt": "Vivendi's own accounts value its Universal Music stake at €23.62 a share.\n\nThe stock was €14.65 when their board signed those accounts.\n\nThat is a gap of about €1.6 billion, on one line of one balance sheet.\n\nBut that is not the finding. https://t.co/kEIg2LFTFz"
+      }
+    ],
+    "sample_n": 3,
+    "selection": "evenly spaced chronological substantive posts; exclude temporal author-test posts; prefer causal paragraphs",
+    "corpus_sha256": "0ae5022f72f416571150f410b2219413c50c83bbcc6c3b6c9a510024afa0fe89",
+    "rejections": [
+      "unknown or insufficient evidence IDs"
+    ],
+    "validation_scope": "Exact source membership and >=2 distinct posts; any added neighbors use frozen embedding retrieval with thread/date separation. Same-model 0/1 support is a diagnostic, not human validation or verified expertise.",
+    "support_diagnostics_v3": []
+  }
+}

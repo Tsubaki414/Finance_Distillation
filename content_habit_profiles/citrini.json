@@ -1,0 +1,85 @@
+{
+  "donor": "citrini",
+  "observed_items": 20,
+  "post_ids": [
+    "2092892027902107983",
+    "2092892071283904895",
+    "2092895391284887854",
+    "2092896305349591179",
+    "2092918105873756426",
+    "2093093295442493891",
+    "2093093548950532429",
+    "2093146739284832455",
+    "2094417304033575421",
+    "2094788202762510800",
+    "2094788369532309974",
+    "2094788488025510355",
+    "2095730339943473557",
+    "2095945460540207314",
+    "2095948134354485260",
+    "2095948702829478137",
+    "2095949813653086647",
+    "2095951162054701254",
+    "2095952374217011275",
+    "2096071244210737302"
+  ],
+  "time_basis": "UTC; author local timezone unknown",
+  "interval_hours": {
+    "n": 19,
+    "mean": 11.081637426900585,
+    "p10": 0.010444444444444445,
+    "p50": 0.17694444444444443,
+    "p90": 32.12616666666664
+  },
+  "weekend_post_share": 0.05,
+  "busiest_observed_days": [
+    [
+      "2026-08-27",
+      7
+    ],
+    [
+      "2026-09-04",
+      7
+    ],
+    [
+      "2026-09-01",
+      3
+    ],
+    [
+      "2026-08-28",
+      1
+    ],
+    [
+      "2026-08-31",
+      1
+    ]
+  ],
+  "post_types": {
+    "repost": 1,
+    "reply": 13,
+    "quote": 3,
+    "original": 3
+  },
+  "theme_length": {
+    "0": {
+      "n": 1,
+      "mean": 2352.0,
+      "p10": 2352.0,
+      "p50": 2352.0,
+      "p90": 2352.0
+    },
+    "1": null,
+    "2": null,
+    "3": null,
+    "4": null,
+    "5": null,
+    "6": null,
+    "7": null
+  },
+  "topic_switch_rate": 0.0,
+  "reaction_latency": null,
+  "acknowledges_errors": null,
+  "updates_old_views": null,
+  "missing_behavior_reason": "Incomplete timeline and event alignment; absence is not evidence of silence or failure to correct.",
+  "unknown_gaps": "Intervals describe observed records, not all activity."
+}

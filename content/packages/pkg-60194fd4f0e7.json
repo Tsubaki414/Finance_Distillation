@@ -1,0 +1,263 @@
+{
+  "id": "pkg-60194fd4f0e7",
+  "form": "x_post",
+  "form_name": "X 单帖",
+  "draft_id": "w-00503ea6eb8e",
+  "persona_id": "industry",
+  "persona_name": "中文 · 个股与产业链",
+  "account_id": "zh_industry",
+  "origin": "live",
+  "entity": "$AMZN",
+  "created_at": "2026-09-17T06:33:53.557456+00:00",
+  "source_version": 1,
+  "roles": {
+    "language": "xingpt"
+  },
+  "profile_channel": null,
+  "source_id": "ev-ac51e8cae5dd",
+  "run_status": "completed",
+  "qa_status": "passed",
+  "content_status": "ready_for_pipeline",
+  "attempts": [
+    {
+      "attempt": 1,
+      "run_id": "local-4a2ca8fbbfac4ce0",
+      "latency_s": 6.64,
+      "usage": {
+        "prompt_tokens": 593,
+        "completion_tokens": 100,
+        "total_tokens": 693,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "qa_status": "passed",
+      "qa_blocking": 0,
+      "form_status": "passed",
+      "score": 10,
+      "qa_codes": [],
+      "form_codes": []
+    }
+  ],
+  "best_attempt": 1,
+  "title": "亚马逊二季度财报：资本开支激增与现金流压力的真实代价",
+  "segments": [
+    {
+      "text": "亚马逊非运营税前其他收入达 534 亿美元，但自由现金流减少 661 亿美元。北美分部销售额 1162 亿美元，交付速度提升 40%，Graviton 芯片性能提升 25%。若云厂商支出缩减，当前利润结构将失效。",
+      "kind": "interpretation",
+      "fact_ids": [
+        "g029",
+        "g035",
+        "g032",
+        "g037",
+        "g015"
+      ],
+      "segment_id": "p1",
+      "slot_ids": [
+        "L01",
+        "L02",
+        "L03",
+        "L04",
+        "L05"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": []
+    }
+  ],
+  "sentence_to_source_ledger": [
+    {
+      "sentence_id": "p1",
+      "text": "亚马逊非运营税前其他收入达 534 亿美元，但自由现金流减少 661 亿美元。北美分部销售额 1162 亿美元，交付速度提升 40%，Graviton 芯片性能提升 25%。若云厂商支出缩减，当前利润结构将失效。",
+      "kind": "interpretation",
+      "fact_ids": [
+        "g029",
+        "g035",
+        "g032",
+        "g037",
+        "g015"
+      ],
+      "slot_ids": [
+        "L01",
+        "L02",
+        "L03",
+        "L04",
+        "L05"
+      ],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [
+        "B0009",
+        "B0011",
+        "B0012",
+        "B0013",
+        "B0015"
+      ],
+      "primary_url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/",
+      "source_hash": "7a72e6571a17b88661430e7f2eeef05165d2a87a2f507b40f43df44614e47147"
+    }
+  ],
+  "source_pack": [
+    {
+      "fact_id": "g015",
+      "label": "North America segment sales increased 16% year-over-year to",
+      "value": 116200000000,
+      "unit": "USD",
+      "period": null,
+      "survey": null,
+      "primary_url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/",
+      "artifact_path": "live/store/sources/ev-ac51e8cae5dd.txt",
+      "artifact_sha256": "7a72e6571a17b88661430e7f2eeef05165d2a87a2f507b40f43df44614e47147",
+      "char_span": [
+        932,
+        946
+      ],
+      "quote": "$116.2 billion",
+      "quote_resolves": true,
+      "source_block_ids": [
+        "B0009"
+      ]
+    },
+    {
+      "fact_id": "g029",
+      "label": "2026 net income includes non-operating pre-tax other income of",
+      "value": 53400000000,
+      "unit": "USD",
+      "period": null,
+      "survey": null,
+      "primary_url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/",
+      "artifact_path": "live/store/sources/ev-ac51e8cae5dd.txt",
+      "artifact_sha256": "7a72e6571a17b88661430e7f2eeef05165d2a87a2f507b40f43df44614e47147",
+      "char_span": [
+        1840,
+        1853
+      ],
+      "quote": "$53.4 billion",
+      "quote_resolves": true,
+      "source_block_ids": [
+        "B0011"
+      ]
+    },
+    {
+      "fact_id": "g032",
+      "label": "twelve months, driven primarily by a year-over-year increase of",
+      "value": 66099999999.99999,
+      "unit": "USD",
+      "period": null,
+      "survey": null,
+      "primary_url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/",
+      "artifact_path": "live/store/sources/ev-ac51e8cae5dd.txt",
+      "artifact_sha256": "7a72e6571a17b88661430e7f2eeef05165d2a87a2f507b40f43df44614e47147",
+      "char_span": [
+        2218,
+        2232
+      ],
+      "quote": "$66.1 billion",
+      "quote_resolves": false,
+      "source_block_ids": [
+        "B0012"
+      ]
+    },
+    {
+      "fact_id": "g035",
+      "label": "Prime members in the first half of the year—over",
+      "value": 40,
+      "unit": "percent",
+      "period": null,
+      "survey": null,
+      "primary_url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/",
+      "artifact_path": "live/store/sources/ev-ac51e8cae5dd.txt",
+      "artifact_sha256": "7a72e6571a17b88661430e7f2eeef05165d2a87a2f507b40f43df44614e47147",
+      "char_span": [
+        2811,
+        2814
+      ],
+      "quote": "40%",
+      "quote_resolves": true,
+      "source_block_ids": [
+        "B0013"
+      ]
+    },
+    {
+      "fact_id": "g037",
+      "label": "price-performance than comparable instances, and Graviton5 delivers up to",
+      "value": 25,
+      "unit": "percent",
+      "period": null,
+      "survey": null,
+      "primary_url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/",
+      "artifact_path": "live/store/sources/ev-ac51e8cae5dd.txt",
+      "artifact_sha256": "7a72e6571a17b88661430e7f2eeef05165d2a87a2f507b40f43df44614e47147",
+      "char_span": [
+        4120,
+        4123
+      ],
+      "quote": "25%",
+      "quote_resolves": true,
+      "source_block_ids": [
+        "B0015"
+      ]
+    }
+  ],
+  "conditions": {
+    "invalidation": [
+      "如果未来云厂商支出缩减，那么当前的利润结构将面临剧烈调整。"
+    ],
+    "author_proposed_thresholds": [],
+    "threshold_note": "这些阈值是作者提出的观察条件，不是事实包里的数据，不得当作已发生的数字引用。",
+    "update_when": [
+      "原始事实包发布新版本或数据被修订",
+      "下一期同一指标发布"
+    ],
+    "next_release": null
+  },
+  "qa": {
+    "findings": [],
+    "metrics": {
+      "claim_support_coverage": 1.0,
+      "unsupported_claim_rate": 0.0,
+      "must_include_coverage": 1.0,
+      "plan_required_coverage": 1.0,
+      "all_fact_coverage": 0.125
+    },
+    "status": {
+      "run_status": "completed",
+      "qa_status": "passed",
+      "content_status": "ready_for_pipeline",
+      "blocking_count": 0,
+      "warning_count": 0,
+      "human_review": "not_required_by_design; the target pipeline is automated"
+    },
+    "gate_version": "qa-gates-v2",
+    "layers_run": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "form_check": {
+    "findings": [],
+    "form_status": "passed",
+    "blocking_count": 0,
+    "chars": 106,
+    "measured": 179,
+    "measure": "weighted units",
+    "units": 3,
+    "unit_name": "sentences",
+    "segments": 1,
+    "check_version": "package-form-v2"
+  },
+  "form_status": "passed",
+  "finished_at": "2026-09-17T06:34:00.198109+00:00",
+  "delivery": {
+    "run_status": "completed",
+    "qa_status": "passed",
+    "content_status": "ready_for_pipeline",
+    "reason": null,
+    "deliverable": true
+  },
+  "human_review": "none"
+}

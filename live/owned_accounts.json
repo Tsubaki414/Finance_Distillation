@@ -1,0 +1,65 @@
+{
+  "version": "account-source-charters-v2",
+  "basis": "User-confirmed three source universes; subscriptions select candidates before editorial assessment. Human quality labels remain pending.",
+  "accounts": [
+    {
+      "id": "en_morris_archive",
+      "name": "EN · Morris Archive",
+      "language": "en",
+      "mandate": "Morris historical Chinese originals selected for continuing value today, faithfully translated into natural English and lightly edited. Preserve source logic, examples, emphasis and rhythm; no default author prefix or invented account experience. Curation and good translation are sufficient value. Personal/time-bound premises that cannot be separated faithfully require hold or skip.",
+      "research_inputs": [
+        "Morris_LT"
+      ],
+      "platform": "unbound",
+      "enabled": true,
+      "treatment": "historical_translation_light_edit"
+    },
+    {
+      "id": "zh_macro",
+      "name": "中文 · Macro / Data Flow",
+      "language": "zh",
+      "mandate": "解释宏观数据、政策和资金流如何改变市场判断；重视数据口径、修订、机制与反证。选择对中文读者有实际理解价值的事件。",
+      "research_inputs": [],
+      "platform": "unbound",
+      "enabled": true,
+      "treatment": "source_grounded_translation_or_light_edit"
+    },
+    {
+      "id": "en_macro",
+      "name": "EN · Macro / Data Flow",
+      "language": "en",
+      "mandate": "Interpret macro data, policy and flows for English readers. Distinguish observations from mechanisms and examine revisions and disconfirming evidence. Cross-market research is an input, not a mandatory translation format.",
+      "research_inputs": [],
+      "platform": "unbound",
+      "enabled": false,
+      "treatment": "source_grounded_translation_or_light_edit"
+    },
+    {
+      "id": "zh_industry",
+      "name": "中文 · Stocks / Industry",
+      "language": "zh",
+      "mandate": "解释公司、财报、产品和产业链的具体机制与取舍；判断新证据怎样影响行业框架。观点力度取决于证据，不能冒充来源作者的持仓或经历。",
+      "research_inputs": [],
+      "platform": "unbound",
+      "enabled": true,
+      "treatment": "source_grounded_translation_or_light_edit"
+    },
+    {
+      "id": "en_industry",
+      "name": "EN · Stocks / Industry",
+      "language": "en",
+      "mandate": "Explain company economics, earnings, products and supply chains through concrete mechanisms, useful examples and tradeoffs. Develop views from evidence over time, without inheriting a donor's positions or personal history.",
+      "research_inputs": [],
+      "platform": "unbound",
+      "enabled": false,
+      "treatment": "source_grounded_translation_or_light_edit"
+    }
+  ],
+  "shared": {
+    "identity": "Owned account; provenance retained privately. Source opinions keep their strength and ownership; no invented holdings, biography or returns.",
+    "form": "No mandatory length or structure. Human-reviewed preferences may shape expression; do not imitate a named author.",
+    "languages": "Account determines target language. Chinese and English sources may enter only subscribed account universes; same-language light editing is allowed.",
+    "memory": "Only explicit human state adoption creates account memory. Drafts, machine passes and publication links do not.",
+    "publishing_enabled": false
+  }
+}

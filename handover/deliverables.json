@@ -1,0 +1,205 @@
+{
+  "generated_at": "2026-09-06T06:04:35.571821+00:00",
+  "repository_root": "/Users/fionama/Desktop/Crypto/Mango_Works/Finance_Distillation",
+  "new_handover_files": [
+    {
+      "path": "CLAUDE.md",
+      "bytes": 8173,
+      "sha256": "15ea3fc5ea181fbfdbb563bc3fec3623d45e422aec494211be1749784cb8f249"
+    },
+    {
+      "path": "docs/ACCEPTANCE_TESTS.md",
+      "bytes": 9383,
+      "sha256": "419cde685d72d5b4bcc9e04e31afa1af7927496c6b15613497113612616bbf24"
+    },
+    {
+      "path": "docs/CONTENT_PIPELINES.md",
+      "bytes": 5875,
+      "sha256": "31d23577c58f97491004bc7655e6347fd558b2bcc39c03ac11d2bfd2149febf3"
+    },
+    {
+      "path": "docs/CURRENT_STATE_AUDIT.md",
+      "bytes": 9867,
+      "sha256": "f7bed6a58e2b563a7b75a30b82ea2e06af10c9948637f3554ce7bc7f1cfdfa4e"
+    },
+    {
+      "path": "docs/DATA_LINEAGE.md",
+      "bytes": 4990,
+      "sha256": "bcc85bbff312026a4200f5a92315fe563fdc5c344275bd59c8f877774e0c7953"
+    },
+    {
+      "path": "docs/KNOWN_FAILURES.md",
+      "bytes": 9223,
+      "sha256": "5c344084b47956cd46631d8956a520d6ab11b0460de7a68ec61af00f350840ea"
+    },
+    {
+      "path": "docs/REPOSITORY_MAP.md",
+      "bytes": 8666,
+      "sha256": "91cb955190cda730b54eb6ead21f17a5c12c2094a39ba831137db8e5ab60459a"
+    },
+    {
+      "path": "docs/RUNBOOK.md",
+      "bytes": 10147,
+      "sha256": "d4acf61d32190d6f760b1d54483fc8203e2c6e6c7f09e6d06ea6643b187fddfa"
+    },
+    {
+      "path": "docs/VIDEO_TRANSCRIPT_PIPELINE.md",
+      "bytes": 4428,
+      "sha256": "96ff1e8f82cee75228b2eeee5cc89b1e7f1806183f0b2aaa333c911b67343153"
+    },
+    {
+      "path": "handover/REPORT.md",
+      "bytes": 6428,
+      "sha256": "79a8f1d6a5bb6a6970481250de4ff593e20586bfcd8d55754b6a24045c862f58"
+    },
+    {
+      "path": "handover/api-evidence.json",
+      "bytes": 6536,
+      "sha256": "030f8e584fbe0bc62ec55963563b0247d46fe54e08871febd1d8d1cc325b8bb7"
+    },
+    {
+      "path": "handover/build-tools/README.md",
+      "bytes": 242,
+      "sha256": "cf5f558875d10ac3ccb10e6e45ffbb9cafb4507bd5926ecbfaf2592a9ccd8aa1"
+    },
+    {
+      "path": "handover/build-tools/build_finance_handover.py",
+      "bytes": 25030,
+      "sha256": "7e11907ef75e69efd3b36e9b6e2856d5af9c1174bc1f8415cf660df5b310b40d"
+    },
+    {
+      "path": "handover/build-tools/finance_distillation_migrate.py",
+      "bytes": 4415,
+      "sha256": "d899e6d2ec9e144ef9deed3c46659c7114587f3c81f449a38a86d3116c6aefbe"
+    },
+    {
+      "path": "handover/build-tools/finance_handover_docs.py",
+      "bytes": 42143,
+      "sha256": "bc5d45ceed6548af1563740c30576206c333f614164638354d52f9e49fd5f976"
+    },
+    {
+      "path": "handover/build-tools/finance_handover_finalize.py",
+      "bytes": 9774,
+      "sha256": "fc695db4e94374351e1590a40b56f63867d0632f350b746c0d1688e4f206f956"
+    },
+    {
+      "path": "handover/build-tools/finance_handover_finish_docs.py",
+      "bytes": 31513,
+      "sha256": "b1e813de6b66e2ca18124754cfe08751037e232a774729497d401d2e9ef6dc0a"
+    },
+    {
+      "path": "handover/build-tools/finance_handover_outputs.json",
+      "bytes": 3036,
+      "sha256": "2ec2a9b6f35a941109f92ea1ee23a95740ea796b0cb9509078f04f4e5b491172"
+    },
+    {
+      "path": "handover/external-inputs.json",
+      "bytes": 3930,
+      "sha256": "e2c155b400bf0bf71fb35af08b6b940cad3486743f56f88d56a7a3e336752ebd"
+    },
+    {
+      "path": "handover/freeze.json",
+      "bytes": 909,
+      "sha256": "3bd8c736040fa2a1ee554274dfcd8d6305580fe1f782ab1cf0a0c94c68ca6c27"
+    },
+    {
+      "path": "handover/manifest.json",
+      "bytes": 22143,
+      "sha256": "6bed32e03b2feceb61dc2910592a262e01bc8a5d7afb3d71eaafa0cc62a29cfc"
+    },
+    {
+      "path": "handover/manifest.pre-verification.json",
+      "bytes": 20633,
+      "sha256": "53a32670e3d9cff1a266257bf6104f87163c78a6eeeb2938a426d12d8a181fb2"
+    },
+    {
+      "path": "handover/migration.json",
+      "bytes": 39995180,
+      "sha256": "eca68e799d7f9b184aa29cdd9e7a2e22821edb7045cd230586509558ae594202"
+    },
+    {
+      "path": "handover/requirements.freeze.txt",
+      "bytes": 2481,
+      "sha256": "4ff2f9acd6d49dc5b48e8972602782da64da41a7dbd60e01fbc4159fb14887e5"
+    },
+    {
+      "path": "handover/requirements/01-original-project-brief.txt",
+      "bytes": 36917,
+      "sha256": "8fe0151d4bdcaf214caa2e9838dfc5275f13aaf4bd01155139fad9853f2b40b1"
+    },
+    {
+      "path": "handover/requirements/02-visual-brief.txt",
+      "bytes": 14678,
+      "sha256": "9606c36a1c75fc07a6a7135501bffafec7ef2f63dc877c4d1afd479a49ae9c5f"
+    },
+    {
+      "path": "handover/requirements/03-real-vertical-slice-correction.txt",
+      "bytes": 14673,
+      "sha256": "90323f8530156973d3e6d569df126344201814529cd492ceb69f9ad027e164e2"
+    },
+    {
+      "path": "handover/requirements/04-handover-request.txt",
+      "bytes": 11031,
+      "sha256": "696088667b83ff123d1e79dbb73dd84bacc3aee2a37b4787cfdd3cc3f734394e"
+    },
+    {
+      "path": "handover/requirements/index.json",
+      "bytes": 1481,
+      "sha256": "af6ed56d2ba3fadd14e6b42e6758ccf9677abe4d5106d912446608ca6b15ad6e"
+    },
+    {
+      "path": "handover/runtime-versions.json",
+      "bytes": 4586,
+      "sha256": "f5af676360d0ce241a176abd36a6858df95b5e41c7da920f503c2fff38fd2659"
+    },
+    {
+      "path": "handover/state-snapshot.json",
+      "bytes": 49779,
+      "sha256": "33394287b1ea266bf504f5a758e92c928f32bdc4efa8574d9c1e0620a98667bf"
+    },
+    {
+      "path": "handover/test_invariants.py",
+      "bytes": 3976,
+      "sha256": "c305c353d3c1468f64a26a79426f35d409dbff790ebd7a115fe1b0387363f875"
+    },
+    {
+      "path": "handover/verification-initial-output.txt",
+      "bytes": 1423,
+      "sha256": "5024c5601f8e551e665aeaa8762c4d70e0b2f90f189df62be0d0652ad49e87f4"
+    },
+    {
+      "path": "handover/verification-initial.json",
+      "bytes": 67613,
+      "sha256": "8cc809bb3855f1252deacce1d547e198009aa674a946d12c04f65844c52143d3"
+    },
+    {
+      "path": "handover/verification-output.txt",
+      "bytes": 1423,
+      "sha256": "e8c7818028a1caa7b166c110a8aeba29525145cd9435efe0c7fcaffeb6d44a9a"
+    },
+    {
+      "path": "handover/verification.json",
+      "bytes": 67584,
+      "sha256": "603deaa767f868823ffef3f9561009959c9c3153b2637ba0f57fabc42c511687"
+    },
+    {
+      "path": "scripts/handover_checks.py",
+      "bytes": 11189,
+      "sha256": "df552509fe5da4a8e57e5be3e24cf9e379417a9e556af725b46ffeda5ee789c2"
+    },
+    {
+      "path": "scripts/verify_handover.py",
+      "bytes": 8156,
+      "sha256": "20ae136e67b220b94b116af8b3dc85f7355c7bd68544e305fa33d3319886b6bb"
+    },
+    {
+      "path": "scripts/verify_handover.sh",
+      "bytes": 427,
+      "sha256": "3dfdc4ac81f73c5da8b60cb3ead93774612c1c4659da778a29ace71eb710e7d5"
+    }
+  ],
+  "excluded_self": "handover/deliverables.json",
+  "business_files_modified_during_handover": [],
+  "migration_original_inventory": "handover/migration.json",
+  "final_verification_exit_code": 2
+}

@@ -1,0 +1,691 @@
+{
+  "id": "draft-49d0deefa027",
+  "persona_id": "industry",
+  "persona_name": "个股与产业链研究者",
+  "created_at": "2026-09-12T05:03:44.557561+00:00",
+  "source_id": "bls-employment-2026-08",
+  "source_version": "75155f58f5a995e3",
+  "method": "slot_constrained_v1",
+  "profile_channel": "v2",
+  "roles_run": "roles-20260907T113625",
+  "roles": {
+    "knowledge": "xingpt",
+    "reasoning": "phyrexni",
+    "language": "phyrexni",
+    "habit": "aleabitoreddit",
+    "visual": null
+  },
+  "exemplars_in_prompt": [
+    {
+      "post_id": "2087480675310129458",
+      "donor": "xingpt",
+      "chars": 700
+    },
+    {
+      "post_id": "2070484923430133821",
+      "donor": "xingpt",
+      "chars": 700
+    },
+    {
+      "post_id": "2069892511406100716",
+      "donor": "aleabitoreddit",
+      "chars": 476
+    },
+    {
+      "post_id": "2080027058063958323",
+      "donor": "aleabitoreddit",
+      "chars": 700
+    }
+  ],
+  "slots": [
+    {
+      "slot_id": "S01",
+      "fact_id": "ahe_mom",
+      "rendered": "平均时薪环比上涨 0.3%"
+    },
+    {
+      "slot_id": "S02",
+      "fact_id": "ahe_yoy",
+      "rendered": "平均时薪同比上涨 3.1%"
+    },
+    {
+      "slot_id": "S03",
+      "fact_id": "food",
+      "rendered": "餐饮与酒吧就业增加 5.9 万人"
+    },
+    {
+      "slot_id": "S04",
+      "fact_id": "health",
+      "rendered": "医疗保健就业增加 1.3 万人"
+    },
+    {
+      "slot_id": "S05",
+      "fact_id": "information",
+      "rendered": "信息业就业减少 2.3 万人"
+    },
+    {
+      "slot_id": "S06",
+      "fact_id": "local_education",
+      "rendered": "地方政府教育就业增加 4.2 万人"
+    },
+    {
+      "slot_id": "S07",
+      "fact_id": "part_time_decline",
+      "rendered": "因经济原因从事兼职的人数减少 41.4 万人"
+    },
+    {
+      "slot_id": "S08",
+      "fact_id": "participation",
+      "rendered": "劳动参与率为 61.6%"
+    },
+    {
+      "slot_id": "S09",
+      "fact_id": "participation_since_jan",
+      "rendered": "劳动参与率较一月下降 0.5 个百分点"
+    },
+    {
+      "slot_id": "S10",
+      "fact_id": "payroll",
+      "rendered": "8 月非农就业增加 16.2 万人"
+    },
+    {
+      "slot_id": "S11",
+      "fact_id": "payroll_12m_mean",
+      "rendered": "此前 12 个月非农月均增加 3.1 万人"
+    },
+    {
+      "slot_id": "S12",
+      "fact_id": "revision_total",
+      "rendered": "前两个月合计上修 5.5 万人"
+    },
+    {
+      "slot_id": "S13",
+      "fact_id": "unemployment_rate",
+      "rendered": "失业率为 4.1%"
+    }
+  ],
+  "run_status": "completed",
+  "qa_status": "passed",
+  "content_status": "blocked",
+  "attempts": [
+    {
+      "attempt": 1,
+      "run_id": "local-9b9cd368406c400b",
+      "latency_s": 26.04,
+      "usage": {
+        "prompt_tokens": 1779,
+        "completion_tokens": 760,
+        "total_tokens": 2539,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "repaired_slots": [],
+      "slot_coverage": {
+        "placed": 10,
+        "total": 13,
+        "missing_slot_ids": [
+          "S03",
+          "S06",
+          "S08"
+        ],
+        "wrong_frame": [],
+        "coverage": 0.7692,
+        "source": "substitution record, not string matching"
+      },
+      "form_status": "failed",
+      "leaks": [],
+      "style_passed": true,
+      "style_misses": [],
+      "qa_status": "failed",
+      "qa_blocking": 1,
+      "score": 102,
+      "qa_codes": [
+        "must_include_missing"
+      ]
+    },
+    {
+      "attempt": 2,
+      "run_id": "local-432ff5bdd9ec45b0",
+      "latency_s": 7.78,
+      "usage": {
+        "prompt_tokens": 805,
+        "completion_tokens": 187,
+        "total_tokens": 992,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "repaired_slots": [
+        "S03",
+        "S06",
+        "S08"
+      ],
+      "slot_coverage": {
+        "placed": 13,
+        "total": 13,
+        "missing_slot_ids": [],
+        "wrong_frame": [],
+        "coverage": 1.0,
+        "source": "substitution record, not string matching"
+      },
+      "form_status": "failed",
+      "leaks": [],
+      "style_passed": true,
+      "style_misses": [],
+      "qa_status": "passed",
+      "qa_blocking": 0,
+      "score": 142,
+      "qa_codes": []
+    },
+    {
+      "attempt": 3,
+      "run_id": "local-6c7a45465f524d08",
+      "latency_s": 26.99,
+      "usage": {
+        "prompt_tokens": 1818,
+        "completion_tokens": 763,
+        "total_tokens": 2581,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "repaired_slots": [],
+      "slot_coverage": {
+        "placed": 11,
+        "total": 13,
+        "missing_slot_ids": [
+          "S06",
+          "S08"
+        ],
+        "wrong_frame": [],
+        "coverage": 0.8462,
+        "source": "substitution record, not string matching"
+      },
+      "form_status": "passed",
+      "leaks": [],
+      "style_passed": true,
+      "style_misses": [],
+      "qa_status": "failed",
+      "qa_blocking": 1,
+      "score": 117,
+      "qa_codes": [
+        "must_include_missing"
+      ]
+    },
+    {
+      "attempt": 4,
+      "run_id": "local-67022da372804647",
+      "latency_s": 26.44,
+      "usage": {
+        "prompt_tokens": 1802,
+        "completion_tokens": 755,
+        "total_tokens": 2557,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "repaired_slots": [],
+      "slot_coverage": {
+        "placed": 11,
+        "total": 13,
+        "missing_slot_ids": [
+          "S06",
+          "S08"
+        ],
+        "wrong_frame": [],
+        "coverage": 0.8462,
+        "source": "substitution record, not string matching"
+      },
+      "form_status": "passed",
+      "leaks": [],
+      "style_passed": true,
+      "style_misses": [],
+      "qa_status": "failed",
+      "qa_blocking": 1,
+      "score": 117,
+      "qa_codes": [
+        "must_include_missing"
+      ]
+    }
+  ],
+  "best_attempt": 2,
+  "title": "就业数据解读：工资与工时背后的结构性信号",
+  "text": "我认为当前就业市场呈现明显的结构性分化特征，而非全面过热或衰退。\n\n非农就业数据上修 5.5 万人，显示前期统计可能存在低估。\n\n将 8 月非农就业增加 16.2 万人与过去 12 个月月均 3.1 万人相比，近期反弹力度显著。\n\n餐饮酒吧与医疗保健分别增加 5.9 万和 1.3 万人，而信息业却减少 2.3 万人。\n\n平均时薪环比上涨 0.3%，但平均时薪同比上涨 3.1% 更值得警惕，暗示企业可能通过提薪而非加班来应对。\n\n因经济原因兼职人数减少 41.4 万人，说明部分岗位已无法维持弹性用工模式。\n\n然而劳动参与率较一月下降 0.5 个百分点，且失业率为 4.1%，这削弱了单纯看就业增加的乐观情绪。\n\n我维持谨慎判断，因为工资涨幅远超通胀预期，且兼职减少意味着劳动力市场韧性下降。\n\n其中，餐饮酒吧与医疗保健分别增加 5.9 万人和 1.3 万人，而信息业减少 2.3 万人，反映出行业间显著的结构性流动，岗位从信息业向餐饮及医疗领域转移。\n\n此外，地方政府教育领域就业增加 4.2 万人，进一步印证了公共部门在吸纳劳动力方面的韧性。\n\n尽管上述就业数据亮眼，但劳动参与率为 61.6%，且较一月下降 0.5 个百分点，表明潜在劳动力供给正在收缩，限制了就业增长的可持续性。\n\n若私人非农平均周工时变化 0.1 小时显示持续下降，我将修正对劳动力供给的乐观预期。\n\n接下来我会密切关注非农就业数据中的行业细分变化，特别是技术服务业的招聘动态。",
+  "sentence_to_source_ledger": [
+    {
+      "sentence_id": "s1",
+      "text": "我认为当前就业市场呈现明显的结构性分化特征，而非全面过热或衰退。",
+      "kind": "interpretation",
+      "fact_ids": [],
+      "slot_ids": [],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s2",
+      "text": "非农就业数据上修 5.5 万人，显示前期统计可能存在低估。",
+      "kind": "fact",
+      "fact_ids": [
+        "revision_total"
+      ],
+      "slot_ids": [
+        "S12"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [
+        "B0052"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s3",
+      "text": "将 8 月非农就业增加 16.2 万人与过去 12 个月月均 3.1 万人相比，近期反弹力度显著。",
+      "kind": "interpretation",
+      "fact_ids": [
+        "payroll",
+        "payroll_12m_mean"
+      ],
+      "slot_ids": [
+        "S10",
+        "S11"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [
+        "B0012",
+        "B0026",
+        "B0027"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s4",
+      "text": "餐饮酒吧与医疗保健分别增加 5.9 万和 1.3 万人，而信息业却减少 2.3 万人。",
+      "kind": "fact",
+      "fact_ids": [
+        "health",
+        "information"
+      ],
+      "slot_ids": [
+        "S04",
+        "S05"
+      ],
+      "model_written_digits": [
+        "5.9 万"
+      ],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [
+        "B0036",
+        "B0039"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s5",
+      "text": "平均时薪环比上涨 0.3%，但平均时薪同比上涨 3.1% 更值得警惕，暗示企业可能通过提薪而非加班来应对。",
+      "kind": "interpretation",
+      "fact_ids": [
+        "ahe_mom",
+        "ahe_yoy"
+      ],
+      "slot_ids": [
+        "S01",
+        "S02"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [
+        "B0050"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s6",
+      "text": "因经济原因兼职人数减少 41.4 万人，说明部分岗位已无法维持弹性用工模式。",
+      "kind": "fact",
+      "fact_ids": [
+        "part_time_decline"
+      ],
+      "slot_ids": [
+        "S07"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [
+        "B0022"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s7",
+      "text": "然而劳动参与率较一月下降 0.5 个百分点，且失业率为 4.1%，这削弱了单纯看就业增加的乐观情绪。",
+      "kind": "interpretation",
+      "fact_ids": [
+        "participation_since_jan",
+        "unemployment_rate"
+      ],
+      "slot_ids": [
+        "S09",
+        "S13"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [
+        "B0012",
+        "B0021"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s8",
+      "text": "我维持谨慎判断，因为工资涨幅远超通胀预期，且兼职减少意味着劳动力市场韧性下降。",
+      "kind": "interpretation",
+      "fact_ids": [],
+      "slot_ids": [],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s9",
+      "text": "其中，餐饮酒吧与医疗保健分别增加 5.9 万人和 1.3 万人，而信息业减少 2.3 万人，反映出行业间显著的结构性流动，岗位从信息业向餐饮及医疗领域转移。",
+      "kind": "fact",
+      "fact_ids": [
+        "food",
+        "health",
+        "information"
+      ],
+      "slot_ids": [
+        "S03",
+        "S04",
+        "S05"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [
+        "B0029",
+        "B0036",
+        "B0039"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s10",
+      "text": "此外，地方政府教育领域就业增加 4.2 万人，进一步印证了公共部门在吸纳劳动力方面的韧性。",
+      "kind": "fact",
+      "fact_ids": [
+        "local_education"
+      ],
+      "slot_ids": [
+        "S06"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [
+        "B0031"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s11",
+      "text": "尽管上述就业数据亮眼，但劳动参与率为 61.6%，且较一月下降 0.5 个百分点，表明潜在劳动力供给正在收缩，限制了就业增长的可持续性。",
+      "kind": "fact",
+      "fact_ids": [
+        "participation",
+        "participation_since_jan"
+      ],
+      "slot_ids": [
+        "S08",
+        "S09"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [
+        "B0021"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s12",
+      "text": "若私人非农平均周工时变化 0.1 小时显示持续下降，我将修正对劳动力供给的乐观预期。",
+      "kind": "condition",
+      "fact_ids": [],
+      "slot_ids": [],
+      "model_written_digits": [],
+      "proposed_thresholds": [
+        "0.1 小时"
+      ],
+      "misframed_values": [],
+      "source_block_ids": [],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s13",
+      "text": "接下来我会密切关注非农就业数据中的行业细分变化，特别是技术服务业的招聘动态。",
+      "kind": "interpretation",
+      "fact_ids": [],
+      "slot_ids": [],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    }
+  ],
+  "slot_placement": {
+    "placed": 13,
+    "total": 13,
+    "missing_slot_ids": [],
+    "wrong_frame": [],
+    "coverage": 1.0,
+    "source": "substitution record, not string matching"
+  },
+  "facts_placed_by_code": [
+    "ahe_mom",
+    "ahe_yoy",
+    "food",
+    "health",
+    "information",
+    "local_education",
+    "part_time_decline",
+    "participation",
+    "participation_since_jan",
+    "payroll",
+    "payroll_12m_mean",
+    "revision_total",
+    "unemployment_rate"
+  ],
+  "qa": {
+    "findings": [],
+    "metrics": {
+      "claim_support_coverage": 0.6923,
+      "unsupported_claim_rate": 0.0,
+      "must_include_coverage": 1.0,
+      "plan_required_coverage": 1.0,
+      "all_fact_coverage": 0.2549
+    },
+    "status": {
+      "run_status": "completed",
+      "qa_status": "passed",
+      "content_status": "ready_for_pipeline",
+      "blocking_count": 0,
+      "warning_count": 0,
+      "human_review": "not_required_by_design; the target pipeline is automated"
+    },
+    "gate_version": "qa-gates-v2",
+    "layers_run": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "form": {
+    "findings": [
+      {
+        "code": "model_wrote_a_number",
+        "severity": "blocking",
+        "detail": "sentences where the model typed a figure instead of using a placeholder: ['s4']. Every number must come from the fact slots."
+      },
+      {
+        "code": "author_proposed_threshold",
+        "severity": "warning",
+        "detail": "forward-looking thresholds stated by the writer, not drawn from the fact pack: [{'sentence_id': 's12', 'values': ['0.1 小时']}]"
+      }
+    ],
+    "metrics": {
+      "sentences": 13,
+      "bare_slot_sentences": 0,
+      "bare_ratio": 0.0,
+      "interpretation_ratio": 0.5385,
+      "mean_sentence_chars": 46.5,
+      "sentence_chars_min_max": [
+        29,
+        78
+      ],
+      "repeated_fact_strings": 0,
+      "restated_sentences": 0,
+      "author_proposed_thresholds": 1,
+      "misframed_values": 0
+    },
+    "form_status": "failed",
+    "blocking_count": 1,
+    "check_version": "form-v4"
+  },
+  "language_donor": "phyrexni",
+  "leak_check": {
+    "findings": [],
+    "blocking_count": 0,
+    "status": "passed",
+    "check_version": "leak-v1"
+  },
+  "style_check": {
+    "checked": true,
+    "donor": "phyrexni",
+    "features": [
+      {
+        "feature": "sentence_mean",
+        "got": 45.4615,
+        "band": [
+          40.3797,
+          100.3333
+        ],
+        "allowed": [
+          19.3959,
+          121.3171
+        ],
+        "ok": true
+      },
+      {
+        "feature": "sentence_p25",
+        "got": 37.0,
+        "band": [
+          23.05,
+          89.2
+        ],
+        "allowed": [
+          -0.1025,
+          112.3525
+        ],
+        "ok": true
+      },
+      {
+        "feature": "long_argument_rate",
+        "got": 0.0,
+        "band": [
+          0.0,
+          0.3333
+        ],
+        "allowed": [
+          -0.1167,
+          0.45
+        ],
+        "ok": true
+      },
+      {
+        "feature": "fragment_rate",
+        "got": 0.0,
+        "band": [
+          0.0,
+          0.25
+        ],
+        "allowed": [
+          -0.0875,
+          0.3375
+        ],
+        "ok": true
+      }
+    ],
+    "reported_not_gated": {
+      "sentence_std": 13.2061,
+      "first_person_rate": 0.0064,
+      "colon_rate": 0.0,
+      "question_rate": 0.0
+    },
+    "donor_bands_for_reported": {
+      "sentence_std": {
+        "p10": 13.825305369292424,
+        "p50": 25.21284394906691,
+        "p90": 41.44680023868771
+      },
+      "first_person_rate": {
+        "p10": 0.0,
+        "p50": 0.0038461538461538464,
+        "p90": 0.02094870025304808
+      },
+      "colon_rate": {
+        "p10": 0.0,
+        "p50": 0.0,
+        "p90": 0.0022473701782448592
+      },
+      "question_rate": {
+        "p10": 0.0,
+        "p50": 0.0,
+        "p90": 0.0
+      }
+    },
+    "misses": [],
+    "passed": true
+  },
+  "form_status": "failed",
+  "finished_at": "2026-09-12T05:05:11.840660+00:00",
+  "delivery": {
+    "run_status": "completed",
+    "qa_status": "passed",
+    "content_status": "blocked",
+    "reason": "content_status=blocked",
+    "deliverable": false
+  },
+  "human_review": "none"
+}

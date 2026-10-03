@@ -1,0 +1,187 @@
+{
+  "donor": "globalmktobserv",
+  "sample_n": 10,
+  "features": [
+    {
+      "feature": "macro_liquidity",
+      "support_count": 3,
+      "support_post_ids": [
+        "2096094239151079652",
+        "2096202939534590019",
+        "2096259823394275657"
+      ],
+      "interpretation": "observed textual pattern; not verified expertise"
+    },
+    {
+      "feature": "equity_industry",
+      "support_count": 2,
+      "support_post_ids": [
+        "2095895160487891097",
+        "2096202939534590019"
+      ],
+      "interpretation": "observed textual pattern; not verified expertise"
+    },
+    {
+      "feature": "risk_process",
+      "support_count": 3,
+      "support_post_ids": [
+        "2095895160487891097",
+        "2095921082796569045",
+        "2096094239151079652"
+      ],
+      "interpretation": "observed textual pattern; not verified expertise"
+    },
+    {
+      "feature": "conditional_reasoning",
+      "support_count": 2,
+      "support_post_ids": [
+        "2095895160487891097",
+        "2095921082796569045"
+      ],
+      "interpretation": "observed textual pattern; not verified expertise"
+    }
+  ],
+  "frequent_entities": [
+    {
+      "entity": "$NVDA",
+      "count": 1,
+      "post_ids": [
+        "2095908835479191951"
+      ]
+    },
+    {
+      "entity": "$LULU",
+      "count": 1,
+      "post_ids": [
+        "2096202939534590019"
+      ]
+    },
+    {
+      "entity": "$AVGO",
+      "count": 1,
+      "post_ids": [
+        "2096202939534590019"
+      ]
+    }
+  ],
+  "observed_sources": [],
+  "framework_status": "hypotheses derived from observable language; model enrichment separate",
+  "claims_verified_or_falsified": null,
+  "knowledge_boundary": "not inferred beyond linked samples",
+  "excluded_migration": [
+    "advertisements",
+    "self-reported returns",
+    "unsupported certainty",
+    "signature expressions"
+  ],
+  "time_horizon": {
+    "short_term_post_ids": [],
+    "long_term_post_ids": []
+  },
+  "risk_post_ids": [
+    "2095895160487891097",
+    "2095921082796569045",
+    "2096094239151079652"
+  ],
+  "causal_candidate_post_ids": [
+    "2095895160487891097",
+    "2095921082796569045",
+    "2096202939534590019"
+  ],
+  "model_enrichment": {
+    "status": "no_supported_recurring_framework",
+    "frameworks": [],
+    "candidate_frameworks": [
+      {
+        "claim": "Dominant customer concentration risk affecting margins",
+        "mechanism": "The concentration of customers in the tech sector and AI-related products and services leads to higher risk and potentially lower margins due to the dominance of a few large clients. This concentration can also lead to pricing pressures as the company tries to maintain market share.",
+        "boundary": "This reasoning is specific to the software category mentioned and does not apply to other industries or sectors.",
+        "evidence": [
+          {
+            "post_id": "2095895160487891097",
+            "evidence_id": "S1",
+            "quote": "Ramp notes that this is a level of concentration risk unseen in any other software category it tracks, with the dominant customers skewing heavily toward the tech sector and AI-related products and services."
+          },
+          {
+            "post_id": "2095932141473349794",
+            "evidence_id": "S3",
+            "quote": "The firm guided Q3 gross margin to just 73.5-74.5%, missing analyst estimates of 75% and some buy-side estimates as high as 76.5%."
+          }
+        ]
+      }
+    ],
+    "run_id": "local-0b1b1968f5cf4ff5",
+    "verifier_run_id": "local-8d88f914ce244a9a",
+    "model_role": "comparison",
+    "selected_post_ids": [
+      "2095895160487891097",
+      "2095908835479191951",
+      "2095932141473349794",
+      "2095946014301552657",
+      "2095957158776938683",
+      "2096094239151079652",
+      "2096230114883146120",
+      "2096259823394275657"
+    ],
+    "selected_excerpts": [
+      {
+        "evidence_id": "S1",
+        "post_id": "2095895160487891097",
+        "excerpt": "Ramp notes that this is a level of concentration risk unseen in any other software category it tracks, with the dominant customers skewing heavily toward the tech sector and AI-related products and services."
+      },
+      {
+        "evidence_id": "S2",
+        "post_id": "2095908835479191951",
+        "excerpt": "Nvidia, $NVDA, shares are up just ~20% over the last 12 months, the weakest performer among a group of AI-linked indices tracked by Bloomberg."
+      },
+      {
+        "evidence_id": "S3",
+        "post_id": "2095932141473349794",
+        "excerpt": "The firm guided Q3 gross margin to just 73.5-74.5%, missing analyst estimates of 75% and some buy-side estimates as high as 76.5%."
+      },
+      {
+        "evidence_id": "S4",
+        "post_id": "2095946014301552657",
+        "excerpt": "Meanwhile, deposits at South Korea’s five largest commercial banks have surged above ~$740 billion for the first time, with ~$41.3 billion flowing into term deposits during July and August."
+      },
+      {
+        "evidence_id": "S5",
+        "post_id": "2095957158776938683",
+        "excerpt": "Combined trading value across leveraged ETFs tracking Samsung and SK Hynix has COLLAPSED -95% from its June peak of ~$55 billion to its lowest on record."
+      },
+      {
+        "evidence_id": "S6",
+        "post_id": "2096094239151079652",
+        "excerpt": "The BOJ is reportedly leaning toward a 25-basis-point rate hike at its Sept 18 meeting, with inflation risks remaining."
+      },
+      {
+        "evidence_id": "S7",
+        "post_id": "2096230114883146120",
+        "excerpt": "Global government bond yields have risen +17 basis points over the past 20 trading days.."
+      },
+      {
+        "evidence_id": "S8",
+        "post_id": "2096259823394275657",
+        "excerpt": "The 10-year Treasury yield is testing a key technical level for equities, having broken above 4.75%, its highest level since January 2025."
+      }
+    ],
+    "sample_n": 8,
+    "selection": "evenly spaced chronological substantive posts; exclude temporal author-test posts; prefer causal paragraphs",
+    "corpus_sha256": "0ae5022f72f416571150f410b2219413c50c83bbcc6c3b6c9a510024afa0fe89",
+    "rejections": [],
+    "validation_scope": "Exact source membership and >=2 distinct posts; any added neighbors use frozen embedding retrieval with thread/date separation. Same-model 0/1 support is a diagnostic, not human validation or verified expertise.",
+    "support_diagnostics_v3": [
+      {
+        "claim": "Dominant customer concentration risk affecting margins",
+        "run_id": "local-93a3a5b90a0b4fad",
+        "response": "0",
+        "accepted": false,
+        "neighbor_retrieval": [],
+        "evidence_ids": [
+          "2095895160487891097",
+          "2095932141473349794"
+        ]
+      }
+    ]
+  }
+}

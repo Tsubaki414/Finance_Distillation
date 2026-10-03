@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Content Desk · 内容审核</title><link rel="stylesheet" href="/assets/content-dashboard.css"></head>
+<body><div class="desk">
+<aside class="sidebar"><a class="brand" href="/content-dashboard">Content Desk<span>跨语言内容工作台</span></a>
+<nav aria-label="工作区"><a class="nav" href="/account-intelligence">账号判断与事件工作台 →</a><button class="nav active" data-view="drafts">稿件审核 <span id="draft-nav-count"></span></button><button class="nav" data-view="sources">Morris 来源库 <span id="source-nav-count"></span></button><button class="nav" data-view="runs">运行记录</button></nav>
+<div class="account-heading">目标账号 <span>5</span></div><div id="accounts" aria-label="按账号筛选"></div>
+<div class="sidebar-note">原文优先，人工定稿。<br>五个逻辑账号，尚未绑定平台。<br><strong>自动发布关闭</strong></div></aside>
+<main><header class="page-header"><div><p id="view-kicker">REVIEW WORKSPACE</p><h1 id="view-title">值得留下的内容</h1><p id="subtitle">对照原文与成稿，保留判断，也保留人的表达。</p></div><button id="refresh" class="quiet">刷新数据</button></header>
+<div class="metrics" id="metrics" aria-live="polite"></div>
+<div class="toolbar"><label class="search"><span class="sr-only">搜索作者或内容</span><input id="search" type="search" placeholder="搜索作者、原文或案例"></label><label>状态 <select id="status-filter"><option value="all">全部</option><option value="pending">待人审</option><option value="risk">有待处理风险</option><option value="draft_ready">机器通过</option><option value="blocked">运行受阻</option><option value="needs_source">缺少上下文</option></select></label><button id="clear-account" class="quiet" hidden>清除账号筛选</button></div>
+<p id="message" role="status" aria-live="polite"></p>
+<div class="workspace"><section class="item-list" aria-label="来源与稿件列表"><div class="list-heading"><span id="list-title">候选稿件</span><span id="list-count"></span></div><div id="items"></div></section><section id="reader" class="reader" aria-label="内容详情"><div class="empty"><h2>选择一篇内容</h2><p>原文、选段、编辑指导和风险会在这里显示。</p></div></section></div>
+<footer>机器保真检查与人工编辑评价分别保存。来源与检查记录不会自动写进正文。</footer></main></div><script src="/assets/content-dashboard.js" defer></script></body></html>

@@ -1,0 +1,620 @@
+{
+  "validity": "invalid",
+  "invalidated_at": "2026-09-06T11:06:34.927586+00:00",
+  "invalidation_reason": "Basis is topic_clusters/clusters.json (run ml-20260906T025040) whose silhouette_cosine is 0.0719 - effectively no cluster structure, so donor complementarity/redundancy derived from it is not interpretable. Superseded by workstream T1.3; see WORKSTREAMS.md W0.4.",
+  "consumers_verified_by_grep": {
+    "written_by": "scripts/run_ml.py:173",
+    "read_by": [
+      "backend/app.py:69 /api/experiments (frontend display only)"
+    ],
+    "does_not_feed": "evidence_loop/experiments/routing.json donor selection - that uses retrieval cosine + topic incidence in prepare_experiments.py, not this matrix"
+  },
+  "must_not_be_used_for": [
+    "donor complementarity claims",
+    "ablation design",
+    "any UI statement of donor compatibility"
+  ],
+  "original_content_preserved": true,
+  "pairs": [
+    {
+      "donor_a": "phyrexni",
+      "donor_b": "qinbafrank",
+      "topic_js_distance": 0.4672920916333675,
+      "mean_cross_post_dot": 0.4013035297393799,
+      "shared_resolved_urls": [],
+      "sufficient_samples": true,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "phyrexni",
+      "donor_b": "xingpt",
+      "topic_js_distance": 0.4717313499650249,
+      "mean_cross_post_dot": 0.36307820677757263,
+      "shared_resolved_urls": [
+        "https://www.youtube.com/watch"
+      ],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "phyrexni",
+      "donor_b": "rjccapital",
+      "topic_js_distance": 0.6082830790802202,
+      "mean_cross_post_dot": 0.2518775463104248,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "phyrexni",
+      "donor_b": "tradexwhisperer",
+      "topic_js_distance": 0.7601192051219126,
+      "mean_cross_post_dot": 0.27426767349243164,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "qinbafrank",
+      "donor_b": "xingpt",
+      "topic_js_distance": 0.18120303050680614,
+      "mean_cross_post_dot": 0.40371012687683105,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "qinbafrank",
+      "donor_b": "rjccapital",
+      "topic_js_distance": 0.5888232203009071,
+      "mean_cross_post_dot": 0.26837214827537537,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "qinbafrank",
+      "donor_b": "tradexwhisperer",
+      "topic_js_distance": 0.5591407547719746,
+      "mean_cross_post_dot": 0.34064802527427673,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "kovainvest",
+      "donor_b": "phyrexni",
+      "topic_js_distance": 0.6116776170604227,
+      "mean_cross_post_dot": 0.2724485397338867,
+      "shared_resolved_urls": [
+        "https://www.youtube.com/watch"
+      ],
+      "sufficient_samples": true,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "kovainvest",
+      "donor_b": "qinbafrank",
+      "topic_js_distance": 0.5037782474315238,
+      "mean_cross_post_dot": 0.287913978099823,
+      "shared_resolved_urls": [],
+      "sufficient_samples": true,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "kovainvest",
+      "donor_b": "michael_qqq2025",
+      "topic_js_distance": 0.332458286491746,
+      "mean_cross_post_dot": 0.2863948941230774,
+      "shared_resolved_urls": [],
+      "sufficient_samples": true,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "kovainvest",
+      "donor_b": "xingpt",
+      "topic_js_distance": 0.38921548270417505,
+      "mean_cross_post_dot": 0.27766603231430054,
+      "shared_resolved_urls": [
+        "https://www.youtube.com/watch"
+      ],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "kovainvest",
+      "donor_b": "rjccapital",
+      "topic_js_distance": 0.5832770793723477,
+      "mean_cross_post_dot": 0.18677814304828644,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "kovainvest",
+      "donor_b": "tradexwhisperer",
+      "topic_js_distance": 0.5316077907531513,
+      "mean_cross_post_dot": 0.24249212443828583,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "aleabitoreddit",
+      "donor_b": "phyrexni",
+      "topic_js_distance": 0.576177308791984,
+      "mean_cross_post_dot": 0.2929585576057434,
+      "shared_resolved_urls": [],
+      "sufficient_samples": true,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "aleabitoreddit",
+      "donor_b": "qinbafrank",
+      "topic_js_distance": 0.3625433287112844,
+      "mean_cross_post_dot": 0.35155969858169556,
+      "shared_resolved_urls": [],
+      "sufficient_samples": true,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "aleabitoreddit",
+      "donor_b": "kovainvest",
+      "topic_js_distance": 0.507674790552236,
+      "mean_cross_post_dot": 0.2353135347366333,
+      "shared_resolved_urls": [],
+      "sufficient_samples": true,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "aleabitoreddit",
+      "donor_b": "michael_qqq2025",
+      "topic_js_distance": 0.4793308260846662,
+      "mean_cross_post_dot": 0.2973048985004425,
+      "shared_resolved_urls": [],
+      "sufficient_samples": true,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "aleabitoreddit",
+      "donor_b": "xingpt",
+      "topic_js_distance": 0.34023230315784236,
+      "mean_cross_post_dot": 0.31739670038223267,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "aleabitoreddit",
+      "donor_b": "beth_kindig",
+      "topic_js_distance": 0.25270451196399324,
+      "mean_cross_post_dot": 0.24239292740821838,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "aleabitoreddit",
+      "donor_b": "citrini",
+      "topic_js_distance": 0.6397656075230509,
+      "mean_cross_post_dot": 0.24323371052742004,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "aleabitoreddit",
+      "donor_b": "ericjackson",
+      "topic_js_distance": 0.6907353944827004,
+      "mean_cross_post_dot": 0.2263484001159668,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "aleabitoreddit",
+      "donor_b": "rjccapital",
+      "topic_js_distance": 0.4125100589306634,
+      "mean_cross_post_dot": 0.22459813952445984,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "aleabitoreddit",
+      "donor_b": "globalmktobserv",
+      "topic_js_distance": 0.5157364591867423,
+      "mean_cross_post_dot": 0.3108443319797516,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "aleabitoreddit",
+      "donor_b": "tradexwhisperer",
+      "topic_js_distance": 0.3776031397593114,
+      "mean_cross_post_dot": 0.3178139925003052,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "michael_qqq2025",
+      "donor_b": "phyrexni",
+      "topic_js_distance": 0.5167141959852198,
+      "mean_cross_post_dot": 0.3609638512134552,
+      "shared_resolved_urls": [],
+      "sufficient_samples": true,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "michael_qqq2025",
+      "donor_b": "qinbafrank",
+      "topic_js_distance": 0.33186013557119504,
+      "mean_cross_post_dot": 0.3840674161911011,
+      "shared_resolved_urls": [],
+      "sufficient_samples": true,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "michael_qqq2025",
+      "donor_b": "xingpt",
+      "topic_js_distance": 0.28325210706644877,
+      "mean_cross_post_dot": 0.356281042098999,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "michael_qqq2025",
+      "donor_b": "rjccapital",
+      "topic_js_distance": 0.6378416596245461,
+      "mean_cross_post_dot": 0.23321737349033356,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "michael_qqq2025",
+      "donor_b": "tradexwhisperer",
+      "topic_js_distance": 0.5320830838135385,
+      "mean_cross_post_dot": 0.3061206042766571,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "beth_kindig",
+      "donor_b": "phyrexni",
+      "topic_js_distance": 0.6576346495513302,
+      "mean_cross_post_dot": 0.19374749064445496,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "beth_kindig",
+      "donor_b": "qinbafrank",
+      "topic_js_distance": 0.45152783617115555,
+      "mean_cross_post_dot": 0.2507341504096985,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "beth_kindig",
+      "donor_b": "kovainvest",
+      "topic_js_distance": 0.6115869677588334,
+      "mean_cross_post_dot": 0.14235520362854004,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "beth_kindig",
+      "donor_b": "michael_qqq2025",
+      "topic_js_distance": 0.6056220734850172,
+      "mean_cross_post_dot": 0.18983779847621918,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "beth_kindig",
+      "donor_b": "xingpt",
+      "topic_js_distance": 0.4602690575064928,
+      "mean_cross_post_dot": 0.22143317759037018,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "beth_kindig",
+      "donor_b": "citrini",
+      "topic_js_distance": 0.497354430178124,
+      "mean_cross_post_dot": 0.22050684690475464,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "beth_kindig",
+      "donor_b": "ericjackson",
+      "topic_js_distance": 0.673730399214924,
+      "mean_cross_post_dot": 0.18547464907169342,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "beth_kindig",
+      "donor_b": "rjccapital",
+      "topic_js_distance": 0.47246664962212426,
+      "mean_cross_post_dot": 0.18477973341941833,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "beth_kindig",
+      "donor_b": "globalmktobserv",
+      "topic_js_distance": 0.5386252271649389,
+      "mean_cross_post_dot": 0.25177234411239624,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "beth_kindig",
+      "donor_b": "tradexwhisperer",
+      "topic_js_distance": 0.4310966589309712,
+      "mean_cross_post_dot": 0.25507599115371704,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "citrini",
+      "donor_b": "phyrexni",
+      "topic_js_distance": 0.793016407152511,
+      "mean_cross_post_dot": 0.18572160601615906,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "citrini",
+      "donor_b": "qinbafrank",
+      "topic_js_distance": 0.614674350789901,
+      "mean_cross_post_dot": 0.31774958968162537,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "citrini",
+      "donor_b": "kovainvest",
+      "topic_js_distance": 0.7384501417545049,
+      "mean_cross_post_dot": 0.1533273607492447,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "citrini",
+      "donor_b": "michael_qqq2025",
+      "topic_js_distance": 0.7473430541322402,
+      "mean_cross_post_dot": 0.20764555037021637,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "citrini",
+      "donor_b": "xingpt",
+      "topic_js_distance": 0.6729233923845336,
+      "mean_cross_post_dot": 0.2620050609111786,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "citrini",
+      "donor_b": "ericjackson",
+      "topic_js_distance": 0.8325546009994333,
+      "mean_cross_post_dot": 0.013147622346878052,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "citrini",
+      "donor_b": "rjccapital",
+      "topic_js_distance": 0.8325545893932472,
+      "mean_cross_post_dot": 0.16761836409568787,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "citrini",
+      "donor_b": "globalmktobserv",
+      "topic_js_distance": 0.5848200219967437,
+      "mean_cross_post_dot": 0.19752876460552216,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "citrini",
+      "donor_b": "tradexwhisperer",
+      "topic_js_distance": 0.6167622269428127,
+      "mean_cross_post_dot": 0.24516738951206207,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "ericjackson",
+      "donor_b": "phyrexni",
+      "topic_js_distance": 0.5902794527186925,
+      "mean_cross_post_dot": 0.24260154366493225,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "ericjackson",
+      "donor_b": "qinbafrank",
+      "topic_js_distance": 0.7024428835044729,
+      "mean_cross_post_dot": 0.224073588848114,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "ericjackson",
+      "donor_b": "kovainvest",
+      "topic_js_distance": 0.7667912211630944,
+      "mean_cross_post_dot": 0.16644710302352905,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "ericjackson",
+      "donor_b": "michael_qqq2025",
+      "topic_js_distance": 0.726944215588412,
+      "mean_cross_post_dot": 0.19341661036014557,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "ericjackson",
+      "donor_b": "xingpt",
+      "topic_js_distance": 0.6633458652676512,
+      "mean_cross_post_dot": 0.21346570551395416,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "ericjackson",
+      "donor_b": "rjccapital",
+      "topic_js_distance": 0.5641427802177241,
+      "mean_cross_post_dot": 0.20268605649471283,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "ericjackson",
+      "donor_b": "globalmktobserv",
+      "topic_js_distance": 0.5848200384065969,
+      "mean_cross_post_dot": 0.2594122290611267,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "ericjackson",
+      "donor_b": "tradexwhisperer",
+      "topic_js_distance": 0.8325546024383073,
+      "mean_cross_post_dot": 0.1773073673248291,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "rjccapital",
+      "donor_b": "xingpt",
+      "topic_js_distance": 0.49530759041546873,
+      "mean_cross_post_dot": 0.25265195965766907,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "rjccapital",
+      "donor_b": "tradexwhisperer",
+      "topic_js_distance": 0.642437265295243,
+      "mean_cross_post_dot": 0.23144598305225372,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "globalmktobserv",
+      "donor_b": "phyrexni",
+      "topic_js_distance": 0.5099134637111641,
+      "mean_cross_post_dot": 0.37293970584869385,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "globalmktobserv",
+      "donor_b": "qinbafrank",
+      "topic_js_distance": 0.3106319182991703,
+      "mean_cross_post_dot": 0.39958134293556213,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "globalmktobserv",
+      "donor_b": "kovainvest",
+      "topic_js_distance": 0.5620431766770059,
+      "mean_cross_post_dot": 0.2632001042366028,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "globalmktobserv",
+      "donor_b": "michael_qqq2025",
+      "topic_js_distance": 0.39549051258001516,
+      "mean_cross_post_dot": 0.35633373260498047,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "globalmktobserv",
+      "donor_b": "xingpt",
+      "topic_js_distance": 0.3395406739616745,
+      "mean_cross_post_dot": 0.36223503947257996,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "globalmktobserv",
+      "donor_b": "rjccapital",
+      "topic_js_distance": 0.6885414727290927,
+      "mean_cross_post_dot": 0.26221370697021484,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "globalmktobserv",
+      "donor_b": "tradexwhisperer",
+      "topic_js_distance": 0.6316426641621341,
+      "mean_cross_post_dot": 0.29459649324417114,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    },
+    {
+      "donor_a": "tradexwhisperer",
+      "donor_b": "xingpt",
+      "topic_js_distance": 0.554463041594227,
+      "mean_cross_post_dot": 0.3170821964740753,
+      "shared_resolved_urls": [],
+      "sufficient_samples": false,
+      "decision": "editorial review required; distance alone is not complementarity"
+    }
+  ]
+}

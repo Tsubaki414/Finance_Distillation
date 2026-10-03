@@ -1,0 +1,352 @@
+当前任务切换为“完整项目交接”，不是继续开发功能。
+
+本次 steer 不取消此前任何产品目标和验收要求，但你现在必须暂停新功能、UI 美化和内容生成，只根据实际代码、数据、运行结果，制作一份可交给 Claude Code 独立接手的 machine-verifiable handover package。
+
+严禁：
+
+* 用 README 或此前自己的描述推断功能已经实现。
+* 把静态页面、fixture、hardcode、模拟数据称为真实 pipeline。
+* 把旧 45 篇无效稿件称为 baseline；它们只能标记为 `legacy_invalid_output / failure_case`。
+* 删除、重写或掩盖现有失败记录。
+* 暴露 API key、Cookie、token 或其他密钥。
+* 未经许可 push、部署、发布或调用批量付费 API。
+* 在交接期间继续扩大产品范围。
+
+先确认当前打开的是完整项目根目录，而不是 `outputs/architecture-review` 或某个静态演示子目录。如果这是 Git 仓库，记录当前 branch、commit SHA 和 `git status`；保留用户现有未提交修改，不得 reset 或覆盖。
+
+请创建以下交接文件。
+
+## 1. `CLAUDE.md`
+
+这是下一位实现 Agent 的最高优先级入口，必须包含：
+
+### 产品真实目标
+
+这是一个多语言金融内容情报与蒸馏系统，不是两个中英文账号生成器，也不是静态文章生成器。
+
+系统需要：
+
+* 汇聚中文、英文、韩文等市场的金融与科技 KOL 内容。
+* 来源包括 X、其他社交平台、YouTube、Bilibili、金融群、财报、电话会、机构研究、宏观数据和权威资料。
+* 保留原始内容、作者、时间、URL、语言、平台、证据和完整 provenance。
+* 学习 donor 的知识、推理、语言、发帖习惯和视觉习惯。
+* 组合多个互补 donor 形成可批量扩展的人设。
+* 同一事件由不同 persona 独立研究和生成，而不是翻译或改写一份母稿。
+* 持续识别热点、事件、叙事加速、共识、分歧、立场变化和跨语言信息差。
+* 自动运行至内容审核与运营交接，但不包含自动发帖、账号设备、IP、流量运营和增长操作。
+
+### 初始 persona seeds
+
+1. 宏观数据与资金流观察者。
+2. 个股及产业链硬核研究者。
+3. 交易系统与市场心理教练。
+
+它们只是初始种子，不是固定三个模板，也不是最终账号数量。
+
+### 内容线
+
+必须把 persona 和 content lane 分开：
+
+* Hot Signal
+* Scheduled Catalyst
+* Evergreen Trading Principles
+* Prediction Ledger & Review
+* Cross-language Information Gap
+* Deep Research
+
+实际内容机会是：
+
+`Content Lane × Persona × Language × Format`
+
+但必须由机会评分选择，不可机械生成全部组合。
+
+### 产品入口
+
+首页应是类似 Signal Mesh 的 Intelligence Desk，优先回答：
+
+* KOL database 现在在说什么。
+* 哪些话题正在加速、反转或衰减。
+* 谁最早提出，谁在传播。
+* 哪些 KOL 形成共识，哪些存在分歧。
+* 中英文市场有哪些信息差。
+* 接下来有什么可预期事件。
+* 当前最值得生产什么内容。
+* 哪些草稿已经准备好审核。
+* 哪些数据源或 pipeline 运行失败。
+
+原始帖子浏览、corpus、pipeline runs 和 debug 页面属于二级审计工具，不是主要用户入口。
+
+## 2. `docs/CURRENT_STATE_AUDIT.md`
+
+不要根据文件名判断，要检查真实实现并逐项列出：
+
+| 能力声明 | 实际状态 | 代码位置 | 数据证据 | 可复跑命令 | 结论 |
+| ---- | ---- | ---- | ---- | ----- | -- |
+
+状态只能使用：
+
+* `verified_working`
+* `partial`
+* `mock_or_fixture`
+* `hardcoded`
+* `broken`
+* `not_implemented`
+* `unknown`
+
+至少审计：
+
+* X/KOL 真实采集。
+* 翻页、回填、定期更新。
+* YouTube/Bilibili 采集与字幕。
+* 财报及权威来源采集。
+* 数据清洗和去重。
+* 真实 donor profile。
+* ML 分类、聚类和 attribution。
+* multi-donor 检索与组合。
+* 实际 LLM 调用。
+* 独立分析计划。
+* 证据引用和 donor influence。
+* 跨语言蒸馏。
+* 热点发现。
+* evergreen 提取。
+* 图片和图表生成。
+* 前端与后端真实连接。
+* 自动化 pipeline。
+* 评测和真人审核。
+
+明确记录实际 API 请求次数、请求对象、分页数、成功/失败响应和保存位置。
+
+## 3. `docs/REPOSITORY_MAP.md`
+
+列出：
+
+* 所有主要目录的用途。
+* 前端入口。
+* 后端入口。
+* API routes。
+* 模型调用位置。
+* prompt 所在位置。
+* 数据库/schema。
+* 原始数据、清洗数据、生成稿件和评测结果位置。
+* fixture、mock、demo 和 hardcoded 数据位置。
+* 已废弃或重复实现。
+* 体积较大的数据和生成文件。
+
+## 4. `docs/DATA_LINEAGE.md`
+
+用一条真实样本证明：
+
+`source → raw record → clean record → segment/fact/claim → retrieval → analysis plan → draft → citation`
+
+每一步列出：
+
+* ID
+* 文件或数据库位置
+* 转换代码
+* 输入
+* 输出
+* 时间
+* 模型及版本
+* prompt/version
+* 失败状态
+
+如果无法找到完整链路，明确写 `lineage broken`，不要补造。
+
+## 5. `docs/VIDEO_TRANSCRIPT_PIPELINE.md`
+
+加入 YouTube/Bilibili 长视频规划：
+
+* 可参考并先审计 `KIRVO-REPORTING/video-to-notes`。
+* 人工字幕优先。
+* 自动字幕兜底。
+* 无字幕时才使用 Whisper/ASR。
+* 保留 metadata、原始字幕、说话人和时间戳。
+* 校正公司名、Ticker、数字、百分比和日期。
+* transcript 拆成 segment。
+* 分类事实、观点、推理、预测、案例、交易原则、广告和闲聊。
+* YouTube/Bilibili 同源视频跨平台去重。
+* 视频主要进入 Knowledge/Reasoning/Framework/Evergreen Profile。
+* 不得直接用长视频口语推导短帖发帖风格。
+* 热点发生时，可以检索 KOL 历史视频中的相关 segment。
+* 所有视频观点都必须能点击回原始时间戳。
+
+## 6. `docs/CONTENT_PIPELINES.md`
+
+分别定义：
+
+### Hot Signal Pipeline
+
+识别同一事件下各 KOL 的真实观点，生成 Claim Card：
+
+* KOL
+* source ID
+* claim
+* stance
+* evidence
+* horizon
+* conviction
+* novelty
+* conditions
+* invalidation
+* timestamp
+* originator/amplifier
+
+建立 Event/Claim Graph，识别共识、分歧、观点反转、首发者、传播者和跨语言信息差。
+
+多来源成稿必须是有溯源的独立综合，不是单篇改写。每段显示事实来源和 donor influence，并进行文本及语义重合度检查。
+
+### Evergreen Pipeline
+
+从帖子、书籍、访谈、视频、群聊和研究资料中抽取 Atomic Trading Principle：
+
+* 原始来源
+* 核心原则
+* 适用市场与周期
+* market regime
+* 前提条件
+* 执行步骤
+* 失效条件
+* 常见误用
+* 反例
+* 冲突或互补原则
+* 历史及当前案例
+
+包括仓位、止损、退出、心理、纪律、回撤、风险收益、市场环境和复盘。必须语义去重并建立 Conflict Graph。
+
+支持根据当前市场情境 resurfacing 历史原则，而不是随机每日生成一句鸡汤语录。
+
+## 7. `docs/KNOWN_FAILURES.md`
+
+忠实记录已经发生的问题：
+
+* 仅进行少量 API 请求。
+* 未形成完整真实 KOL corpus。
+* 页面数字可能来自导入、fixture 或模拟。
+* BLS 完整原文已有关键指标，但提取和生成遗漏。
+* `multi-donor` 未证明真实 donor composition。
+* 旧 45 篇不具备 baseline 条件。
+* 0 条真人审核。
+* 页面曾经优先暴露内部 ETL 流程。
+* Persona Lab 使用 JSON/简单下拉而非可解释的滑杆与真实样本区间。
+* 配图风格单一。
+* 未证明自动化更新、事件生命周期和证据更新。
+* 其他通过代码审计发现的问题。
+
+每个问题写明根因、影响、证据、是否已修复、如何复现。
+
+## 8. `docs/ACCEPTANCE_TESTS.md`
+
+保留此前验收要求，至少包括：
+
+* 12 名真实 donor，尽量 6 中文、6 英文。
+* 最近 180 天、每人最多 500 条。
+* 每人至少 150 条可用金融原创内容，否则替换。
+* 保存 raw 与 clean 数据。
+* 300 条人工标注抽样。
+* relevance classifier 指标。
+* author/style attribution 指标。
+* clustering/互补性结果。
+* 五组 generation ablation：
+
+  1. Base Model
+  2. Simple Persona Prompt
+  3. Structured Persona Profile
+  4. Profile + Retrieved Exemplars
+  5. Multi-donor Separated
+* 同一事实包、事件、模型设置和评测方法。
+* persona blind identification。
+* source fidelity。
+* semantic overlap。
+* generic AI structure。
+* 人工编辑成本。
+* 真实跨语言测试。
+* 真实当前事件。
+* 真实定期更新。
+* 3 个 YouTube 与 3 个 Bilibili 视频。
+* 一个热点 KOL Claim Graph。
+* 一个 evergreen 交易主题。
+* 每段 provenance 和 donor influence。
+
+## 9. `docs/RUNBOOK.md`
+
+提供下一位 Agent 可以直接执行的命令：
+
+* 安装依赖。
+* 所需运行时版本。
+* 环境变量名称及用途，但不写值。
+* 启动后端。
+* 启动前端。
+* 运行测试。
+* 运行真实采集。
+* 运行清洗。
+* 运行 ML 实验。
+* 生成草稿。
+* 查看评测。
+* 导出内容交付包。
+
+每个命令注明：
+
+* 是否会调用外部 API。
+* 是否可能产生费用。
+* 是否修改数据。
+* 预计输入输出。
+* 已实际运行还是未经验证。
+
+## 10. `scripts/verify_handover.sh`
+
+创建非破坏性的验证脚本，用来：
+
+* 输出 Git commit 和工作区状态。
+* 检查必要文件和依赖。
+* 检查环境变量是否存在，但不能输出密钥内容。
+* 统计真实 raw/clean corpus 文件与条数。
+* 统计真实作者、语言、平台和日期覆盖。
+* 区分 fixture/mock/demo 与真实数据。
+* 搜索 hardcoded、mock、fixture、sample、synthetic 等标记。
+* 找到模型/API 调用位置。
+* 运行安全的单元测试。
+* 检查前后端入口。
+* 检查 provenance 字段。
+* 输出通过、失败和 unknown。
+* 不自动下载数据、不调用付费 API、不删除或改写任何文件。
+
+脚本必须具有明确退出码，并将机器可读结果写入：
+
+`handover/verification.json`
+
+## 11. `handover/manifest.json`
+
+记录：
+
+* generated_at
+* repository_root
+* branch
+* commit_sha
+* dirty_files
+* runtime_versions
+* dataset counts
+* author counts
+* language/platform counts
+* real vs fixture counts
+* draft counts
+* valid draft counts
+* legacy invalid counts
+* human review counts
+* actual API call evidence
+* test commands/results
+* unresolved blockers
+* next recommended action
+
+所有不能验证的字段填 `null` 或 `unknown`，不能猜测。
+
+## 12. 最终交接报告
+
+完成后：
+
+1. 实际运行 `scripts/verify_handover.sh`。
+2. 展示准确的运行输出和退出码。
+3. 列出创建或修改的交接文件。
+4. 明确哪些事实已验证、哪些未知、哪些失败。
+5. 给出 Claude Code 接手后的前三个动作。
+6. 不宣称任何没有运行证据支持的能力已经完成。
+7. 如果仓库已经使用 Git，可建议创建独立 handover commit，但未经我的明确许可不得 push。

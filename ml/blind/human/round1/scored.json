@@ -1,0 +1,103 @@
+{
+  "status": "partial",
+  "reviewer": "ruojiama",
+  "reviewed_at": "2026-09-23T23:59:40.883218",
+  "reference_label_type": "human",
+  "items": 16,
+  "answered": 14,
+  "machine_items": 6,
+  "human_items": 8,
+  "detection_rate": 1.0,
+  "false_positive_rate": 0.25,
+  "persona_identification_rate": 0.833,
+  "persona_guesses_made": 6,
+  "grounded_machine": 5.0,
+  "grounded_human": 2.5,
+  "natural_machine": 0.17,
+  "natural_human": 2.67,
+  "edit_burden_machine": 3.0,
+  "edit_burden_human": 1.67,
+  "edit_scale": {
+    "不改": 0,
+    "轻改": 1,
+    "中改": 2,
+    "重写": 3
+  },
+  "by_generation_mode": {
+    "profile_exemplars": {
+      "n": 3,
+      "called_machine": 3,
+      "detection_rate": 1.0,
+      "natural_mean": 0.33,
+      "edit_mean": 3.0
+    },
+    "multi_donor": {
+      "n": 1,
+      "called_machine": 1,
+      "detection_rate": 1.0,
+      "natural_mean": 0.0,
+      "edit_mean": 3.0
+    },
+    "description": {
+      "n": 1,
+      "called_machine": 1,
+      "detection_rate": 1.0,
+      "natural_mean": 0.0,
+      "edit_mean": 3.0
+    },
+    "none": {
+      "n": 1,
+      "called_machine": 1,
+      "detection_rate": 1.0,
+      "natural_mean": 0.0,
+      "edit_mean": 3.0
+    }
+  },
+  "by_writer": {
+    "grok-4.5": {
+      "n": 6,
+      "called_machine": 6,
+      "detection_rate": 1.0,
+      "natural_mean": 0.17,
+      "edit_mean": 3.0
+    }
+  },
+  "unanswered": [
+    "H72167"
+  ],
+  "no_verdict_but_rated": [
+    "HB510B"
+  ],
+  "out_of_scale_answers": {
+    "H3E173": [
+      {
+        "natural": 0
+      }
+    ],
+    "H9004A": [
+      {
+        "natural": 0
+      }
+    ],
+    "H9E540": [
+      {
+        "natural": 0
+      }
+    ],
+    "HC697D": [
+      {
+        "natural": 0
+      }
+    ],
+    "HDAF68": [
+      {
+        "natural": 0
+      }
+    ]
+  },
+  "limits": [
+    "one reviewer; no inter-rater agreement can be computed from a single set of answers",
+    "the reviewer built or supervised this system, so a machine item may be recognised from memory rather than from the writing",
+    "sixteen items is a pilot size — a detection rate here has a wide interval"
+  ]
+}

@@ -1,0 +1,439 @@
+{
+  "scope": "Offline characterization of current code, with stubbed model outputs; not a model evaluation.",
+  "network_calls": 0,
+  "production_writes": 0,
+  "snapshot": {
+    "observed_at": "2026-09-29T10:20:21.242377+00:00",
+    "corpus_sha256": "e461611fcc0fced1617b58647f0626ca2b766d2d28217b34c5516a55913e9d96",
+    "queue_sha256": "634b46e6fe33e9540cda5eecc146732d6a545896498d3dc6e5c424d2baa3561d",
+    "queue_updated_at": "2026-09-29T05:00:01.044541+00:00",
+    "subscriptions": {
+      "x": 9,
+      "feed": 32
+    },
+    "corpus_rows": 220,
+    "corpus_rows_exactly_4000_chars": 57,
+    "corpus_fields": [
+      "author",
+      "entities",
+      "id",
+      "matched_terms",
+      "published_at",
+      "source_id",
+      "source_type",
+      "text",
+      "title",
+      "url"
+    ],
+    "queue_rows": 148,
+    "queue_statuses": {
+      "draft_ready": 37,
+      "skipped": 30,
+      "blocked": 61,
+      "no_post": 5,
+      "duplicate": 15
+    },
+    "source_first_rows": 26,
+    "source_first_statuses": {
+      "draft_ready": 10,
+      "blocked": 16
+    },
+    "source_first_with_account_id": 0,
+    "source_first_with_target_language": 0,
+    "source_first_with_original": 14
+  },
+  "probes": {
+    "ingest_truncation": {
+      "input_chars": 6952,
+      "stored_chars": 4000,
+      "tail_preserved": false,
+      "paragraph_breaks_preserved": false,
+      "qa_source_chars": 1800,
+      "writer_source_chars": 4000
+    },
+    "skip": {
+      "writer_calls": 0,
+      "opportunities": 0
+    },
+    "null_persona": {
+      "writer_calls": 0,
+      "opportunities": 0
+    },
+    "injected_action_NONE": {
+      "writer_calls": 1,
+      "opportunities": 1
+    },
+    "injected_persona_NONE": {
+      "writer_calls": 1,
+      "opportunities": 1
+    },
+    "valid_currency_translation": {
+      "content_status": "blocked",
+      "fact_qa": {
+        "findings": [
+          {
+            "code": "new_concrete_fact",
+            "severity": "blocking",
+            "detail": [
+              "25亿"
+            ]
+          }
+        ],
+        "blocking_count": 1,
+        "status": "failed"
+      },
+      "originality_qa": {
+        "findings": [],
+        "blocking_count": 0,
+        "status": "passed",
+        "longest_shared_run": 0,
+        "same_language_sources_compared": 0,
+        "cross_language_pairs": 1,
+        "fuzzy_max_cosine": null,
+        "fuzzy_limits": "not run",
+        "policy": "carrying is allowed across a language or platform boundary and never within one; wording is compared only against same-language sources",
+        "check_version": "originality-v3"
+      }
+    },
+    "swapped_metric_values": {
+      "content_status": "draft_ready",
+      "fact_qa": {
+        "findings": [],
+        "blocking_count": 0,
+        "status": "passed"
+      },
+      "originality_qa": {
+        "findings": [],
+        "blocking_count": 0,
+        "status": "passed",
+        "longest_shared_run": 0,
+        "same_language_sources_compared": 0,
+        "cross_language_pairs": 1,
+        "fuzzy_max_cosine": null,
+        "fuzzy_limits": "not run",
+        "policy": "carrying is allowed across a language or platform boundary and never within one; wording is compared only against same-language sources",
+        "check_version": "originality-v3"
+      }
+    },
+    "lost_all_selected_facts": {
+      "content_status": "draft_ready",
+      "fact_qa": {
+        "findings": [],
+        "blocking_count": 0,
+        "status": "passed"
+      },
+      "originality_qa": {
+        "findings": [],
+        "blocking_count": 0,
+        "status": "passed",
+        "longest_shared_run": 0,
+        "same_language_sources_compared": 0,
+        "cross_language_pairs": 1,
+        "fuzzy_max_cosine": null,
+        "fuzzy_limits": "not run",
+        "policy": "carrying is allowed across a language or platform boundary and never within one; wording is compared only against same-language sources",
+        "check_version": "originality-v3"
+      }
+    },
+    "changed_stance_and_added_opinion": {
+      "content_status": "draft_ready",
+      "fact_qa": {
+        "findings": [],
+        "blocking_count": 0,
+        "status": "passed"
+      },
+      "originality_qa": {
+        "findings": [],
+        "blocking_count": 0,
+        "status": "passed",
+        "longest_shared_run": 0,
+        "same_language_sources_compared": 0,
+        "cross_language_pairs": 1,
+        "fuzzy_max_cosine": null,
+        "fuzzy_limits": "not run",
+        "policy": "carrying is allowed across a language or platform boundary and never within one; wording is compared only against same-language sources",
+        "check_version": "originality-v3"
+      }
+    },
+    "wrong_output_language": {
+      "content_status": "draft_ready",
+      "fact_qa": {
+        "findings": [],
+        "blocking_count": 0,
+        "status": "passed"
+      },
+      "originality_qa": {
+        "findings": [],
+        "blocking_count": 0,
+        "status": "passed",
+        "longest_shared_run": 0,
+        "same_language_sources_compared": 1,
+        "cross_language_pairs": 0,
+        "fuzzy_max_cosine": null,
+        "fuzzy_limits": "not run",
+        "policy": "carrying is allowed across a language or platform boundary and never within one; wording is compared only against same-language sources",
+        "check_version": "originality-v3"
+      }
+    },
+    "author_experience_transplanted": {
+      "content_status": "draft_ready",
+      "fact_qa": {
+        "findings": [],
+        "blocking_count": 0,
+        "status": "passed"
+      },
+      "originality_qa": {
+        "findings": [],
+        "blocking_count": 0,
+        "status": "passed",
+        "longest_shared_run": 0,
+        "same_language_sources_compared": 0,
+        "cross_language_pairs": 1,
+        "fuzzy_max_cosine": null,
+        "fuzzy_limits": "not run",
+        "policy": "carrying is allowed across a language or platform boundary and never within one; wording is compared only against same-language sources",
+        "check_version": "originality-v3"
+      }
+    },
+    "unrequested_author_attribution": {
+      "content_status": "draft_ready",
+      "fact_qa": {
+        "findings": [],
+        "blocking_count": 0,
+        "status": "passed"
+      },
+      "originality_qa": {
+        "findings": [],
+        "blocking_count": 0,
+        "status": "passed",
+        "longest_shared_run": 0,
+        "same_language_sources_compared": 0,
+        "cross_language_pairs": 1,
+        "fuzzy_max_cosine": null,
+        "fuzzy_limits": "not run",
+        "policy": "carrying is allowed across a language or platform boundary and never within one; wording is compared only against same-language sources",
+        "check_version": "originality-v3"
+      }
+    },
+    "writer_refusal_as_draft": {
+      "content_status": "draft_ready",
+      "fact_qa": {
+        "findings": [],
+        "blocking_count": 0,
+        "status": "passed"
+      },
+      "originality_qa": {
+        "findings": [],
+        "blocking_count": 0,
+        "status": "passed",
+        "longest_shared_run": 0,
+        "same_language_sources_compared": 0,
+        "cross_language_pairs": 1,
+        "fuzzy_max_cosine": null,
+        "fuzzy_limits": "not run",
+        "policy": "carrying is allowed across a language or platform boundary and never within one; wording is compared only against same-language sources",
+        "check_version": "originality-v3"
+      }
+    },
+    "number_after_qa_cutoff": {
+      "content_status": "blocked",
+      "fact_qa": {
+        "findings": [
+          {
+            "code": "new_concrete_fact",
+            "severity": "blocking",
+            "detail": [
+              "17%"
+            ]
+          }
+        ],
+        "blocking_count": 1,
+        "status": "failed"
+      },
+      "originality_qa": {
+        "findings": [],
+        "blocking_count": 0,
+        "status": "passed",
+        "longest_shared_run": 0,
+        "same_language_sources_compared": 0,
+        "cross_language_pairs": 1,
+        "fuzzy_max_cosine": null,
+        "fuzzy_limits": "not run",
+        "policy": "carrying is allowed across a language or platform boundary and never within one; wording is compared only against same-language sources",
+        "check_version": "originality-v3"
+      }
+    },
+    "unrelated_news_number_match": [
+      {
+        "span": "$235 billion",
+        "supported": true,
+        "news_source": "unrelated",
+        "news_url": "https://example.invalid/unrelated",
+        "news_text": "A different country reports 235 million residents "
+      }
+    ],
+    "substantive_judgment_without_marker": {
+      "action": "SKIP",
+      "reason": "没有判断，只是复述",
+      "persona": null,
+      "peers": []
+    },
+    "neutral_subscription_business_dropped": true,
+    "empty_rewrite_still_calls_llm": 1
+  },
+  "effective_messages_synthetic_example": [
+    {
+      "role": "system",
+      "content": "你在给一个金融账号写一篇能发出去的中文帖。主材料是别人已经写过的判断。你的工作是重组。可以重组：判断、推理、例子、论证顺序、第二层含义。不要连续复制独特原句。不要换几个词就算改完。事实包如果有内容，只用来核对帖子里已经出现的数字、日期、价格。帖子里已有的数字可以沿用。不要新造数字、日期、价格或公司行动。人设只决定挑哪一组判断。不要把人设说明里的问句写进正文。没有改写材料时，不要写。写法是直接陈述。像一个懂这件事的人把判断和依据写下来。有判断就直接写判断。不要先否定一个东西，再抛出真正观点。不要设计 hook、转折、解释、收束。不要追求金句。不要刻意制造反差。不要替读者总结。不需要结尾。一个具体判断说完可以直接停。默认写短。原材料很长，成稿也不要把所有内容重新讲一遍。优先保留一个最值得借的判断、两三个真正支撑它的具体细节、必要的推导。其余删掉。禁止对比句式，包括：不是X而是Y；重点不在X在Y；真正的问题是；核心不是；与其X不如Y；看似X实则Y；表面上实际上；X没变变的是Y。禁止这些转折：真正值得看的是；更有意思的是；问题在于；关键在于；核心是；换句话说；这意味着；落点是；说到底；反过来看；值得注意的是。不要为了生动新增比喻。公司员工经理、门票、护城河、方向盘、螺丝、通行证，以及谁掏钱、谁买单、吃掉、搬家、压住，都不要写。原材料里的比喻不要默认继承，改写成具体机制。不要用这些评价词：彻底、颠覆、巨变、重构、新周期、终极、爆发、史诗级、大时代、定心丸、结构性机会。用具体描述。不要写未来一定、接下来将、有望成为、会彻底改变、下一轮将由谁主导。除非材料本身给了时间表或预测，并且正文写明这是材料里的说法。不要问句。不要小标题。不要解释你怎么核对来源。不要出现这些词：已读报道、第二信源、packet、准入事实、原文未打开、该转述不计入、根据我们的 QA、要点是、事实包、改写材料。"
+    },
+    {
+      "role": "user",
+      "content": "你是宏观数据与资金流观察者。你关心这件事改不改流动性、利率、美元和风险资产之间已经在跑的故事。一家公司的单季利润通常不是你的题目。\n人设可以从这些判断里挑，也可以丢掉别人给过的角度：把这一条的判断重组，保留推理，换掉原句\n\n事实包，数字和时间以这里为准：\n\n\n改写材料：\n来源：x_PhyrexNi｜作者：Synthetic Author\n论点：Liquidity may tighten if collateral becomes scarce. The effect is conditional, not a forecast.\n正文：\nLiquidity may tighten if collateral becomes scarce. The effect is conditional, not a forecast.\n\n这一层是主材料。从里面挑一个判断，丢掉重复的，用两三个具体细节和必要的推导把它写清楚。说完就停。不要把长材料重新讲一遍。帖子里已经写出的数字可以沿用。不要新造数字、日期、价格或公司行动。不要连续搬原句。"
+    }
+  ],
+  "code_sha256": {
+    "CLAUDE.md": "793de33311c1bb14ccb0d0b4692b47e7cc03a3f9ef0e22badd599d632c237fde",
+    "backend/app.py": "44e48c18e487cdabd6947034d0cdc7f9e5de53b40accaff6fdf163d9f8921a17",
+    "backend/assets.py": "45c6b5dfd2e5a86775290f430134a7ae688fabdc8a1b06c03dc3489097d44344",
+    "backend/catalysts.py": "e78c56f109247777e967baa74b018d6191d39dea803a077769307922f2014fcd",
+    "backend/demo.py": "fc0c6a621bcc961e4d38e1d22db8a438c66679c3353e0f7634de645816de8dbd",
+    "backend/guarded.py": "12f6b2eb30f1d9ba61cd5b2fd3ee60a73f60f3eedeb9515ec3dabe77857e7667",
+    "backend/intel.py": "0d8ced584b82092ea4a2f188093649e7b44c5cbff34e5ef3684d574ab07641b4",
+    "backend/signals.py": "541bd31966b9b27e8ae68af1ad766e7986caf86ed9df6cfc5a1bada355eecd20",
+    "content/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "content/crosslang.py": "5468f6addd66b6a2040080633612f6a41653f5c63748a5cbf7cc7b4f43868b05",
+    "content/fact_slots.py": "99aca2a4a4cad6757fd29d49a18800f6522cda6d7677dc5638e42ff2886f0b22",
+    "content/form_check.py": "08c5d0b1a6b8daae53e264924bc89f7fcc380e8000f3a1b0e78d591e56760400",
+    "content/gate_calibration.py": "f32b41fd3281872cdf12f6160fe396a0c5b6701a83c121492f8b31ab1850fea6",
+    "content/generate_slotted.py": "7e84d34c8e6d573b9693b00046c18964f7ddf1df9e56d20fefb960c48cf671c2",
+    "content/leak_check.py": "395d7e628ba6c0d7cbe4e0c3a473e327226b5b11b753856c0dcd0c014ae6ee0f",
+    "content/originality.py": "4c6e5bdfa9aab634389c9329888208857d7f6f5fbbb7bf58c7cece6e72d8d398",
+    "content/packages.py": "e5e9e9ba4a65dc451d4dd8440e4636fcb1e02222fe97fe236c37b9a28831821c",
+    "content/reactivation_article.py": "dc8d96368d05541166d9b7e3401d3e25e4c9de2294711964505d4b454f0cab2e",
+    "content/reader_spec.py": "119efaa19a8b70f277a7948d98ae2f0921f82410e5607ef67ecd4ac10cdfffc2",
+    "content/reader_spec_llm.py": "e36efa05592d4d1612e2452b34fa9b6318c1b64b57ca3c2f267783be499f365b",
+    "content/sources.py": "de6450a125ca0221bb3e82a7b3da8bb371966fe1b7bf786955c4ed90218f6278",
+    "content/tells.py": "3c3e1e7958c104b1c8927b5d91c45a31c97c01e4031041e958851239c0a61a08",
+    "content/traceback_check.py": "e5d8772359f95ea0a614b2c7230c21883134403dc724d76ad8f876bdf4b2bf1b",
+    "content/visuals.py": "6525d05ced9d19347520b1575328225ff76ff314142b4983d981fd750a94a26e",
+    "evergreen/dedup_chunks.py": "ce409b45fcb9e97c766385d1b040302b2116f78f3c4e8fdb1c47db82c1c2ed3d",
+    "evergreen/deliver.py": "d356f4a84a1c532a78baae29d6c0271223a647ff77fed2632e6eecc0c3197a5f",
+    "evergreen/extract_principles.py": "c97d779a8bd6507d84028672f70c005f4c42c26d39763e8d500d3e4b9fccda13",
+    "evergreen/output_gate.py": "82f2e0c3a2ec77a2b0f41a1f06c216803db90a74ad4b0559156784f7ab94b483",
+    "evergreen/pdf_benchmark.py": "a3ddfc3352ca025b36cc50ed8419e4edc10f86254e90afc13d091a091106a211",
+    "evergreen/reactivate.py": "15478a4d5b1f048b7268d29b256c4d5eaa0a0a941c25286fdedd2f105b8da090",
+    "evergreen/reclassify_compilations.py": "73c9c820b456cfe573bacbd377eb09d8b3e306552391b7544c048f916a3e9625",
+    "evergreen/stratify_pools.py": "f5b166d83b93555ea19d2177a06b0498039506665b098844145dab3ab56be340",
+    "evergreen/survey_corpus.py": "63631a86751e70023b3ef39958b199daa7e4ca73b6e0b94407ff804c3f16b69c",
+    "evidence_loop/acquire_audio.py": "00c340346ed1efda7ccab76272a40b8ad318f8d8be70ec2056a66e86fc6c7139",
+    "evidence_loop/acquire_video.py": "4e50bcc749e29d2677f4a5e5145c74c8fa05d10f3023bf475290caf3a14fa141",
+    "evidence_loop/assign_roles.py": "22483f52049da29ffeb9394f8865648f2f4120ce26f314511da43a7ae5cbeb0c",
+    "evidence_loop/build_event.py": "9a9b9aae44cfe33b8b638d7b2211f21431ed2f18c99a0f1d2d7f8e734a7a4a37",
+    "evidence_loop/build_profiles.py": "a1a44023c1f378c90e7c4d464ffbe594c14ff23f6a18800f40f9cd9608eda03a",
+    "evidence_loop/build_profiles_v2.py": "b4c4ba5f391b708909a7badba7d1dd50dbc742d760fa08e88cd7968c2b1664e8",
+    "evidence_loop/common.py": "ccdbd7d0f173cea606ab8eb853052149a1606fdeaf405f9037881eb3bbb2a888",
+    "evidence_loop/discover_video.py": "cec58e468b6725ae248179d2aeabaad8a4245c1bdccd4b7bf7f3b1eda6783646",
+    "evidence_loop/import_sources.py": "729c4be3fc68ec7ca0066481731d4ecc71ae9a40a72d17b1b635508c0c849a20",
+    "evidence_loop/prepare_audio.py": "23cecf29a90d65bd5bae00dcc901598c688e639b36d30c72b86879e80f3e8fb0",
+    "evidence_loop/prepare_experiments.py": "4843a9e267b0cc2db0df05da05e453e225967b9abd68743f1f7bfcf0cd2f6aa6",
+    "evidence_loop/profile_registry.py": "08646a95d673c34f79b01a0529c6d431486085f2b9a3e266d1f23f2800a315b5",
+    "evidence_loop/quarantine.py": "487f9992d629d140687582c4f3f01434ad7b4b70621ba7540e74c8828ffc2671",
+    "evidence_loop/run_experiments.py": "f8a66e2b251abaacaa1298eb46614717e16d8be12ea7d331583f517c13c26229",
+    "evidence_loop/run_smoke_v2.py": "93db20ca3a1565b460d9076c3a28e62184455a3057b092b3c84b48c46e61f22e",
+    "evidence_loop/transcript_pipeline.py": "e8b1b0d8094749567ccacca33728ceef20496b3d9dc3c364ff98518220264722",
+    "live/accounts.json": "bc6783a3e833adc3684af61cd55de4d67bdd4dc217f53f6ba4eb0721117113f7",
+    "live/adjudicate_llm.py": "03817f53e81eff1748da00f177610e0e020f30f91902ffb27d93aae0b6c51a25",
+    "live/analysis_corpus.py": "fce80d2994693aa8d4439feac27773e220579fea1b72756aba70561eb99fed40",
+    "live/calendar_events.py": "f31a2ea9f91820f50a3dbc76561bd602ff86b08934879f16ecdec46726abc052",
+    "live/clean.py": "5d18cc8b08670c8832209ca57ee667197ff649854b4c1682cd344a534ed3a36e",
+    "live/cluster.py": "392e43084eb663a4c40d13cd311e94cb7b60649c117d1ff8beb4caec4f80c586",
+    "live/collect.py": "0325cadefa838bd66c3ae7a645d320052ae93245a3f9eb9e5c7eae700fe68d08",
+    "live/crosslang.py": "264d8777b91e52fb4aca185260345d8b9d9cd359db7f47de42feed7b0f7aa082",
+    "live/daily.py": "d309be0d97ae3e5e9fbb95dff1b7061f3c4723c263e45abd765af3332fc81805",
+    "live/draft_from_packet.py": "a66010e8e567879c4ddd08ca4c24008ecca9cb16bd8350d4033c3db3c9c6eef5",
+    "live/event_packet.py": "a44d7e85d8858e7662a55a90132730795e28b109e41b816fd4b6702b50ea1621",
+    "live/habit.py": "a85bfc194c28143188c86d28cf6c91987be68d2a8074edfc7a810104caf5375c",
+    "live/hotspots.py": "4cdefe7020020534a96f7ff0966179d3d391dd6303ae842af4d9f65ee37accd8",
+    "live/import_watchlist.py": "6e0de4f07d9402407f106034a6952124e24d634c0f99d1cddc5d2250865c6751",
+    "live/label_facts.py": "5433719db37753d947330cc74656f44c4dce1053909dee2e935af68359a8d89f",
+    "live/news.py": "0911bea3370dd469e81fefffa0c5bc12a8f3e2c28faa27d269128c156765fe68",
+    "live/opinions.py": "3f7862757596b6ec932c3db79116ce2188d7408e592e0d614af46177d94d1409",
+    "live/opportunities.py": "779ddf12baccd9bb3c7f305c7cb2df7986af0571cc8b85a7ec4b887c7cddf038",
+    "live/persona_views.py": "8e5ce80e4357a1878b8fa55a2297b8e6c8a6cbb05f2df24511abb386f50a23f0",
+    "live/positions.py": "f8c5b519ea95fc40771093b8c79eb30e062961b8aad930f9f73194a611b9c5b2",
+    "live/production.py": "66194218f387afffe7c74a469d64b76372e0cb71bd6fe8b1b9c075557e821cb0",
+    "live/public_writer.py": "4fa941eac02f3816159c1cff3b54440a528a82b352c9f767028ad9928af31ebf",
+    "live/queue_store.py": "d9aa8cadecf08822b7919e4c397347e98624fe21d74b338af53c7622f76214a3",
+    "live/render_slots.py": "3746c6db06668a1104b680920d599c0f5d8ed2f2c34c3a7bcb8c594be948bf05",
+    "live/resolve_event.py": "6ed8b05e66f35d1bdac285fb671bca52850fbceb0a8ede3d3b6b64df8c74d6f9",
+    "live/source_registry.json": "2643932d02ebb1729a0c71f05cfd41dd065dbe4c428f0e5d18da8564002cde44",
+    "live/style.py": "33d38ebed5623e1cfd3dfdc1568a040afe948401e30a87681fa6703f70f6dda5",
+    "live/terms.py": "c9b944c139ac271309ad18ae2b40919497f7abafd9b1725a97be387c9e7674fe",
+    "live/write.py": "886a8c999a3e3839820a92e6a7e0832d923c1f9d0391ba733ee19c2a93e5932e",
+    "live/writer_backend.py": "2f219e5ac2b0735a1731e572dcaa0c177306a2073c047d1d9920fa6b73f3fd4c",
+    "live/xsearch.py": "8b9fd373e3c00c6de29e1a6e443aea6132c2560806e4f9fa21592d7450f38066",
+    "ml/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ml/authorship_v2.py": "37e772b4d1e1df16c9d2f1d567e9806f2c47621daaf5da39822512d6b8bfa053",
+    "ml/blind_judge.py": "9546f488fb738637e25a3011dde6e929b9c72f1f30aa5bf620e9bbea7543abae",
+    "ml/blind_set.py": "c97c1ffe14f7e74c26556e5a0e900b3331a41d3fc0b61015f034f8257af68754",
+    "ml/budget.py": "f465cc749c28dc2ae780cf6c08d2c6d452ba525c4218aeeb504663ceb673deb6",
+    "ml/dedup_eval.py": "798840a60dbaff8cb61a54f8ad6691ad3536d66da5f153c4e52ee48c6db92cf9",
+    "ml/dequantize_base.py": "e09cb10301620bedf7d243073d77d8cd9d4930f19f14e7efcc564acc26e90e10",
+    "ml/donor_report.py": "fd9da79f46d255d5ee67ccd0367ec9b459b7123c8efef66992530cfa6c1440c8",
+    "ml/human_review.py": "5c374290d3bc647a07625b11b4703277d5f1308b6bfbd600fcd32baad2645a0c",
+    "ml/ledger.py": "853592efcd8766dfafb5d362afeb6b9951ceaa6845bbcf61440279fb44f9b0d3",
+    "ml/retrieval_eval.py": "ae08c1c65f4d4994a2de1272569826dec06887e0144cd48da7a321780046e740",
+    "ml/review_api.py": "a63243de87855a77087459e350c67a8d7c7d4a86996b937dff6ce3f1aee149b4",
+    "ml/sentence_dataset.py": "0d06b013b858e03980900c003c28d2f8f82c890301957cae967c6da615b87b77",
+    "ml/sentence_eval.py": "8274785c29a62e50578f59b459d500d8f1e672c3dc0047d00b896eb7eb259937",
+    "ml/style_eval.py": "3d68c4862fc3e540cc5a3a50c4c0e59b9c41b28960dfe35894322b31d5752a91",
+    "ml/tell_validate.py": "51bbd45bb725ca84fdb5b152e0f94bf746ad365d53d5e9e6cee0494d9d633616",
+    "ml/train_sentence_lora.py": "4d15a9906a728e74db12e619302ebc990a2195b9b25b0f3c4afb0b6fda073745",
+    "ml/writer_api.py": "3aabb1f07ec9ed22cb48e2d5fb1058c3692c9ade755d3c2b913c8c44a1a365e7",
+    "qa/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "qa/comparison.py": "4dc2c2a906c170e293d1f2c65d2963b82ddcb1dceea7eb26215659bcfd8dde8b",
+    "qa/gates.py": "9bfcca478bfecfdf4f2f494a73be753f8b1a4719ae5c111b35efe015d289eb3b",
+    "qa/regression_run.py": "c9d98a595d5ec98603664433642fdb781d0acfc534d9d24bcb714ff6e273cf85",
+    "qa/rescore_cases.py": "59291890411130567d3915e5c56a7475bee7b8c3c9a6821c23fc466d10b15e8c",
+    "qa/status.py": "a61d75b451855390ac1ddca4595be06c5b3c9b91d424013d1df7aba713416ba6",
+    "scripts/audit_promotions.py": "c2773ab7d8a6857d2ae3cf95b59792c7609007f5edaeb12ffcbbd0656c0e0dc5",
+    "scripts/audit_stack.py": "b21fff8403c8eee64eab67a692637e707c4ea753aeb1cbe5ab6baaddbf653e34",
+    "scripts/build_delivery_report.py": "7183e115499815c642e63d7e4b8caa4dfca41d27a2e3a151c143e0382dcafe5c",
+    "scripts/build_evidence.py": "92d65a8dc05fb1fcaa14674baf0ea83098e73f4b77d1e05fffce8fb113f91bd7",
+    "scripts/build_personas.py": "5a1fa98fd39186b7b73dac327f47ab887dc41aa04f897d35e07b3c44d5f262d3",
+    "scripts/classify_comparison.py": "ec3685c217e5b732e6a6f16721273884e6da3b005828b0fc99918b881ede538a",
+    "scripts/enrich_knowledge.py": "80cbbebf4a76e0b8f39648c2bc42d62dc0109d0ac4cd8fa20e2e1e7eda8a721c",
+    "scripts/fetch_primary.py": "28840080a879ab2c9cce13056dc40f62c0f4c05238cbe23f8a4d5b5266e0bc6f",
+    "scripts/finance_supplement.py": "96dac2f92eb547bc674c71f91eacb40241d59857aa8cd504fde0f7a135a742e0",
+    "scripts/handover_checks.py": "327c8b2f90258984a9c5a6ac192174d3797f019bcedb32dd5b390eb478787bb3",
+    "scripts/import_corpus.py": "da84ae36a59657d6d7925a05289f7e04d79b5aae85fd386154a4686c9b0cba86",
+    "scripts/llm_classification.py": "f9d0c764e6273eb7294c3eca789f46048261a84ac3c7919032136dc95f4887cf",
+    "scripts/model_client.py": "b6445e48fefa39c471e30a69161a3af5ffd4279aa3902b602e86de9aa4a479fa",
+    "scripts/prepare_comparison_model.py": "8e8ca068fc1f4cf35f366631f36ec14f093d848bdf98a163b1ad480d5cb981e1",
+    "scripts/prepare_models.py": "a319f9f21289aca7c4815215493b652cbd064010a81fcd9c1859ae7032bc54b2",
+    "scripts/prepare_modern_model.py": "87ad02075b6903d4b8cb2677811bf503869dd2dfd625f827f8755521993e52f7",
+    "scripts/promotion_policy.py": "ea3d939edd0f084a07688f046a1d96fd17f5aea8de0cd0d8e4d4b1bd96d5cfca",
+    "scripts/record_editorial_review.py": "983d9f6dbb1c0200332f2d6f5070ebffdf5d4e3bbd1800ddb7e4c91088edebfe",
+    "scripts/run_generation_experiments.py": "a5d45e68cfc2ea3a9b0aaa441a7a929a1b9d3dff7cdeee0fd5e5b60c1f30dd6e",
+    "scripts/run_generation_repair.py": "ced7782c5f4701ea56d0f65f2194879512e010d30ab223c975c6d0d4c0d124be",
+    "scripts/run_guarded_experiments.py": "94b2c4352dab621e0ca422f19b4220a387391be572e1b92701eb9766e2972a13",
+    "scripts/run_ml.py": "6fa12aac4fb81cd914a6a15611539b6482001e2aaf817f0a7ddd7a307cbf7637",
+    "scripts/sec_mcp_entry.py": "569d7cabe0c7830094a1f97ed9159e33ae4f2e590f3478de0feadf3a2a6ad7aa",
+    "scripts/start_local.py": "f6bd2966e39363b748b7a94562cef5b4f3a7b5b811b70200f32e92ad09b6db7e",
+    "scripts/validate_slice.py": "ccfc711e36f2cad1d7d6e9f257108f8226e826b5d46906e21d0568927c873f8a",
+    "scripts/verify_frameworks.py": "1e8cfda19384a8410e51f5e52767d29b93536ee8f1ee8b7a9b52833900c99659",
+    "scripts/verify_handover.py": "9111abf9da275876d0b0c0fe37a6b5bbb0827b81ef4b682472d3f51a8b2b07e2",
+    "tests/test_comparison.py": "9f436c9db4af7c024c0ae0be82731c3857323e65b52602d0d6a10c5100111a48",
+    "tests/test_crosslang.py": "f3a440eba323b8f0f045077efe5f2eca650ee9334cac60bef7a859a5282f67cc",
+    "tests/test_event_packet.py": "11ed0035bd9eb6272a5c9d455b3542c990d51d59c036a04d45ca837141489e73",
+    "tests/test_evergreen_delivery.py": "38b6acbc7ae72e8440c005376080c1049b4365f65b10d61b81886bd9082f48d7",
+    "tests/test_evergreen_output_gate.py": "3602ea46b29924766b6b794509d852149be7bc45616c260024e7649f6631c66f",
+    "tests/test_leak_check.py": "f95997b629009977338cb37203e6a5b72b38b182fe2e584c106421cedd0b4fe7",
+    "tests/test_legacy_isolation.py": "f21446504207b7668e3967d53cc2c6c01c2a729c91c4430089f99a2a65098071",
+    "tests/test_live_audit.py": "3b04f598b23396389525ff18bfa6bc74421fa5c9ed74b26a741f815aad79648c",
+    "tests/test_production_queue.py": "46629ccf435f87144caa2d194f98e06d553634ad57e56edefbaaefc3e3c7c81a",
+    "tests/test_profiles_v2.py": "6ec0d9c840f87acdfcc61254bdc95dfbe8cbf3ef8937dcb9a12dc26b961c55b8",
+    "tests/test_qa_gates.py": "ca8d0e58e0f0722d507f77c19965a7fbeefdb1938203f493aea1302a8f7daba6",
+    "tests/test_tells.py": "05e3c55985ed744f7423475f38dcde3aff7f31a7337001c820daee9bc4f87b16"
+  }
+}

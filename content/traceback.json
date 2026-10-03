@@ -1,0 +1,966 @@
+{
+  "run_id": "trace-20260917T143546",
+  "checked_at": "2026-09-17T06:35:46.670944+00:00",
+  "packets_available": 8,
+  "segments_available": 30,
+  "sampled": 30,
+  "fact_bearing_sampled": 24,
+  "traced": 24,
+  "trace_rate_of_fact_bearing": 1.0,
+  "by_origin": {
+    "live": {
+      "sampled": 30,
+      "with_fact": 24,
+      "traced": 24
+    }
+  },
+  "seed": 7,
+  "method": "each cited fact is followed to its character offsets in its own source document and read back; nothing is taken on the package's word",
+  "results": [
+    {
+      "package_id": "pkg-46001542a37d",
+      "origin": "live",
+      "who": "中文 · 个股与产业链",
+      "form": "x_thread",
+      "packet": "ev-ac51e8cae5dd",
+      "segment_id": "p5",
+      "text": "失效条件：若未来云厂商支出缩减幅度超过 15%，或经营利润无法持续覆盖资本支出，当前扩张模式将失效。下一步应关注经营利润与资本支出的持续对比",
+      "fact_count": 0,
+      "traced": false,
+      "checks": []
+    },
+    {
+      "package_id": "pkg-0e069b693a4f",
+      "origin": "live",
+      "who": "中文 · 宏观与资金流",
+      "form": "x_thread",
+      "packet": "ev-550b4e28dd04",
+      "segment_id": "p5",
+      "text": "反之，如果通胀反弹至 3.7% 以上，则可能迫使美联储重新评估其立场。若你设定的观察阈值是总消费者物价指数突破 3.5%，则需警惕政策转向。",
+      "fact_count": 2,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g005",
+          "char_span": [
+            5884,
+            5895
+          ],
+          "expected_quote": "3.7 percent",
+          "read_back": "3.7 percent",
+          "ok": true,
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+        },
+        {
+          "fact_id": "g008",
+          "char_span": [
+            6343,
+            6354
+          ],
+          "expected_quote": "3.5 percent",
+          "read_back": "3.5 percent",
+          "ok": true,
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-57fd1eb6cf0a",
+      "origin": "live",
+      "who": "中文 · 宏观与资金流",
+      "form": "x_thread",
+      "packet": "ev-b614109cca69",
+      "segment_id": "p2",
+      "text": "购债缩减速度约为 4000 亿日元，同时通胀预期已升至 2%，显示当前通胀压力依然显著。",
+      "fact_count": 2,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g011",
+          "char_span": [
+            41074,
+            41089
+          ],
+          "expected_quote": "400 billion yen",
+          "read_back": "400 billion yen",
+          "ok": true,
+          "url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf"
+        },
+        {
+          "fact_id": "g010",
+          "char_span": [
+            30028,
+            30037
+          ],
+          "expected_quote": "2 percent",
+          "read_back": "2 percent",
+          "ok": true,
+          "url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-85512a88f3aa",
+      "origin": "live",
+      "who": "中文 · 个股与产业链",
+      "form": "x_post",
+      "packet": "ev-ac51e8cae5dd",
+      "segment_id": "p1",
+      "text": "亚马逊非运营税前其他收入达 534 亿美元，但自由现金流减少 661 亿美元。北美分部销售额 1162 亿美元，交付速度提升 40%，Gra",
+      "fact_count": 5,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g029",
+          "char_span": [
+            1840,
+            1853
+          ],
+          "expected_quote": "$53.4 billion",
+          "read_back": "$53.4 billion",
+          "ok": true,
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+        },
+        {
+          "fact_id": "g035",
+          "char_span": [
+            2811,
+            2814
+          ],
+          "expected_quote": "40%",
+          "read_back": "40%",
+          "ok": true,
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+        },
+        {
+          "fact_id": "g032",
+          "char_span": [
+            2218,
+            2232
+          ],
+          "expected_quote": "$66.1 billion",
+          "read_back": "$66.1 billion ",
+          "ok": true,
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+        },
+        {
+          "fact_id": "g037",
+          "char_span": [
+            4120,
+            4123
+          ],
+          "expected_quote": "25%",
+          "read_back": "25%",
+          "ok": true,
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+        },
+        {
+          "fact_id": "g015",
+          "char_span": [
+            932,
+            946
+          ],
+          "expected_quote": "$116.2 billion",
+          "read_back": "$116.2 billion",
+          "ok": true,
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-0e069b693a4f",
+      "origin": "live",
+      "who": "中文 · 宏观与资金流",
+      "form": "x_thread",
+      "packet": "ev-550b4e28dd04",
+      "segment_id": "p2",
+      "text": "总消费者物价指数在五月录得 4.1% 的涨幅，显示出通胀压力依然显著。虽然数据有所回落，但基础通胀水平仍具挑战性。",
+      "fact_count": 1,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g003",
+          "char_span": [
+            4945,
+            4956
+          ],
+          "expected_quote": "4.1 percent",
+          "read_back": "4.1 percent",
+          "ok": true,
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-0e069b693a4f",
+      "origin": "live",
+      "who": "中文 · 宏观与资金流",
+      "form": "x_thread",
+      "packet": "ev-550b4e28dd04",
+      "segment_id": "p3",
+      "text": "核心消费者物价指数维持在 3.4%，表明能源和食品价格波动后的基础通胀水平较为稳定。若能源价格持续上涨，长期目标将面临挑战。",
+      "fact_count": 1,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g004",
+          "char_span": [
+            5075,
+            5086
+          ],
+          "expected_quote": "3.4 percent",
+          "read_back": "3.4 percent",
+          "ok": true,
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-60194fd4f0e7",
+      "origin": "live",
+      "who": "中文 · 个股与产业链",
+      "form": "x_post",
+      "packet": "ev-ac51e8cae5dd",
+      "segment_id": "p1",
+      "text": "亚马逊非运营税前其他收入达 534 亿美元，但自由现金流减少 661 亿美元。北美分部销售额 1162 亿美元，交付速度提升 40%，Gra",
+      "fact_count": 5,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g029",
+          "char_span": [
+            1840,
+            1853
+          ],
+          "expected_quote": "$53.4 billion",
+          "read_back": "$53.4 billion",
+          "ok": true,
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+        },
+        {
+          "fact_id": "g035",
+          "char_span": [
+            2811,
+            2814
+          ],
+          "expected_quote": "40%",
+          "read_back": "40%",
+          "ok": true,
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+        },
+        {
+          "fact_id": "g032",
+          "char_span": [
+            2218,
+            2232
+          ],
+          "expected_quote": "$66.1 billion",
+          "read_back": "$66.1 billion ",
+          "ok": true,
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+        },
+        {
+          "fact_id": "g037",
+          "char_span": [
+            4120,
+            4123
+          ],
+          "expected_quote": "25%",
+          "read_back": "25%",
+          "ok": true,
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+        },
+        {
+          "fact_id": "g015",
+          "char_span": [
+            932,
+            946
+          ],
+          "expected_quote": "$116.2 billion",
+          "read_back": "$116.2 billion",
+          "ok": true,
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-0e069b693a4f",
+      "origin": "live",
+      "who": "中文 · 宏观与资金流",
+      "form": "x_thread",
+      "packet": "ev-550b4e28dd04",
+      "segment_id": "p4",
+      "text": "目前的判断是市场将等待更多数据确认，而非立即加息。只有当总消费者物价指数进一步降至 3.3% 或更低时，政策转向的信号才会更加明确。",
+      "fact_count": 1,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g006",
+          "char_span": [
+            6015,
+            6026
+          ],
+          "expected_quote": "3.3 percent",
+          "read_back": "3.3 percent",
+          "ok": true,
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-57fd1eb6cf0a",
+      "origin": "live",
+      "who": "中文 · 宏观与资金流",
+      "form": "x_thread",
+      "packet": "ev-b614109cca69",
+      "segment_id": "p1",
+      "text": "日本央行计划将每月购买量从 2 万亿日元逐步削减，旨在通过减少资产负债表来抑制通胀。",
+      "fact_count": 1,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g013",
+          "char_span": [
+            41417,
+            41431
+          ],
+          "expected_quote": "2 trillion yen",
+          "read_back": "2 trillion yen",
+          "ok": true,
+          "url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-6a7be0fcf071",
+      "origin": "live",
+      "who": "中文 · 宏观与资金流",
+      "form": "x_post",
+      "packet": "ev-550b4e28dd04",
+      "segment_id": "p1",
+      "text": "逆回购限额 1600 亿美元支撑市场，总消费者物价指数 4.1% 与核心 3.4% 显示通胀压力显著。若通胀反弹至 3.7% 以上，美联储将",
+      "fact_count": 5,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g013",
+          "char_span": [
+            30539,
+            30552
+          ],
+          "expected_quote": "$160 billion",
+          "read_back": "$160 billion ",
+          "ok": true,
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+        },
+        {
+          "fact_id": "g003",
+          "char_span": [
+            4945,
+            4956
+          ],
+          "expected_quote": "4.1 percent",
+          "read_back": "4.1 percent",
+          "ok": true,
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+        },
+        {
+          "fact_id": "g004",
+          "char_span": [
+            5075,
+            5086
+          ],
+          "expected_quote": "3.4 percent",
+          "read_back": "3.4 percent",
+          "ok": true,
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+        },
+        {
+          "fact_id": "g005",
+          "char_span": [
+            5884,
+            5895
+          ],
+          "expected_quote": "3.7 percent",
+          "read_back": "3.7 percent",
+          "ok": true,
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+        },
+        {
+          "fact_id": "g006",
+          "char_span": [
+            6015,
+            6026
+          ],
+          "expected_quote": "3.3 percent",
+          "read_back": "3.3 percent",
+          "ok": true,
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-acb621d6903b",
+      "origin": "live",
+      "who": "中文 · 个股与产业链",
+      "form": "xiaohongshu",
+      "packet": "ev-ac51e8cae5dd",
+      "segment_id": "p4",
+      "text": "不过核心业务依然强劲，北美分部销售额达到 1162 亿美元，显示出亚马逊在基本盘上的韧性。",
+      "fact_count": 1,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g015",
+          "char_span": [
+            932,
+            946
+          ],
+          "expected_quote": "$116.2 billion",
+          "read_back": "$116.2 billion",
+          "ok": true,
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-57fd1eb6cf0a",
+      "origin": "live",
+      "who": "中文 · 宏观与资金流",
+      "form": "x_thread",
+      "packet": "ev-b614109cca69",
+      "segment_id": "p6",
+      "text": "失效条件：若通胀预期持续下降，购债缩减策略可顺利实施；若通胀预期不回落，策略可能受阻。",
+      "fact_count": 0,
+      "traced": false,
+      "checks": []
+    },
+    {
+      "package_id": "pkg-46001542a37d",
+      "origin": "live",
+      "who": "中文 · 个股与产业链",
+      "form": "x_thread",
+      "packet": "ev-ac51e8cae5dd",
+      "segment_id": "p1",
+      "text": "亚马逊非运营税前其他收入高达 534 亿美元，主要来自对 Anthropic 的投资。这种巨额投入推高了账面利润，但代价是自由现金流转为净流",
+      "fact_count": 1,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g029",
+          "char_span": [
+            1840,
+            1853
+          ],
+          "expected_quote": "$53.4 billion",
+          "read_back": "$53.4 billion",
+          "ok": true,
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-6aa883bae12c",
+      "origin": "live",
+      "who": "中文 · 宏观与资金流",
+      "form": "x_post",
+      "packet": "ev-b614109cca69",
+      "segment_id": "p1",
+      "text": "日本央行计划将每月 2 万亿日元购买量削减 4000 亿日元，以抑制 2% 的通胀预期。生产者价格指数涨幅达 7.2%，自然利率区间 1.1",
+      "fact_count": 5,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g011",
+          "char_span": [
+            41074,
+            41089
+          ],
+          "expected_quote": "400 billion yen",
+          "read_back": "400 billion yen",
+          "ok": true,
+          "url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf"
+        },
+        {
+          "fact_id": "g010",
+          "char_span": [
+            30028,
+            30037
+          ],
+          "expected_quote": "2 percent",
+          "read_back": "2 percent",
+          "ok": true,
+          "url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf"
+        },
+        {
+          "fact_id": "r002",
+          "char_span": [
+            70412,
+            70427
+          ],
+          "expected_quote": "1.1-2.5 percent",
+          "read_back": "1.1-2.5 percent",
+          "ok": true,
+          "url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf"
+        },
+        {
+          "fact_id": "g013",
+          "char_span": [
+            41417,
+            41431
+          ],
+          "expected_quote": "2 trillion yen",
+          "read_back": "2 trillion yen",
+          "ok": true,
+          "url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf"
+        },
+        {
+          "fact_id": "g005",
+          "char_span": [
+            8601,
+            8612
+          ],
+          "expected_quote": "7.2 percent",
+          "read_back": "7.2 percent",
+          "ok": true,
+          "url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-acb621d6903b",
+      "origin": "live",
+      "who": "中文 · 个股与产业链",
+      "form": "xiaohongshu",
+      "packet": "ev-ac51e8cae5dd",
+      "segment_id": "p3",
+      "text": "具体来看，自由现金流较上年减少了 661 亿美元，这主要源于资本支出的大幅增加。",
+      "fact_count": 1,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g032",
+          "char_span": [
+            2218,
+            2232
+          ],
+          "expected_quote": "$66.1 billion",
+          "read_back": "$66.1 billion ",
+          "ok": true,
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-acb621d6903b",
+      "origin": "live",
+      "who": "中文 · 个股与产业链",
+      "form": "xiaohongshu",
+      "packet": "ev-ac51e8cae5dd",
+      "segment_id": "p2",
+      "text": "但这笔巨额投入虽然推高了账面利润，代价却是自由现金流转为净流出。",
+      "fact_count": 0,
+      "traced": false,
+      "checks": []
+    },
+    {
+      "package_id": "pkg-57fd1eb6cf0a",
+      "origin": "live",
+      "who": "中文 · 宏观与资金流",
+      "form": "x_thread",
+      "packet": "ev-b614109cca69",
+      "segment_id": "p4",
+      "text": "自然利率区间被估算在 1.1% 至 2.5% 之间，这为政策调整提供了基准参考。",
+      "fact_count": 1,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "r002",
+          "char_span": [
+            70412,
+            70427
+          ],
+          "expected_quote": "1.1-2.5 percent",
+          "read_back": "1.1-2.5 percent",
+          "ok": true,
+          "url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-acb621d6903b",
+      "origin": "live",
+      "who": "中文 · 个股与产业链",
+      "form": "xiaohongshu",
+      "packet": "ev-ac51e8cae5dd",
+      "segment_id": "p5",
+      "text": "虽然交付速度提升了 40%，但市场更担心的其实是长期资本开支的可持续性。",
+      "fact_count": 1,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g035",
+          "char_span": [
+            2811,
+            2814
+          ],
+          "expected_quote": "40%",
+          "read_back": "40%",
+          "ok": true,
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-acb621d6903b",
+      "origin": "live",
+      "who": "中文 · 个股与产业链",
+      "form": "xiaohongshu",
+      "packet": "ev-ac51e8cae5dd",
+      "segment_id": "p1",
+      "text": "大家可能注意到亚马逊财报里有个惊人的数字：非运营税前其他收入高达 534 亿美元，这主要来自于对 Anthropic 的投资。",
+      "fact_count": 1,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g029",
+          "char_span": [
+            1840,
+            1853
+          ],
+          "expected_quote": "$53.4 billion",
+          "read_back": "$53.4 billion",
+          "ok": true,
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-acb621d6903b",
+      "origin": "live",
+      "who": "中文 · 个股与产业链",
+      "form": "xiaohongshu",
+      "packet": "ev-ac51e8cae5dd",
+      "segment_id": "p6",
+      "text": "如果未来云厂商支出缩减，当前的利润结构将面临剧烈调整。",
+      "fact_count": 0,
+      "traced": false,
+      "checks": []
+    },
+    {
+      "package_id": "pkg-46001542a37d",
+      "origin": "live",
+      "who": "中文 · 个股与产业链",
+      "form": "x_thread",
+      "packet": "ev-ac51e8cae5dd",
+      "segment_id": "p3",
+      "text": "虽然交付速度提升了 40%，但市场更担心的是长期资本开支的可持续性。如果未来云厂商支出缩减，那么当前的利润结构将面临剧烈调整。",
+      "fact_count": 1,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g035",
+          "char_span": [
+            2811,
+            2814
+          ],
+          "expected_quote": "40%",
+          "read_back": "40%",
+          "ok": true,
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-57fd1eb6cf0a",
+      "origin": "live",
+      "who": "中文 · 宏观与资金流",
+      "form": "x_thread",
+      "packet": "ev-b614109cca69",
+      "segment_id": "p3",
+      "text": "生产者价格指数涨幅达到 7.2%，显示当前通胀压力依然显著。",
+      "fact_count": 1,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g005",
+          "char_span": [
+            8601,
+            8612
+          ],
+          "expected_quote": "7.2 percent",
+          "read_back": "7.2 percent",
+          "ok": true,
+          "url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-0e069b693a4f",
+      "origin": "live",
+      "who": "中文 · 宏观与资金流",
+      "form": "x_thread",
+      "packet": "ev-550b4e28dd04",
+      "segment_id": "p1",
+      "text": "逆回购限额设定为 1600 亿美元，为市场提供了明确的流动性支撑基准。市场正观察美联储是否因通胀数据而立即收紧政策。",
+      "fact_count": 1,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g013",
+          "char_span": [
+            30539,
+            30552
+          ],
+          "expected_quote": "$160 billion",
+          "read_back": "$160 billion ",
+          "ok": true,
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-46001542a37d",
+      "origin": "live",
+      "who": "中文 · 个股与产业链",
+      "form": "x_thread",
+      "packet": "ev-ac51e8cae5dd",
+      "segment_id": "p4",
+      "text": "性能提升 25% 的 Graviton 芯片虽好，却难以完全抵消资本开支带来的现金流压力。唯有当经营利润能持续超过资本支出时，这种扩张模式才",
+      "fact_count": 1,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g037",
+          "char_span": [
+            4120,
+            4123
+          ],
+          "expected_quote": "25%",
+          "read_back": "25%",
+          "ok": true,
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-acb621d6903b",
+      "origin": "live",
+      "who": "中文 · 个股与产业链",
+      "form": "xiaohongshu",
+      "packet": "ev-ac51e8cae5dd",
+      "segment_id": "p7",
+      "text": "性能提升 25% 的 Graviton 芯片虽好，却难以完全抵消资本开支带来的现金流压力。",
+      "fact_count": 1,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g037",
+          "char_span": [
+            4120,
+            4123
+          ],
+          "expected_quote": "25%",
+          "read_back": "25%",
+          "ok": true,
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-46001542a37d",
+      "origin": "live",
+      "who": "中文 · 个股与产业链",
+      "form": "x_thread",
+      "packet": "ev-ac51e8cae5dd",
+      "segment_id": "p2",
+      "text": "自由现金流较上年减少了 661 亿美元，主要源于资本支出的大幅增加。北美分部销售额达到 1162 亿美元，显示出核心业务的强劲韧性。",
+      "fact_count": 2,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g032",
+          "char_span": [
+            2218,
+            2232
+          ],
+          "expected_quote": "$66.1 billion",
+          "read_back": "$66.1 billion ",
+          "ok": true,
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+        },
+        {
+          "fact_id": "g015",
+          "char_span": [
+            932,
+            946
+          ],
+          "expected_quote": "$116.2 billion",
+          "read_back": "$116.2 billion",
+          "ok": true,
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-acb621d6903b",
+      "origin": "live",
+      "who": "中文 · 个股与产业链",
+      "form": "xiaohongshu",
+      "packet": "ev-ac51e8cae5dd",
+      "segment_id": "p8",
+      "text": "唯有当经营利润能持续超过资本支出时，这种扩张模式才具备长期价值。",
+      "fact_count": 0,
+      "traced": false,
+      "checks": []
+    },
+    {
+      "package_id": "pkg-57fd1eb6cf0a",
+      "origin": "live",
+      "who": "中文 · 宏观与资金流",
+      "form": "x_thread",
+      "packet": "ev-b614109cca69",
+      "segment_id": "p5",
+      "text": "若通胀预期不回落，央行可能被迫延长购债缩减幅度；若自然利率区间下移，购债规模或将被重新评估。",
+      "fact_count": 0,
+      "traced": false,
+      "checks": []
+    },
+    {
+      "package_id": "pkg-24d1e78f8f81",
+      "origin": "live",
+      "who": "中文 · 宏观与资金流",
+      "form": "x_post",
+      "packet": "ev-550b4e28dd04",
+      "segment_id": "p1",
+      "text": "逆回购限额 1600 亿美元支撑市场，总消费者物价指数 4.1% 与核心 3.4% 显示通胀压力显著。若通胀反弹至 3.7% 以上，美联储将",
+      "fact_count": 5,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g013",
+          "char_span": [
+            30539,
+            30552
+          ],
+          "expected_quote": "$160 billion",
+          "read_back": "$160 billion ",
+          "ok": true,
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+        },
+        {
+          "fact_id": "g003",
+          "char_span": [
+            4945,
+            4956
+          ],
+          "expected_quote": "4.1 percent",
+          "read_back": "4.1 percent",
+          "ok": true,
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+        },
+        {
+          "fact_id": "g004",
+          "char_span": [
+            5075,
+            5086
+          ],
+          "expected_quote": "3.4 percent",
+          "read_back": "3.4 percent",
+          "ok": true,
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+        },
+        {
+          "fact_id": "g005",
+          "char_span": [
+            5884,
+            5895
+          ],
+          "expected_quote": "3.7 percent",
+          "read_back": "3.7 percent",
+          "ok": true,
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+        },
+        {
+          "fact_id": "g006",
+          "char_span": [
+            6015,
+            6026
+          ],
+          "expected_quote": "3.3 percent",
+          "read_back": "3.3 percent",
+          "ok": true,
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+        }
+      ]
+    },
+    {
+      "package_id": "pkg-a871471c096f",
+      "origin": "live",
+      "who": "中文 · 宏观与资金流",
+      "form": "x_post",
+      "packet": "ev-b614109cca69",
+      "segment_id": "p1",
+      "text": "日本央行计划将每月 2 万亿日元购买量削减 4000 亿日元，以抑制 2% 的通胀预期。生产者价格指数涨幅达 7.2%，自然利率区间 1.1",
+      "fact_count": 5,
+      "traced": true,
+      "checks": [
+        {
+          "fact_id": "g011",
+          "char_span": [
+            41074,
+            41089
+          ],
+          "expected_quote": "400 billion yen",
+          "read_back": "400 billion yen",
+          "ok": true,
+          "url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf"
+        },
+        {
+          "fact_id": "g010",
+          "char_span": [
+            30028,
+            30037
+          ],
+          "expected_quote": "2 percent",
+          "read_back": "2 percent",
+          "ok": true,
+          "url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf"
+        },
+        {
+          "fact_id": "r002",
+          "char_span": [
+            70412,
+            70427
+          ],
+          "expected_quote": "1.1-2.5 percent",
+          "read_back": "1.1-2.5 percent",
+          "ok": true,
+          "url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf"
+        },
+        {
+          "fact_id": "g013",
+          "char_span": [
+            41417,
+            41431
+          ],
+          "expected_quote": "2 trillion yen",
+          "read_back": "2 trillion yen",
+          "ok": true,
+          "url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf"
+        },
+        {
+          "fact_id": "g005",
+          "char_span": [
+            8601,
+            8612
+          ],
+          "expected_quote": "7.2 percent",
+          "read_back": "7.2 percent",
+          "ok": true,
+          "url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf"
+        }
+      ]
+    }
+  ]
+}

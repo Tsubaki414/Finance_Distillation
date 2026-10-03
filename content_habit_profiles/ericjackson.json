@@ -1,0 +1,73 @@
+{
+  "donor": "ericjackson",
+  "observed_items": 20,
+  "post_ids": [
+    "2095672922132169211",
+    "2095696992634585174",
+    "2095717286355071026",
+    "2095807760021463198",
+    "2095824299881894398",
+    "2095943727902523451",
+    "2095949994167521323",
+    "2095950405339389961",
+    "2095952104489673040",
+    "2096160269726609652",
+    "2096184826726318424",
+    "2096196451164360792",
+    "2096208659348890018",
+    "2096212449930195204",
+    "2096242921292939624",
+    "2096249331284050159",
+    "2096249341149172039",
+    "2096270853331644840",
+    "2096271035238674440",
+    "2096283656771834085"
+  ],
+  "time_basis": "UTC; author local timezone unknown",
+  "interval_hours": {
+    "n": 19,
+    "mean": 2.1288011695906435,
+    "p10": 0.02422222222222222,
+    "p50": 0.8358333333333333,
+    "p90": 6.37522222222222
+  },
+  "weekend_post_share": 0.55,
+  "busiest_observed_days": [
+    [
+      "2026-09-05",
+      11
+    ],
+    [
+      "2026-09-04",
+      9
+    ]
+  ],
+  "post_types": {
+    "original": 9,
+    "quote": 1,
+    "reply": 8,
+    "repost": 2
+  },
+  "theme_length": {
+    "0": null,
+    "1": null,
+    "2": null,
+    "3": null,
+    "4": null,
+    "5": null,
+    "6": null,
+    "7": {
+      "n": 3,
+      "mean": 626.3333333333334,
+      "p10": 370.2,
+      "p50": 807.0,
+      "p90": 810.2
+    }
+  },
+  "topic_switch_rate": 0.0,
+  "reaction_latency": null,
+  "acknowledges_errors": null,
+  "updates_old_views": null,
+  "missing_behavior_reason": "Incomplete timeline and event alignment; absence is not evidence of silence or failure to correct.",
+  "unknown_gaps": "Intervals describe observed records, not all activity."
+}

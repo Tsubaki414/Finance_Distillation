@@ -1,0 +1,634 @@
+{
+  "note": "Live watchlist. Only channels verified working on 2026-09-09 are enabled; the rest carry the reason they are off, so nothing here silently pretends to be live.",
+  "verified_at": "2026-09-09",
+  "x_accounts": [
+    {
+      "handle": "phyrexni",
+      "lang": "zh",
+      "in_corpus": true,
+      "beat": "crypto_macro"
+    },
+    {
+      "handle": "qinbafrank",
+      "lang": "zh",
+      "in_corpus": true,
+      "beat": "macro_flows"
+    },
+    {
+      "handle": "aleabitoreddit",
+      "lang": "zh",
+      "in_corpus": true,
+      "beat": "market_psychology"
+    },
+    {
+      "handle": "michael_qqq2025",
+      "lang": "zh",
+      "in_corpus": true,
+      "beat": "equities"
+    },
+    {
+      "handle": "kovainvest",
+      "lang": "zh",
+      "in_corpus": true,
+      "beat": "equities"
+    },
+    {
+      "handle": "xingpt",
+      "lang": "zh",
+      "in_corpus": true,
+      "beat": "semis_supply_chain"
+    },
+    {
+      "handle": "beth_kindig",
+      "lang": "en",
+      "in_corpus": true,
+      "beat": "tech_equities"
+    },
+    {
+      "handle": "globalmktobserv",
+      "lang": "en",
+      "in_corpus": true,
+      "beat": "macro"
+    },
+    {
+      "handle": "citrini",
+      "lang": "en",
+      "in_corpus": true,
+      "beat": "thematic"
+    },
+    {
+      "handle": "ericjackson",
+      "lang": "en",
+      "in_corpus": true,
+      "beat": "tech_equities"
+    },
+    {
+      "handle": "rjccapital",
+      "lang": "en",
+      "in_corpus": true,
+      "beat": "equities"
+    },
+    {
+      "handle": "tradexwhisperer",
+      "lang": "en",
+      "in_corpus": true,
+      "beat": "trading"
+    }
+  ],
+  "primary_sources": [
+    {
+      "id": "bls_empsit",
+      "kind": "release_page",
+      "url": "https://www.bls.gov/news.release/empsit.nr0.htm",
+      "fetch": "jina_reader",
+      "why": "BLS returns 403 to an anonymous User-Agent and its policy expects a real contact; the reader proxy fetches the same public page without putting anyone's identity in a header"
+    },
+    {
+      "id": "bls_cpi",
+      "kind": "release_page",
+      "url": "https://www.bls.gov/news.release/cpi.nr0.htm",
+      "fetch": "jina_reader"
+    },
+    {
+      "id": "bls_ppi",
+      "kind": "release_page",
+      "url": "https://www.bls.gov/news.release/ppi.nr0.htm",
+      "fetch": "jina_reader"
+    },
+    {
+      "id": "fed_press",
+      "kind": "release_index",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases.htm",
+      "fetch": "jina_reader"
+    }
+  ],
+  "disabled_channels": [
+    {
+      "channel": "x_keyword_search",
+      "why": "twitter search returns HTTP 404; the CLI documents the endpoint as unstable. Account polling is used instead."
+    },
+    {
+      "channel": "reddit",
+      "why": "OpenCLI installed but the Chrome extension is not; needs one manual install click."
+    },
+    {
+      "channel": "xiaohongshu",
+      "why": "same as reddit"
+    },
+    {
+      "channel": "bilibili",
+      "why": "same as reddit"
+    },
+    {
+      "channel": "xueqiu",
+      "why": "no backend configured"
+    },
+    {
+      "channel": "bls_rss_direct",
+      "why": "403 without a contact User-Agent; not used rather than sending anyone's contact details"
+    }
+  ],
+  "learning_accounts": [
+    {
+      "handle": "RaoulGMI",
+      "name": "Raoul Pal",
+      "followers": 1495442,
+      "region": "Cayman Islands",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "leadlagreport",
+      "name": "Michael A. Gayed, CFA",
+      "followers": 771791,
+      "region": "未公开",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "natbrunell",
+      "name": "Natalie Brunell ⚡️",
+      "followers": 639805,
+      "region": "未公开",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "awealthofcs",
+      "name": "Ben Carlson",
+      "followers": 377216,
+      "region": "美国｜Grand Rapids, MI",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "patrick_oshag",
+      "name": "Patrick OShaughnessy",
+      "followers": 357911,
+      "region": "美国｜New York, NY",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "AndreasSteno",
+      "name": "Andreas Steno Larsen",
+      "followers": 296603,
+      "region": "丹麦｜Copenhagen",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "michaelbatnick",
+      "name": "Michael Batnick",
+      "followers": 207507,
+      "region": "未公开",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "MebFaber",
+      "name": "Meb Faber",
+      "followers": 143548,
+      "region": "美国｜Manhattan Beach, CA",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "investmattallen",
+      "name": "Matt Allen",
+      "followers": 127385,
+      "region": "所在地未公开｜美国受众",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "TheAlphaThought",
+      "name": "THE DIVIDEND DOMINATOR",
+      "followers": 104321,
+      "region": "加拿大｜美国/英国受众",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "JimMarous",
+      "name": "Jim Marous 💯",
+      "followers": 98383,
+      "region": "美国｜Cleveland, OH",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "sytaylor",
+      "name": "Simon Taylor",
+      "followers": 71579,
+      "region": "英国｜London, UK",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "KrisAbdelmessih",
+      "name": "Kris",
+      "followers": 51840,
+      "region": "美国｜SF Bay Area",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "tseides",
+      "name": "Ted Seides",
+      "followers": 39058,
+      "region": "美国｜Ocean Ridge, FL",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "callieabost",
+      "name": "Callie Cox",
+      "followers": 36403,
+      "region": "美国｜Charlotte, NC",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "NikMilanovic",
+      "name": "Nik",
+      "followers": 34118,
+      "region": "未公开",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "mikulaja",
+      "name": "Jason Mikula",
+      "followers": 29282,
+      "region": "荷兰｜Amsterdam, Netherlands",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "efipm",
+      "name": "Dr Efi Pylarinou",
+      "followers": 28260,
+      "region": "瑞士｜Switzerland",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "LynAldenContact",
+      "name": "Lyn Alden",
+      "followers": 1133988,
+      "region": "未公开",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "charliebilello",
+      "name": "Charlie Bilello",
+      "followers": 864085,
+      "region": "未公开",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "morganhousel",
+      "name": "Morgan Housel",
+      "followers": 704916,
+      "region": "美国｜Seattle, WA",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "EricBalchunas",
+      "name": "Eric Balchunas",
+      "followers": 618322,
+      "region": "美国｜Philadelphia",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "GeorgeGammon",
+      "name": "George Gammon",
+      "followers": 332495,
+      "region": "未公开",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "TaviCosta",
+      "name": "Otavio (Tavi) Costa",
+      "followers": 322119,
+      "region": "美国｜Denver, CO",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "Ritholtz",
+      "name": "Barry Ritholtz",
+      "followers": 255616,
+      "region": "美国｜NYC",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "RyanDetrick",
+      "name": "Ryan Detrick, CMT",
+      "followers": 223010,
+      "region": "美国｜Cincinnati",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "josephwang",
+      "name": "Joseph Wang",
+      "followers": 211144,
+      "region": "美国",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "JSeyff",
+      "name": "James Seyffart",
+      "followers": 183593,
+      "region": "美国",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "jameslavish",
+      "name": "James Lavish",
+      "followers": 171840,
+      "region": "美国｜所在地未公开",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "borrowed_ideas",
+      "name": "Mostly Borrowed Ideas",
+      "followers": 150129,
+      "region": "美国｜Sacramento",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "Convertbond",
+      "name": "Lawrence McDonald",
+      "followers": 144811,
+      "region": "美国｜New York, NY",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "StockJabber",
+      "name": "Edwin Dorsey",
+      "followers": 119297,
+      "region": "美国｜Miami, FL",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "DeepSailCapital",
+      "name": "Deep Sail Capital",
+      "followers": 57184,
+      "region": "美国市场｜所在地未公开",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "jasongoepfert",
+      "name": "Jason Goepfert",
+      "followers": 53188,
+      "region": "未公开",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "harmongreg",
+      "name": "Greg Harmon, CMT/CFA, President Dragonfly Capital",
+      "followers": 50812,
+      "region": "美国｜Ohio",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "BullandBaird",
+      "name": "Michael Antonelli",
+      "followers": 40639,
+      "region": "美国｜Milwaukee, WI",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "AndrewThrasher",
+      "name": "Andrew Thrasher, CMT",
+      "followers": 39296,
+      "region": "美国｜Indianapolis",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "MarcRuby",
+      "name": "Marc Rubinstein",
+      "followers": 26366,
+      "region": "英国｜London, England",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "MaxfieldOnBanks",
+      "name": "Maxfield on Banks",
+      "followers": 24310,
+      "region": "美国市场｜所在地未公开",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "DavidTaggart",
+      "name": "David Taggart-PDMacro.com",
+      "followers": 6974,
+      "region": "美国｜Wyoming/Utah",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "jasonhenrichs",
+      "name": "Jason Henrichs",
+      "followers": 5056,
+      "region": "美国｜St Paul, MN",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "garyblack00",
+      "name": "Gary Black",
+      "followers": 580413,
+      "region": "美国｜Chicago, IL",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "BobEUnlimited",
+      "name": "Bob Elliott",
+      "followers": 304694,
+      "region": "美国｜New York, NY",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "jam_croissant",
+      "name": "Cem Karsan 🥐",
+      "followers": 276073,
+      "region": "美国｜Chicago",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "JeffSnider_EDU",
+      "name": "Jeffrey P. Snider",
+      "followers": 140395,
+      "region": "美国｜West Palm Beach, FL",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "dailydirtnap",
+      "name": "Jared Dillian",
+      "followers": 96440,
+      "region": "美国｜Pawleys Island, SC",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "choffstein",
+      "name": "Corey Hoffstein 🏴‍☠️",
+      "followers": 85618,
+      "region": "未公开",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "WarrenPies",
+      "name": "Warren Pies",
+      "followers": 77854,
+      "region": "美国｜FL",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "pboockvar",
+      "name": "Peter Boockvar",
+      "followers": 46533,
+      "region": "未公开",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    },
+    {
+      "handle": "jturek18",
+      "name": "Jon Turek",
+      "followers": 20886,
+      "region": "未公开",
+      "lang": "en",
+      "in_corpus": false,
+      "role": "style_and_knowledge_learning_only",
+      "source": "Mango_English_X_Finance_KOL_Final.xlsx / X金融KOL"
+    }
+  ],
+  "learning_accounts_note": "来自英文 KOL 表，仅用于语言与知识学习：这些账号不是既有语料 donor，采集后先建风格区间，人工确认前不直接作为某个账号的 language donor"
+}

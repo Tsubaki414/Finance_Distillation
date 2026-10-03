@@ -1,0 +1,1215 @@
+{
+  "as_of": "2026-09-06T04:27:03.340862+00:00",
+  "acceptance": "incomplete executable research slice; not accepted MVP",
+  "corpus": {
+    "raw": 2647,
+    "clean": 1825,
+    "language": {
+      "by_donor_detected_source_language": {
+        "aleabitoreddit": {
+          "en": 399,
+          "zh": 4,
+          "ja": 1
+        },
+        "beth_kindig": {
+          "en": 18
+        },
+        "citrini": {
+          "en": 1
+        },
+        "ericjackson": {
+          "en": 3
+        },
+        "globalmktobserv": {
+          "en": 10
+        },
+        "kovainvest": {
+          "en": 56,
+          "zh": 166,
+          "ja": 3,
+          "et": 1
+        },
+        "michael_qqq2025": {
+          "zh": 318,
+          "en": 16,
+          "ja": 4
+        },
+        "phyrexni": {
+          "zh": 356,
+          "ja": 1
+        },
+        "qinbafrank": {
+          "zh": 312
+        },
+        "rjccapital": {
+          "en": 3
+        },
+        "tradexwhisperer": {
+          "en": 4
+        },
+        "xingpt": {
+          "zh": 148,
+          "ja": 1
+        }
+      },
+      "note": "Provider language labels may contain errors; target roster language is not the same as observed post language. No 6-ZH / 6-EN acceptance claim.",
+      "donors_reaching_150_total": 5,
+      "donors_reaching_150_zh": 4,
+      "donors_reaching_150_en": 1
+    },
+    "promotion_cleanup": {
+      "version": "clean-v3-reviewed-commercial-spans",
+      "raw_n": 2647,
+      "clean_n": 1825,
+      "posts_with_removed_spans": 401,
+      "retained_with_removed_spans": 355,
+      "removed_span_reasons": {
+        "explicit_isolated_sponsor_footer": 384,
+        "reviewed_whole_post_commercial_exclusion": 13,
+        "reviewed_commercial_tail": 3,
+        "reviewed_embedded_commercial_span": 1
+      },
+      "whole_commercial_exclusions": [
+        "2091835773423403168",
+        "2093047700967313632",
+        "2076589362339528766",
+        "2077259839638806616",
+        "2088554410159059441",
+        "2094299708487557508",
+        "2063967212365570478",
+        "2064939368096383119",
+        "2065059281226043839",
+        "2085251441632186444",
+        "2089382795550572867",
+        "2090799498901791227",
+        "2095052335676633160"
+      ],
+      "retained_promotion_gate_matches": [],
+      "source_files_hash_verified": true,
+      "span_substrings_verified": true,
+      "language_counts": {
+        "zh": 1304,
+        "ja": 10,
+        "en": 510,
+        "et": 1
+      },
+      "raw_sha256": "c7447fe5ce4df96b16c92373db52dc3f93e5009911b7f9d793a9aa3aea756d5e",
+      "clean_sha256": "0ae5022f72f416571150f410b2219413c50c83bbcc6c3b6c9a510024afa0fe89",
+      "scope": "Known sponsor lines and context-reviewed body/tail promotions. Source files are unchanged. No claim of perfect detection of undisclosed or novel promotion."
+    }
+  },
+  "ml": {
+    "run_id": "ml-20260906T025040",
+    "dataset_sha256": "c7447fe5ce4df96b16c92373db52dc3f93e5009911b7f9d793a9aa3aea756d5e",
+    "raw": 2647,
+    "clean": 1825,
+    "reviewed_rows": 517,
+    "silver_scored": 300,
+    "eligible_authors": [
+      "aleabitoreddit",
+      "kovainvest",
+      "michael_qqq2025",
+      "phyrexni",
+      "qinbafrank",
+      "xingpt"
+    ],
+    "classification": {
+      "rules": {
+        "n": 300,
+        "accuracy": 1.0,
+        "macro_precision": 1.0,
+        "macro_recall": 1.0,
+        "macro_f1": 1.0
+      },
+      "char_tfidf_logistic": {
+        "n": 300,
+        "accuracy": 0.9566666666666667,
+        "macro_precision": 0.9010781671159029,
+        "macro_recall": 0.8914141414141414,
+        "macro_f1": 0.8961633696317793
+      },
+      "pretrained_embedding_logistic": {
+        "n": 300,
+        "accuracy": 0.9266666666666666,
+        "macro_precision": 0.8201923076923077,
+        "macro_recall": 0.8503787878787878,
+        "macro_f1": 0.8342707914825231
+      },
+      "local_llm_7b": {
+        "n": 298,
+        "requested": 300,
+        "coverage": 0.9933333333333333,
+        "accuracy": 0.912751677852349,
+        "macro_precision": 0.7803314571607254,
+        "macro_recall": 0.8995098039215685,
+        "macro_f1": 0.8233470132238943,
+        "abstentions_or_format_failures": 2,
+        "end_to_end_correct_fraction": 0.9066666666666666,
+        "model": "Qwen2.5-7B-Instruct-4bit",
+        "dataset_sha256": "c7447fe5ce4df96b16c92373db52dc3f93e5009911b7f9d793a9aa3aea756d5e",
+        "reference": "strict-rule silver agreement; no human accuracy claim",
+        "failed_responses": [
+          "2075226403856060898",
+          "2094788202762510800"
+        ],
+        "reused_identical_requests": 217
+      }
+    },
+    "authorship": {
+      "stylometry": {
+        "n": 360,
+        "accuracy": 0.7638888888888888,
+        "macro_precision": 0.7210907739000391,
+        "macro_recall": 0.7176889515870761,
+        "macro_f1": 0.7162921825731821
+      },
+      "embedding": {
+        "n": 360,
+        "accuracy": 0.7083333333333334,
+        "macro_precision": 0.6451261143726897,
+        "macro_recall": 0.6429168903202719,
+        "macro_f1": 0.6425338999334235
+      },
+      "combined": {
+        "n": 360,
+        "accuracy": 0.8111111111111111,
+        "macro_precision": 0.7612652929090485,
+        "macro_recall": 0.7582243444881978,
+        "macro_f1": 0.7594759304915617
+      },
+      "majority": {
+        "n": 360,
+        "accuracy": 0.225,
+        "macro_precision": 0.0375,
+        "macro_recall": 0.16666666666666666,
+        "macro_f1": 0.06122448979591837
+      },
+      "language_only": {
+        "n": 360,
+        "accuracy": 0.41944444444444445,
+        "macro_precision": 0.22690298305451792,
+        "macro_recall": 0.3293542725732268,
+        "macro_f1": 0.22596410353895383
+      }
+    },
+    "duration_seconds": 31.71,
+    "human_validation": false,
+    "llm_update_source": "A_finance_classification.json"
+  },
+  "D": {
+    "design": "3 personas × 2 languages × 5 modes; one sample per cell, exploratory",
+    "model_role": "modern",
+    "corpus_sha256": "0ae5022f72f416571150f410b2219413c50c83bbcc6c3b6c9a510024afa0fe89",
+    "rows": [
+      {
+        "draft_id": "draft-352bce35ef8e",
+        "persona_id": "macro",
+        "language": "zh",
+        "condition": "multi",
+        "corpus_sha256": "0ae5022f72f416571150f410b2219413c50c83bbcc6c3b6c9a510024afa0fe89",
+        "characters": 377,
+        "interpretation_characters": 256,
+        "structured_numeric_contract": "passed",
+        "promotional_matches": 0,
+        "model_run_id": "local-5c473cf1ed2b4e8a",
+        "plan_run_id": "local-b18302816f754dce",
+        "ai_pattern_flags": [],
+        "longest_exemplar_overlap": {
+          "chars": 2,
+          "post_id": "2080178039225483463"
+        },
+        "measured_output_style": {
+          "char_count": 256,
+          "sentence_count": 3,
+          "sentence_mean": 83.66666666666667,
+          "sentence_std": 18.208667044996883,
+          "sentence_p25": 71.0,
+          "sentence_p75": 92.0,
+          "paragraph_mean": 84.66666666666667,
+          "paragraph_count": 3,
+          "digit_density": 0.05859375,
+          "ticker_density": 0.0,
+          "link_density": 0.0,
+          "question_rate": 0.0,
+          "first_person_rate": 0.0,
+          "hedge_rate": 0.0,
+          "certainty_rate": 0.0,
+          "list_rate": 0.0,
+          "fragment_rate": 0.0,
+          "long_argument_rate": 0.0,
+          "colon_rate": 0.0,
+          "quote_rate": 0.0,
+          "exclamation_rate": 0.0,
+          "parenthesis_rate": 0.0,
+          "conclusion_opener": 0.0,
+          "evidence_opener": 0.0,
+          "definition_early": 0.0,
+          "closing_question": 0.0,
+          "ai_pattern_count": 0,
+          "function_的": 0.015625,
+          "function_了": 0.0,
+          "function_是": 0.0078125,
+          "function_在": 0.0,
+          "function_但": 0.00390625,
+          "function_如果": 0.0,
+          "function_因为": 0.0,
+          "function_所以": 0.0,
+          "function_而": 0.0,
+          "function_也": 0.0,
+          "function_就": 0.015625,
+          "function_我": 0.0,
+          "function_我们": 0.0,
+          "function_你": 0.0,
+          "function_and": 0.0,
+          "function_but": 0.0,
+          "function_if": 0.0,
+          "function_because": 0.0,
+          "function_so": 0.0,
+          "function_the": 0.0,
+          "function_a": 0.0,
+          "function_of": 0.0,
+          "function_to": 0.0,
+          "function_is": 0.0,
+          "function_i": 0.0,
+          "function_we": 0.0,
+          "function_you": 0.0
+        },
+        "human_quality": null,
+        "human_persona_recognition": null,
+        "human_faithfulness": null
+      },
+      {
+        "draft_id": "draft-1a44f7244d09",
+        "persona_id": "industry",
+        "language": "zh",
+        "condition": "multi",
+        "corpus_sha256": "0ae5022f72f416571150f410b2219413c50c83bbcc6c3b6c9a510024afa0fe89",
+        "characters": 437,
+        "interpretation_characters": 347,
+        "structured_numeric_contract": "passed",
+        "promotional_matches": 0,
+        "model_run_id": "local-6d34d70adff14b95",
+        "plan_run_id": "local-114fe6494bcd48db",
+        "ai_pattern_flags": [],
+        "longest_exemplar_overlap": {
+          "chars": 3,
+          "post_id": "2070475770724557072"
+        },
+        "measured_output_style": {
+          "char_count": 347,
+          "sentence_count": 6,
+          "sentence_mean": 56.5,
+          "sentence_std": 16.53027525481654,
+          "sentence_p25": 41.0,
+          "sentence_p75": 70.5,
+          "paragraph_mean": 115.0,
+          "paragraph_count": 3,
+          "digit_density": 0.04610951008645533,
+          "ticker_density": 0.0,
+          "link_density": 0.0,
+          "question_rate": 0.0,
+          "first_person_rate": 0.005763688760806916,
+          "hedge_rate": 0.005763688760806916,
+          "certainty_rate": 0.0,
+          "list_rate": 0.0,
+          "fragment_rate": 0.0,
+          "long_argument_rate": 0.0,
+          "colon_rate": 0.0,
+          "quote_rate": 0.005763688760806916,
+          "exclamation_rate": 0.0,
+          "parenthesis_rate": 0.0,
+          "conclusion_opener": 0.0,
+          "evidence_opener": 0.0,
+          "definition_early": 0.0,
+          "closing_question": 0.0,
+          "ai_pattern_count": 0,
+          "function_的": 0.02881844380403458,
+          "function_了": 0.002881844380403458,
+          "function_是": 0.002881844380403458,
+          "function_在": 0.008645533141210375,
+          "function_但": 0.002881844380403458,
+          "function_如果": 0.0,
+          "function_因为": 0.0,
+          "function_所以": 0.0,
+          "function_而": 0.002881844380403458,
+          "function_也": 0.002881844380403458,
+          "function_就": 0.011527377521613832,
+          "function_我": 0.002881844380403458,
+          "function_我们": 0.002881844380403458,
+          "function_你": 0.0,
+          "function_and": 0.0,
+          "function_but": 0.0,
+          "function_if": 0.0,
+          "function_because": 0.0,
+          "function_so": 0.0,
+          "function_the": 0.0,
+          "function_a": 0.0,
+          "function_of": 0.0,
+          "function_to": 0.0,
+          "function_is": 0.0,
+          "function_i": 0.0,
+          "function_we": 0.0,
+          "function_you": 0.0
+        },
+        "human_quality": null,
+        "human_persona_recognition": null,
+        "human_faithfulness": null
+      },
+      {
+        "draft_id": "draft-0ab61ffe759b",
+        "persona_id": "macro",
+        "language": "en",
+        "condition": "multi",
+        "corpus_sha256": "0ae5022f72f416571150f410b2219413c50c83bbcc6c3b6c9a510024afa0fe89",
+        "characters": 1302,
+        "interpretation_characters": 1098,
+        "structured_numeric_contract": "passed",
+        "promotional_matches": 0,
+        "model_run_id": "local-76c60b3b789d40c2",
+        "plan_run_id": "local-0acf97fa9e6946fb",
+        "ai_pattern_flags": [],
+        "longest_exemplar_overlap": {
+          "chars": 7,
+          "post_id": "2065352243487150334"
+        },
+        "measured_output_style": {
+          "char_count": 1098,
+          "sentence_count": 6,
+          "sentence_mean": 181.16666666666666,
+          "sentence_std": 27.437302264536786,
+          "sentence_p25": 164.5,
+          "sentence_p75": 194.0,
+          "paragraph_mean": 365.3333333333333,
+          "paragraph_count": 3,
+          "digit_density": 0.011839708561020037,
+          "ticker_density": 0.0,
+          "link_density": 0.0,
+          "question_rate": 0.0,
+          "first_person_rate": 0.0,
+          "hedge_rate": 0.0009107468123861566,
+          "certainty_rate": 0.0,
+          "list_rate": 0.0,
+          "fragment_rate": 0.0,
+          "long_argument_rate": 1.0,
+          "colon_rate": 0.0,
+          "quote_rate": 0.0,
+          "exclamation_rate": 0.0,
+          "parenthesis_rate": 0.0,
+          "conclusion_opener": 0.0,
+          "evidence_opener": 0.0,
+          "definition_early": 0.0,
+          "closing_question": 0.0,
+          "ai_pattern_count": 0,
+          "function_的": 0.0,
+          "function_了": 0.0,
+          "function_是": 0.0,
+          "function_在": 0.0,
+          "function_但": 0.0,
+          "function_如果": 0.0,
+          "function_因为": 0.0,
+          "function_所以": 0.0,
+          "function_而": 0.0,
+          "function_也": 0.0,
+          "function_就": 0.0,
+          "function_我": 0.0,
+          "function_我们": 0.0,
+          "function_你": 0.0,
+          "function_and": 0.0018214936247723133,
+          "function_but": 0.0,
+          "function_if": 0.0,
+          "function_because": 0.0,
+          "function_so": 0.0,
+          "function_the": 0.009107468123861567,
+          "function_a": 0.00546448087431694,
+          "function_of": 0.0018214936247723133,
+          "function_to": 0.0018214936247723133,
+          "function_is": 0.0,
+          "function_i": 0.0,
+          "function_we": 0.0,
+          "function_you": 0.0
+        },
+        "human_quality": null,
+        "human_persona_recognition": null,
+        "human_faithfulness": null
+      },
+      {
+        "draft_id": "draft-d18b7028456e",
+        "persona_id": "industry",
+        "language": "en",
+        "condition": "multi",
+        "corpus_sha256": "0ae5022f72f416571150f410b2219413c50c83bbcc6c3b6c9a510024afa0fe89",
+        "characters": 1711,
+        "interpretation_characters": 1416,
+        "structured_numeric_contract": "passed",
+        "promotional_matches": 0,
+        "model_run_id": "local-ab9851b62bba4bb3",
+        "plan_run_id": "local-1ce40b7021aa42e5",
+        "ai_pattern_flags": [],
+        "longest_exemplar_overlap": {
+          "chars": 5,
+          "post_id": "2070475770724557072"
+        },
+        "measured_output_style": {
+          "char_count": 1416,
+          "sentence_count": 6,
+          "sentence_mean": 234.16666666666666,
+          "sentence_std": 30.27879712861057,
+          "sentence_p25": 211.75,
+          "sentence_p75": 254.0,
+          "paragraph_mean": 471.3333333333333,
+          "paragraph_count": 3,
+          "digit_density": 0.009180790960451978,
+          "ticker_density": 0.0,
+          "link_density": 0.0,
+          "question_rate": 0.0,
+          "first_person_rate": 0.0,
+          "hedge_rate": 0.0014124293785310734,
+          "certainty_rate": 0.0,
+          "list_rate": 0.0,
+          "fragment_rate": 0.0,
+          "long_argument_rate": 1.0,
+          "colon_rate": 0.0,
+          "quote_rate": 0.0,
+          "exclamation_rate": 0.0,
+          "parenthesis_rate": 0.0,
+          "conclusion_opener": 0.0,
+          "evidence_opener": 0.0,
+          "definition_early": 0.0,
+          "closing_question": 0.0,
+          "ai_pattern_count": 0,
+          "function_的": 0.0,
+          "function_了": 0.0,
+          "function_是": 0.0,
+          "function_在": 0.0,
+          "function_但": 0.0,
+          "function_如果": 0.0,
+          "function_因为": 0.0,
+          "function_所以": 0.0,
+          "function_而": 0.0,
+          "function_也": 0.0,
+          "function_就": 0.0,
+          "function_我": 0.0,
+          "function_我们": 0.0,
+          "function_你": 0.0,
+          "function_and": 0.0014124293785310734,
+          "function_but": 0.0,
+          "function_if": 0.0007062146892655367,
+          "function_because": 0.0,
+          "function_so": 0.0,
+          "function_the": 0.01059322033898305,
+          "function_a": 0.0049435028248587575,
+          "function_of": 0.00423728813559322,
+          "function_to": 0.0014124293785310734,
+          "function_is": 0.0,
+          "function_i": 0.0,
+          "function_we": 0.0,
+          "function_you": 0.0
+        },
+        "human_quality": null,
+        "human_persona_recognition": null,
+        "human_faithfulness": null
+      },
+      {
+        "draft_id": "draft-b3d0555fe3f2",
+        "persona_id": "industry",
+        "language": "zh",
+        "condition": "profile",
+        "corpus_sha256": "0ae5022f72f416571150f410b2219413c50c83bbcc6c3b6c9a510024afa0fe89",
+        "characters": 406,
+        "interpretation_characters": 316,
+        "structured_numeric_contract": "passed",
+        "promotional_matches": 0,
+        "model_run_id": "local-5b58c400a12a4803",
+        "plan_run_id": "local-2c99040ced41400f",
+        "ai_pattern_flags": [],
+        "longest_exemplar_overlap": {
+          "chars": 0,
+          "post_id": null
+        },
+        "measured_output_style": {
+          "char_count": 316,
+          "sentence_count": 6,
+          "sentence_mean": 51.333333333333336,
+          "sentence_std": 9.498537899183338,
+          "sentence_p25": 43.0,
+          "sentence_p75": 59.25,
+          "paragraph_mean": 104.66666666666667,
+          "paragraph_count": 3,
+          "digit_density": 0.0981012658227848,
+          "ticker_density": 0.0,
+          "link_density": 0.0,
+          "question_rate": 0.0,
+          "first_person_rate": 0.0,
+          "hedge_rate": 0.0031645569620253164,
+          "certainty_rate": 0.0,
+          "list_rate": 0.0,
+          "fragment_rate": 0.0,
+          "long_argument_rate": 0.0,
+          "colon_rate": 0.0,
+          "quote_rate": 0.0,
+          "exclamation_rate": 0.0,
+          "parenthesis_rate": 0.0,
+          "conclusion_opener": 0.0,
+          "evidence_opener": 0.0,
+          "definition_early": 0.0,
+          "closing_question": 0.0,
+          "ai_pattern_count": 0,
+          "function_的": 0.006329113924050633,
+          "function_了": 0.0,
+          "function_是": 0.0031645569620253164,
+          "function_在": 0.006329113924050633,
+          "function_但": 0.0,
+          "function_如果": 0.0,
+          "function_因为": 0.0,
+          "function_所以": 0.0,
+          "function_而": 0.0031645569620253164,
+          "function_也": 0.0,
+          "function_就": 0.006329113924050633,
+          "function_我": 0.0,
+          "function_我们": 0.0,
+          "function_你": 0.0,
+          "function_and": 0.0,
+          "function_but": 0.0,
+          "function_if": 0.0,
+          "function_because": 0.0,
+          "function_so": 0.0,
+          "function_the": 0.0,
+          "function_a": 0.0,
+          "function_of": 0.0,
+          "function_to": 0.0,
+          "function_is": 0.0,
+          "function_i": 0.0,
+          "function_we": 0.0,
+          "function_you": 0.0
+        },
+        "human_quality": null,
+        "human_persona_recognition": null,
+        "human_faithfulness": null
+      },
+      {
+        "draft_id": "draft-9bbf373a0005",
+        "persona_id": "risk",
+        "language": "en",
+        "condition": "profile",
+        "corpus_sha256": "0ae5022f72f416571150f410b2219413c50c83bbcc6c3b6c9a510024afa0fe89",
+        "characters": 1378,
+        "interpretation_characters": 1175,
+        "structured_numeric_contract": "passed",
+        "promotional_matches": 0,
+        "model_run_id": "local-dd3e178a1fa34787",
+        "plan_run_id": "local-99e80a58834a4373",
+        "ai_pattern_flags": [],
+        "longest_exemplar_overlap": {
+          "chars": 0,
+          "post_id": null
+        },
+        "measured_output_style": {
+          "char_count": 1175,
+          "sentence_count": 6,
+          "sentence_mean": 194.0,
+          "sentence_std": 36.05551275463989,
+          "sentence_p25": 176.5,
+          "sentence_p75": 194.75,
+          "paragraph_mean": 391.0,
+          "paragraph_count": 3,
+          "digit_density": 0.023829787234042554,
+          "ticker_density": 0.0,
+          "link_density": 0.0,
+          "question_rate": 0.0,
+          "first_person_rate": 0.0,
+          "hedge_rate": 0.000851063829787234,
+          "certainty_rate": 0.0,
+          "list_rate": 0.0,
+          "fragment_rate": 0.0,
+          "long_argument_rate": 1.0,
+          "colon_rate": 0.0,
+          "quote_rate": 0.0,
+          "exclamation_rate": 0.0,
+          "parenthesis_rate": 0.0,
+          "conclusion_opener": 0.0,
+          "evidence_opener": 0.0,
+          "definition_early": 0.0,
+          "closing_question": 0.0,
+          "ai_pattern_count": 0,
+          "function_的": 0.0,
+          "function_了": 0.0,
+          "function_是": 0.0,
+          "function_在": 0.0,
+          "function_但": 0.0,
+          "function_如果": 0.0,
+          "function_因为": 0.0,
+          "function_所以": 0.0,
+          "function_而": 0.0,
+          "function_也": 0.0,
+          "function_就": 0.0,
+          "function_我": 0.0,
+          "function_我们": 0.0,
+          "function_你": 0.0,
+          "function_and": 0.001702127659574468,
+          "function_but": 0.0,
+          "function_if": 0.001702127659574468,
+          "function_because": 0.0,
+          "function_so": 0.0,
+          "function_the": 0.011063829787234043,
+          "function_a": 0.001702127659574468,
+          "function_of": 0.00425531914893617,
+          "function_to": 0.001702127659574468,
+          "function_is": 0.001702127659574468,
+          "function_i": 0.0,
+          "function_we": 0.0,
+          "function_you": 0.0
+        },
+        "human_quality": null,
+        "human_persona_recognition": null,
+        "human_faithfulness": null
+      },
+      {
+        "draft_id": "draft-625bb730ccca",
+        "persona_id": "macro",
+        "language": "zh",
+        "condition": "exemplar",
+        "corpus_sha256": "0ae5022f72f416571150f410b2219413c50c83bbcc6c3b6c9a510024afa0fe89",
+        "characters": 245,
+        "interpretation_characters": 155,
+        "structured_numeric_contract": "passed",
+        "promotional_matches": 0,
+        "model_run_id": "local-d068dfba89b9483e",
+        "plan_run_id": "local-88e83c058460451c",
+        "ai_pattern_flags": [],
+        "longest_exemplar_overlap": {
+          "chars": 2,
+          "post_id": "2080178039225483463"
+        },
+        "measured_output_style": {
+          "char_count": 155,
+          "sentence_count": 3,
+          "sentence_mean": 50.0,
+          "sentence_std": 12.027745701779143,
+          "sentence_p25": 41.5,
+          "sentence_p75": 54.5,
+          "paragraph_mean": 51.0,
+          "paragraph_count": 3,
+          "digit_density": 0.1032258064516129,
+          "ticker_density": 0.0,
+          "link_density": 0.0,
+          "question_rate": 0.0,
+          "first_person_rate": 0.0,
+          "hedge_rate": 0.0,
+          "certainty_rate": 0.0,
+          "list_rate": 0.0,
+          "fragment_rate": 0.0,
+          "long_argument_rate": 0.0,
+          "colon_rate": 0.0,
+          "quote_rate": 0.0,
+          "exclamation_rate": 0.0,
+          "parenthesis_rate": 0.0,
+          "conclusion_opener": 0.0,
+          "evidence_opener": 0.0,
+          "definition_early": 0.0,
+          "closing_question": 0.0,
+          "ai_pattern_count": 0,
+          "function_的": 0.0064516129032258064,
+          "function_了": 0.0,
+          "function_是": 0.0,
+          "function_在": 0.0064516129032258064,
+          "function_但": 0.012903225806451613,
+          "function_如果": 0.0,
+          "function_因为": 0.0,
+          "function_所以": 0.0,
+          "function_而": 0.0,
+          "function_也": 0.0,
+          "function_就": 0.01935483870967742,
+          "function_我": 0.0,
+          "function_我们": 0.0,
+          "function_你": 0.0,
+          "function_and": 0.0,
+          "function_but": 0.0,
+          "function_if": 0.0,
+          "function_because": 0.0,
+          "function_so": 0.0,
+          "function_the": 0.0,
+          "function_a": 0.0,
+          "function_of": 0.0,
+          "function_to": 0.0,
+          "function_is": 0.0,
+          "function_i": 0.0,
+          "function_we": 0.0,
+          "function_you": 0.0
+        },
+        "human_quality": null,
+        "human_persona_recognition": null,
+        "human_faithfulness": null
+      }
+    ],
+    "failures": [
+      {
+        "persona": "risk",
+        "language": "zh",
+        "condition": "multi",
+        "error": "Generation quarantined: quarantined-generation-b0269547c4ff"
+      },
+      {
+        "persona": "risk",
+        "language": "en",
+        "condition": "multi",
+        "error": "Generation quarantined: quarantined-generation-d24c67a96d0e"
+      },
+      {
+        "persona": "macro",
+        "language": "zh",
+        "condition": "none",
+        "error": "Generation quarantined: quarantined-generation-69eda1683a7f"
+      },
+      {
+        "persona": "industry",
+        "language": "zh",
+        "condition": "none",
+        "error": "Generation quarantined: quarantined-generation-66885262a865"
+      },
+      {
+        "persona": "risk",
+        "language": "zh",
+        "condition": "none",
+        "error": "Generation quarantined: quarantined-generation-00f35a2993c7"
+      },
+      {
+        "persona": "macro",
+        "language": "en",
+        "condition": "none",
+        "error": "Generation quarantined: quarantined-generation-5109ae5a9714"
+      },
+      {
+        "persona": "industry",
+        "language": "en",
+        "condition": "none",
+        "error": "Generation quarantined: quarantined-generation-90998719a7ff"
+      },
+      {
+        "persona": "risk",
+        "language": "en",
+        "condition": "none",
+        "error": "Generation quarantined: quarantined-generation-e79a10272a8d"
+      },
+      {
+        "persona": "macro",
+        "language": "zh",
+        "condition": "description",
+        "error": "Generation quarantined: quarantined-generation-99e1d2d260e7"
+      },
+      {
+        "persona": "industry",
+        "language": "zh",
+        "condition": "description",
+        "error": "Generation quarantined: quarantined-generation-8d511d978da9"
+      },
+      {
+        "persona": "risk",
+        "language": "zh",
+        "condition": "description",
+        "error": "Generation quarantined: quarantined-generation-3a4f48e150ac"
+      },
+      {
+        "persona": "macro",
+        "language": "en",
+        "condition": "description",
+        "error": "Generation quarantined: quarantined-generation-0c526af7ed88"
+      },
+      {
+        "persona": "industry",
+        "language": "en",
+        "condition": "description",
+        "error": "Generation quarantined: quarantined-generation-168a332b69b3"
+      },
+      {
+        "persona": "risk",
+        "language": "en",
+        "condition": "description",
+        "error": "Generation quarantined: quarantined-generation-1ab873deec7e"
+      },
+      {
+        "persona": "macro",
+        "language": "zh",
+        "condition": "profile",
+        "error": "Generation quarantined: quarantined-generation-2346fe6e6708"
+      },
+      {
+        "persona": "risk",
+        "language": "zh",
+        "condition": "profile",
+        "error": "Generation quarantined: quarantined-generation-4a35926a9d3f"
+      },
+      {
+        "persona": "macro",
+        "language": "en",
+        "condition": "profile",
+        "error": "Generation quarantined: quarantined-generation-d15eeeadda45"
+      },
+      {
+        "persona": "industry",
+        "language": "en",
+        "condition": "profile",
+        "error": "Generation quarantined: quarantined-generation-54450ab76611"
+      },
+      {
+        "persona": "industry",
+        "language": "zh",
+        "condition": "exemplar",
+        "error": "Generation quarantined: quarantined-generation-fa0b592b5729"
+      },
+      {
+        "persona": "risk",
+        "language": "zh",
+        "condition": "exemplar",
+        "error": "Generation quarantined: quarantined-generation-5ed7f89474d9"
+      },
+      {
+        "persona": "macro",
+        "language": "en",
+        "condition": "exemplar",
+        "error": "Generation quarantined: quarantined-generation-13eaf813ad74"
+      },
+      {
+        "persona": "industry",
+        "language": "en",
+        "condition": "exemplar",
+        "error": "Generation quarantined: quarantined-generation-7ea16cc7e558"
+      },
+      {
+        "persona": "risk",
+        "language": "en",
+        "condition": "exemplar",
+        "error": "Generation quarantined: quarantined-generation-29324d2ee7d0"
+      }
+    ],
+    "interpretation": "Model and generation contract both changed versus the 1.5B baseline; improvement cannot be attributed solely to model size. Exact numeric rendering is mechanical; semantic fidelity and persona quality await human review.",
+    "human_results": null
+  },
+  "model_runs": {
+    "as_of": "2026-09-06T04:27:03.340862+00:00",
+    "model_call_files": 722,
+    "completed_calls": 718,
+    "calls_by_purpose": {
+      "finance_classification_comparison": 383,
+      "guarded_v3_independent_plan": 44,
+      "guarded_v3_persona_draft": 83,
+      "guarded_v4_persona_draft": 12,
+      "knowledge_framework_extraction": 7,
+      "persona_draft": 32,
+      "independent_analysis_plan": 32,
+      "guarded_v3_semantic_diagnostic": 12,
+      "knowledge_framework_indexed_v2": 11,
+      "guarded_v4_independent_plan": 6,
+      "framework_single_candidate_support": 15,
+      "A_finance_classification": 60,
+      "knowledge_entailment_diagnostic": 5,
+      "cross_language_en_to_zh": 1,
+      "guarded_persona_draft": 2,
+      "smoke": 1,
+      "guarded_independent_plan": 2,
+      "cross_language_zh_to_en": 1,
+      "guarded_v4_semantic_diagnostic": 4,
+      "guarded_cross_language": 2,
+      "modern_explicit_measure_probe": 1,
+      "comparison_smoke": 1,
+      "modern_fact_contract_probe": 1
+    },
+    "status_counts": {
+      "completed": 718,
+      "failed": 2,
+      "started": 2
+    },
+    "no_completion_record_ids": [
+      "local-8f0fbf5110ec4981",
+      "local-8b7cf83f2b844d5b"
+    ],
+    "tokens_in_completed_records": {
+      "prompt_tokens": 785097,
+      "completion_tokens": 66863,
+      "total_tokens": 851960
+    },
+    "paid_model_api_cost": 0,
+    "cost_scope": "Local inference: excludes hardware, electricity, internet and prior source-provider charges. Public model downloads incur no model API charge. SDK operation counts are not wire-level HTTP counts.",
+    "old_interruption_record": "runs/knowledge-interruption.json",
+    "live_x_calls": 0,
+    "live_sec_calls": 0
+  },
+  "records": {
+    "diagram": 3,
+    "draft": 45,
+    "edit": 2,
+    "evidence": 2,
+    "quarantined-generation": 37
+  },
+  "validation": {
+    "executed_at": "2026-09-06T04:23:43.826729+00:00",
+    "checks": [
+      {
+        "name": "original input hashes unchanged",
+        "passed": true
+      },
+      {
+        "name": "clean post identity, source and promotion exclusion",
+        "passed": true
+      },
+      {
+        "name": ">=300 decisive rule references, explicitly not human",
+        "passed": true
+      },
+      {
+        "name": "predictive splits exclude held-out rows, threads and exact duplicates",
+        "passed": true
+      },
+      {
+        "name": "facts match exact captured primary-source lines and numeric values",
+        "passed": true
+      },
+      {
+        "name": "chart recomputes revised and new observations",
+        "passed": true
+      },
+      {
+        "name": "corpus API serves current real counts",
+        "passed": true
+      },
+      {
+        "name": "unknown donor path rejected",
+        "passed": true
+      },
+      {
+        "name": "foreign browser origin cannot mutate",
+        "passed": true
+      },
+      {
+        "name": "invalid generation contract rejected before inference",
+        "passed": true
+      },
+      {
+        "name": "promotional edits rejected before storage",
+        "passed": true
+      },
+      {
+        "name": "invalid persona weights rejected",
+        "passed": true
+      },
+      {
+        "name": "no invented human reviews accepted",
+        "passed": true
+      },
+      {
+        "name": "issuer evidence image and original accessible",
+        "passed": true
+      },
+      {
+        "name": "diagram rejects edges to missing nodes",
+        "passed": true
+      },
+      {
+        "name": "source-dependent diagram can be saved, replayed and exported",
+        "passed": true
+      },
+      {
+        "name": "calendar values accepted; wrong scale and mismatched month citation rejected",
+        "passed": true
+      }
+    ],
+    "passed": 17,
+    "failed": 0,
+    "test_scope": "Real datasets and FastAPI handlers, no browser automation claim, no human review submission, no inference for negative tests",
+    "raw_sha256": "c7447fe5ce4df96b16c92373db52dc3f93e5009911b7f9d793a9aa3aea756d5e",
+    "clean_sha256": "0ae5022f72f416571150f410b2219413c50c83bbcc6c3b6c9a510024afa0fe89"
+  },
+  "blockers": [
+    {
+      "gate": "donor_language_coverage",
+      "status": "incomplete",
+      "actual": {
+        "by_donor_detected_source_language": {
+          "aleabitoreddit": {
+            "en": 399,
+            "zh": 4,
+            "ja": 1
+          },
+          "beth_kindig": {
+            "en": 18
+          },
+          "citrini": {
+            "en": 1
+          },
+          "ericjackson": {
+            "en": 3
+          },
+          "globalmktobserv": {
+            "en": 10
+          },
+          "kovainvest": {
+            "en": 56,
+            "zh": 166,
+            "ja": 3,
+            "et": 1
+          },
+          "michael_qqq2025": {
+            "zh": 318,
+            "en": 16,
+            "ja": 4
+          },
+          "phyrexni": {
+            "zh": 356,
+            "ja": 1
+          },
+          "qinbafrank": {
+            "zh": 312
+          },
+          "rjccapital": {
+            "en": 3
+          },
+          "tradexwhisperer": {
+            "en": 4
+          },
+          "xingpt": {
+            "zh": 148,
+            "ja": 1
+          }
+        },
+        "note": "Provider language labels may contain errors; target roster language is not the same as observed post language. No 6-ZH / 6-EN acceptance claim.",
+        "donors_reaching_150_total": 5,
+        "donors_reaching_150_zh": 4,
+        "donors_reaching_150_en": 1
+      },
+      "required": ">=6 authors with >=150 Chinese original finance posts each and >=6 authors with >=150 English posts each; complete 180-day windows or documented capped 500 samples"
+    },
+    {
+      "gate": "new_x_collection",
+      "status": "awaiting_account_and_cost_preflight",
+      "required": "XQUIK_API_KEY and approved extraction cost ceiling; selected collector only",
+      "new_requests": 0
+    },
+    {
+      "gate": "human_blind_review_and_edit",
+      "status": "awaiting_real_human",
+      "actual_submissions": 0
+    },
+    {
+      "gate": "generation_quality",
+      "status": "not_validated",
+      "reason": "Concrete unsupported inferences survive same-model diagnostics. Five-mode results contain schema, citation and factual failures. No persona quality improvement established."
+    },
+    {
+      "gate": "knowledge_frameworks",
+      "status": "partial",
+      "accepted_same_model_proxy_frameworks": 3,
+      "reason": "Sparse same-donor multi-post support; accepted candidates still lack independent semantic review."
+    },
+    {
+      "gate": "sec_mcp",
+      "status": "disabled",
+      "required": "Real SEC_EDGAR_USER_AGENT contact identity. Issuer-hosted 10-Q available; independent SEC retrieval not executed."
+    },
+    {
+      "gate": "browser_replay",
+      "status": "partial",
+      "reason": "Existing Chrome window corpus checks only; user later navigated away. No new browser or restart. Four-page API verification does not equal complete browser E2E."
+    },
+    {
+      "gate": "continuous_current_events",
+      "status": "not_implemented",
+      "reason": "Actual captured primary releases replay through versioned ingestion; no continuous live event collection or alert scheduler."
+    }
+  ],
+  "human_scores": null,
+  "validator_calibration": {
+    "executed_at": "2026-09-06T04:24:08.205111+00:00",
+    "engine": "guarded-v4.1",
+    "change": "Recognize explicit negative/positive words and English lacks/absence in missing-evidence paragraphs. Two observed validator false-positive causes corrected.",
+    "results": [
+      {
+        "run_id": "local-42447c3fdbc0434d",
+        "replayed_original_response": true,
+        "structural_numeric_validation": "passed"
+      },
+      {
+        "run_id": "local-43999f611d1144c9",
+        "replayed_original_response": true,
+        "structural_numeric_validation": "passed"
+      },
+      {
+        "run_id": "local-dd534ab52d824a21",
+        "replayed_original_response": true,
+        "structural_numeric_validation": "failed",
+        "error": "Calendar month mentioned without matching fact reference: 7"
+      }
+    ],
+    "new_model_calls": 0,
+    "semantic_quality": "NOT validated; these texts still contain known unsupported inferences. Earlier ablation and repair results are unchanged.",
+    "contract_sha256": "12f6b2eb30f1d9ba61cd5b2fd3ee60a73f60f3eedeb9515ec3dabe77857e7667"
+  },
+  "operational_repair": {
+    "as_of": "2026-09-06T04:16:02.965115+00:00",
+    "design": "3 personas × 2 languages, multi only; operational repair checks, not five-mode ablation",
+    "engine": "guarded-v4",
+    "change": "Explicit nested JSON example, calendar normalization, distinction between measurement revisions and economic events, unemployment inference limits",
+    "rows": [
+      {
+        "draft_id": "draft-d03dbfb89606",
+        "persona": "macro",
+        "language": "zh",
+        "engine": "guarded-v4",
+        "run_id": "local-0df5c5561e9d4a14",
+        "corpus_sha256": "0ae5022f72f416571150f410b2219413c50c83bbcc6c3b6c9a510024afa0fe89",
+        "generation_contract_sha256": "e520c7833db89d34a32bfc3c45384f805da35605f95c84d565f57182a2113686"
+      },
+      {
+        "draft_id": "draft-4dbba5ff4794",
+        "persona": "industry",
+        "language": "zh",
+        "engine": "guarded-v4",
+        "run_id": "local-cf2aaa5b8aeb4b45",
+        "corpus_sha256": "0ae5022f72f416571150f410b2219413c50c83bbcc6c3b6c9a510024afa0fe89",
+        "generation_contract_sha256": "e520c7833db89d34a32bfc3c45384f805da35605f95c84d565f57182a2113686"
+      },
+      {
+        "draft_id": "draft-be3804a57564",
+        "persona": "risk",
+        "language": "zh",
+        "engine": "guarded-v4",
+        "run_id": "local-d427094f8c044ba1",
+        "corpus_sha256": "0ae5022f72f416571150f410b2219413c50c83bbcc6c3b6c9a510024afa0fe89",
+        "generation_contract_sha256": "e520c7833db89d34a32bfc3c45384f805da35605f95c84d565f57182a2113686"
+      }
+    ],
+    "failures": [
+      {
+        "persona": "macro",
+        "language": "en",
+        "error": "Generation quarantined: quarantined-generation-865201125531"
+      },
+      {
+        "persona": "industry",
+        "language": "en",
+        "error": "Generation quarantined: quarantined-generation-62d01215806b"
+      },
+      {
+        "persona": "risk",
+        "language": "en",
+        "error": "Generation quarantined: quarantined-generation-a46c4de0f4b2"
+      }
+    ],
+    "human_quality": null,
+    "comparison_limitation": "No claim of causal improvement; v3 cohort is frozen in D_guarded_generation_ablation.json"
+  },
+  "cross_language_review": {
+    "recorded_at": "2026-09-06T04:11:51.848270+00:00",
+    "reviewer": "Codex assistant; not a human",
+    "human_review": false,
+    "case_id": "GT-local-cf3ee1b1b3ca4689",
+    "findings": [
+      {
+        "quote": "policy expectations derived from such data are overly optimistic",
+        "source_quote": "仅凭单月数据推断政策预期已过度乐观缺乏充分依据",
+        "issue": "Translation converts a warning that a conclusion lacks evidence into the conclusion itself. The hedge and negation are not preserved.",
+        "status": "needs_revision"
+      }
+    ],
+    "literal_number_tests": "Both directions flagged differences partly due to calendar and comma formatting; this lexical check cannot judge semantics.",
+    "source_draft_errors": "Translations can also preserve errors already present in the source draft; faithful translation is a separate gate from financial correctness."
+  }
+}

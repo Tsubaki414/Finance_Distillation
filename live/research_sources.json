@@ -1,0 +1,595 @@
+{
+  "note": "洗稿的原料。优先个人账号——一个真人用自己名义写、有立场、会公开认错。机构稿本来就是委员会写的，结构平，继承它的结构只会得到平的东西。",
+  "verified_at": "2026-09-27",
+  "how_verified": "逐个取 feed 并读最新一篇的 pubDate。HTTP 200 不算通过；最新条目过期即判失败。",
+  "carrying_rule": "英文源 → 中文稿属跨语言，允许搬信息不搬句子，须注明来源与原语言，不得逐句直译。英文源 → 英文稿属同语言，禁止。",
+  "en": {
+    "macro": [
+      {
+        "id": "overshoot",
+        "name": "The Overshoot (Matthew C. Klein)",
+        "url": "https://theovershoot.co/feed",
+        "latest_seen": "2026-09-24",
+        "items": 20,
+        "max_age_hours": 336,
+        "why": "前 Barron's / FT Alphaville，宏观与全球经济，图表和数据自己做",
+        "voice": "individual"
+      },
+      {
+        "id": "chartbook",
+        "name": "Chartbook (Adam Tooze)",
+        "url": "https://adamtooze.substack.com/feed",
+        "latest_seen": "2026-09-26",
+        "items": 17,
+        "max_age_hours": 168,
+        "why": "政治经济学、财政、中国、能源，近乎日更，历史纵深强",
+        "voice": "individual"
+      },
+      {
+        "id": "doomberg",
+        "name": "Doomberg",
+        "url": "https://doomberg.substack.com/feed",
+        "latest_seen": "2026-09-22",
+        "items": 20,
+        "max_age_hours": 336,
+        "why": "能源—宏观交叉，叙事强，观点明确便于反驳",
+        "voice": "individual"
+      },
+      {
+        "id": "libertystreet",
+        "name": "Liberty Street Economics (NY Fed)",
+        "url": "https://libertystreeteconomics.newyorkfed.org/feed/",
+        "latest_seen": "2026-09-22",
+        "items": 100,
+        "max_age_hours": 336,
+        "why": "纽约联储研究员的公开研究，免费，权威，中文圈几乎不读",
+        "voice": "publication"
+      },
+      {
+        "id": "lynalden",
+        "name": "Lyn Alden",
+        "url": "https://www.lynalden.com/feed/",
+        "latest_seen": "2026-07-15",
+        "items": 10,
+        "max_age_hours": 2160,
+        "why": "财政货币机制、能源、债务，长文，更新慢但质量稳",
+        "caveat": "季度级更新，过期阈值放宽到 90 天",
+        "voice": "individual"
+      },
+      {
+        "id": "wolfstreet",
+        "name": "Wolf Richter",
+        "url": "https://wolfstreet.com/feed/",
+        "latest_seen": "2026-09-26",
+        "items": 10,
+        "max_age_hours": 96,
+        "voice": "individual",
+        "why": "站主本人第一人称写美国信贷、房市、消费，日更，语气很冲"
+      },
+      {
+        "id": "crisesnotes",
+        "name": "Nathan Tankus",
+        "url": "https://www.crisesnotes.com/feed",
+        "latest_seen": "2026-09-15",
+        "items": 7,
+        "max_age_hours": 504,
+        "voice": "individual",
+        "why": "财政部与货币管道，一个人写，立场鲜明"
+      },
+      {
+        "id": "creditbubble",
+        "name": "Credit Bubble Bulletin (Doug Noland)",
+        "url": "https://creditbubblebulletin.blogspot.com/feeds/posts/default",
+        "latest_seen": "2026-09-26",
+        "items": 1,
+        "max_age_hours": 336,
+        "voice": "individual",
+        "why": "信用周期，二十多年同一套框架的个人独白，周更"
+      },
+      {
+        "id": "claudiasahm",
+        "name": "Claudia Sahm",
+        "url": "https://stayathomemacro.substack.com/feed",
+        "latest_seen": "2026-09-21",
+        "items": 3,
+        "max_age_hours": 720,
+        "voice": "individual",
+        "why": "Sahm Rule 本人，具名经济学家自己下判断"
+      }
+    ],
+    "industry": [
+      {
+        "id": "clausaasholm",
+        "name": "Claus Aasholm",
+        "url": "https://clausaasholm.substack.com/feed",
+        "latest_seen": "2026-09-24",
+        "items": 14,
+        "max_age_hours": 336,
+        "why": "半导体供应链季度拆解，数据密度高，产业口径清楚",
+        "voice": "individual"
+      },
+      {
+        "id": "semiengineer",
+        "name": "The Semiconductor Engineer",
+        "url": "https://thesemiconductornewsletter.substack.com/feed",
+        "latest_seen": "2026-09-23",
+        "items": 16,
+        "max_age_hours": 336,
+        "why": "设备、制程节点、异构集成、供应链主权，周报",
+        "voice": "publication"
+      },
+      {
+        "id": "tmtb",
+        "name": "TMTB",
+        "url": "https://tmtbreakout.substack.com/feed",
+        "latest_seen": "2026-09-25",
+        "items": 20,
+        "max_age_hours": 96,
+        "why": "科技股日更，作者 17 年科技对冲基金背景",
+        "voice": "individual"
+      },
+      {
+        "id": "citrini",
+        "name": "Citrini Research",
+        "url": "https://www.citriniresearch.com/feed",
+        "latest_seen": "2026-09-22",
+        "items": 15,
+        "max_age_hours": 336,
+        "why": "主题投资，从 AI 到财政",
+        "caveat": "citrini 已在 X 轮询名单里，同一作者两个通道，去重时注意",
+        "voice": "individual"
+      },
+      {
+        "id": "netinterest",
+        "name": "Net Interest (Marc Rubinstein)",
+        "url": "https://www.netinterest.co/feed",
+        "latest_seen": "2026-09-25",
+        "items": 20,
+        "max_age_hours": 336,
+        "why": "银行与金融公司商业模式深挖，前对冲基金经理",
+        "voice": "individual"
+      },
+      {
+        "id": "nextplatform",
+        "name": "The Next Platform",
+        "url": "https://www.nextplatform.com/feed/",
+        "latest_seen": "2026-09-25",
+        "items": 83,
+        "max_age_hours": 96,
+        "why": "HPC、加速器、数据中心架构，硬件层面",
+        "voice": "publication"
+      },
+      {
+        "id": "servethehome",
+        "name": "ServeTheHome",
+        "url": "https://www.servethehome.com/feed/",
+        "latest_seen": "2026-09-25",
+        "items": 6,
+        "max_age_hours": 168,
+        "why": "服务器、网卡、存储、AI 机箱，动手层面的细节",
+        "voice": "publication"
+      },
+      {
+        "id": "stratechery",
+        "name": "Stratechery (Ben Thompson)",
+        "url": "https://stratechery.com/feed/",
+        "latest_seen": "2026-09-25",
+        "items": 10,
+        "max_age_hours": 168,
+        "why": "平台与聚合理论，单一公司战略",
+        "caveat": "多数正文付费墙，RSS 只给开头",
+        "voice": "individual"
+      },
+      {
+        "id": "rbnenergy",
+        "name": "RBN Energy",
+        "url": "https://rbnenergy.com/rss.xml",
+        "latest_seen": "2026-09-25",
+        "items": 30,
+        "max_age_hours": 96,
+        "why": "美国中游、天然气、NGL、原油流向，日更",
+        "voice": "publication"
+      },
+      {
+        "id": "acquired",
+        "name": "Acquired",
+        "url": "https://www.acquired.fm/episodes?format=rss",
+        "latest_seen": "2026-09-15",
+        "items": 217,
+        "max_age_hours": 1440,
+        "why": "公司史深挖，有完整 transcript，属跨平台（音频→文字）",
+        "voice": "individual"
+      },
+      {
+        "id": "fabricatedknowledge",
+        "name": "Fabricated Knowledge",
+        "url": "https://www.fabricatedknowledge.com/feed",
+        "latest_seen": "2026-08-13",
+        "items": 6,
+        "max_age_hours": 1440,
+        "why": "半导体×商业",
+        "caveat": "更新慢，阈值放宽到 60 天",
+        "voice": "individual"
+      },
+      {
+        "id": "damodaran",
+        "name": "Aswath Damodaran",
+        "url": "https://aswathdamodaran.blogspot.com/feeds/posts/default",
+        "latest_seen": "2026-09-10",
+        "items": 4,
+        "max_age_hours": 1440,
+        "voice": "individual",
+        "why": "估值教授本人给具体公司估值，全过程公开，会认错"
+      },
+      {
+        "id": "asymco",
+        "name": "Horace Dediu (Asymco)",
+        "url": "https://www.asymco.com/feed/",
+        "latest_seen": "2026-09-23",
+        "items": 10,
+        "max_age_hours": 720,
+        "voice": "individual",
+        "why": "苹果与供应链，一个人做图做数据"
+      }
+    ],
+    "trading": [
+      {
+        "id": "perceptivetrader",
+        "name": "The High-Performing Trader",
+        "url": "https://theperceptivetrader.substack.com/feed",
+        "latest_seen": "2026-09-24",
+        "items": 7,
+        "max_age_hours": 336,
+        "why": "持续盈利交易者背后的心理，有框架不是鸡汤",
+        "voice": "individual"
+      },
+      {
+        "id": "asymtrading",
+        "name": "AsymTrading",
+        "url": "https://asymtrading.substack.com/feed",
+        "latest_seen": "2026-09-23",
+        "items": 18,
+        "max_age_hours": 336,
+        "why": "20 年市场经验，专讲情绪决策、不守计划、风控失效",
+        "voice": "individual"
+      },
+      {
+        "id": "algomatic",
+        "name": "Algomatic Trading",
+        "url": "https://algomatictrading.substack.com/feed",
+        "latest_seen": "2026-09-20",
+        "items": 6,
+        "max_age_hours": 504,
+        "why": "系统化交易实盘记录，含 −42% 回撤期怎么撑过来，规则全公开",
+        "voice": "individual"
+      },
+      {
+        "id": "kieranduff",
+        "name": "Kieran Duff",
+        "url": "https://kieranduff.substack.com/feed",
+        "latest_seen": "2026-09-24",
+        "items": 1,
+        "max_age_hours": 720,
+        "why": "过拟合与参数稳定性，杀掉的策略比留下的多",
+        "caveat": "更新稀疏",
+        "voice": "individual"
+      },
+      {
+        "id": "traderfeed",
+        "name": "Brett Steenbarger (TraderFeed)",
+        "url": "https://traderfeed.blogspot.com/feeds/posts/default",
+        "latest_seen": "2026-09-22",
+        "items": 2,
+        "max_age_hours": 720,
+        "voice": "individual",
+        "why": "自营交易团队的临床心理学家，交易心理领域真正的权威，不卖课"
+      },
+      {
+        "id": "moontower",
+        "name": "Kris Abdelmessih (Moontower)",
+        "url": "https://moontowermeta.com/rss/",
+        "latest_seen": "2026-09-22",
+        "items": 10,
+        "max_age_hours": 336,
+        "voice": "individual",
+        "why": "期权交易员写过程与风险",
+        "note": "KrisAbdelmessih 已在我们 X 语料里——同一个人的短帖+长文，最强组合"
+      }
+    ]
+  },
+  "zh": {
+    "note": "公众号没有 RSS，走 Apify sian.agency/wechat-official-account-data-scraper。实测可用，但贵：accountHistoryArticles 一次 $1.36（6 篇），accountSearch $0.91。按周更而非日更来排，12 个号约 $65/月，在剩余额度内。",
+    "actor": "sian.agency~wechat-official-account-data-scraper",
+    "operations_that_matter": {
+      "accountHistoryArticles": "按账号取历史文章列表（title / digest / articleUrl / postDate）",
+      "articleDetail": "取单篇全文——洗稿需要正文，列表页不够",
+      "articleMetrics": "阅读/在看/分享数，可作为质量信号",
+      "accountSearch": "按关键词找号，用于扩充名单",
+      "hotArticleSearch": "按日期区间找爆款，用于发现热点"
+    },
+    "verified": [
+      {
+        "id": "icbank",
+        "name": "半导体行业观察",
+        "wxid": "icbank",
+        "ghid": "gh_4ead67cb3c59",
+        "persona": "industry",
+        "verified": "2026-09-27 实测取到 6 篇近期文章",
+        "why": "半导体深度原创，行业媒体与知乎两处推荐重合"
+      }
+    ],
+    "candidates_unverified": {
+      "note": "来自 grok-4.6 检索 + 行业媒体推荐。每个验证要花约 $0.91，所以先列后验，用时再验。",
+      "macro": [
+        "华尔街见闻",
+        "财新",
+        "华创宏观（张瑜团队）",
+        "郭磊宏观茶座（广发）",
+        "中金点睛",
+        "金十数据",
+        "中国基金报",
+        "李迅雷金融与投资",
+        "付鹏",
+        "伍戈说"
+      ],
+      "industry": [
+        "晚点 LatePost",
+        "远川研究所",
+        "爱集微",
+        "芯谋研究",
+        "是说芯语",
+        "高工锂电",
+        "机器之心",
+        "汽车之心",
+        "饭统戴老板"
+      ],
+      "trading": [
+        "有知有行",
+        "且慢",
+        "七禾网",
+        "银行螺丝钉",
+        "香帅的金融江湖",
+        "西京研究院/赵建"
+      ]
+    },
+    "other_platforms": {
+      "雪球": {
+        "actor": "zhorex~xueqiu-scraper",
+        "candidates": [
+          "唐朝",
+          "不明真相的群众（方三文）",
+          "释老毛",
+          "东博老股民"
+        ],
+        "status": "未测"
+      },
+      "bilibili": {
+        "actor": "zhorex~bilibili-scraper",
+        "note": "跨平台路径：视频字幕→文字稿，规则允许。evidence_loop/ 里的转写链已跑通但与 live 断开",
+        "candidates": [
+          "小Lin说",
+          "商业就是这样"
+        ],
+        "status": "未测"
+      }
+    },
+    "individual_candidates": {
+      "note": "grok-4.6 按「参照倪大 @phyrexni」的标准找出来的个人账号，明确排除媒体号、机构研究号、喊单号、卖课号。**均未验证**。Grok 明确说：X 中文圈符合这条标准的它只能确定倪大一个，雪球和个人公众号才是这类人的主阵地。",
+      "macro": [
+        "老蛮（公众号）",
+        "水晶苍蝇拍（雪球）",
+        "思想钢印（雪球/公众号）",
+        "深圳宁南山（公众号）",
+        "向小田（雪球）"
+      ],
+      "industry": [
+        "释老毛（雪球）",
+        "东博老股民（雪球）",
+        "持有封基（雪球）",
+        "梁宏（雪球）",
+        "董宝珍（雪球/公众号）",
+        "云蒙（雪球）",
+        "段永平·大道无形我有型（雪球）",
+        "深圳宁南山（公众号）"
+      ],
+      "trading": [
+        "ETF拯救世界·E大（雪球/公众号）",
+        "银行螺丝钉（雪球/公众号）",
+        "张潇雨（公众号/播客）",
+        "王川（公众号）",
+        "释老毛（雪球）"
+      ],
+      "boundary_cases": "E大、螺丝钉、张潇雨有付费产品；唐朝有付费社群；冯柳在高毅。按「非机构非卖课」从严会更短",
+      "xueqiu_actor": {
+        "id": "zhorex~xueqiu-scraper",
+        "modes": [
+          "user_posts",
+          "user_profile",
+          "post_search",
+          "trending"
+        ],
+        "status": "schema 已确认，未实跑"
+      }
+    }
+  },
+  "rejected": [
+    {
+      "name": "SemiAnalysis",
+      "url": "https://semianalysis.com/feed",
+      "why": "HTTP 200，最新一篇 2025-09-16，一年前"
+    },
+    {
+      "name": "The Diff",
+      "url": "https://www.thediff.co/feed",
+      "why": "200，仅 1 篇，停在 2022-11-14"
+    },
+    {
+      "name": "FedGuy (Joseph Wang)",
+      "url": "https://fedguy.com/feed/",
+      "why": "200，最新 2026-02-23，七个月前。注意 josephwang 的 X 账号仍在我们语料里"
+    },
+    {
+      "name": "The Macro Compass",
+      "url": "https://themacrocompass.substack.com/feed",
+      "why": "200，仅 1 篇，停在 2026-07-13"
+    },
+    {
+      "name": "Trading Meditations",
+      "url": "https://tradingmeditations.substack.com/feed",
+      "why": "200，仅 1 篇，停在 2026-02-27"
+    },
+    {
+      "name": "Topdown Charts",
+      "url": "https://www.topdowncharts.com/feed",
+      "why": "404"
+    },
+    {
+      "name": "Epoch AI",
+      "url": "https://epoch.ai/blog/rss.xml",
+      "why": "404"
+    },
+    {
+      "name": "Goehring & Rozencwajg",
+      "url": "https://blog.gorozen.com/feed",
+      "why": "404"
+    },
+    {
+      "name": "The Psychology of Markets",
+      "url": "https://thepsychologyofmarkets.substack.com/feed",
+      "why": "404"
+    },
+    {
+      "name": "App Economy Insights",
+      "url": "https://appeconomyinsights.com/feed",
+      "why": "连接失败"
+    },
+    {
+      "name": "知乎 / 36氪 / 华尔街见闻 / 机器之心 的 /rss",
+      "why": "返回 200 但 0 条——是 HTML 页面不是 feed"
+    },
+    {
+      "name": "RSSHub 公共实例",
+      "why": "403，被限流。自建是另一套服务"
+    },
+    {
+      "name": "Calculated Risk (Bill McBride)",
+      "why": "最新 2026-01-12，八个月前"
+    },
+    {
+      "name": "The Macro Tourist (Kevin Muir)",
+      "why": "仅 1 篇，停在 2022-08"
+    },
+    {
+      "name": "Bronte Capital (John Hempton)",
+      "why": "停在 2022-11"
+    },
+    {
+      "name": "Coppola Comment",
+      "why": "停在 2024-06"
+    },
+    {
+      "name": "Aleph Blog (David Merkel)",
+      "why": "停在 2024-10"
+    },
+    {
+      "name": "Flirting with Models (Corey Hoffstein)",
+      "why": "feed 404。choffstein 的 X 仍在语料里"
+    },
+    {
+      "name": "Epsilon Theory / Pragmatic Capitalism",
+      "why": "404 / 403"
+    },
+    {
+      "name": "SemiAccurate / Contrarian Edge / Adventures in Capitalism",
+      "why": "连接失败"
+    },
+    {
+      "name": "The Blind Spot (Izabella Kaminska)",
+      "why": "最新 2026-07-23，两个月，边缘"
+    }
+  ],
+  "voice_field": {
+    "individual": "一个具名的人，自己的判断，有个性，会说「我错了」。洗稿首选",
+    "publication": "媒体/研究机构/多人团队。可作事实来源，不作结构来源"
+  },
+  "en_donors_with_longform": {
+    "note": "已在 X 语料里、同时有长文站点的人。短帖给语气，长文给结构，同一个人，最好的原料。",
+    "pairs": [
+      {
+        "x": "KrisAbdelmessih",
+        "longform": "moontowermeta.com",
+        "persona": "trading"
+      },
+      {
+        "x": "josephwang",
+        "longform": "fedguy.com",
+        "persona": "macro",
+        "caveat": "fedguy feed 停在 2026-02，X 仍活跃"
+      },
+      {
+        "x": "citrini",
+        "longform": "citriniresearch.com",
+        "persona": "industry"
+      },
+      {
+        "x": "dailydirtnap",
+        "longform": "dailydirtnap.com（Jared Dillian）",
+        "persona": "trading",
+        "caveat": "付费，未验"
+      },
+      {
+        "x": "choffstein",
+        "longform": "flirtingwithmodels.com",
+        "persona": "trading",
+        "caveat": "feed 404，需另找入口"
+      }
+    ]
+  },
+  "donor_audit": {
+    "method": "让模型读每个 donor 的实际帖子判断「个人 vs 机构」，不靠对 handle 的记忆。2026-09-27。",
+    "individual": [
+      "phyrexni",
+      "qinbafrank",
+      "aleabitoreddit",
+      "michael_qqq2025",
+      "kovainvest",
+      "RaoulGMI",
+      "EricBalchunas",
+      "Convertbond",
+      "citrini",
+      "BobEUnlimited",
+      "jturek18",
+      "jasongoepfert",
+      "leadlagreport",
+      "choffstein",
+      "DeepSailCapital",
+      "harmongreg",
+      "awealthofcs",
+      "StockJabber",
+      "WarrenPies",
+      "RyanDetrick",
+      "TaviCosta",
+      "KrisAbdelmessih",
+      "ericjackson",
+      "DavidTaggart",
+      "AndrewThrasher",
+      "BullandBaird",
+      "morganhousel",
+      "josephwang"
+    ],
+    "not_individual": {
+      "xingpt": "转发研报并推销会员。**它是 industry 人设的 knowledge donor**，这是个问题",
+      "beth_kindig": "两条皆第三人称新闻。英文第二大语料源（142 帖）",
+      "globalmktobserv": "预警体数据报道，在轮询名单里",
+      "JimMarous": "第三人称行业评论",
+      "JeffSnider_EDU": "推销活动",
+      "tradexwhisperer": "只堆引语无自己观点，在轮询名单里",
+      "garyblack00": "电讯体行情综述",
+      "efipm": "爆款新闻标题体",
+      "patrick_oshag": "通篇转述他人观点",
+      "tseides": "栏目口吻",
+      "natbrunell": "付费广告加播客推销",
+      "investmattallen": "拉群推销"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "label": "Corpus Import + Rule Filtering · legacy_invalid_output isolated",
+  "general_generation_enabled": false,
+  "effective_content_count": 0,
+  "baseline_count": 0,
+  "legacy_invalid_output_count": 45,
+  "current_work": "Complete evidence loop, controlled ablations, video corpus and automated content lanes",
+  "human_validation": false,
+  "product_acceptance": "not_passed"
+}

@@ -1,0 +1,739 @@
+{
+  "generated_at": "2026-09-06T06:04:35.518315+00:00",
+  "repository_root": "/Users/fionama/Desktop/Crypto/Mango_Works/Finance_Distillation",
+  "branch": null,
+  "commit_sha": null,
+  "dirty_files": null,
+  "is_git_repository": false,
+  "runtime_versions": {
+    "python": "3.12.14",
+    "python_executable": "/Users/fionama/Desktop/Crypto/Mango_Works/Finance_Distillation/.venv/bin/python",
+    "platform": "macOS-26.1-arm64-arm-64bit",
+    "packages": {
+      "APScheduler": "3.11.3",
+      "Jinja2": "3.1.6",
+      "MarkupSafe": "3.0.3",
+      "PyJWT": "2.13.0",
+      "PyYAML": "6.0.3",
+      "Pygments": "2.21.0",
+      "annotated-doc": "0.0.5",
+      "annotated-types": "0.8.0",
+      "anyio": "4.15.1",
+      "appnope": "1.0.0",
+      "asttokens": "3.0.2",
+      "attrs": "26.1.0",
+      "beautifulsoup4": "4.15.0",
+      "bilibili-api-python": "17.4.2",
+      "brotli": "1.2.0",
+      "certifi": "2026.7.22",
+      "cffi": "2.1.1",
+      "charset-normalizer": "3.5.1",
+      "click": "8.5.0",
+      "cloudpickle": "3.1.2",
+      "colorama": "0.4.6",
+      "comm": "0.2.3",
+      "cryptography": "50.0.1",
+      "curl_cffi": "0.16.3",
+      "debugpy": "1.8.21",
+      "executing": "2.2.1",
+      "fastapi": "0.141.1",
+      "fastjsonschema": "2.22.2",
+      "filelock": "3.32.5",
+      "fsspec": "2026.7.0",
+      "gradio_client": "2.6.1",
+      "h11": "0.16.0",
+      "hf-xet": "1.6.0",
+      "httpcore": "1.0.9",
+      "httptools": "0.8.0",
+      "httpx": "0.28.1",
+      "httpx-sse": "0.4.3",
+      "huggingface_hub": "1.30.0",
+      "idna": "3.19",
+      "ipykernel": "7.3.0",
+      "ipython": "9.17.1",
+      "ipython_pygments_lexers": "1.1.1",
+      "jedi": "0.20.0",
+      "joblib": "1.6.0",
+      "jsonschema": "4.26.0",
+      "jsonschema-specifications": "2025.9.1",
+      "jupyter_client": "8.10.0",
+      "jupyter_core": "5.9.1",
+      "llvmlite": "0.49.0",
+      "lxml": "6.1.3",
+      "markdown-it-py": "4.2.0",
+      "matplotlib-inline": "0.2.2",
+      "mcp": "1.29.1",
+      "mdurl": "0.1.2",
+      "mlx": "0.32.2",
+      "mlx-lm": "0.31.3",
+      "mlx-metal": "0.32.2",
+      "mlx-whisper": "0.4.3",
+      "more-itertools": "11.1.0",
+      "mpmath": "1.3.0",
+      "multidict": "6.7.1",
+      "multitasking": "0.0.13",
+      "narwhals": "2.25.0",
+      "nbclient": "0.11.0",
+      "nbformat": "5.11.1",
+      "nest-asyncio2": "1.7.2",
+      "networkx": "3.6.1",
+      "numba": "0.67.0",
+      "numpy": "2.5.2",
+      "orjson": "3.12.0",
+      "packaging": "26.3",
+      "pandas": "3.0.5",
+      "parso": "0.8.7",
+      "peewee": "4.5.0",
+      "pexpect": "4.9.0",
+      "pillow": "12.3.0",
+      "platformdirs": "4.11.7",
+      "prompt_toolkit": "3.0.53",
+      "propcache": "0.5.2",
+      "protobuf": "7.36.1",
+      "psutil": "7.2.2",
+      "ptyprocess": "0.7.0",
+      "pure_eval": "0.2.3",
+      "pycparser": "3.0",
+      "pycryptodomex": "3.23.0",
+      "pydantic": "2.13.5",
+      "pydantic-settings": "2.15.0",
+      "pydantic_core": "2.46.5",
+      "python-dateutil": "2.9.0.post0",
+      "python-dotenv": "1.2.3",
+      "python-multipart": "0.0.32",
+      "pytz": "2026.3.post1",
+      "pyzmq": "27.2.0",
+      "qrcode": "8.2",
+      "qrcode-terminal": "0.8",
+      "referencing": "0.37.0",
+      "regex": "2026.9.3",
+      "requests": "2.34.2",
+      "rich": "15.0.0",
+      "rpds-py": "2026.6.3",
+      "safetensors": "0.8.0",
+      "scikit-learn": "1.9.0",
+      "scipy": "1.18.1",
+      "sec-edgar-mcp": "1.1.0",
+      "sec-edgar-toolkit": "0.2.0",
+      "sentence-transformers": "6.0.1",
+      "sentencepiece": "0.2.2",
+      "setuptools": "84.0.0",
+      "shellingham": "1.5.4",
+      "sherpa-onnx-core": "1.13.7",
+      "sherpa_onnx": "1.13.7",
+      "six": "1.17.0",
+      "socksio": "1.0.0",
+      "soupsieve": "2.9.2",
+      "sse-starlette": "3.4.11",
+      "stack-data": "0.6.3",
+      "starlette": "1.6.0",
+      "sympy": "1.14.0",
+      "threadpoolctl": "3.6.0",
+      "tiktoken": "0.14.0",
+      "tokenizers": "0.23.2",
+      "torch": "2.14.0",
+      "tornado": "6.5.8",
+      "tqdm": "4.70.0",
+      "trackio": "0.37.0",
+      "traitlets": "5.16.1",
+      "transformers": "5.16.1",
+      "typer": "0.27.2",
+      "typing-inspection": "0.4.4",
+      "typing_extensions": "4.16.0",
+      "tzlocal": "5.4.4",
+      "urllib3": "2.7.0",
+      "uvicorn": "0.52.4",
+      "uvloop": "0.22.1",
+      "watchfiles": "1.2.0",
+      "wcwidth": "0.8.3",
+      "websockets": "17.1",
+      "yarl": "1.24.5",
+      "yfinance": "1.7.0"
+    },
+    "external_executables": {
+      "ffmpeg": "/opt/homebrew/bin/ffmpeg",
+      "yt-dlp": "/Users/fionama/.local/bin/yt-dlp",
+      "node": "/usr/local/bin/node",
+      "bilibili": null
+    },
+    "external_runtime_version_probe": {
+      "node_bundled": {
+        "path": "/Users/fionama/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "version": "v24.19.0",
+        "probe_exit_code": 0
+      },
+      "ffmpeg": {
+        "path": "/opt/homebrew/bin/ffmpeg",
+        "version": "8.1",
+        "probe_exit_code": 0
+      },
+      "yt-dlp": {
+        "path": "/Users/fionama/.local/bin/yt-dlp",
+        "version": "2026.07.04",
+        "probe_exit_code": 0
+      }
+    }
+  },
+  "dataset_counts": {
+    "raw": 2647,
+    "clean": 1825,
+    "video_segments": 149
+  },
+  "author_counts": [
+    {
+      "donor": "aleabitoreddit",
+      "raw": 455,
+      "clean": 404,
+      "clean_original_rule_financial": 240,
+      "languages": {
+        "en": 399,
+        "ja": 1,
+        "zh": 4
+      },
+      "post_types": {
+        "original": 240,
+        "quote": 164
+      },
+      "oldest": "2026-06-07T02:07:23+00:00",
+      "newest": "2026-09-05T08:11:29+00:00",
+      "complete_180d": false
+    },
+    {
+      "donor": "beth_kindig",
+      "raw": 20,
+      "clean": 18,
+      "clean_original_rule_financial": 15,
+      "languages": {
+        "en": 18
+      },
+      "post_types": {
+        "original": 15,
+        "quote": 3
+      },
+      "oldest": "2026-08-30T23:41:29+00:00",
+      "newest": "2026-09-05T16:59:39+00:00",
+      "complete_180d": false
+    },
+    {
+      "donor": "citrini",
+      "raw": 20,
+      "clean": 1,
+      "clean_original_rule_financial": 1,
+      "languages": {
+        "en": 1
+      },
+      "post_types": {
+        "original": 1
+      },
+      "oldest": "2026-08-27T08:28:38+00:00",
+      "newest": "2026-09-05T03:01:42+00:00",
+      "complete_180d": false
+    },
+    {
+      "donor": "ericjackson",
+      "raw": 20,
+      "clean": 3,
+      "clean_original_rule_financial": 3,
+      "languages": {
+        "en": 3
+      },
+      "post_types": {
+        "original": 3
+      },
+      "oldest": "2026-09-04T00:38:55+00:00",
+      "newest": "2026-09-05T17:05:45+00:00",
+      "complete_180d": false
+    },
+    {
+      "donor": "globalmktobserv",
+      "raw": 20,
+      "clean": 10,
+      "clean_original_rule_financial": 7,
+      "languages": {
+        "en": 10
+      },
+      "post_types": {
+        "original": 7,
+        "reply": 3
+      },
+      "oldest": "2026-09-04T14:03:15+00:00",
+      "newest": "2026-09-05T17:07:00+00:00",
+      "complete_180d": false
+    },
+    {
+      "donor": "kovainvest",
+      "raw": 405,
+      "clean": 226,
+      "clean_original_rule_financial": 99,
+      "languages": {
+        "en": 56,
+        "et": 1,
+        "ja": 3,
+        "zh": 166
+      },
+      "post_types": {
+        "original": 99,
+        "quote": 127
+      },
+      "oldest": "2026-06-07T12:43:50+00:00",
+      "newest": "2026-09-05T03:02:50+00:00",
+      "complete_180d": false
+    },
+    {
+      "donor": "michael_qqq2025",
+      "raw": 435,
+      "clean": 338,
+      "clean_original_rule_financial": 182,
+      "languages": {
+        "en": 16,
+        "ja": 4,
+        "zh": 318
+      },
+      "post_types": {
+        "original": 182,
+        "quote": 156
+      },
+      "oldest": "2026-06-08T00:33:23+00:00",
+      "newest": "2026-09-04T09:54:36+00:00",
+      "complete_180d": false
+    },
+    {
+      "donor": "phyrexni",
+      "raw": 500,
+      "clean": 357,
+      "clean_original_rule_financial": 13,
+      "languages": {
+        "ja": 1,
+        "zh": 356
+      },
+      "post_types": {
+        "original": 13,
+        "quote": 344
+      },
+      "oldest": "2026-07-22T16:04:53+00:00",
+      "newest": "2026-09-05T14:54:23+00:00",
+      "complete_180d": false
+    },
+    {
+      "donor": "qinbafrank",
+      "raw": 406,
+      "clean": 312,
+      "clean_original_rule_financial": 12,
+      "languages": {
+        "zh": 312
+      },
+      "post_types": {
+        "original": 12,
+        "quote": 300
+      },
+      "oldest": "2026-07-01T04:07:18+00:00",
+      "newest": "2026-09-05T13:27:46+00:00",
+      "complete_180d": false
+    },
+    {
+      "donor": "rjccapital",
+      "raw": 20,
+      "clean": 3,
+      "clean_original_rule_financial": 2,
+      "languages": {
+        "en": 3
+      },
+      "post_types": {
+        "original": 2,
+        "reply": 1
+      },
+      "oldest": "2026-08-18T23:39:19+00:00",
+      "newest": "2026-09-01T22:51:46+00:00",
+      "complete_180d": false
+    },
+    {
+      "donor": "tradexwhisperer",
+      "raw": 20,
+      "clean": 4,
+      "clean_original_rule_financial": 3,
+      "languages": {
+        "en": 4
+      },
+      "post_types": {
+        "original": 3,
+        "quote": 1
+      },
+      "oldest": "2026-09-04T23:54:44+00:00",
+      "newest": "2026-09-05T15:56:54+00:00",
+      "complete_180d": false
+    },
+    {
+      "donor": "xingpt",
+      "raw": 326,
+      "clean": 149,
+      "clean_original_rule_financial": 131,
+      "languages": {
+        "ja": 1,
+        "zh": 148
+      },
+      "post_types": {
+        "original": 131,
+        "quote": 18
+      },
+      "oldest": "2026-06-08T12:51:44+00:00",
+      "newest": "2026-09-05T14:55:05+00:00",
+      "complete_180d": false
+    }
+  ],
+  "language_counts": {
+    "en": 510,
+    "et": 1,
+    "ja": 10,
+    "zh": 1304
+  },
+  "platform_counts": {
+    "x_raw": 2647,
+    "x_clean": 1825,
+    "youtube_segments": 149,
+    "bilibili_segments": 0
+  },
+  "real_vs_fixture_counts": {
+    "raw_imported_real_provider_records": 2647,
+    "clean_derived_from_imports": 1825,
+    "explicit_fixture_rows_in_these_files": 0,
+    "independently_revalidated_all_raw_posts": false,
+    "all_archive_fixture_count": null
+  },
+  "draft_counts": {
+    "database_kinds": {
+      "diagram": 3,
+      "edit": 2,
+      "evidence": 2,
+      "legacy_invalid_output": 45,
+      "quarantined-generation": 37
+    },
+    "legacy_invalid": 45,
+    "legacy_json_files": 45,
+    "valid": 0,
+    "human_reviews": 0,
+    "new_case_statuses": {
+      "failed": 3,
+      "running": 1
+    },
+    "new_completed_cases": 0,
+    "cases": [
+      {
+        "id": "case-0efa90d2caaf",
+        "condition": "base_model",
+        "persona_id": "trading",
+        "recorded_status": "failed",
+        "effective_status": "failed",
+        "plan_run_id": "local-fe12c820ba964ad9",
+        "generation_run_id": null,
+        "error": "JSONDecodeError: Unterminated string starting at: line 33 column 18 (char 1069)"
+      },
+      {
+        "id": "case-21b8d4f70185",
+        "condition": "simple_persona_prompt",
+        "persona_id": "macro",
+        "recorded_status": "running",
+        "effective_status": "interrupted_by_handover",
+        "plan_run_id": "local-e34f0c6259364bd3",
+        "generation_run_id": null,
+        "error": null
+      },
+      {
+        "id": "case-3805e3a232c8",
+        "condition": "base_model",
+        "persona_id": "macro",
+        "recorded_status": "failed",
+        "effective_status": "failed",
+        "plan_run_id": "local-a1ec004c02684efa",
+        "generation_run_id": null,
+        "error": "JSONDecodeError: Unterminated string starting at: line 33 column 18 (char 1069)"
+      },
+      {
+        "id": "case-4b1357a15932",
+        "condition": "base_model",
+        "persona_id": "industry",
+        "recorded_status": "failed",
+        "effective_status": "failed",
+        "plan_run_id": "local-c0e9e6ecc18e4adb",
+        "generation_run_id": null,
+        "error": "JSONDecodeError: Unterminated string starting at: line 33 column 18 (char 1069)"
+      }
+    ]
+  },
+  "valid_draft_count": 0,
+  "legacy_invalid_count": 45,
+  "human_review_count": 0,
+  "human_label_count": 0,
+  "actual_api_call_evidence": {
+    "counting_rule": "Recorded operations and on-wire HTTP requests are different units. Do not sum local model JSON and duplicate ledger entries. No inference from quota deltas or imported post counts.",
+    "x_inherited_import": {
+      "input_files": 5,
+      "import_runs": 6,
+      "new_requests": 0,
+      "historical_provider_requests": null,
+      "historical_pages": null,
+      "evidence": "data/corpus_manifest.json; data/raw_posts.jsonl; runs/api_run_ledger.jsonl",
+      "payload_scope": "inherited_normalized_post_not_original_network_response"
+    },
+    "rapidapi_phase0": {
+      "host": "twitter241.p.rapidapi.com",
+      "recorded_http_requests": 6,
+      "statuses": {
+        "200": 6
+      },
+      "accounts": [
+        "PhyrexNi",
+        "vikramskr",
+        "fi56622380"
+      ],
+      "timeline_pages": 3,
+      "requests": [
+        {
+          "endpoint": "/user",
+          "params": {
+            "username": "PhyrexNi"
+          },
+          "status": 200
+        },
+        {
+          "endpoint": "/user-tweets",
+          "params": {
+            "user": "555634740",
+            "count": "20"
+          },
+          "status": 200
+        },
+        {
+          "endpoint": "/user",
+          "params": {
+            "username": "vikramskr"
+          },
+          "status": 200
+        },
+        {
+          "endpoint": "/user-tweets",
+          "params": {
+            "user": "1328394486402093057",
+            "count": "20"
+          },
+          "status": 200
+        },
+        {
+          "endpoint": "/user",
+          "params": {
+            "username": "fi56622380"
+          },
+          "status": 200
+        },
+        {
+          "endpoint": "/user-tweets",
+          "params": {
+            "user": "1503621835136462849",
+            "count": "20"
+          },
+          "status": 200
+        }
+      ],
+      "response_scope": "sanitized metadata/previews, not complete wire responses",
+      "cost": null,
+      "evidence": "historical_workspace/outputs/architecture-review/evidence/rapidapi_probe.json"
+    },
+    "xquik": {
+      "recorded_requests": 0,
+      "pages": 0,
+      "enabled": false,
+      "cost_estimate": null,
+      "evidence": "backend/app.py status(); data/corpus_manifest.json; skill-audit/audit.md"
+    },
+    "local_mlx": {
+      "recorded_attempts": 727,
+      "statuses": {
+        "completed": 722,
+        "failed": 2,
+        "started": 3
+      },
+      "responses_saved": 722,
+      "tasks": {
+        "A_finance_classification": 60,
+        "comparison_smoke": 2,
+        "cross_language_en_to_zh": 1,
+        "cross_language_zh_to_en": 1,
+        "evidence_loop_draft": 1,
+        "evidence_loop_independent_plan": 4,
+        "finance_classification_comparison": 383,
+        "framework_single_candidate_support": 15,
+        "guarded_cross_language": 2,
+        "guarded_independent_plan": 2,
+        "guarded_persona_draft": 3,
+        "guarded_v3_independent_plan": 44,
+        "guarded_v3_persona_draft": 84,
+        "guarded_v3_semantic_diagnostic": 12,
+        "guarded_v4_independent_plan": 6,
+        "guarded_v4_persona_draft": 12,
+        "guarded_v4_semantic_diagnostic": 4,
+        "independent_analysis_plan": 32,
+        "knowledge_entailment_diagnostic": 5,
+        "knowledge_framework_extraction": 7,
+        "knowledge_framework_indexed_v2": 11,
+        "modern_explicit_measure_probe": 1,
+        "modern_fact_contract_probe": 1,
+        "persona_draft": 32,
+        "smoke": 2
+      },
+      "target": "127.0.0.1:8681/8682/8683 /v1/chat/completions",
+      "paid_api_cost": 0,
+      "started_record_is_not_proof_of_dispatch": true,
+      "evidence": "runs/model_calls/*.json; runs/api_run_ledger.jsonl"
+    },
+    "bls_previous": {
+      "recorded_operations": 3,
+      "status": "failed",
+      "http_status_codes": null,
+      "evidence": "runs/api_run_ledger.jsonl primary_public_source_fetch"
+    },
+    "bls_full": {
+      "recorded_http_requests": 2,
+      "targets": {
+        "bls-full-pdf": {
+          "url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+          "status": 403,
+          "sha256": "743b00860fc90095f47067825664dc2e45754ecaa0cb8dd9eef0293884954c4b",
+          "at": "2026-09-06T04:36:38.222008+00:00"
+        },
+        "bls-full-reader": {
+          "url": "https://r.jina.ai/https://www.bls.gov/news.release/pdf/empsit.pdf",
+          "status": 200,
+          "sha256": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6",
+          "at": "2026-09-06T04:36:38.223742+00:00"
+        }
+      },
+      "evidence": "evidence_loop/sources/acquisition.json"
+    },
+    "nvidia_pdf": {
+      "recorded_http_requests": 2,
+      "statuses": [
+        302,
+        200
+      ],
+      "evidence": "runs/official-pdf-capture.json; data/evidence/nvidia-q2-fy2027-10q.pdf"
+    },
+    "yahoo": {
+      "recorded_operations": [
+        "earnings_history",
+        "earnings_estimate",
+        "revenue_estimate"
+      ],
+      "target": "NVDA",
+      "operation_status": "3 completed, 4 rows per operation",
+      "wire_requests": null,
+      "evidence": "data/finance_supplement/nvda.json; runs/api_run_ledger.jsonl"
+    },
+    "x_photo_assets": {
+      "target": "pbs.twimg.com",
+      "recorded_http_requests": 24,
+      "statuses": {
+        "200": 24
+      },
+      "evidence": "evidence_loop/visual/assets.json"
+    },
+    "video_discovery": {
+      "youtube_cli_operations": 3,
+      "bilibili_recorded_search_http_requests": 2,
+      "bilibili_search_pages_each": 1,
+      "total_wire_requests": null,
+      "evidence": "evidence_loop/transcripts/discovery/runs.json"
+    },
+    "video_acquisition": {
+      "youtube_metadata_files": 4,
+      "youtube_transcripts_ready": 3,
+      "bilibili_metadata_requests_saved": 9,
+      "bilibili_http_statuses": {
+        "200": 9
+      },
+      "bilibili_transcripts_ready": 0,
+      "audio_statuses": {
+        "audio_failed": 4,
+        "audio_ready": 3
+      },
+      "complete_wire_request_count": null,
+      "evidence": "evidence_loop/transcripts/acquisitions/; audio-runs/; *.acquisition.log; *.audio.log",
+      "limitations": [
+        "yt-dlp internal HTTP requests are not individually journaled",
+        "Retry scripts overwrote some acquisition records/logs before handover; complete attempt count is unrecoverable from saved artifacts",
+        "Three Bilibili audio downloads are operations, not proof of three underlying HTTP requests"
+      ]
+    },
+    "sec_edgar_mcp": {
+      "enabled": false,
+      "recorded_calls": 0,
+      "evidence": "runs/sec-mcp-preflight.json; skill-audit/sec-edgar-mcp.disabled.json"
+    },
+    "other_public_research_and_weight_downloads": {
+      "wire_requests": null,
+      "cost": null,
+      "evidence": "skill-audit/skills.lock.json; evidence_loop/video-audit.json; *model-lock.json; historical_workspace/work/repo-audit/",
+      "limitation": "Hashes prove retained files, not a complete request journal"
+    }
+  },
+  "test_commands_results": [
+    {
+      "command": "sh scripts/verify_handover.sh",
+      "attempt": "initial",
+      "exit_code": 1,
+      "counts": {
+        "PASS": 6,
+        "FAIL": 9,
+        "UNKNOWN": 3
+      },
+      "evidence": "handover/verification-initial.json",
+      "note": "Verifier distribution-name normalization error; installed sherpa_onnx misread as missing sherpa-onnx. Preserved before correction."
+    },
+    {
+      "command": "sh scripts/verify_handover.sh",
+      "attempt": "final",
+      "exit_code": 2,
+      "counts": {
+        "FAIL": 8,
+        "PASS": 7,
+        "UNKNOWN": 3
+      },
+      "evidence": "handover/verification.json",
+      "output": "handover/verification-output.txt"
+    },
+    {
+      "command": ".venv/bin/python -B handover/test_invariants.py",
+      "exit_code": 0,
+      "tests_run": 8,
+      "result": "PASS",
+      "evidence": "verification.json checks.artifact_unit_tests.detail.output"
+    }
+  ],
+  "unresolved_blockers": [
+    "Donor per-author original-content/language/history coverage incomplete; missing collection provenance",
+    "No human annotations or reviews",
+    "Full table/fact semantic audit incomplete; three plan JSON truncations and one interrupted case; zero valid new baseline",
+    "Legacy isolation has route and old-tool bypasses; quarantine script not idempotent",
+    "Bilibili ASR/diarization/financial correction and actual cross-platform dedup unexecuted",
+    "No executed hot Claim Graph/Evergreen/conflict/resurfacing pipeline",
+    "No autonomous opportunity/update pipeline or new frontend integration",
+    "Xquik credentials and reviewed cost estimate unavailable; SEC MCP disabled",
+    "Historical acquisition retry logs partially overwritten; total wire requests unknown"
+  ],
+  "next_recommended_actions": [
+    "Verify frozen handover and migration; keep all old failures isolated; wait for user to resume implementation",
+    "Then repair legacy route isolation, full fact closure and one traceable valid generation before new same-evidence five-group experiments",
+    "Complete real donor/human/video coverage, hot+evergreen update replay and corresponding Intelligence Desk audit views without relaxing acceptance"
+  ],
+  "migration_evidence": "handover/migration.json",
+  "freeze_evidence": "handover/freeze.json",
+  "verification_evidence": "handover/verification.json",
+  "product_acceptance": "not_passed",
+  "content_generation_paused": true,
+  "user_input_files_modified": false,
+  "push_deploy_publish_performed": false,
+  "verification_report_sha256": "603deaa767f868823ffef3f9561009959c9c3153b2637ba0f57fabc42c511687",
+  "verification_scope": "Frozen handover integrity; static audit findings apply to files whose migration hashes were rechecked. Not an E2E acceptance suite for future implementations.",
+  "migration_result": "PASS",
+  "migration_files": 81389,
+  "migration_symlinks": 129,
+  "migration_bytes": 13557049648
+}

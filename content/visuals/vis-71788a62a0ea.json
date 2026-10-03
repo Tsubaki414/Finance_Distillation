@@ -1,0 +1,88 @@
+{
+  "id": "vis-71788a62a0ea",
+  "draft_id": "w-b33ce1342b9d",
+  "persona_id": "macro",
+  "persona_name": "中文 · 宏观与资金流",
+  "account_id": "zh_macro",
+  "origin": "live",
+  "entity": "#inflation",
+  "created_at": "2026-09-17T06:34:54.026818+00:00",
+  "source_id": "ev-b614109cca69",
+  "source_version": 1,
+  "artifact_sha256": "a8652d199f244f952721c7f71eb73c12c604416e4b7ccf309692fc00a565f0ca",
+  "brief": {
+    "question_the_visual_answers": "这篇用到的几个数字各自多大",
+    "chosen": "drafted_figures",
+    "invalidation_shown": [],
+    "why": "这个人设问的是「工资、参与率、行业广度与历史修订是否共同说明宏观状态切换？如何区分数据和政策推断？」，其中 ['本文引用的数字'] 指向「这篇用到的几个数字各自多大」，事实包也够画",
+    "selected_from": "人设提出的问题，而非事实用量或固定模板",
+    "persona_question": "工资、参与率、行业广度与历史修订是否共同说明宏观状态切换？如何区分数据和政策推断？",
+    "ranking": [
+      {
+        "kind": "drafted_figures",
+        "score": 1,
+        "matched_terms": [
+          "本文引用的数字"
+        ],
+        "answers": "这篇用到的几个数字各自多大"
+      }
+    ],
+    "rejected": [],
+    "do_not_use": [
+      "不要用原始截图代替数据图，本篇没有值得引用的原始画面",
+      "不要给水平值画趋势线，事实包只有单期读数",
+      "不要把作者阈值画成与已公布数据同样的视觉权重"
+    ],
+    "alt_text": "这篇用到的几个数字各自多大；数据来自 BLS 就业形势报告"
+  },
+  "chart_kind": "drafted_figures",
+  "unattributed_thresholds": [],
+  "numbers_drawn": [
+    {
+      "fact_id": "g010",
+      "label": "medium- to long-term inflation expectations have risen to around",
+      "drawn_as": "2%",
+      "raw_value": 2,
+      "unit": "percent",
+      "period": null,
+      "char_span": [
+        30028,
+        30037
+      ],
+      "quote": "2 percent",
+      "primary_url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf"
+    },
+    {
+      "fact_id": "r002",
+      "label": "neutral interest rate is estimated to be in the",
+      "drawn_as": "1.1% 至 2.5%",
+      "raw_value": 1.1,
+      "unit": "percent",
+      "period": null,
+      "char_span": [
+        70412,
+        70427
+      ],
+      "quote": "1.1-2.5 percent",
+      "primary_url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf"
+    },
+    {
+      "fact_id": "g005",
+      "label": "the producer price index (PPI) has already risen to",
+      "drawn_as": "7.2%",
+      "raw_value": 7.2,
+      "unit": "percent",
+      "period": null,
+      "char_span": [
+        8601,
+        8612
+      ],
+      "quote": "7.2 percent",
+      "primary_url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf"
+    }
+  ],
+  "every_number_bound_to_a_fact": true,
+  "rendered_by": "code, straight from the fact pack; the model supplied no figure",
+  "svg_path": "content/visuals/vis-71788a62a0ea.svg",
+  "svg_sha256": "01b47fecd1560a512398bdedbc42adfa2fd5877fb112fa24d7ec316629a433bb"
+}

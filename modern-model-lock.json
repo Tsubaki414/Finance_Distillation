@@ -1,0 +1,15 @@
+{
+  "role": "modern_generator",
+  "repo": "mlx-community/Qwen3.5-4B-MLX-4bit",
+  "revision": "32f3e8ecf65426fc3306969496342d504bfa13f3",
+  "local_path": ".runtime/models/modern",
+  "bytes": 3061131350,
+  "file_count": 11,
+  "remote_code": false,
+  "inference_only": true,
+  "license": "apache-2.0 per model card",
+  "reason": "Observed Qwen2.5-7B consistency and instruction-following failures; evaluate a newer frozen architecture, no training",
+  "created_at": "2026-09-06T03:35:23.586294+00:00",
+  "runtime_support": "installed mlx_lm.models.qwen3_5 handles text_config and removes vision weights for text-only inference",
+  "thinking_enabled": false
+}

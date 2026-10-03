@@ -1,0 +1,88 @@
+{
+  "id": "vis-ca86afa1e861",
+  "draft_id": "w-00503ea6eb8e",
+  "persona_id": "industry",
+  "persona_name": "中文 · 个股与产业链",
+  "account_id": "zh_industry",
+  "origin": "live",
+  "entity": "$AMZN",
+  "created_at": "2026-09-17T06:34:54.022300+00:00",
+  "source_id": "ev-ac51e8cae5dd",
+  "source_version": 1,
+  "artifact_sha256": "7a72e6571a17b88661430e7f2eeef05165d2a87a2f507b40f43df44614e47147",
+  "brief": {
+    "question_the_visual_answers": "这篇用到的几个数字各自多大",
+    "chosen": "drafted_figures",
+    "invalidation_shown": [],
+    "why": "这个人设问的是「就业行业构成对需求与成本意味着什么？哪些推导尚缺公司财报或电话会证据？」，其中 ['本文引用的数字'] 指向「这篇用到的几个数字各自多大」，事实包也够画",
+    "selected_from": "人设提出的问题，而非事实用量或固定模板",
+    "persona_question": "就业行业构成对需求与成本意味着什么？哪些推导尚缺公司财报或电话会证据？",
+    "ranking": [
+      {
+        "kind": "drafted_figures",
+        "score": 1,
+        "matched_terms": [
+          "本文引用的数字"
+        ],
+        "answers": "这篇用到的几个数字各自多大"
+      }
+    ],
+    "rejected": [],
+    "do_not_use": [
+      "不要用原始截图代替数据图，本篇没有值得引用的原始画面",
+      "不要给水平值画趋势线，事实包只有单期读数",
+      "不要把作者阈值画成与已公布数据同样的视觉权重"
+    ],
+    "alt_text": "这篇用到的几个数字各自多大；数据来自 BLS 就业形势报告"
+  },
+  "chart_kind": "drafted_figures",
+  "unattributed_thresholds": [],
+  "numbers_drawn": [
+    {
+      "fact_id": "g029",
+      "label": "2026 net income includes non-operating pre-tax other income of",
+      "drawn_as": "534 亿美元",
+      "raw_value": 53400000000,
+      "unit": "USD",
+      "period": null,
+      "char_span": [
+        1840,
+        1853
+      ],
+      "quote": "$53.4 billion",
+      "primary_url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+    },
+    {
+      "fact_id": "g032",
+      "label": "twelve months, driven primarily by a year-over-year increase of",
+      "drawn_as": "661 亿美元",
+      "raw_value": 66099999999.99999,
+      "unit": "USD",
+      "period": null,
+      "char_span": [
+        2218,
+        2232
+      ],
+      "quote": "$66.1 billion",
+      "primary_url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+    },
+    {
+      "fact_id": "g015",
+      "label": "North America segment sales increased 16% year-over-year to",
+      "drawn_as": "1162 亿美元",
+      "raw_value": 116200000000,
+      "unit": "USD",
+      "period": null,
+      "char_span": [
+        932,
+        946
+      ],
+      "quote": "$116.2 billion",
+      "primary_url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/"
+    }
+  ],
+  "every_number_bound_to_a_fact": true,
+  "rendered_by": "code, straight from the fact pack; the model supplied no figure",
+  "svg_path": "content/visuals/vis-ca86afa1e861.svg",
+  "svg_sha256": "5a9440cd5171ee04be43f3f90f541b4441808829b944468d29419851adefb420"
+}

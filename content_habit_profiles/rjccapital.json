@@ -1,0 +1,96 @@
+{
+  "donor": "rjccapital",
+  "observed_items": 20,
+  "post_ids": [
+    "2089859717547930013",
+    "2089861087227228234",
+    "2089861409542644033",
+    "2090044795859112101",
+    "2090147790668124569",
+    "2090148014262276547",
+    "2090932417863291137",
+    "2090933372109443428",
+    "2091139460758921651",
+    "2091144424453447762",
+    "2091158468958757286",
+    "2091945358683148739",
+    "2092262930536387011",
+    "2092837446463455329",
+    "2092843112884306042",
+    "2093177988225335503",
+    "2093193280187969742",
+    "2094090878918819857",
+    "2094229994826260922",
+    "2094921183346987104"
+  ],
+  "time_basis": "UTC; author local timezone unknown",
+  "interval_hours": {
+    "n": 19,
+    "mean": 17.642500000000002,
+    "p10": 0.05494444444444445,
+    "p50": 9.213333333333333,
+    "p90": 51.981833333333334
+  },
+  "weekend_post_share": 0.2,
+  "busiest_observed_days": [
+    [
+      "2026-08-18",
+      3
+    ],
+    [
+      "2026-08-19",
+      3
+    ],
+    [
+      "2026-08-22",
+      3
+    ],
+    [
+      "2026-08-21",
+      2
+    ],
+    [
+      "2026-08-27",
+      2
+    ]
+  ],
+  "post_types": {
+    "reply": 14,
+    "quote": 4,
+    "original": 2
+  },
+  "theme_length": {
+    "0": null,
+    "1": {
+      "n": 1,
+      "mean": 126.0,
+      "p10": 126.0,
+      "p50": 126.0,
+      "p90": 126.0
+    },
+    "2": {
+      "n": 1,
+      "mean": 82.0,
+      "p10": 82.0,
+      "p50": 82.0,
+      "p90": 82.0
+    },
+    "3": null,
+    "4": null,
+    "5": null,
+    "6": null,
+    "7": {
+      "n": 1,
+      "mean": 803.0,
+      "p10": 803.0,
+      "p50": 803.0,
+      "p90": 803.0
+    }
+  },
+  "topic_switch_rate": 1.0,
+  "reaction_latency": null,
+  "acknowledges_errors": null,
+  "updates_old_views": null,
+  "missing_behavior_reason": "Incomplete timeline and event alignment; absence is not evidence of silence or failure to correct.",
+  "unknown_gaps": "Intervals describe observed records, not all activity."
+}

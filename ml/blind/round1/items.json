@@ -1,0 +1,127 @@
+{
+  "seed": 41,
+  "n": 20,
+  "instruction": "judge each item: human or machine, and why. Record judgements before reading answers.json",
+  "items": [
+    {
+      "id": "X744B4A",
+      "lang": "en",
+      "chars": 1528,
+      "text": "Employment shifts in AI infrastructure suggest demand will outpace traditional cost models, yet this view lacks direct validation from public filings.\n\nThiel's portfolio shows a holding value of 118 million dollars, representing a portfolio share of 28.2 percent in the disclosed US equities.\n\nThe market may be underpricing the next wave of AI cloud demand, signaled by a stock jump of 8 percent alongside AWS growth of 37 percent year over year.\n\nA threshold of 300 billion dollars in expected capital expenditure could further expand spending, though no consensus forecast exists to confirm this trajectory.\n\nIf the market already priced in the full 1.5 trillion dollars to 1.6 trillion dollars of hyperscaler capex, then the thesis that demand is underpriced would be wrong.\n\nThe strongest reading against this view is that the table contains no consensus forecasts, meaning we cannot verify if the 37 percent year over year growth is a singularity or a trend.\n\nWe must watch for explicit confirmation of the 300 billion dollar capex figure in company filings to validate whether the 28.2 percent portfolio share truly reflects undervalued AI exposure.\n\nWithout seeing the 1.5 trillion dollars to 1.6 trillion dollars capex range confirmed by earnings calls, the inference that employment shifts alone drive demand remains speculative.\n\nThe 8 percent stock jump might be a reaction to the 37 percent year over year growth, but it does not prove the 118 million dollar holding value is the only relevant metric for investors."
+    },
+    {
+      "id": "XFEA0E0",
+      "lang": "en",
+      "chars": 420,
+      "text": "CoreWeave $CRWV offered the first look at $NVDA Vera Rubin NVL72’s performance on DeepSeek R1 in July, finding up to a 10X increase in tokens per MW compared to the GB200. \n\nBack-of-napkin math shows revenue implications remain substantial – even assuming an 80% decrease in token prices from a theoretical $5 per million to $1 per million, a 10X increase in TPS per MW could see revenue rise 2X.\nhttps://t.co/38kSkpimHs"
+    },
+    {
+      "id": "X9CE5F4",
+      "lang": "zh",
+      "chars": 540,
+      "text": "又到了美联储议息会议的总结环节，怎么说呢？我觉得沃什上台以后确实遵循的是很少的前瞻指引，相比鲍威尔来说，最近两次的会议几乎没有明确的信息，今天我个人认为最重要的收获就是沃什承认，美联储不会给市场意外，也不应该给市场突发的惊喜和惊吓。\n\n这话的意思很可能就是针对市场认为今天或者是九月美联储应该会加息，但却没有任何的表示，如果今天真的是加息了，就是美联储给市场的意外，所以沃什说的这话应该是打消了市场存在的不确定性。\n\n再说人话就是，美联储的动作是有迹可循的，如果美联储认为需要加息的时候一定会给市场一些风声，而不是搞突然袭击。\n\n另外，沃什相比鲍威尔会更多的看实际利率和名义收益率的变动，并且认为虽然美联储看上去什么都没有做，但市场已经做了相当多的事情，也就是说，市场根据收益率去做出的判断是美联储愿意看到的，这段话可能会代表沃什有些偏鹰派，但整体来说，我还是觉得沃什是很中性的。\n\n当然这也是个人看法，对于未来货币政策的调整，沃什和鲍威尔一样，没有给出任何的答案，这也是我们能预测到的，我才想起来，今天竟然没有人提问美国和伊朗的战争对于通胀的影响，也没有问川普和美联储的关系。\n\n总的来说，这次的答记者问还是挺平淡的，除了明确不会给市场带来意外，就是强调了 2% 通胀的不动摇。"
+    },
+    {
+      "id": "XD0B667",
+      "lang": "en",
+      "chars": 1144,
+      "text": "Nvidia's Data Center revenue surged 116.6% year over year, signaling robust demand in hyperscale markets.\n\nOperating expenses reached 9.2 billion dollars, reflecting strategic investment in R&D and capacity expansion.\n\nThe company reported a gross margin of 75 percent, demonstrating high pricing power despite competitive pressures.\n\nEffective tax rates ranged between 16 percent and 18 percent, indicating a stable tax environment for the quarter.\n\nGAAP earnings per diluted share hit 2.46 dollars, while non-GAAP earnings per diluted share came in at 2.22 dollars.\n\nA significant inventory buildup could compress margins if hyperscaler spending slows in the coming quarters.\n\nMy view shifts if gross margins drop below 74 percent or operating expenses exceed 9.2 billion dollars in Q3.\n\nGross margin readings of 75 percent and 74 percent across different segments suggest consistent product mix dominance.\n\nNon-GAAP earnings per diluted share of 2.22 dollars outpaced GAAP figures, highlighting the impact of one-time charges.\n\nWatch for changes in hyperscaler capex trends as they directly correlate with Nvidia's revenue growth trajectory."
+    },
+    {
+      "id": "X44805B",
+      "lang": "en",
+      "chars": 1239,
+      "text": "⚠️AI CREDIT IS STARTING TO FLASH RED while equities are still ignoring the risks:\n\nThe price paid for AI usage is falling rapidly, with Silicon Data’s LLM Token Expenditure Index down -29% in August to a record low ~$0.97 per million tokens.\n\nThis is down more than -50% from its May peak near $2.05.\n\nThis comes even as OpenRouter token volume rose ~47% MoM in August, while dollar spending increased only ~7%, showing that AI usage is growing far faster than spending.\n\nMeanwhile, hyperscaler credit spreads have surged to near their widest levels on record, even as hyperscaler stocks have rebounded since late July.\n\nIn other words, credit investors are demanding significantly more compensation for AI infrastructure risk, while equity investors are still pricing in relentless demand and rising returns.\n\nThe problem is that more AI usage does not automatically mean more profits if token prices collapse faster than volumes rise.\n\nWith hundreds of billions of dollars being poured into data centers, falling usage prices could put pressure on utilization, cash flows, and returns on all that new capacity.\n\nThe AI boom may still be growing in volume, but credit markets are increasingly questioning whether it is growing profitably."
+    },
+    {
+      "id": "XBC6E9B",
+      "lang": "zh",
+      "chars": 433,
+      "text": "8月26日，美国 BTC 现货 ETF 总持仓继续增加至 1,257,480.15 BTC，当日净增持 3,087.23 BTC。相比8月25日的 4,136.62 BTC 有所下降，但资金方向已经连续 8个交易日保持净增持，从8月17日开始至今没有出现过一天净流出。\n\n本周前三个交易日累计净增持已经达到 11,471.91 BTC。最近7个交易日累计净增持为 34,049.55 BTC。这个数字相比8月25日的3.56万枚略有下降，主要是因为8月17日超过4,600枚的净增持已经退出7日统计窗口，平均每天增加接近 4,864 BTC。8月以来，BTC ETF 总持仓累计增加约 44,766.54 BTC，增幅约 3.69%。\n\n目前 BTC ETF 的资金状态已经从8月中旬的连续撤出完整切换到连续增持阶段，只是最近两天单日流入从8月20日接近9,000枚 BTC 的高点逐渐回落到3,000至4,000枚左右，后面可以继续观察流入速度是否稳定在这个区间。"
+    },
+    {
+      "id": "X3A9977",
+      "lang": "en",
+      "chars": 1086,
+      "text": "⚠️ The AI boom is far more concentrated than investors realize:\n\nJust 1% of enterprise customers now account for ~80% of OpenAI and Anthropic’s combined enterprise revenue, according to Ramp AI Index data.\n\nThis concentration has persisted for the last 2 years, showing little sign of diversifying as the AI trade has grown.\n\nRamp notes that this is a level of concentration risk unseen in any other software category it tracks, with the dominant customers skewing heavily toward the tech sector and AI-related products and services.\n\nThe risk becomes even more important as OpenAI and Anthropic approach potential IPOs.\n\nA sharp market correction affecting even a few of these major customers could hit a surprisingly large share of AI spending and eventually spill over into the broader economy.\n\nRecent Ramp data also shows that the heaviest AI spenders are driving a growing share of overall spending, reinforcing how dependent the AI revenue boom is becoming on a relatively small group of companies.\n\nWhen growth depends on so few customers, the downside can come just as quickly."
+    },
+    {
+      "id": "XEE1B6D",
+      "lang": "zh",
+      "chars": 301,
+      "text": "逆回购限额设定为 1600 亿美元，这为市场提供了明确的流动性支撑基准。\n\n总消费者物价指数在五月录得 4.1% 的涨幅，显示出通胀压力依然显著。\n\n核心消费者物价指数维持在 3.4%，表明能源和食品价格波动后的基础通胀水平较为稳定。\n\n虽然通胀数据有所回落，但美联储并未因此立即收紧政策，而是继续观察。\n\n若能源价格持续上涨并传导至工资和服务价格，通胀目标 2% 的长期目标将面临挑战。\n\n目前的判断是市场将等待更多数据确认，而非立即加息。\n\n只有当总消费者物价指数进一步降至 3.3% 或更低时，政策转向的信号才会更加明确。\n\n反之，如果通胀反弹至 3.7% 以上，则可能迫使美联储重新评估其立场。"
+    },
+    {
+      "id": "X368C17",
+      "lang": "zh",
+      "chars": 294,
+      "text": "亚马逊非运营税前其他收入高达 534 亿美元，主要来自对 Anthropic 的投资。\n\n这种巨额投入确实推高了账面利润，但代价是自由现金流转为净流出。\n\n自由现金流较上年减少了 661 亿美元，主要源于资本支出的大幅增加。\n\n北美分部销售额达到 1162 亿美元，显示出核心业务的强劲韧性。\n\n虽然交付速度提升了 40%，但市场更担心的是长期资本开支的可持续性。\n\n如果未来云厂商支出缩减，那么当前的利润结构将面临剧烈调整。\n\n性能提升 25% 的 Graviton 芯片虽好，却难以完全抵消资本开支带来的现金流压力。\n\n唯有当经营利润能持续超过资本支出时，这种扩张模式才具备长期价值。"
+    },
+    {
+      "id": "XD90DDF",
+      "lang": "zh",
+      "chars": 234,
+      "text": "日本央行计划将每月购买量从 2 万亿日元逐步削减，同时通胀预期已升至 2%。\n\n这种购债缩减速度约为 4000 亿日元，旨在通过减少资产负债表来抑制通胀。\n\n自然利率区间被估算在 1.1% 至 2.5% 之间，这为政策调整提供了基准参考。\n\n生产者价格指数涨幅达到 7.2%，显示当前通胀压力依然显著。\n\n如果通胀预期不回落，央行可能被迫延长购债缩减的幅度。\n\n只有当通胀预期持续下降，上述购债缩减策略才能顺利实施。\n\n若自然利率区间下移，央行可能会重新评估购债规模。"
+    },
+    {
+      "id": "XA8CBF9",
+      "lang": "zh",
+      "chars": 626,
+      "text": "今天这个油价啊，我看的都心疼，最近小伙伴问我还有没有空，这不是肯定的么，逢高做空是我一直坚持的原则，到现在还是这样，主要是觉得没必要一直放在嘴边，而且最近也没有到我的加仓位，所以没有仔细讲，目前埋伏的 WTI 在 97 美元，Brant 在 102 美元会继续加仓，同时继续保持自己的保证金在 120 美元以上。\n\n前边有小伙伴问我资金费率的事情，我看着都心酸，这次最大的失误就是盈利在 70% 的时候我还选择继续浪，当时如果走了，现在的局面就简单很多了，而且这种机会给了我三次，三次在盈利的情况下都没有走，当然这也和我判断川普 TACO 有关，没想到这次伊朗真的这么硬，而该硬的川普却软下来了。\n\n虽然目前仍然是浮亏的，但高位做空石油我觉得仍然是有必要的，目前两件事能让油价下降，一件是伊朗开放部分霍尔木兹海峡让部分国家通过，包括中国在内就在讨论这个方向，其次就是重新回到和美国的谈判，后者难度要更高一些，有传闻说昨天川普已经认怂了，人伊朗仍然不接受停火，除非是按照之前说的和平协议来。\n\n这两天看 Bitcoin 的价格还算好，但我连续两天都没有做双币，一方面是不知道川普什么时候就会来个大的，另一方面就是担心周五的通胀会上涨，虽然还有两天的时间，但我总买不到好的价格，目前我心目中理想的是在 73,000 美元附近，但这个价格区间几乎就没有利息了，所以等等也没问题。\n\n @Gate Crypto、美股、港股、韩股、黄金、CFD、预测市场一站交易"
+    },
+    {
+      "id": "X793D31",
+      "lang": "zh",
+      "chars": 539,
+      "text": "我认为当前宏观状态正处于从过热向软着陆过渡的微妙临界点，数据表面繁荣但深层结构已现疲态。\n\n8 月非农就业增加 16.2 万人，这一数字虽看似稳健，但结合此前 12 个月月均 3.1 万人的背景，实际增速已显著放缓。\n\n将本月新增就业与历史高位相比，这种温和的扩张速度暗示劳动力市场正在主动降温而非被动崩溃。\n\n餐饮与酒吧就业增加 5.9 万人，医疗保健就业增加 1.3 万人，显示出服务业底层需求依然具有韧性。\n\n然而信息业就业减少 2.3 万人，这种结构性收缩表明科技部门正面临成本压力或需求疲软的双重挤压。\n\n工资端平均时薪环比上涨 0.3%，同比上涨 3.1%，在工时未明确提及变化的情况下，实际时薪增长动力正在减弱。\n\n前两个月合计上修 5.5 万人，这一修正虽然缓解了部分悲观预期，但无法完全抵消行业层面的结构性调整压力。\n\n因经济原因从事兼职的人数减少 41.4 万人，说明企业正在通过减少全职岗位来应对成本，而非单纯依赖兼职填补空缺。\n\n劳动参与率为 61.6%，较一月下降 0.5 个百分点，这一趋势揭示了劳动力供给端的萎缩，是宏观状态切换的重要佐证。\n\n失业率维持在 4.1% 的水平，虽然看似稳定，但结合劳动参与率的下降，实际就业人口比可能已低于市场感知。"
+    },
+    {
+      "id": "X4DD48F",
+      "lang": "en",
+      "chars": 766,
+      "text": "The yen is surging, but is this the start of a new era or just a temporary correction?\n\nThe currency move follows a similar sharp 1% spike in the yen against the U.\n\nTreasury Secretary Scott Bessent's notepad reading, \"Buy Japanese Yen (JPY) $5a figure bil.\n\nJapanese investors are by far the largest overseas holders of Treasurys, with around $1.1 trillion worth of U.\n\nThe yen jumped more than 2% against the greenback, at one point touching a figure per dollar, according to LSEG data.\n\nJapan spending 15.4 trillion yen\n\nYen intervention 98 billion dollars\n\nThe move is driven by carry trade unwinding, not necessarily a fundamental shift in monetary policy.\n\nIf the yen does not hold above 156.36 per US Dollar, then the intervention narrative may be overstated."
+    },
+    {
+      "id": "X5505BF",
+      "lang": "zh",
+      "chars": 294,
+      "text": "这个说法我很同意：\n\nGoogle 发布 Gemini 3.8 Flash，把 frontier 级别的能力压进了 Flash 的价格区间；\nMeta 发布 Muse Spark 1.3，让 Agent 用更少的 token 和 tool call 完成更多事情；\nMostik 则更进一步，开始尝试让模型之间的一部分 token 从一开始就不要产生。\n它们其实都指向同一个变化：\n智能正在以非常夸张的速度变得便宜。\n\n所以Hyperscaler的盈利确定性＞顶尖模型厂（O和A）＞Neocloud/二线模型厂＞半导体产业链\n\n当智能不再贵的夸张，半导体的瓶颈就不再存在。（想想这个逻辑）"
+    },
+    {
+      "id": "XD8B2C0",
+      "lang": "zh",
+      "chars": 433,
+      "text": "我判断当前数据组合将暂时压制降息预期，但需警惕劳动力市场软化的潜在信号。\n\n8 月非农就业增加 16.2 万人，显示劳动力市场依然保持韧性。\n\n此前 12 个月非农月均增加 3.1 万人，当前增速显著高于历史平均水平。\n\n餐饮与酒吧就业增加 5.9 万人，医疗保健就业增加 1.3 万人，服务业复苏迹象明显。\n\n信息业就业减少 2.3 万人，而地方政府教育就业增加 4.2 万人，行业分化加剧。\n\n平均时薪环比上涨 0.3%，平均时薪同比上涨 3.1%，工资粘性在数据中体现。\n\n因经济原因从事兼职的人数减少 41.4 万人，说明劳动力供给并未因经济压力而大幅流失。\n\n劳动参与率为 61.6%，但劳动参与率较一月下降 0.5 个百分点，显示部分劳动力可能已退出市场。\n\n失业率维持在 4.1% 的水平，结合就业人数与兼职减少，整体劳动力市场并未出现结构性崩溃。\n\n若前两个月合计上修 5.5 万人，则非农数据将重新评估为 21.7 万人，这将是改变判断的关键阈值。"
+    },
+    {
+      "id": "XF5D25D",
+      "lang": "en",
+      "chars": 394,
+      "text": "Delays have the largest negative impact on AI data center lifecycle value, with a 1.5-year delay reducing value by 8.9% and a one-year delay reducing value by 5.5%. \n\nChanges in power costs, taxes, tariffs, depreciation, and natural gas prices have smaller effects, highlighting timely deployment as a key driver of AI data center returns, per Carnegie Endowment.\n\n$NVDA $GOOG $AMZN $MSFT $META"
+    },
+    {
+      "id": "XA2CDDF",
+      "lang": "en",
+      "chars": 688,
+      "text": "The 400 billion yen quarterly cut signals a major pivot in policy.\n\nInflation expectations have risen to around 2 percent, as suggested by Chart a figure.\n\nThe natural interest rate range is estimated to be in the 1.1 percent to 2.5 percent band.\n\nThis environment suggests liquidity is tightening faster than the market anticipates.\n\nThe producer price index increase of 7.2 percent highlights underlying cost pressures.\n\nThe 2 trillion yen monthly purchase volume remains a key variable for the interim assessment.\n\nThe 200 billion yen reduction amount will be the next critical figure to watch.\n\nI would be wrong if the 2 percent level falls below the 1.1 percent to 2.5 percent range."
+    },
+    {
+      "id": "X0BF228",
+      "lang": "zh",
+      "chars": 628,
+      "text": "我认为当前就业市场呈现明显的结构性分化特征，而非全面过热或衰退。\n\n非农就业数据上修 5.5 万人，显示前期统计可能存在低估。\n\n将 8 月非农就业增加 16.2 万人与过去 12 个月月均 3.1 万人相比，近期反弹力度显著。\n\n餐饮酒吧与医疗保健分别增加 5.9 万和 1.3 万人，而信息业却减少 2.3 万人。\n\n平均时薪环比上涨 0.3%，但平均时薪同比上涨 3.1% 更值得警惕，暗示企业可能通过提薪而非加班来应对。\n\n因经济原因兼职人数减少 41.4 万人，说明部分岗位已无法维持弹性用工模式。\n\n然而劳动参与率较一月下降 0.5 个百分点，且失业率为 4.1%，这削弱了单纯看就业增加的乐观情绪。\n\n我维持谨慎判断，因为工资涨幅远超通胀预期，且兼职减少意味着劳动力市场韧性下降。\n\n其中，餐饮酒吧与医疗保健分别增加 5.9 万人和 1.3 万人，而信息业减少 2.3 万人，反映出行业间显著的结构性流动，岗位从信息业向餐饮及医疗领域转移。\n\n此外，地方政府教育领域就业增加 4.2 万人，进一步印证了公共部门在吸纳劳动力方面的韧性。\n\n尽管上述就业数据亮眼，但劳动参与率为 61.6%，且较一月下降 0.5 个百分点，表明潜在劳动力供给正在收缩，限制了就业增长的可持续性。\n\n若私人非农平均周工时变化 0.1 小时显示持续下降，我将修正对劳动力供给的乐观预期。\n\n接下来我会密切关注非农就业数据中的行业细分变化，特别是技术服务业的招聘动态。"
+    },
+    {
+      "id": "X3CEED5",
+      "lang": "zh",
+      "chars": 228,
+      "text": "一年多前这里https://t.co/tWslvdeGJH聊到币股融合的新资产类型：美股代币合约、pre-ipo代币现在基本上都是最主流资产类型。但当时提的第二种币股联动还没有完全冒出来。现在Robinhood链上美股MeMe给了一条新路：用美股小盘股代币跟meme组LP底池，真正的币股联动。如果美股小盘股/SPCA正股、RC上meme/股票代币组LP池、再搞股票代币合约，三位一体结合起来这不就是新的更高效的资本操盘手法了（当然一也是更好的收割模式）🤔"
+    },
+    {
+      "id": "X108791",
+      "lang": "zh",
+      "chars": 299,
+      "text": "2名美军阵亡，美军昨晚承认伊朗对约旦美军基地的导弹袭击，已造成两名美军士兵阵亡，一人失踪，另外四人受伤，这是自三月底以来伊朗开火导致的首例美军阵亡。由此，在与伊朗五个月的冲突中，已至少16名美军士兵战死。\n\n只能说局势进一步升级了，明显两周过去双方还没有任何缓和的迹象。美军出现伤亡、这就更严重了、短期内川普很难退让、势必要继续保持强硬。\n\n如昨天聊到的7号冲突爆发后，开始油价反弹但没有很高，然后本周cpi和ppi数据有很好、短期内市场会忽略美伊冲突的影响。但是如果持续两周后还没看到缓和的迹象、同时油价突破压力位、市场的耐心也就越来越小了。\n\n那么在未来缓和之前，市场有可能先交易冲突持续升级。"
+    }
+  ]
+}

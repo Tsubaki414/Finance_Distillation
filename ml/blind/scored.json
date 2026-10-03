@@ -1,0 +1,820 @@
+{
+  "judges": [
+    "gpt-6-astra",
+    "gpt-4.1"
+  ],
+  "seed": 7,
+  "by_judge": {
+    "gpt-6-astra": {
+      "items_judged": 28,
+      "machine_items": 14,
+      "detected_as_machine": 14,
+      "detection_rate": 1.0,
+      "human_items": 14,
+      "humans_called_machine": 3,
+      "false_positive_rate": 0.214,
+      "auc": 1.0,
+      "mean_p_machine_on_machine": 87.1,
+      "mean_p_machine_on_human": 39.2,
+      "zh": {
+        "machine_items": 8,
+        "detection_rate": 1.0,
+        "human_items": 8,
+        "false_positive_rate": 0.125
+      },
+      "en": {
+        "machine_items": 6,
+        "detection_rate": 1.0,
+        "human_items": 6,
+        "false_positive_rate": 0.333
+      },
+      "by_writer": {
+        "grok-4.5": {
+          "items": 5,
+          "same_family_as_judge": false,
+          "detection_rate": 1.0,
+          "mean_p_machine": 89.2
+        },
+        "local": {
+          "items": 9,
+          "same_family_as_judge": false,
+          "detection_rate": 1.0,
+          "mean_p_machine": 86.0
+        }
+      },
+      "machine_live": {
+        "items": 11,
+        "detection_rate": 1.0
+      },
+      "machine_curated": {
+        "items": 3,
+        "detection_rate": 1.0
+      },
+      "machine_candidate": {
+        "items": 6,
+        "detection_rate": 1.0,
+        "mean_p_machine": 87.7
+      },
+      "machine_blocked": {
+        "items": 8,
+        "detection_rate": 1.0,
+        "mean_p_machine": 86.8
+      }
+    },
+    "gpt-4.1": {
+      "items_judged": 28,
+      "machine_items": 14,
+      "detected_as_machine": 7,
+      "detection_rate": 0.5,
+      "human_items": 14,
+      "humans_called_machine": 2,
+      "false_positive_rate": 0.143,
+      "auc": 0.702,
+      "mean_p_machine_on_machine": 49.6,
+      "mean_p_machine_on_human": 30.0,
+      "zh": {
+        "machine_items": 8,
+        "detection_rate": 0.375,
+        "human_items": 8,
+        "false_positive_rate": 0.125
+      },
+      "en": {
+        "machine_items": 6,
+        "detection_rate": 0.667,
+        "human_items": 6,
+        "false_positive_rate": 0.167
+      },
+      "by_writer": {
+        "grok-4.5": {
+          "items": 5,
+          "same_family_as_judge": false,
+          "detection_rate": 0.2,
+          "mean_p_machine": 30.0
+        },
+        "local": {
+          "items": 9,
+          "same_family_as_judge": false,
+          "detection_rate": 0.667,
+          "mean_p_machine": 60.6
+        }
+      },
+      "machine_live": {
+        "items": 11,
+        "detection_rate": 0.545
+      },
+      "machine_curated": {
+        "items": 3,
+        "detection_rate": 0.333
+      },
+      "machine_candidate": {
+        "items": 6,
+        "detection_rate": 0.333,
+        "mean_p_machine": 38.3
+      },
+      "machine_blocked": {
+        "items": 8,
+        "detection_rate": 0.625,
+        "mean_p_machine": 58.1
+      }
+    }
+  },
+  "items": [
+    {
+      "id": "X710488",
+      "truth": "human",
+      "detail": "real post by phyrexni",
+      "donor": "phyrexni",
+      "lang": "zh",
+      "chars": 540,
+      "verdicts": {
+        "gpt-6-astra": "human",
+        "gpt-4.1": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 32,
+        "gpt-4.1": 15
+      },
+      "agree": true,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "谈政策预期时突然用“我才想起来”插入对记者漏问问题的回想，打断了原有论述，更像边写边想的个人复盘。",
+        "gpt-4.1": "表达有明显的个人情感色彩和口语化，比如“再说人话就是”以及对会议内容的主观解读。"
+      }
+    },
+    {
+      "id": "XE7503D",
+      "truth": "human",
+      "detail": "real post by qinbafrank",
+      "donor": "qinbafrank",
+      "lang": "zh",
+      "chars": 316,
+      "verdicts": {
+        "gpt-6-astra": "human",
+        "gpt-4.1": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 32,
+        "gpt-4.1": 25
+      },
+      "agree": true,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "从新闻转向个人感慨时，用顿号生硬接续“今年川普在地缘上的动作”，这种未修整的口语衔接更像真人随手发帖。",
+        "gpt-4.1": "表达有明显的个人情感色彩和主观感慨，且行文有跳跃和碎片化的特点"
+      }
+    },
+    {
+      "id": "XD7324C",
+      "truth": "machine",
+      "detail": "live/en_industry/#ai_capex",
+      "donor": "beth_kindig",
+      "lang": "en",
+      "chars": 1042,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gpt-4.1": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 94,
+        "gpt-4.1": 10
+      },
+      "agree": false,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "The long evidence-gap sentence awkwardly chains labor composition, capex, cooling demand, margins, automation, and supply-chain verification into a single overloaded claim.",
+        "gpt-4.1": "The post demonstrates nuanced reasoning, hedging, and self-critique in a way that is characteristic of human financial analysis, especially in the way it anticipates counterarguments and references specific future events."
+      }
+    },
+    {
+      "id": "X31B0EB",
+      "truth": "machine",
+      "detail": "live/zh_macro/#yen_fx",
+      "donor": "qinbafrank",
+      "lang": "zh",
+      "chars": 249,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gpt-4.1": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 86,
+        "gpt-4.1": 65
+      },
+      "agree": true,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "同一笔1.1万亿美元美债存量先被说成支撑日元的关键，随后又无解释地变成干预成本难以承受的原因，像是围绕数字拼接论断而未保持因果一致。",
+        "gpt-4.1": "整体结构高度工整、句式重复，缺乏个人化表达或具体细节，像是模型生成的摘要。"
+      }
+    },
+    {
+      "id": "X5DF0DB",
+      "truth": "machine",
+      "detail": "live/zh_macro/#fed_policy",
+      "donor": "qinbafrank",
+      "lang": "zh",
+      "chars": 247,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gpt-4.1": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 88,
+        "gpt-4.1": 70
+      },
+      "agree": true,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "相邻段落分别把通胀持续高于目标和通胀回落都写成政策转向的条件，却不区分转向方向，呈现出模板句拼接式的逻辑脱节。",
+        "gpt-4.1": "整体结构高度工整、句式重复，缺乏个人观点或情绪色彩"
+      }
+    },
+    {
+      "id": "XAD6384",
+      "truth": "machine",
+      "detail": "live/en_industry/#earnings",
+      "donor": "beth_kindig",
+      "lang": "en",
+      "chars": 686,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gpt-4.1": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 87,
+        "gpt-4.1": 70
+      },
+      "agree": true,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "The unsupported claim that a 10% salary hike would instantly cut gross margin from 75% to 66% reads like model-generated financial reasoning with invented precision.",
+        "gpt-4.1": "The post uses consistently formal, analytical language and presents a sequence of hypothetical scenarios in a way that feels structured and detached, lacking the idiosyncratic phrasing or narrative asides common in human posts."
+      }
+    },
+    {
+      "id": "X754C49",
+      "truth": "human",
+      "detail": "real post by phyrexni",
+      "donor": "phyrexni",
+      "lang": "zh",
+      "chars": 433,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gpt-4.1": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 61,
+        "gpt-4.1": 70
+      },
+      "agree": true,
+      "judge_conflict": [],
+      "both_wrong": true,
+      "tells": {
+        "gpt-6-astra": "末段把前文已说明的连续增持再次包装成“完整切换”的阶段性结论，较像模型在数据摘要后补上的模板化总结。",
+        "gpt-4.1": "整体结构极为工整，数据密集且逻辑递进，缺乏主观色彩或个人化表达，像是模型自动生成的财经摘要。"
+      }
+    },
+    {
+      "id": "X35DC62",
+      "truth": "human",
+      "detail": "real post by aleabitoreddit",
+      "donor": "aleabitoreddit",
+      "lang": "en",
+      "chars": 819,
+      "verdicts": {
+        "gpt-6-astra": "human",
+        "gpt-4.1": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 18,
+        "gpt-4.1": 10
+      },
+      "agree": true,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "The digressive parenthetical about SK Hynix abandoning its crude-oil correlation reads like an off-the-cuff revision of a personally tracked market observation.",
+        "gpt-4.1": "The post uses playful, meme-like language and nuanced, context-specific references that are typical of finance communities online."
+      }
+    },
+    {
+      "id": "XB8A88C",
+      "truth": "human",
+      "detail": "real post by globalmktobserv",
+      "donor": "globalmktobserv",
+      "lang": "en",
+      "chars": 592,
+      "verdicts": {
+        "gpt-6-astra": "human",
+        "gpt-4.1": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 35,
+        "gpt-4.1": 35
+      },
+      "agree": true,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "The oddly specific 6.5-year comparison reads like a chart-driven editorial choice rather than a generic financial summary.",
+        "gpt-4.1": "The post includes a specific data source attribution ('Chart @econovisuals'), which is a common human practice for sharing finance content on social media."
+      }
+    },
+    {
+      "id": "X2556F9",
+      "truth": "human",
+      "detail": "real post by globalmktobserv",
+      "donor": "globalmktobserv",
+      "lang": "en",
+      "chars": 1086,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gpt-4.1": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 73,
+        "gpt-4.1": 20
+      },
+      "agree": false,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "The penultimate paragraph repackages the opening concentration claim as additional evidence without supplying a new figure or distinct finding.",
+        "gpt-4.1": "The post weaves together data, context, and implications in a nuanced, analytical style typical of experienced finance writers."
+      }
+    },
+    {
+      "id": "XB9F6CA",
+      "truth": "human",
+      "detail": "real post by beth_kindig",
+      "donor": "beth_kindig",
+      "lang": "en",
+      "chars": 394,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gpt-4.1": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 59,
+        "gpt-4.1": 70
+      },
+      "agree": true,
+      "judge_conflict": [],
+      "both_wrong": true,
+      "tells": {
+        "gpt-6-astra": "The second paragraph turns the numerical comparison into a generic “highlighting … a key driver” takeaway that largely restates the opening claim.",
+        "gpt-4.1": "The post is highly structured, cites precise figures and a source in a formulaic way, and ends with a list of stock tickers, all of which are common in model-generated finance summaries."
+      }
+    },
+    {
+      "id": "XB74C44",
+      "truth": "human",
+      "detail": "real post by phyrexni",
+      "donor": "phyrexni",
+      "lang": "zh",
+      "chars": 626,
+      "verdicts": {
+        "gpt-6-astra": "human",
+        "gpt-4.1": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 20,
+        "gpt-4.1": 10
+      },
+      "agree": true,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "讲到错失止盈时，作者重复强调三次没走，并用“继续浪”自嘲，这种带懊悔的絮叨更像个人交易复盘。",
+        "gpt-4.1": "内容中有明显的情绪化表达和自我反思，细节丰富且有自嘲，符合真人投资者的表达习惯。"
+      }
+    },
+    {
+      "id": "XACA9AC",
+      "truth": "machine",
+      "detail": "live/en_macro/#yen_fx",
+      "donor": "globalmktobserv",
+      "lang": "en",
+      "chars": 576,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gpt-4.1": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 95,
+        "gpt-4.1": 70
+      },
+      "agree": true,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "The economically incoherent condition about the yen buying \"$5 per unit\" reads like a model inserting a numerical trigger without understanding the exchange rate.",
+        "gpt-4.1": "The post exhibits abrupt topic shifts, repetitive sentence structures, and a lack of narrative flow, which are common in model-generated financial summaries."
+      }
+    },
+    {
+      "id": "X19AC9A",
+      "truth": "human",
+      "detail": "real post by xingpt",
+      "donor": "xingpt",
+      "lang": "zh",
+      "chars": 252,
+      "verdicts": {
+        "gpt-6-astra": "human",
+        "gpt-4.1": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 24,
+        "gpt-4.1": 20
+      },
+      "agree": true,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "作者一边坚持基本面判断没错、一边承认交易做错，这种带自我辩解的复盘口吻最像真人。",
+        "gpt-4.1": "表达了自我反思和情绪波动，语气自然，细节丰富，像真人的投资者心路历程。"
+      }
+    },
+    {
+      "id": "XD55682",
+      "truth": "human",
+      "detail": "real post by globalmktobserv",
+      "donor": "globalmktobserv",
+      "lang": "en",
+      "chars": 789,
+      "verdicts": {
+        "gpt-6-astra": "human",
+        "gpt-4.1": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 39,
+        "gpt-4.1": 35
+      },
+      "agree": true,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "The redundant minus sign in “trimmed its holdings by -$183 billion” reads like a finance poster’s habitual numerical shorthand rather than polished model prose.",
+        "gpt-4.1": "The post weaves together historical context, specific figures, and a narrative arc in a way that feels like a human summarizing and interpreting data for an audience."
+      }
+    },
+    {
+      "id": "XBFCFC1",
+      "truth": "human",
+      "detail": "real post by michael_qqq2025",
+      "donor": "michael_qqq2025",
+      "lang": "zh",
+      "chars": 370,
+      "verdicts": {
+        "gpt-6-astra": "human",
+        "gpt-4.1": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 43,
+        "gpt-4.1": 30
+      },
+      "agree": true,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "同一人物前文写“沃什”、后文直接用“Warsh”，这种未统一的人名处理更像真人随手摘译、拼接报道留下的痕迹。",
+        "gpt-4.1": "内容引用了多位分析师的具体观点和原话，信息组织方式更像是人工编辑的新闻摘要。"
+      }
+    },
+    {
+      "id": "X4AC723",
+      "truth": "human",
+      "detail": "real post by beth_kindig",
+      "donor": "beth_kindig",
+      "lang": "en",
+      "chars": 420,
+      "verdicts": {
+        "gpt-6-astra": "human",
+        "gpt-4.1": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 40,
+        "gpt-4.1": 35
+      },
+      "agree": true,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "The jump from a hardware benchmark to a specific token-price sensitivity reads like an investor’s quick, personally selected takeaway rather than a generic summary.",
+        "gpt-4.1": "The post uses informal finance jargon like 'Back-of-napkin math' and provides nuanced, conditional analysis that feels typical of an informed human summarizing news."
+      }
+    },
+    {
+      "id": "X871202",
+      "truth": "human",
+      "detail": "real post by qinbafrank",
+      "donor": "qinbafrank",
+      "lang": "zh",
+      "chars": 253,
+      "verdicts": {
+        "gpt-6-astra": "human",
+        "gpt-4.1": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 38,
+        "gpt-4.1": 25
+      },
+      "agree": true,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "引用自己白天的推文时，直接保留“聊到的：回到交易层面：”这种重复转折，更像真人随手接续旧帖、未作润色。",
+        "gpt-4.1": "内容有明显的个人思考和推理，且表达方式自然，带有‘就是今天白天推文最后的部分聊到的’等口语化衔接。"
+      }
+    },
+    {
+      "id": "X9627B9",
+      "truth": "machine",
+      "detail": "curated/macro",
+      "donor": "phyrexni",
+      "lang": "zh",
+      "chars": 539,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gpt-4.1": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 84,
+        "gpt-4.1": 35
+      },
+      "agree": false,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "将新增16.2万人与此前月均3.1万人对比，却得出“增速已显著放缓”的反向结论，像是模型套用降温叙事而未核对数字关系。",
+        "gpt-4.1": "整体行文逻辑自然，观点表达有个人判断色彩，且对数据的解读带有主观分析和细腻的语气。"
+      }
+    },
+    {
+      "id": "X463BB6",
+      "truth": "machine",
+      "detail": "live/en_industry/$IBIT",
+      "donor": "aleabitoreddit",
+      "lang": "en",
+      "chars": 790,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gpt-4.1": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 97,
+        "gpt-4.1": 85
+      },
+      "agree": true,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "Several numerical claims are syntactically broken and disconnected from the thesis, suggesting figures inserted into a generated finance template.",
+        "gpt-4.1": "The post exhibits awkward phrasing, abrupt transitions, and a lack of narrative flow that is characteristic of model-generated financial commentary."
+      }
+    },
+    {
+      "id": "X864FC9",
+      "truth": "machine",
+      "detail": "curated/industry",
+      "donor": "phyrexni",
+      "lang": "zh",
+      "chars": 628,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gpt-4.1": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 83,
+        "gpt-4.1": 35
+      },
+      "agree": false,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "同一组餐饮、医疗和信息业就业数字被近乎原样复述，后文又用“其中”重新引出，呈现出未消除重复的机械扩写痕迹。",
+        "gpt-4.1": "整体行文有明显的个人判断和关注点反复强调，且有‘我认为’‘我维持谨慎判断’等主观表达，体现出个人思考和风格。"
+      }
+    },
+    {
+      "id": "X44DCF1",
+      "truth": "human",
+      "detail": "real post by qinbafrank",
+      "donor": "qinbafrank",
+      "lang": "zh",
+      "chars": 243,
+      "verdicts": {
+        "gpt-6-astra": "human",
+        "gpt-4.1": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 35,
+        "gpt-4.1": 20
+      },
+      "agree": true,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "谈美股期权的长句以“近几年在”起头却没有接顺，呈现出随手写成、未仔细修订的语法磕绊，更像真人推广帖。",
+        "gpt-4.1": "表达有明显的个人情感色彩和口语化，比如“这有点豪横了”"
+      }
+    },
+    {
+      "id": "XFE29E7",
+      "truth": "machine",
+      "detail": "live/zh_industry/$AMZN",
+      "donor": "xingpt",
+      "lang": "zh",
+      "chars": 247,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gpt-4.1": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 76,
+        "gpt-4.1": 35
+      },
+      "agree": false,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "多段反复套用“复述指标＋泛化评价或风险提醒”的结构，尤其对利润增长机械补上“一次性因素”质疑，却没有给出对应依据。",
+        "gpt-4.1": "整体表达有明显的主观判断和警示语气，且句式多变，像是有经验的分析师写作风格。"
+      }
+    },
+    {
+      "id": "XB3FD8C",
+      "truth": "machine",
+      "detail": "live/zh_macro/#inflation",
+      "donor": "qinbafrank",
+      "lang": "zh",
+      "chars": 314,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gpt-4.1": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 82,
+        "gpt-4.1": 15
+      },
+      "agree": false,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "“最强的相反读法”这种元论证措辞突兀地嵌入短帖，像是在执行预设的反方检验步骤，而非自然展开市场评论。",
+        "gpt-4.1": "整体行文逻辑复杂，观点递进自然，且有主观判断和策略性表述，体现出较强的个人风格和经验判断。"
+      }
+    },
+    {
+      "id": "X9CDC01",
+      "truth": "machine",
+      "detail": "live/zh_industry/$NVDA",
+      "donor": "michael_qqq2025",
+      "lang": "zh",
+      "chars": 365,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gpt-4.1": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 84,
+        "gpt-4.1": 25
+      },
+      "agree": false,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "把以美元计价的每股收益称为“占比”，暴露出金融术语看似专业、实际语义未对齐的拼接痕迹。",
+        "gpt-4.1": "整体表达有明显的个人判断、推理链条和主观语气，且用词和句式有一定跳跃性，符合真人分析时的思维流动。"
+      }
+    },
+    {
+      "id": "XFE34F0",
+      "truth": "machine",
+      "detail": "curated/trading",
+      "donor": "phyrexni",
+      "lang": "zh",
+      "chars": 433,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gpt-4.1": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 80,
+        "gpt-4.1": 80
+      },
+      "agree": true,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "结尾把前两个月的假设上修直接加到当月非农，并无依据地称为“关键阈值”，最像模型机械拼接数字后补出金融解读。",
+        "gpt-4.1": "整体结构极为工整、数据引用密集且逻辑推演严密，缺乏个人化表达或主观色彩。"
+      }
+    },
+    {
+      "id": "XB115EA",
+      "truth": "machine",
+      "detail": "live/en_macro/#fed_policy",
+      "donor": "globalmktobserv",
+      "lang": "en",
+      "chars": 706,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gpt-4.1": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 89,
+        "gpt-4.1": 15
+      },
+      "agree": false,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "The argument ends with a mechanically precise falsification condition—a single 3.3% inflation print without a policy pivot—that is not logically established by the preceding thesis.",
+        "gpt-4.1": "The post demonstrates nuanced reasoning, hedging, and self-critique in a way that is characteristic of human financial commentary."
+      }
+    },
+    {
+      "id": "X5EDC43",
+      "truth": "machine",
+      "detail": "live/en_macro/#inflation",
+      "donor": "globalmktobserv",
+      "lang": "en",
+      "chars": 674,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gpt-4.1": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 95,
+        "gpt-4.1": 85
+      },
+      "agree": true,
+      "judge_conflict": [],
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "The repeated indicator-to-interpretation template attaches vague conclusions to precise figures without explaining the economic connection.",
+        "gpt-4.1": "The post strings together dense, jargon-heavy statements with minimal narrative flow or personal insight, resembling the output of a language model summarizing economic data."
+      }
+    }
+  ],
+  "dataset": {
+    "dataset_sha256_16": "a5249e174fca21e7",
+    "n_items": 28,
+    "seed": 137,
+    "item_ids": [
+      "X19AC9A",
+      "X2556F9",
+      "X31B0EB",
+      "X35DC62",
+      "X44DCF1",
+      "X463BB6",
+      "X4AC723",
+      "X5DF0DB",
+      "X5EDC43",
+      "X710488",
+      "X754C49",
+      "X864FC9",
+      "X871202",
+      "X9627B9",
+      "X9CDC01",
+      "XACA9AC",
+      "XAD6384",
+      "XB115EA",
+      "XB3FD8C",
+      "XB74C44",
+      "XB8A88C",
+      "XB9F6CA",
+      "XBFCFC1",
+      "XD55682",
+      "XD7324C",
+      "XE7503D",
+      "XFE29E7",
+      "XFE34F0"
+    ]
+  },
+  "reference_label_type": "model_reviewed",
+  "human_review": {
+    "status": "pending",
+    "detection_rate": null,
+    "false_positive_rate": null,
+    "reviewers": 0,
+    "why": "no human has submitted a judgement on this set"
+  },
+  "judges_agree": 0.714,
+  "coverage": {
+    "items": 28,
+    "judged": 28,
+    "missing": 0,
+    "failed_calls": 0,
+    "fresh_answers": 12,
+    "valid": true,
+    "why": ""
+  }
+}

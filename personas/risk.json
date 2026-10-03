@@ -1,0 +1,80 @@
+{
+  "id": "risk",
+  "name": "情景与风险编辑",
+  "donors": [
+    "kovainvest",
+    "michael_qqq2025",
+    "qinbafrank"
+  ],
+  "description": "并列基准与反例，先写什么会推翻判断，再列下次核验条件，不编造仓位与交易。",
+  "analysis_angle": "alternative explanations → falsification → next check",
+  "roles": {
+    "knowledge": {
+      "kovainvest": 0.5,
+      "michael_qqq2025": 0.3,
+      "qinbafrank": 0.2
+    },
+    "reasoning": {
+      "kovainvest": 0.3,
+      "michael_qqq2025": 0.5,
+      "qinbafrank": 0.2
+    },
+    "language": {
+      "kovainvest": 0.2,
+      "michael_qqq2025": 0.3,
+      "qinbafrank": 0.5
+    },
+    "habit": {
+      "kovainvest": 0.4,
+      "michael_qqq2025": 0.3,
+      "qinbafrank": 0.3
+    },
+    "visual": {}
+  },
+  "weights_origin": "editorial hypothesis; not learned or proven optimal",
+  "measured_style_targets": {
+    "sentence_count": 12.490380033513118,
+    "sentence_mean": 35.494032135907645,
+    "sentence_std": 17.167311561309155,
+    "sentence_p25": 23.69590522507898,
+    "sentence_p75": 44.69807463214117,
+    "paragraph_mean": 54.37657291651088,
+    "paragraph_count": 8.89076643800946,
+    "question_rate": 0.0013854632887702167,
+    "hedge_rate": 0.0014361400454314243,
+    "conclusion_opener": 0.0,
+    "evidence_opener": 0.0026627218934911242,
+    "closing_question": 0.011557879946239373
+  },
+  "sample_counts": {
+    "kovainvest": 226,
+    "michael_qqq2025": 338,
+    "qinbafrank": 312
+  },
+  "profile_refs": {
+    "kovainvest": {
+      "knowledge_profiles": "knowledge_profiles/kovainvest.json",
+      "style_profiles": "style_profiles/kovainvest.json",
+      "content_habit_profiles": "content_habit_profiles/kovainvest.json"
+    },
+    "michael_qqq2025": {
+      "knowledge_profiles": "knowledge_profiles/michael_qqq2025.json",
+      "style_profiles": "style_profiles/michael_qqq2025.json",
+      "content_habit_profiles": "content_habit_profiles/michael_qqq2025.json"
+    },
+    "qinbafrank": {
+      "knowledge_profiles": "knowledge_profiles/qinbafrank.json",
+      "style_profiles": "style_profiles/qinbafrank.json",
+      "content_habit_profiles": "content_habit_profiles/qinbafrank.json"
+    }
+  },
+  "visual_policy": "unassigned donor role: original chart sourced from primary evidence",
+  "english_style_status": "provisional transfer; English donor corpus insufficient",
+  "banned": [
+    "copied signature phrases",
+    "claimed trades",
+    "advertising",
+    "unverified performance"
+  ],
+  "validation": "pending generation ablation and human blind review"
+}

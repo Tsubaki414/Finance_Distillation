@@ -1,0 +1,321 @@
+{
+  "as_of": "2026-09-06T04:27:03.340862+00:00",
+  "installation_is_progress": false,
+  "rows": [
+    {
+      "skill": "jupyter-notebook",
+      "status": "installed and executed",
+      "artifacts": [
+        "ml_experiments/corpus_baselines.ipynb"
+      ],
+      "run_records": [
+        "runs/notebook-execution.json"
+      ],
+      "actual_data": {
+        "raw": 2647,
+        "review_scored": 300
+      },
+      "metrics": {
+        "n": 300,
+        "accuracy": 0.9166666666666666,
+        "macro_f1": 0.8252196406515813,
+        "interpretation": "strict-rule agreement, not human accuracy"
+      },
+      "frontend_replay": "Persona Lab comparison; notebook has executed outputs, not embedded interactive notebook"
+    },
+    {
+      "skill": "playwright",
+      "status": "installed; existing browser attach unavailable",
+      "artifacts": [],
+      "run_records": [
+        "runs/playwright-attach-preflight.json",
+        "runs/browser-verification.json"
+      ],
+      "actual_data": {
+        "sessions": 0,
+        "automated_e2e_runs": 0
+      },
+      "metrics": null,
+      "frontend_replay": "Partial authorized native Chrome inspection; full Playwright replay pending"
+    },
+    {
+      "skill": "screenshot",
+      "status": "installed; system permission preflight rejected",
+      "artifacts": [
+        "data/evidence/nvidia-q2-fy2027-income-statement.png"
+      ],
+      "run_records": [
+        "runs/official-pdf-capture.json",
+        "runs/browser-verification.json"
+      ],
+      "actual_data": {
+        "os_screenshot_runs": 0,
+        "source_pdf_pages_rendered": 1
+      },
+      "metrics": null,
+      "frontend_replay": "Persona Lab issuer page image; PDF rendering is a distinct fallback, not execution of screenshot skill"
+    },
+    {
+      "skill": "x-twitter-scraper / Xquik",
+      "status": "selected, installed, disabled",
+      "artifacts": [
+        "data/raw_posts.jsonl",
+        "data/clean_posts.jsonl",
+        "skill-audit/credential-scope-test.json"
+      ],
+      "run_records": [
+        "skill-audit/skills.lock.json"
+      ],
+      "actual_data": {
+        "new_x_requests": 0,
+        "existing_import_raw": 2647,
+        "existing_import_clean": 1825
+      },
+      "metrics": null,
+      "frontend_replay": "Corpus Explorer shows imported source files; no claim that Xquik produced them"
+    },
+    {
+      "skill": "huggingface-trackio",
+      "status": "installed and executed locally",
+      "artifacts": [
+        "ml_experiments/trackio"
+      ],
+      "run_records": [
+        "ml_experiments/run_summary.json"
+      ],
+      "actual_data": {
+        "A": 300,
+        "B": 360
+      },
+      "metrics": {
+        "stylometry": {
+          "n": 360,
+          "accuracy": 0.7638888888888888,
+          "macro_precision": 0.7210907739000391,
+          "macro_recall": 0.7176889515870761,
+          "macro_f1": 0.7162921825731821
+        },
+        "embedding": {
+          "n": 360,
+          "accuracy": 0.7083333333333334,
+          "macro_precision": 0.6451261143726897,
+          "macro_recall": 0.6429168903202719,
+          "macro_f1": 0.6425338999334235
+        },
+        "combined": {
+          "n": 360,
+          "accuracy": 0.8111111111111111,
+          "macro_precision": 0.7612652929090485,
+          "macro_recall": 0.7582243444881978,
+          "macro_f1": 0.7594759304915617
+        },
+        "majority": {
+          "n": 360,
+          "accuracy": 0.225,
+          "macro_precision": 0.0375,
+          "macro_recall": 0.16666666666666666,
+          "macro_f1": 0.06122448979591837
+        },
+        "language_only": {
+          "n": 360,
+          "accuracy": 0.41944444444444445,
+          "macro_precision": 0.22690298305451792,
+          "macro_recall": 0.3293542725732268,
+          "macro_f1": 0.22596410353895383
+        }
+      },
+      "frontend_replay": "Persona Lab actual metric tables; Trackio records local only"
+    },
+    {
+      "skill": "train-sentence-transformers",
+      "status": "evaluated, deferred",
+      "artifacts": [
+        "ml_experiments/embedding_manifest.json"
+      ],
+      "run_records": [
+        "ml_experiments/run_summary.json"
+      ],
+      "actual_data": {
+        "frozen_embedding_posts": 2647,
+        "finetuning_runs": 0
+      },
+      "metrics": {
+        "n": 300,
+        "accuracy": 0.9266666666666666,
+        "macro_precision": 0.8201923076923077,
+        "macro_recall": 0.8503787878787878,
+        "macro_f1": 0.8342707914825231
+      },
+      "frontend_replay": "Frozen-model results only; no training claim"
+    },
+    {
+      "skill": "huggingface-community-evals",
+      "status": "evaluated, deferred",
+      "artifacts": [
+        "ml_experiments/A_finance_classification.json",
+        "ml_experiments/B_authorship.json"
+      ],
+      "run_records": [
+        "ml_experiments/run_summary.json"
+      ],
+      "actual_data": {
+        "community_eval_runs": 0
+      },
+      "metrics": null,
+      "frontend_replay": "Project-specific local tests are separately reported, not community benchmark results"
+    },
+    {
+      "skill": "yfinance-data",
+      "status": "installed and used; financial comparison qualified",
+      "artifacts": [
+        "data/finance_supplement/nvda.json",
+        "data/finance_supplement/earnings-recap-and-estimate-analysis.json"
+      ],
+      "run_records": [
+        "runs/api_run_ledger.jsonl",
+        "runs/official-pdf-capture.json"
+      ],
+      "actual_data": {
+        "tickers": 1,
+        "earnings_history_rows": 4,
+        "earnings_estimate_rows": 4,
+        "revenue_estimate_rows": 4,
+        "sdk_operations": 3
+      },
+      "metrics": {
+        "GAAP_EPS": 2.46,
+        "nonGAAP_EPS": 2.22,
+        "consensus_basis_independently_verified": false
+      },
+      "frontend_replay": "Persona Lab, issuer 10-Q image and basis comparison"
+    },
+    {
+      "skill": "earnings-recap",
+      "status": "installed and used; financial comparison qualified",
+      "artifacts": [
+        "data/finance_supplement/nvda.json",
+        "data/finance_supplement/earnings-recap-and-estimate-analysis.json"
+      ],
+      "run_records": [
+        "runs/api_run_ledger.jsonl",
+        "runs/official-pdf-capture.json"
+      ],
+      "actual_data": {
+        "tickers": 1,
+        "earnings_history_rows": 4,
+        "earnings_estimate_rows": 4,
+        "revenue_estimate_rows": 4,
+        "sdk_operations": 3
+      },
+      "metrics": {
+        "GAAP_EPS": 2.46,
+        "nonGAAP_EPS": 2.22,
+        "consensus_basis_independently_verified": false
+      },
+      "frontend_replay": "Persona Lab, issuer 10-Q image and basis comparison"
+    },
+    {
+      "skill": "estimate-analysis",
+      "status": "installed and used; financial comparison qualified",
+      "artifacts": [
+        "data/finance_supplement/nvda.json",
+        "data/finance_supplement/earnings-recap-and-estimate-analysis.json"
+      ],
+      "run_records": [
+        "runs/api_run_ledger.jsonl",
+        "runs/official-pdf-capture.json"
+      ],
+      "actual_data": {
+        "tickers": 1,
+        "earnings_history_rows": 4,
+        "earnings_estimate_rows": 4,
+        "revenue_estimate_rows": 4,
+        "sdk_operations": 3
+      },
+      "metrics": {
+        "GAAP_EPS": 2.46,
+        "nonGAAP_EPS": 2.22,
+        "consensus_basis_independently_verified": false
+      },
+      "frontend_replay": "Persona Lab, issuer 10-Q image and basis comparison"
+    },
+    {
+      "skill": "SEC EDGAR MCP",
+      "status": "audited and installed; identity preflight blocks execution",
+      "artifacts": [
+        "scripts/sec_mcp_entry.py",
+        "skill-audit/sec-edgar-mcp.disabled.json"
+      ],
+      "run_records": [
+        "runs/sec-mcp-preflight.json"
+      ],
+      "actual_data": {
+        "SEC_network_requests": 0
+      },
+      "metrics": null,
+      "frontend_replay": "No SEC live replay; issuer-hosted source is separately identified"
+    },
+    {
+      "skill": "financial-persona-distillation",
+      "status": "created, validated and used; quality gate incomplete",
+      "artifacts": [
+        "knowledge_profiles",
+        "style_profiles",
+        "content_habit_profiles",
+        "personas",
+        "generated_samples",
+        "cross_language_tests"
+      ],
+      "run_records": [
+        "ml_experiments/run_summary.json",
+        "ml_experiments/D_guarded_generation_ablation.json",
+        "runs/automated-editorial-reviews.json"
+      ],
+      "actual_data": {
+        "profiles_per_type": 12,
+        "personas": 3,
+        "human_reviews": 0,
+        "guarded_passed": 7,
+        "guarded_failed": 23
+      },
+      "metrics": {
+        "stylometry": {
+          "n": 360,
+          "accuracy": 0.7638888888888888,
+          "macro_precision": 0.7210907739000391,
+          "macro_recall": 0.7176889515870761,
+          "macro_f1": 0.7162921825731821
+        },
+        "embedding": {
+          "n": 360,
+          "accuracy": 0.7083333333333334,
+          "macro_precision": 0.6451261143726897,
+          "macro_recall": 0.6429168903202719,
+          "macro_f1": 0.6425338999334235
+        },
+        "combined": {
+          "n": 360,
+          "accuracy": 0.8111111111111111,
+          "macro_precision": 0.7612652929090485,
+          "macro_recall": 0.7582243444881978,
+          "macro_f1": 0.7594759304915617
+        },
+        "majority": {
+          "n": 360,
+          "accuracy": 0.225,
+          "macro_precision": 0.0375,
+          "macro_recall": 0.16666666666666666,
+          "macro_f1": 0.06122448979591837
+        },
+        "language_only": {
+          "n": 360,
+          "accuracy": 0.41944444444444445,
+          "macro_precision": 0.22690298305451792,
+          "macro_recall": 0.3293542725732268,
+          "macro_f1": 0.22596410353895383
+        }
+      },
+      "frontend_replay": "Corpus Explorer / Persona Lab / Live Studio / Update & Handoff"
+    }
+  ]
+}

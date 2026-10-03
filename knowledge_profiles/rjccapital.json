@@ -1,0 +1,104 @@
+{
+  "donor": "rjccapital",
+  "sample_n": 3,
+  "features": [
+    {
+      "feature": "macro_liquidity",
+      "support_count": 0,
+      "support_post_ids": [],
+      "interpretation": "observed textual pattern; not verified expertise"
+    },
+    {
+      "feature": "equity_industry",
+      "support_count": 0,
+      "support_post_ids": [],
+      "interpretation": "observed textual pattern; not verified expertise"
+    },
+    {
+      "feature": "risk_process",
+      "support_count": 0,
+      "support_post_ids": [],
+      "interpretation": "observed textual pattern; not verified expertise"
+    },
+    {
+      "feature": "conditional_reasoning",
+      "support_count": 0,
+      "support_post_ids": [],
+      "interpretation": "observed textual pattern; not verified expertise"
+    }
+  ],
+  "frequent_entities": [
+    {
+      "entity": "$FLNC",
+      "count": 1,
+      "post_ids": [
+        "2094090878918819857"
+      ]
+    }
+  ],
+  "observed_sources": [],
+  "framework_status": "hypotheses derived from observable language; model enrichment separate",
+  "claims_verified_or_falsified": null,
+  "knowledge_boundary": "not inferred beyond linked samples",
+  "excluded_migration": [
+    "advertisements",
+    "self-reported returns",
+    "unsupported certainty",
+    "signature expressions"
+  ],
+  "time_horizon": {
+    "short_term_post_ids": [],
+    "long_term_post_ids": []
+  },
+  "risk_post_ids": [],
+  "causal_candidate_post_ids": [],
+  "model_enrichment": {
+    "status": "no_supported_recurring_framework",
+    "frameworks": [],
+    "candidate_frameworks": [],
+    "run_id": "local-06f34354eff64a9a",
+    "verifier_run_id": null,
+    "model_role": "comparison",
+    "selected_post_ids": [
+      "2090044795859112101",
+      "2090147790668124569"
+    ],
+    "selected_excerpts": [
+      {
+        "evidence_id": "S1",
+        "post_id": "2090044795859112101",
+        "excerpt": "Bears will point to what is an extremely capital-hungry business and shareholders are underwriting years of dilution but demand visibility is so strong, and returns on incremental data center capex are so attractive, that management wants to raise and deploy capital as fast as possible."
+      },
+      {
+        "evidence_id": "S2",
+        "post_id": "2090147790668124569",
+        "excerpt": "I’ve never invested in biotech stocks that’s how you make the wrong kind of wife changing money they can explode in an instant"
+      }
+    ],
+    "sample_n": 2,
+    "selection": "evenly spaced chronological substantive posts; exclude temporal author-test posts; prefer causal paragraphs",
+    "corpus_sha256": "0ae5022f72f416571150f410b2219413c50c83bbcc6c3b6c9a510024afa0fe89",
+    "rejections": [
+      "unknown or insufficient evidence IDs"
+    ],
+    "validation_scope": "Exact source membership and >=2 distinct posts; any added neighbors use frozen embedding retrieval with thread/date separation. Same-model 0/1 support is a diagnostic, not human validation or verified expertise.",
+    "support_diagnostics_v3": [
+      {
+        "claim": "Management prioritizes capital deployment over shareholder concerns in a capital-intensive industry.",
+        "run_id": "local-3c2dcfec62d741bf",
+        "response": "0",
+        "accepted": false,
+        "neighbor_retrieval": [
+          {
+            "post_id": "2094090878918819857",
+            "cosine": 0.048289306461811066
+          }
+        ],
+        "evidence_ids": [
+          "2090044795859112101",
+          "2094090878918819857"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,493 @@
+{
+  "id": "en-93f54709cbc4",
+  "source_language": "zh",
+  "target_language": "en",
+  "zh_draft_id": "draft-45933d3e2090",
+  "persona_id": "macro",
+  "persona_name": "宏观数据与资金流观察者",
+  "created_at": "2026-09-09T02:47:18.880625+00:00",
+  "source_id": "bls-employment-2026-08",
+  "source_version": "75155f58f5a995e3",
+  "method": "English figures are rendered by code from the fact pack; the model never converts a scale between the two languages",
+  "en_slots": [
+    {
+      "slot_id": "E01",
+      "fact_id": "ahe_mom",
+      "rendered": "average hourly earnings rose 0.3 percent on the month"
+    },
+    {
+      "slot_id": "E02",
+      "fact_id": "ahe_yoy",
+      "rendered": "average hourly earnings rose 3.1 percent from a year earlier"
+    },
+    {
+      "slot_id": "E03",
+      "fact_id": "food",
+      "rendered": "food services and drinking places added 59,000"
+    },
+    {
+      "slot_id": "E04",
+      "fact_id": "health",
+      "rendered": "health care added 13,000"
+    },
+    {
+      "slot_id": "E05",
+      "fact_id": "information",
+      "rendered": "information employment fell by 23,000"
+    },
+    {
+      "slot_id": "E06",
+      "fact_id": "local_education",
+      "rendered": "local government education added 42,000"
+    },
+    {
+      "slot_id": "E07",
+      "fact_id": "part_time_decline",
+      "rendered": "the number working part time for economic reasons fell by 414,000"
+    },
+    {
+      "slot_id": "E08",
+      "fact_id": "participation",
+      "rendered": "the labor force participation rate was 61.6 percent"
+    },
+    {
+      "slot_id": "E09",
+      "fact_id": "participation_since_jan",
+      "rendered": "the participation rate is down 0.5 percentage points since January"
+    },
+    {
+      "slot_id": "E10",
+      "fact_id": "payroll",
+      "rendered": "nonfarm payrolls rose by 162,000 in August"
+    },
+    {
+      "slot_id": "E11",
+      "fact_id": "payroll_12m_mean",
+      "rendered": "the average monthly gain over the prior 12 months was 31,000"
+    },
+    {
+      "slot_id": "E12",
+      "fact_id": "revision_total",
+      "rendered": "the prior two months were revised up by a combined 55,000"
+    },
+    {
+      "slot_id": "E13",
+      "fact_id": "unemployment_rate",
+      "rendered": "the unemployment rate was 4.1 percent"
+    }
+  ],
+  "run_status": "completed",
+  "qa_status": "passed",
+  "content_status": "ready_for_pipeline",
+  "attempts": [
+    {
+      "attempt": 1,
+      "run_id": "local-1ff8e012f83946ac",
+      "latency_s": 42.08,
+      "usage": {
+        "prompt_tokens": 1187,
+        "completion_tokens": 1183,
+        "total_tokens": 2370,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "qa_status": "passed",
+      "qa_blocking": 0,
+      "crosslang_status": "passed",
+      "score": 11,
+      "dropped": 0,
+      "codes": []
+    }
+  ],
+  "best_attempt": 1,
+  "title": "August 2026 Employment Report: Structural Pressures Amid Market Resilience",
+  "text": "The establishment survey reported that nonfarm payrolls rose by 162,000 in August, indicating that while total employment remains robust, the momentum is weakening.\n\nWhen viewed over a longer horizon, the average monthly gain over the prior 12 months was 31,000, suggesting that while the current increase is strong, its sustainability warrants caution.\n\nThe establishment survey data reveals structural divergence: food services and drinking places added 59,000, and health care added 13,000, demonstrating resilience in the service sector.\n\nConversely, information employment fell by 23,000, and the number working part time for economic reasons fell by 414,000, implying that firms are shifting cost pressures onto reduced hours or fewer full-time positions.\n\nPrice and hours data show that average hourly earnings rose 0.3 percent on the month and average hourly earnings rose 3.1 percent from a year earlier, signaling strong wage growth that may constrain further rate cuts.\n\nRevisions and participation rates alter the interpretation of raw job gains; the prior two months were revised up by a combined 55,000, yet the labor force participation rate was 61.6 percent and is down 0.5 percentage points since January, indicating a contraction in labor supply.\n\nA counter-argument suggests the labor market has not genuinely weakened, as the unemployment rate was 4.1 percent at historical lows, and local government education added 42,000 provided a buffer.\n\nThe prevailing view maintains that the divergence between wage growth and reduced part-time employment suggests firms are controlling costs while struggling to sustain full-time roles, confirming the macroeconomic transition.\n\nThe release notes that the establishment survey measures nonfarm employment, hours, and earnings by industry, while the household survey measures labor force status, including unemployment, by demographic characteristics.\n\nThe release notes that the household survey counts people while the establishment survey counts payroll jobs, and that one should not subtract across these surveys.\n\nThe unemployment rate was 4.1 percent, and the threshold for invalidating the overheating narrative is a significant decline in private nonfarm average weekly hours or the unemployment rate falling below 4.1 percent.",
+  "article_markdown": "# August 2026 Employment Report: Structural Pressures Amid Market Resilience\n\nThe establishment survey reported that nonfarm payrolls rose by 162,000 in August, indicating that while total employment remains robust, the momentum is weakening.\n\nWhen viewed over a longer horizon, the average monthly gain over the prior 12 months was 31,000, suggesting that while the current increase is strong, its sustainability warrants caution.\n\nThe establishment survey data reveals structural divergence: food services and drinking places added 59,000, and health care added 13,000, demonstrating resilience in the service sector.\n\nConversely, information employment fell by 23,000, and the number working part time for economic reasons fell by 414,000, implying that firms are shifting cost pressures onto reduced hours or fewer full-time positions.\n\nPrice and hours data show that average hourly earnings rose 0.3 percent on the month and average hourly earnings rose 3.1 percent from a year earlier, signaling strong wage growth that may constrain further rate cuts.\n\nRevisions and participation rates alter the interpretation of raw job gains; the prior two months were revised up by a combined 55,000, yet the labor force participation rate was 61.6 percent and is down 0.5 percentage points since January, indicating a contraction in labor supply.\n\nA counter-argument suggests the labor market has not genuinely weakened, as the unemployment rate was 4.1 percent at historical lows, and local government education added 42,000 provided a buffer.\n\nThe prevailing view maintains that the divergence between wage growth and reduced part-time employment suggests firms are controlling costs while struggling to sustain full-time roles, confirming the macroeconomic transition.\n\nThe release notes that the establishment survey measures nonfarm employment, hours, and earnings by industry, while the household survey measures labor force status, including unemployment, by demographic characteristics. _[background added for this audience]_\n\nThe release notes that the household survey counts people while the establishment survey counts payroll jobs, and that one should not subtract across these surveys. _[background added for this audience]_\n\nThe unemployment rate was 4.1 percent, and the threshold for invalidating the overheating narrative is a significant decline in private nonfarm average weekly hours or the unemployment rate falling below 4.1 percent.\n\n---\n\nChinese original: draft-45933d3e2090. Figures are rendered from the fact pack by code in each language, so the notations differ and the values do not.\n\n| fact | value | Chinese | English |\n| --- | --- | --- | --- |\n| ahe_mom | 0.3 | 平均时薪环比上涨 0.3% | average hourly earnings rose 0.3 percent on the month |\n| ahe_yoy | 3.1 | 平均时薪同比上涨 3.1% | average hourly earnings rose 3.1 percent from a year earlier |\n| food | 59000 | 餐饮与酒吧就业增加 5.9 万人 | food services and drinking places added 59,000 |\n| health | 13000 | 医疗保健就业增加 1.3 万人 | health care added 13,000 |\n| information | -23000 | 信息业就业减少 2.3 万人 | information employment fell by 23,000 |\n| local_education | 42000 | 地方政府教育就业增加 4.2 万人 | local government education added 42,000 |\n| part_time_decline | 414000 | 因经济原因从事兼职的人数减少 41.4 万人 | the number working part time for economic reasons fell by 414,000 |\n| participation | 61.6 | 劳动参与率为 61.6% | the labor force participation rate was 61.6 percent |\n| participation_since_jan | 0.5 | 劳动参与率较一月下降 0.5 个百分点 | the participation rate is down 0.5 percentage points since January |\n| payroll | 162000 | 8 月非农就业增加 16.2 万人 | nonfarm payrolls rose by 162,000 in August |\n| payroll_12m_mean | 31000 | 此前 12 个月非农月均增加 3.1 万人 | the average monthly gain over the prior 12 months was 31,000 |\n| revision_total | 55000 | 前两个月合计上修 5.5 万人 | the prior two months were revised up by a combined 55,000 |\n| unemployment_rate | 4.1 | 失业率为 4.1% | the unemployment rate was 4.1 percent |",
+  "sentence_to_source_ledger": [
+    {
+      "sentence_id": "s1",
+      "text": "The establishment survey reported that nonfarm payrolls rose by 162,000 in August, indicating that while total employment remains robust, the momentum is weakening.",
+      "kind": "fact",
+      "kind_en": "carried_claim",
+      "fact_ids": [
+        "payroll"
+      ],
+      "slot_ids": [
+        "E10"
+      ],
+      "proposed_thresholds": [],
+      "source_block_ids": [
+        "B0012"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s2",
+      "text": "When viewed over a longer horizon, the average monthly gain over the prior 12 months was 31,000, suggesting that while the current increase is strong, its sustainability warrants caution.",
+      "kind": "interpretation",
+      "kind_en": "carried_claim",
+      "fact_ids": [
+        "payroll_12m_mean"
+      ],
+      "slot_ids": [
+        "E11"
+      ],
+      "proposed_thresholds": [],
+      "source_block_ids": [
+        "B0026",
+        "B0027"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s3",
+      "text": "The establishment survey data reveals structural divergence: food services and drinking places added 59,000, and health care added 13,000, demonstrating resilience in the service sector.",
+      "kind": "fact",
+      "kind_en": "carried_claim",
+      "fact_ids": [
+        "food",
+        "health"
+      ],
+      "slot_ids": [
+        "E03",
+        "E04"
+      ],
+      "proposed_thresholds": [],
+      "source_block_ids": [
+        "B0029",
+        "B0036"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s4",
+      "text": "Conversely, information employment fell by 23,000, and the number working part time for economic reasons fell by 414,000, implying that firms are shifting cost pressures onto reduced hours or fewer full-time positions.",
+      "kind": "interpretation",
+      "kind_en": "carried_claim",
+      "fact_ids": [
+        "information",
+        "part_time_decline"
+      ],
+      "slot_ids": [
+        "E05",
+        "E07"
+      ],
+      "proposed_thresholds": [],
+      "source_block_ids": [
+        "B0022",
+        "B0039"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s5",
+      "text": "Price and hours data show that average hourly earnings rose 0.3 percent on the month and average hourly earnings rose 3.1 percent from a year earlier, signaling strong wage growth that may constrain further rate cuts.",
+      "kind": "interpretation",
+      "kind_en": "carried_claim",
+      "fact_ids": [
+        "ahe_mom",
+        "ahe_yoy"
+      ],
+      "slot_ids": [
+        "E01",
+        "E02"
+      ],
+      "proposed_thresholds": [],
+      "source_block_ids": [
+        "B0050"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s6",
+      "text": "Revisions and participation rates alter the interpretation of raw job gains; the prior two months were revised up by a combined 55,000, yet the labor force participation rate was 61.6 percent and is down 0.5 percentage points since January, indicating a contraction in labor supply.",
+      "kind": "interpretation",
+      "kind_en": "carried_claim",
+      "fact_ids": [
+        "participation",
+        "participation_since_jan",
+        "revision_total"
+      ],
+      "slot_ids": [
+        "E08",
+        "E09",
+        "E12"
+      ],
+      "proposed_thresholds": [],
+      "source_block_ids": [
+        "B0021",
+        "B0052"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s7",
+      "text": "A counter-argument suggests the labor market has not genuinely weakened, as the unemployment rate was 4.1 percent at historical lows, and local government education added 42,000 provided a buffer.",
+      "kind": "interpretation",
+      "kind_en": "carried_claim",
+      "fact_ids": [
+        "local_education",
+        "unemployment_rate"
+      ],
+      "slot_ids": [
+        "E06",
+        "E13"
+      ],
+      "proposed_thresholds": [],
+      "source_block_ids": [
+        "B0012",
+        "B0031"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s8",
+      "text": "The prevailing view maintains that the divergence between wage growth and reduced part-time employment suggests firms are controlling costs while struggling to sustain full-time roles, confirming the macroeconomic transition.",
+      "kind": "interpretation",
+      "kind_en": "carried_claim",
+      "fact_ids": [],
+      "slot_ids": [],
+      "proposed_thresholds": [],
+      "source_block_ids": [],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s9",
+      "text": "The release notes that the establishment survey measures nonfarm employment, hours, and earnings by industry, while the household survey measures labor force status, including unemployment, by demographic characteristics.",
+      "kind": "added_background",
+      "kind_en": "added_background",
+      "fact_ids": [],
+      "slot_ids": [],
+      "proposed_thresholds": [],
+      "source_block_ids": [],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s10",
+      "text": "The release notes that the household survey counts people while the establishment survey counts payroll jobs, and that one should not subtract across these surveys.",
+      "kind": "added_background",
+      "kind_en": "added_background",
+      "fact_ids": [],
+      "slot_ids": [],
+      "proposed_thresholds": [],
+      "source_block_ids": [],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s11",
+      "text": "The unemployment rate was 4.1 percent, and the threshold for invalidating the overheating narrative is a significant decline in private nonfarm average weekly hours or the unemployment rate falling below 4.1 percent.",
+      "kind": "condition",
+      "kind_en": "carried_claim",
+      "fact_ids": [
+        "unemployment_rate"
+      ],
+      "slot_ids": [
+        "E13"
+      ],
+      "proposed_thresholds": [],
+      "source_block_ids": [
+        "B0012"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    }
+  ],
+  "qa": {
+    "findings": [],
+    "metrics": {
+      "claim_support_coverage": 0.7273,
+      "unsupported_claim_rate": 0.0,
+      "must_include_coverage": 1.0,
+      "plan_required_coverage": 1.0,
+      "all_fact_coverage": 0.2549
+    },
+    "status": {
+      "run_status": "completed",
+      "qa_status": "passed",
+      "content_status": "ready_for_pipeline",
+      "blocking_count": 0,
+      "warning_count": 0,
+      "human_review": "not_required_by_design; the target pipeline is automated"
+    },
+    "gate_version": "qa-gates-v2",
+    "layers_run": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "crosslang_check": {
+    "findings": [],
+    "status": "passed",
+    "blocking_count": 0,
+    "check_version": "crosslang-v1"
+  },
+  "alignment": {
+    "facts": [
+      {
+        "fact_id": "ahe_mom",
+        "raw_value": 0.3,
+        "unit": "percent",
+        "zh": "平均时薪环比上涨 0.3%",
+        "en": "average hourly earnings rose 0.3 percent on the month",
+        "in_zh": true,
+        "in_en": true,
+        "notation_differs_value_does_not": true
+      },
+      {
+        "fact_id": "ahe_yoy",
+        "raw_value": 3.1,
+        "unit": "percent",
+        "zh": "平均时薪同比上涨 3.1%",
+        "en": "average hourly earnings rose 3.1 percent from a year earlier",
+        "in_zh": true,
+        "in_en": true,
+        "notation_differs_value_does_not": true
+      },
+      {
+        "fact_id": "food",
+        "raw_value": 59000,
+        "unit": "persons",
+        "zh": "餐饮与酒吧就业增加 5.9 万人",
+        "en": "food services and drinking places added 59,000",
+        "in_zh": true,
+        "in_en": true,
+        "notation_differs_value_does_not": true
+      },
+      {
+        "fact_id": "health",
+        "raw_value": 13000,
+        "unit": "persons",
+        "zh": "医疗保健就业增加 1.3 万人",
+        "en": "health care added 13,000",
+        "in_zh": true,
+        "in_en": true,
+        "notation_differs_value_does_not": true
+      },
+      {
+        "fact_id": "information",
+        "raw_value": -23000,
+        "unit": "persons",
+        "zh": "信息业就业减少 2.3 万人",
+        "en": "information employment fell by 23,000",
+        "in_zh": true,
+        "in_en": true,
+        "notation_differs_value_does_not": true
+      },
+      {
+        "fact_id": "local_education",
+        "raw_value": 42000,
+        "unit": "persons",
+        "zh": "地方政府教育就业增加 4.2 万人",
+        "en": "local government education added 42,000",
+        "in_zh": true,
+        "in_en": true,
+        "notation_differs_value_does_not": true
+      },
+      {
+        "fact_id": "part_time_decline",
+        "raw_value": 414000,
+        "unit": "persons_decline",
+        "zh": "因经济原因从事兼职的人数减少 41.4 万人",
+        "en": "the number working part time for economic reasons fell by 414,000",
+        "in_zh": true,
+        "in_en": true,
+        "notation_differs_value_does_not": true
+      },
+      {
+        "fact_id": "participation",
+        "raw_value": 61.6,
+        "unit": "percent",
+        "zh": "劳动参与率为 61.6%",
+        "en": "the labor force participation rate was 61.6 percent",
+        "in_zh": true,
+        "in_en": true,
+        "notation_differs_value_does_not": true
+      },
+      {
+        "fact_id": "participation_since_jan",
+        "raw_value": 0.5,
+        "unit": "percentage_points_decline",
+        "zh": "劳动参与率较一月下降 0.5 个百分点",
+        "en": "the participation rate is down 0.5 percentage points since January",
+        "in_zh": true,
+        "in_en": true,
+        "notation_differs_value_does_not": true
+      },
+      {
+        "fact_id": "payroll",
+        "raw_value": 162000,
+        "unit": "persons",
+        "zh": "8 月非农就业增加 16.2 万人",
+        "en": "nonfarm payrolls rose by 162,000 in August",
+        "in_zh": true,
+        "in_en": true,
+        "notation_differs_value_does_not": true
+      },
+      {
+        "fact_id": "payroll_12m_mean",
+        "raw_value": 31000,
+        "unit": "persons",
+        "zh": "此前 12 个月非农月均增加 3.1 万人",
+        "en": "the average monthly gain over the prior 12 months was 31,000",
+        "in_zh": true,
+        "in_en": true,
+        "notation_differs_value_does_not": true
+      },
+      {
+        "fact_id": "revision_total",
+        "raw_value": 55000,
+        "unit": "persons",
+        "zh": "前两个月合计上修 5.5 万人",
+        "en": "the prior two months were revised up by a combined 55,000",
+        "in_zh": true,
+        "in_en": true,
+        "notation_differs_value_does_not": true
+      },
+      {
+        "fact_id": "unemployment_rate",
+        "raw_value": 4.1,
+        "unit": "percent",
+        "zh": "失业率为 4.1%",
+        "en": "the unemployment rate was 4.1 percent",
+        "in_zh": true,
+        "in_en": true,
+        "notation_differs_value_does_not": true
+      }
+    ],
+    "dropped_in_english": [],
+    "added_in_english": [],
+    "zh_fact_count": 13,
+    "en_fact_count": 13,
+    "sentence_kinds": {
+      "carried_claim": 9,
+      "added_background": 2
+    },
+    "method": "facts are compared by id and raw value, not by string; the two notations are expected to differ and the underlying values are not"
+  },
+  "crosslang_status": "passed",
+  "output_gate": "passed",
+  "finished_at": "2026-09-09T02:48:00.969997+00:00",
+  "delivery": {
+    "run_status": "completed",
+    "qa_status": "passed",
+    "content_status": "ready_for_pipeline",
+    "reason": null,
+    "deliverable": true
+  },
+  "human_review": "none"
+}

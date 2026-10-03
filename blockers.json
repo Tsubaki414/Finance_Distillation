@@ -1,0 +1,101 @@
+{
+  "as_of": "2026-09-06T04:27:03.340862+00:00",
+  "acceptance": "incomplete",
+  "gates": [
+    {
+      "gate": "donor_language_coverage",
+      "status": "incomplete",
+      "actual": {
+        "by_donor_detected_source_language": {
+          "aleabitoreddit": {
+            "en": 399,
+            "zh": 4,
+            "ja": 1
+          },
+          "beth_kindig": {
+            "en": 18
+          },
+          "citrini": {
+            "en": 1
+          },
+          "ericjackson": {
+            "en": 3
+          },
+          "globalmktobserv": {
+            "en": 10
+          },
+          "kovainvest": {
+            "en": 56,
+            "zh": 166,
+            "ja": 3,
+            "et": 1
+          },
+          "michael_qqq2025": {
+            "zh": 318,
+            "en": 16,
+            "ja": 4
+          },
+          "phyrexni": {
+            "zh": 356,
+            "ja": 1
+          },
+          "qinbafrank": {
+            "zh": 312
+          },
+          "rjccapital": {
+            "en": 3
+          },
+          "tradexwhisperer": {
+            "en": 4
+          },
+          "xingpt": {
+            "zh": 148,
+            "ja": 1
+          }
+        },
+        "note": "Provider language labels may contain errors; target roster language is not the same as observed post language. No 6-ZH / 6-EN acceptance claim.",
+        "donors_reaching_150_total": 5,
+        "donors_reaching_150_zh": 4,
+        "donors_reaching_150_en": 1
+      },
+      "required": ">=6 authors with >=150 Chinese original finance posts each and >=6 authors with >=150 English posts each; complete 180-day windows or documented capped 500 samples"
+    },
+    {
+      "gate": "new_x_collection",
+      "status": "awaiting_account_and_cost_preflight",
+      "required": "XQUIK_API_KEY and approved extraction cost ceiling; selected collector only",
+      "new_requests": 0
+    },
+    {
+      "gate": "human_blind_review_and_edit",
+      "status": "awaiting_real_human",
+      "actual_submissions": 0
+    },
+    {
+      "gate": "generation_quality",
+      "status": "not_validated",
+      "reason": "Concrete unsupported inferences survive same-model diagnostics. Five-mode results contain schema, citation and factual failures. No persona quality improvement established."
+    },
+    {
+      "gate": "knowledge_frameworks",
+      "status": "partial",
+      "accepted_same_model_proxy_frameworks": 3,
+      "reason": "Sparse same-donor multi-post support; accepted candidates still lack independent semantic review."
+    },
+    {
+      "gate": "sec_mcp",
+      "status": "disabled",
+      "required": "Real SEC_EDGAR_USER_AGENT contact identity. Issuer-hosted 10-Q available; independent SEC retrieval not executed."
+    },
+    {
+      "gate": "browser_replay",
+      "status": "partial",
+      "reason": "Existing Chrome window corpus checks only; user later navigated away. No new browser or restart. Four-page API verification does not equal complete browser E2E."
+    },
+    {
+      "gate": "continuous_current_events",
+      "status": "not_implemented",
+      "reason": "Actual captured primary releases replay through versioned ingestion; no continuous live event collection or alert scheduler."
+    }
+  ]
+}

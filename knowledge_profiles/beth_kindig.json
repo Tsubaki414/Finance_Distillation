@@ -1,0 +1,332 @@
+{
+  "donor": "beth_kindig",
+  "sample_n": 18,
+  "features": [
+    {
+      "feature": "macro_liquidity",
+      "support_count": 0,
+      "support_post_ids": [],
+      "interpretation": "observed textual pattern; not verified expertise"
+    },
+    {
+      "feature": "equity_industry",
+      "support_count": 6,
+      "support_post_ids": [
+        "2094466542176018743",
+        "2094885063708103037",
+        "2094886522462130320",
+        "2095268438319001787",
+        "2095286563269730597",
+        "2095492248175616174"
+      ],
+      "interpretation": "observed textual pattern; not verified expertise"
+    },
+    {
+      "feature": "risk_process",
+      "support_count": 0,
+      "support_post_ids": [],
+      "interpretation": "observed textual pattern; not verified expertise"
+    },
+    {
+      "feature": "conditional_reasoning",
+      "support_count": 2,
+      "support_post_ids": [
+        "2095492248175616174",
+        "2095934201853890696"
+      ],
+      "interpretation": "observed textual pattern; not verified expertise"
+    }
+  ],
+  "frequent_entities": [
+    {
+      "entity": "$NVDA",
+      "count": 15,
+      "post_ids": [
+        "2094208918247367150",
+        "2094210323527897464",
+        "2094439691244196213",
+        "2094466542176018743",
+        "2094874747079176594",
+        "2094885063708103037",
+        "2094886522462130320",
+        "2094887853197021263",
+        "2095187446006796344",
+        "2095268438319001787",
+        "2095492248175616174",
+        "2095603810072695284"
+      ]
+    },
+    {
+      "entity": "$AMD",
+      "count": 7,
+      "post_ids": [
+        "2094210323527897464",
+        "2094874747079176594",
+        "2095187446006796344",
+        "2095268438319001787",
+        "2095603810072695284",
+        "2095977798846333265",
+        "2096282121165852788"
+      ]
+    },
+    {
+      "entity": "$AVGO",
+      "count": 4,
+      "post_ids": [
+        "2094874747079176594",
+        "2095187446006796344",
+        "2095268438319001787",
+        "2095603810072695284"
+      ]
+    },
+    {
+      "entity": "$DELL",
+      "count": 4,
+      "post_ids": [
+        "2094885063708103037",
+        "2094886522462130320",
+        "2094887853197021263",
+        "2095187446006796344"
+      ]
+    },
+    {
+      "entity": "$SMCI",
+      "count": 3,
+      "post_ids": [
+        "2094885063708103037",
+        "2094886522462130320",
+        "2094887853197021263"
+      ]
+    },
+    {
+      "entity": "$GOOG",
+      "count": 2,
+      "post_ids": [
+        "2094208918247367150",
+        "2094874747079176594"
+      ]
+    },
+    {
+      "entity": "$AMZN",
+      "count": 2,
+      "post_ids": [
+        "2094208918247367150",
+        "2096282121165852788"
+      ]
+    },
+    {
+      "entity": "$MSFT",
+      "count": 1,
+      "post_ids": [
+        "2094208918247367150"
+      ]
+    },
+    {
+      "entity": "$MU",
+      "count": 1,
+      "post_ids": [
+        "2094210323527897464"
+      ]
+    },
+    {
+      "entity": "$SKHY",
+      "count": 1,
+      "post_ids": [
+        "2094210323527897464"
+      ]
+    },
+    {
+      "entity": "$NBIS",
+      "count": 1,
+      "post_ids": [
+        "2094439691244196213"
+      ]
+    },
+    {
+      "entity": "$CRWV",
+      "count": 1,
+      "post_ids": [
+        "2095492248175616174"
+      ]
+    },
+    {
+      "entity": "AMD",
+      "count": 1,
+      "post_ids": [
+        "2095977798846333265"
+      ]
+    },
+    {
+      "entity": "$CSCO",
+      "count": 1,
+      "post_ids": [
+        "2095977798846333265"
+      ]
+    },
+    {
+      "entity": "$PANW",
+      "count": 1,
+      "post_ids": [
+        "2096281612178584012"
+      ]
+    },
+    {
+      "entity": "$CRWD",
+      "count": 1,
+      "post_ids": [
+        "2096281612178584012"
+      ]
+    },
+    {
+      "entity": "$ZS",
+      "count": 1,
+      "post_ids": [
+        "2096281612178584012"
+      ]
+    }
+  ],
+  "observed_sources": [],
+  "framework_status": "hypotheses derived from observable language; model enrichment separate",
+  "claims_verified_or_falsified": null,
+  "knowledge_boundary": "not inferred beyond linked samples",
+  "excluded_migration": [
+    "advertisements",
+    "self-reported returns",
+    "unsupported certainty",
+    "signature expressions"
+  ],
+  "time_horizon": {
+    "short_term_post_ids": [],
+    "long_term_post_ids": []
+  },
+  "risk_post_ids": [],
+  "causal_candidate_post_ids": [
+    "2095934201853890696"
+  ],
+  "model_enrichment": {
+    "status": "no_supported_recurring_framework",
+    "frameworks": [],
+    "candidate_frameworks": [
+      {
+        "claim": "Investment in AI-driven technologies leads to increased market share and revenue growth.",
+        "mechanism": "Investments in AI startups and technologies can drive market share growth by providing advanced AI solutions, which can then lead to higher revenue through increased sales and market penetration.",
+        "boundary": "This mechanism is observed in the context of Nvidia's investments in AI startups and Dell's record AI server orders, but it is not directly linked to a concrete causal chain in the provided excerpts.",
+        "evidence": [
+          {
+            "post_id": "2094208918247367150",
+            "evidence_id": "S1",
+            "quote": "Nvidia $NVDA is in discussions to invest in AI startup Perplexity at a $30 billion valuation, a more than 50% increase from its funding round last year as Perplexity’s ARR surpassed $750 million, up from less than $250 million at the start of 2026. "
+          },
+          {
+            "post_id": "2095978960475840995",
+            "evidence_id": "S7",
+            "quote": "Nvidia $NVDA is acquiring Hugging Face for $12.9 billion, though Hugging Face will remain an open platform and will not be required to use Nvidia compute."
+          }
+        ]
+      },
+      {
+        "claim": "AI-driven revenue growth is a key driver of overall revenue growth.",
+        "mechanism": "The growth in AI-driven revenue can directly contribute to overall revenue growth by increasing the demand for AI-related products and services, which can then lead to higher sales and revenue for the company.",
+        "boundary": "This mechanism is observed in Dell's record AI server orders and the reported tripling of AI-driven revenue, but it is not directly linked to a concrete causal chain in the provided excerpts.",
+        "evidence": [
+          {
+            "post_id": "2094887853197021263",
+            "evidence_id": "S4",
+            "quote": "Dell $DELL reported record AI server orders of $60.9 billion in Q2, more than doubling from Q1's $24.4 billion."
+          },
+          {
+            "post_id": "2095286563269730597",
+            "evidence_id": "S5",
+            "quote": "One company reported its AI-driven revenue nearly tripling QoQ this quarter after rising 250% QoQ last quarter – and it's not a chip stock. "
+          }
+        ]
+      }
+    ],
+    "run_id": "local-7d95c6ba1c884c57",
+    "verifier_run_id": "local-ebec2b33f72f451b",
+    "model_role": "comparison",
+    "selected_post_ids": [
+      "2094208918247367150",
+      "2094439691244196213",
+      "2094885063708103037",
+      "2094887853197021263",
+      "2095286563269730597",
+      "2095603810072695284",
+      "2095978960475840995",
+      "2096282121165852788"
+    ],
+    "selected_excerpts": [
+      {
+        "evidence_id": "S1",
+        "post_id": "2094208918247367150",
+        "excerpt": "Nvidia $NVDA is in discussions to invest in AI startup Perplexity at a $30 billion valuation, a more than 50% increase from its funding round last year as Perplexity’s ARR surpassed $750 million, up from less than $250 million at the start of 2026. "
+      },
+      {
+        "evidence_id": "S2",
+        "post_id": "2094439691244196213",
+        "excerpt": "Nvidia $NVDA announced that its new Groq 3 LPX platform is now in full production, with Nebius $NBIS planning to bring the rack to its Token Factory platform for agentic AI applications."
+      },
+      {
+        "evidence_id": "S3",
+        "post_id": "2094885063708103037",
+        "excerpt": "Dell $DELL reported record Q2 revenue of $47 billion, up 58% YoY and beating estimates for $44.5 billion."
+      },
+      {
+        "evidence_id": "S4",
+        "post_id": "2094887853197021263",
+        "excerpt": "Dell $DELL reported record AI server orders of $60.9 billion in Q2, more than doubling from Q1's $24.4 billion."
+      },
+      {
+        "evidence_id": "S5",
+        "post_id": "2095286563269730597",
+        "excerpt": "One company reported its AI-driven revenue nearly tripling QoQ this quarter after rising 250% QoQ last quarter – and it's not a chip stock. "
+      },
+      {
+        "evidence_id": "S6",
+        "post_id": "2095603810072695284",
+        "excerpt": "Agentic AI is expected to account for 101 quadrillion monthly tokens, or 84% of total workloads, by 2030. "
+      },
+      {
+        "evidence_id": "S7",
+        "post_id": "2095978960475840995",
+        "excerpt": "Nvidia $NVDA is acquiring Hugging Face for $12.9 billion, though Hugging Face will remain an open platform and will not be required to use Nvidia compute."
+      },
+      {
+        "evidence_id": "S8",
+        "post_id": "2096282121165852788",
+        "excerpt": "AWS is also deploying its first AI Zone in Saudi Arabia with up to 50MW of capacity with HUMAIN in 2028, featuring both AWS' Trainium chips and Nvidia GPUs."
+      }
+    ],
+    "sample_n": 8,
+    "selection": "evenly spaced chronological substantive posts; exclude temporal author-test posts; prefer causal paragraphs",
+    "corpus_sha256": "0ae5022f72f416571150f410b2219413c50c83bbcc6c3b6c9a510024afa0fe89",
+    "rejections": [
+      "same-model entailment diagnostic rejected candidate 1"
+    ],
+    "validation_scope": "Exact source membership and >=2 distinct posts; any added neighbors use frozen embedding retrieval with thread/date separation. Same-model 0/1 support is a diagnostic, not human validation or verified expertise.",
+    "support_diagnostics_v3": [
+      {
+        "claim": "Investment in AI-driven technologies leads to increased market share and revenue growth.",
+        "run_id": "local-46a5be26a4de4a55",
+        "response": "0",
+        "accepted": false,
+        "neighbor_retrieval": [],
+        "evidence_ids": [
+          "2094208918247367150",
+          "2095978960475840995"
+        ]
+      },
+      {
+        "claim": "AI-driven revenue growth is a key driver of overall revenue growth.",
+        "run_id": "local-89ba42e2e74c4afc",
+        "response": "0",
+        "accepted": false,
+        "neighbor_retrieval": [],
+        "evidence_ids": [
+          "2094887853197021263",
+          "2095286563269730597"
+        ]
+      }
+    ]
+  }
+}

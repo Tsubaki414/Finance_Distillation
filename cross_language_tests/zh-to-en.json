@@ -1,0 +1,83 @@
+{
+  "id": "zh-to-en",
+  "source_draft_id": "draft-90cd3e6ffff1",
+  "source_text": "**Independent Analysis Plan**\n\n**Evidence Overview:**\n- **Payroll Data**: The number of payroll jobs increased from 21,000 to 162,000 in August 2026, marking a significant growth of 162,000.\n- **Unemployment Rate**: The unemployment rate remained unchanged at 4.1%.\n- **Previous Data**: The payroll data for July 2026 showed a decrease of 23,000 to 21,000.\n\n**Audience and Context:**\n- Audience: Financial analysts, policymakers, and the general public interested in economic trends.\n- Context: The data reflects a significant increase in employment, which is crucial for economic growth and policy decisions.\n\n**Observations:**\n- The payroll data shows a substantial increase, indicating a strong labor market.\n- The unemployment rate remains stable, suggesting a balanced economic environment.\n\n**Interpretations:**\n- The increase in payroll jobs suggests a growing economy, likely driven by job creation.\n- The unemployment rate's stability indicates a healthy job market, which is beneficial for economic stability.\n\n**Alternative Explanations:**\n- **Job Creation**: The increase in payroll jobs is primarily attributed to job creation, which is a key indicator of economic growth.\n- **Seasonal Factors**: The increase in payroll jobs could be influenced by seasonal factors, but the overall trend suggests a strong economy.\n\n**Invalidation:**\n- **Data Revision**: The increase in payroll jobs in August 2026 is not a new trend but a revision of the previous data.\n- **Policy Uncertainty**: The unemployment rate remains unchanged, which could indicate policy uncertainty, affecting the interpretation of the data.\n\n**Missing Evidence:**\n- **Historical Data**: Historical data for July 2026 is missing, which could provide a more accurate comparison.\n- **Detailed Data**: Detailed data for July 2026, including the exact number of jobs created, would be helpful.\n\n**Conclusion:**\n- The significant increase in payroll jobs in August 2026 is a strong indicator of a growing economy.\n- The unemployment rate's stability suggests a balanced economic environment, which is beneficial for economic growth.\n- Policy uncertainty remains a concern, but the data itself does not provide definitive policy direction.\n\n**Recommendations:**\n- **Further Data Collection**: Collecting historical data for July 2026 would provide a more accurate comparison and help understand the trend better.\n- **Policy Review**: Reviewing the policy framework to ensure it is aligned with the current economic conditions and job market trends.\n- **Market Analysis**: Conducting market analysis to understand the impact of the job creation on various sectors and the broader economy.",
+  "target_text": "**Independent Analysis Plan**\n\n**Evidence Overview:**\n- **Payroll Data**: The number of payroll jobs increased from 21,000 to 162,000 in August 2026, marking a significant growth of 162,000.\n- **Unemployment Rate**: The unemployment rate remained unchanged at 4.1%.\n- **Previous Data**: The payroll data for July 2026 showed a decrease of 23,000 to 21,000.\n\n**Audience and Context:**\n- Audience: Financial analysts, policymakers, and the general public interested in economic trends.\n- Context: The data reflects a significant increase in employment, which is crucial for economic growth and policy decisions.\n\n**Observations:**\n- The payroll data shows a substantial increase, indicating a strong labor market.\n- The unemployment rate remains stable, suggesting a balanced economic environment.\n\n**Interpretations:**\n- The increase in payroll jobs suggests a growing economy, likely driven by job creation.\n- The unemployment rate's stability indicates a healthy job market, which is beneficial for economic stability.\n\n**Alternative Explanations:**\n- **Job Creation**: The increase in payroll jobs is primarily attributed to job creation, which is a key indicator of economic growth.\n- **Seasonal Factors**: The increase in payroll jobs could be influenced by seasonal factors, but the overall trend suggests a strong economy.\n\n**Invalidation:**\n- **Data Revision**: The increase in payroll jobs in August 2026 is not a new trend but a revision of the previous data.\n- **Policy Uncertainty**: The unemployment rate remains unchanged, which could indicate policy uncertainty, affecting the interpretation of the data.\n\n**Missing Evidence:**\n- **Historical Data**: Historical data for July 2026 is missing, which could provide a more accurate comparison.\n- **Detailed Data**: Detailed data for July 2026, including the exact number of jobs created, would be helpful.\n\n**Conclusion:**\n- The significant increase in payroll jobs in August 2026 is a strong indicator of a growing economy.\n- The unemployment rate's stability suggests a balanced economic environment, which is beneficial for economic growth.\n- Policy uncertainty remains a concern, but the data itself does not provide definitive policy direction.\n\n**Recommendations:**\n- **Further Data Collection**: Collecting historical data for July 2026 would provide a more accurate comparison and help understand the trend better.\n- **Policy Review**: Reviewing the policy framework to ensure it is aligned with the current economic conditions and job market trends.\n- **Market Analysis**: Conducting market analysis to understand the impact of the job creation on various sectors and the broader economy.",
+  "run_id": "local-dfd24a6910f944e6",
+  "facts": [
+    {
+      "id": "payroll_2026_07",
+      "value": 21000,
+      "unit": "persons",
+      "period": "2026-07",
+      "source_id": "bls-august",
+      "spans": [
+        {
+          "line": 290,
+          "text": "+20,000 to +31,000, and the change for July was revised up by 44,000, from -23,000 to +21,000."
+        }
+      ],
+      "extraction": "rule match plus curator-checked structured value",
+      "status": "observed_primary_source",
+      "label": "F1"
+    },
+    {
+      "id": "payroll_2026_08",
+      "value": 162000,
+      "unit": "persons",
+      "period": "2026-08",
+      "source_id": "bls-august",
+      "spans": [
+        {
+          "line": 196,
+          "text": "Total nonfarm payroll employment increased by 162,000 in August, and the unemployment rate was"
+        },
+        {
+          "line": 246,
+          "text": "Total nonfarm payroll employment rose by 162,000 in August, higher than the average monthly"
+        }
+      ],
+      "extraction": "rule match plus curator-checked structured value",
+      "status": "observed_primary_source",
+      "label": "F2"
+    },
+    {
+      "id": "unemployment",
+      "value": 4.1,
+      "unit": "percent",
+      "period": "2026-08",
+      "source_id": "bls-august",
+      "spans": [
+        {
+          "line": 197,
+          "text": "unchanged at 4.1 percent, the U.S. Bureau of Labor Statistics reported today. Employment"
+        },
+        {
+          "line": 209,
+          "text": "The unemployment rate was unchanged at 4.1 percent in August, and the number of unemployed"
+        }
+      ],
+      "extraction": "rule match plus curator-checked structured value",
+      "status": "observed_primary_source",
+      "label": "F3"
+    },
+    {
+      "id": "payroll_2026_06",
+      "value": 31000,
+      "unit": "persons",
+      "period": "2026-06",
+      "source_id": "bls-august",
+      "spans": [
+        {
+          "line": 290,
+          "text": "+20,000 to +31,000, and the change for July was revised up by 44,000, from -23,000 to +21,000."
+        }
+      ],
+      "extraction": "rule match plus curator-checked structured value",
+      "status": "observed_primary_source",
+      "label": "F4"
+    }
+  ],
+  "human_blind_review": null,
+  "quality_status": "unapproved; lexical and human review required"
+}

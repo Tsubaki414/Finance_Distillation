@@ -1,0 +1,185 @@
+{
+  "seed": 52806,
+  "round": null,
+  "machine_written_since": null,
+  "excluded_already_shown": 16,
+  "built_at": "2026-09-24T20:26:47.003807",
+  "key": [
+    {
+      "id": "HF286D",
+      "lang": "en",
+      "truth": "machine",
+      "persona": "macro",
+      "writer": "relay2/gpt-5.5",
+      "mode": "profile_exemplars",
+      "arm": "no_opinions",
+      "opinions_seen": 0,
+      "detail": "en_macro/#oil arm=no_opinions",
+      "draft_id": "w-5dcaa9097f7b"
+    },
+    {
+      "id": "H425AC",
+      "lang": "en",
+      "truth": "human",
+      "persona": null,
+      "writer": "human",
+      "mode": null,
+      "detail": "real post by garyblack00",
+      "draft_id": null
+    },
+    {
+      "id": "H2C198",
+      "lang": "en",
+      "truth": "human",
+      "persona": null,
+      "writer": "human",
+      "mode": null,
+      "detail": "real post by ericjackson",
+      "draft_id": null
+    },
+    {
+      "id": "H56AAB",
+      "lang": "en",
+      "truth": "human",
+      "persona": null,
+      "writer": "human",
+      "mode": null,
+      "detail": "real post by RaoulGMI",
+      "draft_id": null
+    },
+    {
+      "id": "H0C2F7",
+      "lang": "en",
+      "truth": "human",
+      "persona": null,
+      "writer": "human",
+      "mode": null,
+      "detail": "real post by aleabitoreddit",
+      "draft_id": null
+    },
+    {
+      "id": "H29B54",
+      "lang": "en",
+      "truth": "machine",
+      "persona": "macro",
+      "writer": "relay2/gpt-5.5",
+      "mode": "profile_exemplars",
+      "arm": "with_opinions",
+      "opinions_seen": 10,
+      "detail": "en_macro/#fed_policy arm=with_opinions",
+      "draft_id": "w-490fecee6b25"
+    },
+    {
+      "id": "HA9160",
+      "lang": "en",
+      "truth": "machine",
+      "persona": "industry",
+      "writer": "relay2/gpt-5.5",
+      "mode": "profile_exemplars",
+      "arm": "no_opinions",
+      "opinions_seen": 0,
+      "detail": "en_industry/$AMD arm=no_opinions",
+      "draft_id": "w-2007ca8a2f73"
+    },
+    {
+      "id": "H7EDB6",
+      "lang": "zh",
+      "truth": "human",
+      "persona": null,
+      "writer": "human",
+      "mode": null,
+      "detail": "real post by qinbafrank",
+      "draft_id": null
+    },
+    {
+      "id": "HCC62E",
+      "lang": "en",
+      "truth": "machine",
+      "persona": "industry",
+      "writer": "relay2/gpt-5.5",
+      "mode": "profile_exemplars",
+      "arm": "with_opinions",
+      "opinions_seen": 8,
+      "detail": "en_industry/$AMD arm=with_opinions",
+      "draft_id": "w-3c024fce4ece"
+    },
+    {
+      "id": "H2F4BB",
+      "lang": "zh",
+      "truth": "machine",
+      "persona": "macro",
+      "writer": "relay2/gpt-5.5",
+      "mode": "profile_exemplars",
+      "arm": "no_opinions",
+      "opinions_seen": 0,
+      "detail": "zh_macro/#inflation arm=no_opinions",
+      "draft_id": "w-0f83e5ded72a"
+    },
+    {
+      "id": "HFFAB6",
+      "lang": "zh",
+      "truth": "machine",
+      "persona": "macro",
+      "writer": "relay2/gpt-5.5",
+      "mode": "profile_exemplars",
+      "arm": "with_opinions",
+      "opinions_seen": 10,
+      "detail": "zh_macro/#fed_policy arm=with_opinions",
+      "draft_id": "w-45fdf672c8bd"
+    },
+    {
+      "id": "H6461A",
+      "lang": "zh",
+      "truth": "human",
+      "persona": null,
+      "writer": "human",
+      "mode": null,
+      "detail": "real post by kovainvest",
+      "draft_id": null
+    },
+    {
+      "id": "HC1E6F",
+      "lang": "zh",
+      "truth": "machine",
+      "persona": "industry",
+      "writer": "relay2/gpt-5.5",
+      "mode": "profile_exemplars",
+      "arm": "no_opinions",
+      "opinions_seen": 0,
+      "detail": "zh_industry/$NVDA arm=no_opinions",
+      "draft_id": "w-3dbfcd9e9b38"
+    },
+    {
+      "id": "H3EC0E",
+      "lang": "en",
+      "truth": "human",
+      "persona": null,
+      "writer": "human",
+      "mode": null,
+      "detail": "real post by aleabitoreddit",
+      "draft_id": null
+    },
+    {
+      "id": "HFE292",
+      "lang": "zh",
+      "truth": "human",
+      "persona": null,
+      "writer": "human",
+      "mode": null,
+      "detail": "real post by michael_qqq2025",
+      "draft_id": null
+    },
+    {
+      "id": "H7A09C",
+      "lang": "en",
+      "truth": "machine",
+      "persona": "macro",
+      "writer": "relay2/gpt-5.5",
+      "mode": "profile_exemplars",
+      "arm": "with_opinions",
+      "opinions_seen": 6,
+      "detail": "en_macro/#oil arm=with_opinions",
+      "draft_id": "w-6a87ae31ca98"
+    }
+  ]
+}

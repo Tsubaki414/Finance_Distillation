@@ -1,0 +1,132 @@
+{
+  "round": 3,
+  "reviewer": "fiona",
+  "reviewed_at": "2026-09-24T19:15",
+  "recovered_from": "printed transcript output; the filled REVIEW.md was overwritten by a --build run on 2026-09-24T20:22 before it had been archived",
+  "arm": "all items predate live/opinions.py; no item used the opinions pipeline",
+  "items": [
+    {
+      "id": "H4674A",
+      "answer": "这不是英语也不是中文，what tf is this",
+      "truth": "human",
+      "writer": "human",
+      "lang": "en"
+    },
+    {
+      "id": "H3BF25",
+      "answer": "不确定，感觉写的不完整，结论呢？",
+      "truth": "human",
+      "writer": "human",
+      "lang": "zh"
+    },
+    {
+      "id": "H0A830",
+      "answer": "机器，实在是太呆板了",
+      "truth": "machine",
+      "writer": "relay2/gpt-5.5",
+      "lang": "zh"
+    },
+    {
+      "id": "HADC18",
+      "answer": "机器，实在是太呆板了",
+      "truth": "machine",
+      "writer": "relay2/gpt-5.5",
+      "lang": "zh"
+    },
+    {
+      "id": "H437BF",
+      "answer": "不确定",
+      "truth": "human",
+      "writer": "human",
+      "lang": "zh"
+    },
+    {
+      "id": "H2BEF2",
+      "answer": "不确定",
+      "truth": "human",
+      "writer": "human",
+      "lang": "zh"
+    },
+    {
+      "id": "HE10A6",
+      "answer": "机器",
+      "truth": "machine",
+      "writer": "grok-4.5",
+      "lang": "en"
+    },
+    {
+      "id": "H32F70",
+      "answer": "非常机器",
+      "truth": "machine",
+      "writer": "relay2/gpt-5.5",
+      "lang": "zh"
+    },
+    {
+      "id": "HCB2D8",
+      "answer": "非常机器 就是狗屎！",
+      "truth": "machine",
+      "writer": "grok-4.5",
+      "lang": "zh"
+    },
+    {
+      "id": "H6C07D",
+      "answer": "真人",
+      "truth": "human",
+      "writer": "human",
+      "lang": "zh"
+    },
+    {
+      "id": "H44CA1",
+      "answer": "机器",
+      "truth": "machine",
+      "writer": "relay2/gpt-5.5",
+      "lang": "en"
+    },
+    {
+      "id": "H30BCC",
+      "answer": "真人",
+      "truth": "human",
+      "writer": "human",
+      "lang": "zh"
+    },
+    {
+      "id": "HAFD95",
+      "answer": "机器",
+      "truth": "machine",
+      "writer": "grok-4.5",
+      "lang": "en"
+    },
+    {
+      "id": "HE3A82",
+      "answer": "真人",
+      "truth": "human",
+      "writer": "human",
+      "lang": "en"
+    },
+    {
+      "id": "HA9886",
+      "answer": "不确定",
+      "truth": "human",
+      "writer": "human",
+      "lang": "zh"
+    },
+    {
+      "id": "HBFD18",
+      "answer": "非常机器",
+      "truth": "machine",
+      "writer": "grok-4.5",
+      "lang": "zh"
+    }
+  ],
+  "detection_rate": 1.0,
+  "machine_items": 8,
+  "human_items": 8,
+  "false_positive_rate": 0.0,
+  "uncertain_on": [
+    "H4674A",
+    "H3BF25",
+    "H437BF",
+    "H2BEF2",
+    "HA9886"
+  ]
+}

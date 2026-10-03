@@ -1,0 +1,18 @@
+.env
+.venv/.env
+
+# fd-phase0 working copy (added by executor): large/derived data stays untracked
+._*
+.DS_Store
+__pycache__/
+*.pyc
+runs/
+ml/store/
+ml_experiments/
+live/store/
+evidence_loop/
+output/
+generated_samples/
+.playwright-cli/
+.agents/
+*.sqlite3*

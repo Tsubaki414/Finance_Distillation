@@ -1,0 +1,59 @@
+{
+  "status": "partial",
+  "reviewer": "fiona",
+  "reviewed_at": "2026-09-24T19:15:42.088431",
+  "reference_label_type": "human",
+  "items": 16,
+  "answered": 6,
+  "machine_items": 3,
+  "human_items": 3,
+  "detection_rate": 1.0,
+  "false_positive_rate": 0.0,
+  "persona_identification_rate": null,
+  "persona_guesses_made": 0,
+  "grounded_machine": null,
+  "grounded_human": null,
+  "natural_machine": null,
+  "natural_human": null,
+  "edit_burden_machine": null,
+  "edit_burden_human": null,
+  "edit_scale": {
+    "不改": 0,
+    "轻改": 1,
+    "中改": 2,
+    "重写": 3
+  },
+  "by_generation_mode": {
+    "profile_exemplars": {
+      "n": 3,
+      "called_machine": 3,
+      "detection_rate": 1.0,
+      "natural_mean": null,
+      "edit_mean": null
+    }
+  },
+  "by_writer": {
+    "grok-4.5": {
+      "n": 2,
+      "called_machine": 2,
+      "detection_rate": 1.0,
+      "natural_mean": null,
+      "edit_mean": null
+    },
+    "relay2/gpt-5.5": {
+      "n": 1,
+      "called_machine": 1,
+      "detection_rate": 1.0,
+      "natural_mean": null,
+      "edit_mean": null
+    }
+  },
+  "unanswered": [],
+  "no_verdict_but_rated": [],
+  "out_of_scale_answers": {},
+  "limits": [
+    "one reviewer; no inter-rater agreement can be computed from a single set of answers",
+    "the reviewer built or supervised this system, so a machine item may be recognised from memory rather than from the writing",
+    "sixteen items is a pilot size — a detection rate here has a wide interval"
+  ]
+}

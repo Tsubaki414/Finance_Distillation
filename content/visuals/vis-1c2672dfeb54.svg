@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="460" viewBox="0 0 880 460" role="img">
+<rect width="880" height="460" fill="#ffffff"/>
+<text x="40.0" y="30.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="16" fill="#1c1e21" text-anchor="start" font-weight="600">当前读数与失效条件</text>
+<text x="40.0" y="50.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#6b7280" text-anchor="start" font-weight="400">左列为已公布读数，右列为作者提出的观察阈值</text>
+<text x="40.0" y="82.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400">指标</text>
+<text x="360.0" y="82.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400">当前读数</text>
+<text x="520.0" y="82.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400">作者阈值（非数据）</text>
+<line x1="40" y1="108" x2="840" y2="108" stroke="#e3e5e8" stroke-width="1"/>
+<text x="40.0" y="94.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="13" fill="#1c1e21" text-anchor="start" font-weight="400">失业率</text>
+<text x="360.0" y="94.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="13" fill="#2f5fd0" text-anchor="start" font-weight="600" data-fact-id="unemployment_rate">4.1%</text>
+<text x="520.0" y="94.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#6b7280" text-anchor="start" font-weight="400">—</text>
+<line x1="40" y1="154" x2="840" y2="154" stroke="#e3e5e8" stroke-width="1"/>
+<text x="40.0" y="140.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="13" fill="#1c1e21" text-anchor="start" font-weight="400">劳动参与率</text>
+<text x="360.0" y="140.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="13" fill="#2f5fd0" text-anchor="start" font-weight="600" data-fact-id="participation">61.6%</text>
+<text x="520.0" y="140.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#6b7280" text-anchor="start" font-weight="400">—</text>
+<line x1="40" y1="200" x2="840" y2="200" stroke="#e3e5e8" stroke-width="1"/>
+<text x="40.0" y="186.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="13" fill="#1c1e21" text-anchor="start" font-weight="400">平均时薪环比</text>
+<text x="360.0" y="186.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="13" fill="#2f5fd0" text-anchor="start" font-weight="600" data-fact-id="ahe_mom">0.3%</text>
+<text x="520.0" y="186.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#6b7280" text-anchor="start" font-weight="400">—</text>
+<text x="40.0" y="242.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400">作者写下的失效条件</text>
+<text x="40.0" y="260.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#1c1e21" text-anchor="start" font-weight="400">若前两个月合计上修 5.5 万人，则非农数据将重新评估为 21.7 万人，这将是改变判断</text>
+<text x="40.0" y="277.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#1c1e21" text-anchor="start" font-weight="400">的关键阈值。</text>
+<text x="40.0" y="442.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400">Source: BLS Employment Situation, August 2026；阈值为作者判断，非官方数据</text>
+</svg>

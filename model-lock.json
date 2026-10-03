@@ -1,0 +1,25 @@
+{
+  "created_at": "2026-09-06T01:15:49.555197+00:00",
+  "models": [
+    {
+      "role": "generator",
+      "repo": "mlx-community/Qwen2.5-1.5B-Instruct-4bit",
+      "revision": "8b403126fc14f14cfc99bb4cfa72ecbc129ea677",
+      "local_path": ".runtime/models/generator",
+      "bytes": 880170545,
+      "file_count": 10,
+      "remote_code": false,
+      "inference_only": true
+    },
+    {
+      "role": "embedding",
+      "repo": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+      "revision": "e8f8c211226b894fcb81acc59f3b34ba3efd5f42",
+      "local_path": ".runtime/models/embedding",
+      "bytes": 499561295,
+      "file_count": 12,
+      "remote_code": false,
+      "inference_only": true
+    }
+  ]
+}

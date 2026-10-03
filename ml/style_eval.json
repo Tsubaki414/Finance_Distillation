@@ -1,0 +1,268 @@
+{
+  "computed_at": "2026-09-12T05:13:10.928235+00:00",
+  "donors_profiled": {
+    "phyrexni": 423,
+    "qinbafrank": 368,
+    "kovainvest": 105,
+    "aleabitoreddit": 489,
+    "michael_qqq2025": 261,
+    "xingpt": 111,
+    "beth_kindig": 111,
+    "citrini": 36,
+    "globalmktobserv": 77,
+    "RaoulGMI": 40,
+    "leadlagreport": 25,
+    "awealthofcs": 27,
+    "patrick_oshag": 29,
+    "MebFaber": 25,
+    "investmattallen": 31,
+    "TheAlphaThought": 27,
+    "JimMarous": 59,
+    "sytaylor": 26,
+    "KrisAbdelmessih": 35,
+    "Convertbond": 36,
+    "StockJabber": 35,
+    "jasongoepfert": 42,
+    "harmongreg": 26,
+    "AndrewThrasher": 29,
+    "WarrenPies": 29,
+    "jturek18": 44,
+    "tseides": 39,
+    "callieabost": 25,
+    "efipm": 43,
+    "morganhousel": 27,
+    "EricBalchunas": 35,
+    "TaviCosta": 26,
+    "DavidTaggart": 34,
+    "garyblack00": 51,
+    "BobEUnlimited": 49,
+    "choffstein": 30,
+    "JeffSnider_EDU": 58
+  },
+  "generated_pieces": 10,
+  "human_posts_sampled": 10,
+  "features": 54,
+  "shape_features_used_for_transfer": 46,
+  "transfer": {
+    "percentile_note": "percentile_within_donor is where the piece sits inside that donor's own spread: 50 is as typical as their median post, above 95 is outside nearly everything they write. A closed-set rank punishes imitating a donor whose neighbours write the same way, which is a fact about the donor, not the imitation",
+    "note": "closest donor is computed on shape features only; length and volume are properties of the format, not the voice",
+    "pieces_with_an_assigned_language_donor": 10,
+    "assigned_donor_ranked_first": 3,
+    "assigned_donor_in_top_3": 4,
+    "chance_top1": 0.027,
+    "detail": [
+      {
+        "id": "draft-49d0deefa027",
+        "origin": "curated_pipeline",
+        "persona": "industry",
+        "assigned_language_donor": "phyrexni",
+        "nearest_donor": "phyrexni",
+        "nearest_distance": 0.543,
+        "assigned_donor_rank": 1,
+        "assigned_donor_distance": 0.543,
+        "percentile_within_donor": 25.1,
+        "inside_donor_range": true
+      },
+      {
+        "id": "draft-56f7c0eef61c",
+        "origin": "curated_pipeline",
+        "persona": "macro",
+        "assigned_language_donor": "phyrexni",
+        "nearest_donor": "phyrexni",
+        "nearest_distance": 0.484,
+        "assigned_donor_rank": 1,
+        "assigned_donor_distance": 0.484,
+        "percentile_within_donor": 15.1,
+        "inside_donor_range": true
+      },
+      {
+        "id": "draft-bf824df0b8b8",
+        "origin": "curated_pipeline",
+        "persona": "trading",
+        "assigned_language_donor": "phyrexni",
+        "nearest_donor": "phyrexni",
+        "nearest_distance": 0.523,
+        "assigned_donor_rank": 1,
+        "assigned_donor_distance": 0.523,
+        "percentile_within_donor": 22.5,
+        "inside_donor_range": true
+      },
+      {
+        "id": "w-0c8ad5d0395b",
+        "origin": "live_pipeline",
+        "persona": "industry",
+        "assigned_language_donor": "beth_kindig",
+        "nearest_donor": "jturek18",
+        "nearest_distance": 0.557,
+        "assigned_donor_rank": 23,
+        "assigned_donor_distance": 1.26,
+        "percentile_within_donor": 93.7,
+        "inside_donor_range": true
+      },
+      {
+        "id": "w-2653308559f3",
+        "origin": "live_pipeline",
+        "persona": "macro",
+        "assigned_language_donor": "globalmktobserv",
+        "nearest_donor": "awealthofcs",
+        "nearest_distance": 0.38,
+        "assigned_donor_rank": 28,
+        "assigned_donor_distance": 2.406,
+        "percentile_within_donor": 100.0,
+        "inside_donor_range": false
+      },
+      {
+        "id": "w-968f124110b1",
+        "origin": "live_pipeline",
+        "persona": "macro",
+        "assigned_language_donor": "qinbafrank",
+        "nearest_donor": "michael_qqq2025",
+        "nearest_distance": 0.589,
+        "assigned_donor_rank": 5,
+        "assigned_donor_distance": 0.763,
+        "percentile_within_donor": 65.8,
+        "inside_donor_range": true
+      },
+      {
+        "id": "w-ad06c08473ca",
+        "origin": "live_pipeline",
+        "persona": "industry",
+        "assigned_language_donor": "xingpt",
+        "nearest_donor": "phyrexni",
+        "nearest_distance": 0.547,
+        "assigned_donor_rank": 3,
+        "assigned_donor_distance": 0.562,
+        "percentile_within_donor": 25.2,
+        "inside_donor_range": true
+      },
+      {
+        "id": "w-b8d5d31f7f83",
+        "origin": "live_pipeline",
+        "persona": "macro",
+        "assigned_language_donor": "qinbafrank",
+        "nearest_donor": "michael_qqq2025",
+        "nearest_distance": 0.608,
+        "assigned_donor_rank": 4,
+        "assigned_donor_distance": 0.783,
+        "percentile_within_donor": 66.6,
+        "inside_donor_range": true
+      },
+      {
+        "id": "w-e8ba0748b13c",
+        "origin": "live_pipeline",
+        "persona": "macro",
+        "assigned_language_donor": "globalmktobserv",
+        "nearest_donor": "TheAlphaThought",
+        "nearest_distance": 0.401,
+        "assigned_donor_rank": 30,
+        "assigned_donor_distance": 2.134,
+        "percentile_within_donor": 100.0,
+        "inside_donor_range": false
+      },
+      {
+        "id": "w-ef3f6ef8de9c",
+        "origin": "live_pipeline",
+        "persona": "industry",
+        "assigned_language_donor": "beth_kindig",
+        "nearest_donor": "Convertbond",
+        "nearest_distance": 0.331,
+        "assigned_donor_rank": 23,
+        "assigned_donor_distance": 0.551,
+        "percentile_within_donor": 55.0,
+        "inside_donor_range": true
+      }
+    ]
+  },
+  "discriminability": {
+    "majority_class_baseline": 0.5,
+    "all_features": {
+      "accuracy": 0.7,
+      "auc": 0.9,
+      "folds": 5
+    },
+    "shape_features_only": {
+      "accuracy": 0.75,
+      "auc": 0.6,
+      "folds": 5
+    },
+    "balanced": true,
+    "meaning": "classes are balanced, so 0.5 is chance. Near 0.5 would mean generated text is indistinguishable from a human post; near 1.0 means a classifier separates them trivially"
+  },
+  "widest_feature_gaps": [
+    {
+      "feature": "sentence_std",
+      "z_vs_human": -1.9,
+      "human_mean": 24.85634,
+      "generated_mean": 9.45438
+    },
+    {
+      "feature": "fragment_rate",
+      "z_vs_human": -0.73,
+      "human_mean": 0.10685,
+      "generated_mean": 0.0
+    },
+    {
+      "feature": "paragraph_mean",
+      "z_vs_human": -0.7,
+      "human_mean": 83.51333,
+      "generated_mean": 62.53353
+    },
+    {
+      "feature": "function_of",
+      "z_vs_human": -0.67,
+      "human_mean": 0.0036,
+      "generated_mean": 0.00144
+    },
+    {
+      "feature": "colon_rate",
+      "z_vs_human": -0.62,
+      "human_mean": 0.00295,
+      "generated_mean": 0.0
+    },
+    {
+      "feature": "link_density",
+      "z_vs_human": -0.59,
+      "human_mean": 0.00176,
+      "generated_mean": 0.0
+    },
+    {
+      "feature": "function_在",
+      "z_vs_human": 0.69,
+      "human_mean": 0.00322,
+      "generated_mean": 0.00619
+    },
+    {
+      "feature": "digit_density",
+      "z_vs_human": 0.72,
+      "human_mean": 0.03183,
+      "generated_mean": 0.04909
+    },
+    {
+      "feature": "first_person_rate",
+      "z_vs_human": 0.76,
+      "human_mean": 0.00041,
+      "generated_mean": 0.00105
+    },
+    {
+      "feature": "paragraph_count",
+      "z_vs_human": 0.87,
+      "human_mean": 5.4,
+      "generated_mean": 8.3
+    },
+    {
+      "feature": "hedge_rate",
+      "z_vs_human": 0.95,
+      "human_mean": 0.0007,
+      "generated_mean": 0.00245
+    },
+    {
+      "feature": "function_就",
+      "z_vs_human": 2.63,
+      "human_mean": 0.00065,
+      "generated_mean": 0.00408
+    }
+  ],
+  "human_never_does_this": [
+    "function_我"
+  ]
+}

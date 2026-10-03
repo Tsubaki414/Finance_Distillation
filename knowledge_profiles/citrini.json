@@ -1,0 +1,61 @@
+{
+  "donor": "citrini",
+  "sample_n": 1,
+  "features": [
+    {
+      "feature": "macro_liquidity",
+      "support_count": 0,
+      "support_post_ids": [],
+      "interpretation": "observed textual pattern; not verified expertise"
+    },
+    {
+      "feature": "equity_industry",
+      "support_count": 0,
+      "support_post_ids": [],
+      "interpretation": "observed textual pattern; not verified expertise"
+    },
+    {
+      "feature": "risk_process",
+      "support_count": 1,
+      "support_post_ids": [
+        "2095945460540207314"
+      ],
+      "interpretation": "observed textual pattern; not verified expertise"
+    },
+    {
+      "feature": "conditional_reasoning",
+      "support_count": 1,
+      "support_post_ids": [
+        "2095945460540207314"
+      ],
+      "interpretation": "observed textual pattern; not verified expertise"
+    }
+  ],
+  "frequent_entities": [],
+  "observed_sources": [],
+  "framework_status": "hypotheses derived from observable language; model enrichment separate",
+  "claims_verified_or_falsified": null,
+  "knowledge_boundary": "not inferred beyond linked samples",
+  "excluded_migration": [
+    "advertisements",
+    "self-reported returns",
+    "unsupported certainty",
+    "signature expressions"
+  ],
+  "time_horizon": {
+    "short_term_post_ids": [],
+    "long_term_post_ids": []
+  },
+  "risk_post_ids": [
+    "2095945460540207314"
+  ],
+  "causal_candidate_post_ids": [
+    "2095945460540207314"
+  ],
+  "model_enrichment": {
+    "status": "insufficient_attributable_substantive_samples",
+    "sample_n": 1,
+    "frameworks": [],
+    "corpus_sha256": "0ae5022f72f416571150f410b2219413c50c83bbcc6c3b6c9a510024afa0fe89"
+  }
+}

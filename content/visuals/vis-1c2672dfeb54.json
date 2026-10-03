@@ -1,0 +1,107 @@
+{
+  "id": "vis-1c2672dfeb54",
+  "draft_id": "draft-bf824df0b8b8",
+  "persona_id": "trading",
+  "persona_name": "交易系统与市场心理教练",
+  "account_id": null,
+  "origin": "curated",
+  "entity": null,
+  "created_at": "2026-09-17T06:34:54.007683+00:00",
+  "source_id": "bls-employment-2026-08",
+  "source_version": "75155f58f5a995e3",
+  "artifact_sha256": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6",
+  "brief": {
+    "question_the_visual_answers": "什么读数会推翻这个判断",
+    "chosen": "condition_matrix",
+    "invalidation_shown": [
+      "若前两个月合计上修 5.5 万人，则非农数据将重新评估为 21.7 万人，这将是改变判断的关键阈值。"
+    ],
+    "why": "这个人设问的是「什么新增证据足以改变交易决策？怎样等待确认、控制仓位，并预先定义判断失效？」，其中 ['失效', '确认', '决策', '仓位', '判断', '证据'] 指向「什么读数会推翻这个判断」，事实包也够画",
+    "selected_from": "人设提出的问题，而非事实用量或固定模板",
+    "persona_question": "什么新增证据足以改变交易决策？怎样等待确认、控制仓位，并预先定义判断失效？",
+    "ranking": [
+      {
+        "kind": "condition_matrix",
+        "score": 6,
+        "matched_terms": [
+          "失效",
+          "确认",
+          "决策",
+          "仓位",
+          "判断",
+          "证据"
+        ],
+        "answers": "什么读数会推翻这个判断"
+      },
+      {
+        "kind": "sector_bars",
+        "score": 0,
+        "matched_terms": [],
+        "answers": "哪些行业在增、哪些在减，以及各自的量级"
+      },
+      {
+        "kind": "level_vs_average",
+        "score": 0,
+        "matched_terms": [],
+        "answers": "这个月的数字相对它自己的运行速率算不算强"
+      }
+    ],
+    "rejected": [],
+    "do_not_use": [
+      "不要用原始截图代替数据图，本篇没有值得引用的原始画面",
+      "不要给水平值画趋势线，事实包只有单期读数",
+      "不要把作者阈值画成与已公布数据同样的视觉权重"
+    ],
+    "alt_text": "什么读数会推翻这个判断；数据来自 BLS 就业形势报告"
+  },
+  "chart_kind": "condition_matrix",
+  "unattributed_thresholds": [],
+  "numbers_drawn": [
+    {
+      "fact_id": "unemployment_rate",
+      "label": "失业率",
+      "drawn_as": "4.1%",
+      "raw_value": 4.1,
+      "unit": "percent",
+      "period": "2026-08",
+      "char_span": [
+        673,
+        719
+      ],
+      "quote": "unemployment rate was unchanged at 4.1 percent",
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf"
+    },
+    {
+      "fact_id": "participation",
+      "label": "劳动参与率",
+      "drawn_as": "61.6%",
+      "raw_value": 61.6,
+      "unit": "percent",
+      "period": "2026-08",
+      "char_span": [
+        2696,
+        2739
+      ],
+      "quote": "participation rate edged up to 61.6 percent",
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf"
+    },
+    {
+      "fact_id": "ahe_mom",
+      "label": "平均时薪环比",
+      "drawn_as": "0.3%",
+      "raw_value": 0.3,
+      "unit": "percent",
+      "period": "2026-08",
+      "char_span": [
+        6221,
+        6308
+      ],
+      "quote": "earnings for all employees on private nonfarm payrolls rose by 10 cents, or 0.3 percent",
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf"
+    }
+  ],
+  "every_number_bound_to_a_fact": true,
+  "rendered_by": "code, straight from the fact pack; the model supplied no figure",
+  "svg_path": "content/visuals/vis-1c2672dfeb54.svg",
+  "svg_sha256": "fd8952f80a1d015da1e8a3b82b3cd2587189637c4493430f90aee3891034f8de"
+}

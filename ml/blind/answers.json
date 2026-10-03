@@ -1,0 +1,229 @@
+{
+  "seed": 137,
+  "key": [
+    {
+      "id": "X710488",
+      "origin": "human",
+      "gate": "real",
+      "writer": "human",
+      "detail": "real post by phyrexni",
+      "donor": "phyrexni"
+    },
+    {
+      "id": "XE7503D",
+      "origin": "human",
+      "gate": "real",
+      "writer": "human",
+      "detail": "real post by qinbafrank",
+      "donor": "qinbafrank"
+    },
+    {
+      "id": "XD7324C",
+      "origin": "machine",
+      "gate": "candidate",
+      "writer": "grok-4.5",
+      "detail": "live/en_industry/#ai_capex",
+      "donor": "beth_kindig"
+    },
+    {
+      "id": "X31B0EB",
+      "origin": "machine",
+      "gate": "blocked",
+      "writer": "local",
+      "detail": "live/zh_macro/#yen_fx",
+      "donor": "qinbafrank"
+    },
+    {
+      "id": "X5DF0DB",
+      "origin": "machine",
+      "gate": "blocked",
+      "writer": "local",
+      "detail": "live/zh_macro/#fed_policy",
+      "donor": "qinbafrank"
+    },
+    {
+      "id": "XAD6384",
+      "origin": "machine",
+      "gate": "blocked",
+      "writer": "local",
+      "detail": "live/en_industry/#earnings",
+      "donor": "beth_kindig"
+    },
+    {
+      "id": "X754C49",
+      "origin": "human",
+      "gate": "real",
+      "writer": "human",
+      "detail": "real post by phyrexni",
+      "donor": "phyrexni"
+    },
+    {
+      "id": "X35DC62",
+      "origin": "human",
+      "gate": "real",
+      "writer": "human",
+      "detail": "real post by aleabitoreddit",
+      "donor": "aleabitoreddit"
+    },
+    {
+      "id": "XB8A88C",
+      "origin": "human",
+      "gate": "real",
+      "writer": "human",
+      "detail": "real post by globalmktobserv",
+      "donor": "globalmktobserv"
+    },
+    {
+      "id": "X2556F9",
+      "origin": "human",
+      "gate": "real",
+      "writer": "human",
+      "detail": "real post by globalmktobserv",
+      "donor": "globalmktobserv"
+    },
+    {
+      "id": "XB9F6CA",
+      "origin": "human",
+      "gate": "real",
+      "writer": "human",
+      "detail": "real post by beth_kindig",
+      "donor": "beth_kindig"
+    },
+    {
+      "id": "XB74C44",
+      "origin": "human",
+      "gate": "real",
+      "writer": "human",
+      "detail": "real post by phyrexni",
+      "donor": "phyrexni"
+    },
+    {
+      "id": "XACA9AC",
+      "origin": "machine",
+      "gate": "blocked",
+      "writer": "local",
+      "detail": "live/en_macro/#yen_fx",
+      "donor": "globalmktobserv"
+    },
+    {
+      "id": "X19AC9A",
+      "origin": "human",
+      "gate": "real",
+      "writer": "human",
+      "detail": "real post by xingpt",
+      "donor": "xingpt"
+    },
+    {
+      "id": "XD55682",
+      "origin": "human",
+      "gate": "real",
+      "writer": "human",
+      "detail": "real post by globalmktobserv",
+      "donor": "globalmktobserv"
+    },
+    {
+      "id": "XBFCFC1",
+      "origin": "human",
+      "gate": "real",
+      "writer": "human",
+      "detail": "real post by michael_qqq2025",
+      "donor": "michael_qqq2025"
+    },
+    {
+      "id": "X4AC723",
+      "origin": "human",
+      "gate": "real",
+      "writer": "human",
+      "detail": "real post by beth_kindig",
+      "donor": "beth_kindig"
+    },
+    {
+      "id": "X871202",
+      "origin": "human",
+      "gate": "real",
+      "writer": "human",
+      "detail": "real post by qinbafrank",
+      "donor": "qinbafrank"
+    },
+    {
+      "id": "X9627B9",
+      "origin": "machine",
+      "gate": "blocked",
+      "writer": "local",
+      "detail": "curated/macro",
+      "donor": "phyrexni"
+    },
+    {
+      "id": "X463BB6",
+      "origin": "machine",
+      "gate": "candidate",
+      "writer": "grok-4.5",
+      "detail": "live/en_industry/$IBIT",
+      "donor": "aleabitoreddit"
+    },
+    {
+      "id": "X864FC9",
+      "origin": "machine",
+      "gate": "blocked",
+      "writer": "local",
+      "detail": "curated/industry",
+      "donor": "phyrexni"
+    },
+    {
+      "id": "X44DCF1",
+      "origin": "human",
+      "gate": "real",
+      "writer": "human",
+      "detail": "real post by qinbafrank",
+      "donor": "qinbafrank"
+    },
+    {
+      "id": "XFE29E7",
+      "origin": "machine",
+      "gate": "blocked",
+      "writer": "local",
+      "detail": "live/zh_industry/$AMZN",
+      "donor": "xingpt"
+    },
+    {
+      "id": "XB3FD8C",
+      "origin": "machine",
+      "gate": "candidate",
+      "writer": "grok-4.5",
+      "detail": "live/zh_macro/#inflation",
+      "donor": "qinbafrank"
+    },
+    {
+      "id": "X9CDC01",
+      "origin": "machine",
+      "gate": "candidate",
+      "writer": "grok-4.5",
+      "detail": "live/zh_industry/$NVDA",
+      "donor": "michael_qqq2025"
+    },
+    {
+      "id": "XFE34F0",
+      "origin": "machine",
+      "gate": "candidate",
+      "writer": "local",
+      "detail": "curated/trading",
+      "donor": "phyrexni"
+    },
+    {
+      "id": "XB115EA",
+      "origin": "machine",
+      "gate": "candidate",
+      "writer": "grok-4.5",
+      "detail": "live/en_macro/#fed_policy",
+      "donor": "globalmktobserv"
+    },
+    {
+      "id": "X5EDC43",
+      "origin": "machine",
+      "gate": "blocked",
+      "writer": "local",
+      "detail": "live/en_macro/#inflation",
+      "donor": "globalmktobserv"
+    }
+  ]
+}

@@ -1,0 +1,459 @@
+{
+  "id": "draft-ec11da87c7f7",
+  "persona_id": "macro",
+  "persona_name": "宏观数据与资金流观察者",
+  "created_at": "2026-09-08T16:04:48.505299+00:00",
+  "source_id": "bls-employment-2026-08",
+  "source_version": "75155f58f5a995e3",
+  "method": "slot_constrained_v1",
+  "profile_channel": "v2",
+  "roles_run": "roles-20260907T113625",
+  "roles": {
+    "knowledge": "qinbafrank",
+    "reasoning": "phyrexni",
+    "language": "phyrexni",
+    "habit": "aleabitoreddit",
+    "visual": null
+  },
+  "exemplars_in_prompt": [
+    {
+      "post_id": "2072665494768021550",
+      "donor": "qinbafrank",
+      "chars": 700
+    },
+    {
+      "post_id": "2095519475567386906",
+      "donor": "qinbafrank",
+      "chars": 253
+    },
+    {
+      "post_id": "2085707173074747750",
+      "donor": "phyrexni",
+      "chars": 312
+    },
+    {
+      "post_id": "2085811500791509406",
+      "donor": "phyrexni",
+      "chars": 496
+    }
+  ],
+  "slots": [
+    {
+      "slot_id": "S01",
+      "fact_id": "ahe_mom",
+      "rendered": "平均时薪环比上涨 0.3%"
+    },
+    {
+      "slot_id": "S02",
+      "fact_id": "ahe_yoy",
+      "rendered": "平均时薪同比上涨 3.1%"
+    },
+    {
+      "slot_id": "S03",
+      "fact_id": "food",
+      "rendered": "餐饮与酒吧就业增加 5.9 万人"
+    },
+    {
+      "slot_id": "S04",
+      "fact_id": "health",
+      "rendered": "医疗保健就业增加 1.3 万人"
+    },
+    {
+      "slot_id": "S05",
+      "fact_id": "information",
+      "rendered": "信息业就业减少 2.3 万人"
+    },
+    {
+      "slot_id": "S06",
+      "fact_id": "local_education",
+      "rendered": "地方政府教育就业增加 4.2 万人"
+    },
+    {
+      "slot_id": "S07",
+      "fact_id": "part_time_decline",
+      "rendered": "因经济原因从事兼职的人数减少 41.4 万人"
+    },
+    {
+      "slot_id": "S08",
+      "fact_id": "participation",
+      "rendered": "劳动参与率为 61.6%"
+    },
+    {
+      "slot_id": "S09",
+      "fact_id": "participation_since_jan",
+      "rendered": "劳动参与率较一月下降 0.5 个百分点"
+    },
+    {
+      "slot_id": "S10",
+      "fact_id": "payroll",
+      "rendered": "8 月非农就业增加 16.2 万人"
+    },
+    {
+      "slot_id": "S11",
+      "fact_id": "payroll_12m_mean",
+      "rendered": "此前 12 个月非农月均增加 3.1 万人"
+    },
+    {
+      "slot_id": "S12",
+      "fact_id": "revision_total",
+      "rendered": "前两个月合计上修 5.5 万人"
+    },
+    {
+      "slot_id": "S13",
+      "fact_id": "unemployment_rate",
+      "rendered": "失业率为 4.1%"
+    }
+  ],
+  "run_status": "completed",
+  "qa_status": "passed",
+  "content_status": "ready_for_pipeline",
+  "attempts": [
+    {
+      "attempt": 1,
+      "run_id": "local-f2a961a748344bd3",
+      "latency_s": 46.19,
+      "usage": {
+        "prompt_tokens": 1388,
+        "completion_tokens": 487,
+        "total_tokens": 1875,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "repaired_slots": [],
+      "slot_coverage": {
+        "placed": 12,
+        "total": 13,
+        "missing_slot_ids": [
+          "S07"
+        ],
+        "wrong_frame": [],
+        "coverage": 0.9231,
+        "source": "substitution record, not string matching"
+      },
+      "form_status": "passed",
+      "qa_status": "failed",
+      "qa_blocking": 1,
+      "score": 127,
+      "qa_codes": [
+        "must_include_missing"
+      ]
+    },
+    {
+      "attempt": 2,
+      "run_id": "local-94f4b59616b24808",
+      "latency_s": 4.8,
+      "usage": {
+        "prompt_tokens": 652,
+        "completion_tokens": 78,
+        "total_tokens": 730,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "repaired_slots": [
+        "S07"
+      ],
+      "slot_coverage": {
+        "placed": 13,
+        "total": 13,
+        "missing_slot_ids": [],
+        "wrong_frame": [],
+        "coverage": 1.0,
+        "source": "substitution record, not string matching"
+      },
+      "form_status": "passed",
+      "qa_status": "passed",
+      "qa_blocking": 0,
+      "score": 146,
+      "qa_codes": []
+    }
+  ],
+  "best_attempt": 2,
+  "title": "宏观状态切换：工资、参与率与行业结构的信号解读",
+  "text": "核心判断显示劳动力市场正从过热向结构性降温过渡，但尚未进入全面衰退。\n\n非农就业月增量 16.2 万人与此前 12 个月月均 3.1 万人的对比，凸显了近期就业数据的显著韧性。\n\n将当前数据置于更长周期审视，前两月合计上修 5.5 万人表明前期统计可能存在低估，需重新评估趋势。\n\n结构层面，信息业就业月变化 2.3 万人与医疗保健就业月增量 1.3 万人显示传统行业仍在吸纳劳动力。\n\n餐饮与酒吧就业月增量 5.9 万人虽强，但地方政府教育就业月增量 4.2 万人与工资数据共同暗示了结构性分化。\n\n平均时薪环比 0.3% 与平均时薪同比 3.1% 的温和增长，在工时未变背景下暗示企业成本压力正在累积。\n\n修正与参与率改变读法，劳动参与率 61.6% 的水平虽未达危机阈值，但较一月下降幅度 0.5 个百分点揭示了潜在劳动力流失。\n\n最强的相反读法认为数据仍符合软着陆特征，因为失业率 4.1% 处于历史低位，足以支撑温和通胀。\n\n维持原判断的理由在于工资增速放缓与参与率下降的组合，预示着企业可能减少招聘以控制成本。\n\n失效条件是看到失业率跌破 3.5% 或平均时薪环比跌破 0.1%，这将直接推翻当前降温论断。\n\n在兼职就业层面，因经济原因从事兼职的人数减少 41.4 万人，这一显著下降表明劳动力正从非全职岗位向更稳定的全职岗位流动，进一步印证了劳动力市场从过热向结构性降温过渡的趋势。",
+  "sentence_to_source_ledger": [
+    {
+      "sentence_id": "s1",
+      "text": "核心判断显示劳动力市场正从过热向结构性降温过渡，但尚未进入全面衰退。",
+      "kind": "interpretation",
+      "fact_ids": [],
+      "slot_ids": [],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "source_block_ids": [],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s2",
+      "text": "非农就业月增量 16.2 万人与此前 12 个月月均 3.1 万人的对比，凸显了近期就业数据的显著韧性。",
+      "kind": "interpretation",
+      "fact_ids": [
+        "payroll",
+        "payroll_12m_mean"
+      ],
+      "slot_ids": [
+        "S10",
+        "S11"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "source_block_ids": [
+        "B0012",
+        "B0026",
+        "B0027"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s3",
+      "text": "将当前数据置于更长周期审视，前两月合计上修 5.5 万人表明前期统计可能存在低估，需重新评估趋势。",
+      "kind": "interpretation",
+      "fact_ids": [
+        "revision_total"
+      ],
+      "slot_ids": [
+        "S12"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "source_block_ids": [
+        "B0052"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s4",
+      "text": "结构层面，信息业就业月变化 2.3 万人与医疗保健就业月增量 1.3 万人显示传统行业仍在吸纳劳动力。",
+      "kind": "interpretation",
+      "fact_ids": [
+        "health",
+        "information"
+      ],
+      "slot_ids": [
+        "S04",
+        "S05"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "source_block_ids": [
+        "B0036",
+        "B0039"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s5",
+      "text": "餐饮与酒吧就业月增量 5.9 万人虽强，但地方政府教育就业月增量 4.2 万人与工资数据共同暗示了结构性分化。",
+      "kind": "interpretation",
+      "fact_ids": [
+        "food",
+        "local_education"
+      ],
+      "slot_ids": [
+        "S03",
+        "S06"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "source_block_ids": [
+        "B0029",
+        "B0031"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s6",
+      "text": "平均时薪环比 0.3% 与平均时薪同比 3.1% 的温和增长，在工时未变背景下暗示企业成本压力正在累积。",
+      "kind": "interpretation",
+      "fact_ids": [
+        "ahe_mom",
+        "ahe_yoy"
+      ],
+      "slot_ids": [
+        "S01",
+        "S02"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "source_block_ids": [
+        "B0050"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s7",
+      "text": "修正与参与率改变读法，劳动参与率 61.6% 的水平虽未达危机阈值，但较一月下降幅度 0.5 个百分点揭示了潜在劳动力流失。",
+      "kind": "interpretation",
+      "fact_ids": [
+        "participation",
+        "participation_since_jan"
+      ],
+      "slot_ids": [
+        "S08",
+        "S09"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "source_block_ids": [
+        "B0021"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s8",
+      "text": "最强的相反读法认为数据仍符合软着陆特征，因为失业率 4.1% 处于历史低位，足以支撑温和通胀。",
+      "kind": "interpretation",
+      "fact_ids": [
+        "unemployment_rate"
+      ],
+      "slot_ids": [
+        "S13"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "source_block_ids": [
+        "B0012"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s9",
+      "text": "维持原判断的理由在于工资增速放缓与参与率下降的组合，预示着企业可能减少招聘以控制成本。",
+      "kind": "interpretation",
+      "fact_ids": [],
+      "slot_ids": [],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "source_block_ids": [],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s10",
+      "text": "失效条件是看到失业率跌破 3.5% 或平均时薪环比跌破 0.1%，这将直接推翻当前降温论断。",
+      "kind": "condition",
+      "fact_ids": [],
+      "slot_ids": [],
+      "model_written_digits": [],
+      "proposed_thresholds": [
+        "3.5%",
+        "0.1%"
+      ],
+      "source_block_ids": [],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    },
+    {
+      "sentence_id": "s11",
+      "text": "在兼职就业层面，因经济原因从事兼职的人数减少 41.4 万人，这一显著下降表明劳动力正从非全职岗位向更稳定的全职岗位流动，进一步印证了劳动力市场从过热向结构性降温过渡的趋势。",
+      "kind": "fact",
+      "fact_ids": [
+        "part_time_decline"
+      ],
+      "slot_ids": [
+        "S07"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "source_block_ids": [
+        "B0022"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6"
+    }
+  ],
+  "slot_placement": {
+    "placed": 13,
+    "total": 13,
+    "missing_slot_ids": [],
+    "wrong_frame": [],
+    "coverage": 1.0,
+    "source": "substitution record, not string matching"
+  },
+  "facts_placed_by_code": [
+    "ahe_mom",
+    "ahe_yoy",
+    "food",
+    "health",
+    "information",
+    "local_education",
+    "part_time_decline",
+    "participation",
+    "participation_since_jan",
+    "payroll",
+    "payroll_12m_mean",
+    "revision_total",
+    "unemployment_rate"
+  ],
+  "qa": {
+    "findings": [],
+    "metrics": {
+      "claim_support_coverage": 0.7273,
+      "unsupported_claim_rate": 0.0,
+      "must_include_coverage": 1.0,
+      "plan_required_coverage": 1.0,
+      "all_fact_coverage": 0.2549
+    },
+    "status": {
+      "run_status": "completed",
+      "qa_status": "passed",
+      "content_status": "ready_for_pipeline",
+      "blocking_count": 0,
+      "warning_count": 0,
+      "human_review": "not_required_by_design; the target pipeline is automated"
+    },
+    "gate_version": "qa-gates-v1",
+    "layers_run": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "form": {
+    "findings": [
+      {
+        "code": "author_proposed_threshold",
+        "severity": "warning",
+        "detail": "forward-looking thresholds stated by the writer, not drawn from the fact pack: [{'sentence_id': 's10', 'values': ['3.5%', '0.1%']}]"
+      }
+    ],
+    "metrics": {
+      "sentences": 11,
+      "bare_slot_sentences": 0,
+      "bare_ratio": 0.0,
+      "interpretation_ratio": 0.9091,
+      "mean_sentence_chars": 52.5,
+      "sentence_chars_min_max": [
+        34,
+        87
+      ],
+      "repeated_fact_strings": 0,
+      "author_proposed_thresholds": 2
+    },
+    "form_status": "passed",
+    "blocking_count": 0,
+    "check_version": "form-v2"
+  },
+  "form_status": "passed",
+  "finished_at": "2026-09-08T16:05:39.518018+00:00",
+  "delivery": {
+    "run_status": "completed",
+    "qa_status": "passed",
+    "content_status": "ready_for_pipeline",
+    "reason": null,
+    "deliverable": true
+  },
+  "human_review": "none"
+}

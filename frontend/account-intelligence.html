@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>账号审稿工作台</title><link rel="stylesheet" href="/assets/account-intelligence.css"><script src="/assets/account-intelligence.js" defer></script></head>
+<body>
+<header><div><span class="eyebrow">EDITORIAL DESK</span><h1>账号审稿工作台</h1><p>从各自的来源里选内容，保留原意，逐篇审阅。</p></div><nav><a href="/content-dashboard">翻译与历史评估</a><button id="export-review" class="secondary">导出本账号审稿包</button><button id="refresh" class="secondary">刷新</button></nav></header>
+<div id="notice" role="status" aria-live="polite"></div>
+<main>
+<nav id="account-selector" aria-label="选择账号"></nav>
+<section id="overview" aria-label="本账号审阅概况"></section>
+<section id="monitor-status" aria-label="本账号自动监控状态" aria-live="polite"><p class="compact muted">正在读取自动监控状态…</p></section>
+<div class="layout"><aside aria-label="本账号稿件与来源">
+<div class="section-heading"><h2>本账号成稿</h2><span id="draft-count" class="muted"></span></div><div id="draft-queue"></div>
+<details><summary>同一来源的旧版本与续检历史</summary><div id="draft-history"></div></details>
+<details id="inbox-panel"><summary>来源候选 <span id="inbox-count"></span></summary><div id="inbox"></div></details>
+<details><summary>本账号的信息源</summary><div id="source-universe"></div></details>
+<details><summary>等待、跳过与执行记录</summary><div id="stopped-runs"></div></details>
+<details><summary>旧流程历史稿件</summary><p class="compact muted">保留旧结果供回看，不计入本轮账号来源流程。</p><div id="historical"></div></details>
+</aside><section id="workspace" aria-label="成稿审阅" aria-live="polite"><p class="empty">正在读取本账号的待审稿件…</p></section></div>
+<details class="internal-desk"><summary>内部记录：研究、账号状态、选题与发布反馈</summary><div class="internal-grid"><section><h2>本账号状态</h2><div id="accounts"></div><h2>观点候选与变化</h2><div id="proposals"></div></section><section><h2>研究单元</h2><div id="research"></div><h2>反馈与发布记录</h2><div id="feedback"></div></section></div></details>
+</main>
+<footer>本地人工审阅 · 接受稿件不会自动发布 · 机器保真与人工可发性分别记录</footer>
+</body></html>

@@ -1,0 +1,31 @@
+{
+  "recorded_at": "2026-09-06T05:41:20.125047+00:00",
+  "reason": "User switched to complete project handover, then authorized full migration. No new features or content generation.",
+  "paused": true,
+  "stopped_processes": [
+    {
+      "pid": 65334,
+      "role": "evidence_loop/run_experiments.py",
+      "exact_stop_time": null
+    },
+    {
+      "pid": 61610,
+      "role": "local MLX modern generator :8683",
+      "exact_stop_time": null
+    },
+    {
+      "pid": 64057,
+      "role": "project backend :8680 stopped for migration",
+      "evidence": "handover/migration.json"
+    }
+  ],
+  "original_run_records_preserved": true,
+  "effective_interrupted_cases": [
+    "case-21b8d4f70185"
+  ],
+  "possible_related_draft_call": "local-0538caa511c642cf",
+  "case_to_draft_direct_link_missing": true,
+  "asr_executed": false,
+  "diarization_executed": false,
+  "backend_running_after_migration": false
+}

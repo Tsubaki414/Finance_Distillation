@@ -1,0 +1,20 @@
+{
+  "sha256": "460ea402bdfc33bfd3ade450c2d47860463d79ff4dcce05b6d00dbbf8fc99cbe",
+  "cases": 12,
+  "case_ids": [
+    "H01_en_short_industry",
+    "H02_en_long_industry",
+    "H03_zh_short_identity",
+    "H04_zh_long_industry",
+    "H05_en_short_macro",
+    "H06_zh_crypto_forecast",
+    "H07_trading_no_account",
+    "H08_skip_joke",
+    "H09_chart_dependency",
+    "H10_zh_existing_arithmetic",
+    "H11_en_firsthand",
+    "H12_incomplete_transcript"
+  ],
+  "human_review": "pending",
+  "frozen_before_prompt_changes": true
+}

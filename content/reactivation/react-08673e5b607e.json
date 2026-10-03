@@ -1,0 +1,452 @@
+{
+  "id": "react-08673e5b607e",
+  "persona_id": "trading",
+  "persona_name": "交易系统与市场心理教练",
+  "created_at": "2026-09-09T01:39:16.646901+00:00",
+  "event_id": "bls-employment-2026-08",
+  "event_label": "US Employment Situation, August 2026",
+  "source_id": "bls-employment-2026-08",
+  "source_version": "75155f58f5a995e3",
+  "parent_draft_id": "draft-a88754763aa1",
+  "parent_draft_coverage": {
+    "must_include_coverage": 1.0,
+    "note": "全部必含事实由母稿承担并已达 1.0；本文只能使用母稿已确立的事实，不重复承担全覆盖义务"
+  },
+  "retrieval": {
+    "file": "evergreen/principles/reactivation_v2.json",
+    "embedding_model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 (frozen, cpu)",
+    "method": "cosine over principle statement plus conditions; same frozen model as post retrieval",
+    "pool_filtered_for_compilations": true,
+    "candidate_pool": 101,
+    "limits": [
+      "Principles are candidates, model_reviewed, not Asset Bank entries.",
+      "No relevance labels yet, so there is no Recall@K or nDCG for this retrieval.",
+      "A high score means lexical and semantic proximity, not that the principle is correct or that it applies to this specific print."
+    ]
+  },
+  "principles": [
+    {
+      "principle_id": "pr-88362fd203c4",
+      "statement": "采用分批建仓策略，避免无上限的利滚利，以控制单次亏损幅度。",
+      "category": "Risk and position sizing",
+      "applicable_conditions": "适用于需要长期连续交易且需应对多次停损的市场环境。",
+      "invalidation": "若遇到大行情，分批建仓可能无法及时捕捉到最大涨幅。",
+      "risk": "可能因分批建仓导致错过部分大行情，或资金效率降低。",
+      "retrieval_score": 0.551,
+      "retrieved_not_written": true,
+      "attribution": "转述自 台湾浮云滚仓大B哥，非原话｜台湾浮云滚仓大B哥.md｜字符 7200–7279",
+      "source_file": "evergreen/raw/Reads/10_人物/台湾浮云滚仓大B哥/台湾浮云滚仓大B哥.md",
+      "source_file_sha256": "76f44498acdd4ceec7a270f8dc3350664074ea4eea0eaa655e55f9254a3bd6ca",
+      "corpus_path": "Reads/10_人物/台湾浮云滚仓大B哥/台湾浮云滚仓大B哥.md",
+      "char_span": [
+        7200,
+        7279
+      ],
+      "author_dir": "台湾浮云滚仓大B哥",
+      "direct_quote_allowed": false,
+      "review": "pending_human_review"
+    },
+    {
+      "principle_id": "pr-7b4652357c27",
+      "statement": "承认任何高概率开仓点都有意外风险，必须严格执行止损。",
+      "category": "Risk and position sizing",
+      "applicable_conditions": "任何基于方法提出的高概率开仓点",
+      "invalidation": "交易者无法克服对止损的抗拒，沉迷小概率事件",
+      "risk": "频繁止损未获奖励，或因扛单爆仓",
+      "retrieval_score": 0.5342,
+      "retrieved_not_written": true,
+      "attribution": "转述自 剑吼西风，非原话｜我的交易历程：剑吼西风.md｜字符 6179–6228",
+      "source_file": "evergreen/raw/Reads/10_人物/剑吼西风/我的交易历程：剑吼西风.md",
+      "source_file_sha256": "261a5f561fd0a9012f7d5971be2d4ed3e9d7f8091e6f2596a3d7486ec60f6745",
+      "corpus_path": "Reads/10_人物/剑吼西风/我的交易历程：剑吼西风.md",
+      "char_span": [
+        6179,
+        6228
+      ],
+      "author_dir": "剑吼西风",
+      "direct_quote_allowed": false,
+      "review": "pending_human_review"
+    },
+    {
+      "principle_id": "pr-7208de68d061",
+      "statement": "成熟交易员应预先评估每次交易的胜率和赔率，做到模糊的正确。",
+      "category": "Trading principles",
+      "applicable_conditions": "在下手交易之前",
+      "invalidation": null,
+      "risk": null,
+      "retrieval_score": 0.5184,
+      "retrieved_not_written": true,
+      "attribution": "转述自 挖矿小企鹅，非原话｜小企鹅心法.md｜字符 1963–2029",
+      "source_file": "evergreen/raw/Reads/10_人物/挖矿小企鹅/小企鹅心法.md",
+      "source_file_sha256": "4d75133af519ca8c2f7d9c1b80862e62cd37619581e68f465a3207f95c7c682b",
+      "corpus_path": "Reads/10_人物/挖矿小企鹅/小企鹅心法.md",
+      "char_span": [
+        1963,
+        2029
+      ],
+      "author_dir": "挖矿小企鹅",
+      "direct_quote_allowed": false,
+      "review": "pending_human_review"
+    }
+  ],
+  "run_status": "completed",
+  "qa_status": "passed",
+  "content_status": "ready_for_pipeline",
+  "attempts": [
+    {
+      "attempt": 1,
+      "run_id": "local-96b40f1a33ac4675",
+      "latency_s": 26.49,
+      "usage": {
+        "prompt_tokens": 812,
+        "completion_tokens": 880,
+        "total_tokens": 1692,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "qa_status": "passed",
+      "qa_blocking": 0,
+      "form_status": "passed",
+      "principles_status": "failed",
+      "score": -16,
+      "codes": [
+        "principle_not_retrieved",
+        "retrieved_principle_unused"
+      ]
+    },
+    {
+      "attempt": 2,
+      "run_id": "local-141a8f2ca93d41b8",
+      "latency_s": 22.79,
+      "usage": {
+        "prompt_tokens": 861,
+        "completion_tokens": 751,
+        "total_tokens": 1612,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "qa_status": "passed",
+      "qa_blocking": 0,
+      "form_status": "failed",
+      "principles_status": "failed",
+      "score": -23,
+      "codes": [
+        "model_wrote_a_number",
+        "principle_not_retrieved",
+        "retrieved_principle_unused",
+        "too_short"
+      ]
+    },
+    {
+      "attempt": 3,
+      "run_id": "local-5bb3833071e24453",
+      "latency_s": 33.45,
+      "usage": {
+        "prompt_tokens": 894,
+        "completion_tokens": 964,
+        "total_tokens": 1858,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "qa_status": "failed",
+      "qa_blocking": 1,
+      "form_status": "passed",
+      "principles_status": "failed",
+      "score": -19,
+      "codes": [
+        "principle_not_retrieved",
+        "retrieved_principle_unused",
+        "sign_direction_mismatch"
+      ]
+    },
+    {
+      "attempt": 4,
+      "run_id": "local-3598354b8d364c21",
+      "latency_s": 30.97,
+      "usage": {
+        "prompt_tokens": 878,
+        "completion_tokens": 961,
+        "total_tokens": 1839,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "qa_status": "passed",
+      "qa_blocking": 0,
+      "form_status": "passed",
+      "principles_status": "passed",
+      "score": 8,
+      "codes": []
+    }
+  ],
+  "best_attempt": 4,
+  "title": "2026 年 8 月非农就业数据解读：分批建仓与风险控制的现实约束",
+  "text": "8 月非农就业增加 16.2 万人，较此前 12 个月月均 3.1 万人的水平显著回升，需警惕大行情下分批建仓策略的滞后性。\n\n餐饮与酒吧就业增加 5.9 万人，信息业就业减少 2.3 万人，这种结构性分化表明单一趋势判断可能忽略细分领域的意外波动。\n\n平均时薪环比上涨 0.3%，同比上涨 3.1%，劳动力成本上升可能掩盖就业数据表面的强劲，提醒交易者承认高概率开仓点的意外风险。\n\n地方政府教育就业增加 4.2 万人，医疗就业小幅增长，但兼职人数减少 41.4 万人显示劳动力市场韧性正在减弱，需重新评估赔率。\n\n失业率维持在 4.1%，劳动参与率降至 61.6%，较一月下降 0.5 个百分点，这种疲软信号要求成熟交易员在模糊中保持正确判断。\n\n前两个月合计上修 5.5 万人，说明历史数据存在动态修正可能，分批建仓策略在此环境下可能无法及时捕捉最大涨幅。\n\n若因过度乐观而忽略劳动参与率下降趋势，可能导致止损失效，违背了承认高概率开仓点存在意外风险的原则。\n\n失效条件：若劳动参与率连续两月下降超过 1.0 个百分点，或兼职人数降幅收窄至 10 万人以下，则需重新评估分批建仓的适用性。",
+  "article_markdown": "# 2026 年 8 月非农就业数据解读：分批建仓与风险控制的现实约束\n\n8 月非农就业增加 16.2 万人，较此前 12 个月月均 3.1 万人的水平显著回升，需警惕大行情下分批建仓策略的滞后性。\n\n   > 引用原则：采用分批建仓策略，避免无上限的利滚利，以控制单次亏损幅度。\n   > 转述自 台湾浮云滚仓大B哥，非原话｜台湾浮云滚仓大B哥.md｜字符 7200–7279\n\n餐饮与酒吧就业增加 5.9 万人，信息业就业减少 2.3 万人，这种结构性分化表明单一趋势判断可能忽略细分领域的意外波动。\n\n   > 引用原则：承认任何高概率开仓点都有意外风险，必须严格执行止损。\n   > 转述自 剑吼西风，非原话｜我的交易历程：剑吼西风.md｜字符 6179–6228\n\n平均时薪环比上涨 0.3%，同比上涨 3.1%，劳动力成本上升可能掩盖就业数据表面的强劲，提醒交易者承认高概率开仓点的意外风险。\n\n   > 引用原则：承认任何高概率开仓点都有意外风险，必须严格执行止损。\n   > 转述自 剑吼西风，非原话｜我的交易历程：剑吼西风.md｜字符 6179–6228\n\n地方政府教育就业增加 4.2 万人，医疗就业小幅增长，但兼职人数减少 41.4 万人显示劳动力市场韧性正在减弱，需重新评估赔率。\n\n   > 引用原则：成熟交易员应预先评估每次交易的胜率和赔率，做到模糊的正确。\n   > 转述自 挖矿小企鹅，非原话｜小企鹅心法.md｜字符 1963–2029\n\n失业率维持在 4.1%，劳动参与率降至 61.6%，较一月下降 0.5 个百分点，这种疲软信号要求成熟交易员在模糊中保持正确判断。\n\n   > 引用原则：成熟交易员应预先评估每次交易的胜率和赔率，做到模糊的正确。\n   > 转述自 挖矿小企鹅，非原话｜小企鹅心法.md｜字符 1963–2029\n\n前两个月合计上修 5.5 万人，说明历史数据存在动态修正可能，分批建仓策略在此环境下可能无法及时捕捉最大涨幅。\n\n   > 引用原则：采用分批建仓策略，避免无上限的利滚利，以控制单次亏损幅度。\n   > 转述自 台湾浮云滚仓大B哥，非原话｜台湾浮云滚仓大B哥.md｜字符 7200–7279\n\n若因过度乐观而忽略劳动参与率下降趋势，可能导致止损失效，违背了承认高概率开仓点存在意外风险的原则。\n\n   > 引用原则：承认任何高概率开仓点都有意外风险，必须严格执行止损。\n   > 转述自 剑吼西风，非原话｜我的交易历程：剑吼西风.md｜字符 6179–6228\n\n失效条件：若劳动参与率连续两月下降超过 1.0 个百分点，或兼职人数降幅收窄至 10 万人以下，则需重新评估分批建仓的适用性。\n\n   > 引用原则：采用分批建仓策略，避免无上限的利滚利，以控制单次亏损幅度。\n   > 转述自 台湾浮云滚仓大B哥，非原话｜台湾浮云滚仓大B哥.md｜字符 7200–7279\n\n---\n\n原则来自对交易心法语料库的检索，不是为本次数据现写；检索模型 sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 (frozen, cpu)。\n所有原则均为转述，未直接引用原文；状态：待人工审核。",
+  "sentence_to_source_ledger": [
+    {
+      "sentence_id": "s1",
+      "text": "8 月非农就业增加 16.2 万人，较此前 12 个月月均 3.1 万人的水平显著回升，需警惕大行情下分批建仓策略的滞后性。",
+      "kind": "interpretation",
+      "fact_ids": [
+        "payroll",
+        "payroll_12m_mean"
+      ],
+      "slot_ids": [
+        "S10",
+        "S11"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [
+        "B0012",
+        "B0026",
+        "B0027"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6",
+      "principle_ids": [
+        "pr-88362fd203c4"
+      ]
+    },
+    {
+      "sentence_id": "s2",
+      "text": "餐饮与酒吧就业增加 5.9 万人，信息业就业减少 2.3 万人，这种结构性分化表明单一趋势判断可能忽略细分领域的意外波动。",
+      "kind": "fact",
+      "fact_ids": [
+        "food",
+        "information"
+      ],
+      "slot_ids": [
+        "S03",
+        "S05"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [
+        "B0029",
+        "B0039"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6",
+      "principle_ids": [
+        "pr-7b4652357c27"
+      ]
+    },
+    {
+      "sentence_id": "s3",
+      "text": "平均时薪环比上涨 0.3%，同比上涨 3.1%，劳动力成本上升可能掩盖就业数据表面的强劲，提醒交易者承认高概率开仓点的意外风险。",
+      "kind": "fact",
+      "fact_ids": [
+        "ahe_mom",
+        "ahe_yoy"
+      ],
+      "slot_ids": [
+        "S01",
+        "S02"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [
+        "B0050"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6",
+      "principle_ids": [
+        "pr-7b4652357c27"
+      ]
+    },
+    {
+      "sentence_id": "s4",
+      "text": "地方政府教育就业增加 4.2 万人，医疗就业小幅增长，但兼职人数减少 41.4 万人显示劳动力市场韧性正在减弱，需重新评估赔率。",
+      "kind": "fact",
+      "fact_ids": [
+        "local_education",
+        "part_time_decline"
+      ],
+      "slot_ids": [
+        "S06",
+        "S07"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [
+        "B0022",
+        "B0031"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6",
+      "principle_ids": [
+        "pr-7208de68d061"
+      ]
+    },
+    {
+      "sentence_id": "s5",
+      "text": "失业率维持在 4.1%，劳动参与率降至 61.6%，较一月下降 0.5 个百分点，这种疲软信号要求成熟交易员在模糊中保持正确判断。",
+      "kind": "fact",
+      "fact_ids": [
+        "participation",
+        "participation_since_jan",
+        "unemployment_rate"
+      ],
+      "slot_ids": [
+        "S08",
+        "S09",
+        "S13"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [
+        "B0012",
+        "B0021"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6",
+      "principle_ids": [
+        "pr-7208de68d061"
+      ]
+    },
+    {
+      "sentence_id": "s6",
+      "text": "前两个月合计上修 5.5 万人，说明历史数据存在动态修正可能，分批建仓策略在此环境下可能无法及时捕捉最大涨幅。",
+      "kind": "interpretation",
+      "fact_ids": [
+        "revision_total"
+      ],
+      "slot_ids": [
+        "S12"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [
+        "B0052"
+      ],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6",
+      "principle_ids": [
+        "pr-88362fd203c4"
+      ]
+    },
+    {
+      "sentence_id": "s7",
+      "text": "若因过度乐观而忽略劳动参与率下降趋势，可能导致止损失效，违背了承认高概率开仓点存在意外风险的原则。",
+      "kind": "condition",
+      "fact_ids": [],
+      "slot_ids": [],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6",
+      "principle_ids": [
+        "pr-7b4652357c27"
+      ]
+    },
+    {
+      "sentence_id": "s8",
+      "text": "失效条件：若劳动参与率连续两月下降超过 1.0 个百分点，或兼职人数降幅收窄至 10 万人以下，则需重新评估分批建仓的适用性。",
+      "kind": "condition",
+      "fact_ids": [],
+      "slot_ids": [],
+      "model_written_digits": [],
+      "proposed_thresholds": [
+        "1.0 个百分点",
+        "10 万人"
+      ],
+      "misframed_values": [],
+      "source_block_ids": [],
+      "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+      "source_hash": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6",
+      "principle_ids": [
+        "pr-88362fd203c4"
+      ]
+    }
+  ],
+  "qa": {
+    "findings": [],
+    "metrics": {
+      "claim_support_coverage": 0.75,
+      "unsupported_claim_rate": 0.0,
+      "must_include_coverage": 1.0,
+      "plan_required_coverage": 1.0,
+      "all_fact_coverage": 0.2353
+    },
+    "status": {
+      "run_status": "completed",
+      "qa_status": "passed",
+      "content_status": "ready_for_pipeline",
+      "blocking_count": 0,
+      "warning_count": 0,
+      "human_review": "not_required_by_design; the target pipeline is automated"
+    },
+    "gate_version": "qa-gates-v2",
+    "layers_run": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "form_check": {
+    "findings": [
+      {
+        "code": "author_proposed_threshold",
+        "severity": "warning",
+        "detail": "forward-looking thresholds stated by the writer, not drawn from the fact pack: [{'sentence_id': 's8', 'values': ['1.0 个百分点', '10 万人']}]"
+      }
+    ],
+    "metrics": {
+      "sentences": 8,
+      "bare_slot_sentences": 0,
+      "bare_ratio": 0.0,
+      "interpretation_ratio": 0.5,
+      "mean_sentence_chars": 60.4,
+      "sentence_chars_min_max": [
+        49,
+        65
+      ],
+      "repeated_fact_strings": 0,
+      "restated_sentences": 0,
+      "author_proposed_thresholds": 2,
+      "misframed_values": 0
+    },
+    "form_status": "passed",
+    "blocking_count": 0,
+    "check_version": "form-v4"
+  },
+  "principle_check": {
+    "findings": [],
+    "status": "passed",
+    "blocking_count": 0,
+    "principles_used": [
+      "pr-7208de68d061",
+      "pr-7b4652357c27",
+      "pr-88362fd203c4"
+    ],
+    "check_version": "principle-attribution-v1"
+  },
+  "form_status": "passed",
+  "principles_status": "passed",
+  "output_gate": "passed",
+  "finished_at": "2026-09-09T01:41:10.449124+00:00",
+  "delivery": {
+    "run_status": "completed",
+    "qa_status": "passed",
+    "content_status": "ready_for_pipeline",
+    "reason": null,
+    "deliverable": true
+  },
+  "human_review": "none; principles are pending_human_review"
+}

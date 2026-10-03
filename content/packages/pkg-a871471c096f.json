@@ -1,0 +1,264 @@
+{
+  "id": "pkg-a871471c096f",
+  "form": "x_post",
+  "form_name": "X 单帖",
+  "draft_id": "w-b33ce1342b9d",
+  "persona_id": "macro",
+  "persona_name": "中文 · 宏观与资金流",
+  "account_id": "zh_macro",
+  "origin": "live",
+  "entity": "#inflation",
+  "created_at": "2026-09-17T06:33:30.355600+00:00",
+  "source_version": 1,
+  "roles": {
+    "language": "qinbafrank"
+  },
+  "profile_channel": null,
+  "source_id": "ev-b614109cca69",
+  "run_status": "completed",
+  "qa_status": "passed",
+  "content_status": "ready_for_pipeline",
+  "attempts": [
+    {
+      "attempt": 1,
+      "run_id": "local-74b226bae72b4a46",
+      "latency_s": 5.24,
+      "usage": {
+        "prompt_tokens": 582,
+        "completion_tokens": 101,
+        "total_tokens": 683,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "qa_status": "passed",
+      "qa_blocking": 0,
+      "form_status": "passed",
+      "score": 10,
+      "qa_codes": [],
+      "form_codes": []
+    }
+  ],
+  "best_attempt": 1,
+  "title": "日本央行购债缩减与通胀预期上升的宏观信号",
+  "segments": [
+    {
+      "text": "日本央行计划将每月 2 万亿日元购买量削减 4000 亿日元，以抑制 2% 的通胀预期。生产者价格指数涨幅达 7.2%，自然利率区间 1.1% 至 2.5% 为基准。若通胀预期不回落，购债缩减策略将失效。",
+      "kind": "interpretation",
+      "fact_ids": [
+        "g011",
+        "g010",
+        "r002",
+        "g013",
+        "g005"
+      ],
+      "segment_id": "p1",
+      "slot_ids": [
+        "L01",
+        "L02",
+        "L04",
+        "L05",
+        "L06"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": []
+    }
+  ],
+  "sentence_to_source_ledger": [
+    {
+      "sentence_id": "p1",
+      "text": "日本央行计划将每月 2 万亿日元购买量削减 4000 亿日元，以抑制 2% 的通胀预期。生产者价格指数涨幅达 7.2%，自然利率区间 1.1% 至 2.5% 为基准。若通胀预期不回落，购债缩减策略将失效。",
+      "kind": "interpretation",
+      "fact_ids": [
+        "g011",
+        "g010",
+        "r002",
+        "g013",
+        "g005"
+      ],
+      "slot_ids": [
+        "L01",
+        "L02",
+        "L04",
+        "L05",
+        "L06"
+      ],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [
+        "B0028",
+        "B0064",
+        "B0085",
+        "B0189"
+      ],
+      "primary_url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf",
+      "source_hash": "a8652d199f244f952721c7f71eb73c12c604416e4b7ccf309692fc00a565f0ca"
+    }
+  ],
+  "source_pack": [
+    {
+      "fact_id": "g005",
+      "label": "the producer price index (PPI) has already risen to",
+      "value": 7.2,
+      "unit": "percent",
+      "period": null,
+      "survey": null,
+      "primary_url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf",
+      "artifact_path": "live/store/sources/ev-b614109cca69.txt",
+      "artifact_sha256": "a8652d199f244f952721c7f71eb73c12c604416e4b7ccf309692fc00a565f0ca",
+      "char_span": [
+        8601,
+        8612
+      ],
+      "quote": "7.2 percent",
+      "quote_resolves": true,
+      "source_block_ids": [
+        "B0028"
+      ]
+    },
+    {
+      "fact_id": "g010",
+      "label": "medium- to long-term inflation expectations have risen to around",
+      "value": 2,
+      "unit": "percent",
+      "period": null,
+      "survey": null,
+      "primary_url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf",
+      "artifact_path": "live/store/sources/ev-b614109cca69.txt",
+      "artifact_sha256": "a8652d199f244f952721c7f71eb73c12c604416e4b7ccf309692fc00a565f0ca",
+      "char_span": [
+        30028,
+        30037
+      ],
+      "quote": "2 percent",
+      "quote_resolves": true,
+      "source_block_ids": [
+        "B0064"
+      ]
+    },
+    {
+      "fact_id": "g011",
+      "label": "to cut down its monthly purchase amount by about",
+      "value": 400000000000,
+      "unit": "JPY",
+      "period": null,
+      "survey": null,
+      "primary_url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf",
+      "artifact_path": "live/store/sources/ev-b614109cca69.txt",
+      "artifact_sha256": "a8652d199f244f952721c7f71eb73c12c604416e4b7ccf309692fc00a565f0ca",
+      "char_span": [
+        41074,
+        41089
+      ],
+      "quote": "400 billion yen",
+      "quote_resolves": true,
+      "source_block_ids": [
+        "B0085"
+      ]
+    },
+    {
+      "fact_id": "g013",
+      "label": "assessment of the reduction plan conducted at the June",
+      "value": 2000000000000,
+      "unit": "JPY",
+      "period": null,
+      "survey": null,
+      "primary_url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf",
+      "artifact_path": "live/store/sources/ev-b614109cca69.txt",
+      "artifact_sha256": "a8652d199f244f952721c7f71eb73c12c604416e4b7ccf309692fc00a565f0ca",
+      "char_span": [
+        41417,
+        41431
+      ],
+      "quote": "2 trillion yen",
+      "quote_resolves": true,
+      "source_block_ids": [
+        "B0085"
+      ]
+    },
+    {
+      "fact_id": "r002",
+      "label": "neutral interest rate is estimated to be in the",
+      "value": 1.1,
+      "unit": "percent",
+      "period": null,
+      "survey": null,
+      "primary_url": "https://www.boj.or.jp/en/about/press/koen_2026/data/ko260902a1.pdf",
+      "artifact_path": "live/store/sources/ev-b614109cca69.txt",
+      "artifact_sha256": "a8652d199f244f952721c7f71eb73c12c604416e4b7ccf309692fc00a565f0ca",
+      "char_span": [
+        70412,
+        70427
+      ],
+      "quote": "1.1-2.5 percent",
+      "quote_resolves": true,
+      "source_block_ids": [
+        "B0189"
+      ]
+    }
+  ],
+  "conditions": {
+    "invalidation": [
+      "如果通胀预期不回落，央行可能被迫延长购债缩减的幅度。",
+      "只有当通胀预期持续下降，上述购债缩减策略才能顺利实施。",
+      "若自然利率区间下移，央行可能会重新评估购债规模。"
+    ],
+    "author_proposed_thresholds": [],
+    "threshold_note": "这些阈值是作者提出的观察条件，不是事实包里的数据，不得当作已发生的数字引用。",
+    "update_when": [
+      "原始事实包发布新版本或数据被修订",
+      "下一期同一指标发布"
+    ],
+    "next_release": null
+  },
+  "qa": {
+    "findings": [],
+    "metrics": {
+      "claim_support_coverage": 1.0,
+      "unsupported_claim_rate": 0.0,
+      "must_include_coverage": 1.0,
+      "plan_required_coverage": 1.0,
+      "all_fact_coverage": 0.1562
+    },
+    "status": {
+      "run_status": "completed",
+      "qa_status": "passed",
+      "content_status": "ready_for_pipeline",
+      "blocking_count": 0,
+      "warning_count": 0,
+      "human_review": "not_required_by_design; the target pipeline is automated"
+    },
+    "gate_version": "qa-gates-v2",
+    "layers_run": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "form_check": {
+    "findings": [],
+    "form_status": "passed",
+    "blocking_count": 0,
+    "chars": 102,
+    "measured": 174,
+    "measure": "weighted units",
+    "units": 3,
+    "unit_name": "sentences",
+    "segments": 1,
+    "check_version": "package-form-v2"
+  },
+  "form_status": "passed",
+  "finished_at": "2026-09-17T06:33:35.597990+00:00",
+  "delivery": {
+    "run_status": "completed",
+    "qa_status": "passed",
+    "content_status": "ready_for_pipeline",
+    "reason": null,
+    "deliverable": true
+  },
+  "human_review": "none"
+}

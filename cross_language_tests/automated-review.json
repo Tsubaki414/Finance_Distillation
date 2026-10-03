@@ -1,0 +1,16 @@
+{
+  "recorded_at": "2026-09-06T04:11:51.848270+00:00",
+  "reviewer": "Codex assistant; not a human",
+  "human_review": false,
+  "case_id": "GT-local-cf3ee1b1b3ca4689",
+  "findings": [
+    {
+      "quote": "policy expectations derived from such data are overly optimistic",
+      "source_quote": "仅凭单月数据推断政策预期已过度乐观缺乏充分依据",
+      "issue": "Translation converts a warning that a conclusion lacks evidence into the conclusion itself. The hedge and negation are not preserved.",
+      "status": "needs_revision"
+    }
+  ],
+  "literal_number_tests": "Both directions flagged differences partly due to calendar and comma formatting; this lexical check cannot judge semantics.",
+  "source_draft_errors": "Translations can also preserve errors already present in the source draft; faithful translation is a separate gate from financial correctness."
+}

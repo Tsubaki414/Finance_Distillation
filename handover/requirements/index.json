@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "file": "handover/requirements/01-original-project-brief.txt",
+      "original_path": "/Users/fionama/.codex/attachments/7f55ba7a-0568-48da-9f97-2cfd535a03d4/pasted-text.txt",
+      "sha256": "8fe0151d4bdcaf214caa2e9838dfc5275f13aaf4bd01155139fad9853f2b40b1",
+      "verbatim_copy": true
+    },
+    {
+      "file": "handover/requirements/02-visual-brief.txt",
+      "original_path": "/Users/fionama/.codex/attachments/16b0ed3d-0550-4379-8769-138281ac381b/pasted-text.txt",
+      "sha256": "9606c36a1c75fc07a6a7135501bffafec7ef2f63dc877c4d1afd479a49ae9c5f",
+      "verbatim_copy": true
+    },
+    {
+      "file": "handover/requirements/03-real-vertical-slice-correction.txt",
+      "original_path": "/Users/fionama/.codex/attachments/340fb293-8145-4769-a7ac-a17343e934b7/pasted-text.txt",
+      "sha256": "90323f8530156973d3e6d569df126344201814529cd492ceb69f9ad027e164e2",
+      "verbatim_copy": true
+    },
+    {
+      "file": "handover/requirements/04-handover-request.txt",
+      "original_path": "/Users/fionama/.codex/attachments/c279ddde-892e-4b89-8f00-595d8f20594b/pasted-text.txt",
+      "sha256": "696088667b83ff123d1e79dbb73dd84bacc3aee2a37b4787cfdd3cc3f734394e",
+      "verbatim_copy": true
+    }
+  ],
+  "precedence": "Later user corrections supersede earlier workflow/navigation/baseline wording; original product objectives remain. See CLAUDE.md and ACCEPTANCE_TESTS.md for subsequent chat corrections.",
+  "original_files_modified": false
+}

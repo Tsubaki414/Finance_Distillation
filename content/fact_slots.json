@@ -1,0 +1,204 @@
+{
+  "source_version": "75155f58f5a995e3",
+  "source_id": "bls-employment-2026-08",
+  "required_fact_ids": [
+    "ahe_mom",
+    "ahe_yoy",
+    "food",
+    "health",
+    "information",
+    "local_education",
+    "part_time_decline",
+    "participation",
+    "payroll",
+    "payroll_12m_mean",
+    "revision_total",
+    "unemployment_rate"
+  ],
+  "slots": [
+    {
+      "slot_id": "S01",
+      "fact_id": "ahe_mom",
+      "label": "平均时薪环比",
+      "rendered": "平均时薪环比上涨 0.3%",
+      "value_rendered": "0.3%",
+      "raw_value": 0.3,
+      "unit": "percent",
+      "period": "2026-08",
+      "source_block_ids": [
+        "B0050"
+      ],
+      "rule": "rendered by code; the model must place this string verbatim and must not restate the number in any other form"
+    },
+    {
+      "slot_id": "S02",
+      "fact_id": "ahe_yoy",
+      "label": "平均时薪同比",
+      "rendered": "平均时薪同比上涨 3.1%",
+      "value_rendered": "3.1%",
+      "raw_value": 3.1,
+      "unit": "percent",
+      "period": "2026-08",
+      "source_block_ids": [
+        "B0050"
+      ],
+      "rule": "rendered by code; the model must place this string verbatim and must not restate the number in any other form"
+    },
+    {
+      "slot_id": "S03",
+      "fact_id": "food",
+      "label": "餐饮与酒吧就业月增量",
+      "rendered": "餐饮与酒吧就业增加 5.9 万人",
+      "value_rendered": "5.9 万人",
+      "raw_value": 59000,
+      "unit": "persons",
+      "period": "2026-08",
+      "source_block_ids": [
+        "B0029"
+      ],
+      "rule": "rendered by code; the model must place this string verbatim and must not restate the number in any other form"
+    },
+    {
+      "slot_id": "S04",
+      "fact_id": "health",
+      "label": "医疗保健就业月增量",
+      "rendered": "医疗保健就业增加 1.3 万人",
+      "value_rendered": "1.3 万人",
+      "raw_value": 13000,
+      "unit": "persons",
+      "period": "2026-08",
+      "source_block_ids": [
+        "B0036"
+      ],
+      "rule": "rendered by code; the model must place this string verbatim and must not restate the number in any other form"
+    },
+    {
+      "slot_id": "S05",
+      "fact_id": "information",
+      "label": "信息业就业月变化",
+      "rendered": "信息业就业减少 2.3 万人",
+      "value_rendered": "2.3 万人",
+      "raw_value": -23000,
+      "unit": "persons",
+      "period": "2026-08",
+      "source_block_ids": [
+        "B0039"
+      ],
+      "rule": "rendered by code; the model must place this string verbatim and must not restate the number in any other form"
+    },
+    {
+      "slot_id": "S06",
+      "fact_id": "local_education",
+      "label": "地方政府教育就业月增量",
+      "rendered": "地方政府教育就业增加 4.2 万人",
+      "value_rendered": "4.2 万人",
+      "raw_value": 42000,
+      "unit": "persons",
+      "period": "2026-08",
+      "source_block_ids": [
+        "B0031"
+      ],
+      "rule": "rendered by code; the model must place this string verbatim and must not restate the number in any other form"
+    },
+    {
+      "slot_id": "S07",
+      "fact_id": "part_time_decline",
+      "label": "经济原因兼职人数减少",
+      "rendered": "因经济原因从事兼职的人数减少 41.4 万人",
+      "value_rendered": "41.4 万人",
+      "raw_value": 414000,
+      "unit": "persons_decline",
+      "period": "2026-08",
+      "source_block_ids": [
+        "B0022"
+      ],
+      "rule": "rendered by code; the model must place this string verbatim and must not restate the number in any other form"
+    },
+    {
+      "slot_id": "S08",
+      "fact_id": "participation",
+      "label": "劳动参与率",
+      "rendered": "劳动参与率为 61.6%",
+      "value_rendered": "61.6%",
+      "raw_value": 61.6,
+      "unit": "percent",
+      "period": "2026-08",
+      "source_block_ids": [
+        "B0021"
+      ],
+      "rule": "rendered by code; the model must place this string verbatim and must not restate the number in any other form"
+    },
+    {
+      "slot_id": "S09",
+      "fact_id": "participation_since_jan",
+      "label": "劳动参与率较一月下降幅度",
+      "rendered": "劳动参与率较一月下降 0.5 个百分点",
+      "value_rendered": "0.5 个百分点",
+      "raw_value": 0.5,
+      "unit": "percentage_points_decline",
+      "period": "2026-08",
+      "source_block_ids": [
+        "B0021"
+      ],
+      "rule": "rendered by code; the model must place this string verbatim and must not restate the number in any other form"
+    },
+    {
+      "slot_id": "S10",
+      "fact_id": "payroll",
+      "label": "非农就业月增量",
+      "rendered": "8 月非农就业增加 16.2 万人",
+      "value_rendered": "16.2 万人",
+      "raw_value": 162000,
+      "unit": "persons",
+      "period": "2026-08",
+      "source_block_ids": [
+        "B0012"
+      ],
+      "rule": "rendered by code; the model must place this string verbatim and must not restate the number in any other form"
+    },
+    {
+      "slot_id": "S11",
+      "fact_id": "payroll_12m_mean",
+      "label": "此前12个月非农月均",
+      "rendered": "此前 12 个月非农月均增加 3.1 万人",
+      "value_rendered": "3.1 万人",
+      "raw_value": 31000,
+      "unit": "persons",
+      "period": "2026-08",
+      "source_block_ids": [
+        "B0026",
+        "B0027"
+      ],
+      "rule": "rendered by code; the model must place this string verbatim and must not restate the number in any other form"
+    },
+    {
+      "slot_id": "S12",
+      "fact_id": "revision_total",
+      "label": "前两月合计上修",
+      "rendered": "前两个月合计上修 5.5 万人",
+      "value_rendered": "5.5 万人",
+      "raw_value": 55000,
+      "unit": "persons",
+      "period": "2026-08",
+      "source_block_ids": [
+        "B0052"
+      ],
+      "rule": "rendered by code; the model must place this string verbatim and must not restate the number in any other form"
+    },
+    {
+      "slot_id": "S13",
+      "fact_id": "unemployment_rate",
+      "label": "失业率",
+      "rendered": "失业率为 4.1%",
+      "value_rendered": "4.1%",
+      "raw_value": 4.1,
+      "unit": "percent",
+      "period": "2026-08",
+      "source_block_ids": [
+        "B0012"
+      ],
+      "rule": "rendered by code; the model must place this string verbatim and must not restate the number in any other form"
+    }
+  ],
+  "contract": "The generator receives these strings and must place each one verbatim. Unit and scale conversion never reaches the model, so a magnitude error in a mandatory fact is structurally impossible."
+}

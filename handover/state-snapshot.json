@@ -1,0 +1,1754 @@
+{
+  "generated_at": "2026-09-06T05:48:48.002452+00:00",
+  "repository_root": "/Users/fionama/Desktop/Crypto/Mango_Works/Finance_Distillation",
+  "git": {
+    "is_repository": false,
+    "branch": null,
+    "commit_sha": null,
+    "dirty_files": null
+  },
+  "runtime_versions": {
+    "python": "3.12.14",
+    "python_executable": "/Users/fionama/Desktop/Crypto/Mango_Works/Finance_Distillation/.venv/bin/python",
+    "platform": "macOS-26.1-arm64-arm-64bit",
+    "packages": {
+      "APScheduler": "3.11.3",
+      "Jinja2": "3.1.6",
+      "MarkupSafe": "3.0.3",
+      "PyJWT": "2.13.0",
+      "PyYAML": "6.0.3",
+      "Pygments": "2.21.0",
+      "annotated-doc": "0.0.5",
+      "annotated-types": "0.8.0",
+      "anyio": "4.15.1",
+      "appnope": "1.0.0",
+      "asttokens": "3.0.2",
+      "attrs": "26.1.0",
+      "beautifulsoup4": "4.15.0",
+      "bilibili-api-python": "17.4.2",
+      "brotli": "1.2.0",
+      "certifi": "2026.7.22",
+      "cffi": "2.1.1",
+      "charset-normalizer": "3.5.1",
+      "click": "8.5.0",
+      "cloudpickle": "3.1.2",
+      "colorama": "0.4.6",
+      "comm": "0.2.3",
+      "cryptography": "50.0.1",
+      "curl_cffi": "0.16.3",
+      "debugpy": "1.8.21",
+      "executing": "2.2.1",
+      "fastapi": "0.141.1",
+      "fastjsonschema": "2.22.2",
+      "filelock": "3.32.5",
+      "fsspec": "2026.7.0",
+      "gradio_client": "2.6.1",
+      "h11": "0.16.0",
+      "hf-xet": "1.6.0",
+      "httpcore": "1.0.9",
+      "httptools": "0.8.0",
+      "httpx": "0.28.1",
+      "httpx-sse": "0.4.3",
+      "huggingface_hub": "1.30.0",
+      "idna": "3.19",
+      "ipykernel": "7.3.0",
+      "ipython": "9.17.1",
+      "ipython_pygments_lexers": "1.1.1",
+      "jedi": "0.20.0",
+      "joblib": "1.6.0",
+      "jsonschema": "4.26.0",
+      "jsonschema-specifications": "2025.9.1",
+      "jupyter_client": "8.10.0",
+      "jupyter_core": "5.9.1",
+      "llvmlite": "0.49.0",
+      "lxml": "6.1.3",
+      "markdown-it-py": "4.2.0",
+      "matplotlib-inline": "0.2.2",
+      "mcp": "1.29.1",
+      "mdurl": "0.1.2",
+      "mlx": "0.32.2",
+      "mlx-lm": "0.31.3",
+      "mlx-metal": "0.32.2",
+      "mlx-whisper": "0.4.3",
+      "more-itertools": "11.1.0",
+      "mpmath": "1.3.0",
+      "multidict": "6.7.1",
+      "multitasking": "0.0.13",
+      "narwhals": "2.25.0",
+      "nbclient": "0.11.0",
+      "nbformat": "5.11.1",
+      "nest-asyncio2": "1.7.2",
+      "networkx": "3.6.1",
+      "numba": "0.67.0",
+      "numpy": "2.5.2",
+      "orjson": "3.12.0",
+      "packaging": "26.3",
+      "pandas": "3.0.5",
+      "parso": "0.8.7",
+      "peewee": "4.5.0",
+      "pexpect": "4.9.0",
+      "pillow": "12.3.0",
+      "platformdirs": "4.11.7",
+      "prompt_toolkit": "3.0.53",
+      "propcache": "0.5.2",
+      "protobuf": "7.36.1",
+      "psutil": "7.2.2",
+      "ptyprocess": "0.7.0",
+      "pure_eval": "0.2.3",
+      "pycparser": "3.0",
+      "pycryptodomex": "3.23.0",
+      "pydantic": "2.13.5",
+      "pydantic-settings": "2.15.0",
+      "pydantic_core": "2.46.5",
+      "python-dateutil": "2.9.0.post0",
+      "python-dotenv": "1.2.3",
+      "python-multipart": "0.0.32",
+      "pytz": "2026.3.post1",
+      "pyzmq": "27.2.0",
+      "qrcode": "8.2",
+      "qrcode-terminal": "0.8",
+      "referencing": "0.37.0",
+      "regex": "2026.9.3",
+      "requests": "2.34.2",
+      "rich": "15.0.0",
+      "rpds-py": "2026.6.3",
+      "safetensors": "0.8.0",
+      "scikit-learn": "1.9.0",
+      "scipy": "1.18.1",
+      "sec-edgar-mcp": "1.1.0",
+      "sec-edgar-toolkit": "0.2.0",
+      "sentence-transformers": "6.0.1",
+      "sentencepiece": "0.2.2",
+      "setuptools": "84.0.0",
+      "shellingham": "1.5.4",
+      "sherpa-onnx-core": "1.13.7",
+      "sherpa_onnx": "1.13.7",
+      "six": "1.17.0",
+      "socksio": "1.0.0",
+      "soupsieve": "2.9.2",
+      "sse-starlette": "3.4.11",
+      "stack-data": "0.6.3",
+      "starlette": "1.6.0",
+      "sympy": "1.14.0",
+      "threadpoolctl": "3.6.0",
+      "tiktoken": "0.14.0",
+      "tokenizers": "0.23.2",
+      "torch": "2.14.0",
+      "tornado": "6.5.8",
+      "tqdm": "4.70.0",
+      "trackio": "0.37.0",
+      "traitlets": "5.16.1",
+      "transformers": "5.16.1",
+      "typer": "0.27.2",
+      "typing-inspection": "0.4.4",
+      "typing_extensions": "4.16.0",
+      "tzlocal": "5.4.4",
+      "urllib3": "2.7.0",
+      "uvicorn": "0.52.4",
+      "uvloop": "0.22.1",
+      "watchfiles": "1.2.0",
+      "wcwidth": "0.8.3",
+      "websockets": "17.1",
+      "yarl": "1.24.5",
+      "yfinance": "1.7.0"
+    },
+    "external_executables": {
+      "ffmpeg": "/opt/homebrew/bin/ffmpeg",
+      "yt-dlp": "/Users/fionama/.local/bin/yt-dlp",
+      "node": "/usr/local/bin/node",
+      "bilibili": null
+    }
+  },
+  "environment_present": {
+    "XQUIK_API_KEY": false,
+    "RAPIDAPI_KEY": false,
+    "APIFY_API_TOKEN": false,
+    "SEC_EDGAR_USER_AGENT": false,
+    "HF_TOKEN": false,
+    "OPENAI_API_KEY": false,
+    "GROQ_API_KEY": false
+  },
+  "environment_scope": "current process only; no .env, cookies or user credentials opened",
+  "dataset": {
+    "raw": 2647,
+    "clean": 1825,
+    "raw_sha256": "c7447fe5ce4df96b16c92373db52dc3f93e5009911b7f9d793a9aa3aea756d5e",
+    "clean_sha256": "0ae5022f72f416571150f410b2219413c50c83bbcc6c3b6c9a510024afa0fe89",
+    "authors": [
+      {
+        "donor": "aleabitoreddit",
+        "raw": 455,
+        "clean": 404,
+        "clean_original_rule_financial": 240,
+        "languages": {
+          "en": 399,
+          "ja": 1,
+          "zh": 4
+        },
+        "post_types": {
+          "original": 240,
+          "quote": 164
+        },
+        "oldest": "2026-06-07T02:07:23+00:00",
+        "newest": "2026-09-05T08:11:29+00:00",
+        "complete_180d": false
+      },
+      {
+        "donor": "beth_kindig",
+        "raw": 20,
+        "clean": 18,
+        "clean_original_rule_financial": 15,
+        "languages": {
+          "en": 18
+        },
+        "post_types": {
+          "original": 15,
+          "quote": 3
+        },
+        "oldest": "2026-08-30T23:41:29+00:00",
+        "newest": "2026-09-05T16:59:39+00:00",
+        "complete_180d": false
+      },
+      {
+        "donor": "citrini",
+        "raw": 20,
+        "clean": 1,
+        "clean_original_rule_financial": 1,
+        "languages": {
+          "en": 1
+        },
+        "post_types": {
+          "original": 1
+        },
+        "oldest": "2026-08-27T08:28:38+00:00",
+        "newest": "2026-09-05T03:01:42+00:00",
+        "complete_180d": false
+      },
+      {
+        "donor": "ericjackson",
+        "raw": 20,
+        "clean": 3,
+        "clean_original_rule_financial": 3,
+        "languages": {
+          "en": 3
+        },
+        "post_types": {
+          "original": 3
+        },
+        "oldest": "2026-09-04T00:38:55+00:00",
+        "newest": "2026-09-05T17:05:45+00:00",
+        "complete_180d": false
+      },
+      {
+        "donor": "globalmktobserv",
+        "raw": 20,
+        "clean": 10,
+        "clean_original_rule_financial": 7,
+        "languages": {
+          "en": 10
+        },
+        "post_types": {
+          "original": 7,
+          "reply": 3
+        },
+        "oldest": "2026-09-04T14:03:15+00:00",
+        "newest": "2026-09-05T17:07:00+00:00",
+        "complete_180d": false
+      },
+      {
+        "donor": "kovainvest",
+        "raw": 405,
+        "clean": 226,
+        "clean_original_rule_financial": 99,
+        "languages": {
+          "en": 56,
+          "et": 1,
+          "ja": 3,
+          "zh": 166
+        },
+        "post_types": {
+          "original": 99,
+          "quote": 127
+        },
+        "oldest": "2026-06-07T12:43:50+00:00",
+        "newest": "2026-09-05T03:02:50+00:00",
+        "complete_180d": false
+      },
+      {
+        "donor": "michael_qqq2025",
+        "raw": 435,
+        "clean": 338,
+        "clean_original_rule_financial": 182,
+        "languages": {
+          "en": 16,
+          "ja": 4,
+          "zh": 318
+        },
+        "post_types": {
+          "original": 182,
+          "quote": 156
+        },
+        "oldest": "2026-06-08T00:33:23+00:00",
+        "newest": "2026-09-04T09:54:36+00:00",
+        "complete_180d": false
+      },
+      {
+        "donor": "phyrexni",
+        "raw": 500,
+        "clean": 357,
+        "clean_original_rule_financial": 13,
+        "languages": {
+          "ja": 1,
+          "zh": 356
+        },
+        "post_types": {
+          "original": 13,
+          "quote": 344
+        },
+        "oldest": "2026-07-22T16:04:53+00:00",
+        "newest": "2026-09-05T14:54:23+00:00",
+        "complete_180d": false
+      },
+      {
+        "donor": "qinbafrank",
+        "raw": 406,
+        "clean": 312,
+        "clean_original_rule_financial": 12,
+        "languages": {
+          "zh": 312
+        },
+        "post_types": {
+          "original": 12,
+          "quote": 300
+        },
+        "oldest": "2026-07-01T04:07:18+00:00",
+        "newest": "2026-09-05T13:27:46+00:00",
+        "complete_180d": false
+      },
+      {
+        "donor": "rjccapital",
+        "raw": 20,
+        "clean": 3,
+        "clean_original_rule_financial": 2,
+        "languages": {
+          "en": 3
+        },
+        "post_types": {
+          "original": 2,
+          "reply": 1
+        },
+        "oldest": "2026-08-18T23:39:19+00:00",
+        "newest": "2026-09-01T22:51:46+00:00",
+        "complete_180d": false
+      },
+      {
+        "donor": "tradexwhisperer",
+        "raw": 20,
+        "clean": 4,
+        "clean_original_rule_financial": 3,
+        "languages": {
+          "en": 4
+        },
+        "post_types": {
+          "original": 3,
+          "quote": 1
+        },
+        "oldest": "2026-09-04T23:54:44+00:00",
+        "newest": "2026-09-05T15:56:54+00:00",
+        "complete_180d": false
+      },
+      {
+        "donor": "xingpt",
+        "raw": 326,
+        "clean": 149,
+        "clean_original_rule_financial": 131,
+        "languages": {
+          "ja": 1,
+          "zh": 148
+        },
+        "post_types": {
+          "original": 131,
+          "quote": 18
+        },
+        "oldest": "2026-06-08T12:51:44+00:00",
+        "newest": "2026-09-05T14:55:05+00:00",
+        "complete_180d": false
+      }
+    ],
+    "author_count": 12,
+    "raw_languages": {
+      "art": 5,
+      "en": 678,
+      "es": 1,
+      "et": 1,
+      "fr": 1,
+      "ht": 2,
+      "in": 1,
+      "ja": 32,
+      "ko": 1,
+      "qam": 1,
+      "qht": 2,
+      "qme": 4,
+      "tl": 1,
+      "und": 2,
+      "zh": 1822,
+      "zxx": 93
+    },
+    "clean_languages": {
+      "en": 510,
+      "et": 1,
+      "ja": 10,
+      "zh": 1304
+    },
+    "platform_counts": {
+      "x_raw": 2647,
+      "x_clean": 1825,
+      "youtube_segments": 149,
+      "bilibili_segments": 0
+    },
+    "real_vs_fixture": {
+      "raw_imported_real_provider_records": 2647,
+      "clean_derived_from_imports": 1825,
+      "explicit_fixture_rows_in_these_files": 0,
+      "independently_revalidated_all_raw_posts": false,
+      "all_archive_fixture_count": null
+    },
+    "missing_raw_provenance": {
+      "post_id": 0,
+      "stable_author_id": 0,
+      "url": 0,
+      "created_at": 0,
+      "collected_at": 2527,
+      "provider_run_id": 120,
+      "raw_payload_hash": 0,
+      "thread_id": 0
+    },
+    "human_label_rows": 0,
+    "review_rows": 517
+  },
+  "drafts": {
+    "database_kinds": {
+      "diagram": 3,
+      "edit": 2,
+      "evidence": 2,
+      "legacy_invalid_output": 45,
+      "quarantined-generation": 37
+    },
+    "legacy_invalid": 45,
+    "legacy_json_files": 45,
+    "valid": 0,
+    "human_reviews": 0,
+    "new_case_statuses": {
+      "failed": 3,
+      "running": 1
+    },
+    "new_completed_cases": 0,
+    "cases": [
+      {
+        "id": "case-0efa90d2caaf",
+        "condition": "base_model",
+        "persona_id": "trading",
+        "recorded_status": "failed",
+        "effective_status": "failed",
+        "plan_run_id": "local-fe12c820ba964ad9",
+        "generation_run_id": null,
+        "error": "JSONDecodeError: Unterminated string starting at: line 33 column 18 (char 1069)"
+      },
+      {
+        "id": "case-21b8d4f70185",
+        "condition": "simple_persona_prompt",
+        "persona_id": "macro",
+        "recorded_status": "running",
+        "effective_status": "interrupted_by_handover",
+        "plan_run_id": "local-e34f0c6259364bd3",
+        "generation_run_id": null,
+        "error": null
+      },
+      {
+        "id": "case-3805e3a232c8",
+        "condition": "base_model",
+        "persona_id": "macro",
+        "recorded_status": "failed",
+        "effective_status": "failed",
+        "plan_run_id": "local-a1ec004c02684efa",
+        "generation_run_id": null,
+        "error": "JSONDecodeError: Unterminated string starting at: line 33 column 18 (char 1069)"
+      },
+      {
+        "id": "case-4b1357a15932",
+        "condition": "base_model",
+        "persona_id": "industry",
+        "recorded_status": "failed",
+        "effective_status": "failed",
+        "plan_run_id": "local-c0e9e6ecc18e4adb",
+        "generation_run_id": null,
+        "error": "JSONDecodeError: Unterminated string starting at: line 33 column 18 (char 1069)"
+      }
+    ]
+  },
+  "profiles": {
+    "created_at": "2026-09-06T05:06:15.698255+00:00",
+    "donors": [
+      {
+        "donor": "0xbeyondlee",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "025ea010c350a231"
+      },
+      {
+        "donor": "0xdahua",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "1075557d71b970e0"
+      },
+      {
+        "donor": "0xdiyaaa",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "c19ea0d372eb9771"
+      },
+      {
+        "donor": "0xscottbtc",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "454b7ba82ac6a908"
+      },
+      {
+        "donor": "0xtiger666",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "de1f486193ae8699"
+      },
+      {
+        "donor": "0xxsmart",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "37f45497e1ac56a9"
+      },
+      {
+        "donor": "0xzhaozhao",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "1ebebddd71eea7b0"
+      },
+      {
+        "donor": "1kbxx",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "b14a9474b37a1122"
+      },
+      {
+        "donor": "_forab",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "6e81aa674c28593f"
+      },
+      {
+        "donor": "_wmoon",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "21b79ab998e55193"
+      },
+      {
+        "donor": "aleabitoreddit",
+        "sample_n": 404,
+        "status": "empirical_surface_profile_unvalidated",
+        "version": "57bb2c3df62d346e",
+        "window": {
+          "start": "2026-06-07T02:07:23+00:00",
+          "end": "2026-09-05T08:11:29+00:00",
+          "complete_timeline": false
+        }
+      },
+      {
+        "donor": "artinmemes",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "22d2339a19dacd59"
+      },
+      {
+        "donor": "balder13946731",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "3f7cd81331c43e9f"
+      },
+      {
+        "donor": "bboczeng",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "3ed3b4aa1c47a664"
+      },
+      {
+        "donor": "beth_kindig",
+        "sample_n": 18,
+        "status": "empirical_surface_profile_unvalidated",
+        "version": "cb2ee3a9c2d27bd5",
+        "window": {
+          "start": "2026-08-30T23:41:29+00:00",
+          "end": "2026-09-05T16:59:39+00:00",
+          "complete_timeline": false
+        }
+      },
+      {
+        "donor": "billtheinvestor",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "9c198f85b5ffe1c3"
+      },
+      {
+        "donor": "bruceblue",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "cc32ca292add787c"
+      },
+      {
+        "donor": "btcbruce1",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "030cb852a810676d"
+      },
+      {
+        "donor": "btcxiaoyuan",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "397076efdc886c17"
+      },
+      {
+        "donor": "calvintsaikm",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "45e5aea7a615eba2"
+      },
+      {
+        "donor": "citrini",
+        "sample_n": 1,
+        "status": "empirical_surface_profile_unvalidated",
+        "version": "bad2915a8dfed13a",
+        "window": {
+          "start": "2026-09-04T18:41:53+00:00",
+          "end": "2026-09-04T18:41:53+00:00",
+          "complete_timeline": false
+        }
+      },
+      {
+        "donor": "cnfinancewatch",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "69e9083bffbe10e0"
+      },
+      {
+        "donor": "cyrilxuq",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "eed87731279dd2d3"
+      },
+      {
+        "donor": "daxianvip",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "6196d0bb917909e4"
+      },
+      {
+        "donor": "ericjackson",
+        "sample_n": 3,
+        "status": "empirical_surface_profile_unvalidated",
+        "version": "28bfab9a425f6e20",
+        "window": {
+          "start": "2026-09-04T00:38:55+00:00",
+          "end": "2026-09-05T14:23:53+00:00",
+          "complete_timeline": false
+        }
+      },
+      {
+        "donor": "evacmore",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "93dfa2268800c8b7"
+      },
+      {
+        "donor": "fi56622380",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "b794991c716cc7a6"
+      },
+      {
+        "donor": "financelancelot",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "db3dc667debd3401"
+      },
+      {
+        "donor": "findingyouredg",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "32c42f4878630cb3"
+      },
+      {
+        "donor": "fxtrader",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "3e3a3326190b5e39"
+      },
+      {
+        "donor": "globalmktobserv",
+        "sample_n": 10,
+        "status": "empirical_surface_profile_unvalidated",
+        "version": "40805bc65f09410a",
+        "window": {
+          "start": "2026-09-04T15:22:00+00:00",
+          "end": "2026-09-05T15:31:03+00:00",
+          "complete_timeline": false
+        }
+      },
+      {
+        "donor": "highfree2028",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "0a8b7e60042e03e4"
+      },
+      {
+        "donor": "kovainvest",
+        "sample_n": 226,
+        "status": "empirical_surface_profile_unvalidated",
+        "version": "76ca5733ff05a2fb",
+        "window": {
+          "start": "2026-06-07T12:43:50+00:00",
+          "end": "2026-09-03T17:17:31+00:00",
+          "complete_timeline": false
+        }
+      },
+      {
+        "donor": "labspeculation",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "1a7349f62b15240b"
+      },
+      {
+        "donor": "macromargin",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "fd7d0df967584367"
+      },
+      {
+        "donor": "maojietrading",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "ef44eedbb0890c80"
+      },
+      {
+        "donor": "memekiller365",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "86d7b47f9dc7d8e0"
+      },
+      {
+        "donor": "michael_qqq2025",
+        "sample_n": 338,
+        "status": "empirical_surface_profile_unvalidated",
+        "version": "369f08ddb594be17",
+        "window": {
+          "start": "2026-06-08T02:04:12+00:00",
+          "end": "2026-09-04T09:54:36+00:00",
+          "complete_timeline": false
+        }
+      },
+      {
+        "donor": "mingchikuo",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "f530b55722ec81b4"
+      },
+      {
+        "donor": "nbblock",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "757e2bbc70e51f60"
+      },
+      {
+        "donor": "octopusycc",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "0b4ec3ca0c00a99f"
+      },
+      {
+        "donor": "ouyangzhuaibai",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "a7c91eb47e4e20cb"
+      },
+      {
+        "donor": "phyrexni",
+        "sample_n": 357,
+        "status": "empirical_surface_profile_unvalidated",
+        "version": "20a425e16369ae8f",
+        "window": {
+          "start": "2026-07-22T16:04:53+00:00",
+          "end": "2026-09-05T13:01:03+00:00",
+          "complete_timeline": false
+        }
+      },
+      {
+        "donor": "qinbafrank",
+        "sample_n": 312,
+        "status": "empirical_surface_profile_unvalidated",
+        "version": "a8e2585d5d288be0",
+        "window": {
+          "start": "2026-07-01T05:23:35+00:00",
+          "end": "2026-09-05T13:27:46+00:00",
+          "complete_timeline": false
+        }
+      },
+      {
+        "donor": "rjccapital",
+        "sample_n": 3,
+        "status": "empirical_surface_profile_unvalidated",
+        "version": "827e120116bb7ff9",
+        "window": {
+          "start": "2026-08-19T11:54:45+00:00",
+          "end": "2026-08-30T15:52:26+00:00",
+          "complete_timeline": false
+        }
+      },
+      {
+        "donor": "rtk17025",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "98ea448878b2b25a"
+      },
+      {
+        "donor": "sofigoodboy",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "4926619b4f20ce03"
+      },
+      {
+        "donor": "subutrade",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "cde4547ca901b435"
+      },
+      {
+        "donor": "svscholar",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "04aacaba6e218d25"
+      },
+      {
+        "donor": "tj_research",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "69427cc8709a7d4e"
+      },
+      {
+        "donor": "tmel0211",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "ec04503d77788a9f"
+      },
+      {
+        "donor": "traders18",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "9953cb335fdf5f13"
+      },
+      {
+        "donor": "tradexwhisperer",
+        "sample_n": 4,
+        "status": "empirical_surface_profile_unvalidated",
+        "version": "54e3f702afbd2f6c",
+        "window": {
+          "start": "2026-09-05T00:43:18+00:00",
+          "end": "2026-09-05T15:56:54+00:00",
+          "complete_timeline": false
+        }
+      },
+      {
+        "donor": "unclestocknotes",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "1d4707349dc2f610"
+      },
+      {
+        "donor": "vida_bwe",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "9c6038e89ddd8698"
+      },
+      {
+        "donor": "wufantouzi",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "5233d21550f13bc8"
+      },
+      {
+        "donor": "xiaomustock",
+        "sample_n": 0,
+        "status": "candidate_no_real_posts",
+        "knowledge": {},
+        "reasoning": {},
+        "style": {},
+        "content_habit": {},
+        "visual": {},
+        "listed_language_used_for_profile": false,
+        "version": "0d996ed44d0c7a1e"
+      },
+      {
+        "donor": "xingpt",
+        "sample_n": 149,
+        "status": "empirical_surface_profile_unvalidated",
+        "version": "f2d0b42f270e956b",
+        "window": {
+          "start": "2026-06-09T04:34:18+00:00",
+          "end": "2026-09-05T09:34:44+00:00",
+          "complete_timeline": false
+        }
+      }
+    ],
+    "observed_donor_count": 12,
+    "candidate_with_no_posts": 46,
+    "methods_file": "evidence_loop/build_profiles.py",
+    "legacy_inputs": 0
+  },
+  "videos": {
+    "updated_at": "2026-09-06T05:15:24.808521+00:00",
+    "videos": [
+      {
+        "platform": "youtube",
+        "video_id": "01s3YdYUCcU",
+        "channel_id": "UCBUH38E0ngqvmTqdchWunwQ",
+        "channel": "美投讲美股",
+        "title": "为何软件股集体大涨？AI新风口浮出水面！哪些公司能做实反转？",
+        "published_at": "2026-09-06T02:03:58+00:00",
+        "original_url": "https://www.youtube.com/watch?v=01s3YdYUCcU",
+        "duration": 1322,
+        "status": "metadata_only",
+        "transcript_segments": 0
+      },
+      {
+        "platform": "youtube",
+        "video_id": "6weg9-YmGVs",
+        "channel_id": "UC0lbAQVpenvfA2QqzsRtL_g",
+        "channel": "游庭皓的財經皓角",
+        "title": "2026/9/4(五)沒人接盤 債市要變天?2027兆元帳單來了 美股內部出現裂痕?【早晨財經速解讀】",
+        "published_at": "2026-09-04T01:12:44+00:00",
+        "original_url": "https://www.youtube.com/watch?v=6weg9-YmGVs",
+        "duration": 2199,
+        "status": "transcript_ready",
+        "caption_source": "auto_caption",
+        "raw_cues": 1172,
+        "transcript_segments": 47,
+        "raw_sha256": "4a9af7bdea567124c8d4bc01bd5a0d7ca1422973cfee0ee25614c3aeb6bbaa90",
+        "transcript_fingerprint": "9597f0017d370861dfb08ddd8ce759dede4da0abe4a65f20dd31272563b26105",
+        "speaker_status": "not_run",
+        "speaker_count": 0,
+        "full_transcript_path": "6weg9-YmGVs.full.txt",
+        "short_post_style_eligible": false
+      },
+      {
+        "platform": "bilibili",
+        "video_id": "BV1eubj6GEaV",
+        "channel_id": "260595181",
+        "channel": "川叔叔Chris",
+        "title": "8月非农爆表，9月大戏进入高潮",
+        "published_at": "2026-09-05T12:01:24+00:00",
+        "original_url": "https://www.bilibili.com/video/BV1eubj6GEaV",
+        "duration": 423,
+        "status": "metadata_only",
+        "transcript_segments": 0
+      },
+      {
+        "platform": "bilibili",
+        "video_id": "BV1qMt26hEGs",
+        "channel_id": "3546691548481970",
+        "channel": "笨鸟不会飞怎么飞",
+        "title": "非农定不了美国加息。一图看懂非农与CPI",
+        "published_at": "2026-09-05T11:10:37+00:00",
+        "original_url": "https://www.bilibili.com/video/BV1qMt26hEGs",
+        "duration": 750,
+        "status": "metadata_only",
+        "transcript_segments": 0
+      },
+      {
+        "platform": "bilibili",
+        "video_id": "BV1xS4y1x7Tp",
+        "channel_id": "490965410",
+        "channel": "Jim做交易",
+        "title": "如何做交易的【风险管理】｜8年交易经验总结【Jim】",
+        "published_at": "2022-07-31T06:45:32+00:00",
+        "original_url": "https://www.bilibili.com/video/BV1xS4y1x7Tp",
+        "duration": 774,
+        "status": "metadata_only",
+        "transcript_segments": 0
+      },
+      {
+        "platform": "youtube",
+        "video_id": "VFPlA2c5MfI",
+        "channel_id": "UCfD3rq06LaA8wc3s2m3LwRQ",
+        "channel": "Brian Shannon",
+        "title": "Live Technical Analysis Masterclass 8/19/26",
+        "published_at": "2026-08-20T01:57:00+00:00",
+        "original_url": "https://www.youtube.com/watch?v=VFPlA2c5MfI",
+        "duration": 2469,
+        "status": "transcript_ready",
+        "caption_source": "auto_caption",
+        "raw_cues": 2761,
+        "transcript_segments": 75,
+        "raw_sha256": "55e2ec80608f63ee2a775d4132beaa980a489620f3fdac396ecfd20c2650baad",
+        "transcript_fingerprint": "b40b35143ef26189eb86a200658c00e32c1da311768837e01ccacd8b7733c15d",
+        "speaker_status": "not_run",
+        "speaker_count": 0,
+        "full_transcript_path": "VFPlA2c5MfI.full.txt",
+        "short_post_style_eligible": false
+      },
+      {
+        "platform": "youtube",
+        "video_id": "tOk7gGe_jj0",
+        "channel_id": "UCw-jPIEG5-_DEs0AXhyb3ww",
+        "channel": "The Quant Brief",
+        "title": "Payrolls Beat Triples Estimates, Stocks Fall · Sep 4, 2026 PM",
+        "published_at": "2026-09-05T17:18:48+00:00",
+        "original_url": "https://www.youtube.com/watch?v=tOk7gGe_jj0",
+        "duration": 1203,
+        "status": "transcript_ready",
+        "caption_source": "auto_caption",
+        "raw_cues": 1037,
+        "transcript_segments": 27,
+        "raw_sha256": "20507f3e06bb99a9d5af265623f9070282a150d1e024e06ee5f8397040d59251",
+        "transcript_fingerprint": "286208bfdffcc39c095d3cd9aa8d8c39c4864c5a0cf0100880e174835ad20218",
+        "speaker_status": "not_run",
+        "speaker_count": 0,
+        "full_transcript_path": "tOk7gGe_jj0.full.txt",
+        "short_post_style_eligible": false
+      }
+    ],
+    "segments": 149,
+    "knowledge_eligible_segments": 108,
+    "raw_retention": "Permanent full captions and timestamped segments; no summary-first reduction",
+    "cross_platform_dedup": [],
+    "short_post_style_segments": 0
+  },
+  "source": {
+    "id": "bls-employment-2026-08",
+    "published_at": "2026-09-04T08:30:00-04:00",
+    "observed_at": "2026-09-06T04:58:36.271245+00:00",
+    "primary_url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+    "artifact_sha256": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6",
+    "artifact_kind": "full_text_derivative_not_original_pdf_bytes",
+    "coverage": {
+      "pages_declared": 39,
+      "all_text_retained": true,
+      "table_ids": [
+        "A-1",
+        "A-10",
+        "A-11",
+        "A-12",
+        "A-13",
+        "A-14",
+        "A-15",
+        "A-16",
+        "A-2",
+        "A-3",
+        "A-4",
+        "A-5",
+        "A-6",
+        "A-7",
+        "A-8",
+        "A-9",
+        "B-1",
+        "B-2",
+        "B-3",
+        "B-4",
+        "B-5",
+        "B-6",
+        "B-7",
+        "B-8",
+        "B-9"
+      ],
+      "numeric_blocks_retained": 321,
+      "typed_fact_count": 51,
+      "required_core_ids": [
+        "ahe_mom",
+        "ahe_yoy",
+        "food",
+        "health",
+        "information",
+        "local_education",
+        "part_time_decline",
+        "participation",
+        "payroll",
+        "payroll_12m_mean",
+        "revision_total",
+        "unemployment_rate"
+      ],
+      "required_core_pass": true,
+      "table_cells_normalized": false,
+      "limitation": "Complete document and numeric passages are retained; typed registry covers the narrative. Table-only cells require targeted extraction, not absence claims."
+    },
+    "version": "75155f58f5a995e3"
+  },
+  "api": {
+    "counting_rule": "Recorded operations and on-wire HTTP requests are different units. Do not sum local model JSON and duplicate ledger entries. No inference from quota deltas or imported post counts.",
+    "x_inherited_import": {
+      "input_files": 5,
+      "import_runs": 6,
+      "new_requests": 0,
+      "historical_provider_requests": null,
+      "historical_pages": null,
+      "evidence": "data/corpus_manifest.json; data/raw_posts.jsonl; runs/api_run_ledger.jsonl",
+      "payload_scope": "inherited_normalized_post_not_original_network_response"
+    },
+    "rapidapi_phase0": {
+      "host": "twitter241.p.rapidapi.com",
+      "recorded_http_requests": 6,
+      "statuses": {
+        "200": 6
+      },
+      "accounts": [
+        "PhyrexNi",
+        "vikramskr",
+        "fi56622380"
+      ],
+      "timeline_pages": 3,
+      "requests": [
+        {
+          "endpoint": "/user",
+          "params": {
+            "username": "PhyrexNi"
+          },
+          "status": 200
+        },
+        {
+          "endpoint": "/user-tweets",
+          "params": {
+            "user": "555634740",
+            "count": "20"
+          },
+          "status": 200
+        },
+        {
+          "endpoint": "/user",
+          "params": {
+            "username": "vikramskr"
+          },
+          "status": 200
+        },
+        {
+          "endpoint": "/user-tweets",
+          "params": {
+            "user": "1328394486402093057",
+            "count": "20"
+          },
+          "status": 200
+        },
+        {
+          "endpoint": "/user",
+          "params": {
+            "username": "fi56622380"
+          },
+          "status": 200
+        },
+        {
+          "endpoint": "/user-tweets",
+          "params": {
+            "user": "1503621835136462849",
+            "count": "20"
+          },
+          "status": 200
+        }
+      ],
+      "response_scope": "sanitized metadata/previews, not complete wire responses",
+      "cost": null,
+      "evidence": "historical_workspace/outputs/architecture-review/evidence/rapidapi_probe.json"
+    },
+    "xquik": {
+      "recorded_requests": 0,
+      "pages": 0,
+      "enabled": false,
+      "cost_estimate": null,
+      "evidence": "backend/app.py status(); data/corpus_manifest.json; skill-audit/audit.md"
+    },
+    "local_mlx": {
+      "recorded_attempts": 727,
+      "statuses": {
+        "completed": 722,
+        "failed": 2,
+        "started": 3
+      },
+      "responses_saved": 722,
+      "tasks": {
+        "A_finance_classification": 60,
+        "comparison_smoke": 2,
+        "cross_language_en_to_zh": 1,
+        "cross_language_zh_to_en": 1,
+        "evidence_loop_draft": 1,
+        "evidence_loop_independent_plan": 4,
+        "finance_classification_comparison": 383,
+        "framework_single_candidate_support": 15,
+        "guarded_cross_language": 2,
+        "guarded_independent_plan": 2,
+        "guarded_persona_draft": 3,
+        "guarded_v3_independent_plan": 44,
+        "guarded_v3_persona_draft": 84,
+        "guarded_v3_semantic_diagnostic": 12,
+        "guarded_v4_independent_plan": 6,
+        "guarded_v4_persona_draft": 12,
+        "guarded_v4_semantic_diagnostic": 4,
+        "independent_analysis_plan": 32,
+        "knowledge_entailment_diagnostic": 5,
+        "knowledge_framework_extraction": 7,
+        "knowledge_framework_indexed_v2": 11,
+        "modern_explicit_measure_probe": 1,
+        "modern_fact_contract_probe": 1,
+        "persona_draft": 32,
+        "smoke": 2
+      },
+      "target": "127.0.0.1:8681/8682/8683 /v1/chat/completions",
+      "paid_api_cost": 0,
+      "started_record_is_not_proof_of_dispatch": true,
+      "evidence": "runs/model_calls/*.json; runs/api_run_ledger.jsonl"
+    },
+    "bls_previous": {
+      "recorded_operations": 3,
+      "status": "failed",
+      "http_status_codes": null,
+      "evidence": "runs/api_run_ledger.jsonl primary_public_source_fetch"
+    },
+    "bls_full": {
+      "recorded_http_requests": 2,
+      "targets": {
+        "bls-full-pdf": {
+          "url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+          "status": 403,
+          "sha256": "743b00860fc90095f47067825664dc2e45754ecaa0cb8dd9eef0293884954c4b",
+          "at": "2026-09-06T04:36:38.222008+00:00"
+        },
+        "bls-full-reader": {
+          "url": "https://r.jina.ai/https://www.bls.gov/news.release/pdf/empsit.pdf",
+          "status": 200,
+          "sha256": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6",
+          "at": "2026-09-06T04:36:38.223742+00:00"
+        }
+      },
+      "evidence": "evidence_loop/sources/acquisition.json"
+    },
+    "nvidia_pdf": {
+      "recorded_http_requests": 2,
+      "statuses": [
+        302,
+        200
+      ],
+      "evidence": "runs/official-pdf-capture.json; data/evidence/nvidia-q2-fy2027-10q.pdf"
+    },
+    "yahoo": {
+      "recorded_operations": [
+        "earnings_history",
+        "earnings_estimate",
+        "revenue_estimate"
+      ],
+      "target": "NVDA",
+      "operation_status": "3 completed, 4 rows per operation",
+      "wire_requests": null,
+      "evidence": "data/finance_supplement/nvda.json; runs/api_run_ledger.jsonl"
+    },
+    "x_photo_assets": {
+      "target": "pbs.twimg.com",
+      "recorded_http_requests": 24,
+      "statuses": {
+        "200": 24
+      },
+      "evidence": "evidence_loop/visual/assets.json"
+    },
+    "video_discovery": {
+      "youtube_cli_operations": 3,
+      "bilibili_recorded_search_http_requests": 2,
+      "bilibili_search_pages_each": 1,
+      "total_wire_requests": null,
+      "evidence": "evidence_loop/transcripts/discovery/runs.json"
+    },
+    "video_acquisition": {
+      "youtube_metadata_files": 4,
+      "youtube_transcripts_ready": 3,
+      "bilibili_metadata_requests_saved": 9,
+      "bilibili_http_statuses": {
+        "200": 9
+      },
+      "bilibili_transcripts_ready": 0,
+      "audio_statuses": {
+        "audio_failed": 4,
+        "audio_ready": 3
+      },
+      "complete_wire_request_count": null,
+      "evidence": "evidence_loop/transcripts/acquisitions/; audio-runs/; *.acquisition.log; *.audio.log",
+      "limitations": [
+        "yt-dlp internal HTTP requests are not individually journaled",
+        "Retry scripts overwrote some acquisition records/logs before handover; complete attempt count is unrecoverable from saved artifacts",
+        "Three Bilibili audio downloads are operations, not proof of three underlying HTTP requests"
+      ]
+    },
+    "sec_edgar_mcp": {
+      "enabled": false,
+      "recorded_calls": 0,
+      "evidence": "runs/sec-mcp-preflight.json; skill-audit/sec-edgar-mcp.disabled.json"
+    },
+    "other_public_research_and_weight_downloads": {
+      "wire_requests": null,
+      "cost": null,
+      "evidence": "skill-audit/skills.lock.json; evidence_loop/video-audit.json; *model-lock.json; historical_workspace/work/repo-audit/",
+      "limitation": "Hashes prove retained files, not a complete request journal"
+    }
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/api/status",
+      "function": "status",
+      "file": "backend/app.py",
+      "line": 47
+    },
+    {
+      "method": "GET",
+      "path": "/api/corpus",
+      "function": "corpus",
+      "file": "backend/app.py",
+      "line": 49
+    },
+    {
+      "method": "GET",
+      "path": "/api/profiles/{donor}",
+      "function": "profiles",
+      "file": "backend/app.py",
+      "line": 53
+    },
+    {
+      "method": "GET",
+      "path": "/api/personas",
+      "function": "personas",
+      "file": "backend/app.py",
+      "line": 57
+    },
+    {
+      "method": "GET",
+      "path": "/api/experiments",
+      "function": "experiments",
+      "file": "backend/app.py",
+      "line": 59
+    },
+    {
+      "method": "GET",
+      "path": "/api/finance-supplement",
+      "function": "finance_supplement",
+      "file": "backend/app.py",
+      "line": 61
+    },
+    {
+      "method": "GET",
+      "path": "/api/evidence-image/nvidia-income.png",
+      "function": "evidence_image",
+      "file": "backend/app.py",
+      "line": 63
+    },
+    {
+      "method": "GET",
+      "path": "/api/evidence-original/nvidia-10q.pdf",
+      "function": "evidence_original",
+      "file": "backend/app.py",
+      "line": 65
+    },
+    {
+      "method": "GET",
+      "path": "/api/promotion-audit",
+      "function": "promotion_audit",
+      "file": "backend/app.py",
+      "line": 67
+    },
+    {
+      "method": "GET",
+      "path": "/api/editorial-reviews/{rid}",
+      "function": "editorial_reviews",
+      "file": "backend/app.py",
+      "line": 69
+    },
+    {
+      "method": "POST",
+      "path": "/api/personas",
+      "function": "edit_persona",
+      "file": "backend/app.py",
+      "line": 75
+    },
+    {
+      "method": "GET",
+      "path": "/api/events",
+      "function": "events",
+      "file": "backend/app.py",
+      "line": 86
+    },
+    {
+      "method": "POST",
+      "path": "/api/evidence",
+      "function": "ingest",
+      "file": "backend/app.py",
+      "line": 90
+    },
+    {
+      "method": "POST",
+      "path": "/api/generate",
+      "function": "generate_api",
+      "file": "backend/app.py",
+      "line": 138
+    },
+    {
+      "method": "GET",
+      "path": "/api/drafts",
+      "function": "drafts",
+      "file": "backend/app.py",
+      "line": 144
+    },
+    {
+      "method": "GET",
+      "path": "/api/drafts/{rid}",
+      "function": "draft",
+      "file": "backend/app.py",
+      "line": 146
+    },
+    {
+      "method": "POST",
+      "path": "/api/edits",
+      "function": "edit",
+      "file": "backend/app.py",
+      "line": 152
+    },
+    {
+      "method": "GET",
+      "path": "/api/history",
+      "function": "history",
+      "file": "backend/app.py",
+      "line": 158
+    },
+    {
+      "method": "GET",
+      "path": "/api/chart/{rid}.svg",
+      "function": "chart",
+      "file": "backend/app.py",
+      "line": 166
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagram/{rid}",
+      "function": "get_diagram",
+      "file": "backend/app.py",
+      "line": 180
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagram-image/{rid}.svg",
+      "function": "diagram_image",
+      "file": "backend/app.py",
+      "line": 199
+    },
+    {
+      "method": "POST",
+      "path": "/api/diagram",
+      "function": "diagram",
+      "file": "backend/app.py",
+      "line": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/export/{rid}",
+      "function": "export",
+      "file": "backend/app.py",
+      "line": 210
+    },
+    {
+      "method": "GET",
+      "path": "/api/blind",
+      "function": "blind",
+      "file": "backend/app.py",
+      "line": 222
+    },
+    {
+      "method": "POST",
+      "path": "/api/blind-review",
+      "function": "review",
+      "file": "backend/app.py",
+      "line": 239
+    },
+    {
+      "method": "GET",
+      "path": "/",
+      "function": "index",
+      "file": "backend/app.py",
+      "line": 244
+    }
+  ]
+}

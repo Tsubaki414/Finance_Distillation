@@ -1,0 +1,161 @@
+{
+  "note": "Four accounts. Same beat in two languages is deliberately NOT a translation pair: each account selects and reasons on its own, so the two macro accounts must not ship the same argument in two languages. Enforced by live/opportunities.py (independent selection) and a cross-account distinctness check.",
+  "publishing": "out of scope for now. The pipeline ends at a publish-ready queue; the posting action is not automated.",
+  "daily_target": {
+    "min": 1,
+    "max": 2,
+    "per": "account",
+    "may_publish_nothing": true,
+    "why": "an account with nothing worth saying should say nothing"
+  },
+  "accounts": [
+    {
+      "id": "zh_macro",
+      "name": "中文 · 宏观与资金流",
+      "lang": "zh",
+      "persona_id": "macro",
+      "beats": [
+        "fed_policy",
+        "inflation",
+        "jobs",
+        "yen_fx",
+        "tariffs",
+        "china_policy",
+        "oil"
+      ],
+      "lanes": [
+        "hot_signal",
+        "scheduled_catalyst",
+        "cross_language_gap",
+        "prediction_ledger",
+        "deep_research"
+      ],
+      "formats": [
+        "x_post",
+        "x_thread",
+        "brief"
+      ],
+      "audience": "中文读者，已经在看盘，要的是判断与失效条件，不是新闻复述",
+      "language_donor": {
+        "handle": "qinbafrank",
+        "why": "宏观与资金流同题材，中文语料最深的宏观作者",
+        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者"
+      }
+    },
+    {
+      "id": "en_macro",
+      "name": "EN · Macro & Flows",
+      "lang": "en",
+      "persona_id": "macro",
+      "beats": [
+        "fed_policy",
+        "inflation",
+        "jobs",
+        "yen_fx",
+        "tariffs",
+        "oil"
+      ],
+      "lanes": [
+        "hot_signal",
+        "scheduled_catalyst",
+        "cross_language_gap",
+        "deep_research"
+      ],
+      "formats": [
+        "x_post",
+        "x_thread",
+        "reddit"
+      ],
+      "audience": "international readers who did not see the Chinese-language discussion",
+      "language_donor": {
+        "handle": "globalmktobserv",
+        "why": "英文宏观，语料量刚够建立区间",
+        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
+        "beat_fit": {
+          "macro_score": 1.51,
+          "industry_score": 0.95,
+          "n": 77,
+          "rank_among_english_candidates": 1
+        },
+        "selected_from": "21 位有足够语料的英文 donor（英文 KOL 表导入后），按其历史帖中该题材词频与样本量选出，不是「谁语料够多用谁」"
+      }
+    },
+    {
+      "id": "zh_industry",
+      "name": "中文 · 个股与产业链",
+      "lang": "zh",
+      "persona_id": "industry",
+      "beats": [
+        "ai_capex",
+        "earnings",
+        "china_policy"
+      ],
+      "lanes": [
+        "hot_signal",
+        "scheduled_catalyst",
+        "cross_language_gap",
+        "deep_research"
+      ],
+      "formats": [
+        "x_post",
+        "x_thread",
+        "xiaohongshu"
+      ],
+      "audience": "中文读者，关心供应链传导与成本，要能回到财报与原始披露",
+      "language_donor": {
+        "handle": "xingpt",
+        "why": "半导体与产业链同题材，中文",
+        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者"
+      }
+    },
+    {
+      "id": "en_industry",
+      "name": "EN · Single Names & Supply Chain",
+      "lang": "en",
+      "persona_id": "industry",
+      "beats": [
+        "ai_capex",
+        "earnings"
+      ],
+      "lanes": [
+        "hot_signal",
+        "cross_language_gap",
+        "deep_research"
+      ],
+      "formats": [
+        "x_post",
+        "x_thread",
+        "reddit"
+      ],
+      "audience": "international readers tracking the same supply chain from the other side",
+      "language_donor": {
+        "handle": "beth_kindig",
+        "why": "英文科技个股，语料量最深的英文作者",
+        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
+        "beat_fit": {
+          "macro_score": 0.18,
+          "industry_score": 1.59,
+          "n": 111,
+          "rank_among_english_candidates": 1
+        },
+        "selected_from": "21 位有足够语料的英文 donor（英文 KOL 表导入后），按其历史帖中该题材词频与样本量选出，不是「谁语料够多用谁」"
+      }
+    }
+  ],
+  "unassigned_personas": [
+    {
+      "persona_id": "trading",
+      "why": "no account was requested for it; it still serves the Evergreen trading-principle line and event reactivation"
+    }
+  ],
+  "distinctness": {
+    "rule": "no two accounts may ship pieces that share both the same primary event and the same lead claim on the same day",
+    "checked_by": "live/opportunities.py assign() and a similarity gate before the queue"
+  },
+  "lane_note": "cross_language_gap is available to all four accounts; the scorer decides which side is importing, so the lane is never mis-assigned to the side that already covered the story",
+  "language_distillation": {
+    "targets": "live/store/style_targets.json，由 live/style.py 从该作者真实帖子实测",
+    "enforced": "生成后按其 p10–p90 区间校验，不合格退回重写，不是只放进 prompt 就算数",
+    "measured_by": "ml/style_eval.py"
+  }
+}

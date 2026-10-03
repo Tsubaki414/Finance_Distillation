@@ -1,0 +1,353 @@
+{
+  "id": "pkg-32da19c09c88",
+  "form": "brief",
+  "form_name": "社群简报",
+  "draft_id": "w-535bffdbffc2",
+  "persona_id": "macro",
+  "persona_name": "中文 · 宏观与资金流",
+  "account_id": "zh_macro",
+  "origin": "live",
+  "entity": "#fed_policy",
+  "created_at": "2026-09-17T06:34:53.592733+00:00",
+  "source_version": 1,
+  "roles": {
+    "language": "qinbafrank"
+  },
+  "profile_channel": null,
+  "source_id": "ev-550b4e28dd04",
+  "run_status": "completed",
+  "qa_status": "passed",
+  "content_status": "blocked",
+  "attempts": [
+    {
+      "attempt": 1,
+      "run_id": "local-3dbe81f97c684991",
+      "latency_s": 3.64,
+      "usage": {
+        "prompt_tokens": 533,
+        "completion_tokens": 38,
+        "total_tokens": 571,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "qa_status": "passed",
+      "qa_blocking": 0,
+      "form_status": "failed",
+      "score": 1,
+      "qa_codes": [],
+      "form_codes": [
+        "no_invalidation_condition",
+        "too_short",
+        "unit_count"
+      ]
+    },
+    {
+      "attempt": 2,
+      "run_id": "local-af2f5b76eae84cec",
+      "latency_s": 6.07,
+      "usage": {
+        "prompt_tokens": 612,
+        "completion_tokens": 38,
+        "total_tokens": 650,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "qa_status": "passed",
+      "qa_blocking": 0,
+      "form_status": "failed",
+      "score": 1,
+      "qa_codes": [],
+      "form_codes": [
+        "no_invalidation_condition",
+        "too_short",
+        "unit_count"
+      ]
+    },
+    {
+      "attempt": 3,
+      "run_id": "local-01bc569af5b64a96",
+      "latency_s": 5.05,
+      "usage": {
+        "prompt_tokens": 612,
+        "completion_tokens": 45,
+        "total_tokens": 657,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "qa_status": "passed",
+      "qa_blocking": 0,
+      "form_status": "failed",
+      "score": 1,
+      "qa_codes": [],
+      "form_codes": [
+        "no_invalidation_condition",
+        "too_short",
+        "unit_count"
+      ]
+    },
+    {
+      "attempt": 4,
+      "run_id": "local-0276c60277594847",
+      "latency_s": 4.32,
+      "usage": {
+        "prompt_tokens": 612,
+        "completion_tokens": 45,
+        "total_tokens": 657,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "qa_status": "passed",
+      "qa_blocking": 0,
+      "form_status": "failed",
+      "score": 1,
+      "qa_codes": [],
+      "form_codes": [
+        "no_invalidation_condition",
+        "too_short",
+        "unit_count"
+      ]
+    }
+  ],
+  "best_attempt": 1,
+  "title": "逆回购限额与通胀数据：政策空间仍存",
+  "segments": [
+    {
+      "text": "逆回购限额设定为 1600 亿美元，为市场提供明确的流动性支撑基准。",
+      "kind": "fact",
+      "fact_ids": [
+        "g013"
+      ],
+      "segment_id": "p1",
+      "slot_ids": [
+        "L01"
+      ],
+      "model_written_digits": [],
+      "proposed_thresholds": [],
+      "misframed_values": []
+    }
+  ],
+  "sentence_to_source_ledger": [
+    {
+      "sentence_id": "p1",
+      "text": "逆回购限额设定为 1600 亿美元，为市场提供明确的流动性支撑基准。",
+      "kind": "fact",
+      "fact_ids": [
+        "g013"
+      ],
+      "slot_ids": [
+        "L01"
+      ],
+      "proposed_thresholds": [],
+      "misframed_values": [],
+      "source_block_ids": [
+        "B0057"
+      ],
+      "primary_url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm",
+      "source_hash": "51bb5278319f927b5960c604c4dcd3039676188c8670c2388c9f486e2ca0f7ac"
+    }
+  ],
+  "source_pack": [
+    {
+      "fact_id": "g002",
+      "label": "inflation compensation remained stable and consistent with the Committee's",
+      "value": 2,
+      "unit": "percent",
+      "period": null,
+      "survey": null,
+      "primary_url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm",
+      "artifact_path": "live/store/sources/ev-550b4e28dd04.txt",
+      "artifact_sha256": "51bb5278319f927b5960c604c4dcd3039676188c8670c2388c9f486e2ca0f7ac",
+      "char_span": [
+        1820,
+        1829
+      ],
+      "quote": "2 percent",
+      "quote_resolves": true,
+      "source_block_ids": [
+        "B0009"
+      ]
+    },
+    {
+      "fact_id": "g003",
+      "label": "in the price index for personal consumption expenditures (PCE)—was",
+      "value": 4.1,
+      "unit": "percent",
+      "period": null,
+      "survey": null,
+      "primary_url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm",
+      "artifact_path": "live/store/sources/ev-550b4e28dd04.txt",
+      "artifact_sha256": "51bb5278319f927b5960c604c4dcd3039676188c8670c2388c9f486e2ca0f7ac",
+      "char_span": [
+        4945,
+        4956
+      ],
+      "quote": "4.1 percent",
+      "quote_resolves": true,
+      "source_block_ids": [
+        "B0018"
+      ]
+    },
+    {
+      "fact_id": "g004",
+      "label": "consumer energy prices and many consumer food prices, was",
+      "value": 3.4,
+      "unit": "percent",
+      "period": null,
+      "survey": null,
+      "primary_url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm",
+      "artifact_path": "live/store/sources/ev-550b4e28dd04.txt",
+      "artifact_sha256": "51bb5278319f927b5960c604c4dcd3039676188c8670c2388c9f486e2ca0f7ac",
+      "char_span": [
+        5075,
+        5086
+      ],
+      "quote": "3.4 percent",
+      "quote_resolves": true,
+      "source_block_ids": [
+        "B0018"
+      ]
+    },
+    {
+      "fact_id": "g005",
+      "label": "estimated that total PCE price inflation stepped down to",
+      "value": 3.7,
+      "unit": "percent",
+      "period": null,
+      "survey": null,
+      "primary_url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm",
+      "artifact_path": "live/store/sources/ev-550b4e28dd04.txt",
+      "artifact_sha256": "51bb5278319f927b5960c604c4dcd3039676188c8670c2388c9f486e2ca0f7ac",
+      "char_span": [
+        5884,
+        5895
+      ],
+      "quote": "3.7 percent",
+      "quote_resolves": true,
+      "source_block_ids": [
+        "B0018"
+      ]
+    },
+    {
+      "fact_id": "g006",
+      "label": "price inflation was estimated to have edged down to",
+      "value": 3.3,
+      "unit": "percent",
+      "period": null,
+      "survey": null,
+      "primary_url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm",
+      "artifact_path": "live/store/sources/ev-550b4e28dd04.txt",
+      "artifact_sha256": "51bb5278319f927b5960c604c4dcd3039676188c8670c2388c9f486e2ca0f7ac",
+      "char_span": [
+        6015,
+        6026
+      ],
+      "quote": "3.3 percent",
+      "quote_resolves": true,
+      "source_block_ids": [
+        "B0018"
+      ]
+    },
+    {
+      "fact_id": "g013",
+      "label": "of 3.5 percent and with a per-counterparty limit of",
+      "value": 160000000000,
+      "unit": "USD",
+      "period": null,
+      "survey": null,
+      "primary_url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm",
+      "artifact_path": "live/store/sources/ev-550b4e28dd04.txt",
+      "artifact_sha256": "51bb5278319f927b5960c604c4dcd3039676188c8670c2388c9f486e2ca0f7ac",
+      "char_span": [
+        30539,
+        30552
+      ],
+      "quote": "$160 billion",
+      "quote_resolves": false,
+      "source_block_ids": [
+        "B0057"
+      ]
+    }
+  ],
+  "conditions": {
+    "invalidation": [
+      "只有当总消费者物价指数进一步降至 3.3% 或更低时，政策转向的信号才会更加明确。",
+      "反之，如果通胀反弹至 3.7% 以上，则可能迫使美联储重新评估其立场。"
+    ],
+    "author_proposed_thresholds": [],
+    "threshold_note": "这些阈值是作者提出的观察条件，不是事实包里的数据，不得当作已发生的数字引用。",
+    "update_when": [
+      "原始事实包发布新版本或数据被修订",
+      "下一期同一指标发布"
+    ],
+    "next_release": null
+  },
+  "qa": {
+    "findings": [],
+    "metrics": {
+      "claim_support_coverage": 1.0,
+      "unsupported_claim_rate": 0.0,
+      "must_include_coverage": 1.0,
+      "plan_required_coverage": 1.0,
+      "all_fact_coverage": 0.0714
+    },
+    "status": {
+      "run_status": "completed",
+      "qa_status": "passed",
+      "content_status": "ready_for_pipeline",
+      "blocking_count": 0,
+      "warning_count": 0,
+      "human_review": "not_required_by_design; the target pipeline is automated"
+    },
+    "gate_version": "qa-gates-v2",
+    "layers_run": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "form_check": {
+    "findings": [
+      {
+        "code": "unit_count",
+        "severity": "blocking",
+        "detail": "1 segments, expected 4-7"
+      },
+      {
+        "code": "too_short",
+        "severity": "blocking",
+        "detail": "34 chars, minimum 150"
+      },
+      {
+        "code": "no_invalidation_condition",
+        "severity": "blocking",
+        "detail": "every package must state what would make it wrong"
+      }
+    ],
+    "form_status": "failed",
+    "blocking_count": 3,
+    "chars": 34,
+    "measured": 34,
+    "measure": "chars",
+    "units": 1,
+    "unit_name": "segments",
+    "segments": 1,
+    "check_version": "package-form-v2"
+  },
+  "form_status": "failed",
+  "finished_at": "2026-09-17T06:35:12.717273+00:00",
+  "delivery": {
+    "run_status": "completed",
+    "qa_status": "passed",
+    "content_status": "blocked",
+    "reason": "content_status=blocked",
+    "deliverable": false
+  },
+  "human_review": "none"
+}

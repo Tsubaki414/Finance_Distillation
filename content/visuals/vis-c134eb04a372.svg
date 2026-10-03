@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="460" viewBox="0 0 880 460" role="img">
+<rect width="880" height="460" fill="#ffffff"/>
+<text x="40.0" y="30.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="16" fill="#1c1e21" text-anchor="start" font-weight="600">FOMC Minutes, July 28–29, 2026</text>
+<text x="40.0" y="50.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#6b7280" text-anchor="start" font-weight="400">本文引用的数字，全部由代码从原始文件渲染</text>
+<line x1="340" y1="70" x2="340" y2="404" stroke="#e3e5e8" stroke-width="1"/>
+<rect x="340.0" y="103.2" width="390.0" height="22" rx="2" fill="#1f6f4a" data-fact-id="g003"/>
+<text x="328.0" y="118.2" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#1c1e21" text-anchor="end" font-weight="400">消费者物价指数</text>
+<text x="738.0" y="118.2" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#1f6f4a" text-anchor="start" font-weight="600" data-fact-id="g003">4.1%</text>
+<rect x="340.0" y="167.6" width="190.2" height="22" rx="2" fill="#1f6f4a" data-fact-id="g002"/>
+<text x="328.0" y="182.6" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#1c1e21" text-anchor="end" font-weight="400">通胀目标</text>
+<text x="538.2" y="182.6" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#1f6f4a" text-anchor="start" font-weight="600" data-fact-id="g002">2%</text>
+<rect x="340.0" y="232.0" width="323.4" height="22" rx="2" fill="#1f6f4a" data-fact-id="g004"/>
+<text x="328.0" y="247.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#1c1e21" text-anchor="end" font-weight="400">核心消费者物价指数</text>
+<text x="671.4" y="247.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#1f6f4a" text-anchor="start" font-weight="600" data-fact-id="g004">3.4%</text>
+<rect x="340.0" y="296.4" width="352.0" height="22" rx="2" fill="#1f6f4a" data-fact-id="g005"/>
+<text x="328.0" y="311.4" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#1c1e21" text-anchor="end" font-weight="400">消费者物价指数</text>
+<text x="700.0" y="311.4" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#1f6f4a" text-anchor="start" font-weight="600" data-fact-id="g005">3.7%</text>
+<rect x="340.0" y="360.8" width="313.9" height="22" rx="2" fill="#1f6f4a" data-fact-id="g006"/>
+<text x="328.0" y="375.8" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#1c1e21" text-anchor="end" font-weight="400">消费者物价指数</text>
+<text x="661.9" y="375.8" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="12" fill="#1f6f4a" text-anchor="start" font-weight="600" data-fact-id="g006">3.3%</text>
+<text x="40.0" y="442.0" font-family="Inter, Helvetica Neue, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400">Source: https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm</text>
+</svg>

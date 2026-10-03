@@ -1,0 +1,7 @@
+{
+  "model_role": "modern",
+  "model_lock": "modern-model-lock.json",
+  "port": 8683,
+  "selection": "provisional; passed explicit arithmetic/schema smoke; content evaluation pending",
+  "source_run_id": "local-80b96014e74f4f0c"
+}

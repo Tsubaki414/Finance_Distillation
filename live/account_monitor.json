@@ -1,0 +1,14 @@
+{
+  "version": "account-monitor-v1",
+  "enabled": true,
+  "accounts": ["en_morris_archive", "zh_macro", "zh_industry"],
+  "interval_seconds": 1800,
+  "fetch_limit": 20,
+  "max_source_age_hours": 72,
+  "max_attempts_per_account_cycle": 3,
+  "max_drafts_per_account_day": 3,
+  "max_retry_attempts": 3,
+  "retry_seconds": 1800,
+  "allow_paid_x": true,
+  "publishing_enabled": false
+}

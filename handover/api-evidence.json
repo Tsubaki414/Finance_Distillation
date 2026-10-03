@@ -1,0 +1,211 @@
+{
+  "counting_rule": "Recorded operations and on-wire HTTP requests are different units. Do not sum local model JSON and duplicate ledger entries. No inference from quota deltas or imported post counts.",
+  "x_inherited_import": {
+    "input_files": 5,
+    "import_runs": 6,
+    "new_requests": 0,
+    "historical_provider_requests": null,
+    "historical_pages": null,
+    "evidence": "data/corpus_manifest.json; data/raw_posts.jsonl; runs/api_run_ledger.jsonl",
+    "payload_scope": "inherited_normalized_post_not_original_network_response"
+  },
+  "rapidapi_phase0": {
+    "host": "twitter241.p.rapidapi.com",
+    "recorded_http_requests": 6,
+    "statuses": {
+      "200": 6
+    },
+    "accounts": [
+      "PhyrexNi",
+      "vikramskr",
+      "fi56622380"
+    ],
+    "timeline_pages": 3,
+    "requests": [
+      {
+        "endpoint": "/user",
+        "params": {
+          "username": "PhyrexNi"
+        },
+        "status": 200
+      },
+      {
+        "endpoint": "/user-tweets",
+        "params": {
+          "user": "555634740",
+          "count": "20"
+        },
+        "status": 200
+      },
+      {
+        "endpoint": "/user",
+        "params": {
+          "username": "vikramskr"
+        },
+        "status": 200
+      },
+      {
+        "endpoint": "/user-tweets",
+        "params": {
+          "user": "1328394486402093057",
+          "count": "20"
+        },
+        "status": 200
+      },
+      {
+        "endpoint": "/user",
+        "params": {
+          "username": "fi56622380"
+        },
+        "status": 200
+      },
+      {
+        "endpoint": "/user-tweets",
+        "params": {
+          "user": "1503621835136462849",
+          "count": "20"
+        },
+        "status": 200
+      }
+    ],
+    "response_scope": "sanitized metadata/previews, not complete wire responses",
+    "cost": null,
+    "evidence": "historical_workspace/outputs/architecture-review/evidence/rapidapi_probe.json"
+  },
+  "xquik": {
+    "recorded_requests": 0,
+    "pages": 0,
+    "enabled": false,
+    "cost_estimate": null,
+    "evidence": "backend/app.py status(); data/corpus_manifest.json; skill-audit/audit.md"
+  },
+  "local_mlx": {
+    "recorded_attempts": 727,
+    "statuses": {
+      "completed": 722,
+      "failed": 2,
+      "started": 3
+    },
+    "responses_saved": 722,
+    "tasks": {
+      "A_finance_classification": 60,
+      "comparison_smoke": 2,
+      "cross_language_en_to_zh": 1,
+      "cross_language_zh_to_en": 1,
+      "evidence_loop_draft": 1,
+      "evidence_loop_independent_plan": 4,
+      "finance_classification_comparison": 383,
+      "framework_single_candidate_support": 15,
+      "guarded_cross_language": 2,
+      "guarded_independent_plan": 2,
+      "guarded_persona_draft": 3,
+      "guarded_v3_independent_plan": 44,
+      "guarded_v3_persona_draft": 84,
+      "guarded_v3_semantic_diagnostic": 12,
+      "guarded_v4_independent_plan": 6,
+      "guarded_v4_persona_draft": 12,
+      "guarded_v4_semantic_diagnostic": 4,
+      "independent_analysis_plan": 32,
+      "knowledge_entailment_diagnostic": 5,
+      "knowledge_framework_extraction": 7,
+      "knowledge_framework_indexed_v2": 11,
+      "modern_explicit_measure_probe": 1,
+      "modern_fact_contract_probe": 1,
+      "persona_draft": 32,
+      "smoke": 2
+    },
+    "target": "127.0.0.1:8681/8682/8683 /v1/chat/completions",
+    "paid_api_cost": 0,
+    "started_record_is_not_proof_of_dispatch": true,
+    "evidence": "runs/model_calls/*.json; runs/api_run_ledger.jsonl"
+  },
+  "bls_previous": {
+    "recorded_operations": 3,
+    "status": "failed",
+    "http_status_codes": null,
+    "evidence": "runs/api_run_ledger.jsonl primary_public_source_fetch"
+  },
+  "bls_full": {
+    "recorded_http_requests": 2,
+    "targets": {
+      "bls-full-pdf": {
+        "url": "https://www.bls.gov/news.release/pdf/empsit.pdf",
+        "status": 403,
+        "sha256": "743b00860fc90095f47067825664dc2e45754ecaa0cb8dd9eef0293884954c4b",
+        "at": "2026-09-06T04:36:38.222008+00:00"
+      },
+      "bls-full-reader": {
+        "url": "https://r.jina.ai/https://www.bls.gov/news.release/pdf/empsit.pdf",
+        "status": 200,
+        "sha256": "23717afd4e5677deebb8fd19ff24e330756eef18aacd8f0d71f07957b74088d6",
+        "at": "2026-09-06T04:36:38.223742+00:00"
+      }
+    },
+    "evidence": "evidence_loop/sources/acquisition.json"
+  },
+  "nvidia_pdf": {
+    "recorded_http_requests": 2,
+    "statuses": [
+      302,
+      200
+    ],
+    "evidence": "runs/official-pdf-capture.json; data/evidence/nvidia-q2-fy2027-10q.pdf"
+  },
+  "yahoo": {
+    "recorded_operations": [
+      "earnings_history",
+      "earnings_estimate",
+      "revenue_estimate"
+    ],
+    "target": "NVDA",
+    "operation_status": "3 completed, 4 rows per operation",
+    "wire_requests": null,
+    "evidence": "data/finance_supplement/nvda.json; runs/api_run_ledger.jsonl"
+  },
+  "x_photo_assets": {
+    "target": "pbs.twimg.com",
+    "recorded_http_requests": 24,
+    "statuses": {
+      "200": 24
+    },
+    "evidence": "evidence_loop/visual/assets.json"
+  },
+  "video_discovery": {
+    "youtube_cli_operations": 3,
+    "bilibili_recorded_search_http_requests": 2,
+    "bilibili_search_pages_each": 1,
+    "total_wire_requests": null,
+    "evidence": "evidence_loop/transcripts/discovery/runs.json"
+  },
+  "video_acquisition": {
+    "youtube_metadata_files": 4,
+    "youtube_transcripts_ready": 3,
+    "bilibili_metadata_requests_saved": 9,
+    "bilibili_http_statuses": {
+      "200": 9
+    },
+    "bilibili_transcripts_ready": 0,
+    "audio_statuses": {
+      "audio_failed": 4,
+      "audio_ready": 3
+    },
+    "complete_wire_request_count": null,
+    "evidence": "evidence_loop/transcripts/acquisitions/; audio-runs/; *.acquisition.log; *.audio.log",
+    "limitations": [
+      "yt-dlp internal HTTP requests are not individually journaled",
+      "Retry scripts overwrote some acquisition records/logs before handover; complete attempt count is unrecoverable from saved artifacts",
+      "Three Bilibili audio downloads are operations, not proof of three underlying HTTP requests"
+    ]
+  },
+  "sec_edgar_mcp": {
+    "enabled": false,
+    "recorded_calls": 0,
+    "evidence": "runs/sec-mcp-preflight.json; skill-audit/sec-edgar-mcp.disabled.json"
+  },
+  "other_public_research_and_weight_downloads": {
+    "wire_requests": null,
+    "cost": null,
+    "evidence": "skill-audit/skills.lock.json; evidence_loop/video-audit.json; *model-lock.json; historical_workspace/work/repo-audit/",
+    "limitation": "Hashes prove retained files, not a complete request journal"
+  }
+}

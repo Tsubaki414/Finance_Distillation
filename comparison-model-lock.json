@@ -1,0 +1,12 @@
+{
+  "role": "comparison_generator",
+  "repo": "mlx-community/Qwen2.5-7B-Instruct-4bit",
+  "revision": "c26a38f6a37d0a51b4e9a1eb3026530fa35d9fed",
+  "local_path": ".runtime/models/comparison",
+  "bytes": 4295888342,
+  "file_count": 10,
+  "remote_code": false,
+  "inference_only": true,
+  "reason": "Observed 1.5B structured-output and numeric-fidelity failures; model-size inference comparison, no training",
+  "created_at": "2026-09-06T02:07:55.833703+00:00"
+}

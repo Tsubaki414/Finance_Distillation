@@ -1,0 +1,75 @@
+{
+  "inputs": [
+    {
+      "path": "/Users/fionama/Desktop/Crypto/Mango_Works/Finance_Stocks_KOL/outputs/relationship_pipeline_20260905_v1/chinese_x_hardcore_wave1/apify_90d_audit.json",
+      "purpose": "Historical provider import; needed only to rerun initial import",
+      "exists": true,
+      "recorded_sha256": "c2a35c8b24b01bbf9e2c95e1df60a241ddfaa423b837bea760e2333f7cd92b77",
+      "current_sha256": "c2a35c8b24b01bbf9e2c95e1df60a241ddfaa423b837bea760e2333f7cd92b77",
+      "moved": false,
+      "modified": false
+    },
+    {
+      "path": "/Users/fionama/Desktop/Crypto/Mango_Works/Finance_Stocks_KOL/outputs/relationship_pipeline_20260905_v1/chinese_commercial_gap_audit/apify_90d_audit.json",
+      "purpose": "Historical provider import; needed only to rerun initial import",
+      "exists": true,
+      "recorded_sha256": "bdbcf3aad996d3a20bf9e6870643bb3fe0b9b543dbccf8508d610bc4acb6a5a7",
+      "current_sha256": "bdbcf3aad996d3a20bf9e6870643bb3fe0b9b543dbccf8508d610bc4acb6a5a7",
+      "moved": false,
+      "modified": false
+    },
+    {
+      "path": "/Users/fionama/Desktop/Crypto/Mango_Works/Finance_Stocks_KOL/outputs/relationship_pipeline_20260905_v1/chinese_question_audit/apify_latest20_raw.json",
+      "purpose": "Historical provider import; needed only to rerun initial import",
+      "exists": true,
+      "recorded_sha256": "250b4a032c3fe7ff61ba5cd15b9bde1d2b2aff84d3252c3a6466d1f7c74b9f4a",
+      "current_sha256": "250b4a032c3fe7ff61ba5cd15b9bde1d2b2aff84d3252c3a6466d1f7c74b9f4a",
+      "moved": false,
+      "modified": false
+    },
+    {
+      "path": "/Users/fionama/Desktop/Crypto/Mango_Works/Finance_Stocks_KOL/outputs/relationship_pipeline_20260905_v1/x_candidate_wave2/rapid_x_audit.json",
+      "purpose": "Historical provider import; needed only to rerun initial import",
+      "exists": true,
+      "recorded_sha256": "2daf6a36833f14d7951828cc41c2168a3f128e31c6957934e1ae5556b0d6d57e",
+      "current_sha256": "2daf6a36833f14d7951828cc41c2168a3f128e31c6957934e1ae5556b0d6d57e",
+      "moved": false,
+      "modified": false
+    },
+    {
+      "path": "/Users/fionama/Desktop/Crypto/Mango_Works/Finance_Stocks_KOL/outputs/relationship_pipeline_20260905_v1/x_candidate_wave3/rapid_x_audit.json",
+      "purpose": "Historical provider import; needed only to rerun initial import",
+      "exists": true,
+      "recorded_sha256": "cb55f416dcb19d13d315a6ab5ad4b037b1ce71a70d7cfe4e4f6356cfa2e3759b",
+      "current_sha256": "cb55f416dcb19d13d315a6ab5ad4b037b1ce71a70d7cfe4e4f6356cfa2e3759b",
+      "moved": false,
+      "modified": false
+    },
+    {
+      "path": "/Users/fionama/Desktop/Crypto/Mango_Works/Finance_Stocks_KOL/outputs/mango_finance_master_list_20260906_v1/Mango_Finance_KOL_and_Institution_List.xlsx",
+      "purpose": "Candidate workbook; allowed columns only, never subjective appraisal",
+      "exists": true,
+      "recorded_sha256": "b3f664bbd99ffde6a4fb459d1b7bd9440241b6acc82a8923b608348f34c71610",
+      "current_sha256": "b3f664bbd99ffde6a4fb459d1b7bd9440241b6acc82a8923b608348f34c71610",
+      "moved": false,
+      "modified": false
+    },
+    {
+      "path": "/Users/fionama/Desktop/Crypto/Mango_Works/Finance_Stocks_KOL/.env",
+      "purpose": "Authorized RapidAPI input for resumed work; outside this project",
+      "contents_read_in_handover": false,
+      "moved": false,
+      "modified": false,
+      "sha256": null
+    },
+    {
+      "path": "/Users/fionama/Library/Containers/com.tencent.xinWeChat/Data/Documents/xwechat_files/wxid_65o7zhuwdhkq22_f8f0/msg/file/2026-09/Reads 2.zip",
+      "purpose": "User original cold-library input; prior audit retained in historical_workspace",
+      "moved": false,
+      "modified": false,
+      "current_sha256": null
+    }
+  ],
+  "global_dependencies": "Global skills, bundled Node, ffmpeg and yt-dlp remain system dependencies; not project-owned files.",
+  "input_contents_not_copied_to_public_services": true
+}

@@ -1,0 +1,1775 @@
+{
+  "version": "heldout-v2",
+  "frozen_before_prompt_changes": true,
+  "split": "heldout",
+  "not_author_disjoint": true,
+  "human_labels": null,
+  "selection_note": "Stratified real archived posts. No output observed during selection. Existing corpus/classification membership is not held-out adaptation. No claim about unsaved/external sessions.",
+  "cases": [
+    {
+      "case": "H01_en_short_industry",
+      "tags": [
+        "en_short",
+        "industry",
+        "ranges"
+      ],
+      "source": {
+        "id": "2087280662802026931",
+        "source_id": "x_aleabitoreddit",
+        "author_name": "aleabitoreddit",
+        "author_id": "1940360837547565056",
+        "url": "https://x.com/aleabitoreddit/status/2087280662802026931",
+        "text": "$SMCI 2027 guidance was actually unholy: $65-$72 billion FY 2027 revenue guidance... \n\nvs. ~$52.4B expected, a casual +$16.1B above consensus. \n\nSMCI logged a massive $60B+ in news order from this earnings. \n\nThat timeline is also interesting when they announced a plan to co-build $SPCX + xAI  DCs \"within a year\" back in June..\n\nBut if SMCI sustain 10-15% gross margins off that ~$70B revenue guidance... I think there's a lot of room for rerating given MC is ~$20B (NFA, I have short term positions in SMCI now from this ER). \n\nMost important thing is learning about 2027 margins from call today.",
+        "published_at": "2026-08-11T20:51:04+00:00",
+        "fetched_at": null,
+        "source_type": "x",
+        "platform": "x",
+        "source_language": "en",
+        "content_complete": true,
+        "extraction_status": "archived_post_body_context_requires_assessment",
+        "extractor_version": "archive-decode-v1",
+        "post_type": "original",
+        "reply_to": null,
+        "quoted_post": null,
+        "thread_id": "2087280662802026931",
+        "media": [],
+        "external_links": [],
+        "raw_import_ref": "data/raw_posts.jsonl#2087280662802026931",
+        "raw_import_hash": "a7f57d46e9e5cc8b12fba600bcfeb8428686fd66fde2297e35e624494b606dd8",
+        "extraction_transformations": [
+          "decode literal backslash-n from inherited import",
+          "HTML entity unescape once"
+        ]
+      },
+      "raw_archive_record": {
+        "source_account_id": "aleabitoreddit",
+        "stable_author_id": "1940360837547565056",
+        "handle_at_collection": "aleabitoreddit",
+        "post_id": "2087280662802026931",
+        "url": "https://x.com/aleabitoreddit/status/2087280662802026931",
+        "created_at": "2026-08-11T20:51:04+00:00",
+        "collected_at": null,
+        "ingested_at": "2026-09-06T02:50:21.738060+00:00",
+        "text": "$SMCI 2027 guidance was actually unholy: $65-$72 billion FY 2027 revenue guidance... \n\nvs. ~$52.4B expected, a casual +$16.1B above consensus. \n\nSMCI logged a massive $60B+ in news order from this earnings. \n\nThat timeline is also interesting when they announced a plan to co-build $SPCX + xAI  DCs \"within a year\" back in June..\n\nBut if SMCI sustain 10-15% gross margins off that ~$70B revenue guidance... I think there's a lot of room for rerating given MC is ~$20B (NFA, I have short term positions in SMCI now from this ER). \n\nMost important thing is learning about 2027 margins from call today.",
+        "language": "en",
+        "target_language": "zh",
+        "post_type": "original",
+        "reply_to": null,
+        "quoted_post": null,
+        "reposted_post": null,
+        "thread_id": "2087280662802026931",
+        "media_type": [],
+        "external_links": [],
+        "engagement_snapshot": {
+          "favorite_count": 705,
+          "retweet_count": 49,
+          "reply_count": 87,
+          "quote_count": 11,
+          "bookmark_count": 110,
+          "view_count": 235644
+        },
+        "raw_payload_hash": "d34bc89bd964417ea4ef61f80a2dcee7ef4d9ffc7050d48f768c1cac54e8b5e6",
+        "provider_run_id": "bsfLHWhr1uoHFheOJ",
+        "import_run_id": "import-794f061e4f6d",
+        "provider": "apify",
+        "payload_scope": "inherited_normalized_post_not_original_network_response",
+        "input_file_hash": "c2a35c8b24b01bbf9e2c95e1df60a241ddfaa423b837bea760e2333f7cd92b77",
+        "source_order_index": 121,
+        "author_match": true,
+        "timeline_pinned": null,
+        "missing_fields": [
+          "collected_at"
+        ],
+        "source_record": {
+          "searchType": "user-tweets",
+          "record_type": "tweet",
+          "handle": "aleabitoreddit",
+          "tweet_id": "2087280662802026931",
+          "url": "https://x.com/aleabitoreddit/status/2087280662802026931",
+          "text": "$SMCI 2027 guidance was actually unholy: $65-$72 billion FY 2027 revenue guidance... \n\nvs. ~$52.4B expected, a casual +$16.1B above consensus. \n\nSMCI logged a massive $60B+ in news order from this earnings. \n\nThat timeline is also interesting when they announced a plan to co-build $SPCX + xAI  DCs \"within a year\" back in June..\n\nBut if SMCI sustain 10-15% gross margins off that ~$70B revenue guidance... I think there's a lot of room for rerating given MC is ~$20B (NFA, I have short term positions in SMCI now from this ER). \n\nMost important thing is learning about 2027 margins from call today.",
+          "created_at": "Tue Aug 11 20:51:04 +0000 2026",
+          "lang": "en",
+          "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+          "favorite_count": 705,
+          "retweet_count": 49,
+          "reply_count": 87,
+          "quote_count": 11,
+          "bookmark_count": 110,
+          "view_count": 235644,
+          "conversation_id": "2087280662802026931",
+          "is_reply": false,
+          "in_reply_to_screen_name": null,
+          "in_reply_to_status_id": null,
+          "in_reply_to_user_id": null,
+          "is_quote": false,
+          "quoted_tweet_id": null,
+          "quoted_tweet": null,
+          "sensitive": false,
+          "hashtags": [],
+          "mentions": [],
+          "urls": [],
+          "media": [],
+          "author": {
+            "rest_id": "1940360837547565056",
+            "name": "Serenity",
+            "screen_name": "aleabitoreddit",
+            "avatar": "https://pbs.twimg.com/profile_images/1996176688414367744/LXfA_lIx_normal.jpg",
+            "followers_count": 1026974,
+            "blue_verified": true
+          }
+        },
+        "analysis_text": "$SMCI 2027 guidance was actually unholy: $65-$72 billion FY 2027 revenue guidance... \n\nvs. ~$52.4B expected, a casual +$16.1B above consensus. \n\nSMCI logged a massive $60B+ in news order from this earnings. \n\nThat timeline is also interesting when they announced a plan to co-build $SPCX + xAI  DCs \"within a year\" back in June..\n\nBut if SMCI sustain 10-15% gross margins off that ~$70B revenue guidance... I think there's a lot of room for rerating given MC is ~$20B (NFA, I have short term positions in SMCI now from this ER). \n\nMost important thing is learning about 2027 margins from call today.",
+        "text_processing": {
+          "excluded_spans": [],
+          "provider_entity_marker_normalizations": [],
+          "version": "clean-v3-reviewed-commercial-spans",
+          "raw_text_preserved": true,
+          "whole_post_commercial_exclusion": null
+        },
+        "analysis_external_links": [],
+        "classification": {
+          "category": "原创金融分析",
+          "financial_relevant": true,
+          "keep": true,
+          "confidence": 0.82,
+          "confidence_kind": "heuristic_not_calibrated",
+          "excluded_reasons": [],
+          "method": "rules-v3-commercial-cleanup",
+          "signals": {
+            "finance": true,
+            "promotion": false,
+            "mechanism": true,
+            "source_cue": false
+          }
+        },
+        "duplicate_group": "877ed0fdbc400bc1c748"
+      }
+    },
+    {
+      "case": "H02_en_long_industry",
+      "tags": [
+        "en_long",
+        "technical",
+        "media_available"
+      ],
+      "source": {
+        "id": "2085499853099208716",
+        "source_id": "x_aleabitoreddit",
+        "author_name": "aleabitoreddit",
+        "author_id": "1940360837547565056",
+        "url": "https://x.com/aleabitoreddit/status/2085499853099208716",
+        "text": "Just some TLDR notes on $AAOI earnings:\n\n- Expects full qualification of 1.6T products by their hyperscaler customer within next couple of weeks \n\n(helpful revenue ramp #2, timelines)\n\n-  Continues to believe that AOI will have the largest AI DC transceiver production capacity in the US\n \n(reiterating ambitions during a time when their competitors might get banned)\n\n- Expects facilities toward InP capacity to come online in early 2027 \n\n(timeline FYI in terms of further ramp) \n\n- Total capacity is approaching 200,000/u per month, EOY 650,000/u per month of 800g/1.6t. EOY 2027, 930,000/u \n\n(this is the ramp i want to see)\n\n- \"increase our manufacturing capacity for our external light source or ELSFP. That's for co-packaged optics or CPO\". we anticipate ramping production later this year and into 2027, ultimately culminating in about 400,000 pieces per month in 2028\n\n(need some time to model this into revenue)\n\n- \"As we have mentioned before, we've been manufacturing lasers internally for many years. This has allowed us to avoid some of the shortages that  have affected others in the industry\"\n\n(vertical integration bull case during CW/EML laser shortages) \n\n- We believe that in the future, CPO will continue to drive increased demand for high-power lasers\n\n(thesis validation on CPO sector)\n\n- \"to our long-term objective of returning non-GAAP gross margins to around 40%\"\n\n-  \"We ended the second quarter with $508.8 million in total cash equivalents\"\n\nI need to double check if the ATM finished or not\n\n- \"our ability to deliver revenue in general, and specifically when it  comes to 800G products, is limited by our production capacity right now\" \"If we could produce more, we could ship more right now\"\n\nDemand > Supply validation. \n\n- \"Most of the increased capacity will be in U.S. Even so, let me say that, like I keep emphasizing, that is not good enough for the customer demand. The customer demand is 20%-40% higher.\"\n\nUnholy photonics demand validation across the whole sector, read through for $LITE, $SIVE / $JBL, and others is amazing. \n\n- \"Not in the next two, three years, especially the demand is so big. Okay?  Even combined AI, $LITE, $COHR, $AVGO all together, it's still very tough to meet the customer demand in the next few years\"\n\nMore optical sector demand validation. \n\n- CPO Timelines: \"If you're talking about really high volume manufacturer [for CPO market], I would say more like the late Q3 next year\" and \"We have been working very close with at least five customer\"\n\nIf you care about current earnings (which I'm not really looking at closely)\n\nRevenue: $191M vs. $190m \nEPS: $.06 vs. $.02\n\nTLDR: Extraordinary demand across the laser + optical sector read through. Kinda supporting Lumentum CEO statement that laser shortage is worse than memory shortages. \n\n2027 capacity ramp on track. To map inflection period with timelines, would be around early next year, as stated in their previous earnings call. \n\nAAOI has the customers now. Limitation is making enough lasers and transceivers.",
+        "published_at": "2026-08-06T22:54:46+00:00",
+        "fetched_at": null,
+        "source_type": "x",
+        "platform": "x",
+        "source_language": "en",
+        "content_complete": true,
+        "extraction_status": "archived_post_body_context_requires_assessment",
+        "extractor_version": "archive-decode-v1",
+        "post_type": "original",
+        "reply_to": null,
+        "quoted_post": null,
+        "thread_id": "2085499853099208716",
+        "media": [
+          "photo"
+        ],
+        "external_links": [],
+        "raw_import_ref": "data/raw_posts.jsonl#2085499853099208716",
+        "raw_import_hash": "c125f0128f3bf9393af38d0c9738c1977127f3e33f0fb6c02791308c46c4b7f6",
+        "extraction_transformations": [
+          "decode literal backslash-n from inherited import",
+          "HTML entity unescape once"
+        ]
+      },
+      "raw_archive_record": {
+        "source_account_id": "aleabitoreddit",
+        "stable_author_id": "1940360837547565056",
+        "handle_at_collection": "aleabitoreddit",
+        "post_id": "2085499853099208716",
+        "url": "https://x.com/aleabitoreddit/status/2085499853099208716",
+        "created_at": "2026-08-06T22:54:46+00:00",
+        "collected_at": null,
+        "ingested_at": "2026-09-06T02:50:21.738060+00:00",
+        "text": "Just some TLDR notes on $AAOI earnings:\n\n- Expects full qualification of 1.6T products by their hyperscaler customer within next couple of weeks \n\n(helpful revenue ramp #2, timelines)\n\n-  Continues to believe that AOI will have the largest AI DC transceiver production capacity in the US\n \n(reiterating ambitions during a time when their competitors might get banned)\n\n- Expects facilities toward InP capacity to come online in early 2027 \n\n(timeline FYI in terms of further ramp) \n\n- Total capacity is approaching 200,000/u per month, EOY 650,000/u per month of 800g/1.6t. EOY 2027, 930,000/u \n\n(this is the ramp i want to see)\n\n- \"increase our manufacturing capacity for our external light source or ELSFP. That's for co-packaged optics or CPO\". we anticipate ramping production later this year and into 2027, ultimately culminating in about 400,000 pieces per month in 2028\n\n(need some time to model this into revenue)\n\n- \"As we have mentioned before, we've been manufacturing lasers internally for many years. This has allowed us to avoid some of the shortages that  have affected others in the industry\"\n\n(vertical integration bull case during CW/EML laser shortages) \n\n- We believe that in the future, CPO will continue to drive increased demand for high-power lasers\n\n(thesis validation on CPO sector)\n\n- \"to our long-term objective of returning non-GAAP gross margins to around 40%\"\n\n-  \"We ended the second quarter with $508.8 million in total cash equivalents\"\n\nI need to double check if the ATM finished or not\n\n- \"our ability to deliver revenue in general, and specifically when it  comes to 800G products, is limited by our production capacity right now\" \"If we could produce more, we could ship more right now\"\n\nDemand > Supply validation. \n\n- \"Most of the increased capacity will be in U.S. Even so, let me say that, like I keep emphasizing, that is not good enough for the customer demand. The customer demand is 20%-40% higher.\"\n\nUnholy photonics demand validation across the whole sector, read through for $LITE, $SIVE / $JBL, and others is amazing. \n\n- \"Not in the next two, three years, especially the demand is so big. Okay?  Even combined AI, $LITE, $COHR, $AVGO all together, it's still very tough to meet the customer demand in the next few years\"\n\nMore optical sector demand validation. \n\n- CPO Timelines: \"If you're talking about really high volume manufacturer [for CPO market], I would say more like the late Q3 next year\" and \"We have been working very close with at least five customer\"\n\nIf you care about current earnings (which I'm not really looking at closely)\n\nRevenue: $191M vs. $190m \nEPS: $.06 vs. $.02\n\nTLDR: Extraordinary demand across the laser + optical sector read through. Kinda supporting Lumentum CEO statement that laser shortage is worse than memory shortages. \n\n2027 capacity ramp on track. To map inflection period with timelines, would be around early next year, as stated in their previous earnings call. \n\nAAOI has the customers now. Limitation is making enough lasers and transceivers.",
+        "language": "en",
+        "target_language": "zh",
+        "post_type": "original",
+        "reply_to": null,
+        "quoted_post": null,
+        "reposted_post": null,
+        "thread_id": "2085499853099208716",
+        "media_type": [
+          "photo"
+        ],
+        "external_links": [],
+        "engagement_snapshot": {
+          "favorite_count": 1493,
+          "retweet_count": 127,
+          "reply_count": 114,
+          "quote_count": 17,
+          "bookmark_count": 425,
+          "view_count": 299944
+        },
+        "raw_payload_hash": "237c8ebbd31bf92104975216a47d263b9b0863232c3795698537fd42e4ba14a9",
+        "provider_run_id": "bsfLHWhr1uoHFheOJ",
+        "import_run_id": "import-794f061e4f6d",
+        "provider": "apify",
+        "payload_scope": "inherited_normalized_post_not_original_network_response",
+        "input_file_hash": "c2a35c8b24b01bbf9e2c95e1df60a241ddfaa423b837bea760e2333f7cd92b77",
+        "source_order_index": 143,
+        "author_match": true,
+        "timeline_pinned": null,
+        "missing_fields": [
+          "collected_at"
+        ],
+        "source_record": {
+          "searchType": "user-tweets",
+          "record_type": "tweet",
+          "handle": "aleabitoreddit",
+          "tweet_id": "2085499853099208716",
+          "url": "https://x.com/aleabitoreddit/status/2085499853099208716",
+          "text": "Just some TLDR notes on $AAOI earnings:\n\n- Expects full qualification of 1.6T products by their hyperscaler customer within next couple of weeks \n\n(helpful revenue ramp #2, timelines)\n\n-  Continues to believe that AOI will have the largest AI DC transceiver production capacity in the US\n \n(reiterating ambitions during a time when their competitors might get banned)\n\n- Expects facilities toward InP capacity to come online in early 2027 \n\n(timeline FYI in terms of further ramp) \n\n- Total capacity is approaching 200,000/u per month, EOY 650,000/u per month of 800g/1.6t. EOY 2027, 930,000/u \n\n(this is the ramp i want to see)\n\n- \"increase our manufacturing capacity for our external light source or ELSFP. That's for co-packaged optics or CPO\". we anticipate ramping production later this year and into 2027, ultimately culminating in about 400,000 pieces per month in 2028\n\n(need some time to model this into revenue)\n\n- \"As we have mentioned before, we've been manufacturing lasers internally for many years. This has allowed us to avoid some of the shortages that  have affected others in the industry\"\n\n(vertical integration bull case during CW/EML laser shortages) \n\n- We believe that in the future, CPO will continue to drive increased demand for high-power lasers\n\n(thesis validation on CPO sector)\n\n- \"to our long-term objective of returning non-GAAP gross margins to around 40%\"\n\n-  \"We ended the second quarter with $508.8 million in total cash equivalents\"\n\nI need to double check if the ATM finished or not\n\n- \"our ability to deliver revenue in general, and specifically when it  comes to 800G products, is limited by our production capacity right now\" \"If we could produce more, we could ship more right now\"\n\nDemand > Supply validation. \n\n- \"Most of the increased capacity will be in U.S. Even so, let me say that, like I keep emphasizing, that is not good enough for the customer demand. The customer demand is 20%-40% higher.\"\n\nUnholy photonics demand validation across the whole sector, read through for $LITE, $SIVE / $JBL, and others is amazing. \n\n- \"Not in the next two, three years, especially the demand is so big. Okay?  Even combined AI, $LITE, $COHR, $AVGO all together, it's still very tough to meet the customer demand in the next few years\"\n\nMore optical sector demand validation. \n\n- CPO Timelines: \"If you're talking about really high volume manufacturer [for CPO market], I would say more like the late Q3 next year\" and \"We have been working very close with at least five customer\"\n\nIf you care about current earnings (which I'm not really looking at closely)\n\nRevenue: $191M vs. $190m \nEPS: $.06 vs. $.02\n\nTLDR: Extraordinary demand across the laser + optical sector read through. Kinda supporting Lumentum CEO statement that laser shortage is worse than memory shortages. \n\n2027 capacity ramp on track. To map inflection period with timelines, would be around early next year, as stated in their previous earnings call. \n\nAAOI has the customers now. Limitation is making enough lasers and transceivers.",
+          "created_at": "Thu Aug 06 22:54:46 +0000 2026",
+          "lang": "en",
+          "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+          "favorite_count": 1493,
+          "retweet_count": 127,
+          "reply_count": 114,
+          "quote_count": 17,
+          "bookmark_count": 425,
+          "view_count": 299944,
+          "conversation_id": "2085499853099208716",
+          "is_reply": false,
+          "in_reply_to_screen_name": null,
+          "in_reply_to_status_id": null,
+          "in_reply_to_user_id": null,
+          "is_quote": false,
+          "quoted_tweet_id": null,
+          "quoted_tweet": null,
+          "sensitive": false,
+          "hashtags": [],
+          "mentions": [],
+          "urls": [],
+          "media": [
+            {
+              "type": "photo",
+              "image_url": "https://pbs.twimg.com/media/HPEuJIwboAAeYCb.jpg",
+              "video_url": null
+            },
+            {
+              "type": "photo",
+              "image_url": "https://pbs.twimg.com/media/HPEuNJdakAANLkb.jpg",
+              "video_url": null
+            }
+          ],
+          "author": {
+            "rest_id": "1940360837547565056",
+            "name": "Serenity",
+            "screen_name": "aleabitoreddit",
+            "avatar": "https://pbs.twimg.com/profile_images/1996176688414367744/LXfA_lIx_normal.jpg",
+            "followers_count": 1026974,
+            "blue_verified": true
+          }
+        },
+        "analysis_text": "Just some TLDR notes on $AAOI earnings:\n\n- Expects full qualification of 1.6T products by their hyperscaler customer within next couple of weeks \n\n(helpful revenue ramp #2, timelines)\n\n-  Continues to believe that AOI will have the largest AI DC transceiver production capacity in the US\n \n(reiterating ambitions during a time when their competitors might get banned)\n\n- Expects facilities toward InP capacity to come online in early 2027 \n\n(timeline FYI in terms of further ramp) \n\n- Total capacity is approaching 200,000/u per month, EOY 650,000/u per month of 800g/1.6t. EOY 2027, 930,000/u \n\n(this is the ramp i want to see)\n\n- \"increase our manufacturing capacity for our external light source or ELSFP. That's for co-packaged optics or CPO\". we anticipate ramping production later this year and into 2027, ultimately culminating in about 400,000 pieces per month in 2028\n\n(need some time to model this into revenue)\n\n- \"As we have mentioned before, we've been manufacturing lasers internally for many years. This has allowed us to avoid some of the shortages that  have affected others in the industry\"\n\n(vertical integration bull case during CW/EML laser shortages) \n\n- We believe that in the future, CPO will continue to drive increased demand for high-power lasers\n\n(thesis validation on CPO sector)\n\n- \"to our long-term objective of returning non-GAAP gross margins to around 40%\"\n\n-  \"We ended the second quarter with $508.8 million in total cash equivalents\"\n\nI need to double check if the ATM finished or not\n\n- \"our ability to deliver revenue in general, and specifically when it  comes to 800G products, is limited by our production capacity right now\" \"If we could produce more, we could ship more right now\"\n\nDemand > Supply validation. \n\n- \"Most of the increased capacity will be in U.S. Even so, let me say that, like I keep emphasizing, that is not good enough for the customer demand. The customer demand is 20%-40% higher.\"\n\nUnholy photonics demand validation across the whole sector, read through for $LITE, $SIVE / $JBL, and others is amazing. \n\n- \"Not in the next two, three years, especially the demand is so big. Okay?  Even combined AI, $LITE, $COHR, $AVGO all together, it's still very tough to meet the customer demand in the next few years\"\n\nMore optical sector demand validation. \n\n- CPO Timelines: \"If you're talking about really high volume manufacturer [for CPO market], I would say more like the late Q3 next year\" and \"We have been working very close with at least five customer\"\n\nIf you care about current earnings (which I'm not really looking at closely)\n\nRevenue: $191M vs. $190m \nEPS: $.06 vs. $.02\n\nTLDR: Extraordinary demand across the laser + optical sector read through. Kinda supporting Lumentum CEO statement that laser shortage is worse than memory shortages. \n\n2027 capacity ramp on track. To map inflection period with timelines, would be around early next year, as stated in their previous earnings call. \n\nAAOI has the customers now. Limitation is making enough lasers and transceivers.",
+        "text_processing": {
+          "excluded_spans": [],
+          "provider_entity_marker_normalizations": [],
+          "version": "clean-v3-reviewed-commercial-spans",
+          "raw_text_preserved": true,
+          "whole_post_commercial_exclusion": null
+        },
+        "analysis_external_links": [],
+        "classification": {
+          "category": "原创金融分析",
+          "financial_relevant": true,
+          "keep": true,
+          "confidence": 0.82,
+          "confidence_kind": "heuristic_not_calibrated",
+          "excluded_reasons": [],
+          "method": "rules-v3-commercial-cleanup",
+          "signals": {
+            "finance": true,
+            "promotion": false,
+            "mechanism": true,
+            "source_cue": false
+          }
+        },
+        "duplicate_group": "8dc278a65223bd962223"
+      }
+    },
+    {
+      "case": "H03_zh_short_identity",
+      "tags": [
+        "zh_short",
+        "identity",
+        "positions"
+      ],
+      "source": {
+        "id": "2069500252638294032",
+        "source_id": "x_kovainvest",
+        "author_name": "kovainvest",
+        "author_id": "1106168053",
+        "url": "https://x.com/kovainvest/status/2069500252638294032",
+        "text": "$ALAB easy add right here, \n在我的长期持仓里我又加仓了 $ALAB \n\n大多数人还把它当NVIDIA的衍生品\n觉得它就是个卖retimer的芯片公司\n这个框架太窄了\n\n它对GPU和定制ASIC双向中立\nNVIDIA赢，它收钱\nGoogle TPU、Amazon Trainium、Meta MTIA赢，它一样收钱\n连接这层，谁赢都得用它\n\nand most people dont understand \n真正驱动它的东西藏在出货量背后\n单颗加速器身上的连接金额\n从$50涨到今天超过$1000\nGPU哪怕见顶，这条content曲线还在往上\n\n$ALAB You are still early on ALAB",
+        "published_at": "2026-06-23T19:18:04+00:00",
+        "fetched_at": null,
+        "source_type": "x",
+        "platform": "x",
+        "source_language": "zh",
+        "content_complete": true,
+        "extraction_status": "archived_post_body_context_requires_assessment",
+        "extractor_version": "archive-decode-v1",
+        "post_type": "original",
+        "reply_to": null,
+        "quoted_post": null,
+        "thread_id": "2069500252638294032",
+        "media": [],
+        "external_links": [],
+        "raw_import_ref": "data/raw_posts.jsonl#2069500252638294032",
+        "raw_import_hash": "85cac097a9eae8ba11196e58507cfd9f2d73a27ee5c3e09360755a5fce54d27f",
+        "extraction_transformations": [
+          "decode literal backslash-n from inherited import",
+          "HTML entity unescape once"
+        ]
+      },
+      "raw_archive_record": {
+        "source_account_id": "kovainvest",
+        "stable_author_id": "1106168053",
+        "handle_at_collection": "kovainvest",
+        "post_id": "2069500252638294032",
+        "url": "https://x.com/kovainvest/status/2069500252638294032",
+        "created_at": "2026-06-23T19:18:04+00:00",
+        "collected_at": null,
+        "ingested_at": "2026-09-06T02:50:21.738060+00:00",
+        "text": "$ALAB easy add right here, \n在我的长期持仓里我又加仓了 $ALAB \n\n大多数人还把它当NVIDIA的衍生品\n觉得它就是个卖retimer的芯片公司\n这个框架太窄了\n\n它对GPU和定制ASIC双向中立\nNVIDIA赢，它收钱\nGoogle TPU、Amazon Trainium、Meta MTIA赢，它一样收钱\n连接这层，谁赢都得用它\n\nand most people dont understand \n真正驱动它的东西藏在出货量背后\n单颗加速器身上的连接金额\n从$50涨到今天超过$1000\nGPU哪怕见顶，这条content曲线还在往上\n\n$ALAB You are still early on ALAB",
+        "language": "zh",
+        "target_language": "zh",
+        "post_type": "original",
+        "reply_to": null,
+        "quoted_post": null,
+        "reposted_post": null,
+        "thread_id": "2069500252638294032",
+        "media_type": [],
+        "external_links": [],
+        "engagement_snapshot": {
+          "favorite_count": 26,
+          "retweet_count": 3,
+          "reply_count": 19,
+          "quote_count": 1,
+          "bookmark_count": 17,
+          "view_count": 13701
+        },
+        "raw_payload_hash": "8b838cee0844fdabb8f063b7ba9533cde9578821d13376424fb51d2085f71be5",
+        "provider_run_id": "5DLYPjNjyKeuDypbz",
+        "import_run_id": "import-794f061e4f6d",
+        "provider": "apify",
+        "payload_scope": "inherited_normalized_post_not_original_network_response",
+        "input_file_hash": "c2a35c8b24b01bbf9e2c95e1df60a241ddfaa423b837bea760e2333f7cd92b77",
+        "source_order_index": 336,
+        "author_match": true,
+        "timeline_pinned": null,
+        "missing_fields": [
+          "collected_at"
+        ],
+        "source_record": {
+          "searchType": "user-tweets",
+          "record_type": "tweet",
+          "handle": "kovainvest",
+          "tweet_id": "2069500252638294032",
+          "url": "https://x.com/kovainvest/status/2069500252638294032",
+          "text": "$ALAB easy add right here, \n在我的长期持仓里我又加仓了 $ALAB \n\n大多数人还把它当NVIDIA的衍生品\n觉得它就是个卖retimer的芯片公司\n这个框架太窄了\n\n它对GPU和定制ASIC双向中立\nNVIDIA赢，它收钱\nGoogle TPU、Amazon Trainium、Meta MTIA赢，它一样收钱\n连接这层，谁赢都得用它\n\nand most people dont understand \n真正驱动它的东西藏在出货量背后\n单颗加速器身上的连接金额\n从$50涨到今天超过$1000\nGPU哪怕见顶，这条content曲线还在往上\n\n$ALAB You are still early on ALAB",
+          "created_at": "Tue Jun 23 19:18:04 +0000 2026",
+          "lang": "zh",
+          "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+          "favorite_count": 26,
+          "retweet_count": 3,
+          "reply_count": 19,
+          "quote_count": 1,
+          "bookmark_count": 17,
+          "view_count": 13701,
+          "conversation_id": "2069500252638294032",
+          "is_reply": false,
+          "in_reply_to_screen_name": null,
+          "in_reply_to_status_id": null,
+          "in_reply_to_user_id": null,
+          "is_quote": false,
+          "quoted_tweet_id": null,
+          "quoted_tweet": null,
+          "sensitive": false,
+          "hashtags": [],
+          "mentions": [],
+          "urls": [],
+          "media": [],
+          "author": {
+            "rest_id": "1106168053",
+            "name": "Kova",
+            "screen_name": "kovainvest",
+            "avatar": "https://pbs.twimg.com/profile_images/2053109121386242056/mfvnDlia_normal.jpg",
+            "followers_count": 18772,
+            "blue_verified": true
+          }
+        },
+        "analysis_text": "$ALAB easy add right here, \n在我的长期持仓里我又加仓了 $ALAB \n\n大多数人还把它当NVIDIA的衍生品\n觉得它就是个卖retimer的芯片公司\n这个框架太窄了\n\n它对GPU和定制ASIC双向中立\nNVIDIA赢，它收钱\nGoogle TPU、Amazon Trainium、Meta MTIA赢，它一样收钱\n连接这层，谁赢都得用它\n\nand most people dont understand \n真正驱动它的东西藏在出货量背后\n单颗加速器身上的连接金额\n从$50涨到今天超过$1000\nGPU哪怕见顶，这条content曲线还在往上\n\n$ALAB You are still early on ALAB",
+        "text_processing": {
+          "excluded_spans": [],
+          "provider_entity_marker_normalizations": [],
+          "version": "clean-v3-reviewed-commercial-spans",
+          "raw_text_preserved": true,
+          "whole_post_commercial_exclusion": null
+        },
+        "analysis_external_links": [],
+        "classification": {
+          "category": "原创金融分析",
+          "financial_relevant": true,
+          "keep": true,
+          "confidence": 0.82,
+          "confidence_kind": "heuristic_not_calibrated",
+          "excluded_reasons": [],
+          "method": "rules-v3-commercial-cleanup",
+          "signals": {
+            "finance": true,
+            "promotion": false,
+            "mechanism": false,
+            "source_cue": false
+          }
+        },
+        "duplicate_group": "e2a8b2edae9983a6eac4"
+      }
+    },
+    {
+      "case": "H04_zh_long_industry",
+      "tags": [
+        "zh_long",
+        "technical",
+        "media_available"
+      ],
+      "source": {
+        "id": "2087816155256008924",
+        "source_id": "x_xingpt",
+        "author_name": "xingpt",
+        "author_id": "1050360109459755010",
+        "url": "https://x.com/xingpt/status/2087816155256008924",
+        "text": "Lumentum + Coherent 季度财报解析： 追光者的胜利\n\nLumentum和Coherent连续两天公布财报，把目前AI光通信产业的进度进一步验证清楚了。两家公司都处在光通信核心产业链，但商业模式有所不同。\n\nLumentum更偏上游高价值光器件和系统，核心包括EML、CW激光器、泵浦激光器、高功率CPO激光器，同时向OCS光交换、ELS外置光源和云端光模块延伸，因此利润率和AI业务弹性更高。\n\nCoherent则更接近“全产业链光子平台”，从InP材料与晶圆、激光器、隔离器、光纤，一直到800G/1.6T光模块、OCS以及CPO/NPO都有布局，其优势在于垂直整合和供应链控制能力。\n\n从本季度业绩看，两家公司共同释放的信号依然很强。Lumentum FY26 Q4收入10.06亿美元，同比增长109%，Non-GAAP毛利率达到50.4%，EPS为3.23美元；更重要的是FY27 Q1收入指引中值达到12.5亿美元，原先需要更晚才能实现的经营目标再次提前。 \nCoherent Q4收入约20.5亿美元，同比增长34%，调整后EPS 1.74美元，均超过市场预期；FY27 Q1收入指引中值进一步达到23亿美元，EPS中值1.95美元，同样明显高于此前市场预期。\n\n两家公司之间最大的区别在利润率。Lumentum毛利率已经超过50%，主要受益于激光器供给紧张、产品结构升级和OCS等高利润业务；\nCoherent毛利率约40%，因为增长最快的业务恰恰是毛利率相对较低的光模块。\nCoherent管理层也明确指出，transceiver快速增长会对集团整体毛利率形成结构性压制，但随着6英寸InP产能释放，光模块自身利润率仍在提升。\n\n两份财报最重要的意义，其实是对产业趋势形成了非常强的交叉验证。\n\n第一，1.6T远没有走完，甚至还在加速。\nCoherent表示，过去3至6个月客户继续把1.6T的量产时间提前，同时把爬坡曲线变得更陡；公司预计整个行业1.6T收入真正超过800G要到2028年。  \nLumentum同样看到200G/lane EML迅速放量和1.6T需求增长。因此2026至2027年，传统可插拔光模块依然是最确定的业绩主线，NPO/CPO目前没有提前终结1.6T周期。\n\n第二，EML和硅光/CW目前是双路线共存。\nLumentum开始把部分产能转向CW，说明1.6T硅光渗透率确实在提高，但EML依然严重缺货；\nCoherent则直接表示EML与Silicon Photonics版本的1.6T需求都很健康，很多客户甚至不在乎具体路线，只希望尽快拿到产品。 \n这意味着现阶段投资光模块，更重要的是抓住1.6T总量增长和客户份额，而不宜过早押注某一种技术完全淘汰另一种。\n\n第三，上游器件正在成为真正的瓶颈。\nCoherent表示过去一年限制数据中心业务增长的主要因素一直是产能而非需求，公司InP产能本季度同比翻倍，到2027年底还计划再翻倍，而且部分新增产能已经开始从传统光模块转向超高功率CPO/ELS激光器。 \nLumentum也表示高功率激光器需求超过此前预测。两家公司共同说明，未来光通信最稀缺的价值可能越来越集中在InP、EML、CW、高功率激光器、隔离器等核心器件，而模块组装产能相对更容易扩张。\n\n第四，OCS、NPO和CPO已经开始形成第二增长曲线。Coherent过去半年看到OCS用于scale-up的客户参与明显增加；Lumentum的OCS收入已经实际进入快速爬坡。 CPO方面，Coherent今年已经开始受益于scale-out CPO，并预计2027年下半年逐渐进入scale-up；\nLumentum给出的时间线也基本一致，高功率ELS/CPO激光器主要在2027H2开始放量，对应2028年的系统部署。因此产业节奏可以简单理解为：2026至2027年看1.6T，2027H2以后增加ELS、NPO和高功率激光器，2028以后真正进入scale-up光互联的大周期。\n\n对应到产业链，第一优先级仍然是1.6T高速光模块，直接受益者包括中际旭创、新易盛以及Fabrinet等。中际旭创目前产品已经覆盖至1.6T并布局NPO，新易盛也已展示200G/lane 1.6T产品；Fabrinet则处在全球高端光模块制造和封装环节。 \n第二条主线是上游激光器和InP，Lumentum、Coherent本身最直接，A股可以继续观察源杰科技这类已经具备200G EML和CW激光芯片产品的厂商。 第三条则是光纤和高密度连接，随着光从机柜外逐渐深入机柜内部，Corning的长期逻辑也得到加强。\n\n最后看投资节奏。基本面上，我仍然偏向把LITE和COHR视为AI光通信的核心观察指标，但目前不适合看到好财报就追涨。\nLumentum在8月12日财报后已经上涨13.6%，过去一年累计涨幅也非常大，说明市场已经计入相当高的2027至2028年增长预期。 技术上更适合等待财报跳空上涨后形成新的整理平台，确认回踩承接再考虑增加仓位，而不是追单日大阳线。\n\nCoherent则更有意思。8月12日白天受到Lumentum带动先上涨8.2%，自己的财报公布后盘后反而下跌约2.1%至348美元附近，尽管收入、EPS和指引全部beat。 \n\n这说明市场预期已经很高，也说明短线筹码需要消化。技术上可以观察正式交易后能否重新站回财报前约355美元的收盘区域，如果快速收回，说明市场最终认可基本面；如果持续承压，则更适合等待新的日线平台形成。技术形态上Lite更强。\n\n综合来看，我目前更愿意采用“产业继续看多，个股避免追高”的策略：短期利润最确定的仍是1.6T光模块，中期提高InP、EML/CW、高功率激光器和OCS的权重，2027年下半年开始逐渐把研究重心转向ELS、NPO和CPO。\n\n真正值得长期提高估值的公司，是那些既能吃到当前1.6T利润，又能顺利进入下一代光引擎、OCS和CPO体系的企业。",
+        "published_at": "2026-08-13T08:18:55+00:00",
+        "fetched_at": null,
+        "source_type": "x",
+        "platform": "x",
+        "source_language": "zh",
+        "content_complete": true,
+        "extraction_status": "archived_post_body_context_requires_assessment",
+        "extractor_version": "archive-decode-v1",
+        "post_type": "original",
+        "reply_to": null,
+        "quoted_post": null,
+        "thread_id": "2087816155256008924",
+        "media": [
+          "photo"
+        ],
+        "external_links": [],
+        "raw_import_ref": "data/raw_posts.jsonl#2087816155256008924",
+        "raw_import_hash": "6581d96bc27aed8d99a59e0dd4a7d2f25042edef8e90251fbd1c26a4b964cf97",
+        "extraction_transformations": [
+          "decode literal backslash-n from inherited import",
+          "HTML entity unescape once"
+        ]
+      },
+      "raw_archive_record": {
+        "source_account_id": "xingpt",
+        "stable_author_id": "1050360109459755010",
+        "handle_at_collection": "xingpt",
+        "post_id": "2087816155256008924",
+        "url": "https://x.com/xingpt/status/2087816155256008924",
+        "created_at": "2026-08-13T08:18:55+00:00",
+        "collected_at": null,
+        "ingested_at": "2026-09-06T02:50:21.738060+00:00",
+        "text": "Lumentum + Coherent 季度财报解析： 追光者的胜利\n\nLumentum和Coherent连续两天公布财报，把目前AI光通信产业的进度进一步验证清楚了。两家公司都处在光通信核心产业链，但商业模式有所不同。\n\nLumentum更偏上游高价值光器件和系统，核心包括EML、CW激光器、泵浦激光器、高功率CPO激光器，同时向OCS光交换、ELS外置光源和云端光模块延伸，因此利润率和AI业务弹性更高。\n\nCoherent则更接近“全产业链光子平台”，从InP材料与晶圆、激光器、隔离器、光纤，一直到800G/1.6T光模块、OCS以及CPO/NPO都有布局，其优势在于垂直整合和供应链控制能力。\n\n从本季度业绩看，两家公司共同释放的信号依然很强。Lumentum FY26 Q4收入10.06亿美元，同比增长109%，Non-GAAP毛利率达到50.4%，EPS为3.23美元；更重要的是FY27 Q1收入指引中值达到12.5亿美元，原先需要更晚才能实现的经营目标再次提前。 \nCoherent Q4收入约20.5亿美元，同比增长34%，调整后EPS 1.74美元，均超过市场预期；FY27 Q1收入指引中值进一步达到23亿美元，EPS中值1.95美元，同样明显高于此前市场预期。\n\n两家公司之间最大的区别在利润率。Lumentum毛利率已经超过50%，主要受益于激光器供给紧张、产品结构升级和OCS等高利润业务；\nCoherent毛利率约40%，因为增长最快的业务恰恰是毛利率相对较低的光模块。\nCoherent管理层也明确指出，transceiver快速增长会对集团整体毛利率形成结构性压制，但随着6英寸InP产能释放，光模块自身利润率仍在提升。\n\n两份财报最重要的意义，其实是对产业趋势形成了非常强的交叉验证。\n\n第一，1.6T远没有走完，甚至还在加速。\nCoherent表示，过去3至6个月客户继续把1.6T的量产时间提前，同时把爬坡曲线变得更陡；公司预计整个行业1.6T收入真正超过800G要到2028年。  \nLumentum同样看到200G/lane EML迅速放量和1.6T需求增长。因此2026至2027年，传统可插拔光模块依然是最确定的业绩主线，NPO/CPO目前没有提前终结1.6T周期。\n\n第二，EML和硅光/CW目前是双路线共存。\nLumentum开始把部分产能转向CW，说明1.6T硅光渗透率确实在提高，但EML依然严重缺货；\nCoherent则直接表示EML与Silicon Photonics版本的1.6T需求都很健康，很多客户甚至不在乎具体路线，只希望尽快拿到产品。 \n这意味着现阶段投资光模块，更重要的是抓住1.6T总量增长和客户份额，而不宜过早押注某一种技术完全淘汰另一种。\n\n第三，上游器件正在成为真正的瓶颈。\nCoherent表示过去一年限制数据中心业务增长的主要因素一直是产能而非需求，公司InP产能本季度同比翻倍，到2027年底还计划再翻倍，而且部分新增产能已经开始从传统光模块转向超高功率CPO/ELS激光器。 \nLumentum也表示高功率激光器需求超过此前预测。两家公司共同说明，未来光通信最稀缺的价值可能越来越集中在InP、EML、CW、高功率激光器、隔离器等核心器件，而模块组装产能相对更容易扩张。\n\n第四，OCS、NPO和CPO已经开始形成第二增长曲线。Coherent过去半年看到OCS用于scale-up的客户参与明显增加；Lumentum的OCS收入已经实际进入快速爬坡。 CPO方面，Coherent今年已经开始受益于scale-out CPO，并预计2027年下半年逐渐进入scale-up；\nLumentum给出的时间线也基本一致，高功率ELS/CPO激光器主要在2027H2开始放量，对应2028年的系统部署。因此产业节奏可以简单理解为：2026至2027年看1.6T，2027H2以后增加ELS、NPO和高功率激光器，2028以后真正进入scale-up光互联的大周期。\n\n对应到产业链，第一优先级仍然是1.6T高速光模块，直接受益者包括中际旭创、新易盛以及Fabrinet等。中际旭创目前产品已经覆盖至1.6T并布局NPO，新易盛也已展示200G/lane 1.6T产品；Fabrinet则处在全球高端光模块制造和封装环节。 \n第二条主线是上游激光器和InP，Lumentum、Coherent本身最直接，A股可以继续观察源杰科技这类已经具备200G EML和CW激光芯片产品的厂商。 第三条则是光纤和高密度连接，随着光从机柜外逐渐深入机柜内部，Corning的长期逻辑也得到加强。\n\n最后看投资节奏。基本面上，我仍然偏向把LITE和COHR视为AI光通信的核心观察指标，但目前不适合看到好财报就追涨。\nLumentum在8月12日财报后已经上涨13.6%，过去一年累计涨幅也非常大，说明市场已经计入相当高的2027至2028年增长预期。 技术上更适合等待财报跳空上涨后形成新的整理平台，确认回踩承接再考虑增加仓位，而不是追单日大阳线。\n\nCoherent则更有意思。8月12日白天受到Lumentum带动先上涨8.2%，自己的财报公布后盘后反而下跌约2.1%至348美元附近，尽管收入、EPS和指引全部beat。 \n\n这说明市场预期已经很高，也说明短线筹码需要消化。技术上可以观察正式交易后能否重新站回财报前约355美元的收盘区域，如果快速收回，说明市场最终认可基本面；如果持续承压，则更适合等待新的日线平台形成。技术形态上Lite更强。\n\n综合来看，我目前更愿意采用“产业继续看多，个股避免追高”的策略：短期利润最确定的仍是1.6T光模块，中期提高InP、EML/CW、高功率激光器和OCS的权重，2027年下半年开始逐渐把研究重心转向ELS、NPO和CPO。\n\n真正值得长期提高估值的公司，是那些既能吃到当前1.6T利润，又能顺利进入下一代光引擎、OCS和CPO体系的企业。",
+        "language": "zh",
+        "target_language": "zh",
+        "post_type": "original",
+        "reply_to": null,
+        "quoted_post": null,
+        "reposted_post": null,
+        "thread_id": "2087816155256008924",
+        "media_type": [
+          "photo"
+        ],
+        "external_links": [],
+        "engagement_snapshot": {
+          "favorite_count": 7,
+          "retweet_count": 0,
+          "reply_count": 20,
+          "quote_count": 1,
+          "bookmark_count": 4,
+          "view_count": 4433
+        },
+        "raw_payload_hash": "e246e54a0c7286779c916a554d93e71ff08c954c95bd63cdd8af85ec0ce36f4f",
+        "provider_run_id": "5hItipQmWgpgSveNm",
+        "import_run_id": "import-794f061e4f6d",
+        "provider": "apify",
+        "payload_scope": "inherited_normalized_post_not_original_network_response",
+        "input_file_hash": "c2a35c8b24b01bbf9e2c95e1df60a241ddfaa423b837bea760e2333f7cd92b77",
+        "source_order_index": 86,
+        "author_match": true,
+        "timeline_pinned": null,
+        "missing_fields": [
+          "collected_at"
+        ],
+        "source_record": {
+          "searchType": "user-tweets",
+          "record_type": "tweet",
+          "handle": "xingpt",
+          "tweet_id": "2087816155256008924",
+          "url": "https://x.com/xingpt/status/2087816155256008924",
+          "text": "Lumentum + Coherent 季度财报解析： 追光者的胜利\n\nLumentum和Coherent连续两天公布财报，把目前AI光通信产业的进度进一步验证清楚了。两家公司都处在光通信核心产业链，但商业模式有所不同。\n\nLumentum更偏上游高价值光器件和系统，核心包括EML、CW激光器、泵浦激光器、高功率CPO激光器，同时向OCS光交换、ELS外置光源和云端光模块延伸，因此利润率和AI业务弹性更高。\n\nCoherent则更接近“全产业链光子平台”，从InP材料与晶圆、激光器、隔离器、光纤，一直到800G/1.6T光模块、OCS以及CPO/NPO都有布局，其优势在于垂直整合和供应链控制能力。\n\n从本季度业绩看，两家公司共同释放的信号依然很强。Lumentum FY26 Q4收入10.06亿美元，同比增长109%，Non-GAAP毛利率达到50.4%，EPS为3.23美元；更重要的是FY27 Q1收入指引中值达到12.5亿美元，原先需要更晚才能实现的经营目标再次提前。 \nCoherent Q4收入约20.5亿美元，同比增长34%，调整后EPS 1.74美元，均超过市场预期；FY27 Q1收入指引中值进一步达到23亿美元，EPS中值1.95美元，同样明显高于此前市场预期。\n\n两家公司之间最大的区别在利润率。Lumentum毛利率已经超过50%，主要受益于激光器供给紧张、产品结构升级和OCS等高利润业务；\nCoherent毛利率约40%，因为增长最快的业务恰恰是毛利率相对较低的光模块。\nCoherent管理层也明确指出，transceiver快速增长会对集团整体毛利率形成结构性压制，但随着6英寸InP产能释放，光模块自身利润率仍在提升。\n\n两份财报最重要的意义，其实是对产业趋势形成了非常强的交叉验证。\n\n第一，1.6T远没有走完，甚至还在加速。\nCoherent表示，过去3至6个月客户继续把1.6T的量产时间提前，同时把爬坡曲线变得更陡；公司预计整个行业1.6T收入真正超过800G要到2028年。  \nLumentum同样看到200G/lane EML迅速放量和1.6T需求增长。因此2026至2027年，传统可插拔光模块依然是最确定的业绩主线，NPO/CPO目前没有提前终结1.6T周期。\n\n第二，EML和硅光/CW目前是双路线共存。\nLumentum开始把部分产能转向CW，说明1.6T硅光渗透率确实在提高，但EML依然严重缺货；\nCoherent则直接表示EML与Silicon Photonics版本的1.6T需求都很健康，很多客户甚至不在乎具体路线，只希望尽快拿到产品。 \n这意味着现阶段投资光模块，更重要的是抓住1.6T总量增长和客户份额，而不宜过早押注某一种技术完全淘汰另一种。\n\n第三，上游器件正在成为真正的瓶颈。\nCoherent表示过去一年限制数据中心业务增长的主要因素一直是产能而非需求，公司InP产能本季度同比翻倍，到2027年底还计划再翻倍，而且部分新增产能已经开始从传统光模块转向超高功率CPO/ELS激光器。 \nLumentum也表示高功率激光器需求超过此前预测。两家公司共同说明，未来光通信最稀缺的价值可能越来越集中在InP、EML、CW、高功率激光器、隔离器等核心器件，而模块组装产能相对更容易扩张。\n\n第四，OCS、NPO和CPO已经开始形成第二增长曲线。Coherent过去半年看到OCS用于scale-up的客户参与明显增加；Lumentum的OCS收入已经实际进入快速爬坡。 CPO方面，Coherent今年已经开始受益于scale-out CPO，并预计2027年下半年逐渐进入scale-up；\nLumentum给出的时间线也基本一致，高功率ELS/CPO激光器主要在2027H2开始放量，对应2028年的系统部署。因此产业节奏可以简单理解为：2026至2027年看1.6T，2027H2以后增加ELS、NPO和高功率激光器，2028以后真正进入scale-up光互联的大周期。\n\n对应到产业链，第一优先级仍然是1.6T高速光模块，直接受益者包括中际旭创、新易盛以及Fabrinet等。中际旭创目前产品已经覆盖至1.6T并布局NPO，新易盛也已展示200G/lane 1.6T产品；Fabrinet则处在全球高端光模块制造和封装环节。 \n第二条主线是上游激光器和InP，Lumentum、Coherent本身最直接，A股可以继续观察源杰科技这类已经具备200G EML和CW激光芯片产品的厂商。 第三条则是光纤和高密度连接，随着光从机柜外逐渐深入机柜内部，Corning的长期逻辑也得到加强。\n\n最后看投资节奏。基本面上，我仍然偏向把LITE和COHR视为AI光通信的核心观察指标，但目前不适合看到好财报就追涨。\nLumentum在8月12日财报后已经上涨13.6%，过去一年累计涨幅也非常大，说明市场已经计入相当高的2027至2028年增长预期。 技术上更适合等待财报跳空上涨后形成新的整理平台，确认回踩承接再考虑增加仓位，而不是追单日大阳线。\n\nCoherent则更有意思。8月12日白天受到Lumentum带动先上涨8.2%，自己的财报公布后盘后反而下跌约2.1%至348美元附近，尽管收入、EPS和指引全部beat。 \n\n这说明市场预期已经很高，也说明短线筹码需要消化。技术上可以观察正式交易后能否重新站回财报前约355美元的收盘区域，如果快速收回，说明市场最终认可基本面；如果持续承压，则更适合等待新的日线平台形成。技术形态上Lite更强。\n\n综合来看，我目前更愿意采用“产业继续看多，个股避免追高”的策略：短期利润最确定的仍是1.6T光模块，中期提高InP、EML/CW、高功率激光器和OCS的权重，2027年下半年开始逐渐把研究重心转向ELS、NPO和CPO。\n\n真正值得长期提高估值的公司，是那些既能吃到当前1.6T利润，又能顺利进入下一代光引擎、OCS和CPO体系的企业。",
+          "created_at": "Thu Aug 13 08:18:55 +0000 2026",
+          "lang": "zh",
+          "source": null,
+          "favorite_count": 7,
+          "retweet_count": 0,
+          "reply_count": 20,
+          "quote_count": 1,
+          "bookmark_count": 4,
+          "view_count": 4433,
+          "conversation_id": "2087816155256008924",
+          "is_reply": false,
+          "in_reply_to_screen_name": null,
+          "in_reply_to_status_id": null,
+          "in_reply_to_user_id": null,
+          "is_quote": false,
+          "quoted_tweet_id": null,
+          "quoted_tweet": null,
+          "sensitive": false,
+          "hashtags": [],
+          "mentions": [],
+          "urls": [],
+          "media": [
+            {
+              "type": "photo",
+              "image_url": "https://pbs.twimg.com/media/HPlmt7MbEAAWf6s.jpg",
+              "video_url": null
+            },
+            {
+              "type": "photo",
+              "image_url": "https://pbs.twimg.com/media/HPlpi-hbAAECK71.jpg",
+              "video_url": null
+            }
+          ],
+          "author": {
+            "rest_id": "1050360109459755010",
+            "name": "XinGPT🐶",
+            "screen_name": "xingpt",
+            "avatar": "https://pbs.twimg.com/profile_images/1986773180636405760/yOB_jnuo_normal.jpg",
+            "followers_count": 57663,
+            "blue_verified": true
+          }
+        },
+        "analysis_text": "Lumentum + Coherent 季度财报解析： 追光者的胜利\n\nLumentum和Coherent连续两天公布财报，把目前AI光通信产业的进度进一步验证清楚了。两家公司都处在光通信核心产业链，但商业模式有所不同。\n\nLumentum更偏上游高价值光器件和系统，核心包括EML、CW激光器、泵浦激光器、高功率CPO激光器，同时向OCS光交换、ELS外置光源和云端光模块延伸，因此利润率和AI业务弹性更高。\n\nCoherent则更接近“全产业链光子平台”，从InP材料与晶圆、激光器、隔离器、光纤，一直到800G/1.6T光模块、OCS以及CPO/NPO都有布局，其优势在于垂直整合和供应链控制能力。\n\n从本季度业绩看，两家公司共同释放的信号依然很强。Lumentum FY26 Q4收入10.06亿美元，同比增长109%，Non-GAAP毛利率达到50.4%，EPS为3.23美元；更重要的是FY27 Q1收入指引中值达到12.5亿美元，原先需要更晚才能实现的经营目标再次提前。 \nCoherent Q4收入约20.5亿美元，同比增长34%，调整后EPS 1.74美元，均超过市场预期；FY27 Q1收入指引中值进一步达到23亿美元，EPS中值1.95美元，同样明显高于此前市场预期。\n\n两家公司之间最大的区别在利润率。Lumentum毛利率已经超过50%，主要受益于激光器供给紧张、产品结构升级和OCS等高利润业务；\nCoherent毛利率约40%，因为增长最快的业务恰恰是毛利率相对较低的光模块。\nCoherent管理层也明确指出，transceiver快速增长会对集团整体毛利率形成结构性压制，但随着6英寸InP产能释放，光模块自身利润率仍在提升。\n\n两份财报最重要的意义，其实是对产业趋势形成了非常强的交叉验证。\n\n第一，1.6T远没有走完，甚至还在加速。\nCoherent表示，过去3至6个月客户继续把1.6T的量产时间提前，同时把爬坡曲线变得更陡；公司预计整个行业1.6T收入真正超过800G要到2028年。  \nLumentum同样看到200G/lane EML迅速放量和1.6T需求增长。因此2026至2027年，传统可插拔光模块依然是最确定的业绩主线，NPO/CPO目前没有提前终结1.6T周期。\n\n第二，EML和硅光/CW目前是双路线共存。\nLumentum开始把部分产能转向CW，说明1.6T硅光渗透率确实在提高，但EML依然严重缺货；\nCoherent则直接表示EML与Silicon Photonics版本的1.6T需求都很健康，很多客户甚至不在乎具体路线，只希望尽快拿到产品。 \n这意味着现阶段投资光模块，更重要的是抓住1.6T总量增长和客户份额，而不宜过早押注某一种技术完全淘汰另一种。\n\n第三，上游器件正在成为真正的瓶颈。\nCoherent表示过去一年限制数据中心业务增长的主要因素一直是产能而非需求，公司InP产能本季度同比翻倍，到2027年底还计划再翻倍，而且部分新增产能已经开始从传统光模块转向超高功率CPO/ELS激光器。 \nLumentum也表示高功率激光器需求超过此前预测。两家公司共同说明，未来光通信最稀缺的价值可能越来越集中在InP、EML、CW、高功率激光器、隔离器等核心器件，而模块组装产能相对更容易扩张。\n\n第四，OCS、NPO和CPO已经开始形成第二增长曲线。Coherent过去半年看到OCS用于scale-up的客户参与明显增加；Lumentum的OCS收入已经实际进入快速爬坡。 CPO方面，Coherent今年已经开始受益于scale-out CPO，并预计2027年下半年逐渐进入scale-up；\nLumentum给出的时间线也基本一致，高功率ELS/CPO激光器主要在2027H2开始放量，对应2028年的系统部署。因此产业节奏可以简单理解为：2026至2027年看1.6T，2027H2以后增加ELS、NPO和高功率激光器，2028以后真正进入scale-up光互联的大周期。\n\n对应到产业链，第一优先级仍然是1.6T高速光模块，直接受益者包括中际旭创、新易盛以及Fabrinet等。中际旭创目前产品已经覆盖至1.6T并布局NPO，新易盛也已展示200G/lane 1.6T产品；Fabrinet则处在全球高端光模块制造和封装环节。 \n第二条主线是上游激光器和InP，Lumentum、Coherent本身最直接，A股可以继续观察源杰科技这类已经具备200G EML和CW激光芯片产品的厂商。 第三条则是光纤和高密度连接，随着光从机柜外逐渐深入机柜内部，Corning的长期逻辑也得到加强。\n\n最后看投资节奏。基本面上，我仍然偏向把LITE和COHR视为AI光通信的核心观察指标，但目前不适合看到好财报就追涨。\nLumentum在8月12日财报后已经上涨13.6%，过去一年累计涨幅也非常大，说明市场已经计入相当高的2027至2028年增长预期。 技术上更适合等待财报跳空上涨后形成新的整理平台，确认回踩承接再考虑增加仓位，而不是追单日大阳线。\n\nCoherent则更有意思。8月12日白天受到Lumentum带动先上涨8.2%，自己的财报公布后盘后反而下跌约2.1%至348美元附近，尽管收入、EPS和指引全部beat。 \n\n这说明市场预期已经很高，也说明短线筹码需要消化。技术上可以观察正式交易后能否重新站回财报前约355美元的收盘区域，如果快速收回，说明市场最终认可基本面；如果持续承压，则更适合等待新的日线平台形成。技术形态上Lite更强。\n\n综合来看，我目前更愿意采用“产业继续看多，个股避免追高”的策略：短期利润最确定的仍是1.6T光模块，中期提高InP、EML/CW、高功率激光器和OCS的权重，2027年下半年开始逐渐把研究重心转向ELS、NPO和CPO。\n\n真正值得长期提高估值的公司，是那些既能吃到当前1.6T利润，又能顺利进入下一代光引擎、OCS和CPO体系的企业。",
+        "text_processing": {
+          "excluded_spans": [],
+          "provider_entity_marker_normalizations": [],
+          "version": "clean-v3-reviewed-commercial-spans",
+          "raw_text_preserved": true,
+          "whole_post_commercial_exclusion": null
+        },
+        "analysis_external_links": [],
+        "classification": {
+          "category": "原始研究或数据引用",
+          "financial_relevant": true,
+          "keep": true,
+          "confidence": 0.83,
+          "confidence_kind": "heuristic_not_calibrated",
+          "excluded_reasons": [],
+          "method": "rules-v3-commercial-cleanup",
+          "signals": {
+            "finance": true,
+            "promotion": false,
+            "mechanism": true,
+            "source_cue": true
+          }
+        },
+        "duplicate_group": "3ca6c069f5f22a8c8404"
+      }
+    },
+    {
+      "case": "H05_en_short_macro",
+      "tags": [
+        "en_short",
+        "macro"
+      ],
+      "source": {
+        "id": "2096094239151079652",
+        "source_id": "x_globalmktobserv",
+        "author_name": "GlobalMktObserv",
+        "author_id": "1679591758332657665",
+        "url": "https://x.com/GlobalMktObserv/status/2096094239151079652",
+        "text": "🤯The Bank of Japan is preparing to hike again, but the bigger story is what comes next:\n\nThe BOJ is reportedly leaning toward a 25-basis-point rate hike at its Sept 18 meeting, with inflation risks remaining.\n\nTAP IMAGE TO SEE FULL INSIGHT👇\nhttps://t.co/owfU77w9pg",
+        "published_at": "2026-09-05T04:33:04+00:00",
+        "fetched_at": "2026-09-05T17:01:32.257000+00:00",
+        "source_type": "x",
+        "platform": "x",
+        "source_language": "en",
+        "content_complete": true,
+        "extraction_status": "archived_post_body_context_requires_assessment",
+        "extractor_version": "archive-decode-v1",
+        "post_type": "original",
+        "reply_to": null,
+        "quoted_post": null,
+        "thread_id": "2096094239151079652",
+        "media": [],
+        "external_links": [
+          "https://t.co/owfU77w9pg"
+        ],
+        "raw_import_ref": "data/raw_posts.jsonl#2096094239151079652",
+        "raw_import_hash": "c2ee12d00092fdb0be3d0c299264e61905807ea55c3dfaa55ad61e08afbc18ef",
+        "extraction_transformations": [
+          "decode literal backslash-n from inherited import",
+          "HTML entity unescape once"
+        ]
+      },
+      "raw_archive_record": {
+        "source_account_id": "globalmktobserv",
+        "stable_author_id": "1679591758332657665",
+        "handle_at_collection": "GlobalMktObserv",
+        "post_id": "2096094239151079652",
+        "url": "https://x.com/GlobalMktObserv/status/2096094239151079652",
+        "created_at": "2026-09-05T04:33:04+00:00",
+        "collected_at": "2026-09-05T17:01:32.257000+00:00",
+        "ingested_at": "2026-09-06T02:50:21.738060+00:00",
+        "text": "🤯The Bank of Japan is preparing to hike again, but the bigger story is what comes next:\n\nThe BOJ is reportedly leaning toward a 25-basis-point rate hike at its Sept 18 meeting, with inflation risks remaining.\n\nTAP IMAGE TO SEE FULL INSIGHT👇\nhttps://t.co/owfU77w9pg",
+        "language": "en",
+        "target_language": "en",
+        "post_type": "original",
+        "reply_to": null,
+        "quoted_post": null,
+        "reposted_post": null,
+        "thread_id": "2096094239151079652",
+        "media_type": null,
+        "external_links": [
+          "https://t.co/owfU77w9pg"
+        ],
+        "engagement_snapshot": {
+          "replies": 3,
+          "reposts": 11,
+          "quotes": 1,
+          "likes": 49,
+          "bookmarks": 9,
+          "views": 6587
+        },
+        "raw_payload_hash": "15af87e5442045a00d6af4b8a5fe4af5ca69abd8afd1d6b7216e9c87aaa81c2e",
+        "provider_run_id": null,
+        "import_run_id": "import-794f061e4f6d",
+        "provider": "rapidapi-twitter241",
+        "payload_scope": "inherited_normalized_post_not_original_network_response",
+        "input_file_hash": "2daf6a36833f14d7951828cc41c2168a3f128e31c6957934e1ae5556b0d6d57e",
+        "source_order_index": 7,
+        "author_match": true,
+        "timeline_pinned": false,
+        "missing_fields": [
+          "media_type",
+          "provider_run_id"
+        ],
+        "source_record": {
+          "tweet_id": "2096094239151079652",
+          "url": "https://x.com/GlobalMktObserv/status/2096094239151079652",
+          "created_at": "Sat Sep 05 04:33:04 +0000 2026",
+          "author": {
+            "id": "1679591758332657665",
+            "name": "Global Markets Investor",
+            "username": "GlobalMktObserv",
+            "description": "Global Markets Investor is a financial research platform covering global markets and economies. Founded by a Wall Street equity and macro research professional.",
+            "location": "Subscribe below for $0.5 a day",
+            "followers_count": 94109,
+            "following_count": 64,
+            "statuses_count": 48975,
+            "created_at": "Thu Jul 13 20:41:03 +0000 2023",
+            "verified": false,
+            "blue_verified": true,
+            "profile_url": "https://x.com/GlobalMktObserv"
+          },
+          "text": "🤯The Bank of Japan is preparing to hike again, but the bigger story is what comes next:\n\nThe BOJ is reportedly leaning toward a 25-basis-point rate hike at its Sept 18 meeting, with inflation risks remaining.\n\nTAP IMAGE TO SEE FULL INSIGHT👇\nhttps://t.co/owfU77w9pg",
+          "lang": "en",
+          "conversation_id": "2096094239151079652",
+          "reply_to_user_id": null,
+          "reply_to_username": null,
+          "is_reply": false,
+          "is_quote": false,
+          "quote_target": null,
+          "quote_tweet_id": null,
+          "is_repost": false,
+          "repost_target": null,
+          "repost_tweet_id": null,
+          "mentions": [],
+          "metrics": {
+            "replies": 3,
+            "reposts": 11,
+            "quotes": 1,
+            "likes": 49,
+            "bookmarks": 9,
+            "views": 6587
+          },
+          "timeline_pinned": false
+        },
+        "analysis_text": "🤯The Bank of Japan is preparing to hike again, but the bigger story is what comes next:\n\nThe BOJ is reportedly leaning toward a 25-basis-point rate hike at its Sept 18 meeting, with inflation risks remaining.\n\nTAP IMAGE TO SEE FULL INSIGHT👇\nhttps://t.co/owfU77w9pg",
+        "text_processing": {
+          "excluded_spans": [],
+          "provider_entity_marker_normalizations": [],
+          "version": "clean-v3-reviewed-commercial-spans",
+          "raw_text_preserved": true,
+          "whole_post_commercial_exclusion": null
+        },
+        "analysis_external_links": [
+          "https://t.co/owfU77w9pg"
+        ],
+        "classification": {
+          "category": "原创金融分析",
+          "financial_relevant": true,
+          "keep": true,
+          "confidence": 0.82,
+          "confidence_kind": "heuristic_not_calibrated",
+          "excluded_reasons": [],
+          "method": "rules-v3-commercial-cleanup",
+          "signals": {
+            "finance": true,
+            "promotion": false,
+            "mechanism": false,
+            "source_cue": false
+          }
+        },
+        "duplicate_group": "9ed4a383883e417f669a"
+      }
+    },
+    {
+      "case": "H06_zh_crypto_forecast",
+      "tags": [
+        "zh_short",
+        "crypto",
+        "macro",
+        "personal_forecast"
+      ],
+      "source": {
+        "id": "2090622603878600981",
+        "source_id": "x_kovainvest",
+        "author_name": "kovainvest",
+        "author_id": "1106168053",
+        "url": "https://x.com/kovainvest/status/2090622603878600981",
+        "text": "我的 bitcoin:native price target: $1M \n美国国债刚突破40万亿\n利息支出已经很大，长端收益率一冲高，政府融资成本立刻上去。财政部只能靠回购去压收益率曲线，等于在债务压力下直接干预债市、往市场里灌流动性（QE Mini）\n\n比特币对这种信号比短期CPI数据敏感得多。主权债务一旦到了“不干预就撑不住成本”的地步，固定供应的硬资产就会被重新定价\n普通投资者只看到回购利好风险资产，很少注意到背后其实是债务压力已经顶不住了，开始显性化",
+        "published_at": "2026-08-21T02:10:45+00:00",
+        "fetched_at": null,
+        "source_type": "x",
+        "platform": "x",
+        "source_language": "zh",
+        "content_complete": true,
+        "extraction_status": "archived_post_body_context_requires_assessment",
+        "extractor_version": "archive-decode-v1",
+        "post_type": "original",
+        "reply_to": null,
+        "quoted_post": null,
+        "thread_id": "2090622603878600981",
+        "media": [],
+        "external_links": [],
+        "raw_import_ref": "data/raw_posts.jsonl#2090622603878600981",
+        "raw_import_hash": "26f5fe891557837ddcaee656662b4309665c2f5b825a5093677eddba16a0a7d8",
+        "extraction_transformations": [
+          "decode literal backslash-n from inherited import",
+          "HTML entity unescape once"
+        ]
+      },
+      "raw_archive_record": {
+        "source_account_id": "kovainvest",
+        "stable_author_id": "1106168053",
+        "handle_at_collection": "kovainvest",
+        "post_id": "2090622603878600981",
+        "url": "https://x.com/kovainvest/status/2090622603878600981",
+        "created_at": "2026-08-21T02:10:45+00:00",
+        "collected_at": null,
+        "ingested_at": "2026-09-06T02:50:21.738060+00:00",
+        "text": "我的 bitcoin:native price target: $1M \n美国国债刚突破40万亿\n利息支出已经很大，长端收益率一冲高，政府融资成本立刻上去。财政部只能靠回购去压收益率曲线，等于在债务压力下直接干预债市、往市场里灌流动性（QE Mini）\n\n比特币对这种信号比短期CPI数据敏感得多。主权债务一旦到了“不干预就撑不住成本”的地步，固定供应的硬资产就会被重新定价\n普通投资者只看到回购利好风险资产，很少注意到背后其实是债务压力已经顶不住了，开始显性化",
+        "language": "zh",
+        "target_language": "zh",
+        "post_type": "original",
+        "reply_to": null,
+        "quoted_post": null,
+        "reposted_post": null,
+        "thread_id": "2090622603878600981",
+        "media_type": [],
+        "external_links": [],
+        "engagement_snapshot": {
+          "favorite_count": 41,
+          "retweet_count": 2,
+          "reply_count": 32,
+          "quote_count": 0,
+          "bookmark_count": 13,
+          "view_count": 14019
+        },
+        "raw_payload_hash": "f96d15cece0395dd144364c18da72c847988dadcd5531db35bd6e4ece6e8fc20",
+        "provider_run_id": "5DLYPjNjyKeuDypbz",
+        "import_run_id": "import-794f061e4f6d",
+        "provider": "apify",
+        "payload_scope": "inherited_normalized_post_not_original_network_response",
+        "input_file_hash": "c2a35c8b24b01bbf9e2c95e1df60a241ddfaa423b837bea760e2333f7cd92b77",
+        "source_order_index": 50,
+        "author_match": true,
+        "timeline_pinned": null,
+        "missing_fields": [
+          "collected_at"
+        ],
+        "source_record": {
+          "searchType": "user-tweets",
+          "record_type": "tweet",
+          "handle": "kovainvest",
+          "tweet_id": "2090622603878600981",
+          "url": "https://x.com/kovainvest/status/2090622603878600981",
+          "text": "我的 bitcoin:native price target: $1M \n美国国债刚突破40万亿\n利息支出已经很大，长端收益率一冲高，政府融资成本立刻上去。财政部只能靠回购去压收益率曲线，等于在债务压力下直接干预债市、往市场里灌流动性（QE Mini）\n\n比特币对这种信号比短期CPI数据敏感得多。主权债务一旦到了“不干预就撑不住成本”的地步，固定供应的硬资产就会被重新定价\n普通投资者只看到回购利好风险资产，很少注意到背后其实是债务压力已经顶不住了，开始显性化",
+          "created_at": "Fri Aug 21 02:10:45 +0000 2026",
+          "lang": "zh",
+          "source": null,
+          "favorite_count": 41,
+          "retweet_count": 2,
+          "reply_count": 32,
+          "quote_count": 0,
+          "bookmark_count": 13,
+          "view_count": 14019,
+          "conversation_id": "2090622603878600981",
+          "is_reply": false,
+          "in_reply_to_screen_name": null,
+          "in_reply_to_status_id": null,
+          "in_reply_to_user_id": null,
+          "is_quote": false,
+          "quoted_tweet_id": null,
+          "quoted_tweet": null,
+          "sensitive": false,
+          "hashtags": [],
+          "mentions": [],
+          "urls": [],
+          "media": [],
+          "author": {
+            "rest_id": "1106168053",
+            "name": "Kova",
+            "screen_name": "kovainvest",
+            "avatar": "https://pbs.twimg.com/profile_images/2053109121386242056/mfvnDlia_normal.jpg",
+            "followers_count": 18772,
+            "blue_verified": true
+          }
+        },
+        "analysis_text": "我的 BTC price target: $1M \n美国国债刚突破40万亿\n利息支出已经很大，长端收益率一冲高，政府融资成本立刻上去。财政部只能靠回购去压收益率曲线，等于在债务压力下直接干预债市、往市场里灌流动性（QE Mini）\n\n比特币对这种信号比短期CPI数据敏感得多。主权债务一旦到了“不干预就撑不住成本”的地步，固定供应的硬资产就会被重新定价\n普通投资者只看到回购利好风险资产，很少注意到背后其实是债务压力已经顶不住了，开始显性化",
+        "text_processing": {
+          "excluded_spans": [],
+          "provider_entity_marker_normalizations": [
+            "bitcoin:native"
+          ],
+          "version": "clean-v3-reviewed-commercial-spans",
+          "raw_text_preserved": true,
+          "whole_post_commercial_exclusion": null
+        },
+        "analysis_external_links": [],
+        "classification": {
+          "category": "原创金融分析",
+          "financial_relevant": true,
+          "keep": true,
+          "confidence": 0.82,
+          "confidence_kind": "heuristic_not_calibrated",
+          "excluded_reasons": [],
+          "method": "rules-v3-commercial-cleanup",
+          "signals": {
+            "finance": true,
+            "promotion": false,
+            "mechanism": false,
+            "source_cue": false
+          }
+        },
+        "duplicate_group": "8d142faf78080a9c4db8"
+      }
+    },
+    {
+      "case": "H07_trading_no_account",
+      "tags": [
+        "trading",
+        "account_coverage"
+      ],
+      "source": {
+        "id": "2069988552902086746",
+        "source_id": "x_michael_qqq2025",
+        "author_name": "Michael_QQQ2025",
+        "author_id": "1877009233079926784",
+        "url": "https://x.com/Michael_QQQ2025/status/2069988552902086746",
+        "text": "价格行为的分析是枯燥的，而且归根来讲是一个概率的问题，放到交易上就是赔率和筹码的分配。最近市场大幅波动，时而冲高，时而向下俯冲。短期的波动不需要非得在基本面上去找原因，基本面的研究和价值回归本身是一个长期的过程，不是短期的现象。\n\n讲故事、讲消息、讲行情，股市大涨不代表你就对了，而是市场多方合力的结果。很多时候，基本面的利好消息层出不穷，但市场却还在不讲道理的下跌，比如今年3月的持续阴跌还历历在目。\n\n保持客观理性，独立思考，机会多的是。价格行为在我的交易考量里面是第一权重的。",
+        "published_at": "2026-06-25T03:38:24+00:00",
+        "fetched_at": null,
+        "source_type": "x",
+        "platform": "x",
+        "source_language": "zh",
+        "content_complete": true,
+        "extraction_status": "archived_post_body_context_requires_assessment",
+        "extractor_version": "archive-decode-v1",
+        "post_type": "original",
+        "reply_to": null,
+        "quoted_post": null,
+        "thread_id": "2069988552902086746",
+        "media": [],
+        "external_links": [],
+        "raw_import_ref": "data/raw_posts.jsonl#2069988552902086746",
+        "raw_import_hash": "40c18420e562eaaabbb58616f3afc0ab1cb1039be0b196e9627e53d12bb63a93",
+        "extraction_transformations": [
+          "decode literal backslash-n from inherited import",
+          "HTML entity unescape once"
+        ]
+      },
+      "raw_archive_record": {
+        "source_account_id": "michael_qqq2025",
+        "stable_author_id": "1877009233079926784",
+        "handle_at_collection": "Michael_QQQ2025",
+        "post_id": "2069988552902086746",
+        "url": "https://x.com/Michael_QQQ2025/status/2069988552902086746",
+        "created_at": "2026-06-25T03:38:24+00:00",
+        "collected_at": null,
+        "ingested_at": "2026-09-06T02:50:21.738060+00:00",
+        "text": "价格行为的分析是枯燥的，而且归根来讲是一个概率的问题，放到交易上就是赔率和筹码的分配。最近市场大幅波动，时而冲高，时而向下俯冲。短期的波动不需要非得在基本面上去找原因，基本面的研究和价值回归本身是一个长期的过程，不是短期的现象。\n\n讲故事、讲消息、讲行情，股市大涨不代表你就对了，而是市场多方合力的结果。很多时候，基本面的利好消息层出不穷，但市场却还在不讲道理的下跌，比如今年3月的持续阴跌还历历在目。\n\n保持客观理性，独立思考，机会多的是。价格行为在我的交易考量里面是第一权重的。",
+        "language": "zh",
+        "target_language": "zh",
+        "post_type": "original",
+        "reply_to": null,
+        "quoted_post": null,
+        "reposted_post": null,
+        "thread_id": "2069988552902086746",
+        "media_type": [],
+        "external_links": [],
+        "engagement_snapshot": {
+          "favorite_count": 4,
+          "retweet_count": 0,
+          "reply_count": 0,
+          "quote_count": 0,
+          "bookmark_count": 1,
+          "view_count": 595
+        },
+        "raw_payload_hash": "e90896cf3f40dcac4994c242fda79a671fd196a34d874ba0e9407dedc5cb4eb7",
+        "provider_run_id": "TsGQ6zdfi6jgJqCfb",
+        "import_run_id": "import-794f061e4f6d",
+        "provider": "apify",
+        "payload_scope": "inherited_normalized_post_not_original_network_response",
+        "input_file_hash": "bdbcf3aad996d3a20bf9e6870643bb3fe0b9b543dbccf8508d610bc4acb6a5a7",
+        "source_order_index": 305,
+        "author_match": true,
+        "timeline_pinned": null,
+        "missing_fields": [
+          "collected_at"
+        ],
+        "source_record": {
+          "searchType": "user-tweets",
+          "record_type": "tweet",
+          "handle": "Michael_QQQ2025",
+          "tweet_id": "2069988552902086746",
+          "url": "https://x.com/Michael_QQQ2025/status/2069988552902086746",
+          "text": "价格行为的分析是枯燥的，而且归根来讲是一个概率的问题，放到交易上就是赔率和筹码的分配。最近市场大幅波动，时而冲高，时而向下俯冲。短期的波动不需要非得在基本面上去找原因，基本面的研究和价值回归本身是一个长期的过程，不是短期的现象。\n\n讲故事、讲消息、讲行情，股市大涨不代表你就对了，而是市场多方合力的结果。很多时候，基本面的利好消息层出不穷，但市场却还在不讲道理的下跌，比如今年3月的持续阴跌还历历在目。\n\n保持客观理性，独立思考，机会多的是。价格行为在我的交易考量里面是第一权重的。",
+          "created_at": "Thu Jun 25 03:38:24 +0000 2026",
+          "lang": "zh",
+          "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+          "favorite_count": 4,
+          "retweet_count": 0,
+          "reply_count": 0,
+          "quote_count": 0,
+          "bookmark_count": 1,
+          "view_count": 595,
+          "conversation_id": "2069988552902086746",
+          "is_reply": false,
+          "in_reply_to_screen_name": null,
+          "in_reply_to_status_id": null,
+          "in_reply_to_user_id": null,
+          "is_quote": false,
+          "quoted_tweet_id": null,
+          "quoted_tweet": null,
+          "sensitive": false,
+          "hashtags": [],
+          "mentions": [],
+          "urls": [],
+          "media": [],
+          "author": {
+            "rest_id": "1877009233079926784",
+            "name": "Michael的美投日记",
+            "screen_name": "Michael_QQQ2025",
+            "avatar": "https://pbs.twimg.com/profile_images/1877009649800716288/fpfL-4y8_normal.jpg",
+            "followers_count": 4619,
+            "blue_verified": true
+          }
+        },
+        "analysis_text": "价格行为的分析是枯燥的，而且归根来讲是一个概率的问题，放到交易上就是赔率和筹码的分配。最近市场大幅波动，时而冲高，时而向下俯冲。短期的波动不需要非得在基本面上去找原因，基本面的研究和价值回归本身是一个长期的过程，不是短期的现象。\n\n讲故事、讲消息、讲行情，股市大涨不代表你就对了，而是市场多方合力的结果。很多时候，基本面的利好消息层出不穷，但市场却还在不讲道理的下跌，比如今年3月的持续阴跌还历历在目。\n\n保持客观理性，独立思考，机会多的是。价格行为在我的交易考量里面是第一权重的。",
+        "text_processing": {
+          "excluded_spans": [],
+          "provider_entity_marker_normalizations": [],
+          "version": "clean-v3-reviewed-commercial-spans",
+          "raw_text_preserved": true,
+          "whole_post_commercial_exclusion": null
+        },
+        "analysis_external_links": [],
+        "classification": {
+          "category": "原创金融分析",
+          "financial_relevant": true,
+          "keep": true,
+          "confidence": 0.82,
+          "confidence_kind": "heuristic_not_calibrated",
+          "excluded_reasons": [],
+          "method": "rules-v3-commercial-cleanup",
+          "signals": {
+            "finance": true,
+            "promotion": false,
+            "mechanism": false,
+            "source_cue": false
+          }
+        },
+        "duplicate_group": "d24b253b8851a33b4794"
+      }
+    },
+    {
+      "case": "H08_skip_joke",
+      "tags": [
+        "skip",
+        "low_information"
+      ],
+      "source": {
+        "id": "2085304045099696547",
+        "source_id": "x_aleabitoreddit",
+        "author_name": "aleabitoreddit",
+        "author_id": "1940360837547565056",
+        "url": "https://x.com/aleabitoreddit/status/2085304045099696547",
+        "text": "I remain convinced nobody knows how to pronounce or talk about $AAOI in real life. \n\nIt’s one letter too long to say $TSM or $AMD. \n\nAnd nobody ever says to a friend“Wow, I like applied optoelectronics!”",
+        "published_at": "2026-08-06T09:56:42+00:00",
+        "fetched_at": null,
+        "source_type": "x",
+        "platform": "x",
+        "source_language": "en",
+        "content_complete": true,
+        "extraction_status": "archived_post_body_context_requires_assessment",
+        "extractor_version": "archive-decode-v1",
+        "post_type": "original",
+        "reply_to": null,
+        "quoted_post": null,
+        "thread_id": "2085304045099696547",
+        "media": [],
+        "external_links": [],
+        "raw_import_ref": "data/raw_posts.jsonl#2085304045099696547",
+        "raw_import_hash": "516a6575159bedbdcfff24e9111375f364596de0824891fe5b44335f49d5e807",
+        "extraction_transformations": [
+          "decode literal backslash-n from inherited import",
+          "HTML entity unescape once"
+        ]
+      },
+      "raw_archive_record": {
+        "source_account_id": "aleabitoreddit",
+        "stable_author_id": "1940360837547565056",
+        "handle_at_collection": "aleabitoreddit",
+        "post_id": "2085304045099696547",
+        "url": "https://x.com/aleabitoreddit/status/2085304045099696547",
+        "created_at": "2026-08-06T09:56:42+00:00",
+        "collected_at": null,
+        "ingested_at": "2026-09-06T02:50:21.738060+00:00",
+        "text": "I remain convinced nobody knows how to pronounce or talk about $AAOI in real life. \n\nIt’s one letter too long to say $TSM or $AMD. \n\nAnd nobody ever says to a friend“Wow, I like applied optoelectronics!”",
+        "language": "en",
+        "target_language": "zh",
+        "post_type": "original",
+        "reply_to": null,
+        "quoted_post": null,
+        "reposted_post": null,
+        "thread_id": "2085304045099696547",
+        "media_type": [],
+        "external_links": [],
+        "engagement_snapshot": {
+          "favorite_count": 1708,
+          "retweet_count": 36,
+          "reply_count": 179,
+          "quote_count": 7,
+          "bookmark_count": 117,
+          "view_count": 459951
+        },
+        "raw_payload_hash": "42f8a1681831de6678b19a5f6b7531b866b5c981ef89e21d7a0829cf4dd632d8",
+        "provider_run_id": "bsfLHWhr1uoHFheOJ",
+        "import_run_id": "import-794f061e4f6d",
+        "provider": "apify",
+        "payload_scope": "inherited_normalized_post_not_original_network_response",
+        "input_file_hash": "c2a35c8b24b01bbf9e2c95e1df60a241ddfaa423b837bea760e2333f7cd92b77",
+        "source_order_index": 144,
+        "author_match": true,
+        "timeline_pinned": null,
+        "missing_fields": [
+          "collected_at"
+        ],
+        "source_record": {
+          "searchType": "user-tweets",
+          "record_type": "tweet",
+          "handle": "aleabitoreddit",
+          "tweet_id": "2085304045099696547",
+          "url": "https://x.com/aleabitoreddit/status/2085304045099696547",
+          "text": "I remain convinced nobody knows how to pronounce or talk about $AAOI in real life. \n\nIt’s one letter too long to say $TSM or $AMD. \n\nAnd nobody ever says to a friend“Wow, I like applied optoelectronics!”",
+          "created_at": "Thu Aug 06 09:56:42 +0000 2026",
+          "lang": "en",
+          "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+          "favorite_count": 1708,
+          "retweet_count": 36,
+          "reply_count": 179,
+          "quote_count": 7,
+          "bookmark_count": 117,
+          "view_count": 459951,
+          "conversation_id": "2085304045099696547",
+          "is_reply": false,
+          "in_reply_to_screen_name": null,
+          "in_reply_to_status_id": null,
+          "in_reply_to_user_id": null,
+          "is_quote": false,
+          "quoted_tweet_id": null,
+          "quoted_tweet": null,
+          "sensitive": false,
+          "hashtags": [],
+          "mentions": [],
+          "urls": [],
+          "media": [],
+          "author": {
+            "rest_id": "1940360837547565056",
+            "name": "Serenity",
+            "screen_name": "aleabitoreddit",
+            "avatar": "https://pbs.twimg.com/profile_images/1996176688414367744/LXfA_lIx_normal.jpg",
+            "followers_count": 1026974,
+            "blue_verified": true
+          }
+        },
+        "analysis_text": "I remain convinced nobody knows how to pronounce or talk about $AAOI in real life. \n\nIt’s one letter too long to say $TSM or $AMD. \n\nAnd nobody ever says to a friend“Wow, I like applied optoelectronics!”",
+        "text_processing": {
+          "excluded_spans": [],
+          "provider_entity_marker_normalizations": [],
+          "version": "clean-v3-reviewed-commercial-spans",
+          "raw_text_preserved": true,
+          "whole_post_commercial_exclusion": null
+        },
+        "analysis_external_links": [],
+        "classification": {
+          "category": "原创金融分析",
+          "financial_relevant": true,
+          "keep": true,
+          "confidence": 0.82,
+          "confidence_kind": "heuristic_not_calibrated",
+          "excluded_reasons": [],
+          "method": "rules-v3-commercial-cleanup",
+          "signals": {
+            "finance": true,
+            "promotion": false,
+            "mechanism": false,
+            "source_cue": false
+          }
+        },
+        "duplicate_group": "cb839ed3098521a3dca9"
+      }
+    },
+    {
+      "case": "H09_chart_dependency",
+      "tags": [
+        "chart",
+        "missing_media"
+      ],
+      "source": {
+        "id": "2096230114883146120",
+        "source_id": "x_globalmktobserv",
+        "author_name": "GlobalMktObserv",
+        "author_id": "1679591758332657665",
+        "url": "https://x.com/GlobalMktObserv/status/2096230114883146120",
+        "text": "🤯 The global bond SELLOFF may be far from over:\n\nGlobal government bond yields have risen +17 basis points over the past 20 trading days..\n\nTAP IMAGE TO SEE FULL INSIGHT👇\nhttps://t.co/lc2olphyHM",
+        "published_at": "2026-09-05T13:33:00+00:00",
+        "fetched_at": "2026-09-05T17:01:32.257000+00:00",
+        "source_type": "x",
+        "platform": "x",
+        "source_language": "en",
+        "content_complete": true,
+        "extraction_status": "archived_post_body_context_requires_assessment",
+        "extractor_version": "archive-decode-v1",
+        "post_type": "original",
+        "reply_to": null,
+        "quoted_post": null,
+        "thread_id": "2096230114883146120",
+        "media": [],
+        "external_links": [
+          "https://t.co/lc2olphyHM"
+        ],
+        "raw_import_ref": "data/raw_posts.jsonl#2096230114883146120",
+        "raw_import_hash": "a69b8cbaffc3f230bb63de6253c5af91066d208cdf8a59fe48c95f941ba7ca95",
+        "extraction_transformations": [
+          "decode literal backslash-n from inherited import",
+          "HTML entity unescape once"
+        ],
+        "media_dependencies": [
+          {
+            "kind": "chart",
+            "reason": "Body says TAP IMAGE TO SEE FULL; archive has no readable image"
+          }
+        ]
+      },
+      "raw_archive_record": {
+        "source_account_id": "globalmktobserv",
+        "stable_author_id": "1679591758332657665",
+        "handle_at_collection": "GlobalMktObserv",
+        "post_id": "2096230114883146120",
+        "url": "https://x.com/GlobalMktObserv/status/2096230114883146120",
+        "created_at": "2026-09-05T13:33:00+00:00",
+        "collected_at": "2026-09-05T17:01:32.257000+00:00",
+        "ingested_at": "2026-09-06T02:50:21.738060+00:00",
+        "text": "🤯 The global bond SELLOFF may be far from over:\n\nGlobal government bond yields have risen +17 basis points over the past 20 trading days..\n\nTAP IMAGE TO SEE FULL INSIGHT👇\nhttps://t.co/lc2olphyHM",
+        "language": "en",
+        "target_language": "en",
+        "post_type": "original",
+        "reply_to": null,
+        "quoted_post": null,
+        "reposted_post": null,
+        "thread_id": "2096230114883146120",
+        "media_type": null,
+        "external_links": [
+          "https://t.co/lc2olphyHM"
+        ],
+        "engagement_snapshot": {
+          "replies": 2,
+          "reposts": 1,
+          "quotes": 0,
+          "likes": 7,
+          "bookmarks": 1,
+          "views": 3239
+        },
+        "raw_payload_hash": "5b01c88b924debc6a1cd932b69291338b17819a1a7e598b00547d2b17552b026",
+        "provider_run_id": null,
+        "import_run_id": "import-794f061e4f6d",
+        "provider": "rapidapi-twitter241",
+        "payload_scope": "inherited_normalized_post_not_original_network_response",
+        "input_file_hash": "2daf6a36833f14d7951828cc41c2168a3f128e31c6957934e1ae5556b0d6d57e",
+        "source_order_index": 2,
+        "author_match": true,
+        "timeline_pinned": false,
+        "missing_fields": [
+          "media_type",
+          "provider_run_id"
+        ],
+        "source_record": {
+          "tweet_id": "2096230114883146120",
+          "url": "https://x.com/GlobalMktObserv/status/2096230114883146120",
+          "created_at": "Sat Sep 05 13:33:00 +0000 2026",
+          "author": {
+            "id": "1679591758332657665",
+            "name": "Global Markets Investor",
+            "username": "GlobalMktObserv",
+            "description": "Global Markets Investor is a financial research platform covering global markets and economies. Founded by a Wall Street equity and macro research professional.",
+            "location": "Subscribe below for $0.5 a day",
+            "followers_count": 94109,
+            "following_count": 64,
+            "statuses_count": 48975,
+            "created_at": "Thu Jul 13 20:41:03 +0000 2023",
+            "verified": false,
+            "blue_verified": true,
+            "profile_url": "https://x.com/GlobalMktObserv"
+          },
+          "text": "🤯 The global bond SELLOFF may be far from over:\n\nGlobal government bond yields have risen +17 basis points over the past 20 trading days..\n\nTAP IMAGE TO SEE FULL INSIGHT👇\nhttps://t.co/lc2olphyHM",
+          "lang": "en",
+          "conversation_id": "2096230114883146120",
+          "reply_to_user_id": null,
+          "reply_to_username": null,
+          "is_reply": false,
+          "is_quote": false,
+          "quote_target": null,
+          "quote_tweet_id": null,
+          "is_repost": false,
+          "repost_target": null,
+          "repost_tweet_id": null,
+          "mentions": [],
+          "metrics": {
+            "replies": 2,
+            "reposts": 1,
+            "quotes": 0,
+            "likes": 7,
+            "bookmarks": 1,
+            "views": 3239
+          },
+          "timeline_pinned": false
+        },
+        "analysis_text": "🤯 The global bond SELLOFF may be far from over:\n\nGlobal government bond yields have risen +17 basis points over the past 20 trading days..\n\nTAP IMAGE TO SEE FULL INSIGHT👇\nhttps://t.co/lc2olphyHM",
+        "text_processing": {
+          "excluded_spans": [],
+          "provider_entity_marker_normalizations": [],
+          "version": "clean-v3-reviewed-commercial-spans",
+          "raw_text_preserved": true,
+          "whole_post_commercial_exclusion": null
+        },
+        "analysis_external_links": [
+          "https://t.co/lc2olphyHM"
+        ],
+        "classification": {
+          "category": "原创金融分析",
+          "financial_relevant": true,
+          "keep": true,
+          "confidence": 0.82,
+          "confidence_kind": "heuristic_not_calibrated",
+          "excluded_reasons": [],
+          "method": "rules-v3-commercial-cleanup",
+          "signals": {
+            "finance": true,
+            "promotion": false,
+            "mechanism": false,
+            "source_cue": false
+          }
+        },
+        "duplicate_group": "456ecbecc90a9ed7f76a"
+      }
+    },
+    {
+      "case": "H10_zh_existing_arithmetic",
+      "tags": [
+        "zh_short",
+        "crypto",
+        "existing_calculation",
+        "quote"
+      ],
+      "source": {
+        "id": "2080173294872129805",
+        "source_id": "x_phyrexni",
+        "author_name": "PhyrexNi",
+        "author_id": "555634740",
+        "url": "https://x.com/PhyrexNi/status/2080173294872129805",
+        "text": "😂我来泼个冷水 #BinanceTradFi 的数据确实已经逆天了，一周 970 亿美元确实是加密货币领域的绝对头部，这毫无问题。\n\n但纳斯达克一天的成较量大概是 4,800 亿美元到 6,700 亿美元之间，取个中间数，大概是 5,800 亿美元吧，这是一天的成交量。\n\n如果是和 CME 对比，更是没有办法对比，CME 的日成交大概是万亿美元的体量。仅仅是加密货币在 CME 的日名义价值就超过 107 亿。\n\n我并不是说 Binance 不强，而是说美股现货甚至是美股合约相比于传统加密货币的交易来说，占比并不是很大。\n\n通过开发数据可以知道 Binance 的原生加密货币合约成交量在 5月下旬的一周，周成交量是 5,853 亿美元，当然不能说美股相关合约进展不迅速，在 5月 的时候美股相关合约的只有 600 亿美元左右的成交量。\n\n两个月就上升到了 970 亿美元，确实发展的非常迅速，但也请要知道，目前加密货币已经是最近几年寒冬中的寒冬，即便如此，成交量仍然是美股相关合约的 6 倍左右，如果市场稍微回暖，这个数据的差距会更大。\n\n美股是不是加密货币的增量市场？是的。\n\n美股是不是加密货币的救星？未必。\n\n美股是不是可以取代加密货币在交易所的比重？想多了",
+        "published_at": "2026-07-23T06:08:55+00:00",
+        "fetched_at": null,
+        "source_type": "x",
+        "platform": "x",
+        "source_language": "zh",
+        "content_complete": true,
+        "extraction_status": "archived_post_body_context_requires_assessment",
+        "extractor_version": "archive-decode-v1",
+        "post_type": "quote",
+        "reply_to": null,
+        "quoted_post": {
+          "post_id": "2079894175575879896",
+          "author": null
+        },
+        "thread_id": "2080173294872129805",
+        "media": [],
+        "external_links": [],
+        "raw_import_ref": "data/raw_posts.jsonl#2080173294872129805",
+        "raw_import_hash": "06f1a05c351022e09c9f25cb9f792f0e21655f3e770a38f4272c2516e3206135",
+        "extraction_transformations": [
+          "decode literal backslash-n from inherited import",
+          "HTML entity unescape once"
+        ]
+      },
+      "raw_archive_record": {
+        "source_account_id": "phyrexni",
+        "stable_author_id": "555634740",
+        "handle_at_collection": "PhyrexNi",
+        "post_id": "2080173294872129805",
+        "url": "https://x.com/PhyrexNi/status/2080173294872129805",
+        "created_at": "2026-07-23T06:08:55+00:00",
+        "collected_at": null,
+        "ingested_at": "2026-09-06T02:50:21.738060+00:00",
+        "text": "😂我来泼个冷水 #BinanceTradFi 的数据确实已经逆天了，一周 970 亿美元确实是加密货币领域的绝对头部，这毫无问题。\n\n但纳斯达克一天的成较量大概是 4,800 亿美元到 6,700 亿美元之间，取个中间数，大概是 5,800 亿美元吧，这是一天的成交量。\n\n如果是和 CME 对比，更是没有办法对比，CME 的日成交大概是万亿美元的体量。仅仅是加密货币在 CME 的日名义价值就超过 107 亿。\n\n我并不是说 Binance 不强，而是说美股现货甚至是美股合约相比于传统加密货币的交易来说，占比并不是很大。\n\n通过开发数据可以知道 Binance 的原生加密货币合约成交量在 5月下旬的一周，周成交量是 5,853 亿美元，当然不能说美股相关合约进展不迅速，在 5月 的时候美股相关合约的只有 600 亿美元左右的成交量。\n\n两个月就上升到了 970 亿美元，确实发展的非常迅速，但也请要知道，目前加密货币已经是最近几年寒冬中的寒冬，即便如此，成交量仍然是美股相关合约的 6 倍左右，如果市场稍微回暖，这个数据的差距会更大。\n\n美股是不是加密货币的增量市场？是的。\n\n美股是不是加密货币的救星？未必。\n\n美股是不是可以取代加密货币在交易所的比重？想多了",
+        "language": "zh",
+        "target_language": "zh",
+        "post_type": "quote",
+        "reply_to": null,
+        "quoted_post": {
+          "post_id": "2079894175575879896",
+          "author": null
+        },
+        "reposted_post": null,
+        "thread_id": "2080173294872129805",
+        "media_type": [],
+        "external_links": [],
+        "engagement_snapshot": {
+          "favorite_count": 119,
+          "retweet_count": 7,
+          "reply_count": 50,
+          "quote_count": 4,
+          "bookmark_count": 21,
+          "view_count": 83573
+        },
+        "raw_payload_hash": "c6b6196516048be1392fe08f26e0ac8cde0ba73dc9749047917090bdcc07a98e",
+        "provider_run_id": "F1SVb11BaWgN2Tg52",
+        "import_run_id": "import-794f061e4f6d",
+        "provider": "apify",
+        "payload_scope": "inherited_normalized_post_not_original_network_response",
+        "input_file_hash": "c2a35c8b24b01bbf9e2c95e1df60a241ddfaa423b837bea760e2333f7cd92b77",
+        "source_order_index": 496,
+        "author_match": true,
+        "timeline_pinned": null,
+        "missing_fields": [
+          "collected_at"
+        ],
+        "source_record": {
+          "searchType": "user-tweets",
+          "record_type": "tweet",
+          "handle": "PhyrexNi",
+          "tweet_id": "2080173294872129805",
+          "url": "https://x.com/PhyrexNi/status/2080173294872129805",
+          "text": "😂我来泼个冷水 #BinanceTradFi 的数据确实已经逆天了，一周 970 亿美元确实是加密货币领域的绝对头部，这毫无问题。\n\n但纳斯达克一天的成较量大概是 4,800 亿美元到 6,700 亿美元之间，取个中间数，大概是 5,800 亿美元吧，这是一天的成交量。\n\n如果是和 CME 对比，更是没有办法对比，CME 的日成交大概是万亿美元的体量。仅仅是加密货币在 CME 的日名义价值就超过 107 亿。\n\n我并不是说 Binance 不强，而是说美股现货甚至是美股合约相比于传统加密货币的交易来说，占比并不是很大。\n\n通过开发数据可以知道 Binance 的原生加密货币合约成交量在 5月下旬的一周，周成交量是 5,853 亿美元，当然不能说美股相关合约进展不迅速，在 5月 的时候美股相关合约的只有 600 亿美元左右的成交量。\n\n两个月就上升到了 970 亿美元，确实发展的非常迅速，但也请要知道，目前加密货币已经是最近几年寒冬中的寒冬，即便如此，成交量仍然是美股相关合约的 6 倍左右，如果市场稍微回暖，这个数据的差距会更大。\n\n美股是不是加密货币的增量市场？是的。\n\n美股是不是加密货币的救星？未必。\n\n美股是不是可以取代加密货币在交易所的比重？想多了",
+          "created_at": "Thu Jul 23 06:08:55 +0000 2026",
+          "lang": "zh",
+          "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+          "favorite_count": 119,
+          "retweet_count": 7,
+          "reply_count": 50,
+          "quote_count": 4,
+          "bookmark_count": 21,
+          "view_count": 83573,
+          "conversation_id": "2080173294872129805",
+          "is_reply": false,
+          "in_reply_to_screen_name": null,
+          "in_reply_to_status_id": null,
+          "in_reply_to_user_id": null,
+          "is_quote": true,
+          "quoted_tweet_id": "2079894175575879896",
+          "quoted_tweet": null,
+          "sensitive": false,
+          "hashtags": [
+            "BinanceTradFi"
+          ],
+          "mentions": [],
+          "urls": [],
+          "media": [],
+          "author": {
+            "rest_id": "555634740",
+            "name": "Phyrex",
+            "screen_name": "PhyrexNi",
+            "avatar": "https://pbs.twimg.com/profile_images/1596374669824696320/MGne6qLH_normal.jpg",
+            "followers_count": 404548,
+            "blue_verified": true
+          }
+        },
+        "analysis_text": "😂我来泼个冷水 #BinanceTradFi 的数据确实已经逆天了，一周 970 亿美元确实是加密货币领域的绝对头部，这毫无问题。\n\n但纳斯达克一天的成较量大概是 4,800 亿美元到 6,700 亿美元之间，取个中间数，大概是 5,800 亿美元吧，这是一天的成交量。\n\n如果是和 CME 对比，更是没有办法对比，CME 的日成交大概是万亿美元的体量。仅仅是加密货币在 CME 的日名义价值就超过 107 亿。\n\n我并不是说 Binance 不强，而是说美股现货甚至是美股合约相比于传统加密货币的交易来说，占比并不是很大。\n\n通过开发数据可以知道 Binance 的原生加密货币合约成交量在 5月下旬的一周，周成交量是 5,853 亿美元，当然不能说美股相关合约进展不迅速，在 5月 的时候美股相关合约的只有 600 亿美元左右的成交量。\n\n两个月就上升到了 970 亿美元，确实发展的非常迅速，但也请要知道，目前加密货币已经是最近几年寒冬中的寒冬，即便如此，成交量仍然是美股相关合约的 6 倍左右，如果市场稍微回暖，这个数据的差距会更大。\n\n美股是不是加密货币的增量市场？是的。\n\n美股是不是加密货币的救星？未必。\n\n美股是不是可以取代加密货币在交易所的比重？想多了",
+        "text_processing": {
+          "excluded_spans": [],
+          "provider_entity_marker_normalizations": [],
+          "version": "clean-v3-reviewed-commercial-spans",
+          "raw_text_preserved": true,
+          "whole_post_commercial_exclusion": null
+        },
+        "analysis_external_links": [],
+        "classification": {
+          "category": "引用评论",
+          "financial_relevant": true,
+          "keep": true,
+          "confidence": 0.88,
+          "confidence_kind": "heuristic_not_calibrated",
+          "excluded_reasons": [],
+          "method": "rules-v3-commercial-cleanup",
+          "signals": {
+            "finance": true,
+            "promotion": false,
+            "mechanism": true,
+            "source_cue": false
+          }
+        },
+        "duplicate_group": "897f08fecdfcbeffdc66"
+      }
+    },
+    {
+      "case": "H11_en_firsthand",
+      "tags": [
+        "en_short",
+        "industry",
+        "firsthand"
+      ],
+      "source": {
+        "id": "2080394259535221222",
+        "source_id": "x_aleabitoreddit",
+        "author_name": "aleabitoreddit",
+        "author_id": "1940360837547565056",
+        "url": "https://x.com/aleabitoreddit/status/2080394259535221222",
+        "text": "From $AMD Advancing AI, channel checks:\n\nHelios networking partners told me they expect AMD to pursue CPO for future generations of Helios scale up networking. \n\nAnd expects other hyperscalers + industry to go down the CPO route.\n\nOne AI infra executive at a company involved in a hyperscaler CPO programs said they had seen no indication of CPO scale up supply chain delays.\n\nPushing back on recent 3rd party delay reports.\n\nThis was informal commentary, not official AMD or partner guidance.",
+        "published_at": "2026-07-23T20:46:57+00:00",
+        "fetched_at": null,
+        "source_type": "x",
+        "platform": "x",
+        "source_language": "en",
+        "content_complete": true,
+        "extraction_status": "archived_post_body_context_requires_assessment",
+        "extractor_version": "archive-decode-v1",
+        "post_type": "original",
+        "reply_to": null,
+        "quoted_post": null,
+        "thread_id": "2080394259535221222",
+        "media": [],
+        "external_links": [],
+        "raw_import_ref": "data/raw_posts.jsonl#2080394259535221222",
+        "raw_import_hash": "27478b9bd492fd5fb7ed3746f174a7d78c77e0689bf7766689b7c9cc7264bbf6",
+        "extraction_transformations": [
+          "decode literal backslash-n from inherited import",
+          "HTML entity unescape once"
+        ]
+      },
+      "raw_archive_record": {
+        "source_account_id": "aleabitoreddit",
+        "stable_author_id": "1940360837547565056",
+        "handle_at_collection": "aleabitoreddit",
+        "post_id": "2080394259535221222",
+        "url": "https://x.com/aleabitoreddit/status/2080394259535221222",
+        "created_at": "2026-07-23T20:46:57+00:00",
+        "collected_at": null,
+        "ingested_at": "2026-09-06T02:50:21.738060+00:00",
+        "text": "From $AMD Advancing AI, channel checks:\n\nHelios networking partners told me they expect AMD to pursue CPO for future generations of Helios scale up networking. \n\nAnd expects other hyperscalers + industry to go down the CPO route.\n\nOne AI infra executive at a company involved in a hyperscaler CPO programs said they had seen no indication of CPO scale up supply chain delays.\n\nPushing back on recent 3rd party delay reports.\n\nThis was informal commentary, not official AMD or partner guidance.",
+        "language": "en",
+        "target_language": "zh",
+        "post_type": "original",
+        "reply_to": null,
+        "quoted_post": null,
+        "reposted_post": null,
+        "thread_id": "2080394259535221222",
+        "media_type": [],
+        "external_links": [],
+        "engagement_snapshot": {
+          "favorite_count": 962,
+          "retweet_count": 36,
+          "reply_count": 172,
+          "quote_count": 5,
+          "bookmark_count": 79,
+          "view_count": 270766
+        },
+        "raw_payload_hash": "dbcbbfb685f1758ac3ed373bdde0127cb2fb0323eab6b13852459e7e3bd74bc9",
+        "provider_run_id": "bsfLHWhr1uoHFheOJ",
+        "import_run_id": "import-794f061e4f6d",
+        "provider": "apify",
+        "payload_scope": "inherited_normalized_post_not_original_network_response",
+        "input_file_hash": "c2a35c8b24b01bbf9e2c95e1df60a241ddfaa423b837bea760e2333f7cd92b77",
+        "source_order_index": 179,
+        "author_match": true,
+        "timeline_pinned": null,
+        "missing_fields": [
+          "collected_at"
+        ],
+        "source_record": {
+          "searchType": "user-tweets",
+          "record_type": "tweet",
+          "handle": "aleabitoreddit",
+          "tweet_id": "2080394259535221222",
+          "url": "https://x.com/aleabitoreddit/status/2080394259535221222",
+          "text": "From $AMD Advancing AI, channel checks:\n\nHelios networking partners told me they expect AMD to pursue CPO for future generations of Helios scale up networking. \n\nAnd expects other hyperscalers + industry to go down the CPO route.\n\nOne AI infra executive at a company involved in a hyperscaler CPO programs said they had seen no indication of CPO scale up supply chain delays.\n\nPushing back on recent 3rd party delay reports.\n\nThis was informal commentary, not official AMD or partner guidance.",
+          "created_at": "Thu Jul 23 20:46:57 +0000 2026",
+          "lang": "en",
+          "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+          "favorite_count": 962,
+          "retweet_count": 36,
+          "reply_count": 172,
+          "quote_count": 5,
+          "bookmark_count": 79,
+          "view_count": 270766,
+          "conversation_id": "2080394259535221222",
+          "is_reply": false,
+          "in_reply_to_screen_name": null,
+          "in_reply_to_status_id": null,
+          "in_reply_to_user_id": null,
+          "is_quote": false,
+          "quoted_tweet_id": null,
+          "quoted_tweet": null,
+          "sensitive": false,
+          "hashtags": [],
+          "mentions": [],
+          "urls": [],
+          "media": [],
+          "author": {
+            "rest_id": "1940360837547565056",
+            "name": "Serenity",
+            "screen_name": "aleabitoreddit",
+            "avatar": "https://pbs.twimg.com/profile_images/1996176688414367744/LXfA_lIx_normal.jpg",
+            "followers_count": 1026975,
+            "blue_verified": true
+          }
+        },
+        "analysis_text": "From $AMD Advancing AI, channel checks:\n\nHelios networking partners told me they expect AMD to pursue CPO for future generations of Helios scale up networking. \n\nAnd expects other hyperscalers + industry to go down the CPO route.\n\nOne AI infra executive at a company involved in a hyperscaler CPO programs said they had seen no indication of CPO scale up supply chain delays.\n\nPushing back on recent 3rd party delay reports.\n\nThis was informal commentary, not official AMD or partner guidance.",
+        "text_processing": {
+          "excluded_spans": [],
+          "provider_entity_marker_normalizations": [],
+          "version": "clean-v3-reviewed-commercial-spans",
+          "raw_text_preserved": true,
+          "whole_post_commercial_exclusion": null
+        },
+        "analysis_external_links": [],
+        "classification": {
+          "category": "原创金融分析",
+          "financial_relevant": true,
+          "keep": true,
+          "confidence": 0.82,
+          "confidence_kind": "heuristic_not_calibrated",
+          "excluded_reasons": [],
+          "method": "rules-v3-commercial-cleanup",
+          "signals": {
+            "finance": true,
+            "promotion": false,
+            "mechanism": false,
+            "source_cue": false
+          }
+        },
+        "duplicate_group": "f7f9daa629b72a093a19"
+      }
+    },
+    {
+      "case": "H12_incomplete_transcript",
+      "tags": [
+        "zh_long",
+        "incomplete",
+        "thread_context"
+      ],
+      "source": {
+        "id": "2093667525406187627",
+        "source_id": "x_phyrexni",
+        "author_name": "PhyrexNi",
+        "author_id": "555634740",
+        "url": "https://x.com/PhyrexNi/status/2093667525406187627",
+        "text": "看到有小伙伴说要文字版，所以我就整理了一版，因为还是从我的视频中整理的，所以仍然缺少最后五个问题。下面按视频原始顺序整理，共15组问答。\n\n1. 怎样判断一件事应该坚持还是放弃\n\n时间：00:42—04:10\n\n提问\n\n书中既写到了高光时刻，也写到了很多跌宕，以及如何在巨大的不确定性中作出选择。作为行业从业者，应该怎样区分什么事情需要坚持，什么事情应该放弃？\n\nCZ回答\n\n这个问题包含两个部分：一个是怎样选择、怎样做决策；另一个是什么事情应该坚持，什么事情应该放弃。这两个部分可以分开看。\n\n我有一套很简单的决策模型。首先判断这项决定是大决定还是小决定，其次判断它是否可以逆转。\n\n百分之九十以上的决定都属于小决定，而且可以逆转。这类决定可以很快作出，但作出以后不能沿着一条路一直走下去，需要不断重新判断，看看今天是否应该修改。\n\n例如，半年前我可能认为RWA距离实际发展还比较远，但几个月后看到这个方向的势头起来了，我们就决定支持。整个生态都可以提供支持，YZi Labs可以投资，BNB Chain也可以支持。这些决定可以逆转，因此能够根据情况不断调整。\n\n应该尽量避免作出重大的、无法逆转的决定。遇到这种决定必须慢下来认真考虑，而且这类决定越少越好。\n\n中间还有一种情况，决定很大，但可以逆转。虽然能够逆转，逆转成本仍然比较高，因此也应当尽量减少。\n\n作出什么决定，与一个人应该坚持什么原则是两回事。每个人都应该拥有自己的原则，最基本的是道德，不能越过道德底线。\n\n对我们来说，任何伤害用户的事情都触碰了原则底线。只要一项决定与这条原则发生冲突，决定已经完成了，根本不需要继续讨论。\n\n至于产品是否需要转型、功能是否需要调整、创业方向是否需要改变、交易策略是否需要修改，这些通常都可以逆转，也就可以根据实际情况调整。\n\n交易还必须做好风险控制。从数学上看，每一次都划算的生意，也不代表可以无限做下去。\n\n例如抛硬币，赢了我给你3元，输了你给我1元，这项游戏对你有利，可以反复进行。\n\n如果规则变成赢了可以得到全部身家的3倍，输了就失去全部身家，即便数学期望仍然有利，这个游戏也不能玩。因为即使连续赢了十次，只要输一次就什么都没有了。\n\n风险控制不能只看赚钱的投资回报率，还要看自己能不能承受最坏结果。这就是决策、原则与风险控制之间的关系。\n\n2. 哪些国家开放加密货币会产生最大影响\n\n时间：04:20—06:42\n\n提问\n\n书中第222页开始写到，赵长鹏从2022年起前往世界各地，与很多国家领导人交流和普及加密货币。\n\n目前仍未开放加密货币的国家中，哪些国家一旦开放，会给整个行业带来很大的推动？如果只看东南亚，哪个国家最有潜力？\n\n赵长鹏回答\n\n我们都知道有一个非常大的国家，如果重新开放，会带来非常大的正面影响。不过这个过程还是慢慢来。\n\n很多国家担心加密货币可能会威胁本国主权货币，这其实是一种误解。每个国家都可以发行与本国货币挂钩的稳定币，反而可以让本国主权货币在全球拥有更广泛的流通。\n\n这个过程需要时间，需要不断进行教育、沟通和影响。\n\n很多人对加密货币存在恐惧。原来我一直以为，行业发展可能采用“农村包围城市”的方式，先让小国家逐步参与，然后再扩大到更大的国家。\n\n没有预料到的是，美国突然变得非常友好，这对加密货币属于重大利好，过去一个星期的行情也能反映这一点。\n\n大国开放带来的影响肯定更大，小国的影响相对有限，但很多小国加在一起，规模同样不小。\n\n东南亚已经有很多国家发展得相当快，例如泰国和菲律宾。菲律宾现在币安也有牌照，法币通道应该已经开放，用户不需要再完全依赖点对点交易，可以直接通过银行转账。\n\n马来西亚可能稍微慢一点，但很多地方的进展都很快。我对东南亚一直比较乐观。\n\n3. “CZ的原则”有没有第73条\n\n时间：06:45—08:26\n\n提问\n\n书的附录收录了“CZ的原则”，并注明这些原则会持续更新。书中的版本一共有72条，书出版这么久以后，有没有产生新的第73条？\n\nCZ回答\n\n没有。后来确实出现了一个新版本，但新版调整了编号体系，也把很多原则进行了归纳和合并，并非直接在后面增加第73条。\n\n这本书出版时，新版本其实已经存在，但我认为旧版本更适合放进书里。\n\n说实话，我最初并不想把这些原则加入书中。当时很多人建议把创业原则和做事方式写出来，让读者了解怎样创业。\n\n我觉得如果把这部分写得太具体，就会变成一本教程。把教程和自己的经历放在一起，整体感觉并不算特别好。\n\n我认为这本书如果直接结束在“If you can, you must”这句话上，可能效果会更好。后来加入了原则，结尾就变长了很多。\n\n这些原则只是我个人做事的方式，未必是最好的方式。当时总结原则，主要是为了让公司内部的人更了解我的工作方式和思维方式，让他们在作出决定时能够与我保持一致。\n\n对于公司以外的人，没有必要完全按照这些原则做事，也不代表这种方式最好。我的做事方式也有很多固执和没有想明白的地方。\n\n大家看看就好，不必过度纠结。当然，我也希望其中一些内容能够对大家有所帮助。\n\n4. Giggle Academy什么时候能达到1,000万学员\n\n时间：08:29—10:11\n\n提问\n\n提问者的孩子一直在使用免费教育项目Giggle Academy。按照目前的增长速度，1000万名学员的目标大概什么时候能够实现？\n\nCZ回答\n\n我不太敢准确估计，但可以提供几个数据。\n\n去年大概只有几万名用户，可能是两三万人左右，我对这个数字记得不算特别准确。\n\n今年年初大概有10万人，现在经过六七个月，已经有约130万人使用。增长速度呈现指数型。\n\n如果继续保持这个趋势，达到1000万人应该会很快，可能一两年内就有机会实现，但我不能保证。按照两三年的时间计算，应该可以达到。\n\n比用户总量更重要的指标是持续使用时间。我希望一个孩子能够连续使用18年，但现在实现这一点仍然比较困难，因为很多孩子使用一段时间以后就不再继续。\n\n其中一个原因与适用年龄有关，另一个原因是应用里的内容还不够丰富。\n\n目前的内容主要针对2岁至6岁的孩子。吸引2岁至6岁儿童的方式，与吸引6岁至10岁儿童的方式不同。第二年龄阶段的内容还没有完成。\n\n年龄较小的孩子相对容易吸引，放一些动画就能让他们继续观看。随着孩子长大，教育内容与呈现方式都需要变化。\n\n1000万是近期目标，1亿用户也可以先定为一个“小目标”。这里的一亿指的是用户数量，并非金额。\n\n5. 实体企业怎样进入Web3并避开风险\n\n时间：10:13—12:27\n\n提问\n\n提问者曾经服务过10万家实体企业。实体企业进入Web3以后，怎样规避风险和常见陷阱？未来怎样在Web3，尤其是币安生态中获得更好的发展？\n\nCZ回答\n\n任何一个新行业都会存在很多陷阱，金融行业尤其如此。\n\n风险控制的第一步是控制规模，也就是控制投资金额。面对新产品、新项目和不熟悉的方向，不要一次投入太多资金，应当逐步尝试和适应。\n\n真正投入大额资金的地方，必须有非常高的确定性，因为这属于重大决定。小决定可以比较轻松、快速地作出。\n\n币安的产品非常多，复杂到连我都搞不清楚币安究竟有多少产品。离开币安以后，我自己其实只是币安的轻度用户。\n\n不过对于传统企业来说，币安里面有很多功能可以使用。\n\n例如币安支付可以进行跨境支付，成本非常低，效率也非常高。由于币安一直被定义为交易类应用，很多人并不知道它还可以用于跨境支付，操作方式可能也没有那么直观。\n\n此外，还有很多用户只使用币安理财。在年化收益率比较高的产品中放入两万美元，一个月可能获得几百美元。几百美元在一些地方已经可以覆盖不少支出。\n\n我并非币安的高级用户，现场很多用户实际使用和交流以后，可能比我更熟悉这些产品。\n\n6. 创办币安九年中最绝望的时刻\n\n时间：12:34—14:24\n\n提问\n\n行业存在周期。在创办币安的九年中，赵长鹏最绝望的时刻是什么？又是什么支撑他从绝望中走出来？\n\nCZ回答\n\n每个人对绝望的定义不同。我自己好像一直没有特别绝望的时候，一直都抱有希望。\n\n我的性格比较乐观，韧性也比较强，能够承受压力。中文可以形容为性格比较“耐操”。\n\n如果不能承受压力，很难长期服务这么多散户。面对用户批评，有时候被骂也需要能够扛住。\n\n心理压力最大的时候，应该是币安刚刚上线时。当时BNB破发，此前很多项目上线以后价格表现都很好，但投资币安的几万名用户当时全部处于亏损状态。\n\n那两个星期是我心理压力最大的时候，因为很多投资者都因我们而亏钱。\n\n后来处理美国的事情时，个人压力肯定也非常大，但这种压力更加个人化。\n\n我认为自己没有对不起别人，那是我自己的事情，需要由我自己处理。我觉得自己对得起币安用户、BNB持有者以及整个行业。\n\n我个人可能需要承受一些不好的经历，因此个人层面的压力很大，但心理负担反而没有币安刚上线时那么重。这是两个不同阶段的压力。\n\n7. 加密从业者是否应该主动追求影响力\n\n时间：14:31—16:32\n\n提问\n\n中国有一句话叫“闷声发大财”，但加密行业里也有很多人利用自己的影响力获得大量财富。\n\n赵长鹏已经是加密行业最具影响力的人之一。加密从业者是否应该主动、高调地追求影响力？又该怎样塑造和利用自己的影响力？\n\nCZ回答\n\n这是一个很难回答的问题，没有统一的正确答案，每个人的风格都不一样。\n\n中国流传下来的话通常都有一定道理，特别是在中国环境中，甚至放到全球环境中，都会存在“枪打出头鸟”的情况。最理想的状态当然是能够闷声发大财。\n\n中本聪如果公开了自己的身份，肯定会成为最先被针对的人。他保持匿名是一种很聪明的选择。\n\n如果一个人有能力在没有太大影响力的情况下赚钱，我非常鼓励他闷声发大财。\n\n不过，建立影响力本身也是一种获得财富的方式，而且有些人确实喜欢拥有影响力。\n\n很多项目如果完全没有影响力，可能很难发展起来。拥有影响力以后，赚钱也会容易一些。\n\n这里存在个人取舍，没有百分之百正确或者百分之百错误的选择，每个人都需要根据自己的风格寻找平衡。\n\n8. 股票、外汇和其他资产是否都会上链\n\n时间：16:34—18:42\n\n提问\n\n书的主题涉及“Freedom of Money”。现在已经开始出现外汇和股票上链，未来是否会发展成“Freedom of Capital and Assets on Chain”，让资本与各种资产都进入链上？\n\nCZ回答\n\n肯定会，而且发展顺序已经很清楚。\n\n第一步是股票上链。任何国家都会希望本国股票能够上链。\n\n作为一家公司，已经在交易所上市以后，为什么只能让本国投资者购买股票？为什么不能让全世界的人购买？股票上链以后，可以接触全球投资者。\n\n货币上链的表现形式就是稳定币。目前稳定币规模大约为3000亿美元，其中约90%与美元挂钩。\n\n这相当于美元在加密货币和全球数字市场中的流动性又增加了3000亿美元，这个数字已经相当大。\n\n其他国家自然也会希望本国货币进入未来的Web3市场，并在全球范围内流通。\n\n各国货币上链以后，外汇交易也会进入链上。\n\n目前外汇交易非常不透明，主要通过彭博、路透等系统，采用询价交易模式。上链以后，外汇市场可以形成全天候运行、价格透明的交易方式。\n\n股票、货币和外汇进入链上以后，艺术品、知识产权和房地产等其他资产最终也会进入链上。\n\n这些资产的交易会更困难一些，因为流动性没有那么好，但长期来看都会逐渐上链。\n\n9. 暴富和跌入低谷以后怎样控制心态\n\n时间：18:49—21:28\n\n提问\n\n很多年轻人在加密市场中经历过一夜暴富，也经历过一夜归零。赵长鹏在快速获得财富以及经历监禁等人生低谷时，是怎样控制自己心态的？\n\nCZ回答\n\n最简单的办法可能是先长出一些白头发。随着年龄和经历增加，一个人的心态、性格、体系和成熟度都会慢慢形成。\n\n一夜暴富当然是很多人都希望发生的事情，但这种状态并不健康。\n\n中国话说“来得快，去得也快”。能够一夜暴富，通常说明承担的风险也非常高。钱来得太快，往往也很难留住。\n\n如果已经一夜暴富，应当尽量把钱留下来，避免再一夜亏光。特别是在暴涨暴跌的市场里，风险控制非常重要。\n\n千万不要孤注一掷，也不要把全部资金投入一项资产。能够让人一夜暴富的投资，也可能让人一夜亏光。\n\n如果面对高风险投资，应当把资金分成很多小份，作出很多小决定，逐步尝试。\n\n不过，如果始终采用很多小决定分散风险，大概率也很难一夜暴富。这两者之间需要找到心态上的平衡。\n\n我非常不建议年轻人把一夜暴富当作目标。年轻人最大的本金是时间，有很多时间可以慢慢积累。\n\n如果年轻人每个月拿几百元或者一千元购买比特币，坚持十年，利用长期积累和复利，十年后可能根本不再需要为钱发愁。\n\n年轻人往往很着急，但年轻人反而不需要着急，因为时间站在年轻人一边。\n\n我没有一种神奇的方法，可以让人既一夜暴富，又保证永远不会亏损。这种方法确实不存在。\n\n10. 行业新人怎样参与区块链的新阶段\n\n时间：21:32—23:09\n\n提问\n\n当区块链的发展已经跳出分布式账本的局限，开始成为真实、去中心化、可验证的生产力时，是否会引发行业的新一轮革命？行业新人应该怎样参与？\n\nCZ回答\n\n这个问题比较深奥。任何一个概念都有可能成为下一个市场热点，也有可能不会。\n\n六个月以后的热点是什么，我现在确实判断不出来。\n\n至于怎样参与，这个问题比较容易回答。区块链行业可能是我见过参与门槛最低的行业之一，也正因为参与太容易，里面才会存在很多骗子。\n\n很多项目在非常早期时就可以购买它们的代币。不过，在购买代币以前，可以先进入项目社区，观察项目是不是真的拥有社区。\n\n没有社区的项目通常很难成功。看到社区以后，还要继续判断这个社区是真是假，里面是真实用户，还是水军和互相制造热度的人。\n\n新人参与行业并不困难，但必须做好风险控制。\n\n11. 判断一个项目能否成功最重要的因素\n\n时间：23:09—25:43\n\n提问\n\n提问者从事风险投资，同时也是加密行业内容创作者。赵长鹏投资过很多项目，币安也曾孵化大量项目。\n\n从他的角度看，一个项目成功或者失败最关键的因素是什么？\n\nCZ回答\n\n最关键的因素仍然是人。无论人工智能发展得多强，最后还是要看团队。\n\n我自己现在不会直接带着项目团队做事，因此必须找到一个能力很强、可以独立把项目做出来的团队。\n\n首先要看技术能力，团队能否真正做出产品，产品质量是否足够好。\n\n还要看情商，能否理解用户以及用户实际需要什么。\n\n更加稀缺的能力是韧性。一个人在逆境中能不能继续向前，这一点在最初聊天时通常看不出来，必须在实际合作过程中才能发现。\n\n还要看心态是否端正。在加密行业里，心态端正非常重要。心态端正的人更有机会稳定赚取长期收益，也能够在行业中走得更久。\n\n使命感同样重要。\n\n过去几个月做投资，对我来说反而变得更容易。大量追逐短期利润的人转去做人工智能，继续留在区块链行业的人，通常拥有更强的使命感。\n\n在热钱很多或者牛市期间，项目反而很难判断。那时所有人都在做项目，每个项目估值都很高，很难区分谁真正想做事，谁只是过来赚快钱。\n\n我其实很喜欢快钱流向人工智能。热钱离开以后，留下来继续做区块链的人往往更加沉得住气。\n\n加密行业本身就是与钱有关的行业，人工智能属于数据和智能行业，主要提高效率。\n\n人工智能目前高度中心化。如果无法成为少数大公司的创始人，或者建立一家规模很大的公司，普通参与者未必容易赚到钱。已经形成规模的大公司，普通投资者也很难在早期投进去。\n\n从赚钱的角度看，我认为加密行业依然比人工智能行业更容易。但无论选择哪个行业，心态都必须稳定。\n\n12. 年轻人还应不应该重仓 bitcoin:native \n\n时间：25:46—29:20\n\n提问\n\n提问者曾在香港进行只使用加密货币生活的挑战。当时在香港很难直接花稳定币。他第一次接触比特币时，价格大约为1000美元，现在很多“00后”和“10后”接触比特币时，价格已经达到8万至10万美元。\n\n比特币已经上涨了约80倍至100倍，年轻人继续参与时，是否还需要采用重仓甚至全部投入的方式？未来是否还有类似的机会？什么时候可能看到比特币达到100万美元？\n\nCZ回答\n\n对于绝大多数人，我非常不建议采取全部投入的方式，特别是在金融投资方面。\n\n如果准备把全部资金投入一项资产，必须先问自己：如果这项资产归零，接下来怎么办？\n\n如果无法回答这个问题，或者对自己的答案不满意，就不要全部投入。\n\n我当年选择重仓时，已经35岁或者36岁，并非刚刚大学毕业。我对自己的情况有比较清晰的判断。\n\n我当时非常清楚，即便比特币归零，家庭和孩子的生活也不会受到太大影响。我仍然可以继续工作赚钱，依靠工资维持家庭生活。\n\n作出这种决定以前，必须先为基本生活准备保障。\n\n千万不要借钱，更不能借钱以后把资金全部投入市场。这种做法绝对不能采用。\n\n未来有没有机会？肯定有。未来的机会永远会比过去更多。\n\n这些机会能不能让人一夜暴富，并不确定。比特币未来能否再上涨8倍或者10倍，我认为完全存在这种可能。\n\n但需要多长时间，我不知道。这个判断也不代表比特币明天不会下跌。\n\n除了比特币，还有很多其他加密货币可以投资。刚刚进入行业的年轻人仍然应该建立分散的组合，可以把加密货币配置中的80%至90%放在几个主要币种中。\n\n同时，不要卖掉房子、投入全部家当去购买加密货币。个人资产还应当配置到不同类别中。\n\n年轻人通常没有太多本金；年纪较大的人资金相对更多，更需要分散配置。\n\n年轻人在保障基本生活的前提下，可以承担稍高一些的风险。年轻人的工资可能不高，即使拿工资的20%购买加密货币，绝对金额也不会特别大。\n\n年轻人的生活成本通常较低，可能还没有配偶、孩子或者需要照顾的老人，生活方式也比较灵活。\n\n年轻人可以尽量降低固定生活成本，在不影响基本生活的情况下承担更高一些的投资风险，但不能冒险到第二天连居住的地方都没有。\n\n不同年龄应该采用不同方式，未来仍然会有很多机会。\n\n13. 人工智能时代的教育会变成什么样\n\n时间：29:23—34:29\n\n提问\n\n提问者两年前曾在泰国询问过Giggle Academy，当时项目刚刚开始，现在已经拥有100多万用户。\n\nGiggle最初的设想是否产生了变化？在人工智能时代，未来的教育会采用怎样的模式？\n\nCZ回答\n\nGiggle开始时，ChatGPT已经相当流行。因此按照我的定义，Giggle属于人工智能出现以后的项目，是一个“Post-AI Project”。\n\n从Giggle开始的第一天，我就认为应该把人工智能使用到极致。\n\n当时我们也讨论过，既然人工智能正在发展，以后是否可以直接由人工智能教育孩子。\n\n我们的判断是，目前人工智能还无法长期、系统地教育孩子，特别是年龄很小的孩子。\n\n年龄较大的孩子提出一个问题，人工智能可以回答。但现阶段的人工智能还不太像一名真正的教师，无法长期按照完整体系一直教下去。\n\n如果从最终状态往回看，未来可能只需要一个人工智能，就能够直接完成教育。某一家大公司的人工智能也许能够长期教导一个人。\n\n在这个最终状态出现以前，可能会先有专门从事教育的公司，把人工智能调整到非常适合教学的程度，让它能够按照课程体系教导学生。\n\n再往前一个阶段，大部分课程、教材和内容仍然由人类设计，但利用大量人工智能工具快速制作和实现。我们现在大概处于这个阶段。\n\n人工智能进步非常快。如果以后人工智能能够把一个孩子从0岁一直教到18岁，而且教学效果很好，Giggle停止运营也没关系。\n\nGiggle本来就没有收入，是一个为了产生正面社会贡献而建立的项目。\n\n也有可能出现相反的结果：因为Giggle一直大量使用人工智能，又积累了教育数据，Giggle可能最先开发出能够终身教育孩子、适应不同人群的人工智能。\n\n以后即使Giggle被大公司收购，或者其他公司复制我们的方式，也没有关系。我关心的是怎样把教育做到最好，具体使用哪一家人工智能并不重要。\n\n现有课堂教育存在很多限制。课堂采用平均化教育方式，把每个人教育成一个各方面相对平均的人。\n\n一个学生数学很好、英语较弱，学校往往会让他少花一些时间学数学，多花一些时间学英语，最后培养成一个能力平均的人。\n\n平均化人才适合传统工厂体系。我对在工厂工作的人没有任何歧视，但未来的竞争属于全球化的极度竞争，一个人需要在自己的领域进入最顶尖的0.1%。\n\n处于前0.2%的人，收入都可能比前0.1%的人少很多，哪怕只相差千分之一，收入可能相差10倍。\n\n基本沟通能力、计算能力等基础教育仍然必须具备，但在一个人真正擅长的领域，应当进行高度专注的训练。\n\n教育必须根据每个人的特点单独设计。一对一真人教师很难普及，因为世界上没有那么多教师，但可以通过技术、虚拟现实和人工智能实现一对一教育。\n\n一个人也不需要看到别人做什么成功，就立刻跟着做相同的事情。别人开一家店赚钱，不代表自己也应该去开同样的店。面对外界变化，需要保持平静，理解自己的优势。\n\n英伟达今天非常赚钱，但英伟达已经做了三四十年。以前显卡没有处理器赚钱，显卡也很难制造，在当时看来并不算特别热门。人工智能公司开始大量使用显卡以后，英伟达才达到今天的规模。\n\n苹果的发展过程中同样经历过很多起伏。因此不能因为别人短时间内非常成功，就立刻改变自己的方向，应该了解自己真正擅长什么。\n\n创业经常要求创业者投入全部精力，但应当先做出产品，确认已经找到产品与市场的匹配，再投入全部精力。\n\n14. 量化交易踏空以后怎样缓解焦虑\n\n时间：34:32—35:24\n\n提问\n\n提问者从事了七年加密货币现货量化，也在币安交易美股现货。他经历过2019年的加密寒冬。\n\n现在市场上涨，但量化策略可能保持空仓，因此出现踏空焦虑。应该怎样调整这种心态？\n\nCZ回答\n\n如果交易时产生很强的焦虑感，通常应该把交易仓位调小一些。\n\n现场有人提醒，这位提问者目前正处于空仓状态。赵长鹏随即回应，那至少只能把仓位调大一点。\n\n随后他补充，这个问题自己确实没有答案。\n\n15. 币安下一阶段最重要的生态增长点\n\n时间：35:26—37:28\n\n提问\n\n币安下一阶段最重要的生态增长点是什么？未来币安将怎样帮助优质项目、创作者和普通用户，共享整个生态增长带来的利益？\n\nCZ回答\n\n如果问题指的是币安中心化交易所，我现在已经不太管理那部分业务，目前主要由何一负责。\n\n据我了解，他们现在投入了很多精力发展RWA。RWA的发展方向合理，增长速度也很快。我们希望帮助更多资产上链。\n\nRWA的发展不能只依靠中心化交易所。币安中心化交易所本身并非最适合的资产发行方。\n\n全球存在很多监管机构、证券市场和证监会，每个国家的证券监管规则都不同。\n\n更好的方式是让各地券商负责发行相关资产，币安负责提供交易平台和生态支持。\n\n币安生态也不只有币安中心化交易所，还包括BNB Chain、PancakeSwap、Aster、Trust Wallet以及其他项目。需要整个生态共同支持一个发展方向。\n\n至于RWA之后的下一个增长点是什么，要等新的方向通过数据表现出来。\n\n如果某个方向的数据突然明显增长，证明它真正发展起来了，我相信整个生态都会支持。它可能是人工智能支付，也可能是目前还没有想到的方向。\n\n对于整个BNB生态，我一直给出的建议是跟随趋势。生态本身未必负责创造趋势，很多趋势由社区中的创业者创造。\n\n我们无法提前准确判断什么会火、什么不会火。社区会自然形成趋势：某个创业者推出一项产品，其他人开始跟进。\n\n只要一个项目在某个赛道中做得足够好，就可能带动整个赛道发展。币安和BNB生态要做的是及时提供支持。",
+        "published_at": "2026-08-29T11:50:11+00:00",
+        "fetched_at": null,
+        "source_type": "x",
+        "platform": "x",
+        "source_language": "zh",
+        "content_complete": false,
+        "extraction_status": "author_explicitly_reports_missing_questions",
+        "extractor_version": "archive-decode-v1",
+        "post_type": "quote",
+        "reply_to": null,
+        "quoted_post": {
+          "post_id": "2093617121100173410",
+          "author": null
+        },
+        "thread_id": "2093667525406187627",
+        "media": [
+          "photo"
+        ],
+        "external_links": [],
+        "raw_import_ref": "data/raw_posts.jsonl#2093667525406187627",
+        "raw_import_hash": "d81d6dd90dea434b9568edeced104456a8c8df3d1ce1d3af05e8db2270976a7b",
+        "extraction_transformations": [
+          "decode literal backslash-n from inherited import",
+          "HTML entity unescape once"
+        ]
+      },
+      "raw_archive_record": {
+        "source_account_id": "phyrexni",
+        "stable_author_id": "555634740",
+        "handle_at_collection": "PhyrexNi",
+        "post_id": "2093667525406187627",
+        "url": "https://x.com/PhyrexNi/status/2093667525406187627",
+        "created_at": "2026-08-29T11:50:11+00:00",
+        "collected_at": null,
+        "ingested_at": "2026-09-06T02:50:21.738060+00:00",
+        "text": "看到有小伙伴说要文字版，所以我就整理了一版，因为还是从我的视频中整理的，所以仍然缺少最后五个问题。下面按视频原始顺序整理，共15组问答。\n\n1. 怎样判断一件事应该坚持还是放弃\n\n时间：00:42—04:10\n\n提问\n\n书中既写到了高光时刻，也写到了很多跌宕，以及如何在巨大的不确定性中作出选择。作为行业从业者，应该怎样区分什么事情需要坚持，什么事情应该放弃？\n\nCZ回答\n\n这个问题包含两个部分：一个是怎样选择、怎样做决策；另一个是什么事情应该坚持，什么事情应该放弃。这两个部分可以分开看。\n\n我有一套很简单的决策模型。首先判断这项决定是大决定还是小决定，其次判断它是否可以逆转。\n\n百分之九十以上的决定都属于小决定，而且可以逆转。这类决定可以很快作出，但作出以后不能沿着一条路一直走下去，需要不断重新判断，看看今天是否应该修改。\n\n例如，半年前我可能认为RWA距离实际发展还比较远，但几个月后看到这个方向的势头起来了，我们就决定支持。整个生态都可以提供支持，YZi Labs可以投资，BNB Chain也可以支持。这些决定可以逆转，因此能够根据情况不断调整。\n\n应该尽量避免作出重大的、无法逆转的决定。遇到这种决定必须慢下来认真考虑，而且这类决定越少越好。\n\n中间还有一种情况，决定很大，但可以逆转。虽然能够逆转，逆转成本仍然比较高，因此也应当尽量减少。\n\n作出什么决定，与一个人应该坚持什么原则是两回事。每个人都应该拥有自己的原则，最基本的是道德，不能越过道德底线。\n\n对我们来说，任何伤害用户的事情都触碰了原则底线。只要一项决定与这条原则发生冲突，决定已经完成了，根本不需要继续讨论。\n\n至于产品是否需要转型、功能是否需要调整、创业方向是否需要改变、交易策略是否需要修改，这些通常都可以逆转，也就可以根据实际情况调整。\n\n交易还必须做好风险控制。从数学上看，每一次都划算的生意，也不代表可以无限做下去。\n\n例如抛硬币，赢了我给你3元，输了你给我1元，这项游戏对你有利，可以反复进行。\n\n如果规则变成赢了可以得到全部身家的3倍，输了就失去全部身家，即便数学期望仍然有利，这个游戏也不能玩。因为即使连续赢了十次，只要输一次就什么都没有了。\n\n风险控制不能只看赚钱的投资回报率，还要看自己能不能承受最坏结果。这就是决策、原则与风险控制之间的关系。\n\n2. 哪些国家开放加密货币会产生最大影响\n\n时间：04:20—06:42\n\n提问\n\n书中第222页开始写到，赵长鹏从2022年起前往世界各地，与很多国家领导人交流和普及加密货币。\n\n目前仍未开放加密货币的国家中，哪些国家一旦开放，会给整个行业带来很大的推动？如果只看东南亚，哪个国家最有潜力？\n\n赵长鹏回答\n\n我们都知道有一个非常大的国家，如果重新开放，会带来非常大的正面影响。不过这个过程还是慢慢来。\n\n很多国家担心加密货币可能会威胁本国主权货币，这其实是一种误解。每个国家都可以发行与本国货币挂钩的稳定币，反而可以让本国主权货币在全球拥有更广泛的流通。\n\n这个过程需要时间，需要不断进行教育、沟通和影响。\n\n很多人对加密货币存在恐惧。原来我一直以为，行业发展可能采用“农村包围城市”的方式，先让小国家逐步参与，然后再扩大到更大的国家。\n\n没有预料到的是，美国突然变得非常友好，这对加密货币属于重大利好，过去一个星期的行情也能反映这一点。\n\n大国开放带来的影响肯定更大，小国的影响相对有限，但很多小国加在一起，规模同样不小。\n\n东南亚已经有很多国家发展得相当快，例如泰国和菲律宾。菲律宾现在币安也有牌照，法币通道应该已经开放，用户不需要再完全依赖点对点交易，可以直接通过银行转账。\n\n马来西亚可能稍微慢一点，但很多地方的进展都很快。我对东南亚一直比较乐观。\n\n3. “CZ的原则”有没有第73条\n\n时间：06:45—08:26\n\n提问\n\n书的附录收录了“CZ的原则”，并注明这些原则会持续更新。书中的版本一共有72条，书出版这么久以后，有没有产生新的第73条？\n\nCZ回答\n\n没有。后来确实出现了一个新版本，但新版调整了编号体系，也把很多原则进行了归纳和合并，并非直接在后面增加第73条。\n\n这本书出版时，新版本其实已经存在，但我认为旧版本更适合放进书里。\n\n说实话，我最初并不想把这些原则加入书中。当时很多人建议把创业原则和做事方式写出来，让读者了解怎样创业。\n\n我觉得如果把这部分写得太具体，就会变成一本教程。把教程和自己的经历放在一起，整体感觉并不算特别好。\n\n我认为这本书如果直接结束在“If you can, you must”这句话上，可能效果会更好。后来加入了原则，结尾就变长了很多。\n\n这些原则只是我个人做事的方式，未必是最好的方式。当时总结原则，主要是为了让公司内部的人更了解我的工作方式和思维方式，让他们在作出决定时能够与我保持一致。\n\n对于公司以外的人，没有必要完全按照这些原则做事，也不代表这种方式最好。我的做事方式也有很多固执和没有想明白的地方。\n\n大家看看就好，不必过度纠结。当然，我也希望其中一些内容能够对大家有所帮助。\n\n4. Giggle Academy什么时候能达到1,000万学员\n\n时间：08:29—10:11\n\n提问\n\n提问者的孩子一直在使用免费教育项目Giggle Academy。按照目前的增长速度，1000万名学员的目标大概什么时候能够实现？\n\nCZ回答\n\n我不太敢准确估计，但可以提供几个数据。\n\n去年大概只有几万名用户，可能是两三万人左右，我对这个数字记得不算特别准确。\n\n今年年初大概有10万人，现在经过六七个月，已经有约130万人使用。增长速度呈现指数型。\n\n如果继续保持这个趋势，达到1000万人应该会很快，可能一两年内就有机会实现，但我不能保证。按照两三年的时间计算，应该可以达到。\n\n比用户总量更重要的指标是持续使用时间。我希望一个孩子能够连续使用18年，但现在实现这一点仍然比较困难，因为很多孩子使用一段时间以后就不再继续。\n\n其中一个原因与适用年龄有关，另一个原因是应用里的内容还不够丰富。\n\n目前的内容主要针对2岁至6岁的孩子。吸引2岁至6岁儿童的方式，与吸引6岁至10岁儿童的方式不同。第二年龄阶段的内容还没有完成。\n\n年龄较小的孩子相对容易吸引，放一些动画就能让他们继续观看。随着孩子长大，教育内容与呈现方式都需要变化。\n\n1000万是近期目标，1亿用户也可以先定为一个“小目标”。这里的一亿指的是用户数量，并非金额。\n\n5. 实体企业怎样进入Web3并避开风险\n\n时间：10:13—12:27\n\n提问\n\n提问者曾经服务过10万家实体企业。实体企业进入Web3以后，怎样规避风险和常见陷阱？未来怎样在Web3，尤其是币安生态中获得更好的发展？\n\nCZ回答\n\n任何一个新行业都会存在很多陷阱，金融行业尤其如此。\n\n风险控制的第一步是控制规模，也就是控制投资金额。面对新产品、新项目和不熟悉的方向，不要一次投入太多资金，应当逐步尝试和适应。\n\n真正投入大额资金的地方，必须有非常高的确定性，因为这属于重大决定。小决定可以比较轻松、快速地作出。\n\n币安的产品非常多，复杂到连我都搞不清楚币安究竟有多少产品。离开币安以后，我自己其实只是币安的轻度用户。\n\n不过对于传统企业来说，币安里面有很多功能可以使用。\n\n例如币安支付可以进行跨境支付，成本非常低，效率也非常高。由于币安一直被定义为交易类应用，很多人并不知道它还可以用于跨境支付，操作方式可能也没有那么直观。\n\n此外，还有很多用户只使用币安理财。在年化收益率比较高的产品中放入两万美元，一个月可能获得几百美元。几百美元在一些地方已经可以覆盖不少支出。\n\n我并非币安的高级用户，现场很多用户实际使用和交流以后，可能比我更熟悉这些产品。\n\n6. 创办币安九年中最绝望的时刻\n\n时间：12:34—14:24\n\n提问\n\n行业存在周期。在创办币安的九年中，赵长鹏最绝望的时刻是什么？又是什么支撑他从绝望中走出来？\n\nCZ回答\n\n每个人对绝望的定义不同。我自己好像一直没有特别绝望的时候，一直都抱有希望。\n\n我的性格比较乐观，韧性也比较强，能够承受压力。中文可以形容为性格比较“耐操”。\n\n如果不能承受压力，很难长期服务这么多散户。面对用户批评，有时候被骂也需要能够扛住。\n\n心理压力最大的时候，应该是币安刚刚上线时。当时BNB破发，此前很多项目上线以后价格表现都很好，但投资币安的几万名用户当时全部处于亏损状态。\n\n那两个星期是我心理压力最大的时候，因为很多投资者都因我们而亏钱。\n\n后来处理美国的事情时，个人压力肯定也非常大，但这种压力更加个人化。\n\n我认为自己没有对不起别人，那是我自己的事情，需要由我自己处理。我觉得自己对得起币安用户、BNB持有者以及整个行业。\n\n我个人可能需要承受一些不好的经历，因此个人层面的压力很大，但心理负担反而没有币安刚上线时那么重。这是两个不同阶段的压力。\n\n7. 加密从业者是否应该主动追求影响力\n\n时间：14:31—16:32\n\n提问\n\n中国有一句话叫“闷声发大财”，但加密行业里也有很多人利用自己的影响力获得大量财富。\n\n赵长鹏已经是加密行业最具影响力的人之一。加密从业者是否应该主动、高调地追求影响力？又该怎样塑造和利用自己的影响力？\n\nCZ回答\n\n这是一个很难回答的问题，没有统一的正确答案，每个人的风格都不一样。\n\n中国流传下来的话通常都有一定道理，特别是在中国环境中，甚至放到全球环境中，都会存在“枪打出头鸟”的情况。最理想的状态当然是能够闷声发大财。\n\n中本聪如果公开了自己的身份，肯定会成为最先被针对的人。他保持匿名是一种很聪明的选择。\n\n如果一个人有能力在没有太大影响力的情况下赚钱，我非常鼓励他闷声发大财。\n\n不过，建立影响力本身也是一种获得财富的方式，而且有些人确实喜欢拥有影响力。\n\n很多项目如果完全没有影响力，可能很难发展起来。拥有影响力以后，赚钱也会容易一些。\n\n这里存在个人取舍，没有百分之百正确或者百分之百错误的选择，每个人都需要根据自己的风格寻找平衡。\n\n8. 股票、外汇和其他资产是否都会上链\n\n时间：16:34—18:42\n\n提问\n\n书的主题涉及“Freedom of Money”。现在已经开始出现外汇和股票上链，未来是否会发展成“Freedom of Capital and Assets on Chain”，让资本与各种资产都进入链上？\n\nCZ回答\n\n肯定会，而且发展顺序已经很清楚。\n\n第一步是股票上链。任何国家都会希望本国股票能够上链。\n\n作为一家公司，已经在交易所上市以后，为什么只能让本国投资者购买股票？为什么不能让全世界的人购买？股票上链以后，可以接触全球投资者。\n\n货币上链的表现形式就是稳定币。目前稳定币规模大约为3000亿美元，其中约90%与美元挂钩。\n\n这相当于美元在加密货币和全球数字市场中的流动性又增加了3000亿美元，这个数字已经相当大。\n\n其他国家自然也会希望本国货币进入未来的Web3市场，并在全球范围内流通。\n\n各国货币上链以后，外汇交易也会进入链上。\n\n目前外汇交易非常不透明，主要通过彭博、路透等系统，采用询价交易模式。上链以后，外汇市场可以形成全天候运行、价格透明的交易方式。\n\n股票、货币和外汇进入链上以后，艺术品、知识产权和房地产等其他资产最终也会进入链上。\n\n这些资产的交易会更困难一些，因为流动性没有那么好，但长期来看都会逐渐上链。\n\n9. 暴富和跌入低谷以后怎样控制心态\n\n时间：18:49—21:28\n\n提问\n\n很多年轻人在加密市场中经历过一夜暴富，也经历过一夜归零。赵长鹏在快速获得财富以及经历监禁等人生低谷时，是怎样控制自己心态的？\n\nCZ回答\n\n最简单的办法可能是先长出一些白头发。随着年龄和经历增加，一个人的心态、性格、体系和成熟度都会慢慢形成。\n\n一夜暴富当然是很多人都希望发生的事情，但这种状态并不健康。\n\n中国话说“来得快，去得也快”。能够一夜暴富，通常说明承担的风险也非常高。钱来得太快，往往也很难留住。\n\n如果已经一夜暴富，应当尽量把钱留下来，避免再一夜亏光。特别是在暴涨暴跌的市场里，风险控制非常重要。\n\n千万不要孤注一掷，也不要把全部资金投入一项资产。能够让人一夜暴富的投资，也可能让人一夜亏光。\n\n如果面对高风险投资，应当把资金分成很多小份，作出很多小决定，逐步尝试。\n\n不过，如果始终采用很多小决定分散风险，大概率也很难一夜暴富。这两者之间需要找到心态上的平衡。\n\n我非常不建议年轻人把一夜暴富当作目标。年轻人最大的本金是时间，有很多时间可以慢慢积累。\n\n如果年轻人每个月拿几百元或者一千元购买比特币，坚持十年，利用长期积累和复利，十年后可能根本不再需要为钱发愁。\n\n年轻人往往很着急，但年轻人反而不需要着急，因为时间站在年轻人一边。\n\n我没有一种神奇的方法，可以让人既一夜暴富，又保证永远不会亏损。这种方法确实不存在。\n\n10. 行业新人怎样参与区块链的新阶段\n\n时间：21:32—23:09\n\n提问\n\n当区块链的发展已经跳出分布式账本的局限，开始成为真实、去中心化、可验证的生产力时，是否会引发行业的新一轮革命？行业新人应该怎样参与？\n\nCZ回答\n\n这个问题比较深奥。任何一个概念都有可能成为下一个市场热点，也有可能不会。\n\n六个月以后的热点是什么，我现在确实判断不出来。\n\n至于怎样参与，这个问题比较容易回答。区块链行业可能是我见过参与门槛最低的行业之一，也正因为参与太容易，里面才会存在很多骗子。\n\n很多项目在非常早期时就可以购买它们的代币。不过，在购买代币以前，可以先进入项目社区，观察项目是不是真的拥有社区。\n\n没有社区的项目通常很难成功。看到社区以后，还要继续判断这个社区是真是假，里面是真实用户，还是水军和互相制造热度的人。\n\n新人参与行业并不困难，但必须做好风险控制。\n\n11. 判断一个项目能否成功最重要的因素\n\n时间：23:09—25:43\n\n提问\n\n提问者从事风险投资，同时也是加密行业内容创作者。赵长鹏投资过很多项目，币安也曾孵化大量项目。\n\n从他的角度看，一个项目成功或者失败最关键的因素是什么？\n\nCZ回答\n\n最关键的因素仍然是人。无论人工智能发展得多强，最后还是要看团队。\n\n我自己现在不会直接带着项目团队做事，因此必须找到一个能力很强、可以独立把项目做出来的团队。\n\n首先要看技术能力，团队能否真正做出产品，产品质量是否足够好。\n\n还要看情商，能否理解用户以及用户实际需要什么。\n\n更加稀缺的能力是韧性。一个人在逆境中能不能继续向前，这一点在最初聊天时通常看不出来，必须在实际合作过程中才能发现。\n\n还要看心态是否端正。在加密行业里，心态端正非常重要。心态端正的人更有机会稳定赚取长期收益，也能够在行业中走得更久。\n\n使命感同样重要。\n\n过去几个月做投资，对我来说反而变得更容易。大量追逐短期利润的人转去做人工智能，继续留在区块链行业的人，通常拥有更强的使命感。\n\n在热钱很多或者牛市期间，项目反而很难判断。那时所有人都在做项目，每个项目估值都很高，很难区分谁真正想做事，谁只是过来赚快钱。\n\n我其实很喜欢快钱流向人工智能。热钱离开以后，留下来继续做区块链的人往往更加沉得住气。\n\n加密行业本身就是与钱有关的行业，人工智能属于数据和智能行业，主要提高效率。\n\n人工智能目前高度中心化。如果无法成为少数大公司的创始人，或者建立一家规模很大的公司，普通参与者未必容易赚到钱。已经形成规模的大公司，普通投资者也很难在早期投进去。\n\n从赚钱的角度看，我认为加密行业依然比人工智能行业更容易。但无论选择哪个行业，心态都必须稳定。\n\n12. 年轻人还应不应该重仓 bitcoin:native \n\n时间：25:46—29:20\n\n提问\n\n提问者曾在香港进行只使用加密货币生活的挑战。当时在香港很难直接花稳定币。他第一次接触比特币时，价格大约为1000美元，现在很多“00后”和“10后”接触比特币时，价格已经达到8万至10万美元。\n\n比特币已经上涨了约80倍至100倍，年轻人继续参与时，是否还需要采用重仓甚至全部投入的方式？未来是否还有类似的机会？什么时候可能看到比特币达到100万美元？\n\nCZ回答\n\n对于绝大多数人，我非常不建议采取全部投入的方式，特别是在金融投资方面。\n\n如果准备把全部资金投入一项资产，必须先问自己：如果这项资产归零，接下来怎么办？\n\n如果无法回答这个问题，或者对自己的答案不满意，就不要全部投入。\n\n我当年选择重仓时，已经35岁或者36岁，并非刚刚大学毕业。我对自己的情况有比较清晰的判断。\n\n我当时非常清楚，即便比特币归零，家庭和孩子的生活也不会受到太大影响。我仍然可以继续工作赚钱，依靠工资维持家庭生活。\n\n作出这种决定以前，必须先为基本生活准备保障。\n\n千万不要借钱，更不能借钱以后把资金全部投入市场。这种做法绝对不能采用。\n\n未来有没有机会？肯定有。未来的机会永远会比过去更多。\n\n这些机会能不能让人一夜暴富，并不确定。比特币未来能否再上涨8倍或者10倍，我认为完全存在这种可能。\n\n但需要多长时间，我不知道。这个判断也不代表比特币明天不会下跌。\n\n除了比特币，还有很多其他加密货币可以投资。刚刚进入行业的年轻人仍然应该建立分散的组合，可以把加密货币配置中的80%至90%放在几个主要币种中。\n\n同时，不要卖掉房子、投入全部家当去购买加密货币。个人资产还应当配置到不同类别中。\n\n年轻人通常没有太多本金；年纪较大的人资金相对更多，更需要分散配置。\n\n年轻人在保障基本生活的前提下，可以承担稍高一些的风险。年轻人的工资可能不高，即使拿工资的20%购买加密货币，绝对金额也不会特别大。\n\n年轻人的生活成本通常较低，可能还没有配偶、孩子或者需要照顾的老人，生活方式也比较灵活。\n\n年轻人可以尽量降低固定生活成本，在不影响基本生活的情况下承担更高一些的投资风险，但不能冒险到第二天连居住的地方都没有。\n\n不同年龄应该采用不同方式，未来仍然会有很多机会。\n\n13. 人工智能时代的教育会变成什么样\n\n时间：29:23—34:29\n\n提问\n\n提问者两年前曾在泰国询问过Giggle Academy，当时项目刚刚开始，现在已经拥有100多万用户。\n\nGiggle最初的设想是否产生了变化？在人工智能时代，未来的教育会采用怎样的模式？\n\nCZ回答\n\nGiggle开始时，ChatGPT已经相当流行。因此按照我的定义，Giggle属于人工智能出现以后的项目，是一个“Post-AI Project”。\n\n从Giggle开始的第一天，我就认为应该把人工智能使用到极致。\n\n当时我们也讨论过，既然人工智能正在发展，以后是否可以直接由人工智能教育孩子。\n\n我们的判断是，目前人工智能还无法长期、系统地教育孩子，特别是年龄很小的孩子。\n\n年龄较大的孩子提出一个问题，人工智能可以回答。但现阶段的人工智能还不太像一名真正的教师，无法长期按照完整体系一直教下去。\n\n如果从最终状态往回看，未来可能只需要一个人工智能，就能够直接完成教育。某一家大公司的人工智能也许能够长期教导一个人。\n\n在这个最终状态出现以前，可能会先有专门从事教育的公司，把人工智能调整到非常适合教学的程度，让它能够按照课程体系教导学生。\n\n再往前一个阶段，大部分课程、教材和内容仍然由人类设计，但利用大量人工智能工具快速制作和实现。我们现在大概处于这个阶段。\n\n人工智能进步非常快。如果以后人工智能能够把一个孩子从0岁一直教到18岁，而且教学效果很好，Giggle停止运营也没关系。\n\nGiggle本来就没有收入，是一个为了产生正面社会贡献而建立的项目。\n\n也有可能出现相反的结果：因为Giggle一直大量使用人工智能，又积累了教育数据，Giggle可能最先开发出能够终身教育孩子、适应不同人群的人工智能。\n\n以后即使Giggle被大公司收购，或者其他公司复制我们的方式，也没有关系。我关心的是怎样把教育做到最好，具体使用哪一家人工智能并不重要。\n\n现有课堂教育存在很多限制。课堂采用平均化教育方式，把每个人教育成一个各方面相对平均的人。\n\n一个学生数学很好、英语较弱，学校往往会让他少花一些时间学数学，多花一些时间学英语，最后培养成一个能力平均的人。\n\n平均化人才适合传统工厂体系。我对在工厂工作的人没有任何歧视，但未来的竞争属于全球化的极度竞争，一个人需要在自己的领域进入最顶尖的0.1%。\n\n处于前0.2%的人，收入都可能比前0.1%的人少很多，哪怕只相差千分之一，收入可能相差10倍。\n\n基本沟通能力、计算能力等基础教育仍然必须具备，但在一个人真正擅长的领域，应当进行高度专注的训练。\n\n教育必须根据每个人的特点单独设计。一对一真人教师很难普及，因为世界上没有那么多教师，但可以通过技术、虚拟现实和人工智能实现一对一教育。\n\n一个人也不需要看到别人做什么成功，就立刻跟着做相同的事情。别人开一家店赚钱，不代表自己也应该去开同样的店。面对外界变化，需要保持平静，理解自己的优势。\n\n英伟达今天非常赚钱，但英伟达已经做了三四十年。以前显卡没有处理器赚钱，显卡也很难制造，在当时看来并不算特别热门。人工智能公司开始大量使用显卡以后，英伟达才达到今天的规模。\n\n苹果的发展过程中同样经历过很多起伏。因此不能因为别人短时间内非常成功，就立刻改变自己的方向，应该了解自己真正擅长什么。\n\n创业经常要求创业者投入全部精力，但应当先做出产品，确认已经找到产品与市场的匹配，再投入全部精力。\n\n14. 量化交易踏空以后怎样缓解焦虑\n\n时间：34:32—35:24\n\n提问\n\n提问者从事了七年加密货币现货量化，也在币安交易美股现货。他经历过2019年的加密寒冬。\n\n现在市场上涨，但量化策略可能保持空仓，因此出现踏空焦虑。应该怎样调整这种心态？\n\nCZ回答\n\n如果交易时产生很强的焦虑感，通常应该把交易仓位调小一些。\n\n现场有人提醒，这位提问者目前正处于空仓状态。赵长鹏随即回应，那至少只能把仓位调大一点。\n\n随后他补充，这个问题自己确实没有答案。\n\n15. 币安下一阶段最重要的生态增长点\n\n时间：35:26—37:28\n\n提问\n\n币安下一阶段最重要的生态增长点是什么？未来币安将怎样帮助优质项目、创作者和普通用户，共享整个生态增长带来的利益？\n\nCZ回答\n\n如果问题指的是币安中心化交易所，我现在已经不太管理那部分业务，目前主要由何一负责。\n\n据我了解，他们现在投入了很多精力发展RWA。RWA的发展方向合理，增长速度也很快。我们希望帮助更多资产上链。\n\nRWA的发展不能只依靠中心化交易所。币安中心化交易所本身并非最适合的资产发行方。\n\n全球存在很多监管机构、证券市场和证监会，每个国家的证券监管规则都不同。\n\n更好的方式是让各地券商负责发行相关资产，币安负责提供交易平台和生态支持。\n\n币安生态也不只有币安中心化交易所，还包括BNB Chain、PancakeSwap、Aster、Trust Wallet以及其他项目。需要整个生态共同支持一个发展方向。\n\n至于RWA之后的下一个增长点是什么，要等新的方向通过数据表现出来。\n\n如果某个方向的数据突然明显增长，证明它真正发展起来了，我相信整个生态都会支持。它可能是人工智能支付，也可能是目前还没有想到的方向。\n\n对于整个BNB生态，我一直给出的建议是跟随趋势。生态本身未必负责创造趋势，很多趋势由社区中的创业者创造。\n\n我们无法提前准确判断什么会火、什么不会火。社区会自然形成趋势：某个创业者推出一项产品，其他人开始跟进。\n\n只要一个项目在某个赛道中做得足够好，就可能带动整个赛道发展。币安和BNB生态要做的是及时提供支持。",
+        "language": "zh",
+        "target_language": "zh",
+        "post_type": "quote",
+        "reply_to": null,
+        "quoted_post": {
+          "post_id": "2093617121100173410",
+          "author": null
+        },
+        "reposted_post": null,
+        "thread_id": "2093667525406187627",
+        "media_type": [
+          "photo"
+        ],
+        "external_links": [],
+        "engagement_snapshot": {
+          "favorite_count": 78,
+          "retweet_count": 11,
+          "reply_count": 89,
+          "quote_count": 3,
+          "bookmark_count": 45,
+          "view_count": 28765
+        },
+        "raw_payload_hash": "96b9160035d65798b68e603f7a3cfb64d0083c09159dbc631bb549b284771a68",
+        "provider_run_id": "F1SVb11BaWgN2Tg52",
+        "import_run_id": "import-794f061e4f6d",
+        "provider": "apify",
+        "payload_scope": "inherited_normalized_post_not_original_network_response",
+        "input_file_hash": "c2a35c8b24b01bbf9e2c95e1df60a241ddfaa423b837bea760e2333f7cd92b77",
+        "source_order_index": 74,
+        "author_match": true,
+        "timeline_pinned": null,
+        "missing_fields": [
+          "collected_at"
+        ],
+        "source_record": {
+          "searchType": "user-tweets",
+          "record_type": "tweet",
+          "handle": "PhyrexNi",
+          "tweet_id": "2093667525406187627",
+          "url": "https://x.com/PhyrexNi/status/2093667525406187627",
+          "text": "看到有小伙伴说要文字版，所以我就整理了一版，因为还是从我的视频中整理的，所以仍然缺少最后五个问题。下面按视频原始顺序整理，共15组问答。\n\n1. 怎样判断一件事应该坚持还是放弃\n\n时间：00:42—04:10\n\n提问\n\n书中既写到了高光时刻，也写到了很多跌宕，以及如何在巨大的不确定性中作出选择。作为行业从业者，应该怎样区分什么事情需要坚持，什么事情应该放弃？\n\nCZ回答\n\n这个问题包含两个部分：一个是怎样选择、怎样做决策；另一个是什么事情应该坚持，什么事情应该放弃。这两个部分可以分开看。\n\n我有一套很简单的决策模型。首先判断这项决定是大决定还是小决定，其次判断它是否可以逆转。\n\n百分之九十以上的决定都属于小决定，而且可以逆转。这类决定可以很快作出，但作出以后不能沿着一条路一直走下去，需要不断重新判断，看看今天是否应该修改。\n\n例如，半年前我可能认为RWA距离实际发展还比较远，但几个月后看到这个方向的势头起来了，我们就决定支持。整个生态都可以提供支持，YZi Labs可以投资，BNB Chain也可以支持。这些决定可以逆转，因此能够根据情况不断调整。\n\n应该尽量避免作出重大的、无法逆转的决定。遇到这种决定必须慢下来认真考虑，而且这类决定越少越好。\n\n中间还有一种情况，决定很大，但可以逆转。虽然能够逆转，逆转成本仍然比较高，因此也应当尽量减少。\n\n作出什么决定，与一个人应该坚持什么原则是两回事。每个人都应该拥有自己的原则，最基本的是道德，不能越过道德底线。\n\n对我们来说，任何伤害用户的事情都触碰了原则底线。只要一项决定与这条原则发生冲突，决定已经完成了，根本不需要继续讨论。\n\n至于产品是否需要转型、功能是否需要调整、创业方向是否需要改变、交易策略是否需要修改，这些通常都可以逆转，也就可以根据实际情况调整。\n\n交易还必须做好风险控制。从数学上看，每一次都划算的生意，也不代表可以无限做下去。\n\n例如抛硬币，赢了我给你3元，输了你给我1元，这项游戏对你有利，可以反复进行。\n\n如果规则变成赢了可以得到全部身家的3倍，输了就失去全部身家，即便数学期望仍然有利，这个游戏也不能玩。因为即使连续赢了十次，只要输一次就什么都没有了。\n\n风险控制不能只看赚钱的投资回报率，还要看自己能不能承受最坏结果。这就是决策、原则与风险控制之间的关系。\n\n2. 哪些国家开放加密货币会产生最大影响\n\n时间：04:20—06:42\n\n提问\n\n书中第222页开始写到，赵长鹏从2022年起前往世界各地，与很多国家领导人交流和普及加密货币。\n\n目前仍未开放加密货币的国家中，哪些国家一旦开放，会给整个行业带来很大的推动？如果只看东南亚，哪个国家最有潜力？\n\n赵长鹏回答\n\n我们都知道有一个非常大的国家，如果重新开放，会带来非常大的正面影响。不过这个过程还是慢慢来。\n\n很多国家担心加密货币可能会威胁本国主权货币，这其实是一种误解。每个国家都可以发行与本国货币挂钩的稳定币，反而可以让本国主权货币在全球拥有更广泛的流通。\n\n这个过程需要时间，需要不断进行教育、沟通和影响。\n\n很多人对加密货币存在恐惧。原来我一直以为，行业发展可能采用“农村包围城市”的方式，先让小国家逐步参与，然后再扩大到更大的国家。\n\n没有预料到的是，美国突然变得非常友好，这对加密货币属于重大利好，过去一个星期的行情也能反映这一点。\n\n大国开放带来的影响肯定更大，小国的影响相对有限，但很多小国加在一起，规模同样不小。\n\n东南亚已经有很多国家发展得相当快，例如泰国和菲律宾。菲律宾现在币安也有牌照，法币通道应该已经开放，用户不需要再完全依赖点对点交易，可以直接通过银行转账。\n\n马来西亚可能稍微慢一点，但很多地方的进展都很快。我对东南亚一直比较乐观。\n\n3. “CZ的原则”有没有第73条\n\n时间：06:45—08:26\n\n提问\n\n书的附录收录了“CZ的原则”，并注明这些原则会持续更新。书中的版本一共有72条，书出版这么久以后，有没有产生新的第73条？\n\nCZ回答\n\n没有。后来确实出现了一个新版本，但新版调整了编号体系，也把很多原则进行了归纳和合并，并非直接在后面增加第73条。\n\n这本书出版时，新版本其实已经存在，但我认为旧版本更适合放进书里。\n\n说实话，我最初并不想把这些原则加入书中。当时很多人建议把创业原则和做事方式写出来，让读者了解怎样创业。\n\n我觉得如果把这部分写得太具体，就会变成一本教程。把教程和自己的经历放在一起，整体感觉并不算特别好。\n\n我认为这本书如果直接结束在“If you can, you must”这句话上，可能效果会更好。后来加入了原则，结尾就变长了很多。\n\n这些原则只是我个人做事的方式，未必是最好的方式。当时总结原则，主要是为了让公司内部的人更了解我的工作方式和思维方式，让他们在作出决定时能够与我保持一致。\n\n对于公司以外的人，没有必要完全按照这些原则做事，也不代表这种方式最好。我的做事方式也有很多固执和没有想明白的地方。\n\n大家看看就好，不必过度纠结。当然，我也希望其中一些内容能够对大家有所帮助。\n\n4. Giggle Academy什么时候能达到1,000万学员\n\n时间：08:29—10:11\n\n提问\n\n提问者的孩子一直在使用免费教育项目Giggle Academy。按照目前的增长速度，1000万名学员的目标大概什么时候能够实现？\n\nCZ回答\n\n我不太敢准确估计，但可以提供几个数据。\n\n去年大概只有几万名用户，可能是两三万人左右，我对这个数字记得不算特别准确。\n\n今年年初大概有10万人，现在经过六七个月，已经有约130万人使用。增长速度呈现指数型。\n\n如果继续保持这个趋势，达到1000万人应该会很快，可能一两年内就有机会实现，但我不能保证。按照两三年的时间计算，应该可以达到。\n\n比用户总量更重要的指标是持续使用时间。我希望一个孩子能够连续使用18年，但现在实现这一点仍然比较困难，因为很多孩子使用一段时间以后就不再继续。\n\n其中一个原因与适用年龄有关，另一个原因是应用里的内容还不够丰富。\n\n目前的内容主要针对2岁至6岁的孩子。吸引2岁至6岁儿童的方式，与吸引6岁至10岁儿童的方式不同。第二年龄阶段的内容还没有完成。\n\n年龄较小的孩子相对容易吸引，放一些动画就能让他们继续观看。随着孩子长大，教育内容与呈现方式都需要变化。\n\n1000万是近期目标，1亿用户也可以先定为一个“小目标”。这里的一亿指的是用户数量，并非金额。\n\n5. 实体企业怎样进入Web3并避开风险\n\n时间：10:13—12:27\n\n提问\n\n提问者曾经服务过10万家实体企业。实体企业进入Web3以后，怎样规避风险和常见陷阱？未来怎样在Web3，尤其是币安生态中获得更好的发展？\n\nCZ回答\n\n任何一个新行业都会存在很多陷阱，金融行业尤其如此。\n\n风险控制的第一步是控制规模，也就是控制投资金额。面对新产品、新项目和不熟悉的方向，不要一次投入太多资金，应当逐步尝试和适应。\n\n真正投入大额资金的地方，必须有非常高的确定性，因为这属于重大决定。小决定可以比较轻松、快速地作出。\n\n币安的产品非常多，复杂到连我都搞不清楚币安究竟有多少产品。离开币安以后，我自己其实只是币安的轻度用户。\n\n不过对于传统企业来说，币安里面有很多功能可以使用。\n\n例如币安支付可以进行跨境支付，成本非常低，效率也非常高。由于币安一直被定义为交易类应用，很多人并不知道它还可以用于跨境支付，操作方式可能也没有那么直观。\n\n此外，还有很多用户只使用币安理财。在年化收益率比较高的产品中放入两万美元，一个月可能获得几百美元。几百美元在一些地方已经可以覆盖不少支出。\n\n我并非币安的高级用户，现场很多用户实际使用和交流以后，可能比我更熟悉这些产品。\n\n6. 创办币安九年中最绝望的时刻\n\n时间：12:34—14:24\n\n提问\n\n行业存在周期。在创办币安的九年中，赵长鹏最绝望的时刻是什么？又是什么支撑他从绝望中走出来？\n\nCZ回答\n\n每个人对绝望的定义不同。我自己好像一直没有特别绝望的时候，一直都抱有希望。\n\n我的性格比较乐观，韧性也比较强，能够承受压力。中文可以形容为性格比较“耐操”。\n\n如果不能承受压力，很难长期服务这么多散户。面对用户批评，有时候被骂也需要能够扛住。\n\n心理压力最大的时候，应该是币安刚刚上线时。当时BNB破发，此前很多项目上线以后价格表现都很好，但投资币安的几万名用户当时全部处于亏损状态。\n\n那两个星期是我心理压力最大的时候，因为很多投资者都因我们而亏钱。\n\n后来处理美国的事情时，个人压力肯定也非常大，但这种压力更加个人化。\n\n我认为自己没有对不起别人，那是我自己的事情，需要由我自己处理。我觉得自己对得起币安用户、BNB持有者以及整个行业。\n\n我个人可能需要承受一些不好的经历，因此个人层面的压力很大，但心理负担反而没有币安刚上线时那么重。这是两个不同阶段的压力。\n\n7. 加密从业者是否应该主动追求影响力\n\n时间：14:31—16:32\n\n提问\n\n中国有一句话叫“闷声发大财”，但加密行业里也有很多人利用自己的影响力获得大量财富。\n\n赵长鹏已经是加密行业最具影响力的人之一。加密从业者是否应该主动、高调地追求影响力？又该怎样塑造和利用自己的影响力？\n\nCZ回答\n\n这是一个很难回答的问题，没有统一的正确答案，每个人的风格都不一样。\n\n中国流传下来的话通常都有一定道理，特别是在中国环境中，甚至放到全球环境中，都会存在“枪打出头鸟”的情况。最理想的状态当然是能够闷声发大财。\n\n中本聪如果公开了自己的身份，肯定会成为最先被针对的人。他保持匿名是一种很聪明的选择。\n\n如果一个人有能力在没有太大影响力的情况下赚钱，我非常鼓励他闷声发大财。\n\n不过，建立影响力本身也是一种获得财富的方式，而且有些人确实喜欢拥有影响力。\n\n很多项目如果完全没有影响力，可能很难发展起来。拥有影响力以后，赚钱也会容易一些。\n\n这里存在个人取舍，没有百分之百正确或者百分之百错误的选择，每个人都需要根据自己的风格寻找平衡。\n\n8. 股票、外汇和其他资产是否都会上链\n\n时间：16:34—18:42\n\n提问\n\n书的主题涉及“Freedom of Money”。现在已经开始出现外汇和股票上链，未来是否会发展成“Freedom of Capital and Assets on Chain”，让资本与各种资产都进入链上？\n\nCZ回答\n\n肯定会，而且发展顺序已经很清楚。\n\n第一步是股票上链。任何国家都会希望本国股票能够上链。\n\n作为一家公司，已经在交易所上市以后，为什么只能让本国投资者购买股票？为什么不能让全世界的人购买？股票上链以后，可以接触全球投资者。\n\n货币上链的表现形式就是稳定币。目前稳定币规模大约为3000亿美元，其中约90%与美元挂钩。\n\n这相当于美元在加密货币和全球数字市场中的流动性又增加了3000亿美元，这个数字已经相当大。\n\n其他国家自然也会希望本国货币进入未来的Web3市场，并在全球范围内流通。\n\n各国货币上链以后，外汇交易也会进入链上。\n\n目前外汇交易非常不透明，主要通过彭博、路透等系统，采用询价交易模式。上链以后，外汇市场可以形成全天候运行、价格透明的交易方式。\n\n股票、货币和外汇进入链上以后，艺术品、知识产权和房地产等其他资产最终也会进入链上。\n\n这些资产的交易会更困难一些，因为流动性没有那么好，但长期来看都会逐渐上链。\n\n9. 暴富和跌入低谷以后怎样控制心态\n\n时间：18:49—21:28\n\n提问\n\n很多年轻人在加密市场中经历过一夜暴富，也经历过一夜归零。赵长鹏在快速获得财富以及经历监禁等人生低谷时，是怎样控制自己心态的？\n\nCZ回答\n\n最简单的办法可能是先长出一些白头发。随着年龄和经历增加，一个人的心态、性格、体系和成熟度都会慢慢形成。\n\n一夜暴富当然是很多人都希望发生的事情，但这种状态并不健康。\n\n中国话说“来得快，去得也快”。能够一夜暴富，通常说明承担的风险也非常高。钱来得太快，往往也很难留住。\n\n如果已经一夜暴富，应当尽量把钱留下来，避免再一夜亏光。特别是在暴涨暴跌的市场里，风险控制非常重要。\n\n千万不要孤注一掷，也不要把全部资金投入一项资产。能够让人一夜暴富的投资，也可能让人一夜亏光。\n\n如果面对高风险投资，应当把资金分成很多小份，作出很多小决定，逐步尝试。\n\n不过，如果始终采用很多小决定分散风险，大概率也很难一夜暴富。这两者之间需要找到心态上的平衡。\n\n我非常不建议年轻人把一夜暴富当作目标。年轻人最大的本金是时间，有很多时间可以慢慢积累。\n\n如果年轻人每个月拿几百元或者一千元购买比特币，坚持十年，利用长期积累和复利，十年后可能根本不再需要为钱发愁。\n\n年轻人往往很着急，但年轻人反而不需要着急，因为时间站在年轻人一边。\n\n我没有一种神奇的方法，可以让人既一夜暴富，又保证永远不会亏损。这种方法确实不存在。\n\n10. 行业新人怎样参与区块链的新阶段\n\n时间：21:32—23:09\n\n提问\n\n当区块链的发展已经跳出分布式账本的局限，开始成为真实、去中心化、可验证的生产力时，是否会引发行业的新一轮革命？行业新人应该怎样参与？\n\nCZ回答\n\n这个问题比较深奥。任何一个概念都有可能成为下一个市场热点，也有可能不会。\n\n六个月以后的热点是什么，我现在确实判断不出来。\n\n至于怎样参与，这个问题比较容易回答。区块链行业可能是我见过参与门槛最低的行业之一，也正因为参与太容易，里面才会存在很多骗子。\n\n很多项目在非常早期时就可以购买它们的代币。不过，在购买代币以前，可以先进入项目社区，观察项目是不是真的拥有社区。\n\n没有社区的项目通常很难成功。看到社区以后，还要继续判断这个社区是真是假，里面是真实用户，还是水军和互相制造热度的人。\n\n新人参与行业并不困难，但必须做好风险控制。\n\n11. 判断一个项目能否成功最重要的因素\n\n时间：23:09—25:43\n\n提问\n\n提问者从事风险投资，同时也是加密行业内容创作者。赵长鹏投资过很多项目，币安也曾孵化大量项目。\n\n从他的角度看，一个项目成功或者失败最关键的因素是什么？\n\nCZ回答\n\n最关键的因素仍然是人。无论人工智能发展得多强，最后还是要看团队。\n\n我自己现在不会直接带着项目团队做事，因此必须找到一个能力很强、可以独立把项目做出来的团队。\n\n首先要看技术能力，团队能否真正做出产品，产品质量是否足够好。\n\n还要看情商，能否理解用户以及用户实际需要什么。\n\n更加稀缺的能力是韧性。一个人在逆境中能不能继续向前，这一点在最初聊天时通常看不出来，必须在实际合作过程中才能发现。\n\n还要看心态是否端正。在加密行业里，心态端正非常重要。心态端正的人更有机会稳定赚取长期收益，也能够在行业中走得更久。\n\n使命感同样重要。\n\n过去几个月做投资，对我来说反而变得更容易。大量追逐短期利润的人转去做人工智能，继续留在区块链行业的人，通常拥有更强的使命感。\n\n在热钱很多或者牛市期间，项目反而很难判断。那时所有人都在做项目，每个项目估值都很高，很难区分谁真正想做事，谁只是过来赚快钱。\n\n我其实很喜欢快钱流向人工智能。热钱离开以后，留下来继续做区块链的人往往更加沉得住气。\n\n加密行业本身就是与钱有关的行业，人工智能属于数据和智能行业，主要提高效率。\n\n人工智能目前高度中心化。如果无法成为少数大公司的创始人，或者建立一家规模很大的公司，普通参与者未必容易赚到钱。已经形成规模的大公司，普通投资者也很难在早期投进去。\n\n从赚钱的角度看，我认为加密行业依然比人工智能行业更容易。但无论选择哪个行业，心态都必须稳定。\n\n12. 年轻人还应不应该重仓 bitcoin:native \n\n时间：25:46—29:20\n\n提问\n\n提问者曾在香港进行只使用加密货币生活的挑战。当时在香港很难直接花稳定币。他第一次接触比特币时，价格大约为1000美元，现在很多“00后”和“10后”接触比特币时，价格已经达到8万至10万美元。\n\n比特币已经上涨了约80倍至100倍，年轻人继续参与时，是否还需要采用重仓甚至全部投入的方式？未来是否还有类似的机会？什么时候可能看到比特币达到100万美元？\n\nCZ回答\n\n对于绝大多数人，我非常不建议采取全部投入的方式，特别是在金融投资方面。\n\n如果准备把全部资金投入一项资产，必须先问自己：如果这项资产归零，接下来怎么办？\n\n如果无法回答这个问题，或者对自己的答案不满意，就不要全部投入。\n\n我当年选择重仓时，已经35岁或者36岁，并非刚刚大学毕业。我对自己的情况有比较清晰的判断。\n\n我当时非常清楚，即便比特币归零，家庭和孩子的生活也不会受到太大影响。我仍然可以继续工作赚钱，依靠工资维持家庭生活。\n\n作出这种决定以前，必须先为基本生活准备保障。\n\n千万不要借钱，更不能借钱以后把资金全部投入市场。这种做法绝对不能采用。\n\n未来有没有机会？肯定有。未来的机会永远会比过去更多。\n\n这些机会能不能让人一夜暴富，并不确定。比特币未来能否再上涨8倍或者10倍，我认为完全存在这种可能。\n\n但需要多长时间，我不知道。这个判断也不代表比特币明天不会下跌。\n\n除了比特币，还有很多其他加密货币可以投资。刚刚进入行业的年轻人仍然应该建立分散的组合，可以把加密货币配置中的80%至90%放在几个主要币种中。\n\n同时，不要卖掉房子、投入全部家当去购买加密货币。个人资产还应当配置到不同类别中。\n\n年轻人通常没有太多本金；年纪较大的人资金相对更多，更需要分散配置。\n\n年轻人在保障基本生活的前提下，可以承担稍高一些的风险。年轻人的工资可能不高，即使拿工资的20%购买加密货币，绝对金额也不会特别大。\n\n年轻人的生活成本通常较低，可能还没有配偶、孩子或者需要照顾的老人，生活方式也比较灵活。\n\n年轻人可以尽量降低固定生活成本，在不影响基本生活的情况下承担更高一些的投资风险，但不能冒险到第二天连居住的地方都没有。\n\n不同年龄应该采用不同方式，未来仍然会有很多机会。\n\n13. 人工智能时代的教育会变成什么样\n\n时间：29:23—34:29\n\n提问\n\n提问者两年前曾在泰国询问过Giggle Academy，当时项目刚刚开始，现在已经拥有100多万用户。\n\nGiggle最初的设想是否产生了变化？在人工智能时代，未来的教育会采用怎样的模式？\n\nCZ回答\n\nGiggle开始时，ChatGPT已经相当流行。因此按照我的定义，Giggle属于人工智能出现以后的项目，是一个“Post-AI Project”。\n\n从Giggle开始的第一天，我就认为应该把人工智能使用到极致。\n\n当时我们也讨论过，既然人工智能正在发展，以后是否可以直接由人工智能教育孩子。\n\n我们的判断是，目前人工智能还无法长期、系统地教育孩子，特别是年龄很小的孩子。\n\n年龄较大的孩子提出一个问题，人工智能可以回答。但现阶段的人工智能还不太像一名真正的教师，无法长期按照完整体系一直教下去。\n\n如果从最终状态往回看，未来可能只需要一个人工智能，就能够直接完成教育。某一家大公司的人工智能也许能够长期教导一个人。\n\n在这个最终状态出现以前，可能会先有专门从事教育的公司，把人工智能调整到非常适合教学的程度，让它能够按照课程体系教导学生。\n\n再往前一个阶段，大部分课程、教材和内容仍然由人类设计，但利用大量人工智能工具快速制作和实现。我们现在大概处于这个阶段。\n\n人工智能进步非常快。如果以后人工智能能够把一个孩子从0岁一直教到18岁，而且教学效果很好，Giggle停止运营也没关系。\n\nGiggle本来就没有收入，是一个为了产生正面社会贡献而建立的项目。\n\n也有可能出现相反的结果：因为Giggle一直大量使用人工智能，又积累了教育数据，Giggle可能最先开发出能够终身教育孩子、适应不同人群的人工智能。\n\n以后即使Giggle被大公司收购，或者其他公司复制我们的方式，也没有关系。我关心的是怎样把教育做到最好，具体使用哪一家人工智能并不重要。\n\n现有课堂教育存在很多限制。课堂采用平均化教育方式，把每个人教育成一个各方面相对平均的人。\n\n一个学生数学很好、英语较弱，学校往往会让他少花一些时间学数学，多花一些时间学英语，最后培养成一个能力平均的人。\n\n平均化人才适合传统工厂体系。我对在工厂工作的人没有任何歧视，但未来的竞争属于全球化的极度竞争，一个人需要在自己的领域进入最顶尖的0.1%。\n\n处于前0.2%的人，收入都可能比前0.1%的人少很多，哪怕只相差千分之一，收入可能相差10倍。\n\n基本沟通能力、计算能力等基础教育仍然必须具备，但在一个人真正擅长的领域，应当进行高度专注的训练。\n\n教育必须根据每个人的特点单独设计。一对一真人教师很难普及，因为世界上没有那么多教师，但可以通过技术、虚拟现实和人工智能实现一对一教育。\n\n一个人也不需要看到别人做什么成功，就立刻跟着做相同的事情。别人开一家店赚钱，不代表自己也应该去开同样的店。面对外界变化，需要保持平静，理解自己的优势。\n\n英伟达今天非常赚钱，但英伟达已经做了三四十年。以前显卡没有处理器赚钱，显卡也很难制造，在当时看来并不算特别热门。人工智能公司开始大量使用显卡以后，英伟达才达到今天的规模。\n\n苹果的发展过程中同样经历过很多起伏。因此不能因为别人短时间内非常成功，就立刻改变自己的方向，应该了解自己真正擅长什么。\n\n创业经常要求创业者投入全部精力，但应当先做出产品，确认已经找到产品与市场的匹配，再投入全部精力。\n\n14. 量化交易踏空以后怎样缓解焦虑\n\n时间：34:32—35:24\n\n提问\n\n提问者从事了七年加密货币现货量化，也在币安交易美股现货。他经历过2019年的加密寒冬。\n\n现在市场上涨，但量化策略可能保持空仓，因此出现踏空焦虑。应该怎样调整这种心态？\n\nCZ回答\n\n如果交易时产生很强的焦虑感，通常应该把交易仓位调小一些。\n\n现场有人提醒，这位提问者目前正处于空仓状态。赵长鹏随即回应，那至少只能把仓位调大一点。\n\n随后他补充，这个问题自己确实没有答案。\n\n15. 币安下一阶段最重要的生态增长点\n\n时间：35:26—37:28\n\n提问\n\n币安下一阶段最重要的生态增长点是什么？未来币安将怎样帮助优质项目、创作者和普通用户，共享整个生态增长带来的利益？\n\nCZ回答\n\n如果问题指的是币安中心化交易所，我现在已经不太管理那部分业务，目前主要由何一负责。\n\n据我了解，他们现在投入了很多精力发展RWA。RWA的发展方向合理，增长速度也很快。我们希望帮助更多资产上链。\n\nRWA的发展不能只依靠中心化交易所。币安中心化交易所本身并非最适合的资产发行方。\n\n全球存在很多监管机构、证券市场和证监会，每个国家的证券监管规则都不同。\n\n更好的方式是让各地券商负责发行相关资产，币安负责提供交易平台和生态支持。\n\n币安生态也不只有币安中心化交易所，还包括BNB Chain、PancakeSwap、Aster、Trust Wallet以及其他项目。需要整个生态共同支持一个发展方向。\n\n至于RWA之后的下一个增长点是什么，要等新的方向通过数据表现出来。\n\n如果某个方向的数据突然明显增长，证明它真正发展起来了，我相信整个生态都会支持。它可能是人工智能支付，也可能是目前还没有想到的方向。\n\n对于整个BNB生态，我一直给出的建议是跟随趋势。生态本身未必负责创造趋势，很多趋势由社区中的创业者创造。\n\n我们无法提前准确判断什么会火、什么不会火。社区会自然形成趋势：某个创业者推出一项产品，其他人开始跟进。\n\n只要一个项目在某个赛道中做得足够好，就可能带动整个赛道发展。币安和BNB生态要做的是及时提供支持。",
+          "created_at": "Sat Aug 29 11:50:11 +0000 2026",
+          "lang": "zh",
+          "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+          "favorite_count": 78,
+          "retweet_count": 11,
+          "reply_count": 89,
+          "quote_count": 3,
+          "bookmark_count": 45,
+          "view_count": 28765,
+          "conversation_id": "2093667525406187627",
+          "is_reply": false,
+          "in_reply_to_screen_name": null,
+          "in_reply_to_status_id": null,
+          "in_reply_to_user_id": null,
+          "is_quote": true,
+          "quoted_tweet_id": "2093617121100173410",
+          "quoted_tweet": null,
+          "sensitive": false,
+          "hashtags": [],
+          "mentions": [],
+          "urls": [],
+          "media": [
+            {
+              "type": "photo",
+              "image_url": "https://pbs.twimg.com/media/HQ4zWMqbYAAD5SI.jpg",
+              "video_url": null
+            },
+            {
+              "type": "photo",
+              "image_url": "https://pbs.twimg.com/media/HQ4zZl7awAAJUVb.jpg",
+              "video_url": null
+            },
+            {
+              "type": "photo",
+              "image_url": "https://pbs.twimg.com/media/HQ4zcOAbEAAErPP.jpg",
+              "video_url": null
+            },
+            {
+              "type": "photo",
+              "image_url": "https://pbs.twimg.com/media/HQ4zfoVbwAAOIdJ.jpg",
+              "video_url": null
+            }
+          ],
+          "author": {
+            "rest_id": "555634740",
+            "name": "Phyrex",
+            "screen_name": "PhyrexNi",
+            "avatar": "https://pbs.twimg.com/profile_images/1596374669824696320/MGne6qLH_normal.jpg",
+            "followers_count": 404548,
+            "blue_verified": true
+          }
+        },
+        "analysis_text": "看到有小伙伴说要文字版，所以我就整理了一版，因为还是从我的视频中整理的，所以仍然缺少最后五个问题。下面按视频原始顺序整理，共15组问答。\n\n1. 怎样判断一件事应该坚持还是放弃\n\n时间：00:42—04:10\n\n提问\n\n书中既写到了高光时刻，也写到了很多跌宕，以及如何在巨大的不确定性中作出选择。作为行业从业者，应该怎样区分什么事情需要坚持，什么事情应该放弃？\n\nCZ回答\n\n这个问题包含两个部分：一个是怎样选择、怎样做决策；另一个是什么事情应该坚持，什么事情应该放弃。这两个部分可以分开看。\n\n我有一套很简单的决策模型。首先判断这项决定是大决定还是小决定，其次判断它是否可以逆转。\n\n百分之九十以上的决定都属于小决定，而且可以逆转。这类决定可以很快作出，但作出以后不能沿着一条路一直走下去，需要不断重新判断，看看今天是否应该修改。\n\n例如，半年前我可能认为RWA距离实际发展还比较远，但几个月后看到这个方向的势头起来了，我们就决定支持。整个生态都可以提供支持，YZi Labs可以投资，BNB Chain也可以支持。这些决定可以逆转，因此能够根据情况不断调整。\n\n应该尽量避免作出重大的、无法逆转的决定。遇到这种决定必须慢下来认真考虑，而且这类决定越少越好。\n\n中间还有一种情况，决定很大，但可以逆转。虽然能够逆转，逆转成本仍然比较高，因此也应当尽量减少。\n\n作出什么决定，与一个人应该坚持什么原则是两回事。每个人都应该拥有自己的原则，最基本的是道德，不能越过道德底线。\n\n对我们来说，任何伤害用户的事情都触碰了原则底线。只要一项决定与这条原则发生冲突，决定已经完成了，根本不需要继续讨论。\n\n至于产品是否需要转型、功能是否需要调整、创业方向是否需要改变、交易策略是否需要修改，这些通常都可以逆转，也就可以根据实际情况调整。\n\n交易还必须做好风险控制。从数学上看，每一次都划算的生意，也不代表可以无限做下去。\n\n例如抛硬币，赢了我给你3元，输了你给我1元，这项游戏对你有利，可以反复进行。\n\n如果规则变成赢了可以得到全部身家的3倍，输了就失去全部身家，即便数学期望仍然有利，这个游戏也不能玩。因为即使连续赢了十次，只要输一次就什么都没有了。\n\n风险控制不能只看赚钱的投资回报率，还要看自己能不能承受最坏结果。这就是决策、原则与风险控制之间的关系。\n\n2. 哪些国家开放加密货币会产生最大影响\n\n时间：04:20—06:42\n\n提问\n\n书中第222页开始写到，赵长鹏从2022年起前往世界各地，与很多国家领导人交流和普及加密货币。\n\n目前仍未开放加密货币的国家中，哪些国家一旦开放，会给整个行业带来很大的推动？如果只看东南亚，哪个国家最有潜力？\n\n赵长鹏回答\n\n我们都知道有一个非常大的国家，如果重新开放，会带来非常大的正面影响。不过这个过程还是慢慢来。\n\n很多国家担心加密货币可能会威胁本国主权货币，这其实是一种误解。每个国家都可以发行与本国货币挂钩的稳定币，反而可以让本国主权货币在全球拥有更广泛的流通。\n\n这个过程需要时间，需要不断进行教育、沟通和影响。\n\n很多人对加密货币存在恐惧。原来我一直以为，行业发展可能采用“农村包围城市”的方式，先让小国家逐步参与，然后再扩大到更大的国家。\n\n没有预料到的是，美国突然变得非常友好，这对加密货币属于重大利好，过去一个星期的行情也能反映这一点。\n\n大国开放带来的影响肯定更大，小国的影响相对有限，但很多小国加在一起，规模同样不小。\n\n东南亚已经有很多国家发展得相当快，例如泰国和菲律宾。菲律宾现在币安也有牌照，法币通道应该已经开放，用户不需要再完全依赖点对点交易，可以直接通过银行转账。\n\n马来西亚可能稍微慢一点，但很多地方的进展都很快。我对东南亚一直比较乐观。\n\n3. “CZ的原则”有没有第73条\n\n时间：06:45—08:26\n\n提问\n\n书的附录收录了“CZ的原则”，并注明这些原则会持续更新。书中的版本一共有72条，书出版这么久以后，有没有产生新的第73条？\n\nCZ回答\n\n没有。后来确实出现了一个新版本，但新版调整了编号体系，也把很多原则进行了归纳和合并，并非直接在后面增加第73条。\n\n这本书出版时，新版本其实已经存在，但我认为旧版本更适合放进书里。\n\n说实话，我最初并不想把这些原则加入书中。当时很多人建议把创业原则和做事方式写出来，让读者了解怎样创业。\n\n我觉得如果把这部分写得太具体，就会变成一本教程。把教程和自己的经历放在一起，整体感觉并不算特别好。\n\n我认为这本书如果直接结束在“If you can, you must”这句话上，可能效果会更好。后来加入了原则，结尾就变长了很多。\n\n这些原则只是我个人做事的方式，未必是最好的方式。当时总结原则，主要是为了让公司内部的人更了解我的工作方式和思维方式，让他们在作出决定时能够与我保持一致。\n\n对于公司以外的人，没有必要完全按照这些原则做事，也不代表这种方式最好。我的做事方式也有很多固执和没有想明白的地方。\n\n大家看看就好，不必过度纠结。当然，我也希望其中一些内容能够对大家有所帮助。\n\n4. Giggle Academy什么时候能达到1,000万学员\n\n时间：08:29—10:11\n\n提问\n\n提问者的孩子一直在使用免费教育项目Giggle Academy。按照目前的增长速度，1000万名学员的目标大概什么时候能够实现？\n\nCZ回答\n\n我不太敢准确估计，但可以提供几个数据。\n\n去年大概只有几万名用户，可能是两三万人左右，我对这个数字记得不算特别准确。\n\n今年年初大概有10万人，现在经过六七个月，已经有约130万人使用。增长速度呈现指数型。\n\n如果继续保持这个趋势，达到1000万人应该会很快，可能一两年内就有机会实现，但我不能保证。按照两三年的时间计算，应该可以达到。\n\n比用户总量更重要的指标是持续使用时间。我希望一个孩子能够连续使用18年，但现在实现这一点仍然比较困难，因为很多孩子使用一段时间以后就不再继续。\n\n其中一个原因与适用年龄有关，另一个原因是应用里的内容还不够丰富。\n\n目前的内容主要针对2岁至6岁的孩子。吸引2岁至6岁儿童的方式，与吸引6岁至10岁儿童的方式不同。第二年龄阶段的内容还没有完成。\n\n年龄较小的孩子相对容易吸引，放一些动画就能让他们继续观看。随着孩子长大，教育内容与呈现方式都需要变化。\n\n1000万是近期目标，1亿用户也可以先定为一个“小目标”。这里的一亿指的是用户数量，并非金额。\n\n5. 实体企业怎样进入Web3并避开风险\n\n时间：10:13—12:27\n\n提问\n\n提问者曾经服务过10万家实体企业。实体企业进入Web3以后，怎样规避风险和常见陷阱？未来怎样在Web3，尤其是币安生态中获得更好的发展？\n\nCZ回答\n\n任何一个新行业都会存在很多陷阱，金融行业尤其如此。\n\n风险控制的第一步是控制规模，也就是控制投资金额。面对新产品、新项目和不熟悉的方向，不要一次投入太多资金，应当逐步尝试和适应。\n\n真正投入大额资金的地方，必须有非常高的确定性，因为这属于重大决定。小决定可以比较轻松、快速地作出。\n\n币安的产品非常多，复杂到连我都搞不清楚币安究竟有多少产品。离开币安以后，我自己其实只是币安的轻度用户。\n\n不过对于传统企业来说，币安里面有很多功能可以使用。\n\n例如币安支付可以进行跨境支付，成本非常低，效率也非常高。由于币安一直被定义为交易类应用，很多人并不知道它还可以用于跨境支付，操作方式可能也没有那么直观。\n\n此外，还有很多用户只使用币安理财。在年化收益率比较高的产品中放入两万美元，一个月可能获得几百美元。几百美元在一些地方已经可以覆盖不少支出。\n\n我并非币安的高级用户，现场很多用户实际使用和交流以后，可能比我更熟悉这些产品。\n\n6. 创办币安九年中最绝望的时刻\n\n时间：12:34—14:24\n\n提问\n\n行业存在周期。在创办币安的九年中，赵长鹏最绝望的时刻是什么？又是什么支撑他从绝望中走出来？\n\nCZ回答\n\n每个人对绝望的定义不同。我自己好像一直没有特别绝望的时候，一直都抱有希望。\n\n我的性格比较乐观，韧性也比较强，能够承受压力。中文可以形容为性格比较“耐操”。\n\n如果不能承受压力，很难长期服务这么多散户。面对用户批评，有时候被骂也需要能够扛住。\n\n心理压力最大的时候，应该是币安刚刚上线时。当时BNB破发，此前很多项目上线以后价格表现都很好，但投资币安的几万名用户当时全部处于亏损状态。\n\n那两个星期是我心理压力最大的时候，因为很多投资者都因我们而亏钱。\n\n后来处理美国的事情时，个人压力肯定也非常大，但这种压力更加个人化。\n\n我认为自己没有对不起别人，那是我自己的事情，需要由我自己处理。我觉得自己对得起币安用户、BNB持有者以及整个行业。\n\n我个人可能需要承受一些不好的经历，因此个人层面的压力很大，但心理负担反而没有币安刚上线时那么重。这是两个不同阶段的压力。\n\n7. 加密从业者是否应该主动追求影响力\n\n时间：14:31—16:32\n\n提问\n\n中国有一句话叫“闷声发大财”，但加密行业里也有很多人利用自己的影响力获得大量财富。\n\n赵长鹏已经是加密行业最具影响力的人之一。加密从业者是否应该主动、高调地追求影响力？又该怎样塑造和利用自己的影响力？\n\nCZ回答\n\n这是一个很难回答的问题，没有统一的正确答案，每个人的风格都不一样。\n\n中国流传下来的话通常都有一定道理，特别是在中国环境中，甚至放到全球环境中，都会存在“枪打出头鸟”的情况。最理想的状态当然是能够闷声发大财。\n\n中本聪如果公开了自己的身份，肯定会成为最先被针对的人。他保持匿名是一种很聪明的选择。\n\n如果一个人有能力在没有太大影响力的情况下赚钱，我非常鼓励他闷声发大财。\n\n不过，建立影响力本身也是一种获得财富的方式，而且有些人确实喜欢拥有影响力。\n\n很多项目如果完全没有影响力，可能很难发展起来。拥有影响力以后，赚钱也会容易一些。\n\n这里存在个人取舍，没有百分之百正确或者百分之百错误的选择，每个人都需要根据自己的风格寻找平衡。\n\n8. 股票、外汇和其他资产是否都会上链\n\n时间：16:34—18:42\n\n提问\n\n书的主题涉及“Freedom of Money”。现在已经开始出现外汇和股票上链，未来是否会发展成“Freedom of Capital and Assets on Chain”，让资本与各种资产都进入链上？\n\nCZ回答\n\n肯定会，而且发展顺序已经很清楚。\n\n第一步是股票上链。任何国家都会希望本国股票能够上链。\n\n作为一家公司，已经在交易所上市以后，为什么只能让本国投资者购买股票？为什么不能让全世界的人购买？股票上链以后，可以接触全球投资者。\n\n货币上链的表现形式就是稳定币。目前稳定币规模大约为3000亿美元，其中约90%与美元挂钩。\n\n这相当于美元在加密货币和全球数字市场中的流动性又增加了3000亿美元，这个数字已经相当大。\n\n其他国家自然也会希望本国货币进入未来的Web3市场，并在全球范围内流通。\n\n各国货币上链以后，外汇交易也会进入链上。\n\n目前外汇交易非常不透明，主要通过彭博、路透等系统，采用询价交易模式。上链以后，外汇市场可以形成全天候运行、价格透明的交易方式。\n\n股票、货币和外汇进入链上以后，艺术品、知识产权和房地产等其他资产最终也会进入链上。\n\n这些资产的交易会更困难一些，因为流动性没有那么好，但长期来看都会逐渐上链。\n\n9. 暴富和跌入低谷以后怎样控制心态\n\n时间：18:49—21:28\n\n提问\n\n很多年轻人在加密市场中经历过一夜暴富，也经历过一夜归零。赵长鹏在快速获得财富以及经历监禁等人生低谷时，是怎样控制自己心态的？\n\nCZ回答\n\n最简单的办法可能是先长出一些白头发。随着年龄和经历增加，一个人的心态、性格、体系和成熟度都会慢慢形成。\n\n一夜暴富当然是很多人都希望发生的事情，但这种状态并不健康。\n\n中国话说“来得快，去得也快”。能够一夜暴富，通常说明承担的风险也非常高。钱来得太快，往往也很难留住。\n\n如果已经一夜暴富，应当尽量把钱留下来，避免再一夜亏光。特别是在暴涨暴跌的市场里，风险控制非常重要。\n\n千万不要孤注一掷，也不要把全部资金投入一项资产。能够让人一夜暴富的投资，也可能让人一夜亏光。\n\n如果面对高风险投资，应当把资金分成很多小份，作出很多小决定，逐步尝试。\n\n不过，如果始终采用很多小决定分散风险，大概率也很难一夜暴富。这两者之间需要找到心态上的平衡。\n\n我非常不建议年轻人把一夜暴富当作目标。年轻人最大的本金是时间，有很多时间可以慢慢积累。\n\n如果年轻人每个月拿几百元或者一千元购买比特币，坚持十年，利用长期积累和复利，十年后可能根本不再需要为钱发愁。\n\n年轻人往往很着急，但年轻人反而不需要着急，因为时间站在年轻人一边。\n\n我没有一种神奇的方法，可以让人既一夜暴富，又保证永远不会亏损。这种方法确实不存在。\n\n10. 行业新人怎样参与区块链的新阶段\n\n时间：21:32—23:09\n\n提问\n\n当区块链的发展已经跳出分布式账本的局限，开始成为真实、去中心化、可验证的生产力时，是否会引发行业的新一轮革命？行业新人应该怎样参与？\n\nCZ回答\n\n这个问题比较深奥。任何一个概念都有可能成为下一个市场热点，也有可能不会。\n\n六个月以后的热点是什么，我现在确实判断不出来。\n\n至于怎样参与，这个问题比较容易回答。区块链行业可能是我见过参与门槛最低的行业之一，也正因为参与太容易，里面才会存在很多骗子。\n\n很多项目在非常早期时就可以购买它们的代币。不过，在购买代币以前，可以先进入项目社区，观察项目是不是真的拥有社区。\n\n没有社区的项目通常很难成功。看到社区以后，还要继续判断这个社区是真是假，里面是真实用户，还是水军和互相制造热度的人。\n\n新人参与行业并不困难，但必须做好风险控制。\n\n11. 判断一个项目能否成功最重要的因素\n\n时间：23:09—25:43\n\n提问\n\n提问者从事风险投资，同时也是加密行业内容创作者。赵长鹏投资过很多项目，币安也曾孵化大量项目。\n\n从他的角度看，一个项目成功或者失败最关键的因素是什么？\n\nCZ回答\n\n最关键的因素仍然是人。无论人工智能发展得多强，最后还是要看团队。\n\n我自己现在不会直接带着项目团队做事，因此必须找到一个能力很强、可以独立把项目做出来的团队。\n\n首先要看技术能力，团队能否真正做出产品，产品质量是否足够好。\n\n还要看情商，能否理解用户以及用户实际需要什么。\n\n更加稀缺的能力是韧性。一个人在逆境中能不能继续向前，这一点在最初聊天时通常看不出来，必须在实际合作过程中才能发现。\n\n还要看心态是否端正。在加密行业里，心态端正非常重要。心态端正的人更有机会稳定赚取长期收益，也能够在行业中走得更久。\n\n使命感同样重要。\n\n过去几个月做投资，对我来说反而变得更容易。大量追逐短期利润的人转去做人工智能，继续留在区块链行业的人，通常拥有更强的使命感。\n\n在热钱很多或者牛市期间，项目反而很难判断。那时所有人都在做项目，每个项目估值都很高，很难区分谁真正想做事，谁只是过来赚快钱。\n\n我其实很喜欢快钱流向人工智能。热钱离开以后，留下来继续做区块链的人往往更加沉得住气。\n\n加密行业本身就是与钱有关的行业，人工智能属于数据和智能行业，主要提高效率。\n\n人工智能目前高度中心化。如果无法成为少数大公司的创始人，或者建立一家规模很大的公司，普通参与者未必容易赚到钱。已经形成规模的大公司，普通投资者也很难在早期投进去。\n\n从赚钱的角度看，我认为加密行业依然比人工智能行业更容易。但无论选择哪个行业，心态都必须稳定。\n\n12. 年轻人还应不应该重仓 BTC \n\n时间：25:46—29:20\n\n提问\n\n提问者曾在香港进行只使用加密货币生活的挑战。当时在香港很难直接花稳定币。他第一次接触比特币时，价格大约为1000美元，现在很多“00后”和“10后”接触比特币时，价格已经达到8万至10万美元。\n\n比特币已经上涨了约80倍至100倍，年轻人继续参与时，是否还需要采用重仓甚至全部投入的方式？未来是否还有类似的机会？什么时候可能看到比特币达到100万美元？\n\nCZ回答\n\n对于绝大多数人，我非常不建议采取全部投入的方式，特别是在金融投资方面。\n\n如果准备把全部资金投入一项资产，必须先问自己：如果这项资产归零，接下来怎么办？\n\n如果无法回答这个问题，或者对自己的答案不满意，就不要全部投入。\n\n我当年选择重仓时，已经35岁或者36岁，并非刚刚大学毕业。我对自己的情况有比较清晰的判断。\n\n我当时非常清楚，即便比特币归零，家庭和孩子的生活也不会受到太大影响。我仍然可以继续工作赚钱，依靠工资维持家庭生活。\n\n作出这种决定以前，必须先为基本生活准备保障。\n\n千万不要借钱，更不能借钱以后把资金全部投入市场。这种做法绝对不能采用。\n\n未来有没有机会？肯定有。未来的机会永远会比过去更多。\n\n这些机会能不能让人一夜暴富，并不确定。比特币未来能否再上涨8倍或者10倍，我认为完全存在这种可能。\n\n但需要多长时间，我不知道。这个判断也不代表比特币明天不会下跌。\n\n除了比特币，还有很多其他加密货币可以投资。刚刚进入行业的年轻人仍然应该建立分散的组合，可以把加密货币配置中的80%至90%放在几个主要币种中。\n\n同时，不要卖掉房子、投入全部家当去购买加密货币。个人资产还应当配置到不同类别中。\n\n年轻人通常没有太多本金；年纪较大的人资金相对更多，更需要分散配置。\n\n年轻人在保障基本生活的前提下，可以承担稍高一些的风险。年轻人的工资可能不高，即使拿工资的20%购买加密货币，绝对金额也不会特别大。\n\n年轻人的生活成本通常较低，可能还没有配偶、孩子或者需要照顾的老人，生活方式也比较灵活。\n\n年轻人可以尽量降低固定生活成本，在不影响基本生活的情况下承担更高一些的投资风险，但不能冒险到第二天连居住的地方都没有。\n\n不同年龄应该采用不同方式，未来仍然会有很多机会。\n\n13. 人工智能时代的教育会变成什么样\n\n时间：29:23—34:29\n\n提问\n\n提问者两年前曾在泰国询问过Giggle Academy，当时项目刚刚开始，现在已经拥有100多万用户。\n\nGiggle最初的设想是否产生了变化？在人工智能时代，未来的教育会采用怎样的模式？\n\nCZ回答\n\nGiggle开始时，ChatGPT已经相当流行。因此按照我的定义，Giggle属于人工智能出现以后的项目，是一个“Post-AI Project”。\n\n从Giggle开始的第一天，我就认为应该把人工智能使用到极致。\n\n当时我们也讨论过，既然人工智能正在发展，以后是否可以直接由人工智能教育孩子。\n\n我们的判断是，目前人工智能还无法长期、系统地教育孩子，特别是年龄很小的孩子。\n\n年龄较大的孩子提出一个问题，人工智能可以回答。但现阶段的人工智能还不太像一名真正的教师，无法长期按照完整体系一直教下去。\n\n如果从最终状态往回看，未来可能只需要一个人工智能，就能够直接完成教育。某一家大公司的人工智能也许能够长期教导一个人。\n\n在这个最终状态出现以前，可能会先有专门从事教育的公司，把人工智能调整到非常适合教学的程度，让它能够按照课程体系教导学生。\n\n再往前一个阶段，大部分课程、教材和内容仍然由人类设计，但利用大量人工智能工具快速制作和实现。我们现在大概处于这个阶段。\n\n人工智能进步非常快。如果以后人工智能能够把一个孩子从0岁一直教到18岁，而且教学效果很好，Giggle停止运营也没关系。\n\nGiggle本来就没有收入，是一个为了产生正面社会贡献而建立的项目。\n\n也有可能出现相反的结果：因为Giggle一直大量使用人工智能，又积累了教育数据，Giggle可能最先开发出能够终身教育孩子、适应不同人群的人工智能。\n\n以后即使Giggle被大公司收购，或者其他公司复制我们的方式，也没有关系。我关心的是怎样把教育做到最好，具体使用哪一家人工智能并不重要。\n\n现有课堂教育存在很多限制。课堂采用平均化教育方式，把每个人教育成一个各方面相对平均的人。\n\n一个学生数学很好、英语较弱，学校往往会让他少花一些时间学数学，多花一些时间学英语，最后培养成一个能力平均的人。\n\n平均化人才适合传统工厂体系。我对在工厂工作的人没有任何歧视，但未来的竞争属于全球化的极度竞争，一个人需要在自己的领域进入最顶尖的0.1%。\n\n处于前0.2%的人，收入都可能比前0.1%的人少很多，哪怕只相差千分之一，收入可能相差10倍。\n\n基本沟通能力、计算能力等基础教育仍然必须具备，但在一个人真正擅长的领域，应当进行高度专注的训练。\n\n教育必须根据每个人的特点单独设计。一对一真人教师很难普及，因为世界上没有那么多教师，但可以通过技术、虚拟现实和人工智能实现一对一教育。\n\n一个人也不需要看到别人做什么成功，就立刻跟着做相同的事情。别人开一家店赚钱，不代表自己也应该去开同样的店。面对外界变化，需要保持平静，理解自己的优势。\n\n英伟达今天非常赚钱，但英伟达已经做了三四十年。以前显卡没有处理器赚钱，显卡也很难制造，在当时看来并不算特别热门。人工智能公司开始大量使用显卡以后，英伟达才达到今天的规模。\n\n苹果的发展过程中同样经历过很多起伏。因此不能因为别人短时间内非常成功，就立刻改变自己的方向，应该了解自己真正擅长什么。\n\n创业经常要求创业者投入全部精力，但应当先做出产品，确认已经找到产品与市场的匹配，再投入全部精力。\n\n14. 量化交易踏空以后怎样缓解焦虑\n\n时间：34:32—35:24\n\n提问\n\n提问者从事了七年加密货币现货量化，也在币安交易美股现货。他经历过2019年的加密寒冬。\n\n现在市场上涨，但量化策略可能保持空仓，因此出现踏空焦虑。应该怎样调整这种心态？\n\nCZ回答\n\n如果交易时产生很强的焦虑感，通常应该把交易仓位调小一些。\n\n现场有人提醒，这位提问者目前正处于空仓状态。赵长鹏随即回应，那至少只能把仓位调大一点。\n\n随后他补充，这个问题自己确实没有答案。\n\n15. 币安下一阶段最重要的生态增长点\n\n时间：35:26—37:28\n\n提问\n\n币安下一阶段最重要的生态增长点是什么？未来币安将怎样帮助优质项目、创作者和普通用户，共享整个生态增长带来的利益？\n\nCZ回答\n\n如果问题指的是币安中心化交易所，我现在已经不太管理那部分业务，目前主要由何一负责。\n\n据我了解，他们现在投入了很多精力发展RWA。RWA的发展方向合理，增长速度也很快。我们希望帮助更多资产上链。\n\nRWA的发展不能只依靠中心化交易所。币安中心化交易所本身并非最适合的资产发行方。\n\n全球存在很多监管机构、证券市场和证监会，每个国家的证券监管规则都不同。\n\n更好的方式是让各地券商负责发行相关资产，币安负责提供交易平台和生态支持。\n\n币安生态也不只有币安中心化交易所，还包括BNB Chain、PancakeSwap、Aster、Trust Wallet以及其他项目。需要整个生态共同支持一个发展方向。\n\n至于RWA之后的下一个增长点是什么，要等新的方向通过数据表现出来。\n\n如果某个方向的数据突然明显增长，证明它真正发展起来了，我相信整个生态都会支持。它可能是人工智能支付，也可能是目前还没有想到的方向。\n\n对于整个BNB生态，我一直给出的建议是跟随趋势。生态本身未必负责创造趋势，很多趋势由社区中的创业者创造。\n\n我们无法提前准确判断什么会火、什么不会火。社区会自然形成趋势：某个创业者推出一项产品，其他人开始跟进。\n\n只要一个项目在某个赛道中做得足够好，就可能带动整个赛道发展。币安和BNB生态要做的是及时提供支持。",
+        "text_processing": {
+          "excluded_spans": [],
+          "provider_entity_marker_normalizations": [
+            "bitcoin:native"
+          ],
+          "version": "clean-v3-reviewed-commercial-spans",
+          "raw_text_preserved": true,
+          "whole_post_commercial_exclusion": null
+        },
+        "analysis_external_links": [],
+        "classification": {
+          "category": "引用评论",
+          "financial_relevant": true,
+          "keep": true,
+          "confidence": 0.88,
+          "confidence_kind": "heuristic_not_calibrated",
+          "excluded_reasons": [],
+          "method": "rules-v3-commercial-cleanup",
+          "signals": {
+            "finance": true,
+            "promotion": false,
+            "mechanism": true,
+            "source_cue": true
+          }
+        },
+        "duplicate_group": "55118be5b1631d5366de"
+      }
+    }
+  ]
+}

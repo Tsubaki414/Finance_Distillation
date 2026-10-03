@@ -1,0 +1,234 @@
+{
+  "run_id": "ml-20260906T025040",
+  "method": "KMeans on frozen pretrained multilingual embeddings; all-corpus exploratory",
+  "k": 8,
+  "silhouette_cosine": 0.07190173864364624,
+  "clusters": [
+    {
+      "cluster_id": 0,
+      "count": 258,
+      "label_terms": [
+        "AI",
+        "英伟达",
+        "交易",
+        "芯片",
+        "GPU"
+      ],
+      "exemplar_post_ids": [
+        "2072902811675922742",
+        "2095333992430219753",
+        "2087182111832998287",
+        "2069655980456149142",
+        "2092798587612856506",
+        "2070484923430133821"
+      ],
+      "donors": {
+        "phyrexni": 10,
+        "qinbafrank": 79,
+        "kovainvest": 19,
+        "aleabitoreddit": 87,
+        "michael_qqq2025": 25,
+        "xingpt": 25,
+        "beth_kindig": 8,
+        "citrini": 1,
+        "globalmktobserv": 3,
+        "tradexwhisperer": 1
+      }
+    },
+    {
+      "cluster_id": 1,
+      "count": 191,
+      "label_terms": [
+        "交易",
+        "AI",
+        "宏观",
+        "风险",
+        "稳定币"
+      ],
+      "exemplar_post_ids": [
+        "2084646269335789607",
+        "2090233403404853319",
+        "2088222681133199590",
+        "2076979332657070387",
+        "2069435147330404500",
+        "2088190269267280165"
+      ],
+      "donors": {
+        "phyrexni": 25,
+        "qinbafrank": 22,
+        "kovainvest": 61,
+        "aleabitoreddit": 38,
+        "michael_qqq2025": 17,
+        "xingpt": 26,
+        "beth_kindig": 1,
+        "rjccapital": 1
+      }
+    },
+    {
+      "cluster_id": 2,
+      "count": 270,
+      "label_terms": [
+        "AI",
+        "GPU",
+        "NVDA",
+        "HBM",
+        "earnings"
+      ],
+      "exemplar_post_ids": [
+        "2087816155256008924",
+        "2074046947434860971",
+        "2076467953995071881",
+        "2088850910529323315",
+        "2092186856792506435",
+        "2087413895699046794"
+      ],
+      "donors": {
+        "phyrexni": 2,
+        "qinbafrank": 31,
+        "kovainvest": 10,
+        "aleabitoreddit": 178,
+        "michael_qqq2025": 25,
+        "xingpt": 15,
+        "beth_kindig": 6,
+        "rjccapital": 1,
+        "tradexwhisperer": 2
+      }
+    },
+    {
+      "cluster_id": 3,
+      "count": 67,
+      "label_terms": [
+        "交易",
+        "比特币",
+        "期权",
+        "仓位"
+      ],
+      "exemplar_post_ids": [
+        "2087581969538503141",
+        "2092308751101710668",
+        "2091939701049716803",
+        "2092307808578597129",
+        "2082867455408648231",
+        "2087222558794133649"
+      ],
+      "donors": {
+        "phyrexni": 64,
+        "michael_qqq2025": 3
+      }
+    },
+    {
+      "cluster_id": 4,
+      "count": 335,
+      "label_terms": [
+        "AI",
+        "通胀",
+        "交易",
+        "风险",
+        "利率"
+      ],
+      "exemplar_post_ids": [
+        "2078055175030485427",
+        "2075067198570475727",
+        "2079580882864930846",
+        "2091511838509031624",
+        "2092775411906404460",
+        "2081932910735810691"
+      ],
+      "donors": {
+        "phyrexni": 52,
+        "qinbafrank": 110,
+        "kovainvest": 10,
+        "aleabitoreddit": 18,
+        "michael_qqq2025": 103,
+        "xingpt": 39,
+        "globalmktobserv": 3
+      }
+    },
+    {
+      "cluster_id": 5,
+      "count": 311,
+      "label_terms": [
+        "QQQ",
+        "半导体",
+        "AI",
+        "财报",
+        "NVDA"
+      ],
+      "exemplar_post_ids": [
+        "2068705027783639085",
+        "2089505316253884781",
+        "2070334759881060647",
+        "2077964496451096903",
+        "2080340006237835520",
+        "2082851872180670647"
+      ],
+      "donors": {
+        "phyrexni": 13,
+        "qinbafrank": 17,
+        "kovainvest": 114,
+        "aleabitoreddit": 19,
+        "michael_qqq2025": 130,
+        "xingpt": 16,
+        "globalmktobserv": 1,
+        "tradexwhisperer": 1
+      }
+    },
+    {
+      "cluster_id": 6,
+      "count": 109,
+      "label_terms": [
+        "通胀",
+        "交易",
+        "风险",
+        "利率",
+        "仓位"
+      ],
+      "exemplar_post_ids": [
+        "2087233608994193497",
+        "2085067721549725779",
+        "2082558485448052876",
+        "2089434320692035627",
+        "2084329646787883051",
+        "2093444746597581021"
+      ],
+      "donors": {
+        "phyrexni": 87,
+        "qinbafrank": 13,
+        "aleabitoreddit": 6,
+        "michael_qqq2025": 2,
+        "xingpt": 1
+      }
+    },
+    {
+      "cluster_id": 7,
+      "count": 284,
+      "label_terms": [
+        "交易",
+        "AI",
+        "仓位",
+        "半导体",
+        "利润"
+      ],
+      "exemplar_post_ids": [
+        "2079881198659391690",
+        "2082320210766582135",
+        "2095392689839804633",
+        "2083143604378477021",
+        "2094313324028874874",
+        "2084999841424548080"
+      ],
+      "donors": {
+        "phyrexni": 104,
+        "qinbafrank": 40,
+        "kovainvest": 12,
+        "aleabitoreddit": 58,
+        "michael_qqq2025": 33,
+        "xingpt": 27,
+        "beth_kindig": 3,
+        "ericjackson": 3,
+        "rjccapital": 1,
+        "globalmktobserv": 3
+      }
+    }
+  ]
+}

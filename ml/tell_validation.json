@@ -1,0 +1,97 @@
+{
+  "computed_at": "2026-09-12T08:05:14.649852+00:00",
+  "languages": {
+    "zh": {
+      "human_docs": 1236,
+      "machine_docs": 6,
+      "banned_vocabulary_hit_rate": {
+        "human": 0.017,
+        "machine": 0.0
+      },
+      "banned_phrase_hit_rate": {
+        "human": 0.0283,
+        "machine": 0.0
+      },
+      "structural": {
+        "rule_of_three": {
+          "human_mean_per_1000w": 1.76,
+          "machine_mean_per_1000w": 0.0,
+          "human_p95": 9.11,
+          "separation": 0.0,
+          "suggested_threshold": 9.11,
+          "useful": false
+        },
+        "negation_formula": {
+          "human_mean_per_1000w": 0.07,
+          "machine_mean_per_1000w": 0.0,
+          "human_p95": 0.0,
+          "separation": 0.0,
+          "suggested_threshold": 1.0,
+          "useful": false
+        },
+        "hedge_stack": {
+          "human_mean_per_1000w": 0.0,
+          "machine_mean_per_1000w": 0.0,
+          "human_p95": 0.0,
+          "separation": null,
+          "suggested_threshold": 1.0,
+          "useful": false
+        },
+        "copula_avoidance": {
+          "human_mean_per_1000w": 0.07,
+          "machine_mean_per_1000w": 0.57,
+          "human_p95": 0.0,
+          "separation": 7.76,
+          "suggested_threshold": 1.0,
+          "useful": true
+        }
+      }
+    },
+    "en": {
+      "human_docs": 2086,
+      "machine_docs": 4,
+      "banned_vocabulary_hit_rate": {
+        "human": 0.0259,
+        "machine": 0.25
+      },
+      "banned_phrase_hit_rate": {
+        "human": 0.001,
+        "machine": 0.0
+      },
+      "structural": {
+        "rule_of_three": {
+          "human_mean_per_1000w": 0.57,
+          "machine_mean_per_1000w": 0.0,
+          "human_p95": 0.0,
+          "separation": 0.0,
+          "suggested_threshold": 1.0,
+          "useful": false
+        },
+        "negation_formula": {
+          "human_mean_per_1000w": 0.0,
+          "machine_mean_per_1000w": 0.0,
+          "human_p95": 0.0,
+          "separation": 0.0,
+          "suggested_threshold": 1.0,
+          "useful": false
+        },
+        "hedge_stack": {
+          "human_mean_per_1000w": 0.0,
+          "machine_mean_per_1000w": 0.0,
+          "human_p95": 0.0,
+          "separation": null,
+          "suggested_threshold": 1.0,
+          "useful": false
+        },
+        "copula_avoidance": {
+          "human_mean_per_1000w": 0.0,
+          "machine_mean_per_1000w": 0.0,
+          "human_p95": 0.0,
+          "separation": 0.0,
+          "suggested_threshold": 1.0,
+          "useful": false
+        }
+      }
+    }
+  }
+}

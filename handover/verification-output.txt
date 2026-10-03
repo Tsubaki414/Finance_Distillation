@@ -1,0 +1,32 @@
+Finance Distillation handover verification (offline, read-only inputs)
+Artifact checks complete; verifying all migrated files against their pre-move hashes.
+ROOT /Users/fionama/Desktop/Crypto/Mango_Works/Finance_Distillation
+GIT not a Git repository; branch=null commit=null dirty_files=null
+DATA raw=2647 clean=1825 authors=12 human_labels=0
+CLEAN_LANGUAGES {"en": 510, "et": 1, "ja": 10, "zh": 1304}
+DRAFTS valid=0 legacy_invalid=45 human_reviews=0
+VIDEO_READY {"youtube": 3} segments=149
+MODEL_CALL_RECORDS {"completed": 722, "failed": 2, "started": 3}
+ENV_PRESENT {"APIFY_API_TOKEN": false, "GROQ_API_KEY": false, "HF_TOKEN": false, "OPENAI_API_KEY": false, "RAPIDAPI_KEY": false, "SEC_EDGAR_USER_AGENT": false, "XQUIK_API_KEY": false}
+PASS required_files
+UNKNOWN git_metadata
+PASS dependencies
+PASS python_syntax
+PASS artifact_unit_tests
+PASS migration_all_file_hashes
+PASS frontend_backend_entries
+FAIL twelve_qualified_donors
+FAIL human_annotations_and_review
+UNKNOWN source_complete_semantic_review
+FAIL five_group_ablation
+FAIL three_youtube_three_bilibili
+FAIL speakers_financial_correction_crossplatform_dedup
+FAIL intelligence_desk_and_explainable_personas
+FAIL claim_graph_evergreen_update_pipeline
+FAIL legacy_isolation_all_routes
+UNKNOWN live_ui_acceptance
+PASS marker_and_api_location_inventory
+COUNTS {"FAIL": 8, "PASS": 7, "UNKNOWN": 3}
+SAFE_TEST_EXIT_CODE 0
+REPORT handover/verification.json
+EXIT_CODE 2

@@ -1,0 +1,166 @@
+{
+  "seed": 70253,
+  "built_at": "2026-09-23T21:30:53.521862",
+  "key": [
+    {
+      "id": "HD7267",
+      "lang": "zh",
+      "truth": "machine",
+      "persona": "macro",
+      "writer": "grok-4.5",
+      "mode": "profile_exemplars",
+      "detail": "zh_macro/#inflation",
+      "draft_id": "w-6122be8ca9ce"
+    },
+    {
+      "id": "HB510B",
+      "lang": "zh",
+      "truth": "machine",
+      "persona": "macro",
+      "writer": "grok-4.5",
+      "mode": "profile",
+      "detail": "zh_macro/#inflation",
+      "draft_id": "w-cac4f1c2c592"
+    },
+    {
+      "id": "H0808C",
+      "lang": "zh",
+      "truth": "human",
+      "persona": null,
+      "writer": "human",
+      "mode": null,
+      "detail": "real post by phyrexni",
+      "draft_id": null
+    },
+    {
+      "id": "H695CB",
+      "lang": "en",
+      "truth": "human",
+      "persona": null,
+      "writer": "human",
+      "mode": null,
+      "detail": "real post by aleabitoreddit",
+      "draft_id": null
+    },
+    {
+      "id": "HE8DFC",
+      "lang": "zh",
+      "truth": "human",
+      "persona": null,
+      "writer": "human",
+      "mode": null,
+      "detail": "real post by phyrexni",
+      "draft_id": null
+    },
+    {
+      "id": "H3E173",
+      "lang": "zh",
+      "truth": "machine",
+      "persona": "macro",
+      "writer": "grok-4.5",
+      "mode": "multi_donor",
+      "detail": "zh_macro/#inflation",
+      "draft_id": "w-316cfe5466c5"
+    },
+    {
+      "id": "H9004A",
+      "lang": "zh",
+      "truth": "machine",
+      "persona": "macro",
+      "writer": "grok-4.5",
+      "mode": "description",
+      "detail": "zh_macro/#inflation",
+      "draft_id": "w-814c3ec1d457"
+    },
+    {
+      "id": "HCE468",
+      "lang": "zh",
+      "truth": "human",
+      "persona": null,
+      "writer": "human",
+      "mode": null,
+      "detail": "real post by phyrexni",
+      "draft_id": null
+    },
+    {
+      "id": "H5C3F2",
+      "lang": "zh",
+      "truth": "human",
+      "persona": null,
+      "writer": "human",
+      "mode": null,
+      "detail": "real post by phyrexni",
+      "draft_id": null
+    },
+    {
+      "id": "HF0383",
+      "lang": "en",
+      "truth": "human",
+      "persona": null,
+      "writer": "human",
+      "mode": null,
+      "detail": "real post by RaoulGMI",
+      "draft_id": null
+    },
+    {
+      "id": "H9E540",
+      "lang": "zh",
+      "truth": "machine",
+      "persona": "macro",
+      "writer": "grok-4.5",
+      "mode": "profile_exemplars",
+      "detail": "zh_macro/#inflation",
+      "draft_id": "w-3ebf859173d1"
+    },
+    {
+      "id": "HC697D",
+      "lang": "zh",
+      "truth": "machine",
+      "persona": "industry",
+      "writer": "grok-4.5",
+      "mode": "profile_exemplars",
+      "detail": "zh_industry/$NVDA",
+      "draft_id": "w-a1569652aefd"
+    },
+    {
+      "id": "H72167",
+      "lang": "en",
+      "truth": "machine",
+      "persona": "industry",
+      "writer": "grok-4.5",
+      "mode": "profile_exemplars",
+      "detail": "en_industry/$IBIT",
+      "draft_id": "w-32b386821841"
+    },
+    {
+      "id": "HDAF68",
+      "lang": "zh",
+      "truth": "machine",
+      "persona": "macro",
+      "writer": "grok-4.5",
+      "mode": "none",
+      "detail": "zh_macro/#inflation",
+      "draft_id": "w-1c20852c09d8"
+    },
+    {
+      "id": "HF865A",
+      "lang": "zh",
+      "truth": "human",
+      "persona": null,
+      "writer": "human",
+      "mode": null,
+      "detail": "real post by phyrexni",
+      "draft_id": null
+    },
+    {
+      "id": "H75353",
+      "lang": "en",
+      "truth": "human",
+      "persona": null,
+      "writer": "human",
+      "mode": null,
+      "detail": "real post by kovainvest",
+      "draft_id": null
+    }
+  ]
+}

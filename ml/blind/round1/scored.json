@@ -1,0 +1,520 @@
+{
+  "judges": [
+    "gpt-6-astra",
+    "gemini-3.1-pro"
+  ],
+  "seed": 7,
+  "by_judge": {
+    "gpt-6-astra": {
+      "items_judged": 20,
+      "machine_items": 10,
+      "detected_as_machine": 10,
+      "detection_rate": 1.0,
+      "human_items": 10,
+      "humans_called_machine": 4,
+      "false_positive_rate": 0.4,
+      "auc": 1.0,
+      "mean_p_machine_on_machine": 87.9,
+      "mean_p_machine_on_human": 41.5,
+      "zh": {
+        "machine_items": 6,
+        "detection_rate": 1.0,
+        "human_items": 6,
+        "false_positive_rate": 0.167
+      },
+      "en": {
+        "machine_items": 4,
+        "detection_rate": 1.0,
+        "human_items": 4,
+        "false_positive_rate": 0.75
+      },
+      "machine_candidate": {
+        "items": 4,
+        "detection_rate": 1.0,
+        "mean_p_machine": 81.2
+      },
+      "machine_blocked": {
+        "items": 6,
+        "detection_rate": 1.0,
+        "mean_p_machine": 92.3
+      }
+    },
+    "gemini-3.1-pro": {
+      "items_judged": 20,
+      "machine_items": 10,
+      "detected_as_machine": 10,
+      "detection_rate": 1.0,
+      "human_items": 10,
+      "humans_called_machine": 3,
+      "false_positive_rate": 0.3,
+      "auc": 0.885,
+      "mean_p_machine_on_machine": 98.5,
+      "mean_p_machine_on_human": 33.3,
+      "zh": {
+        "machine_items": 6,
+        "detection_rate": 1.0,
+        "human_items": 6,
+        "false_positive_rate": 0.0
+      },
+      "en": {
+        "machine_items": 4,
+        "detection_rate": 1.0,
+        "human_items": 4,
+        "false_positive_rate": 0.75
+      },
+      "machine_candidate": {
+        "items": 4,
+        "detection_rate": 1.0,
+        "mean_p_machine": 97.0
+      },
+      "machine_blocked": {
+        "items": 6,
+        "detection_rate": 1.0,
+        "mean_p_machine": 99.5
+      }
+    }
+  },
+  "items": [
+    {
+      "id": "X744B4A",
+      "truth": "machine",
+      "detail": "live/en_industry/#ai_capex",
+      "donor": "beth_kindig",
+      "lang": "en",
+      "chars": 1528,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gemini-3.1-pro": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 97,
+        "gemini-3.1-pro": 100
+      },
+      "agree": true,
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "The post repeatedly recycles its figures into logically disconnected caveats, most clearly treating confirmation of capex as validation that a portfolio allocation represents undervalued exposure.",
+        "gemini-3.1-pro": "The text references a non-existent 'table' while mechanically spelling out every financial figure as full words (e.g., '118 million dollars', '8 percent') instead of using standard industry symbols."
+      }
+    },
+    {
+      "id": "XFEA0E0",
+      "truth": "human",
+      "detail": "real post by beth_kindig",
+      "donor": "beth_kindig",
+      "lang": "en",
+      "chars": 420,
+      "verdicts": {
+        "gpt-6-astra": "human",
+        "gemini-3.1-pro": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 32,
+        "gemini-3.1-pro": 100
+      },
+      "agree": false,
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "The compact back-of-napkin calculation, with explicit hypothetical token prices, reads like an analyst’s specific investment observation rather than generic financial commentary.",
+        "gemini-3.1-pro": "The post hallucinates a past-tense event in July involving DeepSeek R1 (released in January 2025) running on Nvidia's unreleased Vera Rubin architecture."
+      }
+    },
+    {
+      "id": "X9CE5F4",
+      "truth": "human",
+      "detail": "real post by phyrexni",
+      "donor": "phyrexni",
+      "lang": "zh",
+      "chars": 540,
+      "verdicts": {
+        "gpt-6-astra": "human",
+        "gemini-3.1-pro": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 28,
+        "gemini-3.1-pro": 5
+      },
+      "agree": true,
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "临近结尾突然用“我才想起来”插入对记者漏问问题的回忆，呈现出随写随想的个人复盘节奏。",
+        "gemini-3.1-pro": "行文中出现了“我才想起来”这种伴随写作过程自发产生的思维跳跃，以及对记者会上“没人提问”特定话题的私人视角临场观察，极具真人的真实体验感。"
+      }
+    },
+    {
+      "id": "XD0B667",
+      "truth": "machine",
+      "detail": "live/en_industry/#earnings",
+      "donor": "beth_kindig",
+      "lang": "en",
+      "chars": 1144,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gemini-3.1-pro": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 96,
+        "gemini-3.1-pro": 100
+      },
+      "agree": true,
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "The post mechanically interprets figures while contradicting itself, claiming non-GAAP EPS of 2.22 dollars outpaced the previously stated GAAP EPS of 2.46 dollars.",
+        "gemini-3.1-pro": "The text features a glaring mathematical hallucination typical of AI, explicitly stating earlier that GAAP earnings were $2.46 and non-GAAP were $2.22, but later claiming the $2.22 figure 'outpaced' the GAAP figures."
+      }
+    },
+    {
+      "id": "X44805B",
+      "truth": "human",
+      "detail": "real post by globalmktobserv",
+      "donor": "globalmktobserv",
+      "lang": "en",
+      "chars": 1239,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gemini-3.1-pro": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 63,
+        "gemini-3.1-pro": 98
+      },
+      "agree": true,
+      "both_wrong": true,
+      "tells": {
+        "gpt-6-astra": "The closing paragraphs repeatedly repackage the same usage-versus-profitability thesis in smooth explanatory language rather than adding new evidence.",
+        "gemini-3.1-pro": "The post follows a highly formulaic structure, relying on a rigid sequence of transitions ('Meanwhile,' 'In other words,' 'The problem is that') and concluding with a perfectly balanced contrast sentence."
+      }
+    },
+    {
+      "id": "XBC6E9B",
+      "truth": "human",
+      "detail": "real post by phyrexni",
+      "donor": "phyrexni",
+      "lang": "zh",
+      "chars": 433,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gemini-3.1-pro": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 62,
+        "gemini-3.1-pro": 5
+      },
+      "agree": false,
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "结尾把“最近两天”的流入回落与“从8月20日”开始的变化混在同一句里，时间范围衔接含混，像模型整合数据时生成的总结。",
+        "gemini-3.1-pro": "主动解释数据回落是因为早期的高位数值“退出7日统计窗口”，这种对滚动求和算法造成的统计错觉的敏锐解读，是极具实操经验的真人分析师视角的特征。"
+      }
+    },
+    {
+      "id": "X3A9977",
+      "truth": "human",
+      "detail": "real post by globalmktobserv",
+      "donor": "globalmktobserv",
+      "lang": "en",
+      "chars": 1086,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gemini-3.1-pro": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 68,
+        "gemini-3.1-pro": 95
+      },
+      "agree": true,
+      "both_wrong": true,
+      "tells": {
+        "gpt-6-astra": "The penultimate paragraph restates the opening concentration claim as additional evidence without adding a new figure or distinct finding, giving the post a padded, model-like progression.",
+        "gemini-3.1-pro": "The post pads its length by redundantly restating its main premise and relies on an illogical, classic LLM macro-extrapolation by claiming a localized drop in AI startup revenue could trigger broader economic spillover."
+      }
+    },
+    {
+      "id": "XEE1B6D",
+      "truth": "machine",
+      "detail": "live/zh_macro/#fed_policy",
+      "donor": "qinbafrank",
+      "lang": "zh",
+      "chars": 301,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gemini-3.1-pro": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 86,
+        "gemini-3.1-pro": 95
+      },
+      "agree": true,
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "最强特征是阈值推演缺乏内部一致性：前文称总CPI为4.1%，后文却把“反弹至3.7%以上”当作反向情景，像是模型拼接了貌似合理但未校验的分析。",
+        "gemini-3.1-pro": "违背了中文金融圈社交媒体极度依赖简称的习惯，生硬且机械地将常用的‘CPI’完整拼写为带有翻译腔的‘总消费者物价指数’。"
+      }
+    },
+    {
+      "id": "X368C17",
+      "truth": "machine",
+      "detail": "live/zh_industry/$AMZN",
+      "donor": "xingpt",
+      "lang": "zh",
+      "chars": 294,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gemini-3.1-pro": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 77,
+        "gemini-3.1-pro": 95
+      },
+      "agree": true,
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "最强特征是把芯片性能提升生硬地转接为资本开支压力的反面论据，缺少具体财务联系，像在将零散指标拼成统一论点。",
+        "gemini-3.1-pro": "全篇呈现极度机械的“列举一个孤立数据+拼接一句标准商业套话”的八股结构，且高频强制使用转折句式，缺乏真人的叙事连贯性。"
+      }
+    },
+    {
+      "id": "XD90DDF",
+      "truth": "machine",
+      "detail": "live/zh_macro/#inflation",
+      "donor": "qinbafrank",
+      "lang": "zh",
+      "chars": 234,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gemini-3.1-pro": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 79,
+        "gemini-3.1-pro": 99
+      },
+      "agree": true,
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "文中先把缩减购债解释为抑制通胀的手段，随后却称只有通胀预期下降才能实施，呈现出模板化条件句拼接造成的逻辑冲突。",
+        "gemini-3.1-pro": "全文全是单句成段的机械拼接，且出现了“延长……幅度”这种典型的 AI 生成或生硬翻译导致的词义搭配语病。"
+      }
+    },
+    {
+      "id": "XA8CBF9",
+      "truth": "human",
+      "detail": "real post by phyrexni",
+      "donor": "phyrexni",
+      "lang": "zh",
+      "chars": 626,
+      "verdicts": {
+        "gpt-6-astra": "human",
+        "gemini-3.1-pro": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 23,
+        "gemini-3.1-pro": 5
+      },
+      "agree": true,
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "对三次盈利未平仓的懊悔带着重复、自嘲和临时补充理由的口语节奏，比工整的行情分析更像真人复盘自己的交易。",
+        "gemini-3.1-pro": "最像真人的一点是文中使用了大量极具个人情绪色彩的口语、俚语以及略带粗俗的戏谑调侃，完全符合真实币圈散户复盘时的表达习惯。"
+      }
+    },
+    {
+      "id": "X793D31",
+      "truth": "machine",
+      "detail": "curated/macro",
+      "donor": "phyrexni",
+      "lang": "zh",
+      "chars": 539,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gemini-3.1-pro": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 86,
+        "gemini-3.1-pro": 99
+      },
+      "agree": true,
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "把新增16.2万人与此前月均3.1万人比较后反而断言增速显著放缓，呈现出套用宏观分析话术却未核对数字关系的特征。",
+        "gemini-3.1-pro": "数据对比逻辑存在严重的AI幻觉（单月增加16.2万远超月均3.1万，却推导得出“显著放缓”的结论），且全文呈现高度机械的“单一数据+四字词语堆砌”的固定句式。"
+      }
+    },
+    {
+      "id": "X4DD48F",
+      "truth": "machine",
+      "detail": "live/en_macro/#yen_fx",
+      "donor": "globalmktobserv",
+      "lang": "en",
+      "chars": 766,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gemini-3.1-pro": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 91,
+        "gemini-3.1-pro": 100
+      },
+      "agree": true,
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "Unresolved placeholders embedded in financial claims, especially “a figure per dollar,” strongly suggest a generated draft rather than a finished human post.",
+        "gemini-3.1-pro": "The text features sentences abruptly truncated at 'U.', a classic error caused by an automated text-processing script misinterpreting the period in 'U.S.' as the end of a sentence."
+      }
+    },
+    {
+      "id": "X5505BF",
+      "truth": "human",
+      "detail": "real post by xingpt",
+      "donor": "xingpt",
+      "lang": "zh",
+      "chars": 294,
+      "verdicts": {
+        "gpt-6-astra": "human",
+        "gemini-3.1-pro": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 38,
+        "gemini-3.1-pro": 5
+      },
+      "agree": true,
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "最像真人的是末尾突然把降本趋势推成半导体瓶颈消失的投资断言，还用“想想这个逻辑”催读者认同，带有鲜明的个人喊话口吻。",
+        "gemini-3.1-pro": "自然使用了“O和A”（OpenAI与Anthropic）这种极具中文创投圈私域黑话特征的非正式缩写，而AI生成时通常会输出全称。"
+      }
+    },
+    {
+      "id": "XD8B2C0",
+      "truth": "machine",
+      "detail": "curated/trading",
+      "donor": "phyrexni",
+      "lang": "zh",
+      "chars": 433,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gemini-3.1-pro": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 83,
+        "gemini-3.1-pro": 99
+      },
+      "agree": true,
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "结尾把前两个月的合计上修直接加到当月新增就业上，并将所得数字称为改变判断的关键阈值，呈现出模型式的精确计算与概念错接。",
+        "gemini-3.1-pro": "全篇每一段都严格遵循“孤立的数据点 + 逗号 + 强加的套话式推论”的机械格式，且出现了明显违背现实常识的幻觉数据（如美国非农月均新增仅3.1万人）。"
+      }
+    },
+    {
+      "id": "XF5D25D",
+      "truth": "human",
+      "detail": "real post by beth_kindig",
+      "donor": "beth_kindig",
+      "lang": "en",
+      "chars": 394,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gemini-3.1-pro": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 61,
+        "gemini-3.1-pro": 10
+      },
+      "agree": false,
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "The second paragraph turns the numerical comparison into a generic “key driver” takeaway, a formulaic explanatory wrap-up suggestive of model-generated summarization.",
+        "gemini-3.1-pro": "The colloquial, concise attribution ', per [Source]' appended at the very end of the summary is a hallmark of human financial commentators on social media."
+      }
+    },
+    {
+      "id": "XA2CDDF",
+      "truth": "machine",
+      "detail": "live/en_macro/#inflation",
+      "donor": "globalmktobserv",
+      "lang": "en",
+      "chars": 688,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gemini-3.1-pro": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 96,
+        "gemini-3.1-pro": 99
+      },
+      "agree": true,
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "The closing falsification condition incoherently compares a fixed 2 percent level with an interest-rate range that already contains it, suggesting generated financial reasoning.",
+        "gemini-3.1-pro": "The phrase 'Chart a figure' is a glaring text generation artifact, compounded by a robotic, list-like structure and a logically nonsensical concluding sentence."
+      }
+    },
+    {
+      "id": "X0BF228",
+      "truth": "machine",
+      "detail": "curated/industry",
+      "donor": "phyrexni",
+      "lang": "zh",
+      "chars": 628,
+      "verdicts": {
+        "gpt-6-astra": "machine",
+        "gemini-3.1-pro": "machine"
+      },
+      "p_machine": {
+        "gpt-6-astra": 88,
+        "gemini-3.1-pro": 99
+      },
+      "agree": true,
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "后半段几乎原样重复餐饮、医疗和信息业的整组数字，再把行业增减直接解释为岗位跨行业转移，呈现出机械复述并补造因果的特征。",
+        "gemini-3.1-pro": "文章在相隔不远的段落中，如同重置了上下文一般，机械地两次重复了同一组精确到小数点的行业增减数据，这是典型的模型生成时的拼接或文段规划失忆痕迹。"
+      }
+    },
+    {
+      "id": "X3CEED5",
+      "truth": "human",
+      "detail": "real post by qinbafrank",
+      "donor": "qinbafrank",
+      "lang": "zh",
+      "chars": 228,
+      "verdicts": {
+        "gpt-6-astra": "human",
+        "gemini-3.1-pro": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 16,
+        "gemini-3.1-pro": 5
+      },
+      "agree": true,
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "最像真人的是结尾把具体组池设想顺口推演成操盘手法，又插入带笔误的自嘲式收割评价，呈现出即兴发帖的语气。",
+        "gemini-3.1-pro": "文本呈现出典型的社媒意识流特征，包含未加空格的t.co短链接、密集的币圈黑话，以及“SPCA正股”（应为SPAC）和“一也是”等AI几乎不会生成的真实人类打字笔误。"
+      }
+    },
+    {
+      "id": "X108791",
+      "truth": "human",
+      "detail": "real post by qinbafrank",
+      "donor": "qinbafrank",
+      "lang": "zh",
+      "chars": 299,
+      "verdicts": {
+        "gpt-6-astra": "human",
+        "gemini-3.1-pro": "human"
+      },
+      "p_machine": {
+        "gpt-6-astra": 24,
+        "gemini-3.1-pro": 5
+      },
+      "agree": true,
+      "both_wrong": false,
+      "tells": {
+        "gpt-6-astra": "回顾先前观点时出现“数据有很好”这样的局部语病，并混入松散的口语衔接，更像真人未经校对的随手发帖。",
+        "gemini-3.1-pro": "作者连续用顿号（、）代替逗号进行断句，且出现了“数据有很好”这类极具口语化和地方口音特征的表达，这些都是典型的真人手机打字习惯，AI通常会严格遵循标点和语法规范。"
+      }
+    }
+  ],
+  "judges_agree": 0.85
+}

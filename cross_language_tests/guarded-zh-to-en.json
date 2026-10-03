@@ -1,0 +1,43 @@
+{
+  "direction": "zh-to-en",
+  "source_id": "draft-352bce35ef8e",
+  "source_text": "2026-07 非农就业变动为 +21,000人。 [F1] 2026-08 非农就业变动为 +162,000人。 [F2] 2026-08 失业率为 4.1%。 [F3] 7 月非农就业数据从负值大幅修订至 +21,000 人，显示劳动力需求显著强劲，但 8 月 +162,000 人的增速虽高于前月，官方明确声明失业率保持 4.1% 不变，表明就业质量或劳动力参与率的变化未被当前数据证实。\n\n2026-06 非农就业变动为 +31,000人。 [F4] 由于证据包仅包含部分数字，无法确认工资增长、劳动力参与率或行业细节，因此不能断言就业改善是真实且全面的，仅凭单月数据推断政策预期已过度乐观缺乏充分依据。\n\n 接下来需要检查工资增长、劳动力参与率及行业细分数据，以验证就业质量是否真实改善，同时避免将单月修订后的数字直接等同于政策决策或公司业绩。",
+  "translated_text": "In July 2026, nonfarm payrolls changed by +21,000. [F1] In August 2026, nonfarm payrolls changed by +162,000. [F2] In August 2026, the unemployment rate was 4.1%. [F3] The July nonfarm payroll data was revised significantly from a negative value to +21,000, indicating notably strong labor demand; however, although the August +162,000 increase was higher than the previous month, the official statement that the unemployment rate remained at 4.1% suggests that changes in employment quality or labor participation rates are not confirmed by the current data.\n\nIn June 2026, nonfarm payrolls changed by +31,000. [F4] Since the evidence package contains only partial figures, it is impossible to confirm wage growth, labor participation rates, or industry details; therefore, asserting that employment improvement is real and comprehensive based solely on single-month data lacks sufficient basis, and policy expectations derived from such data are overly optimistic.\n\nNext, it is necessary to examine wage growth, labor participation rates, and industry sub-sector data to verify whether employment quality has genuinely improved, while avoiding equating revised single-month figures directly with policy decisions or company performance.",
+  "run_id": "local-cf3ee1b1b3ca4689",
+  "source_numeric_literals": {
+    "2026": 4,
+    "-07": 1,
+    "+21,000": 2,
+    "-08": 2,
+    "+162,000": 2,
+    "4.1": 2,
+    "7": 1,
+    "8": 1,
+    "-06": 1,
+    "+31,000": 1
+  },
+  "translated_numeric_literals": {
+    "2026,": 4,
+    "+21,000": 1,
+    "+162,000": 2,
+    "4.1": 2,
+    "+21,000,": 1,
+    "+31,000": 1
+  },
+  "numeric_multiset_equal": false,
+  "source_citations": [
+    "[F1]",
+    "[F2]",
+    "[F3]",
+    "[F4]"
+  ],
+  "translated_citations": [
+    "[F1]",
+    "[F2]",
+    "[F3]",
+    "[F4]"
+  ],
+  "promotion_gate_passed": true,
+  "human_semantic_and_hedge_review": null,
+  "limitations": "Lexical preservation is not semantic or translation quality validation; alternate valid numeric formatting can cause flags."
+}

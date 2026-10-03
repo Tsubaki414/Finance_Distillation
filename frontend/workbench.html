@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Content Intelligence</title>
+<link rel="stylesheet" href="/assets/workbench.css"></head>
+<body>
+<div class="shell">
+  <aside class="rail">
+    <div class="brand"><div class="n">Content Intelligence</div>
+      <div class="s">金融内容资产工厂</div></div>
+    <nav class="nav" id="nav"></nav>
+    <div class="foot"><a href="/content-dashboard">五账号内容审核台 ↗</a><br>本地工作区<br>不对外发布</div>
+  </aside>
+  <div>
+    <div class="top">
+      <div class="search">
+        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+          <circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 L14 14"/></svg>
+        <input id="q" placeholder="搜索事件、KOL、原则" aria-label="Search">
+      </div>
+      <div class="seg" id="market" role="group" aria-label="Market"></div>
+      <div class="seg" id="lang" role="group" aria-label="Language"></div>
+      <div class="seg" id="range" role="group" aria-label="Time range"></div>
+      <div class="meta">数据更新于<br><b id="updated">loading</b></div>
+    </div>
+    <main class="page" id="page"><div class="empty">Loading workspace</div></main>
+  </div>
+</div>
+<script src="/assets/workbench.js" defer></script>
+</body></html>

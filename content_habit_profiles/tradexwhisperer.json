@@ -1,0 +1,85 @@
+{
+  "donor": "tradexwhisperer",
+  "observed_items": 20,
+  "post_ids": [
+    "2096024193112645857",
+    "2096024267083370699",
+    "2096024620558426530",
+    "2096036413682893103",
+    "2096037358445740455",
+    "2096058292057571334",
+    "2096068275100914018",
+    "2096075339898433807",
+    "2096079000934531459",
+    "2096080724298444909",
+    "2096084096531542050",
+    "2096084326547157475",
+    "2096084362060349657",
+    "2096084417446027600",
+    "2096103765032292601",
+    "2096103827686694979",
+    "2096255997597851666",
+    "2096256564839710924",
+    "2096257609015988586",
+    "2096266331524125077"
+  ],
+  "time_basis": "UTC; author local timezone unknown",
+  "interval_hours": {
+    "n": 19,
+    "mean": 0.8440058479532164,
+    "p10": 0.004111111111111111,
+    "p50": 0.11416666666666667,
+    "p90": 1.3021666666666665
+  },
+  "weekend_post_share": 0.85,
+  "busiest_observed_days": [
+    [
+      "2026-09-05",
+      17
+    ],
+    [
+      "2026-09-04",
+      3
+    ]
+  ],
+  "post_types": {
+    "reply": 12,
+    "original": 3,
+    "repost": 4,
+    "quote": 1
+  },
+  "theme_length": {
+    "0": {
+      "n": 1,
+      "mean": 1216.0,
+      "p10": 1216.0,
+      "p50": 1216.0,
+      "p90": 1216.0
+    },
+    "1": null,
+    "2": {
+      "n": 2,
+      "mean": 2043.0,
+      "p10": 796.6,
+      "p50": 2043.0,
+      "p90": 3289.4
+    },
+    "3": null,
+    "4": null,
+    "5": {
+      "n": 1,
+      "mean": 286.0,
+      "p10": 286.0,
+      "p50": 286.0,
+      "p90": 286.0
+    },
+    "6": null,
+    "7": null
+  },
+  "topic_switch_rate": 0.6666666666666666,
+  "reaction_latency": null,
+  "acknowledges_errors": null,
+  "updates_old_views": null,
+  "missing_behavior_reason": "Incomplete timeline and event alignment; absence is not evidence of silence or failure to correct.",
+  "unknown_gaps": "Intervals describe observed records, not all activity."
+}

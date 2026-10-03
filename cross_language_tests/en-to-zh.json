@@ -1,0 +1,83 @@
+{
+  "id": "en-to-zh",
+  "source_draft_id": "draft-ed73b22c26dd",
+  "source_text": "The payroll data for August 2026 shows a significant increase of 162,000, marking a growth of 162,000 from the previous month. This growth is higher than the average monthly growth, indicating a strong upward trend in the economy. The unemployment rate remains unchanged at 4.1%, suggesting that the policy direction is not changing significantly. This data revision highlights the policy uncertainty, making it difficult to predict the future direction of the economy. The unchanged unemployment rate indicates that the current policy is not leading to significant changes in the labor market, which could be a sign of a lack of demand. Overall, the data suggests a healthy economic environment with a growing payroll, but the policy uncertainty makes it challenging to assess the full impact of the current measures.",
+  "target_text": "August 2026 payroll data shows a significant increase of 162,000, marking a growth of 162,000 from the previous month. This growth is higher than the average monthly growth, indicating a strong upward trend in the economy. The unemployment rate remains unchanged at 4.1%, suggesting that the policy direction is not changing significantly. This data revision highlights the policy uncertainty, making it difficult to predict the future direction of the economy. The unchanged unemployment rate indicates that the current policy is not leading to significant changes in the labor market, which could be a sign of a lack of demand. Overall, the data suggests a healthy economic environment with a growing payroll, but the policy uncertainty makes it challenging to assess the full impact of the current measures.",
+  "run_id": "local-64c28c95af6d4dd2",
+  "facts": [
+    {
+      "id": "payroll_2026_07",
+      "value": 21000,
+      "unit": "persons",
+      "period": "2026-07",
+      "source_id": "bls-august",
+      "spans": [
+        {
+          "line": 290,
+          "text": "+20,000 to +31,000, and the change for July was revised up by 44,000, from -23,000 to +21,000."
+        }
+      ],
+      "extraction": "rule match plus curator-checked structured value",
+      "status": "observed_primary_source",
+      "label": "F1"
+    },
+    {
+      "id": "payroll_2026_08",
+      "value": 162000,
+      "unit": "persons",
+      "period": "2026-08",
+      "source_id": "bls-august",
+      "spans": [
+        {
+          "line": 196,
+          "text": "Total nonfarm payroll employment increased by 162,000 in August, and the unemployment rate was"
+        },
+        {
+          "line": 246,
+          "text": "Total nonfarm payroll employment rose by 162,000 in August, higher than the average monthly"
+        }
+      ],
+      "extraction": "rule match plus curator-checked structured value",
+      "status": "observed_primary_source",
+      "label": "F2"
+    },
+    {
+      "id": "unemployment",
+      "value": 4.1,
+      "unit": "percent",
+      "period": "2026-08",
+      "source_id": "bls-august",
+      "spans": [
+        {
+          "line": 197,
+          "text": "unchanged at 4.1 percent, the U.S. Bureau of Labor Statistics reported today. Employment"
+        },
+        {
+          "line": 209,
+          "text": "The unemployment rate was unchanged at 4.1 percent in August, and the number of unemployed"
+        }
+      ],
+      "extraction": "rule match plus curator-checked structured value",
+      "status": "observed_primary_source",
+      "label": "F3"
+    },
+    {
+      "id": "payroll_2026_06",
+      "value": 31000,
+      "unit": "persons",
+      "period": "2026-06",
+      "source_id": "bls-august",
+      "spans": [
+        {
+          "line": 290,
+          "text": "+20,000 to +31,000, and the change for July was revised up by 44,000, from -23,000 to +21,000."
+        }
+      ],
+      "extraction": "rule match plus curator-checked structured value",
+      "status": "observed_primary_source",
+      "label": "F4"
+    }
+  ],
+  "human_blind_review": null,
+  "quality_status": "unapproved; lexical and human review required"
+}

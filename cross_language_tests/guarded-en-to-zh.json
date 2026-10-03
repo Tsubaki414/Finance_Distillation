@@ -1,0 +1,44 @@
+{
+  "direction": "en-to-zh",
+  "source_id": "draft-0ab61ffe759b",
+  "source_text": "2026-07 nonfarm payroll change: +21,000 persons. [F1] 2026-08 nonfarm payroll change: +162,000 persons. [F2] The July payroll figure was significantly revised upward from a negative reading to +21,000, indicating a delayed surge in hiring that was not initially apparent. This revision, combined with August's substantial +162,000 increase, suggests a robust underlying labor demand that may be driven by seasonal factors rather than immediate policy shifts.\n\n2026-08 unemployment rate: 4.1%. [F3] 2026-06 nonfarm payroll change: +31,000 persons. [F4] While the unemployment rate remained steady at 4.1% in August, the sharp rise in nonfarm payroll numbers requires verification against wage data and labor participation rates to confirm the sustainability of this hiring momentum. Without these additional metrics, it remains uncertain whether the surge reflects genuine economic strength or temporary cyclical adjustments.\n\n Since no analyst forecasts or policy decisions are provided in the current data bundle, any claim regarding a future interest rate cut would be speculative and unsupported by the available evidence. The official release explicitly notes the unemployment rate was unchanged, which means the labor market data alone cannot confirm a policy decision or a 'beat' of expectations.",
+  "translated_text": "2026 年 7 月非农就业人数变化：+21,000 人。[F1] 2026 年 8 月非农就业人数变化：+162,000 人。[F2] 7 月的就业数据从负值大幅修订至 +21,000，表明存在延迟的招聘激增，最初并未显现。此次修订结合 8 月显著的 +162,000 增长，显示出强劲的潜在劳动力需求，这可能由季节性因素驱动，而非即时政策调整。\n\n2026 年 8 月失业率：4.1%。[F3] 2026 年 6 月非农就业人数变化：+31,000 人。[F4] 尽管 8 月失业率保持在 4.1% 不变，但非农就业人数的急剧上升需与工资数据和劳动力参与率进行核对，以确认招聘动量的可持续性。缺乏这些额外指标，尚不确定该激增是反映真实经济强劲，还是暂时性周期性调整。\n\n由于当前数据集中未提供分析师预测或政策决定，任何关于未来降息的说法均属推测且缺乏现有证据支持。官方发布明确指出失业率未变，这意味着仅凭劳动力市场数据无法确认政策决定或“超预期”结果。",
+  "run_id": "local-7800c2496da04d74",
+  "source_numeric_literals": {
+    "2026": 4,
+    "-07": 1,
+    "+21,000": 1,
+    "-08": 2,
+    "+162,000": 2,
+    "+21,000,": 1,
+    "4.1": 2,
+    "-06": 1,
+    "+31,000": 1
+  },
+  "translated_numeric_literals": {
+    "2026": 4,
+    "7": 2,
+    "+21,000": 2,
+    "8": 4,
+    "+162,000": 2,
+    "4.1": 2,
+    "6": 1,
+    "+31,000": 1
+  },
+  "numeric_multiset_equal": false,
+  "source_citations": [
+    "[F1]",
+    "[F2]",
+    "[F3]",
+    "[F4]"
+  ],
+  "translated_citations": [
+    "[F1]",
+    "[F2]",
+    "[F3]",
+    "[F4]"
+  ],
+  "promotion_gate_passed": true,
+  "human_semantic_and_hedge_review": null,
+  "limitations": "Lexical preservation is not semantic or translation quality validation; alternate valid numeric formatting can cause flags."
+}
