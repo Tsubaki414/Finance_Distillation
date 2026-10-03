@@ -16,7 +16,7 @@
               ↓
 完整原文选段 → Morris evergreen 检查（如适用）→ 身份与来源注解
               ↓
-目标语言翻译 / 同语言原文底稿 → 最小轻编
+目标语言翻译 → 最小轻编（同语言源在 admission 拒收，待署名 view_relay 帖型上线）
               ↓
 确定性核对 + 模型 QA → 成稿或具体 hold
               ↓
@@ -79,7 +79,7 @@ Erisedai 请求现在显式带 `response_format={"type":"json_object"}`，调用
 2. 为每个候选源保存真实内容例子与采样范围，按原创性、信息密度、证据、时效、重复度、噪声和账号 fit 审核。选为 CORE / SECONDARY / EVENT_ONLY / RESEARCH_ONLY / WATCHLIST / REJECT；名气和粉丝数不是准入条件。
 3. 在 registry 配置现有适配器；新平台只有实现了真实正文/线程/媒体恢复和 cursor 语义才算支持。新增来源先检查出处、语言、时间和原文完整性，不能仅加一个 handle 就宣称覆盖完整。
 4. 复用 passage → translation → minimal localization → QA → review。通过 domain policy 增补术语/数字规则，不能绕过通用保真与身份检查。
-5. 为新领域至少做长文跨语言、短帖跨语言、同语言轻编、明确 SKIP、重启/去重/失败隔离验收，并用真实人审评估可发率。
+5. 为新领域至少做长文跨语言、短帖跨语言、同语言拒收、明确 SKIP、重启/去重/失败隔离验收，并用真实人审评估可发率。
 
 目前生产 monitor 有意限制三个固定账号、中文/英文和 Morris 专用历史门禁。未来启用新领域需要显式修改运行白名单并验证适配，不是已经实现任意领域/平台的一键批量上线。逻辑 profile 也不等于注册了外部社交账号。
 

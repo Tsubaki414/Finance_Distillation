@@ -168,14 +168,12 @@ class AccountSourceAdaptationTests(unittest.TestCase):
         self.assertTrue(Path(result["attempt_ref"]).is_file())
         self.assertTrue(Path(result["result_path"]).is_file())
 
-    def test_same_language_copies_original_then_light_edits_without_translation_call(self):
+    def test_same_language_is_refused_without_model_calls(self):
+        # P0-1: same-language material never passes through as a "translation".
         result, client = self.run_source(source(ZH, "macro_writer"), "zh_macro")
-        self.assertEqual(result["status"], "draft_ready", result)
-        self.assertEqual(result["final_draft"], ZH)
-        self.assertEqual(result["translation"]["text"], ZH)
-        self.assertEqual(result["attempt"]["translation_mode"], "same_language_original")
-        self.assertNotIn("translation", dict(client.calls))
-        self.assertEqual(dict(client.calls)["localization"]["selected_passages"][0]["exact_text"], ZH)
+        self.assertNotEqual(result["status"], "draft_ready", result)
+        self.assertFalse(result.get("final_draft"))
+        self.assertEqual(dict(client.calls), {})
 
     def test_english_to_chinese_keeps_language_owned_by_account(self):
         client = FakeClient("zh_industry", ZH)
@@ -250,14 +248,15 @@ class AccountSourceAdaptationTests(unittest.TestCase):
         self.assertEqual(result["machine_fidelity"]["status"], "not_passed")
 
     def test_long_selection_uses_exact_full_paragraphs_not_summary(self):
-        first = "行业供给需要逐步验证，技术路线也需要结合实际需求判断。" * 75
-        row = source(first + "\n\n" + ZH, "industry_writer")
-        client = FakeClient("zh_industry", overrides={"selection": lambda v, p: {**v, "paragraph_ids": ["P2"]}})
+        # P0-1: cross-language fixture (same-language sources are refused at route).
+        first = "Industry supply needs gradual verification, and technology paths need real demand. " * 75
+        row = source(first + "\n\n" + EN, "industry_writer", "en")
+        client = FakeClient("zh_industry", ZH, overrides={"selection": lambda v, p: {**v, "paragraph_ids": ["P2"]}})
         result, client = self.run_source(row, "zh_industry", client)
         self.assertEqual(result["status"], "draft_ready", result)
         self.assertEqual(result["final_draft"], ZH)
         self.assertEqual(result["selection"]["passages"][0]["start"], len(first) + 2)
-        self.assertEqual(dict(client.calls)["localization"]["selected_passages"][0]["exact_text"], ZH)
+        self.assertEqual(dict(client.calls)["localization"]["selected_passages"][0]["exact_text"], EN)
         self.assertEqual(dict(client.calls)["qa"]["source"]["original_text"], row["original_text"])
 
     def test_followup_preserves_attempt_identity_and_context_without_auto_approval(self):
@@ -281,13 +280,13 @@ class AccountSourceAdaptationTests(unittest.TestCase):
         self.assertEqual(result["source"]["media_dependencies"], row["media_dependencies"])
 
     def test_uncertain_media_survives_routing_selection_and_private_disposition(self):
-        first = "本段讨论一种产业约束，需要完整保存作为选段上下文。" * 90
-        row = source(first + "\n\n" + ZH, "industry_writer")
+        first = "This paragraph discusses an industry constraint and stays as selection context. " * 90
+        row = source(first + "\n\n" + EN, "industry_writer", "en")
         dependency = {"kind": "chart", "required": None, "status": "uncertain_dependency",
                       "selection_review_required": True, "url": "https://example.test/chart.png"}
         row["media_dependencies"] = [dependency]
         original = copy.deepcopy(row)
-        client = FakeClient("zh_industry", overrides={
+        client = FakeClient("zh_industry", ZH, overrides={
             "selection": lambda v, p: {**v, "paragraph_ids": ["P2"]},
             "source_hygiene": lambda v, p: {"hygiene_decisions": [
                 {"annotation_id": a["id"], "action": "out_of_scope",

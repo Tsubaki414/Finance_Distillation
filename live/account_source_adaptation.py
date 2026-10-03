@@ -126,10 +126,7 @@ def _account(account_id):
     account = matches[0]
     require(account_id in {"en_morris_archive", "zh_macro", "zh_industry"},
             "Account is outside the three-account workbench")
-    # Legacy source-led accounts only declared English preferences. Account-first
-    # subscriptions can admit either language; language is still fixed by account.
-    account.setdefault("source_preferences", {})["languages"] = (
-        ["zh"] if account_id == "en_morris_archive" else ["zh", "en"])
+    # Configured source languages are authoritative (P0-1): no runtime widening.
     account["source_hygiene"] = {"enabled": True}
     if account_id == "en_morris_archive":
         account["selection_scope"] = (
@@ -222,7 +219,7 @@ class AccountSourcePipeline(Pipeline):
         # Pin identity even on a skipped/held attempt, so the inbox doesn't lose it.
         attempt.update(account_id=account["id"], target_language=account["lang"],
                        account_profile=account, account_profile_version=account["profile_version"])
-        allowed = hygiene.eligible(account, source)
+        allowed = hygiene.eligible(account, source) and source["source_language"] != account["lang"]
         if account["id"] == "en_morris_archive":
             allowed = allowed and source["source_language"] == "zh"
             handle = str(source.get("author_handle") or "").lstrip("@").lower()
@@ -331,12 +328,8 @@ class AccountSourcePipeline(Pipeline):
                 raise
         if stage in {"routing", "selection", "source_hygiene", "evergreen_gate"}:
             system += "\n\n" + MEDIA_SELECTION_BOUNDARY
-        if stage == "translation" and payload["source_language"] == payload["target_language"]:
-            # Same-language source text is already the frozen editorial baseline.
-            # Do not ask a translator to rewrite it before exact-span light editing.
-            attempt["translation_mode"] = "same_language_original"
-            return {"segments": [{"paragraph_id": p["paragraph_id"], "text": p["exact_text"]}
-                                 for p in payload["selected_passages"]]}
+        require(stage != "translation" or payload["source_language"] != payload["target_language"],
+                "Same-language source cannot pass through translation")
         return super().ask(attempt, stage, system, payload, max_tokens)
 
     def finish(self, attempt):

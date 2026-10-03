@@ -81,6 +81,11 @@ def admission(account_id, source):
         return {'admitted': False, 'reason': 'Official context does not create content candidates', 'source_id': sid}
     if sub['role'] in ('RESEARCH_ONLY', 'WATCHLIST', 'REJECT'):
         return {'admitted': False, 'reason': 'Source role does not create content candidates', 'source_id': sid}
+    if source.get('source_language') == account(account_id)['language']:
+        # P0-1: same-language material never enters the translate/edit chain. It may
+        # return only as an attributed view_relay post type (master plan 4.3).
+        return {'admitted': False, 'code': 'same_language', 'source_id': sid,
+                'reason': 'Same-language source is isolated until the attributed view_relay post type exists'}
     text = (source.get('title') or '') + '\n' + source.get('original_text', source.get('text', ''))
     terms = sub.get('topic_scope', [])
     matches = [term for term in terms if re.search(re.escape(term), text, re.I)]

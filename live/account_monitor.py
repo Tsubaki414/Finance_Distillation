@@ -556,7 +556,7 @@ class Monitor:
                 else:
                     result = ingest(self.store,aid,_media_uncertainty(row),batch_id='daily-monitor', fixture_id=cycle_id if mode=='replay' else None)
                 if not result['admitted']:
-                    self.state.update(item['id'],status='skipped',failure='not_admitted',updated_at=cutoff)
+                    self.state.update(item['id'],status='skipped',failure=('not_admitted:' + result['code']) if result.get('code') else 'not_admitted',updated_at=cutoff)
                     summary['selection_skipped'] += 1
                     continue
                 candidate = result['candidate']

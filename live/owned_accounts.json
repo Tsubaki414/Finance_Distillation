@@ -58,7 +58,7 @@
   "shared": {
     "identity": "Owned account; provenance retained privately. Source opinions keep their strength and ownership; no invented holdings, biography or returns.",
     "form": "No mandatory length or structure. Human-reviewed preferences may shape expression; do not imitate a named author.",
-    "languages": "Account determines target language. Chinese and English sources may enter only subscribed account universes; same-language light editing is allowed.",
+    "languages": "Account determines target language. Chinese and English sources may enter only subscribed account universes; same-language sources are rejected at admission until an attributed view_relay post type exists.",
     "memory": "Only explicit human state adoption creates account memory. Drafts, machine passes and publication links do not.",
     "publishing_enabled": false
   }
