@@ -220,3 +220,34 @@ class ReviewFixClassificationTests(unittest.TestCase):
         units = {'units': [dict(UNITS['units'][2], kind='view')]}
         with self.assertRaises(ContractError):
             compose.compose_source(source, 'zh_industry', Fake(units=units), post_type='view_relay')
+
+
+class ReviewFixNumberTests(unittest.TestCase):
+    """Cross-check fixes (Codex fences/metric-after, Claude #2/#5)."""
+
+    def test_code_fence_is_flagged(self):
+        result, _ = run(Fake(body=GOOD_BODY + '```999%```'), post_type='data_take')
+        self.assertIn('code_fence', codes(result))
+
+    def test_number_words_are_flagged(self):
+        for words in ('收入翻了三倍。', '约两成的增长。', 'Revenue doubled. '):
+            result, _ = run(Fake(body=GOOD_BODY + words), post_type='data_take')
+            self.assertIn('number_words', codes(result), words)
+
+    def test_period_tokens_must_come_from_units(self):
+        result, _ = run(Fake(body=GOOD_BODY + '这是Q3的数据。'), post_type='data_take')
+        self.assertIn('period_not_in_units', codes(result))
+        result, _ = run(Fake(body=GOOD_BODY + '这是第三季度的数据。'), post_type='data_take')
+        self.assertIn('period_not_in_units', codes(result))
+
+    def test_metric_after_number_is_bound(self):
+        body = GOOD_BODY.replace('营业利润率为69.5%', '69.5%的营收增速')
+        result, _ = run(Fake(body=body), post_type='data_take')
+        self.assertIn('number_metric_binding', codes(result))
+
+    def test_span_only_numbers_still_bound(self):
+        first = dict(UNITS['units'][0], numbers=UNITS['units'][0]['numbers'][:1])  # 4.8x only in the span
+        units = {'units': [first, UNITS['units'][1], UNITS['units'][2]]}
+        body = GOOD_BODY.replace('营收同比增长4.8倍', '利润率同比增长4.8倍')
+        result, _ = run(Fake(body=body, units=units), post_type='data_take')
+        self.assertIn('number_metric_binding', codes(result))

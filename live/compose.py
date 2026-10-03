@@ -92,39 +92,86 @@ def pick_units(post_type, units):
     return sorted(primary + support, key=lambda u: order[u['unit_id']])
 
 
-def _metric_before(text, at):
-    ends = [m.end() for m in re.finditer(r'[.;!?。；！？](?=\s|$)|\n', text[:at])]
-    found = list(METRICS.finditer(text, ends[-1] if ends else 0, at))
-    return metric_name(found[-1].group()) if found else None
+CLAUSE = re.compile(r'[.;!?。；！？](?=\s|$)|\n')
+NUMBER_WORDS = re.compile(r'[一二两三四五六七八九十百千几半]+(?:倍|成)|翻了?[一二两三四五六七八九十几]*(?:倍|番)|一半|减半|'
+                          r'\b(?:doubled|tripled|quadrupled|halved|twice|double|triple|half)\b', re.I)
+ZH_ORD = {'一': '1', '二': '2', '三': '3', '四': '4', '1': '1', '2': '2', '3': '3', '4': '4'}
+EN_ORD = {'first': '1', 'second': '2', 'third': '3', 'fourth': '4'}
+PERIOD = re.compile(r'(?<![A-Za-z0-9])(?P<q>Q[1-4])(?![A-Za-z0-9])|(?<![A-Za-z0-9])(?P<h>H[12])(?![A-Za-z0-9])|第(?P<zq>[一二三四1-4])季度|(?P<zh>[上下])半年|'
+                    r'\b(?P<eq>first|second|third|fourth)[ -]quarter\b|\b(?P<eh>first|second)[ -]half\b', re.I)
+
+
+def periods(text):
+    out = set()
+    for m in PERIOD.finditer(text or ''):
+        if m['q']: out.add(m['q'].upper())
+        elif m['h']: out.add(m['h'].upper())
+        elif m['zq']: out.add('Q' + ZH_ORD[m['zq']])
+        elif m['zh']: out.add('H1' if m['zh'] == '上' else 'H2')
+        elif m['eq']: out.add('Q' + EN_ORD[m['eq'].lower()])
+        elif m['eh']: out.add('H' + EN_ORD[m['eh'].lower()])
+    return out
+
+
+def _clause(text, at):
+    ends = [m.end() for m in CLAUSE.finditer(text, 0, at)]
+    start = ends[-1] if ends else 0
+    nxt = CLAUSE.search(text, at)
+    return start, nxt.start() if nxt else len(text)
+
+
+def _metric_near(text, start_num, end_num):
+    """Nearest recognised metric before the number in its clause, else the first after it."""
+    start, end = _clause(text, start_num)
+    before = list(METRICS.finditer(text, start, start_num))
+    if before:
+        return metric_name(before[-1].group())
+    after = METRICS.search(text, end_num, end)
+    return metric_name(after.group()) if after else None
+
+
+def _quantities(text):
+    from live.numeric_fidelity import NUMBER, quantity
+    for m in NUMBER.finditer(text):
+        if not m['n']:
+            continue
+        try:
+            yield quantity(m['n'], m['s'], m['u'], m['c']), m.start(), m.end()
+        except Exception:
+            continue
 
 
 def number_findings(body, units):
-    allowed = {}
+    allowed, allowed_periods = {}, set()
     for unit in units:
         for span in unit['source_spans']:
+            allowed_periods |= periods(span['exact_text'])
             for q in inventory(span['exact_text']):
                 allowed.setdefault(q, set())
+            for q, s, e in _quantities(span['exact_text']):
+                here = _metric_near(span['exact_text'], s, e)
+                if here and q in allowed:
+                    allowed[q].add(here)
         for number in unit['numbers']:
+            allowed_periods |= periods(number.get('period'))
             claimed = METRICS.search(number['metric'] or '')
             for q in number['quantity']:
                 allowed.setdefault(tuple(q), set())
                 if claimed:
                     allowed[tuple(q)].add(metric_name(claimed.group()))
     findings = []
+    if '```' in body:
+        findings.append({'code': 'code_fence', 'detail': 'Code fences are not post text and hide numbers'})
+    for m in NUMBER_WORDS.finditer(body):
+        findings.append({'code': 'number_words', 'detail': m.group()})
+    for p in sorted(periods(body) - allowed_periods):
+        findings.append({'code': 'period_not_in_units', 'detail': p})
     for q in inventory(body):
         if q not in allowed:
             findings.append({'code': 'number_not_in_units', 'detail': list(q)})
-    # Metric binding: locate each recognised number and compare with unit metrics.
-    from live.numeric_fidelity import NUMBER, quantity
-    for m in NUMBER.finditer(body):
-        if not m['n']:
-            continue
-        try:
-            q = quantity(m['n'], m['s'], m['u'], m['c'])
-        except Exception:
-            continue
+    for q, s, e in _quantities(body):
         metrics = allowed.get(q)
-        here = _metric_before(body, m.start())
+        here = _metric_near(body, s, e)
         if metrics and here and here not in metrics:
             findings.append({'code': 'number_metric_binding',
                              'detail': {'number': list(q), 'body_metric': here, 'unit_metrics': sorted(metrics)}})
