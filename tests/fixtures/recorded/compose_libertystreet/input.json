@@ -1,0 +1,580 @@
+{
+ "account_id": "zh_macro",
+ "source": {
+  "id": "source-cfa8db24d09e12c7c555d236",
+  "source_id": "libertystreet",
+  "source_hash": "1ca6be76af15cec1dbbe08286e7dca53dd8409a30380d40c582a6e189204c94e",
+  "original_text": "Gara Afonso, Jun-Davinci Choi, Gonzalo Cisternas, and Will Riordan\nIn the first two posts of this three-part series, we discussed private market participants that are active in repo markets for profit-making motives. Central banks are also active repo market participants, but their reasons often differ from those of private participants. In today’s post, we discuss how central banks use repos to manage liquidity in the financial system and implement monetary policy.\nWhat Are Central Bank Repos and How Are They Used?\nCentral banks\nacross the globe rely on repos to implement monetary policy and support market functioning. Market convention often defines central bank or “public” repo (and reverse repos) from the perspective of the private counterparty. For example, in the private repo market, the counterparty receiving cash and providing securities is said to be executing a repo. In contrast, when the Federal Reserve receives cash and provides securities, it is said to be executing a reverse repo.\nCentral banks inject liquidity into the banking system via repos by purchasing securities from financial institutions (typically commercial banks or dealers) and paying with (newly created) reserves. As the diagram below shows, repos result in an expansion of the balance sheet of the central bank and an increase in reserves in the banking system. Repos only provide liquidity while the transactions are outstanding. At the maturity date, the central bank returns the securities and receives the reserves back, draining liquidity and shrinking its balance sheet.\nRepos Inject Liquidity\nSource: Authors’ illustration.\nConversely, central banks drain liquidity via reverse repos by selling securities from their portfolios to financial institutions. The central bank converts the reserves received as payment for the securities to a repo payable on its balance sheet, changing the composition of the liabilities on its balance sheet but not the size. The flows are reversed at the maturity date, restoring liquidity.\nReverse Repos Drain Liquidity\nSource: Authors’ illustration.\nLike private repo market participants, central banks also face choices about eligible collateral, counterparties, rate, and settlement process for their repo and reverse repo transactions.\nHow Does the Federal Reserve Use Repos and Reverse Repos?\nThe Fed conducts repo and reverse repo transactions every business day to support its control over short-term interest rates. Since\n2021\n, when repos transitioned into overnight\nstanding\nrepo operations (SRPs), the Federal Reserve has conducted daily repos with primary dealers and eligible banks to supply liquidity and dampen upward pressure on short-term rates. The SRP rate—set by the Federal Open Market Committee (FOMC)—provides a ceiling on overnight rates, as it offers\neligible counterparties\na source of funding that reduces their incentives to borrow at market rates above the SRP rate. Currently, these operations take place twice daily, against high-quality\ncollateral\n—Treasury, agency debt, and agency mortgage-backed securities—and settle on the same day through the tri-party repo platform.\nThe chart below, which includes a scrollable bar for detailed inspection, displays the volume of outstanding Fed repos from 1918 to 2026, showing how repos have adjusted to the liquidity needs of the banking system. Since the global financial crisis, the use of repos has been concentrated during three episodes when the banking system needed additional liquidity: in September 2019, after a substantial reduction of the Fed balance sheet and amid\nmarket dislocations\nand upward pressure on money market rates; in March of 2020, in response to the COVID-19 pandemic and the\ndash for cash\nepisode; and, more recently, in late 2025 following almost two and a half years of\nbalance sheet reduction\n.\nThe Federal Reserve Starts Using Repos in 1917\nBillions of U.S. dollars\nSources: For Jan 1918–May 1918 data:\nFRASER Federal Reserve monthly bulletin\n; \n For Aug 1918–Dec 1935 data: FRASER Records,\nDiscount Window Operations Repurchase Paper 1942-1958\n; \n For 1936–49 data: FRASER Records,\nDiscount Window Operations Repurchase Paper 1942-1958\n; \n For 1949–53 data: Banking and Monetary Statistics,\nTable 10.1\n; \n For 1953–2002 data: Federal Reserve Bank of St. Louis FRED database,\nRAGSHURA\n,\nRAAHURA\n, and\nRAFAOHURA\n; \n For 2002–present data: Federal Reserve Bank of St. Louis FRED database,\nRATPRA\n,\nWORAL\n,\nH41RESPPALGTRONWW\n,\nH41RESPPALGTRFNWW\n,\nRPTMTTLD\n, and\nRPONTTLD\n.\nAs noted above, in addition to repos, the Fed also uses reverse repos to drain liquidity from the banking system. In December 2015, reverse repo operations with primary dealers evolved into standing\nOvernight Reserve Repo\n(ON RRP) operations. Since then, the Fed has conducted daily reverse repos at a rate set by the FOMC. The ON RRP rate places a floor under overnight market rates by offering\neligible counterparties\nan overnight investment opportunity that reduces their incentives to lend at rates below the ON RRP rate. Unlike earlier reverse repos, which were executed just with primary dealers, the ON RRP is offered to a broader set of counterparties, including money market funds, banks, and government-sponsored enterprises. Similarly to repo, ON RRP operations involve high-quality\ncollateral\nand settle on the same day through the tri-party repo platform.\nHistorically, reverse repos have been used\nless frequently\nthan repos because the Fed has traditionally structured its asset holdings to regularly add balances (via repo) rather than drain reserves with reverse repos (or by reducing the permanent portfolio). Their first use dates to the 1960s, half a century after the Fed conducted its first repos (see chart below). The early precursors of reverse repos, known as\nmatched-sale purchases\n, were introduced in 1966, and were officially replaced by reverse repos in\nDecember 2002\n. One notable exception to the modest use of reverse repos occurred during the period that started in March 2021. As liquidity in the banking system grew from pandemic-related policies, reverse repos steadily increased, peaking at around $2.5 trillion in early 2023. Usage then declined steadily as the Fed reduced its balance sheet.\nThe Federal Reserve Starts Using Matched-Sale Purchases in 1966 and Reverse Repos in 2002\nBillions of U.S. dollars\nSources: For 1968–2002 data: FRASER,\nH.4.1\n; For 2002-present data: Federal Reserve Bank of St. Louis FRED database,\nWLRRAFOIAL\n,\nWLRRAOL\n, and\nWLRRAL\n.\nHow Have Federal Reserve Repos Evolved?\nThe\norigins\nof the Fed using repos go back to November 1917, when the Fed first authorized the use of repos as an alternative to collateralized loans, known as advances. At the time, a stamp tax imposed by the War Revenue Act raised banks’ short-term borrowing costs and limited the Fed’s ability to provide liquidity to banks and support war finance activities of the U.S. government during World War I. Federal Reserve Banks created the conditions to circumvent the stamp tax by using repos rather than short-term advances that required physical tax stamps. The use of repos became very popular at the time and Fed repo holdings briefly exceeded $1 billion, which represented around 30 percent of Fed assets in 1918.\nOver time, the types of institutions authorized to engage in repo transactions with the Fed have changed in response to shifting policy objectives and transformations in the financial system. When repos were first introduced as an alternative to bank advances, participation was restricted to member banks transacting with their respective regional Federal Reserve Banks (\nMurau et al. 2025\n). Subsequently, during the late 1940s and 1950s, as the purpose of repos shifted from providing bank liquidity to ensuring adequate funding in money markets and preventing short-term market disruptions, the eligible counterparties pivoted to primary dealers exclusively (\nGarbade 2016\n). Currently, the Fed conducts repo operations with both primary dealers and qualifying banks.\nRates on Federal Reserve repo operations have undergone a similar evolution alongside changes in counterparty eligibility. The rates of the initial repo operations were linked to the discount rate, reflecting the primary objective of facilitating bank borrowing. During the 1950s, as repos evolved into a mechanism for supplying markets with additional reserves to address temporary shortages and avoid short-lived strain, the repo rate became tied to a market rate—specifically, that of Treasury bills (\nGarbade 2016\n). Currently, the rate of Fed repos is determined by the FOMC and serves as a tool for influencing short-term money market rates.\nTwo additional critical features of Fed repo operations are the types of collateral accepted and the settlement mechanism used. The collateral accepted in early repo operations included\ncommercial paper\n, Treasury\ncertificates of indebtedness\n(coupon-bearing Treasury securities with maturities not exceeding one year), and\nLiberty Bonds\n, which were special war bonds issued to finance U.S. participation in World War I. This collateral composition reflected the two primary objectives of early repo operations: facilitating bank borrowing and supporting wartime financing activities. Thereafter, Treasury securities became the main acceptable collateral, initially restricted to issues with a yield of not more than the issuing\nrate\nfor one-year Treasury obligations. This maturity constraint was gradually relaxed and eventually\neliminated\nin 1966.\nA major shift in both collateral and settlement practices occurred in 1999. Anticipating potential financial market disruptions stemming from Y2K-related liquidity concerns and a constrained supply of Treasury securities, the Fed\nexpanded its eligible collateral\nto include agency debt and mortgage-backed securities. However, the Fed lacked the custody infrastructure and valuation expertise to manage these new securities at the time. To expand the pool of collateral, it established its first tri-party custodian arrangements with the two major clearing banks operating at the time—Chase and Bank of New York—and conducted its first tri-party repo operation in October. This approach proved successful, and by 2000, all Fed repos settled through the\ntri-party\narrangements.\nTo Sum Up\nFed repo operations have evolved significantly since their inception in 1917, adapting to changing economic conditions and policy objectives. Today, repos and reverse repos serve as essential tools for implementing monetary policy and managing liquidity in the financial system.\nGara Afonso\nis a financial research advisor in the Federal Reserve Bank of New York’s Research and Statistics Group.\nJun-Davinci Choi is a research analyst in the Federal Reserve Bank of New York’s Research and Statistics Group.\nGonzalo Cisternas\nis a financial research advisor in the Federal Reserve Bank of New York’s Research and Statistics Group.\nWill Riordan is a capital markets trading advisor in the Federal Reserve Bank of New York’s Markets Group.\nHow to cite this post:\nGara Afonso, Jun-Davinci Choi, Gonzalo Cisternas, and Will Riordan, “The Role of Repos in Monetary Policy Implementation,” Federal Reserve Bank of New York\nLiberty Street Economics\n, September 30, 2026,\nhttps://doi.org/10.59576/lse.20260930\nBibTeX:\nView\n|\nDownload\n@article{GaraAfonso,Jun-DavinciChoi,GonzaloCisternas,andWillRiordan2026,\n    author={Gara Afonso, Jun-Davinci Choi, Gonzalo Cisternas, and Will Riordan},\n    title={The Role of Repos in Monetary Policy Implementation},\n    journal={Liberty Street Economics},\n    note={Liberty Street Economics Blog},\n    number={September 30},\n    year={2026},\n    url={https://doi.org/10.59576/lse.20260930}\n}\nYou may also be interested in:\nWho’s Borrowing and Lending in Repo Markets?\nFollow the Cash! Microstructure of Repo Markets\nThe Market Events of Mid-September 2019\nDisclaimer\nThe views expressed in this post are those of the author(s) and do not necessarily reflect the position of the Federal Reserve Bank of New York or the Federal Reserve System. Any errors or omissions are the responsibility of the author(s).",
+  "normalized_text": "Gara Afonso, Jun-Davinci Choi, Gonzalo Cisternas, and Will Riordan In the first two posts of this three-part series, we discussed private market participants that are active in repo markets for profit-making motives. Central banks are also active repo market participants, but their reasons often differ from those of private participants. In today’s post, we discuss how central banks use repos to manage liquidity in the financial system and implement monetary policy. What Are Central Bank Repos and How Are They Used? Central banks across the globe rely on repos to implement monetary policy and support market functioning. Market convention often defines central bank or “public” repo (and reverse repos) from the perspective of the private counterparty. For example, in the private repo market, the counterparty receiving cash and providing securities is said to be executing a repo. In contrast, when the Federal Reserve receives cash and provides securities, it is said to be executing a reverse repo. Central banks inject liquidity into the banking system via repos by purchasing securities from financial institutions (typically commercial banks or dealers) and paying with (newly created) reserves. As the diagram below shows, repos result in an expansion of the balance sheet of the central bank and an increase in reserves in the banking system. Repos only provide liquidity while the transactions are outstanding. At the maturity date, the central bank returns the securities and receives the reserves back, draining liquidity and shrinking its balance sheet. Repos Inject Liquidity Source: Authors’ illustration. Conversely, central banks drain liquidity via reverse repos by selling securities from their portfolios to financial institutions. The central bank converts the reserves received as payment for the securities to a repo payable on its balance sheet, changing the composition of the liabilities on its balance sheet but not the size. The flows are reversed at the maturity date, restoring liquidity. Reverse Repos Drain Liquidity Source: Authors’ illustration. Like private repo market participants, central banks also face choices about eligible collateral, counterparties, rate, and settlement process for their repo and reverse repo transactions. How Does the Federal Reserve Use Repos and Reverse Repos? The Fed conducts repo and reverse repo transactions every business day to support its control over short-term interest rates. Since 2021 , when repos transitioned into overnight standing repo operations (SRPs), the Federal Reserve has conducted daily repos with primary dealers and eligible banks to supply liquidity and dampen upward pressure on short-term rates. The SRP rate—set by the Federal Open Market Committee (FOMC)—provides a ceiling on overnight rates, as it offers eligible counterparties a source of funding that reduces their incentives to borrow at market rates above the SRP rate. Currently, these operations take place twice daily, against high-quality collateral —Treasury, agency debt, and agency mortgage-backed securities—and settle on the same day through the tri-party repo platform. The chart below, which includes a scrollable bar for detailed inspection, displays the volume of outstanding Fed repos from 1918 to 2026, showing how repos have adjusted to the liquidity needs of the banking system. Since the global financial crisis, the use of repos has been concentrated during three episodes when the banking system needed additional liquidity: in September 2019, after a substantial reduction of the Fed balance sheet and amid market dislocations and upward pressure on money market rates; in March of 2020, in response to the COVID-19 pandemic and the dash for cash episode; and, more recently, in late 2025 following almost two and a half years of balance sheet reduction . The Federal Reserve Starts Using Repos in 1917 Billions of U.S. dollars Sources: For Jan 1918–May 1918 data: FRASER Federal Reserve monthly bulletin ; For Aug 1918–Dec 1935 data: FRASER Records, Discount Window Operations Repurchase Paper 1942-1958 ; For 1936–49 data: FRASER Records, Discount Window Operations Repurchase Paper 1942-1958 ; For 1949–53 data: Banking and Monetary Statistics, Table 10.1 ; For 1953–2002 data: Federal Reserve Bank of St. Louis FRED database, RAGSHURA , RAAHURA , and RAFAOHURA ; For 2002–present data: Federal Reserve Bank of St. Louis FRED database, RATPRA , WORAL , H41RESPPALGTRONWW , H41RESPPALGTRFNWW , RPTMTTLD , and RPONTTLD . As noted above, in addition to repos, the Fed also uses reverse repos to drain liquidity from the banking system. In December 2015, reverse repo operations with primary dealers evolved into standing Overnight Reserve Repo (ON RRP) operations. Since then, the Fed has conducted daily reverse repos at a rate set by the FOMC. The ON RRP rate places a floor under overnight market rates by offering eligible counterparties an overnight investment opportunity that reduces their incentives to lend at rates below the ON RRP rate. Unlike earlier reverse repos, which were executed just with primary dealers, the ON RRP is offered to a broader set of counterparties, including money market funds, banks, and government-sponsored enterprises. Similarly to repo, ON RRP operations involve high-quality collateral and settle on the same day through the tri-party repo platform. Historically, reverse repos have been used less frequently than repos because the Fed has traditionally structured its asset holdings to regularly add balances (via repo) rather than drain reserves with reverse repos (or by reducing the permanent portfolio). Their first use dates to the 1960s, half a century after the Fed conducted its first repos (see chart below). The early precursors of reverse repos, known as matched-sale purchases , were introduced in 1966, and were officially replaced by reverse repos in December 2002 . One notable exception to the modest use of reverse repos occurred during the period that started in March 2021. As liquidity in the banking system grew from pandemic-related policies, reverse repos steadily increased, peaking at around $2.5 trillion in early 2023. Usage then declined steadily as the Fed reduced its balance sheet. The Federal Reserve Starts Using Matched-Sale Purchases in 1966 and Reverse Repos in 2002 Billions of U.S. dollars Sources: For 1968–2002 data: FRASER, H.4.1 ; For 2002-present data: Federal Reserve Bank of St. Louis FRED database, WLRRAFOIAL , WLRRAOL , and WLRRAL . How Have Federal Reserve Repos Evolved? The origins of the Fed using repos go back to November 1917, when the Fed first authorized the use of repos as an alternative to collateralized loans, known as advances. At the time, a stamp tax imposed by the War Revenue Act raised banks’ short-term borrowing costs and limited the Fed’s ability to provide liquidity to banks and support war finance activities of the U.S. government during World War I. Federal Reserve Banks created the conditions to circumvent the stamp tax by using repos rather than short-term advances that required physical tax stamps. The use of repos became very popular at the time and Fed repo holdings briefly exceeded $1 billion, which represented around 30 percent of Fed assets in 1918. Over time, the types of institutions authorized to engage in repo transactions with the Fed have changed in response to shifting policy objectives and transformations in the financial system. When repos were first introduced as an alternative to bank advances, participation was restricted to member banks transacting with their respective regional Federal Reserve Banks ( Murau et al. 2025 ). Subsequently, during the late 1940s and 1950s, as the purpose of repos shifted from providing bank liquidity to ensuring adequate funding in money markets and preventing short-term market disruptions, the eligible counterparties pivoted to primary dealers exclusively ( Garbade 2016 ). Currently, the Fed conducts repo operations with both primary dealers and qualifying banks. Rates on Federal Reserve repo operations have undergone a similar evolution alongside changes in counterparty eligibility. The rates of the initial repo operations were linked to the discount rate, reflecting the primary objective of facilitating bank borrowing. During the 1950s, as repos evolved into a mechanism for supplying markets with additional reserves to address temporary shortages and avoid short-lived strain, the repo rate became tied to a market rate—specifically, that of Treasury bills ( Garbade 2016 ). Currently, the rate of Fed repos is determined by the FOMC and serves as a tool for influencing short-term money market rates. Two additional critical features of Fed repo operations are the types of collateral accepted and the settlement mechanism used. The collateral accepted in early repo operations included commercial paper , Treasury certificates of indebtedness (coupon-bearing Treasury securities with maturities not exceeding one year), and Liberty Bonds , which were special war bonds issued to finance U.S. participation in World War I. This collateral composition reflected the two primary objectives of early repo operations: facilitating bank borrowing and supporting wartime financing activities. Thereafter, Treasury securities became the main acceptable collateral, initially restricted to issues with a yield of not more than the issuing rate for one-year Treasury obligations. This maturity constraint was gradually relaxed and eventually eliminated in 1966. A major shift in both collateral and settlement practices occurred in 1999. Anticipating potential financial market disruptions stemming from Y2K-related liquidity concerns and a constrained supply of Treasury securities, the Fed expanded its eligible collateral to include agency debt and mortgage-backed securities. However, the Fed lacked the custody infrastructure and valuation expertise to manage these new securities at the time. To expand the pool of collateral, it established its first tri-party custodian arrangements with the two major clearing banks operating at the time—Chase and Bank of New York—and conducted its first tri-party repo operation in October. This approach proved successful, and by 2000, all Fed repos settled through the tri-party arrangements. To Sum Up Fed repo operations have evolved significantly since their inception in 1917, adapting to changing economic conditions and policy objectives. Today, repos and reverse repos serve as essential tools for implementing monetary policy and managing liquidity in the financial system. Gara Afonso is a financial research advisor in the Federal Reserve Bank of New York’s Research and Statistics Group. Jun-Davinci Choi is a research analyst in the Federal Reserve Bank of New York’s Research and Statistics Group. Gonzalo Cisternas is a financial research advisor in the Federal Reserve Bank of New York’s Research and Statistics Group. Will Riordan is a capital markets trading advisor in the Federal Reserve Bank of New York’s Markets Group. How to cite this post: Gara Afonso, Jun-Davinci Choi, Gonzalo Cisternas, and Will Riordan, “The Role of Repos in Monetary Policy Implementation,” Federal Reserve Bank of New York Liberty Street Economics , September 30, 2026, https://doi.org/10.59576/lse.20260930 BibTeX: View | Download @article{GaraAfonso,Jun-DavinciChoi,GonzaloCisternas,andWillRiordan2026, author={Gara Afonso, Jun-Davinci Choi, Gonzalo Cisternas, and Will Riordan}, title={The Role of Repos in Monetary Policy Implementation}, journal={Liberty Street Economics}, note={Liberty Street Economics Blog}, number={September 30}, year={2026}, url={https://doi.org/10.59576/lse.20260930} } You may also be interested in: Who’s Borrowing and Lending in Repo Markets? Follow the Cash! Microstructure of Repo Markets The Market Events of Mid-September 2019 Disclaimer The views expressed in this post are those of the author(s) and do not necessarily reflect the position of the Federal Reserve Bank of New York or the Federal Reserve System. Any errors or omissions are the responsibility of the author(s).",
+  "author_name": "Gara Afonso, Jun-Davinci Choi, Gonzalo Cisternas, and Will Riordan",
+  "author_id": null,
+  "url": "https://libertystreeteconomics.newyorkfed.org/2026/09/the-role-of-repos-in-monetary-policy-implementation/",
+  "title": "The Role of Repos in Monetary Policy Implementation",
+  "published_at": "2026-09-30T11:00:00+00:00",
+  "fetched_at": "2026-09-30T11:53:05.004336+00:00",
+  "snapshot_at": "2026-10-01T13:55:50.054100+00:00",
+  "source_type": "official_research",
+  "platform": "web",
+  "source_language": "en",
+  "language_confidence": 0.9,
+  "language_method": "en-zh-heuristic-v1",
+  "content_complete": true,
+  "extraction_status": "complete_text_unverified_media",
+  "extractor_version": "unknown",
+  "media_dependencies": [],
+  "entity_glossary": {},
+  "synthetic": false,
+  "media": [
+   {
+    "url": "https://libertystreeteconomics.newyorkfed.org/wp-content/uploads/sites/2/2026/09/LSE_2026_repo-series_afonso_460.jpg?quality=80&w=460",
+    "type": "image",
+    "alt": "photo of the federal reserve building in Washington D.C. colorized to a cyan.",
+    "caption": "",
+    "classification": "decorative",
+    "classification_basis": "Publisher header/related-article illustration, not a data chart.",
+    "visual_review": "not_performed",
+    "semantic_necessity": "not_required"
+   },
+   {
+    "url": "https://libertystreeteconomics.newyorkfed.org/wp-content/uploads/sites/2/2026/07/LSE_2026_repo-series_afnso_ch1_a7b0ce.png",
+    "type": "image",
+    "alt": " Chart illustrating how repos result in the expansion of the central bank balance sheet, with the top box representing the assets (left - repos receivable, +$1) and liabilities (right - repos held by banks, +$1) while the repo transaction is outstanding, and the bottom one representing the same elements after maturity of repo transaction, with the repo receivable and reserves held by banks at -$1 each.",
+    "caption": "Source: Authors’ illustration.",
+    "classification": "evidence_figure",
+    "classification_basis": "Publisher chart/diagram identifier; some alt descriptions retained, selected-passage dependence unreviewed.",
+    "visual_review": "not_performed",
+    "semantic_necessity": "selection_dependent_unknown"
+   },
+   {
+    "url": "https://libertystreeteconomics.newyorkfed.org/wp-content/uploads/sites/2/2026/07/LSE_2026_repo-series_afnso_ch2_013fb3.png",
+    "type": "image",
+    "alt": " Chart illustrating how reverse repos drain liquidity, with the top box representing the assets (left – nothing listed) and liabilities (reserves held by banks, -$1; and repo payable, +1$) while the reverse repo transaction is outstanding, and the bottom one representing the same elements after maturity of the reverse repo transaction, with reserves held by banks at +$1 and the repo payable at -$1; the central bank converts the reserves received as payment for the securities to a repo payable on its balance sheet, changing the composition of the liabilities but not the size; the flows are reversed at the maturity date, restoring liquidity.",
+    "caption": "Source: Authors’ illustration.",
+    "classification": "evidence_figure",
+    "classification_basis": "Publisher chart/diagram identifier; some alt descriptions retained, selected-passage dependence unreviewed.",
+    "visual_review": "not_performed",
+    "semantic_necessity": "selection_dependent_unknown"
+   },
+   {
+    "url": "https://libertystreeteconomics.newyorkfed.org/wp-content/uploads/sites/2/2024/08/Afonso-Gara_90x90.jpg?w=288",
+    "type": "image",
+    "alt": "Portrait: Photo of Gara Afonso",
+    "caption": "",
+    "classification": "portrait",
+    "classification_basis": "Publisher alt/filename identifies an author portrait.",
+    "visual_review": "not_performed",
+    "semantic_necessity": "not_required"
+   },
+   {
+    "url": "https://libertystreeteconomics.newyorkfed.org/wp-content/uploads/sites/2/2026/07/Choi-Jun-Davinci.png?quality=80&w=285",
+    "type": "image",
+    "alt": "Choi, Jun-Davinci",
+    "caption": "",
+    "classification": "portrait",
+    "classification_basis": "Publisher alt/filename identifies an author portrait.",
+    "visual_review": "not_performed",
+    "semantic_necessity": "not_required"
+   },
+   {
+    "url": "https://libertystreeteconomics.newyorkfed.org/wp-content/uploads/sites/2/2022/06/cisternas_gonzalo.jpg?w=90",
+    "type": "image",
+    "alt": "Photo: portrait of Gonzalo Cisternas",
+    "caption": "",
+    "classification": "portrait",
+    "classification_basis": "Publisher alt/filename identifies an author portrait.",
+    "visual_review": "not_performed",
+    "semantic_necessity": "not_required"
+   },
+   {
+    "url": "https://libertystreeteconomics.newyorkfed.org/wp-content/uploads/sites/2/2022/01/Riordan_will.jpg?quality=80&w=90",
+    "type": "image",
+    "alt": "Portrait: photo of Will Riordan",
+    "caption": "",
+    "classification": "portrait",
+    "classification_basis": "Publisher alt/filename identifies an author portrait.",
+    "visual_review": "not_performed",
+    "semantic_necessity": "not_required"
+   },
+   {
+    "url": "https://libertystreeteconomics.newyorkfed.org/wp-content/uploads/sites/2/2026/08/LSE_2026_repo-market-pt1_afonso_460.jpg?quality=80&w=460",
+    "type": "image",
+    "alt": "Illustration of two banks with a dollar bill and treasury notes going back and forth in between.",
+    "caption": "",
+    "classification": "decorative",
+    "classification_basis": "Publisher header/related-article illustration, not a data chart.",
+    "visual_review": "not_performed",
+    "semantic_necessity": "not_required"
+   },
+   {
+    "url": "https://libertystreeteconomics.newyorkfed.org/wp-content/uploads/sites/2/2026/09/LSE_2026_repo-market-pt2_afonso_460.jpg?quality=80&w=460",
+    "type": "image",
+    "alt": "Illustration of a tag cloud in a circle with a large question mark. Some of the words are Federal Reserve, Dealer, Money Market Fund, Cash, Repo Market, Securities.",
+    "caption": "",
+    "classification": "decorative",
+    "classification_basis": "Publisher header/related-article illustration, not a data chart.",
+    "visual_review": "not_performed",
+    "semantic_necessity": "not_required"
+   },
+   {
+    "url": "https://libertystreeteconomics.newyorkfed.org/wp-content/uploads/sites/2/2023/01/LSE_2023-EPR_graphic.png?quality=80&w=460",
+    "type": "image",
+    "alt": "Economic Policy Review",
+    "caption": "",
+    "classification": "decorative",
+    "classification_basis": "Publisher header/related-article illustration, not a data chart.",
+    "visual_review": "not_performed",
+    "semantic_necessity": "not_required"
+   }
+  ],
+  "external_links": [
+   {
+    "url": "https://www.bis.org/mc/comparison.htm",
+    "label": "Central banks"
+   },
+   {
+    "url": "https://www.federalreserve.gov/monetarypolicy/files/fomcminutes20210728.pdf",
+    "label": "2021"
+   },
+   {
+    "url": "https://libertystreeteconomics.newyorkfed.org/2022/01/the-feds-latest-tool-a-standing-repo-facility/",
+    "label": "standing"
+   },
+   {
+    "url": "https://www.newyorkfed.org/markets/standing-repo-counterparties",
+    "label": "eligible counterparties"
+   },
+   {
+    "url": "https://www.newyorkfed.org/markets/domestic-market-operations/monetary-policy-implementation/repo-reverse-repo-agreements/TOMO-Repo-Collateral-Schedule",
+    "label": "collateral"
+   },
+   {
+    "url": "https://www.newyorkfed.org/research/epr/2021/epr_2021_market-events_afonso",
+    "label": "market dislocations"
+   },
+   {
+    "url": "https://www.newyorkfed.org/medialibrary/media/research/epr/2023/epr_2023_dash-for-cash_barone.pdf?sc_lang=en",
+    "label": "dash for cash"
+   },
+   {
+    "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20220504b.htm",
+    "label": "balance sheet reduction"
+   },
+   {
+    "url": "https://fraser.stlouisfed.org/title/federal-reserve-bulletin-62",
+    "label": "FRASER Federal Reserve monthly bulletin"
+   },
+   {
+    "url": "https://fraser.stlouisfed.org/archival-collection/records-federal-reserve-system-1344/discount-rates-operations-fr-banks-repurchase-paper-1942-1958-540597?page=172",
+    "label": "Discount Window Operations Repurchase Paper 1942-1958"
+   },
+   {
+    "url": "https://fraser.stlouisfed.org/archival-collection/records-federal-reserve-system-1344/discount-rates-operations-fr-banks-repurchase-paper-1942-1958-540597?page=33",
+    "label": "Discount Window Operations Repurchase Paper 1942-1958"
+   },
+   {
+    "url": "https://fraser.stlouisfed.org/title/banking-monetary-statistics-1941-1970-41?page=565",
+    "label": "Table 10.1"
+   },
+   {
+    "url": "https://fred.stlouisfed.org/series/RAGSHURA",
+    "label": "RAGSHURA"
+   },
+   {
+    "url": "https://fred.stlouisfed.org/series/RAAHURA",
+    "label": "RAAHURA"
+   },
+   {
+    "url": "https://fred.stlouisfed.org/series/RAFAOHURA",
+    "label": "RAFAOHURA"
+   },
+   {
+    "url": "https://fred.stlouisfed.org/series/RATPRA",
+    "label": "RATPRA"
+   },
+   {
+    "url": "https://fred.stlouisfed.org/series/WORAL",
+    "label": "WORAL"
+   },
+   {
+    "url": "https://fred.stlouisfed.org/series/H41RESPPALGTRONWW",
+    "label": "H41RESPPALGTRONWW"
+   },
+   {
+    "url": "https://fred.stlouisfed.org/series/H41RESPPALGTRFNWW",
+    "label": "H41RESPPALGTRFNWW"
+   },
+   {
+    "url": "https://fred.stlouisfed.org/series/RPTMTTLD",
+    "label": "RPTMTTLD"
+   },
+   {
+    "url": "https://fred.stlouisfed.org/series/RPONTTLD",
+    "label": "RPONTTLD"
+   },
+   {
+    "url": "https://libertystreeteconomics.newyorkfed.org/2022/01/how-the-feds-overnight-reverse-repo-facility-works/",
+    "label": "Overnight Reserve Repo"
+   },
+   {
+    "url": "https://www.newyorkfed.org/markets/rrp_counterparties",
+    "label": "eligible counterparties"
+   },
+   {
+    "url": "https://www.newyorkfed.org/markets/rrp_faq.html",
+    "label": "collateral"
+   },
+   {
+    "url": "https://www.newyorkfed.org/medialibrary/media/markets/omo/omo2007.pdf#page=19",
+    "label": "less frequently"
+   },
+   {
+    "url": "https://www.federalreserve.gov/monetarypolicy/files/FOMC19660722Memo01.pdf",
+    "label": "matched-sale purchases"
+   },
+   {
+    "url": "https://www.newyorkfed.org/medialibrary/media/markets/omo/omo2002.pdf",
+    "label": "December 2002"
+   },
+   {
+    "url": "https://fraser.stlouisfed.org/title/h41-factors-affecting-reserve-balances-depository-institutions-condition-statement-federal-reserve-banks-83?browse=1910s",
+    "label": "H.4.1"
+   },
+   {
+    "url": "https://fred.stlouisfed.org/series/WLRRAFOIAL",
+    "label": "WLRRAFOIAL"
+   },
+   {
+    "url": "https://fred.stlouisfed.org/series/WLRRAOL",
+    "label": "WLRRAOL"
+   },
+   {
+    "url": "https://fred.stlouisfed.org/series/WLRRAL",
+    "label": "WLRRAL"
+   },
+   {
+    "url": "https://fraser.stlouisfed.org/archival-collection/records-federal-reserve-system-1344/repurchase-paper-1917-1922-540595?page=174&deep=true",
+    "label": "origins"
+   },
+   {
+    "url": "https://academic.oup.com/jfr/article/11/2/166/8126959",
+    "label": "Murau et al. 2025"
+   },
+   {
+    "url": "https://www.newyorkfed.org/medialibrary/media/research/staff_reports/sr780.pdf?sc_lang=en&hash=091BB2FFC598EB0B3A6666345EFDD8BC",
+    "label": "Garbade 2016"
+   },
+   {
+    "url": "https://www.newyorkfed.org/medialibrary/media/research/staff_reports/sr780.pdf?sc_lang=en&hash=091BB2FFC598EB0B3A6666345EFDD8BC",
+    "label": "Garbade 2016"
+   },
+   {
+    "url": "https://fraser.stlouisfed.org/archival-collection/records-federal-reserve-system-1344/repurchase-paper-1917-1922-540595?page=174&deep=true",
+    "label": "commercial paper"
+   },
+   {
+    "url": "https://fraser.stlouisfed.org/archival-collection/records-federal-reserve-system-1344/repurchase-paper-1917-1922-540595?page=162&deep=true",
+    "label": "certificates of indebtedness"
+   },
+   {
+    "url": "https://www.federalreservehistory.org/essays/liberty-bonds",
+    "label": "Liberty Bonds"
+   },
+   {
+    "url": "https://www.federalreserve.gov/monetarypolicy/files/FOMChminec119480120.pdf?_ppp=f1ad0c80e4",
+    "label": "rate"
+   },
+   {
+    "url": "https://www.federalreserve.gov/monetarypolicy/files/fomchistmin19660628.pdf",
+    "label": "eliminated"
+   },
+   {
+    "url": "https://www.federalreserve.gov/monetarypolicy/files/FOMC19990824meeting.pdf",
+    "label": "expanded its eligible collateral"
+   },
+   {
+    "url": "https://www.newyorkfed.org/medialibrary/media/markets/omo/omo2000.pdf",
+    "label": "tri-party"
+   },
+   {
+    "url": "https://www.newyorkfed.org/research/economists/afonso",
+    "label": "Gara Afonso"
+   },
+   {
+    "url": "https://www.newyorkfed.org/research/economists/cisternas",
+    "label": "Gonzalo Cisternas"
+   },
+   {
+    "url": "https://doi.org/10.59576/lse.20260930",
+    "label": "https://doi.org/10.59576/lse.20260930"
+   },
+   {
+    "url": "#bibtex",
+    "label": "View"
+   },
+   {
+    "url": "https://libertystreeteconomics.newyorkfed.org/2026/09/whos-borrowing-and-lending-in-repo-markets/",
+    "label": "Who’s Borrowing and Lending in Repo Markets?"
+   },
+   {
+    "url": "https://libertystreeteconomics.newyorkfed.org/2026/09/follow-the-cash-microstructure-of-repo-markets/",
+    "label": "Follow the Cash! Microstructure of Repo Markets"
+   },
+   {
+    "url": "https://www.newyorkfed.org/research/epr/2021/epr_2021_market-events_afonso?_ppp=4fa7e7766f",
+    "label": "The Market Events of Mid-September 2019"
+   }
+  ],
+  "raw_import_ref": "runs/account_sources_v1/discovery/raw/libertystreet.xml",
+  "extraction_transformations": [
+   "Decode publisher XML HTML content",
+   "HTML to text with BeautifulSoup get_text(newline, strip=True); no editorial edits"
+  ],
+  "source_hygiene": {
+   "version": "source-hygiene-v1",
+   "source_hash": "1ca6be76af15cec1dbbe08286e7dca53dd8409a30380d40c582a6e189204c94e",
+   "annotations": [
+    {
+     "id": "6c593ce480632bf256cf",
+     "kind": "time_relative",
+     "start": 343,
+     "end": 348,
+     "quote": "today",
+     "context": "In the first two posts of this three-part series, we discussed private market participants that are active in repo markets for profit-making motives. Central banks are also active repo market participants, but their reasons often differ from those of private participants. In today’s post, we discuss how central banks use repos to manage liquidity in the financial system and implement monetary policy.\n",
+     "speaker_hint": "source_author_or_unspecified",
+     "basis": "pattern_candidate",
+     "semantic_necessity": "unreviewed",
+     "metadata": null
+    },
+    {
+     "id": "f950ddd8b33f2b0c22a9",
+     "kind": "time_relative",
+     "start": 2932,
+     "end": 2941,
+     "quote": "Currently",
+     "context": "a source of funding that reduces their incentives to borrow at market rates above the SRP rate. Currently, these operations take place twice daily, against high-quality\n",
+     "speaker_hint": "source_author_or_unspecified",
+     "basis": "pattern_candidate",
+     "semantic_necessity": "unreviewed",
+     "metadata": null
+    },
+    {
+     "id": "be9759061ce57d89543a",
+     "kind": "time_relative",
+     "start": 7955,
+     "end": 7964,
+     "quote": "Currently",
+     "context": "). Currently, the Fed conducts repo operations with both primary dealers and qualifying banks.\n",
+     "speaker_hint": "source_author_or_unspecified",
+     "basis": "pattern_candidate",
+     "semantic_necessity": "unreviewed",
+     "metadata": null
+    },
+    {
+     "id": "7e069254d06a56b0cd84",
+     "kind": "time_relative",
+     "start": 8568,
+     "end": 8577,
+     "quote": "Currently",
+     "context": "). Currently, the rate of Fed repos is determined by the FOMC and serves as a tool for influencing short-term money market rates.\n",
+     "speaker_hint": "source_author_or_unspecified",
+     "basis": "pattern_candidate",
+     "semantic_necessity": "unreviewed",
+     "metadata": null
+    },
+    {
+     "id": "ab30606b41bb23722ba5",
+     "kind": "time_relative",
+     "start": 10476,
+     "end": 10481,
+     "quote": "Today",
+     "context": "Fed repo operations have evolved significantly since their inception in 1917, adapting to changing economic conditions and policy objectives. Today, repos and reverse repos serve as essential tools for implementing monetary policy and managing liquidity in the financial system.\n",
+     "speaker_hint": "source_author_or_unspecified",
+     "basis": "pattern_candidate",
+     "semantic_necessity": "unreviewed",
+     "metadata": null
+    },
+    {
+     "id": "cad9c5cfb1c547c35fa2",
+     "kind": "media_reference",
+     "start": 3146,
+     "end": 3157,
+     "quote": "chart below",
+     "context": "The chart below, which includes a scrollable bar for detailed inspection, displays the volume of outstanding Fed repos from 1918 to 2026, showing how repos have adjusted to the liquidity needs of the banking system. Since the global financial crisis, the use of repos has been concentrated during three episodes when the banking system needed additional liquidity: in September 2019, after a substantial reduction of the Fed balance sheet and amid\n",
+     "speaker_hint": "source_author_or_unspecified",
+     "basis": "pattern_candidate",
+     "semantic_necessity": "unreviewed",
+     "metadata": null
+    },
+    {
+     "id": "7c95e62b8fc5cb6f9737",
+     "kind": "media_reference",
+     "start": 5735,
+     "end": 5744,
+     "quote": "see chart",
+     "context": "than repos because the Fed has traditionally structured its asset holdings to regularly add balances (via repo) rather than drain reserves with reverse repos (or by reducing the permanent portfolio). Their first use dates to the 1960s, half a century after the Fed conducted its first repos (see chart below). The early precursors of reverse repos, known as\n",
+     "speaker_hint": "source_author_or_unspecified",
+     "basis": "pattern_candidate",
+     "semantic_necessity": "unreviewed",
+     "metadata": null
+    },
+    {
+     "id": "5aa7f72f36f6d1a31003",
+     "kind": "platform_artifact",
+     "start": 11360,
+     "end": 11368,
+     "quote": "@article",
+     "context": "@article{GaraAfonso,Jun-DavinciChoi,GonzaloCisternas,andWillRiordan2026,\n",
+     "speaker_hint": "source_author_or_unspecified",
+     "basis": "pattern_candidate",
+     "semantic_necessity": "unreviewed",
+     "metadata": null
+    },
+    {
+     "id": "3bb8416cb3728f5a088b",
+     "kind": "quoted_speech",
+     "start": 676,
+     "end": 684,
+     "quote": "“public”",
+     "context": "across the globe rely on repos to implement monetary policy and support market functioning. Market convention often defines central bank or “public” repo (and reverse repos) from the perspective of the private counterparty. For example, in the private repo market, the counterparty receiving cash and providing securities is said to be executing a repo. In contrast, when the Federal Reserve receives cash and provides securities, it is said to be executing a reverse repo.\n",
+     "speaker_hint": "quoted_speaker_unresolved",
+     "basis": "pattern_candidate",
+     "semantic_necessity": "unreviewed",
+     "metadata": null
+    },
+    {
+     "id": "b5320a5882bb924bc867",
+     "kind": "quoted_speech",
+     "start": 11163,
+     "end": 11217,
+     "quote": "“The Role of Repos in Monetary Policy Implementation,”",
+     "context": "Gara Afonso, Jun-Davinci Choi, Gonzalo Cisternas, and Will Riordan, “The Role of Repos in Monetary Policy Implementation,” Federal Reserve Bank of New York\n",
+     "speaker_hint": "quoted_speaker_unresolved",
+     "basis": "pattern_candidate",
+     "semantic_necessity": "unreviewed",
+     "metadata": null
+    },
+    {
+     "id": "96c25019c9e1c4ba0089",
+     "kind": "context_dependency",
+     "start": null,
+     "end": null,
+     "quote": "",
+     "context": "Unresolved media clue; selection-specific editorial judgment required",
+     "speaker_hint": "source_author_or_unspecified",
+     "basis": "source_metadata",
+     "semantic_necessity": "unreviewed",
+     "metadata": {
+      "kind": "unresolved_media_dependency",
+      "status": "uncertain_dependency",
+      "selection_review_required": true,
+      "dependency": {
+       "url": "https://libertystreeteconomics.newyorkfed.org/wp-content/uploads/sites/2/2026/07/LSE_2026_repo-series_afnso_ch1_a7b0ce.png",
+       "type": "image",
+       "status": "uncertain_dependency",
+       "required": null,
+       "basis": "Publisher chart/diagram identifier; some alt descriptions retained, selected-passage dependence unreviewed.",
+       "alt_text_available": true,
+       "selection_review_required": true
+      }
+     }
+    },
+    {
+     "id": "0c779b9d86df9f69b960",
+     "kind": "context_dependency",
+     "start": null,
+     "end": null,
+     "quote": "",
+     "context": "Unresolved media clue; selection-specific editorial judgment required",
+     "speaker_hint": "source_author_or_unspecified",
+     "basis": "source_metadata",
+     "semantic_necessity": "unreviewed",
+     "metadata": {
+      "kind": "unresolved_media_dependency",
+      "status": "uncertain_dependency",
+      "selection_review_required": true,
+      "dependency": {
+       "url": "https://libertystreeteconomics.newyorkfed.org/wp-content/uploads/sites/2/2026/07/LSE_2026_repo-series_afnso_ch2_013fb3.png",
+       "type": "image",
+       "status": "uncertain_dependency",
+       "required": null,
+       "basis": "Publisher chart/diagram identifier; some alt descriptions retained, selected-passage dependence unreviewed.",
+       "alt_text_available": true,
+       "selection_review_required": true
+      }
+     }
+    },
+    {
+     "id": "bf19e829c1d65738bddd",
+     "kind": "context_dependency",
+     "start": null,
+     "end": null,
+     "quote": "",
+     "context": "Unresolved media clue; selection-specific editorial judgment required",
+     "speaker_hint": "source_author_or_unspecified",
+     "basis": "source_metadata",
+     "semantic_necessity": "unreviewed",
+     "metadata": {
+      "kind": "unresolved_media_dependency",
+      "status": "uncertain_dependency",
+      "selection_review_required": true,
+      "dependency": {
+       "kind": "figure_context",
+       "required": null,
+       "status": "uncertain_dependency",
+       "selection_review_required": true,
+       "reason": "Unread referenced media; select only an independently complete text argument, never infer chart values"
+      }
+     }
+    }
+   ],
+   "original_unchanged": true,
+   "method": "pattern hints + source metadata; not semantic adjudication"
+  },
+  "source_version": "1926cc5f381738bb8cda729df3e50acef15bd0bf71fb80c79ca5dc3c2beaacc0",
+  "missing_fields": [
+   "author_id"
+  ],
+  "context_items": [
+   {
+    "kind": "unresolved_media_dependency",
+    "status": "uncertain_dependency",
+    "selection_review_required": true,
+    "dependency": {
+     "url": "https://libertystreeteconomics.newyorkfed.org/wp-content/uploads/sites/2/2026/07/LSE_2026_repo-series_afnso_ch1_a7b0ce.png",
+     "type": "image",
+     "status": "uncertain_dependency",
+     "required": null,
+     "basis": "Publisher chart/diagram identifier; some alt descriptions retained, selected-passage dependence unreviewed.",
+     "alt_text_available": true,
+     "selection_review_required": true
+    }
+   },
+   {
+    "kind": "unresolved_media_dependency",
+    "status": "uncertain_dependency",
+    "selection_review_required": true,
+    "dependency": {
+     "url": "https://libertystreeteconomics.newyorkfed.org/wp-content/uploads/sites/2/2026/07/LSE_2026_repo-series_afnso_ch2_013fb3.png",
+     "type": "image",
+     "status": "uncertain_dependency",
+     "required": null,
+     "basis": "Publisher chart/diagram identifier; some alt descriptions retained, selected-passage dependence unreviewed.",
+     "alt_text_available": true,
+     "selection_review_required": true
+    }
+   },
+   {
+    "kind": "unresolved_media_dependency",
+    "status": "uncertain_dependency",
+    "selection_review_required": true,
+    "dependency": {
+     "kind": "figure_context",
+     "required": null,
+     "status": "uncertain_dependency",
+     "selection_review_required": true,
+     "reason": "Unread referenced media; select only an independently complete text argument, never infer chart values"
+    }
+   }
+  ]
+ }
+}
