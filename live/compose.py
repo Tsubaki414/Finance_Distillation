@@ -179,12 +179,16 @@ def compose_source(source, account_id, client, *, post_type=None):
     extracted = content_units.extract(source, client, licence_tier=tier, publisher=publisher)
     assembly.append(extracted['prompt_assembly'])
     units = extracted['units']
+    if post_type is not None:
+        require(post_type in RECIPES and post_type in persona.post_type_mix, 'compose: post_type not in persona mix')
+        require(post_type in registry.post_types_for_tier(tier, post_types), 'compose: post_type not allowed for licence tier')
     post_type = post_type or choose(units, persona, tier, post_types)
     if post_type is None or not eligible(post_type, units):
         return {**base, 'units': units, 'post_type': post_type, 'draft_status': 'not_suitable',
                 'status': 'skipped', 'text': '', 'post_checks': [], 'claim_ledger': [], 'risks': [],
                 'why': 'No units for an allowed post type of this persona'}
-    require(post_type in persona.post_type_mix, 'post_type not in persona mix')
+    require(post_type in persona.post_type_mix, 'compose: post_type not in persona mix')
+    require(post_type in registry.post_types_for_tier(tier, post_types), 'compose: post_type not allowed for licence tier')
     chosen = pick_units(post_type, units)
     frame = attribution_frame.render(post_type, source, post_types)
     spec = post_types['post_types'][post_type]

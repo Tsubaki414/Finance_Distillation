@@ -396,6 +396,7 @@ def uses_compose(account_id):
 
 def _compose_result(source, account_id, output_dir, client, follow_up_of):
     from live import compose
+    from live.content_units import LicenceRefused
     from live.distillation_source import source_record
     output_dir = Path(output_dir)
     if client is None:
@@ -406,8 +407,8 @@ def _compose_result(source, account_id, output_dir, client, follow_up_of):
     try:
         composed = compose.compose_source(record, account_id, client)
         draft_status, status = composed["draft_status"], composed["status"]
-    except (ContractError, ValueError) as exc:
-        stage = "compose" if "compose" in str(exc) else "extract"
+    except (ContractError, LicenceRefused) as exc:
+        stage = "compose" if str(exc).startswith("compose") else "extract"
         failure = {"stage": stage, "code": "source_contract", "error_type": type(exc).__name__,
                    "error": str(exc)[:300]}
         draft_status, status = "blocked", "held"

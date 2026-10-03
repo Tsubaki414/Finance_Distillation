@@ -192,3 +192,31 @@ class DispatchTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class ReviewFixClassificationTests(unittest.TestCase):
+    """Cross-check fixes (Claude #3 and the post_type note)."""
+
+    def test_transport_value_error_is_not_source_contract(self):
+        import tempfile
+        from pathlib import Path
+        from live.account_source_adaptation import adapt_source
+
+        class WrongModel(Fake):
+            last_failure = None
+
+            def __call__(self, stage, messages, max_tokens):
+                self.last_failure = {'stage': stage, 'code': 'provider_error'}
+                raise ValueError('Unexpected relay response model; no model fallback permitted')
+        with tempfile.TemporaryDirectory() as tmp, patch.dict(os.environ, {'ACCOUNT_COMPOSE_PIPELINE': '1'}):
+            result = adapt_source(SOURCE, 'zh_industry', Path(tmp), WrongModel())
+        self.assertEqual(result['execution_failure']['code'], 'provider_error')
+        self.assertEqual(result['execution_failure']['stage'], 'extract')
+
+    def test_explicit_post_type_outside_tier_is_rejected(self):
+        with self.assertRaises(ContractError):
+            run(post_type='aphorism_translation')
+        source = {**SOURCE, 'source_id': 'primary_bls'}  # tier A: view_relay not allowed
+        units = {'units': [dict(UNITS['units'][2], kind='view')]}
+        with self.assertRaises(ContractError):
+            compose.compose_source(source, 'zh_industry', Fake(units=units), post_type='view_relay')
