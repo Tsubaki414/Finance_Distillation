@@ -26,12 +26,13 @@ def aliases(row):
     text = row.get('original_text', row.get('text', ''))
     if isinstance(text, str) and text.strip():
         keys.add('text:' + digest(re.sub(r'\s+', ' ', text).strip()))
-    # Thread/conversation IDs and event IDs must come from source metadata.
-    # No ticker/topic similarity is promoted to a same-event claim.
-    for name in ('thread_id', 'event_id', 'event_key', 'canonical_event_id'):
+    # Event IDs must come from source metadata; no ticker/topic similarity is
+    # promoted to a same-event claim. thread_id is NOT an identity (P0-3e2):
+    # posts in one conversation are independent items; thread_id only groups
+    # context for aggregation.
+    for name in ('event_id', 'event_key', 'canonical_event_id'):
         if row.get(name):
-            prefix = 'thread' if name == 'thread_id' else 'event'
-            keys.add(prefix + ':' + str(row[name]))
+            keys.add('event:' + str(row[name]))
     return sorted(keys)
 
 

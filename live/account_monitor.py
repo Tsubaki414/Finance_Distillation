@@ -142,6 +142,38 @@ class State:
         except (ValueError, OSError, TypeError):
             return False  # Missing historical evidence is not permission to rewrite.
 
+    def migrate_thread_aliases(self, at=None):
+        """P0-3e2: drop legacy thread aliases; un-merge posts merged only by thread.
+
+        A duplicate is restored to pending only when none of its own (non-thread)
+        aliases is shared with the survivor or another member of that merge group.
+        Idempotent; returns what changed.
+        """
+        at = at or now()
+        with self.db() as db:
+            removed = db.execute("DELETE FROM identities WHERE alias LIKE 'thread:%'").rowcount
+            items = {r['id']: r for r in db.execute('SELECT * FROM items')}
+            unmerged = []
+            for item in items.values():
+                failure = item['failure'] or ''
+                if item['status'] != 'duplicate' or not failure.startswith('duplicate_of:'):
+                    continue
+                survivor = failure.split(':', 1)[1]
+                own = set(aliases(json.loads(item['row_json'])))
+                group = [r for r in items.values() if r['id'] != item['id'] and r['account'] == item['account']
+                         and (r['id'] == survivor or (r['failure'] or '') == failure)]
+                shared = set().union(*(set(aliases(json.loads(r['row_json']))) for r in group)) if group else set()
+                if own & shared:
+                    continue
+                for key in own:
+                    db.execute('UPDATE identities SET item_id=? WHERE account=? AND alias=?',
+                               (item['id'], item['account'], key))
+                    db.execute('INSERT OR IGNORE INTO identities VALUES (?,?,?)', (item['account'], key, item['id']))
+                db.execute("UPDATE items SET status='pending',failure=NULL,next_retry=NULL,updated_at=? WHERE id=?",
+                           (at, item['id']))
+                unmerged.append(item['id'])
+        return {'removed_aliases': removed, 'unmerged': sorted(unmerged)}
+
     def enqueue(self, account, sid, row, at, *, status='pending', candidate_id=None, last_run=None):
         keys = aliases(row)
         if not keys:

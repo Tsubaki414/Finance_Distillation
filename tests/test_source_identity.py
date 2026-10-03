@@ -35,9 +35,12 @@ class SourceIdentityTests(unittest.TestCase):
         self.assertFalse(duplicate)
         updated_url = {**first, 'url': 'https://twitter.com/i/status/101?utm_source=x', 'original_text': 'Corrected first reason.'}
         self.assertEqual(self.enqueue(updated_url), (key, True))
+        # P0-3e2: another post in the same conversation is an independent item.
         other_thread_part = {'url': 'https://x.com/writer/status/102', 'original_text': 'Second reason.', 'thread_id': '100'}
-        self.assertEqual(self.enqueue(other_thread_part), (key, True))
-        self.assertEqual(len(self.state.rows('items')), 1)
+        other, duplicate = self.enqueue(other_thread_part)
+        self.assertFalse(duplicate)
+        self.assertNotEqual(other, key)
+        self.assertEqual(len(self.state.rows('items')), 2)
 
     def test_exact_event_metadata_dedups_but_similar_topics_do_not(self):
         first = {'url': 'https://writer.example/a', 'original_text': 'NVDA revenue rose in Q2.',
@@ -61,12 +64,12 @@ class SourceIdentityTests(unittest.TestCase):
 
     def test_event_thread_bridge_merges_pending_items_and_survives_restart(self):
         first = {'url': 'https://writer.example/a', 'original_text': 'A release.', 'event_id': 'release-1'}
-        second = {'url': 'https://x.com/writer/status/202', 'original_text': 'A discussion.', 'thread_id': 'thread-1'}
+        second = {'url': 'https://x.com/writer/status/202', 'original_text': 'A discussion.', 'event_key': 'thread-1'}
         a, _ = self.enqueue(first)
         b, _ = self.enqueue(second)
         self.state.update(a, status='drafted')
         bridge = {'url': 'https://x.com/writer/status/203', 'original_text': 'This discussion concerns the release.',
-                  'thread_id': 'thread-1', 'event_id': 'release-1'}
+                  'event_key': 'thread-1', 'event_id': 'release-1'}
         self.assertEqual(self.enqueue(bridge), (a, True))
         saved = {r['id']: r for r in self.state.rows('items')}
         self.assertEqual(saved[a]['status'], 'drafted')

@@ -515,11 +515,12 @@ class MonitorTests(unittest.TestCase):
 
     def test_pending_identity_bridge_consumes_extra_entry_and_prefers_existing_draft(self):
         state = State(self.store.root)
-        a, _ = state.enqueue('zh_macro', 'overshoot', source('zh_macro', 130, thread_id='thread-x'), DATES[0])
+        # P0-3e2: thread_id is no identity; the bridge uses two event metadata keys.
+        a, _ = state.enqueue('zh_macro', 'overshoot', source('zh_macro', 130, event_key='event-x'), DATES[0])
         b, _ = state.enqueue('zh_macro', 'overshoot', source('zh_macro', 131, event_id='event-y'), DATES[0])
         state.update(b, status='drafted', last_run='existing')
         selected, duplicate = state.enqueue('zh_macro', 'overshoot', source('zh_macro', 132,
-                                           thread_id='thread-x', event_id='event-y'), DATES[1])
+                                           event_key='event-x', event_id='event-y'), DATES[1])
         self.assertTrue(duplicate)
         self.assertEqual(selected, b)
         self.assertEqual({r['id']: r['status'] for r in state.rows('items')}, {a: 'duplicate', b: 'drafted'})
