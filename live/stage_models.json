@@ -1,0 +1,7 @@
+{
+  "version": "stage-models-v1",
+  "note": "Per-stage model and temperature. Defaults reproduce the validated relay setup. A stage override needs an accepted_response_models entry; there is no fallback.",
+  "default": {"model": "claude-opus-5", "temperature": 0.0},
+  "stages": {},
+  "accepted_response_models": {"claude-opus-5": ["claude-opus-5"]}
+}

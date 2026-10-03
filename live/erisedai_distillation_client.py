@@ -17,6 +17,7 @@ from urllib.parse import urlsplit
 
 import httpx
 
+from live import stage_models
 from live.distillation_source import digest, now
 from live.writer_backend import ProviderQuotaError, _dotenv
 from ml import budget
@@ -98,23 +99,32 @@ class ErisedaiClient:
             raise ValueError('ACCOUNT_RELAY_API_KEY is missing')
         self.transport = transport
         self.calls = []
+        # Plan 1.4 subset: per-stage model/temperature; shipped defaults keep
+        # every stage on the validated model at temperature 0.0.
+        self.stage_models = stage_models.validate(copy.deepcopy(
+            self.config.get('stage_models') or stage_models.load()))
         self.budget_model = PROVIDER + '/' + self.config['model']
-        budget.PRICES[self.budget_model] = (
-            self.config['input_usd_per_million'], self.config['output_usd_per_million'])
+        for model in {self.config['model'], *stage_models.models(self.stage_models)}:
+            budget.PRICES[PROVIDER + '/' + model] = (
+                self.config['input_usd_per_million'], self.config['output_usd_per_million'])
 
     def __call__(self, stage, messages, max_tokens):
         call_id = uuid.uuid4().hex
         path = self.directory / (call_id + '.json')
         secret = self.config['api_key']
-        payload = {'model': self.config['model'], 'messages': copy.deepcopy(messages),
-                   'max_tokens': max_tokens, 'temperature': 0.0,
+        selected = stage_models.for_stage(self.stage_models, stage)
+        model, temperature = selected['model'], selected['temperature']
+        budget_model = PROVIDER + '/' + model
+        payload = {'model': model, 'messages': copy.deepcopy(messages),
+                   'max_tokens': max_tokens, 'temperature': temperature,
                    'response_format': copy.deepcopy(RESPONSE_FORMAT)}
         record = {'call_id': call_id, 'stage': stage, 'started_at': now(),
                   'messages': messages, 'prompt_hash': digest(messages),
-                  'model': self.config['model'], 'upstream_model': self.config['model'],
+                  'model': model, 'upstream_model': model,
                   'provider': PROVIDER, 'host': urlsplit(self.config['base_url']).netloc,
                   'configuration_source': self.config.get('configuration_source', 'explicit_configuration'),
-                  'temperature': 0.0, 'max_tokens': max_tokens, 'status': 'started',
+                  'temperature': temperature, 'max_tokens': max_tokens, 'status': 'started',
+                  'stage_model_table': self.stage_models.get('version', 'inline'),
                   'response_format': copy.deepcopy(RESPONSE_FORMAT),
                   'model_fallback': False, 'model_call_attempts': 0,
                   'cost_basis': 'configured conservative token/rate estimate; not invoice',
@@ -129,7 +139,7 @@ class ErisedaiClient:
 
         save()
         try:
-            reservation = budget.reserve(self.budget_model, messages, max_tokens, call_id)
+            reservation = budget.reserve(budget_model, messages, max_tokens, call_id)
             with httpx.Client(timeout=TIMEOUT, trust_env=False, follow_redirects=False,
                               transport=self.transport) as client:
                 record['model_call_attempts'] = 1
@@ -154,7 +164,7 @@ class ErisedaiClient:
             if not isinstance(data, dict) or not data.get('choices'):
                 raise ValueError('Relay response has no choices')
             record['usage'] = _safe(data.get('usage'), secret)
-            if data.get('model') != self.config['model']:
+            if data.get('model') not in stage_models.accepted(self.stage_models, model):
                 raise ValueError('Unexpected relay response model; no model fallback permitted')
             choice = data['choices'][0]
             message = choice.get('message') or {}
@@ -162,7 +172,7 @@ class ErisedaiClient:
             if content is not None and not isinstance(content, str):
                 raise ValueError('Relay response content must be text')
             # Existing pipeline validates finish_reason/refusal before parsing or drafting.
-            result = {'text': (content or '').strip(), 'model': self.config['model'],
+            result = {'text': (content or '').strip(), 'model': model,
                       'provider': PROVIDER, 'usage': data.get('usage'),
                       'response_id': data.get('id'), 'response_model': data.get('model'),
                       'finish_reason': choice.get('finish_reason'), 'refusal': message.get('refusal')}
