@@ -1,0 +1,30 @@
+{
+  "version": "source-licence-v1",
+  "review_status": "provisional_unreviewed",
+  "note": "P0 default tiers for subscribed sources; full SourceStore and human review are plan 2.1. A: official / owner-approved, may be quoted or translated. B: analysis to paraphrase with attribution. C: topic lead only. D: never used.",
+  "tiers": {
+    "x_Morris_LT": {"tier": "A", "basis": "owner-approved archive translated by the en_morris_archive charter"},
+    "primary_bls": {"tier": "A", "basis": "official statistics"},
+    "primary_bea": {"tier": "A", "basis": "official statistics"},
+    "primary_fed": {"tier": "A", "basis": "official release"},
+    "primary_treasury": {"tier": "A", "basis": "official release"},
+    "primary_nvidia": {"tier": "A", "basis": "company IR release"},
+    "primary_amd": {"tier": "A", "basis": "company IR release"},
+    "libertystreet": {"tier": "B", "basis": "Fed research blog; paraphrase with attribution"},
+    "overshoot": {"tier": "B", "basis": "newsletter analysis"},
+    "conks": {"tier": "B", "basis": "newsletter analysis"},
+    "chartbook": {"tier": "B", "basis": "newsletter analysis"},
+    "claudiasahm": {"tier": "B", "basis": "newsletter analysis"},
+    "crisesnotes": {"tier": "B", "basis": "newsletter analysis"},
+    "x_qinbafrank": {"tier": "B", "basis": "X analyst posts"},
+    "x_HAOHONG_CFA": {"tier": "B", "basis": "X analyst posts"},
+    "semianalysis": {"tier": "B", "basis": "industry analysis"},
+    "fabricatedknowledge": {"tier": "B", "basis": "industry analysis"},
+    "stratechery": {"tier": "B", "basis": "industry analysis"},
+    "clausaasholm": {"tier": "B", "basis": "industry analysis"},
+    "semiengineer": {"tier": "B", "basis": "industry analysis"},
+    "nextplatform": {"tier": "B", "basis": "industry media"},
+    "servethehome": {"tier": "B", "basis": "industry media"},
+    "x_dylan522p": {"tier": "B", "basis": "X analyst posts"}
+  }
+}

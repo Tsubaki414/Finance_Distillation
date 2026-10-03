@@ -1,0 +1,43 @@
+{
+  "version": "post-types-v1",
+  "note": "Post type definitions (target architecture 3.4). Lengths are initial values in characters of the account language; frames are the only place a source may be named in the body. aphorism_translation is the Morris translation path and has no frame.",
+  "frames": {
+    "lead_speaker": {"placement": "lead", "template": "{publisher} 的 {speaker} 认为：", "requires": ["speaker"]},
+    "lead_publisher": {"placement": "lead", "template": "{publisher}：", "requires": ["publisher"]},
+    "footer_source": {"placement": "footer", "template": "（来源：{publisher}）", "requires": ["publisher"]},
+    "none": {"placement": "none", "template": "", "requires": []}
+  },
+  "post_types": {
+    "data_take": {
+      "units": "1 fact (official numbers first) + 0-1 mechanism",
+      "length": {"min": 150, "max": 400, "unit": "chars"},
+      "frame": "lead_publisher", "alternate_frames": ["footer_source"],
+      "voice": "persona", "usage": "paraphrase", "licence_tiers": ["A", "B"]
+    },
+    "mechanism_explainer": {
+      "units": "1 mechanism",
+      "length": {"min": 300, "max": 700, "unit": "chars"},
+      "frame": "lead_speaker", "alternate_frames": ["footer_source"],
+      "voice": "persona", "usage": "paraphrase", "licence_tiers": ["A", "B"]
+    },
+    "view_relay": {
+      "units": "1 view + its conditions + disconfirming evidence",
+      "length": {"min": 150, "max": 500, "unit": "chars"},
+      "frame": "lead_speaker", "alternate_frames": [],
+      "voice": "persona", "usage": "paraphrase", "licence_tiers": ["B"],
+      "note": "The only post type a same-language source may use (plan 4.3)."
+    },
+    "earnings_take": {
+      "units": "reported numbers + 1 judgment",
+      "length": {"min": 150, "max": 400, "unit": "chars"},
+      "frame": "lead_publisher", "alternate_frames": ["footer_source"],
+      "voice": "persona", "usage": "paraphrase", "licence_tiers": ["A", "B"]
+    },
+    "aphorism_translation": {
+      "units": "1 complete Morris post",
+      "length": {"min": null, "max": null, "unit": "chars", "follows_source": true},
+      "frame": "none", "alternate_frames": [],
+      "voice": "source", "usage": "translation", "licence_tiers": ["A"]
+    }
+  }
+}

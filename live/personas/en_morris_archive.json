@@ -1,0 +1,46 @@
+{
+  "persona_id": "en_morris_archive",
+  "version": "1",
+  "status": "draft",
+  "account_id": "en_morris_archive",
+  "lang": "en",
+  "display": {
+    "name": "EN · Morris Archive"
+  },
+  "focus": {
+    "domain": [
+      "frameworks"
+    ],
+    "lang": "en"
+  },
+  "stance": {
+    "note": "Source voice: Morris own views are translated, not re-voiced."
+  },
+  "voice": {
+    "draft": true,
+    "note": "aphorism_translation keeps the source voice; no persona voice is applied."
+  },
+  "post_type_mix": {
+    "aphorism_translation": 1.0
+  },
+  "source_affinity": {
+    "licence_tiers": [
+      "A"
+    ]
+  },
+  "exemplar_accounts": [],
+  "banned": [
+    "claimed_employer",
+    "claimed_positions",
+    "claimed_returns",
+    "price_targets_and_trade_calls",
+    "source_author_experience",
+    "template_phrases",
+    "copied_signature_phrases",
+    "advertising"
+  ],
+  "lineage": {
+    "migrated_from": "live/owned_accounts.json",
+    "generator_version": null
+  }
+}

@@ -1,0 +1,169 @@
+"""Post type, persona and source licence registry (P0-4b).
+
+Loads and validates live/post_types.json, live/personas/*.json and
+live/source_licence.json. Everything here is deterministic: no model calls.
+Persona voices are drafts until decision D2; a draft persona is never
+publishable.
+"""
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+import json
+import math
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent
+POST_TYPES = ROOT / 'post_types.json'
+PERSONAS = ROOT / 'personas'
+LICENCE = ROOT / 'source_licence.json'
+OWNED = ROOT / 'owned_accounts.json'
+UNIVERSES = ROOT / 'account_source_universes.json'
+
+LICENCE_TIERS = ('A', 'B', 'C', 'D')
+WRITABLE_TIERS = ('A', 'B')  # C is topic-lead only, D is never used
+PLACEMENTS = ('lead', 'footer', 'none')
+VOICES = ('persona', 'source')
+STATUSES = ('draft', 'approved', 'active', 'paused', 'retired')
+REQUIRED_BANNED = frozenset({'claimed_positions', 'claimed_returns', 'source_author_experience'})
+MIN_EXEMPLARS, MAX_EXEMPLAR_WEIGHT = 5, 0.35
+
+
+def _fail(message):
+    raise ValueError(message)
+
+
+def validate_post_types(table):
+    frames = table.get('frames')
+    types = table.get('post_types')
+    if not isinstance(frames, dict) or not isinstance(types, dict) or not types:
+        _fail('post_types.json needs frames and post_types')
+    for name, frame in frames.items():
+        if frame.get('placement') not in PLACEMENTS:
+            _fail(f'frame {name}: bad placement')
+        if frame['placement'] != 'none':
+            template = frame.get('template') or ''
+            if not any('{' + key + '}' in template for key in ('speaker', 'publisher')):
+                _fail(f'frame {name}: template must name speaker or publisher')
+            for key in frame.get('requires') or []:
+                if '{' + key + '}' not in template:
+                    _fail(f'frame {name}: required field {key} not in template')
+    for name, spec in types.items():
+        length = spec.get('length') or {}
+        if length.get('follows_source'):
+            if length.get('min') is not None or length.get('max') is not None:
+                _fail(f'{name}: follows_source length has no fixed range')
+        else:
+            lo, hi = length.get('min'), length.get('max')
+            if not all(isinstance(v, int) and not isinstance(v, bool) for v in (lo, hi)) or not 0 < lo < hi:
+                _fail(f'{name}: length range must be 0 < min < max')
+        for frame in [spec.get('frame'), *(spec.get('alternate_frames') or [])]:
+            if frame not in frames:
+                _fail(f'{name}: frame {frame} is not defined')
+        if spec.get('voice') not in VOICES:
+            _fail(f'{name}: voice must be persona or source')
+        tiers = spec.get('licence_tiers')
+        if not isinstance(tiers, list) or not tiers or not set(tiers) <= set(WRITABLE_TIERS):
+            _fail(f'{name}: licence_tiers must be a non-empty subset of {WRITABLE_TIERS}')
+        if spec['voice'] == 'persona' and frames[spec['frame']]['placement'] == 'none':
+            _fail(f'{name}: a persona-voiced post must carry an attribution frame')
+    return table
+
+
+def load_post_types(path=POST_TYPES):
+    return validate_post_types(json.loads(Path(path).read_text()))
+
+
+@dataclass(frozen=True)
+class PersonaSpec:
+    persona_id: str
+    version: str
+    status: str
+    account_id: str
+    lang: str
+    voice: dict
+    post_type_mix: dict
+    banned: tuple
+    exemplar_accounts: tuple
+    source_affinity: dict
+    raw: dict = field(repr=False, compare=False)
+
+    @property
+    def publishable(self):
+        return self.status in ('approved', 'active') and not self.voice.get('draft')
+
+
+def validate_persona(raw, post_types):
+    for key in ('persona_id', 'version', 'status', 'account_id', 'lang', 'voice',
+                'post_type_mix', 'banned', 'source_affinity'):
+        if key not in raw:
+            _fail(f'persona {raw.get("persona_id")}: missing {key}')
+    if raw['status'] not in STATUSES:
+        _fail('persona status is invalid')
+    types = post_types['post_types']
+    mix = raw['post_type_mix']
+    if not isinstance(mix, dict) or not mix or not set(mix) <= set(types):
+        _fail('post_type_mix must reference defined post types')
+    if any(not isinstance(v, (int, float)) or v <= 0 for v in mix.values()) or not math.isclose(sum(mix.values()), 1.0):
+        _fail('post_type_mix weights must be positive and sum to 1')
+    if not REQUIRED_BANNED <= set(raw['banned']):
+        _fail(f'banned must include {sorted(REQUIRED_BANNED)}')
+    tiers = (raw['source_affinity'] or {}).get('licence_tiers') or []
+    if not tiers or not set(tiers) <= set(WRITABLE_TIERS):
+        _fail('source_affinity.licence_tiers must be a subset of A/B')
+    persona_voiced = any(types[t]['voice'] == 'persona' for t in mix)
+    if persona_voiced:
+        exemplars = raw.get('exemplar_accounts')
+        if not isinstance(exemplars, list) or not exemplars:
+            _fail('persona-voiced post types require exemplar_accounts')
+        for e in exemplars:
+            if not isinstance(e.get('handle'), str) or not isinstance(e.get('weight'), (int, float)) or e['weight'] <= 0:
+                _fail('exemplar needs handle and positive weight')
+        if raw['status'] in ('approved', 'active'):
+            if len(exemplars) < MIN_EXEMPLARS or any(e['weight'] > MAX_EXEMPLAR_WEIGHT for e in exemplars):
+                _fail(f'approved persona needs >= {MIN_EXEMPLARS} exemplars, each weight <= {MAX_EXEMPLAR_WEIGHT}')
+            if raw['voice'].get('draft'):
+                _fail('approved persona cannot have a draft voice')
+    return raw
+
+
+def _spec(raw):
+    return PersonaSpec(raw['persona_id'], raw['version'], raw['status'], raw['account_id'], raw['lang'],
+                       dict(raw['voice']), dict(raw['post_type_mix']), tuple(raw['banned']),
+                       tuple(e['handle'] for e in raw.get('exemplar_accounts') or []),
+                       dict(raw['source_affinity']), raw)
+
+
+def load_personas(directory=PERSONAS, post_types=None):
+    post_types = post_types or load_post_types()
+    out = {}
+    for path in sorted(Path(directory).glob('*.json')):
+        raw = validate_persona(json.loads(path.read_text()), post_types)
+        if raw['persona_id'] in out:
+            _fail(f'duplicate persona {raw["persona_id"]}')
+        out[raw['persona_id']] = _spec(raw)
+    return out
+
+
+def persona_for_account(account_id, personas=None):
+    personas = personas or load_personas()
+    matches = [p for p in personas.values() if p.account_id == account_id]
+    if len(matches) != 1:
+        _fail(f'account {account_id} must resolve to exactly one persona')
+    return matches[0]
+
+
+def _licence():
+    return json.loads(LICENCE.read_text())['tiers']
+
+
+def source_licence_tier(source_id):
+    entry = _licence().get(source_id)
+    tier = entry and entry.get('tier')
+    return tier if tier in LICENCE_TIERS else None
+
+
+def post_types_for_tier(tier, post_types=None):
+    if tier not in WRITABLE_TIERS:
+        return []
+    post_types = post_types or load_post_types()
+    return [name for name, spec in post_types['post_types'].items() if tier in spec['licence_tiers']]
