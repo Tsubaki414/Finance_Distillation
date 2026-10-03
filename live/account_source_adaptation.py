@@ -381,6 +381,67 @@ class AccountSourcePipeline(Pipeline):
         return super().finish(attempt)
 
 
+def uses_compose(account_id):
+    """P0-4e dispatch: composed post types run EXTRACT -> COMPOSE when explicitly enabled.
+
+    Opt-in (ACCOUNT_COMPOSE_PIPELINE=1) until persona voices are approved (D2);
+    aphorism_translation accounts (Morris) always keep the translation chain.
+    """
+    import os
+    from live import registry
+    if os.environ.get("ACCOUNT_COMPOSE_PIPELINE", "").lower() not in {"1", "true", "yes"}:
+        return False
+    return "aphorism_translation" not in registry.persona_for_account(account_id).post_type_mix
+
+
+def _compose_result(source, account_id, output_dir, client, follow_up_of):
+    from live import compose
+    from live.distillation_source import source_record
+    output_dir = Path(output_dir)
+    if client is None:
+        client = make_content_stages(output_dir / "calls")
+    record = source if source.get("source_hash") and source.get("original_text") else source_record(source)
+    run_id = "run-" + digest([record.get("source_hash"), account_id, now()])[:32]
+    failure, composed = None, {}
+    try:
+        composed = compose.compose_source(record, account_id, client)
+        draft_status, status = composed["draft_status"], composed["status"]
+    except (ContractError, ValueError) as exc:
+        stage = "compose" if "compose" in str(exc) else "extract"
+        failure = {"stage": stage, "code": "source_contract", "error_type": type(exc).__name__,
+                   "error": str(exc)[:300]}
+        draft_status, status = "blocked", "held"
+    except Exception as exc:  # transport/budget: classified by the stage client when available
+        last = getattr(client, "last_failure", None) or {}
+        failure = {"stage": last.get("stage"), "code": last.get("code", "provider_error"),
+                   "error_type": type(exc).__name__}
+        draft_status, status = "blocked", "held"
+    text = composed.get("text", "")
+    result = {
+        "id": run_id, "account_id": account_id, "source_id": record.get("id"),
+        "source_version": record.get("source_version"), "follow_up_of": follow_up_of,
+        "pipeline_version": compose.VERSION, "post_type": composed.get("post_type"),
+        "persona": composed.get("persona"), "execution_failure": failure,
+        "status": status, "draft_status": draft_status, "publishable": False,
+        "source_language": record.get("source_language"),
+        "target_language": _account(account_id)["lang"],
+        "final_draft": text, "text": text, "publishable_text": "",
+        "machine_fidelity": {"status": "not_passed", "qa_status": "post_checks_only",
+                             "post_checks": composed.get("post_checks", [])},
+        "human_review": {"status": "pending"}, "source": record,
+        "risks": composed.get("risks", []) + ([{"code": "compose_blocked", "detail": failure, "status": "open"}] if failure else []),
+        "why": composed.get("why") or (failure or {}).get("error", ""), "compose": composed,
+        "attempt": {"stage": (failure or {}).get("stage") or "compose",
+                    "prompt_assembly": composed.get("prompt_assembly", []),
+                    "model_responses": composed.get("model_responses", [])},
+    }
+    path = output_dir / "adaptations" / (run_id + ".json")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    result["result_path"] = str(path)
+    path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+    return result
+
+
 def adapt_source(source, account_id, output_dir, client=None, follow_up_of=None, account_context=None,
                  execution_repairs=None, checkpoint=None):
     """Return one human-review candidate, retaining held copy and private evidence.
@@ -389,6 +450,8 @@ def adapt_source(source, account_id, output_dir, client=None, follow_up_of=None,
     different account, publishes, or equates a machine pass with human acceptance.
     Every invocation is a separate attempt, including explicitly linked follow-ups.
     """
+    if uses_compose(account_id):
+        return _compose_result(source, account_id, output_dir, client, follow_up_of)
     output_dir = Path(output_dir)
     pipeline = AccountSourcePipeline(output_dir, _account(account_id), client,
                                      follow_up_of=follow_up_of, account_context=account_context,

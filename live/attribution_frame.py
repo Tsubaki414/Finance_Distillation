@@ -17,6 +17,8 @@ from live import registry
 
 PROVENANCE = re.compile(r'https?://|(?:^|\n)(?:来源|出处|译自|Source|Translated from)\s*[:：]', re.I)
 URL = re.compile(r'https?://', re.I)
+# Post-level only: a source line anywhere in the body (paragraph checks keep the line-start rule).
+INLINE_PROVENANCE = re.compile(r'(?:来源|出处|译自|\bSource|Translated from)\s*[:：]', re.I)
 # Identity checks that a frame never relaxes (fidelity.BIO plus first-person
 # experience). Composed persona voices are first_person_rate "none" in P0.
 EXPERIENCE = re.compile(
@@ -52,7 +54,8 @@ def render(post_type, source, post_types=None):
     for name in [spec['frame'], *(spec.get('alternate_frames') or [])]:
         frame = table['frames'][name]
         if all(values.get(key) for key in frame.get('requires') or []):
-            return {'name': name, 'placement': frame['placement'], 'text': frame['template'].format(**values)}
+            return {'name': name, 'placement': frame['placement'], 'text': frame['template'].format(**values),
+                    'names': [v for v in (values['publisher'], values['speaker']) if v]}
     raise ValueError(f'{post_type}: no attribution frame can be rendered for {source.get("source_id")}')
 
 
@@ -93,7 +96,8 @@ def check(post_type, text, frame, licence_tier, post_types=None):
     body, found = strip(text, frame) if needs_frame else (text, False)
     if needs_frame and not found:
         flag('missing_attribution_frame', f'{post_type} requires its attribution frame at the declared place')
-    if PROVENANCE.search(body) or (frame and frame['text'] in body):
+    named = [n for n in (frame or {}).get('names', []) if n.casefold() in body.casefold()]
+    if PROVENANCE.search(body) or INLINE_PROVENANCE.search(body) or (frame and frame['text'] in body) or named:
         flag('provenance_in_body', 'Source named or linked outside the attribution frame')
     if EXPERIENCE.search(body) or (spec['voice'] == 'persona' and FIRST_PERSON.search(body)):
         flag('author_identity', 'Source experience/positions or first person written as the account')
