@@ -101,6 +101,9 @@ def _load_archives(paths):
                    'fetched_at': row.get('fetched_at') or row.get('collected_at'),
                    'raw_import_ref': row.get('raw_import_ref') or str(path),
                    'monitor_source_mode': 'historical_archive'}
+            if not row.get('content_complete'):
+                from live.archive_verification import verify_archive_row
+                row = verify_archive_row(row)  # P0-3c
             key = identity(row)
             previous = by_id.get(key)
             # Later verified imports may improve completeness without changing the
