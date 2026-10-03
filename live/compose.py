@@ -190,7 +190,13 @@ def compose_source(source, account_id, client, *, post_type=None):
     require(post_type in persona.post_type_mix, 'compose: post_type not in persona mix')
     require(post_type in registry.post_types_for_tier(tier, post_types), 'compose: post_type not allowed for licence tier')
     chosen = pick_units(post_type, units)
-    frame = attribution_frame.render(post_type, source, post_types)
+    primary = eligible(post_type, units)[0]
+    try:
+        frame = attribution_frame.render(post_type, source, post_types, speaker=primary['speaker'])
+    except ValueError as exc:
+        return {**base, 'units': chosen, 'post_type': post_type, 'draft_status': 'not_suitable',
+                'status': 'skipped', 'text': '', 'post_checks': [], 'claim_ledger': [], 'risks': [],
+                'why': f'No correct attribution frame: {exc}'}
     spec = post_types['post_types'][post_type]
     payload = {'post_type': post_type,
                'post_type_rules': {'units': spec['units'], 'usage': spec['usage'],

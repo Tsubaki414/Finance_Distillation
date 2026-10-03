@@ -119,3 +119,29 @@ class PostLevelTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class ReviewFixFrameTests(unittest.TestCase):
+    """Cross-check fixes (Claude #4/#6, Codex identity-in-frame)."""
+
+    def test_quoted_speaker_is_not_credited_to_article_author(self):
+        # primary unit speaker is a CEO quoted by the author -> no speaker frame
+        frame = af.render('mechanism_explainer', SOURCE, speaker='Jensen Huang')
+        self.assertEqual(frame['name'], 'footer_source')
+        with self.assertRaises(ValueError):
+            af.render('view_relay', SOURCE, speaker='Jensen Huang')
+        same = af.render('view_relay', SOURCE, speaker='gianluca benigno')
+        self.assertEqual(same['name'], 'lead_speaker')
+
+    def test_lead_speaker_requires_publisher(self):
+        with self.assertRaises(ValueError):
+            af.render('view_relay', {'source_id': 'unknown_source', 'author_name': 'A Person'})
+
+    def test_identity_checked_on_frame_text_too(self):
+        frame = {'name': 'lead_speaker', 'placement': 'lead', 'text': 'X 的 我持有这家公司 认为：', 'names': []}
+        self.assertIn('author_identity', codes(af.check('view_relay', frame['text'] + BODY, frame, 'B')))
+
+    def test_common_words_with_wo_are_not_first_person(self):
+        frame = af.render('view_relay', SOURCE)
+        text = frame['text'] + '我国的准备金需求存在自我强化的机制，' + BODY
+        self.assertNotIn('author_identity', codes(af.check('view_relay', text, frame, 'B')))

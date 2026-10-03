@@ -25,7 +25,7 @@ EXPERIENCE = re.compile(
     r'\bI\s+(?:run|manage|charge|own|hold|earned|made|tested|have\s+been|\'ve\s+been|covered|worked)|'
     r'\bmy\s+(?:fund|portfolio|returns|clients|positions|book)|'
     r'我(?:自己)?(?:管理|持有|持仓|收取|赚|实测|一直|曾经|曾|在[^，。]{0,12}工作|做多|做空)|我的(?:基金|组合|客户|收益|仓位)', re.I)
-FIRST_PERSON = re.compile(r'\b(?:I|my|we|our)\b|我(?:们)?', re.I)
+FIRST_PERSON = re.compile(r'\b(?:I|my|we|our)\b|(?<!自)我(?!国)(?:们)?', re.I)
 REGISTRY_FILE = Path(__file__).with_name('source_registry.json')
 
 
@@ -36,21 +36,30 @@ def publisher_name(source_id):
     return None
 
 
-def _fields(source):
+def _fields(source, speaker=None):
     publisher = publisher_name(source.get('source_id')) or source.get('publisher') or ''
-    speaker = (source.get('author_name') or '').strip()
-    if speaker.casefold() == publisher.casefold():
-        speaker = ''  # author metadata that is really the publication (audit B7)
-    return {'publisher': publisher, 'speaker': speaker}
+    author = (source.get('author_name') or '').strip()
+    if author.casefold() == publisher.casefold():
+        author = ''  # author metadata that is really the publication (audit B7)
+    # The speaker frame credits the article's author. When the unit's own
+    # speaker is someone else (e.g. a CEO quoted in the article), crediting the
+    # author would misattribute the view; fall back to a publisher frame.
+    if speaker is not None and speaker.strip().casefold() != author.casefold():
+        author = ''
+    return {'publisher': publisher, 'speaker': author}
 
 
-def render(post_type, source, post_types=None):
-    """Return {'name','placement','text'} for the post type, or None if it has no frame."""
+def render(post_type, source, post_types=None, speaker=None):
+    """Return {'name','placement','text','names'} for the post type, or None if it has no frame.
+
+    speaker: the chosen primary unit's speaker; the speaker frame is used only
+    when it is the source's author.
+    """
     table = post_types or registry.load_post_types()
     spec = table['post_types'][post_type]
     if table['frames'][spec['frame']]['placement'] == 'none':
         return None
-    values = _fields(source)
+    values = _fields(source, speaker)
     for name in [spec['frame'], *(spec.get('alternate_frames') or [])]:
         frame = table['frames'][name]
         if all(values.get(key) for key in frame.get('requires') or []):
@@ -99,6 +108,6 @@ def check(post_type, text, frame, licence_tier, post_types=None):
     named = [n for n in (frame or {}).get('names', []) if n.casefold() in body.casefold()]
     if PROVENANCE.search(body) or INLINE_PROVENANCE.search(body) or (frame and frame['text'] in body) or named:
         flag('provenance_in_body', 'Source named or linked outside the attribution frame')
-    if EXPERIENCE.search(body) or (spec['voice'] == 'persona' and FIRST_PERSON.search(body)):
+    if EXPERIENCE.search(text) or (spec['voice'] == 'persona' and FIRST_PERSON.search(body)):
         flag('author_identity', 'Source experience/positions or first person written as the account')
     return findings
