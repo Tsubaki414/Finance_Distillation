@@ -158,7 +158,7 @@ class LlmOutputRobustnessTests(unittest.TestCase):
     def setUp(self):
         cluster, posts, tags, roster = corpus()
         self.cluster = cluster
-        self.sample = vc.sample_for_cluster(cluster, posts, tags, roster, n=12, per_donor=4)
+        self.sample = vc.sample_for_cluster(cluster, posts, tags, roster, n=12, seed=2)
 
     def test_markdown_fenced_json_is_accepted(self):
         raw = '```json\n' + json.dumps(answer(self.sample)) + '\n```'
