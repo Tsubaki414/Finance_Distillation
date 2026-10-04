@@ -36,6 +36,7 @@ CANDIDATES = {
     # the shipped stage_models.json as-is (COMPOSE gemini-3.1-pro-preview + opus-5-5 fallback)
     'gemini-default': dict(shipped=True, relay=(MICU, 'GEMINI_RELAY_API_KEY')),
     'gemini-default-v2': dict(shipped=True, relay=(MICU, 'GEMINI_RELAY_API_KEY')),
+    'gemini-default-v3': dict(shipped=True, relay=(MICU, 'GEMINI_RELAY_API_KEY')),
 }
 
 
