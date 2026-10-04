@@ -342,3 +342,31 @@ class SelectionQualityTests(unittest.TestCase):
         self.assertTrue(rg.is_rating_call({'title': 'Memory: MU read-across: tighter S/D; Buy SEC/Hynix'}))
         self.assertTrue(rg.is_rating_call({'title': 'HOYA (7741): demand supports glass substrate; maintain Buy'}))
         self.assertFalse(rg.is_rating_call({'title': 'Global Rates Weekly: Start of rates bite'}))
+
+
+class RateLimitTests(unittest.TestCase):
+    def test_rate_limited_tool_error_is_retried_without_recording_the_error(self):
+        # Live 2026-10-04: parallel listings returned isError 'rate_limited' ("不会扣费").
+        import tempfile
+        from pathlib import Path
+        import httpx
+        from live.reportgem_mcp_http import ReportGemHTTP
+        state = {'calls': 0}
+        def handler(request):
+            body = json.loads(request.content)
+            if body['method'] == 'initialize':
+                return httpx.Response(200, json={'jsonrpc': '2.0', 'id': body['id'], 'result': {'protocolVersion': '2025-03-26'}})
+            if 'id' not in body:
+                return httpx.Response(202)
+            state['calls'] += 1
+            if state['calls'] == 1:
+                res = {'isError': True, 'content': [{'type': 'text', 'text': '{"error": {"code": "rate_limited"}}'}]}
+            else:
+                res = {'content': [{'type': 'text', 'text': '{"results": [], "mcp_usage": {"points": 0}}'}]}
+            return httpx.Response(200, json={'jsonrpc': '2.0', 'id': body['id'], 'result': res})
+        with tempfile.TemporaryDirectory() as tmp:
+            client = ReportGemHTTP('https://fixture.invalid/mcp', 'secret', run=Path(tmp),
+                                   transport=httpx.MockTransport(handler), sleep=lambda s: None)
+            data = client('search_research', {'query': 'x'})
+            self.assertEqual(data['results'], [])
+            self.assertEqual(state['calls'], 2)
