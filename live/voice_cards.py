@@ -12,7 +12,9 @@ EMOJI = re.compile('[\U0001F000-\U0001FAFF\u2600-\u27BF]')
 PROMO = re.compile(r'\b(?:giveaway|sponsored|paid partnership)\b|(?:^|\s)#ad\b|subscribe now|paid subscription|(?:my |our )discount code|use (?:my |our )?(?:promo|discount) code|抽奖|付费推广|广告合作', re.I)
 
 POSITION_PATTERNS = (
-    re.compile(r'\b(?:holdings?|positions?|position sizing|my portfolio|bought|sold|added|trimmed|P&L|profit(?:s)?|loss(?:es)?|gains on my)\b', re.I),
+    re.compile(r"\b(?:my|own|personal|their|his|her|author's|current)\s+(?:\w+\s+){0,2}(?:positions?|holdings?|trades?|stops?|exposure|portfolio|P&L|book)\b", re.I),
+    re.compile(r"\b(?:holdings|position siz\w*|P&L|stop[- ]loss|stops?(?: status| levels?)?,? (?:and|or) (?:exposure|position)|entries,? stops|announc\w* (?:the |an )?(?:exit|entry)|"
+               r"(?:bought|sold|trimmed|added to) (?:a |the |my |their )?(?:position|stake|shares)|gains on my|my portfolio)\b", re.I),
     re.compile(r'持仓|仓位|加仓|减仓|建仓|清仓|止盈|止损|盈亏|收益率晒单|我买了|我卖了|实盘'),
 )
 POSITION_AVOID = {
