@@ -188,3 +188,18 @@ def test_runner_new_adapters_and_feed_fetch_once():
     assert len(data)==1
     assert set(report['adapters']) >= {'wallstreetcn','nyfed','fomc','rss_fulltext'}
     assert all(fetched.count(id)==1 for id in RSS_FULLTEXT)
+
+
+def test_runner_passes_wscn_n_to_wallstreetcn():
+    from scripts.run_content_adapters import gather
+    from live.adapters import wallstreetcn
+    from types import SimpleNamespace
+    seen = {}
+
+    def fake(**kw):
+        seen.update(kw)
+        return {'status': 'ok', 'sources': []}
+    args = SimpleNamespace(adapters=['wallstreetcn'], wscn_n=6, rss_n=1, newsletter_extract=0, oaktree_n=3, glassnode_n=3)
+    with patch.object(wallstreetcn, 'fetch', side_effect=fake):
+        gather(args, {'adapters': {}})
+    assert seen.get('limit') == 6
