@@ -60,6 +60,13 @@ def _fields(source, speaker=None):
     return {'publisher': publisher, 'speaker': author}
 
 
+def _latin_name(name):
+    """English frames: drop CJK descriptors from a mixed name ('SpotGamma 免费内容' -> 'SpotGamma');
+    a name with no Latin part is kept as is."""
+    cleaned = re.sub(r'\s+', ' ', re.sub(r'[\u3000-\u303f\u4e00-\u9fff\uff00-\uffef]+', ' ', name or '')).strip(' -|·')
+    return cleaned if re.search(r'[A-Za-z]', cleaned) else name
+
+
 def render(post_type, source, post_types=None, speaker=None, lang=None):
     """Return {'name','placement','text','names'} for the post type, or None if it has no frame.
 
@@ -82,7 +89,8 @@ def render(post_type, source, post_types=None, speaker=None, lang=None):
             names = [v for v in (values['publisher'], values['speaker']) if v]
             names += [a for a in aliases(source.get('source_id')) if a not in names]
             template = frame.get('template_en') if lang == 'en' and frame.get('template_en') else frame['template']
-            return {'name': name, 'placement': frame['placement'], 'text': template.format(**values),
+            shown = {k: _latin_name(v) for k, v in values.items()} if lang == 'en' else values
+            return {'name': name, 'placement': frame['placement'], 'text': template.format(**shown),
                     'names': names}
     raise ValueError(f'{post_type}: no attribution frame can be rendered for {source.get("source_id")}')
 

@@ -42,6 +42,14 @@ class EnglishFrameTests(unittest.TestCase):
         self.assertNotIn('provenance_in_body', codes)
         self.assertNotIn('missing_attribution_frame', codes)
 
+    def test_en_frame_drops_chinese_descriptors_from_names(self):
+        src = {'source_id': 'unregistered_x', 'publisher': 'SpotGamma 免费内容', 'author_name': 'SpotGamma 免费内容'}
+        frame = af.render('mechanism_explainer', src, lang='en')
+        self.assertTrue(frame['text'].endswith('Source: SpotGamma'), frame['text'])
+        self.assertIn('SpotGamma 免费内容', frame['names'])   # body checks still see the full name
+        zh_only = {'source_id': 'unregistered_y', 'publisher': '国家统计局 数据发布'}
+        self.assertIn('国家统计局', af.render('mechanism_explainer', zh_only, lang='en')['text'])  # nothing left: keep it
+
     def test_zh_and_default_unchanged(self):
         self.assertEqual(af.render('mechanism_explainer', NP)['text'], '（来源：The Next Platform）')
         self.assertEqual(af.render('mechanism_explainer', NP, lang='zh')['text'], '（来源：The Next Platform）')
