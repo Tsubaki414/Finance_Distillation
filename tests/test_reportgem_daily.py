@@ -493,3 +493,16 @@ class TightenTests(unittest.TestCase):
             self.assertEqual(report['listing_items'], 0)
             self.assertEqual(report['points']['evidence_points'], 0)
             self.assertEqual(report['personas']['investing_philosophy']['prescreen_downgraded'], 0)
+
+
+class FullPullFixes(unittest.TestCase):
+    def test_reit_buy_title_is_a_rating_call(self):
+        self.assertTrue(rg.is_rating_call({'title': 'Sandisk Corp (SNDK.O): MU Read-Thru: NAND Now Tight Thru CY28; Reit. Buy on S/D Fundamentals'}))
+        self.assertFalse(rg.is_rating_call({'title': 'US Networking: Scaling the bandwidth wall'}))
+
+    def test_twin_source_ids_same_report_deduped(self):
+        a = item('-34660102', inst='Evercore ISI', title='Semis on Fire')
+        b = item('8000000034660102', inst='Evercore ISI', title='Semis on Fire')
+        rows = rg.daily_listing(lambda *_: search_response([a, b]), [{'query': 'q', 'sources': ['realtime_research'], 'date_from': '2026-10-02', 'date_to': '2026-10-04', 'limit': 6}],
+                                day='2026-10-04', budget=rg.Points(40))
+        self.assertEqual(len(rows), 1)
