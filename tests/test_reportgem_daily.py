@@ -95,7 +95,8 @@ class PrescreenTests(unittest.TestCase):
             def review(self, state, questions):
                 return {'status': 'blocked', 'answers': {}, 'error_code': 'missing_api_key'}
         scores = rg.prescreen(self.ITEMS, ['macro_rates_en'], jev=Jev())
-        self.assertEqual(scores['_method'], {'macro_rates_en': 'keyword'})
+        self.assertEqual(scores['_method']['macro_rates_en'], 'keyword')
+        self.assertTrue(scores['_method']['jev_fallback']['macro_rates_en'])
 
     def test_top_items_prefer_strong_and_spread_personas(self):
         scores = {'macro_rates_en': {'1': 'strong', '2': 'weak'}, 'industry_ai_capex': {'1': 'none', '2': 'strong'}, '_method': {}}
@@ -175,6 +176,130 @@ class EvidenceScreenTests(unittest.TestCase):
     def test_target_price_titles_are_not_selected(self):
         self.assertTrue(rg.is_rating_call({'title': 'Strategy Inc (MSTR.O): Bitcoin Reversal; Raising TP to $240, Maintain Buy/HR'}))
         self.assertFalse(rg.is_rating_call({'title': 'Global Rates Weekly: Start of rates bite'}))
+
+class ScaleTests(unittest.TestCase):
+    def test_chinese_alias_and_licence(self):
+        from live import registry
+        for alias, bank in [('CICC', '中金公司'), ('国泰君安证券', '国泰海通'), ('广发证券', '广发证券'), ('CA-CIB', 'Credit Agricole')]:
+            self.assertEqual(rg.bank_of(alias), bank)
+            self.assertEqual(registry.source_licence_tier(rg.source_id_for(bank)), 'B')
+        self.assertEqual(len({rg.source_id_for(b) for b in rg.BANKS}), len(rg.BANKS))
+
+    def test_query_sources_and_cn_window(self):
+        qs = rg.listing_queries(['macro_zh'], day='2026-10-04')
+        self.assertGreaterEqual(len(qs), 2)
+        cn = next(q for q in qs if q['sources'] == ['chinese_research'])
+        self.assertEqual(cn['date_from'], '2026-09-27')
+        foreign = next(q for q in qs if q['sources'] == ['realtime_research'])
+        self.assertEqual(foreign['date_from'], '2026-10-02')
+        it = dict(item(1, inst='广发证券', date='2026-09-28'), source_type='cn')
+        rows = rg.daily_listing(lambda *_: search_response([it]), [cn], day='2026-10-04', budget=rg.Points(40))
+        self.assertEqual(len(rows), 1)
+        for p in rg.THEMES:
+            self.assertIn(len(rg.THEMES[p][0]), (2, 3))
+
+    def test_prescreen_batches_and_partial_fallback(self):
+        class Jev:
+            calls = []
+            def review(self, state, questions):
+                self.calls.append(questions)
+                return {'status': 'completed', 'answers': {q: {'choice': 'weak'} for q in questions}}
+        jev = Jev()
+        rows = [dict(item(i, title='Fed rates'), bank='Goldman Sachs') for i in range(35)]
+        scores = rg.prescreen(rows, ['macro_rates_en'], jev=jev)
+        self.assertEqual([len(q) for q in jev.calls], [16, 16, 3])
+        self.assertEqual(len(scores['macro_rates_en']), 35)
+        class Broken:
+            def review(self, *a):
+                raise RuntimeError('offline')
+        scores = rg.prescreen(rows, ['macro_rates_en'], jev=Broken())
+        self.assertTrue(scores['_method']['jev_fallback']['macro_rates_en'])
+
+    def test_round_robin_shared_item_covers_personas(self):
+        scores = {'a': {'1': 'strong', '2': 'weak'}, 'b': {'1': 'strong'}, 'c': {'3': 'weak'}}
+        top = rg.select_top(scores, max_total=3)
+        self.assertEqual({p for p, _ in top}, {'a', 'b', 'c'})
+
+    def test_chinese_cleaning_and_language(self):
+        factual = '美联储政策变化带动美债收益率下降，市场流动性改善。' * 4
+        text = '请务必阅读末页之重要声明。目标价100元；评级买入！分析师张三执业证书123。数据来源：Wind。' + factual
+        clean = rg.clean_passage(text)
+        self.assertEqual(clean, factual)
+        src = rg.to_source(dict(item(1), bank='广发证券', source_type='cn'), {'passages': [{'text': text}]})
+        self.assertEqual(src['source_language'], 'zh')
+        self.assertTrue(rg.is_rating_call({'title': '公司目标价上调，评级买入'}))
+
+    def test_projection(self):
+        out = rg.projection(15)
+        self.assertEqual(out['monthly_points_30d'], 450)
+        self.assertAlmostEqual(out['pack_169']['days_covered'], 400 / 15)
+        self.assertIn('299', out['recommendation'])
+        self.assertIsNone(rg.projection(0)['pack_299']['days_covered'])
+
+    def test_http_json_sse_and_recording(self):
+        import tempfile
+        from pathlib import Path
+        import httpx
+        from live.reportgem_mcp_http import ReportGemHTTP
+        for mode in ('json', 'sse', 'structured'):
+            sse = mode == 'sse'
+            calls = []
+            def handler(request):
+                self.assertEqual(request.headers['Authorization'], 'Bearer secret')
+                body = json.loads(request.content)
+                if body['method'] != 'initialize':
+                    self.assertEqual(request.headers['Mcp-Session-Id'], 'session')
+                calls.append(body)
+                if body['method'] == 'notifications/initialized':
+                    return httpx.Response(202)
+                result = {'protocolVersion': '2025-03-26'} if body['method'] == 'initialize' else {'content': [{'type': 'text', 'text': json.dumps(search_response([]))}]}
+                if mode == 'structured' and body['method'] == 'tools/call':
+                    result = {'structuredContent': search_response([])}
+                payload = {'jsonrpc': '2.0', 'id': body['id'], 'result': result}
+                if sse:
+                    return httpx.Response(200, text='event: message\ndata: ' + json.dumps(payload) + '\n\n', headers={'content-type': 'text/event-stream', 'mcp-session-id': 'session'})
+                return httpx.Response(200, json=payload, headers={'mcp-session-id': 'session'})
+            with tempfile.TemporaryDirectory() as tmp:
+                client = ReportGemHTTP('https://fixture.invalid/mcp', 'secret', run=Path(tmp), transport=httpx.MockTransport(handler))
+                self.assertEqual(client('search_research', {'query': 'Fed'}), search_response([]))
+                self.assertTrue(list((Path(tmp) / 'responses').glob('*.json')))
+                self.assertEqual([c['method'] for c in calls], ['initialize', 'notifications/initialized', 'tools/call'])
+                client.close()
+
+    def test_extract_store_helper_drops_and_resumes(self):
+        import tempfile
+        from live.content_store import ContentStore
+        from unittest.mock import patch
+        src = dict(item(1), publisher='Goldman Sachs', author_name='Goldman Sachs', source_id='reportgem_goldman_sachs', source_hash='abc')
+        units = [{'unit_id': k, 'licence_tier': 'B', 'usage': 'paraphrase', 'statement': 'Fed rates', 'kind': 'fact'} for k in ('keep', 'drop')]
+        with tempfile.TemporaryDirectory() as tmp, patch('live.jev_front.prescreen_units', return_value={'keep': {'verdict': 'keep'}, 'drop': {'verdict': 'drop'}}):
+            store = ContentStore(tmp)
+            result = rg.store_units(src, units, 'macro_rates_en', store=store, jev=object())
+            self.assertEqual(result['dropped'], 1)
+            self.assertEqual(store.units()[0]['personas'], ['macro_rates_en'])
+            self.assertEqual(rg.store_units(src, units, 'macro_rates_en', store=store, jev=object())['duplicate'], 1)
+
+
+    def test_http_missing_env_is_clear(self):
+        import os
+        import tempfile
+        from unittest.mock import patch
+        from live.reportgem_mcp_http import ReportGemHTTP
+        with tempfile.TemporaryDirectory() as tmp, patch.dict(os.environ, {}, clear=True):
+            with self.assertRaisesRegex(ValueError, 'reportgem_http_not_configured'):
+                ReportGemHTTP(run=tmp)
+
+    def test_partial_jev_answers_fallback_without_losing_completed_batch(self):
+        class Jev:
+            calls = 0
+            def review(self, state, questions):
+                self.calls += 1
+                return {'status': 'completed', 'answers': {q: {'choice': 'weak'} for q in questions} if self.calls == 1 else {}}
+        rows = [dict(item(i, title='美联储利率展望'), bank='广发证券') for i in range(18)]
+        scores = rg.prescreen(rows, ['macro_zh'], jev=Jev())
+        self.assertEqual(scores['macro_zh']['0'], 'weak')
+        self.assertEqual(scores['macro_zh']['17'], 'strong')
+        self.assertTrue(scores['_method']['jev_fallback']['macro_zh'])
 
 
 if __name__ == '__main__':
