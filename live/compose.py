@@ -23,7 +23,7 @@ from live.model_json import parse_object
 from live.numeric_fidelity import inventory
 
 VERSION = 'compose-v1'
-MAX_TOKENS = 6000
+MAX_TOKENS = 12000   # Gemini 3.1 Pro spends 3-6k tokens thinking; 6000 truncated ~30% of answers
 BLACKLIST = Path(__file__).with_name('style_blacklist.json')
 
 # Which unit kinds a post type is built from: (primary kind, how many, supporting kinds, how many)
