@@ -30,8 +30,8 @@ def pages(pdf):
     return int(re.search(r'^Pages:\s+(\d+)', out, re.M).group(1))
 
 
-def ocr_image(path):
-    return run(['tesseract', str(path), '-', '-l', 'chi_sim+eng', '--psm', '6'], timeout=600)
+def ocr_image(path, timeout=600):
+    return run(['tesseract', str(path), '-', '-l', 'chi_sim+eng', '--psm', '6'], timeout=timeout)
 
 
 def page_text(pdf, n, tmp):
@@ -39,11 +39,15 @@ def page_text(pdf, n, tmp):
     if len(re.sub(r'\s', '', text)) >= MIN_CHARS:
         return text, False
     img = Path(tmp) / f'p{n}'
-    subprocess.run(['pdftoppm', '-r', '300', '-gray', '-png', '-f', str(n), '-l', str(n), '-singlefile', str(pdf), str(img)], capture_output=True)
+    subprocess.run(['pdftoppm', '-gray', '-png', '-scale-to-x', '1800', '-scale-to-y', '-1', '-f', str(n), '-l', str(n),
+                    '-singlefile', str(pdf), str(img)], capture_output=True)
     png = img.with_suffix('.png')
     if not png.exists():
         return text, False
-    out = ocr_image(png)
+    try:
+        out = ocr_image(png, timeout=120)
+    except subprocess.TimeoutExpired:  # illustration / cover pages can stall tesseract
+        out = ''
     png.unlink(missing_ok=True)
     return out, True
 
