@@ -48,7 +48,8 @@ class EnglishFrameTests(unittest.TestCase):
         self.assertTrue(frame['text'].endswith('Source: SpotGamma'), frame['text'])
         self.assertIn('SpotGamma 免费内容', frame['names'])   # body checks still see the full name
         zh_only = {'source_id': 'unregistered_y', 'publisher': '国家统计局 数据发布'}
-        self.assertIn('国家统计局', af.render('mechanism_explainer', zh_only, lang='en')['text'])  # nothing left: keep it
+        with self.assertRaises(ValueError):   # display gate: no English name -> no EN post credits a Chinese name
+            af.render('mechanism_explainer', zh_only, lang='en')
 
     def test_zh_and_default_unchanged(self):
         self.assertEqual(af.render('mechanism_explainer', NP)['text'], '（来源：The Next Platform）')

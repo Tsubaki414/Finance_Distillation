@@ -90,15 +90,25 @@ def render(post_type, source, post_types=None, speaker=None, lang=None):
     values = _fields(source, speaker)
     if post_type == 'contrarian_take':
         values['speaker'] = (speaker or '').strip()
+    from live import source_display
+    gate = source_display.display(source, lang, raw_name=values['publisher'], check_licence=False)
+    if not gate['ok']:
+        raise ValueError(f'source display gate: {gate["reason"]}')
+    raw_publisher = values['publisher']
+    values['publisher'] = gate['name']
+    if gate['policy'] != 'name':
+        values['speaker'] = ''   # the originator (bank / analyst) is not named under a generic credit
+    elif lang == 'en':
+        values['speaker'] = _latin_name(values['speaker']) if values['speaker'] else ''
     for name in [spec['frame'], *(spec.get('alternate_frames') or [])]:
         frame = table['frames'][name]
         if all(values.get(key) for key in frame.get('requires') or []):
             names = [v for v in (values['publisher'], values['speaker']) if v]
-            names += [a for a in aliases(source.get('source_id')) if a not in names]
+            if gate['policy'] == 'name':
+                names += [a for a in [raw_publisher, *aliases(source.get('source_id'))] if a and a not in names]
             template = frame.get('template_en') if lang == 'en' and frame.get('template_en') else frame['template']
-            shown = {k: _latin_name(v) for k, v in values.items()} if lang == 'en' else values
-            return {'name': name, 'placement': frame['placement'], 'text': template.format(**shown),
-                    'names': names}
+            return {'name': name, 'placement': frame['placement'], 'text': template.format(**values),
+                    'names': names, 'credit_policy': gate['policy'], 'never_name': gate['never_name']}
     raise ValueError(f'{post_type}: no attribution frame can be rendered for {source.get("source_id")}')
 
 

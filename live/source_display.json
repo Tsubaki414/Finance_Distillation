@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "note": "Display names + credit policy for attribution frames (live/source_display.py). sell_side_credit: 'generic' credits ReportGem broker excerpts as sell-side research without naming the bank (instruction 2026-10-04 night); 'bank' restores the earlier owner decision (bank named, never ReportGem).",
+  "sell_side_credit": "generic",
+  "generic": {
+    "sell_side": {
+      "zh": "券商研报",
+      "en": "sell-side research"
+    }
+  },
+  "never_name": [
+    "ReportGem"
+  ],
+  "sources": {
+    "x_HAOHONG_CFA": {
+      "en": "Hong Hao"
+    },
+    "wu_blockchain": {
+      "zh": "吴说"
+    },
+    "wallstreetcn": {
+      "en": "Wallstreetcn"
+    },
+    "ch001_data_eastmoney_com": {
+      "zh": "东方财富",
+      "en": "East Money"
+    },
+    "ch008_stock_finance_sina_com_cn": {
+      "zh": "新浪财经",
+      "en": "Sina Finance"
+    },
+    "ch012_sc_macromicro_me": {
+      "zh": "财经M平方",
+      "en": "MacroMicro"
+    },
+    "ch024_feeds_megaphone_fm": {
+      "zh": "Goldman Sachs Exchanges",
+      "en": "Goldman Sachs Exchanges"
+    },
+    "ch038_www_federalreserve_gov": {
+      "zh": "美联储",
+      "en": "Federal Reserve"
+    },
+    "ch040_markets_newyorkfed_org": {
+      "zh": "纽约联储",
+      "en": "New York Fed"
+    },
+    "ch041_www_frbsf_org": {
+      "zh": "旧金山联储",
+      "en": "San Francisco Fed"
+    },
+    "ch043_www_ecb_europa_eu": {
+      "zh": "欧洲央行",
+      "en": "ECB"
+    },
+    "ch045_www_boj_or_jp": {
+      "zh": "日本央行",
+      "en": "Bank of Japan"
+    },
+    "ch046_www_bis_org": {
+      "zh": "国际清算银行",
+      "en": "BIS"
+    },
+    "ch047_www_hkma_gov_hk": {
+      "zh": "香港金管局",
+      "en": "HKMA"
+    },
+    "ch051_back_nber_org": {
+      "zh": "NBER",
+      "en": "NBER"
+    },
+    "ch055_api_fiscaldata_treasury_gov": {
+      "zh": "美国财政部",
+      "en": "US Treasury"
+    },
+    "ch056_home_treasury_gov": {
+      "zh": "美国财政部",
+      "en": "US Treasury"
+    },
+    "ch057_api_bls_gov": {
+      "zh": "美国劳工统计局",
+      "en": "BLS"
+    },
+    "ch058_www_sec_gov": {
+      "zh": "SEC EDGAR",
+      "en": "SEC EDGAR"
+    },
+    "ch059_www_sec_gov": {
+      "zh": "美国证监会",
+      "en": "SEC"
+    },
+    "ch060_www_eia_gov": {
+      "zh": "美国能源信息署",
+      "en": "EIA"
+    },
+    "ch062_nvidianews_nvidia_com": {
+      "zh": "公司投资者关系公告",
+      "en": "company investor relations"
+    },
+    "ch063_www_cninfo_com_cn": {
+      "zh": "巨潮资讯网",
+      "en": "CNINFO"
+    },
+    "ch065_www_stats_gov_cn": {
+      "zh": "国家统计局",
+      "en": "China NBS"
+    },
+    "ch067_www_safe_gov_cn": {
+      "zh": "国家外汇管理局",
+      "en": "China SAFE"
+    },
+    "ch068_api_one_wscn_awtmt_com": {
+      "zh": "华尔街见闻",
+      "en": "Wallstreetcn"
+    },
+    "ch093_www_bespokepremium_com": {
+      "zh": "Bespoke",
+      "en": "Bespoke"
+    },
+    "ch106_research_glassnode_com": {
+      "zh": "Glassnode",
+      "en": "Glassnode"
+    },
+    "ch107_researchblog_coinshares_com": {
+      "zh": "CoinShares",
+      "en": "CoinShares"
+    },
+    "ch110_bitwiseinvestments_com": {
+      "zh": "Bitwise",
+      "en": "Bitwise"
+    },
+    "ch114_feeds_megaphone_fm": {
+      "zh": "Empire (Blockworks)",
+      "en": "Empire (Blockworks)"
+    },
+    "ch115_www_coindesk_com": {
+      "zh": "CoinDesk",
+      "en": "CoinDesk"
+    },
+    "ch121_wublock_substack_com": {
+      "zh": "吴说",
+      "en": "Wu Blockchain"
+    },
+    "ch123_www_techflowpost_com": {
+      "zh": "深潮 TechFlow",
+      "en": "TechFlow"
+    },
+    "ch127_wechat2rss_xlab_app": {
+      "zh": "长赢指数投资"
+    },
+    "ch139_eastmoney_us_stock": {
+      "zh": "东方财富",
+      "en": "East Money"
+    }
+  }
+}

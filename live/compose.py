@@ -461,6 +461,9 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
     findings += stale_time_findings(body, units, now, persona.lang)
     findings += contradiction_findings(body)
     findings += qa_levels.d_tier_findings(body)
+    if frame and frame.get('never_name'):
+        from live.source_display import never_name_findings
+        findings += qa_levels.classify(never_name_findings(text, frame['never_name']), frame_found=True)
     from live.licence_rules import quote_findings
     findings += quote_findings(body, units)
     findings += qa_levels.quote_findings(body, [s['exact_text'] for u in units for s in u['source_spans']])
@@ -524,11 +527,19 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     tier = registry.source_licence_tier(source.get('source_id'))
     publisher = attribution_frame.publisher_name(source.get('source_id'))
     assembly = []
+    from live import source_display
+    # licence tier is enforced below (post_types_for_tier raises for C/D/unknown); this gate adds the name/credit check
+    gate = source_display.display(source, persona.lang, tier=tier, raw_name=publisher or source.get('publisher'), check_licence=False)
     base = {'id': 'compose-' + digest([source.get('source_hash'), account_id, timestamp_now()])[:20],
             'version': VERSION, 'account_id': account_id, 'source_id': source.get('id'),
             'source_hash': source.get('source_hash'), 'licence_tier': tier,
             'persona': {'persona_id': persona.persona_id, 'version': persona.version},
-            'publishable': False, 'prompt_assembly': assembly, 'created_at': timestamp_now()}
+            'publishable': False, 'prompt_assembly': assembly, 'created_at': timestamp_now(),
+            'source_gate': {k: gate[k] for k in ('ok', 'name', 'policy', 'reason')}}
+    if not gate['ok']:   # front-end gate: never spend extraction/compose calls on an uncreditable source
+        return {**base, 'units': [], 'post_type': post_type, 'draft_status': 'not_suitable', 'status': 'skipped',
+                'text': '', 'post_checks': [], 'claim_ledger': [], 'risks': [],
+                'why': f'Source gate: {gate["reason"]}'}
     extracted = (content_units.extract(source, client, licence_tier=tier, publisher=publisher)
                  if extracted_units is None else {'units': extracted_units, 'response': {}, 'prompt_assembly': {}})
     if tier == 'A' and any(u.get('no_reproduction') for u in extracted['units']):

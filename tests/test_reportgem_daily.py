@@ -120,8 +120,15 @@ class SourceTests(unittest.TestCase):
         self.assertEqual(registry.source_licence_tier(source['source_id']), 'B')
         from live import attribution_frame
         frame = attribution_frame.render('data_take', source)
-        self.assertEqual(frame['text'], 'Morgan Stanley：')
+        # Credit policy (live/source_display.json sell_side_credit='generic'): the bank is not named.
+        self.assertEqual(frame['text'], '券商研报：')
+        self.assertIn('Morgan Stanley', frame['never_name'])
         self.assertNotIn('ReportGem', frame['text'])
+        from unittest import mock
+        from live import source_display
+        cfg = dict(source_display.config(), sell_side_credit='bank')
+        with mock.patch.object(source_display, 'config', return_value=cfg):
+            self.assertEqual(attribution_frame.render('data_take', source)['text'], 'Morgan Stanley：')
 
     def test_only_boilerplate_gives_no_source(self):
         it = dict(item(8), bank='Goldman Sachs')
