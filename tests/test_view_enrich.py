@@ -54,7 +54,7 @@ class EnrichTests(unittest.TestCase):
     def test_ungrounded_reasoning_rejected(self):
         out = view_enrich.enrich_views([row()], FakeClient('Profits will double'))
         self.assertEqual(out['enriched'], [])
-        self.assertIn('grounded', out['invalid'][0]['reason'])
+        self.assertIn('not traceable', out['invalid'][0]['reason'])
 
     def test_batches_and_call_limit(self):
         client = FakeClient()
@@ -85,7 +85,7 @@ class EnrichTests(unittest.TestCase):
             self.assertEqual(store.set_view_enrichments(entries), 1)
             self.assertEqual(path.read_bytes(), original)
             loaded = ContentStore(directory).units()[0]['unit']
-            self.assertEqual(loaded['view'], view())
+            self.assertEqual(loaded['view'], view_enrich.validate_view(view(), row()['unit']['source_spans']))
             self.assertEqual(loaded['view_source'], 'enriched')
             self.assertEqual(store.set_view_enrichments(entries), 0)
             bad = dict(entries[0], view=view('Made up'))

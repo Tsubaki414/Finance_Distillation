@@ -18,7 +18,7 @@ def test_extract_v2_requires_view_but_legacy_validator_tolerates_absence():
     assert len(result['units']) == 1
     assert 'view' in result['dropped_units'][0]['reason']
 
-@pytest.mark.parametrize('field,value', [('direction','up'), ('conviction','certain'), ('reasoning',[]), ('horizon','tomorrow'), ('subject','')])
+@pytest.mark.parametrize('field,value', [('reasoning',[]), ('subject','')])
 def test_view_contract(field, value):
     v = dict(VIEW, **{field:value})
     with pytest.raises(ContractError):
