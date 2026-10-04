@@ -206,7 +206,7 @@ def _view_support(view, spans):
     return [dict(s) for s in support], cited
 
 
-def validate_view(view, spans=None):
+def validate_view(view, spans=None, *, require_trace=True):
     view = coerce_view(view)
     require(isinstance(view.get('subject'), str) and bool(view['subject'].strip()), 'view: subject required')
     reasons = view.get('reasoning')
@@ -224,7 +224,7 @@ def validate_view(view, spans=None):
         for reason in reasons:
             require(all(q in quantities for q in inventory(reason)), 'view: reasoning number not bound to source')
             cross_script = _script(reason) != _script(' '.join(x['exact_text'] for x in cited))
-            require(cross_script or bool(_content_tokens(reason) & tokens), 'view: reasoning not traceable to spans')
+            require(not require_trace or cross_script or bool(_content_tokens(reason) & tokens), 'view: reasoning not traceable to spans')
     view['reasoning'] = [reason[:300] for reason in reasons[:3]]
     if isinstance(view.get('conditions'), list):
         view['conditions'] = '; '.join(str(c).strip() for c in view['conditions'] if str(c).strip())
