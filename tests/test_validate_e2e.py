@@ -57,24 +57,24 @@ class E2ETests(unittest.TestCase):
                 row('irrelevant', 'Unrelated 4.2%.')]
         rows[-1]['unit']['numbers'][0]['metric'] = 'unrelated'
         store = self.store(rows)
-        served = units_for_persona(store, 'macro_rates_en')
+        served = units_for_persona(store, 'macro_rates_en', mode='legacy')
         self.assertEqual([r['unit_id'] for r in served], ['routed', 'hits', 'newer', 'older'])
         self.assertEqual([r['match'] for r in served], ['routed', 'keyword', 'keyword', 'keyword'])
-        self.assertEqual(len(units_for_persona(store, 'macro_rates_en', limit=2)), 2)
+        self.assertEqual(len(units_for_persona(store, 'macro_rates_en', limit=2, mode='legacy')), 2)
         self.assertTrue(all('match' not in r for r in store.units()))
 
     def test_chinese_and_english_reuse_and_metric_only_match(self):
         rows = [row('en'), row('zh', '美联储通胀 4.2%。'), row('metric', 'Value 4.2%.')]
         rows[2]['unit']['numbers'][0]['metric'] = 'payroll'
         store = self.store(rows)
-        self.assertEqual(len(units_for_persona(store, 'macro_zh')), 3)
+        self.assertEqual(len(units_for_persona(store, 'macro_zh', mode='legacy')), 3)
 
     def test_as_of_and_age(self):
         store = self.store([row('old', date='2026-09-01'), row('current'), row('future', date='2026-10-03')])
         self.assertEqual([r['unit_id'] for r in units_for_persona(
-            store, 'macro_rates_en', as_of='2026-10-02', max_age_days=2)], ['current'])
+            store, 'macro_rates_en', as_of='2026-10-02', max_age_days=2, mode='legacy')], ['current'])
         with self.assertRaises(ValueError):
-            units_for_persona(store, 'macro_rates_en', max_age_days=-1)
+            units_for_persona(store, 'macro_rates_en', max_age_days=-1, mode='legacy')
 
     def test_integrity_duplicate_and_reportgem_checks(self):
         good = row('good', adapter='reportgem')
@@ -86,7 +86,7 @@ class E2ETests(unittest.TestCase):
         bad['source']['source_hash'] = None
         bad['unit']['numbers'][0].pop('period')
         bad['unit']['statement'] += ' Price Target $100'
-        result = validate_store(self.store([good, bad, good]), minimum=1)
+        result = validate_store(self.store([good, bad, good]), minimum=1, mode='legacy')
         checks = result['global_checks']
         for name in ('non_writable_tiers', 'broken_bindings', 'missing_provenance',
                      'reportgem_attributed_to_reportgem', 'ratings_targets', 'duplicate_unit_ids'):
@@ -112,7 +112,7 @@ class E2ETests(unittest.TestCase):
             self.assertTrue(checks[name], name)
 
     def test_valid_store_passes_served_persona(self):
-        report = validate_store(self.store([row('good')]), minimum=1)
+        report = validate_store(self.store([row('good')]), minimum=1, mode='legacy')
         self.assertEqual(report['personas']['macro_rates_en']['status'], 'PASS')
         self.assertFalse(any(report['global_checks'].values()))
 
@@ -152,7 +152,7 @@ class E2ETests(unittest.TestCase):
         rows = [row(uid, 'Inflation ' + 'x' * 200 + ' 4.2%.')
                 for uid in ('yes', 'stretch', 'no', 'unknown')]
         fake = FakeJev({'yes': 'relevant', 'stretch': 'tangential', 'no': 'irrelevant', 'unknown': 'invalid'})
-        report = validate_store(self.store(rows), minimum=2, jev=fake)
+        report = validate_store(self.store(rows), minimum=2, jev=fake, mode='legacy')
         persona = report['personas']['macro_rates_en']
         for label in ('relevant', 'tangential', 'irrelevant', 'unjudged'):
             self.assertEqual(persona[label], 1)
@@ -161,24 +161,24 @@ class E2ETests(unittest.TestCase):
         self.assertEqual(len(persona['irrelevant_examples']), 1)
         self.assertIn('| Relevant | Tangential | Irrelevant | Unjudged |', render_markdown(report))
         self.assertIn(persona['irrelevant_examples'][0], render_markdown(report))
-        self.assertEqual(validate_store(self.store(rows), minimum=1, jev=fake)
+        self.assertEqual(validate_store(self.store(rows), minimum=1, jev=fake, mode='legacy')
                          ['personas']['macro_rates_en']['status'], 'PASS')
         rows[0]['attribution'] = {}
-        self.assertEqual(validate_store(self.store(rows), minimum=1, jev=fake)
+        self.assertEqual(validate_store(self.store(rows), minimum=1, jev=fake, mode='legacy')
                          ['personas']['macro_rates_en']['status'], 'FAIL')
 
     def test_jev_failure_never_counts_as_relevant_and_examples_are_bounded(self):
         rows = [row(str(i)) for i in range(5)]
         store = self.store(rows)
-        offline = validate_store(store, minimum=1)
+        offline = validate_store(store, minimum=1, mode='legacy')
         self.assertNotIn('relevant', offline['personas']['macro_rates_en'])
         self.assertNotIn('| Relevant |', render_markdown(offline))
-        failed = validate_store(store, minimum=1, jev=FakeJev(fail=lambda q, n: True))
+        failed = validate_store(store, minimum=1, jev=FakeJev(fail=lambda q, n: True), mode='legacy')
         persona = failed['personas']['macro_rates_en']
         self.assertEqual((persona['relevant'], persona['unjudged'], persona['status']), (0, 5, 'FAIL'))
-        relevant = validate_store(store, minimum=1, jev=FakeJev())
+        relevant = validate_store(store, minimum=1, jev=FakeJev(), mode='legacy')
         self.assertEqual(len(relevant['personas']['macro_rates_en']['relevant_examples']), 3)
-        irrelevant = validate_store(store, minimum=1, jev=FakeJev({str(i): 'irrelevant' for i in range(5)}))
+        irrelevant = validate_store(store, minimum=1, jev=FakeJev({str(i): 'irrelevant' for i in range(5)}), mode='legacy')
         self.assertEqual(len(irrelevant['personas']['macro_rates_en']['irrelevant_examples']), 3)
 
     def test_jev_cli_log_and_budget_directory(self):
@@ -186,7 +186,7 @@ class E2ETests(unittest.TestCase):
         self.store([row('yes')])
         run, out = self.root / 'jev', self.root / 'jev.json'
         with patch('live.jev_review_client.JevReviewClient', return_value=FakeJev()) as client, patch.object(budget, 'STORE'), patch.object(budget, 'LEDGER'):
-            self.assertEqual(main(['--store', str(self.root), '--min', '1', '--jev',
+            self.assertEqual(main(['--store', str(self.root), '--mode', 'legacy', '--min', '1', '--jev',
                                    '--jev-run', str(run), '--out-json', str(out)]), 0)
             client.assert_called_once_with(run)
             self.assertEqual(budget.STORE, run / 'ledger')

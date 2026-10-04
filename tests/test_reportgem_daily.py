@@ -270,14 +270,15 @@ class ScaleTests(unittest.TestCase):
         import tempfile
         from live.content_store import ContentStore
         from unittest.mock import patch
+        from tests.test_validate_e2e import FakeJev
         src = dict(item(1), publisher='Goldman Sachs', author_name='Goldman Sachs', source_id='reportgem_goldman_sachs', source_hash='abc')
         units = [{'unit_id': k, 'licence_tier': 'B', 'usage': 'paraphrase', 'statement': 'Fed rates', 'kind': 'fact'} for k in ('keep', 'drop')]
         with tempfile.TemporaryDirectory() as tmp, patch('live.jev_front.prescreen_units', return_value={'keep': {'verdict': 'keep'}, 'drop': {'verdict': 'drop'}}):
             store = ContentStore(tmp)
-            result = rg.store_units(src, units, 'macro_rates_en', store=store, jev=object())
+            result = rg.store_units(src, units, 'macro_rates_en', store=store, jev=FakeJev())
             self.assertEqual(result['dropped'], 1)
             self.assertEqual(store.units()[0]['personas'], ['macro_rates_en'])
-            self.assertEqual(rg.store_units(src, units, 'macro_rates_en', store=store, jev=object())['duplicate'], 1)
+            self.assertEqual(rg.store_units(src, units, 'macro_rates_en', store=store, jev=FakeJev())['duplicate'], 1)
 
 
     def test_http_missing_env_is_clear(self):
