@@ -51,3 +51,11 @@ def test_markdown_shows_unused_donor_cluster_and_voice_usage():
     assert 'zh_us_stock_commentary' in text
     assert 'Voice/exemplar used' in text
     assert '| built_unused | 0 | 1 |' in text
+
+
+def test_channel_id_rows_match_legacy_newsletter_adapter_ids():
+    ch = {'channel_id': 'ch089_www_apricitas_io', 'name': 'Apricitas Economics（Joseph Politano）', 'url': 'https://www.apricitas.io/feed'}
+    assert match_channel(ch, {'source': {'source_id': 'apricitas', 'adapter': 'newsletter_rss', 'url': 'https://www.apricitas.io/p/x'}})
+    wu = {'channel_id': 'ch121_wublock_substack_com', 'name': '吴说 Wu Blockchain（Substack）', 'url': 'https://wublock.substack.com/feed'}
+    assert match_channel(wu, {'source': {'source_id': 'wu_blockchain', 'adapter': 'newsletter_rss'}})
+    assert not match_channel(ch, {'source': {'source_id': 'wu_blockchain', 'adapter': 'newsletter_rss'}})
