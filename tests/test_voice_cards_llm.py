@@ -152,3 +152,22 @@ class QualitativeTests(unittest.TestCase):
         serialized = json.dumps(summary)
         self.assertNotIn(self.sample[0]['text'], serialized)
         self.assertNotIn(q['signature_moves'][0]['move'], serialized)
+
+
+class LlmOutputRobustnessTests(unittest.TestCase):
+    def setUp(self):
+        cluster, posts, tags, roster = corpus()
+        self.cluster = cluster
+        self.sample = vc.sample_for_cluster(cluster, posts, tags, roster, n=12, per_donor=4)
+
+    def test_markdown_fenced_json_is_accepted(self):
+        raw = '```json\n' + json.dumps(answer(self.sample)) + '\n```'
+        self.assertIn('tendencies', vc.qualitative_card(self.cluster, {}, self.sample, lambda p: raw))
+
+    def test_prompt_stats_carry_no_out_of_sample_ids(self):
+        prompts = []
+        stats = {'hooks': {'question': {'share': 0.1, 'first_lines': [{'handle': 'zeta', 'id': 'OUTSIDE123', 'text': 'Why now?'}]}}}
+        vc.qualitative_card(self.cluster, stats, self.sample, lambda p: prompts.append(p) or json.dumps(answer(self.sample)))
+        self.assertNotIn('OUTSIDE123', prompts[0])
+        self.assertIn('Why now?', prompts[0])
+        self.assertEqual(stats['hooks']['question']['first_lines'][0]['id'], 'OUTSIDE123')
