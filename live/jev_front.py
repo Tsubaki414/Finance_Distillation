@@ -64,6 +64,45 @@ def _ask(jev, state, questions):
     return result['answers'] if result.get('status') == 'completed' else None
 
 
+def _resilient_ask(jev, state, questions, groups, stats=None, max_calls=None):
+    """Retry each node once, then split whole items; stop at the call budget.
+
+    A full binary retry tree is at most 4*n-2 calls. Tagging additionally
+    caps the tree at 2*n+2; exhausted branches keep their rule fallback.
+    """
+    if jev is None:
+        return {}
+    remaining = max_calls if max_calls is not None else 4 * len(groups) - 2
+
+    def count(key):
+        if stats is not None:
+            stats[key] = stats.get(key, 0) + 1
+
+    def visit(part):
+        nonlocal remaining
+        subset = {qid: questions[qid] for group in part for qid in group}
+        for attempt in range(2):
+            if remaining <= 0:
+                return {}
+            remaining -= 1
+            count('calls')
+            if attempt:
+                count('retried')
+            answers = _ask(jev, state, subset)
+            if answers and all(qid in answers for qid in subset):
+                return answers
+            count('failed_calls')
+        if len(part) == 1 or remaining <= 0:
+            return {}
+        count('split')
+        middle = len(part) // 2
+        left = visit(part[:middle])
+        right = visit(part[middle:])
+        return {**left, **right}
+
+    return visit(groups) if groups else {}
+
+
 def _keyword_persona(text):
     text = text.lower()
     zh = bool(re.search(r'[\u4e00-\u9fff]', text))
@@ -86,7 +125,8 @@ def route_sources(items, *, jev=None):
                                 'instructions': f'Incoming source from {it.get("publisher", "")}: "{it.get("title", "")[:200]}". '
                                                 f'{(it.get("snippet") or "")[:400]} Which persona beat does it belong to?'}
                      for it in batch}
-        answers = _ask(jev, {'task': 'source routing per persona'}, questions)
+        answers = _resilient_ask(jev, {'task': 'source routing per persona'}, questions,
+                                 [[qid] for qid in questions])
         for it in batch:
             a = (answers or {}).get(it['id'])
             if a:
@@ -104,7 +144,8 @@ def prescreen_units(units, *, persona, jev=None):
                                     'instructions': f'Persona beat: {PERSONAS.get(persona, persona)}. Content unit ({u.get("kind")}): '
                                                     f'"{u.get("statement", "")[:400]}". Is it usable for this persona?'}
                      for u in batch}
-        answers = _ask(jev, {'task': 'content unit pre-screen', 'persona': persona}, questions)
+        answers = _resilient_ask(jev, {'task': 'content unit pre-screen', 'persona': persona},
+                                 questions, [[qid] for qid in questions])
         for u in batch:
             a = (answers or {}).get(u['unit_id'])
             out[u['unit_id']] = ({'verdict': a['choice'], 'jev_fallback': False, 'confidence': a.get('confidence')} if a
@@ -133,7 +174,18 @@ def _rule_post_type(text, numbers):
     return 'hot_take'
 
 
-def tag_posts(posts, *, jev=None):
+def tag_posts(posts, *, jev=None, stats=None, questions_per_call=16):
+    """Tag eight posts per batch; 8 questions separates type and hook calls.
+
+    questions_per_call is 1..16. Stats accumulate across invocations.
+    Each batch uses at most 2*len(batch)+2 calls, including retries/splits.
+    """
+    if type(questions_per_call) is not int or not 1 <= questions_per_call <= 16:
+        raise ValueError('questions_per_call must be an integer from 1 to 16')
+    posts = list(posts)
+    if stats is not None:
+        for key in ('calls', 'failed_calls', 'retried', 'split', 'fallback_posts'):
+            stats.setdefault(key, 0)
     out = {}
     for p in posts:
         text = p.get('text') or ''
@@ -148,11 +200,30 @@ def tag_posts(posts, *, jev=None):
                                                  'instructions': f'Finance post: "{t}". Which post type is it?'}
             questions[f'{p["id"]}:hook'] = {'type': 'choice', 'criteria': HOOK_CRITERIA,
                                             'instructions': f'Finance post: "{t[:300]}". How does its first sentence hook the reader?'}
-        answers = _ask(jev, {'task': 'donor post style tagging'}, questions)
+        groups = [[f'{p["id"]}:post_type', f'{p["id"]}:hook'] for p in batch]
+        state = {'task': 'donor post style tagging'}
+        if questions_per_call == 16:
+            answers = _resilient_ask(jev, state, questions, groups, stats, 2 * len(batch) + 2)
+        else:
+            answers = {}
+            # Separate dimensions so a malformed hook cannot discard a type response.
+            used = 0
+            for dimension in ('post_type', 'hook'):
+                for part in _batches(batch, questions_per_call):
+                    single_groups = [[f'{p["id"]}:{dimension}'] for p in part]
+                    local = {}
+                    answers.update(_resilient_ask(jev, state, questions, single_groups, local,
+                                                 2 * len(batch) + 2 - used))
+                    used += local.get('calls', 0)
+                    if stats is not None:
+                        for key, value in local.items():
+                            stats[key] = stats.get(key, 0) + value
         if not answers:
             continue
         for p in batch:
             a, h = answers.get(f'{p["id"]}:post_type'), answers.get(f'{p["id"]}:hook')
             if a and h:
                 out[p['id']].update(post_type=a['choice'], hook=h['choice'], jev_fallback=False)
+    if stats is not None:
+        stats['fallback_posts'] += sum(t['jev_fallback'] for t in out.values())
     return out

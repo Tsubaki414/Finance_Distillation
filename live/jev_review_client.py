@@ -33,9 +33,9 @@ class ContractError(ValueError):
     pass
 
 
-def _require(condition):
+def _require(condition, check="invalid_contract"):
     if not condition:
-        raise ContractError('Invalid typed decision contract')
+        raise ContractError(check)
 
 
 def _json_value(value, depth=0):
@@ -86,10 +86,10 @@ def _reject_constant(value):
 
 
 def _usage(data):
-    _require(isinstance(data, dict) and isinstance(data.get('usage'), dict))
+    _require(isinstance(data, dict) and isinstance(data.get('usage'), dict), 'usage_object')
     usage = data['usage']
-    _require(set(usage) == {'input_tokens', 'output_tokens'})
-    _require(all(type(value) is int and value >= 0 for value in usage.values()))
+    _require(set(usage) == {'input_tokens', 'output_tokens'}, 'usage_keys')
+    _require(all(type(value) is int and value >= 0 for value in usage.values()), 'usage_tokens')
     return {'prompt_tokens': usage['input_tokens'], 'completion_tokens': usage['output_tokens']}
 
 
@@ -98,20 +98,21 @@ def _probability(value):
 
 
 def _response(data, questions):
-    _require(isinstance(data, dict) and set(data) == {'model', 'answers', 'usage'})
-    _require(data['model'] == MODEL)
-    _require(isinstance(data['answers'], dict) and set(data['answers']) == set(questions))
+    _require(isinstance(data, dict) and set(data) == {'model', 'answers', 'usage'}, 'top_level_keys')
+    _require(data['model'] == MODEL, 'model_mismatch')
+    _require(isinstance(data['answers'], dict) and set(data['answers']) == set(questions), 'answers_keys_mismatch')
     for qid, answer in data['answers'].items():
         _require(isinstance(answer, dict) and
-                 set(answer) == {'type', 'choice', 'probabilities', 'confidence'})
+                 set(answer) == {'type', 'choice', 'probabilities', 'confidence'}, 'answer_keys')
         labels = set(questions[qid]['criteria'])
-        _require(answer['type'] == 'choice' and isinstance(answer['choice'], str) and answer['choice'] in labels)
+        _require(answer['type'] == 'choice', 'answer_type')
+        _require(isinstance(answer['choice'], str) and answer['choice'] in labels, 'choice_not_in_labels')
         probabilities = answer['probabilities']
-        _require(isinstance(probabilities, dict) and set(probabilities) == labels)
-        _require(all(_probability(value) for value in probabilities.values()))
-        _require(math.isclose(sum(probabilities.values()), 1.0, rel_tol=0, abs_tol=1e-6))
-        _require(probabilities[answer['choice']] == max(probabilities.values()))
-        _require(_probability(answer['confidence']))
+        _require(isinstance(probabilities, dict) and set(probabilities) == labels, 'probabilities_keys')
+        _require(all(_probability(value) for value in probabilities.values()), 'probabilities_range')
+        _require(math.isclose(sum(probabilities.values()), 1.0, rel_tol=0, abs_tol=1e-6), 'probabilities_sum')
+        _require(probabilities[answer['choice']] == max(probabilities.values()), 'choice_not_argmax')
+        _require(_probability(answer['confidence']), 'confidence_range')
     _usage(data)
     return data
 
@@ -238,7 +239,12 @@ class JevReviewClient:
                         invalid_usage = True
                         result['error_code'] = 'usage_contract'
                     else:
-                        validated = _response(data, payload['questions'])
+                        try:
+                            validated = _response(data, payload['questions'])
+                        except ContractError as exc:
+                            result['contract_error'] = record['contract_error'] = str(exc)
+                            record['response_raw_truncated'] = _safe(response.text, self._api_key)[:4000]
+                            raise
                         usage = candidate_usage
                         record['response'] = validated
                         result.update(status='completed', answers=validated['answers'],

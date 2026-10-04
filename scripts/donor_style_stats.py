@@ -3,6 +3,8 @@ numbers) and build per-persona style stats -> live/donors/style_stats.json.
 
   python scripts/donor_style_stats.py --jev --run /workspace/x/donor_tags
 Tags are cached per donor in live/donors/tags/<handle>.json (untracked).
+Use --only-fallback live/donors/tags to retry only previously failed posts.
+Use --questions-per-call 8 to ask post_type and hook separately.
 """
 from __future__ import annotations
 
@@ -28,36 +30,73 @@ def load_posts(handle):
     return [json.loads(l) for l in path.read_text(encoding='utf-8').split('\n') if l.strip()]
 
 
-def tag_donor(handle, jev, cap):
+def tag_donor(handle, jev, cap, *, only_fallback=None, stats=None, questions_per_call=16):
     out = TAGS / f'{handle.lower()}.json'
-    if out.exists():
-        return handle, json.loads(out.read_text())
-    seen, posts = set(), []
-    for p in donor_style.originals(load_posts(handle)):
-        key = ' '.join((p.get('text') or '').split())[:200]
-        if key and key not in seen:  # repeated promo / boilerplate posts would skew the mix
-            seen.add(key)
-            posts.append(p)
-    posts = posts[:cap]
+    previous_path = None
+    if only_fallback is not None:
+        previous_path = Path(only_fallback)
+        if previous_path.is_dir():
+            previous_path = previous_path / out.name
+        elif previous_path.stem.lower() != handle.lower():
+            # A single per-donor JSON only selects that donor.
+            return handle, json.loads(out.read_text()) if out.exists() else {}
+    if previous_path is not None:
+        if not previous_path.exists():
+            return handle, json.loads(out.read_text()) if out.exists() else {}
+        previous = json.loads(previous_path.read_text())
+        # Preserve successful cached tags if using an older selection snapshot.
+        merged = dict(previous)
+        if out.exists():
+            merged.update(json.loads(out.read_text()))
+        selected = {key for key, tag in previous.items() if tag.get('jev_fallback') is True}
+        # Retag all selected IDs, regardless of the original cap/dedup policy.
+        posts = [p for p in load_posts(handle) if str(p['id']) in selected]
+    else:
+        if out.exists():
+            return handle, json.loads(out.read_text())
+        merged = {}
+        seen, posts = set(), []
+        for p in donor_style.originals(load_posts(handle)):
+            key = ' '.join((p.get('text') or '').split())[:200]
+            if key and key not in seen:
+                seen.add(key)
+                posts.append(p)
+        posts = posts[:cap]
     if not posts:
-        return handle, {}
-    tags = jev_front.tag_posts(posts, jev=jev)
+        return handle, merged
+    if stats is not None:
+        stats['posts'] = stats.get('posts', 0) + len(posts)
+    tags = jev_front.tag_posts(posts, jev=jev, stats=stats, questions_per_call=questions_per_call)
+    merged.update(tags)
     TAGS.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(tags, ensure_ascii=False))
-    return handle, tags
+    out.write_text(json.dumps(merged, ensure_ascii=False))
+    return handle, merged
 
 
 def main():
+    global POSTS, TAGS
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--run', type=Path, required=True)
     ap.add_argument('--jev', action='store_true')
     ap.add_argument('--cap', type=int, default=250, help='max original posts tagged per donor')
     ap.add_argument('--workers', type=int, default=6)
+    ap.add_argument('--only-fallback', type=Path, metavar='PREV_TAGS',
+                    help='retag only fallback IDs from a per-donor JSON or directory of tag JSONs; merge into cache')
+    ap.add_argument('--questions-per-call', type=int, choices=range(1, 17), default=16,
+                    help='default 16; use 8 to ask post_type and hook separately')
+    ap.add_argument('--posts-dir', type=Path, default=POSTS)
+    ap.add_argument('--tags-dir', type=Path, default=TAGS)
     args = ap.parse_args()
+    if args.only_fallback is not None and not args.only_fallback.exists():
+        ap.error('--only-fallback must name an existing tag JSON or directory')
+    if args.only_fallback is not None and not args.jev:
+        ap.error('--only-fallback requires --jev')
+    POSTS, TAGS = args.posts_dir, args.tags_dir
     roster = json.loads((ROOT / 'live/donors/roster.json').read_text())
     from ml import budget as spend
     spend.STORE = args.run / 'ledger'
     spend.LEDGER = spend.STORE / 'spend.json'
+    spend.DISTILLATION_RUNS = spend.STORE / 'distillation_spend.jsonl'
     jev = None
     if args.jev:
         from live.jev_review_client import JevReviewClient
@@ -65,8 +104,17 @@ def main():
     handles = sorted({d['handle'] for c in roster['persona_clusters'].values() for d in c['donors']} |
                      {h for c in roster['persona_clusters'].values() for h in c['bench']})
     handles = [h for h in handles if (POSTS / f'{h.lower()}.jsonl').exists()]
+    def tag_handle(handle):
+        stats = {}
+        result = tag_donor(handle, jev, args.cap, only_fallback=args.only_fallback,
+                           stats=stats, questions_per_call=args.questions_per_call)
+        return result, stats
+
     with ThreadPoolExecutor(args.workers) as ex:
-        tagged = dict(ex.map(lambda h: tag_donor(h, jev, args.cap), handles))
+        results = list(ex.map(tag_handle, handles))
+    tagged = dict(result for result, stats in results)
+    totals = {key: sum(stats.get(key, 0) for result, stats in results)
+              for key in ('calls', 'failed_calls', 'retried', 'split', 'fallback_posts', 'posts')}
     per_donor = {h: donor_style.aggregate(t.values()) for h, t in tagged.items() if t}
     clusters = {}
     for name, c in roster['persona_clusters'].items():
@@ -82,8 +130,12 @@ def main():
            'posts_tagged': sum(s['posts'] for s in per_donor.values()), 'clusters': clusters, 'donors': per_donor}
     (ROOT / 'live/donors/style_stats.json').write_text(json.dumps(out, ensure_ascii=False, indent=1) + '\n')
     print(json.dumps({'donors_tagged': out['donors_tagged'], 'posts_tagged': out['posts_tagged'],
-                      'jev_calls': len(jev.calls) if jev else 0,
-                      'jev_failed': sum(1 for c in (jev.calls if jev else []) if c['status'] != 'completed')}, indent=1))
+                      'posts_retagged' if args.only_fallback else 'new_posts_tagged': totals['posts'],
+                      'jev_calls': totals['calls'], 'jev_failed': totals['failed_calls'],
+                      'retried': totals['retried'], 'split': totals['split'],
+                      'fallback_posts': totals['fallback_posts'],
+                      'failed_calls_rate': totals['failed_calls'] / totals['calls'] if totals['calls'] else 0,
+                      'fallback_posts_rate': totals['fallback_posts'] / totals['posts'] if totals['posts'] else 0}, indent=1))
 
 
 if __name__ == '__main__':
