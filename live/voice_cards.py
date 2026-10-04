@@ -11,6 +11,49 @@ HOOKS = ('question', 'number-led headline', 'ticker-led', 'contrast/turn', 'list
 EMOJI = re.compile('[\U0001F000-\U0001FAFF\u2600-\u27BF]')
 PROMO = re.compile(r'\b(?:giveaway|sponsored|paid partnership)\b|(?:^|\s)#ad\b|subscribe now|paid subscription|(?:my |our )discount code|use (?:my |our )?(?:promo|discount) code|抽奖|付费推广|广告合作', re.I)
 
+POSITION_PATTERNS = (
+    re.compile(r'\b(?:holdings?|positions?|position sizing|my portfolio|bought|sold|added|trimmed|P&L|profit(?:s)?|loss(?:es)?|gains on my)\b', re.I),
+    re.compile(r'持仓|仓位|加仓|减仓|建仓|清仓|止盈|止损|盈亏|收益率晒单|我买了|我卖了|实盘'),
+)
+POSITION_AVOID = {
+    'frequency': 'almost_never',
+    'tendency': 'Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)',
+    'evidence_ids': [],
+}
+_FORBIDS_POSITION = re.compile(
+    r'\b(?:never|no|not|avoid|forbid\w*|prohibit\w*|refrain)\b|do[n’\']t|不|禁止|避免|杜绝', re.I)
+
+
+def sanitize_card(card):
+    """Remove trade/position style instructions in place; retain prohibitions.
+
+    Audit entries contain only the removed description, never donor evidence.
+    Repeated sanitization is safe for persisted and already loaded cards.
+    """
+    removed = card.setdefault('compliance_removed', [])
+    for section in (card, card.get('qualitative') or {}, card.get('baseline_tendencies') or {}):
+        for key, label in (('tendencies', 'tendency'), ('avoid_tendencies', 'tendency'),
+                           ('signature_moves', 'move'), ('hook_patterns', 'pattern')):
+            if key not in section:
+                continue
+            kept = []
+            for row in section[key]:
+                text = row if isinstance(row, str) else row.get(label, '')
+                matches = any(pattern.search(text) for pattern in POSITION_PATTERNS)
+                forbids = key == 'avoid_tendencies' and (
+                    text == POSITION_AVOID['tendency'] or _FORBIDS_POSITION.search(text))
+                if matches and not forbids:
+                    if text not in removed:
+                        removed.append(text)
+                else:
+                    kept.append(row)
+            section[key] = kept
+        if section is card or 'avoid_tendencies' in section:
+            avoid = section.setdefault('avoid_tendencies', [])
+            if not any(isinstance(r, dict) and r.get('tendency') == POSITION_AVOID['tendency'] for r in avoid):
+                avoid.append({**POSITION_AVOID, 'evidence_ids': []})
+    return card
+
 
 def load_posts(handle, posts_dir):
     root = Path(posts_dir)
@@ -382,12 +425,14 @@ def build_cards(posts_dir, tags_dir, roster, *, llm=None, clusters=None, sample_
                 card['qualitative_error'] = q['qualitative_error']
             else:
                 card['tendencies'], card['avoid_tendencies'] = q['tendencies'], q['avoid_tendencies']
+        sanitize_card(card)
     return cards
 
 
 def compact_summary(card):
     if not card:
         return {}
+    card = sanitize_card(card)
     q = card.get('qualitative') or {}
     # Historical cards remain readable, but their imperative rules and snippets
     # never become prompt instructions. Operators rebuild them locally as v2.
@@ -472,7 +517,7 @@ def write_cards(cards, out):
         for kind in ('tendencies', 'avoid_tendencies'):
             for rule in card[kind]:
                 lines.append(f"- {kind}: {rule['frequency']} — {rule['tendency']}")
-                for example in rule['evidence']:
+                for example in rule.get('evidence', []):
                     text = example['text'].replace('\n', ' ')
                     lines.append(f"  - @{example['handle']} / {example['id']}: {text}")
             lines.append('')

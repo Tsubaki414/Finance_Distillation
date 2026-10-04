@@ -196,7 +196,8 @@ def load_personas(directory=PERSONAS, post_types=None):
         spec = _spec(raw)
         if card_path.exists():
             from dataclasses import replace
-            spec = replace(spec, voice_card=json.loads(card_path.read_text()))
+            from live.voice_cards import sanitize_card
+            spec = replace(spec, voice_card=sanitize_card(json.loads(card_path.read_text())))
         out[raw['persona_id']] = spec
     return out
 
