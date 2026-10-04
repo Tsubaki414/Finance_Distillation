@@ -165,6 +165,13 @@ class EvidenceScreenTests(unittest.TestCase):
         self.assertNotIn('PO:', cleaned)
         self.assertIn('worsening conditions in China', cleaned)
 
+    def test_double_quotes_are_normalised_for_json_safe_spans(self):
+        # The extract model echoed “Dots” as unescaped "Dots" and broke the JSON (903933, twice).
+        cleaned = rg.clean_passage('Policy normalization in line with the Fed “Dots” and the "base case" for a December hike.')
+        self.assertNotIn('"', cleaned)
+        self.assertNotIn('“', cleaned)
+        self.assertIn("Fed 'Dots'", cleaned)
+
     def test_target_price_titles_are_not_selected(self):
         self.assertTrue(rg.is_rating_call({'title': 'Strategy Inc (MSTR.O): Bitcoin Reversal; Raising TP to $240, Maintain Buy/HR'}))
         self.assertFalse(rg.is_rating_call({'title': 'Global Rates Weekly: Start of rates bite'}))
