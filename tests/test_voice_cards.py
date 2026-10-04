@@ -22,7 +22,7 @@ class VoiceTests(unittest.TestCase):
         self.assertEqual(c['sentence_length']['unit'], 'words')
         self.assertTrue(c['signature_phrasing'])
         self.assertTrue(all(x['do_not_copy'] for x in c['signature_phrasing']))
-        for kind in ['do', 'dont']:
+        for kind in ['tendencies', 'avoid_tendencies']:
             self.assertTrue(c[kind])
             for rule in c[kind]:
                 self.assertTrue(2 <= len(rule['evidence']) <= 4)
@@ -83,7 +83,7 @@ class VoiceEdgeTests(unittest.TestCase):
         summary=json.dumps(compact_summary(c))
         for marker in c['signature_phrasing']:
             self.assertNotIn(marker['phrase'],summary)
-        for e in c['do'][0]['evidence']:
+        for e in c['tendencies'][0]['evidence']:
             self.assertNotIn(e['text'],summary)
 
     def test_card_cli_writes_each_cluster_and_markdown(self):
