@@ -50,7 +50,7 @@
   },
   "hooks": {
     "question": {
-      "share": 0.057017725,
+      "share": 0.050484129,
       "first_lines": [
         {
           "handle": "IanCutress",
@@ -69,7 +69,7 @@
         }
       ]
     },
-    "number-led": {
+    "number-led headline": {
       "share": 0.01141478,
       "first_lines": [
         {
@@ -89,38 +89,67 @@
         }
       ]
     },
-    "claim-led": {
-      "share": 0.900426527,
+    "ticker-led": {
+      "share": 0.077999716,
       "first_lines": [
         {
           "handle": "IanCutress",
-          "id": "2080346881742483595",
-          "text": "@AMD @cerebras @andrewdfeldman ROCm releases every six weeks. https://t.co/RBMFZysaRR"
+          "id": "2102801923560657366",
+          "text": "TSMC has the largest set of validated IP. 100k+ by end of 2026. Availability allows customers to move quickly and with confidence."
         },
         {
-          "handle": "IanCutress",
-          "id": "2080361822662574538",
-          "text": "@AMD Lisa back to the stage. https://t.co/p8Q9Kia7U6"
+          "handle": "mingchikuo",
+          "id": "1924786064914579735",
+          "text": "Apple's competitors in the large-sized foldable device market may not be limited to Huawei. My research indicates that Amazon is also internally developing a similar product, which has not yet officially kicked off. If development progresses as planned, it is projected to enter mass production in late 2026 or 2027. (Apple’s 18.8-inch foldable device is slated for mass production in late 2027 or 2028.)"
         },
         {
-          "handle": "IanCutress",
-          "id": "2080362158307598819",
-          "text": "@AMD Florence, Ferrara, Fidenza https://t.co/mOTfNvEOcS"
+          "handle": "mingchikuo",
+          "id": "1931935277851013355",
+          "text": "Apple WWDC 2025的3個觀察重點："
         }
       ]
     },
-    "breaking": {
-      "share": 0.001251058,
+    "contrast/turn": {
+      "share": 0.064893358,
       "first_lines": [
+        {
+          "handle": "IanCutress",
+          "id": "2084923559109870042",
+          "text": "Six months later than planned, but I can confirm that my analyst firm @MoreThanMoore2x is officially a Silver Sponsor of Hot Chips 2026! @hotchipsorg"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2088382897128432012",
+          "text": "Hey @AnthropicAI , can I get an option to 'archive' chats in the desktop app so they get pushed to a special folder at the bottom of the lists/dates? Some chats I'm done with but still want access, and rather than clog up my list, I'd like to archive them out of the way."
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2088666211923964258",
+          "text": "The 10 year agreement expired some time ago, but it's done to prevent mutually assured destruction. That being said, Amd gave hygon a zen 1 design, and recently Intel gave e-core RTL to an Israeli startup part-invested by Lip Bu: https://t.co/8XaBcPSfOl"
+        }
+      ]
+    },
+    "list/thread opener": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "news-wire": {
+      "share": 0.00242927,
+      "first_lines": [
+        {
+          "handle": "mingchikuo",
+          "id": "2051523844540899386",
+          "text": "【產業調查更新】OpenAI 可能正加速首款 AI agent 手機開發，目標最快於 1H27 量產，考量原因或包括有利年底 IPO 敘事、AI agent 手機競爭加速等。目前聯發科更有可能獨家取得處理器訂單，該機預計採用基於天璣 9600 的客製版本，並於 2H26 由台積電 N2P 生產。ISP 強化高動態範圍輸出，有利真實世界視覺感知，故為規格焦點；其他關鍵規格包括雙NPU架構（AI 算力分層）、LPDDR6 + UFS 5.0（緩解記憶體瓶頸）、pKVM + inline hashing（安全性）等。若開發順利，預計 2027 與 2028 年共出貨約 3,000 萬支。"
+        },
+        {
+          "handle": "mingchikuo",
+          "id": "2051523855286776034",
+          "text": "【Industry Check Update】OpenAI appears to be fast-tracking its first AI agent phone, with mass production targeted as early as 1H27. Potential drivers include supporting a year-end IPO narrative and intensifying competition in AI agent phones. MediaTek currently appears better positioned to become the sole processor supplier, with the device set to use a customized version of the Dimensity 9600, built on TSMC’s N2P node in 2H26. The ISP is the headline spec, with an enhanced HDR pipeline improving real-world visual sensing. Other key specs include a dual-NPU architecture for heterogeneous AI compute, LPDDR6 + UFS 5.0 to ease memory bottlenecks, and pKVM + inline hashing for security. If development stays on track, combined 2027–2028 shipments could reach around 30 million units."
+        },
         {
           "handle": "mingchikuo",
           "id": "2067438616188739960",
           "text": "Breaking down TSMC's glass core substrate slide"
-        },
-        {
-          "handle": "SemiAnalysis_",
-          "id": "2100661179932700867",
-          "text": "BREAKING: AMD MI355X is quickly closing the perf/TCO gap in agentic inference, when compared to GB300 apples-to-apples. (1/3)🧵 https://t.co/DyK8QPmuRv"
         }
       ]
     },
@@ -145,7 +174,7 @@
       ]
     },
     "quote": {
-      "share": 0.02096336,
+      "share": 0.019071867,
       "first_lines": [
         {
           "handle": "IanCutress",
@@ -161,6 +190,26 @@
           "handle": "SemiAnalysis_",
           "id": "2106582776975958095",
           "text": "\"6.1 Astra\""
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.764780331,
+      "first_lines": [
+        {
+          "handle": "IanCutress",
+          "id": "2080346881742483595",
+          "text": "@AMD @cerebras @andrewdfeldman ROCm releases every six weeks. https://t.co/RBMFZysaRR"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2080361822662574538",
+          "text": "@AMD Lisa back to the stage. https://t.co/p8Q9Kia7U6"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2080362158307598819",
+          "text": "@AMD Florence, Ferrara, Fidenza https://t.co/mOTfNvEOcS"
         }
       ]
     }
@@ -365,5 +414,112 @@
         }
       ]
     }
-  ]
+  ],
+  "baseline_rules": {
+    "do": [
+      {
+        "rule": "Lead with a clear judgment; use data to support it.",
+        "evidence": [
+          {
+            "handle": "IanCutress",
+            "id": "2080346881742483595",
+            "text": "@AMD @cerebras @andrewdfeldman ROCm releases every six weeks. https://t.co/RBMFZysaRR"
+          },
+          {
+            "handle": "IanCutress",
+            "id": "2080361822662574538",
+            "text": "@AMD Lisa back to the stage. https://t.co/p8Q9Kia7U6"
+          },
+          {
+            "handle": "IanCutress",
+            "id": "2080362158307598819",
+            "text": "@AMD Florence, Ferrara, Fidenza https://t.co/mOTfNvEOcS"
+          },
+          {
+            "handle": "IanCutress",
+            "id": "2080363114608931183",
+            "text": "@AMD Final thought: AI is having the biggest impact.\n\nYes my view is obscured by the camera crew. Why right at this exact second. https://t."
+          }
+        ]
+      },
+      {
+        "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+        "evidence": [
+          {
+            "handle": "IanCutress",
+            "id": "2080346881742483595",
+            "text": "@AMD @cerebras @andrewdfeldman ROCm releases every six weeks. https://t.co/RBMFZysaRR"
+          },
+          {
+            "handle": "IanCutress",
+            "id": "2080361822662574538",
+            "text": "@AMD Lisa back to the stage. https://t.co/p8Q9Kia7U6"
+          },
+          {
+            "handle": "IanCutress",
+            "id": "2080362158307598819",
+            "text": "@AMD Florence, Ferrara, Fidenza https://t.co/mOTfNvEOcS"
+          },
+          {
+            "handle": "IanCutress",
+            "id": "2080363114608931183",
+            "text": "@AMD Final thought: AI is having the biggest impact.\n\nYes my view is obscured by the camera crew. Why right at this exact second. https://t."
+          }
+        ]
+      }
+    ],
+    "dont": [
+      {
+        "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+        "evidence": [
+          {
+            "handle": "IanCutress",
+            "id": "2080346881742483595",
+            "text": "@AMD @cerebras @andrewdfeldman ROCm releases every six weeks. https://t.co/RBMFZysaRR"
+          },
+          {
+            "handle": "IanCutress",
+            "id": "2080361822662574538",
+            "text": "@AMD Lisa back to the stage. https://t.co/p8Q9Kia7U6"
+          },
+          {
+            "handle": "IanCutress",
+            "id": "2080362158307598819",
+            "text": "@AMD Florence, Ferrara, Fidenza https://t.co/mOTfNvEOcS"
+          },
+          {
+            "handle": "IanCutress",
+            "id": "2080363114608931183",
+            "text": "@AMD Final thought: AI is having the biggest impact.\n\nYes my view is obscured by the camera crew. Why right at this exact second. https://t."
+          }
+        ]
+      },
+      {
+        "rule": "Do not convert observed confidence into an unsupported trade call.",
+        "evidence": [
+          {
+            "handle": "IanCutress",
+            "id": "2080346881742483595",
+            "text": "@AMD @cerebras @andrewdfeldman ROCm releases every six weeks. https://t.co/RBMFZysaRR"
+          },
+          {
+            "handle": "IanCutress",
+            "id": "2080361822662574538",
+            "text": "@AMD Lisa back to the stage. https://t.co/p8Q9Kia7U6"
+          },
+          {
+            "handle": "IanCutress",
+            "id": "2080362158307598819",
+            "text": "@AMD Florence, Ferrara, Fidenza https://t.co/mOTfNvEOcS"
+          },
+          {
+            "handle": "IanCutress",
+            "id": "2080363114608931183",
+            "text": "@AMD Final thought: AI is having the biggest impact.\n\nYes my view is obscured by the camera crew. Why right at this exact second. https://t."
+          }
+        ]
+      }
+    ]
+  },
+  "qualitative": {}
 }

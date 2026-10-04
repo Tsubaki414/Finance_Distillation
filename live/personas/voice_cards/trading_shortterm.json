@@ -49,7 +49,7 @@
   },
   "hooks": {
     "question": {
-      "share": 0.069412147,
+      "share": 0.06232169,
       "first_lines": [
         {
           "handle": "SPXVIX",
@@ -68,7 +68,7 @@
         }
       ]
     },
-    "number-led": {
+    "number-led headline": {
       "share": 0.012948262,
       "first_lines": [
         {
@@ -88,27 +88,51 @@
         }
       ]
     },
-    "claim-led": {
-      "share": 0.902888412,
+    "ticker-led": {
+      "share": 0.049371197,
       "first_lines": [
-        {
-          "handle": "SPXVIX",
-          "id": "2102367748236120554",
-          "text": "Pre-Market Setup - Sep 22, 2026"
-        },
-        {
-          "handle": "SPXVIX",
-          "id": "2102391634956587253",
-          "text": "Ringing the cash register on this one. Thanks $TSLA for the quick $500😎 @TslaGroupie https://t.co/l9nnUwnOul"
-        },
         {
           "handle": "SPXVIX",
           "id": "2102392713245016369",
           "text": "$SPX Expected Move  Sep 22, 2026"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2102755137286787526",
+          "text": "$SPX Expected Move  Sep 23, 2026"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2103117500363768283",
+          "text": "$SPX Expected Move  Sep 24, 2026"
         }
       ]
     },
-    "breaking": {
+    "contrast/turn": {
+      "share": 0.064884543,
+      "first_lines": [
+        {
+          "handle": "SPXVIX",
+          "id": "2103067711622295765",
+          "text": "Happy Thursday everyone! I am currently at the airport but can’t leave you without the educational tweet of the day!"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2103545666509115658",
+          "text": "History can rhyme into Oct, but the skew book is not marking a 90% $VIX rewrite from this shelf: $SPX 1M ATM 11.5 is 3rd %ile and 3M 13.2 is 1st, $IWM 1M 17.4 / 7th and 3M 18.2 / 1st, while live cash is $VIX1D 11.24 vs $VIX 15.02 with 3M/$VIX still ~1.20x contango. $QQQ 1M 25Δ P/ATM prints 0th %ile against C/ATM 99th. Index ATM is cheap. The call wing is not."
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2104287447639290003",
+          "text": "To add to @GammaGirlLab’s post, $MU’s current implied move sits at ±7.85%, below its own ±9.74% historical average, an unusual discount into earnings. Yet the implied/actual ratio still runs 2.25x long-run, and IV crush on the following week averages -1%. Options are cheap by this name's standards but the crush has kept premium sellers paid."
+        }
+      ]
+    },
+    "list/thread opener": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "news-wire": {
       "share": 0.0,
       "first_lines": []
     },
@@ -149,6 +173,26 @@
           "handle": "TimTheMM",
           "id": "2103484380173791740",
           "text": "\"bro come over this weekend, we're mounting the AI-powered machine gun Bullfrog to the land cruiser\""
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.795723129,
+      "first_lines": [
+        {
+          "handle": "SPXVIX",
+          "id": "2102367748236120554",
+          "text": "Pre-Market Setup - Sep 22, 2026"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2102391634956587253",
+          "text": "Ringing the cash register on this one. Thanks $TSLA for the quick $500😎 @TslaGroupie https://t.co/l9nnUwnOul"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2102395092719788471",
+          "text": "Happy Tuesday everyone!"
         }
       ]
     }
@@ -353,5 +397,112 @@
         }
       ]
     }
-  ]
+  ],
+  "baseline_rules": {
+    "do": [
+      {
+        "rule": "Lead with a clear judgment; use data to support it.",
+        "evidence": [
+          {
+            "handle": "SPXVIX",
+            "id": "2102096997960368606",
+            "text": "This clearly didn't work today... What a move in $SPX! 110+ points! and $VIX is up on top of that! what could go wrong?"
+          },
+          {
+            "handle": "SPXVIX",
+            "id": "2102109261929091360",
+            "text": "New ATH soon? 👀 $SPX"
+          },
+          {
+            "handle": "SPXVIX",
+            "id": "2102193481305280728",
+            "text": "Ending the day strong with a 5 x 5 Norwegian interval run. Did you go to the gym today? Share your workout routine in the comments! https://"
+          },
+          {
+            "handle": "SPXVIX",
+            "id": "2102367748236120554",
+            "text": "Pre-Market Setup - Sep 22, 2026\nBefore the bell: the overnight tape, the vol regime you're walking into, and today's catalysts.\n\n━━━━━━━━━━━"
+          }
+        ]
+      },
+      {
+        "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+        "evidence": [
+          {
+            "handle": "SPXVIX",
+            "id": "2102096997960368606",
+            "text": "This clearly didn't work today... What a move in $SPX! 110+ points! and $VIX is up on top of that! what could go wrong?"
+          },
+          {
+            "handle": "SPXVIX",
+            "id": "2102109261929091360",
+            "text": "New ATH soon? 👀 $SPX"
+          },
+          {
+            "handle": "SPXVIX",
+            "id": "2102193481305280728",
+            "text": "Ending the day strong with a 5 x 5 Norwegian interval run. Did you go to the gym today? Share your workout routine in the comments! https://"
+          },
+          {
+            "handle": "SPXVIX",
+            "id": "2102367748236120554",
+            "text": "Pre-Market Setup - Sep 22, 2026\nBefore the bell: the overnight tape, the vol regime you're walking into, and today's catalysts.\n\n━━━━━━━━━━━"
+          }
+        ]
+      }
+    ],
+    "dont": [
+      {
+        "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+        "evidence": [
+          {
+            "handle": "SPXVIX",
+            "id": "2102096997960368606",
+            "text": "This clearly didn't work today... What a move in $SPX! 110+ points! and $VIX is up on top of that! what could go wrong?"
+          },
+          {
+            "handle": "SPXVIX",
+            "id": "2102109261929091360",
+            "text": "New ATH soon? 👀 $SPX"
+          },
+          {
+            "handle": "SPXVIX",
+            "id": "2102193481305280728",
+            "text": "Ending the day strong with a 5 x 5 Norwegian interval run. Did you go to the gym today? Share your workout routine in the comments! https://"
+          },
+          {
+            "handle": "SPXVIX",
+            "id": "2102367748236120554",
+            "text": "Pre-Market Setup - Sep 22, 2026\nBefore the bell: the overnight tape, the vol regime you're walking into, and today's catalysts.\n\n━━━━━━━━━━━"
+          }
+        ]
+      },
+      {
+        "rule": "Do not convert observed confidence into an unsupported trade call.",
+        "evidence": [
+          {
+            "handle": "SPXVIX",
+            "id": "2102096997960368606",
+            "text": "This clearly didn't work today... What a move in $SPX! 110+ points! and $VIX is up on top of that! what could go wrong?"
+          },
+          {
+            "handle": "SPXVIX",
+            "id": "2102109261929091360",
+            "text": "New ATH soon? 👀 $SPX"
+          },
+          {
+            "handle": "SPXVIX",
+            "id": "2102193481305280728",
+            "text": "Ending the day strong with a 5 x 5 Norwegian interval run. Did you go to the gym today? Share your workout routine in the comments! https://"
+          },
+          {
+            "handle": "SPXVIX",
+            "id": "2102367748236120554",
+            "text": "Pre-Market Setup - Sep 22, 2026\nBefore the bell: the overnight tape, the vol regime you're walking into, and today's catalysts.\n\n━━━━━━━━━━━"
+          }
+        ]
+      }
+    ]
+  },
+  "qualitative": {}
 }

@@ -47,7 +47,7 @@
   },
   "hooks": {
     "question": {
-      "share": 0.015169192,
+      "share": 0.014976884,
       "first_lines": [
         {
           "handle": "NateGeraci",
@@ -66,8 +66,8 @@
         }
       ]
     },
-    "number-led": {
-      "share": 0.018384628,
+    "number-led headline": {
+      "share": 0.01709561,
       "first_lines": [
         {
           "handle": "NateGeraci",
@@ -76,37 +76,61 @@
         },
         {
           "handle": "glassnode",
-          "id": "2080623992742768747",
-          "text": "25-delta skew has fallen sharply at the front end, with 1W dropping near 4%, while 3M–6M remain around 11–12%. Near-term downside hedging is unwinding, but longer-dated options retain a defensive premium."
+          "id": "2090110942789210113",
+          "text": "$500m worth of shorts were just liquidated within minutes."
         },
         {
           "handle": "glassnode",
-          "id": "2090110942789210113",
-          "text": "$500m worth of shorts were just liquidated within minutes."
+          "id": "2092326042598072580",
+          "text": "$5 billion of IBIT options expire on September 18."
         }
       ]
     },
-    "claim-led": {
-      "share": 0.91400884,
+    "ticker-led": {
+      "share": 0.023708855,
       "first_lines": [
         {
           "handle": "NateGeraci",
-          "id": "2074509967701270661",
-          "text": "*Vanguard* hiring Head of Digital Assets..."
+          "id": "2104592528271974579",
+          "text": "Nvidia’s S&amp;P 500 weighting is approaching that of the *entire* consumer discretionary sector..."
         },
         {
-          "handle": "NateGeraci",
-          "id": "2074532109230743712",
-          "text": "Launching later this week…"
+          "handle": "glassnode",
+          "id": "2071587258747023706",
+          "text": "$BTC fell from around $63K to a local low near $58K before stabilising. Defensive positioning persists across spot, derivatives and ETFs, while on-chain activity suggests the market remains in consolidation."
         },
         {
-          "handle": "NateGeraci",
-          "id": "2074848462034657665",
-          "text": "New partnership b/w Kansas Athletics &amp; Ripple…"
+          "handle": "glassnode",
+          "id": "2078083992994165112",
+          "text": "$BTC options are turning more constructive: volatility is easing, the put/call ratio is at a six-month low, and upside exposure is rebuilding."
         }
       ]
     },
-    "breaking": {
+    "contrast/turn": {
+      "share": 0.050039448,
+      "first_lines": [
+        {
+          "handle": "zackvoell",
+          "id": "2064909859015864710",
+          "text": "Anthropic is like \"we don't have ads but we'll inject bugs into your code if we don't like it.\""
+        },
+        {
+          "handle": "zackvoell",
+          "id": "2067495274121974249",
+          "text": "This might surprise you but it's okay to stereotype and profile and live a better life. Racism is a firewall for your brain. “No! You need to individually evaluate millions and millions of people and ignore any priors or patterns!” No thanks. They want to DDOS your mind."
+        },
+        {
+          "handle": "zackvoell",
+          "id": "2077782077349523788",
+          "text": "It's popular to hate \"diversity\" now but I'm really thankful for how incredibly diverse my friend groups are. Some of them are Aussies, some are Germans, some Irish, Italians, Swedish, etc. and there's even a couple Brits"
+        }
+      ]
+    },
+    "list/thread opener": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "news-wire": {
       "share": 0.000526012,
       "first_lines": [
         {
@@ -137,7 +161,7 @@
       ]
     },
     "quote": {
-      "share": 0.037341558,
+      "share": 0.036998492,
       "first_lines": [
         {
           "handle": "NateGeraci",
@@ -153,6 +177,26 @@
           "handle": "NateGeraci",
           "id": "2091692944268857580",
           "text": "“Bro, relax… we can just bomb interest rates down” https://t.co/6iEKD4NtR0"
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.842084928,
+      "first_lines": [
+        {
+          "handle": "NateGeraci",
+          "id": "2074509967701270661",
+          "text": "*Vanguard* hiring Head of Digital Assets..."
+        },
+        {
+          "handle": "NateGeraci",
+          "id": "2074532109230743712",
+          "text": "Launching later this week…"
+        },
+        {
+          "handle": "NateGeraci",
+          "id": "2074848462034657665",
+          "text": "New partnership b/w Kansas Athletics &amp; Ripple…"
         }
       ]
     }
@@ -356,5 +400,112 @@
         }
       ]
     }
-  ]
+  ],
+  "baseline_rules": {
+    "do": [
+      {
+        "rule": "Lead with a clear judgment; use data to support it.",
+        "evidence": [
+          {
+            "handle": "NateGeraci",
+            "id": "2074509967701270661",
+            "text": "*Vanguard* hiring Head of Digital Assets...\n\nI remember when they blocked spot btc &amp; eth ETFs on their brokerage platform.\n\nLife moves p"
+          },
+          {
+            "handle": "NateGeraci",
+            "id": "2074532109230743712",
+            "text": "Launching later this week…\n\niShares Nasdaq 100 ETF (IQQ)\n\nLong-term expense ratio = 0.12%\n\nWill be interesting battle for assets b/w Invesco"
+          },
+          {
+            "handle": "NateGeraci",
+            "id": "2074848462034657665",
+            "text": "New partnership b/w Kansas Athletics &amp; Ripple…\n\nXRP will be featured on all KU uniforms, the first time crypto on jersey of major colleg"
+          },
+          {
+            "handle": "NateGeraci",
+            "id": "2075052778540450110",
+            "text": "Told you the future was bright…"
+          }
+        ]
+      },
+      {
+        "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+        "evidence": [
+          {
+            "handle": "NateGeraci",
+            "id": "2074509967701270661",
+            "text": "*Vanguard* hiring Head of Digital Assets...\n\nI remember when they blocked spot btc &amp; eth ETFs on their brokerage platform.\n\nLife moves p"
+          },
+          {
+            "handle": "NateGeraci",
+            "id": "2074532109230743712",
+            "text": "Launching later this week…\n\niShares Nasdaq 100 ETF (IQQ)\n\nLong-term expense ratio = 0.12%\n\nWill be interesting battle for assets b/w Invesco"
+          },
+          {
+            "handle": "NateGeraci",
+            "id": "2074848462034657665",
+            "text": "New partnership b/w Kansas Athletics &amp; Ripple…\n\nXRP will be featured on all KU uniforms, the first time crypto on jersey of major colleg"
+          },
+          {
+            "handle": "NateGeraci",
+            "id": "2075052778540450110",
+            "text": "Told you the future was bright…"
+          }
+        ]
+      }
+    ],
+    "dont": [
+      {
+        "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+        "evidence": [
+          {
+            "handle": "NateGeraci",
+            "id": "2074509967701270661",
+            "text": "*Vanguard* hiring Head of Digital Assets...\n\nI remember when they blocked spot btc &amp; eth ETFs on their brokerage platform.\n\nLife moves p"
+          },
+          {
+            "handle": "NateGeraci",
+            "id": "2074532109230743712",
+            "text": "Launching later this week…\n\niShares Nasdaq 100 ETF (IQQ)\n\nLong-term expense ratio = 0.12%\n\nWill be interesting battle for assets b/w Invesco"
+          },
+          {
+            "handle": "NateGeraci",
+            "id": "2074848462034657665",
+            "text": "New partnership b/w Kansas Athletics &amp; Ripple…\n\nXRP will be featured on all KU uniforms, the first time crypto on jersey of major colleg"
+          },
+          {
+            "handle": "NateGeraci",
+            "id": "2075052778540450110",
+            "text": "Told you the future was bright…"
+          }
+        ]
+      },
+      {
+        "rule": "Do not convert observed confidence into an unsupported trade call.",
+        "evidence": [
+          {
+            "handle": "NateGeraci",
+            "id": "2074509967701270661",
+            "text": "*Vanguard* hiring Head of Digital Assets...\n\nI remember when they blocked spot btc &amp; eth ETFs on their brokerage platform.\n\nLife moves p"
+          },
+          {
+            "handle": "NateGeraci",
+            "id": "2074532109230743712",
+            "text": "Launching later this week…\n\niShares Nasdaq 100 ETF (IQQ)\n\nLong-term expense ratio = 0.12%\n\nWill be interesting battle for assets b/w Invesco"
+          },
+          {
+            "handle": "NateGeraci",
+            "id": "2074848462034657665",
+            "text": "New partnership b/w Kansas Athletics &amp; Ripple…\n\nXRP will be featured on all KU uniforms, the first time crypto on jersey of major colleg"
+          },
+          {
+            "handle": "NateGeraci",
+            "id": "2075052778540450110",
+            "text": "Told you the future was bright…"
+          }
+        ]
+      }
+    ]
+  },
+  "qualitative": {}
 }

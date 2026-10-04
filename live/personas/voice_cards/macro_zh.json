@@ -50,7 +50,7 @@
   },
   "hooks": {
     "question": {
-      "share": 0.06862425,
+      "share": 0.058102298,
       "first_lines": [
         {
           "handle": "Btcxiaoyuan",
@@ -69,8 +69,8 @@
         }
       ]
     },
-    "number-led": {
-      "share": 0.060422171,
+    "number-led headline": {
+      "share": 0.047458693,
       "first_lines": [
         {
           "handle": "Btcxiaoyuan",
@@ -89,38 +89,57 @@
         }
       ]
     },
-    "claim-led": {
-      "share": 0.856364038,
+    "ticker-led": {
+      "share": 0.029290117,
       "first_lines": [
         {
           "handle": "Btcxiaoyuan",
-          "id": "1978450118907990228",
-          "text": "从本月15日开始一直到24日，只要在其他所有VIP的，都可以提供等级截图来Bitget享受连升3级的VIP特权，活动时间有限，速来参与！"
+          "id": "2013190576615669908",
+          "text": "$EGL1"
         },
         {
           "handle": "Btcxiaoyuan",
-          "id": "1978820097998225789",
-          "text": "大的真要来了"
+          "id": "2015728231652220981",
+          "text": "$PLAY"
         },
         {
           "handle": "Btcxiaoyuan",
-          "id": "1979138083896594599",
-          "text": "Gate合约积分空投第一期活动开始，老朋友 DOGE 成了主角，对合约党来说挺划算的。"
+          "id": "2045048984084132165",
+          "text": "$ORDI"
         }
       ]
     },
-    "breaking": {
+    "contrast/turn": {
+      "share": 0.127843802,
+      "first_lines": [
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "2032333793680617811",
+          "text": "绝大多时候，多和空有时候不是对错游戏，而是概率游戏。你学会了划船、看罗盘、控帆，但大海永远有风浪。"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "2060259372471873879",
+          "text": "为什么很多市值和成交量都低，但是合约多单持仓量很高但是庄家一直不拉盘甚至币价还在不断阴跌。"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "2078479095978226035",
+          "text": "我认为市场正在进入一个非常关键的阶段：AI没有见顶，但“闭眼买AI”的时代可能暂时结束了。"
+        }
+      ]
+    },
+    "list/thread opener": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "news-wire": {
       "share": 0.0,
       "first_lines": []
     },
     "emoji-led": {
-      "share": 0.004580958,
+      "share": 0.004021716,
       "first_lines": [
-        {
-          "handle": "PhyrexNi",
-          "id": "2104137938921525398",
-          "text": "🤡我说了很多小伙伴都不信，最好的保持精力的方式就是轻断食，让自己保持的适度的饥饿状态，但不是那种饥肠辘辘，尤其是我最近的体检指标远远的高于同龄者。"
-        },
         {
           "handle": "PhyrexNi",
           "id": "2105355578675757349",
@@ -130,11 +149,16 @@
           "handle": "PhyrexNi",
           "id": "2105706810812596517",
           "text": "🤡之前因为信用卡被盗，我被迫将 200 美元的 ChatGPT 订阅改成了 100 美元，然后几乎每天都会用一次十月份的重置功能，一共用了五次，到了今天又没了。"
+        },
+        {
+          "handle": "MacroMargin",
+          "id": "2075454135982604602",
+          "text": "👏“首次成功实施运载火箭一子级可控回收，标志着我国重复使用火箭技术取得重大突破”"
         }
       ]
     },
     "quote": {
-      "share": 0.010008583,
+      "share": 0.009457181,
       "first_lines": [
         {
           "handle": "ChinaMacroFacts",
@@ -150,6 +174,26 @@
           "handle": "qinbafrank",
           "id": "2099878474584559775",
           "text": "“最好的夏天”和“秋意渐凉”的含金量，之后怎么看？"
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.723826192,
+      "first_lines": [
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1978450118907990228",
+          "text": "从本月15日开始一直到24日，只要在其他所有VIP的，都可以提供等级截图来Bitget享受连升3级的VIP特权，活动时间有限，速来参与！"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1978820097998225789",
+          "text": "大的真要来了"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1979138083896594599",
+          "text": "Gate合约积分空投第一期活动开始，老朋友 DOGE 成了主角，对合约党来说挺划算的。"
         }
       ]
     }
@@ -354,5 +398,112 @@
         }
       ]
     }
-  ]
+  ],
+  "baseline_rules": {
+    "do": [
+      {
+        "rule": "Lead with a clear judgment; use data to support it.",
+        "evidence": [
+          {
+            "handle": "Btcxiaoyuan",
+            "id": "1978450118907990228",
+            "text": "从本月15日开始一直到24日，只要在其他所有VIP的，都可以提供等级截图来Bitget享受连升3级的VIP特权，活动时间有限，速来参与！\n#BGB  #Bitget VIP➕3"
+          },
+          {
+            "handle": "Btcxiaoyuan",
+            "id": "1978820097998225789",
+            "text": "大的真要来了\n准备全面做空\n下半年全面看跌\n大饼看到88000\n以太看到2900\n拭目以待兄弟们\n#BTC #ETH"
+          },
+          {
+            "handle": "Btcxiaoyuan",
+            "id": "1979138083896594599",
+            "text": "Gate合约积分空投第一期活动开始，老朋友 DOGE 成了主角，对合约党来说挺划算的。\n\n玩法很直接：只要 10 个合约积分 就能兑换 152 DOGE，积分平时攒着用处不大，这次直接变现，直接领取。\n门槛也不高，但有两点要注意：\n\n积分数量：账户至少要有 12 积分才能参与，少"
+          },
+          {
+            "handle": "Btcxiaoyuan",
+            "id": "1980198081116450837",
+            "text": "再熊的熊市都会有反弹\n再牛的牛市都会有下跌\n#BTC  #ETH"
+          }
+        ]
+      },
+      {
+        "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+        "evidence": [
+          {
+            "handle": "Btcxiaoyuan",
+            "id": "1978450118907990228",
+            "text": "从本月15日开始一直到24日，只要在其他所有VIP的，都可以提供等级截图来Bitget享受连升3级的VIP特权，活动时间有限，速来参与！\n#BGB  #Bitget VIP➕3"
+          },
+          {
+            "handle": "Btcxiaoyuan",
+            "id": "1978820097998225789",
+            "text": "大的真要来了\n准备全面做空\n下半年全面看跌\n大饼看到88000\n以太看到2900\n拭目以待兄弟们\n#BTC #ETH"
+          },
+          {
+            "handle": "Btcxiaoyuan",
+            "id": "1979138083896594599",
+            "text": "Gate合约积分空投第一期活动开始，老朋友 DOGE 成了主角，对合约党来说挺划算的。\n\n玩法很直接：只要 10 个合约积分 就能兑换 152 DOGE，积分平时攒着用处不大，这次直接变现，直接领取。\n门槛也不高，但有两点要注意：\n\n积分数量：账户至少要有 12 积分才能参与，少"
+          },
+          {
+            "handle": "Btcxiaoyuan",
+            "id": "1980198081116450837",
+            "text": "再熊的熊市都会有反弹\n再牛的牛市都会有下跌\n#BTC  #ETH"
+          }
+        ]
+      }
+    ],
+    "dont": [
+      {
+        "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+        "evidence": [
+          {
+            "handle": "Btcxiaoyuan",
+            "id": "1978450118907990228",
+            "text": "从本月15日开始一直到24日，只要在其他所有VIP的，都可以提供等级截图来Bitget享受连升3级的VIP特权，活动时间有限，速来参与！\n#BGB  #Bitget VIP➕3"
+          },
+          {
+            "handle": "Btcxiaoyuan",
+            "id": "1978820097998225789",
+            "text": "大的真要来了\n准备全面做空\n下半年全面看跌\n大饼看到88000\n以太看到2900\n拭目以待兄弟们\n#BTC #ETH"
+          },
+          {
+            "handle": "Btcxiaoyuan",
+            "id": "1979138083896594599",
+            "text": "Gate合约积分空投第一期活动开始，老朋友 DOGE 成了主角，对合约党来说挺划算的。\n\n玩法很直接：只要 10 个合约积分 就能兑换 152 DOGE，积分平时攒着用处不大，这次直接变现，直接领取。\n门槛也不高，但有两点要注意：\n\n积分数量：账户至少要有 12 积分才能参与，少"
+          },
+          {
+            "handle": "Btcxiaoyuan",
+            "id": "1980198081116450837",
+            "text": "再熊的熊市都会有反弹\n再牛的牛市都会有下跌\n#BTC  #ETH"
+          }
+        ]
+      },
+      {
+        "rule": "Do not convert observed confidence into an unsupported trade call.",
+        "evidence": [
+          {
+            "handle": "Btcxiaoyuan",
+            "id": "1978450118907990228",
+            "text": "从本月15日开始一直到24日，只要在其他所有VIP的，都可以提供等级截图来Bitget享受连升3级的VIP特权，活动时间有限，速来参与！\n#BGB  #Bitget VIP➕3"
+          },
+          {
+            "handle": "Btcxiaoyuan",
+            "id": "1978820097998225789",
+            "text": "大的真要来了\n准备全面做空\n下半年全面看跌\n大饼看到88000\n以太看到2900\n拭目以待兄弟们\n#BTC #ETH"
+          },
+          {
+            "handle": "Btcxiaoyuan",
+            "id": "1979138083896594599",
+            "text": "Gate合约积分空投第一期活动开始，老朋友 DOGE 成了主角，对合约党来说挺划算的。\n\n玩法很直接：只要 10 个合约积分 就能兑换 152 DOGE，积分平时攒着用处不大，这次直接变现，直接领取。\n门槛也不高，但有两点要注意：\n\n积分数量：账户至少要有 12 积分才能参与，少"
+          },
+          {
+            "handle": "Btcxiaoyuan",
+            "id": "1980198081116450837",
+            "text": "再熊的熊市都会有反弹\n再牛的牛市都会有下跌\n#BTC  #ETH"
+          }
+        ]
+      }
+    ]
+  },
+  "qualitative": {}
 }

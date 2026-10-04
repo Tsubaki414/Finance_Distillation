@@ -12,13 +12,18 @@ Roster weights normalized over available eligible donors; equal mass per donor p
 
 ```json
 {
+  "voice_summary": "",
+  "hook_patterns": [],
   "hooks": {
-    "question": 0.015169192,
-    "number-led": 0.018384628,
-    "claim-led": 0.91400884,
-    "breaking": 0.000526012,
+    "question": 0.014976884,
+    "number-led headline": 0.01709561,
+    "ticker-led": 0.023708855,
+    "contrast/turn": 0.050039448,
+    "list/thread opener": 0.0,
+    "news-wire": 0.000526012,
     "emoji-led": 0.014569771,
-    "quote": 0.037341558
+    "quote": 0.036998492,
+    "claim-led": 0.842084928
   },
   "sentence_length": {
     "unit": "words",
@@ -64,25 +69,36 @@ Active hours (UTC, weighted share): {"0": 0.067471, "1": 0.090247, "2": 0.058648
 
 ### First lines by hook
 
-**question** — share 0.015169192
+**question** — share 0.014976884
 
 - @NateGeraci / 2083367139117801785: Coldcard or ETF?
 - @NateGeraci / 2101861582099656930: Most likely reason Clarity Act failed?
 - @zackvoell / 2080772503920685217: Remember that one time when the algo was like really good for 24 hours? Dude it was so crazy
 
-**number-led** — share 0.018384628
+**number-led headline** — share 0.01709561
 
 - @NateGeraci / 2087693575710453898: 52% of Gen Z have directed investing funds to sports betting over past yr…
-- @glassnode / 2080623992742768747: 25-delta skew has fallen sharply at the front end, with 1W dropping near 4%, while 3M–6M remain around 11–12%. Near-term downside hedging is unwinding, but longer-dated options retain a defensive premium.
 - @glassnode / 2090110942789210113: $500m worth of shorts were just liquidated within minutes.
+- @glassnode / 2092326042598072580: $5 billion of IBIT options expire on September 18.
 
-**claim-led** — share 0.91400884
+**ticker-led** — share 0.023708855
 
-- @NateGeraci / 2074509967701270661: *Vanguard* hiring Head of Digital Assets...
-- @NateGeraci / 2074532109230743712: Launching later this week…
-- @NateGeraci / 2074848462034657665: New partnership b/w Kansas Athletics &amp; Ripple…
+- @NateGeraci / 2104592528271974579: Nvidia’s S&amp;P 500 weighting is approaching that of the *entire* consumer discretionary sector...
+- @glassnode / 2071587258747023706: $BTC fell from around $63K to a local low near $58K before stabilising. Defensive positioning persists across spot, derivatives and ETFs, while on-chain activity suggests the market remains in consolidation.
+- @glassnode / 2078083992994165112: $BTC options are turning more constructive: volatility is easing, the put/call ratio is at a six-month low, and upside exposure is rebuilding.
 
-**breaking** — share 0.000526012
+**contrast/turn** — share 0.050039448
+
+- @zackvoell / 2064909859015864710: Anthropic is like "we don't have ads but we'll inject bugs into your code if we don't like it."
+- @zackvoell / 2067495274121974249: This might surprise you but it's okay to stereotype and profile and live a better life. Racism is a firewall for your brain. “No! You need to individually evaluate millions and millions of people and ignore any priors or patterns!” No thanks. They want to DDOS your mind.
+- @zackvoell / 2077782077349523788: It's popular to hate "diversity" now but I'm really thankful for how incredibly diverse my friend groups are. Some of them are Aussies, some are Germans, some Irish, Italians, Swedish, etc. and there's even a couple Brits
+
+**list/thread opener** — share 0.0
+
+No observed examples.
+
+
+**news-wire** — share 0.000526012
 
 - @ki_young_ju / 2003871081292353850: BREAKING: Jim Cramer is 100% bearish on Bitcoin.
 
@@ -92,11 +108,17 @@ Active hours (UTC, weighted share): {"0": 0.067471, "1": 0.090247, "2": 0.058648
 - @thedefiedge / 2099328881744613506: 🚨 The Damage Report (Sept 14)
 - @thedefiedge / 2102034316645515348: 🗡️ The Damage Report (Sept 21) 🚨:
 
-**quote** — share 0.037341558
+**quote** — share 0.036998492
 
 - @NateGeraci / 2085889376479801441: “Come down and show everyone how your new Coldcard firmware update works” https://t.co/ktsKqRBzE2
 - @NateGeraci / 2089870288833900813: “Tokenization isn’t about putting stocks on a blockchain for the sake of it… it’s so that assets can move as freely as information does on the internet”… -@vladtenev
 - @NateGeraci / 2091692944268857580: “Bro, relax… we can just bomb interest rates down” https://t.co/6iEKD4NtR0
+
+**claim-led** — share 0.842084928
+
+- @NateGeraci / 2074509967701270661: *Vanguard* hiring Head of Digital Assets...
+- @NateGeraci / 2074532109230743712: Launching later this week…
+- @NateGeraci / 2074848462034657665: New partnership b/w Kansas Athletics &amp; Ripple…
 
 ### Signatures — do_not_copy
 
@@ -149,13 +171,18 @@ Roster weights normalized over available eligible donors; equal mass per donor p
 
 ```json
 {
+  "voice_summary": "",
+  "hook_patterns": [],
   "hooks": {
-    "question": 0.068670201,
-    "number-led": 0.029100273,
-    "claim-led": 0.876053005,
-    "breaking": 0.0,
-    "emoji-led": 0.02215853,
-    "quote": 0.004017992
+    "question": 0.066039958,
+    "number-led headline": 0.027218097,
+    "ticker-led": 0.011226116,
+    "contrast/turn": 0.031808409,
+    "list/thread opener": 0.001882176,
+    "news-wire": 0.002437222,
+    "emoji-led": 0.021212873,
+    "quote": 0.004017992,
+    "claim-led": 0.834157157
   },
   "sentence_length": {
     "unit": "chars",
@@ -202,30 +229,42 @@ Active hours (UTC, weighted share): {"0": 0.037656, "1": 0.047641, "2": 0.081945
 
 ### First lines by hook
 
-**question** — share 0.068670201
+**question** — share 0.066039958
 
 - @Bitwux / 2097838624075317739: 我在想，大部分时候，我们是不是把太多美好，预先安排在了远方？ https://t.co/W5ZmeVYwhd
 - @Bitwux / 2097862655390466324: 马德，今天什么行情？
 - @Bitwux / 2098251135488499774: 突然想到一件事：苍蝇这个叙事应该会比较符合 Meme 的叙事逻辑，有没有龙头出来给我追下？
 
-**number-led** — share 0.029100273
+**number-led headline** — share 0.027218097
 
 - @Bitwux / 2099748046108029293: 0x 起了一个相当挑衅的标题：“Uniswap v4 hooks were a mistake”。
 - @Bitwux / 2100803824571322651: 7号说这哥们选的标的强势；
 - @Bitwux / 2105136013861638387: 3%之外，当时可能还有发币预期，以及项目方的游说吧，真实情况我们也不得而知，
 
-**claim-led** — share 0.876053005
+**ticker-led** — share 0.011226116
 
-- @Bitwux / 2097857783001686338: 千万别让你们老婆看这个视频，别问我为什么知道的。
-- @Bitwux / 2097880064914501854: 大家教师节快乐！
-- @Bitwux / 2097952684095774986: 感觉折叠屏现在对我最大的功能是这个！👀
+- @Bitwux / 2099040995941974144: $LSK 期货成交量达到约30.82亿美元，未平仓量升至约1.85亿美元，其中空头约3,122万美元，占比约88%。
+- @buereth / 1971898084713209875: $APEX 已正式上线 @weexglobal_ch ，平台同步推出限时新手福利活动，总奖池高达 5 万美金。
+- @buereth / 2077304747942691165: 英伟达路演刚结束，SK 海力士 CEO 就出来喊 2027 年会有史上最严重的内存短缺，紧接着三星宣布龙仁晶圆厂提前到 2029 年投产。三条新闻挤在同一天，这不是巧合，是 AI 算力需求在沿着产业链一层层往下传。
 
-**breaking** — share 0.0
+**contrast/turn** — share 0.031808409
 
-No observed examples.
+- @Bitwux / 2101524686794559794: ⚡️小黑 @CryptoHayes 又喊单了！他是坚持不懈地热衷于喊单 ethereum:0x57e114b691db790c35207b2e685d4a43181e6061 ，不过是有原因的——
+- @Bitwux / 2102565380439056433: 山寨币会有表现空间，但总体我更倾向于少数赛道和龙头反复走强，我个人则会谨慎参与。
+- @Bitwux / 2105282968487117301: 打铁还需自身硬，你若盛开蝴蝶自来，你有自己的闪光点和价值依托，资源是自然而然来到你身边的，跑会就是扩大幸运面的过程。
 
+**list/thread opener** — share 0.001882176
 
-**emoji-led** — share 0.02215853
+- @buereth / 2051588163999801741: 1/2
+- @buereth / 2051588167732797637: 2/2
+
+**news-wire** — share 0.002437222
+
+- @buereth / 1972497735292158033: 【新手福利来啦】Bybit送你 $XPL 大奖，新老用户都能参与！
+- @nbblock / 2095357366900601215: 【Snowflake 财报】
+- @nbblock / 2104169559578325402: 【BP复盘】
+
+**emoji-led** — share 0.021212873
 
 - @Bitwux / 2097901254626435450: 🧐 $LAPTOP 暴涨暴跌事件全面复盘：Hunter Biden 的 Meme 首秀，为什么两分钟就把一个 5000 万美元的币炒到了千亿美元估值？
 - @Bitwux / 2099023974122635690: 📈 我们大 E 子也是差不多要好起来了！
@@ -236,6 +275,12 @@ No observed examples.
 - @mindaoyang / 1749391903286759659: “your prison is not prison” flex https://t.co/eWAf4nyt6l
 - @nbblock / 2081586867271790770: “英伟达正与OpenAI就高达2500亿美元的数据中心项目融资担保进行磋商。”
 - @nbblock / 2087777364373860781: “中国的开发者有非常强的网络安全意我从来没有见过他们用他们的真实的IP访问GitHub”
+
+**claim-led** — share 0.834157157
+
+- @Bitwux / 2097857783001686338: 千万别让你们老婆看这个视频，别问我为什么知道的。
+- @Bitwux / 2097880064914501854: 大家教师节快乐！
+- @Bitwux / 2097952684095774986: 感觉折叠屏现在对我最大的功能是这个！👀
 
 ### Signatures — do_not_copy
 
@@ -288,13 +333,18 @@ Roster weights normalized over available eligible donors; equal mass per donor p
 
 ```json
 {
+  "voice_summary": "",
+  "hook_patterns": [],
   "hooks": {
-    "question": 0.057017725,
-    "number-led": 0.01141478,
-    "claim-led": 0.900426527,
-    "breaking": 0.001251058,
+    "question": 0.050484129,
+    "number-led headline": 0.01141478,
+    "ticker-led": 0.077999716,
+    "contrast/turn": 0.064893358,
+    "list/thread opener": 0.0,
+    "news-wire": 0.00242927,
     "emoji-led": 0.00892655,
-    "quote": 0.02096336
+    "quote": 0.019071867,
+    "claim-led": 0.764780331
   },
   "sentence_length": {
     "unit": "words",
@@ -341,28 +391,40 @@ Active hours (UTC, weighted share): {"0": 0.044037, "1": 0.037019, "2": 0.032242
 
 ### First lines by hook
 
-**question** — share 0.057017725
+**question** — share 0.050484129
 
 - @IanCutress / 2084643148723110138: Did anyone tell them yet? https://t.co/OsDgvPeHGt
 - @IanCutress / 2087097943526453474: So, copy paste into a different model and say 'strip the watermark'.?
 - @IanCutress / 2087544196127175104: Low Power AI Is More Efficient ?!
 
-**number-led** — share 0.01141478
+**number-led headline** — share 0.01141478
 
 - @IanCutress / 2095619548124737795: £180,000 (or $245,000) !!!
 - @IanCutress / 2102799787481268676: 3d fabric, nanosheet, backside power, and next gen HBM, COUPE for optics. Holistic paradigm that spans the semi stack. Scale in, scale up, scale out.
 - @IanCutress / 2102802092272554062: 3dfabric alliance shows that no one company can solve packaging alone. Alliance brings alignment and pioneering open standards.
 
-**claim-led** — share 0.900426527
+**ticker-led** — share 0.077999716
 
-- @IanCutress / 2080346881742483595: @AMD @cerebras @andrewdfeldman ROCm releases every six weeks. https://t.co/RBMFZysaRR
-- @IanCutress / 2080361822662574538: @AMD Lisa back to the stage. https://t.co/p8Q9Kia7U6
-- @IanCutress / 2080362158307598819: @AMD Florence, Ferrara, Fidenza https://t.co/mOTfNvEOcS
+- @IanCutress / 2102801923560657366: TSMC has the largest set of validated IP. 100k+ by end of 2026. Availability allows customers to move quickly and with confidence.
+- @mingchikuo / 1924786064914579735: Apple's competitors in the large-sized foldable device market may not be limited to Huawei. My research indicates that Amazon is also internally developing a similar product, which has not yet officially kicked off. If development progresses as planned, it is projected to enter mass production in late 2026 or 2027. (Apple’s 18.8-inch foldable device is slated for mass production in late 2027 or 2028.)
+- @mingchikuo / 1931935277851013355: Apple WWDC 2025的3個觀察重點：
 
-**breaking** — share 0.001251058
+**contrast/turn** — share 0.064893358
 
+- @IanCutress / 2084923559109870042: Six months later than planned, but I can confirm that my analyst firm @MoreThanMoore2x is officially a Silver Sponsor of Hot Chips 2026! @hotchipsorg
+- @IanCutress / 2088382897128432012: Hey @AnthropicAI , can I get an option to 'archive' chats in the desktop app so they get pushed to a special folder at the bottom of the lists/dates? Some chats I'm done with but still want access, and rather than clog up my list, I'd like to archive them out of the way.
+- @IanCutress / 2088666211923964258: The 10 year agreement expired some time ago, but it's done to prevent mutually assured destruction. That being said, Amd gave hygon a zen 1 design, and recently Intel gave e-core RTL to an Israeli startup part-invested by Lip Bu: https://t.co/8XaBcPSfOl
+
+**list/thread opener** — share 0.0
+
+No observed examples.
+
+
+**news-wire** — share 0.00242927
+
+- @mingchikuo / 2051523844540899386: 【產業調查更新】OpenAI 可能正加速首款 AI agent 手機開發，目標最快於 1H27 量產，考量原因或包括有利年底 IPO 敘事、AI agent 手機競爭加速等。目前聯發科更有可能獨家取得處理器訂單，該機預計採用基於天璣 9600 的客製版本，並於 2H26 由台積電 N2P 生產。ISP 強化高動態範圍輸出，有利真實世界視覺感知，故為規格焦點；其他關鍵規格包括雙NPU架構（AI 算力分層）、LPDDR6 + UFS 5.0（緩解記憶體瓶頸）、pKVM + inline hashing（安全性）等。若開發順利，預計 2027 與 2028 年共出貨約 3,000 萬支。
+- @mingchikuo / 2051523855286776034: 【Industry Check Update】OpenAI appears to be fast-tracking its first AI agent phone, with mass production targeted as early as 1H27. Potential drivers include supporting a year-end IPO narrative and intensifying competition in AI agent phones. MediaTek currently appears better positioned to become the sole processor supplier, with the device set to use a customized version of the Dimensity 9600, built on TSMC’s N2P node in 2H26. The ISP is the headline spec, with an enhanced HDR pipeline improving real-world visual sensing. Other key specs include a dual-NPU architecture for heterogeneous AI compute, LPDDR6 + UFS 5.0 to ease memory bottlenecks, and pKVM + inline hashing for security. If development stays on track, combined 2027–2028 shipments could reach around 30 million units.
 - @mingchikuo / 2067438616188739960: Breaking down TSMC's glass core substrate slide
-- @SemiAnalysis_ / 2100661179932700867: BREAKING: AMD MI355X is quickly closing the perf/TCO gap in agentic inference, when compared to GB300 apples-to-apples. (1/3)🧵 https://t.co/DyK8QPmuRv
 
 **emoji-led** — share 0.00892655
 
@@ -370,11 +432,17 @@ Active hours (UTC, weighted share): {"0": 0.044037, "1": 0.037019, "2": 0.032242
 - @SemiAnalysis_ / 2105447635062575437: 🚨 IMPORTANT THREAD FOR GPU RENTERS 🚨
 - @SemiAnalysis_ / 2106217837643575607: 🚨Custom HBM frees up die space for compute🚨
 
-**quote** — share 0.02096336
+**quote** — share 0.019071867
 
 - @IanCutress / 2097625189911494965: "Hi techtechpotato,
 - @IanCutress / 2098710313315016727: "The CUDA moat is gone" says @DavidBennett__ , the CEO of a new Japanese neocloud called ai&amp; (aka @aiand_). A chunk of their infrastructure is built on @tenstorrent hardware, one of the largest deployments outside of the USA.
 - @SemiAnalysis_ / 2106582776975958095: "6.1 Astra"
+
+**claim-led** — share 0.764780331
+
+- @IanCutress / 2080346881742483595: @AMD @cerebras @andrewdfeldman ROCm releases every six weeks. https://t.co/RBMFZysaRR
+- @IanCutress / 2080361822662574538: @AMD Lisa back to the stage. https://t.co/p8Q9Kia7U6
+- @IanCutress / 2080362158307598819: @AMD Florence, Ferrara, Fidenza https://t.co/mOTfNvEOcS
 
 ### Signatures — do_not_copy
 
@@ -427,13 +495,18 @@ Roster weights normalized over available eligible donors; equal mass per donor p
 
 ```json
 {
+  "voice_summary": "",
+  "hook_patterns": [],
   "hooks": {
-    "question": 0.053531746,
-    "number-led": 0.02767545,
-    "claim-led": 0.861313678,
-    "breaking": 0.0,
+    "question": 0.048024703,
+    "number-led headline": 0.024883279,
+    "ticker-led": 0.00471236,
+    "contrast/turn": 0.082035318,
+    "list/thread opener": 0.0,
+    "news-wire": 0.0,
     "emoji-led": 0.027018079,
-    "quote": 0.030461047
+    "quote": 0.027967695,
+    "claim-led": 0.785358566
   },
   "sentence_length": {
     "unit": "words",
@@ -480,25 +553,36 @@ Active hours (UTC, weighted share): {"0": 0.04299, "1": 0.031866, "2": 0.019879,
 
 ### First lines by hook
 
-**question** — share 0.053531746
+**question** — share 0.048024703
 
 - @MebFaber / 1108070025770856448: For the investment professionals out there.  What belief do you hold that the vast majority of your peers (75%+) do not share?
 - @MebFaber / 2085483264597475348: Should we do a @fesshole / @postsecret for all of your investment sins and dark secrets?
 - @MebFaber / 2090112633185894705: What's the best example of a "normal" stock (not tech, biotech, or South Korean) trading at a super-high P/E ratio right now?
 
-**number-led** — share 0.02767545
+**number-led headline** — share 0.024883279
 
 - @MebFaber / 1788241864153522426: 21. Investing in riskier bonds doesn't make sense if the yield spread vs. T-Bills isn't wide enough.
 - @MebFaber / 2087643751330234743: 22. Dividend yield isn't income &amp; some magical free bonus you receive.
 - @MebFaber / 2087644859465384056: 24. All time highs are a great time to invest...
 
-**claim-led** — share 0.861313678
+**ticker-led** — share 0.00471236
 
-- @MebFaber / 2085448298719227909: An entire generation is miserable because they're on their phones all day, envious of the imaginary life their peers are living...
-- @MebFaber / 2085682433127522572: Investing Quote of the Day: "Statistics are bloodless things." - Frederick Lewis Allen https://t.co/x9Og5pNMUt
-- @MebFaber / 2085753464899129357: Year 1:
+- @MebFaber / 2090825642480951795: Apple: https://t.co/lxoWu2e2V4
+- @MebFaber / 2093366646908043573: Apple: https://t.co/Wia5KC1QOB
+- @MebFaber / 2096277176123592729: Apple: https://t.co/pKR5dKXMGv
 
-**breaking** — share 0.0
+**contrast/turn** — share 0.082035318
+
+- @MebFaber / 2087131978977964523: Investing Quote of the Day: "Be aware that the market does not turn when it sees light at the end of the tunnel. It turns when all looks black, but just a subtle shade less black than the day before." - Jeremy Grantham https://t.co/A7LFxA7pZn
+- @MebFaber / 2087494370828157031: Investing Quote of the Day: "The stock market is rigged against you if you're looking for easy money. But it's also rigged in favor of long-term investors." - Ben Carlson (@awealthofcs) https://t.co/vUWnJT60ur
+- @MebFaber / 2091843019255222379: Investing Quote of the Day: "I used to think that if there was reincarnation, I wanted to come back as the president or the pope or as a .400 baseball hitter. But now I would like to come back as the bond market. You can intimidate everybody." - James Carville https://t.co/Z6QyHvMLhs
+
+**list/thread opener** — share 0.0
+
+No observed examples.
+
+
+**news-wire** — share 0.0
 
 No observed examples.
 
@@ -509,11 +593,17 @@ No observed examples.
 - @MebFaber / 2086452455236128915: 🧠  𝗬𝗼𝘂𝗿 𝗯𝗿𝗮𝗶𝗻 𝘄𝗮𝘀𝗻'𝘁 𝗯𝘂𝗶𝗹𝘁 𝗳𝗼𝗿 𝘁𝗵𝗲 𝘀𝘁𝗼𝗰𝗸 𝗺𝗮𝗿𝗸𝗲𝘁
 - @MebFaber / 2087229703560245291: 👀
 
-**quote** — share 0.030461047
+**quote** — share 0.027967695
 
 - @MebFaber / 2086146680328474894: "Stocks always beat bonds in the long run." Joseph Moore (@drjoemoore) says the data disagrees.
 - @MebFaber / 2087596741550113240: "Myth 3. Covered Calls Generate Income"
 - @MebFaber / 2088599087109091514: "𝗛𝗮𝗺𝗶𝗹𝘁𝗼𝗻𝗶𝗮𝗻 𝗲𝗰𝗼𝗻𝗼𝗺𝗶𝗰𝘀" 𝗸𝗲𝗲𝗽𝘀 𝗰𝗼𝗺𝗶𝗻𝗴 𝘂𝗽 𝗳𝗿𝗼𝗺 𝗣𝗿𝗲𝘀𝗶𝗱𝗲𝗻𝘁 𝗧𝗿𝘂𝗺𝗽, 𝗝𝗗 𝗩𝗮𝗻𝗰𝗲, 𝗦𝗰𝗼𝘁𝘁 𝗕𝗲𝘀𝘀𝗲𝗻𝘁, 𝗮𝗻𝗱 𝗨𝗦𝗧𝗥 𝗚𝗿𝗲𝗲𝗿.
+
+**claim-led** — share 0.785358566
+
+- @MebFaber / 2085448298719227909: An entire generation is miserable because they're on their phones all day, envious of the imaginary life their peers are living...
+- @MebFaber / 2085682433127522572: Investing Quote of the Day: "Statistics are bloodless things." - Frederick Lewis Allen https://t.co/x9Og5pNMUt
+- @MebFaber / 2085753464899129357: Year 1:
 
 ### Signatures — do_not_copy
 
@@ -566,13 +656,18 @@ Roster weights normalized over available eligible donors; equal mass per donor p
 
 ```json
 {
+  "voice_summary": "",
+  "hook_patterns": [],
   "hooks": {
-    "question": 0.050020991,
-    "number-led": 0.010130166,
-    "claim-led": 0.857585281,
-    "breaking": 0.000944162,
-    "emoji-led": 0.055461538,
-    "quote": 0.025857861
+    "question": 0.047449813,
+    "number-led headline": 0.010130166,
+    "ticker-led": 0.007019129,
+    "contrast/turn": 0.082848356,
+    "list/thread opener": 0.0,
+    "news-wire": 0.000944162,
+    "emoji-led": 0.054801282,
+    "quote": 0.02342275,
+    "claim-led": 0.773384342
   },
   "sentence_length": {
     "unit": "words",
@@ -619,40 +714,57 @@ Active hours (UTC, weighted share): {"0": 0.027579, "1": 0.01986, "2": 0.013085,
 
 ### First lines by hook
 
-**question** — share 0.050020991
+**question** — share 0.047449813
 
 - @JeffSnider_EDU / 2087594864775176315: Want to learn how to identify which investment environment you're actually in?
 - @JeffSnider_EDU / 2087995324661190846: Want to learn how to identify which investment environment you're actually in?
 - @JeffSnider_EDU / 2088300977812320269: Want to learn how to identify which investment environment you're actually in?
 
-**number-led** — share 0.010130166
+**number-led headline** — share 0.010130166
 
 - @JeffSnider_EDU / 2089970620746563681: 1997 was never really about reckless Asian governments.
 - @JeffSnider_EDU / 2091284280752353787: 1997 had a script. Thailand couldn't get enough dol
 - @BobEUnlimited / 2078891381389480297: $4 gas and $5 dollar diesel and moving in the wrong direction. https://t.co/lWcL2EG987
 
-**claim-led** — share 0.857585281
+**ticker-led** — share 0.007019129
 
-- @JeffSnider_EDU / 2087298009801605322: Private credit is the new junk bond market. Except this one is opaque, illiquid, and about to be stress-tested.
-- @JeffSnider_EDU / 2087358407556882834: Nearly every credit transaction made today has an interest rate swap embedded in it somewhere, with dealers on both sides.
-- @JeffSnider_EDU / 2087433906731528247: Everyone's watching the Fed's next move like it's the whole story.
+- @JeffSnider_EDU / 2088385181673738503: Amazon just tried to sell bonds to fund its AI buildout.
+- @JeffSnider_EDU / 2092847074551509396: Google just posted negative free cash flow for the first time since going public in 2004.
+- @JeffSnider_EDU / 2094545769357521367: Amazon just sold bonds at a bigger discount and still got a thinner order book.
 
-**breaking** — share 0.000944162
+**contrast/turn** — share 0.082848356
+
+- @JeffSnider_EDU / 2087552892886548877: Because govts have no f-ing idea how the world works...but they pretend they do.
+- @lisaabramowicz1 / 2034555370220175474: Average US gasoline prices have surged 37% since the January lows, rising to the highest since 2022. The absolute price level, $3.88, is still within the range of normal from a historical perspective. But it's rising at an rapid clip, without a sense of where or when it'll stop https://t.co/1Rst52bNRO
+- @lisaabramowicz1 / 2036474238136361207: “At oil prices in the range of $100–110 per barrel, many central banks lean away from an easing bias - and in some cases to a rate hiking bias:” MS analysts. But if oil prices move above $125, “the balance of risks would broadly shift back towards growth downside risks.”
+
+**list/thread opener** — share 0.0
+
+No observed examples.
+
+
+**news-wire** — share 0.000944162
 
 - @Convertbond / 2090170710773670228: Breaking -- *US TOTAL PUBLIC DEBT OUTSTANDING EXCEEDS RECORD $40 TRILLION - Bloomberg.
 - @Convertbond / 2105277269640151391: Breaking - *US AUG. CORE PCE PRICE INDEX RISES 3.0% Y/Y; EST. +3.3% - Bloomberg data.
 
-**emoji-led** — share 0.055461538
+**emoji-led** — share 0.054801282
 
 - @GlobalMktObserv / 2101014394796712346: 🔴 Food inflation is the next major threat to global bonds:
 - @GlobalMktObserv / 2101079837842571545: ⚠️US budget deficit is absolutely OUT OF CONTROL:
 - @GlobalMktObserv / 2101122364276699457: ⚠️Investors are increasingly turning away from US Treasuries:
 
-**quote** — share 0.025857861
+**quote** — share 0.02342275
 
 - @JeffSnider_EDU / 2091186250518798733: "It fundamentally changed the way I look at investing and at macro in general."
 - @JeffSnider_EDU / 2093686459740131719: "I had pretty high expectations. They were certainly met and exceeded."
 - @JeffSnider_EDU / 2096757844133777533: "I had pretty high expectations. They were certainly met and exceeded."
+
+**claim-led** — share 0.773384342
+
+- @JeffSnider_EDU / 2087298009801605322: Private credit is the new junk bond market. Except this one is opaque, illiquid, and about to be stress-tested.
+- @JeffSnider_EDU / 2087358407556882834: Nearly every credit transaction made today has an interest rate swap embedded in it somewhere, with dealers on both sides.
+- @JeffSnider_EDU / 2087433906731528247: Everyone's watching the Fed's next move like it's the whole story.
 
 ### Signatures — do_not_copy
 
@@ -705,13 +817,18 @@ Roster weights normalized over available eligible donors; equal mass per donor p
 
 ```json
 {
+  "voice_summary": "",
+  "hook_patterns": [],
   "hooks": {
-    "question": 0.06862425,
-    "number-led": 0.060422171,
-    "claim-led": 0.856364038,
-    "breaking": 0.0,
-    "emoji-led": 0.004580958,
-    "quote": 0.010008583
+    "question": 0.058102298,
+    "number-led headline": 0.047458693,
+    "ticker-led": 0.029290117,
+    "contrast/turn": 0.127843802,
+    "list/thread opener": 0.0,
+    "news-wire": 0.0,
+    "emoji-led": 0.004021716,
+    "quote": 0.009457181,
+    "claim-led": 0.723826192
   },
   "sentence_length": {
     "unit": "chars",
@@ -758,40 +875,57 @@ Active hours (UTC, weighted share): {"0": 0.040628, "1": 0.046618, "2": 0.069382
 
 ### First lines by hook
 
-**question** — share 0.06862425
+**question** — share 0.058102298
 
 - @Btcxiaoyuan / 1982743568423833694: 她突然凑近问我:“你平时玩什么meme啊?”
 - @Btcxiaoyuan / 2008837148372529600: 牛市这就结束了吗？
 - @Btcxiaoyuan / 2035965450409120016: 谁经历过当年“原油宝事件”？
 
-**number-led** — share 0.060422171
+**number-led headline** — share 0.047458693
 
 - @Btcxiaoyuan / 1985891974868844571: 10月16日的预言
 - @Btcxiaoyuan / 2033836424143974760: 2022年3月这个时候
 - @Btcxiaoyuan / 2044077007315841382: 4月初到4月14日，$RAVE 从约0.2美元一路爆拉至最高16.78美元，累计涨幅超过50倍，市值一度飙升至约28亿美元，跻身加密货币市值前50名。
 
-**claim-led** — share 0.856364038
+**ticker-led** — share 0.029290117
 
-- @Btcxiaoyuan / 1978450118907990228: 从本月15日开始一直到24日，只要在其他所有VIP的，都可以提供等级截图来Bitget享受连升3级的VIP特权，活动时间有限，速来参与！
-- @Btcxiaoyuan / 1978820097998225789: 大的真要来了
-- @Btcxiaoyuan / 1979138083896594599: Gate合约积分空投第一期活动开始，老朋友 DOGE 成了主角，对合约党来说挺划算的。
+- @Btcxiaoyuan / 2013190576615669908: $EGL1
+- @Btcxiaoyuan / 2015728231652220981: $PLAY
+- @Btcxiaoyuan / 2045048984084132165: $ORDI
 
-**breaking** — share 0.0
+**contrast/turn** — share 0.127843802
+
+- @Btcxiaoyuan / 2032333793680617811: 绝大多时候，多和空有时候不是对错游戏，而是概率游戏。你学会了划船、看罗盘、控帆，但大海永远有风浪。
+- @Btcxiaoyuan / 2060259372471873879: 为什么很多市值和成交量都低，但是合约多单持仓量很高但是庄家一直不拉盘甚至币价还在不断阴跌。
+- @Btcxiaoyuan / 2078479095978226035: 我认为市场正在进入一个非常关键的阶段：AI没有见顶，但“闭眼买AI”的时代可能暂时结束了。
+
+**list/thread opener** — share 0.0
 
 No observed examples.
 
 
-**emoji-led** — share 0.004580958
+**news-wire** — share 0.0
 
-- @PhyrexNi / 2104137938921525398: 🤡我说了很多小伙伴都不信，最好的保持精力的方式就是轻断食，让自己保持的适度的饥饿状态，但不是那种饥肠辘辘，尤其是我最近的体检指标远远的高于同龄者。
+No observed examples.
+
+
+**emoji-led** — share 0.004021716
+
 - @PhyrexNi / 2105355578675757349: 😂十年期美债收益率超过了 5.3% https://t.co/iFZCrjnktV
 - @PhyrexNi / 2105706810812596517: 🤡之前因为信用卡被盗，我被迫将 200 美元的 ChatGPT 订阅改成了 100 美元，然后几乎每天都会用一次十月份的重置功能，一共用了五次，到了今天又没了。
+- @MacroMargin / 2075454135982604602: 👏“首次成功实施运载火箭一子级可控回收，标志着我国重复使用火箭技术取得重大突破”
 
-**quote** — share 0.010008583
+**quote** — share 0.009457181
 
 - @ChinaMacroFacts / 2087487773926359269: “建立国有企业下岗职工基本生活保障、失业保险、城镇居民最低生活保障制度，下大力气解决拖欠职工工资、下岗职工再就业等问题。”
 - @qinbafrank / 2097514158204084329: “我现在是庄家，所以当我们干预日元的时候，我对日本人、日本央行、日本决策层要做什么了如指掌，你们要想跟我对赌就尽管来。这是贝森特昨晚在访谈中直接说的，当一位曾经参与成功狙击过英镑和泰铢、在外汇市场有着丰富经验的基金经理成为了美国财政部长，他确实有着极强的“不对称信息”，看起来贝森特是铁了心要把美日汇率给干下去。
 - @qinbafrank / 2099878474584559775: “最好的夏天”和“秋意渐凉”的含金量，之后怎么看？
+
+**claim-led** — share 0.723826192
+
+- @Btcxiaoyuan / 1978450118907990228: 从本月15日开始一直到24日，只要在其他所有VIP的，都可以提供等级截图来Bitget享受连升3级的VIP特权，活动时间有限，速来参与！
+- @Btcxiaoyuan / 1978820097998225789: 大的真要来了
+- @Btcxiaoyuan / 1979138083896594599: Gate合约积分空投第一期活动开始，老朋友 DOGE 成了主角，对合约党来说挺划算的。
 
 ### Signatures — do_not_copy
 
@@ -844,13 +978,18 @@ Roster weights normalized over available eligible donors; equal mass per donor p
 
 ```json
 {
+  "voice_summary": "",
+  "hook_patterns": [],
   "hooks": {
-    "question": 0.042664879,
-    "number-led": 0.013662132,
-    "claim-led": 0.916651269,
-    "breaking": 0.00046953,
+    "question": 0.036476445,
+    "number-led headline": 0.012765945,
+    "ticker-led": 0.075465402,
+    "contrast/turn": 0.086965509,
+    "list/thread opener": 0.0,
+    "news-wire": 0.00046953,
     "emoji-led": 0.008031526,
-    "quote": 0.018520663
+    "quote": 0.016991293,
+    "claim-led": 0.76283435
   },
   "sentence_length": {
     "unit": "words",
@@ -897,25 +1036,36 @@ Active hours (UTC, weighted share): {"0": 0.023836, "1": 0.016301, "2": 0.00447,
 
 ### First lines by hook
 
-**question** — share 0.042664879
+**question** — share 0.036476445
 
 - @Mr_Derivatives / 2104800976217723335: Damn the very fact that I’m highly interested in the Pokemon TCG for the first time in my life + Coinbase now announcing digital rips, has gotta be a top signal right?
 - @Mr_Derivatives / 2104894783034655125: Fitbit 2.0?
 - @Mr_Derivatives / 2105675932212310498: $SPX I think Tom Lee withdrew his drawdown talks now?
 
-**number-led** — share 0.013662132
+**number-led headline** — share 0.012765945
 
 - @Mr_Derivatives / 2103977133978886651: $738k market cap on my Heisenberg meme coin just now. Wow.
 - @Mr_Derivatives / 2103990148979704259: 1) I did not create the $HEISENBERG coin, someone else did it for me. Clearly.
 - @Mr_Derivatives / 2104578388245827936: 10yr yield hit another fresh multi decade high not seen since 2007 and has that look it may want 5.50%’s…
 
-**claim-led** — share 0.916651269
+**ticker-led** — share 0.075465402
 
 - @Mr_Derivatives / 2078332586464825380: $TSM Down 7 days in a row, worst losing streak since June-July 2022!
-- @Mr_Derivatives / 2082182601134178772: The last three times $USO hit a 70+ RSI, it pulled back significantly.
 - @Mr_Derivatives / 2087296560896028705: $JPM Could use a healthy pullback.... https://t.co/FtekcK2lXV
+- @Mr_Derivatives / 2095294890683072618: $HIMS Just give me a 20-25% bouncer here. I promise to eat my vegetables. https://t.co/UCgQUnBjEW
 
-**breaking** — share 0.00046953
+**contrast/turn** — share 0.086965509
+
+- @Mr_Derivatives / 2104220435202429300: @SharkChart and I had a private DM chat. Cleared some air. Not saying we are bff’s now, but I think we both went a bit overboard, so we on a mutual understanding now.
+- @Mr_Derivatives / 2104227561945640989: Just in: Trump AND Axios this time with the Taco. A bit early before Futures open, but there it is..
+- @Mr_Derivatives / 2104640433842491470: With Public now getting into the Predictions market recently now alongside the likes of Robinhood, Interactive Brokers, and Schwab (I think only Fidelity does not yet but they are exploring), we can all finally agree that Predictions/Perpetuals is here to stay.
+
+**list/thread opener** — share 0.0
+
+No observed examples.
+
+
+**news-wire** — share 0.00046953
 
 - @jasongoepfert / 1869118616555381060: BREAKING: The Dow Jones Industrial Average is on track for its 9th consecutive down day, the first since 1978.
 
@@ -925,11 +1075,17 @@ Active hours (UTC, weighted share): {"0": 0.023836, "1": 0.016301, "2": 0.00447,
 - @bespokeinvest / 2100394690826600803: 👀
 - @jasongoepfert / 1864767738683555923: 👀
 
-**quote** — share 0.018520663
+**quote** — share 0.016991293
 
 - @Mr_Derivatives / 2105231222016507909: “Hey wake up babe..”
 - @EricBalchunas / 2099889652178076028: "men used to go to war, now we're afraid of computers." - @psarofagis
 - @EricBalchunas / 2099899629105983511: "ETFs should come with a drink ticket and a players card at this point.. There's been so many leveraged ETF closures this year that Spirit Halloween is going to open up temporary locations in the vacant tickers." - @SGHWealthMgmt w/ a colorful rant against hot sauce on ETF IQ yesterday w/ @scarletfu
+
+**claim-led** — share 0.76283435
+
+- @Mr_Derivatives / 2082182601134178772: The last three times $USO hit a 70+ RSI, it pulled back significantly.
+- @Mr_Derivatives / 2103973460116664695: Wtf… hit a $70k market cap…
+- @Mr_Derivatives / 2103980756221727118: Almost a $1M market cap on $HEISENBERG.
 
 ### Signatures — do_not_copy
 
@@ -982,13 +1138,18 @@ Roster weights normalized over available eligible donors; equal mass per donor p
 
 ```json
 {
+  "voice_summary": "",
+  "hook_patterns": [],
   "hooks": {
-    "question": 0.045606208,
-    "number-led": 0.029227541,
-    "claim-led": 0.862281312,
-    "breaking": 0.00165816,
+    "question": 0.040731122,
+    "number-led headline": 0.011517252,
+    "ticker-led": 0.192502546,
+    "contrast/turn": 0.051620916,
+    "list/thread opener": 0.018421578,
+    "news-wire": 0.00165816,
     "emoji-led": 0.057107339,
-    "quote": 0.004119441
+    "quote": 0.004119441,
+    "claim-led": 0.622321646
   },
   "sentence_length": {
     "unit": "words",
@@ -1035,25 +1196,37 @@ Active hours (UTC, weighted share): {"0": 0.02468, "1": 0.009724, "2": 0.010012,
 
 ### First lines by hook
 
-**question** — share 0.045606208
+**question** — share 0.040731122
 
 - @EconomyApp / 2060096940315144583: Did you miss our coverage of Walmart?
 - @EconomyApp / 2082925934919983473: Did you miss our Microsoft quarter breakdown?
 - @EconomyApp / 2082930606028292544: Did you check our coverage of Google's earnings?
 
-**number-led** — share 0.029227541
+**number-led headline** — share 0.011517252
 
 - @EconomyApp / 2083932468185612378: 100+ companies. One report.
 - @JaradCapital / 2097680493076435360: 2027 is when the Celsius platform starts to compound - $CELH
 - @FromValue / 2080767213129154607: 2.2M followers for an idiot who can't read a balance sheet...
 
-**claim-led** — share 0.862281312
+**ticker-led** — share 0.192502546
 
 - @EconomyApp / 2049152412385185834: $SPOT Spotify Q1 FY26:
-- @EconomyApp / 2049152420501234166: More earnings visualized here 👇
 - @EconomyApp / 2049585307734122849: $GOOG Alphabet Q1 FY26:
+- @EconomyApp / 2049590742176399587: $AMZN Amazon Q1 FY26:
 
-**breaking** — share 0.00165816
+**contrast/turn** — share 0.051620916
+
+- @JaradCapital / 2088373483747062130: I am more interested in the margins but whatever
+- @JaradCapital / 2092339276826681666: Yes, i know you hate $SNAP management, but hear me out
+- @jpinsights / 2092937162324947226: Still digesting the $NVDA call, but the part that stuck with me most was management saying the outlook remains supply-constrained, with demand still running ahead of what the supply chain can deliver.
+
+**list/thread opener** — share 0.018421578
+
+- @leadlagreport / 2101684073252913439: 1/25 The bond market can change the equity conversation. Tactical Risk Rotation asks what Treasury leadership tells us about taking risk. Updated through Aug 31, 2026. https://t.co/hgp5UDKDYI https://t.co/vF8dS64vlm
+- @leadlagreport / 2101684082237194683: 7/25 Maximum drawdown: -37.02% for the rule versus -55.45% for VTI. A drawdown is peak-to-trough loss, not a calendar-year return. https://t.co/tz5HStjSsn
+- @leadlagreport / 2101684083667370055: 8/25 The path matters. This chart shows every drawdown, not just the worst one. A strategy has to be held through its difficult periods to earn its full-period result. https://t.co/O3Dwjhsoe2
+
+**news-wire** — share 0.00165816
 
 - @JaradCapital / 2098037743800447481: Breaking Down Revenue Growth Management - $CELH
 - @RJCcapital / 2087589957460267013: BREAKING: NEW YORK — Rosenberg, Jacobs & Cohen LLP “RJC”, in connection with the prominent securities class-action firm Morgan & Morgan, announces that it has commenced an investigation on behalf of investors who suffered substantial losses after establishing short positions in Nebius Group N.V. “Nebius” or the “Company” NASDAQ: $NBIS in reliance upon statements published by Michael Burry Substack LLC.
@@ -1069,6 +1242,12 @@ Active hours (UTC, weighted share): {"0": 0.02468, "1": 0.009724, "2": 0.010012,
 - @FromValue / 2078136369239425132: "This great book" and of course no image because of the quote. 🙈 https://t.co/bkBMFYyjbA
 - @FromValue / 2095897767470137724: "If you're going to do anything new or innovative, you have to be willing to be misunderstood.
 - @DeepSailCapital / 2088396476263084182: “Just buy $NVDA and let Jensen allocate”
+
+**claim-led** — share 0.622321646
+
+- @EconomyApp / 2049152420501234166: More earnings visualized here 👇
+- @EconomyApp / 2049585310552732017: Stay tuned for our review of $GOOG Google's earnings delivered to your inbox this afternoon!
+- @EconomyApp / 2049590744646852649: Stay tuned for a full breakdown of  $AMZN's earnings in our newsletter this Friday!
 
 ### Signatures — do_not_copy
 
@@ -1121,13 +1300,18 @@ Roster weights normalized over available eligible donors; equal mass per donor p
 
 ```json
 {
+  "voice_summary": "",
+  "hook_patterns": [],
   "hooks": {
-    "question": 0.069412147,
-    "number-led": 0.012948262,
-    "claim-led": 0.902888412,
-    "breaking": 0.0,
+    "question": 0.06232169,
+    "number-led headline": 0.012948262,
+    "ticker-led": 0.049371197,
+    "contrast/turn": 0.064884543,
+    "list/thread opener": 0.0,
+    "news-wire": 0.0,
     "emoji-led": 0.003009367,
-    "quote": 0.011741812
+    "quote": 0.011741812,
+    "claim-led": 0.795723129
   },
   "sentence_length": {
     "unit": "words",
@@ -1174,25 +1358,36 @@ Active hours (UTC, weighted share): {"0": 0.022354, "1": 0.046635, "2": 0.042945
 
 ### First lines by hook
 
-**question** — share 0.069412147
+**question** — share 0.06232169
 
 - @SPXVIX / 2102096997960368606: This clearly didn't work today... What a move in $SPX! 110+ points! and $VIX is up on top of that! what could go wrong?
 - @SPXVIX / 2102109261929091360: New ATH soon? 👀 $SPX
 - @SPXVIX / 2102193481305280728: Ending the day strong with a 5 x 5 Norwegian interval run. Did you go to the gym today? Share your workout routine in the comments! https://t.co/qHo6f9g7jq
 
-**number-led** — share 0.012948262
+**number-led headline** — share 0.012948262
 
 - @SPXVIX / 2103075401027158240: 99% of “traders” on X just state the obvious. $SPX is up. Futures are red... Less than 1% post something you can actually trade.
 - @SPXVIX / 2104212700012359829: 100% this! Always know your adjustment and exit triggers AT ORDER ENTRY. No emotions, no fear, no fomo…
 - @Ksidiii / 2045233065501307276: 2018: Great year for vol trading
 
-**claim-led** — share 0.902888412
+**ticker-led** — share 0.049371197
 
-- @SPXVIX / 2102367748236120554: Pre-Market Setup - Sep 22, 2026
-- @SPXVIX / 2102391634956587253: Ringing the cash register on this one. Thanks $TSLA for the quick $500😎 @TslaGroupie https://t.co/l9nnUwnOul
 - @SPXVIX / 2102392713245016369: $SPX Expected Move  Sep 22, 2026
+- @SPXVIX / 2102755137286787526: $SPX Expected Move  Sep 23, 2026
+- @SPXVIX / 2103117500363768283: $SPX Expected Move  Sep 24, 2026
 
-**breaking** — share 0.0
+**contrast/turn** — share 0.064884543
+
+- @SPXVIX / 2103067711622295765: Happy Thursday everyone! I am currently at the airport but can’t leave you without the educational tweet of the day!
+- @SPXVIX / 2103545666509115658: History can rhyme into Oct, but the skew book is not marking a 90% $VIX rewrite from this shelf: $SPX 1M ATM 11.5 is 3rd %ile and 3M 13.2 is 1st, $IWM 1M 17.4 / 7th and 3M 18.2 / 1st, while live cash is $VIX1D 11.24 vs $VIX 15.02 with 3M/$VIX still ~1.20x contango. $QQQ 1M 25Δ P/ATM prints 0th %ile against C/ATM 99th. Index ATM is cheap. The call wing is not.
+- @SPXVIX / 2104287447639290003: To add to @GammaGirlLab’s post, $MU’s current implied move sits at ±7.85%, below its own ±9.74% historical average, an unusual discount into earnings. Yet the implied/actual ratio still runs 2.25x long-run, and IV crush on the following week averages -1%. Options are cheap by this name's standards but the crush has kept premium sellers paid.
+
+**list/thread opener** — share 0.0
+
+No observed examples.
+
+
+**news-wire** — share 0.0
 
 No observed examples.
 
@@ -1208,6 +1403,12 @@ No observed examples.
 - @Ksidiii / 2055070216636314027: “That dude makes money for his investors and cares a lot about what he does” https://t.co/Gxw33GtdtR
 - @TimTheMM / 2092072014215368797: "i can't find a job!!"
 - @TimTheMM / 2103484380173791740: "bro come over this weekend, we're mounting the AI-powered machine gun Bullfrog to the land cruiser"
+
+**claim-led** — share 0.795723129
+
+- @SPXVIX / 2102367748236120554: Pre-Market Setup - Sep 22, 2026
+- @SPXVIX / 2102391634956587253: Ringing the cash register on this one. Thanks $TSLA for the quick $500😎 @TslaGroupie https://t.co/l9nnUwnOul
+- @SPXVIX / 2102395092719788471: Happy Tuesday everyone!
 
 ### Signatures — do_not_copy
 
@@ -1260,13 +1461,18 @@ Roster weights normalized over available eligible donors; equal mass per donor p
 
 ```json
 {
+  "voice_summary": "",
+  "hook_patterns": [],
   "hooks": {
-    "question": 0.090063745,
-    "number-led": 0.036108158,
-    "claim-led": 0.863337475,
-    "breaking": 0.0,
-    "emoji-led": 0.00314253,
-    "quote": 0.007348092
+    "question": 0.083710992,
+    "number-led headline": 0.033748674,
+    "ticker-led": 0.035748692,
+    "contrast/turn": 0.063298711,
+    "list/thread opener": 0.001342533,
+    "news-wire": 0.007664631,
+    "emoji-led": 0.002726716,
+    "quote": 0.006374709,
+    "claim-led": 0.765384342
   },
   "sentence_length": {
     "unit": "chars",
@@ -1313,40 +1519,59 @@ Active hours (UTC, weighted share): {"0": 0.044769, "1": 0.067151, "2": 0.05517,
 
 ### First lines by hook
 
-**question** — share 0.090063745
+**question** — share 0.083710992
 
 - @alacheng / 2001286609870950450: 围绕 @VitalikButerin 编程，创业速度真快。ETH gas期货市场刚刚融了1200万美金。这离v的设想开始到融资，能有一个月？这速度越来越快。
 - @alacheng / 2005606996834480295: 从openai离职出去创业的都在做啥？
 - @alacheng / 2091373321174806738: VibeFi 一个新概念？ 看名字看起来是启发自Vibe coding？氛围FI？
 
-**number-led** — share 0.036108158
+**number-led headline** — share 0.033748674
 
 - @alacheng / 1992043747698463187: 0xPolygon @0xPolygon 生态里的预测市场 @Polymarket 和 Kaito以及brevis_ @brevis_zk  合作，实现了可验证的 kaito mindshare markets。这样用户可以在Polymarket上进行kaito上项目的mindshare预测交易。
-- @alacheng / 2099125625412108728: 4Dlabs @4Dlabs_Official 又一家具身智能数据类企业，模式也是通过web3的模式，但和之前介绍的Axis Robotics @axisrobotics 模式稍微不同，Axis Robotics 主要是仿真数据和手机app手机数据为核心。而4Dlabs则是三块：
 - @alacheng / 2105449382590181756: 1个月前的10亿美金涨到100亿美金 =》 1个月前的25亿美金涨到100亿美金
+- @AlphaguyTrading / 2085533025727877609: 21 世纪最牛的股票之一，居然不是科技股，也和 AI 没什么关系，而是卖能量饮料的 Monster $MNST 。
 
-**claim-led** — share 0.863337475
+**ticker-led** — share 0.035748692
 
-- @alacheng / 1989305453432738236: zama @zama token 快来了。
-- @alacheng / 1989509972825444679: Zaiffer是由zama @zama 和 zaiffer 合资成立了一家隐私交易公司。zaiffer主要是使用Zama 的 FHEVM来实现隐私交易。而FHEVM则是通过支持ERC-7984实现隐私交易。
-- @alacheng / 1989510138617893289: 这个项目融资规模不大，200万美金。现在处于测试网阶段。
+- @alacheng / 2102929977083920564: $META  在 昨天的 Meta Connect 大会上公布的独立 AI 硬件设备，用来承载其个人 AI 智能体 Muse。它不需要手机就能直接对话和使用。
+- @alacheng / 2105983506031718493: 苹果AI研究团队在传说中的GPT-6 使用的Looped transformers做了次创新的研究。
+- @AlphaguyTrading / 2084963452385452472: $SHOP 盘前爆拉30%!
 
-**breaking** — share 0.0
+**contrast/turn** — share 0.063298711
 
-No observed examples.
+- @alacheng / 1990708846881325156: Zama @zama 生态看起来还不大，但也有些不错的应用用例，前面介绍过Zaiffer，Zama CEO @randhindi 最近又介绍了几个使用zama技术的案例：
+- @alacheng / 1993615861618536886: Polygon @0xPolygon 创始人 sandeep，听到了社区的声音，因为把matic这个名字修改成pol后，可能带来了新品牌不如老品牌被更多人认可的问题。确实，其几天我写了polygon的一些zk贡献的推文，就有人说这个事（如下图）。但是看了他这个推文下面大部分认为向前走不要回头，继续建设pol品牌。但是matic在上一轮太成功了，品牌认知度很高，并且在中文区大家都叫 “马蹄链” 这种更容易传播的名字。改成pol后，中文区有对应pol的名字么，好像没有。即使不改回来，可能在品牌传播上也要做很多工作来铺垫这次更改，但团队好像并没有做这方面的工作。
+- @alacheng / 2009075216769798208: 第一次在AI场景下使用crypto pay进行支付。平常会使用https://t.co/48UtAC5Jtx 进行LLM api调用服务。AI和加密还是在不断的融合，这算真实有效的场景了。但不知道openrouter使用crypto pay支付的比例。
 
+**list/thread opener** — share 0.001342533
 
-**emoji-led** — share 0.00314253
+- @wufantouzi / 2066426511079444884: 一、纳斯达克100期货 NQ2609
+- @Unclestocknotes / 2097887829762208156: 2026/09/09 每日盤後重點
+- @Unclestocknotes / 2098234627911548947: 2026/09/10 每日盤後重點
+
+**news-wire** — share 0.007664631
+
+- @BroBean88 / 2070435157320913044: 【大胆论证：存储超级周期已进入下个阶段！】
+- @BroBean88 / 2072615153741533692: 【谣言背后，Meta 其实是精明的资产管理】
+- @BroBean88 / 2072944409277292850: 【节点：中美 AI 走向分离】
+
+**emoji-led** — share 0.002726716
 
 - @AlphaguyTrading / 2102341675444273204: 😎😎😎🫡 https://t.co/ykSvAHKBQt
 - @Michael_QQQ2025 / 2090116945068933557: 🤣🤣🤣有人说BTC正经历历史最大的单日空头事件；polymarket也在狠狠押注BTC在8月破7万的事件，目前是73%.
 - @Michael_QQQ2025 / 2092040185282511349: 🤷
 
-**quote** — share 0.007348092
+**quote** — share 0.006374709
 
 - @alacheng / 1989584623551295886: “森碟” Sentient @SentientAGI 昨天上了两家的盘前合约，okx和币安，节奏加快了。一般上了盘前，多则一周，少则几天就tge了。再之后重点看的项目：
 - @alacheng / 1990710061388403019: "Zama 使用 TokenOps 进行其自身的保密分发和空投 " 这个太隐私了会不会缺少透明呢🤣
 - @alacheng / 2025923974086214059: “Q4－SDK发布目标为在生产环境中持续实现5000 TPS和500毫秒阻塞时间, 应用程式的运行速度将与 Web2 服务一样快，即使在重负荷下也能保持稳定的性能，应用程式的运行速度将与 Web2 服务一样快。”
+
+**claim-led** — share 0.765384342
+
+- @alacheng / 1989305453432738236: zama @zama token 快来了。
+- @alacheng / 1989509972825444679: Zaiffer是由zama @zama 和 zaiffer 合资成立了一家隐私交易公司。zaiffer主要是使用Zama 的 FHEVM来实现隐私交易。而FHEVM则是通过支持ERC-7984实现隐私交易。
+- @alacheng / 1989510138617893289: 这个项目融资规模不大，200万美金。现在处于测试网阶段。
 
 ### Signatures — do_not_copy
 

@@ -50,7 +50,7 @@
   },
   "hooks": {
     "question": {
-      "share": 0.045606208,
+      "share": 0.040731122,
       "first_lines": [
         {
           "handle": "EconomyApp",
@@ -69,8 +69,8 @@
         }
       ]
     },
-    "number-led": {
-      "share": 0.029227541,
+    "number-led headline": {
+      "share": 0.011517252,
       "first_lines": [
         {
           "handle": "EconomyApp",
@@ -89,8 +89,8 @@
         }
       ]
     },
-    "claim-led": {
-      "share": 0.862281312,
+    "ticker-led": {
+      "share": 0.192502546,
       "first_lines": [
         {
           "handle": "EconomyApp",
@@ -99,17 +99,57 @@
         },
         {
           "handle": "EconomyApp",
-          "id": "2049152420501234166",
-          "text": "More earnings visualized here 👇"
+          "id": "2049585307734122849",
+          "text": "$GOOG Alphabet Q1 FY26:"
         },
         {
           "handle": "EconomyApp",
-          "id": "2049585307734122849",
-          "text": "$GOOG Alphabet Q1 FY26:"
+          "id": "2049590742176399587",
+          "text": "$AMZN Amazon Q1 FY26:"
         }
       ]
     },
-    "breaking": {
+    "contrast/turn": {
+      "share": 0.051620916,
+      "first_lines": [
+        {
+          "handle": "JaradCapital",
+          "id": "2088373483747062130",
+          "text": "I am more interested in the margins but whatever"
+        },
+        {
+          "handle": "JaradCapital",
+          "id": "2092339276826681666",
+          "text": "Yes, i know you hate $SNAP management, but hear me out"
+        },
+        {
+          "handle": "jpinsights",
+          "id": "2092937162324947226",
+          "text": "Still digesting the $NVDA call, but the part that stuck with me most was management saying the outlook remains supply-constrained, with demand still running ahead of what the supply chain can deliver."
+        }
+      ]
+    },
+    "list/thread opener": {
+      "share": 0.018421578,
+      "first_lines": [
+        {
+          "handle": "leadlagreport",
+          "id": "2101684073252913439",
+          "text": "1/25 The bond market can change the equity conversation. Tactical Risk Rotation asks what Treasury leadership tells us about taking risk. Updated through Aug 31, 2026. https://t.co/hgp5UDKDYI https://t.co/vF8dS64vlm"
+        },
+        {
+          "handle": "leadlagreport",
+          "id": "2101684082237194683",
+          "text": "7/25 Maximum drawdown: -37.02% for the rule versus -55.45% for VTI. A drawdown is peak-to-trough loss, not a calendar-year return. https://t.co/tz5HStjSsn"
+        },
+        {
+          "handle": "leadlagreport",
+          "id": "2101684083667370055",
+          "text": "8/25 The path matters. This chart shows every drawdown, not just the worst one. A strategy has to be held through its difficult periods to earn its full-period result. https://t.co/O3Dwjhsoe2"
+        }
+      ]
+    },
+    "news-wire": {
       "share": 0.00165816,
       "first_lines": [
         {
@@ -161,6 +201,26 @@
           "handle": "DeepSailCapital",
           "id": "2088396476263084182",
           "text": "“Just buy $NVDA and let Jensen allocate”"
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.622321646,
+      "first_lines": [
+        {
+          "handle": "EconomyApp",
+          "id": "2049152420501234166",
+          "text": "More earnings visualized here 👇"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2049585310552732017",
+          "text": "Stay tuned for our review of $GOOG Google's earnings delivered to your inbox this afternoon!"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2049590744646852649",
+          "text": "Stay tuned for a full breakdown of  $AMZN's earnings in our newsletter this Friday!"
         }
       ]
     }
@@ -365,5 +425,112 @@
         }
       ]
     }
-  ]
+  ],
+  "baseline_rules": {
+    "do": [
+      {
+        "rule": "Lead with a clear judgment; use data to support it.",
+        "evidence": [
+          {
+            "handle": "EconomyApp",
+            "id": "2049152412385185834",
+            "text": "$SPOT Spotify Q1 FY26:\n\n• MAU +12% to 761M.\n• Premium Subs +9% to 293M.\n• Revenue +8% Y/Y to €4.5B (€10M beat).\n• Operating margin 16% (+4pp"
+          },
+          {
+            "handle": "EconomyApp",
+            "id": "2049152420501234166",
+            "text": "More earnings visualized here 👇\nhttps://t.co/umrnpym1ff"
+          },
+          {
+            "handle": "EconomyApp",
+            "id": "2049585307734122849",
+            "text": "$GOOG Alphabet Q1 FY26:\n\n• Revenue +22% Y/Y to $109.9B ($2.9B beat).\n• Operating margin 36% (+2pp Y/Y).\n• $37.7B net gains from equity inves"
+          },
+          {
+            "handle": "EconomyApp",
+            "id": "2049585310552732017",
+            "text": "Stay tuned for our review of $GOOG Google's earnings delivered to your inbox this afternoon!\n\nJoin 300,000+ subscribers.\n\nDid you read our N"
+          }
+        ]
+      },
+      {
+        "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+        "evidence": [
+          {
+            "handle": "EconomyApp",
+            "id": "2049152412385185834",
+            "text": "$SPOT Spotify Q1 FY26:\n\n• MAU +12% to 761M.\n• Premium Subs +9% to 293M.\n• Revenue +8% Y/Y to €4.5B (€10M beat).\n• Operating margin 16% (+4pp"
+          },
+          {
+            "handle": "EconomyApp",
+            "id": "2049152420501234166",
+            "text": "More earnings visualized here 👇\nhttps://t.co/umrnpym1ff"
+          },
+          {
+            "handle": "EconomyApp",
+            "id": "2049585307734122849",
+            "text": "$GOOG Alphabet Q1 FY26:\n\n• Revenue +22% Y/Y to $109.9B ($2.9B beat).\n• Operating margin 36% (+2pp Y/Y).\n• $37.7B net gains from equity inves"
+          },
+          {
+            "handle": "EconomyApp",
+            "id": "2049585310552732017",
+            "text": "Stay tuned for our review of $GOOG Google's earnings delivered to your inbox this afternoon!\n\nJoin 300,000+ subscribers.\n\nDid you read our N"
+          }
+        ]
+      }
+    ],
+    "dont": [
+      {
+        "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+        "evidence": [
+          {
+            "handle": "EconomyApp",
+            "id": "2049152412385185834",
+            "text": "$SPOT Spotify Q1 FY26:\n\n• MAU +12% to 761M.\n• Premium Subs +9% to 293M.\n• Revenue +8% Y/Y to €4.5B (€10M beat).\n• Operating margin 16% (+4pp"
+          },
+          {
+            "handle": "EconomyApp",
+            "id": "2049152420501234166",
+            "text": "More earnings visualized here 👇\nhttps://t.co/umrnpym1ff"
+          },
+          {
+            "handle": "EconomyApp",
+            "id": "2049585307734122849",
+            "text": "$GOOG Alphabet Q1 FY26:\n\n• Revenue +22% Y/Y to $109.9B ($2.9B beat).\n• Operating margin 36% (+2pp Y/Y).\n• $37.7B net gains from equity inves"
+          },
+          {
+            "handle": "EconomyApp",
+            "id": "2049585310552732017",
+            "text": "Stay tuned for our review of $GOOG Google's earnings delivered to your inbox this afternoon!\n\nJoin 300,000+ subscribers.\n\nDid you read our N"
+          }
+        ]
+      },
+      {
+        "rule": "Do not convert observed confidence into an unsupported trade call.",
+        "evidence": [
+          {
+            "handle": "EconomyApp",
+            "id": "2049152412385185834",
+            "text": "$SPOT Spotify Q1 FY26:\n\n• MAU +12% to 761M.\n• Premium Subs +9% to 293M.\n• Revenue +8% Y/Y to €4.5B (€10M beat).\n• Operating margin 16% (+4pp"
+          },
+          {
+            "handle": "EconomyApp",
+            "id": "2049152420501234166",
+            "text": "More earnings visualized here 👇\nhttps://t.co/umrnpym1ff"
+          },
+          {
+            "handle": "EconomyApp",
+            "id": "2049585307734122849",
+            "text": "$GOOG Alphabet Q1 FY26:\n\n• Revenue +22% Y/Y to $109.9B ($2.9B beat).\n• Operating margin 36% (+2pp Y/Y).\n• $37.7B net gains from equity inves"
+          },
+          {
+            "handle": "EconomyApp",
+            "id": "2049585310552732017",
+            "text": "Stay tuned for our review of $GOOG Google's earnings delivered to your inbox this afternoon!\n\nJoin 300,000+ subscribers.\n\nDid you read our N"
+          }
+        ]
+      }
+    ]
+  },
+  "qualitative": {}
 }
