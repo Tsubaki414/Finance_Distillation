@@ -121,3 +121,27 @@ def test_slow_channels_get_their_own_time_cap(tmp_path):
             fetchers={'podcast:x': lambda: (time.sleep(.1) or {'sources': []})},
             extract=lambda s: [], backup=lambda: None, refresh=lambda: None)
     assert r['channels'][0]['status'] == 'ok'
+
+
+def test_chinese_min_length_is_language_aware():
+    ch = chan('ch001_data_eastmoney_com')
+    zh = '<article><p>' + '研究报告认为公司高速背板连接器业务进入放量期，' * 40 + '</p></article>'   # ~880 chars
+    def transport(url, headers):
+        return (200, json.dumps({'data': [{'title': 'R', 'infoCode': 'AP1', 'publishDate': '2026-10-02 00:00:00'}]})) if 'reportapi' in url else (200, zh)
+    out = channels.fetch_channel(ch, transport=transport)
+    assert out['status'] == 'ok'
+
+
+def test_month_only_page_dates_become_iso():
+    ch = chan('ch033_www_kkr_com')
+    assert ch['mode'] == 'html_index'
+    index = '<main><a href="https://www.kkr.com/insights/let-there-be-compute">Investment Insights Let There Be Compute! September 2026</a></main>'
+    page = '<html><head><meta name="date" content="September 2026"></head><body><article>' + BODY + '</article></body></html>'
+    out = channels.fetch_channel(ch, transport=lambda u, h: (200, index if u == ch['url'] else page))
+    assert out['sources'][0]['published_at'].startswith('2026-09-01')
+
+
+@pytest.mark.parametrize('cid,word', [('ch066_www_pbc_gov_cn', 'robots'), ('ch034_www_pimco_com', 'short'), ('ch035_www_invesco_com', 'client-side')])
+def test_retested_exclusions_carry_current_reason(cid, word):
+    ch = chan(cid)
+    assert ch['mode'] == 'excluded' and word in ch['reason'] and '2026-10-04' in ch['reason']
