@@ -220,3 +220,19 @@ def test_invalid_view_downgrades_unit_instead_of_failing_source():
            'view': dict(view(), reasoning='The weather is sunny.')}
     u = cu._unit(source, raw, 0, {p['paragraph_id']: p for p in paragraphs(text)}, text, 'B', require_view=True)
     assert 'view' not in u and 'traceable' in u['view_error']
+
+
+def test_account_reasoning_needs_no_token_overlap_but_numbers_bound():
+    proposed = view(); proposed['reasoning'] = 'The weather is sunny.'
+    assert cu.validate_view(proposed, SPANS, require_trace=False)
+    proposed['reasoning'] = 'Revenue could rise 11%.'
+    with pytest.raises(cu.ContractError, match='number not bound'):
+        cu.validate_view(proposed, SPANS, require_trace=False)
+
+
+def test_stance_rejects_gracefully_on_untraceable_input_view():
+    from live import stance
+    unit = {'unit_id': 'u', 'kind': 'view', 'statement': 's', 'source_spans': SPANS,
+            'view': dict(view(), reasoning='The weather is sunny.')}
+    out = stance.stance_step(unit, {'stance': {'horizon': 'months'}}, lambda *a, **k: (_ for _ in ()).throw(AssertionError('no call')))
+    assert out['decision'] == 'reject' and 'view' in out['rationale'].lower()
