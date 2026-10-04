@@ -242,7 +242,7 @@ def position_findings(body, lang):
         r"\b(?:my|our)\s+(?:positions?|portfolio|holdings?|P&L|profits?|losses|gains|returns)\b",
         r"\b(?:I\s+am|we\s+are|I['’]m|we['’]re)\s+(?:up|down)\s+\d+(?:\.\d+)?\s*%",
         r"\b(?:I|we)\s+(?:(?:have|had|already|just|recently)\s+)*(?:profited|lost\s+money|made\s+(?:a\s+)?profit|gained\s+\d+(?:\.\d+)?\s*%)\b",
-        r'我(?:们)?(?:已经|刚刚|刚|已)?(?:买入|卖出|加仓|减仓|建仓|清仓|持有|满仓|空仓|买了|卖了|止盈|止损)',
+        r'我(?:们)?(?:今天|昨天|今日|本周|上周|目前|现在|已经|刚刚|刚|已|又|也)*(?:买入|卖出|加仓|减仓|建仓|清仓|持有|满仓|空仓|买了|卖了|止盈|止损)',
         r'我(?:们)?的(?:仓位|持仓|盈亏|收益率)|本人持仓',
         # An omitted subject at a clause opening is a personal P&L claim;
         # explicit third-party subjects (e.g. 基金盈利了) are left alone.
