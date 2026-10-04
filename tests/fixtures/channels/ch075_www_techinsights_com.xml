@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:og="http://ogp.me/ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:sioct="http://rdfs.org/sioc/types#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" version="2.0" xml:base="https://www.techinsights.com/">
+  <channel>
+    <title>TechInsights</title>
+    <link>https://www.techinsights.com/</link>
+    <description/>
+    <language>en</language>
+    
+    <item>
+  <title>Leading TechInsights' Analysts Gear Up for CES® 2024</title>
+  <link>https://www.techinsights.com/ces-2024</link>
+  <description>&lt;span property="schema:name" class="field field--name-title field--type-string field--label-hidden"&gt;Leading TechInsights' Analysts Gear Up for CES® 2024&lt;/span&gt;
+&lt;span rel="schema:author" class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.techinsights.com/user/69" typeof="schema:Person" property="schema:name" datatype&gt;JWinters&lt;/span&gt;&lt;/span&gt;
+&lt;span property="schema:dateCreated" content="2023-12-04T19:25:33+00:00" class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2023-12-04T19:25:33+00:00" title="Monday, December 4, 2023 - 19:25" class="datetime"&gt;Mon, 12/04/2023 - 19:25&lt;/time&gt;
+&lt;/span&gt;
+
+
+</description>
+  <pubDate>Mon, 04 Dec 2023 19:25:33 +0000</pubDate>
+    <dc:creator>JWinters</dc:creator>
+    <guid isPermaLink="false">54100 at https://www.techinsights.com</guid>
+    </item><item>
+  <title>Disruptive Technology: 7nm SMIC MinerVa Bitcoin Miner</title>
+  <link>https://www.techinsights.com/blog/disruptive-technology-7nm-smic-minerva-bitcoin-miner</link>
+  <description>&lt;span property="schema:name" class="field field--name-title field--type-string field--label-hidden"&gt;Disruptive Technology: 7nm SMIC MinerVa Bitcoin Miner&lt;/span&gt;
+&lt;span rel="schema:author" class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.techinsights.com/user/69" typeof="schema:Person" property="schema:name" datatype&gt;JWinters&lt;/span&gt;&lt;/span&gt;
+&lt;span property="schema:dateCreated" content="2022-07-19T17:40:09+00:00" class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2022-07-19T17:40:09+00:00" title="Tuesday, July 19, 2022 - 17:40" class="datetime"&gt;Tue, 07/19/2022 - 17:40&lt;/time&gt;
+&lt;/span&gt;
+
+
+</description>
+  <pubDate>Tue, 19 Jul 2022 17:40:09 +0000</pubDate>
+    <dc:creator>JWinters</dc:creator>
+    <guid isPermaLink="false">37967 at https://www.techinsights.com</guid>
+    </item></channel></rss>

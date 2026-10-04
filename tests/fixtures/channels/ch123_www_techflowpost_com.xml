@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>TechFlow</title>
+        <link>https://www.techflowpost.com</link>
+        <description>深潮 TechFlow 是一个聚焦全球资产的价值发现平台，提供覆盖 比特币、黄金、美股、AI 科技、宏观经济 的深度研究与趋势洞察。我们追踪全球资本流动、政策变化、科技创新与市场结构，为投资者、创业者与行业决策者提供具有前瞻性、可信度与专业性的分析内容。</description>
+        <lastBuildDate>Sun, 04 Oct 2026 10:43:18 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://www.techflowpost.com</generator>
+        <language>zh-cn</language>
+        <copyright>TechFlow</copyright>
+        <item>
+            <title><![CDATA[特朗普推动 AI 监管评估并全力助选中期选举]]></title>
+            <link>https://www.techflowpost.com/newsletter/138804</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138804</guid>
+            <pubDate>Sun, 04 Oct 2026 10:28:50 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 4 日，据金十数据，美国白宫已成立人工智能特设工作组，由国家情报总监克莱顿牵头，计划于 120 天内起草 AI 风险评估报告，明确联邦政府对相关技术的监管责任。与此同时，特朗普正全力为 2026 年中期选举造势，在俄亥俄州集会中强调共和党需动用一切投票方式争取胜利，并提及斯特兰蒂斯、Electra.aero 及拜耳等企业投资承诺系其关税政策促成。</p><p>此外，特朗普还敦促参议员汤姆·科顿停止个人阻挠《阳光保护法案》，要求参议院立即投票通过以结束一年两次调整时钟，直接锁定夏令时。相关立法与产业监管动态正同步展开。</p>]]></description>
+            <category>TechFlow</category>
+        </item><item>
+            <title><![CDATA[Base链某金库遭攻击，损失扩大至约600万美元]]></title>
+            <link>https://www.techflowpost.com/newsletter/138803</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138803</guid>
+            <pubDate>Sun, 04 Oct 2026 10:26:33 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，据 Spot On Chain 监测，Base 链上某金库遭攻击，损失已扩大至约 600 万美元，涉及约 1783枚 wstETH。</p><p>攻击者通过将新合约添加至金库白名单，从金库借出 aBaswstETH，并将相关资产转移至攻击者控制的合约。<br></p>]]></description>
+            <category>TechFlow</category>
+        </item></channel></rss>

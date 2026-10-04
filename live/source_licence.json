@@ -767,6 +767,906 @@
       "aliases": [
         "Federal Reserve Bank of New York"
       ]
+    },
+    "ch000_www_reportgem_com": {
+      "tier": "B",
+      "basis": "Existing adapter, but it should be retired: login-walled resale of GS/MS sell-side PDFs with no licence shown; member agreement 3.3.7 bans commercial use (gray_redistribution)",
+      "aliases": [
+        "ReportGem 实时外文研报"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch001_data_eastmoney_com": {
+      "tier": "B",
+      "basis": "reportapi.eastmoney.com/report/list needs no key; use only title, broker, rating and key points; the PDFs are broker copyright",
+      "aliases": [
+        "东方财富研报中心（reportapi JSON）"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch008_stock_finance_sina_com_cn": {
+      "tier": "B",
+      "basis": "Public GBK list page of broker report titles and summaries, no login; use only facts and the rating, with attribution",
+      "aliases": [
+        "新浪财经研报"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch012_sc_macromicro_me": {
+      "tier": "B",
+      "basis": "Public /feed with 10 summary items; blog article pages are free; cite MacroMicro for any chart; the API is paid",
+      "aliases": [
+        "财经M平方 MacroMicro"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch019_www_fool_com": {
+      "tier": "B",
+      "basis": "Public transcript list and pages with no login; paraphrase management remarks and credit Fool",
+      "aliases": [
+        "Motley Fool 电话会全文"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch021_news_alphastreet_com": {
+      "tier": "B",
+      "basis": "RSS carries full text (10 of 10 items)",
+      "aliases": [
+        "AlphaStreet"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch022_www_apolloacademy_com": {
+      "tier": "B",
+      "basis": "Public Daily Spark list (RSS stopped 2026-04); terms ban full or partial copying, so paraphrase views only and don't copy charts",
+      "aliases": [
+        "Apollo Daily Spark（Torsten Slok）"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch023_www_goldmansachs_com": {
+      "tier": "B",
+      "basis": "Index from public sitemap-1.xml (625 articles with lastmod); check the article HTML contains the body text, otherwise treat as js_render_required",
+      "aliases": [
+        "Goldman Sachs Insights"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch024_feeds_megaphone_fm": {
+      "tier": "B",
+      "basis": "Feed has show notes, not transcripts; goldmansachs.com episode pages may carry transcripts (check, they need rendering)",
+      "aliases": [
+        "GS Exchanges 播客"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch025_rss_art19_com": {
+      "tier": "B",
+      "basis": "Public podcast RSS; each episode has a full transcript on public morganstanley.com pages, so no audio transcription needed",
+      "aliases": [
+        "Morgan Stanley Thoughts on the Market"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch026_www_morganstanley_com": {
+      "tier": "B",
+      "basis": "Public /insights list (redirected from /ideas), no login",
+      "aliases": [
+        "Morgan Stanley Ideas"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch027_privatebank_jpmorgan_com": {
+      "tier": "B",
+      "basis": "Public EOTM page and PDFs; the login_wall flag is the client-login link, so check the PDFs download without a session",
+      "aliases": [
+        "J.P. Morgan Eye on the Market（Cembalest）"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch029_www_blackrock_com": {
+      "tier": "B",
+      "basis": "Public weekly commentary page, no login",
+      "aliases": [
+        "BlackRock Weekly Commentary（BII）"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch030_www_oaktreecapital_com": {
+      "tier": "B",
+      "basis": "Oaktree memos adapter already exists",
+      "aliases": [
+        "Oaktree Howard Marks Memos"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch031_www_bridgewater_com": {
+      "tier": "B",
+      "basis": "research-and-insights.rss gives summaries; article pages are public",
+      "aliases": [
+        "Bridgewater Research & Insights"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch032_www_schwab_com": {
+      "tier": "B",
+      "basis": "Public market-commentary list, no login",
+      "aliases": [
+        "Schwab Market Commentary（含 Liz Ann Sonders）"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch036_www_fidelity_com": {
+      "tier": "B",
+      "basis": "Public learning-center list; the login_wall flag is the nav login link; check the articles are served without Akamai blocking",
+      "aliases": [
+        "Fidelity Viewpoints"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch037_corporate_vanguard_com": {
+      "tier": "B",
+      "basis": "Public monthly VEMO return-forecast page",
+      "aliases": [
+        "Vanguard 市场展望（VCMM）"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch038_www_federalreserve_gov": {
+      "tier": "A",
+      "basis": "Fed speeches/FEDS/FOMC RSS adapter already exists (send a browser UA)",
+      "aliases": [
+        "Fed 演讲 + FEDS Notes RSS（press_all 已在 registry）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch039_www_atlantafed_org": {
+      "tier": "A",
+      "basis": "Public GDPNow and Market Probability Tracker pages plus the macroblog RSS; public institution; replaces CME FedWatch",
+      "aliases": [
+        "Atlanta Fed macroblog + GDPNow + Market Probability Tracker"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch040_markets_newyorkfed_org": {
+      "tier": "A",
+      "basis": "NY Fed Markets API adapter already exists",
+      "aliases": [
+        "NY Fed Markets API（SOFR/回购/准备金）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch041_www_frbsf_org": {
+      "tier": "A",
+      "basis": "RSS carries full text (9 of 10 items); updated rarely since 2026-06; other regional Fed feeds need their own paths",
+      "aliases": [
+        "SF Fed / 其他地区联储 RSS"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch043_www_ecb_europa_eu": {
+      "tier": "A",
+      "basis": "Press/blog RSS gives summaries; pages are public; reuse allowed with attribution",
+      "aliases": [
+        "ECB 新闻/博客 RSS"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch044_www_bankofengland_co_uk": {
+      "tier": "A",
+      "basis": "News RSS gives summaries; pages are public",
+      "aliases": [
+        "Bank of England news + Bank Underground"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch045_www_boj_or_jp": {
+      "tier": "A",
+      "basis": "What's-new RSS; pages and PDFs are public",
+      "aliases": [
+        "Bank of Japan 新闻 RSS"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch046_www_bis_org": {
+      "tier": "A",
+      "basis": "Speeches, press and working-paper RSS; pages are public",
+      "aliases": [
+        "BIS（演讲/新闻/工作论文）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch047_www_hkma_gov_hk": {
+      "tier": "A",
+      "basis": "Press-release RSS; pages are public",
+      "aliases": [
+        "HKMA 新闻稿"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch049_www_oecd_org": {
+      "tier": "A",
+      "basis": "No RSS; public publication pages (mostly CC BY 4.0); the OECD Data SDMX API also works without a key",
+      "aliases": [
+        "OECD"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch050_cepr_org": {
+      "tier": "B",
+      "basis": "RSS gives summaries; columns are free to read",
+      "aliases": [
+        "VoxEU / CEPR"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch051_back_nber_org": {
+      "tier": "B",
+      "basis": "RSS gives abstracts; paper pages and abstracts are public",
+      "aliases": [
+        "NBER 新工作论文"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch052_www_piie_com": {
+      "tier": "B",
+      "basis": "RSS gives summaries; PIIE pages are free",
+      "aliases": [
+        "PIIE"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch053_www_brookings_edu": {
+      "tier": "B",
+      "basis": "/feed redirects to the homepage; scrape the public research listing instead and confirm it isn't challenged",
+      "aliases": [
+        "Brookings"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch054_www_employamerica_org": {
+      "tier": "B",
+      "basis": "Employ America adapter already exists",
+      "aliases": [
+        "Employ America"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch055_api_fiscaldata_treasury_gov": {
+      "tier": "A",
+      "basis": "Treasury FiscalData adapter already exists; no key needed",
+      "aliases": [
+        "Treasury FiscalData API"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch056_home_treasury_gov": {
+      "tier": "A",
+      "basis": "Public press-release list (feed returns 404); public domain",
+      "aliases": [
+        "Treasury 新闻稿"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch057_api_bls_gov": {
+      "tier": "A",
+      "basis": "BLS adapter already exists (the probe's 405 is because the endpoint wants POST)",
+      "aliases": [
+        "BLS API v2"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch058_www_sec_gov": {
+      "tier": "A",
+      "basis": "SEC EDGAR adapter already exists; the 403 is because the UA lacks contact info",
+      "aliases": [
+        "SEC EDGAR（8-K/10-Q/13F，data.sec.gov）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch059_www_sec_gov": {
+      "tier": "A",
+      "basis": "Press RSS gives summaries; pages are public domain",
+      "aliases": [
+        "SEC 新闻稿 RSS"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch060_www_eia_gov": {
+      "tier": "A",
+      "basis": "Today in Energy RSS; pages are public domain (API v2 needs a free key)",
+      "aliases": [
+        "EIA Today in Energy + API"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch062_nvidianews_nvidia_com": {
+      "tier": "A",
+      "basis": "Company IR release RSS (Q4 /rss/news-releases.xml); release pages are public; some IR hosts return 403",
+      "aliases": [
+        "扩充 IR RSS：MU/AVGO/TSM/ASML 等（NVDA/AMD 已在 registry）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch063_www_cninfo_com_cn": {
+      "tier": "A",
+      "basis": "Public hisAnnouncement/query endpoint (POST, no key; the 500 came from probing with GET); announcement PDFs are public",
+      "aliases": [
+        "巨潮资讯网公告"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch064_www1_hkexnews_hk": {
+      "tier": "A",
+      "basis": "Public HKEXnews latest-filings JSON, no key",
+      "aliases": [
+        "HKEXnews 最新公告 JSON"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch065_www_stats_gov_cn": {
+      "tier": "A",
+      "basis": "Public data-release list page; government information",
+      "aliases": [
+        "国家统计局 数据发布"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch067_www_safe_gov_cn": {
+      "tier": "A",
+      "basis": "Public government news list; the login_wall flag looks like a false positive, so check for a JS challenge",
+      "aliases": [
+        "国家外汇管理局"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": true,
+      "attribution_required": true
+    },
+    "ch068_api_one_wscn_awtmt_com": {
+      "tier": "B",
+      "basis": "华尔街见闻 adapter already exists; media copyright, facts only",
+      "aliases": [
+        "华尔街见闻 资讯流 JSON"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch071_newsletter_semianalysis_com": {
+      "tier": "B",
+      "basis": "SemiAnalysis adapter already exists (new Substack feed); paywalled parts can't be used",
+      "aliases": [
+        "SemiAnalysis（新 feed，已在 registry）"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch072_www_trendforce_com": {
+      "tier": "B",
+      "basis": "Public press-center news list (RSS empty or stale); press releases are meant for citation; the login flag is the member link",
+      "aliases": [
+        "TrendForce 新闻中心"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch075_www_techinsights_com": {
+      "tier": "B",
+      "basis": "RSS stale since 2022-07; use the public blog listing, free posts only (reports are gated)",
+      "aliases": [
+        "TechInsights blog"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch076_www_asianometry_com": {
+      "tier": "B",
+      "basis": "Substack feed has full text but is stale since 2024-12; YouTube captions would be an extra channel",
+      "aliases": [
+        "Asianometry（Newsletter + YouTube）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch077_www_chipstrat_com": {
+      "tier": "B",
+      "basis": "Chipstrat adapter already exists",
+      "aliases": [
+        "Chipstrat（Austin Lyons）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch078_morethanmoore_substack_com": {
+      "tier": "B",
+      "basis": "Substack feed has full text (13 of 20); skip the paid teasers",
+      "aliases": [
+        "More Than Moore（Ian Cutress）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch080_semiengineering_com": {
+      "tier": "B",
+      "basis": "RSS carries full text (10 of 10)",
+      "aliases": [
+        "Semiconductor Engineering"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch081_semiwiki_com": {
+      "tier": "B",
+      "basis": "RSS gives summaries; articles are free",
+      "aliases": [
+        "SemiWiki"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch082_www_eetimes_com": {
+      "tier": "B",
+      "basis": "RSS gives summaries; articles are free",
+      "aliases": [
+        "EE Times"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch083_www_tomshardware_com": {
+      "tier": "B",
+      "basis": "RSS carries full text (50 of 50)",
+      "aliases": [
+        "Tom's Hardware"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch084_creativestrategies_com": {
+      "tier": "B",
+      "basis": "Research feed carries full text (6 of 6)",
+      "aliases": [
+        "Creative Strategies（Ben Bajarin）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch085_futurumgroup_com": {
+      "tier": "B",
+      "basis": "RSS carries full text (50 of 50)",
+      "aliases": [
+        "Futurum Group"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch086_interconnected_blog": {
+      "tier": "B",
+      "basis": "RSS carries full text (13 of 15); skip paid posts",
+      "aliases": [
+        "Interconnected（Kevin Xu）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch087_www_chinatalk_media": {
+      "tier": "B",
+      "basis": "Substack feed has full text (18 of 20); skip paid posts",
+      "aliases": [
+        "ChinaTalk（Jordan Schneider）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch089_www_apricitas_io": {
+      "tier": "B",
+      "basis": "Apricitas adapter already exists",
+      "aliases": [
+        "Apricitas Economics（Joseph Politano）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch090_kyla_substack_com": {
+      "tier": "B",
+      "basis": "Substack feed has full text (20 of 20); stale since 2026-05",
+      "aliases": [
+        "Kyla Scanlon"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch091_thedailyshotbrief_com": {
+      "tier": "B",
+      "basis": "Daily Shot adapter already exists; charts come from third parties",
+      "aliases": [
+        "The Daily Shot Brief（免费版）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch092_www_noahpinion_blog": {
+      "tier": "B",
+      "basis": "Substack feed has full text (20 of 20); skip paid teasers",
+      "aliases": [
+        "Noahpinion"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch093_www_bespokepremium_com": {
+      "tier": "B",
+      "basis": "Free blog posts are full text (38 of 100); skip premium teasers",
+      "aliases": [
+        "Bespoke Think B.I.G. blog"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch094_hedgopia_com": {
+      "tier": "B",
+      "basis": "RSS gives summaries; COT posts are public",
+      "aliases": [
+        "Hedgopia（期货持仓/COT）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch095_www_cboe_com": {
+      "tier": "B",
+      "basis": "Insights RSS gives summaries; pages are public",
+      "aliases": [
+        "Cboe Insights"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch096_spotgamma_com": {
+      "tier": "B",
+      "basis": "Free posts only; skip paid content",
+      "aliases": [
+        "SpotGamma 免费内容"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch097_abnormalreturns_com": {
+      "tier": "B",
+      "basis": "Link digest with partial full text (4 of 14); use only to discover sources",
+      "aliases": [
+        "Abnormal Returns（链接日报）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch098_ritholtz_com": {
+      "tier": "B",
+      "basis": "RSS carries full text (9 of 10)",
+      "aliases": [
+        "The Big Picture（Ritholtz）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch099_awealthofcommonsense_com": {
+      "tier": "B",
+      "basis": "RSS gives summaries; posts are free",
+      "aliases": [
+        "A Wealth of Common Sense（Ben Carlson）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch100_www_omnycontent_com": {
+      "tier": "B",
+      "basis": "Feed has show notes only; official transcripts need a Bloomberg login, so transcribe the audio",
+      "aliases": [
+        "Odd Lots 播客"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch101_rss_libsyn_com": {
+      "tier": "B",
+      "basis": "Mercatus publishes public transcript pages; the feed has show notes",
+      "aliases": [
+        "Macro Musings（David Beckworth）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch102_feeds_feedburner_com": {
+      "tier": "B",
+      "basis": "Feed has show notes and no public transcript (the PDFs need registration)",
+      "aliases": [
+        "Macro Voices"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch103_feeds_megaphone_fm": {
+      "tier": "B",
+      "basis": "Feed has show notes; no public transcripts",
+      "aliases": [
+        "Forward Guidance（Blockworks）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch104_feeds_megaphone_fm": {
+      "tier": "B",
+      "basis": "Feed has show notes; Colossus transcripts need an account",
+      "aliases": [
+        "Invest Like the Best"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch105_feeds_megaphone_fm": {
+      "tier": "B",
+      "basis": "Feed has show notes; no public transcripts",
+      "aliases": [
+        "Real Vision 播客"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch106_research_glassnode_com": {
+      "tier": "B",
+      "basis": "Glassnode adapter already exists; charts need a licence for commercial use",
+      "aliases": [
+        "Glassnode Insights（Week On-chain）"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch107_researchblog_coinshares_com": {
+      "tier": "B",
+      "basis": "CoinShares adapter already exists (feed moved to researchblog)",
+      "aliases": [
+        "CoinShares 研究（周度资金流）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch108_www_galaxy_com": {
+      "tier": "B",
+      "basis": "Public research list (RSS returns 404); reports are free",
+      "aliases": [
+        "Galaxy Research"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch109_www_theblock_co": {
+      "tier": "B",
+      "basis": "News RSS gives summaries; news pages are free; skip Research Pro",
+      "aliases": [
+        "The Block（新闻 RSS + Research 页）"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch110_bitwiseinvestments_com": {
+      "tier": "B",
+      "basis": "Public insights list; the login flag looks like a nav link, so confirm the memos are public",
+      "aliases": [
+        "Bitwise CIO Memo/研究"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch111_k33_com": {
+      "tier": "B",
+      "basis": "Public research list; free reports only",
+      "aliases": [
+        "K33 Research"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch112_a16zcrypto_com": {
+      "tier": "B",
+      "basis": "RSS carries full text (29 of 30)",
+      "aliases": [
+        "a16z crypto"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch113_unchainedcrypto_com": {
+      "tier": "B",
+      "basis": "RSS carries full text (10 of 10)",
+      "aliases": [
+        "Unchained（新闻+播客）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch114_feeds_megaphone_fm": {
+      "tier": "B",
+      "basis": "Feed has show notes; no public transcripts",
+      "aliases": [
+        "Empire 播客（Blockworks）"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch115_www_coindesk_com": {
+      "tier": "B",
+      "basis": "RSS gives summaries; articles are free; media, facts only",
+      "aliases": [
+        "CoinDesk / Blockworks 新闻"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch121_wublock_substack_com": {
+      "tier": "B",
+      "basis": "Wu Blockchain adapter already exists; media, facts only",
+      "aliases": [
+        "吴说 Wu Blockchain（Substack）"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch123_www_techflowpost_com": {
+      "tier": "B",
+      "basis": "RSS gives summaries (2 of 50 full text); articles are public; media, facts only",
+      "aliases": [
+        "深潮 TechFlow"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch124_sinocism_com": {
+      "tier": "B",
+      "basis": "Substack feed has full text (13 of 20); skip paid teasers",
+      "aliases": [
+        "Sinocism / Pekingnology"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch127_wechat2rss_xlab_app": {
+      "tier": "B",
+      "basis": "Listed in wechat2rss's free list as a full-text RSS from a third-party mirror; check the feed URL; the account sells paid products",
+      "aliases": [
+        "长赢指数投资（ETF拯救世界·E大）"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
     }
   }
 }

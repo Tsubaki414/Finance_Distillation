@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>SemiWiki</title>
+	<atom:link href="https://semiwiki.com/feed/" rel="self" type="application/rss+xml" />
+	<link>https://semiwiki.com/</link>
+	<description>The Open Forum for Semiconductor Professionals</description>
+	<lastBuildDate>Fri, 02 Oct 2026 14:01:34 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.0.6</generator>
+
+<image>
+	<url>https://semiwiki.com/wp-content/uploads/2025/03/cropped-SemiWiki-Bug-1-32x32.jpg</url>
+	<title>SemiWiki</title>
+	<link>https://semiwiki.com/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>CEO Interview Greene Tweed</title>
+		<link>https://semiwiki.com/semiconductor-manufacturers/374203-ceo-interview-greene-tweed/</link>
+					<comments>https://semiwiki.com/semiconductor-manufacturers/374203-ceo-interview-greene-tweed/#respond</comments>
+		
+		<dc:creator><![CDATA[Daniel Nenni]]></dc:creator>
+		<pubDate>Fri, 02 Oct 2026 17:00:12 +0000</pubDate>
+				<category><![CDATA[Greene Tweed]]></category>
+		<category><![CDATA[Semiconductor]]></category>
+		<category><![CDATA[Chemraz]]></category>
+		<category><![CDATA[cmp]]></category>
+		<category><![CDATA[DCL Corporation]]></category>
+		<category><![CDATA[ecd]]></category>
+		<category><![CDATA[etch]]></category>
+		<category><![CDATA[FFKM portfolio]]></category>
+		<category><![CDATA[Magen Buterbaugh]]></category>
+		<guid isPermaLink="false">https://semiwiki.com/?p=374203</guid>
+
+					<description><![CDATA[<p>Magen Buterbaugh was appointed President and CEO of Greene Tweed in January 2023. A seasoned leader, with broad industry expertise, Magen has led multiple chemicals &#38; materials-based businesses – spanning from startups to multibillion-dollar enterprises. She led and scaled new innovative research and development platforms&#8230; <a href="https://semiwiki.com/semiconductor-manufacturers/374203-ceo-interview-greene-tweed/" class="read-more">Read More </a></p>
+<p>The post <a href="https://semiwiki.com/semiconductor-manufacturers/374203-ceo-interview-greene-tweed/">CEO Interview Greene Tweed</a> appeared first on <a href="https://semiwiki.com">SemiWiki</a>.</p>
+]]></description>
+		
+					<wfw:commentRss>https://semiwiki.com/semiconductor-manufacturers/374203-ceo-interview-greene-tweed/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item><item>
+		<title>TSMC OIP Ecosystem Forum 2026: Spotlight on Emerging Technologies</title>
+		<link>https://semiwiki.com/semiconductor-manufacturers/tsmc/374276-tsmc-oip-ecosystem-forum-2026-spotlight-on-emerging-technologies/</link>
+					<comments>https://semiwiki.com/semiconductor-manufacturers/tsmc/374276-tsmc-oip-ecosystem-forum-2026-spotlight-on-emerging-technologies/#respond</comments>
+		
+		<dc:creator><![CDATA[Mike Gianfagna]]></dc:creator>
+		<pubDate>Fri, 02 Oct 2026 15:00:55 +0000</pubDate>
+				<category><![CDATA[3D IC]]></category>
+		<category><![CDATA[Agentrys]]></category>
+		<category><![CDATA[AI]]></category>
+		<category><![CDATA[ChipAgents AI]]></category>
+		<category><![CDATA[EDA]]></category>
+		<category><![CDATA[Events]]></category>
+		<category><![CDATA[Semiconductor]]></category>
+		<category><![CDATA[Silimate]]></category>
+		<category><![CDATA[TSMC]]></category>
+		<category><![CDATA[Vinci]]></category>
+		<category><![CDATA[Ann Wu]]></category>
+		<category><![CDATA[Duo Ding]]></category>
+		<category><![CDATA[Hardik Kabaria]]></category>
+		<category><![CDATA[Mark Ren]]></category>
+		<category><![CDATA[Satish Radhakrishnan]]></category>
+		<category><![CDATA[tsmc oip]]></category>
+		<category><![CDATA[William Wang]]></category>
+		<category><![CDATA[Yi-Chen Lu]]></category>
+		<guid isPermaLink="false">https://semiwiki.com/?p=374276</guid>
+
+					<description><![CDATA[<p>&#160;</p>
+<p style="font-weight: 400;">The TSMC OIP Ecosystem Forum highlighted many accomplishments across TSMC’s vast ecosystem. Specific achievements with TSMC as well as collaborative work across several companies were all on display.</p>
+<p style="font-weight: 400;">And there was an exhibit area where you could meet the companies behind many of these stories and learn more about them.&#8230; <a href="https://semiwiki.com/semiconductor-manufacturers/tsmc/374276-tsmc-oip-ecosystem-forum-2026-spotlight-on-emerging-technologies/" class="read-more">Read More </a></p>
+<p>The post <a href="https://semiwiki.com/semiconductor-manufacturers/tsmc/374276-tsmc-oip-ecosystem-forum-2026-spotlight-on-emerging-technologies/">TSMC OIP Ecosystem Forum 2026: Spotlight on Emerging Technologies</a> appeared first on <a href="https://semiwiki.com">SemiWiki</a>.</p>
+]]></description>
+		
+					<wfw:commentRss>https://semiwiki.com/semiconductor-manufacturers/tsmc/374276-tsmc-oip-ecosystem-forum-2026-spotlight-on-emerging-technologies/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item></channel></rss>

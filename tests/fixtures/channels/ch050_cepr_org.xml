@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cepr="https://cepr.org/rss/ns/1.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:og="http://ogp.me/ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:sioct="http://rdfs.org/sioc/types#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" version="2.0" xml:base="https://cepr.org/">
+  <channel>
+    <title>Recent VoxEU Content</title>
+    <link>https://cepr.org/</link>
+    <description>Latest VoxEU columns, talks and multimedia from CEPR</description>
+    <language>en</language>
+    
+    <item>
+  <title>The impact of AI and cross-border data regulation on international trade in digital services</title>
+  <link>https://cepr.org/voxeu/columns/impact-ai-and-cross-border-data-regulation-international-trade-digital-services</link>
+  <description>AI is transforming digital services, and mobile apps, which routinely reach users far beyond their home markets, show just how global that transformation has become. This column shows that AI makes these products dramatically more attractive, increasing their user base at home and abroad by more than threefold. But when governments restrict the movement of data across borders, the gains from AI are halved. This creates a genuine policy tension. Rules designed to protect privacy, national security, and democratic institutions can also make it harder to build better products and spread the gains from new technologies.</description>
+  <pubDate>Sun, 04 Oct 2026 00:00:00 +0100</pubDate>
+    <dc:creator>Ruiqi Sun, Daniel Trefler</dc:creator>
+    <guid isPermaLink="false">f18ec491-24a0-4d80-a4be-13fb3101b525</guid>
+    <cepr:type>VoxEU Column</cepr:type>
+    <cepr:cover_image>https://cepr.org/sites/default/files/styles/rss_featured_image/public/2026-10/AdobeStock_1930981932.jpeg?itok=J_TJUMrV</cepr:cover_image>
+    </item><item>
+  <title>Strategic sovereignty, social movements, and political agency: Evidence from the US-Israeli military campaign in Iran</title>
+  <link>https://cepr.org/voxeu/columns/strategic-sovereignty-social-movements-and-political-agency-evidence-us-israeli</link>
+  <description>Military intervention may be undertaken to weaken a hostile regime and strengthen the position of its opponents. This column argues that evidence from the 2026 US-Israeli strikes on Iran points to a different outcome: the strikes left total protest levels broadly unchanged but sharply reoriented mobilisation away from anti-government protest and toward pro-government activity. The findings suggest that overt foreign intervention can make sovereignty politically valuable to incumbent governments by making domestic opposition easier to portray as aligned with an external adversary.</description>
+  <pubDate>Sat, 03 Oct 2026 00:00:00 +0100</pubDate>
+    <dc:creator>Sultan Mehmood, Yaroslav Prokhorskoy, Leonard Wantchekon</dc:creator>
+    <guid isPermaLink="false">bacb4e45-3de5-439e-bad0-c6bae01eb2a5</guid>
+    <cepr:type>VoxEU Column</cepr:type>
+    <cepr:cover_image>https://cepr.org/sites/default/files/styles/rss_featured_image/public/2026-09/AdobeStock_1877450037.jpeg?itok=9EwGHdV_</cepr:cover_image>
+    </item></channel></rss>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" xml:base="https://www.sec.gov/">
+  <channel>
+    <title>Press Releases</title>
+    <link>https://www.sec.gov/</link>
+    <description>Official announcements highlighting recent actions taken by the SEC and other newsworthy information.</description>
+    <language>en</language>
+    
+    <item>
+  <title>    SEC Proposal Would Address How Investment Advisers and Funds Can Custody Crypto Assets Under the Federal Securities Laws
+</title>
+  <link>https://www.sec.gov/newsroom/press-releases/2026-100-sec-proposal-would-address-how-investment-advisers-funds-can-custody-crypto-assets-under-federal</link>
+  <description>The Securities and Exchange Commission today proposed new rules and amendments to provide a tailored framework for the custody of crypto assets for registered investment advisers and regulated funds, i.e. registered investment companies and business…</description>
+  <pubDate>Thu, 01 Oct 2026 12:16:07 -0400</pubDate>
+    <dc:creator> </dc:creator>
+    <guid isPermaLink="false">a6418b36-75ad-41ac-8303-10a13eb4073b</guid>
+    </item><item>
+  <title>  SEC’s Division of Examinations Announces New Exam Handbook
+</title>
+  <link>https://www.sec.gov/newsroom/press-releases/2026-99-secs-division-examinations-announces-new-exam-handbook</link>
+  <description>The Securities and Exchange Commission’s Division of Examinations today published its new&amp;nbsp;handbook, “The SEC Exam Handbook: A Practical Guide on Process and Engagement,” which replaces and expands upon the previous examination brochure by providing…</description>
+  <pubDate>Thu, 01 Oct 2026 11:03:35 -0400</pubDate>
+    <dc:creator> </dc:creator>
+    <guid isPermaLink="false">5f4d2a6f-0fff-43fc-af68-532921744f75</guid>
+    </item></channel></rss>
