@@ -25,7 +25,7 @@ def load_posts(handle):
     path = POSTS / f'{handle.lower()}.jsonl'
     if not path.exists():
         return []
-    return [json.loads(l) for l in path.read_text().splitlines() if l.strip()]
+    return [json.loads(l) for l in path.read_text(encoding='utf-8').split('\n') if l.strip()]
 
 
 def tag_donor(handle, jev, cap):
