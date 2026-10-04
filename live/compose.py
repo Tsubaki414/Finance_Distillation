@@ -182,6 +182,12 @@ def number_findings(body, units):
                 allowed.setdefault(tuple(q), set())
                 if claimed:
                     allowed[tuple(q)].add(metric_name(claimed.group()))
+    # Approved 2026-10-04: the source's publication year is a known fact about the source.
+    for unit in units:
+        year = re.match(r'(\d{4})-', unit.get('published_at') or '')
+        if year:
+            for q in inventory(year.group(1)):
+                allowed.setdefault(q, set())
     findings = []
     if '```' in body:
         findings.append({'code': 'code_fence', 'detail': 'Code fences are not post text and hide numbers'})
