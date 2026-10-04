@@ -78,7 +78,8 @@ def match_channel(channel, row):
         # Channel IDs are authoritative; legacy adapter IDs retain their explicit mapping.
         if source['source_id'] == channel['channel_id']:
             return True
-        if source['source_id'] not in _ids(channel):
+        legacy = _ids(channel)
+        if source['source_id'] not in legacy and not ('reportgem' in legacy and source['source_id'].startswith('reportgem_')):
             return False
     ids = _ids(channel) | ({channel['channel_id']} if channel.get('channel_id') else set())
     identity = {str(source.get(k) or '').casefold() for k in ('source_id', 'id', 'adapter')}
