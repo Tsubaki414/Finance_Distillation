@@ -16,7 +16,7 @@ class PostTypeSchemaTests(unittest.TestCase):
 
     def test_five_post_types_with_ranges_frames_and_tiers(self):
         self.assertEqual(sorted(self.table['post_types']), sorted(
-            ['data_take', 'mechanism_explainer', 'view_relay', 'earnings_take', 'aphorism_translation']))
+            ['data_take', 'mechanism_explainer', 'view_relay', 'earnings_take', 'aphorism_translation', 'judgment_take', 'contrarian_take']))
         for name, spec in self.table['post_types'].items():
             lo, hi = spec['length']['min'], spec['length']['max']
             if spec['length'].get('follows_source'):

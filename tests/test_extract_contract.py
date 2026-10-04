@@ -25,6 +25,9 @@ def unit(**over):
                         {'text': '4.8x', 'metric': 'revenue growth', 'period': 'the quarter', 'span_ref': 0}],
             'speaker': 'Micron', 'speaker_type': 'company_exec', 'freshness_class': 'current'}
     base.update(over)
+    if base['kind'] == 'view':
+        base['view'] = {'direction':'neutral','subject':'memory', 'conviction':'low',
+                        'reasoning':[base['source_spans'][0]['exact_text']], 'horizon':'unspecified'}
     return base
 
 
