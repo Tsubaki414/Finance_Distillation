@@ -59,3 +59,8 @@ def test_channel_id_rows_match_legacy_newsletter_adapter_ids():
     wu = {'channel_id': 'ch121_wublock_substack_com', 'name': '吴说 Wu Blockchain（Substack）', 'url': 'https://wublock.substack.com/feed'}
     assert match_channel(wu, {'source': {'source_id': 'wu_blockchain', 'adapter': 'newsletter_rss'}})
     assert not match_channel(ch, {'source': {'source_id': 'wu_blockchain', 'adapter': 'newsletter_rss'}})
+
+
+def test_reportgem_mcp_units_count_for_reportgem_channel():
+    ch = {'channel_id': 'ch000_www_reportgem_com', 'name': 'ReportGem 实时外文研报', 'url': 'https://www.reportgem.com/foreign-rt.html'}
+    assert match_channel(ch, {'source': {'source_id': 'reportgem_jpmorgan', 'adapter': 'reportgem'}})
