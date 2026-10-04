@@ -478,10 +478,11 @@ def _ask(client, stage, system, payload, max_tokens, calls, *, sleep=None):
     context = context_for(stage) if callable(context_for) else None
     messages, record = prompt_assembly.assemble(stage, system, payload, stage_context=context)
     calls.append(record)
+    budget = max_tokens
     for attempt in range(1, 4):
         record['attempts'] = attempt
         try:
-            response = client(stage, messages, max_tokens)
+            response = client(stage, messages, budget)
         except ContractError as exc:
             if not re.search(r'incomplete/unknown finish_reason|malformed JSON|unparseable JSON|Expecting (?:value|property name|.*,? delimiter)|Unterminated string|Extra data|Expected one JSON object', str(exc), re.I):
                 raise
@@ -509,6 +510,10 @@ def _ask(client, stage, system, payload, max_tokens, calls, *, sleep=None):
                     return value, response
         if attempt == 3:
             raise error
+        if 'incomplete/unknown finish_reason' in str(error):
+            # thinking models can spend the whole budget on reasoning: give the retry more room
+            budget = min(budget * 2, 32768)
+            record['max_tokens_retry'] = budget
         sleep(0.5 * 2 ** (attempt - 1))
 
 
