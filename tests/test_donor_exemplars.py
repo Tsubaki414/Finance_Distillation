@@ -141,6 +141,25 @@ class ComposeExemplarTests(unittest.TestCase):
         self.assertEqual(qa_levels.level({'code': 'exemplar_phrase_copied'}, frame_found=True), 'soft')
 
 
+class VoiceVsContentRuleTests(unittest.TestCase):
+    """Rule: donor exemplars teach voice and structure only; facts and numbers come from content units."""
+
+    def setUp(self):
+        self.dir = posts_dir({'wufantouzi': [{'id': '7', 'lang': 'zh', 'text': '存储涨价这一轮，三星的资本开支只增长了17%，供给纪律还在。'}]})
+
+    def test_rule_text_is_sent_with_exemplars(self):
+        for phrase in ('voice', 'structure only', 'every fact and number still comes from the units'):
+            self.assertIn(phrase, compose.EXEMPLAR_RULE)
+
+    def test_a_number_borrowed_from_an_exemplar_is_a_hard_finding(self):
+        fake = Recording(body=GOOD_BODY + '三星的资本开支只增长了17%。')
+        result = compose.compose_source(SOURCE, 'zh_industry', fake, post_type='data_take',
+                                        exemplars=True, exemplar_dir=self.dir)
+        finding = next(f for f in result['post_checks'] if f['code'] == 'number_not_in_units')
+        self.assertEqual(finding['level'], 'hard')
+        self.assertIn('number_not_in_units', result['qa']['hard'])
+
+
 class Recording(Fake):
     def __call__(self, stage, messages, max_tokens):
         self.messages = messages
