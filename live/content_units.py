@@ -164,15 +164,20 @@ def validate_units_partial(source, value, licence_tier):
     require(isinstance(value, dict) and isinstance(value.get('units'), list), 'extract: expected {"units": [...]}')
     text = source['original_text']
     by_id = {p['paragraph_id']: p for p in paragraphs(text)}
-    out, dropped = [], []
+    out, dropped, seen = [], [], set()
     for index, raw in enumerate(value['units']):
         try:
-            out.append(_unit(source, raw, index, by_id, text, licence_tier))
+            u = _unit(source, raw, index, by_id, text, licence_tier)
         except ContractError as exc:
             dropped.append({'index': index, 'reason': str(exc)})
+            continue
+        if u['unit_id'] in seen:
+            dropped.append({'index': index, 'reason': 'extract: duplicate unit ' + u['unit_id']})
+            continue
+        seen.add(u['unit_id'])
+        out.append(u)
     if value['units'] and not out:
         raise ContractError('extract: every unit failed the contract; first: ' + dropped[0]['reason'])
-    require(len({u['unit_id'] for u in out}) == len(out), 'extract: duplicate units')
     return out, dropped
 
 
