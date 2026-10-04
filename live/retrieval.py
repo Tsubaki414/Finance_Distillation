@@ -62,3 +62,70 @@ def units_for_persona(store, persona, *, limit=None, as_of=None, max_age_days=No
                         -published.timestamp() if published else float('inf'), str(row.get('unit_id'))), record))
     ranked.sort(key=lambda item: item[0])
     return [record for _, record in ranked][:limit]
+
+
+RELEVANCE_CRITERIA = {
+    'relevant': 'Directly usable as a fact or view in a post for this persona beat.',
+    'tangential': 'Related but would need a stretch to use for this beat.',
+    'irrelevant': 'Off the beat for this persona.',
+}
+
+
+def _review_relevance(jev, state, questions):
+    """Retry unresolved questions once, then isolate failures by bisecting."""
+    resolved = {}
+    pending = dict(questions)
+    for _ in range(2):
+        try:
+            response = jev.review(state, pending)
+            answers = response.get('answers', {}) if response.get('status') == 'completed' else {}
+            for uid in pending:
+                answer = answers.get(uid)
+                if isinstance(answer, dict) and answer.get('choice') in RELEVANCE_CRITERIA:
+                    resolved[uid] = {'verdict': answer['choice'],
+                                     'confidence': answer.get('confidence'), 'jev_fallback': False}
+        except Exception:
+            pass  # A provider failure must never establish relevance.
+        pending = {uid: q for uid, q in pending.items() if uid not in resolved}
+        if not pending:
+            return resolved
+    if len(pending) > 1:
+        items = list(pending.items())
+        middle = len(items) // 2
+        for half in (items[:middle], items[middle:]):
+            resolved.update(_review_relevance(jev, state, dict(half)))
+    return resolved
+
+
+def judge_relevance(units_by_persona, *, jev, per_persona=None):
+    """Return {persona: {unit_id: judgment}} for served store records.
+
+    per_persona optionally caps the number reviewed for each beat. All skipped
+    or unresolved records remain unjudged, with no keyword relevance fallback.
+    """
+    from live.jev_front import _batches
+
+    if per_persona is not None and (type(per_persona) is not int or per_persona < 0):
+        raise ValueError('per_persona must be a nonnegative integer')
+    out = {}
+    for persona, records in units_by_persona.items():
+        beat = PERSONAS[persona]
+        records = list(records)
+        out[persona] = {r['unit_id']: {'verdict': 'unjudged', 'confidence': None,
+                                      'jev_fallback': True} for r in records}
+        if jev is None:
+            continue
+        for batch in _batches(records[:per_persona]):
+            questions = {}
+            for record in batch:
+                unit = record.get('unit') or {}
+                publisher = (record.get('source') or {}).get('publisher') or (
+                    record.get('attribution') or {}).get('publisher') or ''
+                questions[record['unit_id']] = {
+                    'type': 'choice', 'criteria': RELEVANCE_CRITERIA,
+                    'instructions': f'Persona beat: {beat}. Unit kind: {unit.get("kind", "")}. '
+                                    f'Statement: "{str(unit.get("statement") or "")[:400]}". '
+                                    f'Publisher: {publisher}. Judge relevance for this beat.'}
+            out[persona].update(_review_relevance(
+                jev, {'task': 'served unit relevance', 'persona': persona}, questions))
+    return out

@@ -15,7 +15,7 @@ from live import content_units
 from live.content_store import ContentStore, ROOT
 from live.jev_front import PERSONAS
 from live.reportgem_daily import RATING
-from live.retrieval import units_for_persona
+from live.retrieval import judge_relevance, units_for_persona
 
 
 def _nonempty(value):
@@ -82,7 +82,7 @@ def check_row(row):
     return failures
 
 
-def validate_store(store, minimum=8):
+def validate_store(store, minimum=8, *, jev=None):
     # Read raw rows: ContentStore deduplication would conceal repeated JSONL IDs.
     raw = [json.loads(line) for line in store.path.read_text().splitlines() if line.strip()]
     categories = ('non_writable_tiers', 'missing_attribution', 'broken_bindings', 'missing_provenance',
@@ -101,8 +101,10 @@ def validate_store(store, minimum=8):
             checks['duplicate_unit_ids'].append(failure)
             failures_by_id.setdefault(uid, []).append(failure)
     personas = {}
+    served_by_persona = {persona: units_for_persona(store, persona) for persona in PERSONAS}
+    judgments = judge_relevance(served_by_persona, jev=jev) if jev is not None else None
     for persona in PERSONAS:
-        served = units_for_persona(store, persona)
+        served = served_by_persona[persona]
         failures = [failure for r in served for failure in failures_by_id.get(r['unit_id'], [])]
         personas[persona] = {
             'routed_count': sum(r['match'] == 'routed' for r in served),
@@ -112,10 +114,21 @@ def validate_store(store, minimum=8):
             'by_tier': dict(Counter(r.get('licence_tier') for r in served)),
             'integrity_failures': failures,
             'status': 'PASS' if len(served) >= minimum and not failures else 'FAIL'}
+        if judgments is not None:
+            scores = judgments[persona]
+            counts = Counter(score['verdict'] for score in scores.values())
+            personas[persona].update({label: counts[label] for label in
+                                      ('relevant', 'tangential', 'irrelevant', 'unjudged')})
+            for label in ('relevant', 'irrelevant'):
+                personas[persona][label + '_examples'] = [
+                    r['unit']['statement'][:160] for r in served
+                    if scores[r['unit_id']]['verdict'] == label][:3]
+            personas[persona]['status'] = 'PASS' if counts['relevant'] >= minimum and not failures else 'FAIL'
     return {'store': str(store.root), 'minimum': minimum, 'raw_rows': len(raw),
             'unique_units': len(store.units()), 'personas': personas, 'global_checks': checks,
             'status': 'PASS' if all(p['status'] == 'PASS' for p in personas.values()) and not any(checks.values()) else 'FAIL',
-            'limitations': ['Keyword retrieval establishes beat matches, not semantic editorial suitability.',
+            'limitations': [('Jev relevance judgments are advisory; unresolved units are unjudged.' if judgments is not None else
+                             'Keyword retrieval establishes beat matches, not semantic editorial suitability.'),
                             'Number bindings are checked against stored cited evidence using content_units._number; original documents are not fetched.',
                             'Source provenance accepts a URL, explicit provenance, or adapter plus document id. Source hashes are checked for presence/consistency, not recomputed without original text.']}
 
@@ -126,9 +139,21 @@ def render_markdown(report):
     lines = [f"E2E validation: **{report['status']}**. {report['unique_units']} unique units; minimum {report['minimum']} per persona.", '',
              '| Persona | Routed | Keyword | Served | Adapters | Tiers | Integrity failures | Result |',
              '| --- | ---: | ---: | ---: | --- | --- | ---: | --- |']
+    with_jev = any('relevant' in p for p in report['personas'].values())
+    if with_jev:
+        lines[2] = lines[2].replace('| Adapters |', '| Relevant | Tangential | Irrelevant | Unjudged | Adapters |')
+        lines[3] = '| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- | ---: | --- |'
     for persona, p in report['personas'].items():
         counts = lambda values: ', '.join(f'{k}: {v}' for k, v in sorted(values.items(), key=lambda x: str(x[0])))
-        lines.append(f"| {persona} | {p['routed_count']} | {p['keyword_matched_count']} | {p['total_served']} | {counts(p['by_adapter'])} | {counts(p['by_tier'])} | {len(p['integrity_failures'])} | {p['status']} |")
+        relevance = ''.join(f" {p[label]} |" for label in ('relevant', 'tangential', 'irrelevant', 'unjudged')) if with_jev else ''
+        lines.append(f"| {persona} | {p['routed_count']} | {p['keyword_matched_count']} | {p['total_served']} |{relevance} {counts(p['by_adapter'])} | {counts(p['by_tier'])} | {len(p['integrity_failures'])} | {p['status']} |")
+    if with_jev:
+        lines += ['', 'Relevance examples:', '']
+        for persona, p in report['personas'].items():
+            for label in ('relevant', 'irrelevant'):
+                for statement in p[label + '_examples']:
+                    statement = statement.replace('\n', ' ').replace('\r', ' ')
+                    lines.append(f'- {persona} ({label}): {statement}')
     lines += ['', 'Global checks:', '']
     for category, failures in report['global_checks'].items():
         lines.append(f'- {category}: {len(failures)}')
@@ -142,6 +167,9 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--store', type=Path, default=ROOT)
     parser.add_argument('--min', type=int, default=8, dest='minimum')
+    parser.add_argument('--jev', action='store_true', help='Judge served unit relevance with Jev')
+    parser.add_argument('--jev-run', type=Path, default=Path('/workspace/x/e2e/jev_calls'),
+                        help='Jev call log directory (budget ledger stored underneath)')
     parser.add_argument('--out-json', type=Path)
     parser.add_argument('--out-md', type=Path)
     args = parser.parse_args(argv)
@@ -150,7 +178,14 @@ def main(argv=None):
             raise ValueError('--min must be nonnegative')
         if not (args.store / 'units.jsonl').is_file():
             raise ValueError(f'No units.jsonl at {args.store}')
-        report = validate_store(ContentStore(args.store), args.minimum)
+        jev = None
+        if args.jev:
+            from live.jev_review_client import JevReviewClient
+            from ml import budget as spend
+            spend.STORE = args.jev_run / 'ledger'
+            spend.LEDGER = spend.STORE / 'spend.json'
+            jev = JevReviewClient(args.jev_run)
+        report = validate_store(ContentStore(args.store), args.minimum, jev=jev)
     except (ValueError, OSError, KeyError, TypeError) as exc:
         report = {'status': 'FAIL', 'error': str(exc), 'store': str(args.store)}
     markdown = render_markdown(report)
