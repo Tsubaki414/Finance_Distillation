@@ -1,7 +1,8 @@
 """One JSON object, optionally fenced. Never discard prose outside the object.
 
 Models sometimes copy CJK text whose “curly” quotes they normalise to bare ASCII
-quotes inside a JSON string. parse_object repairs only that case: on an
+quotes inside a JSON string. parse_object(repair_quotes=True) — used only by
+EXTRACT, whose output is re-validated span by span — repairs only that case: on an
 "Expecting ',' delimiter" error it escapes the last unescaped quote before the
 error and retries (bounded). The repaired value still goes through every
 downstream contract check (exact spans, numbers), so nothing is relaxed.
@@ -40,11 +41,11 @@ def _loads(raw):
     return json.loads(original)
 
 
-def parse_object(raw):
+def parse_object(raw, *, repair_quotes=False):
     raw = raw.strip()
     if raw.startswith('```json\n') and raw.endswith('\n```'):
         raw = raw[8:-4]
-    value = _loads(raw)
+    value = _loads(raw) if repair_quotes else json.loads(raw)
     if not isinstance(value, dict):
         raise ValueError('Expected one JSON object')
     return value

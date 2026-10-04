@@ -233,7 +233,7 @@ def extract(source, client, *, licence_tier, publisher=None):
     require(response.get('finish_reason') == 'stop', 'extract: incomplete/unknown finish_reason')
     require(not response.get('refusal'), 'extract: model refusal')
     try:
-        value = parse_object(response.get('text', ''))
+        value = parse_object(response.get('text', ''), repair_quotes=True)
     except ValueError as exc:
         raise ContractError('extract: ' + str(exc)) from exc
     units, dropped = validate_units_partial(source, value, licence_tier, require_view=True)
