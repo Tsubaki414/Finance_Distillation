@@ -23,6 +23,30 @@ PERSONAS = {
     'single_stock_deepdive_en': 'English single-company earnings and filings first takes',
     'crypto_macro_en': 'English crypto with a macro angle: bitcoin, stablecoins, regulation, on-chain data',
 }
+# Jev beat IDs -> account IDs (live/accounts.json). Routing/prescreen speak Jev IDs; everything
+# downstream (compose, view ledger, queues) speaks account IDs.
+ACCOUNT_FOR_PERSONA = {
+    'macro_rates_en': 'en_macro', 'macro_zh': 'zh_macro', 'industry_ai_capex': 'en_industry',
+    'zh_us_stock_commentary': 'zh_industry', 'market_data_charts': 'market_data_charts',
+    'investing_philosophy': 'investing_philosophy', 'trading_shortterm': 'trading_shortterm',
+    'crypto_macro_zh': 'crypto_macro_zh', 'single_stock_deepdive_en': 'single_stock_deepdive_en',
+    'crypto_macro_en': 'crypto_macro_en',
+}
+PERSONA_FOR_ACCOUNT = {a: p for p, a in ACCOUNT_FOR_PERSONA.items()}
+
+
+def account_for(jev_persona):
+    """Account ID for a Jev beat ID ('none' or unknown -> None)."""
+    return ACCOUNT_FOR_PERSONA.get(jev_persona)
+
+
+def jev_persona_for(account_or_persona):
+    """Jev beat ID for an account ID; a Jev ID passes through."""
+    if account_or_persona in PERSONAS:
+        return account_or_persona
+    return PERSONA_FOR_ACCOUNT.get(account_or_persona, account_or_persona)
+
+
 KEYWORDS = {
     'macro_rates_en': ('fed', 'fomc', 'treasury', 'yield', 'rates', 'inflation', 'cpi', 'payroll', 'unemployment', 'credit'),
     'industry_ai_capex': ('ai', 'semiconductor', 'chip', 'memory', 'hbm', 'dram', 'data center', 'capex', 'gpu', 'micron', 'nvidia'),
@@ -137,10 +161,13 @@ def route_sources(items, *, jev=None):
             else:
                 out[it['id']] = {'persona': _keyword_persona(it.get('title', '') + ' ' + (it.get('snippet') or '')),
                                  'confidence': None, 'jev_fallback': True}
+            out[it['id']]['account_id'] = account_for(out[it['id']]['persona'])
     return out
 
 
 def prescreen_units(units, *, persona, jev=None):
+    """persona: a Jev beat ID or an account ID (mapped via PERSONA_FOR_ACCOUNT)."""
+    persona = jev_persona_for(persona)
     out = {}
     for batch in _batches(list(units)):
         questions = {u['unit_id']: {'type': 'choice', 'criteria': UNIT_CRITERIA,
