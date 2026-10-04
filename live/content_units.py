@@ -271,6 +271,8 @@ def _unit(source, raw, index, by_id, text, licence_tier, require_view=False):
         try:
             unit['view'] = validate_view(raw.get('view'), resolved)
         except ContractError as exc:
+            if not isinstance(raw.get('view'), dict):
+                raise
             # A bad structured view never sinks the source: keep the grounded unit, drop the view.
             unit['view_error'] = str(exc)[:200]
     unit['extract_version'] = VERSION if require_view else 'content-units-extract-v1'
