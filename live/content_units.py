@@ -22,7 +22,7 @@ from live.fidelity import METRICS, metric_name
 from live.model_json import parse_object
 from live.numeric_fidelity import RANGE, inventory
 
-VERSION = 'content-units-extract-v1'
+VERSION = 'content-units-extract-v2'
 KINDS = ('fact', 'mechanism', 'view', 'aphorism')
 SPEAKER_TYPES = ('kol', 'company_exec', 'sell_side', 'official', 'media', 'author')
 FRESHNESS = ('breaking', 'current', 'evergreen')
@@ -45,6 +45,10 @@ the fact (not the publication unless it is the speaker); speaker_type is one of
 kol, company_exec, sell_side, official, media, author. freshness_class is
 breaking, current or evergreen. Skip promotion, CTAs and personal anecdotes that
 carry no transferable content. An empty units list is valid.
+For every kind=view unit, require view: {direction: bullish|bearish|neutral|mixed|higher|lower|wider|tighter|accelerating|decelerating,
+subject: nonempty string, conviction: low|medium|high, reasoning: [1-3 short
+strings copied from cited evidence spans], horizon: days|weeks|months|quarters|years|unspecified,
+conditions: optional nonempty string}. Reasoning must be grounded in a cited span.
 Schema: {"units":[{"kind":"fact","statement":"...","source_spans":[{"paragraph_id":"P1","exact_text":"..."}],
 "numbers":[{"text":"...","metric":"...","period":"...","span_ref":0}],"speaker":"...",
 "speaker_type":"media","freshness_class":"current"}]}''')
@@ -122,7 +126,27 @@ def _number(number, spans, where):
             'quantity': [list(q) for q in quantities]}
 
 
-def _unit(source, raw, index, by_id, text, licence_tier):
+DIRECTIONS = ('bullish', 'bearish', 'neutral', 'mixed', 'higher', 'lower', 'wider', 'tighter', 'accelerating', 'decelerating')
+HORIZONS = ('days', 'weeks', 'months', 'quarters', 'years', 'unspecified')
+
+
+def validate_view(view, spans=None):
+    require(isinstance(view, dict), 'view: object required')
+    for key, allowed in (('direction', DIRECTIONS), ('conviction', ('low', 'medium', 'high')), ('horizon', HORIZONS)):
+        require(view.get(key) in allowed, 'view: invalid ' + key)
+    require(isinstance(view.get('subject'), str) and bool(view['subject'].strip()), 'view: subject required')
+    reasons = view.get('reasoning')
+    require(isinstance(reasons, list) and 1 <= len(reasons) <= 3, 'view: reasoning needs 1-3 strings')
+    for reason in reasons:
+        require(isinstance(reason, str) and bool(reason.strip()) and len(reason) <= 300, 'view: short reasoning required')
+        if spans is not None:
+            require(any(locate(span['exact_text'], reason)[0] >= 0 for span in spans), 'view: reasoning not grounded in cited span')
+    if 'conditions' in view:
+        require(isinstance(view['conditions'], str) and bool(view['conditions'].strip()), 'view: conditions must be text')
+    return dict(view)
+
+
+def _unit(source, raw, index, by_id, text, licence_tier, require_view=False):
     where = f'unit {index}'
     require(isinstance(raw, dict), where + ': must be an object')
     require(raw.get('kind') in KINDS, where + ': invalid kind')
@@ -154,12 +178,15 @@ def _unit(source, raw, index, by_id, text, licence_tier):
             'freshness_class': raw['freshness_class'], 'licence_tier': licence_tier,
             'usage': USAGE[licence_tier], 'source_id': source.get('source_id'),
             'source_hash': source['source_hash'], 'published_at': source.get('published_at')}
+    if raw['kind'] == 'view' and (require_view or 'view' in raw):
+        unit['view'] = validate_view(raw.get('view'), resolved)
+    unit['extract_version'] = VERSION if require_view else 'content-units-extract-v1'
     unit['unit_id'] = 'cu-' + digest([unit['source_hash'], unit['kind'],
                                      [(s['start'], s['end']) for s in resolved]])[:20]
     return unit
 
 
-def validate_units_partial(source, value, licence_tier):
+def validate_units_partial(source, value, licence_tier, *, require_view=False):
     """(units, dropped): units that fail the contract are dropped with their reason."""
     require(isinstance(value, dict) and isinstance(value.get('units'), list), 'extract: expected {"units": [...]}')
     text = source['original_text']
@@ -167,7 +194,7 @@ def validate_units_partial(source, value, licence_tier):
     out, dropped, seen = [], [], set()
     for index, raw in enumerate(value['units']):
         try:
-            u = _unit(source, raw, index, by_id, text, licence_tier)
+            u = _unit(source, raw, index, by_id, text, licence_tier, require_view)
         except ContractError as exc:
             dropped.append({'index': index, 'reason': str(exc)})
             continue
@@ -208,7 +235,7 @@ def extract(source, client, *, licence_tier, publisher=None):
         value = parse_object(response.get('text', ''))
     except ValueError as exc:
         raise ContractError('extract: ' + str(exc)) from exc
-    units, dropped = validate_units_partial(source, value, licence_tier)
+    units, dropped = validate_units_partial(source, value, licence_tier, require_view=True)
     if restricted and licence_tier == 'B':
         apply_no_reproduction(units)
     elif restricted:

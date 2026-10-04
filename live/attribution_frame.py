@@ -71,6 +71,8 @@ def render(post_type, source, post_types=None, speaker=None):
     if table['frames'][spec['frame']]['placement'] == 'none':
         return None
     values = _fields(source, speaker)
+    if post_type == 'contrarian_take':
+        values['speaker'] = (speaker or '').strip()
     for name in [spec['frame'], *(spec.get('alternate_frames') or [])]:
         frame = table['frames'][name]
         if all(values.get(key) for key in frame.get('requires') or []):
