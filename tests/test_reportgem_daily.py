@@ -313,3 +313,32 @@ class ChineseQueryShapeTests(unittest.TestCase):
         for q in rd.listing_queries(list(rd.THEMES), day='2026-10-04'):
             if 'chinese_research' in q['sources']:
                 self.assertNotIn(' ', q['query'].strip())
+
+
+class SelectionQualityTests(unittest.TestCase):
+    # Live 2026-10-04 expanded run: sid-string ordering put a Chinese report first for an English
+    # persona, and weak filler was taken while strong items existed.
+    ITEMS = {'27232236': dict(item(27232236, inst='东吴证券'), source_type='cn'),
+             '903933': item(903933, inst='JPMorgan', date='2026-10-02'),
+             '903895': dict(item(903895, inst='BofA'), evidence_status='metadata_only'),
+             '903094': item(903094, inst='JPMorgan')}
+
+    def test_english_persona_never_gets_a_chinese_report(self):
+        scores = {'macro_rates_en': {'27232236': 'strong', '903933': 'strong'}}
+        top = rg.select_top(scores, items=self.ITEMS, per_persona=2)
+        self.assertEqual([s for _, s in top], ['903933'])
+
+    def test_excerpt_backed_items_rank_before_metadata_only(self):
+        scores = {'macro_rates_en': {'903895': 'strong', '903933': 'strong'}}
+        top = rg.select_top(scores, items=self.ITEMS, per_persona=1)
+        self.assertEqual(top, [('macro_rates_en', '903933')])
+
+    def test_weak_is_only_used_when_persona_has_no_strong(self):
+        scores = {'crypto_macro_zh': {'903933': 'strong', '903094': 'weak'}}
+        top = rg.select_top(scores, items=self.ITEMS, per_persona=3)
+        self.assertEqual(top, [('crypto_macro_zh', '903933')])
+
+    def test_rating_suffix_titles_are_rating_calls(self):
+        self.assertTrue(rg.is_rating_call({'title': 'Memory: MU read-across: tighter S/D; Buy SEC/Hynix'}))
+        self.assertTrue(rg.is_rating_call({'title': 'HOYA (7741): demand supports glass substrate; maintain Buy'}))
+        self.assertFalse(rg.is_rating_call({'title': 'Global Rates Weekly: Start of rates bite'}))
