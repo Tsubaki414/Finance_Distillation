@@ -109,8 +109,14 @@ class ContentStore:
                     views[entry['unit_id']] = (entry, name == 'view_normalized')
                 else:
                     self._licence_overrides[entry['unit_id']] = entry['overrides']
+        from live.distillation import ContractError
+        self.view_errors = []
         for entry, normalized in views.values():
-            self._apply_view_enrichment(entry, normalized=normalized)
+            try:
+                self._apply_view_enrichment(entry, normalized=normalized)
+            except ContractError as exc:
+                # A stale/invalid sidecar view never blocks loading; the unit keeps its inline view.
+                self.view_errors.append({'unit_id': entry.get('unit_id'), 'error': str(exc)[:200]})
         self._rows = {uid: self.apply_licence_overrides(row) for uid, row in self._rows.items()}
 
     def _apply_view_enrichment(self, entry, *, normalized=False):
@@ -121,7 +127,8 @@ class ContentStore:
             return False
         unit = row['unit']
         require(unit.get('kind') == 'view', 'view_enrich: unit must be view')
-        structured = validate_view(entry.get('view'), unit.get('source_spans', []))
+        structured = validate_view(entry.get('view'), unit.get('source_spans', []),
+                                   source_or_unit=row, number_warnings=True)
         row['unit'] = dict(unit, view=structured, view_source='normalized' if normalized else 'enriched')
         return True
 
