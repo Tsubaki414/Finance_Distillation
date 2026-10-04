@@ -88,7 +88,8 @@ class ComposeTests(unittest.TestCase):
     def test_length_out_of_range(self):
         result, _ = run(Fake(body='美光营收增长4.8倍。'), post_type='data_take')
         self.assertIn('length_out_of_range', codes(result))
-        self.assertEqual(result['draft_status'], 'needs_review')
+        # Two-level QA: length is a SOFT warning (tests/test_qa_levels.py).
+        self.assertEqual(result['draft_status'], 'draft_ready')
 
     def test_blacklist_hit(self):
         result, _ = run(Fake(body='值得注意的是，' + GOOD_BODY), post_type='data_take')

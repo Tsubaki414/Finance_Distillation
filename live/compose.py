@@ -15,7 +15,7 @@ import json
 from pathlib import Path
 import re
 
-from live import attribution_frame, content_units, prompt_assembly, registry
+from live import attribution_frame, content_units, prompt_assembly, qa_levels, registry
 from live.distillation import ContractError, require
 from live.distillation_source import digest, now
 from live.fidelity import METRICS, metric_name
@@ -162,8 +162,9 @@ def number_findings(body, units):
     findings = []
     if '```' in body:
         findings.append({'code': 'code_fence', 'detail': 'Code fences are not post text and hide numbers'})
+    sourced = any(NUMBER_WORDS.search(span['exact_text']) for unit in units for span in unit['source_spans'])
     for m in NUMBER_WORDS.finditer(body):
-        findings.append({'code': 'number_words', 'detail': m.group()})
+        findings.append({'code': 'number_words', 'detail': m.group(), 'sourced': sourced})
     for p in sorted(periods(body) - allowed_periods):
         findings.append({'code': 'period_not_in_units', 'detail': p})
     for q in inventory(body):
@@ -191,7 +192,10 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
         if phrase.lower() in lowered:
             findings.append({'code': 'template_phrase', 'detail': phrase})
     findings += number_findings(body, units)
-    return findings
+    findings += qa_levels.d_tier_findings(body)
+    findings += qa_levels.quote_findings(body, [s['exact_text'] for u in units for s in u['source_spans']])
+    frame_found = bool(frame) and attribution_frame.strip(text, frame)[1]
+    return qa_levels.classify(findings, frame_found=frame_found)
 
 
 def _ask(client, stage, system, payload, max_tokens, calls):
@@ -272,15 +276,18 @@ def compose_source(source, account_id, client, *, post_type=None):
                 'compose: claim_ledger span_ref out of range')
     text = (frame['text'] + body) if frame['placement'] == 'lead' else (body + frame['text'])
     findings = post_checks(post_type, body, text, frame, tier, chosen, persona, post_types)
-    risks = [{**f, 'status': 'open'} for f in findings]
+    risks = [{**f, 'status': 'open'} for f in findings if f['level'] == 'hard']
+    risks += [{**f, 'status': 'warning'} for f in findings if f['level'] == 'soft']
     if not persona.publishable:
         risks.append({'code': 'persona_voice_draft', 'status': 'open',
                       'detail': 'Persona voice is a draft pending D2; not publishable'})
     return {**base, 'units': chosen, 'all_units': len(units), 'post_type': post_type,
             'attribution_frame': frame, 'body': body, 'text': text, 'length': length_of(body),
-            'claim_ledger': ledger, 'post_checks': findings, 'risks': risks,
-            'draft_status': 'draft_ready' if not findings else 'needs_review',
+            'claim_ledger': ledger, 'post_checks': findings, 'risks': risks, 'qa': qa_levels.summary(findings),
+            'draft_status': qa_levels.draft_status(findings),
             'status': 'held',  # never auto-ready while not publishable
             'model_responses': [{'stage': 'extract', **extracted['response']},
                                 {'stage': 'compose', **{k: response.get(k) for k in ('model', 'response_model', 'finish_reason', 'usage')}}],
-            'why': 'post checks passed; persona voice draft' if not findings else 'post checks failed'}
+            'why': ('post checks passed; persona voice draft' if not findings else
+                    'hard post checks failed' if qa_levels.draft_status(findings) == 'needs_review' else
+                    'soft warnings only; persona voice draft')}
