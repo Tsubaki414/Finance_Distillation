@@ -34,6 +34,9 @@ CHANNEL_MATCH = {
     '华尔街见闻': ('wallstreetcn',),
     'St. Louis Fed': ('fred', 'fred_api', 'primary_fred'),
     'Odd Lots': ('podcast_odd_lots',),
+    'Apricitas': ('apricitas',), 'Employ America': ('employ_america',),
+    'Chipstrat': ('chipstrat',), 'The Daily Shot': ('daily_shot_brief',),
+    'CoinShares': ('coinshares_research',), '吴说 Wu Blockchain': ('wu_blockchain',),
 }
 CHANNEL_URL_PATHS = {
     'SEC EDGAR': (('sec.gov', '/Archives/edgar/'), ('data.sec.gov', '/submissions/')),
