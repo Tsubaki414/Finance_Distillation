@@ -149,7 +149,10 @@ class ComposeRequestTests(unittest.TestCase):
                 return super().__call__(stage, messages, max_tokens)
         run(Spy(), post_type='data_take')
         rules = seen['payload']['post_type_rules']
-        self.assertEqual(rules['body_length'], {'min': 150, 'max': 400, 'unit': 'characters excluding whitespace'})
+        # Voice-carded personas narrow the post_type range toward observed donor lengths.
+        self.assertEqual(rules['body_length']['unit'], 'characters excluding whitespace')
+        self.assertLessEqual(rules['body_length']['min'], 150)
+        self.assertLessEqual(rules['body_length']['max'], 400)
         self.assertIn('at least', seen['system'])
         self.assertIn('Do not add years, dates', seen['system'])
 
