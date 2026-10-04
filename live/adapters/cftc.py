@@ -6,10 +6,10 @@ from urllib.parse import urlencode
 
 from live.adapters import common
 
-CODES = ('13874A', '043602', '099741', '133741', '209742')
+CODES = ('13874A', '043602', '099741', '133741', '209742', '1170E1', '042601', '239742', '097741')
 API = 'https://publicreporting.cftc.gov/resource/gpe5-46if.json'
-URL = API + '?' + urlencode({'$where': "cftc_contract_market_code in ('13874A','043602','099741','133741','209742') AND futonly_or_combined = 'FutOnly'",
-                             '$order': 'report_date_as_yyyy_mm_dd DESC,cftc_contract_market_code', '$limit': 10})
+URL = API + '?' + urlencode({'$where': 'cftc_contract_market_code in (' + ','.join(f"'{c}'" for c in CODES) + ") AND futonly_or_combined = 'FutOnly'",
+                             '$order': 'report_date_as_yyyy_mm_dd DESC,cftc_contract_market_code', '$limit': 2 * len(CODES)})
 
 
 def _net(row, prefix):
