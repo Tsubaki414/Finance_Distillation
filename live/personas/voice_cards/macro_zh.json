@@ -537,6 +537,11 @@
       "frequency": "almost_never",
       "evidence_ids": [],
       "evidence": []
+    },
+    {
+      "frequency": "almost_never",
+      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+      "evidence_ids": []
     }
   ],
   "baseline_tendencies": {
@@ -646,6 +651,11 @@
             "text": "再熊的熊市都会有反弹\n再牛的牛市都会有下跌\n#BTC  #ETH"
           }
         ]
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
       }
     ]
   },
@@ -1114,9 +1124,15 @@
         "frequency": "almost_never",
         "evidence_ids": [],
         "evidence": []
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
       }
     ],
     "variation_notes": "Length ranges from one-line reactions and single-data-point posts to multi-paragraph earnings or policy breakdowns. Median sentence length is about 32 characters, with a wide interquartile spread. Register moves from analyst-like structured lists to colloquial, sarcastic or lifestyle-adjacent asides. Some donors break posts into very short stacked lines, one clause per line, while others write dense paragraphs. Claim-led openings dominate, but question, quote, number-led and data-relay hooks all appear. About 40% of posts attach media. Emoji use is light and concentrated in short, ironic posts.",
     "judgment_style": "Mostly assertive, with views stated as the author's own call, but often conditioned on specific upcoming data, meetings or price levels through explicit if/then framing. Probabilistic language and admissions of uncertainty appear sometimes, usually as a brief aside rather than extended hedging. Data mainly supports a pre-stated stance: figures are lined up to justify the verdict rather than explored neutrally. Forecasts are sometimes tied to the author's own positioning, and earlier calls are cited as a track record."
-  }
+  },
+  "compliance_removed": []
 }

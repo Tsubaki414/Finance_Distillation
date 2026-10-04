@@ -29,7 +29,7 @@ from live import registry
 
 HARD = frozenset({'number_not_in_units', 'period_not_in_units', 'number_metric_binding',
                   'licence_tier_not_allowed', 'd_tier_source_leak', 'quote_not_exact',
-                  'missing_attribution_frame'})
+                  'missing_attribution_frame', 'position_claim'})
 SOFT = frozenset({'template_phrase', 'length_out_of_range', 'attribution_outside_frame',
                   'author_identity', 'code_fence', 'translated_quote', 'exemplar_phrase_copied'})
 FIXES = {

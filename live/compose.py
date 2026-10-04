@@ -45,6 +45,7 @@ characters (whitespace excluded; each Chinese character counts as one); a
 body below min is rejected, so develop the units' mechanism and implications
 instead of stopping early.
 Lead with the account's own judgment in most posts; use at most a few numbers as support; vary hook, length and structure across posts — the tendencies describe the voice, they are not a checklist.
+Never claim personal holdings, trades, position sizes or P&L; this is an AI account.
 For judgment_take and contrarian_take, state the judgment first in your own voice;
 data only as support. The supplied stance.account_view is the account's own
 judgment and needs no opinion attribution wrapper. For contrarian_take clearly
@@ -233,6 +234,25 @@ def judgment_findings(body, stance):
     return findings
 
 
+def position_findings(body, lang):
+    """Block personal account claims while allowing third-party trade reports."""
+    patterns = (
+        r"\b(?:I|we)\s+(?:(?:have|had|already|just|recently)\s+)*(?:bought|sold|added|trimmed|hold|own)\b",
+        r"\b(?:I\s+am|we\s+are|I['’]m|we['’]re)\s+(?:long|short)\b",
+        r"\b(?:my|our)\s+(?:positions?|portfolio|holdings?|P&L|profits?|losses|gains|returns)\b",
+        r"\b(?:I\s+am|we\s+are|I['’]m|we['’]re)\s+(?:up|down)\s+\d+(?:\.\d+)?\s*%",
+        r"\b(?:I|we)\s+(?:(?:have|had|already|just|recently)\s+)*(?:profited|lost\s+money|made\s+(?:a\s+)?profit|gained\s+\d+(?:\.\d+)?\s*%)\b",
+        r'我(?:们)?(?:已经|刚刚|刚|已)?(?:买入|卖出|加仓|减仓|建仓|清仓|持有|满仓|空仓|买了|卖了|止盈|止损)',
+        r'我(?:们)?的(?:仓位|持仓|盈亏|收益率)|本人持仓',
+        # An omitted subject at a clause opening is a personal P&L claim;
+        # explicit third-party subjects (e.g. 基金盈利了) are left alone.
+        r'(?:^|[。！？!?，,；;\n])\s*(?:我(?:们)?\s*)?(?:(?:今天|昨天|今日|本周|已经|已)\s*)*(?:盈利了|亏了)',
+        r'(?:^|[。！？!?，,；;\n])\s*(?:(?:今天|昨天|今日|本周)\s*)*(?:我的|本人)?实盘|我(?:们)?(?:的)?实盘',
+    )
+    return [{'code': 'position_claim', 'detail': m.group(0).strip()}
+            for pattern in patterns for m in re.finditer(pattern, body, re.I)]
+
+
 def post_checks(post_type, body, text, frame, licence_tier, units, persona, post_types, stance=None):
     spec = post_types['post_types'][post_type]
     findings = [{'code': f['code'], 'detail': f['detail']}
@@ -250,6 +270,7 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
     if post_type == 'contrarian_take' and not re.search(r'\b(?:disagree|reject|contrary|unconvinced|overstates|understates)\b|不同意|不认同|反对|高估|低估', body, re.I):
         findings.append({'code':'no_disagreement', 'detail':'Contrarian post must express disagreement with the framed view'})
     findings += number_findings(body, units)
+    findings += position_findings(body, persona.lang)
     findings += qa_levels.d_tier_findings(body)
     from live.licence_rules import quote_findings
     findings += quote_findings(body, units)
