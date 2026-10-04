@@ -376,32 +376,6 @@
       ]
     },
     {
-      "tendency": "Discloses a personal position, addition or holding history to frame the view",
-      "frequency": "often",
-      "evidence_ids": [
-        "2099944154465976747",
-        "2091598951136788746",
-        "2091661758628831597"
-      ],
-      "evidence": [
-        {
-          "handle": "jpinsights",
-          "id": "2099944154465976747",
-          "text": "Thought I was getting a good deal buying the “dip” in $AVGO at $390.\n\nBroadcom keeps falling while the business gives me more reasons to own"
-        },
-        {
-          "handle": "JaradCapital",
-          "id": "2091598951136788746",
-          "text": "The more I look at $APP here at ~15x 2027E earnings, the harder it gets not to add to my position\n\nYou can haircut consensus EPS by a massiv"
-        },
-        {
-          "handle": "FromValue",
-          "id": "2091661758628831597",
-          "text": "Tobi was the reason why I have been holding $SHOP shares since February 2017 ($5.58) and made it the first Potential Multibaggers pick in Ma"
-        }
-      ]
-    },
-    {
       "tendency": "Relays a headline, chart or quarter snapshot with minimal or no added commentary",
       "frequency": "often",
       "evidence_ids": [
@@ -560,6 +534,11 @@
       "frequency": "almost_never",
       "evidence_ids": [],
       "evidence": []
+    },
+    {
+      "frequency": "almost_never",
+      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+      "evidence_ids": []
     }
   ],
   "baseline_tendencies": {
@@ -669,6 +648,11 @@
             "text": "Stay tuned for our review of $GOOG Google's earnings delivered to your inbox this afternoon!\n\nJoin 300,000+ subscribers.\n\nDid you read our N"
           }
         ]
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
       }
     ]
   },
@@ -912,32 +896,6 @@
         ]
       },
       {
-        "tendency": "Discloses a personal position, addition or holding history to frame the view",
-        "frequency": "often",
-        "evidence_ids": [
-          "2099944154465976747",
-          "2091598951136788746",
-          "2091661758628831597"
-        ],
-        "evidence": [
-          {
-            "handle": "jpinsights",
-            "id": "2099944154465976747",
-            "text": "Thought I was getting a good deal buying the “dip” in $AVGO at $390.\n\nBroadcom keeps falling while the business gives me more reasons to own"
-          },
-          {
-            "handle": "JaradCapital",
-            "id": "2091598951136788746",
-            "text": "The more I look at $APP here at ~15x 2027E earnings, the harder it gets not to add to my position\n\nYou can haircut consensus EPS by a massiv"
-          },
-          {
-            "handle": "FromValue",
-            "id": "2091661758628831597",
-            "text": "Tobi was the reason why I have been holding $SHOP shares since February 2017 ($5.58) and made it the first Potential Multibaggers pick in Ma"
-          }
-        ]
-      },
-      {
         "tendency": "Relays a headline, chart or quarter snapshot with minimal or no added commentary",
         "frequency": "often",
         "evidence_ids": [
@@ -1096,9 +1054,17 @@
         "frequency": "almost_never",
         "evidence_ids": [],
         "evidence": []
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
       }
     ],
     "variation_notes": "Length swings widely, from a single line with a cashtag and a few words to multi-paragraph mechanism explanations or numbered threads. Register moves between neutral reporting, casual reaction with exclamations or slang, occasional combative or profane outbursts, and polished promotional copy. Hook types are mostly plain claims or cashtag-led openings, with a minority of questions, emoji pointers, contrast setups and thread numbering; no single template dominates every donor.",
     "judgment_style": "Mostly assertive, with views stated as direct calls on direction, valuation or management quality, frequently tied to the author's own positioning. Hedging appears selectively through conditional phrasing about whether a ramp or trend holds, explicit admissions of possibly being wrong, or questions instead of claims. Data such as reported metrics, multiples and price levels usually serves as the support for the opinion rather than standing alone, though a substantial share of posts are pure data or visual relays with the judgment left implicit."
-  }
+  },
+  "compliance_removed": [
+    "Discloses a personal position, addition or holding history to frame the view"
+  ]
 }

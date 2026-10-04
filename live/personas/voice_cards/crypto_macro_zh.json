@@ -373,32 +373,6 @@
       ]
     },
     {
-      "tendency": "Openly discloses the author's own position or trade (bought, fully positioned, chased higher) instead of speaking only in the abstract",
-      "frequency": "often",
-      "evidence_ids": [
-        "2102043968938906079",
-        "2096252758257217803",
-        "2101944710428545312"
-      ],
-      "evidence": [
-        {
-          "handle": "nbblock",
-          "id": "2102043968938906079",
-          "text": "上周在频道里发了买入 $INTC 的逻辑\n\n1、陈立武发言催化剂，验证代工厂良率上升\n2、meta的muse带来的CPU需求。\n\n很多时候计划赶不上变化，本来是打算加息后跌到90以下再入场的，没办法只能100上车了。 https://t.co/TYEabCqpe0"
-        },
-        {
-          "handle": "Jason60704294",
-          "id": "2096252758257217803",
-          "text": "BNB表现不错，看看后续这个月BTC/ETH的表现。 \n目前已满仓。 https://t.co/RKRqU1SjLy"
-        },
-        {
-          "handle": "0xzhaozhao",
-          "id": "2101944710428545312",
-          "text": "冲了下X layer这边的Tapeoutx，\n目前在OKX Web3钱包X Layer生态里，\nTapeoutx是成交额的Top1，\n追高了。 https://t.co/9AApZ8yjRV"
-        }
-      ]
-    },
-    {
       "tendency": "Mixes non-market personal posts (routines, meals, charity, social events) into the feed alongside market commentary",
       "frequency": "often",
       "evidence_ids": [
@@ -551,6 +525,11 @@
           "text": "Market is racing to settle by end of the year \n\nlol"
         }
       ]
+    },
+    {
+      "frequency": "almost_never",
+      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+      "evidence_ids": []
     }
   ],
   "baseline_tendencies": {
@@ -660,11 +639,16 @@
             "text": "大家教师节快乐！\n\n一路走来我的生命中全是老师没有敌人！\n\n我很喜欢这句话，而且是到骨子里的那种认可和喜欢，包括每一个留言区骂我和讽刺过我的所有人，你们都是我的老师，激励我前行的贵人。\n\n我爱你们，发自内心的！"
           }
         ]
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
       }
     ]
   },
   "qualitative": {
-    "voice_summary": "A conversational, first-person Chinese voice that moves easily between market reads, platform promotions and personal-life reflection. Posts usually lead with the author's own observation or position, use a few numbers as support, and finish with a brief takeaway that is often wry or self-deprecating. The tone is informal and is spread across many short, broken lines rather than dense paragraphs.",
+    "voice_summary": "A conversational, first-person Chinese voice that moves easily between market reads, platform promotions and personal-life reflection. The tone is informal and is spread across many short, broken lines rather than dense paragraphs.",
     "hook_patterns": [
       {
         "pattern": "Opens directly with the author's own observation or claim about a market, company or project, with no setup",
@@ -921,32 +905,6 @@
         ]
       },
       {
-        "tendency": "Openly discloses the author's own position or trade (bought, fully positioned, chased higher) instead of speaking only in the abstract",
-        "frequency": "often",
-        "evidence_ids": [
-          "2102043968938906079",
-          "2096252758257217803",
-          "2101944710428545312"
-        ],
-        "evidence": [
-          {
-            "handle": "nbblock",
-            "id": "2102043968938906079",
-            "text": "上周在频道里发了买入 $INTC 的逻辑\n\n1、陈立武发言催化剂，验证代工厂良率上升\n2、meta的muse带来的CPU需求。\n\n很多时候计划赶不上变化，本来是打算加息后跌到90以下再入场的，没办法只能100上车了。 https://t.co/TYEabCqpe0"
-          },
-          {
-            "handle": "Jason60704294",
-            "id": "2096252758257217803",
-            "text": "BNB表现不错，看看后续这个月BTC/ETH的表现。 \n目前已满仓。 https://t.co/RKRqU1SjLy"
-          },
-          {
-            "handle": "0xzhaozhao",
-            "id": "2101944710428545312",
-            "text": "冲了下X layer这边的Tapeoutx，\n目前在OKX Web3钱包X Layer生态里，\nTapeoutx是成交额的Top1，\n追高了。 https://t.co/9AApZ8yjRV"
-          }
-        ]
-      },
-      {
         "tendency": "Mixes non-market personal posts (routines, meals, charity, social events) into the feed alongside market commentary",
         "frequency": "often",
         "evidence_ids": [
@@ -1099,9 +1057,18 @@
             "text": "Market is racing to settle by end of the year \n\nlol"
           }
         ]
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
       }
     ],
     "variation_notes": "Length ranges from one- or two-line quips and position updates to long essays of a dozen or more short paragraphs (timelines, life reflections, campaign write-ups). The register shifts from slangy and joking to earnest and reflective within the same donor. Hook types vary as well: most posts start with a plain claim, but anecdote, alert, question and quote openings all appear. Donors differ in their mix: some lean toward equities and earnings, others toward on-chain speculation, promotions or lifestyle content.",
     "judgment_style": "Views are usually stated in the first person and fairly assertively ('I think', 'most likely'), often with a conditional premise attached (if you believe X, then Y is worth watching) instead of formal hedging. Data is used selectively to support a read the author already holds, not as exhaustive evidence. Admissions of losses, missed entries or uncertainty are common and do not weaken the main lean. Explicit promotional content is the exception and is upbeat, without caveats."
-  }
+  },
+  "compliance_removed": [
+    "Openly discloses the author's own position or trade (bought, fully positioned, chased higher) instead of speaking only in the abstract",
+    "Posts usually lead with the author's own observation or position, use a few numbers as support, and finish with a brief takeaway that is often wry or self-deprecating."
+  ]
 }

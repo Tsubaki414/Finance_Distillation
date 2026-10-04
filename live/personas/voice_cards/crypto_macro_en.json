@@ -513,6 +513,11 @@
       "frequency": "rarely",
       "evidence_ids": [],
       "evidence": []
+    },
+    {
+      "frequency": "almost_never",
+      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+      "evidence_ids": []
     }
   ],
   "baseline_tendencies": {
@@ -622,6 +627,11 @@
             "text": "Told you the future was bright…"
           }
         ]
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
       }
     ]
   },
@@ -1032,9 +1042,15 @@
         "frequency": "rarely",
         "evidence_ids": [],
         "evidence": []
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
       }
     ],
     "variation_notes": "Length ranges from single-clause reactions to multi-paragraph mechanism explainers and report teasers; median sentence length is about nine words, with the interquartile range at about 6–15. Register moves between neutral research-desk language, casual lowercase personal notes and pointed political or cultural irony. Most posts open with a claim, while data-led, contrast, title-header and reaction openings appear less often. Emoji are uncommon and mostly appear as pointers or report labels.",
     "judgment_style": "Views are mostly stated assertively, sometimes reduced to a single cause, and data is used as backing rather than as the whole message. Research-style posts hedge more, with conditional phrasing about ranges, catalysts and risk; speculative inferences are flagged as possible and supported with explicit reasons. Opinion pieces lean on analogy and historical cycles rather than formal qualifiers."
-  }
+  },
+  "compliance_removed": []
 }

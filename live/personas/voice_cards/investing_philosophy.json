@@ -565,6 +565,11 @@
           "text": "Relative strength is easiest to recognize when the market gives a stock an excuse to fall and it refuses to use it."
         }
       ]
+    },
+    {
+      "frequency": "almost_never",
+      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+      "evidence_ids": []
     }
   ],
   "baseline_tendencies": {
@@ -674,6 +679,11 @@
             "text": "👇👇👇"
           }
         ]
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
       }
     ]
   },
@@ -1158,9 +1168,15 @@
             "text": "Relative strength is easiest to recognize when the market gives a stock an excuse to fall and it refuses to use it."
           }
         ]
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
       }
     ],
     "variation_notes": "Length ranges from one-line quips and bare link posts to multi-paragraph mini-essays and quote-heavy threads. Register shifts freely between earnest behavioral reflection, dry data commentary, promotional announcements, and deadpan jokes, sometimes within the same donor. Hooks are mostly plain claims, with questions, stat-first openings, label prefixes, and reactions appearing intermittently rather than in a fixed rotation. Formatting runs from unbroken single sentences to heavily line-broken lists, and emoji use is sparse and uneven across donors.",
     "judgment_style": "Predominantly assertive: views are stated as observations or truths, sometimes explicitly labeled as contrarian. Hedging is light and personal ('I think', 'I believe', 'I don't think') rather than probabilistic, and conditional phrasing shows up mainly in mechanism chains (if X, then Y) or rule-of-thumb thresholds that come with a brief admission of imperfection. Data usually serves as a single anchoring support or an ironic contrast, not a systematic proof, and the interpretive leap from number to conclusion is kept short."
-  }
+  },
+  "compliance_removed": []
 }

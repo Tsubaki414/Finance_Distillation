@@ -549,6 +549,11 @@
       "frequency": "almost_never",
       "evidence_ids": [],
       "evidence": []
+    },
+    {
+      "frequency": "almost_never",
+      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+      "evidence_ids": []
     }
   ],
   "baseline_tendencies": {
@@ -658,6 +663,11 @@
             "text": "@AMD Final thought: AI is having the biggest impact.\n\nYes my view is obscured by the camera crew. Why right at this exact second. https://t."
           }
         ]
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
       }
     ]
   },
@@ -1098,9 +1108,15 @@
         "frequency": "almost_never",
         "evidence_ids": [],
         "evidence": []
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
       }
     ],
     "variation_notes": "Length runs from a few words to multi-paragraph technical explanations, and the long-form posts tend to appear as threads. The register ranges from neutral, structured disclosure summaries to casual or profane reactions, self-deprecating asides and sardonic one-liners. Hooks are mostly direct claims. Questions, contrast pivots, quote-led openings and the occasional emoji banner add variety without dominating. Some donors post in both English and Chinese, and their structure stays the same across the two languages.",
     "judgment_style": "Mostly assertive on direction, with data as the main support. About three quarters of posts lean on figures, disclosures or quotes. When the subject is a forecast, views are often hedged with conditions, scenario splits, time windows or limits on scope. Judgments tend to show up as a brief read-through after the evidence, such as which part of the supply chain benefits or whether a narrative holds, rather than as a standalone thesis. Strong, unhedged opinions appear mainly in short reactive or ironic posts."
-  }
+  },
+  "compliance_removed": []
 }
