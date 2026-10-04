@@ -13,20 +13,20 @@
     "donors": 7,
     "posts": 1327,
     "post_type_mix": {
-     "hot_take": 0.452,
-     "data_take": 0.235,
-     "mechanism_explainer": 0.216,
-     "view_relay": 0.088,
+     "hot_take": 0.439,
+     "mechanism_explainer": 0.232,
+     "data_take": 0.218,
+     "view_relay": 0.102,
      "earnings_take": 0.009
     },
     "hook_mix": {
-     "bold_claim": 0.516,
-     "news_peg": 0.185,
-     "story": 0.112,
-     "data_point": 0.094,
-     "question": 0.073,
-     "list": 0.013,
-     "quote": 0.008
+     "bold_claim": 0.517,
+     "news_peg": 0.169,
+     "story": 0.123,
+     "data_point": 0.095,
+     "question": 0.075,
+     "list": 0.012,
+     "quote": 0.009
     },
     "median_chars": 188.545,
     "numbers_per_post": 4.346,
@@ -35,26 +35,26 @@
     "thread_marker_share": 0.016,
     "question_open_share": 0.068,
     "link_share": 0.312,
-    "jev_tagged_share": 0.841
+    "jev_tagged_share": 1.0
    },
    "all_stats": {
     "donors": 7,
     "posts": 1327,
     "post_type_mix": {
-     "hot_take": 0.452,
-     "data_take": 0.235,
-     "mechanism_explainer": 0.216,
-     "view_relay": 0.088,
+     "hot_take": 0.439,
+     "mechanism_explainer": 0.232,
+     "data_take": 0.218,
+     "view_relay": 0.102,
      "earnings_take": 0.009
     },
     "hook_mix": {
-     "bold_claim": 0.516,
-     "news_peg": 0.185,
-     "story": 0.112,
-     "data_point": 0.094,
-     "question": 0.073,
-     "list": 0.013,
-     "quote": 0.008
+     "bold_claim": 0.517,
+     "news_peg": 0.169,
+     "story": 0.123,
+     "data_point": 0.095,
+     "question": 0.075,
+     "list": 0.012,
+     "quote": 0.009
     },
     "median_chars": 188.545,
     "numbers_per_post": 4.346,
@@ -63,7 +63,7 @@
     "thread_marker_share": 0.016,
     "question_open_share": 0.068,
     "link_share": 0.312,
-    "jev_tagged_share": 0.841
+    "jev_tagged_share": 1.0
    }
   },
   "zh_us_stock_commentary": {
@@ -74,20 +74,20 @@
     "donors": 10,
     "posts": 2063,
     "post_type_mix": {
-     "hot_take": 0.289,
-     "mechanism_explainer": 0.279,
-     "data_take": 0.257,
-     "view_relay": 0.136,
-     "earnings_take": 0.039
+     "mechanism_explainer": 0.286,
+     "hot_take": 0.259,
+     "data_take": 0.245,
+     "view_relay": 0.171,
+     "earnings_take": 0.038
     },
     "hook_mix": {
-     "bold_claim": 0.384,
-     "news_peg": 0.26,
+     "bold_claim": 0.391,
+     "news_peg": 0.246,
      "data_point": 0.108,
-     "question": 0.107,
-     "story": 0.081,
+     "question": 0.104,
+     "story": 0.09,
      "list": 0.041,
-     "quote": 0.018
+     "quote": 0.019
     },
     "median_chars": 285.633,
     "numbers_per_post": 5.801,
@@ -96,26 +96,26 @@
     "thread_marker_share": 0.005,
     "question_open_share": 0.09,
     "link_share": 0.217,
-    "jev_tagged_share": 0.784
+    "jev_tagged_share": 1.0
    },
    "all_stats": {
     "donors": 26,
     "posts": 4394,
     "post_type_mix": {
-     "hot_take": 0.36,
-     "mechanism_explainer": 0.24,
-     "data_take": 0.237,
-     "view_relay": 0.13,
+     "hot_take": 0.325,
+     "mechanism_explainer": 0.254,
+     "data_take": 0.227,
+     "view_relay": 0.16,
      "earnings_take": 0.033
     },
     "hook_mix": {
-     "bold_claim": 0.437,
-     "news_peg": 0.218,
-     "data_point": 0.106,
-     "question": 0.103,
-     "story": 0.079,
-     "list": 0.039,
-     "quote": 0.018
+     "bold_claim": 0.438,
+     "news_peg": 0.211,
+     "data_point": 0.107,
+     "question": 0.099,
+     "story": 0.089,
+     "list": 0.038,
+     "quote": 0.019
     },
     "median_chars": 227.298,
     "numbers_per_post": 5.377,
@@ -124,7 +124,7 @@
     "thread_marker_share": 0.005,
     "question_open_share": 0.084,
     "link_share": 0.269,
-    "jev_tagged_share": 0.789
+    "jev_tagged_share": 1.0
    }
   },
   "industry_ai_capex": {
@@ -135,20 +135,20 @@
     "donors": 10,
     "posts": 1936,
     "post_type_mix": {
-     "hot_take": 0.353,
-     "view_relay": 0.238,
-     "data_take": 0.233,
-     "mechanism_explainer": 0.136,
+     "hot_take": 0.33,
+     "view_relay": 0.283,
+     "data_take": 0.224,
+     "mechanism_explainer": 0.123,
      "earnings_take": 0.04
     },
     "hook_mix": {
-     "bold_claim": 0.419,
-     "news_peg": 0.248,
-     "data_point": 0.114,
-     "question": 0.084,
-     "story": 0.068,
-     "list": 0.037,
-     "quote": 0.03
+     "bold_claim": 0.414,
+     "news_peg": 0.251,
+     "data_point": 0.118,
+     "question": 0.085,
+     "story": 0.065,
+     "list": 0.034,
+     "quote": 0.032
     },
     "median_chars": 249.235,
     "numbers_per_post": 4.517,
@@ -157,26 +157,26 @@
     "thread_marker_share": 0.031,
     "question_open_share": 0.05,
     "link_share": 0.378,
-    "jev_tagged_share": 0.812
+    "jev_tagged_share": 1.0
    },
    "all_stats": {
     "donors": 16,
     "posts": 2853,
     "post_type_mix": {
-     "hot_take": 0.375,
-     "view_relay": 0.225,
-     "data_take": 0.225,
-     "mechanism_explainer": 0.126,
-     "earnings_take": 0.049
+     "hot_take": 0.348,
+     "view_relay": 0.268,
+     "data_take": 0.22,
+     "mechanism_explainer": 0.115,
+     "earnings_take": 0.05
     },
     "hook_mix": {
-     "bold_claim": 0.432,
-     "news_peg": 0.23,
-     "data_point": 0.121,
+     "bold_claim": 0.429,
+     "news_peg": 0.232,
+     "data_point": 0.125,
      "question": 0.08,
-     "story": 0.073,
-     "list": 0.037,
-     "quote": 0.027
+     "story": 0.07,
+     "list": 0.035,
+     "quote": 0.029
     },
     "median_chars": 238.129,
     "numbers_per_post": 4.36,
@@ -185,7 +185,7 @@
     "thread_marker_share": 0.028,
     "question_open_share": 0.047,
     "link_share": 0.372,
-    "jev_tagged_share": 0.808
+    "jev_tagged_share": 1.0
    }
   },
   "trading_shortterm": {
@@ -196,17 +196,17 @@
     "donors": 10,
     "posts": 1113,
     "post_type_mix": {
-     "hot_take": 0.475,
-     "data_take": 0.282,
-     "mechanism_explainer": 0.125,
-     "view_relay": 0.106,
-     "earnings_take": 0.012
+     "hot_take": 0.459,
+     "data_take": 0.298,
+     "view_relay": 0.116,
+     "mechanism_explainer": 0.115,
+     "earnings_take": 0.011
     },
     "hook_mix": {
-     "bold_claim": 0.508,
-     "data_point": 0.158,
-     "news_peg": 0.107,
-     "story": 0.089,
+     "bold_claim": 0.516,
+     "data_point": 0.152,
+     "news_peg": 0.106,
+     "story": 0.088,
      "question": 0.078,
      "list": 0.036,
      "quote": 0.023
@@ -218,26 +218,26 @@
     "thread_marker_share": 0.023,
     "question_open_share": 0.055,
     "link_share": 0.412,
-    "jev_tagged_share": 0.902
+    "jev_tagged_share": 1.0
    },
    "all_stats": {
     "donors": 13,
     "posts": 1418,
     "post_type_mix": {
-     "hot_take": 0.488,
-     "data_take": 0.277,
-     "mechanism_explainer": 0.118,
-     "view_relay": 0.105,
-     "earnings_take": 0.013
+     "hot_take": 0.473,
+     "data_take": 0.292,
+     "view_relay": 0.115,
+     "mechanism_explainer": 0.108,
+     "earnings_take": 0.012
     },
     "hook_mix": {
-     "bold_claim": 0.513,
-     "data_point": 0.158,
-     "news_peg": 0.106,
-     "story": 0.09,
-     "question": 0.076,
-     "list": 0.033,
-     "quote": 0.023
+     "bold_claim": 0.517,
+     "data_point": 0.155,
+     "news_peg": 0.103,
+     "story": 0.092,
+     "question": 0.077,
+     "list": 0.034,
+     "quote": 0.022
     },
     "median_chars": 202.296,
     "numbers_per_post": 3.821,
@@ -246,7 +246,7 @@
     "thread_marker_share": 0.023,
     "question_open_share": 0.054,
     "link_share": 0.406,
-    "jev_tagged_share": 0.888
+    "jev_tagged_share": 1.0
    }
   },
   "macro_rates_en": {
@@ -257,20 +257,20 @@
     "donors": 10,
     "posts": 1908,
     "post_type_mix": {
-     "data_take": 0.404,
-     "hot_take": 0.265,
-     "view_relay": 0.188,
-     "mechanism_explainer": 0.136,
-     "earnings_take": 0.007
+     "data_take": 0.413,
+     "hot_take": 0.242,
+     "view_relay": 0.205,
+     "mechanism_explainer": 0.133,
+     "earnings_take": 0.006
     },
     "hook_mix": {
-     "bold_claim": 0.574,
-     "news_peg": 0.153,
-     "data_point": 0.12,
+     "bold_claim": 0.571,
+     "news_peg": 0.152,
+     "data_point": 0.118,
      "question": 0.063,
-     "story": 0.046,
-     "quote": 0.031,
-     "list": 0.014
+     "story": 0.045,
+     "quote": 0.034,
+     "list": 0.015
     },
     "median_chars": 311.651,
     "numbers_per_post": 3.108,
@@ -279,26 +279,26 @@
     "thread_marker_share": 0.059,
     "question_open_share": 0.039,
     "link_share": 0.524,
-    "jev_tagged_share": 0.877
+    "jev_tagged_share": 1.0
    },
    "all_stats": {
     "donors": 41,
     "posts": 6725,
     "post_type_mix": {
-     "hot_take": 0.376,
+     "hot_take": 0.352,
      "data_take": 0.296,
-     "view_relay": 0.206,
+     "view_relay": 0.232,
      "mechanism_explainer": 0.115,
-     "earnings_take": 0.006
+     "earnings_take": 0.005
     },
     "hook_mix": {
      "bold_claim": 0.535,
      "news_peg": 0.166,
-     "data_point": 0.114,
-     "question": 0.068,
+     "data_point": 0.113,
+     "question": 0.067,
      "story": 0.057,
      "quote": 0.036,
-     "list": 0.024
+     "list": 0.026
     },
     "median_chars": 231.632,
     "numbers_per_post": 2.401,
@@ -307,7 +307,7 @@
     "thread_marker_share": 0.046,
     "question_open_share": 0.042,
     "link_share": 0.522,
-    "jev_tagged_share": 0.845
+    "jev_tagged_share": 1.0
    }
   },
   "market_data_charts": {
@@ -318,20 +318,20 @@
     "donors": 10,
     "posts": 1771,
     "post_type_mix": {
-     "data_take": 0.431,
-     "hot_take": 0.34,
-     "view_relay": 0.189,
-     "mechanism_explainer": 0.03,
-     "earnings_take": 0.01
+     "data_take": 0.452,
+     "hot_take": 0.295,
+     "view_relay": 0.214,
+     "mechanism_explainer": 0.027,
+     "earnings_take": 0.012
     },
     "hook_mix": {
-     "bold_claim": 0.442,
-     "data_point": 0.235,
-     "news_peg": 0.173,
-     "story": 0.061,
-     "question": 0.048,
-     "list": 0.024,
-     "quote": 0.017
+     "bold_claim": 0.448,
+     "data_point": 0.233,
+     "news_peg": 0.177,
+     "story": 0.057,
+     "question": 0.047,
+     "list": 0.023,
+     "quote": 0.015
     },
     "median_chars": 161.495,
     "numbers_per_post": 2.575,
@@ -340,26 +340,26 @@
     "thread_marker_share": 0.009,
     "question_open_share": 0.031,
     "link_share": 0.619,
-    "jev_tagged_share": 0.808
+    "jev_tagged_share": 1.0
    },
    "all_stats": {
     "donors": 16,
     "posts": 2677,
     "post_type_mix": {
-     "data_take": 0.437,
-     "hot_take": 0.326,
-     "view_relay": 0.193,
-     "mechanism_explainer": 0.034,
-     "earnings_take": 0.01
+     "data_take": 0.455,
+     "hot_take": 0.287,
+     "view_relay": 0.216,
+     "mechanism_explainer": 0.031,
+     "earnings_take": 0.011
     },
     "hook_mix": {
-     "bold_claim": 0.432,
-     "data_point": 0.229,
-     "news_peg": 0.189,
-     "story": 0.057,
-     "question": 0.051,
+     "bold_claim": 0.437,
+     "data_point": 0.226,
+     "news_peg": 0.192,
+     "story": 0.053,
+     "question": 0.05,
      "list": 0.027,
-     "quote": 0.017
+     "quote": 0.015
     },
     "median_chars": 171.083,
     "numbers_per_post": 2.798,
@@ -368,7 +368,7 @@
     "thread_marker_share": 0.008,
     "question_open_share": 0.035,
     "link_share": 0.623,
-    "jev_tagged_share": 0.818
+    "jev_tagged_share": 1.0
    }
   },
   "investing_philosophy": {
@@ -379,20 +379,20 @@
     "donors": 10,
     "posts": 1805,
     "post_type_mix": {
-     "hot_take": 0.524,
-     "view_relay": 0.194,
-     "data_take": 0.154,
-     "mechanism_explainer": 0.123,
-     "earnings_take": 0.005
+     "hot_take": 0.504,
+     "view_relay": 0.216,
+     "data_take": 0.141,
+     "mechanism_explainer": 0.134,
+     "earnings_take": 0.004
     },
     "hook_mix": {
-     "bold_claim": 0.526,
-     "story": 0.115,
+     "bold_claim": 0.53,
+     "story": 0.109,
      "news_peg": 0.094,
-     "data_point": 0.086,
-     "question": 0.083,
-     "quote": 0.061,
-     "list": 0.035
+     "data_point": 0.089,
+     "question": 0.081,
+     "quote": 0.058,
+     "list": 0.038
     },
     "median_chars": 161.835,
     "numbers_per_post": 2.03,
@@ -401,26 +401,26 @@
     "thread_marker_share": 0.016,
     "question_open_share": 0.045,
     "link_share": 0.412,
-    "jev_tagged_share": 0.802
+    "jev_tagged_share": 1.0
    },
    "all_stats": {
     "donors": 15,
     "posts": 2539,
     "post_type_mix": {
-     "hot_take": 0.528,
-     "view_relay": 0.188,
-     "data_take": 0.165,
-     "mechanism_explainer": 0.113,
-     "earnings_take": 0.006
+     "hot_take": 0.511,
+     "view_relay": 0.211,
+     "data_take": 0.151,
+     "mechanism_explainer": 0.122,
+     "earnings_take": 0.004
     },
     "hook_mix": {
-     "bold_claim": 0.524,
-     "story": 0.108,
+     "bold_claim": 0.527,
+     "story": 0.103,
+     "data_point": 0.094,
      "news_peg": 0.093,
-     "data_point": 0.092,
-     "question": 0.09,
-     "quote": 0.053,
-     "list": 0.039
+     "question": 0.089,
+     "quote": 0.052,
+     "list": 0.041
     },
     "median_chars": 156.733,
     "numbers_per_post": 2.052,
@@ -429,7 +429,7 @@
     "thread_marker_share": 0.019,
     "question_open_share": 0.048,
     "link_share": 0.425,
-    "jev_tagged_share": 0.81
+    "jev_tagged_share": 1.0
    }
   },
   "single_stock_deepdive_en": {
@@ -440,20 +440,20 @@
     "donors": 10,
     "posts": 1375,
     "post_type_mix": {
-     "hot_take": 0.355,
-     "data_take": 0.251,
-     "earnings_take": 0.174,
-     "view_relay": 0.126,
-     "mechanism_explainer": 0.094
+     "hot_take": 0.329,
+     "data_take": 0.263,
+     "earnings_take": 0.177,
+     "view_relay": 0.15,
+     "mechanism_explainer": 0.081
     },
     "hook_mix": {
-     "bold_claim": 0.443,
-     "news_peg": 0.24,
-     "data_point": 0.138,
-     "question": 0.066,
-     "story": 0.065,
-     "list": 0.036,
-     "quote": 0.012
+     "bold_claim": 0.445,
+     "news_peg": 0.237,
+     "data_point": 0.139,
+     "story": 0.067,
+     "question": 0.062,
+     "list": 0.035,
+     "quote": 0.015
     },
     "median_chars": 293.57,
     "numbers_per_post": 4.647,
@@ -462,26 +462,26 @@
     "thread_marker_share": 0.04,
     "question_open_share": 0.044,
     "link_share": 0.4,
-    "jev_tagged_share": 0.843
+    "jev_tagged_share": 1.0
    },
    "all_stats": {
     "donors": 11,
     "posts": 1545,
     "post_type_mix": {
-     "hot_take": 0.352,
-     "data_take": 0.248,
-     "earnings_take": 0.172,
-     "view_relay": 0.135,
-     "mechanism_explainer": 0.093
+     "hot_take": 0.325,
+     "data_take": 0.259,
+     "earnings_take": 0.174,
+     "view_relay": 0.161,
+     "mechanism_explainer": 0.082
     },
     "hook_mix": {
-     "bold_claim": 0.439,
-     "news_peg": 0.245,
-     "data_point": 0.136,
-     "question": 0.068,
-     "story": 0.066,
-     "list": 0.035,
-     "quote": 0.012
+     "bold_claim": 0.443,
+     "news_peg": 0.24,
+     "data_point": 0.137,
+     "story": 0.068,
+     "question": 0.064,
+     "list": 0.034,
+     "quote": 0.015
     },
     "median_chars": 286.988,
     "numbers_per_post": 4.573,
@@ -490,7 +490,7 @@
     "thread_marker_share": 0.038,
     "question_open_share": 0.044,
     "link_share": 0.415,
-    "jev_tagged_share": 0.842
+    "jev_tagged_share": 1.0
    }
   },
   "macro_zh": {
@@ -501,19 +501,19 @@
     "donors": 10,
     "posts": 1888,
     "post_type_mix": {
-     "hot_take": 0.375,
-     "data_take": 0.258,
-     "mechanism_explainer": 0.231,
-     "view_relay": 0.122,
-     "earnings_take": 0.014
+     "hot_take": 0.352,
+     "mechanism_explainer": 0.257,
+     "data_take": 0.246,
+     "view_relay": 0.135,
+     "earnings_take": 0.01
     },
     "hook_mix": {
-     "bold_claim": 0.502,
-     "news_peg": 0.232,
-     "data_point": 0.107,
-     "story": 0.062,
-     "question": 0.059,
-     "list": 0.022,
+     "bold_claim": 0.501,
+     "news_peg": 0.225,
+     "data_point": 0.113,
+     "story": 0.064,
+     "question": 0.06,
+     "list": 0.021,
      "quote": 0.015
     },
     "median_chars": 187.698,
@@ -523,25 +523,25 @@
     "thread_marker_share": 0.003,
     "question_open_share": 0.068,
     "link_share": 0.281,
-    "jev_tagged_share": 0.824
+    "jev_tagged_share": 1.0
    },
    "all_stats": {
     "donors": 11,
     "posts": 2096,
     "post_type_mix": {
-     "hot_take": 0.38,
-     "data_take": 0.254,
-     "mechanism_explainer": 0.229,
-     "view_relay": 0.122,
-     "earnings_take": 0.015
+     "hot_take": 0.357,
+     "mechanism_explainer": 0.254,
+     "data_take": 0.242,
+     "view_relay": 0.135,
+     "earnings_take": 0.012
     },
     "hook_mix": {
-     "bold_claim": 0.5,
-     "news_peg": 0.231,
-     "data_point": 0.106,
-     "story": 0.062,
-     "question": 0.062,
-     "list": 0.023,
+     "bold_claim": 0.499,
+     "news_peg": 0.225,
+     "data_point": 0.111,
+     "story": 0.065,
+     "question": 0.063,
+     "list": 0.022,
      "quote": 0.015
     },
     "median_chars": 184.211,
@@ -551,7 +551,7 @@
     "thread_marker_share": 0.003,
     "question_open_share": 0.07,
     "link_share": 0.282,
-    "jev_tagged_share": 0.825
+    "jev_tagged_share": 1.0
    }
   },
   "crypto_macro_en": {
@@ -562,19 +562,19 @@
     "donors": 7,
     "posts": 942,
     "post_type_mix": {
-     "hot_take": 0.459,
-     "data_take": 0.306,
-     "view_relay": 0.153,
-     "mechanism_explainer": 0.081
+     "hot_take": 0.426,
+     "data_take": 0.314,
+     "view_relay": 0.18,
+     "mechanism_explainer": 0.08
     },
     "hook_mix": {
-     "bold_claim": 0.555,
-     "data_point": 0.153,
-     "news_peg": 0.148,
-     "story": 0.054,
-     "question": 0.049,
-     "list": 0.025,
-     "quote": 0.017
+     "bold_claim": 0.536,
+     "data_point": 0.159,
+     "news_peg": 0.153,
+     "question": 0.051,
+     "story": 0.05,
+     "list": 0.03,
+     "quote": 0.021
     },
     "median_chars": 205.06,
     "numbers_per_post": 2.815,
@@ -583,25 +583,25 @@
     "thread_marker_share": 0.019,
     "question_open_share": 0.022,
     "link_share": 0.565,
-    "jev_tagged_share": 0.845
+    "jev_tagged_share": 1.0
    },
    "all_stats": {
     "donors": 7,
     "posts": 942,
     "post_type_mix": {
-     "hot_take": 0.459,
-     "data_take": 0.306,
-     "view_relay": 0.153,
-     "mechanism_explainer": 0.081
+     "hot_take": 0.426,
+     "data_take": 0.314,
+     "view_relay": 0.18,
+     "mechanism_explainer": 0.08
     },
     "hook_mix": {
-     "bold_claim": 0.555,
-     "data_point": 0.153,
-     "news_peg": 0.148,
-     "story": 0.054,
-     "question": 0.049,
-     "list": 0.025,
-     "quote": 0.017
+     "bold_claim": 0.536,
+     "data_point": 0.159,
+     "news_peg": 0.153,
+     "question": 0.051,
+     "story": 0.05,
+     "list": 0.03,
+     "quote": 0.021
     },
     "median_chars": 205.06,
     "numbers_per_post": 2.815,
@@ -610,7 +610,7 @@
     "thread_marker_share": 0.019,
     "question_open_share": 0.022,
     "link_share": 0.565,
-    "jev_tagged_share": 0.845
+    "jev_tagged_share": 1.0
    }
   }
  },
@@ -620,17 +620,17 @@
    "post_type_mix": {
     "mechanism_explainer": 0.422,
     "hot_take": 0.238,
-    "data_take": 0.232,
-    "view_relay": 0.108
+    "data_take": 0.216,
+    "view_relay": 0.124
    },
    "hook_mix": {
-    "bold_claim": 0.428,
-    "story": 0.248,
-    "news_peg": 0.214,
-    "data_point": 0.055,
-    "list": 0.028,
-    "question": 0.021,
-    "quote": 0.007
+    "bold_claim": 0.432,
+    "story": 0.259,
+    "news_peg": 0.205,
+    "data_point": 0.054,
+    "list": 0.022,
+    "question": 0.016,
+    "quote": 0.011
    },
    "median_chars": 414,
    "p25_chars": 209,
@@ -641,23 +641,24 @@
    "thread_marker_share": 0.195,
    "question_open_share": 0.011,
    "link_share": 0.303,
-   "jev_tagged_share": 0.784
+   "jev_tagged_share": 1.0
   },
   "0xzhaozhao": {
    "posts": 161,
    "post_type_mix": {
-    "hot_take": 0.596,
-    "data_take": 0.199,
-    "mechanism_explainer": 0.124,
-    "view_relay": 0.081
+    "hot_take": 0.627,
+    "data_take": 0.143,
+    "mechanism_explainer": 0.13,
+    "view_relay": 0.099
    },
    "hook_mix": {
-    "bold_claim": 0.405,
-    "story": 0.347,
-    "question": 0.099,
-    "data_point": 0.091,
-    "news_peg": 0.05,
-    "list": 0.008
+    "bold_claim": 0.404,
+    "story": 0.323,
+    "data_point": 0.112,
+    "question": 0.093,
+    "news_peg": 0.056,
+    "list": 0.006,
+    "quote": 0.006
    },
    "median_chars": 123,
    "p25_chars": 51,
@@ -668,25 +669,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.043,
    "link_share": 0.429,
-   "jev_tagged_share": 0.752
+   "jev_tagged_share": 1.0
   },
   "AlphaguyTrading": {
    "posts": 211,
    "post_type_mix": {
-    "mechanism_explainer": 0.327,
-    "hot_take": 0.303,
-    "data_take": 0.256,
-    "view_relay": 0.081,
-    "earnings_take": 0.033
+    "mechanism_explainer": 0.341,
+    "hot_take": 0.28,
+    "data_take": 0.246,
+    "view_relay": 0.095,
+    "earnings_take": 0.038
    },
    "hook_mix": {
-    "bold_claim": 0.546,
-    "news_peg": 0.252,
-    "story": 0.074,
-    "data_point": 0.061,
-    "question": 0.049,
-    "quote": 0.012,
-    "list": 0.006
+    "bold_claim": 0.564,
+    "news_peg": 0.237,
+    "story": 0.071,
+    "data_point": 0.066,
+    "question": 0.047,
+    "quote": 0.009,
+    "list": 0.005
    },
    "median_chars": 273,
    "p25_chars": 105,
@@ -697,25 +698,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.076,
    "link_share": 0.147,
-   "jev_tagged_share": 0.773
+   "jev_tagged_share": 1.0
   },
   "AndreasSteno": {
    "posts": 161,
    "post_type_mix": {
-    "hot_take": 0.764,
-    "view_relay": 0.143,
+    "hot_take": 0.733,
+    "view_relay": 0.149,
     "data_take": 0.068,
-    "earnings_take": 0.012,
-    "mechanism_explainer": 0.012
+    "mechanism_explainer": 0.031,
+    "earnings_take": 0.019
    },
    "hook_mix": {
-    "bold_claim": 0.662,
-    "question": 0.124,
-    "news_peg": 0.11,
-    "story": 0.041,
-    "data_point": 0.034,
-    "list": 0.014,
-    "quote": 0.014
+    "bold_claim": 0.677,
+    "question": 0.112,
+    "news_peg": 0.106,
+    "data_point": 0.043,
+    "story": 0.037,
+    "list": 0.012,
+    "quote": 0.012
    },
    "median_chars": 103,
    "p25_chars": 57,
@@ -726,24 +727,24 @@
    "thread_marker_share": 0.012,
    "question_open_share": 0.099,
    "link_share": 0.292,
-   "jev_tagged_share": 0.901
+   "jev_tagged_share": 1.0
   },
   "AndrewThrasher": {
    "posts": 189,
    "post_type_mix": {
-    "data_take": 0.624,
-    "hot_take": 0.296,
-    "view_relay": 0.058,
+    "data_take": 0.651,
+    "hot_take": 0.259,
+    "view_relay": 0.069,
     "mechanism_explainer": 0.021
    },
    "hook_mix": {
-    "bold_claim": 0.43,
-    "data_point": 0.358,
+    "bold_claim": 0.434,
+    "data_point": 0.349,
     "news_peg": 0.085,
-    "story": 0.055,
-    "question": 0.048,
-    "list": 0.012,
-    "quote": 0.012
+    "story": 0.069,
+    "question": 0.042,
+    "list": 0.011,
+    "quote": 0.011
    },
    "median_chars": 152,
    "p25_chars": 72,
@@ -754,25 +755,25 @@
    "thread_marker_share": 0.005,
    "question_open_share": 0.026,
    "link_share": 0.524,
-   "jev_tagged_share": 0.873
+   "jev_tagged_share": 1.0
   },
   "AnnaEconomist": {
    "posts": 157,
    "post_type_mix": {
-    "hot_take": 0.433,
+    "hot_take": 0.382,
+    "view_relay": 0.255,
     "data_take": 0.197,
-    "view_relay": 0.197,
-    "mechanism_explainer": 0.127,
+    "mechanism_explainer": 0.121,
     "earnings_take": 0.045
    },
    "hook_mix": {
-    "bold_claim": 0.584,
-    "news_peg": 0.136,
-    "data_point": 0.08,
-    "question": 0.08,
-    "story": 0.056,
-    "quote": 0.04,
-    "list": 0.024
+    "bold_claim": 0.586,
+    "news_peg": 0.153,
+    "data_point": 0.083,
+    "question": 0.064,
+    "story": 0.057,
+    "quote": 0.032,
+    "list": 0.025
    },
    "median_chars": 151,
    "p25_chars": 78,
@@ -783,25 +784,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.045,
    "link_share": 0.293,
-   "jev_tagged_share": 0.796
+   "jev_tagged_share": 1.0
   },
   "ArtofSpecuycky": {
    "posts": 138,
    "post_type_mix": {
-    "data_take": 0.449,
-    "hot_take": 0.239,
-    "mechanism_explainer": 0.13,
+    "data_take": 0.457,
+    "hot_take": 0.203,
+    "mechanism_explainer": 0.138,
     "view_relay": 0.116,
-    "earnings_take": 0.065
+    "earnings_take": 0.087
    },
    "hook_mix": {
-    "bold_claim": 0.342,
-    "news_peg": 0.237,
-    "data_point": 0.237,
-    "question": 0.096,
-    "story": 0.044,
-    "list": 0.035,
-    "quote": 0.009
+    "bold_claim": 0.362,
+    "news_peg": 0.246,
+    "data_point": 0.232,
+    "question": 0.08,
+    "story": 0.036,
+    "list": 0.036,
+    "quote": 0.007
    },
    "median_chars": 170,
    "p25_chars": 76,
@@ -812,24 +813,24 @@
    "thread_marker_share": 0.036,
    "question_open_share": 0.036,
    "link_share": 0.239,
-   "jev_tagged_share": 0.826
+   "jev_tagged_share": 1.0
   },
   "BenBajarin": {
    "posts": 152,
    "post_type_mix": {
-    "hot_take": 0.546,
-    "view_relay": 0.283,
-    "mechanism_explainer": 0.079,
-    "data_take": 0.066,
-    "earnings_take": 0.026
+    "hot_take": 0.487,
+    "view_relay": 0.329,
+    "mechanism_explainer": 0.105,
+    "data_take": 0.046,
+    "earnings_take": 0.033
    },
    "hook_mix": {
-    "bold_claim": 0.533,
-    "story": 0.2,
-    "news_peg": 0.175,
-    "data_point": 0.042,
+    "bold_claim": 0.553,
+    "story": 0.191,
+    "news_peg": 0.178,
+    "data_point": 0.033,
     "list": 0.033,
-    "question": 0.017
+    "question": 0.013
    },
    "median_chars": 183,
    "p25_chars": 82,
@@ -840,22 +841,23 @@
    "thread_marker_share": 0.007,
    "question_open_share": 0.0,
    "link_share": 0.447,
-   "jev_tagged_share": 0.789
+   "jev_tagged_share": 1.0
   },
   "Beth_Kindig": {
    "posts": 209,
    "post_type_mix": {
     "data_take": 0.536,
-    "view_relay": 0.278,
-    "hot_take": 0.091,
+    "view_relay": 0.344,
     "earnings_take": 0.081,
-    "mechanism_explainer": 0.014
+    "hot_take": 0.019,
+    "mechanism_explainer": 0.019
    },
    "hook_mix": {
-    "news_peg": 0.402,
+    "news_peg": 0.378,
     "data_point": 0.373,
-    "bold_claim": 0.124,
-    "quote": 0.101
+    "quote": 0.124,
+    "bold_claim": 0.12,
+    "question": 0.005
    },
    "median_chars": 217,
    "p25_chars": 183,
@@ -866,24 +868,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.005,
    "link_share": 0.187,
-   "jev_tagged_share": 0.809
+   "jev_tagged_share": 1.0
   },
   "Bitwux": {
    "posts": 206,
    "post_type_mix": {
     "hot_take": 0.549,
-    "data_take": 0.218,
-    "mechanism_explainer": 0.16,
-    "view_relay": 0.073
+    "mechanism_explainer": 0.194,
+    "data_take": 0.17,
+    "view_relay": 0.087
    },
    "hook_mix": {
-    "bold_claim": 0.494,
-    "news_peg": 0.187,
-    "question": 0.114,
-    "story": 0.096,
-    "data_point": 0.078,
-    "list": 0.018,
-    "quote": 0.012
+    "bold_claim": 0.49,
+    "news_peg": 0.18,
+    "question": 0.126,
+    "story": 0.102,
+    "data_point": 0.073,
+    "quote": 0.015,
+    "list": 0.015
    },
    "median_chars": 122,
    "p25_chars": 68,
@@ -894,24 +896,24 @@
    "thread_marker_share": 0.005,
    "question_open_share": 0.146,
    "link_share": 0.471,
-   "jev_tagged_share": 0.806
+   "jev_tagged_share": 1.0
   },
   "BobEUnlimited": {
    "posts": 215,
    "post_type_mix": {
-    "hot_take": 0.405,
-    "data_take": 0.251,
-    "view_relay": 0.247,
-    "mechanism_explainer": 0.079,
-    "earnings_take": 0.019
+    "hot_take": 0.391,
+    "view_relay": 0.265,
+    "data_take": 0.242,
+    "mechanism_explainer": 0.088,
+    "earnings_take": 0.014
    },
    "hook_mix": {
-    "bold_claim": 0.639,
-    "news_peg": 0.147,
-    "story": 0.079,
-    "question": 0.068,
-    "data_point": 0.063,
-    "list": 0.005
+    "bold_claim": 0.619,
+    "news_peg": 0.144,
+    "story": 0.088,
+    "question": 0.07,
+    "data_point": 0.065,
+    "list": 0.014
    },
    "median_chars": 205,
    "p25_chars": 127,
@@ -922,24 +924,24 @@
    "thread_marker_share": 0.014,
    "question_open_share": 0.042,
    "link_share": 0.921,
-   "jev_tagged_share": 0.888
+   "jev_tagged_share": 1.0
   },
   "Brad_Setser": {
    "posts": 155,
    "post_type_mix": {
     "data_take": 0.465,
-    "view_relay": 0.232,
-    "hot_take": 0.174,
-    "mechanism_explainer": 0.129
+    "view_relay": 0.252,
+    "hot_take": 0.148,
+    "mechanism_explainer": 0.135
    },
    "hook_mix": {
-    "bold_claim": 0.669,
-    "data_point": 0.115,
-    "news_peg": 0.094,
-    "question": 0.05,
-    "list": 0.036,
-    "story": 0.022,
-    "quote": 0.014
+    "bold_claim": 0.677,
+    "data_point": 0.116,
+    "news_peg": 0.097,
+    "question": 0.045,
+    "list": 0.032,
+    "story": 0.019,
+    "quote": 0.013
    },
    "median_chars": 229,
    "p25_chars": 191,
@@ -950,22 +952,22 @@
    "thread_marker_share": 0.542,
    "question_open_share": 0.026,
    "link_share": 0.652,
-   "jev_tagged_share": 0.897
+   "jev_tagged_share": 1.0
   },
   "BrianFeroldi": {
    "posts": 115,
    "post_type_mix": {
-    "hot_take": 0.47,
-    "view_relay": 0.209,
-    "data_take": 0.174,
-    "mechanism_explainer": 0.148
+    "hot_take": 0.426,
+    "view_relay": 0.243,
+    "mechanism_explainer": 0.165,
+    "data_take": 0.165
    },
    "hook_mix": {
-    "bold_claim": 0.486,
+    "bold_claim": 0.487,
     "question": 0.252,
-    "list": 0.131,
-    "data_point": 0.075,
-    "story": 0.037,
+    "list": 0.122,
+    "data_point": 0.087,
+    "story": 0.035,
     "news_peg": 0.009,
     "quote": 0.009
    },
@@ -978,24 +980,24 @@
    "thread_marker_share": 0.13,
    "question_open_share": 0.104,
    "link_share": 0.713,
-   "jev_tagged_share": 0.93
+   "jev_tagged_share": 1.0
   },
   "BroBean88": {
    "posts": 210,
    "post_type_mix": {
-    "mechanism_explainer": 0.538,
-    "data_take": 0.186,
-    "view_relay": 0.152,
-    "hot_take": 0.071,
-    "earnings_take": 0.052
+    "mechanism_explainer": 0.5,
+    "data_take": 0.214,
+    "view_relay": 0.2,
+    "earnings_take": 0.062,
+    "hot_take": 0.024
    },
    "hook_mix": {
-    "question": 0.444,
-    "bold_claim": 0.265,
-    "news_peg": 0.148,
-    "data_point": 0.056,
-    "story": 0.037,
-    "list": 0.031,
+    "question": 0.448,
+    "bold_claim": 0.276,
+    "news_peg": 0.129,
+    "data_point": 0.052,
+    "list": 0.038,
+    "story": 0.038,
     "quote": 0.019
    },
    "median_chars": 742,
@@ -1007,24 +1009,24 @@
    "thread_marker_share": 0.014,
    "question_open_share": 0.452,
    "link_share": 0.043,
-   "jev_tagged_share": 0.771
+   "jev_tagged_share": 1.0
   },
   "Btcxiaoyuan": {
    "posts": 214,
    "post_type_mix": {
-    "hot_take": 0.421,
-    "data_take": 0.346,
-    "mechanism_explainer": 0.21,
+    "hot_take": 0.407,
+    "data_take": 0.355,
+    "mechanism_explainer": 0.215,
     "view_relay": 0.019,
     "earnings_take": 0.005
    },
    "hook_mix": {
-    "bold_claim": 0.662,
-    "data_point": 0.141,
-    "news_peg": 0.096,
-    "story": 0.056,
-    "question": 0.035,
-    "list": 0.01
+    "bold_claim": 0.659,
+    "data_point": 0.145,
+    "news_peg": 0.093,
+    "story": 0.061,
+    "question": 0.033,
+    "list": 0.009
    },
    "median_chars": 146,
    "p25_chars": 77,
@@ -1035,24 +1037,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.028,
    "link_share": 0.112,
-   "jev_tagged_share": 0.925
+   "jev_tagged_share": 1.0
   },
   "BullandBaird": {
    "posts": 196,
    "post_type_mix": {
-    "hot_take": 0.781,
-    "data_take": 0.117,
-    "view_relay": 0.082,
+    "hot_take": 0.776,
+    "data_take": 0.112,
+    "view_relay": 0.092,
     "mechanism_explainer": 0.02
    },
    "hook_mix": {
-    "bold_claim": 0.611,
-    "question": 0.156,
-    "data_point": 0.1,
-    "story": 0.061,
-    "news_peg": 0.044,
-    "quote": 0.022,
-    "list": 0.006
+    "bold_claim": 0.602,
+    "question": 0.163,
+    "data_point": 0.107,
+    "story": 0.056,
+    "news_peg": 0.041,
+    "quote": 0.02,
+    "list": 0.01
    },
    "median_chars": 71,
    "p25_chars": 33,
@@ -1063,24 +1065,24 @@
    "thread_marker_share": 0.031,
    "question_open_share": 0.122,
    "link_share": 0.219,
-   "jev_tagged_share": 0.918
+   "jev_tagged_share": 1.0
   },
   "ByrneHobart": {
    "posts": 210,
    "post_type_mix": {
-    "hot_take": 0.71,
-    "view_relay": 0.114,
-    "data_take": 0.086,
-    "mechanism_explainer": 0.081,
+    "hot_take": 0.648,
+    "view_relay": 0.195,
+    "mechanism_explainer": 0.095,
+    "data_take": 0.052,
     "earnings_take": 0.01
    },
    "hook_mix": {
-    "bold_claim": 0.418,
-    "story": 0.295,
-    "question": 0.103,
-    "news_peg": 0.068,
-    "quote": 0.062,
-    "data_point": 0.041,
+    "bold_claim": 0.429,
+    "story": 0.281,
+    "question": 0.1,
+    "news_peg": 0.071,
+    "quote": 0.052,
+    "data_point": 0.052,
     "list": 0.014
    },
    "median_chars": 172,
@@ -1092,23 +1094,22 @@
    "thread_marker_share": 0.014,
    "question_open_share": 0.052,
    "link_share": 0.381,
-   "jev_tagged_share": 0.695
+   "jev_tagged_share": 1.0
   },
   "Callum_Thomas": {
    "posts": 165,
    "post_type_mix": {
-    "hot_take": 0.376,
-    "data_take": 0.339,
-    "view_relay": 0.212,
-    "mechanism_explainer": 0.061,
-    "earnings_take": 0.012
+    "data_take": 0.4,
+    "hot_take": 0.327,
+    "view_relay": 0.23,
+    "mechanism_explainer": 0.042
    },
    "hook_mix": {
-    "news_peg": 0.296,
-    "bold_claim": 0.296,
-    "list": 0.144,
-    "data_point": 0.136,
-    "question": 0.104,
+    "bold_claim": 0.327,
+    "news_peg": 0.279,
+    "list": 0.158,
+    "data_point": 0.121,
+    "question": 0.091,
     "story": 0.024
    },
    "median_chars": 123,
@@ -1120,24 +1121,24 @@
    "thread_marker_share": 0.012,
    "question_open_share": 0.048,
    "link_share": 0.618,
-   "jev_tagged_share": 0.758
+   "jev_tagged_share": 1.0
   },
   "CathieDWood": {
    "posts": 139,
    "post_type_mix": {
-    "hot_take": 0.432,
-    "view_relay": 0.338,
-    "data_take": 0.158,
-    "mechanism_explainer": 0.043,
-    "earnings_take": 0.029
+    "hot_take": 0.446,
+    "view_relay": 0.281,
+    "data_take": 0.201,
+    "mechanism_explainer": 0.058,
+    "earnings_take": 0.014
    },
    "hook_mix": {
-    "bold_claim": 0.522,
-    "news_peg": 0.217,
-    "data_point": 0.13,
-    "story": 0.113,
-    "quote": 0.009,
-    "question": 0.009
+    "bold_claim": 0.525,
+    "news_peg": 0.209,
+    "data_point": 0.137,
+    "story": 0.115,
+    "quote": 0.007,
+    "question": 0.007
    },
    "median_chars": 236,
    "p25_chars": 101,
@@ -1148,25 +1149,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.0,
    "link_share": 0.094,
-   "jev_tagged_share": 0.827
+   "jev_tagged_share": 1.0
   },
   "ChinaMacroFacts": {
    "posts": 213,
    "post_type_mix": {
-    "hot_take": 0.399,
-    "mechanism_explainer": 0.263,
-    "data_take": 0.207,
+    "hot_take": 0.376,
+    "mechanism_explainer": 0.286,
+    "data_take": 0.211,
     "view_relay": 0.122,
-    "earnings_take": 0.009
+    "earnings_take": 0.005
    },
    "hook_mix": {
-    "bold_claim": 0.571,
-    "news_peg": 0.185,
-    "list": 0.079,
-    "data_point": 0.074,
+    "bold_claim": 0.568,
+    "news_peg": 0.178,
+    "list": 0.08,
+    "data_point": 0.08,
     "question": 0.042,
-    "story": 0.026,
-    "quote": 0.021
+    "story": 0.028,
+    "quote": 0.023
    },
    "median_chars": 141,
    "p25_chars": 113,
@@ -1177,24 +1178,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.089,
    "link_share": 0.169,
-   "jev_tagged_share": 0.887
+   "jev_tagged_share": 1.0
   },
   "Claudia_Sahm": {
    "posts": 160,
    "post_type_mix": {
-    "hot_take": 0.525,
-    "view_relay": 0.287,
-    "data_take": 0.15,
-    "mechanism_explainer": 0.037
+    "hot_take": 0.519,
+    "view_relay": 0.319,
+    "data_take": 0.113,
+    "mechanism_explainer": 0.05
    },
    "hook_mix": {
-    "bold_claim": 0.491,
-    "news_peg": 0.205,
-    "question": 0.098,
-    "story": 0.089,
-    "quote": 0.071,
-    "data_point": 0.036,
-    "list": 0.009
+    "bold_claim": 0.481,
+    "news_peg": 0.212,
+    "question": 0.1,
+    "story": 0.087,
+    "quote": 0.075,
+    "data_point": 0.037,
+    "list": 0.006
    },
    "median_chars": 151,
    "p25_chars": 80,
@@ -1205,25 +1206,25 @@
    "thread_marker_share": 0.019,
    "question_open_share": 0.125,
    "link_share": 0.6,
-   "jev_tagged_share": 0.7
+   "jev_tagged_share": 1.0
   },
   "Convertbond": {
    "posts": 196,
    "post_type_mix": {
-    "data_take": 0.449,
-    "hot_take": 0.388,
-    "view_relay": 0.138,
-    "mechanism_explainer": 0.015,
+    "data_take": 0.444,
+    "hot_take": 0.367,
+    "view_relay": 0.158,
+    "mechanism_explainer": 0.02,
     "earnings_take": 0.01
    },
    "hook_mix": {
-    "bold_claim": 0.52,
-    "data_point": 0.162,
-    "news_peg": 0.142,
-    "question": 0.081,
-    "story": 0.041,
-    "list": 0.027,
-    "quote": 0.027
+    "bold_claim": 0.505,
+    "data_point": 0.179,
+    "news_peg": 0.133,
+    "question": 0.092,
+    "list": 0.031,
+    "quote": 0.031,
+    "story": 0.031
    },
    "median_chars": 177,
    "p25_chars": 96,
@@ -1234,24 +1235,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.122,
    "link_share": 0.255,
-   "jev_tagged_share": 0.755
+   "jev_tagged_share": 1.0
   },
   "DTAPCAP": {
    "posts": 210,
    "post_type_mix": {
-    "hot_take": 0.462,
-    "data_take": 0.352,
-    "view_relay": 0.124,
-    "mechanism_explainer": 0.062
+    "hot_take": 0.49,
+    "data_take": 0.338,
+    "view_relay": 0.114,
+    "mechanism_explainer": 0.057
    },
    "hook_mix": {
-    "bold_claim": 0.607,
-    "question": 0.219,
+    "bold_claim": 0.614,
+    "question": 0.214,
     "story": 0.062,
-    "data_point": 0.056,
-    "news_peg": 0.028,
-    "quote": 0.022,
-    "list": 0.006
+    "data_point": 0.052,
+    "news_peg": 0.029,
+    "quote": 0.019,
+    "list": 0.01
    },
    "median_chars": 279,
    "p25_chars": 126,
@@ -1262,25 +1263,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.076,
    "link_share": 0.681,
-   "jev_tagged_share": 0.848
+   "jev_tagged_share": 1.0
   },
   "DeepSailCapital": {
    "posts": 180,
    "post_type_mix": {
-    "hot_take": 0.494,
-    "data_take": 0.239,
-    "view_relay": 0.122,
-    "mechanism_explainer": 0.083,
+    "hot_take": 0.461,
+    "data_take": 0.244,
+    "view_relay": 0.156,
+    "mechanism_explainer": 0.078,
     "earnings_take": 0.061
    },
    "hook_mix": {
-    "bold_claim": 0.55,
-    "news_peg": 0.121,
-    "data_point": 0.107,
-    "question": 0.093,
-    "story": 0.071,
-    "list": 0.05,
-    "quote": 0.007
+    "bold_claim": 0.533,
+    "news_peg": 0.122,
+    "data_point": 0.106,
+    "question": 0.094,
+    "story": 0.078,
+    "list": 0.056,
+    "quote": 0.011
    },
    "median_chars": 142,
    "p25_chars": 85,
@@ -1291,24 +1292,24 @@
    "thread_marker_share": 0.033,
    "question_open_share": 0.072,
    "link_share": 0.289,
-   "jev_tagged_share": 0.778
+   "jev_tagged_share": 1.0
   },
   "EconomyApp": {
    "posts": 215,
    "post_type_mix": {
-    "earnings_take": 0.549,
-    "data_take": 0.223,
-    "hot_take": 0.121,
-    "view_relay": 0.084,
+    "earnings_take": 0.535,
+    "data_take": 0.247,
+    "view_relay": 0.102,
+    "hot_take": 0.093,
     "mechanism_explainer": 0.023
    },
    "hook_mix": {
-    "news_peg": 0.463,
-    "bold_claim": 0.269,
-    "list": 0.103,
-    "data_point": 0.091,
-    "question": 0.069,
-    "story": 0.006
+    "news_peg": 0.456,
+    "bold_claim": 0.284,
+    "list": 0.098,
+    "data_point": 0.098,
+    "question": 0.06,
+    "story": 0.005
    },
    "median_chars": 207,
    "p25_chars": 133,
@@ -1319,25 +1320,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.06,
    "link_share": 0.977,
-   "jev_tagged_share": 0.814
+   "jev_tagged_share": 1.0
   },
   "EricBalchunas": {
    "posts": 209,
    "post_type_mix": {
-    "hot_take": 0.478,
-    "data_take": 0.234,
-    "view_relay": 0.182,
-    "mechanism_explainer": 0.077,
+    "hot_take": 0.445,
+    "data_take": 0.254,
+    "view_relay": 0.206,
+    "mechanism_explainer": 0.067,
     "earnings_take": 0.029
    },
    "hook_mix": {
-    "bold_claim": 0.45,
-    "news_peg": 0.213,
-    "story": 0.154,
-    "data_point": 0.101,
+    "bold_claim": 0.44,
+    "news_peg": 0.215,
+    "story": 0.144,
+    "data_point": 0.12,
     "question": 0.053,
-    "list": 0.018,
-    "quote": 0.012
+    "list": 0.014,
+    "quote": 0.014
    },
    "median_chars": 229,
    "p25_chars": 136,
@@ -1348,25 +1349,25 @@
    "thread_marker_share": 0.019,
    "question_open_share": 0.038,
    "link_share": 0.426,
-   "jev_tagged_share": 0.809
+   "jev_tagged_share": 1.0
   },
   "FromValue": {
    "posts": 196,
    "post_type_mix": {
-    "hot_take": 0.546,
+    "hot_take": 0.5,
     "data_take": 0.199,
-    "view_relay": 0.138,
+    "view_relay": 0.184,
     "earnings_take": 0.066,
     "mechanism_explainer": 0.051
    },
    "hook_mix": {
-    "bold_claim": 0.543,
-    "news_peg": 0.121,
-    "data_point": 0.114,
-    "story": 0.1,
-    "question": 0.064,
-    "quote": 0.029,
-    "list": 0.029
+    "bold_claim": 0.546,
+    "news_peg": 0.128,
+    "data_point": 0.117,
+    "story": 0.092,
+    "question": 0.066,
+    "quote": 0.031,
+    "list": 0.02
    },
    "median_chars": 143,
    "p25_chars": 67,
@@ -1377,24 +1378,24 @@
    "thread_marker_share": 0.026,
    "question_open_share": 0.041,
    "link_share": 0.485,
-   "jev_tagged_share": 0.714
+   "jev_tagged_share": 1.0
   },
   "GeorgeGammon": {
    "posts": 218,
    "post_type_mix": {
-    "hot_take": 0.468,
-    "view_relay": 0.239,
+    "hot_take": 0.472,
+    "view_relay": 0.234,
     "data_take": 0.174,
     "mechanism_explainer": 0.115,
     "earnings_take": 0.005
    },
    "hook_mix": {
-    "bold_claim": 0.571,
-    "news_peg": 0.267,
-    "question": 0.067,
-    "story": 0.062,
-    "data_point": 0.024,
-    "list": 0.01
+    "bold_claim": 0.573,
+    "news_peg": 0.261,
+    "question": 0.073,
+    "story": 0.06,
+    "data_point": 0.023,
+    "list": 0.009
    },
    "median_chars": 85,
    "p25_chars": 72,
@@ -1405,22 +1406,21 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.119,
    "link_share": 0.679,
-   "jev_tagged_share": 0.963
+   "jev_tagged_share": 1.0
   },
   "GlobalMktObserv": {
    "posts": 144,
    "post_type_mix": {
-    "data_take": 0.951,
+    "data_take": 0.965,
     "view_relay": 0.021,
-    "mechanism_explainer": 0.014,
     "earnings_take": 0.007,
-    "hot_take": 0.007
+    "mechanism_explainer": 0.007
    },
    "hook_mix": {
-    "bold_claim": 0.735,
-    "news_peg": 0.213,
-    "data_point": 0.029,
-    "question": 0.022
+    "bold_claim": 0.743,
+    "news_peg": 0.201,
+    "data_point": 0.028,
+    "question": 0.028
    },
    "median_chars": 753,
    "p25_chars": 265,
@@ -1431,24 +1431,24 @@
    "thread_marker_share": 0.007,
    "question_open_share": 0.028,
    "link_share": 0.34,
-   "jev_tagged_share": 0.944
+   "jev_tagged_share": 1.0
   },
   "GrahamStephan": {
    "posts": 194,
    "post_type_mix": {
-    "hot_take": 0.433,
-    "mechanism_explainer": 0.258,
-    "data_take": 0.18,
-    "view_relay": 0.129
+    "hot_take": 0.392,
+    "mechanism_explainer": 0.284,
+    "data_take": 0.186,
+    "view_relay": 0.139
    },
    "hook_mix": {
-    "bold_claim": 0.58,
-    "question": 0.116,
-    "news_peg": 0.116,
-    "story": 0.08,
-    "data_point": 0.072,
-    "quote": 0.022,
-    "list": 0.014
+    "bold_claim": 0.608,
+    "question": 0.108,
+    "data_point": 0.088,
+    "story": 0.088,
+    "news_peg": 0.082,
+    "quote": 0.015,
+    "list": 0.01
    },
    "median_chars": 144,
    "p25_chars": 72,
@@ -1459,24 +1459,24 @@
    "thread_marker_share": 0.015,
    "question_open_share": 0.067,
    "link_share": 0.356,
-   "jev_tagged_share": 0.711
+   "jev_tagged_share": 1.0
   },
   "Greenbackd": {
    "posts": 193,
    "post_type_mix": {
-    "data_take": 0.332,
-    "hot_take": 0.321,
-    "view_relay": 0.238,
-    "mechanism_explainer": 0.109
+    "data_take": 0.383,
+    "view_relay": 0.295,
+    "hot_take": 0.238,
+    "mechanism_explainer": 0.083
    },
    "hook_mix": {
-    "bold_claim": 0.516,
-    "data_point": 0.216,
-    "news_peg": 0.111,
-    "list": 0.072,
-    "question": 0.065,
-    "quote": 0.013,
-    "story": 0.007
+    "bold_claim": 0.513,
+    "data_point": 0.233,
+    "news_peg": 0.093,
+    "question": 0.073,
+    "list": 0.067,
+    "quote": 0.01,
+    "story": 0.01
    },
    "median_chars": 181,
    "p25_chars": 34,
@@ -1487,25 +1487,24 @@
    "thread_marker_share": 0.01,
    "question_open_share": 0.005,
    "link_share": 0.306,
-   "jev_tagged_share": 0.793
+   "jev_tagged_share": 1.0
   },
   "HAOHONG_CFA": {
    "posts": 193,
    "post_type_mix": {
-    "view_relay": 0.332,
-    "hot_take": 0.326,
-    "data_take": 0.192,
-    "mechanism_explainer": 0.145,
-    "earnings_take": 0.005
+    "view_relay": 0.42,
+    "hot_take": 0.28,
+    "data_take": 0.207,
+    "mechanism_explainer": 0.093
    },
    "hook_mix": {
-    "news_peg": 0.421,
+    "news_peg": 0.461,
     "bold_claim": 0.228,
-    "quote": 0.097,
-    "story": 0.09,
-    "data_point": 0.09,
-    "question": 0.062,
-    "list": 0.014
+    "data_point": 0.088,
+    "story": 0.078,
+    "quote": 0.073,
+    "question": 0.052,
+    "list": 0.021
    },
    "median_chars": 245,
    "p25_chars": 129,
@@ -1516,7 +1515,7 @@
    "thread_marker_share": 0.016,
    "question_open_share": 0.067,
    "link_share": 0.653,
-   "jev_tagged_share": 0.751
+   "jev_tagged_share": 1.0
   },
   "INArteCarloDoss": {
    "posts": 196,
@@ -1527,12 +1526,12 @@
     "mechanism_explainer": 0.046
    },
    "hook_mix": {
-    "bold_claim": 0.782,
+    "bold_claim": 0.776,
     "question": 0.112,
-    "data_point": 0.032,
-    "news_peg": 0.032,
-    "list": 0.021,
-    "story": 0.016,
+    "data_point": 0.036,
+    "news_peg": 0.036,
+    "list": 0.02,
+    "story": 0.015,
     "quote": 0.005
    },
    "median_chars": 63,
@@ -1544,24 +1543,24 @@
    "thread_marker_share": 0.071,
    "question_open_share": 0.097,
    "link_share": 0.189,
-   "jev_tagged_share": 0.959
+   "jev_tagged_share": 1.0
   },
   "IanCutress": {
    "posts": 158,
    "post_type_mix": {
-    "hot_take": 0.563,
-    "view_relay": 0.196,
-    "data_take": 0.184,
+    "hot_take": 0.608,
+    "view_relay": 0.177,
+    "data_take": 0.158,
     "mechanism_explainer": 0.057
    },
    "hook_mix": {
-    "bold_claim": 0.397,
-    "story": 0.206,
-    "news_peg": 0.147,
-    "question": 0.096,
-    "data_point": 0.081,
-    "list": 0.051,
-    "quote": 0.022
+    "bold_claim": 0.367,
+    "story": 0.19,
+    "news_peg": 0.158,
+    "question": 0.101,
+    "data_point": 0.095,
+    "list": 0.063,
+    "quote": 0.025
    },
    "median_chars": 122,
    "p25_chars": 61,
@@ -1572,24 +1571,25 @@
    "thread_marker_share": 0.006,
    "question_open_share": 0.095,
    "link_share": 0.563,
-   "jev_tagged_share": 0.861
+   "jev_tagged_share": 1.0
   },
   "Invesquotes": {
    "posts": 78,
    "post_type_mix": {
-    "hot_take": 0.538,
+    "hot_take": 0.462,
+    "view_relay": 0.192,
     "data_take": 0.179,
-    "view_relay": 0.115,
-    "mechanism_explainer": 0.103,
-    "earnings_take": 0.064
+    "earnings_take": 0.09,
+    "mechanism_explainer": 0.077
    },
    "hook_mix": {
-    "bold_claim": 0.5,
-    "news_peg": 0.278,
-    "question": 0.093,
-    "data_point": 0.093,
-    "quote": 0.019,
-    "list": 0.019
+    "bold_claim": 0.462,
+    "news_peg": 0.282,
+    "data_point": 0.09,
+    "question": 0.077,
+    "quote": 0.038,
+    "list": 0.026,
+    "story": 0.026
    },
    "median_chars": 165,
    "p25_chars": 80,
@@ -1600,25 +1600,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.051,
    "link_share": 0.308,
-   "jev_tagged_share": 0.692
+   "jev_tagged_share": 1.0
   },
   "JSeyff": {
    "posts": 129,
    "post_type_mix": {
-    "hot_take": 0.512,
-    "view_relay": 0.233,
-    "data_take": 0.217,
+    "hot_take": 0.527,
+    "data_take": 0.233,
+    "view_relay": 0.194,
     "mechanism_explainer": 0.023,
-    "earnings_take": 0.016
+    "earnings_take": 0.023
    },
    "hook_mix": {
-    "bold_claim": 0.448,
-    "news_peg": 0.24,
-    "story": 0.125,
-    "data_point": 0.094,
-    "question": 0.073,
-    "quote": 0.01,
-    "list": 0.01
+    "bold_claim": 0.481,
+    "news_peg": 0.233,
+    "story": 0.116,
+    "data_point": 0.078,
+    "question": 0.07,
+    "list": 0.016,
+    "quote": 0.008
    },
    "median_chars": 113,
    "p25_chars": 51,
@@ -1629,23 +1629,23 @@
    "thread_marker_share": 0.016,
    "question_open_share": 0.101,
    "link_share": 0.496,
-   "jev_tagged_share": 0.744
+   "jev_tagged_share": 1.0
   },
   "JaradCapital": {
    "posts": 99,
    "post_type_mix": {
-    "hot_take": 0.384,
-    "data_take": 0.303,
-    "mechanism_explainer": 0.172,
-    "earnings_take": 0.091,
-    "view_relay": 0.051
+    "hot_take": 0.374,
+    "data_take": 0.364,
+    "mechanism_explainer": 0.121,
+    "earnings_take": 0.101,
+    "view_relay": 0.04
    },
    "hook_mix": {
-    "bold_claim": 0.59,
-    "data_point": 0.133,
-    "question": 0.108,
-    "news_peg": 0.084,
-    "story": 0.084
+    "bold_claim": 0.586,
+    "data_point": 0.131,
+    "question": 0.101,
+    "news_peg": 0.091,
+    "story": 0.091
    },
    "median_chars": 356,
    "p25_chars": 111,
@@ -1656,23 +1656,23 @@
    "thread_marker_share": 0.02,
    "question_open_share": 0.081,
    "link_share": 0.162,
-   "jev_tagged_share": 0.838
+   "jev_tagged_share": 1.0
   },
   "Jason60704294": {
    "posts": 144,
    "post_type_mix": {
-    "hot_take": 0.59,
-    "data_take": 0.25,
-    "view_relay": 0.097,
-    "mechanism_explainer": 0.056,
+    "hot_take": 0.521,
+    "data_take": 0.278,
+    "view_relay": 0.125,
+    "mechanism_explainer": 0.069,
     "earnings_take": 0.007
    },
    "hook_mix": {
-    "bold_claim": 0.536,
-    "data_point": 0.223,
-    "story": 0.107,
-    "question": 0.098,
-    "news_peg": 0.036
+    "bold_claim": 0.528,
+    "data_point": 0.229,
+    "story": 0.111,
+    "question": 0.104,
+    "news_peg": 0.028
    },
    "median_chars": 29,
    "p25_chars": 23,
@@ -1683,25 +1683,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.042,
    "link_share": 0.458,
-   "jev_tagged_share": 0.778
+   "jev_tagged_share": 1.0
   },
   "JavierBlas": {
    "posts": 161,
    "post_type_mix": {
-    "view_relay": 0.509,
+    "view_relay": 0.534,
     "data_take": 0.323,
-    "hot_take": 0.13,
-    "mechanism_explainer": 0.031,
+    "hot_take": 0.099,
+    "mechanism_explainer": 0.037,
     "earnings_take": 0.006
    },
    "hook_mix": {
-    "news_peg": 0.503,
-    "bold_claim": 0.19,
-    "data_point": 0.183,
-    "quote": 0.078,
-    "story": 0.02,
-    "question": 0.013,
-    "list": 0.013
+    "news_peg": 0.497,
+    "bold_claim": 0.193,
+    "data_point": 0.174,
+    "quote": 0.087,
+    "story": 0.019,
+    "question": 0.019,
+    "list": 0.012
    },
    "median_chars": 269,
    "p25_chars": 181,
@@ -1712,25 +1712,25 @@
    "thread_marker_share": 0.025,
    "question_open_share": 0.012,
    "link_share": 0.46,
-   "jev_tagged_share": 0.95
+   "jev_tagged_share": 1.0
   },
   "JeffSnider_EDU": {
    "posts": 143,
    "post_type_mix": {
-    "mechanism_explainer": 0.58,
-    "data_take": 0.217,
-    "hot_take": 0.14,
+    "mechanism_explainer": 0.566,
+    "data_take": 0.238,
+    "hot_take": 0.133,
     "view_relay": 0.056,
     "earnings_take": 0.007
    },
    "hook_mix": {
-    "bold_claim": 0.681,
-    "news_peg": 0.178,
-    "story": 0.052,
-    "question": 0.044,
-    "data_point": 0.03,
-    "list": 0.007,
-    "quote": 0.007
+    "bold_claim": 0.685,
+    "news_peg": 0.175,
+    "story": 0.049,
+    "question": 0.042,
+    "data_point": 0.028,
+    "quote": 0.014,
+    "list": 0.007
    },
    "median_chars": 479,
    "p25_chars": 342,
@@ -1741,25 +1741,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.021,
    "link_share": 0.413,
-   "jev_tagged_share": 0.944
+   "jev_tagged_share": 1.0
   },
   "JeremyDSchwartz": {
    "posts": 162,
    "post_type_mix": {
-    "view_relay": 0.377,
-    "hot_take": 0.284,
-    "data_take": 0.235,
-    "mechanism_explainer": 0.062,
-    "earnings_take": 0.043
+    "view_relay": 0.475,
+    "hot_take": 0.265,
+    "data_take": 0.21,
+    "mechanism_explainer": 0.037,
+    "earnings_take": 0.012
    },
    "hook_mix": {
-    "bold_claim": 0.383,
-    "news_peg": 0.317,
-    "question": 0.083,
-    "data_point": 0.083,
-    "story": 0.058,
-    "quote": 0.042,
-    "list": 0.033
+    "bold_claim": 0.364,
+    "news_peg": 0.327,
+    "question": 0.086,
+    "data_point": 0.08,
+    "story": 0.049,
+    "list": 0.049,
+    "quote": 0.043
    },
    "median_chars": 186,
    "p25_chars": 101,
@@ -1770,24 +1770,24 @@
    "thread_marker_share": 0.019,
    "question_open_share": 0.025,
    "link_share": 0.568,
-   "jev_tagged_share": 0.741
+   "jev_tagged_share": 1.0
   },
   "KelileoCUP": {
    "posts": 115,
    "post_type_mix": {
-    "hot_take": 0.409,
+    "hot_take": 0.357,
+    "view_relay": 0.304,
     "data_take": 0.27,
-    "view_relay": 0.252,
     "mechanism_explainer": 0.07
    },
    "hook_mix": {
-    "bold_claim": 0.396,
-    "news_peg": 0.253,
-    "data_point": 0.165,
-    "question": 0.132,
-    "story": 0.022,
-    "list": 0.022,
-    "quote": 0.011
+    "bold_claim": 0.383,
+    "news_peg": 0.235,
+    "data_point": 0.2,
+    "question": 0.13,
+    "list": 0.026,
+    "story": 0.017,
+    "quote": 0.009
    },
    "median_chars": 76,
    "p25_chars": 52,
@@ -1798,23 +1798,23 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.078,
    "link_share": 0.835,
-   "jev_tagged_share": 0.791
+   "jev_tagged_share": 1.0
   },
   "KobeissiLetter": {
    "posts": 199,
    "post_type_mix": {
-    "data_take": 0.784,
-    "view_relay": 0.166,
+    "data_take": 0.779,
+    "view_relay": 0.176,
     "hot_take": 0.025,
-    "mechanism_explainer": 0.02,
+    "mechanism_explainer": 0.015,
     "earnings_take": 0.005
    },
    "hook_mix": {
-    "news_peg": 0.579,
-    "bold_claim": 0.339,
-    "data_point": 0.049,
-    "question": 0.022,
-    "list": 0.011
+    "news_peg": 0.558,
+    "bold_claim": 0.347,
+    "data_point": 0.065,
+    "question": 0.02,
+    "list": 0.01
    },
    "median_chars": 507,
    "p25_chars": 278,
@@ -1825,24 +1825,24 @@
    "thread_marker_share": 0.015,
    "question_open_share": 0.015,
    "link_share": 0.312,
-   "jev_tagged_share": 0.92
+   "jev_tagged_share": 1.0
   },
   "Ksidiii": {
    "posts": 155,
    "post_type_mix": {
-    "hot_take": 0.568,
+    "hot_take": 0.548,
     "mechanism_explainer": 0.323,
     "data_take": 0.077,
-    "view_relay": 0.032
+    "view_relay": 0.052
    },
    "hook_mix": {
-    "bold_claim": 0.647,
-    "story": 0.158,
-    "news_peg": 0.072,
-    "data_point": 0.043,
-    "list": 0.043,
-    "question": 0.022,
-    "quote": 0.014
+    "bold_claim": 0.645,
+    "story": 0.155,
+    "news_peg": 0.084,
+    "data_point": 0.039,
+    "list": 0.039,
+    "question": 0.019,
+    "quote": 0.019
    },
    "median_chars": 284,
    "p25_chars": 133,
@@ -1853,25 +1853,25 @@
    "thread_marker_share": 0.013,
    "question_open_share": 0.006,
    "link_share": 0.116,
-   "jev_tagged_share": 0.897
+   "jev_tagged_share": 1.0
   },
   "LabSpeculation": {
    "posts": 129,
    "post_type_mix": {
-    "mechanism_explainer": 0.426,
-    "data_take": 0.271,
-    "hot_take": 0.163,
-    "view_relay": 0.132,
+    "mechanism_explainer": 0.535,
+    "view_relay": 0.209,
+    "data_take": 0.171,
+    "hot_take": 0.078,
     "earnings_take": 0.008
    },
    "hook_mix": {
-    "bold_claim": 0.416,
-    "question": 0.169,
-    "data_point": 0.135,
-    "story": 0.124,
-    "news_peg": 0.067,
-    "list": 0.056,
-    "quote": 0.034
+    "bold_claim": 0.372,
+    "story": 0.171,
+    "question": 0.147,
+    "data_point": 0.132,
+    "news_peg": 0.093,
+    "list": 0.054,
+    "quote": 0.031
    },
    "median_chars": 325,
    "p25_chars": 246,
@@ -1882,24 +1882,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.124,
    "link_share": 0.202,
-   "jev_tagged_share": 0.69
+   "jev_tagged_share": 1.0
   },
   "LexSokolin": {
    "posts": 204,
    "post_type_mix": {
-    "hot_take": 0.632,
+    "hot_take": 0.623,
     "view_relay": 0.152,
-    "mechanism_explainer": 0.132,
+    "mechanism_explainer": 0.142,
     "data_take": 0.069,
     "earnings_take": 0.015
    },
    "hook_mix": {
-    "bold_claim": 0.711,
-    "question": 0.094,
-    "data_point": 0.067,
-    "news_peg": 0.067,
-    "story": 0.05,
-    "quote": 0.011
+    "bold_claim": 0.686,
+    "question": 0.093,
+    "data_point": 0.083,
+    "news_peg": 0.064,
+    "story": 0.049,
+    "quote": 0.02,
+    "list": 0.005
    },
    "median_chars": 146,
    "p25_chars": 67,
@@ -1910,24 +1911,24 @@
    "thread_marker_share": 0.01,
    "question_open_share": 0.044,
    "link_share": 0.191,
-   "jev_tagged_share": 0.882
+   "jev_tagged_share": 1.0
   },
   "LinQingV": {
    "posts": 168,
    "post_type_mix": {
-    "hot_take": 0.548,
-    "mechanism_explainer": 0.173,
-    "data_take": 0.143,
-    "view_relay": 0.107,
-    "earnings_take": 0.03
+    "hot_take": 0.53,
+    "mechanism_explainer": 0.19,
+    "data_take": 0.131,
+    "view_relay": 0.113,
+    "earnings_take": 0.036
    },
    "hook_mix": {
-    "bold_claim": 0.566,
-    "news_peg": 0.235,
-    "data_point": 0.074,
-    "story": 0.066,
-    "question": 0.051,
-    "quote": 0.007
+    "bold_claim": 0.565,
+    "news_peg": 0.22,
+    "story": 0.089,
+    "data_point": 0.071,
+    "question": 0.048,
+    "quote": 0.006
    },
    "median_chars": 81,
    "p25_chars": 32,
@@ -1938,24 +1939,23 @@
    "thread_marker_share": 0.012,
    "question_open_share": 0.101,
    "link_share": 0.077,
-   "jev_tagged_share": 0.81
+   "jev_tagged_share": 1.0
   },
   "LizAnnSonders": {
    "posts": 207,
    "post_type_mix": {
-    "data_take": 0.71,
-    "hot_take": 0.135,
-    "view_relay": 0.13,
-    "mechanism_explainer": 0.014,
-    "earnings_take": 0.01
+    "data_take": 0.821,
+    "view_relay": 0.121,
+    "hot_take": 0.053,
+    "mechanism_explainer": 0.005
    },
    "hook_mix": {
-    "data_point": 0.734,
-    "news_peg": 0.175,
-    "bold_claim": 0.07,
-    "question": 0.007,
-    "story": 0.007,
-    "list": 0.007
+    "data_point": 0.705,
+    "news_peg": 0.174,
+    "bold_claim": 0.082,
+    "story": 0.014,
+    "list": 0.014,
+    "question": 0.01
    },
    "median_chars": 128,
    "p25_chars": 59,
@@ -1966,24 +1966,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.0,
    "link_share": 0.879,
-   "jev_tagged_share": 0.691
+   "jev_tagged_share": 1.0
   },
   "LukeGromen": {
    "posts": 198,
    "post_type_mix": {
-    "hot_take": 0.308,
-    "view_relay": 0.283,
-    "data_take": 0.258,
-    "mechanism_explainer": 0.152
+    "view_relay": 0.333,
+    "hot_take": 0.278,
+    "data_take": 0.232,
+    "mechanism_explainer": 0.157
    },
    "hook_mix": {
-    "bold_claim": 0.477,
-    "data_point": 0.115,
-    "quote": 0.109,
-    "news_peg": 0.092,
-    "list": 0.08,
-    "question": 0.075,
-    "story": 0.052
+    "bold_claim": 0.465,
+    "data_point": 0.111,
+    "news_peg": 0.101,
+    "quote": 0.101,
+    "question": 0.081,
+    "story": 0.071,
+    "list": 0.071
    },
    "median_chars": 265,
    "p25_chars": 128,
@@ -1994,24 +1994,24 @@
    "thread_marker_share": 0.071,
    "question_open_share": 0.04,
    "link_share": 0.571,
-   "jev_tagged_share": 0.879
+   "jev_tagged_share": 1.0
   },
   "LynAldenContact": {
    "posts": 80,
    "post_type_mix": {
-    "hot_take": 0.662,
-    "view_relay": 0.212,
+    "hot_take": 0.65,
+    "view_relay": 0.225,
     "mechanism_explainer": 0.062,
     "data_take": 0.062
    },
    "hook_mix": {
-    "bold_claim": 0.556,
-    "story": 0.153,
-    "question": 0.083,
-    "data_point": 0.069,
-    "news_peg": 0.069,
-    "list": 0.042,
-    "quote": 0.028
+    "bold_claim": 0.575,
+    "story": 0.15,
+    "question": 0.075,
+    "data_point": 0.062,
+    "news_peg": 0.062,
+    "list": 0.05,
+    "quote": 0.025
    },
    "median_chars": 98,
    "p25_chars": 47,
@@ -2022,24 +2022,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.0,
    "link_share": 0.412,
-   "jev_tagged_share": 0.9
+   "jev_tagged_share": 1.0
   },
   "M_C_Klein": {
    "posts": 162,
    "post_type_mix": {
-    "hot_take": 0.432,
-    "view_relay": 0.395,
-    "data_take": 0.105,
-    "mechanism_explainer": 0.068
+    "view_relay": 0.481,
+    "hot_take": 0.34,
+    "mechanism_explainer": 0.093,
+    "data_take": 0.086
    },
    "hook_mix": {
-    "bold_claim": 0.598,
-    "news_peg": 0.164,
-    "question": 0.107,
-    "story": 0.057,
-    "data_point": 0.049,
-    "list": 0.016,
-    "quote": 0.008
+    "bold_claim": 0.636,
+    "news_peg": 0.148,
+    "question": 0.099,
+    "story": 0.056,
+    "data_point": 0.043,
+    "list": 0.012,
+    "quote": 0.006
    },
    "median_chars": 132,
    "p25_chars": 65,
@@ -2050,24 +2050,25 @@
    "thread_marker_share": 0.025,
    "question_open_share": 0.031,
    "link_share": 0.574,
-   "jev_tagged_share": 0.753
+   "jev_tagged_share": 1.0
   },
   "MacroCharts": {
    "posts": 204,
    "post_type_mix": {
-    "hot_take": 0.569,
-    "data_take": 0.27,
-    "view_relay": 0.137,
-    "mechanism_explainer": 0.025
+    "hot_take": 0.515,
+    "data_take": 0.299,
+    "view_relay": 0.162,
+    "mechanism_explainer": 0.02,
+    "earnings_take": 0.005
    },
    "hook_mix": {
-    "bold_claim": 0.549,
-    "news_peg": 0.128,
-    "data_point": 0.091,
-    "story": 0.079,
-    "quote": 0.061,
-    "question": 0.055,
-    "list": 0.037
+    "bold_claim": 0.569,
+    "news_peg": 0.127,
+    "data_point": 0.083,
+    "story": 0.083,
+    "quote": 0.059,
+    "question": 0.044,
+    "list": 0.034
    },
    "median_chars": 141,
    "p25_chars": 79,
@@ -2078,25 +2079,24 @@
    "thread_marker_share": 0.01,
    "question_open_share": 0.02,
    "link_share": 0.593,
-   "jev_tagged_share": 0.804
+   "jev_tagged_share": 1.0
   },
   "MacroMargin": {
    "posts": 212,
    "post_type_mix": {
-    "data_take": 0.325,
-    "view_relay": 0.278,
-    "hot_take": 0.25,
-    "mechanism_explainer": 0.142,
-    "earnings_take": 0.005
+    "data_take": 0.307,
+    "view_relay": 0.302,
+    "hot_take": 0.198,
+    "mechanism_explainer": 0.193
    },
    "hook_mix": {
-    "news_peg": 0.4,
-    "bold_claim": 0.344,
-    "data_point": 0.15,
-    "question": 0.067,
-    "story": 0.017,
-    "list": 0.011,
-    "quote": 0.011
+    "news_peg": 0.387,
+    "bold_claim": 0.354,
+    "data_point": 0.16,
+    "question": 0.066,
+    "story": 0.014,
+    "list": 0.009,
+    "quote": 0.009
    },
    "median_chars": 88,
    "p25_chars": 48,
@@ -2107,25 +2107,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.024,
    "link_share": 0.571,
-   "jev_tagged_share": 0.849
+   "jev_tagged_share": 1.0
   },
   "MarkNewtonCMT": {
    "posts": 114,
    "post_type_mix": {
-    "data_take": 0.395,
-    "hot_take": 0.254,
-    "mechanism_explainer": 0.228,
-    "view_relay": 0.096,
-    "earnings_take": 0.026
+    "data_take": 0.553,
+    "hot_take": 0.211,
+    "view_relay": 0.114,
+    "mechanism_explainer": 0.105,
+    "earnings_take": 0.018
    },
    "hook_mix": {
-    "bold_claim": 0.476,
-    "data_point": 0.207,
-    "news_peg": 0.195,
-    "story": 0.049,
-    "question": 0.037,
-    "list": 0.024,
-    "quote": 0.012
+    "bold_claim": 0.482,
+    "news_peg": 0.219,
+    "data_point": 0.193,
+    "question": 0.035,
+    "story": 0.035,
+    "list": 0.026,
+    "quote": 0.009
    },
    "median_chars": 446,
    "p25_chars": 295,
@@ -2136,24 +2136,24 @@
    "thread_marker_share": 0.009,
    "question_open_share": 0.026,
    "link_share": 0.412,
-   "jev_tagged_share": 0.719
+   "jev_tagged_share": 1.0
   },
   "MebFaber": {
    "posts": 208,
    "post_type_mix": {
-    "hot_take": 0.428,
-    "view_relay": 0.418,
+    "view_relay": 0.433,
+    "hot_take": 0.423,
     "data_take": 0.13,
-    "mechanism_explainer": 0.024
+    "mechanism_explainer": 0.014
    },
    "hook_mix": {
-    "bold_claim": 0.466,
-    "quote": 0.227,
-    "data_point": 0.074,
-    "question": 0.068,
-    "news_peg": 0.068,
-    "list": 0.062,
-    "story": 0.034
+    "bold_claim": 0.471,
+    "quote": 0.221,
+    "list": 0.077,
+    "question": 0.072,
+    "data_point": 0.067,
+    "news_peg": 0.062,
+    "story": 0.029
    },
    "median_chars": 125,
    "p25_chars": 63,
@@ -2164,25 +2164,25 @@
    "thread_marker_share": 0.024,
    "question_open_share": 0.048,
    "link_share": 0.553,
-   "jev_tagged_share": 0.846
+   "jev_tagged_share": 1.0
   },
   "Michael_QQQ2025": {
    "posts": 205,
    "post_type_mix": {
-    "data_take": 0.429,
-    "hot_take": 0.293,
-    "view_relay": 0.151,
-    "mechanism_explainer": 0.088,
-    "earnings_take": 0.039
+    "data_take": 0.434,
+    "hot_take": 0.239,
+    "view_relay": 0.18,
+    "mechanism_explainer": 0.112,
+    "earnings_take": 0.034
    },
    "hook_mix": {
-    "bold_claim": 0.388,
-    "news_peg": 0.236,
-    "data_point": 0.182,
-    "question": 0.103,
-    "story": 0.079,
-    "list": 0.006,
-    "quote": 0.006
+    "bold_claim": 0.39,
+    "news_peg": 0.224,
+    "data_point": 0.18,
+    "question": 0.102,
+    "story": 0.088,
+    "list": 0.01,
+    "quote": 0.005
    },
    "median_chars": 126,
    "p25_chars": 58,
@@ -2193,25 +2193,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.059,
    "link_share": 0.478,
-   "jev_tagged_share": 0.805
+   "jev_tagged_share": 1.0
   },
   "Mr_Derivatives": {
    "posts": 210,
    "post_type_mix": {
-    "hot_take": 0.495,
-    "data_take": 0.448,
-    "view_relay": 0.038,
+    "data_take": 0.49,
+    "hot_take": 0.448,
+    "view_relay": 0.043,
     "mechanism_explainer": 0.01,
     "earnings_take": 0.01
    },
    "hook_mix": {
-    "data_point": 0.393,
-    "bold_claim": 0.393,
-    "story": 0.054,
-    "question": 0.054,
-    "news_peg": 0.054,
-    "list": 0.042,
-    "quote": 0.012
+    "bold_claim": 0.39,
+    "data_point": 0.386,
+    "news_peg": 0.071,
+    "question": 0.052,
+    "story": 0.048,
+    "list": 0.043,
+    "quote": 0.01
    },
    "median_chars": 126,
    "p25_chars": 59,
@@ -2222,24 +2222,24 @@
    "thread_marker_share": 0.005,
    "question_open_share": 0.024,
    "link_share": 0.29,
-   "jev_tagged_share": 0.8
+   "jev_tagged_share": 1.0
   },
   "NateGeraci": {
    "posts": 201,
    "post_type_mix": {
-    "hot_take": 0.507,
-    "view_relay": 0.328,
-    "data_take": 0.139,
-    "mechanism_explainer": 0.025
+    "hot_take": 0.478,
+    "view_relay": 0.393,
+    "data_take": 0.114,
+    "mechanism_explainer": 0.015
    },
    "hook_mix": {
-    "bold_claim": 0.414,
-    "news_peg": 0.337,
-    "data_point": 0.071,
+    "bold_claim": 0.403,
+    "news_peg": 0.353,
+    "question": 0.07,
     "story": 0.065,
-    "question": 0.065,
-    "quote": 0.036,
-    "list": 0.012
+    "data_point": 0.065,
+    "quote": 0.035,
+    "list": 0.01
    },
    "median_chars": 226,
    "p25_chars": 96,
@@ -2250,24 +2250,24 @@
    "thread_marker_share": 0.015,
    "question_open_share": 0.01,
    "link_share": 0.552,
-   "jev_tagged_share": 0.841
+   "jev_tagged_share": 1.0
   },
   "NickTimiraos": {
    "posts": 215,
    "post_type_mix": {
-    "view_relay": 0.53,
+    "view_relay": 0.633,
     "data_take": 0.274,
-    "mechanism_explainer": 0.098,
-    "hot_take": 0.098
+    "mechanism_explainer": 0.051,
+    "hot_take": 0.042
    },
    "hook_mix": {
-    "news_peg": 0.361,
-    "data_point": 0.24,
-    "bold_claim": 0.208,
-    "quote": 0.12,
-    "question": 0.044,
-    "story": 0.016,
-    "list": 0.011
+    "news_peg": 0.363,
+    "bold_claim": 0.214,
+    "data_point": 0.214,
+    "quote": 0.144,
+    "question": 0.042,
+    "story": 0.014,
+    "list": 0.009
    },
    "median_chars": 298,
    "p25_chars": 201,
@@ -2278,23 +2278,24 @@
    "thread_marker_share": 0.014,
    "question_open_share": 0.005,
    "link_share": 0.581,
-   "jev_tagged_share": 0.851
+   "jev_tagged_share": 1.0
   },
   "OptionsHawk": {
    "posts": 104,
    "post_type_mix": {
-    "data_take": 0.462,
-    "hot_take": 0.452,
-    "earnings_take": 0.038,
+    "data_take": 0.49,
+    "hot_take": 0.423,
+    "earnings_take": 0.048,
     "view_relay": 0.029,
-    "mechanism_explainer": 0.019
+    "mechanism_explainer": 0.01
    },
    "hook_mix": {
-    "data_point": 0.45,
-    "bold_claim": 0.412,
-    "story": 0.062,
-    "news_peg": 0.05,
-    "question": 0.025
+    "data_point": 0.462,
+    "bold_claim": 0.404,
+    "news_peg": 0.058,
+    "story": 0.048,
+    "question": 0.019,
+    "list": 0.01
    },
    "median_chars": 81,
    "p25_chars": 45,
@@ -2305,25 +2306,25 @@
    "thread_marker_share": 0.058,
    "question_open_share": 0.01,
    "link_share": 0.346,
-   "jev_tagged_share": 0.769
+   "jev_tagged_share": 1.0
   },
   "PatrickMoorhead": {
    "posts": 207,
    "post_type_mix": {
-    "hot_take": 0.618,
-    "view_relay": 0.227,
+    "hot_take": 0.614,
+    "view_relay": 0.237,
     "data_take": 0.087,
-    "mechanism_explainer": 0.048,
-    "earnings_take": 0.019
+    "mechanism_explainer": 0.039,
+    "earnings_take": 0.024
    },
    "hook_mix": {
-    "bold_claim": 0.56,
-    "news_peg": 0.194,
-    "story": 0.109,
-    "question": 0.069,
-    "data_point": 0.04,
-    "list": 0.017,
-    "quote": 0.011
+    "bold_claim": 0.565,
+    "news_peg": 0.179,
+    "story": 0.116,
+    "question": 0.058,
+    "data_point": 0.034,
+    "list": 0.029,
+    "quote": 0.019
    },
    "median_chars": 111,
    "p25_chars": 47,
@@ -2334,24 +2335,24 @@
    "thread_marker_share": 0.014,
    "question_open_share": 0.068,
    "link_share": 0.295,
-   "jev_tagged_share": 0.845
+   "jev_tagged_share": 1.0
   },
   "PeterLBrandt": {
    "posts": 172,
    "post_type_mix": {
-    "hot_take": 0.576,
-    "data_take": 0.203,
-    "mechanism_explainer": 0.134,
+    "hot_take": 0.587,
+    "data_take": 0.215,
+    "mechanism_explainer": 0.11,
     "view_relay": 0.087
    },
    "hook_mix": {
-    "bold_claim": 0.65,
-    "data_point": 0.114,
-    "question": 0.086,
-    "news_peg": 0.05,
-    "story": 0.05,
-    "list": 0.043,
-    "quote": 0.007
+    "bold_claim": 0.692,
+    "data_point": 0.093,
+    "question": 0.076,
+    "story": 0.052,
+    "news_peg": 0.041,
+    "list": 0.041,
+    "quote": 0.006
    },
    "median_chars": 196,
    "p25_chars": 121,
@@ -2362,23 +2363,23 @@
    "thread_marker_share": 0.012,
    "question_open_share": 0.035,
    "link_share": 0.453,
-   "jev_tagged_share": 0.814
+   "jev_tagged_share": 1.0
   },
   "PhyrexNi": {
    "posts": 212,
    "post_type_mix": {
-    "data_take": 0.321,
-    "mechanism_explainer": 0.269,
-    "view_relay": 0.236,
+    "data_take": 0.316,
+    "mechanism_explainer": 0.278,
+    "view_relay": 0.231,
     "hot_take": 0.175
    },
    "hook_mix": {
-    "news_peg": 0.332,
-    "bold_claim": 0.24,
-    "data_point": 0.224,
-    "story": 0.168,
-    "quote": 0.02,
-    "list": 0.01,
+    "news_peg": 0.33,
+    "bold_claim": 0.236,
+    "data_point": 0.222,
+    "story": 0.179,
+    "quote": 0.019,
+    "list": 0.009,
     "question": 0.005
    },
    "median_chars": 345,
@@ -2390,25 +2391,25 @@
    "thread_marker_share": 0.005,
    "question_open_share": 0.005,
    "link_share": 0.259,
-   "jev_tagged_share": 0.925
+   "jev_tagged_share": 1.0
   },
   "RJCcapital": {
    "posts": 205,
    "post_type_mix": {
-    "hot_take": 0.683,
-    "view_relay": 0.195,
-    "earnings_take": 0.049,
-    "data_take": 0.044,
-    "mechanism_explainer": 0.029
+    "hot_take": 0.678,
+    "view_relay": 0.215,
+    "earnings_take": 0.054,
+    "data_take": 0.039,
+    "mechanism_explainer": 0.015
    },
    "hook_mix": {
-    "bold_claim": 0.464,
-    "news_peg": 0.155,
-    "story": 0.144,
-    "question": 0.133,
-    "data_point": 0.072,
-    "quote": 0.022,
-    "list": 0.011
+    "bold_claim": 0.439,
+    "news_peg": 0.166,
+    "story": 0.151,
+    "question": 0.132,
+    "data_point": 0.078,
+    "quote": 0.02,
+    "list": 0.015
    },
    "median_chars": 56,
    "p25_chars": 32,
@@ -2419,22 +2420,22 @@
    "thread_marker_share": 0.005,
    "question_open_share": 0.054,
    "link_share": 0.366,
-   "jev_tagged_share": 0.883
+   "jev_tagged_share": 1.0
   },
   "RaoulGMI": {
    "posts": 212,
    "post_type_mix": {
-    "hot_take": 0.392,
-    "mechanism_explainer": 0.387,
-    "view_relay": 0.165,
+    "hot_take": 0.406,
+    "mechanism_explainer": 0.377,
+    "view_relay": 0.16,
     "data_take": 0.057
    },
    "hook_mix": {
-    "bold_claim": 0.638,
-    "story": 0.138,
-    "news_peg": 0.074,
-    "data_point": 0.074,
-    "question": 0.069,
+    "bold_claim": 0.646,
+    "story": 0.127,
+    "news_peg": 0.085,
+    "data_point": 0.071,
+    "question": 0.066,
     "quote": 0.005
    },
    "median_chars": 241,
@@ -2446,24 +2447,23 @@
    "thread_marker_share": 0.028,
    "question_open_share": 0.042,
    "link_share": 0.533,
-   "jev_tagged_share": 0.887
+   "jev_tagged_share": 1.0
   },
   "RyanDetrick": {
    "posts": 166,
    "post_type_mix": {
-    "hot_take": 0.367,
-    "view_relay": 0.355,
-    "data_take": 0.265,
-    "earnings_take": 0.006,
-    "mechanism_explainer": 0.006
+    "hot_take": 0.398,
+    "view_relay": 0.349,
+    "data_take": 0.253
    },
    "hook_mix": {
-    "bold_claim": 0.441,
-    "news_peg": 0.199,
-    "data_point": 0.176,
+    "bold_claim": 0.428,
+    "news_peg": 0.241,
+    "data_point": 0.151,
     "question": 0.096,
-    "story": 0.051,
-    "list": 0.037
+    "story": 0.042,
+    "list": 0.036,
+    "quote": 0.006
    },
    "median_chars": 142,
    "p25_chars": 66,
@@ -2474,7 +2474,7 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.12,
    "link_share": 0.639,
-   "jev_tagged_share": 0.819
+   "jev_tagged_share": 1.0
   },
   "RyanWatkins_": {
    "posts": 104,
@@ -2507,19 +2507,19 @@
   "SJosephBurns": {
    "posts": 160,
    "post_type_mix": {
-    "hot_take": 0.412,
-    "mechanism_explainer": 0.388,
+    "mechanism_explainer": 0.419,
+    "hot_take": 0.394,
     "view_relay": 0.1,
-    "data_take": 0.094,
+    "data_take": 0.081,
     "earnings_take": 0.006
    },
    "hook_mix": {
     "bold_claim": 0.681,
-    "question": 0.139,
-    "list": 0.083,
-    "data_point": 0.062,
-    "news_peg": 0.028,
-    "quote": 0.007
+    "question": 0.144,
+    "list": 0.087,
+    "data_point": 0.056,
+    "news_peg": 0.025,
+    "quote": 0.006
    },
    "median_chars": 140,
    "p25_chars": 99,
@@ -2530,22 +2530,22 @@
    "thread_marker_share": 0.069,
    "question_open_share": 0.025,
    "link_share": 0.35,
-   "jev_tagged_share": 0.9
+   "jev_tagged_share": 1.0
   },
   "SKundojjala": {
    "posts": 158,
    "post_type_mix": {
-    "earnings_take": 0.513,
-    "data_take": 0.361,
-    "mechanism_explainer": 0.089,
-    "view_relay": 0.019,
+    "earnings_take": 0.532,
+    "data_take": 0.386,
+    "view_relay": 0.032,
+    "mechanism_explainer": 0.032,
     "hot_take": 0.019
    },
    "hook_mix": {
-    "data_point": 0.59,
-    "bold_claim": 0.216,
-    "list": 0.104,
-    "news_peg": 0.09
+    "data_point": 0.589,
+    "bold_claim": 0.215,
+    "list": 0.108,
+    "news_peg": 0.089
    },
    "median_chars": 391,
    "p25_chars": 295,
@@ -2556,7 +2556,7 @@
    "thread_marker_share": 0.019,
    "question_open_share": 0.0,
    "link_share": 0.133,
-   "jev_tagged_share": 0.848
+   "jev_tagged_share": 1.0
   },
   "SPXVIX": {
    "posts": 83,
@@ -2589,19 +2589,19 @@
   "SVScholar": {
    "posts": 66,
    "post_type_mix": {
-    "data_take": 0.394,
-    "hot_take": 0.273,
+    "data_take": 0.424,
     "view_relay": 0.258,
-    "earnings_take": 0.045,
-    "mechanism_explainer": 0.03
+    "hot_take": 0.227,
+    "mechanism_explainer": 0.045,
+    "earnings_take": 0.045
    },
    "hook_mix": {
-    "bold_claim": 0.328,
-    "news_peg": 0.241,
-    "question": 0.155,
-    "data_point": 0.138,
-    "story": 0.069,
-    "quote": 0.069
+    "bold_claim": 0.348,
+    "news_peg": 0.227,
+    "question": 0.136,
+    "data_point": 0.136,
+    "quote": 0.076,
+    "story": 0.076
    },
    "median_chars": 85,
    "p25_chars": 58,
@@ -2612,23 +2612,23 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.091,
    "link_share": 0.273,
-   "jev_tagged_share": 0.879
+   "jev_tagged_share": 1.0
   },
   "SamRo": {
    "posts": 112,
    "post_type_mix": {
-    "hot_take": 0.607,
+    "hot_take": 0.616,
     "view_relay": 0.205,
-    "data_take": 0.152,
+    "data_take": 0.143,
     "mechanism_explainer": 0.036
    },
    "hook_mix": {
-    "bold_claim": 0.521,
-    "data_point": 0.146,
-    "story": 0.104,
-    "quote": 0.083,
-    "news_peg": 0.073,
-    "question": 0.073
+    "bold_claim": 0.571,
+    "data_point": 0.134,
+    "story": 0.089,
+    "news_peg": 0.071,
+    "quote": 0.071,
+    "question": 0.062
    },
    "median_chars": 111,
    "p25_chars": 48,
@@ -2639,24 +2639,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.054,
    "link_share": 0.295,
-   "jev_tagged_share": 0.857
+   "jev_tagged_share": 1.0
   },
   "SamanthaLaDuc": {
    "posts": 160,
    "post_type_mix": {
-    "hot_take": 0.55,
-    "data_take": 0.194,
-    "view_relay": 0.156,
+    "hot_take": 0.531,
+    "view_relay": 0.188,
+    "data_take": 0.181,
     "mechanism_explainer": 0.094,
     "earnings_take": 0.006
    },
    "hook_mix": {
-    "bold_claim": 0.669,
-    "news_peg": 0.103,
-    "story": 0.059,
-    "question": 0.059,
-    "quote": 0.059,
-    "data_point": 0.051
+    "bold_claim": 0.662,
+    "news_peg": 0.106,
+    "question": 0.075,
+    "story": 0.05,
+    "quote": 0.05,
+    "data_point": 0.044,
+    "list": 0.013
    },
    "median_chars": 185,
    "p25_chars": 108,
@@ -2667,24 +2668,24 @@
    "thread_marker_share": 0.031,
    "question_open_share": 0.05,
    "link_share": 0.362,
-   "jev_tagged_share": 0.85
+   "jev_tagged_share": 1.0
   },
   "SemiAnalysis_": {
    "posts": 184,
    "post_type_mix": {
-    "mechanism_explainer": 0.293,
-    "data_take": 0.283,
-    "view_relay": 0.201,
-    "hot_take": 0.185,
-    "earnings_take": 0.038
+    "mechanism_explainer": 0.315,
+    "view_relay": 0.283,
+    "data_take": 0.239,
+    "hot_take": 0.152,
+    "earnings_take": 0.011
    },
    "hook_mix": {
-    "bold_claim": 0.5,
-    "news_peg": 0.176,
-    "data_point": 0.118,
-    "list": 0.103,
-    "question": 0.081,
-    "story": 0.022
+    "bold_claim": 0.527,
+    "news_peg": 0.185,
+    "data_point": 0.103,
+    "list": 0.092,
+    "question": 0.076,
+    "story": 0.016
    },
    "median_chars": 269,
    "p25_chars": 173,
@@ -2695,7 +2696,7 @@
    "thread_marker_share": 0.196,
    "question_open_share": 0.043,
    "link_share": 0.56,
-   "jev_tagged_share": 0.739
+   "jev_tagged_share": 1.0
   },
   "SoberLook": {
    "posts": 158,
@@ -2753,20 +2754,20 @@
   "StockMarketNerd": {
    "posts": 65,
    "post_type_mix": {
-    "hot_take": 0.554,
-    "view_relay": 0.169,
+    "hot_take": 0.477,
+    "view_relay": 0.246,
     "earnings_take": 0.123,
     "mechanism_explainer": 0.108,
     "data_take": 0.046
    },
    "hook_mix": {
-    "bold_claim": 0.531,
-    "news_peg": 0.245,
-    "story": 0.082,
-    "data_point": 0.061,
-    "list": 0.041,
-    "quote": 0.02,
-    "question": 0.02
+    "bold_claim": 0.6,
+    "news_peg": 0.2,
+    "data_point": 0.062,
+    "story": 0.062,
+    "list": 0.031,
+    "quote": 0.031,
+    "question": 0.015
    },
    "median_chars": 178,
    "p25_chars": 87,
@@ -2777,24 +2778,25 @@
    "thread_marker_share": 0.046,
    "question_open_share": 0.015,
    "link_share": 0.308,
-   "jev_tagged_share": 0.754
+   "jev_tagged_share": 1.0
   },
   "Svwang1": {
    "posts": 77,
    "post_type_mix": {
-    "hot_take": 0.519,
-    "mechanism_explainer": 0.351,
-    "view_relay": 0.078,
+    "mechanism_explainer": 0.429,
+    "hot_take": 0.416,
+    "view_relay": 0.104,
     "data_take": 0.039,
     "earnings_take": 0.013
    },
    "hook_mix": {
-    "bold_claim": 0.803,
-    "story": 0.082,
-    "data_point": 0.033,
-    "question": 0.033,
-    "news_peg": 0.033,
-    "list": 0.016
+    "bold_claim": 0.766,
+    "story": 0.078,
+    "news_peg": 0.052,
+    "data_point": 0.039,
+    "quote": 0.026,
+    "question": 0.026,
+    "list": 0.013
    },
    "median_chars": 138,
    "p25_chars": 73,
@@ -2805,25 +2807,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.039,
    "link_share": 0.026,
-   "jev_tagged_share": 0.792
+   "jev_tagged_share": 1.0
   },
   "TJ_Research": {
    "posts": 209,
    "post_type_mix": {
-    "hot_take": 0.526,
-    "data_take": 0.172,
-    "mechanism_explainer": 0.134,
-    "view_relay": 0.105,
+    "hot_take": 0.502,
+    "data_take": 0.167,
+    "mechanism_explainer": 0.144,
+    "view_relay": 0.124,
     "earnings_take": 0.062
    },
    "hook_mix": {
-    "bold_claim": 0.475,
-    "news_peg": 0.153,
-    "data_point": 0.136,
-    "story": 0.107,
-    "question": 0.062,
-    "list": 0.04,
-    "quote": 0.028
+    "bold_claim": 0.474,
+    "news_peg": 0.167,
+    "data_point": 0.139,
+    "story": 0.096,
+    "question": 0.057,
+    "list": 0.038,
+    "quote": 0.029
    },
    "median_chars": 84,
    "p25_chars": 41,
@@ -2834,23 +2836,24 @@
    "thread_marker_share": 0.005,
    "question_open_share": 0.105,
    "link_share": 0.124,
-   "jev_tagged_share": 0.847
+   "jev_tagged_share": 1.0
   },
   "TaviCosta": {
    "posts": 50,
    "post_type_mix": {
-    "hot_take": 0.52,
-    "data_take": 0.3,
-    "view_relay": 0.1,
-    "mechanism_explainer": 0.08
+    "hot_take": 0.56,
+    "data_take": 0.26,
+    "view_relay": 0.12,
+    "mechanism_explainer": 0.06
    },
    "hook_mix": {
-    "bold_claim": 0.731,
-    "question": 0.077,
-    "data_point": 0.077,
-    "quote": 0.038,
-    "story": 0.038,
-    "news_peg": 0.038
+    "bold_claim": 0.76,
+    "data_point": 0.08,
+    "news_peg": 0.06,
+    "question": 0.04,
+    "list": 0.02,
+    "quote": 0.02,
+    "story": 0.02
    },
    "median_chars": 258,
    "p25_chars": 151,
@@ -2861,23 +2864,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.02,
    "link_share": 0.92,
-   "jev_tagged_share": 0.52
+   "jev_tagged_share": 1.0
   },
   "TheChartReport": {
    "posts": 73,
    "post_type_mix": {
     "data_take": 0.479,
-    "view_relay": 0.425,
-    "hot_take": 0.082,
+    "view_relay": 0.438,
+    "hot_take": 0.068,
     "mechanism_explainer": 0.014
    },
    "hook_mix": {
-    "news_peg": 0.421,
-    "bold_claim": 0.333,
-    "data_point": 0.158,
-    "story": 0.053,
-    "list": 0.018,
-    "quote": 0.018
+    "news_peg": 0.397,
+    "bold_claim": 0.329,
+    "data_point": 0.192,
+    "story": 0.041,
+    "list": 0.014,
+    "quote": 0.014,
+    "question": 0.014
    },
    "median_chars": 185,
    "p25_chars": 141,
@@ -2888,23 +2892,23 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.014,
    "link_share": 0.986,
-   "jev_tagged_share": 0.781
+   "jev_tagged_share": 1.0
   },
   "TheStalwart": {
    "posts": 41,
    "post_type_mix": {
-    "hot_take": 0.561,
-    "data_take": 0.244,
-    "view_relay": 0.171,
-    "mechanism_explainer": 0.024
+    "hot_take": 0.463,
+    "view_relay": 0.268,
+    "data_take": 0.22,
+    "mechanism_explainer": 0.049
    },
    "hook_mix": {
-    "bold_claim": 0.576,
-    "news_peg": 0.182,
-    "data_point": 0.091,
-    "question": 0.061,
-    "story": 0.061,
-    "list": 0.03
+    "bold_claim": 0.61,
+    "news_peg": 0.171,
+    "question": 0.073,
+    "data_point": 0.073,
+    "story": 0.049,
+    "list": 0.024
    },
    "median_chars": 152,
    "p25_chars": 60,
@@ -2915,7 +2919,7 @@
    "thread_marker_share": 0.024,
    "question_open_share": 0.049,
    "link_share": 0.659,
-   "jev_tagged_share": 0.805
+   "jev_tagged_share": 1.0
   },
   "TimTheMM": {
    "posts": 68,
@@ -2946,19 +2950,19 @@
   "TraderS18": {
    "posts": 209,
    "post_type_mix": {
-    "hot_take": 0.306,
-    "data_take": 0.301,
-    "mechanism_explainer": 0.287,
-    "view_relay": 0.096,
-    "earnings_take": 0.01
+    "mechanism_explainer": 0.316,
+    "hot_take": 0.316,
+    "data_take": 0.258,
+    "view_relay": 0.105,
+    "earnings_take": 0.005
    },
    "hook_mix": {
-    "bold_claim": 0.469,
-    "news_peg": 0.316,
-    "data_point": 0.096,
-    "story": 0.079,
-    "question": 0.034,
-    "list": 0.006
+    "bold_claim": 0.474,
+    "news_peg": 0.301,
+    "data_point": 0.1,
+    "story": 0.086,
+    "question": 0.033,
+    "list": 0.005
    },
    "median_chars": 165,
    "p25_chars": 69,
@@ -2969,24 +2973,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.048,
    "link_share": 0.273,
-   "jev_tagged_share": 0.847
+   "jev_tagged_share": 1.0
   },
   "Unclestocknotes": {
    "posts": 210,
    "post_type_mix": {
-    "data_take": 0.314,
-    "mechanism_explainer": 0.205,
-    "view_relay": 0.2,
-    "hot_take": 0.186,
-    "earnings_take": 0.095
+    "data_take": 0.357,
+    "view_relay": 0.267,
+    "hot_take": 0.157,
+    "mechanism_explainer": 0.119,
+    "earnings_take": 0.1
    },
    "hook_mix": {
-    "news_peg": 0.526,
-    "bold_claim": 0.227,
-    "data_point": 0.188,
-    "quote": 0.026,
-    "story": 0.019,
-    "question": 0.013
+    "news_peg": 0.481,
+    "bold_claim": 0.243,
+    "data_point": 0.195,
+    "story": 0.033,
+    "question": 0.024,
+    "quote": 0.024
    },
    "median_chars": 400,
    "p25_chars": 166,
@@ -2997,24 +3001,24 @@
    "thread_marker_share": 0.014,
    "question_open_share": 0.019,
    "link_share": 0.271,
-   "jev_tagged_share": 0.733
+   "jev_tagged_share": 1.0
   },
   "UrbanKaoboy": {
    "posts": 81,
    "post_type_mix": {
-    "hot_take": 0.556,
-    "data_take": 0.296,
-    "mechanism_explainer": 0.074,
-    "view_relay": 0.074
+    "hot_take": 0.716,
+    "view_relay": 0.123,
+    "mechanism_explainer": 0.086,
+    "data_take": 0.074
    },
    "hook_mix": {
-    "bold_claim": 0.544,
-    "story": 0.228,
-    "news_peg": 0.07,
-    "list": 0.07,
-    "question": 0.053,
-    "quote": 0.018,
-    "data_point": 0.018
+    "bold_claim": 0.444,
+    "story": 0.296,
+    "list": 0.136,
+    "news_peg": 0.049,
+    "question": 0.037,
+    "data_point": 0.025,
+    "quote": 0.012
    },
    "median_chars": 148,
    "p25_chars": 70,
@@ -3025,23 +3029,23 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.025,
    "link_share": 0.778,
-   "jev_tagged_share": 0.704
+   "jev_tagged_share": 1.0
   },
   "VolSignals": {
    "posts": 59,
    "post_type_mix": {
-    "hot_take": 0.356,
-    "view_relay": 0.288,
-    "data_take": 0.254,
-    "mechanism_explainer": 0.102
+    "hot_take": 0.339,
+    "view_relay": 0.305,
+    "data_take": 0.22,
+    "mechanism_explainer": 0.136
    },
    "hook_mix": {
-    "bold_claim": 0.451,
-    "news_peg": 0.216,
-    "data_point": 0.196,
-    "question": 0.078,
-    "quote": 0.039,
-    "list": 0.02
+    "bold_claim": 0.492,
+    "news_peg": 0.203,
+    "data_point": 0.186,
+    "question": 0.068,
+    "quote": 0.034,
+    "list": 0.017
    },
    "median_chars": 119,
    "p25_chars": 52,
@@ -3052,23 +3056,24 @@
    "thread_marker_share": 0.153,
    "question_open_share": 0.017,
    "link_share": 0.61,
-   "jev_tagged_share": 0.864
+   "jev_tagged_share": 1.0
   },
   "WarrenPies": {
    "posts": 65,
    "post_type_mix": {
-    "hot_take": 0.4,
-    "data_take": 0.385,
-    "view_relay": 0.169,
-    "mechanism_explainer": 0.046
+    "data_take": 0.508,
+    "view_relay": 0.231,
+    "hot_take": 0.169,
+    "mechanism_explainer": 0.077,
+    "earnings_take": 0.015
    },
    "hook_mix": {
-    "bold_claim": 0.455,
-    "data_point": 0.182,
-    "news_peg": 0.152,
-    "story": 0.091,
-    "question": 0.091,
-    "list": 0.03
+    "bold_claim": 0.462,
+    "data_point": 0.2,
+    "news_peg": 0.154,
+    "story": 0.108,
+    "question": 0.062,
+    "list": 0.015
    },
    "median_chars": 187,
    "p25_chars": 96,
@@ -3079,24 +3084,25 @@
    "thread_marker_share": 0.015,
    "question_open_share": 0.046,
    "link_share": 0.569,
-   "jev_tagged_share": 0.508
+   "jev_tagged_share": 1.0
   },
   "_wmoon": {
    "posts": 197,
    "post_type_mix": {
-    "mechanism_explainer": 0.299,
-    "view_relay": 0.259,
-    "data_take": 0.213,
-    "hot_take": 0.157,
-    "earnings_take": 0.071
+    "view_relay": 0.36,
+    "mechanism_explainer": 0.305,
+    "data_take": 0.173,
+    "hot_take": 0.096,
+    "earnings_take": 0.066
    },
    "hook_mix": {
-    "news_peg": 0.375,
-    "bold_claim": 0.269,
-    "data_point": 0.154,
-    "question": 0.144,
-    "story": 0.048,
-    "list": 0.01
+    "news_peg": 0.381,
+    "bold_claim": 0.289,
+    "data_point": 0.122,
+    "question": 0.112,
+    "story": 0.056,
+    "list": 0.03,
+    "quote": 0.01
    },
    "median_chars": 316,
    "p25_chars": 122,
@@ -3107,23 +3113,24 @@
    "thread_marker_share": 0.025,
    "question_open_share": 0.061,
    "link_share": 0.269,
-   "jev_tagged_share": 0.528
+   "jev_tagged_share": 1.0
   },
   "alacheng": {
    "posts": 206,
    "post_type_mix": {
-    "mechanism_explainer": 0.32,
-    "view_relay": 0.301,
-    "hot_take": 0.228,
-    "data_take": 0.15
+    "view_relay": 0.398,
+    "mechanism_explainer": 0.34,
+    "hot_take": 0.194,
+    "data_take": 0.068
    },
    "hook_mix": {
-    "news_peg": 0.407,
-    "bold_claim": 0.327,
-    "question": 0.093,
-    "data_point": 0.087,
-    "story": 0.073,
-    "list": 0.013
+    "news_peg": 0.393,
+    "bold_claim": 0.335,
+    "story": 0.092,
+    "question": 0.078,
+    "data_point": 0.073,
+    "list": 0.015,
+    "quote": 0.015
    },
    "median_chars": 216,
    "p25_chars": 84,
@@ -3134,25 +3141,25 @@
    "thread_marker_share": 0.01,
    "question_open_share": 0.024,
    "link_share": 0.485,
-   "jev_tagged_share": 0.728
+   "jev_tagged_share": 1.0
   },
   "aleabitoreddit": {
    "posts": 213,
    "post_type_mix": {
-    "data_take": 0.315,
-    "view_relay": 0.221,
-    "hot_take": 0.211,
-    "mechanism_explainer": 0.188,
-    "earnings_take": 0.066
+    "data_take": 0.347,
+    "view_relay": 0.268,
+    "hot_take": 0.197,
+    "mechanism_explainer": 0.094,
+    "earnings_take": 0.094
    },
    "hook_mix": {
-    "bold_claim": 0.387,
-    "news_peg": 0.312,
-    "story": 0.092,
-    "question": 0.087,
-    "quote": 0.058,
-    "data_point": 0.035,
-    "list": 0.029
+    "bold_claim": 0.376,
+    "news_peg": 0.338,
+    "story": 0.094,
+    "question": 0.085,
+    "quote": 0.052,
+    "data_point": 0.028,
+    "list": 0.028
    },
    "median_chars": 544,
    "p25_chars": 291,
@@ -3163,25 +3170,25 @@
    "thread_marker_share": 0.014,
    "question_open_share": 0.061,
    "link_share": 0.216,
-   "jev_tagged_share": 0.812
+   "jev_tagged_share": 1.0
   },
   "alphatrends": {
    "posts": 133,
    "post_type_mix": {
-    "data_take": 0.353,
-    "hot_take": 0.331,
-    "view_relay": 0.256,
-    "earnings_take": 0.038,
-    "mechanism_explainer": 0.023
+    "data_take": 0.368,
+    "view_relay": 0.301,
+    "hot_take": 0.271,
+    "earnings_take": 0.03,
+    "mechanism_explainer": 0.03
    },
    "hook_mix": {
-    "bold_claim": 0.429,
-    "data_point": 0.223,
-    "news_peg": 0.116,
-    "question": 0.116,
-    "story": 0.054,
-    "list": 0.054,
-    "quote": 0.009
+    "bold_claim": 0.436,
+    "data_point": 0.203,
+    "news_peg": 0.12,
+    "question": 0.113,
+    "list": 0.068,
+    "story": 0.053,
+    "quote": 0.008
    },
    "median_chars": 88,
    "p25_chars": 23,
@@ -3192,24 +3199,23 @@
    "thread_marker_share": 0.008,
    "question_open_share": 0.045,
    "link_share": 0.729,
-   "jev_tagged_share": 0.842
+   "jev_tagged_share": 1.0
   },
   "awealthofcs": {
    "posts": 109,
    "post_type_mix": {
-    "data_take": 0.514,
-    "hot_take": 0.404,
-    "view_relay": 0.046,
-    "mechanism_explainer": 0.028,
-    "earnings_take": 0.009
+    "data_take": 0.468,
+    "hot_take": 0.431,
+    "view_relay": 0.055,
+    "mechanism_explainer": 0.046
    },
    "hook_mix": {
-    "bold_claim": 0.435,
-    "data_point": 0.271,
-    "list": 0.106,
-    "story": 0.094,
-    "question": 0.071,
-    "news_peg": 0.024
+    "bold_claim": 0.431,
+    "data_point": 0.257,
+    "story": 0.11,
+    "question": 0.092,
+    "list": 0.083,
+    "news_peg": 0.028
    },
    "median_chars": 246,
    "p25_chars": 187,
@@ -3220,25 +3226,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.055,
    "link_share": 0.752,
-   "jev_tagged_share": 0.78
+   "jev_tagged_share": 1.0
   },
   "bboczeng": {
    "posts": 155,
    "post_type_mix": {
-    "hot_take": 0.781,
-    "data_take": 0.077,
+    "hot_take": 0.774,
+    "data_take": 0.084,
     "view_relay": 0.058,
     "mechanism_explainer": 0.058,
     "earnings_take": 0.026
    },
    "hook_mix": {
-    "bold_claim": 0.612,
-    "question": 0.218,
-    "data_point": 0.075,
-    "news_peg": 0.054,
-    "story": 0.014,
-    "list": 0.014,
-    "quote": 0.014
+    "bold_claim": 0.619,
+    "question": 0.213,
+    "data_point": 0.077,
+    "news_peg": 0.052,
+    "story": 0.013,
+    "list": 0.013,
+    "quote": 0.013
    },
    "median_chars": 39,
    "p25_chars": 22,
@@ -3249,20 +3255,20 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.187,
    "link_share": 0.058,
-   "jev_tagged_share": 0.948
+   "jev_tagged_share": 1.0
   },
   "bennpeifert": {
    "posts": 41,
    "post_type_mix": {
-    "hot_take": 0.878,
-    "view_relay": 0.098,
-    "data_take": 0.024
+    "hot_take": 0.902,
+    "view_relay": 0.098
    },
    "hook_mix": {
-    "bold_claim": 0.6,
-    "story": 0.2,
-    "news_peg": 0.12,
-    "question": 0.08
+    "bold_claim": 0.512,
+    "story": 0.293,
+    "question": 0.098,
+    "news_peg": 0.073,
+    "data_point": 0.024
    },
    "median_chars": 53,
    "p25_chars": 31,
@@ -3273,25 +3279,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.073,
    "link_share": 0.317,
-   "jev_tagged_share": 0.61
+   "jev_tagged_share": 1.0
   },
   "bespokeinvest": {
    "posts": 206,
    "post_type_mix": {
-    "data_take": 0.49,
-    "hot_take": 0.282,
-    "view_relay": 0.194,
-    "earnings_take": 0.029,
+    "data_take": 0.481,
+    "view_relay": 0.306,
+    "hot_take": 0.175,
+    "earnings_take": 0.034,
     "mechanism_explainer": 0.005
    },
    "hook_mix": {
-    "news_peg": 0.343,
-    "data_point": 0.291,
-    "bold_claim": 0.224,
-    "question": 0.075,
-    "story": 0.03,
-    "list": 0.022,
-    "quote": 0.015
+    "news_peg": 0.374,
+    "data_point": 0.257,
+    "bold_claim": 0.248,
+    "question": 0.068,
+    "list": 0.024,
+    "story": 0.019,
+    "quote": 0.01
    },
    "median_chars": 116,
    "p25_chars": 74,
@@ -3302,25 +3308,24 @@
    "thread_marker_share": 0.005,
    "question_open_share": 0.049,
    "link_share": 0.903,
-   "jev_tagged_share": 0.65
+   "jev_tagged_share": 1.0
   },
   "biancoresearch": {
    "posts": 163,
    "post_type_mix": {
-    "data_take": 0.429,
-    "hot_take": 0.215,
-    "mechanism_explainer": 0.19,
-    "view_relay": 0.16,
-    "earnings_take": 0.006
+    "data_take": 0.423,
+    "hot_take": 0.202,
+    "mechanism_explainer": 0.196,
+    "view_relay": 0.178
    },
    "hook_mix": {
-    "bold_claim": 0.333,
-    "data_point": 0.17,
-    "news_peg": 0.17,
-    "list": 0.17,
-    "question": 0.109,
-    "quote": 0.027,
-    "story": 0.02
+    "bold_claim": 0.319,
+    "data_point": 0.178,
+    "list": 0.178,
+    "news_peg": 0.16,
+    "question": 0.11,
+    "quote": 0.037,
+    "story": 0.018
    },
    "median_chars": 269,
    "p25_chars": 140,
@@ -3331,25 +3336,25 @@
    "thread_marker_share": 0.356,
    "question_open_share": 0.049,
    "link_share": 0.442,
-   "jev_tagged_share": 0.902
+   "jev_tagged_share": 1.0
   },
   "borrowed_ideas": {
    "posts": 170,
    "post_type_mix": {
-    "view_relay": 0.4,
-    "hot_take": 0.253,
-    "data_take": 0.176,
-    "earnings_take": 0.094,
-    "mechanism_explainer": 0.076
+    "view_relay": 0.471,
+    "hot_take": 0.188,
+    "data_take": 0.153,
+    "mechanism_explainer": 0.1,
+    "earnings_take": 0.088
    },
    "hook_mix": {
-    "news_peg": 0.377,
-    "bold_claim": 0.326,
-    "question": 0.116,
-    "story": 0.087,
-    "data_point": 0.072,
-    "list": 0.014,
-    "quote": 0.007
+    "bold_claim": 0.371,
+    "news_peg": 0.324,
+    "question": 0.1,
+    "story": 0.1,
+    "data_point": 0.071,
+    "quote": 0.018,
+    "list": 0.018
    },
    "median_chars": 96,
    "p25_chars": 59,
@@ -3360,24 +3365,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.053,
    "link_share": 0.841,
-   "jev_tagged_share": 0.812
+   "jev_tagged_share": 1.0
   },
   "buereth": {
    "posts": 214,
    "post_type_mix": {
-    "mechanism_explainer": 0.425,
-    "data_take": 0.383,
-    "view_relay": 0.15,
-    "hot_take": 0.037,
+    "mechanism_explainer": 0.439,
+    "data_take": 0.36,
+    "view_relay": 0.168,
+    "hot_take": 0.028,
     "earnings_take": 0.005
    },
    "hook_mix": {
-    "bold_claim": 0.385,
-    "news_peg": 0.351,
-    "story": 0.138,
-    "data_point": 0.086,
-    "question": 0.029,
-    "list": 0.011
+    "bold_claim": 0.397,
+    "news_peg": 0.308,
+    "story": 0.187,
+    "data_point": 0.075,
+    "question": 0.023,
+    "list": 0.009
    },
    "median_chars": 436,
    "p25_chars": 311,
@@ -3388,25 +3393,25 @@
    "thread_marker_share": 0.014,
    "question_open_share": 0.042,
    "link_share": 0.332,
-   "jev_tagged_share": 0.813
+   "jev_tagged_share": 1.0
   },
   "callieabost": {
    "posts": 154,
    "post_type_mix": {
-    "hot_take": 0.662,
-    "data_take": 0.175,
+    "hot_take": 0.675,
+    "data_take": 0.162,
     "view_relay": 0.084,
     "mechanism_explainer": 0.065,
     "earnings_take": 0.013
    },
    "hook_mix": {
-    "bold_claim": 0.514,
-    "story": 0.138,
-    "news_peg": 0.123,
+    "bold_claim": 0.506,
+    "news_peg": 0.136,
+    "story": 0.136,
     "data_point": 0.123,
-    "question": 0.072,
-    "quote": 0.014,
-    "list": 0.014
+    "question": 0.071,
+    "quote": 0.013,
+    "list": 0.013
    },
    "median_chars": 167,
    "p25_chars": 91,
@@ -3417,25 +3422,25 @@
    "thread_marker_share": 0.013,
    "question_open_share": 0.045,
    "link_share": 0.396,
-   "jev_tagged_share": 0.896
+   "jev_tagged_share": 1.0
   },
   "caolei1": {
    "posts": 200,
    "post_type_mix": {
-    "view_relay": 0.48,
-    "hot_take": 0.3,
-    "data_take": 0.175,
-    "mechanism_explainer": 0.03,
-    "earnings_take": 0.015
+    "view_relay": 0.625,
+    "data_take": 0.185,
+    "hot_take": 0.14,
+    "mechanism_explainer": 0.04,
+    "earnings_take": 0.01
    },
    "hook_mix": {
-    "news_peg": 0.296,
-    "data_point": 0.23,
-    "bold_claim": 0.224,
-    "question": 0.197,
-    "quote": 0.033,
-    "story": 0.013,
-    "list": 0.007
+    "news_peg": 0.27,
+    "data_point": 0.25,
+    "bold_claim": 0.22,
+    "question": 0.21,
+    "quote": 0.035,
+    "story": 0.01,
+    "list": 0.005
    },
    "median_chars": 37,
    "p25_chars": 23,
@@ -3446,25 +3451,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.025,
    "link_share": 0.83,
-   "jev_tagged_share": 0.76
+   "jev_tagged_share": 1.0
   },
   "chamath": {
    "posts": 194,
    "post_type_mix": {
-    "hot_take": 0.67,
-    "mechanism_explainer": 0.155,
-    "view_relay": 0.098,
-    "data_take": 0.072,
+    "hot_take": 0.624,
+    "view_relay": 0.16,
+    "mechanism_explainer": 0.134,
+    "data_take": 0.077,
     "earnings_take": 0.005
    },
    "hook_mix": {
-    "bold_claim": 0.691,
-    "question": 0.086,
-    "story": 0.062,
-    "news_peg": 0.056,
-    "data_point": 0.043,
-    "quote": 0.043,
-    "list": 0.019
+    "bold_claim": 0.67,
+    "data_point": 0.082,
+    "question": 0.082,
+    "story": 0.057,
+    "news_peg": 0.057,
+    "quote": 0.036,
+    "list": 0.015
    },
    "median_chars": 61,
    "p25_chars": 23,
@@ -3475,23 +3480,23 @@
    "thread_marker_share": 0.005,
    "question_open_share": 0.026,
    "link_share": 0.196,
-   "jev_tagged_share": 0.835
+   "jev_tagged_share": 1.0
   },
   "charliebilello": {
    "posts": 109,
    "post_type_mix": {
-    "data_take": 0.752,
-    "view_relay": 0.119,
-    "hot_take": 0.11,
+    "data_take": 0.761,
+    "view_relay": 0.128,
+    "hot_take": 0.092,
     "mechanism_explainer": 0.018
    },
    "hook_mix": {
-    "data_point": 0.545,
-    "news_peg": 0.178,
-    "bold_claim": 0.168,
-    "quote": 0.069,
-    "list": 0.03,
-    "question": 0.01
+    "data_point": 0.541,
+    "bold_claim": 0.174,
+    "news_peg": 0.174,
+    "quote": 0.064,
+    "list": 0.028,
+    "question": 0.018
    },
    "median_chars": 215,
    "p25_chars": 131,
@@ -3502,24 +3507,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.018,
    "link_share": 0.872,
-   "jev_tagged_share": 0.927
+   "jev_tagged_share": 1.0
   },
   "choffstein": {
    "posts": 204,
    "post_type_mix": {
-    "hot_take": 0.485,
-    "data_take": 0.211,
-    "view_relay": 0.167,
-    "mechanism_explainer": 0.137
+    "hot_take": 0.456,
+    "view_relay": 0.206,
+    "data_take": 0.172,
+    "mechanism_explainer": 0.162,
+    "earnings_take": 0.005
    },
    "hook_mix": {
-    "bold_claim": 0.426,
-    "news_peg": 0.155,
-    "story": 0.135,
-    "question": 0.108,
-    "data_point": 0.101,
-    "list": 0.061,
-    "quote": 0.014
+    "bold_claim": 0.446,
+    "news_peg": 0.157,
+    "story": 0.127,
+    "question": 0.098,
+    "data_point": 0.098,
+    "list": 0.059,
+    "quote": 0.015
    },
    "median_chars": 164,
    "p25_chars": 68,
@@ -3530,24 +3536,24 @@
    "thread_marker_share": 0.01,
    "question_open_share": 0.069,
    "link_share": 0.505,
-   "jev_tagged_share": 0.725
+   "jev_tagged_share": 1.0
   },
   "cishanjia": {
    "posts": 199,
    "post_type_mix": {
-    "hot_take": 0.472,
-    "mechanism_explainer": 0.216,
-    "data_take": 0.211,
-    "view_relay": 0.101
+    "hot_take": 0.477,
+    "mechanism_explainer": 0.256,
+    "view_relay": 0.176,
+    "data_take": 0.09
    },
    "hook_mix": {
-    "bold_claim": 0.303,
-    "list": 0.286,
-    "story": 0.168,
-    "question": 0.101,
-    "quote": 0.067,
-    "data_point": 0.059,
-    "news_peg": 0.017
+    "bold_claim": 0.286,
+    "list": 0.271,
+    "story": 0.206,
+    "question": 0.085,
+    "data_point": 0.08,
+    "quote": 0.06,
+    "news_peg": 0.01
    },
    "median_chars": 142,
    "p25_chars": 68,
@@ -3558,25 +3564,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.065,
    "link_share": 0.181,
-   "jev_tagged_share": 0.598
+   "jev_tagged_share": 1.0
   },
   "citrini": {
    "posts": 210,
    "post_type_mix": {
-    "hot_take": 0.695,
-    "view_relay": 0.129,
-    "mechanism_explainer": 0.1,
-    "data_take": 0.071,
-    "earnings_take": 0.005
+    "hot_take": 0.69,
+    "view_relay": 0.143,
+    "mechanism_explainer": 0.105,
+    "data_take": 0.062
    },
    "hook_mix": {
-    "bold_claim": 0.556,
-    "question": 0.152,
-    "story": 0.129,
-    "data_point": 0.062,
-    "news_peg": 0.056,
-    "quote": 0.028,
-    "list": 0.017
+    "bold_claim": 0.562,
+    "question": 0.148,
+    "story": 0.124,
+    "data_point": 0.076,
+    "news_peg": 0.052,
+    "quote": 0.024,
+    "list": 0.014
    },
    "median_chars": 116,
    "p25_chars": 54,
@@ -3587,24 +3592,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.09,
    "link_share": 0.295,
-   "jev_tagged_share": 0.848
+   "jev_tagged_share": 1.0
   },
   "conorsen": {
    "posts": 155,
    "post_type_mix": {
-    "hot_take": 0.723,
-    "data_take": 0.161,
-    "view_relay": 0.071,
-    "mechanism_explainer": 0.045
+    "hot_take": 0.658,
+    "data_take": 0.181,
+    "view_relay": 0.09,
+    "mechanism_explainer": 0.071
    },
    "hook_mix": {
-    "bold_claim": 0.687,
-    "data_point": 0.096,
-    "news_peg": 0.087,
-    "question": 0.078,
-    "story": 0.017,
-    "list": 0.017,
-    "quote": 0.017
+    "bold_claim": 0.703,
+    "data_point": 0.084,
+    "news_peg": 0.077,
+    "question": 0.071,
+    "story": 0.032,
+    "list": 0.019,
+    "quote": 0.013
    },
    "median_chars": 132,
    "p25_chars": 77,
@@ -3615,24 +3620,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.026,
    "link_share": 0.155,
-   "jev_tagged_share": 0.742
+   "jev_tagged_share": 1.0
   },
   "cullenroche": {
    "posts": 207,
    "post_type_mix": {
-    "hot_take": 0.507,
-    "mechanism_explainer": 0.227,
-    "data_take": 0.169,
-    "view_relay": 0.097
+    "hot_take": 0.488,
+    "mechanism_explainer": 0.222,
+    "data_take": 0.188,
+    "view_relay": 0.101
    },
    "hook_mix": {
-    "bold_claim": 0.612,
-    "story": 0.142,
-    "news_peg": 0.082,
-    "data_point": 0.066,
-    "question": 0.049,
-    "list": 0.027,
-    "quote": 0.022
+    "bold_claim": 0.618,
+    "story": 0.15,
+    "news_peg": 0.077,
+    "data_point": 0.063,
+    "question": 0.043,
+    "quote": 0.024,
+    "list": 0.024
    },
    "median_chars": 230,
    "p25_chars": 122,
@@ -3643,24 +3648,24 @@
    "thread_marker_share": 0.029,
    "question_open_share": 0.034,
    "link_share": 0.285,
-   "jev_tagged_share": 0.884
+   "jev_tagged_share": 1.0
   },
   "dampedspring": {
    "posts": 206,
    "post_type_mix": {
-    "hot_take": 0.51,
+    "hot_take": 0.49,
     "data_take": 0.262,
-    "view_relay": 0.141,
+    "view_relay": 0.16,
     "mechanism_explainer": 0.087
    },
    "hook_mix": {
-    "bold_claim": 0.4,
-    "data_point": 0.256,
-    "question": 0.156,
-    "news_peg": 0.081,
-    "story": 0.081,
-    "quote": 0.013,
-    "list": 0.013
+    "bold_claim": 0.422,
+    "data_point": 0.267,
+    "question": 0.131,
+    "news_peg": 0.087,
+    "story": 0.073,
+    "quote": 0.01,
+    "list": 0.01
    },
    "median_chars": 100,
    "p25_chars": 42,
@@ -3671,24 +3676,24 @@
    "thread_marker_share": 0.029,
    "question_open_share": 0.073,
    "link_share": 0.32,
-   "jev_tagged_share": 0.777
+   "jev_tagged_share": 1.0
   },
   "dollarsanddata": {
    "posts": 208,
    "post_type_mix": {
-    "hot_take": 0.572,
-    "data_take": 0.279,
-    "mechanism_explainer": 0.082,
-    "view_relay": 0.067
+    "hot_take": 0.543,
+    "data_take": 0.269,
+    "mechanism_explainer": 0.096,
+    "view_relay": 0.091
    },
    "hook_mix": {
-    "bold_claim": 0.625,
-    "data_point": 0.148,
-    "question": 0.108,
-    "story": 0.068,
-    "quote": 0.023,
-    "news_peg": 0.017,
-    "list": 0.011
+    "bold_claim": 0.62,
+    "data_point": 0.135,
+    "question": 0.101,
+    "story": 0.077,
+    "news_peg": 0.024,
+    "list": 0.024,
+    "quote": 0.019
    },
    "median_chars": 196,
    "p25_chars": 126,
@@ -3699,24 +3704,24 @@
    "thread_marker_share": 0.005,
    "question_open_share": 0.087,
    "link_share": 0.438,
-   "jev_tagged_share": 0.846
+   "jev_tagged_share": 1.0
   },
   "dylan522p": {
    "posts": 141,
    "post_type_mix": {
-    "hot_take": 0.723,
-    "view_relay": 0.142,
-    "data_take": 0.121,
+    "hot_take": 0.745,
+    "view_relay": 0.135,
+    "data_take": 0.106,
     "mechanism_explainer": 0.014
    },
    "hook_mix": {
-    "bold_claim": 0.576,
-    "story": 0.128,
-    "news_peg": 0.112,
-    "question": 0.088,
-    "data_point": 0.048,
-    "list": 0.032,
-    "quote": 0.016
+    "bold_claim": 0.582,
+    "story": 0.135,
+    "question": 0.099,
+    "news_peg": 0.099,
+    "data_point": 0.043,
+    "list": 0.028,
+    "quote": 0.014
    },
    "median_chars": 132,
    "p25_chars": 77,
@@ -3727,24 +3732,24 @@
    "thread_marker_share": 0.014,
    "question_open_share": 0.05,
    "link_share": 0.383,
-   "jev_tagged_share": 0.887
+   "jev_tagged_share": 1.0
   },
   "elerianm": {
    "posts": 213,
    "post_type_mix": {
-    "data_take": 0.46,
-    "view_relay": 0.352,
-    "hot_take": 0.113,
-    "mechanism_explainer": 0.075
+    "data_take": 0.479,
+    "view_relay": 0.357,
+    "hot_take": 0.094,
+    "mechanism_explainer": 0.07
    },
    "hook_mix": {
-    "news_peg": 0.577,
-    "bold_claim": 0.18,
-    "data_point": 0.106,
-    "story": 0.042,
-    "list": 0.042,
-    "quote": 0.032,
-    "question": 0.021
+    "news_peg": 0.573,
+    "bold_claim": 0.188,
+    "data_point": 0.103,
+    "list": 0.047,
+    "story": 0.038,
+    "quote": 0.033,
+    "question": 0.019
    },
    "median_chars": 307,
    "p25_chars": 203,
@@ -3755,25 +3760,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.014,
    "link_share": 0.465,
-   "jev_tagged_share": 0.887
+   "jev_tagged_share": 1.0
   },
   "ernietedeschi": {
    "posts": 139,
    "post_type_mix": {
-    "hot_take": 0.532,
-    "data_take": 0.266,
-    "view_relay": 0.108,
-    "mechanism_explainer": 0.086,
-    "earnings_take": 0.007
+    "hot_take": 0.489,
+    "data_take": 0.295,
+    "view_relay": 0.115,
+    "mechanism_explainer": 0.101
    },
    "hook_mix": {
-    "bold_claim": 0.696,
-    "news_peg": 0.096,
-    "data_point": 0.061,
-    "list": 0.061,
-    "story": 0.052,
-    "question": 0.017,
-    "quote": 0.017
+    "bold_claim": 0.655,
+    "news_peg": 0.101,
+    "data_point": 0.079,
+    "list": 0.058,
+    "story": 0.058,
+    "question": 0.029,
+    "quote": 0.022
    },
    "median_chars": 182,
    "p25_chars": 76,
@@ -3784,24 +3788,22 @@
    "thread_marker_share": 0.043,
    "question_open_share": 0.014,
    "link_share": 0.367,
-   "jev_tagged_share": 0.827
+   "jev_tagged_share": 1.0
   },
   "fannaoxiaoyang": {
    "posts": 90,
    "post_type_mix": {
-    "hot_take": 0.411,
-    "data_take": 0.322,
-    "mechanism_explainer": 0.244,
-    "earnings_take": 0.011,
-    "view_relay": 0.011
+    "mechanism_explainer": 0.367,
+    "hot_take": 0.356,
+    "data_take": 0.278
    },
    "hook_mix": {
-    "bold_claim": 0.712,
-    "data_point": 0.121,
-    "news_peg": 0.076,
-    "story": 0.045,
-    "question": 0.03,
-    "list": 0.015
+    "bold_claim": 0.722,
+    "data_point": 0.111,
+    "news_peg": 0.078,
+    "story": 0.044,
+    "question": 0.033,
+    "list": 0.011
    },
    "median_chars": 116,
    "p25_chars": 77,
@@ -3812,24 +3814,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.011,
    "link_share": 0.089,
-   "jev_tagged_share": 0.733
+   "jev_tagged_share": 1.0
   },
   "fi56622380": {
    "posts": 206,
    "post_type_mix": {
-    "mechanism_explainer": 0.476,
-    "data_take": 0.243,
-    "hot_take": 0.165,
-    "view_relay": 0.107,
+    "mechanism_explainer": 0.471,
+    "data_take": 0.233,
+    "view_relay": 0.17,
+    "hot_take": 0.117,
     "earnings_take": 0.01
    },
    "hook_mix": {
-    "bold_claim": 0.47,
+    "bold_claim": 0.476,
     "news_peg": 0.199,
-    "question": 0.139,
-    "story": 0.072,
-    "data_point": 0.066,
-    "list": 0.03,
+    "question": 0.121,
+    "story": 0.083,
+    "data_point": 0.068,
+    "list": 0.029,
     "quote": 0.024
    },
    "median_chars": 466,
@@ -3841,23 +3843,23 @@
    "thread_marker_share": 0.015,
    "question_open_share": 0.083,
    "link_share": 0.262,
-   "jev_tagged_share": 0.806
+   "jev_tagged_share": 1.0
   },
   "fundstrat": {
    "posts": 114,
    "post_type_mix": {
-    "hot_take": 0.728,
-    "view_relay": 0.211,
-    "data_take": 0.044,
+    "hot_take": 0.772,
+    "view_relay": 0.175,
+    "data_take": 0.035,
     "mechanism_explainer": 0.018
    },
    "hook_mix": {
-    "bold_claim": 0.717,
-    "news_peg": 0.16,
-    "data_point": 0.057,
-    "question": 0.028,
-    "quote": 0.019,
-    "story": 0.009,
+    "bold_claim": 0.711,
+    "news_peg": 0.149,
+    "data_point": 0.061,
+    "question": 0.026,
+    "quote": 0.026,
+    "story": 0.018,
     "list": 0.009
    },
    "median_chars": 48,
@@ -3869,23 +3871,23 @@
    "thread_marker_share": 0.009,
    "question_open_share": 0.009,
    "link_share": 0.289,
-   "jev_tagged_share": 0.93
+   "jev_tagged_share": 1.0
   },
   "garyblack00": {
    "posts": 130,
    "post_type_mix": {
-    "data_take": 0.569,
-    "mechanism_explainer": 0.162,
-    "earnings_take": 0.138,
-    "view_relay": 0.108,
+    "data_take": 0.577,
+    "earnings_take": 0.146,
+    "mechanism_explainer": 0.131,
+    "view_relay": 0.123,
     "hot_take": 0.023
    },
    "hook_mix": {
-    "news_peg": 0.459,
-    "bold_claim": 0.254,
-    "data_point": 0.197,
-    "list": 0.066,
-    "story": 0.016,
+    "news_peg": 0.446,
+    "bold_claim": 0.277,
+    "data_point": 0.192,
+    "list": 0.062,
+    "story": 0.015,
     "quote": 0.008
    },
    "median_chars": 761,
@@ -3897,22 +3899,22 @@
    "thread_marker_share": 0.108,
    "question_open_share": 0.0,
    "link_share": 0.138,
-   "jev_tagged_share": 0.938
+   "jev_tagged_share": 1.0
   },
   "glassnode": {
    "posts": 173,
    "post_type_mix": {
-    "data_take": 0.792,
-    "hot_take": 0.098,
-    "view_relay": 0.064,
-    "mechanism_explainer": 0.046
+    "data_take": 0.838,
+    "mechanism_explainer": 0.069,
+    "view_relay": 0.058,
+    "hot_take": 0.035
    },
    "hook_mix": {
-    "bold_claim": 0.579,
-    "data_point": 0.316,
-    "news_peg": 0.083,
-    "question": 0.015,
-    "list": 0.008
+    "bold_claim": 0.549,
+    "data_point": 0.324,
+    "news_peg": 0.098,
+    "list": 0.017,
+    "question": 0.012
    },
    "median_chars": 272,
    "p25_chars": 240,
@@ -3923,23 +3925,24 @@
    "thread_marker_share": 0.023,
    "question_open_share": 0.006,
    "link_share": 0.948,
-   "jev_tagged_share": 0.769
+   "jev_tagged_share": 1.0
   },
   "highFree2028": {
    "posts": 212,
    "post_type_mix": {
-    "hot_take": 0.382,
-    "data_take": 0.274,
-    "mechanism_explainer": 0.212,
-    "view_relay": 0.132
+    "hot_take": 0.358,
+    "data_take": 0.278,
+    "mechanism_explainer": 0.203,
+    "view_relay": 0.16
    },
    "hook_mix": {
-    "bold_claim": 0.533,
-    "news_peg": 0.144,
-    "list": 0.106,
-    "question": 0.083,
-    "data_point": 0.078,
-    "story": 0.056
+    "bold_claim": 0.514,
+    "news_peg": 0.146,
+    "data_point": 0.104,
+    "list": 0.094,
+    "question": 0.08,
+    "story": 0.057,
+    "quote": 0.005
    },
    "median_chars": 85,
    "p25_chars": 44,
@@ -3950,24 +3953,24 @@
    "thread_marker_share": 0.009,
    "question_open_share": 0.047,
    "link_share": 0.514,
-   "jev_tagged_share": 0.849
+   "jev_tagged_share": 1.0
   },
   "howardlindzon": {
    "posts": 152,
    "post_type_mix": {
-    "hot_take": 0.822,
-    "data_take": 0.079,
-    "view_relay": 0.059,
+    "hot_take": 0.842,
+    "data_take": 0.066,
+    "view_relay": 0.053,
     "mechanism_explainer": 0.033,
     "earnings_take": 0.007
    },
    "hook_mix": {
-    "bold_claim": 0.676,
-    "story": 0.125,
-    "data_point": 0.081,
-    "question": 0.059,
-    "news_peg": 0.037,
-    "list": 0.015,
+    "bold_claim": 0.691,
+    "story": 0.118,
+    "data_point": 0.072,
+    "question": 0.053,
+    "news_peg": 0.046,
+    "list": 0.013,
     "quote": 0.007
    },
    "median_chars": 70,
@@ -3979,25 +3982,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.013,
    "link_share": 0.204,
-   "jev_tagged_share": 0.895
+   "jev_tagged_share": 1.0
   },
   "huahuayjy": {
    "posts": 216,
    "post_type_mix": {
-    "hot_take": 0.838,
-    "data_take": 0.074,
-    "mechanism_explainer": 0.051,
-    "view_relay": 0.032,
-    "earnings_take": 0.005
+    "hot_take": 0.819,
+    "mechanism_explainer": 0.106,
+    "data_take": 0.065,
+    "earnings_take": 0.005,
+    "view_relay": 0.005
    },
    "hook_mix": {
-    "bold_claim": 0.72,
-    "story": 0.119,
-    "data_point": 0.048,
-    "question": 0.042,
-    "quote": 0.03,
-    "list": 0.03,
-    "news_peg": 0.012
+    "bold_claim": 0.69,
+    "story": 0.139,
+    "question": 0.051,
+    "list": 0.046,
+    "data_point": 0.037,
+    "quote": 0.028,
+    "news_peg": 0.009
    },
    "median_chars": 64,
    "p25_chars": 31,
@@ -4008,24 +4011,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.079,
    "link_share": 0.12,
-   "jev_tagged_share": 0.778
+   "jev_tagged_share": 1.0
   },
   "iancassel": {
    "posts": 166,
    "post_type_mix": {
-    "hot_take": 0.524,
-    "view_relay": 0.229,
-    "data_take": 0.133,
-    "mechanism_explainer": 0.114
+    "hot_take": 0.536,
+    "view_relay": 0.277,
+    "data_take": 0.096,
+    "mechanism_explainer": 0.09
    },
    "hook_mix": {
-    "bold_claim": 0.548,
-    "story": 0.214,
-    "news_peg": 0.079,
-    "data_point": 0.079,
-    "question": 0.04,
+    "bold_claim": 0.518,
+    "story": 0.163,
+    "news_peg": 0.12,
+    "data_point": 0.108,
+    "question": 0.042,
     "list": 0.024,
-    "quote": 0.016
+    "quote": 0.024
    },
    "median_chars": 172,
    "p25_chars": 93,
@@ -4036,24 +4039,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.012,
    "link_share": 0.524,
-   "jev_tagged_share": 0.759
+   "jev_tagged_share": 1.0
   },
   "intangiblecoins": {
    "posts": 138,
    "post_type_mix": {
-    "hot_take": 0.478,
-    "data_take": 0.261,
-    "view_relay": 0.167,
-    "mechanism_explainer": 0.094
+    "hot_take": 0.355,
+    "data_take": 0.297,
+    "view_relay": 0.261,
+    "mechanism_explainer": 0.087
    },
    "hook_mix": {
-    "bold_claim": 0.429,
-    "news_peg": 0.245,
-    "story": 0.143,
-    "data_point": 0.133,
-    "quote": 0.031,
-    "question": 0.01,
-    "list": 0.01
+    "bold_claim": 0.42,
+    "news_peg": 0.225,
+    "data_point": 0.181,
+    "story": 0.116,
+    "quote": 0.029,
+    "question": 0.014,
+    "list": 0.014
    },
    "median_chars": 133,
    "p25_chars": 61,
@@ -4064,24 +4067,24 @@
    "thread_marker_share": 0.014,
    "question_open_share": 0.007,
    "link_share": 0.652,
-   "jev_tagged_share": 0.71
+   "jev_tagged_share": 1.0
   },
   "jameslavish": {
    "posts": 135,
    "post_type_mix": {
-    "hot_take": 0.6,
-    "view_relay": 0.178,
-    "data_take": 0.148,
+    "hot_take": 0.585,
+    "view_relay": 0.185,
+    "data_take": 0.156,
     "mechanism_explainer": 0.074
    },
    "hook_mix": {
-    "bold_claim": 0.543,
-    "news_peg": 0.181,
-    "question": 0.102,
-    "data_point": 0.071,
-    "quote": 0.047,
-    "story": 0.047,
-    "list": 0.008
+    "bold_claim": 0.541,
+    "news_peg": 0.185,
+    "question": 0.104,
+    "data_point": 0.074,
+    "quote": 0.044,
+    "story": 0.044,
+    "list": 0.007
    },
    "median_chars": 126,
    "p25_chars": 79,
@@ -4092,24 +4095,24 @@
    "thread_marker_share": 0.022,
    "question_open_share": 0.052,
    "link_share": 0.452,
-   "jev_tagged_share": 0.941
+   "jev_tagged_share": 1.0
   },
   "jasongoepfert": {
    "posts": 200,
    "post_type_mix": {
-    "data_take": 0.675,
-    "hot_take": 0.255,
-    "view_relay": 0.05,
-    "mechanism_explainer": 0.02
+    "data_take": 0.71,
+    "hot_take": 0.185,
+    "view_relay": 0.08,
+    "mechanism_explainer": 0.025
    },
    "hook_mix": {
-    "bold_claim": 0.56,
-    "data_point": 0.274,
-    "news_peg": 0.077,
+    "bold_claim": 0.57,
+    "data_point": 0.26,
+    "news_peg": 0.09,
     "question": 0.03,
-    "quote": 0.024,
-    "list": 0.018,
-    "story": 0.018
+    "quote": 0.02,
+    "list": 0.015,
+    "story": 0.015
    },
    "median_chars": 198,
    "p25_chars": 140,
@@ -4120,24 +4123,24 @@
    "thread_marker_share": 0.02,
    "question_open_share": 0.015,
    "link_share": 0.77,
-   "jev_tagged_share": 0.84
+   "jev_tagged_share": 1.0
   },
   "jnordvig": {
    "posts": 199,
    "post_type_mix": {
-    "hot_take": 0.508,
-    "view_relay": 0.266,
-    "data_take": 0.171,
-    "mechanism_explainer": 0.05,
+    "hot_take": 0.452,
+    "view_relay": 0.327,
+    "data_take": 0.161,
+    "mechanism_explainer": 0.055,
     "earnings_take": 0.005
    },
    "hook_mix": {
-    "bold_claim": 0.536,
-    "news_peg": 0.212,
-    "story": 0.126,
-    "question": 0.079,
-    "data_point": 0.04,
-    "list": 0.007
+    "bold_claim": 0.553,
+    "news_peg": 0.211,
+    "story": 0.106,
+    "question": 0.075,
+    "data_point": 0.05,
+    "list": 0.005
    },
    "median_chars": 104,
    "p25_chars": 48,
@@ -4148,23 +4151,23 @@
    "thread_marker_share": 0.02,
    "question_open_share": 0.055,
    "link_share": 0.548,
-   "jev_tagged_share": 0.759
+   "jev_tagged_share": 1.0
   },
   "josephwang": {
    "posts": 142,
    "post_type_mix": {
-    "hot_take": 0.437,
-    "view_relay": 0.296,
-    "data_take": 0.162,
-    "mechanism_explainer": 0.106
+    "view_relay": 0.38,
+    "hot_take": 0.345,
+    "mechanism_explainer": 0.141,
+    "data_take": 0.134
    },
    "hook_mix": {
-    "bold_claim": 0.555,
-    "news_peg": 0.291,
-    "data_point": 0.064,
-    "question": 0.055,
-    "quote": 0.018,
-    "story": 0.018
+    "bold_claim": 0.556,
+    "news_peg": 0.303,
+    "question": 0.063,
+    "data_point": 0.049,
+    "quote": 0.014,
+    "story": 0.014
    },
    "median_chars": 102,
    "p25_chars": 70,
@@ -4175,7 +4178,7 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.028,
    "link_share": 0.718,
-   "jev_tagged_share": 0.775
+   "jev_tagged_share": 1.0
   },
   "jpinsights": {
    "posts": 92,
@@ -4209,20 +4212,20 @@
   "jsblokland": {
    "posts": 187,
    "post_type_mix": {
-    "mechanism_explainer": 0.364,
-    "data_take": 0.305,
-    "hot_take": 0.225,
-    "view_relay": 0.102,
-    "earnings_take": 0.005
+    "data_take": 0.348,
+    "mechanism_explainer": 0.305,
+    "hot_take": 0.219,
+    "view_relay": 0.118,
+    "earnings_take": 0.011
    },
    "hook_mix": {
-    "bold_claim": 0.483,
-    "news_peg": 0.17,
-    "data_point": 0.136,
-    "question": 0.122,
-    "story": 0.048,
-    "list": 0.02,
-    "quote": 0.02
+    "bold_claim": 0.471,
+    "news_peg": 0.198,
+    "data_point": 0.134,
+    "question": 0.123,
+    "story": 0.037,
+    "quote": 0.021,
+    "list": 0.016
    },
    "median_chars": 601,
    "p25_chars": 199,
@@ -4233,24 +4236,24 @@
    "thread_marker_share": 0.021,
    "question_open_share": 0.086,
    "link_share": 0.481,
-   "jev_tagged_share": 0.786
+   "jev_tagged_share": 1.0
   },
   "jturek18": {
    "posts": 211,
    "post_type_mix": {
-    "hot_take": 0.427,
-    "data_take": 0.289,
-    "view_relay": 0.19,
-    "mechanism_explainer": 0.085,
-    "earnings_take": 0.009
+    "data_take": 0.346,
+    "hot_take": 0.341,
+    "view_relay": 0.194,
+    "mechanism_explainer": 0.114,
+    "earnings_take": 0.005
    },
    "hook_mix": {
-    "bold_claim": 0.678,
-    "news_peg": 0.14,
-    "data_point": 0.088,
-    "story": 0.053,
-    "question": 0.035,
-    "quote": 0.006
+    "bold_claim": 0.649,
+    "news_peg": 0.161,
+    "data_point": 0.09,
+    "story": 0.047,
+    "question": 0.043,
+    "quote": 0.009
    },
    "median_chars": 166,
    "p25_chars": 117,
@@ -4261,25 +4264,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.033,
    "link_share": 0.289,
-   "jev_tagged_share": 0.81
+   "jev_tagged_share": 1.0
   },
   "jukan05": {
    "posts": 199,
    "post_type_mix": {
-    "view_relay": 0.528,
-    "hot_take": 0.302,
-    "data_take": 0.111,
-    "mechanism_explainer": 0.04,
-    "earnings_take": 0.02
+    "view_relay": 0.618,
+    "hot_take": 0.231,
+    "data_take": 0.106,
+    "earnings_take": 0.025,
+    "mechanism_explainer": 0.02
    },
    "hook_mix": {
-    "news_peg": 0.353,
-    "bold_claim": 0.246,
-    "question": 0.168,
-    "data_point": 0.15,
-    "story": 0.048,
-    "quote": 0.03,
-    "list": 0.006
+    "news_peg": 0.342,
+    "bold_claim": 0.266,
+    "question": 0.161,
+    "data_point": 0.146,
+    "story": 0.045,
+    "quote": 0.035,
+    "list": 0.005
    },
    "median_chars": 120,
    "p25_chars": 29,
@@ -4290,25 +4293,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.065,
    "link_share": 0.533,
-   "jev_tagged_share": 0.839
+   "jev_tagged_share": 1.0
   },
   "kevinsxu": {
    "posts": 178,
    "post_type_mix": {
-    "hot_take": 0.494,
-    "view_relay": 0.258,
-    "data_take": 0.129,
-    "mechanism_explainer": 0.09,
-    "earnings_take": 0.028
+    "hot_take": 0.506,
+    "view_relay": 0.287,
+    "data_take": 0.107,
+    "mechanism_explainer": 0.084,
+    "earnings_take": 0.017
    },
    "hook_mix": {
-    "bold_claim": 0.555,
-    "news_peg": 0.253,
-    "story": 0.068,
-    "question": 0.062,
-    "data_point": 0.048,
-    "quote": 0.007,
-    "list": 0.007
+    "bold_claim": 0.567,
+    "news_peg": 0.236,
+    "story": 0.067,
+    "question": 0.067,
+    "data_point": 0.051,
+    "quote": 0.006,
+    "list": 0.006
    },
    "median_chars": 169,
    "p25_chars": 71,
@@ -4319,23 +4322,23 @@
    "thread_marker_share": 0.011,
    "question_open_share": 0.045,
    "link_share": 0.36,
-   "jev_tagged_share": 0.82
+   "jev_tagged_share": 1.0
   },
   "ki_young_ju": {
    "posts": 174,
    "post_type_mix": {
-    "data_take": 0.397,
-    "hot_take": 0.379,
-    "view_relay": 0.132,
+    "data_take": 0.448,
+    "hot_take": 0.305,
+    "view_relay": 0.155,
     "mechanism_explainer": 0.092
    },
    "hook_mix": {
-    "bold_claim": 0.6,
-    "data_point": 0.2,
-    "news_peg": 0.107,
+    "bold_claim": 0.598,
+    "data_point": 0.213,
+    "news_peg": 0.103,
     "story": 0.04,
-    "list": 0.04,
-    "question": 0.013
+    "list": 0.034,
+    "question": 0.011
    },
    "median_chars": 124,
    "p25_chars": 64,
@@ -4346,7 +4349,7 @@
    "thread_marker_share": 0.023,
    "question_open_share": 0.006,
    "link_share": 0.724,
-   "jev_tagged_share": 0.862
+   "jev_tagged_share": 1.0
   },
   "leadlagreport": {
    "posts": 115,
@@ -4380,18 +4383,18 @@
    "posts": 212,
    "post_type_mix": {
     "data_take": 0.59,
-    "view_relay": 0.288,
-    "hot_take": 0.08,
+    "view_relay": 0.311,
+    "hot_take": 0.057,
     "mechanism_explainer": 0.028,
     "earnings_take": 0.014
    },
    "hook_mix": {
-    "data_point": 0.357,
-    "bold_claim": 0.342,
-    "news_peg": 0.158,
-    "quote": 0.102,
-    "list": 0.026,
-    "question": 0.015
+    "data_point": 0.358,
+    "bold_claim": 0.344,
+    "news_peg": 0.156,
+    "quote": 0.099,
+    "list": 0.028,
+    "question": 0.014
    },
    "median_chars": 256,
    "p25_chars": 180,
@@ -4402,24 +4405,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.009,
    "link_share": 0.778,
-   "jev_tagged_share": 0.925
+   "jev_tagged_share": 1.0
   },
   "maojietrading": {
    "posts": 199,
    "post_type_mix": {
-    "hot_take": 0.382,
-    "data_take": 0.317,
-    "mechanism_explainer": 0.191,
-    "view_relay": 0.09,
-    "earnings_take": 0.02
+    "hot_take": 0.342,
+    "data_take": 0.322,
+    "mechanism_explainer": 0.216,
+    "view_relay": 0.095,
+    "earnings_take": 0.025
    },
    "hook_mix": {
-    "bold_claim": 0.388,
+    "bold_claim": 0.397,
     "story": 0.191,
-    "news_peg": 0.175,
-    "data_point": 0.169,
-    "list": 0.038,
-    "question": 0.033,
+    "news_peg": 0.176,
+    "data_point": 0.166,
+    "list": 0.035,
+    "question": 0.03,
     "quote": 0.005
    },
    "median_chars": 138,
@@ -4431,25 +4434,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.07,
    "link_share": 0.352,
-   "jev_tagged_share": 0.92
+   "jev_tagged_share": 1.0
   },
   "markminervini": {
    "posts": 153,
    "post_type_mix": {
-    "hot_take": 0.51,
-    "mechanism_explainer": 0.235,
-    "data_take": 0.137,
-    "view_relay": 0.111,
+    "hot_take": 0.503,
+    "mechanism_explainer": 0.209,
+    "data_take": 0.15,
+    "view_relay": 0.131,
     "earnings_take": 0.007
    },
    "hook_mix": {
-    "bold_claim": 0.705,
-    "news_peg": 0.062,
-    "story": 0.062,
-    "question": 0.054,
-    "data_point": 0.047,
+    "bold_claim": 0.68,
+    "story": 0.072,
+    "news_peg": 0.065,
+    "question": 0.065,
+    "data_point": 0.046,
     "quote": 0.039,
-    "list": 0.031
+    "list": 0.033
    },
    "median_chars": 236,
    "p25_chars": 95,
@@ -4460,25 +4463,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.046,
    "link_share": 0.431,
-   "jev_tagged_share": 0.843
+   "jev_tagged_share": 1.0
   },
   "matthew_sigel": {
    "posts": 172,
    "post_type_mix": {
-    "hot_take": 0.32,
-    "data_take": 0.314,
-    "view_relay": 0.209,
-    "mechanism_explainer": 0.116,
+    "data_take": 0.326,
+    "view_relay": 0.279,
+    "hot_take": 0.25,
+    "mechanism_explainer": 0.105,
     "earnings_take": 0.041
    },
    "hook_mix": {
-    "bold_claim": 0.403,
-    "news_peg": 0.274,
+    "bold_claim": 0.378,
+    "news_peg": 0.302,
     "data_point": 0.145,
-    "question": 0.073,
-    "quote": 0.056,
-    "story": 0.032,
-    "list": 0.016
+    "question": 0.081,
+    "quote": 0.041,
+    "story": 0.035,
+    "list": 0.017
    },
    "median_chars": 187,
    "p25_chars": 88,
@@ -4489,25 +4492,25 @@
    "thread_marker_share": 0.052,
    "question_open_share": 0.041,
    "link_share": 0.506,
-   "jev_tagged_share": 0.721
+   "jev_tagged_share": 1.0
   },
   "memekiller365": {
    "posts": 184,
    "post_type_mix": {
     "hot_take": 0.69,
-    "data_take": 0.103,
-    "mechanism_explainer": 0.098,
+    "mechanism_explainer": 0.114,
     "view_relay": 0.092,
-    "earnings_take": 0.016
+    "data_take": 0.082,
+    "earnings_take": 0.022
    },
    "hook_mix": {
-    "bold_claim": 0.612,
-    "news_peg": 0.138,
-    "question": 0.086,
-    "story": 0.072,
-    "list": 0.046,
-    "data_point": 0.026,
-    "quote": 0.02
+    "bold_claim": 0.598,
+    "news_peg": 0.136,
+    "question": 0.092,
+    "story": 0.076,
+    "list": 0.049,
+    "data_point": 0.033,
+    "quote": 0.016
    },
    "median_chars": 54,
    "p25_chars": 26,
@@ -4518,24 +4521,24 @@
    "thread_marker_share": 0.005,
    "question_open_share": 0.054,
    "link_share": 0.375,
-   "jev_tagged_share": 0.826
+   "jev_tagged_share": 1.0
   },
   "michaelbatnick": {
    "posts": 76,
    "post_type_mix": {
-    "data_take": 0.329,
     "hot_take": 0.316,
-    "view_relay": 0.263,
-    "mechanism_explainer": 0.079,
+    "view_relay": 0.289,
+    "data_take": 0.289,
+    "mechanism_explainer": 0.092,
     "earnings_take": 0.013
    },
    "hook_mix": {
-    "bold_claim": 0.5,
-    "question": 0.139,
-    "data_point": 0.139,
-    "story": 0.125,
-    "news_peg": 0.069,
-    "list": 0.028
+    "bold_claim": 0.487,
+    "question": 0.145,
+    "story": 0.132,
+    "data_point": 0.132,
+    "news_peg": 0.066,
+    "list": 0.039
    },
    "median_chars": 120,
    "p25_chars": 84,
@@ -4546,25 +4549,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.118,
    "link_share": 0.921,
-   "jev_tagged_share": 0.947
+   "jev_tagged_share": 1.0
   },
   "michaelxpettis": {
    "posts": 195,
    "post_type_mix": {
-    "view_relay": 0.523,
-    "mechanism_explainer": 0.205,
-    "data_take": 0.144,
-    "hot_take": 0.118,
-    "earnings_take": 0.01
+    "view_relay": 0.6,
+    "mechanism_explainer": 0.185,
+    "data_take": 0.133,
+    "hot_take": 0.082
    },
    "hook_mix": {
-    "quote": 0.269,
-    "list": 0.24,
-    "news_peg": 0.181,
-    "bold_claim": 0.175,
-    "data_point": 0.07,
-    "story": 0.047,
-    "question": 0.018
+    "quote": 0.256,
+    "list": 0.236,
+    "news_peg": 0.2,
+    "bold_claim": 0.164,
+    "data_point": 0.082,
+    "story": 0.041,
+    "question": 0.021
    },
    "median_chars": 279,
    "p25_chars": 239,
@@ -4575,22 +4577,22 @@
    "thread_marker_share": 0.338,
    "question_open_share": 0.0,
    "link_share": 0.764,
-   "jev_tagged_share": 0.877
+   "jev_tagged_share": 1.0
   },
   "mindaoyang": {
    "posts": 206,
    "post_type_mix": {
-    "hot_take": 0.621,
-    "mechanism_explainer": 0.194,
+    "hot_take": 0.607,
+    "mechanism_explainer": 0.204,
     "data_take": 0.155,
-    "view_relay": 0.029
+    "view_relay": 0.034
    },
    "hook_mix": {
-    "bold_claim": 0.768,
-    "news_peg": 0.106,
-    "data_point": 0.071,
-    "question": 0.03,
-    "list": 0.01,
+    "bold_claim": 0.762,
+    "news_peg": 0.102,
+    "data_point": 0.073,
+    "question": 0.034,
+    "list": 0.015,
     "story": 0.01,
     "quote": 0.005
    },
@@ -4603,24 +4605,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.029,
    "link_share": 0.102,
-   "jev_tagged_share": 0.961
+   "jev_tagged_share": 1.0
   },
   "mingchikuo": {
    "posts": 209,
    "post_type_mix": {
-    "view_relay": 0.292,
-    "data_take": 0.254,
-    "mechanism_explainer": 0.249,
-    "hot_take": 0.11,
-    "earnings_take": 0.096
+    "view_relay": 0.378,
+    "data_take": 0.239,
+    "mechanism_explainer": 0.211,
+    "earnings_take": 0.105,
+    "hot_take": 0.067
    },
    "hook_mix": {
-    "news_peg": 0.466,
-    "bold_claim": 0.323,
-    "list": 0.087,
-    "data_point": 0.062,
-    "question": 0.056,
-    "story": 0.006
+    "news_peg": 0.478,
+    "bold_claim": 0.316,
+    "data_point": 0.077,
+    "list": 0.067,
+    "question": 0.057,
+    "story": 0.005
    },
    "median_chars": 489,
    "p25_chars": 171,
@@ -4631,24 +4633,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.01,
    "link_share": 0.397,
-   "jev_tagged_share": 0.77
+   "jev_tagged_share": 1.0
   },
   "morganhousel": {
    "posts": 162,
    "post_type_mix": {
-    "hot_take": 0.611,
-    "view_relay": 0.278,
-    "data_take": 0.086,
-    "mechanism_explainer": 0.025
+    "hot_take": 0.593,
+    "view_relay": 0.315,
+    "data_take": 0.062,
+    "mechanism_explainer": 0.031
    },
    "hook_mix": {
-    "bold_claim": 0.541,
-    "quote": 0.164,
-    "news_peg": 0.089,
-    "list": 0.062,
-    "story": 0.055,
-    "data_point": 0.055,
-    "question": 0.034
+    "bold_claim": 0.537,
+    "quote": 0.173,
+    "news_peg": 0.086,
+    "list": 0.068,
+    "story": 0.056,
+    "data_point": 0.049,
+    "question": 0.031
    },
    "median_chars": 122,
    "p25_chars": 85,
@@ -4659,25 +4661,25 @@
    "thread_marker_share": 0.006,
    "question_open_share": 0.012,
    "link_share": 0.451,
-   "jev_tagged_share": 0.901
+   "jev_tagged_share": 1.0
   },
   "nbblock": {
    "posts": 211,
    "post_type_mix": {
-    "hot_take": 0.545,
-    "data_take": 0.175,
-    "mechanism_explainer": 0.142,
-    "view_relay": 0.09,
+    "hot_take": 0.531,
+    "data_take": 0.166,
+    "mechanism_explainer": 0.161,
+    "view_relay": 0.095,
     "earnings_take": 0.047
    },
    "hook_mix": {
-    "bold_claim": 0.46,
-    "news_peg": 0.241,
+    "bold_claim": 0.469,
+    "news_peg": 0.218,
     "question": 0.118,
-    "story": 0.07,
-    "data_point": 0.064,
-    "quote": 0.027,
-    "list": 0.021
+    "data_point": 0.076,
+    "story": 0.076,
+    "quote": 0.024,
+    "list": 0.019
    },
    "median_chars": 93,
    "p25_chars": 48,
@@ -4688,24 +4690,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.109,
    "link_share": 0.185,
-   "jev_tagged_share": 0.886
+   "jev_tagged_share": 1.0
   },
   "pboockvar": {
    "posts": 105,
    "post_type_mix": {
-    "hot_take": 0.619,
-    "view_relay": 0.21,
-    "data_take": 0.095,
-    "mechanism_explainer": 0.048,
-    "earnings_take": 0.029
+    "hot_take": 0.552,
+    "view_relay": 0.248,
+    "data_take": 0.124,
+    "earnings_take": 0.048,
+    "mechanism_explainer": 0.029
    },
    "hook_mix": {
-    "bold_claim": 0.685,
-    "news_peg": 0.137,
-    "story": 0.096,
-    "quote": 0.027,
-    "data_point": 0.027,
-    "question": 0.027
+    "bold_claim": 0.724,
+    "news_peg": 0.124,
+    "story": 0.086,
+    "question": 0.029,
+    "quote": 0.019,
+    "data_point": 0.019
    },
    "median_chars": 65,
    "p25_chars": 16,
@@ -4716,25 +4718,25 @@
    "thread_marker_share": 0.019,
    "question_open_share": 0.019,
    "link_share": 0.133,
-   "jev_tagged_share": 0.695
+   "jev_tagged_share": 1.0
   },
   "profplum99": {
    "posts": 200,
    "post_type_mix": {
-    "hot_take": 0.63,
-    "view_relay": 0.195,
-    "data_take": 0.12,
-    "mechanism_explainer": 0.05,
+    "hot_take": 0.615,
+    "view_relay": 0.215,
+    "data_take": 0.11,
+    "mechanism_explainer": 0.055,
     "earnings_take": 0.005
    },
    "hook_mix": {
-    "bold_claim": 0.67,
-    "quote": 0.108,
-    "story": 0.091,
-    "data_point": 0.051,
-    "question": 0.04,
-    "news_peg": 0.028,
-    "list": 0.011
+    "bold_claim": 0.645,
+    "quote": 0.115,
+    "story": 0.1,
+    "data_point": 0.05,
+    "question": 0.045,
+    "news_peg": 0.035,
+    "list": 0.01
    },
    "median_chars": 107,
    "p25_chars": 50,
@@ -4745,25 +4747,25 @@
    "thread_marker_share": 0.005,
    "question_open_share": 0.06,
    "link_share": 0.365,
-   "jev_tagged_share": 0.88
+   "jev_tagged_share": 1.0
   },
   "qinbafrank": {
    "posts": 215,
    "post_type_mix": {
-    "mechanism_explainer": 0.456,
-    "view_relay": 0.223,
-    "data_take": 0.186,
-    "hot_take": 0.102,
-    "earnings_take": 0.033
+    "mechanism_explainer": 0.433,
+    "view_relay": 0.298,
+    "data_take": 0.172,
+    "hot_take": 0.07,
+    "earnings_take": 0.028
    },
    "hook_mix": {
-    "news_peg": 0.403,
-    "bold_claim": 0.306,
-    "question": 0.146,
-    "quote": 0.049,
-    "data_point": 0.042,
-    "list": 0.035,
-    "story": 0.021
+    "news_peg": 0.391,
+    "bold_claim": 0.298,
+    "question": 0.153,
+    "data_point": 0.056,
+    "quote": 0.042,
+    "list": 0.033,
+    "story": 0.028
    },
    "median_chars": 487,
    "p25_chars": 189,
@@ -4774,24 +4776,24 @@
    "thread_marker_share": 0.019,
    "question_open_share": 0.219,
    "link_share": 0.474,
-   "jev_tagged_share": 0.67
+   "jev_tagged_share": 1.0
   },
   "rickawsb": {
    "posts": 204,
    "post_type_mix": {
-    "hot_take": 0.471,
-    "mechanism_explainer": 0.255,
+    "hot_take": 0.441,
+    "mechanism_explainer": 0.275,
     "view_relay": 0.167,
-    "data_take": 0.098,
-    "earnings_take": 0.01
+    "data_take": 0.113,
+    "earnings_take": 0.005
    },
    "hook_mix": {
-    "bold_claim": 0.539,
-    "news_peg": 0.233,
-    "question": 0.1,
-    "data_point": 0.05,
+    "bold_claim": 0.554,
+    "news_peg": 0.221,
+    "question": 0.098,
+    "data_point": 0.054,
     "story": 0.044,
-    "quote": 0.033
+    "quote": 0.029
    },
    "median_chars": 99,
    "p25_chars": 43,
@@ -4802,22 +4804,23 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.098,
    "link_share": 0.118,
-   "jev_tagged_share": 0.882
+   "jev_tagged_share": 1.0
   },
   "robin_j_brooks": {
    "posts": 75,
    "post_type_mix": {
-    "data_take": 0.4,
+    "data_take": 0.36,
     "hot_take": 0.32,
-    "mechanism_explainer": 0.267,
-    "view_relay": 0.013
+    "mechanism_explainer": 0.293,
+    "view_relay": 0.027
    },
    "hook_mix": {
-    "bold_claim": 0.612,
-    "news_peg": 0.149,
-    "story": 0.119,
-    "data_point": 0.104,
-    "list": 0.015
+    "bold_claim": 0.6,
+    "news_peg": 0.147,
+    "story": 0.133,
+    "data_point": 0.093,
+    "list": 0.013,
+    "question": 0.013
    },
    "median_chars": 303,
    "p25_chars": 302,
@@ -4828,25 +4831,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.013,
    "link_share": 1.0,
-   "jev_tagged_share": 0.893
+   "jev_tagged_share": 1.0
   },
   "saxena_puru": {
    "posts": 191,
    "post_type_mix": {
-    "hot_take": 0.372,
-    "data_take": 0.335,
-    "view_relay": 0.147,
-    "mechanism_explainer": 0.12,
-    "earnings_take": 0.026
+    "data_take": 0.346,
+    "hot_take": 0.325,
+    "view_relay": 0.162,
+    "mechanism_explainer": 0.131,
+    "earnings_take": 0.037
    },
    "hook_mix": {
-    "bold_claim": 0.531,
-    "news_peg": 0.263,
-    "data_point": 0.144,
-    "quote": 0.019,
-    "story": 0.019,
-    "question": 0.019,
-    "list": 0.006
+    "bold_claim": 0.503,
+    "news_peg": 0.272,
+    "data_point": 0.157,
+    "question": 0.026,
+    "story": 0.021,
+    "quote": 0.016,
+    "list": 0.005
    },
    "median_chars": 206,
    "p25_chars": 150,
@@ -4857,24 +4860,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.016,
    "link_share": 0.492,
-   "jev_tagged_share": 0.838
+   "jev_tagged_share": 1.0
   },
   "shufen46250836": {
    "posts": 200,
    "post_type_mix": {
-    "data_take": 0.51,
-    "mechanism_explainer": 0.2,
-    "hot_take": 0.195,
-    "earnings_take": 0.065,
-    "view_relay": 0.03
+    "data_take": 0.54,
+    "mechanism_explainer": 0.21,
+    "hot_take": 0.18,
+    "view_relay": 0.035,
+    "earnings_take": 0.035
    },
    "hook_mix": {
-    "news_peg": 0.417,
-    "data_point": 0.256,
-    "bold_claim": 0.25,
-    "story": 0.054,
-    "list": 0.012,
-    "question": 0.012
+    "news_peg": 0.395,
+    "bold_claim": 0.285,
+    "data_point": 0.245,
+    "story": 0.055,
+    "list": 0.01,
+    "question": 0.01
    },
    "median_chars": 394,
    "p25_chars": 205,
@@ -4885,24 +4888,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.015,
    "link_share": 0.065,
-   "jev_tagged_share": 0.84
+   "jev_tagged_share": 1.0
   },
   "spotgamma": {
    "posts": 73,
    "post_type_mix": {
-    "data_take": 0.493,
-    "hot_take": 0.247,
+    "data_take": 0.534,
+    "hot_take": 0.205,
     "view_relay": 0.137,
     "mechanism_explainer": 0.068,
     "earnings_take": 0.055
    },
    "hook_mix": {
-    "bold_claim": 0.391,
-    "news_peg": 0.266,
+    "bold_claim": 0.425,
+    "news_peg": 0.233,
     "data_point": 0.219,
-    "question": 0.078,
-    "quote": 0.031,
-    "list": 0.016
+    "question": 0.082,
+    "quote": 0.027,
+    "list": 0.014
    },
    "median_chars": 161,
    "p25_chars": 89,
@@ -4913,24 +4916,24 @@
    "thread_marker_share": 0.027,
    "question_open_share": 0.096,
    "link_share": 0.822,
-   "jev_tagged_share": 0.877
+   "jev_tagged_share": 1.0
   },
   "techeconomyana": {
    "posts": 97,
    "post_type_mix": {
-    "hot_take": 0.567,
+    "hot_take": 0.505,
     "data_take": 0.237,
-    "view_relay": 0.113,
-    "mechanism_explainer": 0.062,
+    "view_relay": 0.155,
+    "mechanism_explainer": 0.082,
     "earnings_take": 0.021
    },
    "hook_mix": {
-    "bold_claim": 0.74,
-    "news_peg": 0.164,
-    "data_point": 0.027,
-    "story": 0.027,
-    "question": 0.027,
-    "quote": 0.014
+    "bold_claim": 0.691,
+    "news_peg": 0.155,
+    "data_point": 0.062,
+    "question": 0.041,
+    "story": 0.031,
+    "quote": 0.021
    },
    "median_chars": 71,
    "p25_chars": 48,
@@ -4941,23 +4944,23 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.052,
    "link_share": 0.196,
-   "jev_tagged_share": 0.753
+   "jev_tagged_share": 1.0
   },
   "thedefiedge": {
    "posts": 61,
    "post_type_mix": {
-    "mechanism_explainer": 0.344,
+    "mechanism_explainer": 0.311,
     "data_take": 0.246,
-    "hot_take": 0.23,
-    "view_relay": 0.18
+    "view_relay": 0.23,
+    "hot_take": 0.213
    },
    "hook_mix": {
-    "bold_claim": 0.509,
-    "data_point": 0.17,
-    "news_peg": 0.094,
-    "question": 0.094,
-    "story": 0.075,
-    "list": 0.057
+    "bold_claim": 0.492,
+    "data_point": 0.18,
+    "question": 0.115,
+    "news_peg": 0.098,
+    "story": 0.066,
+    "list": 0.049
    },
    "median_chars": 306,
    "p25_chars": 224,
@@ -4968,24 +4971,24 @@
    "thread_marker_share": 0.049,
    "question_open_share": 0.066,
    "link_share": 0.082,
-   "jev_tagged_share": 0.869
+   "jev_tagged_share": 1.0
   },
   "tradergoku": {
    "posts": 98,
    "post_type_mix": {
-    "hot_take": 0.663,
+    "hot_take": 0.582,
+    "mechanism_explainer": 0.153,
     "data_take": 0.143,
-    "mechanism_explainer": 0.112,
-    "view_relay": 0.051,
+    "view_relay": 0.092,
     "earnings_take": 0.031
    },
    "hook_mix": {
-    "bold_claim": 0.649,
-    "news_peg": 0.135,
-    "data_point": 0.081,
-    "list": 0.068,
-    "question": 0.054,
-    "story": 0.014
+    "bold_claim": 0.663,
+    "news_peg": 0.133,
+    "data_point": 0.071,
+    "question": 0.071,
+    "list": 0.051,
+    "story": 0.01
    },
    "median_chars": 59,
    "p25_chars": 38,
@@ -4996,24 +4999,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.071,
    "link_share": 0.684,
-   "jev_tagged_share": 0.755
+   "jev_tagged_share": 1.0
   },
   "tychozzz": {
    "posts": 218,
    "post_type_mix": {
-    "mechanism_explainer": 0.39,
-    "data_take": 0.22,
-    "hot_take": 0.17,
-    "view_relay": 0.115,
-    "earnings_take": 0.106
+    "mechanism_explainer": 0.445,
+    "data_take": 0.202,
+    "view_relay": 0.138,
+    "earnings_take": 0.115,
+    "hot_take": 0.101
    },
    "hook_mix": {
-    "news_peg": 0.377,
-    "bold_claim": 0.377,
-    "story": 0.099,
-    "data_point": 0.074,
-    "question": 0.049,
-    "list": 0.025
+    "news_peg": 0.381,
+    "bold_claim": 0.353,
+    "story": 0.11,
+    "data_point": 0.073,
+    "question": 0.05,
+    "list": 0.023,
+    "quote": 0.009
    },
    "median_chars": 360,
    "p25_chars": 197,
@@ -5024,24 +5028,24 @@
    "thread_marker_share": 0.009,
    "question_open_share": 0.069,
    "link_share": 0.225,
-   "jev_tagged_share": 0.743
+   "jev_tagged_share": 1.0
   },
   "williamlab": {
    "posts": 217,
    "post_type_mix": {
-    "hot_take": 0.88,
-    "data_take": 0.06,
+    "hot_take": 0.876,
+    "data_take": 0.065,
     "view_relay": 0.051,
     "mechanism_explainer": 0.009
    },
    "hook_mix": {
-    "bold_claim": 0.479,
-    "news_peg": 0.207,
-    "question": 0.189,
-    "story": 0.065,
-    "data_point": 0.036,
-    "quote": 0.018,
-    "list": 0.006
+    "bold_claim": 0.516,
+    "news_peg": 0.184,
+    "question": 0.18,
+    "story": 0.06,
+    "data_point": 0.037,
+    "quote": 0.014,
+    "list": 0.009
    },
    "median_chars": 53,
    "p25_chars": 38,
@@ -5052,24 +5056,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.12,
    "link_share": 0.756,
-   "jev_tagged_share": 0.779
+   "jev_tagged_share": 1.0
   },
   "wufantouzi": {
    "posts": 200,
    "post_type_mix": {
-    "hot_take": 0.485,
+    "hot_take": 0.48,
     "data_take": 0.23,
-    "mechanism_explainer": 0.22,
+    "mechanism_explainer": 0.225,
     "view_relay": 0.065
    },
    "hook_mix": {
-    "bold_claim": 0.589,
-    "story": 0.156,
-    "data_point": 0.094,
-    "question": 0.083,
-    "news_peg": 0.031,
-    "list": 0.026,
-    "quote": 0.021
+    "bold_claim": 0.595,
+    "story": 0.155,
+    "data_point": 0.09,
+    "question": 0.08,
+    "news_peg": 0.035,
+    "list": 0.025,
+    "quote": 0.02
    },
    "median_chars": 118,
    "p25_chars": 66,
@@ -5080,25 +5084,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.01,
    "link_share": 0.175,
-   "jev_tagged_share": 0.96
+   "jev_tagged_share": 1.0
   },
   "xiaomustock": {
    "posts": 98,
    "post_type_mix": {
-    "hot_take": 0.653,
-    "data_take": 0.153,
-    "mechanism_explainer": 0.092,
+    "hot_take": 0.622,
+    "data_take": 0.133,
+    "mechanism_explainer": 0.122,
     "view_relay": 0.082,
-    "earnings_take": 0.02
+    "earnings_take": 0.041
    },
    "hook_mix": {
-    "bold_claim": 0.662,
-    "data_point": 0.108,
-    "news_peg": 0.108,
-    "story": 0.068,
-    "quote": 0.027,
-    "question": 0.014,
-    "list": 0.014
+    "bold_claim": 0.612,
+    "news_peg": 0.133,
+    "data_point": 0.112,
+    "story": 0.071,
+    "question": 0.041,
+    "quote": 0.02,
+    "list": 0.01
    },
    "median_chars": 73,
    "p25_chars": 50,
@@ -5109,25 +5113,25 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.02,
    "link_share": 0.653,
-   "jev_tagged_share": 0.755
+   "jev_tagged_share": 1.0
   },
   "xingpt": {
    "posts": 208,
    "post_type_mix": {
-    "hot_take": 0.548,
-    "mechanism_explainer": 0.139,
-    "data_take": 0.13,
-    "view_relay": 0.12,
+    "hot_take": 0.543,
+    "mechanism_explainer": 0.144,
+    "view_relay": 0.135,
+    "data_take": 0.115,
     "earnings_take": 0.062
    },
    "hook_mix": {
     "bold_claim": 0.438,
-    "news_peg": 0.193,
-    "question": 0.159,
-    "story": 0.085,
-    "data_point": 0.074,
-    "list": 0.04,
-    "quote": 0.011
+    "news_peg": 0.202,
+    "question": 0.154,
+    "story": 0.096,
+    "data_point": 0.062,
+    "list": 0.038,
+    "quote": 0.01
    },
    "median_chars": 66,
    "p25_chars": 35,
@@ -5138,25 +5142,25 @@
    "thread_marker_share": 0.005,
    "question_open_share": 0.135,
    "link_share": 0.337,
-   "jev_tagged_share": 0.846
+   "jev_tagged_share": 1.0
   },
   "yijiangren": {
    "posts": 73,
    "post_type_mix": {
     "hot_take": 0.493,
-    "mechanism_explainer": 0.205,
-    "data_take": 0.178,
-    "view_relay": 0.11,
+    "data_take": 0.205,
+    "mechanism_explainer": 0.192,
+    "view_relay": 0.096,
     "earnings_take": 0.014
    },
    "hook_mix": {
-    "bold_claim": 0.439,
-    "news_peg": 0.14,
-    "story": 0.14,
-    "question": 0.123,
-    "list": 0.088,
-    "data_point": 0.053,
-    "quote": 0.018
+    "bold_claim": 0.411,
+    "story": 0.219,
+    "news_peg": 0.123,
+    "question": 0.096,
+    "data_point": 0.068,
+    "list": 0.068,
+    "quote": 0.014
    },
    "median_chars": 138,
    "p25_chars": 67,
@@ -5167,24 +5171,24 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.041,
    "link_share": 0.548,
-   "jev_tagged_share": 0.781
+   "jev_tagged_share": 1.0
   },
   "zackvoell": {
    "posts": 91,
    "post_type_mix": {
-    "hot_take": 0.868,
-    "data_take": 0.055,
+    "hot_take": 0.879,
     "view_relay": 0.055,
+    "data_take": 0.044,
     "mechanism_explainer": 0.022
    },
    "hook_mix": {
-    "bold_claim": 0.687,
-    "data_point": 0.072,
-    "story": 0.072,
-    "question": 0.06,
-    "news_peg": 0.048,
-    "list": 0.036,
-    "quote": 0.024
+    "bold_claim": 0.659,
+    "data_point": 0.077,
+    "story": 0.066,
+    "question": 0.055,
+    "list": 0.055,
+    "quote": 0.044,
+    "news_peg": 0.044
    },
    "median_chars": 111,
    "p25_chars": 67,
@@ -5195,7 +5199,7 @@
    "thread_marker_share": 0.0,
    "question_open_share": 0.033,
    "link_share": 0.44,
-   "jev_tagged_share": 0.912
+   "jev_tagged_share": 1.0
   }
  }
 }
