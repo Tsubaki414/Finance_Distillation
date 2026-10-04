@@ -27,7 +27,10 @@ MAX_TOKENS = 6000
 BLACKLIST = Path(__file__).with_name('style_blacklist.json')
 
 # Which unit kinds a post type is built from: (primary kind, how many, supporting kinds, how many)
+JUDGMENT_TYPES = ('judgment_take', 'contrarian_take')
 RECIPES = {
+    'judgment_take': ('view', 1, ('fact',), 3),
+    'contrarian_take': ('view', 1, ('fact',), 3),
     'data_take': ('fact', 3, ('mechanism',), 1),
     'mechanism_explainer': ('mechanism', 1, ('fact',), 2),
     'view_relay': ('view', 1, ('fact', 'mechanism'), 2),
@@ -41,6 +44,11 @@ post_type body_length: the body must have at least min and at most max
 characters (whitespace excluded; each Chinese character counts as one); a
 body below min is rejected, so develop the units' mechanism and implications
 instead of stopping early.
+For judgment_take and contrarian_take, state the judgment first in your own voice;
+data only as support. The supplied stance.account_view is the account's own
+judgment and needs no opinion attribution wrapper. For contrarian_take clearly
+express disagreement; the attribution frame names whose view is disputed.
+Every number must come from the cited units with the source named by the attached frame.
 Every factual claim must come from a unit; every number must be one of the
 units' numbers (you may convert scale, e.g. $54.23 billion = 542.3亿美元, but
 never round, combine or compute new numbers), keeping its metric and period. Do not add years, dates or other numbers that
@@ -65,6 +73,8 @@ def length_of(text):
 
 
 def eligible(post_type, units):
+    if post_type in JUDGMENT_TYPES and not any(u['kind'] == 'fact' and u['usage'] != 'topic_only' for u in units):
+        return []
     primary, _, _, _ = RECIPES[post_type]
     rows = [u for u in units if u['kind'] == primary and u['usage'] != 'topic_only']
     if post_type in ('data_take', 'earnings_take'):
@@ -77,7 +87,7 @@ def eligible(post_type, units):
 def choose(units, persona, licence_tier, post_types):
     """Highest-weight persona post type allowed for the tier that has its primary units."""
     allowed = set(registry.post_types_for_tier(licence_tier, post_types))
-    for post_type, _ in sorted(persona.post_type_mix.items(), key=lambda kv: -kv[1]):
+    for post_type, _ in sorted(persona.post_type_mix.items(), key=lambda kv: (kv[0] not in JUDGMENT_TYPES, -kv[1])):
         if post_type in allowed and post_type in RECIPES and eligible(post_type, units):
             return post_type
     return None
@@ -209,7 +219,20 @@ def number_findings(body, units):
     return findings
 
 
-def post_checks(post_type, body, text, frame, licence_tier, units, persona, post_types):
+def judgment_findings(body, stance):
+    sentences = [s.strip() for s in re.split(r'(?<!\d)\.(?!\d)|[。！？!?]|\n', body) if s.strip()]
+    first = sentences[0] if sentences else ''
+    own = (stance or {}).get('account_view', '').rstrip('.。!?！？')
+    judgment = re.search(r'\b(?:bullish|bearish|expect|unlikely|likely|looks|should|prefer|overpriced|underpriced|skeptical|disagree|tight|fragile)\b|看好|看空|判断|预计|认为|更可能|难以|不认同|不同意|偏紧|偏弱', first, re.I)
+    findings = []
+    if not judgment and not (own and own.casefold() in first.casefold()):
+        findings.append({'code':'no_judgment', 'detail':'First sentence has no clear judgment'})
+    if sentences and sum(bool(inventory(s)) for s in sentences) / len(sentences) > .6:
+        findings.append({'code':'data_list', 'detail':'More than 60% of sentences are numeric'})
+    return findings
+
+
+def post_checks(post_type, body, text, frame, licence_tier, units, persona, post_types, stance=None):
     spec = post_types['post_types'][post_type]
     findings = [{'code': f['code'], 'detail': f['detail']}
                 for f in attribution_frame.check(post_type, text, frame, licence_tier, post_types)]
@@ -221,6 +244,10 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
     for phrase in blacklist(persona.lang):
         if phrase.lower() in lowered:
             findings.append({'code': 'template_phrase', 'detail': phrase})
+    if post_type in JUDGMENT_TYPES:
+        findings += judgment_findings(body, stance)
+    if post_type == 'contrarian_take' and not re.search(r'\b(?:disagree|reject|contrary|unconvinced|overstates|understates)\b|不同意|不认同|反对|高估|低估', body, re.I):
+        findings.append({'code':'no_disagreement', 'detail':'Contrarian post must express disagreement with the framed view'})
     findings += number_findings(body, units)
     findings += qa_levels.d_tier_findings(body)
     from live.licence_rules import quote_findings
@@ -251,7 +278,7 @@ EXEMPLAR_RULE = ('style_exemplars are real posts by other accounts, given for vo
                  'every fact and number still comes from the units.')
 
 
-def compose_source(source, account_id, client, *, post_type=None, exemplars=None, exemplar_dir=None):
+def compose_source(source, account_id, client, *, post_type=None, exemplars=None, exemplar_dir=None, extracted_units=None, stance_output=None):
     """exemplars: None = the persona's exemplar_retrieval setting; True/False forces it."""
     persona = registry.persona_for_account(account_id)
     if 'aphorism_translation' in persona.post_type_mix:
@@ -265,7 +292,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             'source_hash': source.get('source_hash'), 'licence_tier': tier,
             'persona': {'persona_id': persona.persona_id, 'version': persona.version},
             'publishable': False, 'prompt_assembly': assembly, 'created_at': now()}
-    extracted = content_units.extract(source, client, licence_tier=tier, publisher=publisher)
+    extracted = (content_units.extract(source, client, licence_tier=tier, publisher=publisher)
+                 if extracted_units is None else {'units': extracted_units, 'response': {}, 'prompt_assembly': {}})
     if tier == 'A' and any(u.get('no_reproduction') for u in extracted['units']):
         tier = 'B'
         base['licence_tier'] = tier
@@ -284,6 +312,15 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     require(post_type in registry.post_types_for_tier(tier, post_types), 'compose: post_type not allowed for licence tier')
     chosen = pick_units(post_type, units)
     primary = eligible(post_type, units)[0]
+    stance = stance_output
+    if post_type in JUDGMENT_TYPES:
+        from live.stance import stance_step
+        stance = stance or stance_step(primary, persona, client)
+        if stance['decision'] == 'reject':
+            return {**base, 'units':chosen, 'post_type':post_type, 'stance':stance,
+                    'draft_status':'not_suitable', 'status':'skipped', 'text':'', 'post_checks':[],
+                    'why':'Persona rejected the view'}
+
     try:
         frame = attribution_frame.render(post_type, source, post_types, speaker=primary['speaker'])
     except ValueError as exc:
@@ -300,10 +337,13 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                'avoid_phrases': blacklist(persona.lang),
                'units': [{'unit_id': u['unit_id'], 'kind': u['kind'], 'statement': u['statement'],
                           'speaker': u['speaker'],
+                          **({'view':u['view']} if 'view' in u else {}),
                           **({'quote_allowed': False, 'usage': 'paraphrase'} if u.get('quote_allowed') is False else {}),
                           'source_spans': [s['exact_text'] for s in u['source_spans']],
                           'numbers': [{k: n[k] for k in ('text', 'metric', 'period', 'span_ref')} for n in u['numbers']]}
                          for u in chosen]}
+    if stance is not None:
+        payload['stance'] = stance
     if any(u.get('quote_allowed') is False for u in chosen):
         payload['post_type_rules']['quote_policy'] = (
             'Paraphrase these units. Direct quotes, including translated quotes, are forbidden.')
@@ -332,14 +372,14 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         require(type(ref) is int and 0 <= ref < len(by_id[row['unit_id']]['source_spans']),
                 'compose: claim_ledger span_ref out of range')
     text = (frame['text'] + body) if frame['placement'] == 'lead' else (body + frame['text'])
-    findings = post_checks(post_type, body, text, frame, tier, chosen, persona, post_types)
+    findings = post_checks(post_type, body, text, frame, tier, chosen, persona, post_types, stance)
     findings += qa_levels.classify(exemplar_store.copied_phrases(body, [e['text'] for e in shown]), frame_found=True)
     risks = [{**f, 'status': 'open'} for f in findings if f['level'] == 'hard']
     risks += [{**f, 'status': 'warning'} for f in findings if f['level'] == 'soft']
     if not persona.publishable:
         risks.append({'code': 'persona_voice_draft', 'status': 'open',
                       'detail': 'Persona voice is a draft pending D2; not publishable'})
-    return {**base, 'units': chosen, 'all_units': len(units), 'post_type': post_type,
+    return {**base, 'stance': stance, 'units': chosen, 'all_units': len(units), 'post_type': post_type,
             'attribution_frame': frame, 'body': body, 'text': text, 'length': length_of(body),
             'exemplars': [{'handle': e['handle'], 'id': e['id']} for e in shown],
             'claim_ledger': ledger, 'post_checks': findings, 'risks': risks, 'qa': qa_levels.summary(findings),

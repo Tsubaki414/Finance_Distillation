@@ -108,6 +108,17 @@ def validate_persona(raw, post_types):
             _fail(f'persona {raw.get("persona_id")}: missing {key}')
     if raw['status'] not in STATUSES:
         _fail('persona status is invalid')
+    stance = raw.get('stance')
+    if stance is not None:
+        from live.content_units import HORIZONS
+        if not isinstance(stance, dict) or stance.get('horizon') not in HORIZONS:
+            _fail('stance: invalid horizon')
+        for key in ('prior', 'risk_appetite'):
+            if not isinstance(stance.get(key), str) or not stance[key].strip():
+                _fail('stance: missing ' + key)
+        for key in ('beliefs', 'rejects'):
+            if not isinstance(stance.get(key), list) or not stance[key] or any(not isinstance(v, str) or not v.strip() for v in stance[key]):
+                _fail('stance: missing ' + key)
     types = post_types['post_types']
     mix = raw['post_type_mix']
     if not isinstance(mix, dict) or not mix or not set(mix) <= set(types):

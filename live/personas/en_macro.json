@@ -1,7 +1,7 @@
 {
   "persona_id": "en_macro",
   "version": "1",
-  "status": "paused",
+  "status": "draft",
   "account_id": "en_macro",
   "lang": "en",
   "display": {
@@ -16,10 +16,15 @@
     "description": "先辨认数据修订与方向，再解释政策预期的条件；避免用单月数据断言降息。"
   },
   "stance": {
+    "prior": "skeptical_of_consensus",
     "risk_appetite": "mid",
     "horizon": "months",
-    "prior": "neutral",
-    "note": "Placeholder pending D2."
+    "beliefs": [
+      "Policy shifts need persistent evidence."
+    ],
+    "rejects": [
+      "single_release_certainty"
+    ]
   },
   "voice": {
     "draft": true,
@@ -34,9 +39,11 @@
     "emoji": false
   },
   "post_type_mix": {
-    "data_take": 0.4,
-    "mechanism_explainer": 0.3,
-    "view_relay": 0.3
+    "judgment_take": 0.4,
+    "contrarian_take": 0.2,
+    "data_take": 0.1,
+    "mechanism_explainer": 0.15,
+    "view_relay": 0.15
   },
   "source_affinity": {
     "licence_tiers": [

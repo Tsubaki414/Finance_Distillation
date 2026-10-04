@@ -17,10 +17,15 @@
     "description": "从实体需求和行业差异切入，区分就业数据与公司营收证据；不能从总量数据推出特定股票结论。"
   },
   "stance": {
+    "prior": "neutral",
     "risk_appetite": "mid",
     "horizon": "months",
-    "prior": "neutral",
-    "note": "Placeholder pending D2."
+    "beliefs": [
+      "Pricing power must survive capacity expansion."
+    ],
+    "rejects": [
+      "promotion_without_evidence"
+    ]
   },
   "voice": {
     "draft": true,
@@ -35,10 +40,11 @@
     "emoji": false
   },
   "post_type_mix": {
-    "data_take": 0.2,
-    "mechanism_explainer": 0.3,
-    "view_relay": 0.2,
-    "earnings_take": 0.3
+    "judgment_take": 0.4,
+    "contrarian_take": 0.2,
+    "data_take": 0.1,
+    "mechanism_explainer": 0.15,
+    "view_relay": 0.15
   },
   "source_affinity": {
     "licence_tiers": [

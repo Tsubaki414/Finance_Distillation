@@ -14,7 +14,15 @@
     "lang": "en"
   },
   "stance": {
-    "note": "Source voice: Morris own views are translated, not re-voiced."
+    "prior": "value_contrarian",
+    "risk_appetite": "low",
+    "horizon": "years",
+    "beliefs": [
+      "Prefer durable principles over market noise."
+    ],
+    "rejects": [
+      "short_term_trade_calls"
+    ]
   },
   "voice": {
     "draft": true,
