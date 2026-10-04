@@ -145,3 +145,23 @@ def test_month_only_page_dates_become_iso():
 def test_retested_exclusions_carry_current_reason(cid, word):
     ch = chan(cid)
     assert ch['mode'] == 'excluded' and word in ch['reason'] and '2026-10-04' in ch['reason']
+
+
+def test_odd_lots_excluded_for_tdm_reservation():
+    ch = chan('ch100_www_omnycontent_com')
+    assert ch['mode'] == 'excluded' and 'tdm_reserved' in ch['reason']
+
+
+def test_known_episodes_are_not_transcribed():
+    from live.adapters import podcast_local
+    out = podcast_local.fetch(chan('ch024_feeds_megaphone_fm'), transport=lambda u, h: (200, PODCAST),
+                              transcribe=lambda url: pytest.fail('known episode transcribed'),
+                              known=lambda url: url == 'https://cdn.example/ep1.mp3')
+    assert out['status'] == 'no_new_episodes' and out['skipped_known'] == 1
+
+
+def test_daily_ingest_known_urls_include_store_and_state(tmp_path):
+    from live.daily_ingest import known_urls
+    (tmp_path/'units.jsonl').write_text(json.dumps({'unit_id': 'u', 'source': {'url': 'https://a/ep.mp3'}}) + '\n')
+    known = known_urls(tmp_path, {'channels': {'podcast:x': {'seen': ['https://b/ep.mp3']}}})
+    assert known('https://a/ep.mp3') and known('https://b/ep.mp3') and not known('https://c/ep.mp3')
