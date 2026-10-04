@@ -37,6 +37,9 @@ def bounded_fetch(fetch, timeout):
     return value
 
 
+DEFAULT_TIMEOUTS={'podcast:':900}
+
+
 def default_fetchers(state):
     from scripts import run_content_adapters as adapters
     from live.adapters import channels, edgar, feeds, fred
@@ -63,11 +66,10 @@ def default_fetchers(state):
         if registry.source_licence_tier(feed['id']) in ('A','B'):
             prefix='rss_fulltext' if feed['id'] in adapters.RSS_FULLTEXT else 'newsletters'
             fetchers[prefix+':'+feed['id']] = lambda feed=feed:feeds.fetch_newsletter(feed,limit=2)
-    def podcast():
-        out=feeds.fetch_podcast(adapters.ODD_LOTS,source_id='podcast_odd_lots',publisher='Bloomberg Odd Lots',limit=2)
-        if not out['sources']: out['status']='skipped_audio'
-        return out
-    fetchers['podcasts']=podcast
+    from live.adapters import podcast_local
+    for ch in channels.load_channels(ROOT/'live/channels.json'):
+        if ch['mode']=='podcast_audio' and registry.source_licence_tier(ch['channel_id']) in ('A','B'):
+            fetchers['podcast:'+ch['channel_id']] = lambda ch=ch: podcast_local.fetch(ch,limit=1)
     return fetchers
 
 
@@ -90,7 +92,7 @@ def priority(channel, source):
 
 
 def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_runs',
-        inbox='/workspace/x/ingest_inbox', cost_cap_usd=3.0, channel_timeout=90,
+        inbox='/workspace/x/ingest_inbox', cost_cap_usd=8.0, channel_timeout=90, channel_timeouts=None,
         max_extract=40, max_source_chars=5000, per_channel_max=2, no_dashboard=False, dry_run=False, only=None,
         fetchers=None, extract=None, jev=None, backup=None, refresh=None, state_path=None):
     from ml import budget
@@ -136,7 +138,8 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
             t=time.monotonic(); ch=dict(id=cid,status='ok',new_items=0,units=0,seconds=0,error=None)
             summary['channels'].append(ch)
             try:
-                out=bounded_fetch(fetch,channel_timeout)
+                limit=next((v for k,v in (channel_timeouts or DEFAULT_TIMEOUTS).items() if cid.startswith(k)),channel_timeout)
+                out=bounded_fetch(fetch,limit)
                 ch['status']=out.get('status','ok')
                 batches=out.get('batches',[])
                 sources=out.get('sources',[])

@@ -770,7 +770,7 @@
     },
     "ch000_www_reportgem_com": {
       "tier": "B",
-      "basis": "Existing adapter, but it should be retired: login-walled resale of GS/MS sell-side PDFs with no licence shown; member agreement 3.3.7 bans commercial use (gray_redistribution)",
+      "basis": "Served by the existing paid ReportGem MCP adapter (live/reportgem_daily.py; Fiona decision 2026-10-04, tier B, no_reproduction). Only direct scraping of the login-walled reportgem.com/foreign-rt.html web page is not used; resale-of-sell-side-PDF concern is unverified classifier output, not a reason to retire the MCP.",
       "aliases": [
         "ReportGem 实时外文研报"
       ],
@@ -820,7 +820,7 @@
     },
     "ch021_news_alphastreet_com": {
       "tier": "B",
-      "basis": "RSS carries full text (10 of 10 items)",
+      "basis": "RSS carries full text (10 of 10 items) | 2026-10-04: 403 was the WAF rejecting the placeholder UA; an honest bot UA (compatible; FinanceDistillationBot) gets 200. robots.txt disallows *-earnings-call/ and *-sec-form-* pages, enforced via deny_url_patterns.",
       "aliases": [
         "AlphaStreet"
       ],
@@ -838,16 +838,6 @@
       "quote_allowed": false,
       "attribution_required": true
     },
-    "ch023_www_goldmansachs_com": {
-      "tier": "B",
-      "basis": "Index from public sitemap-1.xml (625 articles with lastmod); check the article HTML contains the body text, otherwise treat as js_render_required",
-      "aliases": [
-        "Goldman Sachs Insights"
-      ],
-      "no_reproduction": true,
-      "quote_allowed": false,
-      "attribution_required": true
-    },
     "ch024_feeds_megaphone_fm": {
       "tier": "B",
       "basis": "Feed has show notes, not transcripts; goldmansachs.com episode pages may carry transcripts (check, they need rendering)",
@@ -860,19 +850,9 @@
     },
     "ch025_rss_art19_com": {
       "tier": "B",
-      "basis": "Public podcast RSS; each episode has a full transcript on public morganstanley.com pages, so no audio transcription needed",
+      "basis": "Public podcast RSS whose item descriptions carry the full episode transcript; read from the feed only (morganstanley.com itself drops connections from the box). Substitute for ch026.",
       "aliases": [
         "Morgan Stanley Thoughts on the Market"
-      ],
-      "no_reproduction": true,
-      "quote_allowed": false,
-      "attribution_required": true
-    },
-    "ch026_www_morganstanley_com": {
-      "tier": "B",
-      "basis": "Public /insights list (redirected from /ideas), no login",
-      "aliases": [
-        "Morgan Stanley Ideas"
       ],
       "no_reproduction": true,
       "quote_allowed": false,
@@ -1663,6 +1643,26 @@
       "basis": "Listed in wechat2rss's free list as a full-text RSS from a third-party mirror; check the feed URL; the account sells paid products",
       "aliases": [
         "长赢指数投资（ETF拯救世界·E大）"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch139_eastmoney_us_stock": {
+      "tier": "B",
+      "basis": "Public Eastmoney news-list JSON API used by its own 美股导读 (column 768) and 美股公司 (611) pages; article pages are public full text (often syndicated from 券商中国/财联社 etc., attribute the original media). Facts/paraphrase only.",
+      "aliases": [
+        "东方财富 美股导读 / 美股公司"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch033_www_kkr_com": {
+      "tier": "B",
+      "basis": "Retested 2026-10-04: insights index now server-renders article links; robots.txt allows all; public long-form insights (paraphrase only).",
+      "aliases": [
+        "KKR Insights"
       ],
       "no_reproduction": true,
       "quote_allowed": false,

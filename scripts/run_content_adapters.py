@@ -26,7 +26,7 @@ ODD_LOTS = ('https://www.omnycontent.com/d/playlist/e73c998e-6e60-432f-8610-ae21
 
 def newsletter_feeds():
     rows = json.loads((ROOT / 'live/source_registry.json').read_text())['sources']
-    return [r for r in rows if r.get('type') in ('newsletter', 'wechat') and r.get('feed_url')]
+    return [r for r in rows if r.get('type') in ('newsletter', 'wechat') and r.get('feed_url') and not r.get('fetch_blocked')]
 
 
 def filter_known(text_sources, store_dir):

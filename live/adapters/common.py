@@ -8,7 +8,8 @@ import httpx
 
 from live.distillation_source import digest, paragraphs
 
-DEFAULT_UA = 'FinanceDistillation research (contact: fd-research@example.com)'
+# Honest crawler identity (bot convention: 'compatible; <Name>Bot/<ver>; +contact'); never a browser impersonation.
+DEFAULT_UA = 'Mozilla/5.0 (compatible; FinanceDistillationBot/1.0; +mailto:fd-research@example.com)'
 BLOCK = re.compile(r'</?(?:p|div|br|li|h[1-6]|tr|table|section|article|blockquote|ul|ol)\b[^>]*>', re.I)
 MAX_CHARS = 14000
 

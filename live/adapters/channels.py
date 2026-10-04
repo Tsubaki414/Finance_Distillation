@@ -6,7 +6,7 @@ import json
 import re
 import subprocess
 import tempfile
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import urljoin, urlparse
 import feedparser
@@ -66,6 +66,16 @@ def _date(value):
     match=re.search(r'(20\d{2})[-/](\d{2})[-/](\d{2})',value or '')
     return '-'.join(match.groups()) if match else ''
 
+def _iso_date(value):
+    """ISO date/datetime from page metadata; month-only values ('September 2026') become the 1st; junk becomes ''."""
+    value=str(value or '').strip()
+    if not value or re.match(r'20\d{2}-\d{2}-\d{2}',value): return value
+    try:
+        from dateutil import parser
+        return parser.parse(value,default=datetime(2000,1,1)).date().isoformat() if re.search(r'20\d{2}',value) else ''
+    except (ValueError,OverflowError):
+        return ''
+
 def _candidates(page, base):
     soup=BeautifulSoup(page,'html.parser'); found=[]; seen=set()
     for a in soup.find_all('a',href=True):
@@ -111,19 +121,28 @@ def fetch_channel(ch, *, limit=1, transport=None, extractor=None, converter=None
         text=(converter or _convert_pdf)(page) if pdf else _extract(page,extractor)
         visible=common.html_text(page) if not pdf else text
         if PAYWALL.search(visible): radar(item,'paywall/login marker'); return False
-        if len(text)<1500: radar(item,f'short text: {len(text)} chars (<1500)'); return False
+        # Chinese text is ~2.5x denser than English: 600 CJK-language chars carry about as much as 1500 English.
+        minimum=600 if str(ch.get('lang','en')).startswith('zh') else 1500
+        if len(text)<minimum: radar(item,f'short text: {len(text)} chars (<{minimum})'); return False
         published=item.get('published_at') or ''
         if not published and not pdf:
             soup=BeautifulSoup(page,'html.parser')
             meta=soup.find('meta',attrs={'property':'article:published_time'}) or soup.find('meta',attrs={'name':'date'})
             time=soup.find('time')
             published=(meta.get('content','') if meta else '') or (time.get('datetime','') if time else '')
+        published=_iso_date(published)
         ident=ch['channel_id']+'-'+hashlib.sha256(item['url'].encode()).hexdigest()[:16]
         out['sources']+=common.make_sources_chunked(id=ident,source_id=ch['channel_id'],text=text,publisher=common.html_text(ch['name']),title=item.get('title') or ch['name'],url=item['url'],published_at=published,adapter='channel:'+mode,lang=ch.get('lang','en'),max_parts=1,extra={'no_reproduction':bool(ch.get('no_reproduction'))})
         return True
+    deny=[p for p in ch.get('deny_url_patterns') or [] if p]
+    def denied(item):
+        if any(p in (item.get('url') or '') for p in deny):
+            radar(item,'disallowed by robots.txt rule'); return True
+        return False
     def follow(item):
         url=item.get('url')
         if not url: radar(item,'missing article link'); return
+        if denied(item): return
         pdf=urlparse(url).path.lower().endswith('.pdf')
         if pdf and not _pdf_allowed(ch,url): radar(item,'PDF not authorised for this channel'); return
         status,page=get(url,binary=pdf)
@@ -134,7 +153,13 @@ def fetch_channel(ch, *, limit=1, transport=None, extractor=None, converter=None
             out['reason']=ch.get('reason') or 'handled by existing adapter'; return out
         endpoint=(ch.get('feed_url') or ch['url']) if mode.startswith('feed_') else ch['url']
         if mode=='json_api' and ch['channel_id'].startswith('ch001_'):
-            endpoint='https://reportapi.eastmoney.com/report/list?pageNo=1&pageSize='+str(limit)+'&sort=publishDate&sortType=desc'
+            # The public list API requires a date window (HTTP 400 without beginTime/endTime).
+            today=datetime.now(timezone.utc).date()
+            endpoint=('https://reportapi.eastmoney.com/report/list?industryCode=*&industry=*&rating=*&ratingChange=*&qType=0'
+                      f'&code=*&orgCode=&rcode=&beginTime={(today-timedelta(days=14)).isoformat()}&endTime={today.isoformat()}'
+                      f'&pageNo=1&pageSize={limit}&sort=publishDate&sortType=desc')
+        if mode=='json_api' and ch['channel_id'].startswith('ch139_'):
+            return _eastmoney_columns(ch,limit,get,follow,out)
         post=mode=='json_api' and ch['channel_id'].startswith('ch063_')
         status,page=get(endpoint,method='POST' if post else 'GET',data={'pageNum':1,'pageSize':limit,'tabName':'fulltext','column':'szse','plate':'sz','searchkey':'','secid':'','stock':'','category':'','trade':'','seDate':'','sortName':'','sortType':'','isHLtitle':'true'} if post else None)
         if status!=200: out.update(status=f'http_{status}',reason=f'index/feed http_{status}'); return out
@@ -144,7 +169,8 @@ def fetch_channel(ch, *, limit=1, transport=None, extractor=None, converter=None
             for entry in entries[:limit]:
                 date=entry.get('published_parsed') or entry.get('updated_parsed')
                 item={'url':urljoin(endpoint,entry.get('link','')) if entry.get('link') else '', 'title':entry.get('title',''), 'published_at':datetime.fromtimestamp(calendar.timegm(date),timezone.utc).isoformat() if date else ''}
-                body='\n'.join(c.get('value','') for c in entry.get('content',[]))
+                if denied(item): continue
+                body='\n'.join(c.get('value','') for c in entry.get('content',[])) or entry.get('summary','') or entry.get('description','')
                 if mode=='feed_fulltext' and body and len(_extract(body,extractor))>=1500:
                     accept(item,body)
                 else: follow(item)
@@ -190,4 +216,28 @@ def fetch_channel(ch, *, limit=1, transport=None, extractor=None, converter=None
         out.setdefault('reason',out['radar'][0]['reason'] if out['radar'] else 'public text extracted' if out['sources'] else 'no substantial public text')
     except Exception as exc:
         out.update(status='error',reason=f'{type(exc).__name__}: {str(exc)[:200]}')
+    return out
+
+
+def _eastmoney_columns(ch, limit, get, follow, out):
+    """Eastmoney public news-list API for its US-stock columns (美股导读 768, 美股公司 611); articles are public pages."""
+    seen=set()
+    for column in ch.get('columns') or [768, 611]:
+        url=('https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col'
+             f'&column={column}&order=1&needInteractData=0&page_index=1&page_size={max(limit*3,5)}&req_trace=1')
+        status,page=get(url)
+        if status!=200: continue
+        rows=((json.loads(page).get('data') or {}).get('list') or [])
+        for row in rows:
+            link=(row.get('uniqueUrl') or row.get('url') or '').replace('http://','https://',1)
+            if not link or link in seen: continue
+            seen.add(link)
+            shown=row.get('showTime') or ''
+            try: published=datetime.strptime(shown,'%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone(timedelta(hours=8))).isoformat()
+            except ValueError: published=_date(link)
+            follow({'url':link,'title':row.get('title') or '','published_at':published,'media':row.get('mediaName')})
+            if len(out['sources'])>=limit: break
+        if len(out['sources'])>=limit: break
+    out['status']='ok' if out['sources'] else 'radar' if out['radar'] else 'no_text'
+    out.setdefault('reason',out['radar'][0]['reason'] if out['radar'] else 'public text extracted' if out['sources'] else 'no substantial public text')
     return out

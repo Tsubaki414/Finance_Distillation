@@ -13,7 +13,7 @@ def main():
     parser.add_argument('--store',type=Path,default=Path('live/store/content_units'))
     parser.add_argument('--runs-dir',type=Path,default=Path('/workspace/x/ingest_runs'))
     parser.add_argument('--inbox',type=Path,default=Path('/workspace/x/ingest_inbox'))
-    parser.add_argument('--cost-cap-usd',type=float,default=3.0)
+    parser.add_argument('--cost-cap-usd',type=float,default=8.0)
     parser.add_argument('--channel-timeout',type=float,default=90)
     parser.add_argument('--max-extract',type=int,default=40)
     parser.add_argument('--max-source-chars',type=int,default=5000)

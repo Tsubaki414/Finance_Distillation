@@ -793,7 +793,8 @@
       "adapter": "feed",
       "feed_url": "https://www.nextplatform.com/feed/",
       "author": "The Next Platform",
-      "source_type": "newsletter"
+      "source_type": "newsletter",
+      "fetch_blocked": "cloudflare_403: every path incl. robots.txt and the feed returns 403 to the box (honest UA and feedburner mirror tried); industry_ai_capex is covered by ch072-ch087."
     },
     {
       "id": "servethehome",
@@ -1249,7 +1250,7 @@
       "feed_url": null,
       "lang": "en",
       "persona_hint": "industry_ai_capex",
-      "reason": "Existing adapter, but it should be retired: login-walled resale of GS/MS sell-side PDFs with no licence shown; member agreement 3.3.7 bans commercial use (gray_redistribution)"
+      "reason": "Served by the existing paid ReportGem MCP adapter (live/reportgem_daily.py; Fiona decision 2026-10-04, tier B, no_reproduction). Only direct scraping of the login-walled reportgem.com/foreign-rt.html web page is not used; resale-of-sell-side-PDF concern is unverified classifier output, not a reason to retire the MCP."
     },
     {
       "id": "ch001_data_eastmoney_com",
@@ -1314,7 +1315,7 @@
       "feed_url": "https://news.alphastreet.com/feed/",
       "lang": "en",
       "persona_hint": "single_stock_deepdive_en",
-      "reason": "RSS carries full text (10 of 10 items)"
+      "reason": "RSS carries full text (10 of 10 items) | 2026-10-04: 403 was the WAF rejecting the placeholder UA; an honest bot UA (compatible; FinanceDistillationBot) gets 200. robots.txt disallows *-earnings-call/ and *-sec-form-* pages, enforced via deny_url_patterns."
     },
     {
       "id": "ch022_www_apolloacademy_com",
@@ -1328,19 +1329,6 @@
       "lang": "en",
       "persona_hint": "macro_rates_en",
       "reason": "Public Daily Spark list (RSS stopped 2026-04); terms ban full or partial copying, so paraphrase views only and don't copy charts"
-    },
-    {
-      "id": "ch023_www_goldmansachs_com",
-      "name": "Goldman Sachs Insights",
-      "type": "channel",
-      "enabled": true,
-      "adapter": "channel:html_index",
-      "mode": "html_index",
-      "url": "https://www.goldmansachs.com/insights/articles",
-      "feed_url": null,
-      "lang": "en",
-      "persona_hint": "macro_rates_en",
-      "reason": "Index from public sitemap-1.xml (625 articles with lastmod); check the article HTML contains the body text, otherwise treat as js_render_required"
     },
     {
       "id": "ch024_feeds_megaphone_fm",
@@ -1360,26 +1348,13 @@
       "name": "Morgan Stanley Thoughts on the Market",
       "type": "channel",
       "enabled": true,
-      "adapter": "channel:feed_linkfollow",
-      "mode": "feed_linkfollow",
+      "adapter": "channel:feed_fulltext",
+      "mode": "feed_fulltext",
       "url": "https://rss.art19.com/thoughts-on-the-market",
       "feed_url": "https://rss.art19.com/thoughts-on-the-market",
       "lang": "en",
       "persona_hint": "macro_rates_en",
-      "reason": "Public podcast RSS; each episode has a full transcript on public morganstanley.com pages, so no audio transcription needed"
-    },
-    {
-      "id": "ch026_www_morganstanley_com",
-      "name": "Morgan Stanley Ideas",
-      "type": "channel",
-      "enabled": true,
-      "adapter": "channel:html_index",
-      "mode": "html_index",
-      "url": "https://www.morganstanley.com/ideas",
-      "feed_url": null,
-      "lang": "en",
-      "persona_hint": "macro_rates_en",
-      "reason": "Public /insights list (redirected from /ideas), no login"
+      "reason": "Public podcast RSS whose item descriptions carry the full episode transcript; read from the feed only (morganstanley.com itself drops connections from the box). Substitute for ch026."
     },
     {
       "id": "ch027_privatebank_jpmorgan_com",
@@ -1445,6 +1420,19 @@
       "lang": "en",
       "persona_hint": "macro_rates_en",
       "reason": "Public market-commentary list, no login"
+    },
+    {
+      "id": "ch033_www_kkr_com",
+      "name": "KKR Insights",
+      "type": "channel",
+      "enabled": true,
+      "adapter": "channel:html_index",
+      "mode": "html_index",
+      "url": "https://www.kkr.com/insights",
+      "feed_url": null,
+      "lang": "en",
+      "persona_hint": "macro_rates_en",
+      "reason": "Retested 2026-10-04: insights index now server-renders article links; robots.txt allows all; public long-form insights (paraphrase only)."
     },
     {
       "id": "ch036_www_fidelity_com",
@@ -2403,10 +2391,23 @@
       "adapter": "channel:feed_fulltext",
       "mode": "feed_fulltext",
       "url": "https://wechat2rss.xlab.app/",
-      "feed_url": null,
+      "feed_url": "https://wechat2rss.xlab.app/feed/1f35edb36dfda13906f958fc3047e59ce9c234fe.xml",
       "lang": "zh",
       "persona_hint": "investing_philosophy",
       "reason": "Listed in wechat2rss's free list as a full-text RSS from a third-party mirror; check the feed URL; the account sells paid products"
+    },
+    {
+      "id": "ch139_eastmoney_us_stock",
+      "name": "东方财富 美股导读 / 美股公司",
+      "type": "channel",
+      "enabled": true,
+      "adapter": "channel:json_api",
+      "mode": "json_api",
+      "url": "https://stock.eastmoney.com/a/cmgdd.html",
+      "feed_url": null,
+      "lang": "zh",
+      "persona_hint": "zh_us_stock_commentary",
+      "reason": "Public Eastmoney news-list JSON API used by its own 美股导读 (column 768) and 美股公司 (611) pages; article pages are public full text (often syndicated from 券商中国/财联社 etc., attribute the original media). Facts/paraphrase only."
     }
   ],
   "reference_pool_zh": {
