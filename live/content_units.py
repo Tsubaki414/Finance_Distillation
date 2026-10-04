@@ -206,8 +206,14 @@ def _view_support(view, spans):
     return [dict(s) for s in support], cited
 
 
-def validate_view(view, spans=None, *, require_trace=True):
+def validate_view(view, spans=None, *, require_trace=True, source_or_unit=None, number_warnings=False):
+    from live.trust import is_trusted
     view = coerce_view(view)
+    if 'warnings' in view:
+        view['warnings'] = [w for w in view['warnings']
+                            if not str(w).startswith('reasoning number not bound to source:')]
+        if not view['warnings']:
+            view.pop('warnings')
     require(isinstance(view.get('subject'), str) and bool(view['subject'].strip()), 'view: subject required')
     reasons = view.get('reasoning')
     if isinstance(reasons, str):
@@ -220,9 +226,17 @@ def validate_view(view, spans=None, *, require_trace=True):
         view['support'] = support
         quantities = set(q for s in cited for q in inventory(s['exact_text']))
         tokens = set(t for s in cited for t in _content_tokens(s['exact_text']))
-        # Validate full reasons before truncation: unsupported numbers cannot hide.
+        # Check full reasons before truncation; stance retains unbound numbers as warnings.
         for reason in reasons:
-            require(all(q in quantities for q in inventory(reason)), 'view: reasoning number not bound to source')
+            if not is_trusted(source_or_unit):
+                from live.numeric_fidelity import NUMBER
+                for match in NUMBER.finditer(reason):
+                    if not set(inventory(match.group())) <= quantities:
+                        require(number_warnings, 'view: reasoning number not bound to source')
+                        warning = 'reasoning number not bound to source: ' + match.group().strip()
+                        warnings = view.setdefault('warnings', [])
+                        if warning not in warnings:
+                            warnings.append(warning)
             cross_script = _script(reason) != _script(' '.join(x['exact_text'] for x in cited))
             require(not require_trace or cross_script or bool(_content_tokens(reason) & tokens), 'view: reasoning not traceable to spans')
     view['reasoning'] = [reason[:300] for reason in reasons[:3]]
@@ -267,9 +281,12 @@ def _unit(source, raw, index, by_id, text, licence_tier, require_view=False):
             'freshness_class': raw['freshness_class'], 'licence_tier': licence_tier,
             'usage': USAGE[licence_tier], 'source_id': source.get('source_id'),
             'source_hash': source['source_hash'], 'published_at': source.get('published_at')}
+    for key in ('adapter', 'trust_score', 'donor_score'):
+        if key in source or key in raw:
+            unit[key] = raw.get(key, source.get(key))
     if raw['kind'] == 'view' and (require_view or 'view' in raw):
         try:
-            unit['view'] = validate_view(raw.get('view'), resolved)
+            unit['view'] = validate_view(raw.get('view'), resolved, source_or_unit={**source, **unit})
         except ContractError as exc:
             if not isinstance(raw.get('view'), dict):
                 raise

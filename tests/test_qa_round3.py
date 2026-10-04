@@ -13,7 +13,7 @@ from tests.test_compose import Fake, GOOD_BODY, run
 def test_specific_trade(body, lang):
     assert {f['code'] for f in compose.trade_reco_findings(body, lang)} == {'trade_reco_specific'}
 
-@pytest.mark.parametrize('body,lang', [('Consider adding exposure.', 'en'), ('可以关注。', 'zh')])
+@pytest.mark.parametrize('body,lang', [('Consider adding QQQ exposure.', 'en'), ('可以关注美债。', 'zh')])
 def test_soft_trade(body, lang):
     findings = compose.trade_reco_findings(body, lang)
     assert findings and qa_levels.classify(findings, frame_found=True)[0]['level'] == 'soft'
@@ -76,7 +76,7 @@ def test_refusal_not_retried():
 def test_wired_levels():
     hard, _ = run(Fake(body=GOOD_BODY + '做多BTC，目标价12万。'), post_type='data_take')
     assert 'trade_reco_specific' in hard['qa']['hard']
-    soft, _ = run(Fake(body=GOOD_BODY + '可以关注。'), post_type='data_take')
+    soft, _ = run(Fake(body=GOOD_BODY + '可以关注美债。'), post_type='data_take')
     assert 'trade_reco_soft' in soft['qa']['soft'] and soft['draft_status'] == 'draft_ready'
     conflicting, _ = run(Fake(body=GOOD_BODY + 'PMI 50.1%。PMI 49.8%。'), post_type='data_take')
     assert 'self_contradiction' in conflicting['qa']['hard']

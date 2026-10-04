@@ -1,0 +1,5 @@
+{
+  "allowlist": ["reportgem", "oaktree", "berkshire", "fed_rss", "fomc", "fed", "edgar", "nyfed", "bls_api", "treasury_fiscaldata", "cftc", "cboe", "farside", "defillama", "glassnode"],
+  "source_id_prefixes": ["reportgem_"],
+  "minimum_score": 0.8
+}

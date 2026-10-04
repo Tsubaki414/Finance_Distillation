@@ -304,7 +304,7 @@ def position_findings(body, lang):
 from live.draft_qa import trade_reco_findings, contradiction_findings
 
 
-def post_checks(post_type, body, text, frame, licence_tier, units, persona, post_types, stance=None):
+def post_checks(post_type, body, text, frame, licence_tier, units, persona, post_types, stance=None, source=None):
     spec = post_types['post_types'][post_type]
     findings = [{'code': f['code'], 'detail': f['detail']}
                 for f in attribution_frame.check(post_type, text, frame, licence_tier, post_types)]
@@ -321,7 +321,13 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
         findings += judgment_findings(body, stance)
     if post_type == 'contrarian_take' and not re.search(r'\b(?:disagree|reject|contrary|unconvinced|overstates|understates)\b|不同意|不认同|反对|高估|低估', body, re.I):
         findings.append({'code':'no_disagreement', 'detail':'Contrarian post must express disagreement with the framed view'})
-    findings += number_findings(body, units)
+    from live.trust import trusted_inputs
+    if not trusted_inputs(source, units):
+        findings += number_findings(body, units)
+    for view in [u.get('view') or {} for u in units] + [(stance or {}).get('view') or {}]:
+        for warning in view.get('warnings', []):
+            if warning.startswith('reasoning number not bound to source:'):
+                findings.append({'code': 'view_number_unbound', 'detail': warning})
     findings += position_findings(body, persona.lang)
     findings += trade_reco_findings(body, persona.lang)
     findings += contradiction_findings(body)
@@ -492,17 +498,21 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         require(type(ref) is int and 0 <= ref < len(by_id[row['unit_id']]['source_spans']),
                 'compose: claim_ledger span_ref out of range')
     text = (frame['text'] + body) if frame['placement'] == 'lead' else (body + frame['text'])
-    findings = post_checks(post_type, body, text, frame, tier, chosen, persona, post_types, stance)
+    findings = post_checks(post_type, body, text, frame, tier, chosen, persona, post_types, stance, source=source)
     findings += qa_levels.classify(exemplar_store.copied_phrases(body, [e['text'] for e in shown]), frame_found=True)
     risks = [{**f, 'status': 'open'} for f in findings if f['level'] == 'hard']
     risks += [{**f, 'status': 'warning'} for f in findings if f['level'] == 'soft']
     if not persona.publishable:
         risks.append({'code': 'persona_voice_draft', 'status': 'open',
                       'detail': 'Persona voice is a draft pending D2; not publishable'})
+    qa = qa_levels.summary(findings)
+    from live.trust import trusted_inputs
+    if trusted_inputs(source, chosen):
+        qa['number_check'] = 'skipped_trusted_source'
     return {**base, 'stance': stance, 'units': chosen, 'all_units': len(units), 'post_type': post_type,
             'attribution_frame': frame, 'body': body, 'text': text, 'length': length_of(body),
             'exemplars': [{'handle': e['handle'], 'id': e['id']} for e in shown],
-            'claim_ledger': ledger, 'post_checks': findings, 'risks': risks, 'qa': qa_levels.summary(findings),
+            'claim_ledger': ledger, 'post_checks': findings, 'risks': risks, 'qa': qa,
             'draft_status': qa_levels.draft_status(findings),
             'status': 'held',  # never auto-ready while not publishable
             'model_responses': [{'stage': 'extract', **extracted['response']},
