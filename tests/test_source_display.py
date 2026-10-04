@@ -28,3 +28,8 @@ def test_sell_side_via_reportgem_credited_generically_and_bank_never_named():
     assert '券商研报' in frame['text'] and '高盛' not in frame['text'] and 'Jane' not in frame['text']
     hits = source_display.never_name_findings('高盛认为需求会回升。', frame['never_name'])
     assert hits and hits[0]['code'] == 'never_name_in_post'
+
+
+def test_sec_filer_names_are_clean():
+    assert source_display.display({'source_id': 'sec_edgar', 'publisher': 'Amazon Com'}, 'zh', check_licence=False)['name'] == 'Amazon 公告'
+    assert source_display.display({'source_id': 'sec_edgar', 'publisher': 'Micron Technology'}, 'en', check_licence=False)['name'] == 'Micron Technology filing'

@@ -74,6 +74,9 @@ def display(source, lang, *, tier=None, raw_name=None, check_licence=True):
         return out
     override = (cfg.get('sources') or {}).get(sid) or {}
     name = override.get(lang)
+    if not name and sid == 'sec_edgar':   # filer names from EDGAR metadata ('Amazon Com', 'Oracle Corp')
+        filer = re.sub(r'[\s,]+(?:Com|Inc|Corp|Corporation|Co|Ltd|Plc|Holdings|N\.?V\.?)\.?$', '', (raw_name or source.get('publisher') or '').strip(), flags=re.I)
+        name = (f'{filer} filing' if lang == 'en' else f'{filer} 公告') if filer else ''
     if not name:
         cleaned = _clean(raw_name if raw_name is not None else source.get('publisher') or '')
         name = _latin(cleaned) if lang == 'en' else _chinese(cleaned)
