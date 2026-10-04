@@ -238,7 +238,13 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
                 ch['status']=reason; summary['deferred'].append(dict(id=s['id'],channel=ch['id'],status=reason));continue
             try:
                 if units is None:
-                    s=trim_source(s,max_source_chars); extracted+=1; units=extract(s)
+                    s=trim_source(s,max_source_chars); extracted+=1
+                    try: units=extract(s)
+                    except budget.BudgetExceeded: raise
+                    except Exception as exc:
+                        # Output hit the token ceiling: one retry on half the text (EXTRACT output scales with input).
+                        if 'finish_reason' not in str(exc) or len(s.get('original_text') or '')<1200: raise
+                        s=trim_source(s,len(s['original_text'])//2); units=extract(s)
                 routing=jev_front.route_sources([dict(id=s['id'],title=s.get('title') or '',publisher=s.get('publisher'),snippet=s.get('original_text','')[:400])],jev=jev)
                 result=ingest_batches(db,[(s,units,adapter)],routing,jev=jev)
                 ch['units']+=result['added']
