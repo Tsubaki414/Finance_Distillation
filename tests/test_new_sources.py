@@ -257,3 +257,15 @@ def test_cftc_covers_vix_rates_fx_and_small_caps_for_two_weeks():
         assert code in cftc.CODES
         assert f"'{code}'" in parse_qs(urlsplit(cftc.URL).query)['$where'][0]
     assert int(parse_qs(urlsplit(cftc.URL).query)['$limit'][0]) >= 2 * len(cftc.CODES)
+
+
+def test_cftc_lines_are_self_describing_positioning_facts():
+    import json as _json
+    from pathlib import Path as _Path
+    from live.adapters import cftc
+    data = _json.loads((_Path(__file__).parent / 'fixtures/sources/cftc_tff.json').read_text())
+    out = cftc.to_source_and_units(data)
+    lines = [u['statement'] for u in out['units']]
+    assert lines and all('CFTC Commitments of Traders futures positioning' in s for s in lines)
+    assert any('leveraged funds (hedge funds, CTAs)' in s and 'net short' in s for s in lines)
+    assert any('asset managers' in s and 'net long' in s for s in lines)
