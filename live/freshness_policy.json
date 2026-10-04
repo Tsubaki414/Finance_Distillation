@@ -20,7 +20,8 @@
       "ch068_api_one_wscn_awtmt_com",
       "ch096_spotgamma_com",
       "ch106_research_glassnode_com"
-    ]
+    ],
+    "age_unit": "business_days"
   },
   "macro_release": {
     "shelf_days": 7,

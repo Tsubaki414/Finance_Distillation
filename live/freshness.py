@@ -109,20 +109,39 @@ def shelf_days(row):
             days=spec['shelf_days']; break
     return min(days,2) if days is not None and u.get('freshness_class')=='breaking' else days
 
+def age_unit(row):
+    """'business_days' for shelf classes whose policy says so (market data does not age over a weekend)."""
+    u,src=row.get('unit',row),row.get('source',{})
+    ids=[str(src.get(k) or u.get(k) or '').casefold() for k in ('adapter','source_id','channel_id')]
+    ids += [s.removeprefix('channel:') for s in ids if s.startswith('channel:')]
+    for name in ('evergreen','market_flow','macro_release','filings_research','commentary'):
+        spec=POLICY[name]
+        if spec.get('non_fact_only') and u.get('kind')=='fact': continue
+        if any(s.startswith(tuple(spec['prefixes'])) or s in spec['channel_ids'] for s in ids):
+            return spec.get('age_unit','calendar_days')
+    return 'calendar_days'
+
+def _business_days(start, end):
+    if end<=start: return 0
+    return sum(1 for i in range(1,(end-start).days+1) if (start+timedelta(days=i)).weekday()<5)
+
 def status(row, now=None):
     u=row.get('unit',row)
     shelf=shelf_days(row)
     derived=u if 'date_unknown' in u and 'as_of' in u else derive_dates(row)
     d=derived.get('as_of')
     age=max(0,(_day(now)-date.fromisoformat(d)).days) if d else None
-    state=('evergreen' if shelf is None else 'unknown' if derived.get('date_unknown') or age is None else 'expired' if age>2*shelf else 'stale' if age>shelf else 'fresh')
-    return dict(status=state,age_days=age,shelf_days=shelf)
+    eff=age
+    if d and shelf is not None and age_unit(row)=='business_days':
+        eff=_business_days(date.fromisoformat(d),_day(now))
+    state=('evergreen' if shelf is None else 'unknown' if derived.get('date_unknown') or age is None else 'expired' if eff>2*shelf else 'stale' if eff>shelf else 'fresh')
+    return dict(status=state,age_days=age,shelf_days=shelf,effective_age=eff)
 
 def boost(value):
     if isinstance(value,str):
         return {'fresh':1.,'stale':.6,'expired':.3,'evergreen':.8,'unknown':.4}[value]
     if value['status']=='stale':
-        return max(.3,1-.7*(value['age_days']/value['shelf_days']-1))
+        return max(.3,1-.7*(value.get('effective_age',value['age_days'])/value['shelf_days']-1))
     return boost(value['status'])
 
 def rank(units, now=None):

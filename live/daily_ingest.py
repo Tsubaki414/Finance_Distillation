@@ -91,7 +91,7 @@ def priority(channel, source):
 
 def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_runs',
         inbox='/workspace/x/ingest_inbox', cost_cap_usd=3.0, channel_timeout=90,
-        max_extract=40, max_source_chars=12000, per_channel_max=2, no_dashboard=False, dry_run=False, only=None,
+        max_extract=40, max_source_chars=5000, per_channel_max=2, no_dashboard=False, dry_run=False, only=None,
         fetchers=None, extract=None, jev=None, backup=None, refresh=None, state_path=None):
     from ml import budget
     from live import content_store, jev_front, registry
