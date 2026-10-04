@@ -1,0 +1,128 @@
+import json
+import time
+import threading
+from types import SimpleNamespace
+import pytest
+from live.adapters.common import make_source
+from ml import budget
+
+
+def source(sid):
+    return make_source(id=sid, source_id='sec_edgar', text=sid+' distinct evidence', publisher=sid,
+                       title=sid, url='https://example.test/'+sid, published_at='2026-10-04', adapter='edgar')
+
+
+class FakeExtract:
+    def __init__(self): self.seen=[]
+    def __call__(self, s):
+        self.seen.append(s['id'])
+        return [{'unit_id':s['id'], 'source_hash':s['source_hash'], 'statement':s['original_text'],
+                 'kind':'fact', 'numbers':[], 'licence_tier':'A', 'usage':'quote', 'speaker':s['publisher']}]
+
+
+def setup(tmp_path, **kw):
+    return dict(store=tmp_path/'store', runs_dir=tmp_path/'runs', inbox=tmp_path/'inbox',
+                state_path=tmp_path/'state.json', no_dashboard=True, **kw)
+
+
+def test_isolation_incremental_schema(tmp_path):
+    from live.daily_ingest import run
+    client=FakeExtract()
+    def fail(): raise ValueError('broken')
+    fetchers={'bad':fail, 'slow':lambda: (time.sleep(.15) or {}), 'good':lambda:{'sources':[source('good')]}}
+    args=setup(tmp_path, channel_timeout=.02)
+    r=run(**args, fetchers=fetchers, extract=client, backup=lambda:None, refresh=lambda:None)
+    assert {c['id']:c['status'] for c in r['channels']} == {'bad':'failed','slow':'timeout','good':'ok'}
+    assert client.seen==['good']
+    assert set(('started_at','finished_at','runtime_s','steps','channels','new_units_by_persona',
+                'fresh_by_persona_before','fresh_by_persona_after','cost_usd','failing_channels','deferred')) <= r.keys()
+    assert set(r['cost_usd'])=={'relay','jev','total','cap'}
+    assert all(set(('id','status','new_items','units','seconds','error'))<=c.keys() for c in r['channels'])
+    assert list((tmp_path/'runs').glob('[0-9]'*8+'.json'))
+    run(**args, fetchers={'good':fetchers['good']}, extract=client, backup=lambda:None, refresh=lambda:None)
+    assert client.seen==['good']
+    # Store filtering also works without state.
+    (tmp_path/'state.json').unlink()
+    run(**args, fetchers={'good':fetchers['good']}, extract=client, backup=lambda:None, refresh=lambda:None)
+    assert client.seen==['good']
+
+
+def test_priority_and_cost(tmp_path):
+    from live.daily_ingest import run
+    client=FakeExtract()
+    fs={sid:lambda sid=sid:{'sources':[dict(source(sid),source_id=sid)]} for sid in ['other','edgar','wallstreetcn','cboe']}
+    r=run(**setup(tmp_path),fetchers=fs,extract=client,backup=lambda:None,refresh=lambda:None)
+    assert client.seen==['cboe','wallstreetcn','edgar','other']
+    def costly(s):
+        budget.reserve('gpt-4.1',[],100000,'too-expensive')
+        return client(s)
+    r=run(**setup(tmp_path/'cost',cost_cap_usd=.01),fetchers=fs,extract=costly,backup=lambda:None,refresh=lambda:None)
+    assert len(r['deferred'])==4
+    assert all(c['status']=='deferred_cost_cap' for c in r['channels'])
+
+
+@pytest.mark.parametrize('as_list',[False,True])
+def test_inbox(tmp_path,as_list):
+    from live.daily_ingest import run
+    s=source('inbox'); item={'source':s,'units':FakeExtract()(s)}
+    p=tmp_path/'inbox/reportgem/drop.json';p.parent.mkdir(parents=True)
+    p.write_text(json.dumps([item] if as_list else item))
+    run(**setup(tmp_path),fetchers={},extract=FakeExtract(),backup=lambda:None,refresh=lambda:None)
+    assert not p.exists() and (p.parent/'processed/drop.json').exists()
+    assert (tmp_path/'store/units.jsonl').exists()
+
+
+def test_backup_and_lock(tmp_path):
+    from live.daily_ingest import run
+    entered=threading.Event(); release=threading.Event()
+    def backup(): entered.set(); release.wait(2)
+    args=setup(tmp_path)
+    worker=threading.Thread(target=lambda:run(**args,fetchers={},backup=backup,refresh=lambda:None))
+    worker.start(); assert entered.wait(1)
+    try: assert run(**args,fetchers={},backup=lambda:None)['status']=='locked'
+    finally: release.set(); worker.join()
+    def broken(): raise RuntimeError('backup failed')
+    r=run(**setup(tmp_path/'failure'),fetchers={'good':lambda:pytest.fail('gather before backup')},backup=broken)
+    assert r['status']=='backup_failed'
+    assert not (tmp_path/'failure/store').exists()
+    assert list((tmp_path/'failure/runs').glob('*.json'))
+
+
+def test_dry_run_and_max_extract(tmp_path):
+    from live.daily_ingest import run
+    client=FakeExtract()
+    fs={'test':lambda:{'sources':[source('a'),source('b')]}}
+    r=run(**setup(tmp_path,dry_run=True),fetchers=fs,extract=client,backup=lambda:None)
+    assert r['status']=='dry_run' and not client.seen
+    assert not (tmp_path/'store').exists() and not (tmp_path/'state.json').exists()
+    r=run(**setup(tmp_path,max_extract=1),fetchers=fs,extract=client,backup=lambda:None,refresh=lambda:None)
+    assert client.seen==['a'] and r['deferred'][0]['status']=='deferred_max_extract'
+    run(**setup(tmp_path),fetchers=fs,extract=client,backup=lambda:None,refresh=lambda:None)
+    assert client.seen==['a','b']
+
+
+def test_jev_cost_deferral(tmp_path):
+    from live.daily_ingest import run
+    class FakeJev:
+        def review(self,state,questions):
+            return {'status':'failed','error_code':'budget_exceeded','answers':{}}
+    r=run(**setup(tmp_path),fetchers={'test':lambda:{'sources':[source('a'),source('b')]}},
+          extract=FakeExtract(),jev=FakeJev(),backup=lambda:None,refresh=lambda:None)
+    assert len(r['deferred'])==2
+    assert not (tmp_path/'store/units.jsonl').exists()
+
+
+def test_ledger_reconciliation(tmp_path):
+    from live.daily_ingest import run
+    client=FakeExtract()
+    def paid(s):
+        budget.reserve('gpt-4.1',[],100,'relay')
+        budget.settle('relay',{'prompt_tokens':100,'completion_tokens':10})
+        budget.reserve('typesafe/jev-1.13.0',[],0,'jev')
+        budget.settle('jev',{'prompt_tokens':100,'completion_tokens':0})
+        return client(s)
+    r=run(**setup(tmp_path),fetchers={'test':lambda:{'sources':[source('a')]}},
+          extract=paid,backup=lambda:None,refresh=lambda:None)
+    assert r['cost_usd']['relay']==pytest.approx(.00028,abs=1e-6)
+    assert r['cost_usd']['jev']==pytest.approx(.0000042,abs=1e-6)
+    assert r['cost_usd']['total']==pytest.approx(r['cost_usd']['relay']+r['cost_usd']['jev'])

@@ -15,7 +15,7 @@ def test_periods(period, expected):
 def test_invalid_future_and_clamp():
     assert f.normalize_date('T00:00:00') is None
     assert f.normalize_date('2099-01-01') is None
-    assert 'future_date' in f.derive_dates(row('2099-01-01'))['freshness_flags']
+    assert 'future_published_at' in f.derive_dates(row('2099-01-01'))['freshness_flags']
     assert 'malformed_published_at' in f.derive_dates(row('T00:00:00'))['freshness_flags']
     r = row('2026-09-01'); r['unit']['numbers'][0]['period'] = 'September 2026'
     assert f.derive_dates(r)['as_of'] <= '2026-09-02'

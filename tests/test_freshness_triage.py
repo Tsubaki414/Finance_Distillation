@@ -1,0 +1,40 @@
+from datetime import date
+import pytest
+from live import freshness
+from live.adapters.common import make_source
+from live.reportgem_daily import to_source
+
+@pytest.fixture(autouse=True)
+def fixed_today(monkeypatch): monkeypatch.setattr(freshness,'today',lambda:date(2026,10,4))
+
+
+def test_empty_sources():
+    assert make_source(id='x',source_id='x',text='hello',publisher='x',title='x',url='',published_at='',adapter='x')['published_at'] is None
+    item={'source_id':'x','bank':'Goldman Sachs','title':'x','published_at':'','source_type':'en'}
+    assert to_source(item,{'passages':[{'text':'Research evidence with sufficient length to constitute a meaningful excerpt from the source report.'}]})['published_at'] is None
+
+
+@pytest.mark.parametrize('raw',['','T00:00:00Z'])
+def test_missing(raw):
+    flags=freshness.derive_dates({'source':{'published_at':raw},'unit':{}})['freshness_flags']
+    assert 'missing_published_at' in flags and 'malformed_published_at' not in flags
+
+
+def test_forward_and_future():
+    r=freshness.derive_dates({'source':{'published_at':'2026-10-04'},'unit':{'numbers':[{'period':'Q4 2026'}]}})
+    assert 'forward_period_skipped' in r['freshness_flags'] and 'future_date' not in r['freshness_flags']
+    r=freshness.derive_dates({'source':{'published_at':'2026-11-17'},'unit':{}})
+    assert 'future_published_at' in r['freshness_flags'] and r['date_unknown']
+
+
+def test_backfill_recovery(tmp_path):
+    import json
+    from scripts.backfill_freshness import backfill
+    cache=tmp_path/'cache';cache.mkdir()
+    rows=[{'unit_id':'url','source':{'url':'https://example.test/2026/10/02/report','published_at':'T00:00:00Z'},'unit':{}},
+          {'unit_id':'feed','source':{'id':'episode','url':'https://example.test/episode','published_at':''},'unit':{}}]
+    (tmp_path/'units.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in rows))
+    (cache/'feed.rss').write_text('<rss><channel><item><link>https://example.test/episode</link><pubDate>Sat, 03 Oct 2026 12:00:00 GMT</pubDate></item></channel></rss>')
+    entries=backfill(tmp_path,True,[cache])
+    assert [r['published_at'] for r in entries]==['2026-10-02','2026-10-03']
+    assert all('missing_published_at' not in r['freshness_flags'] for r in entries)
