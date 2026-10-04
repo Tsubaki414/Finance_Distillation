@@ -17,7 +17,7 @@ conviction or horizon, or add a new condition. For reject account_view is empty.
 Supporting IDs must include the input view for take/adapt.''')
 
 
-def stance_step(view_unit, persona, client):
+def stance_step(view_unit, persona, client, *, calls=None, sleep=None):
     from live.compose import _ask
     raw = persona.raw if hasattr(persona, 'raw') else persona
     spec = raw['stance']
@@ -34,7 +34,8 @@ def stance_step(view_unit, persona, client):
     if (target in order and horizon in order and abs(order[target]-order[horizon]) > 2
             and horizon not in spec.get('allowed_horizons', [])):
         return {'decision':'reject','account_view':'','supporting_unit_ids':[], 'rationale':'Incompatible persona horizon.', 'confidence':1.0}
-    value, _ = _ask(client, 'stance', STANCE, {'unit':view_unit, 'persona':raw}, 2000, [])
+    calls = [] if calls is None else calls
+    value, _ = _ask(client, 'stance', STANCE, {'unit':view_unit, 'persona':raw}, 2000, calls, sleep=sleep)
     require(value.get('decision') in ('take','adapt','reject'), 'stance: invalid decision')
     require(isinstance(value.get('rationale'),str) and value['rationale'].strip(), 'stance: rationale required')
     c=value.get('confidence')
@@ -54,4 +55,5 @@ def stance_step(view_unit, persona, client):
         value['view'] = revised
         require(any(revised[k]!=view[k] for k in ('direction','conviction','horizon')) or
                 bool(revised.get('conditions')) and revised.get('conditions')!=view.get('conditions'), 'stance: adapt must change view')
+    value['calls'] = calls
     return value

@@ -51,6 +51,7 @@ is welcome: fragments, uneven sentence lengths, one-line paragraphs, persona idi
 casual connectors, an occasional rhetorical question. Avoid essay polish and symmetric paragraphs;
 don't make every post the same shape. Follow persona.voice_prompt_variant.guidance when supplied.
 Exemplars teach rhythm only, never facts, numbers or phrases.
+No specific trade recommendations (instrument + strike/entry/structure); directional views are fine.
 For judgment_take and contrarian_take, state the judgment first in your own voice;
 data only as support. The supplied stance.account_view is the account's own
 judgment and needs no opinion attribution wrapper. For contrarian_take clearly
@@ -258,6 +259,9 @@ def position_findings(body, lang):
             for pattern in patterns for m in re.finditer(pattern, body, re.I)]
 
 
+from live.draft_qa import trade_reco_findings, contradiction_findings
+
+
 def post_checks(post_type, body, text, frame, licence_tier, units, persona, post_types, stance=None):
     spec = post_types['post_types'][post_type]
     findings = [{'code': f['code'], 'detail': f['detail']}
@@ -276,6 +280,8 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
         findings.append({'code':'no_disagreement', 'detail':'Contrarian post must express disagreement with the framed view'})
     findings += number_findings(body, units)
     findings += position_findings(body, persona.lang)
+    findings += trade_reco_findings(body, persona.lang)
+    findings += contradiction_findings(body)
     findings += qa_levels.d_tier_findings(body)
     from live.licence_rules import quote_findings
     findings += quote_findings(body, units)
@@ -284,20 +290,38 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
     return qa_levels.classify(findings, frame_found=frame_found)
 
 
-def _ask(client, stage, system, payload, max_tokens, calls):
+def _ask(client, stage, system, payload, max_tokens, calls, *, sleep=None):
+    import time
+    sleep = time.sleep if sleep is None else sleep
     context_for = getattr(client, 'prompt_context', None)
     context = context_for(stage) if callable(context_for) else None
     messages, record = prompt_assembly.assemble(stage, system, payload, stage_context=context)
     calls.append(record)
-    response = client(stage, messages, max_tokens)
-    require(response.get('finish_reason') == 'stop', f'{stage}: incomplete/unknown finish_reason')
-    require(not response.get('refusal'), f'{stage}: model refusal')
-    try:
-        value = parse_object(response.get('text', ''))
-    except ValueError as exc:
-        raise ContractError(f'{stage}: {exc}') from exc
-    require(isinstance(value, dict), f'{stage}: expected JSON object')
-    return value, response
+    for attempt in range(1, 4):
+        record['attempts'] = attempt
+        try:
+            response = client(stage, messages, max_tokens)
+        except ContractError as exc:
+            if not re.search(r'incomplete/unknown finish_reason|malformed JSON|unparseable JSON|Expecting (?:value|property name|.*,? delimiter)|Unterminated string|Extra data|Expected one JSON object', str(exc), re.I):
+                raise
+            error = exc
+        except (OSError, TimeoutError) as exc:
+            error = ContractError(f'{stage}: transient client error: {exc}')
+        else:
+            # Refusals and client content contracts are never transport retries.
+            require(not response.get('refusal'), f'{stage}: model refusal')
+            if response.get('finish_reason') != 'stop':
+                error = ContractError(f'{stage}: incomplete/unknown finish_reason')
+            else:
+                try:
+                    value = parse_object(response.get('text', ''))
+                except (ValueError, TypeError, AttributeError) as exc:
+                    error = ContractError(f'{stage}: {exc}')
+                else:
+                    return value, response
+        if attempt == 3:
+            raise error
+        sleep(0.5 * 2 ** (attempt - 1))
 
 
 EXEMPLAR_RULE = ('style_exemplars are real posts by other accounts, given for voice, rhythm and '
