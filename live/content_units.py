@@ -174,6 +174,12 @@ def _content_tokens(text):
     return words
 
 
+def _script(text):
+    cjk = len(re.findall(r'[\u3400-\u4dbf\u4e00-\u9fff]', text))
+    latin = len(re.findall(r'[A-Za-z]', text))
+    return 'cjk' if cjk * 2 >= latin and cjk else 'latin'
+
+
 def _view_support(view, spans):
     support = view.get('support')
     if support is None:
@@ -217,8 +223,13 @@ def validate_view(view, spans=None):
         # Validate full reasons before truncation: unsupported numbers cannot hide.
         for reason in reasons:
             require(all(q in quantities for q in inventory(reason)), 'view: reasoning number not bound to source')
-            require(bool(_content_tokens(reason) & tokens), 'view: reasoning not traceable to spans')
+            cross_script = _script(reason) != _script(' '.join(x['exact_text'] for x in cited))
+            require(cross_script or bool(_content_tokens(reason) & tokens), 'view: reasoning not traceable to spans')
     view['reasoning'] = [reason[:300] for reason in reasons[:3]]
+    if isinstance(view.get('conditions'), list):
+        view['conditions'] = '; '.join(str(c).strip() for c in view['conditions'] if str(c).strip())
+    if 'conditions' in view and not (isinstance(view['conditions'], str) and view['conditions'].strip()):
+        view.pop('conditions')
     if 'conditions' in view:
         require(isinstance(view['conditions'], str) and bool(view['conditions'].strip()), 'view: conditions must be text')
     return view
@@ -257,7 +268,11 @@ def _unit(source, raw, index, by_id, text, licence_tier, require_view=False):
             'usage': USAGE[licence_tier], 'source_id': source.get('source_id'),
             'source_hash': source['source_hash'], 'published_at': source.get('published_at')}
     if raw['kind'] == 'view' and (require_view or 'view' in raw):
-        unit['view'] = validate_view(raw.get('view'), resolved)
+        try:
+            unit['view'] = validate_view(raw.get('view'), resolved)
+        except ContractError as exc:
+            # A bad structured view never sinks the source: keep the grounded unit, drop the view.
+            unit['view_error'] = str(exc)[:200]
     unit['extract_version'] = VERSION if require_view else 'content-units-extract-v1'
     unit['unit_id'] = 'cu-' + digest([unit['source_hash'], unit['kind'],
                                      [(s['start'], s['end']) for s in resolved]])[:20]
