@@ -41,7 +41,7 @@ def gather(args, report):
             report['adapters'].setdefault('edgar', []).append({'ticker': t, **{k: v for k, v in out.items() if k != 'sources'},
                                                                'sources': [s['id'] for s in out['sources']]})
             text_sources += out['sources']
-    for name, fetch in (('wallstreetcn', wallstreetcn.fetch), ('fomc', lambda: fed.fetch('fomc', limit=1))):
+    for name, fetch in (('wallstreetcn', lambda: wallstreetcn.fetch(limit=getattr(args, 'wscn_n', 1))), ('fomc', lambda: fed.fetch('fomc', limit=1))):
         if name in args.adapters:
             out = fetch()
             report['adapters'][name] = {k: v for k, v in out.items() if k != 'sources'} | {'sources': [s['id'] for s in out['sources']]}
@@ -139,6 +139,7 @@ def main():
     ap.add_argument('--tickers', nargs='+', default=['MU', 'NVDA'])
     ap.add_argument('--earnings-tickers', nargs='+', default=[])
     ap.add_argument('--max-age-days', type=int, default=120)
+    ap.add_argument('--wscn-n', type=int, default=1)
     ap.add_argument('--rss-n', type=int, default=1)
     ap.add_argument('--newsletter-extract', type=int, default=3)
     ap.add_argument('--oaktree-n', type=int, default=3)
