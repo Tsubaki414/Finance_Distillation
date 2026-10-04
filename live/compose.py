@@ -223,6 +223,8 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
             findings.append({'code': 'template_phrase', 'detail': phrase})
     findings += number_findings(body, units)
     findings += qa_levels.d_tier_findings(body)
+    from live.licence_rules import quote_findings
+    findings += quote_findings(body, units)
     findings += qa_levels.quote_findings(body, [s['exact_text'] for u in units for s in u['source_spans']])
     frame_found = bool(frame) and attribution_frame.strip(text, frame)[1]
     return qa_levels.classify(findings, frame_found=frame_found)
@@ -264,6 +266,9 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             'persona': {'persona_id': persona.persona_id, 'version': persona.version},
             'publishable': False, 'prompt_assembly': assembly, 'created_at': now()}
     extracted = content_units.extract(source, client, licence_tier=tier, publisher=publisher)
+    if tier == 'A' and any(u.get('no_reproduction') for u in extracted['units']):
+        tier = 'B'
+        base['licence_tier'] = tier
     assembly.append(extracted['prompt_assembly'])
     units = extracted['units']
     base['extract_dropped_units'] = extracted.get('dropped_units', [])
@@ -294,9 +299,14 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                            'focus': persona.raw.get('focus')},
                'avoid_phrases': blacklist(persona.lang),
                'units': [{'unit_id': u['unit_id'], 'kind': u['kind'], 'statement': u['statement'],
-                          'speaker': u['speaker'], 'source_spans': [s['exact_text'] for s in u['source_spans']],
+                          'speaker': u['speaker'],
+                          **({'quote_allowed': False, 'usage': 'paraphrase'} if u.get('quote_allowed') is False else {}),
+                          'source_spans': [s['exact_text'] for s in u['source_spans']],
                           'numbers': [{k: n[k] for k in ('text', 'metric', 'period', 'span_ref')} for n in u['numbers']]}
                          for u in chosen]}
+    if any(u.get('quote_allowed') is False for u in chosen):
+        payload['post_type_rules']['quote_policy'] = (
+            'Paraphrase these units. Direct quotes, including translated quotes, are forbidden.')
     retrieval = persona.raw.get('exemplar_retrieval') or {}
     use_exemplars = retrieval.get('enabled', False) if exemplars is None else exemplars
     shown = []

@@ -189,6 +189,12 @@ def extract(source, client, *, licence_tier, publisher=None):
     """Run EXTRACT once. Returns {'units', 'prompt_assembly', 'response', 'span_match_rate'}."""
     if licence_tier not in USAGE:
         raise LicenceRefused(f'licence tier {licence_tier!r} does not allow extraction')
+    from live import registry
+    from live.licence_rules import detect_no_reproduction, apply_no_reproduction
+    restricted = (registry.source_no_reproduction(source.get('source_id'))
+                  or detect_no_reproduction(source.get('original_text')))
+    if restricted and licence_tier == 'A':
+        licence_tier = 'B'
     payload = {'source': {'source_id': source.get('source_id'), 'title': source.get('title'),
                           'author_name': source.get('author_name'), 'publisher': publisher,
                           'published_at': source.get('published_at')},
@@ -203,6 +209,12 @@ def extract(source, client, *, licence_tier, publisher=None):
     except ValueError as exc:
         raise ContractError('extract: ' + str(exc)) from exc
     units, dropped = validate_units_partial(source, value, licence_tier)
+    if restricted and licence_tier == 'B':
+        apply_no_reproduction(units)
+    elif restricted:
+        # A restriction cannot promote topic-only material to a writable tier.
+        for unit in units:
+            unit.update(no_reproduction=True, quote_allowed=False, attribution_required=True)
     spans = [s for u in units for s in u['source_spans']]
     return {'version': VERSION, 'units': units, 'dropped_units': dropped, 'prompt_assembly': record,
             'response': {k: response.get(k) for k in ('model', 'response_model', 'finish_reason', 'usage')},

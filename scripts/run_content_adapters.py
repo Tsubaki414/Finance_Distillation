@@ -135,11 +135,21 @@ def main():
         personas = [persona] if persona and persona != 'none' else []
         screen = jev_front.prescreen_units(units, persona=personas[0], jev=jev) if personas and units else {}
         keep = [u for u in units if (screen.get(u['unit_id']) or {}).get('verdict', 'keep') != 'drop']
+        dropped_by_prescreen = len(units) - len(keep)
+        tags = {}
+        if jev is not None:
+            from live.persona_tags import target_units
+            targeted, tags = target_units(s, keep, jev=jev)
+            stored.setdefault('dropped_untargeted', 0)
+            stored['dropped_untargeted'] += len(keep) - len(targeted)
+            keep = targeted
         r = store.add(s, keep, adapter=adapter, personas={u['unit_id']: personas for u in keep}, prescreen=screen)
+        if jev is not None:
+            store.set_persona_tags(tags, .7)
         stored['added'] += r['added']
         stored['duplicate'] += r['duplicate']
         stored.setdefault('dropped_by_prescreen', 0)
-        stored['dropped_by_prescreen'] += len(units) - len(keep)
+        stored['dropped_by_prescreen'] += dropped_by_prescreen
     report['stored'] = stored
     report['store_stats'] = store.stats()
     report['jev_calls'] = len(jev.calls) if jev else 0

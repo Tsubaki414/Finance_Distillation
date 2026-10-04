@@ -33,11 +33,62 @@ class ContentStore:
         self.root.mkdir(parents=True, exist_ok=True)
         self.path = self.root / 'units.jsonl'
         self._rows = {}
+        self._licence_overrides = {}
         if self.path.exists():
             for line in self.path.read_text().splitlines():
                 if line.strip():
                     r = json.loads(line)
                     self._rows[r['unit_id']] = r
+
+        for row in self._rows.values():
+            row['persona_tags'] = {}
+            row['tag_personas'] = []
+        self._load_sidecars()
+
+    def _load_sidecars(self):
+        from live.persona_tags import tagged_personas
+        for name in ('persona_tags', 'licence_overrides'):
+            path = self.root / (name + '.jsonl')
+            if not path.exists():
+                continue
+            for line in path.read_text().splitlines():
+                if not line.strip():
+                    continue
+                entry = json.loads(line)
+                row = self._rows.get(entry['unit_id'])
+                if row is None:
+                    continue
+                if name == 'persona_tags':
+                    row['persona_tags'] = entry['tags']
+                    row['tag_personas'] = tagged_personas(entry['tags'], entry['threshold'])
+                else:
+                    self._licence_overrides[entry['unit_id']] = entry['overrides']
+        self._rows = {uid: self.apply_licence_overrides(row) for uid, row in self._rows.items()}
+
+    def apply_licence_overrides(self, row):
+        """Apply only this row's explicit overrides, preserving raw integrity evidence."""
+        overrides = self._licence_overrides.get(row.get('unit_id'))
+        if not overrides:
+            return row
+        unit = dict(row.get('unit') or {}, **overrides)
+        return dict(row, unit=unit, licence_tier=unit.get('licence_tier'),
+                    attribution=dict(row.get('attribution') or {}, usage=unit.get('usage')))
+
+    def set_persona_tags(self, tags_by_uid, threshold=0.7):
+        from live.persona_tags import tagged_personas
+        if not 0 <= threshold <= 1:
+            raise ValueError('threshold must be between zero and one')
+        with (self.root / 'persona_tags.jsonl').open('a') as fh:
+            for uid, tags in tags_by_uid.items():
+                if uid not in self._rows:
+                    continue
+                personas = tagged_personas(tags, threshold)
+                fh.write(json.dumps({'unit_id': uid, 'tags': tags, 'tagged_at': now(),
+                                     'threshold': threshold}, ensure_ascii=False) + '\n')
+                self._rows[uid].update(persona_tags=tags, tag_personas=personas)
+
+    def untagged(self):
+        return [row for row in self._rows.values() if not row.get('persona_tags')]
 
     def add(self, source, units, *, adapter, personas=None, prescreen=None):
         added = duplicate = 0
@@ -54,7 +105,7 @@ class ContentStore:
                        'personas': list((personas or {}).get(u['unit_id'], [])),
                        'prescreen': (prescreen or {}).get(u['unit_id']), 'stored_at': now()}
                 fh.write(json.dumps(rec, ensure_ascii=False) + '\n')
-                self._rows[u['unit_id']] = rec
+                self._rows[u['unit_id']] = dict(rec, persona_tags={}, tag_personas=[])
                 added += 1
         return {'added': added, 'duplicate': duplicate}
 

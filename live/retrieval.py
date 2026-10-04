@@ -1,4 +1,4 @@
-"""Offline retrieval over the shared store; routing plus beat keyword matches."""
+"""Shared-store retrieval gated by semantic tags, with explicit legacy routing."""
 from datetime import date, datetime, timedelta, timezone
 import re
 
@@ -19,8 +19,10 @@ def _date(value):
     return parsed.replace(tzinfo=timezone.utc) if parsed.tzinfo is None else parsed.astimezone(timezone.utc)
 
 
-def units_for_persona(store, persona, *, limit=None, as_of=None, max_age_days=None):
-    """Return copied records marked routed/keyword, ordered by relevance then date.
+def units_for_persona(store, persona, *, limit=None, as_of=None, max_age_days=None, mode='tags'):
+    """Return copied records, tagged by default and ordered by confidence/date.
+
+    Legacy mode preserves routing/keyword matching and its original ordering.
 
     Keyword hits count distinct keywords in statements and bound metric text.
     English matches use a left word boundary, retaining keyword stems from THEMES.
@@ -35,6 +37,8 @@ def units_for_persona(store, persona, *, limit=None, as_of=None, max_age_days=No
         raise ValueError('limit must be a nonnegative integer')
     if max_age_days is not None and max_age_days < 0:
         raise ValueError('max_age_days must be nonnegative')
+    if mode not in ('tags', 'legacy'):
+        raise ValueError('mode must be tags or legacy')
     words = set(KEYWORDS.get(persona, ())) | set(THEMES[persona][2])
     words.update(KEYWORDS.get(_ZH_EQUIVALENTS.get(persona), ()))
     cutoff = _date(as_of) if as_of is not None else datetime.now(timezone.utc)
@@ -49,6 +53,13 @@ def units_for_persona(store, persona, *, limit=None, as_of=None, max_age_days=No
         if as_of is not None or earliest is not None:
             if published is None or published > cutoff or (earliest is not None and published < earliest):
                 continue
+        if mode == 'tags':
+            if persona not in row.get('tag_personas', []):
+                continue
+            confidence = row['persona_tags'][persona]['confidence']
+            ranked.append(((-confidence, -published.timestamp() if published else float('inf'),
+                            str(row.get('unit_id'))), dict(row, match='tagged')))
+            continue
         numbers = unit.get('numbers') or []
         text = ' '.join([str(unit.get('statement') or '')] +
                         [str(n.get('metric') or '') for n in numbers if isinstance(n, dict)]).lower()
@@ -71,17 +82,28 @@ RELEVANCE_CRITERIA = {
 }
 
 
-def _review_relevance(jev, state, questions):
-    """Retry unresolved questions once, then isolate failures by bisecting."""
+def _review_relevance(jev, state, questions, *, max_calls=None, stats=None, valid_answer=None):
+    """Retry unresolved questions once, then isolate failures by bisecting.
+
+    Optional shared stats and a call cap apply across all batches/recursion.
+    valid_answer lets the tagging caller require a usable confidence too.
+    """
+    if stats is None:
+        stats = {'calls': 0, 'retries': 0, 'splits': 0}
     resolved = {}
     pending = dict(questions)
-    for _ in range(2):
+    for attempt in range(2):
+        if not pending or jev is None or (max_calls is not None and stats['calls'] >= max_calls):
+            return resolved
+        stats['calls'] += 1
+        stats['retries'] += int(attempt == 1)
         try:
             response = jev.review(state, pending)
             answers = response.get('answers', {}) if response.get('status') == 'completed' else {}
             for uid in pending:
                 answer = answers.get(uid)
-                if isinstance(answer, dict) and answer.get('choice') in RELEVANCE_CRITERIA:
+                if (isinstance(answer, dict) and answer.get('choice') in RELEVANCE_CRITERIA
+                        and (valid_answer is None or valid_answer(answer))):
                     resolved[uid] = {'verdict': answer['choice'],
                                      'confidence': answer.get('confidence'), 'jev_fallback': False}
         except Exception:
@@ -89,11 +111,13 @@ def _review_relevance(jev, state, questions):
         pending = {uid: q for uid, q in pending.items() if uid not in resolved}
         if not pending:
             return resolved
-    if len(pending) > 1:
+    if len(pending) > 1 and (max_calls is None or stats['calls'] < max_calls):
+        stats['splits'] += 1
         items = list(pending.items())
         middle = len(items) // 2
         for half in (items[:middle], items[middle:]):
-            resolved.update(_review_relevance(jev, state, dict(half)))
+            resolved.update(_review_relevance(jev, state, dict(half), max_calls=max_calls,
+                                             stats=stats, valid_answer=valid_answer))
     return resolved
 
 
@@ -129,3 +153,10 @@ def judge_relevance(units_by_persona, *, jev, per_persona=None):
             out[persona].update(_review_relevance(
                 jev, {'task': 'served unit relevance', 'persona': persona}, questions))
     return out
+
+
+def counts(store):
+    """Store coverage, including unresolved/never-tagged units."""
+    rows = store.units()
+    return {'units': len(rows), 'untagged': len(store.untagged()),
+            'by_persona': {p: sum(p in r.get('tag_personas', []) for r in rows) for p in PERSONAS}}

@@ -464,7 +464,17 @@ def store_units(source, units, persona, *, store=None, jev=None):
     from live.jev_front import prescreen_units
     verdicts = prescreen_units(units, persona=persona, jev=jev) if jev is not None else {}
     kept = [u for u in units if verdicts.get(u['unit_id'], {}).get('verdict') != 'drop']
-    result = (store or ContentStore()).add(source, kept, adapter='reportgem',
+    store = store or ContentStore()
+    dropped_untargeted = 0
+    tags = {}
+    if jev is not None:
+        from live.persona_tags import target_units
+        targeted, tags = target_units(source, kept, jev=jev)
+        dropped_untargeted = len(kept) - len(targeted)
+        kept = targeted
+    result = store.add(source, kept, adapter='reportgem',
               personas={u['unit_id']: [persona] for u in kept}, prescreen=verdicts)
-    return {**result, 'kept': len(kept), 'dropped': len(units) - len(kept),
+    if jev is not None:
+        store.set_persona_tags(tags, .7)
+    return {**result, 'dropped_untargeted': dropped_untargeted, 'kept': len(kept), 'dropped': len(units) - len(kept),
             'verdict_counts': {v: sum(a['verdict'] == v for a in verdicts.values()) for v in ('keep', 'weak', 'drop')}}

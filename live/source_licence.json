@@ -206,7 +206,8 @@
         "JP Morgan",
         "摩根大通",
         "小摩"
-      ]
+      ],
+      "no_reproduction": true
     },
     "reportgem_bofa": {
       "tier": "B",

@@ -206,3 +206,7 @@ def post_types_for_tier(tier, post_types=None):
         return []
     post_types = post_types or load_post_types()
     return [name for name, spec in post_types['post_types'].items() if tier in spec['licence_tiers']]
+
+
+def source_no_reproduction(source_id):
+    return _licence().get(source_id, {}).get("no_reproduction") is True
