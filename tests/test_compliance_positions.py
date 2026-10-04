@@ -97,3 +97,24 @@ def test_position_claim_blocks_draft():
     assert result['draft_status'] == 'needs_review'
     assert 'position_claim' in result['qa']['hard']
     assert not result['publishable']
+
+
+def test_position_patterns_spare_rhetorical_tendencies():
+    import re
+    from live.voice_cards import POSITION_PATTERNS
+    hit = lambda t: any(p.search(t) for p in POSITION_PATTERNS)
+    for t in ("Relays an external chart, report or person's point with attribution and a short added take",
+              'Positions a view explicitly against consensus or conventional wisdom',
+              "Relays someone else's quote, book lesson, or stat with little or no added commentary",
+              'Marks the view as personal with first-person belief framing, while still holding a fairly confident directional stance',
+              'Positions the view against a named person or a prevailing bear or bull narrative',
+              'Frames downside losses in the index as a risk scenario'):
+        assert not hit(t), t
+    for t in ('Discloses a personal position, addition or holding history to frame the view',
+              'Shares their own positions, stops and exposure as part of the update',
+              'Calls a range or trade finished and announces the exit, giving the result',
+              'Discloses current holdings with performance and stop status',
+              'Explicit trade instructions with entries, stops or position sizes',
+              "Grounds a view in the author's own position, trade or hands-on use",
+              '经常晒出自己的持仓和加仓记录'):
+        assert hit(t), t
