@@ -50,7 +50,7 @@
   },
   "hooks": {
     "question": {
-      "share": 0.050020991,
+      "share": 0.047449813,
       "first_lines": [
         {
           "handle": "JeffSnider_EDU",
@@ -69,7 +69,7 @@
         }
       ]
     },
-    "number-led": {
+    "number-led headline": {
       "share": 0.010130166,
       "first_lines": [
         {
@@ -89,27 +89,51 @@
         }
       ]
     },
-    "claim-led": {
-      "share": 0.857585281,
+    "ticker-led": {
+      "share": 0.007019129,
       "first_lines": [
         {
           "handle": "JeffSnider_EDU",
-          "id": "2087298009801605322",
-          "text": "Private credit is the new junk bond market. Except this one is opaque, illiquid, and about to be stress-tested."
+          "id": "2088385181673738503",
+          "text": "Amazon just tried to sell bonds to fund its AI buildout."
         },
         {
           "handle": "JeffSnider_EDU",
-          "id": "2087358407556882834",
-          "text": "Nearly every credit transaction made today has an interest rate swap embedded in it somewhere, with dealers on both sides."
+          "id": "2092847074551509396",
+          "text": "Google just posted negative free cash flow for the first time since going public in 2004."
         },
         {
           "handle": "JeffSnider_EDU",
-          "id": "2087433906731528247",
-          "text": "Everyone's watching the Fed's next move like it's the whole story."
+          "id": "2094545769357521367",
+          "text": "Amazon just sold bonds at a bigger discount and still got a thinner order book."
         }
       ]
     },
-    "breaking": {
+    "contrast/turn": {
+      "share": 0.082848356,
+      "first_lines": [
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087552892886548877",
+          "text": "Because govts have no f-ing idea how the world works...but they pretend they do."
+        },
+        {
+          "handle": "lisaabramowicz1",
+          "id": "2034555370220175474",
+          "text": "Average US gasoline prices have surged 37% since the January lows, rising to the highest since 2022. The absolute price level, $3.88, is still within the range of normal from a historical perspective. But it's rising at an rapid clip, without a sense of where or when it'll stop https://t.co/1Rst52bNRO"
+        },
+        {
+          "handle": "lisaabramowicz1",
+          "id": "2036474238136361207",
+          "text": "“At oil prices in the range of $100–110 per barrel, many central banks lean away from an easing bias - and in some cases to a rate hiking bias:” MS analysts. But if oil prices move above $125, “the balance of risks would broadly shift back towards growth downside risks.”"
+        }
+      ]
+    },
+    "list/thread opener": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "news-wire": {
       "share": 0.000944162,
       "first_lines": [
         {
@@ -125,7 +149,7 @@
       ]
     },
     "emoji-led": {
-      "share": 0.055461538,
+      "share": 0.054801282,
       "first_lines": [
         {
           "handle": "GlobalMktObserv",
@@ -145,7 +169,7 @@
       ]
     },
     "quote": {
-      "share": 0.025857861,
+      "share": 0.02342275,
       "first_lines": [
         {
           "handle": "JeffSnider_EDU",
@@ -161,6 +185,26 @@
           "handle": "JeffSnider_EDU",
           "id": "2096757844133777533",
           "text": "\"I had pretty high expectations. They were certainly met and exceeded.\""
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.773384342,
+      "first_lines": [
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087298009801605322",
+          "text": "Private credit is the new junk bond market. Except this one is opaque, illiquid, and about to be stress-tested."
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087358407556882834",
+          "text": "Nearly every credit transaction made today has an interest rate swap embedded in it somewhere, with dealers on both sides."
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087433906731528247",
+          "text": "Everyone's watching the Fed's next move like it's the whole story."
         }
       ]
     }
@@ -365,5 +409,112 @@
         }
       ]
     }
-  ]
+  ],
+  "baseline_rules": {
+    "do": [
+      {
+        "rule": "Lead with a clear judgment; use data to support it.",
+        "evidence": [
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2087298009801605322",
+            "text": "Private credit is the new junk bond market. Except this one is opaque, illiquid, and about to be stress-tested.\n\nHere is how it happened. Th"
+          },
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2087358407556882834",
+            "text": "Nearly every credit transaction made today has an interest rate swap embedded in it somewhere, with dealers on both sides.\n\nWhich means swap"
+          },
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2087433906731528247",
+            "text": "Everyone's watching the Fed's next move like it's the whole story.\n\nBut the swap market is telling you something else entirely.\n\nDeeply nega"
+          },
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2087552892886548877",
+            "text": "Because govts have no f-ing idea how the world works...but they pretend they do.  \n\nStop listening to politicians, officials, and bureaucrat"
+          }
+        ]
+      },
+      {
+        "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+        "evidence": [
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2087298009801605322",
+            "text": "Private credit is the new junk bond market. Except this one is opaque, illiquid, and about to be stress-tested.\n\nHere is how it happened. Th"
+          },
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2087358407556882834",
+            "text": "Nearly every credit transaction made today has an interest rate swap embedded in it somewhere, with dealers on both sides.\n\nWhich means swap"
+          },
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2087433906731528247",
+            "text": "Everyone's watching the Fed's next move like it's the whole story.\n\nBut the swap market is telling you something else entirely.\n\nDeeply nega"
+          },
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2087552892886548877",
+            "text": "Because govts have no f-ing idea how the world works...but they pretend they do.  \n\nStop listening to politicians, officials, and bureaucrat"
+          }
+        ]
+      }
+    ],
+    "dont": [
+      {
+        "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+        "evidence": [
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2087298009801605322",
+            "text": "Private credit is the new junk bond market. Except this one is opaque, illiquid, and about to be stress-tested.\n\nHere is how it happened. Th"
+          },
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2087358407556882834",
+            "text": "Nearly every credit transaction made today has an interest rate swap embedded in it somewhere, with dealers on both sides.\n\nWhich means swap"
+          },
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2087433906731528247",
+            "text": "Everyone's watching the Fed's next move like it's the whole story.\n\nBut the swap market is telling you something else entirely.\n\nDeeply nega"
+          },
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2087552892886548877",
+            "text": "Because govts have no f-ing idea how the world works...but they pretend they do.  \n\nStop listening to politicians, officials, and bureaucrat"
+          }
+        ]
+      },
+      {
+        "rule": "Do not convert observed confidence into an unsupported trade call.",
+        "evidence": [
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2087298009801605322",
+            "text": "Private credit is the new junk bond market. Except this one is opaque, illiquid, and about to be stress-tested.\n\nHere is how it happened. Th"
+          },
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2087358407556882834",
+            "text": "Nearly every credit transaction made today has an interest rate swap embedded in it somewhere, with dealers on both sides.\n\nWhich means swap"
+          },
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2087433906731528247",
+            "text": "Everyone's watching the Fed's next move like it's the whole story.\n\nBut the swap market is telling you something else entirely.\n\nDeeply nega"
+          },
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2087552892886548877",
+            "text": "Because govts have no f-ing idea how the world works...but they pretend they do.  \n\nStop listening to politicians, officials, and bureaucrat"
+          }
+        ]
+      }
+    ]
+  },
+  "qualitative": {}
 }

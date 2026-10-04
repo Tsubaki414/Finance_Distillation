@@ -50,7 +50,7 @@
   },
   "hooks": {
     "question": {
-      "share": 0.042664879,
+      "share": 0.036476445,
       "first_lines": [
         {
           "handle": "Mr_Derivatives",
@@ -69,8 +69,8 @@
         }
       ]
     },
-    "number-led": {
-      "share": 0.013662132,
+    "number-led headline": {
+      "share": 0.012765945,
       "first_lines": [
         {
           "handle": "Mr_Derivatives",
@@ -89,8 +89,8 @@
         }
       ]
     },
-    "claim-led": {
-      "share": 0.916651269,
+    "ticker-led": {
+      "share": 0.075465402,
       "first_lines": [
         {
           "handle": "Mr_Derivatives",
@@ -99,17 +99,41 @@
         },
         {
           "handle": "Mr_Derivatives",
-          "id": "2082182601134178772",
-          "text": "The last three times $USO hit a 70+ RSI, it pulled back significantly."
+          "id": "2087296560896028705",
+          "text": "$JPM Could use a healthy pullback.... https://t.co/FtekcK2lXV"
         },
         {
           "handle": "Mr_Derivatives",
-          "id": "2087296560896028705",
-          "text": "$JPM Could use a healthy pullback.... https://t.co/FtekcK2lXV"
+          "id": "2095294890683072618",
+          "text": "$HIMS Just give me a 20-25% bouncer here. I promise to eat my vegetables. https://t.co/UCgQUnBjEW"
         }
       ]
     },
-    "breaking": {
+    "contrast/turn": {
+      "share": 0.086965509,
+      "first_lines": [
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2104220435202429300",
+          "text": "@SharkChart and I had a private DM chat. Cleared some air. Not saying we are bff’s now, but I think we both went a bit overboard, so we on a mutual understanding now."
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2104227561945640989",
+          "text": "Just in: Trump AND Axios this time with the Taco. A bit early before Futures open, but there it is.."
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2104640433842491470",
+          "text": "With Public now getting into the Predictions market recently now alongside the likes of Robinhood, Interactive Brokers, and Schwab (I think only Fidelity does not yet but they are exploring), we can all finally agree that Predictions/Perpetuals is here to stay."
+        }
+      ]
+    },
+    "list/thread opener": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "news-wire": {
       "share": 0.00046953,
       "first_lines": [
         {
@@ -140,7 +164,7 @@
       ]
     },
     "quote": {
-      "share": 0.018520663,
+      "share": 0.016991293,
       "first_lines": [
         {
           "handle": "Mr_Derivatives",
@@ -156,6 +180,26 @@
           "handle": "EricBalchunas",
           "id": "2099899629105983511",
           "text": "\"ETFs should come with a drink ticket and a players card at this point.. There's been so many leveraged ETF closures this year that Spirit Halloween is going to open up temporary locations in the vacant tickers.\" - @SGHWealthMgmt w/ a colorful rant against hot sauce on ETF IQ yesterday w/ @scarletfu"
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.76283435,
+      "first_lines": [
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2082182601134178772",
+          "text": "The last three times $USO hit a 70+ RSI, it pulled back significantly."
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2103973460116664695",
+          "text": "Wtf… hit a $70k market cap…"
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2103980756221727118",
+          "text": "Almost a $1M market cap on $HEISENBERG."
         }
       ]
     }
@@ -360,5 +404,112 @@
         }
       ]
     }
-  ]
+  ],
+  "baseline_rules": {
+    "do": [
+      {
+        "rule": "Lead with a clear judgment; use data to support it.",
+        "evidence": [
+          {
+            "handle": "Mr_Derivatives",
+            "id": "2078332586464825380",
+            "text": "$TSM Down 7 days in a row, worst losing streak since June-July 2022!\n\nSitting right at this critical support line dating back to the April 2"
+          },
+          {
+            "handle": "Mr_Derivatives",
+            "id": "2082182601134178772",
+            "text": "The last three times $USO hit a 70+ RSI, it pulled back significantly."
+          },
+          {
+            "handle": "Mr_Derivatives",
+            "id": "2087296560896028705",
+            "text": "$JPM Could use a healthy pullback.... https://t.co/FtekcK2lXV"
+          },
+          {
+            "handle": "Mr_Derivatives",
+            "id": "2095294890683072618",
+            "text": "$HIMS Just give me a 20-25% bouncer here. I promise to eat my vegetables. https://t.co/UCgQUnBjEW"
+          }
+        ]
+      },
+      {
+        "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+        "evidence": [
+          {
+            "handle": "Mr_Derivatives",
+            "id": "2078332586464825380",
+            "text": "$TSM Down 7 days in a row, worst losing streak since June-July 2022!\n\nSitting right at this critical support line dating back to the April 2"
+          },
+          {
+            "handle": "Mr_Derivatives",
+            "id": "2082182601134178772",
+            "text": "The last three times $USO hit a 70+ RSI, it pulled back significantly."
+          },
+          {
+            "handle": "Mr_Derivatives",
+            "id": "2087296560896028705",
+            "text": "$JPM Could use a healthy pullback.... https://t.co/FtekcK2lXV"
+          },
+          {
+            "handle": "Mr_Derivatives",
+            "id": "2095294890683072618",
+            "text": "$HIMS Just give me a 20-25% bouncer here. I promise to eat my vegetables. https://t.co/UCgQUnBjEW"
+          }
+        ]
+      }
+    ],
+    "dont": [
+      {
+        "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+        "evidence": [
+          {
+            "handle": "Mr_Derivatives",
+            "id": "2078332586464825380",
+            "text": "$TSM Down 7 days in a row, worst losing streak since June-July 2022!\n\nSitting right at this critical support line dating back to the April 2"
+          },
+          {
+            "handle": "Mr_Derivatives",
+            "id": "2082182601134178772",
+            "text": "The last three times $USO hit a 70+ RSI, it pulled back significantly."
+          },
+          {
+            "handle": "Mr_Derivatives",
+            "id": "2087296560896028705",
+            "text": "$JPM Could use a healthy pullback.... https://t.co/FtekcK2lXV"
+          },
+          {
+            "handle": "Mr_Derivatives",
+            "id": "2095294890683072618",
+            "text": "$HIMS Just give me a 20-25% bouncer here. I promise to eat my vegetables. https://t.co/UCgQUnBjEW"
+          }
+        ]
+      },
+      {
+        "rule": "Do not convert observed confidence into an unsupported trade call.",
+        "evidence": [
+          {
+            "handle": "Mr_Derivatives",
+            "id": "2078332586464825380",
+            "text": "$TSM Down 7 days in a row, worst losing streak since June-July 2022!\n\nSitting right at this critical support line dating back to the April 2"
+          },
+          {
+            "handle": "Mr_Derivatives",
+            "id": "2082182601134178772",
+            "text": "The last three times $USO hit a 70+ RSI, it pulled back significantly."
+          },
+          {
+            "handle": "Mr_Derivatives",
+            "id": "2087296560896028705",
+            "text": "$JPM Could use a healthy pullback.... https://t.co/FtekcK2lXV"
+          },
+          {
+            "handle": "Mr_Derivatives",
+            "id": "2095294890683072618",
+            "text": "$HIMS Just give me a 20-25% bouncer here. I promise to eat my vegetables. https://t.co/UCgQUnBjEW"
+          }
+        ]
+      }
+    ]
+  },
+  "qualitative": {}
 }

@@ -50,7 +50,7 @@
   },
   "hooks": {
     "question": {
-      "share": 0.053531746,
+      "share": 0.048024703,
       "first_lines": [
         {
           "handle": "MebFaber",
@@ -69,8 +69,8 @@
         }
       ]
     },
-    "number-led": {
-      "share": 0.02767545,
+    "number-led headline": {
+      "share": 0.024883279,
       "first_lines": [
         {
           "handle": "MebFaber",
@@ -89,27 +89,51 @@
         }
       ]
     },
-    "claim-led": {
-      "share": 0.861313678,
+    "ticker-led": {
+      "share": 0.00471236,
       "first_lines": [
         {
           "handle": "MebFaber",
-          "id": "2085448298719227909",
-          "text": "An entire generation is miserable because they're on their phones all day, envious of the imaginary life their peers are living..."
+          "id": "2090825642480951795",
+          "text": "Apple: https://t.co/lxoWu2e2V4"
         },
         {
           "handle": "MebFaber",
-          "id": "2085682433127522572",
-          "text": "Investing Quote of the Day: \"Statistics are bloodless things.\" - Frederick Lewis Allen https://t.co/x9Og5pNMUt"
+          "id": "2093366646908043573",
+          "text": "Apple: https://t.co/Wia5KC1QOB"
         },
         {
           "handle": "MebFaber",
-          "id": "2085753464899129357",
-          "text": "Year 1:"
+          "id": "2096277176123592729",
+          "text": "Apple: https://t.co/pKR5dKXMGv"
         }
       ]
     },
-    "breaking": {
+    "contrast/turn": {
+      "share": 0.082035318,
+      "first_lines": [
+        {
+          "handle": "MebFaber",
+          "id": "2087131978977964523",
+          "text": "Investing Quote of the Day: \"Be aware that the market does not turn when it sees light at the end of the tunnel. It turns when all looks black, but just a subtle shade less black than the day before.\" - Jeremy Grantham https://t.co/A7LFxA7pZn"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2087494370828157031",
+          "text": "Investing Quote of the Day: \"The stock market is rigged against you if you're looking for easy money. But it's also rigged in favor of long-term investors.\" - Ben Carlson (@awealthofcs) https://t.co/vUWnJT60ur"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2091843019255222379",
+          "text": "Investing Quote of the Day: \"I used to think that if there was reincarnation, I wanted to come back as the president or the pope or as a .400 baseball hitter. But now I would like to come back as the bond market. You can intimidate everybody.\" - James Carville https://t.co/Z6QyHvMLhs"
+        }
+      ]
+    },
+    "list/thread opener": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "news-wire": {
       "share": 0.0,
       "first_lines": []
     },
@@ -134,7 +158,7 @@
       ]
     },
     "quote": {
-      "share": 0.030461047,
+      "share": 0.027967695,
       "first_lines": [
         {
           "handle": "MebFaber",
@@ -150,6 +174,26 @@
           "handle": "MebFaber",
           "id": "2088599087109091514",
           "text": "\"𝗛𝗮𝗺𝗶𝗹𝘁𝗼𝗻𝗶𝗮𝗻 𝗲𝗰𝗼𝗻𝗼𝗺𝗶𝗰𝘀\" 𝗸𝗲𝗲𝗽𝘀 𝗰𝗼𝗺𝗶𝗻𝗴 𝘂𝗽 𝗳𝗿𝗼𝗺 𝗣𝗿𝗲𝘀𝗶𝗱𝗲𝗻𝘁 𝗧𝗿𝘂𝗺𝗽, 𝗝𝗗 𝗩𝗮𝗻𝗰𝗲, 𝗦𝗰𝗼𝘁𝘁 𝗕𝗲𝘀𝘀𝗲𝗻𝘁, 𝗮𝗻𝗱 𝗨𝗦𝗧𝗥 𝗚𝗿𝗲𝗲𝗿."
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.785358566,
+      "first_lines": [
+        {
+          "handle": "MebFaber",
+          "id": "2085448298719227909",
+          "text": "An entire generation is miserable because they're on their phones all day, envious of the imaginary life their peers are living..."
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2085682433127522572",
+          "text": "Investing Quote of the Day: \"Statistics are bloodless things.\" - Frederick Lewis Allen https://t.co/x9Og5pNMUt"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2085753464899129357",
+          "text": "Year 1:"
         }
       ]
     }
@@ -354,5 +398,112 @@
         }
       ]
     }
-  ]
+  ],
+  "baseline_rules": {
+    "do": [
+      {
+        "rule": "Lead with a clear judgment; use data to support it.",
+        "evidence": [
+          {
+            "handle": "MebFaber",
+            "id": "1108070025770856448",
+            "text": "For the investment professionals out there.  What belief do you hold that the vast majority of your peers (75%+) do not share?\n\nHere's a few"
+          },
+          {
+            "handle": "MebFaber",
+            "id": "1788241864153522426",
+            "text": "21. Investing in riskier bonds doesn't make sense if the yield spread vs. T-Bills isn't wide enough.\n\nhttps://t.co/i72VjOViPG"
+          },
+          {
+            "handle": "MebFaber",
+            "id": "2085448298719227909",
+            "text": "An entire generation is miserable because they're on their phones all day, envious of the imaginary life their peers are living...\n\nhttps://"
+          },
+          {
+            "handle": "MebFaber",
+            "id": "2085455354834636902",
+            "text": "👇👇👇"
+          }
+        ]
+      },
+      {
+        "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+        "evidence": [
+          {
+            "handle": "MebFaber",
+            "id": "1108070025770856448",
+            "text": "For the investment professionals out there.  What belief do you hold that the vast majority of your peers (75%+) do not share?\n\nHere's a few"
+          },
+          {
+            "handle": "MebFaber",
+            "id": "1788241864153522426",
+            "text": "21. Investing in riskier bonds doesn't make sense if the yield spread vs. T-Bills isn't wide enough.\n\nhttps://t.co/i72VjOViPG"
+          },
+          {
+            "handle": "MebFaber",
+            "id": "2085448298719227909",
+            "text": "An entire generation is miserable because they're on their phones all day, envious of the imaginary life their peers are living...\n\nhttps://"
+          },
+          {
+            "handle": "MebFaber",
+            "id": "2085455354834636902",
+            "text": "👇👇👇"
+          }
+        ]
+      }
+    ],
+    "dont": [
+      {
+        "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+        "evidence": [
+          {
+            "handle": "MebFaber",
+            "id": "1108070025770856448",
+            "text": "For the investment professionals out there.  What belief do you hold that the vast majority of your peers (75%+) do not share?\n\nHere's a few"
+          },
+          {
+            "handle": "MebFaber",
+            "id": "1788241864153522426",
+            "text": "21. Investing in riskier bonds doesn't make sense if the yield spread vs. T-Bills isn't wide enough.\n\nhttps://t.co/i72VjOViPG"
+          },
+          {
+            "handle": "MebFaber",
+            "id": "2085448298719227909",
+            "text": "An entire generation is miserable because they're on their phones all day, envious of the imaginary life their peers are living...\n\nhttps://"
+          },
+          {
+            "handle": "MebFaber",
+            "id": "2085455354834636902",
+            "text": "👇👇👇"
+          }
+        ]
+      },
+      {
+        "rule": "Do not convert observed confidence into an unsupported trade call.",
+        "evidence": [
+          {
+            "handle": "MebFaber",
+            "id": "1108070025770856448",
+            "text": "For the investment professionals out there.  What belief do you hold that the vast majority of your peers (75%+) do not share?\n\nHere's a few"
+          },
+          {
+            "handle": "MebFaber",
+            "id": "1788241864153522426",
+            "text": "21. Investing in riskier bonds doesn't make sense if the yield spread vs. T-Bills isn't wide enough.\n\nhttps://t.co/i72VjOViPG"
+          },
+          {
+            "handle": "MebFaber",
+            "id": "2085448298719227909",
+            "text": "An entire generation is miserable because they're on their phones all day, envious of the imaginary life their peers are living...\n\nhttps://"
+          },
+          {
+            "handle": "MebFaber",
+            "id": "2085455354834636902",
+            "text": "👇👇👇"
+          }
+        ]
+      }
+    ]
+  },
+  "qualitative": {}
 }

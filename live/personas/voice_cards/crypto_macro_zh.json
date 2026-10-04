@@ -47,7 +47,7 @@
   },
   "hooks": {
     "question": {
-      "share": 0.068670201,
+      "share": 0.066039958,
       "first_lines": [
         {
           "handle": "Bitwux",
@@ -66,8 +66,8 @@
         }
       ]
     },
-    "number-led": {
-      "share": 0.029100273,
+    "number-led headline": {
+      "share": 0.027218097,
       "first_lines": [
         {
           "handle": "Bitwux",
@@ -86,32 +86,83 @@
         }
       ]
     },
-    "claim-led": {
-      "share": 0.876053005,
+    "ticker-led": {
+      "share": 0.011226116,
       "first_lines": [
         {
           "handle": "Bitwux",
-          "id": "2097857783001686338",
-          "text": "千万别让你们老婆看这个视频，别问我为什么知道的。"
+          "id": "2099040995941974144",
+          "text": "$LSK 期货成交量达到约30.82亿美元，未平仓量升至约1.85亿美元，其中空头约3,122万美元，占比约88%。"
         },
         {
-          "handle": "Bitwux",
-          "id": "2097880064914501854",
-          "text": "大家教师节快乐！"
+          "handle": "buereth",
+          "id": "1971898084713209875",
+          "text": "$APEX 已正式上线 @weexglobal_ch ，平台同步推出限时新手福利活动，总奖池高达 5 万美金。"
         },
         {
-          "handle": "Bitwux",
-          "id": "2097952684095774986",
-          "text": "感觉折叠屏现在对我最大的功能是这个！👀"
+          "handle": "buereth",
+          "id": "2077304747942691165",
+          "text": "英伟达路演刚结束，SK 海力士 CEO 就出来喊 2027 年会有史上最严重的内存短缺，紧接着三星宣布龙仁晶圆厂提前到 2029 年投产。三条新闻挤在同一天，这不是巧合，是 AI 算力需求在沿着产业链一层层往下传。"
         }
       ]
     },
-    "breaking": {
-      "share": 0.0,
-      "first_lines": []
+    "contrast/turn": {
+      "share": 0.031808409,
+      "first_lines": [
+        {
+          "handle": "Bitwux",
+          "id": "2101524686794559794",
+          "text": "⚡️小黑 @CryptoHayes 又喊单了！他是坚持不懈地热衷于喊单 ethereum:0x57e114b691db790c35207b2e685d4a43181e6061 ，不过是有原因的——"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2102565380439056433",
+          "text": "山寨币会有表现空间，但总体我更倾向于少数赛道和龙头反复走强，我个人则会谨慎参与。"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2105282968487117301",
+          "text": "打铁还需自身硬，你若盛开蝴蝶自来，你有自己的闪光点和价值依托，资源是自然而然来到你身边的，跑会就是扩大幸运面的过程。"
+        }
+      ]
+    },
+    "list/thread opener": {
+      "share": 0.001882176,
+      "first_lines": [
+        {
+          "handle": "buereth",
+          "id": "2051588163999801741",
+          "text": "1/2"
+        },
+        {
+          "handle": "buereth",
+          "id": "2051588167732797637",
+          "text": "2/2"
+        }
+      ]
+    },
+    "news-wire": {
+      "share": 0.002437222,
+      "first_lines": [
+        {
+          "handle": "buereth",
+          "id": "1972497735292158033",
+          "text": "【新手福利来啦】Bybit送你 $XPL 大奖，新老用户都能参与！"
+        },
+        {
+          "handle": "nbblock",
+          "id": "2095357366900601215",
+          "text": "【Snowflake 财报】"
+        },
+        {
+          "handle": "nbblock",
+          "id": "2104169559578325402",
+          "text": "【BP复盘】"
+        }
+      ]
     },
     "emoji-led": {
-      "share": 0.02215853,
+      "share": 0.021212873,
       "first_lines": [
         {
           "handle": "Bitwux",
@@ -147,6 +198,26 @@
           "handle": "nbblock",
           "id": "2087777364373860781",
           "text": "“中国的开发者有非常强的网络安全意我从来没有见过他们用他们的真实的IP访问GitHub”"
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.834157157,
+      "first_lines": [
+        {
+          "handle": "Bitwux",
+          "id": "2097857783001686338",
+          "text": "千万别让你们老婆看这个视频，别问我为什么知道的。"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2097880064914501854",
+          "text": "大家教师节快乐！"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2097952684095774986",
+          "text": "感觉折叠屏现在对我最大的功能是这个！👀"
         }
       ]
     }
@@ -351,5 +422,112 @@
         }
       ]
     }
-  ]
+  ],
+  "baseline_rules": {
+    "do": [
+      {
+        "rule": "Lead with a clear judgment; use data to support it.",
+        "evidence": [
+          {
+            "handle": "Bitwux",
+            "id": "2097838624075317739",
+            "text": "我在想，大部分时候，我们是不是把太多美好，预先安排在了远方？ https://t.co/W5ZmeVYwhd"
+          },
+          {
+            "handle": "Bitwux",
+            "id": "2097857783001686338",
+            "text": "千万别让你们老婆看这个视频，别问我为什么知道的。\n\n所以现在到底哪里可以买到这玩意？\n\n我帮一个朋友问下，我之前说过坚决不买苹果折叠手机的，我主要帮朋友问的，谢谢！ https://t.co/XGPxXqIP8Z"
+          },
+          {
+            "handle": "Bitwux",
+            "id": "2097862655390466324",
+            "text": "马德，今天什么行情？\n\n牛来上了之后，牛就走开了吗？ https://t.co/lDazdUi2xg"
+          },
+          {
+            "handle": "Bitwux",
+            "id": "2097880064914501854",
+            "text": "大家教师节快乐！\n\n一路走来我的生命中全是老师没有敌人！\n\n我很喜欢这句话，而且是到骨子里的那种认可和喜欢，包括每一个留言区骂我和讽刺过我的所有人，你们都是我的老师，激励我前行的贵人。\n\n我爱你们，发自内心的！"
+          }
+        ]
+      },
+      {
+        "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+        "evidence": [
+          {
+            "handle": "Bitwux",
+            "id": "2097838624075317739",
+            "text": "我在想，大部分时候，我们是不是把太多美好，预先安排在了远方？ https://t.co/W5ZmeVYwhd"
+          },
+          {
+            "handle": "Bitwux",
+            "id": "2097857783001686338",
+            "text": "千万别让你们老婆看这个视频，别问我为什么知道的。\n\n所以现在到底哪里可以买到这玩意？\n\n我帮一个朋友问下，我之前说过坚决不买苹果折叠手机的，我主要帮朋友问的，谢谢！ https://t.co/XGPxXqIP8Z"
+          },
+          {
+            "handle": "Bitwux",
+            "id": "2097862655390466324",
+            "text": "马德，今天什么行情？\n\n牛来上了之后，牛就走开了吗？ https://t.co/lDazdUi2xg"
+          },
+          {
+            "handle": "Bitwux",
+            "id": "2097880064914501854",
+            "text": "大家教师节快乐！\n\n一路走来我的生命中全是老师没有敌人！\n\n我很喜欢这句话，而且是到骨子里的那种认可和喜欢，包括每一个留言区骂我和讽刺过我的所有人，你们都是我的老师，激励我前行的贵人。\n\n我爱你们，发自内心的！"
+          }
+        ]
+      }
+    ],
+    "dont": [
+      {
+        "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+        "evidence": [
+          {
+            "handle": "Bitwux",
+            "id": "2097838624075317739",
+            "text": "我在想，大部分时候，我们是不是把太多美好，预先安排在了远方？ https://t.co/W5ZmeVYwhd"
+          },
+          {
+            "handle": "Bitwux",
+            "id": "2097857783001686338",
+            "text": "千万别让你们老婆看这个视频，别问我为什么知道的。\n\n所以现在到底哪里可以买到这玩意？\n\n我帮一个朋友问下，我之前说过坚决不买苹果折叠手机的，我主要帮朋友问的，谢谢！ https://t.co/XGPxXqIP8Z"
+          },
+          {
+            "handle": "Bitwux",
+            "id": "2097862655390466324",
+            "text": "马德，今天什么行情？\n\n牛来上了之后，牛就走开了吗？ https://t.co/lDazdUi2xg"
+          },
+          {
+            "handle": "Bitwux",
+            "id": "2097880064914501854",
+            "text": "大家教师节快乐！\n\n一路走来我的生命中全是老师没有敌人！\n\n我很喜欢这句话，而且是到骨子里的那种认可和喜欢，包括每一个留言区骂我和讽刺过我的所有人，你们都是我的老师，激励我前行的贵人。\n\n我爱你们，发自内心的！"
+          }
+        ]
+      },
+      {
+        "rule": "Do not convert observed confidence into an unsupported trade call.",
+        "evidence": [
+          {
+            "handle": "Bitwux",
+            "id": "2097838624075317739",
+            "text": "我在想，大部分时候，我们是不是把太多美好，预先安排在了远方？ https://t.co/W5ZmeVYwhd"
+          },
+          {
+            "handle": "Bitwux",
+            "id": "2097857783001686338",
+            "text": "千万别让你们老婆看这个视频，别问我为什么知道的。\n\n所以现在到底哪里可以买到这玩意？\n\n我帮一个朋友问下，我之前说过坚决不买苹果折叠手机的，我主要帮朋友问的，谢谢！ https://t.co/XGPxXqIP8Z"
+          },
+          {
+            "handle": "Bitwux",
+            "id": "2097862655390466324",
+            "text": "马德，今天什么行情？\n\n牛来上了之后，牛就走开了吗？ https://t.co/lDazdUi2xg"
+          },
+          {
+            "handle": "Bitwux",
+            "id": "2097880064914501854",
+            "text": "大家教师节快乐！\n\n一路走来我的生命中全是老师没有敌人！\n\n我很喜欢这句话，而且是到骨子里的那种认可和喜欢，包括每一个留言区骂我和讽刺过我的所有人，你们都是我的老师，激励我前行的贵人。\n\n我爱你们，发自内心的！"
+          }
+        ]
+      }
+    ]
+  },
+  "qualitative": {}
 }
