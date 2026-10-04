@@ -65,6 +65,13 @@ class ListingTests(unittest.TestCase):
         self.assertEqual(plan[0]['tool'], 'search_research')
 
 
+class WindowTests(unittest.TestCase):
+    def test_weekend_rolls_back_to_friday(self):
+        self.assertEqual(rg.window_start('2026-10-04'), '2026-10-02')  # Sunday
+        self.assertEqual(rg.window_start('2026-10-05'), '2026-10-02')  # Monday
+        self.assertEqual(rg.window_start('2026-10-07'), '2026-10-06')
+
+
 class PrescreenTests(unittest.TestCase):
     ITEMS = [dict(item(1, title='Fed to cut rates as payrolls slow'), bank='Goldman Sachs'),
              dict(item(2, title='AI capex: hyperscaler GPU orders'), bank='Morgan Stanley')]
@@ -123,6 +130,44 @@ class SourceTests(unittest.TestCase):
         from live import registry
         for bank in rg.BANKS:
             self.assertEqual(registry.source_licence_tier(rg.source_id_for(bank)), 'B', bank)
+
+
+class EvidenceScreenTests(unittest.TestCase):
+    """Guards found on the 2026-10-04 smoke run: a re-listed February report and a
+    third-party redistribution watermark must never become content."""
+
+    def test_redistribution_watermark_rejects_the_item(self):
+        it = dict(item(9, inst='BofA Global Research'), bank='BofA')
+        ev = {'passages': [{'matched_text': 'Net income beat by 41% on stronger toll revenue growth this quarter. '
+                                            'Unauthorized redistribution of this report is prohibited. '
+                                            'This report is intended for someone@other-broker.com.hk'}]}
+        self.assertIn('redistribution_watermark', rg.screen_evidence(it, ev))
+        self.assertIsNone(rg.to_source(it, ev))
+
+    def test_stale_document_date_rejects_the_item(self):
+        it = dict(item(10, date='2026-10-02'), bank='BofA')
+        ev = {'passages': [{'matched_text': 'Mixed 4Q25 results 10 February 2026 Top line grew 7% YoY, beating estimates by 2.5% on toll revenue.'}]}
+        self.assertIn('stale_document', rg.screen_evidence(it, ev))
+        self.assertIsNone(rg.to_source(it, ev))
+
+    def test_same_week_document_date_is_fine(self):
+        it = dict(item(11, date='2026-10-02'), bank='Goldman Sachs')
+        ev = {'passages': [{'matched_text': 'Equity Research 1 October 2026 | 6:37PM SGT Memory supply is expected to stay tight through 2028 on HBM demand.'}]}
+        self.assertEqual(rg.screen_evidence(it, ev), [])
+        self.assertIsNotNone(rg.to_source(it, ev))
+
+    def test_price_targets_and_ratings_are_stripped(self):
+        text = ('Volvo Car AB Neutral Price (01 Oct 26):Skr15.30 Price Target (Dec-27):Skr18.00 Outlook withdrawn. '
+                'Management attributed the deterioration to worsening conditions in China and a slower US recovery. '
+                'Maintain Rating: NEUTRAL | PO: 18.50 BRL | Price: 17.18 BRL.')
+        cleaned = rg.clean_passage(text)
+        self.assertNotIn('Price Target', cleaned)
+        self.assertNotIn('PO:', cleaned)
+        self.assertIn('worsening conditions in China', cleaned)
+
+    def test_target_price_titles_are_not_selected(self):
+        self.assertTrue(rg.is_rating_call({'title': 'Strategy Inc (MSTR.O): Bitcoin Reversal; Raising TP to $240, Maintain Buy/HR'}))
+        self.assertFalse(rg.is_rating_call({'title': 'Global Rates Weekly: Start of rates bite'}))
 
 
 if __name__ == '__main__':
