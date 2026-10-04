@@ -18,9 +18,10 @@ def answer(sample):
             'hook_patterns': [{'pattern': f'Observed change opener {i}', 'share_estimate': 0.25, 'example_ids': [ids[i]]} for i in range(3)],
             'cadence_notes': 'Short opening, then qualification.',
             'signature_moves': [{'move': 'Pair an observation with a limiting condition', 'example_ids': [ids[0]]}],
-            'do': [{'rule': f'Compare margin and demand dimension {i}', 'evidence_ids': [ids[i], ids[i+4]]} for i in range(4)],
-            'dont': [{'rule': f'Avoid unsupported inference {i}', 'evidence_ids': []} for i in range(3)],
-            'data_opinion_note': 'Numbers support a qualified view.'}
+            'tendencies': [{'frequency': 'often', 'tendency': f'Compare margin and demand dimension {i}', 'evidence_ids': [ids[i % 4], ids[4 + i % 4]]} for i in range(5)],
+            'avoid_tendencies': [{'frequency': 'rarely', 'tendency': f'Avoid unsupported inference {i}', 'evidence_ids': []} for i in range(3)],
+            'variation_notes': 'Length and register vary with the topic; hooks alternate.',
+            'judgment_style': 'Numbers support a qualified view.'}
 
 
 class SamplingTests(unittest.TestCase):
@@ -52,43 +53,52 @@ class QualitativeTests(unittest.TestCase):
         self.sample = vc.sample_for_cluster(self.cluster, posts, tags, roster, n=12, seed=2)
         self.sample.sort(key=lambda p: (p['handle'], p['id']))
 
-    def test_valid_rules_attach_only_verbatim_evidence(self):
+    def test_valid_tendencies_attach_only_verbatim_evidence(self):
         payload = answer(self.sample)
         prompts = []
         result = vc.qualitative_card(self.cluster, {'median': 12}, self.sample, lambda p: prompts.append(p) or json.dumps(payload))
         self.assertEqual(len(prompts), 1)
         self.assertIn('median', prompts[0])
+        self.assertIn('explicitly NOT rules or a checklist', prompts[0])
+        self.assertIn('natural variation', prompts[0])
         self.assertIn(self.sample[0]['text'], prompts[0])
-        self.assertEqual(result['do'][0]['evidence'][0]['text'], self.sample[0]['text'][:140])
-        self.assertEqual(result['do'][0]['evidence'][1]['handle'], 'beta')
+        self.assertEqual(result['tendencies'][0]['evidence'][0]['text'], self.sample[0]['text'][:140])
+        self.assertEqual(result['tendencies'][0]['evidence'][1]['handle'], 'beta')
 
     def test_strict_validation_retry_and_failure(self):
-        mutations = [lambda x: x['do'][0].update(evidence_ids=['missing', 'beta0']),
-                     lambda x: x['do'][0].update(evidence_ids=['alpha0', 'alpha1']),
-                     lambda x: x['do'][1].update(rule=x['do'][0]['rule']),
-                     lambda x: x['dont'][0].update(evidence_ids=['alpha0']),
-                     lambda x: x['dont'][1].update(evidence_ids=['alpha0']),
+        mutations = [lambda x: x['tendencies'][0].update(evidence_ids=['missing', 'beta0']),
+                     lambda x: x['tendencies'][0].update(evidence_ids=['alpha0', 'alpha1']),
+                     lambda x: x['tendencies'][1].update(rule=x['tendencies'][0]['tendency']),
+                     lambda x: x['avoid_tendencies'][0].update(evidence_ids=['alpha0']),
+                     lambda x: x['avoid_tendencies'][1].update(evidence_ids=['alpha0']),
                      lambda x: x.update(voice_summary=42),
                      lambda x: x['hook_patterns'][0].update(share_estimate=2),
+                     lambda x: x['tendencies'][0].update(frequency='always'),
+                     lambda x: x['avoid_tendencies'][0].update(frequency='often'),
+                     lambda x: x.update(variation_notes=''),
+                     lambda x: x.update(tendencies=x['tendencies'][:4]),
+                     lambda x: x.update(avoid_tendencies=x['avoid_tendencies'][:1]),
+                     lambda x: x['tendencies'][0].update(evidence_ids=['alpha0', 'alpha0']),
+                     lambda x: x['tendencies'][0].update(evidence=[]),
                      lambda x: x.update(extra='untrusted')]
         for mutate in mutations:
             bad = answer(self.sample)
             mutate(bad)
             # Ensure reuse test actually exceeds two rules.
-            if bad['dont'][0]['evidence_ids'] or bad['dont'][1]['evidence_ids']:
-                bad['dont'][0]['evidence_ids'] = ['alpha0']
-                bad['dont'][1]['evidence_ids'] = ['alpha0']
+            if any(row['evidence_ids'] for row in bad['avoid_tendencies']):
+                bad['avoid_tendencies'][0]['evidence_ids'] = ['alpha0']
+                bad['avoid_tendencies'][1]['evidence_ids'] = ['alpha0']
             prompts = []
             result = vc.qualitative_card(self.cluster, {}, self.sample, lambda p: prompts.append(p) or json.dumps(bad))
             self.assertIn('qualitative_error', result)
             self.assertEqual(len(prompts), 2)
             self.assertIn('Validation errors', prompts[1])
         responses = iter(['not JSON', json.dumps(answer(self.sample))])
-        self.assertIn('do', vc.qualitative_card(self.cluster, {}, self.sample, lambda p: next(responses)))
+        self.assertIn('tendencies', vc.qualitative_card(self.cluster, {}, self.sample, lambda p: next(responses)))
 
     def test_single_donor_and_empty_anti_pattern_allowed(self):
         sample = [dict(p, handle='solo') for p in self.sample]
-        self.assertIn('do', vc.qualitative_card(self.cluster, {}, sample, lambda p: json.dumps(answer(sample))))
+        self.assertIn('tendencies', vc.qualitative_card(self.cluster, {}, sample, lambda p: json.dumps(answer(sample))))
 
     def test_cli_audit_subset_and_fallback(self):
         from scripts.build_voice_cards import main
@@ -99,14 +109,14 @@ class QualitativeTests(unittest.TestCase):
             main(['--posts-dir', str(fix/'posts'), '--tags-dir', str(fix/'tags'), '--roster', str(fix/'roster.json'), '--out', tmp, '--clusters', 'sample', '--raw-dir', tmp+'/raw', '--llm-cmd', 'fake -p', '--sample-n', '8'])
             card = json.loads((Path(tmp)/'sample.json').read_text())
             self.assertIn('qualitative_error', card)
-            self.assertEqual(card['do'], card['baseline_rules']['do'])
+            self.assertEqual(card['tendencies'], card['baseline_tendencies']['tendencies'])
             self.assertEqual(len(list((Path(tmp)/'raw').glob('sample*.txt'))), 2)
             self.assertEqual(run.call_args.kwargs['input'][:1], 'A')
             run.reset_mock()
             main(['--posts-dir', str(fix/'posts'), '--tags-dir', str(fix/'tags'), '--roster', str(fix/'roster.json'), '--out', tmp, '--no-llm'])
             run.assert_not_called()
 
-    def test_build_accepts_qualitative_rules_and_preserves_baseline(self):
+    def test_build_accepts_qualitative_tendencies_and_preserves_baseline(self):
         from unittest.mock import patch
         fix = Path(__file__).parent / 'fixtures/voice'
         prompts = []
@@ -115,24 +125,30 @@ class QualitativeTests(unittest.TestCase):
             return json.dumps(answer(self.sample))
         with patch.object(vc, 'sample_for_cluster', return_value=self.sample):
             card = vc.build_cards(fix/'posts', fix/'tags', fix/'roster.json', llm=fake)['sample']
-        self.assertNotEqual(card['do'], card['baseline_rules']['do'])
-        self.assertEqual(card['do'], card['qualitative']['do'])
+        self.assertNotEqual(card['tendencies'], card['baseline_tendencies']['tendencies'])
+        self.assertEqual(card['tendencies'], card['qualitative']['tendencies'])
         self.assertNotIn('qualitative_error', card)
         self.assertIn('post_type_mix', prompts[0])
         with tempfile.TemporaryDirectory() as tmp:
             vc.write_cards({'sample': card}, tmp)
             report = (Path(tmp)/'README.md').read_text()
-            self.assertIn(card['do'][0]['rule'], report)
+            self.assertIn(card['tendencies'][0]['tendency'], report)
             self.assertIn(self.sample[0]['text'][:140], report)
 
-    def test_summary_exposes_rules_without_snippets_or_moves(self):
+    def test_summary_exposes_tendencies_without_snippets_or_moves(self):
         fix = Path(__file__).parent / 'fixtures/voice'
         card = vc.build_cards(fix/'posts', fix/'tags', fix/'roster.json')['sample']
         q = vc.qualitative_card(self.cluster, {}, self.sample, lambda p: json.dumps(answer(self.sample)))
-        card.update(qualitative=q, do=q['do'], dont=q['dont'])
+        card.update(qualitative=q, do=q['tendencies'], dont=q['avoid_tendencies'])
         summary = vc.compact_summary(card)
         self.assertEqual(summary['voice_summary'], q['voice_summary'])
-        self.assertEqual(summary['hook_patterns'], [p['pattern'] for p in q['hook_patterns']])
+        self.assertIn('descriptive; vary naturally', summary['use'])
+        self.assertIn('loose range', summary['sentence_length']['use'])
+        self.assertNotIn('do', summary)
+        self.assertNotIn('dont', summary)
+        self.assertIn('often', summary['tendencies'][0])
+        self.assertEqual(summary['variation_notes'], q['variation_notes'])
+        self.assertEqual(summary['judgment_style'], q['judgment_style'])
         serialized = json.dumps(summary)
         self.assertNotIn(self.sample[0]['text'], serialized)
         self.assertNotIn(q['signature_moves'][0]['move'], serialized)

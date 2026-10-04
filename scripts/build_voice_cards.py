@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build donor voice cards from a local corpus with optional qualitative analysis."""
+"""Build v2 descriptive donor voice cards from a local corpus with optional qualitative analysis."""
 import argparse
 import json
 from pathlib import Path

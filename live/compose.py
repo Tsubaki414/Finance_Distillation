@@ -44,6 +44,7 @@ post_type body_length: the body must have at least min and at most max
 characters (whitespace excluded; each Chinese character counts as one); a
 body below min is rejected, so develop the units' mechanism and implications
 instead of stopping early.
+Lead with the account's own judgment in most posts; use at most a few numbers as support; vary hook, length and structure across posts — the tendencies describe the voice, they are not a checklist.
 For judgment_take and contrarian_take, state the judgment first in your own voice;
 data only as support. The supplied stance.account_view is the account's own
 judgment and needs no opinion attribution wrapper. For contrarian_take clearly
@@ -87,8 +88,8 @@ def eligible(post_type, units):
 def choose(units, persona, licence_tier, post_types):
     """Highest-weight persona post type allowed for the tier that has its primary units."""
     allowed = set(registry.post_types_for_tier(licence_tier, post_types))
-    for post_type, _ in sorted(persona.post_type_mix.items(), key=lambda kv: (kv[0] not in JUDGMENT_TYPES, -kv[1])):
-        if post_type in allowed and post_type in RECIPES and eligible(post_type, units):
+    for post_type, _ in sorted(persona.post_type_mix.items(), key=lambda kv: (kv[0] == 'data_take', kv[0] not in JUDGMENT_TYPES, -kv[1])):
+        if persona.post_type_mix[post_type] > 0 and post_type in allowed and post_type in RECIPES and eligible(post_type, units):
             return post_type
     return None
 
@@ -346,8 +347,9 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     if stance is not None:
         payload['stance'] = stance
     if persona.voice_card:
-        from live.voice_cards import compact_summary
+        from live.voice_cards import compact_summary, variation_seed
         payload['persona']['voice_card'] = compact_summary(persona.voice_card)
+        payload['persona']['variation'] = variation_seed(persona.voice_card, source.get('source_hash') or digest(source))
     if any(u.get('quote_allowed') is False for u in chosen):
         payload['post_type_rules']['quote_policy'] = (
             'Paraphrase these units. Direct quotes, including translated quotes, are forbidden.')
