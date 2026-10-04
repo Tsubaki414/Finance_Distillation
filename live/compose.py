@@ -515,7 +515,7 @@ EXEMPLAR_RULE = ('style_exemplars are real posts by other accounts, given for vo
 
 
 def compose_source(source, account_id, client, *, post_type=None, exemplars=None, exemplar_dir=None,
-                   exemplar_tags_dir=None, extracted_units=None, stance_output=None, voice_prompt_variant=None, now=None):
+                   exemplar_tags_dir=None, extracted_units=None, stance_output=None, voice_prompt_variant=None, now=None, view_ledger=None):
     """Voice cards always use exemplars; other personas honor the retrieval override."""
     persona = registry.persona_for_account(account_id)
     if 'aphorism_translation' in persona.post_type_mix:
@@ -561,7 +561,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     stance = stance_output
     if post_type in JUDGMENT_TYPES:
         from live.stance import stance_step
-        stance = stance or stance_step(primary, persona, client)
+        stance = stance or stance_step(primary, persona, client, ledger=view_ledger,
+                                       context_units=[u for u in chosen if u is not primary])
         if stance['decision'] == 'reject':
             return {**base, 'units':chosen, 'post_type':post_type, 'stance':stance,
                     'draft_status':'not_suitable', 'status':'skipped', 'text':'', 'post_checks':[],
@@ -655,6 +656,11 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     text = (frame['text'] + body) if frame['placement'] == 'lead' else (body + frame['text'])
     findings = post_checks(post_type, body, text, frame, tier, chosen, persona, post_types, stance, source=source, now=now)
     findings += qa_levels.classify(exemplar_store.copied_phrases(body, [e['text'] for e in shown]), frame_found=True)
+    if view_ledger is not None and stance and stance.get('decision') != 'reject':
+        ledger_findings = stance.get('ledger_findings')
+        if ledger_findings is None:
+            ledger_findings = view_ledger.contradictions(stance)
+        findings += qa_levels.classify(ledger_findings, frame_found=True)
     risks = [{**f, 'status': 'open'} for f in findings if f['level'] == 'hard']
     risks += [{**f, 'status': 'warning'} for f in findings if f['level'] == 'soft']
     if not persona.publishable:
@@ -664,6 +670,12 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     from live.trust import trusted_inputs
     if trusted_inputs(source, chosen):
         qa['number_check'] = 'skipped_trusted_source'
+    if (view_ledger is not None and stance and stance.get('decision') != 'reject' and stance.get('account_view')
+            and qa_levels.draft_status(findings) == 'draft_ready'):
+        try:
+            view_ledger.record(stance, unit_ids=[u['unit_id'] for u in chosen], source_ids=[source.get('id')], draft_id=base['id'])
+        except ValueError as exc:   # position language never enters the ledger
+            findings.append({'code': 'view_not_recorded', 'detail': str(exc), 'level': 'soft'})
     return {**base, 'stance': stance, 'units': chosen, 'all_units': len(units), 'post_type': post_type,
             'attribution_frame': frame, 'body': body, 'text': text, 'length': length_of(body),
             'exemplars': [{'handle': e['handle'], 'id': e['id']} for e in shown],
