@@ -203,3 +203,35 @@ def test_runner_passes_wscn_n_to_wallstreetcn():
     with patch.object(wallstreetcn, 'fetch', side_effect=fake):
         gather(args, {'adapters': {}})
     assert seen.get('limit') == 6
+
+
+def test_retry_cap_is_additional_to_prior_spend_and_budget_only_attempts_retry(tmp_path, monkeypatch):
+    """A run that already spent $9.8 must get cap_usd MORE, and journal entries whose
+    attempts never reached the model (BudgetExceeded) are retried."""
+    from scripts.rerun_failed_extracts import retry_run
+    from live.content_store import ContentStore
+    from tests.test_content_store import source
+    from ml import budget
+    run = tmp_path / 'run'; run.mkdir(); (run / 'ledger').mkdir()
+    for name in ('STORE', 'LEDGER', 'RUNS', 'DISTILLATION_RUNS'):
+        monkeypatch.setattr(budget, name, getattr(budget, name))
+    (run / 'ledger' / 'spend.json').write_text(json.dumps({'cap_usd': 10.0, 'spent_usd': 9.8, 'calls': 3, 'reservations': {}}))
+    s = source(); s['id'] = 'f1'
+    (run / 'sources.json').write_text(json.dumps({'text': [s]}))
+    (run / 'report.json').write_text(json.dumps({'sources': [{'id': 'f1', 'status': 'extract_failed', 'error': 'BudgetExceeded: cap'}]}))
+    (run / 'rerun_report.json').write_text(json.dumps({'f1': {'status': 'retried', 'attempts': [
+        {'id': 'f1', 'status': 'extract_failed', 'error': 'BudgetExceeded: distillation call would exceed configured spending cap'}]}}))
+    calls = []
+
+    def client(stage, messages, limit):
+        calls.append(stage)
+        return {'finish_reason': 'stop', 'text': '{"units":[]}', 'refusal': False}
+    retry_run(run, ContentStore(tmp_path / 'store'), cap_usd=6, client=client)
+    assert abs(budget.cap() - 15.8) < 1e-6
+    assert calls == ['extract']
+
+
+def test_truncated_output_failure_is_retried_as_split_halves():
+    from scripts.rerun_failed_extracts import json_decode_failure
+    assert json_decode_failure('ContractError: extract: incomplete/unknown finish_reason')
+    assert not json_decode_failure('ContractError: extract: spans do not match')
