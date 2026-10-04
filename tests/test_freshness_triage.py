@@ -38,3 +38,18 @@ def test_backfill_recovery(tmp_path):
     entries=backfill(tmp_path,True,[cache])
     assert [r['published_at'] for r in entries]==['2026-10-02','2026-10-03']
     assert all('missing_published_at' not in r['freshness_flags'] for r in entries)
+
+
+def test_market_flow_ages_in_business_days():
+    from datetime import datetime, timezone
+    from live import freshness as f
+    row = {'unit': {'kind': 'fact', 'statement': 'SPX gamma flip at 6,600', 'as_of': '2026-10-01',
+                    'published_at': '2026-10-01', 'date_unknown': False},
+           'source': {'adapter': 'channel:feed_linkfollow', 'source_id': 'ch096_spotgamma_com'}}
+    sunday = datetime(2026, 10, 4, 12, tzinfo=timezone.utc)   # Thu -> Sun = 1 business day
+    assert f.status(row, sunday)['status'] == 'fresh'
+    tuesday = datetime(2026, 10, 6, 12, tzinfo=timezone.utc)  # Thu -> Tue = 3 business days
+    assert f.status(row, tuesday)['status'] == 'stale'
+    # commentary keeps calendar days
+    row['source'] = {'adapter': 'newsletter_rss', 'source_id': 'nl-x'}
+    assert f.status(row, datetime(2026, 10, 20, tzinfo=timezone.utc))['status'] == 'stale'

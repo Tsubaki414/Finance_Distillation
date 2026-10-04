@@ -29,7 +29,7 @@ def test_evergreen_breaking_thresholds_and_rank():
     assert f.shelf_days(row(adapter='oaktree',kind='view')) is None
     assert f.shelf_days(row(adapter='oaktree')) == 14
     assert f.shelf_days(row(adapter='edgar',freshness_class='breaking')) == 2
-    for date, expected in [('2026-10-02','fresh'),('2026-10-01','stale'),('2026-09-30','stale'),('2026-09-29','expired')]:
+    for date, expected in [('2026-10-02','fresh'),('2026-10-01','fresh'),('2026-09-30','fresh'),('2026-09-29','stale'),('2026-09-24','expired')]:  # market_flow ages in business days (NOW is a Sunday)
         assert f.status(row(date),NOW)['status'] == expected
     assert f.status(row('bad'),NOW)['status'] == 'unknown'
     assert f.rank([row('2026-09-01'),row()],NOW)[0]['source']['published_at']=='2026-10-02'
