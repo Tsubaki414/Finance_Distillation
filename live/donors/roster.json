@@ -160,47 +160,51 @@
    "lang": "en",
    "donors": [
     {
+     "handle": "SPXVIX",
+     "weight": 0.145
+    },
+    {
      "handle": "Ksidiii",
-     "weight": 0.15
+     "weight": 0.125
+    },
+    {
+     "handle": "TimTheMM",
+     "weight": 0.12
     },
     {
      "handle": "spotgamma",
-     "weight": 0.138
+     "weight": 0.115
     },
     {
      "handle": "markminervini",
-     "weight": 0.133
+     "weight": 0.11
     },
     {
      "handle": "SqueezeMetrics",
-     "weight": 0.126
+     "weight": 0.104
     },
     {
      "handle": "VolSignals",
-     "weight": 0.091
-    },
-    {
-     "handle": "MarkNewtonCMT",
-     "weight": 0.087
-    },
-    {
-     "handle": "PeterLBrandt",
-     "weight": 0.084
-    },
-    {
-     "handle": "alphatrends",
      "weight": 0.076
     },
     {
-     "handle": "SamanthaLaDuc",
-     "weight": 0.065
+     "handle": "MarkNewtonCMT",
+     "weight": 0.072
     },
     {
-     "handle": "OptionsHawk",
-     "weight": 0.051
+     "handle": "PeterLBrandt",
+     "weight": 0.07
+    },
+    {
+     "handle": "alphatrends",
+     "weight": 0.063
     }
    ],
-   "bench": []
+   "bench": [
+    "SamanthaLaDuc",
+    "OptionsHawk",
+    "bennpeifert"
+   ]
   },
   "macro_rates_en": {
    "lang": "en",
@@ -390,76 +394,96 @@
    "donors": [
     {
      "handle": "EconomyApp",
-     "weight": 0.208
+     "weight": 0.131
+    },
+    {
+     "handle": "JaradCapital",
+     "weight": 0.131
+    },
+    {
+     "handle": "jpinsights",
+     "weight": 0.131
     },
     {
      "handle": "FromValue",
-     "weight": 0.168
+     "weight": 0.106
     },
     {
      "handle": "DeepSailCapital",
-     "weight": 0.161
+     "weight": 0.101
     },
     {
      "handle": "leadlagreport",
-     "weight": 0.141
+     "weight": 0.089
+    },
+    {
+     "handle": "Invesquotes",
+     "weight": 0.085
+    },
+    {
+     "handle": "StockMarketNerd",
+     "weight": 0.08
     },
     {
      "handle": "garyblack00",
-     "weight": 0.125
+     "weight": 0.078
     },
     {
      "handle": "RJCcapital",
-     "weight": 0.109
-    },
-    {
-     "handle": "borrowed_ideas",
-     "weight": 0.088
+     "weight": 0.069
     }
    ],
-   "bench": []
+   "bench": [
+    "borrowed_ideas"
+   ]
   },
   "macro_zh": {
    "lang": "zh",
    "donors": [
     {
      "handle": "Btcxiaoyuan",
-     "weight": 0.147
+     "weight": 0.124
     },
     {
      "handle": "ChinaMacroFacts",
-     "weight": 0.147
+     "weight": 0.124
+    },
+    {
+     "handle": "fannaoxiaoyang",
+     "weight": 0.124
     },
     {
      "handle": "PhyrexNi",
-     "weight": 0.14
+     "weight": 0.118
     },
     {
      "handle": "qinbafrank",
-     "weight": 0.14
+     "weight": 0.118
     },
     {
      "handle": "TraderS18",
-     "weight": 0.14
+     "weight": 0.118
+    },
+    {
+     "handle": "techeconomyana",
+     "weight": 0.073
     },
     {
      "handle": "williamlab",
-     "weight": 0.086
+     "weight": 0.073
     },
     {
      "handle": "MacroMargin",
-     "weight": 0.082
-    },
-    {
-     "handle": "TJ_Research",
      "weight": 0.069
     },
     {
-     "handle": "xingpt",
-     "weight": 0.05
+     "handle": "TJ_Research",
+     "weight": 0.059
     }
    ],
-   "bench": []
+   "bench": [
+    "xingpt"
+   ]
   },
   "crypto_macro_en": {
    "lang": "en",
@@ -700,6 +724,22 @@
     "conviction",
     "bilingual"
    ]
+  },
+  "3peakstrading": {
+   "handle": "3PeaksTrading",
+   "lang": null,
+   "category": null,
+   "persona_cluster": null,
+   "verified": false,
+   "donor_fit": null,
+   "promo_heavy": null,
+   "followers": 34524,
+   "latest_post": null,
+   "posts_per_day": null,
+   "frequency": null,
+   "median_chars": null,
+   "style_tags": [],
+   "tone": []
   },
   "_forab": {
    "handle": "_FORAB",
@@ -1171,6 +1211,30 @@
     "conversational"
    ]
   },
+  "bennpeifert": {
+   "handle": "bennpeifert",
+   "lang": "en",
+   "category": "options_flow",
+   "persona_cluster": "trading_shortterm",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 120542,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 4.45,
+   "frequency": "daily+",
+   "median_chars": 63,
+   "style_tags": [
+    "short",
+    "low-data",
+    "threads",
+    "rt-heavy"
+   ],
+   "tone": [
+    "conversational",
+    "sarcastic"
+   ]
+  },
   "bespokeinvest": {
    "handle": "bespokeinvest",
    "lang": "en",
@@ -1311,6 +1375,22 @@
     "conversational",
     "measured"
    ]
+  },
+  "blackpanthercap": {
+   "handle": "BlackPantherCap",
+   "lang": null,
+   "category": null,
+   "persona_cluster": null,
+   "verified": false,
+   "donor_fit": null,
+   "promo_heavy": null,
+   "followers": 49998,
+   "latest_post": null,
+   "posts_per_day": null,
+   "frequency": null,
+   "median_chars": null,
+   "style_tags": [],
+   "tone": []
   },
   "bobeunlimited": {
    "handle": "BobEUnlimited",
@@ -1991,6 +2071,22 @@
     "hype"
    ]
   },
+  "cryptoinvestrec": {
+   "handle": "cryptoinvestrec",
+   "lang": null,
+   "category": null,
+   "persona_cluster": null,
+   "verified": false,
+   "donor_fit": null,
+   "promo_heavy": null,
+   "followers": 895,
+   "latest_post": null,
+   "posts_per_day": null,
+   "frequency": null,
+   "median_chars": null,
+   "style_tags": [],
+   "tone": []
+  },
   "cullenroche": {
    "handle": "cullenroche",
    "lang": "en",
@@ -2593,6 +2689,28 @@
     "neutral"
    ]
   },
+  "fannaoxiaoyang": {
+   "handle": "fannaoxiaoyang",
+   "lang": "zh",
+   "category": "macro",
+   "persona_cluster": "macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 10623,
+   "latest_post": "2026-10-01",
+   "posts_per_day": 1.91,
+   "frequency": "daily",
+   "median_chars": 107,
+   "style_tags": [
+    "short",
+    "structured/list"
+   ],
+   "tone": [
+    "analytical",
+    "reflective"
+   ]
+  },
   "fenng": {
    "handle": "Fenng",
    "lang": "zh",
@@ -2690,6 +2808,22 @@
     "educational",
     "measured"
    ]
+  },
+  "fiscal_ai": {
+   "handle": "Fiscal_ai",
+   "lang": null,
+   "category": null,
+   "persona_cluster": null,
+   "verified": false,
+   "donor_fit": null,
+   "promo_heavy": null,
+   "followers": 92201,
+   "latest_post": null,
+   "posts_per_day": null,
+   "frequency": null,
+   "median_chars": null,
+   "style_tags": [],
+   "tone": []
   },
   "freearkshaw": {
    "handle": "freearkshaw",
@@ -3238,6 +3372,30 @@
     "reflective"
    ]
   },
+  "invesquotes": {
+   "handle": "Invesquotes",
+   "lang": "en",
+   "category": "earnings_filings",
+   "persona_cluster": "single_stock_deepdive_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 58274,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 2.34,
+   "frequency": "daily",
+   "median_chars": 151,
+   "style_tags": [
+    "mid-length",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "analytical",
+    "skeptical"
+   ]
+  },
   "investmattallen": {
    "handle": "investmattallen",
    "lang": "en",
@@ -3333,6 +3491,31 @@
     "educational",
     "measured",
     "humorous"
+   ]
+  },
+  "jaradcapital": {
+   "handle": "JaradCapital",
+   "lang": "en",
+   "category": "earnings_filings",
+   "persona_cluster": "single_stock_deepdive_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 1792,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 0.87,
+   "frequency": "daily",
+   "median_chars": 680,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "analytical",
+    "educational"
    ]
   },
   "jasielinvests": {
@@ -3532,6 +3715,22 @@
     "analytical"
    ]
   },
+  "jimmyjude13": {
+   "handle": "Jimmyjude13",
+   "lang": null,
+   "category": null,
+   "persona_cluster": null,
+   "verified": false,
+   "donor_fit": null,
+   "promo_heavy": null,
+   "followers": 86547,
+   "latest_post": null,
+   "posts_per_day": null,
+   "frequency": null,
+   "median_chars": null,
+   "style_tags": [],
+   "tone": []
+  },
   "jnordvig": {
    "handle": "jnordvig",
    "lang": "en",
@@ -3578,6 +3777,31 @@
     "academic",
     "measured",
     "educational"
+   ]
+  },
+  "jpinsights": {
+   "handle": "jpinsights",
+   "lang": "en",
+   "category": "earnings_filings",
+   "persona_cluster": "single_stock_deepdive_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 36632,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 3.76,
+   "frequency": "daily+",
+   "median_chars": 627,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "analytical",
+    "reflective",
+    "cautious"
    ]
   },
   "jposhaughnessy": {
@@ -5588,6 +5812,22 @@
     "humorous"
    ]
   },
+  "sinclaireuan": {
+   "handle": "SinclairEuan",
+   "lang": null,
+   "category": null,
+   "persona_cluster": null,
+   "verified": false,
+   "donor_fit": null,
+   "promo_heavy": null,
+   "followers": 32410,
+   "latest_post": null,
+   "posts_per_day": null,
+   "frequency": null,
+   "median_chars": null,
+   "style_tags": [],
+   "tone": []
+  },
   "sjosephburns": {
    "handle": "SJosephBurns",
    "lang": "en",
@@ -5712,6 +5952,31 @@
     "punchy"
    ]
   },
+  "spxvix": {
+   "handle": "SPXVIX",
+   "lang": "en",
+   "category": "options_flow",
+   "persona_cluster": "trading_shortterm",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 7621,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 5.48,
+   "frequency": "daily+",
+   "median_chars": 780,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "analytical",
+    "educational"
+   ]
+  },
   "squeezemetrics": {
    "handle": "SqueezeMetrics",
    "lang": "en",
@@ -5758,6 +6023,32 @@
    "tone": [
     "measured",
     "conversational"
+   ]
+  },
+  "stockmarketnerd": {
+   "handle": "StockMarketNerd",
+   "lang": "en",
+   "category": "earnings_filings",
+   "persona_cluster": "single_stock_deepdive_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 200332,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 5.59,
+   "frequency": "daily+",
+   "median_chars": 173,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "chart/media-led",
+    "threads",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "analytical",
+    "balanced"
    ]
   },
   "stockmktnewz": {
@@ -5956,6 +6247,27 @@
     "conversational"
    ]
   },
+  "techeconomyana": {
+   "handle": "techeconomyana",
+   "lang": "zh",
+   "category": "macro",
+   "persona_cluster": "macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 45185,
+   "latest_post": "2026-09-29",
+   "posts_per_day": 1.18,
+   "frequency": "daily",
+   "median_chars": 65,
+   "style_tags": [
+    "short"
+   ],
+   "tone": [
+    "analytical",
+    "opinionated"
+   ]
+  },
   "thealphathought": {
    "handle": "TheAlphaThought",
    "lang": "en",
@@ -6093,6 +6405,29 @@
    "tone": [
     "measured",
     "educational"
+   ]
+  },
+  "timthemm": {
+   "handle": "TimTheMM",
+   "lang": "en",
+   "category": "options_flow",
+   "persona_cluster": "trading_shortterm",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 14265,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 1.94,
+   "frequency": "daily",
+   "median_chars": 179,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "threads"
+   ],
+   "tone": [
+    "sarcastic",
+    "skeptical"
    ]
   },
   "tj_research": {
@@ -6362,6 +6697,22 @@
     "measured"
    ]
   },
+  "vegas_liu": {
+   "handle": "vegas_liu",
+   "lang": null,
+   "category": null,
+   "persona_cluster": null,
+   "verified": false,
+   "donor_fit": null,
+   "promo_heavy": null,
+   "followers": 2703,
+   "latest_post": null,
+   "posts_per_day": null,
+   "frequency": null,
+   "median_chars": null,
+   "style_tags": [],
+   "tone": []
+  },
   "verdadcap": {
    "handle": "verdadcap",
    "lang": "en",
@@ -6405,6 +6756,22 @@
     "conversational"
    ]
   },
+  "vixologist": {
+   "handle": "vixologist",
+   "lang": null,
+   "category": null,
+   "persona_cluster": null,
+   "verified": false,
+   "donor_fit": null,
+   "promo_heavy": null,
+   "followers": 30016,
+   "latest_post": null,
+   "posts_per_day": null,
+   "frequency": null,
+   "median_chars": null,
+   "style_tags": [],
+   "tone": []
+  },
   "volsignals": {
    "handle": "VolSignals",
    "lang": "en",
@@ -6428,6 +6795,22 @@
     "educational",
     "measured"
    ]
+  },
+  "wallstjesus": {
+   "handle": "WallStJesus",
+   "lang": null,
+   "category": null,
+   "persona_cluster": null,
+   "verified": false,
+   "donor_fit": null,
+   "promo_heavy": null,
+   "followers": 181690,
+   "latest_post": null,
+   "posts_per_day": null,
+   "frequency": null,
+   "median_chars": null,
+   "style_tags": [],
+   "tone": []
   },
   "warrenpies": {
    "handle": "WarrenPies",
