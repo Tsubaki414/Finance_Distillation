@@ -29,6 +29,23 @@ def newsletter_feeds():
     return [r for r in rows if r.get('type') in ('newsletter', 'wechat') and r.get('feed_url')]
 
 
+def filter_known(text_sources, store_dir):
+    """Drop sources whose hash or URL already exists in a reference store (saves EXTRACT spend)."""
+    path = Path(store_dir) / 'units.jsonl'
+    if not path.exists():
+        return list(text_sources), []
+    hashes, urls = set(), set()
+    for line in path.read_text().splitlines():
+        if line.strip():
+            src = json.loads(line).get('source') or {}
+            hashes.add(src.get('source_hash')); urls.add(src.get('url'))
+    hashes.discard(None); urls.discard(None); urls.discard('')
+    keep, skipped = [], []
+    for s in text_sources:
+        (skipped.append(s['id']) if s.get('source_hash') in hashes or (s.get('url') and s.get('url') in urls) else keep.append(s))
+    return keep, skipped
+
+
 def gather(args, report):
     text_sources, data = [], []
     if 'channels' in args.adapters:
@@ -161,6 +178,7 @@ def main():
     ap.add_argument('--newsletter-extract', type=int, default=3)
     ap.add_argument('--oaktree-n', type=int, default=3)
     ap.add_argument('--glassnode-n', type=int, default=3)
+    ap.add_argument('--skip-known', type=Path, default=None, help='reference store; sources already in it are not re-extracted')
     ap.add_argument('--extract', action='store_true')
     ap.add_argument('--jev', action='store_true')
     args = ap.parse_args()
@@ -177,6 +195,9 @@ def main():
     else:
         text_sources, data = gather(args, report)
         cached.write_text(json.dumps({'text': text_sources, 'data': data, 'adapters': report['adapters']}, ensure_ascii=False))
+    if args.skip_known:
+        text_sources, skipped = filter_known(text_sources, args.skip_known)
+        report['skipped_known'] = skipped
     jev = None
     if args.jev:
         from live.jev_review_client import JevReviewClient
