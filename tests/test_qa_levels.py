@@ -20,6 +20,26 @@ def levels(result):
     return {f['code']: f['level'] for f in result['post_checks']}
 
 
+class PublishYearTests(unittest.TestCase):
+    """Approved 2026-10-04: the year of the source's published_at may appear in a post."""
+    UNITS = [{'numbers': [], 'published_at': '2026-10-02T00:00:00Z',
+              'source_spans': [{'exact_text': 'Memory prices kept rising in the quarter.'}]}]
+
+    def codes(self, body):
+        return {f['code'] for f in compose.number_findings(body, self.UNITS)}
+
+    def test_publish_year_is_allowed(self):
+        self.assertNotIn('number_not_in_units', self.codes('2026年存储价格继续上涨。'))
+
+    def test_other_years_still_block(self):
+        self.assertIn('number_not_in_units', self.codes('2025年存储价格继续上涨。'))
+        self.assertIn('number_not_in_units', self.codes('2027年存储价格继续上涨。'))
+
+    def test_no_publish_date_no_allowance(self):
+        units = [{**self.UNITS[0], 'published_at': None}]
+        self.assertIn('number_not_in_units', {f['code'] for f in compose.number_findings('2026年', units)})
+
+
 class LevelTableTests(unittest.TestCase):
     def test_hard_codes(self):
         for code in ('number_not_in_units', 'period_not_in_units', 'number_metric_binding',
