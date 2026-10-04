@@ -17,3 +17,4 @@ generated_samples/
 .agents/
 *.sqlite3*
 live/donors/posts/
+live/donors/tags/
