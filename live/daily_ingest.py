@@ -71,6 +71,16 @@ def default_fetchers(state):
     return fetchers
 
 
+def trim_source(source, max_chars):
+    """Cut long text at a paragraph boundary before EXTRACT (keeps daily spend per source bounded)."""
+    text=source.get('original_text') or ''
+    if not max_chars or len(text)<=max_chars: return source
+    from live.adapters.common import digest, paragraphs
+    kept=[p for p in paragraphs(text) if p['end']<=max_chars]
+    text=text[:kept[-1]['end']] if kept else text[:max_chars]
+    return dict(source, original_text=text, source_hash=digest(text), truncated=True)
+
+
 def priority(channel, source):
     ids=channel+' '+str(source.get('source_id',''))
     if any(x in ids for x in ('cftc','cboe','ch096','ch095','ch094','ch093')): return 0
@@ -81,7 +91,7 @@ def priority(channel, source):
 
 def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_runs',
         inbox='/workspace/x/ingest_inbox', cost_cap_usd=3.0, channel_timeout=90,
-        max_extract=40, no_dashboard=False, dry_run=False, only=None,
+        max_extract=40, max_source_chars=12000, per_channel_max=2, no_dashboard=False, dry_run=False, only=None,
         fetchers=None, extract=None, jev=None, backup=None, refresh=None, state_path=None):
     from ml import budget
     from live import content_store, jev_front, registry
@@ -134,14 +144,19 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
                     batches += [(s,[u for u in out['units'] if u.get('source_hash')==s['source_hash']],s['adapter']) for s in sources]
                     sources=[]
                 seen=set(state['channels'].get(cid,{}).get('seen',[]))
+                failed=state['channels'].get(cid,{}).get('failed',{})
+                rank=0
                 for s,units,adapter in [(s,None,s.get('adapter',cid)) for s in sources]+list(batches):
                     keys=[str(s.get(k)) for k in ('id','url','source_hash') if s.get(k)]
                     if seen.intersection(keys) or not filter_known([s],store)[0]: continue
-                    ch['new_items']+=1; tasks.append((ch,s,units,adapter,keys))
+                    if any(failed.get(k,0)>=2 for k in keys): continue
+                    if units is None and per_channel_max and rank>=per_channel_max: continue
+                    ch['new_items']+=1; tasks.append((ch,s,units,adapter,keys,rank)); rank+=1
             except Exception as exc:
                 ch.update(status='timeout' if isinstance(exc,TimeoutError) else 'failed',error=f'{type(exc).__name__}: {exc}')
                 summary['failing_channels'].append(cid)
             ch['seconds']=time.monotonic()-t
+            print(f"[gather] {cid} {ch['status']} new={ch['new_items']} {ch['seconds']:.0f}s",file=sys.stderr,flush=True)
         summary['steps'].append(dict(id='gather',status='ok'))
         summary['steps'].append(dict(id='incremental',status='ok',new_items=len(tasks)))
         if dry_run: summary['status']='dry_run'; return summary
@@ -168,13 +183,14 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
                     return result
             jev = CappedJev()
         capped=False; extracted=0
-        for ch,s,units,adapter,keys in sorted(tasks,key=lambda task:priority(task[0]['id'],task[1])):
+        for ch,s,units,adapter,keys,rank in sorted(tasks,key=lambda task:(priority(task[0]['id'],task[1]),task[5])):
             t=time.monotonic()
             if capped or (units is None and extracted>=max_extract):
                 reason='deferred_cost_cap' if capped else 'deferred_max_extract'
                 ch['status']=reason; summary['deferred'].append(dict(id=s['id'],channel=ch['id'],status=reason));continue
             try:
-                if units is None: units=extract(s); extracted+=1
+                if units is None:
+                    s=trim_source(s,max_source_chars); extracted+=1; units=extract(s)
                 routing=jev_front.route_sources([dict(id=s['id'],title=s.get('title') or '',publisher=s.get('publisher'),snippet=s.get('original_text','')[:400])],jev=jev)
                 result=ingest_batches(db,[(s,units,adapter)],routing,jev=jev)
                 ch['units']+=result['added']
@@ -185,8 +201,11 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
                 summary['deferred'].append(dict(id=s['id'],channel=ch['id'],status='deferred_cost_cap'))
             except Exception as exc:
                 ch.update(status='failed',error=f'{type(exc).__name__}: {exc}')
+                fails=state['channels'].setdefault(ch['id'],{'seen':[]}).setdefault('failed',{})
+                for k in keys: fails[k]=fails.get(k,0)+1
                 if ch['id'] not in summary['failing_channels']:summary['failing_channels'].append(ch['id'])
             ch['seconds']+=time.monotonic()-t
+            print(f"[extract] {ch['id']} {s['id']} {ch['status']} units={ch['units']}",file=sys.stderr,flush=True)
         summary['steps'].append(dict(id='extract',status='ok',extracted=extracted,deferred=len(summary['deferred'])))
         for ch in summary['channels']:
             if ch['status']=='ok':state['channels'].setdefault(ch['id'],{'seen':[]})['last_run']=started.isoformat()

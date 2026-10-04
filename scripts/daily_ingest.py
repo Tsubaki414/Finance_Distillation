@@ -16,6 +16,8 @@ def main():
     parser.add_argument('--cost-cap-usd',type=float,default=3.0)
     parser.add_argument('--channel-timeout',type=float,default=90)
     parser.add_argument('--max-extract',type=int,default=40)
+    parser.add_argument('--max-source-chars',type=int,default=12000)
+    parser.add_argument('--per-channel-max',type=int,default=2)
     parser.add_argument('--no-dashboard',action='store_true')
     parser.add_argument('--dry-run',action='store_true')
     parser.add_argument('--only',nargs='+')
