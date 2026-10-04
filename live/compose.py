@@ -23,7 +23,7 @@ from live.model_json import parse_object
 from live.numeric_fidelity import inventory
 
 VERSION = 'compose-v1'
-MAX_TOKENS = 3000
+MAX_TOKENS = 6000
 BLACKLIST = Path(__file__).with_name('style_blacklist.json')
 
 # Which unit kinds a post type is built from: (primary kind, how many, supporting kinds, how many)
@@ -236,6 +236,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     extracted = content_units.extract(source, client, licence_tier=tier, publisher=publisher)
     assembly.append(extracted['prompt_assembly'])
     units = extracted['units']
+    base['extract_dropped_units'] = extracted.get('dropped_units', [])
     if post_type is not None:
         require(post_type in RECIPES and post_type in persona.post_type_mix, 'compose: post_type not in persona mix')
         require(post_type in registry.post_types_for_tier(tier, post_types), 'compose: post_type not allowed for licence tier')
