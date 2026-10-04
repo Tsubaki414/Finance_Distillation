@@ -151,13 +151,14 @@ class VoiceVsContentRuleTests(unittest.TestCase):
         for phrase in ('voice', 'structure only', 'every fact and number still comes from the units'):
             self.assertIn(phrase, compose.EXEMPLAR_RULE)
 
-    def test_a_number_borrowed_from_an_exemplar_is_a_hard_finding(self):
+    def test_a_number_borrowed_from_an_exemplar_is_flagged_soft(self):
+        # Policy 2026-10-04: untraceable numbers warn (soft) instead of blocking.
         fake = Recording(body=GOOD_BODY + '三星的资本开支只增长了17%。')
         result = compose.compose_source(SOURCE, 'zh_industry', fake, post_type='data_take',
                                         exemplars=True, exemplar_dir=self.dir)
         finding = next(f for f in result['post_checks'] if f['code'] == 'number_not_in_units')
-        self.assertEqual(finding['level'], 'hard')
-        self.assertIn('number_not_in_units', result['qa']['hard'])
+        self.assertEqual(finding['level'], 'soft')
+        self.assertIn('number_not_in_units', result['qa']['soft'])
 
 
 class Recording(Fake):
