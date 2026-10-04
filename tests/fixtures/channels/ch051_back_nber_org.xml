@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<atom:link href="http://back.nber.org/rss/new.xml" rel="self" type="application/rss+xml" />
+<title>National Bureau of Economic Research Working Papers</title>
+<description>The Latest NBER Working Papers</description>  
+<link>http://www.nber.org/new.html</link>
+<item>
+<title>An LLM Workflow That Reproduces, Improves, and Extends Published Economics Research -- by Matthew Schwartz, Isaiah Andrews, Jesse M. Shapiro</title>
+<description>We introduce an open-source workflow that enables an LLM to reproduce, improve, and extend an economics article using the article’s published replication package. First, the workflow attempts to reproduce the original calculations, checks for discrepancies with published findings, and performs automated sensitivity analysis. Across 4,452 published replication packages for five economics journals, the workflow flags discrepancies in 3,460 articles or their appendices. Second, the workflow improves the original calculations by using a different implementation or algorithm. In 496 articles, the workflow is able to reduce a calculation’s computation time, at similar or greater accuracy, by more than a factor of 10. Third, the workflow extends the original analysis. In 923 articles, the workflow develops an extension that does not appear in the original article and that is aligned with the original article’s goals and assumptions.</description>
+<link>https://www.nber.org/papers/w35782#fromrss</link>
+<guid>https://www.nber.org/papers/w35782#fromrss</guid>
+</item><item>
+<title>(How) Do We Teach Emotions? -- by Anjali Adukia, Matthew Bonci, Paula Dastres Gallardo, Emileigh Harrison, Jake Nicoll, Teodora Szasz</title>
+<description>Emotional intelligence constitutes a key component of human capital, shaped partially by educational materials. Using machine learning and generative AI tools, we examine emotional content in public-school textbooks and children’s literature. A stark mismatch emerges: text exposes children to a broad emotional range, but images overwhelmingly depict happiness and calm, regardless of emotions described in text on the same page. Nearly half of pages show zero overlap between the emotions described in text and those shown in images. This pattern persists across time, contexts, and identities. Household purchases and library inventories suggest content may be endogenously shaped by consumer demand favoring “positive” cover imagery, implying market forces narrow the emotional landscape children encounter.</description>
+<link>https://www.nber.org/papers/w35789#fromrss</link>
+<guid>https://www.nber.org/papers/w35789#fromrss</guid>
+</item></channel></rss>

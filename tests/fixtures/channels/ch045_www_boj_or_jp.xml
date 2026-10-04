@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>Bank of Japan：RSS</title>
+<link>http://www.boj.or.jp/en/rss/whatsnew.xml?id=1002</link>
+<atom:link href="http://www.boj.or.jp/en/rss/whatsnew.xml?id=1002" rel="self" type="application/rss+xml" />
+<description></description>
+<item>
+<title>Japanese Government Bonds Held by the Bank of Japan</title>
+<description></description>
+<pubDate>Fri, 02 Oct 2026 17:00:00 +0900</pubDate>
+<link>http://www.boj.or.jp/en/statistics/boj/other/mei/release/2026/mei260930.xlsx</link>
+<guid>http://www.boj.or.jp/en/statistics/boj/other/mei/release/2026/mei260930.xlsx</guid>
+</item><item>
+<title>Collateral Accepted by the Bank of Japan (End of Sept.)</title>
+<description></description>
+<pubDate>Fri, 02 Oct 2026 17:00:00 +0900</pubDate>
+<link>http://www.boj.or.jp/en/statistics/boj/other/col/col2609.xlsx</link>
+<guid>http://www.boj.or.jp/en/statistics/boj/other/col/col2609.xlsx</guid>
+</item></channel></rss>

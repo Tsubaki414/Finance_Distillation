@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Semiconductor Engineering</title>
+	<atom:link href="https://semiengineering.com/feed/" rel="self" type="application/rss+xml" />
+	<link>https://semiengineering.com/</link>
+	<description>Deep Insights For Chip Engineers</description>
+	<lastBuildDate>Fri, 02 Oct 2026 22:47:30 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1.2</generator>
+
+<image>
+	<url>https://i0.wp.com/semiengineering.com/wp-content/uploads/2020/03/cropped-SE-Icon-3.jpg?fit=32%2C32&#038;ssl=1</url>
+	<title>Semiconductor Engineering</title>
+	<link>https://semiengineering.com/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">143345712</site>	<item>
+		<title>Tracing Hardware Design From Physical Devices to RTL (Infineon, TU Munich)</title>
+		<link>https://semiengineering.com/tracing-hardware-design-from-physical-devices-to-rtl-infineon-tu-munich/</link>
+					<comments>https://semiengineering.com/tracing-hardware-design-from-physical-devices-to-rtl-infineon-tu-munich/#respond</comments>
+		
+		<dc:creator><![CDATA[Technical Paper Link]]></dc:creator>
+		<pubDate>Fri, 02 Oct 2026 22:46:46 +0000</pubDate>
+				<category><![CDATA[Design & Verification]]></category>
+		<category><![CDATA[Technical Papers]]></category>
+		<category><![CDATA[abstraction]]></category>
+		<category><![CDATA[design validation]]></category>
+		<category><![CDATA[digital design]]></category>
+		<category><![CDATA[equivalence checking]]></category>
+		<category><![CDATA[gate level design]]></category>
+		<category><![CDATA[hardware description languages]]></category>
+		<category><![CDATA[hardware design]]></category>
+		<category><![CDATA[hardware engineering]]></category>
+		<category><![CDATA[HDL]]></category>
+		<category><![CDATA[Infineon Technologies]]></category>
+		<category><![CDATA[modeling]]></category>
+		<category><![CDATA[register-transfer-level]]></category>
+		<category><![CDATA[RTL]]></category>
+		<category><![CDATA[simulation]]></category>
+		<category><![CDATA[synthesis]]></category>
+		<category><![CDATA[Technical University of Munich]]></category>
+		<category><![CDATA[transistor models]]></category>
+		<guid isPermaLink="false">https://semiengineering.com/?p=24282337</guid>
+
+					<description><![CDATA[<p>Researchers at Infineon Technologies and Technical University of Munich published a technical paper titled “From Physical Devices to RTL Models: Abstraction and Validation in Hardware Engineering.” Abstract: “This paper introduces the foundational principles underlying hardware engineering models and argues that abstraction is their defining characteristic. Because abstraction necessarily omits detail and constrains what engineers can... <a class="read_more" href="https://semiengineering.com/tracing-hardware-design-from-physical-devices-to-rtl-infineon-tu-munich/">&#187; read more</a></p>
+<p>The post <a href="https://semiengineering.com/tracing-hardware-design-from-physical-devices-to-rtl-infineon-tu-munich/">Tracing Hardware Design From Physical Devices to RTL (Infineon, TU Munich)</a> appeared first on <a href="https://semiengineering.com">Semiconductor Engineering</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Researchers at Infineon Technologies and Technical University of Munich published a technical paper titled “From Physical Devices to RTL Models: Abstraction and Validation in Hardware Engineering.”</p>
+<p><strong>Abstract:</strong></p>
+<p>“This paper introduces the foundational principles underlying hardware engineering models and argues that abstraction is their defining characteristic. Because abstraction necessarily omits detail and constrains what engineers can build, models are inherently incomplete in specific respects &#8211; or, as George Box famously observed, &#8220;All models are wrong, but some are useful&#8221;. At the same time, abstraction is essential for simplification, which is key to managing complexity. More abstract models also tend to simulate faster because fewer details must be considered.</p>
+<p>This paper subsequently examines a range of abstraction methods in digital design &#8211; sometimes referred to as design disciplines &#8211; including lumped models, value-discrete models, and time-discrete models. Together with constraints that define the validity of the abstraction and design guidelines, these abstraction methods establish design disciplines. This paper further relates these forms of abstraction to pre-clustered design elements such as transistors, gates, registers, and transfer functions. These pre-clustered elements define abstraction levels, such as the gate level, and are presented as a key enabler of increased design productivity.”</p>
+<p><a href="https://arxiv.org/abs/2610.01186">Find the technical paper here</a>. October 2026.</p>
+<p>Ecker, Wolfgang, Natalie Simson, Johannes Ecker, and Endri Kaja. “From Physical Devices to RTL Models: Abstraction and Validation in Hardware Engineering.” arXiv preprint arXiv:2610.01186 (October 2026). https://doi.org/10.48550/arXiv.2610.01186</p>
+<p>&nbsp;</p>
+<p>The post <a href="https://semiengineering.com/tracing-hardware-design-from-physical-devices-to-rtl-infineon-tu-munich/">Tracing Hardware Design From Physical Devices to RTL (Infineon, TU Munich)</a> appeared first on <a href="https://semiengineering.com">Semiconductor Engineering</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://semiengineering.com/tracing-hardware-design-from-physical-devices-to-rtl-infineon-tu-munich/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">24282337</post-id>	</item><item>
+		<title>HBF for High-Throughput LLM Serving (UC Berkeley, FuriosaAI)</title>
+		<link>https://semiengineering.com/hbf-for-high-throughput-llm-serving-uc-berkeley-furiosaai/</link>
+					<comments>https://semiengineering.com/hbf-for-high-throughput-llm-serving-uc-berkeley-furiosaai/#respond</comments>
+		
+		<dc:creator><![CDATA[Technical Paper Link]]></dc:creator>
+		<pubDate>Fri, 02 Oct 2026 20:15:40 +0000</pubDate>
+				<category><![CDATA[AI/ML/DL]]></category>
+		<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Memory]]></category>
+		<category><![CDATA[Power & Performance]]></category>
+		<category><![CDATA[Technical Papers]]></category>
+		<category><![CDATA[agentic AI]]></category>
+		<category><![CDATA[AI accelerators]]></category>
+		<category><![CDATA[data movement]]></category>
+		<category><![CDATA[DRAM]]></category>
+		<category><![CDATA[flash memory]]></category>
+		<category><![CDATA[FuriosaAI]]></category>
+		<category><![CDATA[HBF]]></category>
+		<category><![CDATA[HBM]]></category>
+		<category><![CDATA[High Bandwidth Flash]]></category>
+		<category><![CDATA[high-bandwidth memory]]></category>
+		<category><![CDATA[KV cache]]></category>
+		<category><![CDATA[large language models]]></category>
+		<category><![CDATA[LLM inference]]></category>
+		<category><![CDATA[memory bandwidth]]></category>
+		<category><![CDATA[memory hierarchy]]></category>
+		<category><![CDATA[memory management]]></category>
+		<category><![CDATA[nonvolatile memory]]></category>
+		<category><![CDATA[UC Berkeley]]></category>
+		<category><![CDATA[University of California Berkeley]]></category>
+		<guid isPermaLink="false">https://semiengineering.com/?p=24282326</guid>
+
+					<description><![CDATA[<p>Researchers at the UC Berkeley and FuriosaAI published a technical paper titled “Characterizing High Bandwidth Flash for LLM Serving.” Abstract “Large language model (LLM) serving requires substantial memory to store model weights and KV caches. As models grow larger and contexts become longer, memory capacity and bandwidth increasingly become bottlenecks for serving performance. Agentic workloads... <a class="read_more" href="https://semiengineering.com/hbf-for-high-throughput-llm-serving-uc-berkeley-furiosaai/">&#187; read more</a></p>
+<p>The post <a href="https://semiengineering.com/hbf-for-high-throughput-llm-serving-uc-berkeley-furiosaai/">HBF for High-Throughput LLM Serving (UC Berkeley, FuriosaAI)</a> appeared first on <a href="https://semiengineering.com">Semiconductor Engineering</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p class="wp-block-paragraph">Researchers at the <strong>UC Berkeley</strong> and <strong>FuriosaAI</strong> published a technical paper titled “Characterizing High Bandwidth Flash for LLM Serving.”</p>
+<p class="wp-block-paragraph"><strong>Abstract</strong></p>
+<p>“Large language model (LLM) serving requires substantial memory to store model weights and KV caches. As models grow larger and contexts become longer, memory capacity and bandwidth increasingly become bottlenecks for serving performance. Agentic workloads compound this pressure through repeated interactions over growing contexts, making it increasingly important to retain KV state for reuse. High-bandwidth flash (HBF) offers a way to expand accelerator memory capacity for large language model (LLM) serving, but its access costs and limited write endurance complicate its use. We evaluate HBF for high-throughput agentic serving across system design and scheduling choices to understand when additional capacity improves serving performance and energy efficiency. We introduce an HBM-HBF-host hierarchical storage system and buffered cache-aware scheduling, and use trace-driven simulations to analyze their effects on performance, energy consumption, and HBF write lifetime. Across the evaluated workloads, the fastest HBF-augmented systems reduce completion time by 36.1-87.0% relative to HBM-only systems. Modeled energy savings reach 55.8%, although HBF increases energy consumption on some light workloads. Buffered cache-aware scheduling extends estimated HBF write lifetime from 4.77 to 14.82 years in the evaluated configuration. These results demonstrate the importance of coordinating data placement and scheduling to improve serving efficiency while sustaining a practical HBF write lifetime.”</p>
+<p class="wp-block-paragraph"><a href="https://arxiv.org/abs/2609.39131">Find the technical paper here</a>. September 2026.</p>
+<p class="wp-block-paragraph">Yu, Zack, Chloe Wong, Coleman Hooper, Minjae Lee, Wonjun Kang, Youngjin Cho, Michael W. Mahoney, Yakun Sophia Shao, Kurt Keutzer, and Amir Gholami. “Characterizing High Bandwidth Flash for LLM Serving.” arXiv preprint arXiv:2609.39131 (September 2026). https://doi.org/10.48550/arXiv.2609.39131</p>
+<p class="wp-block-paragraph">&nbsp;</p>
+<p>The post <a href="https://semiengineering.com/hbf-for-high-throughput-llm-serving-uc-berkeley-furiosaai/">HBF for High-Throughput LLM Serving (UC Berkeley, FuriosaAI)</a> appeared first on <a href="https://semiengineering.com">Semiconductor Engineering</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://semiengineering.com/hbf-for-high-throughput-llm-serving-uc-berkeley-furiosaai/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">24282326</post-id>	</item></channel></rss>

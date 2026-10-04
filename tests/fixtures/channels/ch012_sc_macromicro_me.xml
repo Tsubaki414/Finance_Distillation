@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<rss  xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
+	<channel>
+		<title><![CDATA[ MacroMicro 财经M平方 ]]></title>
+		<link>https://sc.macromicro.me/</link>
+		<description><![CDATA[ 致力于整合全球宏观数据，试图发觉景气循环的蛛丝马迹，相信所有金融商品的投资决策都应回归基本面。期待协助大家找到属于自己的投资地图! ]]></description>
+		<language>zh</language>
+		<copyright>Copyright 2026 MacroMicro.me</copyright>
+		<lastBuildDate>Sun, 04 Oct 2026 18:43:13 +0800</lastBuildDate>
+		<webMaster>web@macromicro.me</webMaster>
+		<atom:link href="https://sc.macromicro.me/feed" rel="self" type="application/rss+xml"/>
+		<ttl>60</ttl>
+
+    <item>
+      <title><![CDATA[【MM AI 上线】经济图表上传新功能，轻鬆解读趋势]]></title>
+      <description><![CDATA[ MM AI 上线：经济大小事，都能问！
+
+
+MM AI 是财经 M平方打造的 AI 研究助手，整合上... ]]></description>
+      <link>https://sc.macromicro.me/blog/mm-ai-launches-new-economic-chart-upload-feature-for-easy-trend-interpretation</link>
+      <guid isPermaLink="false">post-1566</guid>
+            <dc:creator><![CDATA[MacroMicro]]></dc:creator>
+      <media:content url="https://cdn.macromicro.me/blog/1566/a8b3b1bc-441573.png" medium="image"/><media:thumbnail url="https://cdn.macromicro.me/blog/1566/a8b3b1bc-441573.png" width="1280" height="720" />      <pubDate>Sat, 03 Oct 2026 01:46:03 +0800</pubDate>
+    </item><item>
+      <title><![CDATA[【创办人撰文】重新定调美联储路径，基本面依旧无懈可击！]]></title>
+      <description><![CDATA[ 本内容将同步收录于 2026.09.30 发布的 10 月投资月报〈创办人引言〉
+
+Dear all,
+9 月份，市场延续着上月提示的三大风险持续发酵 —— 全球长债收益率续创新高，美联储更在本月直接做出「预防性升息」的动作，股市因而多数回落，道琼、欧洲、与多数亚洲股市均出现回檔。汇市方面，美元指数攀升 +2%，亚币相对有撑，韩圜、日圆走强、台币持平。
+真正值得注意的是，正如 9 月月报反覆强调的 r &amp;lt; g 逻辑，那些经济基本面最稳健的市场，例如台湾加权 、那斯达克、及费半指数分别上涨 +4.5% 、+1.1% 及 ＋4.9%，在升息的逆风中，本月依然收红。
+
+
+
+
+一、重新定调美联储路径：今年升息 2 码，明年观望
+本次的美联储升息动作，超出了我在 8 月的预估，当时我判断通胀数据暂时安全。但在美伊战事延烧、油价突破 100 美元的背景下，美联储选择了先发制人，透过本次会议 Warsh 的表态，我和团队也直接将今年的升息路径调整为升息 2 码。
+然而，即使如此，我们仍认为这属于预防性升息，尤其在明年，当美联储委员在点阵图透露有继续升息的机会时，我们仍认为明年转向观望的可能性依旧存在。理由有三：  ]]></description>
+      <link>https://sc.macromicro.me/blog/founder-s-article-the-fed-is-redefining-its-path-but-the-fundamentals-remain-impeccable</link>
+      <guid isPermaLink="false">post-1562</guid>
+      <category><![CDATA[创办人撰文]]></category>      <dc:creator><![CDATA[Rachel Chen]]></dc:creator>
+      <media:content url="https://cdn.macromicro.me/blog/1562/d88d878e-286295.jpg" medium="image"/><media:thumbnail url="https://cdn.macromicro.me/blog/1562/d88d878e-286295.jpg" width="1280" height="720" />      <pubDate>Tue, 29 Sep 2026 18:18:44 +0800</pubDate>
+    </item></channel></rss>

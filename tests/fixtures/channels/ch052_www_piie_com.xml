@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xml:base="https://www.piie.com/">
+  <channel>
+    <title>Peterson Institute Update</title>
+    <link>https://www.piie.com/</link>
+    <description/>
+    <language>en</language>
+    <atom:link href="https://www.piie.com/rss/update.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+  <title>Labor markets and structural transformation in times of change: AI and demographic shifts </title>
+  <link>https://www.piie.com/events/2026/labor-markets-and-structural-transformation-times-change-ai-and-demographic-shifts</link>
+  <description>The Peterson Institute for International Economics has organized, jointly with theInternational Monetary Fund (IMF), the Organization for Economic Cooperation and Development (OECD), and the World Bank, a two-day conference to bring together leading economists, policymakers, international institutions, and practitioners to examine how artificial intelligence (AI), demographic change, and shifting patterns of international specialization are reshaping labor markets and the future of work.&lt;br&gt;
+In research presentations and high-level discussions, speakers explore how AI is transforming jobs,…</description>
+  <pubDate>Tue, 17 Nov 2026 09:00:00 -0500</pubDate>
+    <dc:creator/>
+    <guid isPermaLink="true">https://www.piie.com/events/2026/labor-markets-and-structural-transformation-times-change-ai-and-demographic-shifts</guid>
+    </item><item>
+  <title>How do we deal with Chinese overcapacity?</title>
+  <link>https://www.piie.com/events/2026/how-do-we-deal-chinese-overcapacity</link>
+  <description>The summit between Presidents Donald Trump and Xi Jinping did not deliver much, except for some lowering of tariffs, and there was no agreement on long-term challenges of overcapacity and trade. Companies are still complaining about a second China shock.&lt;br&gt;
+The European Union and China established a working group in May of this year on "macroeconomic imbalances," but it has failed to produce results so far, and European Commission president Ursula von der Leyen has said that patience is running out. Meanwhile, European manufacturers continue to face stiff competition from their Chinese…</description>
+  <pubDate>Wed, 14 Oct 2026 09:00:00 -0400</pubDate>
+    <dc:creator>Cecilia Malmström, Yeling Tan, Alicia García-Herrero, Nicolas Lamp</dc:creator>
+    <guid isPermaLink="true">https://www.piie.com/events/2026/how-do-we-deal-chinese-overcapacity</guid>
+    </item></channel></rss>

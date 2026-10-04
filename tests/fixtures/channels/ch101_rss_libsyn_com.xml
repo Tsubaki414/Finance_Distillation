@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:cc="http://web.resource.org/cc/"
+  xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:podcast="https://podcastindex.org/namespace/1.0"
+  xmlns:googleplay="http://www.google.com/schemas/play-podcasts/1.0"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:libsyn="https://rss.libsyn.com/ns.xml">
+
+  <channel>
+    <atom:link href="https://rss.libsyn.com/shows/138806/destinations/865793.xml" rel="self" type="application/rss+xml"/>
+    <title>Macro Musings with David Beckworth</title>
+    <pubDate>Sat, 03 Oct 2026 02:35:03 +0000</pubDate>
+    <lastBuildDate>Sat, 03 Oct 2026 02:35:03 +0000</lastBuildDate>
+    <generator>Libsyn RSSgen 1.0</generator>
+    <libsyn:show-id>138806</libsyn:show-id>
+    
+    <libsyn:last-updated>2026-10-01T00:00:16Z</libsyn:last-updated>
+    
+    <link>https://macroeconomicpolicynexus.substack.com/</link>
+    <language>en</language>
+    <copyright><![CDATA[]]></copyright>
+    <docs>https://macroeconomicpolicynexus.substack.com/</docs>
+    <itunes:summary><![CDATA[Hosted by David Beckworth of the Mercatus Center, Macro Musings pulls back the curtain on the important macroeconomic issues of the past, present, and future.]]></itunes:summary>
+    <image>
+      <url>https://static.libsyn.com/p/assets/5/6/4/8/5648d73583b24c6ed959afa2a1bf1c87/MM_Podcast_Cover_Art_Update_V02_3000x3000.png</url>
+      <title>Macro Musings with David Beckworth</title>
+      <link><![CDATA[https://macroeconomicpolicynexus.substack.com/]]></link>
+    </image>
+    <itunes:author>Mercatus Center at George Mason University</itunes:author>
+		<itunes:category text="Business" />
+<itunes:category text="Education" />
+    <itunes:image href="https://static.libsyn.com/p/assets/5/6/4/8/5648d73583b24c6ed959afa2a1bf1c87/MM_Podcast_Cover_Art_Update_V02_3000x3000.png" />
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:owner>
+      <itunes:name>David Beckworth</itunes:name>
+      <itunes:email>macromusings@mercatus.gmu.edu</itunes:email>
+    </itunes:owner>
+    <description><![CDATA[Hosted by David Beckworth of the Mercatus Center, Macro Musings pulls back the curtain on the important macroeconomic issues of the past, present, and future.]]></description>
+    
+    <itunes:type>episodic</itunes:type>
+    
+
+    <itunes:keywords />
+
+    
+
+    
+    <podcast:locked owner="macromusings@mercatus.gmu.edu">no</podcast:locked>
+    
+    
+    
+    
+    
+    <item>
+      <title>Erik Thedéen on QE, Central Bank Independence, and Digital Payments</title>
+      <itunes:title>Erik Thedéen on QE, Central Bank Independence, and Digital Payments</itunes:title>
+      <pubDate>Mon, 28 Sep 2026 09:00:00 +0000</pubDate>
+      <guid isPermaLink="false"><![CDATA[a1b3c167-fe8d-4705-a656-758f93b199bb]]></guid>
+      <link><![CDATA[https://macromusings.libsyn.com/erik-theden-on-qe-central-bank-independence-and-digital-payments]]></link>
+      <description><![CDATA[<p><span style="font-size: 12pt;"><span style= "font-family: Aptos, sans-serif;"><a href= "https://www.riksbank.se/en-gb/about-the-riksbank/organisation/the-executive-board/erik-thedeen/"> Erik Thedéen</a></span></span> is governor of Sweden's Riksbank, the world's oldest central bank, Chairman of the Executive Board, and the first sitting central bank governor to appear on Macro Musings. In his first appearance on the show, Erik joins to discuss the history and operation of the Riksbank, the lessons learned from QE, the future of digital payments, and much more.</p> <p>Watch the <a href="https://youtu.be/AUJYZ4oHQiE">full length video</a> on our new YouTube Channel!</p> <p class="MsoNormal">Check out the <a href= "https://www.mercatus.org/macro-musings/erik-thedeen-qe-central-bank-independence-and-digital-payments">transcript</a> for this week's episode, now with links.</p> <p class="MsoNormal"><em>Recorded on September 4th, 2026</em></p> <p class="MsoNormal">Subscribe to David's Substack: <a href= "https://macroeconomicpolicynexus.substack.com/">Macroeconomic Policy Nexus</a><br /> Follow David Beckworth on X: <a href= "https://twitter.com/DavidBeckworth">@DavidBeckworth</a><br /> Follow the show on X: <a href= "https://twitter.com/Macro_Musings">@Macro_Musings</a></p> <p class="MsoNormal">Check out our Macro Musings <a href= "https://www.bonfire.com/store/mercatus-podcast-swag/">merch!</a></p> <p class="MsoNormal">Timestamps<br /> 00:00:00 - Intro<br /> 00:01:41 - Erik's Career<br /> 00:03:03 - History of the Riksbank<br /> 00:13:04 - Riksbank's Inflation Target<br /> 00:15:28 - Riksbank's Operating Framework<br /> 00:25:09 - Riksbank's Experiences with QE<br /> 00:30:26 - Deposit Facility at Riksbank<br /> 00:39:31 - Digital Payments<br /> 00:47:27 - Dollar-Based Stablecoins and Sweden<br /> 00:50:09 - Tokenization<br /> 00:52:37 - Outro</p>]]></description>
+      
+      <content:encoded><![CDATA[<p><a href= "https://www.riksbank.se/en-gb/about-the-riksbank/organisation/the-executive-board/erik-thedeen/"> Erik Thedéen</a> is governor of Sweden's Riksbank, the world's oldest central bank, Chairman of the Executive Board, and the first sitting central bank governor to appear on Macro Musings. In his first appearance on the show, Erik joins to discuss the history and operation of the Riksbank, the lessons learned from QE, the future of digital payments, and much more.</p> <p>Watch the <a href="https://youtu.be/AUJYZ4oHQiE">full length video</a> on our new YouTube Channel!</p> <p class="MsoNormal">Check out the <a href= "https://www.mercatus.org/macro-musings/erik-thedeen-qe-central-bank-independence-and-digital-payments">transcript</a> for this week's episode, now with links.</p> <p class="MsoNormal"><em>Recorded on September 4th, 2026</em></p> <p class="MsoNormal">Subscribe to David's Substack: <a href= "https://macroeconomicpolicynexus.substack.com/">Macroeconomic Policy Nexus</a> Follow David Beckworth on X: <a href= "https://twitter.com/DavidBeckworth">@DavidBeckworth</a> Follow the show on X: <a href= "https://twitter.com/Macro_Musings">@Macro_Musings</a></p> <p class="MsoNormal">Check out our Macro Musings <a href= "https://www.bonfire.com/store/mercatus-podcast-swag/">merch!</a></p> <p class="MsoNormal">Timestamps 00:00:00 - Intro 00:01:41 - Erik's Career 00:03:03 - History of the Riksbank 00:13:04 - Riksbank's Inflation Target 00:15:28 - Riksbank's Operating Framework 00:25:09 - Riksbank's Experiences with QE 00:30:26 - Deposit Facility at Riksbank 00:39:31 - Digital Payments 00:47:27 - Dollar-Based Stablecoins and Sweden 00:50:09 - Tokenization 00:52:37 - Outro</p>]]></content:encoded>
+      
+      
+      <enclosure url="https://traffic.libsyn.com/secure/macromusings/MM-562-ErikThedeen-Podcast_mixdown-auphonic.mp3?dest-id=865793" length="46174481" type="audio/mpeg" />
+      <itunes:duration>53:21</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+      
+      
+      <itunes:keywords />
+      
+      
+      <itunes:episode>562</itunes:episode>
+      
+      
+      <itunes:image href="https://static.libsyn.com/p/assets/3/6/9/0/3690df3cdccc1215e5bbc093207a2619/MM-562-ErikThedeen-Libsyn.png" />
+      
+      
+      <itunes:episodeType>full</itunes:episodeType>
+      
+      <itunes:author>Mercatus Center at George Mason University</itunes:author>
+      
+      
+      
+
+      <libsyn:item-id>43035248</libsyn:item-id>
+      
+      <libsyn:last-updated>2026-10-01T00:00:12Z</libsyn:last-updated>
+      
+      
+    </item><item>
+      <title>Ellen Correia Golay on All-to-All Trading and Treasury Market Liquidity</title>
+      <itunes:title>Ellen Correia Golay on All-to-All Trading and Treasury Market Liquidity</itunes:title>
+      <pubDate>Mon, 21 Sep 2026 09:00:00 +0000</pubDate>
+      <guid isPermaLink="false"><![CDATA[4388d737-726c-412f-8545-13c2c66188ca]]></guid>
+      <link><![CDATA[https://macromusings.libsyn.com/ellen-correia-golay-on]]></link>
+      <description><![CDATA[<p>Ellen Correia Golay is a lead Treasury advisor in the markets group at the Federal Reserve Bank of New York. Ellen returns to the program to discuss the lessons of the March 2020 "dash for cash," how all-to-all trading and other market structure reforms could strengthen Treasury market liquidity and resilience, the rise of principal trading firms, and the future of the Fed's standing repo operations, and much more.</p> <p>Watch the <a href="https://youtu.be/XuMQ5dVtFKQ">full length video</a> on our new YouTube Channel!</p> <p class="MsoNormal">Check out the <a href= "https://www.mercatus.org/macro-musings/ellen-correia-golay-all-all-trading-and-treasury-market-liquidity">transcript</a> for this week's episode, now with links.</p> <p class="MsoNormal"><em>Recorded on August 19th, 2026</em></p> <p class="MsoNormal">Subscribe to David's Substack: <a href= "https://macroeconomicpolicynexus.substack.com/">Macroeconomic Policy Nexus</a></p> <p class="MsoNormal">Follow David Beckworth on X: <a href= "https://twitter.com/DavidBeckworth">@DavidBeckworth</a></p> <p class="MsoNormal">Follow the show on X: <a href= "https://twitter.com/Macro_Musings">@Macro_Musings</a></p> <p class="MsoNormal">Check out our Macro Musings <a href= "https://www.bonfire.com/store/mercatus-podcast-swag/">merch!</a></p> <p class="MsoNormal">Timestamps<br /> 00:00:00 - Intro<br /> 00:01:20 - Ellen's Career and Responsibilities<br /> 00:09:29 - The Treasury Market<br /> 00:17:15 - All-to-All Trading<br /> 00:25:19 - Treasury Market Liquidity<br /> 00:32:59 - Treasury Borrowing Advisory Committee<br /> 00:39:28 - Central Clearing<br /> 00:44:51 - Ellen's Policy Wishes<br /> 00:46:20 - Outro</p>]]></description>
+      
+      <content:encoded><![CDATA[<p>Ellen Correia Golay is a lead Treasury advisor in the markets group at the Federal Reserve Bank of New York. Ellen returns to the program to discuss the lessons of the March 2020 "dash for cash," how all-to-all trading and other market structure reforms could strengthen Treasury market liquidity and resilience, the rise of principal trading firms, and the future of the Fed's standing repo operations, and much more.</p> <p>Watch the <a href="https://youtu.be/XuMQ5dVtFKQ">full length video</a> on our new YouTube Channel!</p> <p class="MsoNormal">Check out the <a href= "https://www.mercatus.org/macro-musings/ellen-correia-golay-all-all-trading-and-treasury-market-liquidity">transcript</a> for this week's episode, now with links.</p> <p class="MsoNormal"><em>Recorded on August 19th, 2026</em></p> <p class="MsoNormal">Subscribe to David's Substack: <a href= "https://macroeconomicpolicynexus.substack.com/">Macroeconomic Policy Nexus</a></p> <p class="MsoNormal">Follow David Beckworth on X: <a href= "https://twitter.com/DavidBeckworth">@DavidBeckworth</a></p> <p class="MsoNormal">Follow the show on X: <a href= "https://twitter.com/Macro_Musings">@Macro_Musings</a></p> <p class="MsoNormal">Check out our Macro Musings <a href= "https://www.bonfire.com/store/mercatus-podcast-swag/">merch!</a></p> <p class="MsoNormal">Timestamps 00:00:00 - Intro 00:01:20 - Ellen's Career and Responsibilities 00:09:29 - The Treasury Market 00:17:15 - All-to-All Trading 00:25:19 - Treasury Market Liquidity 00:32:59 - Treasury Borrowing Advisory Committee 00:39:28 - Central Clearing 00:44:51 - Ellen's Policy Wishes 00:46:20 - Outro</p>]]></content:encoded>
+      
+      
+      <enclosure url="https://traffic.libsyn.com/secure/macromusings/MM-561-EllenCoreiaGolay-Podcast-FinalV2-auphonic.mp3?dest-id=865793" length="41103487" type="audio/mpeg" />
+      <itunes:duration>47:05</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+      
+      
+      <itunes:keywords />
+      
+      
+      <itunes:episode>561</itunes:episode>
+      
+      
+      <itunes:image href="https://static.libsyn.com/p/assets/f/7/f/e/f7fe65f88e9a715ee55e3c100dce7605/MM-561-EllenCorreiaGolay-Libsyn.png" />
+      
+      
+      <itunes:episodeType>full</itunes:episodeType>
+      
+      <itunes:author>Mercatus Center at George Mason University</itunes:author>
+      
+      
+      
+
+      <libsyn:item-id>42939167</libsyn:item-id>
+      
+      <libsyn:last-updated>2026-10-01T00:00:12Z</libsyn:last-updated>
+      
+      
+    </item></channel></rss>

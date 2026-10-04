@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Futurum</title>
+	<atom:link href="https://futurumgroup.com/feed/" rel="self" type="application/rss+xml" />
+	<link>https://futurumgroup.com/</link>
+	<description>Where Insights Meet AI</description>
+	<lastBuildDate>Fri, 02 Oct 2026 14:46:32 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1.2</generator>
+
+<image>
+	<url>https://futurumgroup.com/wp-content/uploads/2025/08/cropped-futurum-fav-512-32x32.png</url>
+	<title>Futurum</title>
+	<link>https://futurumgroup.com/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>Cloudflare Becomes a Certificate Authority to Tackle Post-Quantum Signatures</title>
+		<link>https://futurumgroup.com/insights/cloudflare-becomes-a-certificate-authority-to-tackle-post-quantum-signatures/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=cloudflare-becomes-a-certificate-authority-to-tackle-post-quantum-signatures</link>
+		
+		<dc:creator><![CDATA[Fernando Montenegro]]></dc:creator>
+		<pubDate>Fri, 02 Oct 2026 15:15:55 +0000</pubDate>
+				<category><![CDATA[Cybersecurity & Resilience]]></category>
+		<category><![CDATA[Cloudflare]]></category>
+		<category><![CDATA[GlobalSign]]></category>
+		<category><![CDATA[Google Chrome]]></category>
+		<category><![CDATA[Let's Encrypt]]></category>
+		<category><![CDATA[Merkle Tree Certificates]]></category>
+		<category><![CDATA[PKI]]></category>
+		<category><![CDATA[post-quantum cryptography]]></category>
+		<category><![CDATA[TLS Certificates]]></category>
+		<guid isPermaLink="false">https://futurumgroup.com/?post_type=insights&#038;p=96311</guid>
+
+					<description><![CDATA[<p>The post <a href="https://futurumgroup.com/insights/cloudflare-becomes-a-certificate-authority-to-tackle-post-quantum-signatures/">Cloudflare Becomes a Certificate Authority to Tackle Post-Quantum Signatures</a> appeared first on <a href="https://futurumgroup.com">Futurum</a>.</p>
+<p>Fernando Montenegro, VP at Futurum, analyzes Cloudflare's plan to become a public certificate authority issuing post-quantum Merkle Tree Certificates, a credible move on the harder, signature side of the web's migration.</p>
+<p>The post <a href="https://futurumgroup.com/insights/cloudflare-becomes-a-certificate-authority-to-tackle-post-quantum-signatures/">Cloudflare Becomes a Certificate Authority to Tackle Post-Quantum Signatures</a> appeared first on <a href="https://futurumgroup.com">Futurum</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>The post <a href="https://futurumgroup.com/insights/cloudflare-becomes-a-certificate-authority-to-tackle-post-quantum-signatures/">Cloudflare Becomes a Certificate Authority to Tackle Post-Quantum Signatures</a> appeared first on <a href="https://futurumgroup.com">Futurum</a>.</p>
+<p>Analyst(s): Fernando Montenegro<br />
+Publication Date: October 2, 2026</p>
+<p>Cloudflare plans to become a public certificate authority, with production post-quantum Merkle Tree Certificates targeted for the first quarter of 2027. We see a credible move on the harder, signature side of the migration, though browser root programs will set the pace.</p>
+<h2>What Is Covered in This Article:</h2>
+<ul>
+<li>Cloudflare will issue classical and post-quantum certificates from a single certificate authority (CA), backed by a GlobalSign root and pending applications with four browser root programs.</li>
+<li>Merkle Tree Certificates (MTCs) address the 40x size problem of post-quantum signatures, and the Chrome experiment showed faster handshakes.</li>
+<li>Browser root programs, not Cloudflare, control the timeline, and Let&#8217;s Encrypt is pursuing free MTCs on a similar schedule.</li>
+<li>A second free, large-scale issuer helps the resilience of the web&#8217;s public key infrastructure (PKI), but pairing the content delivery network (CDN) and CA roles within one provider is a dependency customers should weigh carefully.</li>
+<li>Internal PKI, not public certificates, remains where most enterprise post-quantum exposure sits.</li>
+</ul>
+<p><strong>The News:</strong> On September 29, 2026, Cloudflare announced its intent to become a public certificate authority (CA), issuing both classical Transport Layer Security (TLS) certificates and post-quantum Merkle Tree Certificates (MTCs) from a single system. The company has signed a definitive agreement to acquire publicly trusted root CA key material from GlobalSign, a root trusted since 2012, so its certificates will be recognized on older devices; the deal is expected to close within two months. Cloudflare has also applied to the Chrome, Apple, Microsoft, and Mozilla root programs, with classical issuance to begin after acceptance and production MTC issuance targeted for the first quarter of 2027.</p>
+<p>MTCs, specified in an Internet Engineering Task Force (IETF) draft that Cloudflare co-authored, allow a client to verify that a certificate appears in a public log using a lightweight proof, so large post-quantum signatures do not travel with every connection. Issuance will run through the Automatic Certificate Management Environment (ACME) protocol, and MTCs will be free.</p>
+<h2>Cloudflare Becomes a Certificate Authority to Tackle Post-Quantum Signatures</h2>
+<p><strong>Analyst Take:</strong> Most of the post-quantum conversation so far has centered on key exchange, and for understandable reasons: hybrid key agreement using ML-KEM (the Module-Lattice-Based Key-Encapsulation Mechanism) is already on by default in major browsers and across large parts of the web, which makes it the part of the migration that is, comparatively, going well. The harder half is authentication, meaning the signatures and certificate chains that tell a browser it is talking to the right server.</p>
+<p>We see Cloudflare&#8217;s announcement as one of the more consequential moves on that harder half so far, and it comes from a company with a credible record of turning difficult cryptography into a default (by Cloudflare&#8217;s own count, Universal SSL, its free Secure Sockets Layer certificate program, doubled the web&#8217;s encrypted traffic overnight back in 2014). That record carries into enterprise security spending: in ETR&#8217;s October 2026 TSIS survey, which measures second-half planned spend against first-half actuals, Cloudflare posted a Net Score of 29 (N=461) in ETR&#8217;s Information Security sector, roughly double the sector&#8217;s overall Net Score.</p>
+<h2>Cloudflare Is Taking On PKI, the Hardest Migration Target</h2>
+<p>We feel PKI is the hardest and highest-stakes target in any post-quantum program, since every post-quantum connection downstream depends on a post-quantum chain of trust. The obstacle with simply swapping in post-quantum signatures is size: by Cloudflare&#8217;s figures, they run roughly 40x larger than today&#8217;s, which would bloat every handshake and certificate transparency storage by the same factor. MTCs sidestep much of that by having the client verify a compact inclusion proof against a public log rather than carrying a stack of heavy signatures.</p>
+<p>Authentication also carries a different kind of risk. There is no harvest-now, decrypt-later problem for a web certificate, which only has to resist forgery while it is valid, which is why key exchange sensibly went first. The case for starting on certificates now is lead time: moving the web&#8217;s roots of trust means years of root-program review, browser support, and parallel operation, and Google has already pulled its own internal migration target into 2029.</p>
+<p>To us, the credibility comes less from the press release and more from the work behind it. Cloudflare co-authored the IETF draft, and its experiment with Chrome served billions of MTCs to Chrome Beta users, with median handshakes 9% faster than a classical chain.</p>
+<p>Building the CA on a fork of Let&#8217;s Encrypt&#8217;s Boulder software, and issuing only to clients that support ACME Renewal Information (ARI), also points to a team that expects certificate lifetimes to keep shrinking, with the CA/Browser Forum schedule reaching 47 days in 2029, and automation to stop being optional.</p>
+<p>One gap in the specifics: neither the announcement nor Cloudflare&#8217;s technical posts name the post-quantum signature algorithm the CA will use for production MTCs, which is the first question a careful buyer should ask.</p>
+<h2>The Timeline Belongs to the Browsers</h2>
+<p>Cloudflare does not, however, control the pace here. Chrome&#8217;s quantum-resistant root program, per its published plan, only begins onboarding MTC CAs in its third phase, targeted for the third quarter of 2027, and Apple, Microsoft, and Mozilla have yet to publicly commit to MTC support. Servers will also need classical fallback certificates for clients without current landmark data, a point Cloudflare itself makes.</p>
+<p>Nor is Cloudflare alone. Let&#8217;s Encrypt is targeting a production MTC environment in 2027, likewise free and ACME-based, so free post-quantum certificates look set to become a contested space at the commodity end of the market. That puts pressure on commercial CAs such as DigiCert and Sectigo, among others, to compete in certificate lifecycle management and private PKI rather than in issuance, which is where we reckon much of their enterprise value already lies.</p>
+<h2>More Issuers, or a Different Kind of Concentration?</h2>
+<p>Cloudflare&#8217;s stated rationale is issuer diversity, and it is a fair one. Let&#8217;s Encrypt issues more than half of public certificates, and the 2024 distrust of Entrust by Chrome and Mozilla showed how disruptive losing a single CA can be. A second free, high-scale issuer makes for a healthier Web PKI.</p>
+<p>We would offer a less comfortable read alongside that. A site using Cloudflare as both a CDN and a CA would have one company terminate its traffic and vouch for its identity. That is not unprecedented (Google runs Chrome&#8217;s root program and also operates Google Trust Services), and Cloudflare&#8217;s transparency commitments, including independent cosigners, reproducible builds, and a public health dashboard, are the right mitigants, though transparency into how the CA operates does not change the fact that one company would hold both roles. How much of that dependency to accept is a decision each organization should make deliberately rather than by default.</p>
+<h2>What It Means for Enterprise Teams</h2>
+<p>For most organizations, public-facing certificates were never the hardest part, because browser root programs act as a forcing function, and failures are immediately visible. Internal PKI has no equivalent forcing function, and that is where we expect most residual exposure to sit for years.</p>
+<p>There is a compliance trap in that split as well. Auditors and regulators can readily see public-facing certificates, so an organization that moves its web endpoints onto post-quantum certificates may satisfy most early requirements while its internal PKI stays classical.</p>
+<p>Our own data points in the same direction. In the Futurum 1H 2026 Cybersecurity Decision-Makers Survey, nearly half of network security respondents (N=100) identified certificate lifecycle sprawl and the inability to rotate certificates automatically at scale as among their top three hurdles in preparing network infrastructure for quantum-era cryptography.</p>
+<p>The compliance clock adds pressure, too. Executive Order 14412 directs federal agencies to move high-value systems to post-quantum key establishment by the end of 2030 and to post-quantum signatures by the end of 2031, with contractor requirements to follow. Cloudflare&#8217;s own phrase, &#8220;a multi-decade migration,&#8221; is the right planning assumption: classical and post-quantum certificates will run side by side well past 2027, and teams should budget for that parallel period as a steady state, not a project with an end date.</p>
+<h2>What to Watch:</h2>
+<ul>
+<li>Will Apple, Microsoft, and Mozilla follow Chrome on MTCs? Cloudflare&#8217;s post-quantum path runs largely through Chrome today, and support from the other root programs decides whether MTCs become a web default or stay a Chrome-specific optimization.</li>
+<li>What does the GlobalSign deal actually transfer? The acquired root is what gives Cloudflare reach into older devices. Watch for details on which roots move and how GlobalSign&#8217;s own certificate business continues afterward.</li>
+<li>Will classical certificates be free too? Cloudflare has committed to free MTC issuance but has not said how it will price classical certificates, which shapes how directly it competes with Let&#8217;s Encrypt and commercial CAs.</li>
+<li>Do PKI vendors shift their pitch to private PKI? As public issuance commoditizes, expect DigiCert, Sectigo, Keyfactor, and others to lean harder on post-quantum capabilities for internal certificates, where most of the exposure remains.</li>
+<li>How will customers weigh a CDN-plus-CA dependency? Some organizations will welcome a single provider for traffic and identity; others, particularly in regulated industries, may deliberately keep the two roles with separate providers.</li>
+</ul>
+<p>For more information, <a href="https://www.cloudflare.com/press/press-releases/2026/cloudflare-announces-public-certificate-authority-for-the-post-quantum-web/" target="_blank" rel="noopener">read the full announcement</a> from Cloudflare here.</p>
+<hr />
+<h6><em>Disclosure: Futurum is a research and advisory firm that engages or has engaged in research, analysis, and advisory services with many technology companies, including those mentioned in this article. The author does not hold any equity positions with any company mentioned in this article.</em></h6>
+<h6><em>Analysis and opinions expressed herein are specific to the analyst individually and data and other information that might have been provided for validation, not those of Futurum as a whole.</em></h6>
+<hr />
+<h3>Other Insights From Futurum:</h3>
+<p><a href="https://futurumgroup.com/insights/can-cloudflare-and-wiz-close-the-ai-security-visibility-gap/" target="_blank" rel="noopener">Can Cloudflare and Wiz Close the AI Security Visibility Gap?</a></p>
+<p><a href="https://futurumgroup.com/insights/cisa-and-g7-make-pqc-transition-an-immediate-imperative/" target="_blank" rel="noopener">CISA and G7 Make PQC Transition an Immediate Imperative</a></p>
+<p><a href="https://futurumgroup.com/insights/a-loud-floor-and-a-quiet-gap-security-summer-camp-2026/" target="_blank" rel="noopener">A Loud Floor and a Quiet Gap: Security Summer Camp 2026</a></p>
+<p>The post <a href="https://futurumgroup.com/insights/cloudflare-becomes-a-certificate-authority-to-tackle-post-quantum-signatures/">Cloudflare Becomes a Certificate Authority to Tackle Post-Quantum Signatures</a> appeared first on <a href="https://futurumgroup.com">Futurum</a>.</p>
+]]></content:encoded>
+					
+		
+		
+			</item><item>
+		<title>Synopsys Investor Day 2026 Turns EDA Into a Royalty and AI Model Revenue Share Business</title>
+		<link>https://futurumgroup.com/insights/synopsys-investor-day-2026-turns-eda-into-a-royalty-and-ai-model-revenue-share-business/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=synopsys-investor-day-2026-turns-eda-into-a-royalty-and-ai-model-revenue-share-business</link>
+		
+		<dc:creator><![CDATA[Brendan Burke]]></dc:creator>
+		<pubDate>Fri, 02 Oct 2026 15:00:59 +0000</pubDate>
+				<category><![CDATA[Intelligent Devices]]></category>
+		<category><![CDATA[Semiconductors, Supply Chain, & Emerging Tech]]></category>
+		<category><![CDATA[AI Platforms]]></category>
+		<category><![CDATA[emerging tech]]></category>
+		<category><![CDATA[Enterprise Software & Digital Workflows]]></category>
+		<category><![CDATA[semiconductors]]></category>
+		<category><![CDATA[Supply Chain]]></category>
+		<guid isPermaLink="false">https://futurumgroup.com/?post_type=insights&#038;p=96308</guid>
+
+					<description><![CDATA[<p>The post <a href="https://futurumgroup.com/insights/synopsys-investor-day-2026-turns-eda-into-a-royalty-and-ai-model-revenue-share-business/">Synopsys Investor Day 2026 Turns EDA Into a Royalty and AI Model Revenue Share Business</a> appeared first on <a href="https://futurumgroup.com">Futurum</a>.</p>
+<p>Brendan Burke, Research Director at Futurum, shares insights on the Synopsys Investor Day 2026, where a $1 billion Amazon royalty deal and GPT-Synopsys with OpenAI reprice EDA around customer volumes and outcomes.</p>
+<p>The post <a href="https://futurumgroup.com/insights/synopsys-investor-day-2026-turns-eda-into-a-royalty-and-ai-model-revenue-share-business/">Synopsys Investor Day 2026 Turns EDA Into a Royalty and AI Model Revenue Share Business</a> appeared first on <a href="https://futurumgroup.com">Futurum</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>The post <a href="https://futurumgroup.com/insights/synopsys-investor-day-2026-turns-eda-into-a-royalty-and-ai-model-revenue-share-business/">Synopsys Investor Day 2026 Turns EDA Into a Royalty and AI Model Revenue Share Business</a> appeared first on <a href="https://futurumgroup.com">Futurum</a>.</p>
+<p class="polaris-byline">Analyst(s): Brendan Burke<br />
+Publication Date: October 2, 2026</p>
+<p>Synopsys used its 2026 Investor Day to announce a $1 billion-plus application-optimized IP agreement with Amazon, a GPT-Synopsys partnership with OpenAI, and a raised long-term model of mid-teens revenue growth through fiscal 2030 with an approximately 50% non-GAAP operating margin objective. Futurum&#8217;s view is that the company is converting a 40-year license business into volume-linked and outcome-linked revenue. The fiscal 2027 guide will still depend on classic EDA accelerating before any of the new streams pay out.</p>
+<h2>What Is Covered in This Article:</h2>
+<ul>
+<li>A $1 billion-plus multi-year Amazon agreement for application-optimized IP across Graviton, Trainium, and Nitro under a license, customization fee, and royalty model</li>
+<li>GPT-Synopsys, a specialized OpenAI model post-trained on Synopsys tools, agents, and workflows, monetized through subscription, consumption, and outcome-based revenue share</li>
+<li>A raised long-term model of mid-teens revenue CAGR through fiscal 2030, with floors of 13% for EDA, 17% for Design IP, and 10% for Simulation &amp; Analysis</li>
+<li>Fiscal 2027 guidance of $11.15 billion in revenue at the midpoint, approximately 44% non-GAAP operating margin, $19.08 non-GAAP EPS, and approximately $3.1 billion in free cash flow</li>
+<li>Cost synergies of $400 million completing one year early, an approximately 50% non-GAAP operating margin objective by fiscal 2030, and an intent to repurchase approximately $1 billion in shares</li>
+</ul>
+<p><strong>The News:</strong> Synopsys (Nasdaq: SNPS) held its 2026 Investor Day in New York on September 30, announcing a multi-year, $1 billion-plus silicon IP agreement with Amazon, a strategic partnership with OpenAI to develop GPT-Synopsys, a specialized model for chip design, and an updated long-term financial model targeting mid-teens revenue growth through fiscal 2030. The company guided fiscal 2027 revenue to $11.1 billion to $11.2 billion, approximately 15% growth year over year, with non-GAAP operating margin of approximately 44% and non-GAAP EPS of $19.04 to $19.12. Management also set an approximately 50% non-GAAP operating margin objective for fiscal 2030, announced that its $400 million cost synergy target from the Ansys acquisition will complete in fiscal 2027, one year early, and stated its intent to repurchase approximately $1 billion in shares over the coming months.</p>
+<h2>Synopsys Investor Day 2026 Turns EDA Into a Royalty and AI Model Revenue Share Business</h2>
+<p><strong>Analyst Take:</strong> The Synopsys Investor Day repriced the company&#8217;s relationship to its customers&#8217; production volumes. For four decades, Synopsys sold licenses and recognized revenue whether a customer&#8217;s chip shipped in the millions or died in bring-up. The three announcements of the day each attach Synopsys revenue to what happens after tape-out. The Amazon agreement adds per-unit royalties as Graviton, Trainium, and Nitro generations reach production, GPT-Synopsys adds a revenue share priced on design outcomes, and the agentic consumption model ties tool revenue to how hard AI agents run the engines. Sassine Ghazi, President and CEO of Synopsys, framed the ambition directly for the IP business, saying royalty revenue should eventually exceed license revenue. The bull case is that Synopsys becomes a compounding participant in the custom silicon buildout it enables. None of the new streams contributes materially to fiscal 2027, so the raised guide depends on renewals, consumption, and multiphysics synergies in the classic business that has historically grown below the new targets.</p>
+<h2>The Amazon Agreement Moves Synopsys Toward Arm&#8217;s Royalty Economics</h2>
+<p>The $1 billion-plus figure understates the structure of the deal. Ghazi clarified at the event that the $1 billion covers license fees alone, for multiple generations of Graviton, Trainium, and Nitro, with customization fees and per-unit royalties layered on top as designs reach production. Synopsys calls this business application-optimized IP, or AOIP, the &#8216;Factory Two&#8217; model it began describing a year ago, in which the company co-designs interface IP against a customer&#8217;s specific workload before standards bodies finish their work. Ghazi named roughly five IP titles where customers want this optimization most, including PCIe, 224G Ethernet SerDes, custom HBM interfaces, and UCIe, and said the company has also closed AOIP agreements with ASIC and connectivity leaders inside Amazon&#8217;s ecosystem. The company projects AOIP will reach $1 billion in revenue by 2030 on signed contracts alone, within a Design IP segment whose long-term growth floor rose from mid-teens to 17%. The strategic logic matches what Futurum has described as the custom silicon procurement bundle that hyperscalers reward: qualified IP across more than 10 foundries and roughly 80 process nodes, a design services posture in which Amazon keeps the architecture, and multi-generation execution. Synopsys cited Futurum&#8217;s forecasts at the event for custom silicon spending to grow 6x by 2030. The caveat is timing. Ghazi put initial designs starting within months and roughly 14 months from design start to tape-out and production, and Shelagh Glaser, CFO of Synopsys, confirmed there is no royalty revenue in fiscal 2027. The royalty thesis is real and it is also unproven until Amazon ships volume on Synopsys-optimized interfaces.</p>
+<h2>GPT-Synopsys Introduces Outcome-Based Pricing to Chip Design</h2>
+<p>The OpenAI partnership creates a revenue stream EDA has never had. GPT-Synopsys is a specialized model, post-trained on Synopsys agents, tools, skills, and workflows, that will run on OpenAI-hosted infrastructure and be sold as a bundled service of model, compute, EDA licenses, and agents. Ghazi said the learning stays contained inside the specialized model, so Synopsys tool knowledge does not flow into OpenAI&#8217;s base models, and OpenAI owns the security and containerization of customer design data. Monetization comes in three parts: tool subscriptions for training the model, subscription and consumption as it runs, and a revenue share with OpenAI priced on outcomes, paid when the model achieves power, performance, and area results beyond what a customer achieves otherwise. &#8216;With Synopsys, we&#8217;re bringing that work to chip design, helping engineers explore more designs and get to a working chip faster,&#8217; said Greg Brockman, President and Co-Founder of OpenAI.</p>
+<p>Ghazi disclosed that OpenAI is investing hundreds of millions of dollars to post-train the model, a commitment that makes the partnership expensive for a rival lab to replicate quickly. This extends the three-lane AI strategy Futurum analyzed at the Autopilot launch earlier this week, in which customers choose the full Synopsys stack, a hybrid of their own agents with Synopsys tools, or a frontier model converged with EDA. The early engagements are OpenAI-driven, cases where OpenAI itself specifies chips it procures, which means the first proof points will come from the one customer with the strongest incentive to make the model look good. Outcome-based pricing has a thin track record in software, and the revenue share remains a thesis until a customer other than OpenAI pays for it.</p>
+<h2>The Mid-Teens Model Asks Classic EDA to Do Something It Has Not Done Recently</h2>
+<p>The raised long-term model is built on floors: 13% for EDA, 17% for Design IP, 10% for Simulation &amp; Analysis, mid-teens for the company through fiscal 2030 from an approximately $9.7 billion fiscal 2026 base. The fiscal 2027 guide of 15% growth to $11.15 billion at the midpoint is the validation year and management pulled it forward by two and a half months to make the point. Ghazi&#8217;s answer to the historical low growth of the EDA industry rested on renewal cycle demand for AI capacity and multiphysics fusion, with Glaser pointing to the first wave of Ansys-fused products producing more than $100 million in revenue synergy run rate exiting fiscal 2027, on the way to $400 million by fiscal 2029.</p>
+<p>The margin story is more proven. Cost savings from acquisitions will finish a year early, operating margin will step up from 41.5% in fiscal 2026 to approximately 44% in fiscal 2027 and approximately 50% by fiscal 2030, stock-based compensation will fall from a 13% peak toward 8% of revenue, with Glaser noting that royalty revenue arrives at essentially 100% margin. EPS and free cash flow growing in the mid-20s follow from that cost structure if the revenue floors are met. The guide is credible on margins and ambitious on growth, and the quarterly disclosure change, moving the Ansys semiconductor unit into EDA beginning in fiscal 2027, will require careful apples-to-apples tracking to confirm the classic business is actually accelerating.</p>
+<h2>Competitors Must Now Answer on Business Model as Much as on Technology</h2>
+<p>The announcements rearrange the competitive field on three fronts. Against Cadence, the contest has moved past agentic breadth, where <a href="https://futurumgroup.com/insights/synopsys-cadence-and-siemens-take-agentic-chip-design-autonomous-at-dac/" target="_blank" rel="noopener noreferrer">Futurum assessed Synopsys Autopilot as the widest lifecycle-agent footprint</a> against Cadence&#8217;s ChipStack super agents, to monetization structure. Cadence has a substantial IP business and a frontier model question to answer: whether it partners with Anthropic, Google, or another lab to match GPT-Synopsys, and whether it converts its IP into royalty-based engagements with a hyperscaler of its own.</p>
+<p>Against Arm, the convergence is striking. Arm built its model on license plus royalty and is moving up the stack into compute subsystems and chiplets, while Synopsys now moves from licenses toward royalties on the interface and memory IP surrounding those compute blocks. <a href="https://futurumgroup.com/insights/arms-15-billion-cpu-opportunity-hinges-on-agentic-data-center-design/" target="_blank" rel="noopener noreferrer">Futurum has argued that Arm&#8217;s data center opportunity depends on agentic design efficiency</a> and both companies are now paid in proportion to hyperscaler silicon volume. For the ASIC vendors, Broadcom, Marvell, and Alchip, the Amazon agreement positions Synopsys as a shared dependency rather than a direct rival, since Ghazi described system companies pulling their ASIC and connectivity suppliers onto the same interoperable Synopsys IP. The pressure falls on the merchant interface IP and chiplet specialists, because a hyperscaler that co-designs its PCIe, SerDes, and HBM interfaces with Synopsys under royalty terms has little reason to source those titles elsewhere.</p>
+<h2>What to Watch:</h2>
+<ul>
+<li>Whether royalty revenue from the Amazon agreement appears in fiscal 2028 results as initial designs reach production on the 14-month timeline Ghazi described</li>
+<li>Whether Synopsys names the ASIC and connectivity AOIP customers it says are already signed</li>
+<li>Whether GPT-Synopsys engagements expand beyond OpenAI-driven chip programs to independent customers in fiscal 2027</li>
+<li>Whether classic core EDA software growth accelerates above recent low single digits once the fiscal 2027 segment recast takes effect</li>
+<li>Whether Cadence responds with a frontier model partnership or royalty-based IP terms of its own</li>
+</ul>
+<p><a href="https://news.synopsys.com/2026-09-30-OpenAI-and-Synopsys-Announce-GPT-Synopsys-Frontier-Intelligence-to-Revolutionize-Chip-Design" target="_blank" rel="noopener noreferrer">The announcements are collected in the Investor Day news release</a> on the Synopsys website.</p>
+<hr />
+<h3>Sources</h3>
+<ol>
+<li><a href="https://news.synopsys.com/2026-09-30-Synopsys-Holds-2026-Investor-Day" target="_blank" rel="noopener noreferrer">Synopsys Holds 2026 Investor Day</a>, Synopsys</li>
+</ol>
+<hr />
+<h6><em>Declaration of generative AI and AI-assisted technologies in the writing process: This content has been generated with the support of artificial intelligence technologies. Due to the fast pace of content creation and the continuous evolution of data and information, The Futurum Group and its analysts strive to ensure the accuracy and factual integrity of the information presented. However, the opinions and interpretations expressed in this content reflect those of the individual author/analyst. The Futurum Group makes no guarantees regarding the completeness, accuracy, or reliability of any information contained herein. Readers are encouraged to verify facts independently and consult relevant sources for further clarification.</em></h6>
+<h6><em>Disclosure: Futurum is a research and advisory firm that engages or has engaged in research, analysis, and advisory services with many technology companies, including those mentioned in this article. The author does not hold any equity positions with any company mentioned in this article.</em></h6>
+<h6><em>Analysis and opinions expressed herein are specific to the analyst individually and data and other information that might have been provided for validation, not those of Futurum as a whole.</em></h6>
+<h6><em>Read the full <a href="https://futurumgroup.com/about-us/policies/" target="_blank" rel="noopener noreferrer">Futurum Group Disclosure</a>.</em></h6>
+<hr />
+<h3>Other Insights From Futurum:</h3>
+<p><a href="https://futurumgroup.com/insights/synopsys-q3-fy-2026-ai-design-demand-drives-eda-growth/" target="_blank" rel="noopener noreferrer">Synopsys Q3 FY 2026: AI Design Demand Drives EDA Growth</a></p>
+<p><a href="https://futurumgroup.com/insights/synopsys-cadence-and-siemens-take-agentic-chip-design-autonomous-at-dac/" target="_blank" rel="noopener noreferrer">Synopsys, Cadence, and Siemens Take Agentic Chip Design Autonomous at DAC</a></p>
+<p><a href="https://futurumgroup.com/insights/tsmcs-oip-forum-turns-agentic-chip-design-demos-into-production-flows/" target="_blank" rel="noopener noreferrer">TSMC&#8217;s OIP Forum Turns Agentic Chip Design Demos Into Production Flows</a></p>
+<p>The post <a href="https://futurumgroup.com/insights/synopsys-investor-day-2026-turns-eda-into-a-royalty-and-ai-model-revenue-share-business/">Synopsys Investor Day 2026 Turns EDA Into a Royalty and AI Model Revenue Share Business</a> appeared first on <a href="https://futurumgroup.com">Futurum</a>.</p>
+]]></content:encoded>
+					
+		
+		
+			</item></channel></rss>
