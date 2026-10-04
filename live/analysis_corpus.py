@@ -284,19 +284,24 @@ def _text_of(item):
     return _feed_body(item)[0]
 
 
-def fetch_feed(feed, limit=PER_FEED):
+def fetch_feed(feed, limit=PER_FEED, transport=None):
     """One RSS/Atom URL. A failed fetch returns no rows and a note."""
-    # Several verified feeds answer with a redirect. Without -L the body
-    # is the redirect page, which is not a feed.
-    cmd = ['curl', '-fsSL', '--max-time', '25', '-A', 'Mozilla/5.0', feed['url']]
+    if transport is not None:
+        from live.adapters.common import http_get
+        status, xml = http_get(feed['url'], transport=transport)
+        if status != 200:
+            return [], f'http_{status}'
+    else:
+        cmd = ['curl', '-fsSL', '--max-time', '25', '-A', 'Mozilla/5.0', feed['url']]
+        try:
+            r = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+        except (subprocess.TimeoutExpired, OSError) as exc:
+            return [], type(exc).__name__
+        if r.returncode != 0 or not (r.stdout or '').strip():
+            return [], 'fetch_failed'
+        xml = r.stdout
     try:
-        r = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
-    except (subprocess.TimeoutExpired, OSError) as exc:
-        return [], type(exc).__name__
-    if r.returncode != 0 or not (r.stdout or '').strip():
-        return [], 'fetch_failed'
-    try:
-        root = ET.fromstring(r.stdout)
+        root = ET.fromstring(xml)
     except ET.ParseError:
         return [], 'not_xml'
     items = root.findall('.//item')

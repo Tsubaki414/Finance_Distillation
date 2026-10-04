@@ -1152,6 +1152,91 @@
       ],
       "source_language": "en",
       "feed_url": "https://research.glassnode.com/rss/"
+    },
+    {
+      "id": "apricitas",
+      "name": "Apricitas Economics",
+      "type": "newsletter",
+      "feed_url": "https://www.apricitas.io/feed",
+      "lang": "en",
+      "persona_hint": "macro",
+      "adapter": "newsletter_rss",
+      "enabled": true,
+      "qa": null
+    },
+    {
+      "id": "employ_america",
+      "name": "Employ America",
+      "type": "newsletter",
+      "feed_url": "https://www.employamerica.org/feed/",
+      "lang": "en",
+      "persona_hint": "macro",
+      "adapter": "newsletter_rss",
+      "enabled": true,
+      "qa": null
+    },
+    {
+      "id": "daily_shot_brief",
+      "name": "The Daily Shot Brief",
+      "type": "newsletter",
+      "feed_url": "https://dailyshotbrief.substack.com/feed",
+      "lang": "en",
+      "persona_hint": "market_data_charts/macro",
+      "adapter": "newsletter_rss",
+      "enabled": true,
+      "qa": null
+    },
+    {
+      "id": "chipstrat",
+      "name": "Chipstrat",
+      "type": "newsletter",
+      "feed_url": "https://www.chipstrat.com/feed",
+      "lang": "en",
+      "persona_hint": "industry_ai_capex",
+      "adapter": "newsletter_rss",
+      "enabled": true,
+      "qa": null
+    },
+    {
+      "id": "wu_blockchain",
+      "name": "Wu Blockchain 吴说",
+      "type": "newsletter",
+      "feed_url": "https://wublock.substack.com/feed",
+      "lang": "zh",
+      "persona_hint": "crypto",
+      "adapter": "newsletter_rss",
+      "enabled": true,
+      "qa": null
+    },
+    {
+      "id": "coinshares_research",
+      "name": "CoinShares research",
+      "type": "newsletter",
+      "feed_url": "https://blog.coinshares.com/feed",
+      "lang": "en",
+      "persona_hint": "crypto",
+      "adapter": "newsletter_rss",
+      "enabled": true,
+      "qa": null
+    },
+    {
+      "id": "wallstreetcn",
+      "name": "华尔街见闻",
+      "type": "news",
+      "lang": "zh",
+      "adapter": "wallstreetcn",
+      "persona_hint": "zh_us_stock_commentary",
+      "enabled": true,
+      "qa": null
+    },
+    {
+      "id": "primary_nyfed",
+      "name": "Federal Reserve Bank of New York",
+      "type": "primary",
+      "adapter": "nyfed",
+      "persona_hint": "macro",
+      "enabled": true,
+      "qa": null
     }
   ],
   "reference_pool_zh": {

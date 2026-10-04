@@ -64,22 +64,26 @@ def _iso(value):
         return ''
 
 
-def fetch_newsletter(feed, *, limit=1, min_chars=800):
+def fetch_newsletter(feed, *, limit=1, min_chars=800, transport=None):
     """feed: source_registry row (id, name, feed_url). Uses the existing RSS reader."""
     from live.analysis_corpus import fetch_feed
-    rows, error = fetch_feed({'id': feed['id'], 'author': feed.get('name'), 'url': feed['feed_url']}, limit=limit)
+    rows, error = fetch_feed({'id': feed['id'], 'author': feed.get('name'), 'url': feed['feed_url']},
+                             limit=limit, **({'transport': transport} if transport is not None else {}))
     if error:
         return {'status': error, 'sources': []}
     sources, short = [], 0
     for r in rows:
         text = r.get('text') or ''
-        if len(text) < min_chars:
+        if not r.get('content_complete') or len(text) < min_chars:
             short += 1
             continue
         sources.append(common.make_source(id=f'nl-{feed["id"]}-{common.digest(r.get("url") or text)[:10]}',
                                           source_id=feed['id'], text=text, publisher=feed.get('name') or feed['id'],
                                           title=r.get('title') or '', url=r.get('url') or '',
                                           published_at=_iso(r.get('published_at')), adapter='newsletter_rss',
-                                          author_name=r.get('author_name')))
-    return {'status': 'ok' if sources else ('summary_only' if short else 'empty'), 'sources': sources,
-            'items': len(rows), 'summary_only_items': short}
+                                          author_name=r.get('author_name'),
+                                          lang=feed.get('lang') or feed.get('source_language') or 'en',
+                                          extra={'persona_hint': feed.get('persona_hint')}))
+    return {'status': 'ok' if sources else ('radar_only' if short else 'empty'), 'sources': sources,
+            'items': len(rows), 'summary_only_items': short,
+            'radar_titles': [r.get('title', '') for r in rows if not r.get('content_complete') or len(r.get('text') or '') < min_chars]}

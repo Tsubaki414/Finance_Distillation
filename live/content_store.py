@@ -3,13 +3,15 @@
 Append-only JSONL of content units that passed the EXTRACT contract, each with
 its licence tier, attribution (publisher / speaker for the frame), source
 metadata, the adapter that produced it, and advisory persona routing / Jev
-pre-screen. Dedup by unit_id. Only writable tiers (A quote, B paraphrase) are
+pre-screen. Dedup by unit_id and claim/number content, including near duplicates. Only writable tiers (A quote, B paraphrase) are
 stored; C/D never become units.
 """
 from __future__ import annotations
 
 import collections
 import json
+import re
+import unicodedata
 from pathlib import Path
 
 from live.distillation_source import now
@@ -27,6 +29,41 @@ def attribution(source, unit):
             'speaker_type': unit.get('speaker_type'), 'usage': unit.get('usage')}
 
 
+def normalize_claim(value):
+    """Ignore case, whitespace, punctuation and numeric presentation in prose.
+
+    Numeric evidence is retained separately, including signs, decimals and units.
+    """
+    value = unicodedata.normalize('NFKC', str(value or '')).casefold()
+    value = re.sub(r'\d[\d,.]*', ' ', value)
+    return ' '.join(''.join(' ' if unicodedata.category(c).startswith('P') else c
+                            for c in value).split())
+
+
+def normalize_number(value):
+    value = unicodedata.normalize('NFKC', str(value or '')).casefold().replace('−', '-')
+    return re.sub(r'\s+', '', value).replace(',', '')
+
+
+def content_key(source, unit):
+    numbers = tuple(sorted((normalize_number(n.get('text')), ' '.join(str(n.get('period') or '').casefold().split()))
+                           for n in unit.get('numbers', [])))
+    publisher = ' '.join(str(source.get('publisher') or '').casefold().split())
+    speaker = ' '.join(str(unit.get('speaker') or '').casefold().split())
+    return normalize_claim(unit.get('statement')), numbers, speaker, publisher
+
+
+def duplicate_content(first, second):
+    a = content_key(first.get('source', {}), first['unit'])
+    b = content_key(second.get('source', {}), second['unit'])
+    if a == b:
+        return True
+    if set(a[1]) != set(b[1]) or a[3] != b[3]:
+        return False
+    x, y = set(a[0].split()), set(b[0].split())
+    return bool(x | y) and len(x & y) / len(x | y) >= .8
+
+
 class ContentStore:
     def __init__(self, root=None):
         self.root = Path(root or ROOT)
@@ -39,6 +76,12 @@ class ContentStore:
                 if line.strip():
                     r = json.loads(line)
                     self._rows[r['unit_id']] = r
+
+        suppressed = self.root / "suppressed.jsonl"
+        if suppressed.exists():
+            for line in suppressed.read_text().splitlines():
+                if line.strip():
+                    self._rows.pop(json.loads(line)["unit_id"], None)
 
         for row in self._rows.values():
             row['persona_tags'] = {}
@@ -91,7 +134,7 @@ class ContentStore:
         return [row for row in self._rows.values() if not row.get('persona_tags')]
 
     def add(self, source, units, *, adapter, personas=None, prescreen=None):
-        added = duplicate = 0
+        added = duplicate = duplicate_count = 0
         with self.path.open('a') as fh:
             for u in units:
                 if u.get('licence_tier') not in WRITABLE:
@@ -104,10 +147,13 @@ class ContentStore:
                        'source': {**{k: source.get(k) for k in SOURCE_KEYS}, 'adapter': adapter},
                        'personas': list((personas or {}).get(u['unit_id'], [])),
                        'prescreen': (prescreen or {}).get(u['unit_id']), 'stored_at': now()}
+                if any(duplicate_content(row, rec) for row in self._rows.values()):
+                    duplicate_count += 1
+                    continue
                 fh.write(json.dumps(rec, ensure_ascii=False) + '\n')
                 self._rows[u['unit_id']] = dict(rec, persona_tags={}, tag_personas=[])
                 added += 1
-        return {'added': added, 'duplicate': duplicate}
+        return {'added': added, 'duplicate': duplicate, 'duplicate_content': duplicate_count}
 
     def units(self, *, persona=None, tier=None, adapter=None):
         return [r for r in self._rows.values()

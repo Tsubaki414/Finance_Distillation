@@ -15,7 +15,10 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from live import content_store, jev_front, registry  # noqa: E402
-from live.adapters import bls, cboe, cftc, defillama, edgar, farside, fed, feeds, fred, longform, treasury  # noqa: E402
+from live.adapters import bls, cboe, cftc, defillama, edgar, farside, fed, feeds, fred, longform, treasury, wallstreetcn, nyfed  # noqa: E402
+
+MEGACAP = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'META', 'NVDA', 'AVGO', 'TSLA', 'ORCL', 'MU', 'AMD']
+RSS_FULLTEXT = {'apricitas', 'employ_america', 'daily_shot_brief', 'chipstrat', 'wu_blockchain', 'coinshares_research'}
 
 ODD_LOTS = ('https://www.omnycontent.com/d/playlist/e73c998e-6e60-432f-8610-ae210140c5b1/8a94442e-5a74-4fa2-8b8d-ae27003a8d6b/'
             '982f5071-765c-403d-969d-ae27003a8d83/podcast.rss')
@@ -29,11 +32,30 @@ def newsletter_feeds():
 def gather(args, report):
     text_sources, data = [], []
     if 'edgar' in args.adapters:
-        for t in args.tickers:
-            out = edgar.fetch(t, forms=('8-K',), earnings_only=True, limit=1)
+        earnings = getattr(args, 'earnings_tickers', None) or []
+        if earnings == ['megacap']:
+            earnings = MEGACAP
+        for t in dict.fromkeys(args.tickers + earnings):
+            out = edgar.fetch(t, forms=('8-K',), earnings_only=True, limit=1,
+                              max_age_days=getattr(args, 'max_age_days', 120))
             report['adapters'].setdefault('edgar', []).append({'ticker': t, **{k: v for k, v in out.items() if k != 'sources'},
                                                                'sources': [s['id'] for s in out['sources']]})
             text_sources += out['sources']
+    for name, fetch in (('wallstreetcn', wallstreetcn.fetch), ('fomc', lambda: fed.fetch('fomc', limit=1))):
+        if name in args.adapters:
+            out = fetch()
+            report['adapters'][name] = {k: v for k, v in out.items() if k != 'sources'} | {'sources': [s['id'] for s in out['sources']]}
+            text_sources += out['sources']
+    if 'rss_fulltext' in args.adapters:
+        rows = []
+        for feed in newsletter_feeds():
+            if feed['id'] not in RSS_FULLTEXT:
+                continue
+            out = feeds.fetch_newsletter(feed, limit=getattr(args, 'rss_n', 1))
+            rows.append({'id': feed['id'], **{k: v for k, v in out.items() if k != 'sources'}})
+            if registry.source_licence_tier(feed['id']) in ('A', 'B'):
+                text_sources += out['sources']
+        report['adapters']['rss_fulltext'] = rows
     if 'fed' in args.adapters:
         for kind, n in (('speech', 2), ('monetary', 1)):
             out = fed.fetch(kind, limit=n)
@@ -53,6 +75,8 @@ def gather(args, report):
     if 'newsletters' in args.adapters:
         rows, extract_budget = [], args.newsletter_extract
         for f in newsletter_feeds():
+            if 'rss_fulltext' in args.adapters and f['id'] in RSS_FULLTEXT:
+                continue
             out = feeds.fetch_newsletter(f, limit=1)
             tier = registry.source_licence_tier(f['id'])
             rows.append({'id': f['id'], 'status': out['status'], 'tier': tier, 'full_text': bool(out['sources'])})
@@ -64,7 +88,7 @@ def gather(args, report):
         out = feeds.fetch_podcast(ODD_LOTS, source_id='podcast_odd_lots', publisher='Bloomberg Odd Lots')
         report['adapters']['podcasts'] = [{'feed': 'Odd Lots', **{k: v for k, v in out.items() if k != 'sources'}}]
         text_sources += out['sources']
-    for name, adapter in (('cftc', cftc), ('cboe', cboe), ('farside', farside), ('defillama', defillama)):
+    for name, adapter in (('nyfed', nyfed), ('cftc', cftc), ('cboe', cboe), ('farside', farside), ('defillama', defillama)):
         if name in args.adapters:
             out = adapter.fetch()
             report['adapters'][name] = {k: v for k, v in out.items() if k not in ('sources', 'units')} | {'units': len(out['units'])}
@@ -79,13 +103,43 @@ def gather(args, report):
     return text_sources, data
 
 
+def ingest_batches(store, batches, routing, *, jev=None):
+    """Shared ingest path: prescreen, semantic persona gate, append and tag."""
+    stored = {'added': 0, 'duplicate': 0, 'duplicate_content': 0}
+    for s, units, adapter in batches:
+        persona = (routing.get(s['id']) or {}).get('persona')
+        personas = [persona] if persona and persona != 'none' else []
+        screen = jev_front.prescreen_units(units, persona=personas[0], jev=jev) if personas and units else {}
+        keep = [u for u in units if (screen.get(u['unit_id']) or {}).get('verdict', 'keep') != 'drop']
+        dropped_by_prescreen = len(units) - len(keep)
+        tags = {}
+        if jev is not None:
+            from live.persona_tags import target_units
+            targeted, tags = target_units(s, keep, jev=jev)
+            stored.setdefault('dropped_untargeted', 0)
+            stored['dropped_untargeted'] += len(keep) - len(targeted)
+            keep = targeted
+        r = store.add(s, keep, adapter=adapter, personas={u['unit_id']: personas for u in keep}, prescreen=screen)
+        if jev is not None:
+            store.set_persona_tags(tags, .7)
+        stored['added'] += r['added']
+        stored['duplicate'] += r['duplicate']
+        stored['duplicate_content'] += r['duplicate_content']
+        stored.setdefault('dropped_by_prescreen', 0)
+        stored['dropped_by_prescreen'] += dropped_by_prescreen
+    return stored
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--run', type=Path, required=True)
     ap.add_argument('--store', type=Path, default=None)
     ap.add_argument('--adapters', nargs='+', default=['edgar', 'fed', 'bls', 'treasury', 'fred', 'newsletters', 'podcasts',
-                                                    'cftc', 'cboe', 'farside', 'defillama', 'oaktree', 'berkshire', 'glassnode'])
+                                                    'cftc', 'cboe', 'farside', 'defillama', 'oaktree', 'berkshire', 'glassnode', 'wallstreetcn', 'nyfed', 'fomc', 'rss_fulltext'])
     ap.add_argument('--tickers', nargs='+', default=['MU', 'NVDA'])
+    ap.add_argument('--earnings-tickers', nargs='+', default=[])
+    ap.add_argument('--max-age-days', type=int, default=120)
+    ap.add_argument('--rss-n', type=int, default=1)
     ap.add_argument('--newsletter-extract', type=int, default=3)
     ap.add_argument('--oaktree-n', type=int, default=3)
     ap.add_argument('--glassnode-n', type=int, default=3)
@@ -144,27 +198,7 @@ def main():
     for s, units, adapter in data:
         report['sources'].append({'id': s['id'], 'adapter': adapter, 'tier': registry.source_licence_tier(s['source_id']),
                                   'status': 'deterministic_units', 'units': len(units), 'route': routing.get(s['id'])})
-    stored = {'added': 0, 'duplicate': 0}
-    for s, units, adapter in batches:
-        persona = (routing.get(s['id']) or {}).get('persona')
-        personas = [persona] if persona and persona != 'none' else []
-        screen = jev_front.prescreen_units(units, persona=personas[0], jev=jev) if personas and units else {}
-        keep = [u for u in units if (screen.get(u['unit_id']) or {}).get('verdict', 'keep') != 'drop']
-        dropped_by_prescreen = len(units) - len(keep)
-        tags = {}
-        if jev is not None:
-            from live.persona_tags import target_units
-            targeted, tags = target_units(s, keep, jev=jev)
-            stored.setdefault('dropped_untargeted', 0)
-            stored['dropped_untargeted'] += len(keep) - len(targeted)
-            keep = targeted
-        r = store.add(s, keep, adapter=adapter, personas={u['unit_id']: personas for u in keep}, prescreen=screen)
-        if jev is not None:
-            store.set_persona_tags(tags, .7)
-        stored['added'] += r['added']
-        stored['duplicate'] += r['duplicate']
-        stored.setdefault('dropped_by_prescreen', 0)
-        stored['dropped_by_prescreen'] += dropped_by_prescreen
+    stored = ingest_batches(store, batches, routing, jev=jev)
     report['stored'] = stored
     report['store_stats'] = store.stats()
     report['jev_calls'] = len(jev.calls) if jev else 0

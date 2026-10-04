@@ -710,6 +710,63 @@
       "aliases": [
         "Glassnode"
       ]
+    },
+    "apricitas": {
+      "tier": "B",
+      "basis": "Public publisher material; paraphrase facts only with attribution, no quotes or reproduction",
+      "aliases": [
+        "Apricitas Economics"
+      ]
+    },
+    "employ_america": {
+      "tier": "B",
+      "basis": "Public publisher material; paraphrase facts only with attribution, no quotes or reproduction",
+      "aliases": [
+        "Employ America"
+      ]
+    },
+    "daily_shot_brief": {
+      "tier": "B",
+      "basis": "Public publisher material; paraphrase facts only with attribution, no quotes or reproduction",
+      "aliases": [
+        "The Daily Shot Brief"
+      ]
+    },
+    "chipstrat": {
+      "tier": "B",
+      "basis": "Public publisher material; paraphrase facts only with attribution, no quotes or reproduction",
+      "aliases": [
+        "Chipstrat"
+      ]
+    },
+    "wu_blockchain": {
+      "tier": "B",
+      "basis": "Public publisher material; paraphrase facts only with attribution, no quotes or reproduction",
+      "aliases": [
+        "Wu Blockchain 吴说"
+      ]
+    },
+    "coinshares_research": {
+      "tier": "B",
+      "basis": "Public publisher material; paraphrase facts only with attribution, no quotes or reproduction",
+      "aliases": [
+        "CoinShares research"
+      ]
+    },
+    "wallstreetcn": {
+      "tier": "B",
+      "basis": "Public publisher material; paraphrase facts only with attribution, no quotes or reproduction",
+      "aliases": [
+        "华尔街见闻"
+      ],
+      "no_reproduction": true
+    },
+    "primary_nyfed": {
+      "tier": "A",
+      "basis": "Official public reference statistics",
+      "aliases": [
+        "Federal Reserve Bank of New York"
+      ]
     }
   }
 }

@@ -6,7 +6,7 @@ from email.utils import parsedate_to_datetime
 
 from live.adapters import common
 
-FEEDS = {'speech': 'https://www.federalreserve.gov/feeds/speeches.xml',
+FEEDS = {'fomc': 'https://www.federalreserve.gov/feeds/press_monetary.xml', 'speech': 'https://www.federalreserve.gov/feeds/speeches.xml',
          'monetary': 'https://www.federalreserve.gov/feeds/press_monetary.xml'}
 
 
@@ -45,7 +45,13 @@ def fetch(kind='speech', *, limit=2, transport=None):
     if st != 200:
         return {'status': f'http_{st}', 'sources': []}
     sources, requests = [], 1
-    for it in parse_feed(xml, kind=kind)[:limit]:
+    items = parse_feed(xml, kind=kind)
+    if kind == 'fomc':
+        from urllib.parse import urlparse
+        items = [it for it in items if 'FOMC statement' in it['title']
+                 and urlparse(it['url']).hostname == 'www.federalreserve.gov'
+                 and urlparse(it['url']).path.startswith('/newsevents/pressreleases/monetary')]
+    for it in items[:limit]:
         st, html = common.http_get(it['url'], transport=transport)
         requests += 1
         if st == 200:

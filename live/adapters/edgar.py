@@ -17,7 +17,7 @@ PLACEHOLDER = 'FinanceDistillation research fd-research@example.com'
 EARNINGS_ITEMS = ('2.02',)
 TITLE_FIX = {'INC': '', 'CORP': '', 'CORPORATION': '', 'CO': '', 'LTD': '', 'PLC': '', 'HOLDINGS': '', 'INC.': ''}
 # A small persona-relevant watchlist (CIKs from EDGAR company tickers).
-WATCHLIST = {'NVDA': '0001045810', 'MU': '0000723125', 'AMD': '0000002488', 'MSFT': '0000789019',
+WATCHLIST = {'AAPL': '0000320193', 'TSLA': '0001318605', 'ORCL': '0001341439', 'NVDA': '0001045810', 'MU': '0000723125', 'AMD': '0000002488', 'MSFT': '0000789019',
              'GOOGL': '0001652044', 'AMZN': '0001018724', 'META': '0001326801', 'TSM': '0001046179',
              'AVGO': '0001730168', 'MSTR': '0001050446', 'COIN': '0001679788', 'JPM': '0000019617'}
 
@@ -68,7 +68,7 @@ def to_source(filing, text):
                               extra={'form': filing['form'], 'accession': filing['accession']})
 
 
-def fetch(ticker_or_cik, *, forms=('8-K',), earnings_only=True, limit=1, transport=None):
+def fetch(ticker_or_cik, *, forms=('8-K',), earnings_only=True, limit=1, transport=None, max_age_days=None, as_of=None):
     import json
     ua, placeholder = user_agent()
     cik = WATCHLIST.get(ticker_or_cik, ticker_or_cik).zfill(10)
@@ -77,6 +77,10 @@ def fetch(ticker_or_cik, *, forms=('8-K',), earnings_only=True, limit=1, transpo
     if status != 200:
         return {'status': f'http_{status}', 'sources': [], 'ua_placeholder': placeholder}
     filings = recent_filings(json.loads(body), forms=forms, earnings_only=earnings_only, limit=limit)
+    if max_age_days is not None:
+        from datetime import date
+        today = as_of or date.today()
+        filings = [f for f in filings if 0 <= (today - date.fromisoformat(f['date'])).days <= max_age_days]
     sources, requests = [], 1
     for f in filings:
         time.sleep(0.15)  # well under 10 req/s
