@@ -1,15 +1,4 @@
-"""Two-level post QA (fd-phase0, after P0-4e).
-
-HARD findings block a draft (draft_status needs_review): numbers / periods /
-metric bindings that do not match the source units, D-tier source leakage or a
-licence tier the post type does not accept, a same-language direct quote that
-is not an exact substring of a source span, a required attribution frame that
-is missing, and unknown codes (fail closed). Everything else is a SOFT warning:
-the draft stays draft_ready and carries the warning (template phrases, length
-out of range, the source named in the body when the frame is present,
-attribution phrasing outside the frame, first person / borrowed experience,
-code fences, translated quotes).
-"""
+"""Post QA: numbers warn; legal and unsupported unknown checks fail closed."""
 import unittest
 
 from live import compose, qa_levels
@@ -42,8 +31,7 @@ class PublishYearTests(unittest.TestCase):
 
 class LevelTableTests(unittest.TestCase):
     def test_hard_codes(self):
-        for code in ('number_not_in_units', 'period_not_in_units', 'number_metric_binding',
-                     'licence_tier_not_allowed', 'd_tier_source_leak', 'quote_not_exact',
+        for code in ('licence_tier_not_allowed', 'd_tier_source_leak', 'quote_not_exact',
                      'missing_attribution_frame'):
             self.assertEqual(qa_levels.level({'code': code}, frame_found=True), 'hard', code)
 
@@ -97,21 +85,21 @@ class ComposeLevelTests(unittest.TestCase):
         self.assertIn('fix', finding)
         self.assertEqual(result['draft_status'], 'draft_ready')
 
-    def test_number_mismatch_blocks(self):
+    def test_number_mismatch_warns(self):
         result, _ = run(Fake(body=GOOD_BODY.replace('69.5%', '72%')), post_type='data_take')
-        self.assertEqual(levels(result)['number_not_in_units'], 'hard')
-        self.assertEqual(result['draft_status'], 'needs_review')
+        self.assertEqual(levels(result)['number_not_in_units'], 'soft')
+        self.assertEqual(result['draft_status'], 'draft_ready')
 
-    def test_period_mismatch_blocks(self):
+    def test_period_mismatch_warns(self):
         result, _ = run(Fake(body=GOOD_BODY.replace('这个季度', '第三季度')), post_type='data_take')
-        self.assertEqual(levels(result)['period_not_in_units'], 'hard')
-        self.assertEqual(result['draft_status'], 'needs_review')
+        self.assertEqual(levels(result)['period_not_in_units'], 'soft')
+        self.assertEqual(result['draft_status'], 'draft_ready')
 
-    def test_metric_binding_blocks(self):
+    def test_metric_binding_warns(self):
         body = GOOD_BODY.replace('营业利润率为69.5%', '营收占比69.5%').replace('营收同比增长4.8倍', '利润率同比增长4.8倍')
         result, _ = run(Fake(body=body), post_type='data_take')
-        self.assertEqual(levels(result)['number_metric_binding'], 'hard')
-        self.assertEqual(result['draft_status'], 'needs_review')
+        self.assertEqual(levels(result)['number_metric_binding'], 'soft')
+        self.assertEqual(result['draft_status'], 'draft_ready')
 
     def test_d_tier_source_leak_blocks(self):
         result, _ = run(Fake(body=GOOD_BODY + '慧博上的卖方研报也给出了类似判断。'), post_type='data_take')
@@ -133,10 +121,10 @@ class ComposeLevelTests(unittest.TestCase):
         self.assertEqual(levels(result).get('translated_quote'), 'soft')
         self.assertEqual(result['draft_status'], 'draft_ready')
 
-    def test_unsourced_number_words_block_but_sourced_ones_warn(self):
+    def test_unsourced_number_words_and_sourced_ones_warn(self):
         result, _ = run(Fake(body=GOOD_BODY + '利润几乎翻倍。'), post_type='data_take')
-        self.assertEqual(levels(result)['number_words'], 'hard')
-        self.assertEqual(result['draft_status'], 'needs_review')
+        self.assertEqual(levels(result)['number_words'], 'soft')
+        self.assertEqual(result['draft_status'], 'draft_ready')
         self.assertEqual(qa_levels.level({'code': 'number_words', 'sourced': True}, frame_found=True), 'soft')
 
     def test_number_word_must_match_its_own_sourced_multiple(self):
