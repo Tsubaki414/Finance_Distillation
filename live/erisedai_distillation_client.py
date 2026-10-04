@@ -101,17 +101,40 @@ class ErisedaiClient:
         self.calls = []
         # Plan 1.4 subset: per-stage model/temperature; shipped defaults keep
         # every stage on the validated model at temperature 0.0.
-        self.stage_models = stage_models.validate(copy.deepcopy(
-            self.config.get('stage_models') or stage_models.load()))
+        table = self.config.get('stage_models')
+        if table is None:
+            # Explicit env switch (FD_COMPOSE_* / FD_STANCE_*); unset keeps the shipped defaults.
+            table = stage_models.from_env(stage_models.load(), os.environ)
+        self.stage_models = stage_models.validate(copy.deepcopy(table))
         self.budget_model = PROVIDER + '/' + self.config['model']
         for model in {self.config['model'], *stage_models.models(self.stage_models)}:
             budget.PRICES[PROVIDER + '/' + model] = (
                 self.config['input_usd_per_million'], self.config['output_usd_per_million'])
+        # Routed stages: resolve each key now (fail before any call), keep it in process only.
+        self._route_keys = {}
+        file_env = None
+        for stage in (self.stage_models.get('stages') or {}):
+            routed = stage_models.route(self.stage_models, stage)
+            stage_rates = stage_models.rates(self.stage_models, stage)
+            if stage_rates:
+                budget.PRICES[PROVIDER + '/' + stage_models.for_stage(self.stage_models, stage)['model']] = stage_rates
+            if routed is None:
+                continue
+            name = routed['api_key_env']
+            value = os.environ.get(name)
+            if not value:
+                file_env = _dotenv() if file_env is None else file_env
+                value = file_env.get(name, '')
+            if not value.strip():
+                raise ValueError(f'{name} is not set for routed stage {stage}')
+            self._route_keys[stage] = value.strip()
 
     def __call__(self, stage, messages, max_tokens):
         call_id = uuid.uuid4().hex
         path = self.directory / (call_id + '.json')
-        secret = self.config['api_key']
+        routed = stage_models.route(self.stage_models, stage)
+        secret = self._route_keys[stage] if routed else self.config['api_key']
+        base_url = routed['base_url'] if routed else self.config['base_url']
         selected = stage_models.for_stage(self.stage_models, stage)
         model, temperature = selected['model'], selected['temperature']
         budget_model = PROVIDER + '/' + model
@@ -121,7 +144,8 @@ class ErisedaiClient:
         record = {'call_id': call_id, 'stage': stage, 'started_at': now(),
                   'messages': messages, 'prompt_hash': digest(messages),
                   'model': model, 'upstream_model': model,
-                  'provider': PROVIDER, 'host': urlsplit(self.config['base_url']).netloc,
+                  'provider': PROVIDER, 'host': urlsplit(base_url).netloc,
+                  'routed_key_env': routed['api_key_env'] if routed else None,
                   'configuration_source': self.config.get('configuration_source', 'explicit_configuration'),
                   'temperature': temperature, 'max_tokens': max_tokens, 'status': 'started',
                   'stage_model_table': self.stage_models.get('version', 'inline'),
@@ -143,7 +167,7 @@ class ErisedaiClient:
             with httpx.Client(timeout=TIMEOUT, trust_env=False, follow_redirects=False,
                               transport=self.transport) as client:
                 record['model_call_attempts'] = 1
-                response = client.post(self.config['base_url'] + '/chat/completions',
+                response = client.post(base_url + '/chat/completions',
                                        headers={'Authorization': 'Bearer ' + secret}, json=payload)
             record['http_status'] = response.status_code
             try:
