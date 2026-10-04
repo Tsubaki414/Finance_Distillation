@@ -36,3 +36,22 @@ class StyleStatsTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+def test_fallback_retag_merges_without_touching_successes(tmp_path, monkeypatch):
+    import json
+    from scripts import donor_style_stats as script
+    from test_jev_tag_retry import FakeJev
+    monkeypatch.setattr(script, 'TAGS', tmp_path)
+    previous = {'1': {'jev_fallback': False, 'post_type': 'saved'},
+                '2': {'jev_fallback': True}, '3': {'jev_fallback': True}}
+    (tmp_path / 'donor.json').write_text(json.dumps(previous))
+    monkeypatch.setattr(script, 'load_posts', lambda h: [post(1, 'a'), post(2, 'b')])
+    jev = FakeJev(lambda q, n: False)
+    stats = {}
+    _, merged = script.tag_donor('donor', jev, 1, only_fallback=tmp_path, stats=stats)
+    assert merged['1'] == previous['1']
+    assert merged['3'] == previous['3']
+    assert not merged['2']['jev_fallback']
+    assert stats['posts'] == 1
+    assert json.loads((tmp_path / 'donor.json').read_text()) == merged

@@ -239,6 +239,26 @@ class JevReviewClientTests(unittest.TestCase):
                 self.assertNotIn('response', self.log(result))
                 self.assertEqual(self.log(result)['accounting_status'], 'settled_reservation_estimate')
 
+    def test_contract_diagnostics_redact_before_truncating(self):
+        cases = [('model_mismatch', lambda d: d.update(model=self.key + 'x' * 5000)),
+                 ('answers_keys_mismatch', lambda d: d['answers'].clear()),
+                 ('choice_not_argmax', lambda d: d['answers']['next_check'].update(choice='human_review')),
+                 ('confidence_range', lambda d: d['answers']['next_check'].update(confidence=2)),
+                 ('top_level_keys', lambda d: d.update(extra=True)),
+                 ('probabilities_keys', lambda d: d['answers']['next_check'].update(probabilities={})),
+                 ('probabilities_sum', lambda d: d['answers']['next_check']['probabilities'].update(inspect_contract=.8)),
+                 ('choice_not_in_labels', lambda d: d['answers']['next_check'].update(choice='unknown'))]
+        for check, change in cases:
+            data = self.response()
+            change(data)
+            result = self.client(lambda request: httpx.Response(200, json=data)).review(self.state, self.questions)
+            self.assertEqual(result['contract_error'], check)
+            log = self.log(result)
+            self.assertEqual(log['contract_error'], check)
+            self.assertLessEqual(len(log['response_raw_truncated']), 4000)
+            self.assertNotIn(self.key, log['response_raw_truncated'])
+            self.assertEqual(result['error_code'], 'response_contract')
+
     def test_invalid_or_missing_usage_retains_unsettled_reservation(self):
         for usage in (None, {}, {'input_tokens': -1, 'output_tokens': 0},
                       {'input_tokens': True, 'output_tokens': 0},
