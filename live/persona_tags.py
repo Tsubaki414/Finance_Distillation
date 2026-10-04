@@ -42,7 +42,9 @@ def tag_units(records, *, jev, personas=None, threshold=0.7, max_calls=None, sta
                           f'Unit kind: {unit.get("kind", "")}. '
                           f'Statement: "{str(unit.get("statement") or "")[:400]}". '
                           f'Publisher: {source.get("publisher") or attribution.get("publisher") or unit.get("publisher", "")}. '
-                          f'Source title: {source.get("title") or unit.get("title", "")}. Judge relevance for this beat.'}
+                          f'Source title: {source.get("title") or unit.get("title", "")}. Judge relevance for this beat '
+                          'on topic fit only: the persona writes in its own language and may use '
+                          'sources in any language, so the unit\'s language is not a reason to reject it.'}
         groups.append(group)
     resolved = {}
 
