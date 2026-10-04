@@ -38,6 +38,36 @@ def bounded_fetch(fetch, timeout):
 
 
 DEFAULT_TIMEOUTS={'podcast:':900}
+DEFAULT_EXTRACT_MODEL='claude-opus-5'
+# List prices per 1M tokens (input, output) for the ledger when extract runs on a non-default relay model.
+EXTRACT_MODEL_RATES={'claude-sonnet-5':(3.0,15.0)}
+
+
+def _relay_config():
+    from live.erisedai_distillation_client import relay_config
+    return relay_config()
+
+
+def extract_client(directory, *, model=None, allow_nondefault=False):
+    """Relay client for EXTRACT. The validated default is claude-opus-5; another model needs allow_nondefault=True
+    (CLI: --extract-model M --allow-nondefault-extract-model) and only overrides the extract stage."""
+    import copy
+    from live import stage_models
+    from live.erisedai_distillation_client import ErisedaiClient, PROVIDER
+    from ml import budget
+    cfg=_relay_config()
+    if model and model!=DEFAULT_EXTRACT_MODEL:
+        if not allow_nondefault:
+            raise ValueError(f'extract model {model} is not the validated default; pass allow_nondefault (--allow-nondefault-extract-model)')
+        table=copy.deepcopy(stage_models.load())
+        table['stages']=dict(table.get('stages') or {},extract={'model':model,'temperature':0.0})
+        table['accepted_response_models'][model]=[model,'anthropic/'+model]
+        cfg['stage_models']=table
+    client=ErisedaiClient(directory,configuration=cfg)
+    if model in EXTRACT_MODEL_RATES:
+        budget.PRICES[PROVIDER+'/'+model]=EXTRACT_MODEL_RATES[model]
+    return client
+
 
 
 def known_urls(store, state):
@@ -108,7 +138,7 @@ def priority(channel, source):
 
 def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_runs',
         inbox='/workspace/x/ingest_inbox', cost_cap_usd=8.0, channel_timeout=90, channel_timeouts=None,
-        max_extract=40, max_source_chars=5000, per_channel_max=2, no_dashboard=False, dry_run=False, only=None,
+        max_extract=40, max_source_chars=5000, extract_model=None, allow_nondefault_extract_model=False, per_channel_max=2, no_dashboard=False, dry_run=False, only=None,
         fetchers=None, extract=None, jev=None, backup=None, refresh=None, state_path=None):
     from ml import budget
     from live import content_store, jev_front, registry
@@ -184,10 +214,10 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
         atomic_json(ledger,dict(cap_usd=cost_cap_usd,spent_usd=0,calls=0,reservations={}))
         db=content_store.ContentStore(store); before={r['unit_id'] for r in db.units()}
         if extract is None:
-            from live.erisedai_distillation_client import ErisedaiClient
             from live.jev_review_client import JevReviewClient
             from live import content_units
-            client=ErisedaiClient(budget.STORE.parent/'extract_calls')
+            client=extract_client(budget.STORE.parent/'extract_calls',model=extract_model,allow_nondefault=allow_nondefault_extract_model)
+            summary['extract_model']=extract_model or DEFAULT_EXTRACT_MODEL
             jev=jev or JevReviewClient(budget.STORE.parent/'jev_calls')
             def extract(s):
                 return content_units.extract(s,client,licence_tier=registry.source_licence_tier(s['source_id']),publisher=s.get('publisher'))['units']

@@ -18,6 +18,8 @@ def main():
     parser.add_argument('--max-extract',type=int,default=40)
     parser.add_argument('--max-source-chars',type=int,default=5000)
     parser.add_argument('--per-channel-max',type=int,default=2)
+    parser.add_argument('--extract-model',default=None,help='relay model for EXTRACT only (default claude-opus-5)')
+    parser.add_argument('--allow-nondefault-extract-model',action='store_true',help='explicit opt-in for a non-default --extract-model')
     parser.add_argument('--no-dashboard',action='store_true')
     parser.add_argument('--dry-run',action='store_true')
     parser.add_argument('--only',nargs='+')
