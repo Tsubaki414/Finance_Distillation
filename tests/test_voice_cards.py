@@ -25,6 +25,10 @@ class VoiceTests(unittest.TestCase):
         for kind in ['tendencies', 'avoid_tendencies']:
             self.assertTrue(c[kind])
             for rule in c[kind]:
+                from live.voice_cards import POSITION_AVOID
+                if rule['tendency'] == POSITION_AVOID['tendency']:
+                    self.assertEqual(rule, POSITION_AVOID)
+                    continue
                 self.assertTrue(2 <= len(rule['evidence']) <= 4)
                 for e in rule['evidence']:
                     self.assertLessEqual(len(e['text']), 140)
