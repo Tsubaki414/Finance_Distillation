@@ -14,10 +14,10 @@ source_spans exact_text. Never add facts or change statements, spans or numbers.
 Schema: {"views": [{"unit_id": "supplied ID", "view": {
 "direction": "bullish|bearish|neutral|mixed|higher|lower|wider|tighter|accelerating|decelerating",
 "subject": "nonempty subject", "conviction": "low|medium|high",
-"reasoning": ["1-3 short strings copied from cited spans, each at most 300 characters"],
+"reasoning": ["1-3 short strings summarizing cited spans, each at most 300 characters"],
 "horizon": "days|weeks|months|quarters|years|unspecified",
 "conditions": "optional nonempty condition"}}]}.
-Return every supplied ID exactly once. Reasoning must occur in cited spans;
+Return every supplied ID exactly once. Reasoning must share content tokens with cited spans and keep numbers source-bound;
 if evidence is insufficient return view: null for that ID. Do not invent evidence.''')
 
 

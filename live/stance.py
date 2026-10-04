@@ -23,7 +23,8 @@ def stance_step(view_unit, persona, client):
     view = view_unit.get('view')
     if view is None:
         return {'decision':'reject', 'account_view':'', 'supporting_unit_ids':[], 'rationale':'Legacy view lacks structured judgment.', 'confidence':1.0}
-    validate_view(view)
+    view = validate_view(view, view_unit.get('source_spans'))
+    view_unit = dict(view_unit, view=view)
     order = {h:i for i,h in enumerate(HORIZONS[:-1])}
     target, horizon = spec['horizon'], view['horizon']
     if (target in order and horizon in order and abs(order[target]-order[horizon]) > 2
@@ -45,6 +46,7 @@ def stance_step(view_unit, persona, client):
         require(view_unit['unit_id'] in ids, 'stance: supporting view required')
     if value['decision']=='adapt':
         revised=validate_view(value.get('view'), view_unit.get('source_spans'))
+        value['view'] = revised
         require(any(revised[k]!=view[k] for k in ('direction','conviction','horizon')) or
                 bool(revised.get('conditions')) and revised.get('conditions')!=view.get('conditions'), 'stance: adapt must change view')
     return value

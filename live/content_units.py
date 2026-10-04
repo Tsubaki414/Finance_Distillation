@@ -47,8 +47,8 @@ breaking, current or evergreen. Skip promotion, CTAs and personal anecdotes that
 carry no transferable content. An empty units list is valid.
 For every kind=view unit, require view: {direction: bullish|bearish|neutral|mixed|higher|lower|wider|tighter|accelerating|decelerating,
 subject: nonempty string, conviction: low|medium|high, reasoning: [1-3 short
-strings copied from cited evidence spans], horizon: days|weeks|months|quarters|years|unspecified,
-conditions: optional nonempty string}. Reasoning must be grounded in a cited span.
+strings summarizing cited evidence spans], horizon: days|weeks|months|quarters|years|unspecified,
+conditions: optional nonempty string}. Reasoning must share content with cited spans; every number must be source-bound. Include support: [{span_index: 0, quote: "exact source excerpt"}].
 Schema: {"units":[{"kind":"fact","statement":"...","source_spans":[{"paragraph_id":"P1","exact_text":"..."}],
 "numbers":[{"text":"...","metric":"...","period":"...","span_ref":0}],"speaker":"...",
 "speaker_type":"media","freshness_class":"current"}]}''')
@@ -130,20 +130,98 @@ DIRECTIONS = ('bullish', 'bearish', 'neutral', 'mixed', 'higher', 'lower', 'wide
 HORIZONS = ('days', 'weeks', 'months', 'quarters', 'years', 'unspecified')
 
 
-def validate_view(view, spans=None):
+def coerce_view(view):
+    """Copy a view, normalize enums, and retain originals for audit."""
     require(isinstance(view, dict), 'view: object required')
-    for key, allowed in (('direction', DIRECTIONS), ('conviction', ('low', 'medium', 'high')), ('horizon', HORIZONS)):
-        require(view.get(key) in allowed, 'view: invalid ' + key)
+    out = dict(view)
+    changes = dict(view['coerced']) if isinstance(view.get('coerced'), dict) else {}
+    asset = bool(re.search(r'\b(price|asset|stock|stocks|equity|equities|bond|bonds|bitcoin|crypto|oil|gold|market)\b|价格|股|资产|币|黄金', str(view.get('subject') or '').casefold()))
+    directions = {k: ('bullish' if asset else 'higher') for k in ('positive', 'up', 'rise', 'increase', 'bull', '看多', '看涨', '上行')}
+    directions.update({k: ('bearish' if asset else 'lower') for k in ('negative', 'down', 'decline', 'bear', '看空', '看跌', '下行')})
+    directions.update(dict.fromkeys(('flat', 'unchanged', '持平'), 'neutral'))
+    directions.update(dict.fromkeys(('uncertain', 'two-sided'), 'mixed'))
+    convictions = {'strong': 'high', 'very': 'high', 'moderate': 'medium', 'weak': 'low', 'tentative': 'low', 'slight': 'low'}
+    horizons = {'near-term': 'weeks', 'short-term': 'weeks', '1-2 weeks': 'weeks', 'next quarter': 'quarters', 'this year': 'months', 'long-term': 'years', 'structural': 'years', 'multi-year': 'years', 'intraday': 'days', 'today': 'days'}
+    for field, allowed, synonyms, default in (
+        ('direction', DIRECTIONS, directions, 'mixed'),
+        ('conviction', ('low', 'medium', 'high'), convictions, 'medium'),
+        ('horizon', HORIZONS, horizons, 'unspecified')):
+        original = view.get(field)
+        token = original.strip().casefold() if isinstance(original, str) else ''
+        value = token if token in allowed else synonyms.get(token, default)
+        if field == 'conviction':
+            try:
+                numeric = float(original) if not isinstance(original, bool) else float('nan')
+            except (TypeError, ValueError):
+                numeric = float('nan')
+            if 0 <= numeric <= 1:
+                value = 'low' if numeric < 1 / 3 else 'high' if numeric >= 2 / 3 else 'medium'
+        if original != value:
+            changes.setdefault(field, original)
+        out[field] = value
+    if changes:
+        out['coerced'] = changes
+    return out
+
+
+_CONTENT_STOP = set('a an the is are was were be been being as at by for from in into of on or and to with it its this that these those will would could should may might can not we they he she has have had'.split())
+
+
+def _content_tokens(text):
+    words = {w for w in re.findall(r'[a-z]+', text.casefold()) if len(w) > 1 and w not in _CONTENT_STOP}
+    for run in re.findall(r'[\u3400-\u4dbf\u4e00-\u9fff]+', text):
+        words.update(run[i:i + 2] for i in range(len(run) - 1))
+    return words
+
+
+def _view_support(view, spans):
+    support = view.get('support')
+    if support is None:
+        support = [dict(span_index=i, quote=s['exact_text'][:200]) for i, s in enumerate(spans)]
+    require(isinstance(support, list) and bool(support), 'view: support must cite source spans')
+    cited = []
+    for entry in support:
+        require(isinstance(entry, dict), 'view: support must be objects')
+        ref = entry.get('span_index')
+        if 'span_index' in entry:
+            require(type(ref) is int and 0 <= ref < len(spans), 'view: support span_index out of range')
+            candidates = [spans[ref]]
+            if 'paragraph_id' in entry:
+                require(entry['paragraph_id'] == spans[ref].get('paragraph_id'), 'view: support paragraph_id mismatch')
+        else:
+            pid = entry.get('paragraph_id')
+            candidates = [s for s in spans if pid is not None and s.get('paragraph_id') == pid]
+            require(bool(candidates), 'view: support unknown paragraph_id')
+        quote = entry.get('quote')
+        require(isinstance(quote, str) and bool(quote.strip()), 'view: support quote required')
+        matched = [s for s in candidates if quote in s['exact_text']]
+        require(bool(matched), 'view: support quote not in source span')
+        cited.extend(matched)
+    return [dict(s) for s in support], cited
+
+
+def validate_view(view, spans=None):
+    view = coerce_view(view)
     require(isinstance(view.get('subject'), str) and bool(view['subject'].strip()), 'view: subject required')
     reasons = view.get('reasoning')
-    require(isinstance(reasons, list) and 1 <= len(reasons) <= 3, 'view: reasoning needs 1-3 strings')
+    if isinstance(reasons, str):
+        reasons = [reasons]
+    require(isinstance(reasons, list) and bool(reasons), 'view: reasoning needs 1-3 strings')
     for reason in reasons:
-        require(isinstance(reason, str) and bool(reason.strip()) and len(reason) <= 300, 'view: short reasoning required')
-        if spans is not None:
-            require(any(locate(span['exact_text'], reason)[0] >= 0 for span in spans), 'view: reasoning not grounded in cited span')
+        require(isinstance(reason, str) and bool(reason.strip()), 'view: short reasoning required')
+    if spans is not None:
+        support, cited = _view_support(view, spans)
+        view['support'] = support
+        quantities = set(q for s in cited for q in inventory(s['exact_text']))
+        tokens = set(t for s in cited for t in _content_tokens(s['exact_text']))
+        # Validate full reasons before truncation: unsupported numbers cannot hide.
+        for reason in reasons:
+            require(all(q in quantities for q in inventory(reason)), 'view: reasoning number not bound to source')
+            require(bool(_content_tokens(reason) & tokens), 'view: reasoning not traceable to spans')
+    view['reasoning'] = [reason[:300] for reason in reasons[:3]]
     if 'conditions' in view:
         require(isinstance(view['conditions'], str) and bool(view['conditions'].strip()), 'view: conditions must be text')
-    return dict(view)
+    return view
 
 
 def _unit(source, raw, index, by_id, text, licence_tier, require_view=False):

@@ -90,7 +90,8 @@ class ContentStore:
 
     def _load_sidecars(self):
         from live.persona_tags import tagged_personas
-        for name in ('persona_tags', 'licence_overrides', 'view_enrich'):
+        views = {}
+        for name in ('persona_tags', 'licence_overrides', 'view_enrich', 'view_normalized'):
             path = self.root / (name + '.jsonl')
             if not path.exists():
                 continue
@@ -104,25 +105,24 @@ class ContentStore:
                 if name == 'persona_tags':
                     row['persona_tags'] = entry['tags']
                     row['tag_personas'] = tagged_personas(entry['tags'], entry['threshold'])
-                elif name == 'view_enrich':
-                    self._apply_view_enrichment(entry)
+                elif name in ('view_enrich', 'view_normalized'):
+                    views[entry['unit_id']] = (entry, name == 'view_normalized')
                 else:
                     self._licence_overrides[entry['unit_id']] = entry['overrides']
+        for entry, normalized in views.values():
+            self._apply_view_enrichment(entry, normalized=normalized)
         self._rows = {uid: self.apply_licence_overrides(row) for uid, row in self._rows.items()}
 
-    def _apply_view_enrichment(self, entry):
+    def _apply_view_enrichment(self, entry, *, normalized=False):
         from live.content_units import validate_view
         from live.distillation import require
-        from live.view_enrich import has_valid_view
         row = self._rows.get(entry['unit_id'])
         if row is None:
             return False
         unit = row['unit']
         require(unit.get('kind') == 'view', 'view_enrich: unit must be view')
         structured = validate_view(entry.get('view'), unit.get('source_spans', []))
-        if has_valid_view(unit):
-            return False
-        row['unit'] = dict(unit, view=structured, view_source='enriched')
+        row['unit'] = dict(unit, view=structured, view_source='normalized' if normalized else 'enriched')
         return True
 
     def set_view_enrichments(self, entries):
