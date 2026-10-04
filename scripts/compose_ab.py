@@ -127,7 +127,7 @@ def compose_candidate(name, out, max_tokens=None):
     from live import compose, stage_models
     from live.erisedai_distillation_client import ErisedaiClient, relay_config
     relay_env()
-    spec = CANDIDATES[name]
+    spec = CANDIDATES.get(name) or (dict(shipped=True, relay=(MICU, 'GEMINI_RELAY_API_KEY')) if name.startswith('gemini-default') else CANDIDATES[name])
     cdir = out / 'drafts' / name
     cdir.mkdir(parents=True, exist_ok=True)
     budget.STORE = cdir / 'ledger'; budget.LEDGER = budget.STORE / 'spend.json'
@@ -236,6 +236,7 @@ For EACH draft label return integer scores 1-5:
 - emotion_punch: felt conviction, vivid concrete wording, rhythm (varied sentence length, a line that lands), a stance the reader can feel. NOT hype, clickbait, exclamation spam, emoji spam, or invented drama. A draft that invents facts, numbers, trades or personal positions not in the units/stance gets at most 2.
 - fabricated: true if the draft states facts, numbers, holdings or trades that the units/stance do not support.
   The source tag / attribution frame naming source.publisher or source.author is added by the pipeline and is supported.
+  Dates, months, quarters and periods matching a unit's as_of / published_at / number period (or the source published_at) are supported.
 - reason: one short sentence.
 Return ONLY JSON: {"scores": {"A": {"judgment_first": 4, "voice_match": 3, "emotion_punch": 3, "fabricated": false, "reason": "..."}, ...}}
 """
@@ -256,14 +257,14 @@ def judge_cmd(engine, prompt):
     return json.loads(m.group()) if m else None
 
 
-def judge_all(out, engines, keys=None, workers=6):
+def judge_all(out, engines, keys=None, workers=6, judge_dir='judge'):
     import concurrent.futures as cf, random
     from live import exemplars, registry
     from live.voice_cards import compact_summary
     inputs = {x['key']: x for x in json.loads((out / 'inputs.json').read_text())}
     cands = [d.name for d in sorted((out / 'drafts').iterdir())
              if json.loads((d / 'status.json').read_text()).get('status') == 'completed']
-    jdir = out / 'judge'; jdir.mkdir(exist_ok=True)
+    jdir = out / judge_dir; jdir.mkdir(exist_ok=True)
     jobs = []
     for key, x in inputs.items():
         if keys and key not in keys:
@@ -283,9 +284,13 @@ def judge_all(out, engines, keys=None, workers=6):
         style = exemplars.retrieve(persona, post_type=x['post_type'], query=' '.join(u['statement'] for u in x['units']),
                                    k=2, posts_dir=POSTS, tags_dir=TAGS)
         payload = {'voice_card': compact_summary(persona.voice_card), 'style_exemplars': [e.get('text') for e in style],
-                   'source': {'publisher': x['source'].get('publisher'), 'author': x['source'].get('author_name')},
+                   'source': {'publisher': x['source'].get('publisher'), 'author': x['source'].get('author_name'),
+                              'published_at': x['source'].get('published_at')},
                    'stance': {k: (x['stance'] or {}).get(k) for k in ('decision', 'account_view')},
-                   'units': [{'statement': u['statement'], 'numbers': [n['text'] for n in u.get('numbers', [])]} for u in x['units']],
+                   'units': [{'statement': u['statement'], 'as_of': u.get('as_of'),
+                              'published_at': u.get('published_at_norm') or u.get('published_at'),
+                              'numbers': [n['text'] + (f" ({n['period']})" if n.get('period') else '') for n in u.get('numbers', [])]}
+                             for u in x['units']],
                    'drafts': {lab: drafts[c] for lab, c in labels.items()}}
         for eng in engines:
             path = jdir / f"{eng}_{key.replace('#', '_')}.json"
@@ -376,7 +381,8 @@ def main(argv=None):
     ap.add_argument('--engines', default='gpt,claude')
     ap.add_argument('--max-tokens', type=int, help='harness-only COMPOSE max_tokens override (thinking models)')
     ap.add_argument('--keys', nargs='*')
-    ap.add_argument('--candidate', choices=sorted(CANDIDATES))
+    ap.add_argument('--candidate', help='a CANDIDATES name, or gemini-default-<tag> for the shipped table')
+    ap.add_argument('--judge-dir', default='judge')
     ap.add_argument('--out', type=Path, default=Path('/workspace/x/compose_ab'))
     a = ap.parse_args(argv)
     a.out.mkdir(parents=True, exist_ok=True)
@@ -386,7 +392,7 @@ def main(argv=None):
         table, unavailable, *_ = report(a.out)
         print(json.dumps(table, ensure_ascii=False, indent=1)); print(json.dumps(list(unavailable)))
     elif a.phase == 'judge':
-        judge_all(a.out, a.engines.split(','), a.keys)
+        judge_all(a.out, a.engines.split(','), a.keys, judge_dir=a.judge_dir)
     else:
         compose_candidate(a.candidate, a.out, a.max_tokens)
     return 0
