@@ -35,7 +35,7 @@ class StoreTests(unittest.TestCase):
         self.assertEqual(len(rows), 1)
         rec = rows[0]
         self.assertEqual(rec['licence_tier'], 'A')
-        self.assertEqual(rec['attribution']['publisher'], 'U.S. Bureau of Labor Statistics')
+        self.assertEqual(rec['attribution']['publisher'], 'Bureau of Labor Statistics')  # registry name wins
         self.assertEqual(rec['source']['adapter'], 'bls_api')
         self.assertEqual(self.store.units(persona='crypto_macro_en'), [])
         reopened = cs.ContentStore(self.store.root)

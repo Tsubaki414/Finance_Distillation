@@ -302,6 +302,17 @@
         "Macquarie",
         "麦格理"
       ]
+    },
+    "sec_edgar": {
+      "tier": "A",
+      "basis": "SEC EDGAR filings by the issuer (public record; U.S. federal filings carry no SEC copyright). Quote with the company named; EX-99 press releases are the issuer's own text",
+      "aliases": [
+        "SEC",
+        "EDGAR",
+        "8-K",
+        "10-Q",
+        "10-K"
+      ]
     }
   }
 }
