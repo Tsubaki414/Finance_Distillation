@@ -146,7 +146,7 @@ SENTENCE = re.compile(r'(?<=[.!?])\s+|(?<=[。！？；])\s*')
 # Ratings / price targets are bank recommendations, not facts we may relay.
 RATING = re.compile(r'Price Target|Price Objective|\bPO:|\bTP\b|target price|Maintain Rating|\bRating:|'
                     r'目标价|评级|买入|增持|减持|跑赢|跑输|推荐评级|\b(?:Overweight|Underweight|Outperform|Underperform)\b|Price \(\d', re.I)
-RATING_TITLE = re.compile(r'\b(?:TP|PO|price target|target price)\b|\b(?:upgrade|downgrade|initiat\w*)\b.*\b(?:buy|sell|overweight|underweight|neutral)\b|'
+RATING_TITLE = re.compile(r'\b(?:TP|PO|price target|target price)\b|;\s*(?:buy|sell|overweight|underweight)\b|\b(?:maintain|reiterate)\w*\s+(?:buy|sell|overweight|underweight|neutral)\b|\b(?:upgrade|downgrade|initiat\w*)\b.*\b(?:buy|sell|overweight|underweight|neutral)\b|'
                           r'目标价|评级|买入|增持|减持|跑赢|跑输|(?:raising|cutting|lowering) (?:TP|PO|target)', re.I)
 WATERMARK = re.compile(r'Unauthori[sz]ed redistribution|intended for [\w.+-]+@|prepared for [\w.+-]+@', re.I)
 DOC_DATE = re.compile(r'\b(\d{1,2}) (January|February|March|April|May|June|July|August|September|October|November|December) (20\d\d)\b')
@@ -288,11 +288,35 @@ def prescreen(items, personas, *, jev=None):
     return scores
 
 
-def select_top(scores, *, per_persona=3, max_total=30, exclude=()):
+ZH_PERSONAS = ('macro_zh', 'zh_us_stock_commentary', 'crypto_macro_zh')
+
+
+def _order_key(sid, choice, persona, items):
+    it = (items or {}).get(sid) or {}
+    zh_item = it.get('source_type') == 'cn'
+    lang_miss = zh_item != (persona in ZH_PERSONAS)
+    no_excerpt = it.get('evidence_status') not in (None, 'matched_excerpt')
+    return ({'strong': 0, 'weak': 1}[choice], lang_miss, no_excerpt, '' if not it else ''.join(chr(0x10FFFF - ord(c)) for c in it.get('published_at', '')), sid)
+
+
+def select_top(scores, *, items=None, per_persona=3, max_total=30, exclude=()):
+    """Round-robin over personas. Strong items first (language fit, excerpt-backed, newest);
+    weak items only as a coverage pick for a persona with no strong item; English personas
+    never get Chinese-language (cn) reports."""
     excluded = set(map(str, exclude))
-    rank = {'strong': 0, 'weak': 1}
-    queues = {p: [sid for _, sid in sorted((rank[c], sid) for sid, c in chosen.items()
-               if c in rank and sid not in excluded)] for p, chosen in scores.items() if not p.startswith('_')}
+    queues = {}
+    for p, chosen in scores.items():
+        if p.startswith('_'):
+            continue
+        ok = [(sid, c) for sid, c in chosen.items() if c in ('strong', 'weak') and sid not in excluded
+              and not (items and p not in ZH_PERSONAS and (items.get(sid) or {}).get('source_type') == 'cn')]
+        if any(c == 'strong' for _, c in ok):
+            ok = [(sid, c) for sid, c in ok if c == 'strong']
+        else:
+            ok = ok[:]  # weak-only persona: one coverage pick below
+        queues[p] = [sid for sid, c in sorted(ok, key=lambda x: _order_key(x[0], x[1], p, items))]
+        if queues[p] and all(chosen[s] == 'weak' for s in queues[p]):
+            queues[p] = queues[p][:1]
     out, used = [], set()
     for turn in range(per_persona):
         for p, queue in queues.items():

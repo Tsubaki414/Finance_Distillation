@@ -93,7 +93,7 @@ def main():
             if rg.screen_evidence(it, ev):
                 rejected.add(sid)
         excluded = sorted(sid for sid, i in by_id.items() if rg.is_rating_call(i) or sid in rejected)
-        top = rg.select_top(scores, per_persona=args.per_persona, max_total=args.max_top, exclude=excluded)
+        top = rg.select_top(scores, items=by_id, per_persona=args.per_persona, max_total=args.max_top, exclude=excluded)
         report.update(prescreen_method=scores['_method'], prescreen={p: s for p, s in scores.items() if not p.startswith('_')},
                       top=[{'persona': p, 'source_id': sid} for p, sid in top])
         report['rejected_recorded'] = sorted(rejected)
