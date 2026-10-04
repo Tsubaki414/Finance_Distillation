@@ -1,0 +1,523 @@
+ <!DOCTYPE html> <html lang="en" dir="ltr"> <head> <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /> <link rel="shortcut icon" href="/Assets/OaktreeCap/Images/oaktree-fav-icon.png" /> <link rel="apple-touch-icon" href="/Assets/OaktreeCap/Images/favicon_1024x1024_1.png" /> <link rel="stylesheet" href="https://use.typekit.net/vpp6txn.css"> <script src="/ScriptResource.axd?d=ktXPS54N4JY6vbaCTPlT9SXyDYk5JO1K2NUnYMgSxg20gxYP006_ITsqIJR3PHl5E_NR3gBEbQH7CJoAj68FNeIzh055DNWB0Omgue1BBDHhNEN_U-JZsxh9XN8c5FYdCpK0u7zxsYILxddnT4b2ONLvbFArxlgHvhkw873VZVFKa9xzkMpA0CtXelm-t44m0&amp;t=6593801e" type="text/javascript"></script><script src="/ScriptResource.axd?d=ePnjFy9PuY6CB3GWMX-b_xI4ZYuExPz9q2bx8JsyoRKMzbpj_nPWjTKRVPSOeaiHuUXBDl8_AbMu_mODCaOeeGeUte_vsAYpy57HtvnPIGFwb0TBAIFxeFwHANUbFAuIc0_YaPnV4rCFX_0YOK7QqXCWFCEJ2KIyebGUUg17KUs8ARGMM99a2OHMIfDedaLE0&amp;t=6593801e" type="text/javascript"></script><script src="/ResourcePackages/Bootstrap5/assets/dist/js/popper.min.js?package=Bootstrap5" type="text/javascript"></script><script src="/ResourcePackages/Bootstrap5/assets/dist/js/bootstrap.min.js?package=Bootstrap5" type="text/javascript"></script><link href="/ResourcePackages/Bootstrap5/assets/dist/css/main.min.css?package=Bootstrap5" rel="stylesheet" type="text/css" /> <link href="/bundles/OCMStyles?v=ba9rVvCmtYbvpx66hGJb_dS0UeCUGROpwu874esz_RA1" rel="stylesheet"/> <script src="/bundles/OCMScripts?v=NNFUopz7ZRUe6GzxFzlvoCe-FoRa1FvjTw8oVWb_PEA1"></script> <script companyid="5297" src="https://c.evidon.com/dg/dg.js"></script> <script>
+		window.dataLayer = window.dataLayer || [];
+		if (typeof gtag !== 'function') function gtag() { dataLayer.push(arguments); }
+		gtag('set', 'developer_id.dOGRkZj', true);
+		gtag('consent', 'default', { 'ad_storage': 'denied', 'analytics_storage': 'denied', 'ad_user_data': 'denied', 'ad_personalization': 'denied' });
+	</script> <script>
+        (function (id) {
+            function append(scriptid, url, async) {
+                var d = document, sn = 'script', f = d.getElementsByTagName(sn)[0];
+                if (!f) f = d.head;
+                var s = d.createElement(sn);
+                s.async = true;
+                s.id = scriptid;
+                s.src = url;
+                f.parentNode.insertBefore(s, f);
+            }
+
+            function getRootDomain() {
+                var parts = window.location.hostname.split('.');
+                if (parts.length === 2) rootDomain = parts[0];
+                else if (parts.length > 2) {
+                    // see if the next to last value is a common tld
+                    var part = parts[parts.length - 2];
+                    if (part === 'com' || part === 'co') {
+                        rootDomain = parts[parts.length - 3]; // go back one more
+                    }
+                    else {
+                        rootDomain = part;
+                    }
+               }
+                //return "oaktreecapital";
+                return rootDomain;
+            }
+
+            window.evidon = {};
+            window.evidon.id = id;
+            var cdn = '//c.evidon.com/', rootDomain = getRootDomain(), noticecdn = cdn + 'sitenotice/';
+            append('evidon-notice', noticecdn + 'evidon-sitenotice-tag.js', false);
+            append('evidon-location', cdn + 'geo/country.js', true);
+			append('evidon-themes', noticecdn + id + '/snthemes.js', true);
+            if (rootDomain) {
+                if ('PRD' == 'PRD') {
+                    append('evidon-settings', noticecdn + id + '/' + rootDomain + "/settings.js", true);
+                } else {
+                    append('evidon-settings', noticecdn + id + '/' + rootDomain + "/test/settings.js", true);
+				}
+                //append('evidon-settings', noticecdn + id + '/' + rootDomain + 'PRD' == 'PRD' ? "/settings.js": "/test/settings.js", true);
+            }
+            window.evidon.priorConsentCallback = function () {
+                
+            }
+            window.evidon.consentDeclinedCallback = function () {
+                window.evidon.notice.dropSuppressionCookie(30);
+            }
+        })(5297);
+	</script> <script>
+		var ga4Id = 'G-482MGNHP3Z';
+		var script = document.createElement('script');
+		script.type = 'text/javascript';
+		var urlDomain = 'https://www.googletagmanager.com/gtag/js?id=';
+		urlDomain = urlDomain.concat(ga4Id);
+		script.src = urlDomain;
+		console.log(urlDomain);
+		document.head.appendChild(script);
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+		gtag('config', ga4Id);
+	</script> <title>
+	Shall We Repeal the Laws of Economics – Part III
+</title><script type="text/javascript">
+$(document).ready(function() {
+  $('header.header div#msearch').wrap('<form action="/search" class="search mobile"></form>');
+  $('header.header div#dsearch').wrap('<form action="/search" class="search desktop"></form>');
+  // apply to both mobile + desktop search forms
+    $('form.search').on('submit', function (e) {
+        var $searchField = $(this).find('input[type="text"]'); // input inside this form
+
+        if ($.trim($searchField.val()).length === 0) {
+            e.preventDefault(); // block empty submit
+            return false;
+        }
+    });
+
+    $('form.search').on('click', '.do-search', function (e) {
+        var $form = $(this).closest('form.search');
+        var $searchField = $form.find('input[type="text"]');
+
+        if ($.trim($searchField.val()).length === 0) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    // optional: keep this if you need to stop bubbling
+    $('form.search').on('click', function (e) {
+        e.stopPropagation();
+    });
+  $('form.search .closeButton').on('click', function() {
+        $('.action-search').removeClass('active');
+        $('form.search').removeClass('show');
+    });
+  $("#dsearch").removeClass('d-none');
+  $("#msearch").removeClass('d-none');
+});
+</script><meta property="og:title" content="Shall We Repeal the Laws of Economics – Part III" /><meta property="og:description" content="&lt;div&gt;In his latest memo, Howard Marks discusses recent attempts to rein in long-dated government bond yields.  He affirms that the only sustainable solution is responding to the underlying factors pushing interest rates up, even if politically uncomfortable.  Any other method simply represents an attempt to override the laws of economics &amp;ndash; and that never works.  &lt;/div&gt;" /><meta property="og:type" content="website" /><meta property="og:url" content="https://www.oaktreecapital.com/insights/memo/shall-we-repeal-the-laws-of-economics---part-iii" /><meta property="og:site_name" content="Oaktree Capital" /><style type="text/css" media="all">a:focus:not(:focus-visible),
+img:focus,
+.header .logo:focus:not(:focus-visible) {
+  outline-style: none !important;
+}
+
+.btn:focus:not(:focus-visible),
+.social-links-wrapper > ul > li > a:focus:not(:focus-visible) {
+  outline-style: none !important;
+}
+img {
+  max-width: 100% !important;
+  height: auto;
+}
+.timeline-Tweet{
+  cursor: unset !important;
+}
+
+/*#region memo and insight details*/
+.insights-3col-wrapper {
+	padding: 5rem 0;
+}
+
+	.insights-3col-wrapper .article-content h1.test-h1 {
+		font-family: 'orpheuspro', serif;
+		font-size: 2.75rem;
+		font-weight: 300;
+		color: #008265;
+		margin-bottom: 2rem;
+	}
+
+	.insights-3col-wrapper .article-content ul li {
+		list-style-type: disc;
+	}
+
+	.insights-3col-wrapper .article-content .ac-left-sidebar,
+	.insights-3col-wrapper .article-content .ac-right-sidebar {
+		top: 130px;
+		z-index: 55;
+	}
+
+	.insights-3col-wrapper .article-cotent .left-sidebar-options {
+		display: block;
+	}
+
+	.insights-3col-wrapper .article-content .left-sidebar-options ul.insight-actions {
+		margin: 0;
+		padding: 0;
+	}
+
+		.insights-3col-wrapper .article-content .left-sidebar-options ul.insight-actions li {
+			list-style-type: none;
+			margin-bottom: 1.5rem;
+		}
+
+	.insights-3col-wrapper .article-content .social-links-wrapper-test {
+		position: relative;
+		right: 0;
+		z-index: 1;
+		float: right;
+	}
+
+		.insights-3col-wrapper .article-content .social-links-wrapper-test ul li {
+			list-style-type: none;
+		}
+
+		.insights-3col-wrapper .article-content .social-links-wrapper-test span {
+			display: none;
+		}
+
+@media only screen and (min-width: 480px) {
+	.insights-3col-wrapper .article-content .left-sidebar-options {
+		display: block !important;
+	}
+}
+
+@media only screen and (max-width: 767px), only screen and (max-device-width: 767px) {
+	.insights-3col-wrapper .article-content .social-links-wrapper-test {
+		width: 100%;
+		float: none;
+		text-align: center;
+	}
+
+		.insights-3col-wrapper .article-content .social-links-wrapper-test ul {
+			padding: 0;
+		}
+
+			.insights-3col-wrapper .article-content .social-links-wrapper-test ul li {
+				display: inline-block;
+			}
+}
+
+@media only screen and (max-width: 480px), only screen and (max-device-width: 480px) {
+	.insights-3col-wrapper .article-content .ac-left-sidebar .options-btn {
+		width: 30px;
+		height: 30px;
+		float: right;
+		position: relative;
+	}
+
+		.insights-3col-wrapper .article-content .ac-left-sidebar .options-btn span {
+			height: 6px;
+			width: 6px;
+			opacity: 1;
+			border-radius: 3px;
+			background-color: #ccc;
+			position: absolute;
+			transition: all ease 0.1s;
+		}
+
+			.insights-3col-wrapper .article-content .ac-left-sidebar .options-btn span.bar1 {
+				left: 0;
+				top: 50%;
+				transform: translateY(-50%);
+			}
+
+			.insights-3col-wrapper .article-content .ac-left-sidebar .options-btn span.bar2 {
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+			}
+
+			.insights-3col-wrapper .article-content .ac-left-sidebar .options-btn span.bar3 {
+				right: 0;
+				top: 50%;
+				transform: translate(0,-50%);
+			}
+
+		.insights-3col-wrapper .article-content .ac-left-sidebar .options-btn.open span.bar1 {
+		}
+
+		.insights-3col-wrapper .article-content .ac-left-sidebar .options-btn.open span.bar2 {
+		}
+
+		.insights-3col-wrapper .article-content .ac-left-sidebar .options-btn.open span.bar3 {
+		}
+
+	.insights-3col-wrapper .article-content .left-sidebar-options {
+		display: none;
+	}
+
+	.insights-3col-wrapper .article-content h1.test-h1 {
+		margin-top: 2rem;
+	}
+}
+
+/*#endregion  memo and insight details*/</style><script type="text/javascript">
+$(document).on('click', 'a[data-link]', function () {
+  console.log('.article link clicked');
+
+  $('#third-Party-Notice-Popup')
+    .data('thirdPartyUrl', $(this).data('link'));
+});
+
+$(document).on('click', '#third-Party-Notice-Popup .okLink', function (e) {
+  console.log('okLink');
+
+  e.preventDefault();
+
+  const url = $('#third-Party-Notice-Popup').data('thirdPartyUrl');
+
+  if (url) {
+    window.open(url, '_blank', 'noopener');
+  }
+
+  const modalEl = document.getElementById('third-Party-Notice-Popup');
+  const modal = bootstrap.Modal.getInstance(modalEl);
+
+  if (modal) {
+    modal.hide();
+  }
+});
+</script><script type="text/javascript">
+$(document).ready(function () {
+    $('#third-Party-Notice-Popup-2').on('show.bs.modal', function (event) {
+        var anchor = $(event.relatedTarget) // Anchor that triggered the modal
+        var thirdPartyUrl = anchor.data('link') // Extract info from data-* attributes        
+        var modal = $(this)
+        modal.find('.okLink').attr('href', thirdPartyUrl)
+        modal.find('.okLink').attr('target', '_blank')
+
+        modal.find('.okLink').click(function () {
+            $('#third-Party-Notice-Popup').modal('hide');  // Hide modal when user clicks on OK button and navigates to new tab
+        });
+    });   
+});
+</script><style type="text/css" media="all">.pdf-download {
+    background: url("/docs/oaktreecaplibraries/svgs/pdf_icon_green.svg") no-repeat !important;
+}
+
+    .pdf-download:hover {
+        background: url("/docs/oaktreecaplibraries/svgs/pdf_icon_blue.svg") no-repeat !important;
+    }</style><script type="text/javascript">
+$(document).ready(function() {
+  $(".article-content .article a").on('click', function() {
+    $(this).blur();
+  });
+  
+  document.getElementById("openPreferences").addEventListener("click", function(e) {
+    e.preventDefault();
+    window.evidon.notice.showPreferencesDialog('prior-consent');
+  });
+  /*
+  $("li.has-submenu").each(function() {
+    $(this).on('focusin', function() {
+      $(this).children("ul.sub-menu").attr('aria-hidden', 'false').css('visibility', 'visible');
+    });
+  });
+  $('.navigations .mega-nav .menu li').on('focus', function() {
+    $('.sub-menu2', this).css('text-indent', $(this).offset().left);
+  });
+  $('.navigations .mega-nav .menu li').on('mouseenter', function() {
+    $('.sub-menu2', this).css('text-indent', $(this).offset().left);
+  });*/
+});
+
+</script><link rel="canonical" href="https://www.oaktreecapital.com/insights/memo/shall-we-repeal-the-laws-of-economics---part-iii" /><meta name="description" content="&lt;div>In his latest memo, Howard Marks discusses recent attempts to rein in long-dated government bond yields.  He affirms that the only sustainable solution is responding to the underlying factors pushing interest rates up, even if politically uncomfortable.  Any other method simply represents an attempt to override the laws of economics &amp;ndash; and that never works.  &lt;/div>" /></head> <body>  <div> <div hidden> <span id="new-window-internal">Opens in a new window</span> <span id="same-window-external">Opens an external site</span> <span id="new-window-external">Opens an external site in a new window</span> </div> 
+<div id="HeaderPlaceholder_T0D9A3C58008_Col00" class="sf_colsIn container-fluid px-0" data-sf-element="Container" data-placeholder-label="NonSearchableContainer">
+
+
+<div >
+    <div ><!-- Google Tag Manager (noscript) -->
+<noscript>&amp;amp;lt;iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KCRTR5H"
+    height="0" width="0" style="display:none;visibility:hidden"&amp;amp;gt;&amp;amp;lt;/iframe&amp;amp;gt;</noscript><!-- End Google Tag Manager (noscript) -->
+<header class="header"><div class="header-content"><div id="menu-toggle"><div id="hamburger"><span></span><span></span><span></span></div><div id="cross"><span></span><span></span></div></div><a class="logo" href="/home"><img src="/docs/oaktreecaplibraries/svgs/new-logo.svg" alt="Oaktree Logo" data-sf-ec-immutable="" /></a>
+ <nav class="navigations" role="navigation"><div class="mega-nav"><div class="mega-nav-container"><div class="form-content d-none" id="msearch"><input type="text" name="searchTerm" id="" placeholder="Search" /><input type="submit" value="" class="do-search" /><span class="closeButton"></span></div><ul class="menu"><li class="has-submenu" aria-label="About"><span tabindex="0">About</span>
+ <ul class="sub-menu2" style="text-indent:577.711px;"><li><a aria-label="Learn More About Oaktree" href="/about">About Oaktree</a></li><li><a href="/about/investment-philosophy">Investment Philosophy</a></li><li><a href="/about/business-principles">Business Principles</a></li><li><a href="/about/leadership">Leadership</a></li></ul></li><li class="has-submenu" aria-label="Strategies"><span tabindex="0">Strategies</span>
+ <ul class="sub-menu2" style="text-indent:677.891px;"><li><a href="/strategies/credit">Credit</a></li><li><a href="/strategies/equity">Equity</a></li><li><a href="/strategies/real-estate">Real Estate</a></li></ul></li><li class="has-submenu" aria-label="Responsibility"><span tabindex="0">Responsibility</span>
+ <ul class="sub-menu2" style="text-indent:831.148px;"><li><a href="/responsibility/sustainability">Sustainability</a></li><li><a href="/responsibility/diversity-inclusion">Diversity &amp; Inclusion</a></li><li><a href="/responsibility/philanthropy">Philanthropy</a></li></ul></li><li aria-label="Insights"><a aria-label="View all Market Commentary, Education and Memos from Howard Marks Insights" href="/insights"><span style="margin-right:-10px;">Insights</span></a>
+ </li><li class="mobile-only has-submenu"><span>Investors</span>
+ <ul class="sub-menu2" style="text-indent:18px;"><li><h5>Public Investors</h5><ul class="sub-sub-menu"><li><a href="/home" data-link="https://www.brookfieldoaktreeholdings.com" style="line-height:16px;margin-bottom:1rem;display:block;padding-top:5px;margin-left:2rem;" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">Brookfield Oaktree Holdings, LLC<br data-sf-ec-immutable="" />(<span style="text-transform:lowercase;display:inline-block;">f/k/a</span> Oaktree Capital Group, LLC)</a></li><li><a href="https://www.oaktreespecialtylending.com" target="_blank" data-sf-ec-immutable="">Oaktree Specialty Lending Corporation</a></li></ul></li><li><h5>Other Investors</h5><ul class="sub-sub-menu"><li><a href="/home" data-link="https://privatewealth.brookfield.com/" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">Brookfield Private Wealth</a></li><li><a href="https://www.oaktreeacquisitioncorp.com" target="_blank" data-sf-ec-immutable="">Oaktree Acquisition Corporation</a></li><li><a href="/home" data-link="https://www.brookfieldoaktree.com/fund/oaktree-diversified-income-fund-inc" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">Oaktree Diversified Income Fund Inc. (ODIDX)</a></li><li><a href="/home" data-link="https://www.brookfieldoaktree.com/fund/oaktree-emerging-markets-equity-fund" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">Oaktree Emerging Markets Equity Fund (OEQIX)</a></li><li><a href="https://www.oaktreereif.com" target="_blank" data-sf-ec-immutable="">Oaktree Real Estate Income</a></li><li><a href="https://www.oaktreesicav.com" target="_blank" data-sf-ec-immutable="">Oaktree SICAV Funds</a></li><li><a href="/home" data-link="https://osc.brookfieldoaktree.com/" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">Oaktree Strategic Credit Fund</a></li><li><a href="/home" data-link="https://www.17capital.com/" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">17Capital</a></li></ul></li><li><h5>Investor Login</h5><ul class="sub-sub-menu"><li><a href="https://ocp.oaktreecapital.com" aria-label="Oaktree Client Portal Login" data-sf-ec-immutable="">Client Portal Login</a></li><li><a href="https://www.taxpackagesupport.com/oaktree" target="_blank" data-sf-ec-immutable="">Brookfield Oaktree Holdings, LLC Tax Package</a></li></ul></li></ul></li><li class="mobile-only"><a href="/careers"><span>Careers</span></a>
+ </li><li class="mobile-only"><a href="/contact-us"><span>Contact Us</span></a>
+ </li><li class="login mobile-only"><a href="https://ocp.oaktreecapital.com" class="btn primary" aria-label="Oaktree Client Portal Login" data-sf-ec-immutable="">Login</a>
+ </li></ul></div></div><div class="separator-nav"><span style="color:#e1e1e1;">|</span></div><div class="sub-nav"><ul class="menu"><li aria-label="Investors"><span tabindex="0">Investors</span>
+ <div class="sub-menu-wrapper2"><ul class="sub-menu"><li><h5>Public Investors</h5><ul class="sub-sub-menu"><li><a href="/home" data-link="https://www.brookfieldoaktreeholdings.com" style="line-height:16px;margin-bottom:0.5rem;display:block;padding-top:5px;" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">Brookfield Oaktree Holdings, LLC<br data-sf-ec-immutable="" />(<span style="text-transform:lowercase;">f/k/a</span> Oaktree Capital Group, LLC)</a></li><li><a href="https://www.oaktreespecialtylending.com" target="_blank" data-sf-ec-immutable="">Oaktree Specialty Lending Corporation</a></li></ul></li><li><h5>Other Investors</h5><ul class="sub-sub-menu"><li><a href="/home" data-link="https://privatewealth.brookfield.com/" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">Brookfield Private Wealth</a></li><li><a href="https://www.oaktreeacquisitioncorp.com" target="_blank" data-sf-ec-immutable="">Oaktree Acquisition Corporation</a></li><li><a href="/home" data-link="https://www.brookfieldoaktree.com/fund/oaktree-diversified-income-fund-inc" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">Oaktree Diversified Income Fund Inc. (ODIDX)</a></li><li><a href="/home" data-link="https://www.brookfieldoaktree.com/fund/oaktree-emerging-markets-equity-fund" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">Oaktree Emerging Markets Equity Fund (OEQIX)</a></li><li><a href="https://www.oaktreereif.com" target="_blank" data-sf-ec-immutable="">Oaktree Real Estate Income</a></li><li><a href="https://www.oaktreesicav.com" target="_blank" data-sf-ec-immutable="">Oaktree SICAV Funds</a></li><li><a href="/home" data-link="https://osc.brookfieldoaktree.com/" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">Oaktree Strategic Credit Fund</a></li><li><a href="/home" data-link="https://www.17capital.com/" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">17Capital</a></li></ul></li><li><h5>Investor Login</h5><ul class="sub-sub-menu"><li><a href="https://ocp.oaktreecapital.com/" aria-label="Oaktree Client Portal Login" data-sf-ec-immutable="">Client Portal Login</a></li><li><a href="https://taxpackagesupport.com/oaktree" target="_blank" data-sf-ec-immutable="">Brookfield Oaktree Holdings, LLC Tax Package</a></li></ul></li></ul></div></li><li><a href="/careers" aria-label="Careers"><span>Careers</span></a></li><li><a href="/contact-us" aria-label="Contact Us"><span>Contact Us</span></a></li><li><a aria-label="Oaktree Client Portal Login" href="https://ocp.oaktreecapital.com" data-sf-ec-immutable=""><span>Login</span></a></li></ul></div><div class="actions-nav"><a href="javascript:void(0)" class="action-search" aria-label="Open Search" tabindex="0" data-sf-ec-immutable=""></a><div class="form-content  d-none" id="dsearch"><input tabindex="0" type="text" name="searchTerm" id="search-field" placeholder="Search" /><input type="submit" value="" class="do-search" aria-label="Search" /><a href="javascript:void(0)" class="closeButton" tabindex="0" data-sf-ec-immutable="">Close Search</a></div></div></nav></div></header></div>    
+</div>
+</div>
+
+ <main id="main"> 
+<div id="ContentPlaceholder_C003_Col00" class="sf_colsIn insight-commentary-wrapper" data-sf-element="Container" data-placeholder-label="Container">
+
+
+
+<div class="modal fade" tabindex="-1" id="pdfTranslationsModal" aria-labelledby="pdfTranslationsModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="pdfTranslationsModalLabel">PDF Translations</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<ul class="list-unstyled">
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="insights-3col-wrapper insight-commentary-wrapper py-3 py-md-5">
+	<div class="container">
+		<div>
+			<div>
+				<div class="article-content px-0 px-md-4 py-0 py-md-0">
+					<div class="row md-gutters justify-content-between">
+						<div class="col-12 col-md-3 col-lg-2">
+							<div class="ac-left-sidebar sticky-top pb-0 pb-md-5 mb-sm-3 mb-md-0 mb-0">
+								<div class="row justify-content-between align-items-center">
+									<div class="col-9 col-md-12 mb-3 mb-md-0">
+										<div class="insight-left-sidebar mb-0 mb-md-5">
+											<div class="oc-text-primary text-uppercase fw-bold" style="font-size: 11px; line-height: 25px; letter-spacing: 0.165em;">Memos from Howard Marks</div>
+											<time class="embedded-date" datetime=">2026-09-22T07:00:00.0000000Z" pubdate title="Time posted: >9/22/2026 7:00:00 AM (UTC)">Sep 22, 2026</time>
+										</div>
+									</div>
+									<div class="col-2 col-md-12 mb-3 mb-md-0 d-md-none d-sm-block">
+										<div class="options-btn">
+											<span class="bar1"></span>
+											<span class="bar2"></span>
+											<span class="bar3"></span>
+										</div>
+									</div>
+								</div>
+								<div class="left-sidebar-options mb-0 mb-md-5 py-0 py-md-0">
+
+									<ul class="insight-actions mb-0 mb-md-5">
+											<li>
+												<a class="download" href="javascript:openPDF('Shall We Repeal the Laws of Economics – Part III','https://www.oaktreecapital.com/docs/default-source/memos/shall-we-repeal-the-laws-of-economics-part-iii.pdf?sfvrsn=e7b72d66_1')">PDF (English)</a>
+											</li>
+										
+											<li>
+												<a class="listen" href="https://www.oaktreecapital.com/insights/memo-podcast/shall-we-repeal-the-laws-of-economics---part-iii-audio">Listen to Memo</a>
+											</li>
+																				<li>
+											<a class="archived" href="/insights/memos">Archived Memos</a>
+										</li>
+
+									</ul>
+
+									<a href="/insights/email-alerts" class="btn secondary float-md-right d-inline-block btnSubscribe">Subscribe</a>
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-md-8 col-lg-8">
+							<h1 class="test-h1">Shall We Repeal the Laws of Economics – Part III</h1>
+							</br>
+							</br>
+							<!-- Text to Speech Conditional Wrapper -->
+							<!-- End -->
+							<p>In September 2024 and June 2025, I wrote memos that were critical of governments&rsquo; attempts to override the laws of economics, based on my conviction that trying to do so is likely to prove ineffective and potentially harmful. Economies are naturally functioning organisms, and trying to steer them will distort their functioning and, usually, worsen the overall result. Sometimes doing so is necessary to prevent outcomes society deems unacceptable, such as widespread poverty or unemployment, but it should be done selectively and with great caution.</p><br /><p>The best analogy is to nature. There&rsquo;s a &ldquo;Circle of Life,&rdquo; as described by a song in the movie <em>The Lion King</em>. The Circle has negative aspects &ndash; since it works through processes such as &ldquo;survival of the fittest&rdquo; &ndash; but it keeps the whole in balance. Humans can take steps to suppress a predator for the protection of prey, but interventions of this kind can have second-order effects, causing other species to grow out of control and throwing the overall environment out of balance. Having one species prey upon another may seem unkind, but human efforts to improve the overall result can easily produce unintended consequences. And that leads me to efforts to dictate the operation of markets.</p><br /><p>The latest such attempt was announced in response to the fact that long-term interest rates have been rising of late. On August 17, the yield on the 30-year U.S. Treasury bond closed at over 5.3%, then a 19-year high. A government or central bank might want to stem the rise and bring about lower long-term rates since higher ones tend to (a) depress economic growth, (b) reduce the affordability of things that are usually paid for through loans (like cars and houses), (c) increase the cost of servicing the federal debt (which has recently reached an astounding $40 trillion), and (d) suggest a loss of confidence among market participants.</p><br /><p>The Federal Reserve can&rsquo;t directly set long-term rates the way the Federal Open Market Committee sets a target range for the federal funds rate, which strongly influences other short-term rates. The Treasury doesn&rsquo;t &ldquo;set&rdquo; long-term rates either, but it can influence them through issuance and buybacks. Thus, on August 19, in a move it described as intended to provide greater liquidity support in longer-dated securities, the Treasury announced it would at least double the maximum size of its long-dated buybacks, from $2 billion per operation to $4 billion. The next day, Treasury Secretary Scott Bessent indicated a willingness to do more &ndash; something approaching a &ldquo;whatever-it-takes&rdquo; promise. All else equal, more buying should result in higher bond prices, and higher bond prices mean lower bond yields. Long rates declined immediately after the announcement, but they bounced back the next day. </p><br /><p><span style="text-decoration:underline;">Will It Solve the Problem?</span></p><br /><p><strong>I view this action as an attempt to improve the interest-rate picture cosmetically. It may constitute a response to the effects of rising rates enumerated above, but it can&rsquo;t be described as solving the underlying problem. </strong></p><br /><p><strong>First, any effect may be temporary. </strong> All else equal, you can raise the price of something by buying it, or you can make the price of something decline by selling it. But the impact of your actions may be fleeting, and once you stop, the market is likely to go back to doing what it would have done if you hadn&rsquo;t intervened. My vision is of a column of water in the ocean. Its upward thrust can keep a ball suspended above the surface for as long as it continues. But as soon as the water stops being pumped upward, the ball will fall. </p><br /><p>On August 24, investor Stanley Druckenmiller responded to Bessent&rsquo;s announcement with an opinion piece in <em>The Wall Street Journal</em>. Here are some of my favorite bits from what he wrote: </p><br /><p class="indent">Every basis point of artificial yield suppression is a subsidy to procrastination. . . . Whatever this operation saves in basis points, it will cost multiples in delay. . . .
+    Governments defending prices against fundamentals always lose. The only variable is how much they spend before conceding.
+</p><br /><p>Druckenmiller knows what he&rsquo;s talking about, as he helped conceive the most famous macro trade in history. He was running George Soros&rsquo;s Quantum Fund on a day-to-day basis in 1992, when it successfully bet against the Bank of England&rsquo;s ability to support the pound in contravention of fundamentals. That trade reportedly earned the fund about $1 billion, at a time when $1 billion was real money.</p><br /><p><strong>Second, it doesn&rsquo;t directly respond to the issues at the root of the rate rise. </strong>The increase in rates that the Treasury finds undesirable isn&rsquo;t a random phenomenon that&rsquo;s occurring for no reason. Among the likely contributors are these:</p><ul class="indent"><li data-list="5" data-level="1"><p><strong>Inflation is stubbornly higher than is desirable </strong>(for example, PCE inflation was 3.7% in July versus the Fed&rsquo;s long-term target of 2%); this is the primary reason why the Federal Reserve raised its benchmark interest rate last week. Elevated oil prices associated with the war with Iran threaten to keep inflation high. Because inflation reduces the purchasing power of currencies over time, investors buying long-term instruments demand that yields incorporate an inflation-protection component to protect the purchasing power of the money with which they&rsquo;ll be repaid.</p></li><li data-list="5" data-level="1"><p><strong>The U.S. displays a total lack of fiscal discipline. </strong>Thanks to the dollar&rsquo;s position as the world&rsquo;s reserve currency, the U.S. has had what I call a &ldquo;golden credit card&rdquo; on which there&rsquo;s no credit limit, the bill never comes, and the interest rate is extremely low. But it uses the card unwisely. John Maynard Keynes was a strong advocate of deficit spending a hundred years ago (in fact, deficit spending is closely identified with &ldquo;Keynesian economics&rdquo;). He advocated running deficits during economic slowdowns to spur employment, repaying the resulting debt when the economy returns to growth. Today, the U.S. is incurring massive deficits during prosperity, and we hear no talk of balanced budgets (and really of budgets at all). <strong>And note that large deficits can be inflationary, especially when the economy is operating near capacity, since the government adds more to liquidity through its spending than it withdraws through taxes. </strong>This incremental liquidity stimulates aggregate demand and thus economic growth, adds to inflation, and thus exacerbates the problem described above.<br /><br />Today&rsquo;s deficit is in the vicinity of 6% of GDP, an extraordinarily high level for an economy enjoying prosperity with unemployment of only 4%. Net interest outlays are projected at more than $1 trillion this year, more than the defense budget, and they will rise rapidly if the debt continues to grow faster than GDP. (And what if interest rates rise further from here?) This profligacy raises the possibility that the credit card may be taken away or at least be limited in some way. The immediate consequence would be higher interest rates on U.S. debt. This would increase the cost of servicing the debt and further expand the deficit, perpetuating the negative spiral caused by the lack of fiscal discipline. </p></li><li data-list="5" data-level="1"><p>Treasury buybacks are financed from its general cash resources, which ultimately are replenished through additional issuance. To the extent increased long-term-bond buybacks are accompanied by greater T-bill issuance, the transactions don&rsquo;t change our overall indebtedness, but they shorten the maturity pattern of our debt, necessitating more frequent refunding at whatever rates prevail. This doesn&rsquo;t seem likely to bolster confidence in our fiscal picture.</p></li><li data-list="5" data-level="1"><p>The need to fund the massive federal deficits comes on top of the routine need for capital that accompanies the growth of the U.S. economy, and to that is added the multi-trillion-dollar investment in AI.  The result of this combination is strong demand for debt and equity capital.  The simplest rule of economics is that increased demand for something causes its price to rise.  <strong>It&rsquo;s entirely understandable, therefore, that this growing demand for capital should put upward pressure on the price of money: interest rates.</strong><br /><br />Looking ahead, the AI buildout is likely to cost trillions of dollars, with McKinsey &amp; Company estimating that over $5 trillion will be spent worldwide through 2030 on data centers directly related to AI. A fair bit of this will probably be borrowed, but even that which comes from the sale of equity will draw from the total supply of available capital, affecting the interest rates bonds must pay to attract investors. At the same time, the Treasury will have to refinance an enormous volume of maturing securities while financing the annual deficits. Most of its issuance will merely roll maturing debt, but the new net issuance of roughly $2 trillion will add to the supply investors must absorb, putting upward pressure on yields and <strong>arguing against the likelihood of a decline in interest rates anytime soon.</strong></p></li><br /></ul><p>According to <em>The Financial Times</em> of August 22, &ldquo;Bessent argued on Thursday that &lsquo;yields don&rsquo;t reflect the underlying fundamentals,&rsquo; citing the effect of the Iran war and &lsquo;very poor&rsquo; liquidity in the 30-year Treasury market.&rdquo; <strong>On the contrary, I think U.S. long-term bond yields <span style="text-decoration:underline;">are</span> reflecting the fundamentals as described above. </strong></p><br /><p><strong>Third, I think the impact of Treasury/Fed announcements is often largely psychological, </strong>designed to produce a certain reaction (as this one did for a day). But their influence can wane over time, especially if not backed up with attention to root causes. The bottom line regarding this go-round is that the market doesn&rsquo;t seem to be impressed. See the following note issued by Evercore ISI on September 9: </p><br /><p class="indent">Today at 11 AM was the big reveal for the first round of Treasury Secretary Bessent&rsquo;s ramped up &ldquo;Treasury Twist&rdquo; buybacks. Treasury announced a tripling in the maximum size of the buyback operation on Thursday from $2bn to $6bn &ndash; more than the &ldquo;at least $4bn&rdquo; promised in August. But markets look underwhelmed with yields at the time of writing moving higher.</p><br /><p><strong>The goal shouldn&rsquo;t be to get interest rates down. It should be to respond to the factors pushing rates up. </strong>Forcing rates down by buying bonds is like a doctor applying an ice pack to a patient with a fever. The ice pack may lower the patient&rsquo;s temperature, but the patient isn&rsquo;t likely to get healthy until the underlying cause of the fever has been dealt with.</p><br /><p><span style="text-decoration:underline;">Is the Debt a Problem?</span></p><br /><p>I get this question a lot, and it can be hard to get one&rsquo;s head around it. <strong>On one hand, simply put, it doesn&rsquo;t seem reasonable that the U.S. can continue forever to spend more than it brings in. </strong>And as economist Herbert Stein once said, &ldquo;If it can&rsquo;t go on forever, it will stop.&rdquo; You can&rsquo;t argue with that!</p><br /><p><strong>But on the other hand, it&rsquo;s hard to figure out what will render the U.S. unable to continue financing deficits by adding to its debt. </strong>While then-candidate Donald Trump initially made some ambiguous comments about making a deal on U.S. debt during the 2016 presidential campaign, I don&rsquo;t think there&rsquo;s a serious probability the U.S. will fail to repay debt as scheduled. Why would we, since our debt is denominated in a currency the U.S. issues? When I was young, I had a 1,000 mark note from the Weimar Republic of the early 1920s that had been overprinted &ldquo;One Million Marks.&rdquo; Germany had large fiscal obligations stemming from World War I debts and reparations, and money creation helped finance its deficits but contributed to the currency&rsquo;s collapse. </p><br /><p>As long as the dollar is the world&rsquo;s main reserve currency &ndash; it was involved in 89% of foreign exchange transactions in 2025 and accounted for 57% of allocated official reserves in the first quarter of 2026 &ndash; it seems likely we&rsquo;ll be able to continue financing deficits in our own currency. &ldquo;Ah,&rdquo; you say, &ldquo;but might the dollar lose its reserve status? Will printing too many dollars render them less accepted?&rdquo; That&rsquo;s a tough question. I think the world needs safe, liquid reserve currencies for storing reserves and engaging in international transactions. For the U.S. dollar not to be the main reserve currency, another currency or group of currencies would have to take a larger role. Fifteen years ago, some thought that could be the euro. It remains the second-largest reserve currency, but it hasn&rsquo;t closed the gap with the dollar. Later, China&rsquo;s progress seemed capable of winning reserve status for the renminbi. But it still accounts for only about 2% of allocated official reserves, and capital controls and global tensions make a rapid ascent unlikely. (There is, however, some talk of China, Russia, and Iran coming up with an alternative to the dollar.) Gold isn&rsquo;t widely used in transactions &ndash; nor is it likely to be for obvious reasons &ndash; but according to a note last week from MUFG Bank, it recently surpassed the dollar as the world&rsquo;s leading central bank reserve asset. Lastly, cryptocurrency plays only a negligible reserve role. For the most part, the world is probably stuck with the dollar for now.</p><br /><p>So, the U.S. is likely to continue being able to make nominal payments in dollars to service its debt. That brings us to the next question: what will happen to exchange rates? Creating large amounts of a currency can, all else equal, reduce its value relative to &ldquo;things&rdquo; and other currencies. You can easily turn a 1,000 mark note into a 1,000,000 mark note, but it&rsquo;s likely to still buy just one goat (as I wrote in my memo <a class="hyperlink" href="/docs/default-source/memos/2008-10-15-the-limits-to-negativism.pdf?sfvrsn=fbbc0f65_6"><em>The Limits to Negativism</em></a> in 2008). In fact, people who ponder what the U.S. will do about the debt are talking about &ldquo;the debasement trade&rdquo;: actions designed to let us pay our debts using dollars with reduced purchasing power &ndash; i.e., by forking over fewer goats. </p><br /><p>As <em>The Financial Times</em> wrote on August 22:</p><br /><p class="indent">The Treasury&rsquo;s new attempt to depress bond yields is a signal that rather than tame spending, the US is prepared to distort markets to cap borrowing costs, even if that causes its currency to fall. That raises more questions about the dollar as a haven.</p><br /><p>Such actions can be self-defeating because they make people worry about the purchasing power of the dollars with which they&rsquo;ll be repaid, which makes them demand higher interest rates on new dollar debt. </p><br /><p>Note that my 2008 mention of the overprinted Weimar note was occasioned by concern over the large amounts of central-bank liquidity that were being created to pull us out of the Global Financial Crisis. A lot of people, including me, were worried that it could weaken the dollar relative to other currencies or cause inflation to accelerate. But the dollar was not durably debased against major currencies, and sustained high inflation did not follow.</p><br /><p>The expansion of the Fed&rsquo;s balance sheet in 2008 was a necessary and prudent step to stop a meltdown of the world financial system that appeared to be underway. (As it turned out, it didn&rsquo;t debase the dollar; in my view, it largely offset the destruction of money and credit brought about by the Global Financial Crisis.) Today&rsquo;s massive deficit financing is being done in response to deficits of our own making. And it&rsquo;s taking place in a time of prosperity, so it can add to aggregate demand and inflation pressure.</p><br /><p>It&rsquo;s often best to let Warren Buffett have the last word, so I&rsquo;ll close this section by quoting from his remarks at the May 2025 Berkshire Hathaway annual meeting: </p><br /><p class="indent">Fiscal policy is what scares me in the United States. . . . We&rsquo;re operating at a fiscal deficit now that is unsustainable over a very long period of time. . . . <strong>We don&rsquo;t know whether that means two years or 20 years</strong>, because there&rsquo;s never been a country like the United States. (Emphasis added.)</p><br /><p><span style="text-decoration:underline;">Is There a Solution?</span></p><br /><p><strong>The issue at hand isn&rsquo;t a matter of conjecture . . . just math. We&rsquo;re spending more than we&rsquo;re taking in; we&rsquo;re increasing our debt relative to our GDP; and our interest bill is growing rapidly. </strong>This is a problem long in the making, long recognized, and long warned about, which now seems to be starting to bite. It won&rsquo;t get fixed of its own accord, and so far, no one has stepped up to fix it. An acute problem (a failed Treasury auction or buyers&rsquo; strike) seems improbable. But the cost is chronic and already being imposed. As Druckenmiller wrote in the <em>WSJ</em>, &ldquo;If the 30-year must trade at 5.5% to clear, that isn&rsquo;t a crisis. It is an invoice.&rdquo; We either must pay it &ndash; whatever it grows to &ndash; or we must fix the underlying problem.</p><br /><p>If a person (or a country) is living beyond their means, there&rsquo;s only one genuine, long-term solution: change behavior. The only hope lies in doing the following:</p><ul class="indent"><li data-list="5" data-level="1"><p>Forget phrases like &ldquo;pay down the debt&rdquo; or &ldquo;pay off the debt&rdquo;</p></li><li data-list="5" data-level="1"><p>Accept that we&rsquo;re unlikely to ever have less debt than we do now</p></li><li data-list="5" data-level="1"><p>Adopt fiscal responsibility &ndash; start caring about budgets and their impact</p></li><li data-list="5" data-level="1"><p>Flatten the curve (a phrase from the Covid-19 pandemic)</p></li><li data-list="5" data-level="1"><p>Increase revenues as a percentage of GDP through higher income tax rates (especially at the upper end, where the top federal marginal rate is quite low relative to much of the postwar period) and elimination of tax preferences</p></li><li data-list="5" data-level="1"><p>Hold the rate of growth in spending below GDP growth by applying the discipline that comes with thinking of resources as finite </p></li></ul><p><strong>There&rsquo;s one more thing that could help. All else being equal, raising the rate of GDP growth would both increase tax revenues and reduce total spending relative to GDP. The best way to accomplish this would be through increased productivity</strong>, which could be advanced through the combination of (a) solid economic growth, (b) increasing use of AI, which more than anything else is a productivity tool, and (c) pro-business policies that reduce unneeded regulation that impairs efficiency. A final element is essential, however: we&rsquo;ll have to keep the added revenue from being spent.</p><br /><p><strong>If we do these things, annual deficits should shrink as a percentage of GDP, the annual increase in debt should be smaller, and the debt-to-GDP ratio could decline. </strong>I think that&rsquo;s the best we can hope for. Few people will be happy with all the components I describe above (e.g., no one likes to pay higher taxes), but a country that won&rsquo;t cut spending has to look at revenue. I sincerely doubt there&rsquo;s another solution available. </p><br /><p><span style="text-decoration:underline;">What to Do in the Meantime</span></p><br /><p>While we&rsquo;re waiting for Washington to solve the problem, what should we do in our portfolios? That&rsquo;s what a friend of mine &ndash; not an investment professional, but a nationally known entrepreneur &ndash; asked me last month. <strong>&ldquo;Should I sell my stocks?&rdquo; </strong></p><br /><p>That&rsquo;s not the answer, I told him. <strong>The problem we face isn&rsquo;t a problem with the U.S. stock market or with U.S. companies. It&rsquo;s a problem with U.S. fiscal management, and ultimately a potential problem with the U.S. dollar. </strong>If you sell your U.S. stocks, where will you put your money? A bank? A money market fund? Bonds? If they&rsquo;re denominated in dollars, you haven&rsquo;t escaped the risk under discussion here. If the U.S.&rsquo;s bad habits catch up with it and investors become less happy with U.S. Treasurys, that&rsquo;s likely to manifest itself through a lower opinion of the dollar. If you want to do something about that risk, you may have to move into (a) assets denominated in currencies other than the dollar, (b) non-financial assets, such as gold or non-U.S. real estate, or (c) non-U.S. companies or cryptocurrencies. </p><br /><p>But moving into non-dollar or non-U.S. assets introduces other risks. Many companies elsewhere in the developed world have poorer growth prospects than leading U.S. companies and less scale (and thus fewer economies of scale), and many operate in jurisdictions that are more highly regulated and less business-friendly. Companies in emerging markets often appear to have good growth potential, but realizing it is much more uncertain. Most institutional investors have been heavily allocated to the U.S. to date, with great success, and the reasons for that &ndash; the free-market system, pro-business climate, economic vitality, spirit of innovation and adaptability, technological and managerial expertise, rule of law, moderate regulation, excellent higher education, strong capital markets &ndash; largely remain intact. In my opinion, no other country possesses these things to the same extent. <strong>Taking money out of the U.S. entails risks that could easily render it unsuccessful, especially if it&rsquo;s done to avoid a problem whose reckoning may be so far off. </strong>(And I don&rsquo;t want to give the impression that only the U.S. is running deficits. If you move out of dollar assets and into another currency that&rsquo;s subject to debasement, what have you accomplished?) </p><br /><p>That&rsquo;s not to say I flatly oppose diversification away from the dollar. For investors with non-dollar needs, goals, or aspirations, it may make sense to own fewer dollar-denominated assets. But I don&rsquo;t think it should be done on a great scale for the reasons described above.</p><br /><p style="text-align:center;">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *</p><br /><p><strong>The bottom line: you can&rsquo;t ignore the laws of economics and expect to come out ahead. I don&rsquo;t think the U.S. can perpetually spend more than it takes in and not expect its creditworthiness to be questioned and its IOUs &ndash; its currency and Treasury securities &ndash; to be disrespected. </strong>This isn&rsquo;t an investment problem. It&rsquo;s a political problem, but it poses a problem for investors. Selling dollar assets may not be the answer. No one&rsquo;s likely to do enough of it to eliminate the issue, and doing so could easily look like a big mistake for a very long time (since no one knows whether or when the issue will come to a head). There&rsquo;s just one potential solution. Will we face up to the problem and take action?</p><br /><!-- Date -->
+<p>September 22, 2026</p><br /><br /><br /><p class="subtitleGreen">Legal Information and Disclosures</p><br /><p><span class="paragraph"><em>This memorandum expresses the views of the author as of the date indicated and such views are subject to change without notice. Oaktree has no duty or obligation to update the information contained herein. Further, Oaktree makes no representation, and it should not be assumed, that past investment performance is an indication of future results. Moreover, wherever there is the potential for profit there is also the possibility of loss. </em>
+ </span>
+</p><br /><p><span class="paragraph"><em>This memorandum is being made available for educational purposes only and should not be used for any other purpose. The information contained herein does not constitute and should not be construed as an offering of advisory services or an offer to sell or solicitation to buy any securities or related financial instruments in any jurisdiction. Certain information contained herein concerning economic trends and performance is based on or derived from information provided by independent third-party sources. Oaktree Capital Management, L.P. (&ldquo;Oaktree&rdquo;) believes that the sources from which such information has been obtained are reliable; however, it cannot guarantee the accuracy of such information and has not independently verified the accuracy or completeness of such information or the assumptions on which such information is based. </em>
+ </span>
+</p><br /><p><span class="paragraph"><em>This memorandum, including the information contained herein, may not be copied, reproduced, republished, or posted in whole or in part, in any form without the prior written consent of Oaktree. </em>
+ </span>
+</p><br /><br /><p class="paragraph"><em>&copy; 2026 Oaktree Capital Management, L.P.</em>
+</p>
+						</div>
+						<div class="col-12 col-md-1 col-lg-1">
+							<div class="ac-right-sidebar d-inline-block sticky-top pb-3 pb-md-0">
+								<div class="social-links-wrapper-test">
+
+<span>Share</span>
+ <ul class="mt-1"><li class="m-1"><a href="https://twitter.com/intent/tweet?source=https://www.oaktreecapital.com/insights/memo/shall-we-repeal-the-laws-of-economics---part-iii&amp;text=Oaktree Capital: Shall We Repeal the Laws of Economics – Part III:%20https://www.oaktreecapital.com/insights/memo/shall-we-repeal-the-laws-of-economics---part-iii" class="svg-twitter-primary-outline" data-sf-ec-immutable="" target="_blank"></a></li><li class="m-1"><a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.oaktreecapital.com/insights/memo/shall-we-repeal-the-laws-of-economics---part-iii/%2F&amp;title=Oaktree Capital: Shall We Repeal the Laws of Economics – Part III&amp;summary=&amp;source=https://www.oaktreecapital.com/insights/memo/shall-we-repeal-the-laws-of-economics---part-iii" class="svg-linkedin-primary-outline" data-sf-ec-immutable="" target="_blank"></a></li><li class="m-1"><a href="https://www.facebook.com/sharer/sharer.php?u=https://www.oaktreecapital.com/insights/memo/shall-we-repeal-the-laws-of-economics---part-iii/%2F&amp;quote=Oaktree Capital: Shall We Repeal the Laws of Economics – Part III" class="svg-facebook-primary-outline" data-sf-ec-immutable="" target="_blank"></a></li><li class="m-1 mb-0"><a href="mailto:?subject=Oaktree Capital: Shall We Repeal the Laws of Economics – Part III&amp;body=https://www.oaktreecapital.com/insights/memo/shall-we-repeal-the-laws-of-economics---part-iii" class="svg-mail-primary-outline" data-sf-ec-immutable=""></a></li></ul>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	window.onload = function exampleFunction() {
+		console.log('The Script will load now.');
+	}
+	$(document).ready(function () {
+		$('.options-btn').on('click', function () {
+			$(this).toggleClass('open');
+			$('.left-sidebar-options').slideToggle();
+		});
+	});
+</script>
+
+
+
+
+
+
+</div>
+
+
+
+	<div class="sf_colsIn container-fluid py-5 px-0 oc-bg-secondary">
+		<div class="sf_colsIn container">
+			<div class="row justify-content-center">
+				<div class="sf_colsIn col-lg-12">
+					<div>
+						<div><h2 class="text-center oc-text-white">Related Content</h2></div>
+					</div>
+					<section class="insights-list-wrapper">
+						<div class="insights-list-content">
+							<div class="content">
+									<div class="insights-list row" data-items="[{&quot;InsightId&quot;:&quot;07c644f2-db87-6b3c-8afe-ff00002d04a8&quot;,&quot;Title&quot;:&quot;What’s Going on in Private Credit?&quot;,&quot;IsoDate&quot;:&quot;2026-04-09T07:00:00.0000000Z&quot;,&quot;UtcDate&quot;:&quot;4/9/2026 7:00:00 AM&quot;,&quot;FormattedDate&quot;:&quot;Apr 9, 2026&quot;,&quot;InsightDate&quot;:&quot;2026-04-09T07:00:00Z&quot;,&quot;PosterImageSourceUrl&quot;:&quot;https://www.oaktreecapital.com/images/oaktreecaplibraries/insights/memos/hm-memos_written-image-1_530x299px.png?sfvrsn=50697366_3&quot;,&quot;PosterImageAltText&quot;:&quot;&quot;,&quot;MoreLink&quot;:&quot;/insights/memo/whats-going-on-in-private-credit&quot;,&quot;CategoryText&quot;:&quot;memos&quot;,&quot;ReadMoreText&quot;:&quot;Read&quot;,&quot;CssClassType&quot;:&quot;article&quot;,&quot;NewsType&quot;:null,&quot;ShowThirdPartyNoticePopup&quot;:false,&quot;ThirdPartyPopUpID&quot;:null,&quot;OpenInNewTab&quot;:false},{&quot;InsightId&quot;:&quot;597644f2-db87-6b3c-8afe-ff00002d04a8&quot;,&quot;Title&quot;:&quot;AI Hurtles Ahead&quot;,&quot;IsoDate&quot;:&quot;2026-02-26T08:00:00.0000000Z&quot;,&quot;UtcDate&quot;:&quot;2/26/2026 8:00:00 AM&quot;,&quot;FormattedDate&quot;:&quot;Feb 26, 2026&quot;,&quot;InsightDate&quot;:&quot;2026-02-26T08:00:00Z&quot;,&quot;PosterImageSourceUrl&quot;:&quot;https://www.oaktreecapital.com/images/oaktreecaplibraries/insights/memos/hm-memos_written-image-2_530x299px.png?sfvrsn=4f697366_10&quot;,&quot;PosterImageAltText&quot;:&quot;The Memo by Howard Marks&quot;,&quot;MoreLink&quot;:&quot;/insights/memo/ai-hurtles-ahead&quot;,&quot;CategoryText&quot;:&quot;memos&quot;,&quot;ReadMoreText&quot;:&quot;Read&quot;,&quot;CssClassType&quot;:&quot;article&quot;,&quot;NewsType&quot;:null,&quot;ShowThirdPartyNoticePopup&quot;:false,&quot;ThirdPartyPopUpID&quot;:null,&quot;OpenInNewTab&quot;:false},{&quot;InsightId&quot;:&quot;592d43f2-db87-6b3c-8afe-ff00002d04a8&quot;,&quot;Title&quot;:&quot;Is It a Bubble?&quot;,&quot;IsoDate&quot;:&quot;2025-12-09T08:00:00.0000000Z&quot;,&quot;UtcDate&quot;:&quot;12/9/2025 8:00:00 AM&quot;,&quot;FormattedDate&quot;:&quot;Dec 9, 2025&quot;,&quot;InsightDate&quot;:&quot;2025-12-09T08:00:00Z&quot;,&quot;PosterImageSourceUrl&quot;:&quot;https://www.oaktreecapital.com/images/oaktreecaplibraries/insights/memos/the-memo-from-howard-marksd198ddb3-6ceb-4922-8cac-9ddfca1ae261.png?sfvrsn=7bfc7366_1&quot;,&quot;PosterImageAltText&quot;:&quot;The Memo from Howard Marks&quot;,&quot;MoreLink&quot;:&quot;/insights/memo/is-it-a-bubble&quot;,&quot;CategoryText&quot;:&quot;memos&quot;,&quot;ReadMoreText&quot;:&quot;Read&quot;,&quot;CssClassType&quot;:&quot;article&quot;,&quot;NewsType&quot;:null,&quot;ShowThirdPartyNoticePopup&quot;:false,&quot;ThirdPartyPopUpID&quot;:null,&quot;OpenInNewTab&quot;:false}]"></div>
+
+
+								
+								<div class="row justify-content-center">
+									<div class="col-auto">
+										<div class="btn-wrap oc-bg-white">
+											<button class="btn primary">Load More</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+	<script type="text/javascript">
+$(document).ready(function () {
+	getInsightRelatedContent('press');
+});
+	</script>
+</main> 
+<div id="FooterPlaceholder_T0D9A3C58007_Col00" class="sf_colsIn container-fluid px-0" data-sf-element="Container" data-placeholder-label="NonSearchableContainer">
+<div >
+    <div ><div class="modal fade" id="third-Party-Notice-Popup" tabindex="-1" role="dialog" aria-labelledby="third-Party-Notice-Popup" aria-hidden="true"><div class="modal-dialog modal-dialog-centered oc-modal-important" role="document"><div class="modal-content"><div class="modal-body"><h5>Important Notice</h5><p class="paragraph">You are leaving the Oaktree website and are being redirected to a third-party website. This link is being provided as a convenience and does not constitute an endorsement or approval by Oaktree of any products, services, or opinions of the corporation, organization or individual. Your access to, and use of, this website will be subject to the applicable Terms of Use, Privacy Policy and Use of Cookies.</p><div><a class="okLink" data-sf-ec-immutable=""><button tabindex="-1">OK</button></a>
+ <button data-dismiss="modal" data-bs-dismiss="modal">Cancel</button></div></div></div></div></div></div>    
+</div>
+<div >
+    <div ><div class="modal fade" id="third-Party-Notice-Popup-2" tabindex="-1" role="dialog" aria-labelledby="third-Party-Notice-Popup" aria-hidden="true"><div class="modal-dialog modal-dialog-centered oc-modal-important" role="document"><div class="modal-content"><div class="modal-body"><h5>Important Notice</h5><p class="paragraph">You are leaving the Oaktree website and are being redirected to a third-party website. This link is being provided as a convenience and does not constitute an endorsement or approval by Oaktree of any products, services, or opinions of
+                    the corporation, organization or individual. Your access to, and use of, this website will be subject to the applicable Terms of Use, Privacy Policy and Use of Cookies.</p><p class="paragraph">The statements in this video represent the opinions of the individual speaker. This video does not constitute an offer to sell or the solicitation of an offer to purchase any security. Any investment involves substantial risks including
+                    complete loss of capital. There can be no assurance that Oaktree will be able to implement the strategy described herein or, if implemented, it will lead to successful results. There can be no assurance Oaktree will be able to maintain
+                    the advantages discussed herein over time, or outperform third parties or the financial markets generally.</p><p class="paragraph">Certain information contained in the video constitutes &ldquo;forward-looking statements,&rdquo; which can be identified by the use of terms such as &ldquo;may,&rdquo; &ldquo;will,&rdquo; &ldquo;expects,&rdquo; &ldquo;intends,&rdquo; &ldquo;plans,&rdquo;
+                    &ldquo;believes,&rdquo; &ldquo;estimates&rdquo; or comparable terminology. Forward looking statements are subject to a number of known and unknown risks and uncertainties, including without limitation changes in economic conditions,
+                    political changes, legal and regulatory requirements, interest rate fluctuations, as well as changes in the markets, prospects and competition. There can be no assurance historical trends will continue.</p><div><a class="okLink" data-sf-ec-immutable=""><button tabindex="-1">OK</button></a>
+ <button data-dismiss="modal" data-bs-dismiss="modal">Cancel</button></div></div></div></div></div></div>    
+</div>
+
+
+
+
+<div >
+    <div ><footer class="footer"><div class="footer-content"><div class="footer-links"><div class="logo"><a class="logo" href="/home"><img src="/docs/oaktreecaplibraries/svgs/new-logo-white.svg" alt="Oaktree Logo Footer" data-sf-ec-immutable="" /></a></div><ul class="footer-menu"><li><h5 class="oc-text-white has-submenu">About</h5><ul><li><a aria-label="Learn More About Oaktree" href="/about">About Oaktree</a>&nbsp;</li><li><a href="/about/investment-philosophy">Investment Philosophy</a></li><li><a href="/about/business-principles">Business Principles</a></li><li><a href="/about/leadership">Leadership</a></li></ul></li><li><h5 class="oc-text-white has-submenu">Strategies</h5><ul><li><a href="/strategies/credit">Credit</a></li><li><a href="/strategies/equity">Equity</a></li><li><a href="/strategies/real-estate">Real Estate</a></li></ul></li><li><h5 class="oc-text-white has-submenu">Responsibility</h5><ul><li><a href="/responsibility/sustainability">Sustainability</a></li><li><a href="/responsibility/diversity-inclusion">Diversity &amp; Inclusion</a></li><li><a href="/responsibility/philanthropy">Philanthropy</a></li></ul></li><li><h5 class="oc-text-white has-submenu">Insights</h5><ul class="sub-menu"><li><a aria-label="View all Market Commentary, Education and Memos from Howard Marks Insights" href="/insights">Memos from Howard Marks</a></li><li><a aria-label="View all Market Commentary, Education and Memos from Howard Marks Insights" href="/insights">Market Commentary</a></li><li><a aria-label="View all Market Commentary, Education and Memos from Howard Marks Insights" href="/insights">Education</a></li><li><a aria-label="View All Press" href="/insights#Press">Press</a></li></ul></li><li class="desktop-only"><h5 class="oc-text-white">Public Investors</h5><ul class="sub-sub-menu"><li><a href="/home" data-link="https://www.brookfieldoaktreeholdings.com" style="line-height:16px;margin-bottom:0.5rem;display:block;padding-top:5px;" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">Brookfield Oaktree Holdings, LLC<br data-sf-ec-immutable="" />(<span style="text-transform:lowercase;">f/k/a</span> Oaktree Capital Group, LLC)</a></li><li><a href="https://www.oaktreespecialtylending.com" target="_blank" data-sf-ec-immutable="">Oaktree Specialty Lending Corporation</a></li></ul><br /><br /><h5 class="oc-text-white">Other Investors</h5><ul class="sub-sub-menu"><li><a data-target="#third-Party-Notice-Popup" href="/home" data-link="https://privatewealth.brookfield.com/" data-toggle="modal" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">Brookfield Private Wealth</a></li><li><a href="https://www.oaktreeacquisitioncorp.com" target="_blank" data-sf-ec-immutable="">Oaktree Acquisition Corporation</a></li><li><a data-target="#third-Party-Notice-Popup" href="/home" data-link="https://www.brookfieldoaktree.com/fund/oaktree-diversified-income-fund-inc" data-toggle="modal" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">Oaktree Diversified Income Fund Inc. (ODIDX)</a></li><li><a data-target="#third-Party-Notice-Popup" href="/home" data-link="https://www.brookfieldoaktree.com/fund/oaktree-emerging-markets-equity-fund" data-toggle="modal" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">Oaktree Emerging Markets Equity Fund (OEQIX)</a></li><li><a href="https://www.oaktreereif.com" target="_blank" data-sf-ec-immutable="">Oaktree Real Estate Income</a></li><li><a href="https://www.oaktreesicav.com" target="_blank" data-sf-ec-immutable="">Oaktree SICAV Funds</a></li><li><a data-target="#third-Party-Notice-Popup" href="/home" data-link="https://osc.brookfieldoaktree.com/" data-toggle="modal" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">Oaktree Strategic Credit Fund</a></li><li><a data-target="#third-Party-Notice-Popup" href="/home" data-link="https://www.17capital.com/" data-toggle="modal" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">17Capital</a></li></ul></li><li class="mobile-only"><h5 class="oc-text-white has-submenu">Public Investors</h5><ul class="sub-sub-menu"><li><a href="/home" data-link="https://www.brookfieldoaktreeholdings.com" style="line-height:16px;margin-bottom:0.5rem;display:block;padding-top:5px;" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">Brookfield Oaktree Holdings, LLC<br data-sf-ec-immutable="" />(<span style="text-transform:lowercase;">f/k/a</span> Oaktree Capital Group, LLC)</a></li><li><a href="https://www.oaktreespecialtylending.com" target="_blank" data-sf-ec-immutable="">Oaktree Specialty Lending Corporation</a></li></ul></li><li class="mobile-only"><h5 class="oc-text-white has-submenu">Other Investors</h5><ul class="sub-sub-menu"><li><a data-target="#third-Party-Notice-Popup" href="/home" data-link="https://privatewealth.brookfield.com/" data-toggle="modal" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">Brookfield Private Wealth</a></li><li><a href="https://www.oaktreeacquisitioncorp.com" target="_blank" data-sf-ec-immutable="">Oaktree Acquisition Corporation</a></li><li><a data-target="#third-Party-Notice-Popup" href="/home" data-link="https://www.brookfieldoaktree.com/fund/oaktree-diversified-income-fund-inc" data-toggle="modal" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">Oaktree Diversified Income Fund Inc. (ODIDX)</a></li><li><a data-target="#third-Party-Notice-Popup" href="/home" data-link="https://www.brookfieldoaktree.com/fund/oaktree-emerging-markets-equity-fund" data-toggle="modal" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">Oaktree Emerging Markets Equity Fund (OEQIX)</a></li><li><a href="https://www.oaktreereif.com" target="_blank" data-sf-ec-immutable="">Oaktree Real Estate Income</a></li><li><a href="https://www.oaktreesicav.com" target="_blank" data-sf-ec-immutable="">Oaktree SICAV Funds</a></li><li><a data-target="#third-Party-Notice-Popup" href="/home" data-link="https://osc.brookfieldoaktree.com/" data-toggle="modal" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">Oaktree Strategic Credit Fund</a></li><li><a data-target="#third-Party-Notice-Popup" href="/home" data-link="https://www.17capital.com/" data-toggle="modal" data-bs-target="#third-Party-Notice-Popup" data-bs-toggle="modal">17Capital</a></li></ul></li></ul></div><div class="footer-submenu"><ul class="links"><li>&nbsp;</li><li><ul class="menu"><li><a href="https://www.brookfield.com" target="_blank" title="Brookfield" data-sf-ec-immutable="">Brookfield</a></li><li><a href="/careers" title="Careers">Careers</a></li><li><a href="/contact-us" title="Contact Us">Contact Us</a></li><li><a href="https://ocp.oaktreecapital.com" aria-label="Oaktree Client Portal Login" data-sf-ec-immutable="">Login</a></li></ul></li><li><ul class="social-links"><li><a href="https://www.twitter.com/oaktree" target="_blank" class="svg-twitter" aria-label="View All Oaktree on Twitter" data-sf-ec-immutable=""></a></li><li><a href="https://www.linkedin.com/company/oaktree-capital-management" target="_blank" class="svg-linkedin" aria-label="Oaktree on LinkedIn" data-sf-ec-immutable=""></a></li><li><a href="https://www.facebook.com/oaktreecapital" target="_blank" class="svg-facebook" aria-label="Oaktree on Facebook" data-sf-ec-immutable=""></a></li><li><a href="https://www.youtube.com/oaktreecapital" target="_blank" class="svg-youtube" aria-label="Oaktree on Youtube" data-sf-ec-immutable=""></a></li></ul></li></ul><div class="copyright">&copy; 2007-<span id="footeryear"></span>&nbsp;Oaktree Capital Management, L.P. All rights reserved. Securities offered through OCM Investments, LLC (Member FINRA), a subsidiary of Oaktree Capital Management, L.P.</div><ul class="additional-links"><li><a href="/terms-and-conditions">Terms and Conditions</a></li><li><a href="/fraud-and-phishing">Fraud and Phishing</a></li><li><a href="/privacy-policy">Privacy Policy</a></li><li><a id="openPreferences" href="/home">Cookie Settings</a></li><li><a href="/disclosures">Disclosures</a></li></ul></div></div></footer></div>    
+</div>
+</div>
+
+ </div>  </body> </html>
