@@ -16,12 +16,13 @@ HARD = frozenset({
                   'licence_tier_not_allowed', 'd_tier_source_leak', 'quote_not_exact',
                   'missing_attribution_frame', 'position_claim', 'trade_reco_specific', 'self_contradiction', 'wrong_date_fact'})
 SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_units', 'period_not_in_units', 'number_metric_binding', 'number_words', 'no_judgment', 'data_list', 'no_disagreement', 'view_number_unbound', 'template_phrase', 'length_out_of_range', 'attribution_outside_frame',
-                  'trade_reco_soft', 'author_identity', 'code_fence', 'translated_quote', 'exemplar_phrase_copied'})
+                  'trade_reco_soft', 'author_identity', 'code_fence', 'translated_quote', 'exemplar_phrase_copied', 'research_summary'})
 FIXES = {
     'author_identity': 'Rewrite in third person or credit the source author inside the frame; '
                        'never present the author\'s experience, holdings or returns as the account\'s.',
     'provenance_in_body': 'Drop the source name / link from the body; the frame already credits it.',
     'template_phrase': 'Rephrase without the listed template phrase.',
+    'research_summary': 'Write it as a post, not a research note: one call, one or two numbers, no lists.',
     'length_out_of_range': 'Trim or extend toward the post type length range.',
     'exemplar_phrase_copied': 'Rephrase: style exemplars are for voice only, never for wording.',
 }

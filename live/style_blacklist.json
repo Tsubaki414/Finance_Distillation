@@ -1,7 +1,96 @@
 {
-  "version": "style-blacklist-v0",
+  "version": "style-blacklist-v1",
   "status": "provisional",
-  "note": "Template phrases that read as machine copy. Initial list for P0-4e; the real word list is decision D7. Matching is literal substring, case-insensitive for Latin text.",
-  "zh": ["值得注意的是", "不得不说", "总而言之", "综上所述", "让我们一起", "在当今", "不仅仅是", "一文读懂", "划重点", "干货", "深度解析", "毋庸置疑", "众所周知", "细思极恐", "炸裂", "重磅"],
-  "en": ["it's worth noting", "in today's fast-paced", "let's dive in", "in conclusion", "game-changer", "delve into", "a testament to", "buckle up"]
+  "note": "Template phrases that read as machine copy. Initial list for P0-4e; the real word list is decision D7. Matching is literal substring, case-insensitive for Latin text. \"patterns\" are structural templates matched by regex (shown to the model by their \"show\" form); \"summary_markers\" are research-summary set-ups.",
+  "zh": [
+    "值得注意的是",
+    "不得不说",
+    "总而言之",
+    "综上所述",
+    "让我们一起",
+    "在当今",
+    "不仅仅是",
+    "一文读懂",
+    "划重点",
+    "干货",
+    "深度解析",
+    "毋庸置疑",
+    "众所周知",
+    "细思极恐",
+    "炸裂",
+    "重磅"
+  ],
+  "en": [
+    "it's worth noting",
+    "in today's fast-paced",
+    "let's dive in",
+    "in conclusion",
+    "game-changer",
+    "delve into",
+    "a testament to",
+    "buckle up"
+  ],
+  "patterns": {
+    "zh": [
+      {
+        "show": "不是X，而是Y",
+        "regex": "(?<!是)不是[^。！？\\n]{1,30}?[，,、]?\\s*而是"
+      },
+      {
+        "show": "不是X，是Y",
+        "regex": "(?<!是)(?:并)?不是[^。！？\\n，,]{1,20}[，,]\\s*(?:真正)?是"
+      },
+      {
+        "show": "与其说X，不如说Y",
+        "regex": "与其说[^。！？\\n]{1,30}不如说"
+      },
+      {
+        "show": "真正的问题/关键/信号是",
+        "regex": "真正(?:的)?(?:问题|关键|信号|变量|看点)(?:在于|是)"
+      },
+      {
+        "show": "说白了 / 说到底 / 一句话：",
+        "regex": "说白了|说到底|一句话[：:]"
+      }
+    ],
+    "en": [
+      {
+        "show": "X isn't A — it's B",
+        "regex": "\\b(?:is|was|are)n[’']?t\\b[^.!?\\n]{1,60}?(?:—|–|-{1,2}|;|,)\\s*(?:it[’']?s|they[’']?re|this is)\\b"
+      },
+      {
+        "show": "not X but Y",
+        "regex": "\\bnot (?:just |only |about )?[^.!?\\n,]{1,40},? but\\b"
+      },
+      {
+        "show": "it's not about X",
+        "regex": "\\b(?:it|this)[’']?s not about\\b|\\bisn[’']?t about\\b"
+      },
+      {
+        "show": "the real story/question/tell; here's the thing; make no mistake",
+        "regex": "\\bthe real (?:story|question|tell|signal|issue)\\b|\\bhere[’']?s the thing\\b|\\bmake no mistake\\b"
+      }
+    ]
+  },
+  "summary_markers": {
+    "zh": [
+      "拆解一下",
+      "具体数据",
+      "数据如下",
+      "数据来看",
+      "分项来看",
+      "首先",
+      "其次"
+    ],
+    "en": [
+      "let's break it down",
+      "let's break this down",
+      "breaking it down",
+      "here are the numbers",
+      "the numbers:",
+      "key takeaways",
+      "first,",
+      "second,"
+    ]
+  }
 }

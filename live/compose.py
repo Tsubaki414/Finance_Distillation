@@ -67,7 +67,20 @@ The pipeline attaches the attribution frame that names the source: do not name
 the source, publication or author, do not add links or a source line, and do
 not write in the first person (no 我/我们/I/we): the account never claims the
 source's experience, holdings, trades or returns. No price targets or trade
-calls. Avoid the listed template phrases. Plain prose, no hashtags or emoji.
+calls. Avoid the listed template phrases and avoid_patterns. Plain prose, no hashtags or emoji.
+Conviction and voice: write like a sharp human analyst posting on their own account,
+not a research note. Commit to stance.account_view (or the judgment the units support):
+say the call plainly in the first line, then only the one or two numbers that carry it.
+Short punchy lines, uneven lengths; a fragment or a rhetorical question is fine. Let the
+stance be felt through concrete verbs and word choice (skepticism, surprise, impatience,
+relief) instead of hedging boilerplate, exclamation marks, hype words or invented drama.
+Conviction never licenses anything the units do not contain: no new facts, numbers,
+holdings, trades or calls, and do not upgrade the stance's confidence (may stays may).
+Not a research summary: no set-ups like 拆解一下/具体数据/数据如下 or "let's break it
+down", no semicolon chains, no bullet or numbered lists of data points, no first/second/third.
+State claims directly instead of contrast templates such as 不是X，而是Y / 不是X，是Y /
+与其说X不如说Y / 真正的问题是 / 说白了 / "X isn't A — it's B" / "not X but Y" /
+"it's not about" / "the real story" / "here's the thing".
 claim_ledger lists each factual claim in the body with the unit_id and the
 source_spans index (span_ref) it comes from.
 Schema: {"body":"...","claim_ledger":[{"claim":"...","unit_id":"cu-...","span_ref":0}]}''')
@@ -76,6 +89,27 @@ Schema: {"body":"...","claim_ledger":[{"claim":"...","unit_id":"cu-...","span_re
 def blacklist(lang):
     data = json.loads(BLACKLIST.read_text())
     return list(data.get(lang, []))
+
+
+def template_patterns(lang):
+    """[(show, compiled regex)] structural template phrasing for the language."""
+    data = json.loads(BLACKLIST.read_text())
+    return [(p['show'], re.compile(p['regex'], re.I)) for p in (data.get('patterns') or {}).get(lang, [])]
+
+
+def summary_findings(body, lang):
+    """Research-summary structure: set-up markers, semicolon chains or bullet/numbered lists."""
+    data = json.loads(BLACKLIST.read_text())
+    reasons = []
+    lowered = body.lower()
+    markers = [m for m in (data.get('summary_markers') or {}).get(lang, []) if m.lower() in lowered]
+    if markers:
+        reasons.append('set-up: ' + ', '.join(markers))
+    if body.count('；') + body.count(';') >= 2:
+        reasons.append('semicolon list')
+    if len(re.findall(r'(?m)^\s*(?:[-*•·▪]|\d+[.)、]|[①②③④⑤])\s*', body)) >= 3:
+        reasons.append('bullet list')
+    return [{'code': 'research_summary', 'detail': '; '.join(reasons)}] if reasons else []
 
 
 def body_length(spec_length, card, lang):
@@ -330,6 +364,10 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
     for phrase in blacklist(persona.lang):
         if phrase.lower() in lowered:
             findings.append({'code': 'template_phrase', 'detail': phrase})
+    for show, rx in template_patterns(persona.lang):
+        if rx.search(body):
+            findings.append({'code': 'template_phrase', 'detail': show})
+    findings += summary_findings(body, persona.lang)
     if post_type in JUDGMENT_TYPES:
         findings += judgment_findings(body, stance)
     if post_type == 'contrarian_take' and not re.search(r'\b(?:disagree|reject|contrary|unconvinced|overstates|understates)\b|不同意|不认同|反对|高估|低估', body, re.I):
@@ -467,6 +505,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                'persona': {'lang': persona.lang, 'voice': persona.voice, 'banned': list(persona.banned),
                            'focus': persona.raw.get('focus')},
                'avoid_phrases': blacklist(persona.lang),
+               'avoid_patterns': [show for show, _ in template_patterns(persona.lang)],
                'units': [{'unit_id': u['unit_id'], 'kind': u['kind'], 'statement': u['statement'],
                           'speaker': u['speaker'],
                           'historical': u.get('historical', False), 'as_of': u.get('as_of'),
@@ -542,7 +581,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             'draft_status': qa_levels.draft_status(findings),
             'status': 'held',  # never auto-ready while not publishable
             'model_responses': [{'stage': 'extract', **extracted['response']},
-                                {'stage': 'compose', **{k: response.get(k) for k in ('model', 'response_model', 'finish_reason', 'usage')}}],
+                                {'stage': 'compose', **{k: response.get(k) for k in ('model', 'response_model', 'finish_reason', 'usage', 'model_fallback', 'fallback_reason')}}],
             'why': ('post checks passed; persona voice draft' if not findings else
                     'hard post checks failed' if qa_levels.draft_status(findings) == 'needs_review' else
                     'soft warnings only; persona voice draft')}

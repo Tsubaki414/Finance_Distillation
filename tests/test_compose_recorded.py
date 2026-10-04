@@ -25,6 +25,7 @@ class RecordedComposeTests(unittest.TestCase):
             messages = copy.deepcopy(messages)
             if stage == 'compose':
                 payload = json.loads(messages[-1]['content'])
+                payload.pop('avoid_patterns', None)   # added after the recording
                 for unit in payload['units']:
                     for key in ('historical', 'as_of', 'published_at'):
                         unit.pop(key, None)
