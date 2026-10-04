@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import unittest
 from dataclasses import replace
+import copy
 from unittest.mock import patch
 
 from live import compose, registry
@@ -18,12 +19,24 @@ class RecordedComposeTests(unittest.TestCase):
     def test_recorded_compose_passes_post_checks(self):
         data = json.loads((FIXTURE / 'input.json').read_text())
         client = RecordedClient(load_calls(FIXTURE / 'calls.jsonl'))
+        def historical_client(stage, messages, max_tokens):
+            # The old recording lacks freshness metadata. Verify every other
+            # payload field against its exact recorded hash.
+            messages = copy.deepcopy(messages)
+            if stage == 'compose':
+                payload = json.loads(messages[-1]['content'])
+                for unit in payload['units']:
+                    for key in ('historical', 'as_of', 'published_at'):
+                        unit.pop(key, None)
+                messages[-1]['content'] = json.dumps(payload, ensure_ascii=False)
+            return client(stage, messages, max_tokens)
+
         # Replay the historical persona configuration: this recording predates
         # voice cards, exemplars, and relaxed view prompts. Keep the exact
         # request hash and all checks using the saved historical templates.
         historical_persona = replace(registry.persona_for_account(data['account_id']), voice_card={})
         with patch('live.compose.registry.persona_for_account', return_value=historical_persona), patch('live.compose.COMPOSE', (FIXTURE / 'compose_prompt.txt').read_text()), patch('live.content_units.EXTRACT', (FIXTURE / 'extract_prompt.txt').read_text()):
-            result = compose.compose_source(data['source'], data['account_id'], client, exemplars=False, post_type='data_take')
+            result = compose.compose_source(data['source'], data['account_id'], historical_client, exemplars=False, post_type='data_take')
         self.assertEqual(client.used, ['extract', 'compose'])
         self.assertEqual(result['post_type'], 'data_take')
         self.assertEqual(result['post_checks'], [])
