@@ -113,6 +113,31 @@ def test_voice_card_always_enables_exemplars_and_bounds_k(tmp_path, monkeypatch,
     persona = replace(persona, raw={**persona.raw, 'exemplar_retrieval': {'enabled': False, 'k': k}})
     monkeypatch.setattr(compose.registry, 'persona_for_account', lambda account: persona)
     fake = Recording()
-    compose.compose_source(SOURCE, 'zh_industry', fake, post_type='data_take', exemplars=False,
+    compose.compose_source(SOURCE, 'zh_industry', fake, post_type='data_take', exemplars=None,
                            exemplar_dir=posts, exemplar_tags_dir=tags)
     assert len(json.loads(fake.messages[-1]['content'])['style_exemplars']) == expected
+
+
+def test_body_length_follows_donor_post_lengths():
+    spec = {'min': 150, 'max': 500, 'unit': 'chars'}
+    card = {'post_length': {'median': 267, 'p25': 183, 'p75': 303, 'unit': 'chars'}, 'lang': 'en'}
+    out = compose.body_length(spec, card, 'en')
+    assert out['min'] <= 150 and out['min'] >= 60
+    assert out['max'] <= 500 and out['max'] >= out['min'] + 100
+    assert out['max'] < 450   # donors are short; do not invite essays
+    assert 'donor' in out['note']
+    assert compose.body_length(spec, None, 'en') == {'min': 150, 'max': 500}
+    zh = compose.body_length(spec, {'post_length': {'median': 120, 'p25': 60, 'p75': 200}}, 'zh')
+    assert zh['min'] >= 60 and zh['max'] <= 500
+
+
+def test_compose_payload_and_length_check_use_donor_range(tmp_path, monkeypatch):
+    persona = registry.persona_for_account('en_macro')
+    card = dict(persona.voice_card, post_length={'median': 200, 'p25': 120, 'p75': 260, 'unit': 'chars'})
+    persona = replace(persona, voice_card=card)
+    monkeypatch.setattr(compose.registry, 'persona_for_account', lambda account: persona)
+    fake = Recording()
+    compose.compose_source(SOURCE, 'en_macro', fake, post_type='data_take', exemplars=False)
+    rules = json.loads(fake.messages[-1]['content'])['post_type_rules']['body_length']
+    assert rules['max'] < 500 and 'donor' in rules.get('note', '')
+    assert 'style_exemplars' not in json.loads(fake.messages[-1]['content'])
