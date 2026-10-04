@@ -53,6 +53,9 @@ is welcome: fragments, uneven sentence lengths, one-line paragraphs, persona idi
 casual connectors, an occasional rhetorical question. Avoid essay polish and symmetric paragraphs;
 don't make every post the same shape. Follow persona.voice_prompt_variant.guidance when supplied.
 Exemplars teach rhythm only, never facts, numbers or phrases.
+persona.signature is the account's signature voice: lean on one or two of its moves, open and
+close the way it does, use its lexicon sparingly, and never break its taboos (the rules in this
+prompt still win over the signature).
 No specific trade recommendations (instrument + strike/entry/structure); directional views are fine.
 For judgment_take and contrarian_take, state the judgment first in your own voice;
 data only as support. The supplied stance.account_view is the account's own
@@ -607,6 +610,13 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         if hint:
             payload['persona']['format_hint'] = hint
         payload['persona']['variation'] = variation_seed(persona.voice_card, source.get('source_hash') or digest(source))
+    sig = getattr(persona, 'signature_card', None) or {}
+    if sig:
+        payload['persona']['signature'] = {
+            'use': 'the account signature: use one or two moves per post, lexicon sparingly and never copy donor sentences; never break the taboos',
+            'moves': [m['name'] + ': ' + m['how'] for m in sig.get('moves', [])],
+            'openings': sig.get('openings', []), 'closings': sig.get('closings', []),
+            'lexicon': sig.get('lexicon', []), 'taboos': sig.get('taboos', [])}
     if any(u.get('quote_allowed') is False for u in chosen):
         payload['post_type_rules']['quote_policy'] = (
             'Paraphrase these units. Direct quotes, including translated quotes, are forbidden.')
@@ -618,6 +628,13 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         shown = exemplar_store.retrieve(persona, post_type=post_type, query=query,
                                         k=max(3, min(5, int(retrieval.get('k', 4)))) if persona.voice_card else int(retrieval.get('k', 4)),
                                         posts_dir=exemplar_dir, post_types=post_types, tags_dir=exemplar_tags_dir)
+        if sig.get('exemplars'):
+            # Signature exemplars (judge-picked donor posts) lead; retrieval fills the rest; same total.
+            total = len(shown) or 3
+            picked = [{'handle': e['handle'], 'id': e['id'], 'text': exemplar_store.short_text(e['text']),
+                       'why': 'signature exemplar'} for e in sig['exemplars'][:max(1, min(3, total - 1))]]
+            ids = {e['id'] for e in picked}
+            shown = (picked + [e for e in shown if e.get('id') not in ids])[:total]
         if shown:
             payload['style_exemplars'] = shown
             payload['style_exemplar_rule'] = EXEMPLAR_RULE

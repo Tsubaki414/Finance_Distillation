@@ -57,7 +57,8 @@ def test_compose_short_exemplars_and_all_clusters_enabled(tmp_path):
     compose.compose_source(SOURCE, 'zh_industry', fake, post_type='data_take', exemplar_dir=posts, exemplar_tags_dir=tags)
     payload = json.loads(fake.messages[-1]['content'])
     assert len(payload['style_exemplars']) == 4
-    assert all(len(e['text']) <= 400 and e['id'].endswith('short') for e in payload['style_exemplars'])
+    assert all(len(e['text']) <= 400 for e in payload['style_exemplars'])
+    assert all(e['id'].endswith('short') for e in payload['style_exemplars'] if e.get('why') != 'signature exemplar')
     assert payload['persona']['voice_card']['rhythm']
     for persona in registry.load_personas().values():
         if persona.raw.get('donor_cluster'):

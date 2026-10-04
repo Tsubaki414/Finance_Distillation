@@ -92,6 +92,7 @@ class PersonaSpec:
     source_affinity: dict
     raw: dict = field(repr=False, compare=False)
     voice_card: dict = field(default_factory=dict, repr=False, compare=False)
+    signature_card: dict = field(default_factory=dict, repr=False, compare=False)
 
     @property
     def donor_weights(self):
@@ -198,6 +199,10 @@ def load_personas(directory=PERSONAS, post_types=None):
             from dataclasses import replace
             from live.voice_cards import sanitize_card
             spec = replace(spec, voice_card=sanitize_card(json.loads(card_path.read_text())))
+        sig_path = Path(directory) / 'signature_cards' / (raw['persona_id'] + '.json')
+        if sig_path.exists():
+            from dataclasses import replace
+            spec = replace(spec, signature_card=json.loads(sig_path.read_text()))
         out[raw['persona_id']] = spec
     return out
 

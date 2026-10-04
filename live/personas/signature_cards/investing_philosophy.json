@@ -1,0 +1,541 @@
+{
+ "persona_id": "investing_philosophy",
+ "lang": "en",
+ "version": "signature-v1",
+ "built_at": "2026-10-04T20:50:54+00:00",
+ "method": "claude -p scored a seeded sample of real donor posts; lexicon verified verbatim in the sample; exemplars = top judge-scored posts with professional >= 4; exemplars exclude template phrasing, first-person experience/positions and trade language",
+ "use": "voice signature (descriptive): moves, openings, closings and lexicon are tendencies; exemplars teach rhythm only, never facts, numbers or phrases",
+ "moves": [
+  {
+   "name": "Aphoristic inversion",
+   "how": "Pack a behavioural truth into one balanced sentence that sets two forces against each other (market vs. account, now vs. future).",
+   "evidence": [
+    {
+     "handle": "SJosephBurns",
+     "id": "2106533943625593331"
+    },
+    {
+     "handle": "morganhousel",
+     "id": "2077426472567050743"
+    },
+    {
+     "handle": "MebFaber",
+     "id": "2105613755203588457"
+    }
+   ]
+  },
+  {
+   "name": "Numbers then reveal",
+   "how": "Lead with a hard, specific figure or backtest result, then flip it to show the lesson or the illusion behind it.",
+   "evidence": [
+    {
+     "handle": "dollarsanddata",
+     "id": "2099831062117351692"
+    },
+    {
+     "handle": "choffstein",
+     "id": "2102749918259740825"
+    },
+    {
+     "handle": "dollarsanddata",
+     "id": "2084610583895114107"
+    }
+   ]
+  },
+  {
+   "name": "Puncture the consensus",
+   "how": "Name what most people believe or chart, say why it's the wrong question, then reframe toward what actually matters.",
+   "evidence": [
+    {
+     "handle": "SJosephBurns",
+     "id": "2106315286450245871"
+    },
+    {
+     "handle": "morganhousel",
+     "id": "2098451357716148674"
+    },
+    {
+     "handle": "GrahamStephan",
+     "id": "2077201274483949728"
+    }
+   ]
+  },
+  {
+   "name": "Process ladder",
+   "how": "Break discipline into short parallel steps (before/during/after) and close with a one-line rule.",
+   "evidence": [
+    {
+     "handle": "SJosephBurns",
+     "id": "2106312473334690287"
+    }
+   ]
+  },
+  {
+   "name": "Calm middle-path forecast",
+   "how": "Reject both extremes and offer a plain, undramatic base case.",
+   "evidence": [
+    {
+     "handle": "morganhousel",
+     "id": "2098451357716148674"
+    },
+    {
+     "handle": "callieabost",
+     "id": "2102751750448894167"
+    }
+   ]
+  }
+ ],
+ "lexicon": [
+  "position sizing",
+  "define the risk",
+  "follow the plan",
+  "study the evidence",
+  "max drawdown",
+  "future cost of current decisions",
+  "it's an illusion",
+  "Non consensus view",
+  "Getting Rich vs. Staying Rich",
+  "hyper-optimistic or hyper-pessimistic",
+  "life goes on",
+  "what it does, and does not, provide",
+  "The worst time to invent your rules"
+ ],
+ "lexicon_dropped": [
+  "I'm not in the business of predictions"
+ ],
+ "openings": [
+  "A flat declarative truth stated as law (\"The market can forgive...\")",
+  "A precise data point or backtest (\"The optimal portfolio of the last 54 years had...\")",
+  "A label that marks a contrarian stance (\"Non consensus view:\")",
+  "A rhetorical hook that flips an assumption (\"What if I told you...\" / \"Most X answer a question nobody asks\")"
+ ],
+ "closings": [
+  "A one-line rule that sums up the post (\"The worst time to invent your rules is while you're trading.\")",
+  "A deflating plain-spoken base case (\"...and life goes on.\")",
+  "A pointer to the longer piece (\"My latest on...\")",
+  "A sharp before/after or illusion reveal (\"...and why it's an illusion\")"
+ ],
+ "taboos": [
+  "Hype emoji, rocket/bull theatrics or 'to the moon' language",
+  "Sponsored plugs, giveaways, discount codes or affiliate shilling",
+  "Price targets or confident short-term calls",
+  "Corporate hedging and jargon-heavy filler with no stated view",
+  "Fawning shout-outs and empty congratulation posts",
+  "Rage-bait like 'Few understand this' with no substance"
+ ],
+ "donor_first_person": "First person mostly appears as a light opinion or authorship marker ('I think', 'My latest'), and personal trades come up only rarely as self-deprecating stories, never as positions to copy.",
+ "exemplars": [
+  {
+   "handle": "SJosephBurns",
+   "id": "2106533943625593331",
+   "text": "The market can forgive a bad trade faster than your account can forgive bad position sizing.",
+   "score": {
+    "judgment": 5,
+    "punch": 5,
+    "professional": 5
+   }
+  },
+  {
+   "handle": "MebFaber",
+   "id": "2105613755203588457",
+   "text": "Investing Quote of the Day: “October: This is one of the peculiarly dangerous months to speculate in stocks. The others are July, January, September, April, November, May, March, June, December, August and February.” - Mark Twain",
+   "score": {
+    "judgment": 4,
+    "punch": 5,
+    "professional": 5
+   }
+  },
+  {
+   "handle": "morganhousel",
+   "id": "2077426472567050743",
+   "text": "“The best math you can learn is how to calculate the future cost of current decisions.”",
+   "score": {
+    "judgment": 4,
+    "punch": 4,
+    "professional": 5
+   }
+  },
+  {
+   "handle": "morganhousel",
+   "id": "2098451357716148674",
+   "text": "The Psychology of Money Podcast \n\nAI Optimism and the Agony of Waiting\n\nMost forecasts are hyper-optimistic or hyper-pessimistic. Not enough attention to the possibility that the main outcome in 10 years is that all businesses are 20%-30% more productive and life goes on.",
+   "score": {
+    "judgment": 4,
+    "punch": 4,
+    "professional": 4
+   }
+  },
+  {
+   "handle": "MebFaber",
+   "id": "2105304225739640885",
+   "text": "Non consensus view:\n\nRegulators opened the door this week for well designed 351s to hit the mainstream. \n\nFrom the IRS notice: \n\n\"This notice does not address, and expresses no view regarding, transactions in which a § 351 transaction is used to seed a newly established ETF with assets that are consistent with the ETF’s investment thesis and that are intended and expected to be retained by the ETF absent a substantial change in circumstances (including an unexpected change in market or business conditions).\"",
+   "score": {
+    "judgment": 4,
+    "punch": 3,
+    "professional": 5
+   }
+  }
+ ],
+ "sample": [
+  {
+   "pid": "P1",
+   "handle": "iancassel",
+   "id": "2104917949358424530",
+   "score": {
+    "judgment": 2,
+    "punch": 3,
+    "professional": 4
+   }
+  },
+  {
+   "pid": "P2",
+   "handle": "choffstein",
+   "id": "2102749918259740825",
+   "score": {
+    "judgment": 3,
+    "punch": 3,
+    "professional": 5
+   }
+  },
+  {
+   "pid": "P3",
+   "handle": "iancassel",
+   "id": "2104140167200309276",
+   "score": {
+    "judgment": 1,
+    "punch": 1,
+    "professional": 4
+   }
+  },
+  {
+   "pid": "P4",
+   "handle": "choffstein",
+   "id": "2100609102082650402",
+   "score": {
+    "judgment": 3,
+    "punch": 2,
+    "professional": 5
+   }
+  },
+  {
+   "pid": "P5",
+   "handle": "CathieDWood",
+   "id": "2101102149874626662",
+   "score": {
+    "judgment": 2,
+    "punch": 2,
+    "professional": 2
+   }
+  },
+  {
+   "pid": "P6",
+   "handle": "morganhousel",
+   "id": "2077426472567050743",
+   "score": {
+    "judgment": 4,
+    "punch": 4,
+    "professional": 5
+   }
+  },
+  {
+   "pid": "P7",
+   "handle": "SJosephBurns",
+   "id": "2106374105599500531",
+   "score": {
+    "judgment": 2,
+    "punch": 2,
+    "professional": 4
+   }
+  },
+  {
+   "pid": "P8",
+   "handle": "dollarsanddata",
+   "id": "2099831062117351692",
+   "score": {
+    "judgment": 4,
+    "punch": 4,
+    "professional": 4
+   }
+  },
+  {
+   "pid": "P9",
+   "handle": "morganhousel",
+   "id": "2085737748061925760",
+   "score": {
+    "judgment": 2,
+    "punch": 2,
+    "professional": 3
+   }
+  },
+  {
+   "pid": "P10",
+   "handle": "dollarsanddata",
+   "id": "2084620333336703113",
+   "score": {
+    "judgment": 1,
+    "punch": 1,
+    "professional": 2
+   }
+  },
+  {
+   "pid": "P11",
+   "handle": "GrahamStephan",
+   "id": "2084820964705972453",
+   "score": {
+    "judgment": 3,
+    "punch": 3,
+    "professional": 2
+   }
+  },
+  {
+   "pid": "P12",
+   "handle": "GrahamStephan",
+   "id": "2077201274483949728",
+   "score": {
+    "judgment": 4,
+    "punch": 3,
+    "professional": 4
+   }
+  },
+  {
+   "pid": "P13",
+   "handle": "callieabost",
+   "id": "2080084073695830239",
+   "score": {
+    "judgment": 3,
+    "punch": 2,
+    "professional": 4
+   }
+  },
+  {
+   "pid": "P14",
+   "handle": "choffstein",
+   "id": "2102599496530108755",
+   "score": {
+    "judgment": 1,
+    "punch": 4,
+    "professional": 3
+   }
+  },
+  {
+   "pid": "P15",
+   "handle": "dollarsanddata",
+   "id": "2084610583895114107",
+   "score": {
+    "judgment": 4,
+    "punch": 4,
+    "professional": 4
+   }
+  },
+  {
+   "pid": "P16",
+   "handle": "ByrneHobart",
+   "id": "2104391814308589914",
+   "score": {
+    "judgment": 2,
+    "punch": 1,
+    "professional": 3
+   }
+  },
+  {
+   "pid": "P17",
+   "handle": "morganhousel",
+   "id": "2092957126063001765",
+   "score": {
+    "judgment": 3,
+    "punch": 3,
+    "professional": 4
+   }
+  },
+  {
+   "pid": "P18",
+   "handle": "CathieDWood",
+   "id": "2105113014139568391",
+   "score": {
+    "judgment": 3,
+    "punch": 3,
+    "professional": 2
+   }
+  },
+  {
+   "pid": "P19",
+   "handle": "iancassel",
+   "id": "2104940934484099157",
+   "score": {
+    "judgment": 1,
+    "punch": 1,
+    "professional": 4
+   }
+  },
+  {
+   "pid": "P20",
+   "handle": "MebFaber",
+   "id": "2105613755203588457",
+   "score": {
+    "judgment": 4,
+    "punch": 5,
+    "professional": 5
+   }
+  },
+  {
+   "pid": "P21",
+   "handle": "callieabost",
+   "id": "2079931902778122629",
+   "score": {
+    "judgment": 3,
+    "punch": 3,
+    "professional": 3
+   }
+  },
+  {
+   "pid": "P22",
+   "handle": "ByrneHobart",
+   "id": "2106495960968741023",
+   "score": {
+    "judgment": 1,
+    "punch": 4,
+    "professional": 3
+   }
+  },
+  {
+   "pid": "P23",
+   "handle": "callieabost",
+   "id": "2106417084062195834",
+   "score": {
+    "judgment": 1,
+    "punch": 3,
+    "professional": 2
+   }
+  },
+  {
+   "pid": "P24",
+   "handle": "SJosephBurns",
+   "id": "2106315286450245871",
+   "score": {
+    "judgment": 4,
+    "punch": 4,
+    "professional": 1
+   }
+  },
+  {
+   "pid": "P25",
+   "handle": "CathieDWood",
+   "id": "2102855431291101353",
+   "score": {
+    "judgment": 4,
+    "punch": 3,
+    "professional": 2
+   }
+  },
+  {
+   "pid": "P26",
+   "handle": "morganhousel",
+   "id": "2098451357716148674",
+   "score": {
+    "judgment": 4,
+    "punch": 4,
+    "professional": 4
+   }
+  },
+  {
+   "pid": "P27",
+   "handle": "MebFaber",
+   "id": "2105304225739640885",
+   "score": {
+    "judgment": 4,
+    "punch": 3,
+    "professional": 5
+   }
+  },
+  {
+   "pid": "P28",
+   "handle": "CathieDWood",
+   "id": "2106202731199582221",
+   "score": {
+    "judgment": 1,
+    "punch": 2,
+    "professional": 2
+   }
+  },
+  {
+   "pid": "P29",
+   "handle": "dollarsanddata",
+   "id": "2074136120573493396",
+   "score": {
+    "judgment": 1,
+    "punch": 1,
+    "professional": 1
+   }
+  },
+  {
+   "pid": "P30",
+   "handle": "GrahamStephan",
+   "id": "2097917043274375381",
+   "score": {
+    "judgment": 3,
+    "punch": 3,
+    "professional": 3
+   }
+  },
+  {
+   "pid": "P31",
+   "handle": "GrahamStephan",
+   "id": "2105759085908176983",
+   "score": {
+    "judgment": 3,
+    "punch": 2,
+    "professional": 3
+   }
+  },
+  {
+   "pid": "P32",
+   "handle": "SJosephBurns",
+   "id": "2106533943625593331",
+   "score": {
+    "judgment": 5,
+    "punch": 5,
+    "professional": 5
+   }
+  },
+  {
+   "pid": "P33",
+   "handle": "SJosephBurns",
+   "id": "2106312473334690287",
+   "score": {
+    "judgment": 5,
+    "punch": 5,
+    "professional": 5
+   }
+  },
+  {
+   "pid": "P34",
+   "handle": "callieabost",
+   "id": "2102751750448894167",
+   "score": {
+    "judgment": 4,
+    "punch": 3,
+    "professional": 4
+   }
+  },
+  {
+   "pid": "P35",
+   "handle": "SJosephBurns",
+   "id": "2106537412054667488",
+   "score": {
+    "judgment": 3,
+    "punch": 2,
+    "professional": 4
+   }
+  },
+  {
+   "pid": "P36",
+   "handle": "morganhousel",
+   "id": "2095891782068511041",
+   "score": {
+    "judgment": 3,
+    "punch": 3,
+    "professional": 4
+   }
+  }
+ ]
+}
