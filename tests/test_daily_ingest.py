@@ -126,3 +126,37 @@ def test_ledger_reconciliation(tmp_path):
     assert r['cost_usd']['relay']==pytest.approx(.00028,abs=1e-6)
     assert r['cost_usd']['jev']==pytest.approx(.0000042,abs=1e-6)
     assert r['cost_usd']['total']==pytest.approx(r['cost_usd']['relay']+r['cost_usd']['jev'])
+
+
+def test_long_sources_are_trimmed_before_extract(tmp_path):
+    from live.daily_ingest import run
+    seen=[]
+    def ex(s):
+        seen.append(s)
+        return FakeExtract()(s)
+    long=make_source(id='long', source_id='sec_edgar', text='\n\n'.join(f'para {i} '+'x'*400 for i in range(80)),
+                     publisher='p', title='t', url='https://example.test/long', published_at='2026-10-04', adapter='edgar')
+    run(**setup(tmp_path, max_source_chars=3000), fetchers={'c':lambda:{'sources':[long]}}, extract=ex,
+        backup=lambda:None, refresh=lambda:None)
+    assert len(seen[0]['original_text'])<=3000 and seen[0]['truncated'] is True
+
+
+def test_round_robin_within_priority_and_per_channel_cap(tmp_path):
+    from live.daily_ingest import run
+    client=FakeExtract()
+    def many(prefix, n): return lambda:{'sources':[dict(source(f'{prefix}{i}'),source_id=prefix) for i in range(n)]}
+    fs={'cboe':many('cboe',3), 'cftc':many('cftc',3), 'other':many('other',3)}
+    run(**setup(tmp_path, per_channel_max=2), fetchers=fs, extract=client, backup=lambda:None, refresh=lambda:None)
+    assert client.seen[:4]==['cboe0','cftc0','cboe1','cftc1']
+    assert client.seen[4:]==['other0','other1']
+
+
+def test_failed_extract_is_not_retried_forever(tmp_path):
+    from live.daily_ingest import run
+    calls=[]
+    def broken(s):
+        calls.append(s['id']); raise RuntimeError('incomplete finish_reason')
+    args=setup(tmp_path)
+    for _ in range(3):
+        run(**args, fetchers={'c':lambda:{'sources':[source('bad')]}}, extract=broken, backup=lambda:None, refresh=lambda:None)
+    assert calls==['bad','bad']
