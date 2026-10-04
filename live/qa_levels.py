@@ -29,9 +29,9 @@ from live import registry
 
 HARD = frozenset({'number_not_in_units', 'period_not_in_units', 'number_metric_binding',
                   'licence_tier_not_allowed', 'd_tier_source_leak', 'quote_not_exact',
-                  'missing_attribution_frame', 'position_claim'})
+                  'missing_attribution_frame', 'position_claim', 'trade_reco_specific', 'self_contradiction'})
 SOFT = frozenset({'template_phrase', 'length_out_of_range', 'attribution_outside_frame',
-                  'author_identity', 'code_fence', 'translated_quote', 'exemplar_phrase_copied'})
+                  'trade_reco_soft', 'author_identity', 'code_fence', 'translated_quote', 'exemplar_phrase_copied'})
 FIXES = {
     'author_identity': 'Rewrite in third person or credit the source author inside the frame; '
                        'never present the author\'s experience, holdings or returns as the account\'s.',
