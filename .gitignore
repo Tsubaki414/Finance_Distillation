@@ -18,3 +18,4 @@ generated_samples/
 *.sqlite3*
 live/donors/posts/
 live/donors/tags/
+live/donors/posts
