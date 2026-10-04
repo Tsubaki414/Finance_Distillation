@@ -81,6 +81,9 @@ marks, hype words or invented drama. End on a short line that lands: what the ca
 or what would change it, using only the units. Don't repeat the stance sentence verbatim.
 Conviction never licenses anything the units do not contain: no new facts, numbers,
 holdings, trades or calls, and do not upgrade the stance's confidence (may stays may).
+Keep the units' hedges ("small or short-lived" never becomes "entirely short-lived"; no
+added always/every/never/完全/一定/每次 absolutes) and add no outlook or forecast
+(will / 将会 / 很难有…) that the stance or units do not state.
 Not a research summary: no set-ups like 拆解一下/具体数据/数据如下 or "let's break it
 down", no semicolon chains, no bullet or numbered lists of data points, no first/second/third.
 State claims directly instead of contrast templates such as 不是X，而是Y / 不是X，是Y /
@@ -321,6 +324,47 @@ def number_findings(body, units):
     return findings
 
 
+CERTAINTY = {
+    'en': (r"\b(?:entirely|completely|totally|always|never|every|certainly|definitely|guaranteed|undeniabl[ey]|"
+           r"no doubt|without question|impossible|inevitabl[ey]|nothing|nobody)\b"),
+    'zh': r'完全|彻底|一定|必然|必定|肯定|绝对|永远|从不|从来不|毫无|一律|注定|势必|全部|所有|每次',
+}
+FORECAST = {
+    'en': r"\b(?:will|going to|is set to|are set to|bound to|sure to)\b",
+    'zh': r'将会|必将|很难有|难以出现|大概率|即将|接下来会',
+}
+
+
+# Cross-language sources: a Chinese marker is supported by its English equivalent in the inputs.
+ZH_EQUIV = {'完全': ('entirely', 'completely', 'fully', 'totally'), '彻底': ('completely', 'entirely', 'fully'),
+            '一定': ('certainly', 'definitely', 'must', 'surely'), '必然': ('inevitabl', 'necessarily', 'must'),
+            '必定': ('certainly', 'must'), '肯定': ('certainly', 'definitely', 'surely'), '绝对': ('absolutely',),
+            '永远': ('always', 'forever'), '从不': ('never',), '从来不': ('never',), '毫无': ('no ', 'without any'),
+            '一律': ('all', 'uniformly'), '注定': ('destined', 'bound to', 'inevitabl'), '势必': ('inevitabl', 'bound to'),
+            '全部': ('all', 'entire'), '所有': ('all', 'every'), '每次': ('every', 'each'),
+            '将会': ('will',), '必将': ('will', 'inevitabl'), '很难有': ('unlikely', 'hard to', 'difficult'),
+            '难以出现': ('unlikely',), '大概率': ('likely', 'probab'), '即将': ('soon', 'about to', 'imminent'),
+            '接下来会': ('will', 'next')}
+
+
+def certainty_findings(body, units, stance, lang):
+    """Certainty/forecast wording in the draft that neither the stance nor any unit carries
+    (e.g. 'small or short-lived' -> 'entirely short-lived', or an added outlook). SOFT."""
+    view = (stance or {}).get('view') or {}
+    inputs = ' '.join([str((stance or {}).get('account_view') or ''), json.dumps(view, ensure_ascii=False)] +
+                      [str(u.get('statement') or '') for u in units] +
+                      [str(sp.get('exact_text') or '') for u in units for sp in u.get('source_spans', [])
+                       if isinstance(sp, dict)]).casefold()
+    lang = 'zh' if lang == 'zh' else 'en'
+    findings = []
+    for kind, table in (('certainty', CERTAINTY), ('forecast', FORECAST)):
+        found = {m.casefold() for m in re.findall(table[lang], body, re.I)}
+        added = sorted(m for m in found if m not in inputs and not any(e in inputs for e in ZH_EQUIV.get(m, ())))
+        if added:
+            findings.append({'code': 'certainty_overreach', 'detail': f'{kind} wording not in stance/units: ' + ', '.join(added)})
+    return findings
+
+
 def judgment_findings(body, stance):
     sentences = [s.strip() for s in re.split(r'(?<!\d)\.(?!\d)|[。！？!?]|\n', body) if s.strip()]
     first = sentences[0] if sentences else ''
@@ -375,6 +419,7 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
     findings += summary_findings(body, persona.lang)
     if post_type in JUDGMENT_TYPES:
         findings += judgment_findings(body, stance)
+    findings += certainty_findings(body, units, stance, persona.lang)
     if post_type == 'contrarian_take' and not re.search(r'\b(?:disagree|reject|contrary|unconvinced|overstates|understates)\b|不同意|不认同|反对|高估|低估', body, re.I):
         findings.append({'code':'no_disagreement', 'detail':'Contrarian post must express disagreement with the framed view'})
     from live.trust import trusted_inputs
