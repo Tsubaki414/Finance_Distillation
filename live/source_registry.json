@@ -1065,6 +1065,93 @@
       "context_refresh_hours": 24,
       "coverage": "bounded_current_official_discovery_window",
       "quality_status": "publisher_identity_known_not_fact_verified"
+    },
+    {
+      "id": "primary_cftc",
+      "name": "CFTC",
+      "type": "official",
+      "enabled": true,
+      "adapter": "cftc",
+      "persona_hints": [
+        "trading_shortterm"
+      ],
+      "source_language": "en",
+      "api_url": "https://publicreporting.cftc.gov/resource/gpe5-46if.json"
+    },
+    {
+      "id": "cboe_indices",
+      "name": "Cboe Global Markets",
+      "type": "research",
+      "enabled": true,
+      "adapter": "cboe",
+      "persona_hints": [
+        "trading_shortterm"
+      ],
+      "source_language": "en",
+      "index_url": "https://cdn-api.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv"
+    },
+    {
+      "id": "farside_etf_flows",
+      "name": "Farside Investors",
+      "type": "research",
+      "enabled": true,
+      "adapter": "farside",
+      "persona_hints": [
+        "crypto_macro_en",
+        "crypto_macro_zh"
+      ],
+      "source_language": "en",
+      "index_url": "https://farside.co.uk/bitcoin-etf-flow-all-data/"
+    },
+    {
+      "id": "defillama_stablecoins",
+      "name": "DefiLlama",
+      "type": "research",
+      "enabled": true,
+      "adapter": "defillama",
+      "persona_hints": [
+        "crypto_macro_en",
+        "crypto_macro_zh"
+      ],
+      "source_language": "en",
+      "api_url": "https://stablecoins.llama.fi/stablecoincharts/all"
+    },
+    {
+      "id": "oaktree_memos",
+      "name": "Oaktree Capital (Howard Marks)",
+      "type": "research",
+      "enabled": true,
+      "adapter": "oaktree",
+      "persona_hints": [
+        "investing_philosophy"
+      ],
+      "source_language": "en",
+      "index_url": "https://www.oaktreecapital.com/insights/memos"
+    },
+    {
+      "id": "berkshire_letters",
+      "name": "Berkshire Hathaway",
+      "type": "research",
+      "enabled": true,
+      "adapter": "berkshire",
+      "persona_hints": [
+        "investing_philosophy"
+      ],
+      "source_language": "en",
+      "index_url": "https://www.berkshirehathaway.com/letters/letters.html"
+    },
+    {
+      "id": "glassnode_research",
+      "name": "Glassnode",
+      "type": "research",
+      "enabled": true,
+      "adapter": "glassnode",
+      "persona_hints": [
+        "crypto_macro_en",
+        "crypto_macro_zh"
+      ],
+      "source_language": "en",
+      "feed_url": "https://research.glassnode.com/rss/"
     }
   ],
   "reference_pool_zh": {

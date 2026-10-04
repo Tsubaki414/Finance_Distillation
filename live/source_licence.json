@@ -661,6 +661,55 @@
       "aliases": [
         "浦银国际"
       ]
+    },
+    "primary_cftc": {
+      "tier": "A",
+      "basis": "official statistics",
+      "aliases": [
+        "CFTC"
+      ]
+    },
+    "cboe_indices": {
+      "tier": "B",
+      "basis": "Public publisher material; paraphrase-only with attribution to Cboe Global Markets; no republication of full text or tables",
+      "aliases": [
+        "Cboe Global Markets"
+      ]
+    },
+    "farside_etf_flows": {
+      "tier": "B",
+      "basis": "Public publisher material; paraphrase-only with attribution to Farside Investors; no republication of full text or tables",
+      "aliases": [
+        "Farside Investors"
+      ]
+    },
+    "defillama_stablecoins": {
+      "tier": "B",
+      "basis": "Public publisher material; paraphrase-only with attribution to DefiLlama; no republication of full text or tables",
+      "aliases": [
+        "DefiLlama"
+      ]
+    },
+    "oaktree_memos": {
+      "tier": "B",
+      "basis": "Public publisher material; paraphrase-only with attribution to Oaktree Capital (Howard Marks); no republication of full text or tables",
+      "aliases": [
+        "Oaktree Capital (Howard Marks)"
+      ]
+    },
+    "berkshire_letters": {
+      "tier": "B",
+      "basis": "Public publisher material; paraphrase-only with attribution to Berkshire Hathaway; no republication of full text or tables",
+      "aliases": [
+        "Berkshire Hathaway"
+      ]
+    },
+    "glassnode_research": {
+      "tier": "B",
+      "basis": "Public publisher material; paraphrase-only with attribution to Glassnode; no republication of full text or tables",
+      "aliases": [
+        "Glassnode"
+      ]
     }
   }
 }
