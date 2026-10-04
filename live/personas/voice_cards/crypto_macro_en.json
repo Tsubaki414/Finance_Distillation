@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "cluster": "crypto_macro_en",
   "lang": "en",
   "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
@@ -297,114 +297,229 @@
     "unknown": 0.011104,
     "view_relay": 0.1774
   },
-  "do": [
+  "tendencies": [
     {
-      "rule": "Lead with a clear judgment; use data to support it.",
+      "tendency": "Breaks the argument into very short paragraphs, often one sentence or clause per line, for staccato pacing",
+      "frequency": "usually",
+      "evidence_ids": [
+        "2099648923975450679",
+        "2100016743129514282",
+        "2100731253003546664"
+      ],
       "evidence": [
         {
           "handle": "NateGeraci",
-          "id": "2074509967701270661",
-          "text": "*Vanguard* hiring Head of Digital Assets...\n\nI remember when they blocked spot btc &amp; eth ETFs on their brokerage platform.\n\nLife moves p"
+          "id": "2099648923975450679",
+          "text": "The only reason Clarity Act hasn’t passed yet is b/c crypto disrupts traditional banking model…\n\nIt’s really that simple.\n\nWe can talk ethic"
         },
         {
-          "handle": "NateGeraci",
-          "id": "2074532109230743712",
-          "text": "Launching later this week…\n\niShares Nasdaq 100 ETF (IQQ)\n\nLong-term expense ratio = 0.12%\n\nWill be interesting battle for assets b/w Invesco"
+          "handle": "RyanWatkins_",
+          "id": "2100016743129514282",
+          "text": "Winning a meta is not the same as winning the endgame.\n\nCase in point: DeFi Summer, 6 years ago.\n\nAlmost none of the leading apps or chains "
         },
         {
-          "handle": "NateGeraci",
-          "id": "2074848462034657665",
-          "text": "New partnership b/w Kansas Athletics &amp; Ripple…\n\nXRP will be featured on all KU uniforms, the first time crypto on jersey of major colleg"
-        },
-        {
-          "handle": "NateGeraci",
-          "id": "2075052778540450110",
-          "text": "Told you the future was bright…"
+          "handle": "intangiblecoins",
+          "id": "2100731253003546664",
+          "text": "in life, conviction is everything \n\ndoing anything half way is a waste\n\nfind a cause, join a team, build a citadel\n\nif you do this, the futu"
         }
       ]
     },
     {
-      "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+      "tendency": "Anchors the post on a specific metric or market figure and then adds a brief read on what it implies",
+      "frequency": "often",
+      "evidence_ids": [
+        "2048620564940812429",
+        "2088273402582712562",
+        "2056877118349262996"
+      ],
       "evidence": [
         {
-          "handle": "NateGeraci",
-          "id": "2074509967701270661",
-          "text": "*Vanguard* hiring Head of Digital Assets...\n\nI remember when they blocked spot btc &amp; eth ETFs on their brokerage platform.\n\nLife moves p"
+          "handle": "ki_young_ju",
+          "id": "2048620564940812429",
+          "text": "BlackRock IBIT weekly inflows reached $983M, the highest in six months. https://t.co/IJHXOJE7Yg"
         },
         {
-          "handle": "NateGeraci",
-          "id": "2074532109230743712",
-          "text": "Launching later this week…\n\niShares Nasdaq 100 ETF (IQQ)\n\nLong-term expense ratio = 0.12%\n\nWill be interesting battle for assets b/w Invesco"
+          "handle": "glassnode",
+          "id": "2088273402582712562",
+          "text": "Wrap up:\n\nOverall, options markets are less defensive, but not complacent. Falling IV and skew point to reduced near-term fear, while concen"
         },
         {
-          "handle": "NateGeraci",
-          "id": "2074848462034657665",
-          "text": "New partnership b/w Kansas Athletics &amp; Ripple…\n\nXRP will be featured on all KU uniforms, the first time crypto on jersey of major colleg"
-        },
-        {
-          "handle": "NateGeraci",
-          "id": "2075052778540450110",
-          "text": "Told you the future was bright…"
-        }
-      ]
-    }
-  ],
-  "dont": [
-    {
-      "rule": "Do not copy donor wording, personal experience, facts or numbers.",
-      "evidence": [
-        {
-          "handle": "NateGeraci",
-          "id": "2074509967701270661",
-          "text": "*Vanguard* hiring Head of Digital Assets...\n\nI remember when they blocked spot btc &amp; eth ETFs on their brokerage platform.\n\nLife moves p"
-        },
-        {
-          "handle": "NateGeraci",
-          "id": "2074532109230743712",
-          "text": "Launching later this week…\n\niShares Nasdaq 100 ETF (IQQ)\n\nLong-term expense ratio = 0.12%\n\nWill be interesting battle for assets b/w Invesco"
-        },
-        {
-          "handle": "NateGeraci",
-          "id": "2074848462034657665",
-          "text": "New partnership b/w Kansas Athletics &amp; Ripple…\n\nXRP will be featured on all KU uniforms, the first time crypto on jersey of major colleg"
-        },
-        {
-          "handle": "NateGeraci",
-          "id": "2075052778540450110",
-          "text": "Told you the future was bright…"
+          "handle": "RyanWatkins_",
+          "id": "2056877118349262996",
+          "text": "TradFi interest in $HYPE is accelerating with $PURR having its highest volume day ever at ~$210M.\n\nWhat’s more is it’s possible PURR raised "
         }
       ]
     },
     {
-      "rule": "Do not convert observed confidence into an unsupported trade call.",
+      "tendency": "Relays an external chart, report or person's point with attribution and a short added take",
+      "frequency": "often",
+      "evidence_ids": [
+        "2079373332835656111",
+        "2104592528271974579",
+        "2100232147449811310"
+      ],
       "evidence": [
         {
           "handle": "NateGeraci",
-          "id": "2074509967701270661",
-          "text": "*Vanguard* hiring Head of Digital Assets...\n\nI remember when they blocked spot btc &amp; eth ETFs on their brokerage platform.\n\nLife moves p"
+          "id": "2079373332835656111",
+          "text": "*London Stock Exchange* to launch around the clock trading…\n\nYet another example of tradfi bending knee to expectations set by crypto.\n\nOnce"
         },
         {
           "handle": "NateGeraci",
-          "id": "2074532109230743712",
-          "text": "Launching later this week…\n\niShares Nasdaq 100 ETF (IQQ)\n\nLong-term expense ratio = 0.12%\n\nWill be interesting battle for assets b/w Invesco"
+          "id": "2104592528271974579",
+          "text": "Nvidia’s S&amp;P 500 weighting is approaching that of the *entire* consumer discretionary sector...\n\nWild chart.\n\nvia @Todd_Sohn https://t.c"
+        },
+        {
+          "handle": "glassnode",
+          "id": "2100232147449811310",
+          "text": "Bitcoin has slipped below its multi-week range just as the Fed decides on rates. \n\nSupport under price is thin, but the potential catalyst h"
+        }
+      ]
+    },
+    {
+      "tendency": "Recasts a common assumption by inverting it and walking through why the opposite holds",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2084882576725184887",
+        "2100016743129514282",
+        "2099648923975450679"
+      ],
+      "evidence": [
+        {
+          "handle": "ki_young_ju",
+          "id": "2084882576725184887",
+          "text": "\"Not your keys, not your coins\" doesn't work for most people.\n\nEven in the Wild West, when banks got robbed weekly, people still kept gold t"
+        },
+        {
+          "handle": "RyanWatkins_",
+          "id": "2100016743129514282",
+          "text": "Winning a meta is not the same as winning the endgame.\n\nCase in point: DeFi Summer, 6 years ago.\n\nAlmost none of the leading apps or chains "
         },
         {
           "handle": "NateGeraci",
-          "id": "2074848462034657665",
-          "text": "New partnership b/w Kansas Athletics &amp; Ripple…\n\nXRP will be featured on all KU uniforms, the first time crypto on jersey of major colleg"
+          "id": "2099648923975450679",
+          "text": "The only reason Clarity Act hasn’t passed yet is b/c crypto disrupts traditional banking model…\n\nIt’s really that simple.\n\nWe can talk ethic"
+        }
+      ]
+    },
+    {
+      "tendency": "Opens long-form or newsletter content with a headline line and a compact thesis preview",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2096768876700930456",
+        "2096768828302901624",
+        "2077428225110618541"
+      ],
+      "evidence": [
+        {
+          "handle": "thedefiedge",
+          "id": "2096768876700930456",
+          "text": "The DeFi TAM Is Much Bigger Than You Think\n\nHumans were never DeFi's ideal user. Bots and agents are.\n\nNon-human identities already outnumbe"
         },
         {
-          "handle": "NateGeraci",
-          "id": "2075052778540450110",
-          "text": "Told you the future was bright…"
+          "handle": "thedefiedge",
+          "id": "2096768828302901624",
+          "text": "RWAs Are The Liquidity Channel Of This Cycle\n\nEvery past bull market was carried by one new liquidity channel: ICOs, then stablecoins, then "
+        },
+        {
+          "handle": "glassnode",
+          "id": "2077428225110618541",
+          "text": "Green Shoots\n\nBitcoin's bottom is still building, but its character is shifting. Long-term holder capitulation is cooling, buyers absorbed t"
+        }
+      ]
+    },
+    {
+      "tendency": "Situates the present moment within a past cycle or era to argue for change or continuity",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2067034633267822616",
+        "2096768828302901624"
+      ],
+      "evidence": [
+        {
+          "handle": "ki_young_ju",
+          "id": "2067034633267822616",
+          "text": "I came to crypto for jazz, but somewhere along the way, classical music started playing.\n\nThe free spirits are mostly gone. Now Wall Street "
+        },
+        {
+          "handle": "thedefiedge",
+          "id": "2096768828302901624",
+          "text": "RWAs Are The Liquidity Channel Of This Cycle\n\nEvery past bull market was carried by one new liquidity channel: ICOs, then stablecoins, then "
+        }
+      ]
+    },
+    {
+      "tendency": "Posts terse sardonic reactions with no supporting data",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2076741965790466175",
+        "2102680428926603575",
+        "2062496269185024050"
+      ],
+      "evidence": [
+        {
+          "handle": "zackvoell",
+          "id": "2076741965790466175",
+          "text": "Hot take: it looks better after he fixed it"
+        },
+        {
+          "handle": "ki_young_ju",
+          "id": "2102680428926603575",
+          "text": "Analyst consensus on Ethereum: STRONG BUY"
+        },
+        {
+          "handle": "zackvoell",
+          "id": "2062496269185024050",
+          "text": "Today I learned that Michael Saylor sued a bunch of anons who made jokes online about him doing coke. https://t.co/eSU0S1Xbgn"
+        }
+      ]
+    },
+    {
+      "tendency": "Ends with a hedge or risk caveat that tempers an otherwise directional read",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2044067671692439834",
+        "2100232147449811310"
+      ],
+      "evidence": [
+        {
+          "handle": "RyanWatkins_",
+          "id": "2044067671692439834",
+          "text": "That said, once you open up Pandora’s box and introduce leverage, the potential outcomes start expanding widely.\n\nWhile the DAT mNAV flywhee"
+        },
+        {
+          "handle": "glassnode",
+          "id": "2100232147449811310",
+          "text": "Bitcoin has slipped below its multi-week range just as the Fed decides on rates. \n\nSupport under price is thin, but the potential catalyst h"
         }
       ]
     }
   ],
-  "baseline_rules": {
-    "do": [
+  "avoid_tendencies": [
+    {
+      "tendency": "Opening a post as a numbered list or explicit thread-start marker",
+      "frequency": "almost_never",
+      "evidence_ids": [],
+      "evidence": []
+    },
+    {
+      "tendency": "Wire-service urgency labels used as the opening line",
+      "frequency": "rarely",
+      "evidence_ids": [],
+      "evidence": []
+    },
+    {
+      "tendency": "Precise price targets presented as certain forecasts",
+      "frequency": "rarely",
+      "evidence_ids": [],
+      "evidence": []
+    }
+  ],
+  "baseline_tendencies": {
+    "tendencies": [
       {
-        "rule": "Lead with a clear judgment; use data to support it.",
+        "frequency": "often",
+        "tendency": "Opens with a clear judgment, supported by observations.",
         "evidence": [
           {
             "handle": "NateGeraci",
@@ -429,7 +544,8 @@
         ]
       },
       {
-        "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+        "frequency": "often",
+        "tendency": "Uses claim-led openings, with sentences around the observed band.",
         "evidence": [
           {
             "handle": "NateGeraci",
@@ -454,9 +570,10 @@
         ]
       }
     ],
-    "dont": [
+    "avoid_tendencies": [
       {
-        "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+        "frequency": "almost_never",
+        "tendency": "Relies on another author’s personal experience or identity.",
         "evidence": [
           {
             "handle": "NateGeraci",
@@ -481,7 +598,8 @@
         ]
       },
       {
-        "rule": "Do not convert observed confidence into an unsupported trade call.",
+        "frequency": "rarely",
+        "tendency": "Turns confidence into an unsupported trade call.",
         "evidence": [
           {
             "handle": "NateGeraci",
@@ -507,5 +625,416 @@
       }
     ]
   },
-  "qualitative": {}
+  "qualitative": {
+    "voice_summary": "A crypto-and-markets voice that mostly opens with a plain declarative claim or a data point, then adds a short interpretive layer in clipped, line-broken paragraphs. Register shifts between institutional research-desk summaries, casual first-person commentary and terse ironic reactions, with numbers used to support the view rather than replace it.",
+    "hook_patterns": [
+      {
+        "pattern": "Plain declarative claim stated as the first line, with no setup or framing device",
+        "share_estimate": 0.8,
+        "example_ids": [
+          "2099648923975450679",
+          "2100016743129514282"
+        ],
+        "evidence": [
+          {
+            "handle": "NateGeraci",
+            "id": "2099648923975450679",
+            "text": "The only reason Clarity Act hasn’t passed yet is b/c crypto disrupts traditional banking model…\n\nIt’s really that simple.\n\nWe can talk ethic"
+          },
+          {
+            "handle": "RyanWatkins_",
+            "id": "2100016743129514282",
+            "text": "Winning a meta is not the same as winning the endgame.\n\nCase in point: DeFi Summer, 6 years ago.\n\nAlmost none of the leading apps or chains "
+          }
+        ]
+      },
+      {
+        "pattern": "Quantity, flow figure or market level placed at the front, with interpretation following",
+        "share_estimate": 0.06,
+        "example_ids": [
+          "2048620564940812429",
+          "2056877118349262996"
+        ],
+        "evidence": [
+          {
+            "handle": "ki_young_ju",
+            "id": "2048620564940812429",
+            "text": "BlackRock IBIT weekly inflows reached $983M, the highest in six months. https://t.co/IJHXOJE7Yg"
+          },
+          {
+            "handle": "RyanWatkins_",
+            "id": "2056877118349262996",
+            "text": "TradFi interest in $HYPE is accelerating with $PURR having its highest volume day ever at ~$210M.\n\nWhat’s more is it’s possible PURR raised "
+          }
+        ]
+      },
+      {
+        "pattern": "Contrast or reversal opening that sets a widely held belief against the author's counter-reading",
+        "share_estimate": 0.05,
+        "example_ids": [
+          "2084882576725184887"
+        ],
+        "evidence": [
+          {
+            "handle": "ki_young_ju",
+            "id": "2084882576725184887",
+            "text": "\"Not your keys, not your coins\" doesn't work for most people.\n\nEven in the Wild West, when banks got robbed weekly, people still kept gold t"
+          }
+        ]
+      },
+      {
+        "pattern": "Short title-style header line followed by a two- or three-sentence thesis teaser",
+        "share_estimate": 0.03,
+        "example_ids": [
+          "2096768828302901624",
+          "2077428225110618541"
+        ],
+        "evidence": [
+          {
+            "handle": "thedefiedge",
+            "id": "2096768828302901624",
+            "text": "RWAs Are The Liquidity Channel Of This Cycle\n\nEvery past bull market was carried by one new liquidity channel: ICOs, then stablecoins, then "
+          },
+          {
+            "handle": "glassnode",
+            "id": "2077428225110618541",
+            "text": "Green Shoots\n\nBitcoin's bottom is still building, but its character is shifting. Long-term holder capitulation is cooling, buyers absorbed t"
+          }
+        ]
+      },
+      {
+        "pattern": "Standalone ironic or deadpan one-liner reacting to news or a market consensus",
+        "share_estimate": 0.04,
+        "example_ids": [
+          "2076741965790466175",
+          "2102680428926603575"
+        ],
+        "evidence": [
+          {
+            "handle": "zackvoell",
+            "id": "2076741965790466175",
+            "text": "Hot take: it looks better after he fixed it"
+          },
+          {
+            "handle": "ki_young_ju",
+            "id": "2102680428926603575",
+            "text": "Analyst consensus on Ethereum: STRONG BUY"
+          }
+        ]
+      }
+    ],
+    "cadence_notes": "Median about one post per day per donor. Activity concentrates in the 00–02 UTC and 11–17 UTC bands and is quietest around 06–08 UTC. About 16% of posts are threads and roughly half carry media, often a chart or screenshot that the text points to.",
+    "signature_moves": [
+      {
+        "move": "Lays out a sequence of stages as a numbered arc, then closes with a one-line wry verdict",
+        "example_ids": [
+          "2076830389918646310"
+        ],
+        "evidence": [
+          {
+            "handle": "NateGeraci",
+            "id": "2076830389918646310",
+            "text": "Freddy has now experienced the full American “celebrity” lifecycle…\n\n1) Unknown\n\n2) Starts to stand out\n\n3) Early success\n\n4) Everyone build"
+          }
+        ]
+      },
+      {
+        "move": "Stacks parallel short lines tallying repeated statements to build an absurdity case before a closing judgment",
+        "example_ids": [
+          "2063950807247020466"
+        ],
+        "evidence": [
+          {
+            "handle": "zackvoell",
+            "id": "2063950807247020466",
+            "text": "We're over 100 days into the Iran war.\n\nTrump said it would last a few weeks.\n\nTrump said the war is almost over 15 times.\n\nTrump also said "
+          }
+        ]
+      },
+      {
+        "move": "Frames a product or tool launch as a capability the reader now has, followed by a concrete usage prompt",
+        "example_ids": [
+          "2084692951641583820",
+          "2090740650475995579"
+        ],
+        "evidence": [
+          {
+            "handle": "glassnode",
+            "id": "2084692951641583820",
+            "text": "Your AI agent can now buy Glassnode data.\n\nx402 pays per call: from your @coinbase balance via Coinbase for Agents (live today), or any USDC"
+          },
+          {
+            "handle": "zackvoell",
+            "id": "2090740650475995579",
+            "text": "Introducing ChatBTC  — \n\nThis specialized trading agent analyses the bitcoin market with a 100% Crypto Twitter bias weighting while opening,"
+          }
+        ]
+      },
+      {
+        "move": "Closes a multi-part research thread with a labeled summary section that balances risk and range",
+        "example_ids": [
+          "2088273402582712562"
+        ],
+        "evidence": [
+          {
+            "handle": "glassnode",
+            "id": "2088273402582712562",
+            "text": "Wrap up:\n\nOverall, options markets are less defensive, but not complacent. Falling IV and skew point to reduced near-term fear, while concen"
+          }
+        ]
+      },
+      {
+        "move": "Embeds enumerated reasons inline within a paragraph to justify a speculative inference",
+        "example_ids": [
+          "2056877118349262996"
+        ],
+        "evidence": [
+          {
+            "handle": "RyanWatkins_",
+            "id": "2056877118349262996",
+            "text": "TradFi interest in $HYPE is accelerating with $PURR having its highest volume day ever at ~$210M.\n\nWhat’s more is it’s possible PURR raised "
+          }
+        ]
+      },
+      {
+        "move": "Uses an all-lowercase, conversational first-person register for personal or motivational asides",
+        "example_ids": [
+          "2100731253003546664",
+          "2089421823897157715"
+        ],
+        "evidence": [
+          {
+            "handle": "intangiblecoins",
+            "id": "2100731253003546664",
+            "text": "in life, conviction is everything \n\ndoing anything half way is a waste\n\nfind a cause, join a team, build a citadel\n\nif you do this, the futu"
+          },
+          {
+            "handle": "intangiblecoins",
+            "id": "2089421823897157715",
+            "text": "in addition to all the coldcard “chainalysis-style” tracing capabilities and fully featured charting and dashboards..\n\nhere’s a look at my l"
+          }
+        ]
+      }
+    ],
+    "tendencies": [
+      {
+        "tendency": "Breaks the argument into very short paragraphs, often one sentence or clause per line, for staccato pacing",
+        "frequency": "usually",
+        "evidence_ids": [
+          "2099648923975450679",
+          "2100016743129514282",
+          "2100731253003546664"
+        ],
+        "evidence": [
+          {
+            "handle": "NateGeraci",
+            "id": "2099648923975450679",
+            "text": "The only reason Clarity Act hasn’t passed yet is b/c crypto disrupts traditional banking model…\n\nIt’s really that simple.\n\nWe can talk ethic"
+          },
+          {
+            "handle": "RyanWatkins_",
+            "id": "2100016743129514282",
+            "text": "Winning a meta is not the same as winning the endgame.\n\nCase in point: DeFi Summer, 6 years ago.\n\nAlmost none of the leading apps or chains "
+          },
+          {
+            "handle": "intangiblecoins",
+            "id": "2100731253003546664",
+            "text": "in life, conviction is everything \n\ndoing anything half way is a waste\n\nfind a cause, join a team, build a citadel\n\nif you do this, the futu"
+          }
+        ]
+      },
+      {
+        "tendency": "Anchors the post on a specific metric or market figure and then adds a brief read on what it implies",
+        "frequency": "often",
+        "evidence_ids": [
+          "2048620564940812429",
+          "2088273402582712562",
+          "2056877118349262996"
+        ],
+        "evidence": [
+          {
+            "handle": "ki_young_ju",
+            "id": "2048620564940812429",
+            "text": "BlackRock IBIT weekly inflows reached $983M, the highest in six months. https://t.co/IJHXOJE7Yg"
+          },
+          {
+            "handle": "glassnode",
+            "id": "2088273402582712562",
+            "text": "Wrap up:\n\nOverall, options markets are less defensive, but not complacent. Falling IV and skew point to reduced near-term fear, while concen"
+          },
+          {
+            "handle": "RyanWatkins_",
+            "id": "2056877118349262996",
+            "text": "TradFi interest in $HYPE is accelerating with $PURR having its highest volume day ever at ~$210M.\n\nWhat’s more is it’s possible PURR raised "
+          }
+        ]
+      },
+      {
+        "tendency": "Relays an external chart, report or person's point with attribution and a short added take",
+        "frequency": "often",
+        "evidence_ids": [
+          "2079373332835656111",
+          "2104592528271974579",
+          "2100232147449811310"
+        ],
+        "evidence": [
+          {
+            "handle": "NateGeraci",
+            "id": "2079373332835656111",
+            "text": "*London Stock Exchange* to launch around the clock trading…\n\nYet another example of tradfi bending knee to expectations set by crypto.\n\nOnce"
+          },
+          {
+            "handle": "NateGeraci",
+            "id": "2104592528271974579",
+            "text": "Nvidia’s S&amp;P 500 weighting is approaching that of the *entire* consumer discretionary sector...\n\nWild chart.\n\nvia @Todd_Sohn https://t.c"
+          },
+          {
+            "handle": "glassnode",
+            "id": "2100232147449811310",
+            "text": "Bitcoin has slipped below its multi-week range just as the Fed decides on rates. \n\nSupport under price is thin, but the potential catalyst h"
+          }
+        ]
+      },
+      {
+        "tendency": "Recasts a common assumption by inverting it and walking through why the opposite holds",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2084882576725184887",
+          "2100016743129514282",
+          "2099648923975450679"
+        ],
+        "evidence": [
+          {
+            "handle": "ki_young_ju",
+            "id": "2084882576725184887",
+            "text": "\"Not your keys, not your coins\" doesn't work for most people.\n\nEven in the Wild West, when banks got robbed weekly, people still kept gold t"
+          },
+          {
+            "handle": "RyanWatkins_",
+            "id": "2100016743129514282",
+            "text": "Winning a meta is not the same as winning the endgame.\n\nCase in point: DeFi Summer, 6 years ago.\n\nAlmost none of the leading apps or chains "
+          },
+          {
+            "handle": "NateGeraci",
+            "id": "2099648923975450679",
+            "text": "The only reason Clarity Act hasn’t passed yet is b/c crypto disrupts traditional banking model…\n\nIt’s really that simple.\n\nWe can talk ethic"
+          }
+        ]
+      },
+      {
+        "tendency": "Opens long-form or newsletter content with a headline line and a compact thesis preview",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2096768876700930456",
+          "2096768828302901624",
+          "2077428225110618541"
+        ],
+        "evidence": [
+          {
+            "handle": "thedefiedge",
+            "id": "2096768876700930456",
+            "text": "The DeFi TAM Is Much Bigger Than You Think\n\nHumans were never DeFi's ideal user. Bots and agents are.\n\nNon-human identities already outnumbe"
+          },
+          {
+            "handle": "thedefiedge",
+            "id": "2096768828302901624",
+            "text": "RWAs Are The Liquidity Channel Of This Cycle\n\nEvery past bull market was carried by one new liquidity channel: ICOs, then stablecoins, then "
+          },
+          {
+            "handle": "glassnode",
+            "id": "2077428225110618541",
+            "text": "Green Shoots\n\nBitcoin's bottom is still building, but its character is shifting. Long-term holder capitulation is cooling, buyers absorbed t"
+          }
+        ]
+      },
+      {
+        "tendency": "Situates the present moment within a past cycle or era to argue for change or continuity",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2067034633267822616",
+          "2096768828302901624"
+        ],
+        "evidence": [
+          {
+            "handle": "ki_young_ju",
+            "id": "2067034633267822616",
+            "text": "I came to crypto for jazz, but somewhere along the way, classical music started playing.\n\nThe free spirits are mostly gone. Now Wall Street "
+          },
+          {
+            "handle": "thedefiedge",
+            "id": "2096768828302901624",
+            "text": "RWAs Are The Liquidity Channel Of This Cycle\n\nEvery past bull market was carried by one new liquidity channel: ICOs, then stablecoins, then "
+          }
+        ]
+      },
+      {
+        "tendency": "Posts terse sardonic reactions with no supporting data",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2076741965790466175",
+          "2102680428926603575",
+          "2062496269185024050"
+        ],
+        "evidence": [
+          {
+            "handle": "zackvoell",
+            "id": "2076741965790466175",
+            "text": "Hot take: it looks better after he fixed it"
+          },
+          {
+            "handle": "ki_young_ju",
+            "id": "2102680428926603575",
+            "text": "Analyst consensus on Ethereum: STRONG BUY"
+          },
+          {
+            "handle": "zackvoell",
+            "id": "2062496269185024050",
+            "text": "Today I learned that Michael Saylor sued a bunch of anons who made jokes online about him doing coke. https://t.co/eSU0S1Xbgn"
+          }
+        ]
+      },
+      {
+        "tendency": "Ends with a hedge or risk caveat that tempers an otherwise directional read",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2044067671692439834",
+          "2100232147449811310"
+        ],
+        "evidence": [
+          {
+            "handle": "RyanWatkins_",
+            "id": "2044067671692439834",
+            "text": "That said, once you open up Pandora’s box and introduce leverage, the potential outcomes start expanding widely.\n\nWhile the DAT mNAV flywhee"
+          },
+          {
+            "handle": "glassnode",
+            "id": "2100232147449811310",
+            "text": "Bitcoin has slipped below its multi-week range just as the Fed decides on rates. \n\nSupport under price is thin, but the potential catalyst h"
+          }
+        ]
+      }
+    ],
+    "avoid_tendencies": [
+      {
+        "tendency": "Opening a post as a numbered list or explicit thread-start marker",
+        "frequency": "almost_never",
+        "evidence_ids": [],
+        "evidence": []
+      },
+      {
+        "tendency": "Wire-service urgency labels used as the opening line",
+        "frequency": "rarely",
+        "evidence_ids": [],
+        "evidence": []
+      },
+      {
+        "tendency": "Precise price targets presented as certain forecasts",
+        "frequency": "rarely",
+        "evidence_ids": [],
+        "evidence": []
+      }
+    ],
+    "variation_notes": "Length ranges from single-clause reactions to multi-paragraph mechanism explainers and report teasers; median sentence length is about nine words, with the interquartile range at about 6–15. Register moves between neutral research-desk language, casual lowercase personal notes and pointed political or cultural irony. Most posts open with a claim, while data-led, contrast, title-header and reaction openings appear less often. Emoji are uncommon and mostly appear as pointers or report labels.",
+    "judgment_style": "Views are mostly stated assertively, sometimes reduced to a single cause, and data is used as backing rather than as the whole message. Research-style posts hedge more, with conditional phrasing about ranges, catalysts and risk; speculative inferences are flagged as possible and supported with explicit reasons. Opinion pieces lean on analogy and historical cycles rather than formal qualifiers."
+  }
 }

@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "cluster": "market_data_charts",
   "lang": "en",
   "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
@@ -301,114 +301,243 @@
     "unknown": 0.002405,
     "view_relay": 0.214109
   },
-  "do": [
+  "tendencies": [
     {
-      "rule": "Lead with a clear judgment; use data to support it.",
+      "tendency": "Keeps the text to a single framing line and leaves the attached chart to supply the substance",
+      "frequency": "usually",
+      "evidence_ids": [
+        "2080661163986096220",
+        "2105262078617612353",
+        "1990799345701302633"
+      ],
       "evidence": [
         {
-          "handle": "Mr_Derivatives",
-          "id": "2078332586464825380",
-          "text": "$TSM Down 7 days in a row, worst losing streak since June-July 2022!\n\nSitting right at this critical support line dating back to the April 2"
+          "handle": "SoberLook",
+          "id": "2080661163986096220",
+          "text": "The USD inflation swap market remains remarkably calm relative to its EUR counterpart. https://t.co/FdMVoq8NRs"
         },
         {
-          "handle": "Mr_Derivatives",
-          "id": "2082182601134178772",
-          "text": "The last three times $USO hit a 70+ RSI, it pulled back significantly."
+          "handle": "bespokeinvest",
+          "id": "2105262078617612353",
+          "text": "The six big US banks and brokers are now deeply oversold: https://t.co/OdKEopGPLh"
         },
         {
-          "handle": "Mr_Derivatives",
-          "id": "2087296560896028705",
-          "text": "$JPM Could use a healthy pullback.... https://t.co/FtekcK2lXV"
-        },
-        {
-          "handle": "Mr_Derivatives",
-          "id": "2095294890683072618",
-          "text": "$HIMS Just give me a 20-25% bouncer here. I promise to eat my vegetables. https://t.co/UCgQUnBjEW"
+          "handle": "AndrewThrasher",
+          "id": "1990799345701302633",
+          "text": "$IPO rel. performance now back to 2022 lows. https://t.co/rhzwxS5cMn"
         }
       ]
     },
     {
-      "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+      "tendency": "Credits outside data or quotations to a named firm or person instead of presenting them as original findings",
+      "frequency": "often",
+      "evidence_ids": [
+        "2075157570906399020",
+        "2105349704582312356"
+      ],
       "evidence": [
         {
-          "handle": "Mr_Derivatives",
-          "id": "2078332586464825380",
-          "text": "$TSM Down 7 days in a row, worst losing streak since June-July 2022!\n\nSitting right at this critical support line dating back to the April 2"
+          "handle": "SoberLook",
+          "id": "2075157570906399020",
+          "text": "Goldman’s hedge fund clients have sharply reduced both gross and net exposures to Magnificent Seven stocks to three-year lows.\n\nSource: Gold"
         },
         {
-          "handle": "Mr_Derivatives",
-          "id": "2082182601134178772",
-          "text": "The last three times $USO hit a 70+ RSI, it pulled back significantly."
-        },
-        {
-          "handle": "Mr_Derivatives",
-          "id": "2087296560896028705",
-          "text": "$JPM Could use a healthy pullback.... https://t.co/FtekcK2lXV"
-        },
-        {
-          "handle": "Mr_Derivatives",
-          "id": "2095294890683072618",
-          "text": "$HIMS Just give me a 20-25% bouncer here. I promise to eat my vegetables. https://t.co/UCgQUnBjEW"
-        }
-      ]
-    }
-  ],
-  "dont": [
-    {
-      "rule": "Do not copy donor wording, personal experience, facts or numbers.",
-      "evidence": [
-        {
-          "handle": "Mr_Derivatives",
-          "id": "2078332586464825380",
-          "text": "$TSM Down 7 days in a row, worst losing streak since June-July 2022!\n\nSitting right at this critical support line dating back to the April 2"
-        },
-        {
-          "handle": "Mr_Derivatives",
-          "id": "2082182601134178772",
-          "text": "The last three times $USO hit a 70+ RSI, it pulled back significantly."
-        },
-        {
-          "handle": "Mr_Derivatives",
-          "id": "2087296560896028705",
-          "text": "$JPM Could use a healthy pullback.... https://t.co/FtekcK2lXV"
-        },
-        {
-          "handle": "Mr_Derivatives",
-          "id": "2095294890683072618",
-          "text": "$HIMS Just give me a 20-25% bouncer here. I promise to eat my vegetables. https://t.co/UCgQUnBjEW"
+          "handle": "TheChartReport",
+          "id": "2105349704582312356",
+          "text": "\"When new lows outnumber new highs, consistently finding success on the long side becomes a challenge.\"\n\n@daChartLife https://t.co/3mIlExaPG"
         }
       ]
     },
     {
-      "rule": "Do not convert observed confidence into an unsupported trade call.",
+      "tendency": "Supports directional views with how similar past episodes resolved, often noting a 'first time since' framing or a prior-episode track record",
+      "frequency": "often",
+      "evidence_ids": [
+        "1884612548378378744",
+        "2099649445918818523",
+        "2056436001300464092"
+      ],
       "evidence": [
         {
-          "handle": "Mr_Derivatives",
-          "id": "2078332586464825380",
-          "text": "$TSM Down 7 days in a row, worst losing streak since June-July 2022!\n\nSitting right at this critical support line dating back to the April 2"
+          "handle": "jasongoepfert",
+          "id": "1884612548378378744",
+          "text": "Looked at a different way, these breadth thrusts preceded double-digit one-year gains in the S&amp;P 500 equal-weight index every time but o"
+        },
+        {
+          "handle": "TheChartReport",
+          "id": "2099649445918818523",
+          "text": "For the first time since early April 2026, more NYSE stocks are making new 52-week lows than new 52-week highs.\n\nLink to the full article: h"
+        },
+        {
+          "handle": "jasongoepfert",
+          "id": "2056436001300464092",
+          "text": "The few other times Ebola angst was \"not nothing,\" future gains were limited and ultimately erased by a subsequent pullback. 🤷‍♂️ https://t."
+        }
+      ]
+    },
+    {
+      "tendency": "Qualifies conclusions by admitting inconsistency, an unknown catalyst, or a softened 'arguably' stance",
+      "frequency": "often",
+      "evidence_ids": [
+        "2048751925454082339",
+        "2064023664765657255",
+        "2106132895295496592"
+      ],
+      "evidence": [
+        {
+          "handle": "jasongoepfert",
+          "id": "2048751925454082339",
+          "text": "Divergences like this tend to result in the indices \"catching down\" to the average stock, rather than the average stock \"catching up\" to the"
+        },
+        {
+          "handle": "Greenbackd",
+          "id": "2064023664765657255",
+          "text": "S&P Forward Earnings & Relative Valuation Charts\n\nStrong earnings growth plus historically cheap valuations relative to large caps is a clas"
+        },
+        {
+          "handle": "EricBalchunas",
+          "id": "2106132895295496592",
+          "text": "Canary just amended their Pepe ETF filing... arguably another sign crypto winter has ended. You just weren't going to even think about launc"
+        }
+      ]
+    },
+    {
+      "tendency": "Uses the post as a pointer to longer-form work such as a newsletter, podcast episode or research note",
+      "frequency": "often",
+      "evidence_ids": [
+        "2106007197750849749",
+        "2103510508397617269",
+        "2105361903253938462"
+      ],
+      "evidence": [
+        {
+          "handle": "TheChartReport",
+          "id": "2106007197750849749",
+          "text": "Since the start of the decade, the Dow Jones Industrial Average has repeatedly shown the same behavior: former resistance becomes support, a"
+        },
+        {
+          "handle": "EricBalchunas",
+          "id": "2103510508397617269",
+          "text": "Here's link to the whole episode, where we discussed where we got the idea, why it could only happen now, and the \"impact\" formula we create"
+        },
+        {
+          "handle": "bespokeinvest",
+          "id": "2105361903253938462",
+          "text": "Momentum Whiplash: How Q3 Punished the First Half's Winners https://t.co/dETr1jRwdt"
+        }
+      ]
+    },
+    {
+      "tendency": "Mixes informal, off-topic or reactive one-liners in with the analytical posts",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2100980563154989396",
+        "2104596772249026745",
+        "2105444479490834833"
+      ],
+      "evidence": [
+        {
+          "handle": "JSeyff",
+          "id": "2100980563154989396",
+          "text": "Morning jog views from LA today https://t.co/A4Hy5sTlxz"
+        },
+        {
+          "handle": "EricBalchunas",
+          "id": "2104596772249026745",
+          "text": "This feels important, and something to watch esp for legacy media dudes like me"
         },
         {
           "handle": "Mr_Derivatives",
-          "id": "2082182601134178772",
-          "text": "The last three times $USO hit a 70+ RSI, it pulled back significantly."
+          "id": "2105444479490834833",
+          "text": "basically just getting back the last 10-15 min eod drop due to window dressing."
+        }
+      ]
+    },
+    {
+      "tendency": "Explains in plain language why a signal behaves as it does, for example size effects or exhaustion versus strength",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2102460039390781565",
+        "1942591428170842304",
+        "2079341837995880810"
+      ],
+      "evidence": [
+        {
+          "handle": "JSeyff",
+          "id": "2102460039390781565",
+          "text": "it works best in large caps on the long signal mostly because the small and mid cap names are far far more likely to face serious issues lik"
+        },
+        {
+          "handle": "AndrewThrasher",
+          "id": "1942591428170842304",
+          "text": "Some breadth thrusts show strength in the market and others show signs of exhaustion. I track both at Thrasher Analytics and the start of Ju"
+        },
+        {
+          "handle": "Greenbackd",
+          "id": "2079341837995880810",
+          "text": "The relationship between the S&P 500 High Beta Index ($SPHBI) and the S&P 500 Low Volatility Index ( $SPLVI) is a classic \"risk-on vs. risk-"
+        }
+      ]
+    },
+    {
+      "tendency": "Issues compressed readings on overbought, oversold or implied-versus-realized moves with little elaboration",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "1802657445376114990",
+        "2105647123006132381"
+      ],
+      "evidence": [
+        {
+          "handle": "MacroCharts",
+          "id": "1802657445376114990",
+          "text": "Core Systems at/near Major Sell signals – with *significant* room to decline.\n\nTied for most extreme overbought in 10+ years.\n\nMonitoring fo"
         },
         {
           "handle": "Mr_Derivatives",
-          "id": "2087296560896028705",
-          "text": "$JPM Could use a healthy pullback.... https://t.co/FtekcK2lXV"
-        },
-        {
-          "handle": "Mr_Derivatives",
-          "id": "2095294890683072618",
-          "text": "$HIMS Just give me a 20-25% bouncer here. I promise to eat my vegetables. https://t.co/UCgQUnBjEW"
+          "id": "2105647123006132381",
+          "text": "$MU Implied move was roughly -/+ 8.0%\n\n$MU Currently just -0.9% https://t.co/GKL98nvSuM"
         }
       ]
     }
   ],
-  "baseline_rules": {
-    "do": [
+  "avoid_tendencies": [
+    {
+      "tendency": "Numbered list or thread openers that announce a multi-part breakdown",
+      "frequency": "almost_never",
+      "evidence_ids": [],
+      "evidence": []
+    },
+    {
+      "tendency": "Breaking-news wire framing at the start of a post",
+      "frequency": "rarely",
+      "evidence_ids": [],
+      "evidence": []
+    },
+    {
+      "tendency": "Heavy or decorative emoji use; when emoji appear they are a single trailing accent",
+      "frequency": "rarely",
+      "evidence_ids": [
+        "2056436001300464092",
+        "2106007197750849749"
+      ],
+      "evidence": [
+        {
+          "handle": "jasongoepfert",
+          "id": "2056436001300464092",
+          "text": "The few other times Ebola angst was \"not nothing,\" future gains were limited and ultimately erased by a subsequent pullback. 🤷‍♂️ https://t."
+        },
+        {
+          "handle": "TheChartReport",
+          "id": "2106007197750849749",
+          "text": "Since the start of the decade, the Dow Jones Industrial Average has repeatedly shown the same behavior: former resistance becomes support, a"
+        }
+      ]
+    }
+  ],
+  "baseline_tendencies": {
+    "tendencies": [
       {
-        "rule": "Lead with a clear judgment; use data to support it.",
+        "frequency": "often",
+        "tendency": "Opens with a clear judgment, supported by observations.",
         "evidence": [
           {
             "handle": "Mr_Derivatives",
@@ -433,7 +562,8 @@
         ]
       },
       {
-        "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+        "frequency": "often",
+        "tendency": "Uses claim-led openings, with sentences around the observed band.",
         "evidence": [
           {
             "handle": "Mr_Derivatives",
@@ -458,9 +588,10 @@
         ]
       }
     ],
-    "dont": [
+    "avoid_tendencies": [
       {
-        "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+        "frequency": "almost_never",
+        "tendency": "Relies on another author’s personal experience or identity.",
         "evidence": [
           {
             "handle": "Mr_Derivatives",
@@ -485,7 +616,8 @@
         ]
       },
       {
-        "rule": "Do not convert observed confidence into an unsupported trade call.",
+        "frequency": "rarely",
+        "tendency": "Turns confidence into an unsupported trade call.",
         "evidence": [
           {
             "handle": "Mr_Derivatives",
@@ -511,5 +643,435 @@
       }
     ]
   },
-  "qualitative": {}
+  "qualitative": {
+    "voice_summary": "Chart-forward market commentary in which a short declarative line frames an attached visual or data point, and the image or link carries most of the evidence. The register runs from terse desk-style readings of overbought or oversold conditions to conversational asides. Analytical calls usually lean on historical base rates or third-party data rather than open speculation.",
+    "hook_patterns": [
+      {
+        "pattern": "Plain declarative statement of a market condition or reading, followed directly by a chart or link",
+        "share_estimate": 0.76,
+        "example_ids": [
+          "2080661163986096220",
+          "2105262078617612353"
+        ],
+        "evidence": [
+          {
+            "handle": "SoberLook",
+            "id": "2080661163986096220",
+            "text": "The USD inflation swap market remains remarkably calm relative to its EUR counterpart. https://t.co/FdMVoq8NRs"
+          },
+          {
+            "handle": "bespokeinvest",
+            "id": "2105262078617612353",
+            "text": "The six big US banks and brokers are now deeply oversold: https://t.co/OdKEopGPLh"
+          }
+        ]
+      },
+      {
+        "pattern": "Contrast or turn opener that sets two cases or outcomes against each other before resolving",
+        "share_estimate": 0.09,
+        "example_ids": [
+          "1942591428170842304",
+          "2048751925454082339"
+        ],
+        "evidence": [
+          {
+            "handle": "AndrewThrasher",
+            "id": "1942591428170842304",
+            "text": "Some breadth thrusts show strength in the market and others show signs of exhaustion. I track both at Thrasher Analytics and the start of Ju"
+          },
+          {
+            "handle": "jasongoepfert",
+            "id": "2048751925454082339",
+            "text": "Divergences like this tend to result in the indices \"catching down\" to the average stock, rather than the average stock \"catching up\" to the"
+          }
+        ]
+      },
+      {
+        "pattern": "Ticker symbol placed first, then a compressed performance or positioning reading",
+        "share_estimate": 0.075,
+        "example_ids": [
+          "1990799345701302633",
+          "2105647123006132381"
+        ],
+        "evidence": [
+          {
+            "handle": "AndrewThrasher",
+            "id": "1990799345701302633",
+            "text": "$IPO rel. performance now back to 2022 lows. https://t.co/rhzwxS5cMn"
+          },
+          {
+            "handle": "Mr_Derivatives",
+            "id": "2105647123006132381",
+            "text": "$MU Implied move was roughly -/+ 8.0%\n\n$MU Currently just -0.9% https://t.co/GKL98nvSuM"
+          }
+        ]
+      },
+      {
+        "pattern": "Rhetorical or framing question used as the headline, with the chart or source answering it",
+        "share_estimate": 0.04,
+        "example_ids": [
+          "2106419112373359089",
+          "2086830577143939573"
+        ],
+        "evidence": [
+          {
+            "handle": "Mr_Derivatives",
+            "id": "2106419112373359089",
+            "text": "Did Trump look at the Polymarket odds? https://t.co/8PsNwBrBmJ"
+          },
+          {
+            "handle": "SoberLook",
+            "id": "2086830577143939573",
+            "text": "How does $1 in AI spend flow through the AI value chain?\n\nSource: iCapital Investment Strategy Group https://t.co/tOEia8unkv https://t.co/kl"
+          }
+        ]
+      },
+      {
+        "pattern": "Quoted line from a practitioner or colleague, with attribution after it",
+        "share_estimate": 0.017,
+        "example_ids": [
+          "2016894428552597767",
+          "2105349704582312356"
+        ],
+        "evidence": [
+          {
+            "handle": "MacroCharts",
+            "id": "2016894428552597767",
+            "text": "“There is no training, classroom or otherwise, that can prepare for trading the last third of a move, whether it’s the end of a bull market "
+          },
+          {
+            "handle": "TheChartReport",
+            "id": "2105349704582312356",
+            "text": "\"When new lows outnumber new highs, consistently finding success on the long side becomes a challenge.\"\n\n@daChartLife https://t.co/3mIlExaPG"
+          }
+        ]
+      }
+    ],
+    "cadence_notes": "Roughly one post per day per donor at the median. Activity is concentrated in US market hours, about 11:00–21:00 UTC with a peak near 13:00 UTC, and falls almost silent between 02:00 and 08:00 UTC. Sentences are short: median about 10 words, interquartile range about 5–17. Around 62% of posts carry media, about 13% are threaded, and emoji appear in about 4%.",
+    "signature_moves": [
+      {
+        "move": "State a historical precedent or base rate, then flag the exception or failed instance that weakens it",
+        "example_ids": [
+          "1884612548378378744",
+          "2056436001300464092"
+        ],
+        "evidence": [
+          {
+            "handle": "jasongoepfert",
+            "id": "1884612548378378744",
+            "text": "Looked at a different way, these breadth thrusts preceded double-digit one-year gains in the S&amp;P 500 equal-weight index every time but o"
+          },
+          {
+            "handle": "jasongoepfert",
+            "id": "2056436001300464092",
+            "text": "The few other times Ebola angst was \"not nothing,\" future gains were limited and ultimately erased by a subsequent pullback. 🤷‍♂️ https://t."
+          }
+        ]
+      },
+      {
+        "move": "Relay an institutional data point and give the originating source on its own closing line",
+        "example_ids": [
+          "2075157570906399020",
+          "2090377313372315853"
+        ],
+        "evidence": [
+          {
+            "handle": "SoberLook",
+            "id": "2075157570906399020",
+            "text": "Goldman’s hedge fund clients have sharply reduced both gross and net exposures to Magnificent Seven stocks to three-year lows.\n\nSource: Gold"
+          },
+          {
+            "handle": "SoberLook",
+            "id": "2090377313372315853",
+            "text": "US national debt has surpassed $40 trillion\n\nSource: Reuters https://t.co/RFjLYCA3Ik https://t.co/lqWDnWrGrB"
+          }
+        ]
+      },
+      {
+        "move": "Define a ratio or gauge and its interpretation first, then give where it currently reads",
+        "example_ids": [
+          "2079341837995880810"
+        ],
+        "evidence": [
+          {
+            "handle": "Greenbackd",
+            "id": "2079341837995880810",
+            "text": "The relationship between the S&P 500 High Beta Index ($SPHBI) and the S&P 500 Low Volatility Index ( $SPLVI) is a classic \"risk-on vs. risk-"
+          }
+        ]
+      },
+      {
+        "move": "Frame a technical setup against an upcoming catalyst or an unresolved trigger",
+        "example_ids": [
+          "2025903532985950267",
+          "2064023664765657255"
+        ],
+        "evidence": [
+          {
+            "handle": "MacroCharts",
+            "id": "2025903532985950267",
+            "text": "The “most important company in the world” is coiled in its tightest range since 2021…\n\n*And reports earnings this week. https://t.co/cMjybEM"
+          },
+          {
+            "handle": "Greenbackd",
+            "id": "2064023664765657255",
+            "text": "S&P Forward Earnings & Relative Valuation Charts\n\nStrong earnings growth plus historically cheap valuations relative to large caps is a clas"
+          }
+        ]
+      },
+      {
+        "move": "Give a one-sentence teaser of a finding, then point to the full report or article for detail",
+        "example_ids": [
+          "2106007197750849749",
+          "2099649445918818523"
+        ],
+        "evidence": [
+          {
+            "handle": "TheChartReport",
+            "id": "2106007197750849749",
+            "text": "Since the start of the decade, the Dow Jones Industrial Average has repeatedly shown the same behavior: former resistance becomes support, a"
+          },
+          {
+            "handle": "TheChartReport",
+            "id": "2099649445918818523",
+            "text": "For the first time since early April 2026, more NYSE stocks are making new 52-week lows than new 52-week highs.\n\nLink to the full article: h"
+          }
+        ]
+      }
+    ],
+    "tendencies": [
+      {
+        "tendency": "Keeps the text to a single framing line and leaves the attached chart to supply the substance",
+        "frequency": "usually",
+        "evidence_ids": [
+          "2080661163986096220",
+          "2105262078617612353",
+          "1990799345701302633"
+        ],
+        "evidence": [
+          {
+            "handle": "SoberLook",
+            "id": "2080661163986096220",
+            "text": "The USD inflation swap market remains remarkably calm relative to its EUR counterpart. https://t.co/FdMVoq8NRs"
+          },
+          {
+            "handle": "bespokeinvest",
+            "id": "2105262078617612353",
+            "text": "The six big US banks and brokers are now deeply oversold: https://t.co/OdKEopGPLh"
+          },
+          {
+            "handle": "AndrewThrasher",
+            "id": "1990799345701302633",
+            "text": "$IPO rel. performance now back to 2022 lows. https://t.co/rhzwxS5cMn"
+          }
+        ]
+      },
+      {
+        "tendency": "Credits outside data or quotations to a named firm or person instead of presenting them as original findings",
+        "frequency": "often",
+        "evidence_ids": [
+          "2075157570906399020",
+          "2105349704582312356"
+        ],
+        "evidence": [
+          {
+            "handle": "SoberLook",
+            "id": "2075157570906399020",
+            "text": "Goldman’s hedge fund clients have sharply reduced both gross and net exposures to Magnificent Seven stocks to three-year lows.\n\nSource: Gold"
+          },
+          {
+            "handle": "TheChartReport",
+            "id": "2105349704582312356",
+            "text": "\"When new lows outnumber new highs, consistently finding success on the long side becomes a challenge.\"\n\n@daChartLife https://t.co/3mIlExaPG"
+          }
+        ]
+      },
+      {
+        "tendency": "Supports directional views with how similar past episodes resolved, often noting a 'first time since' framing or a prior-episode track record",
+        "frequency": "often",
+        "evidence_ids": [
+          "1884612548378378744",
+          "2099649445918818523",
+          "2056436001300464092"
+        ],
+        "evidence": [
+          {
+            "handle": "jasongoepfert",
+            "id": "1884612548378378744",
+            "text": "Looked at a different way, these breadth thrusts preceded double-digit one-year gains in the S&amp;P 500 equal-weight index every time but o"
+          },
+          {
+            "handle": "TheChartReport",
+            "id": "2099649445918818523",
+            "text": "For the first time since early April 2026, more NYSE stocks are making new 52-week lows than new 52-week highs.\n\nLink to the full article: h"
+          },
+          {
+            "handle": "jasongoepfert",
+            "id": "2056436001300464092",
+            "text": "The few other times Ebola angst was \"not nothing,\" future gains were limited and ultimately erased by a subsequent pullback. 🤷‍♂️ https://t."
+          }
+        ]
+      },
+      {
+        "tendency": "Qualifies conclusions by admitting inconsistency, an unknown catalyst, or a softened 'arguably' stance",
+        "frequency": "often",
+        "evidence_ids": [
+          "2048751925454082339",
+          "2064023664765657255",
+          "2106132895295496592"
+        ],
+        "evidence": [
+          {
+            "handle": "jasongoepfert",
+            "id": "2048751925454082339",
+            "text": "Divergences like this tend to result in the indices \"catching down\" to the average stock, rather than the average stock \"catching up\" to the"
+          },
+          {
+            "handle": "Greenbackd",
+            "id": "2064023664765657255",
+            "text": "S&P Forward Earnings & Relative Valuation Charts\n\nStrong earnings growth plus historically cheap valuations relative to large caps is a clas"
+          },
+          {
+            "handle": "EricBalchunas",
+            "id": "2106132895295496592",
+            "text": "Canary just amended their Pepe ETF filing... arguably another sign crypto winter has ended. You just weren't going to even think about launc"
+          }
+        ]
+      },
+      {
+        "tendency": "Uses the post as a pointer to longer-form work such as a newsletter, podcast episode or research note",
+        "frequency": "often",
+        "evidence_ids": [
+          "2106007197750849749",
+          "2103510508397617269",
+          "2105361903253938462"
+        ],
+        "evidence": [
+          {
+            "handle": "TheChartReport",
+            "id": "2106007197750849749",
+            "text": "Since the start of the decade, the Dow Jones Industrial Average has repeatedly shown the same behavior: former resistance becomes support, a"
+          },
+          {
+            "handle": "EricBalchunas",
+            "id": "2103510508397617269",
+            "text": "Here's link to the whole episode, where we discussed where we got the idea, why it could only happen now, and the \"impact\" formula we create"
+          },
+          {
+            "handle": "bespokeinvest",
+            "id": "2105361903253938462",
+            "text": "Momentum Whiplash: How Q3 Punished the First Half's Winners https://t.co/dETr1jRwdt"
+          }
+        ]
+      },
+      {
+        "tendency": "Mixes informal, off-topic or reactive one-liners in with the analytical posts",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2100980563154989396",
+          "2104596772249026745",
+          "2105444479490834833"
+        ],
+        "evidence": [
+          {
+            "handle": "JSeyff",
+            "id": "2100980563154989396",
+            "text": "Morning jog views from LA today https://t.co/A4Hy5sTlxz"
+          },
+          {
+            "handle": "EricBalchunas",
+            "id": "2104596772249026745",
+            "text": "This feels important, and something to watch esp for legacy media dudes like me"
+          },
+          {
+            "handle": "Mr_Derivatives",
+            "id": "2105444479490834833",
+            "text": "basically just getting back the last 10-15 min eod drop due to window dressing."
+          }
+        ]
+      },
+      {
+        "tendency": "Explains in plain language why a signal behaves as it does, for example size effects or exhaustion versus strength",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2102460039390781565",
+          "1942591428170842304",
+          "2079341837995880810"
+        ],
+        "evidence": [
+          {
+            "handle": "JSeyff",
+            "id": "2102460039390781565",
+            "text": "it works best in large caps on the long signal mostly because the small and mid cap names are far far more likely to face serious issues lik"
+          },
+          {
+            "handle": "AndrewThrasher",
+            "id": "1942591428170842304",
+            "text": "Some breadth thrusts show strength in the market and others show signs of exhaustion. I track both at Thrasher Analytics and the start of Ju"
+          },
+          {
+            "handle": "Greenbackd",
+            "id": "2079341837995880810",
+            "text": "The relationship between the S&P 500 High Beta Index ($SPHBI) and the S&P 500 Low Volatility Index ( $SPLVI) is a classic \"risk-on vs. risk-"
+          }
+        ]
+      },
+      {
+        "tendency": "Issues compressed readings on overbought, oversold or implied-versus-realized moves with little elaboration",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "1802657445376114990",
+          "2105647123006132381"
+        ],
+        "evidence": [
+          {
+            "handle": "MacroCharts",
+            "id": "1802657445376114990",
+            "text": "Core Systems at/near Major Sell signals – with *significant* room to decline.\n\nTied for most extreme overbought in 10+ years.\n\nMonitoring fo"
+          },
+          {
+            "handle": "Mr_Derivatives",
+            "id": "2105647123006132381",
+            "text": "$MU Implied move was roughly -/+ 8.0%\n\n$MU Currently just -0.9% https://t.co/GKL98nvSuM"
+          }
+        ]
+      }
+    ],
+    "avoid_tendencies": [
+      {
+        "tendency": "Numbered list or thread openers that announce a multi-part breakdown",
+        "frequency": "almost_never",
+        "evidence_ids": [],
+        "evidence": []
+      },
+      {
+        "tendency": "Breaking-news wire framing at the start of a post",
+        "frequency": "rarely",
+        "evidence_ids": [],
+        "evidence": []
+      },
+      {
+        "tendency": "Heavy or decorative emoji use; when emoji appear they are a single trailing accent",
+        "frequency": "rarely",
+        "evidence_ids": [
+          "2056436001300464092",
+          "2106007197750849749"
+        ],
+        "evidence": [
+          {
+            "handle": "jasongoepfert",
+            "id": "2056436001300464092",
+            "text": "The few other times Ebola angst was \"not nothing,\" future gains were limited and ultimately erased by a subsequent pullback. 🤷‍♂️ https://t."
+          },
+          {
+            "handle": "TheChartReport",
+            "id": "2106007197750849749",
+            "text": "Since the start of the decade, the Dow Jones Industrial Average has repeatedly shown the same behavior: former resistance becomes support, a"
+          }
+        ]
+      }
+    ],
+    "variation_notes": "Length ranges from a single word or ticker line to multi-paragraph explanations, but most posts stay at one or two short lines plus media. Register moves between clipped desk shorthand, measured analytical prose with caveats, and casual banter or personal posts from the same donors. Hooks are mostly flat declarative claims. Contrast, ticker-first, question and quotation openers appear as smaller but steady minorities.",
+    "judgment_style": "Views are usually stated plainly and then tempered: a historical tendency is given along with its exceptions, or a setup is called attractive while the trigger is admitted to be unknown. Conditional phrasing such as 'tend to', 'might be showing early signs' and 'not a good reason on its own' is common in the analytical posts. Short technical calls are blunter. Data and charts are the main support for a view, and opinion makes up a smaller share, roughly 1 part opinion to 4 parts data."
+  }
 }

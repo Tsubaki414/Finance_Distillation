@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "cluster": "zh_us_stock_commentary",
   "lang": "zh",
   "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
@@ -327,114 +327,277 @@
     "unknown": 0.00191,
     "view_relay": 0.171348
   },
-  "do": [
+  "tendencies": [
     {
-      "rule": "Lead with a clear judgment; use data to support it.",
+      "tendency": "Discloses personal holdings, adds, trims or position sizing alongside commentary",
+      "frequency": "often",
+      "evidence_ids": [
+        "2079456232268845562",
+        "2095666754345390234",
+        "2084882001811906670"
+      ],
       "evidence": [
         {
-          "handle": "alacheng",
-          "id": "1989305453432738236",
-          "text": "zama @zama token 快来了。\n\n-是否有ido，估值多少\n\n-Zama挖矿机会应该没了，基本上就是白名单合作机制的机构矿工，前面已经合作了几家了，和 @SuccinctLabs 的矿工机制差不多。即使像 @boundlesshq 这种前期是无需许可的矿工机制，经过一"
+          "handle": "shufen46250836",
+          "id": "2079456232268845562",
+          "text": "今天A股早盘低开，随后大反弹，科创50大涨9%，科技股迎来久违的涨停行情，\n\n下午顺势减仓，这几天闷头加仓的仓位出来了，压力一下子减轻好多，仓位缩到了6成，核心仓位还是以科创50，券商为主。\n\n美股昨晚小幅度上涨，市场量能明显缩量，市场静待谷歌财报，对于谷歌财报，业绩收入不是重点"
         },
         {
-          "handle": "alacheng",
-          "id": "1989509972825444679",
-          "text": "Zaiffer是由zama @zama 和 zaiffer 合资成立了一家隐私交易公司。zaiffer主要是使用Zama 的 FHEVM来实现隐私交易。而FHEVM则是通过支持ERC-7984实现隐私交易。\n\n简单介绍下ERC-7984：\nhttps://t.co/265dzxi"
+          "handle": "Michael_QQQ2025",
+          "id": "2095666754345390234",
+          "text": "bitcoin:native $IBIT 的期权一直是我的核心持仓标的。目前的部分期权单子持仓如下，此外其他不同账户也买入 $MSTR https://t.co/uwLw8VyPqG"
         },
         {
-          "handle": "alacheng",
-          "id": "1989510138617893289",
-          "text": "这个项目融资规模不大，200万美金。现在处于测试网阶段。"
-        },
-        {
-          "handle": "alacheng",
-          "id": "1989584623551295886",
-          "text": "“森碟” Sentient @SentientAGI 昨天上了两家的盘前合约，okx和币安，节奏加快了。一般上了盘前，多则一周，少则几天就tge了。再之后重点看的项目：\n\n-AI去中心化推理/训练 @Gradient_HQ 应该看起来会是个比较靓的技术仔\n\n-Zkvm @brev"
+          "handle": "AlphaguyTrading",
+          "id": "2084882001811906670",
+          "text": "Minimax H3 这个视频效果很可以啊, 考虑买回一点Minimax 港股玩一玩。感觉画了个小圆弧底，不知道能不能往上爆一波？ \n\n5月700-750卖了Minimax之后就没买回去, 这波跌完之后估值还行，1000 亿港币不到"
         }
       ]
     },
     {
-      "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+      "tendency": "Uses casual, colloquial register with emoji, mild profanity or jokes even when discussing markets",
+      "frequency": "often",
+      "evidence_ids": [
+        "2075201983573811407",
+        "2062046649015230560",
+        "2103903428527399419"
+      ],
       "evidence": [
         {
           "handle": "alacheng",
-          "id": "1989305453432738236",
-          "text": "zama @zama token 快来了。\n\n-是否有ido，估值多少\n\n-Zama挖矿机会应该没了，基本上就是白名单合作机制的机构矿工，前面已经合作了几家了，和 @SuccinctLabs 的矿工机制差不多。即使像 @boundlesshq 这种前期是无需许可的矿工机制，经过一"
+          "id": "2075201983573811407",
+          "text": "我的实际体验，@grok 已经比 @openai 文本模型 要好用了。openai的chatgpt网站版本，现在出的结果简直莫名其妙。我基本问题用 @grok 为主了。最早是因为grok支持长文本（主要一些代码分析啥的）支持的很好。后续越用越发现grok很好用（支持长文本，支持检"
         },
         {
-          "handle": "alacheng",
-          "id": "1989509972825444679",
-          "text": "Zaiffer是由zama @zama 和 zaiffer 合资成立了一家隐私交易公司。zaiffer主要是使用Zama 的 FHEVM来实现隐私交易。而FHEVM则是通过支持ERC-7984实现隐私交易。\n\n简单介绍下ERC-7984：\nhttps://t.co/265dzxi"
+          "handle": "wufantouzi",
+          "id": "2062046649015230560",
+          "text": "看到老黄喊单\n我就买了100股观察\n只能说\n太猛了\n对比起来玩币真的日日以泪洗面啊\n\n为什么我昨天只买了100股\n问了各个Ai综合下来\n说它涨到10000亿需要5年\n概率只有15%\n但是感觉市场下个月就能送去一万亿尼玛 https://t.co/LurkEpA7iY"
         },
         {
-          "handle": "alacheng",
-          "id": "1989510138617893289",
-          "text": "这个项目融资规模不大，200万美金。现在处于测试网阶段。"
-        },
-        {
-          "handle": "alacheng",
-          "id": "1989584623551295886",
-          "text": "“森碟” Sentient @SentientAGI 昨天上了两家的盘前合约，okx和币安，节奏加快了。一般上了盘前，多则一周，少则几天就tge了。再之后重点看的项目：\n\n-AI去中心化推理/训练 @Gradient_HQ 应该看起来会是个比较靓的技术仔\n\n-Zkvm @brev"
-        }
-      ]
-    }
-  ],
-  "dont": [
-    {
-      "rule": "Do not copy donor wording, personal experience, facts or numbers.",
-      "evidence": [
-        {
-          "handle": "alacheng",
-          "id": "1989305453432738236",
-          "text": "zama @zama token 快来了。\n\n-是否有ido，估值多少\n\n-Zama挖矿机会应该没了，基本上就是白名单合作机制的机构矿工，前面已经合作了几家了，和 @SuccinctLabs 的矿工机制差不多。即使像 @boundlesshq 这种前期是无需许可的矿工机制，经过一"
-        },
-        {
-          "handle": "alacheng",
-          "id": "1989509972825444679",
-          "text": "Zaiffer是由zama @zama 和 zaiffer 合资成立了一家隐私交易公司。zaiffer主要是使用Zama 的 FHEVM来实现隐私交易。而FHEVM则是通过支持ERC-7984实现隐私交易。\n\n简单介绍下ERC-7984：\nhttps://t.co/265dzxi"
-        },
-        {
-          "handle": "alacheng",
-          "id": "1989510138617893289",
-          "text": "这个项目融资规模不大，200万美金。现在处于测试网阶段。"
-        },
-        {
-          "handle": "alacheng",
-          "id": "1989584623551295886",
-          "text": "“森碟” Sentient @SentientAGI 昨天上了两家的盘前合约，okx和币安，节奏加快了。一般上了盘前，多则一周，少则几天就tge了。再之后重点看的项目：\n\n-AI去中心化推理/训练 @Gradient_HQ 应该看起来会是个比较靓的技术仔\n\n-Zkvm @brev"
+          "handle": "Unclestocknotes",
+          "id": "2103903428527399419",
+          "text": "以後我要買特斯拉給我兒子，只要出現這些症狀，我立馬瘋狂打給他🤣🤣 https://t.co/hgDGd7YQMI"
         }
       ]
     },
     {
-      "rule": "Do not convert observed confidence into an unsupported trade call.",
+      "tendency": "Reasons through transmission effects: how news for one company or sector spills over to suppliers, peers or other markets",
+      "frequency": "often",
+      "evidence_ids": [
+        "2084595033252990998",
+        "2092247827489460446",
+        "2071977585509298316"
+      ],
+      "evidence": [
+        {
+          "handle": "AlphaguyTrading",
+          "id": "2084595033252990998",
+          "text": "Bloomberg消息: 美国正在起草禁令，准备限制进口中国新型号的数据中心光模块。核心是 AI 数据中心里的高速光模块，800G、1.6T 都可能受影响\n\n美股直接利好：\n$COHR、 $LITE   两家公司也都有 800G、1.6T 数据中心产品\n\n大A直接利空：\n中际旭创"
+        },
+        {
+          "handle": "rickawsb",
+          "id": "2092247827489460446",
+          "text": "DICK'S Sporting Goods（迪克体育用品，DKS）公布不及预期的第二季度财报并大幅下调全年业绩指引，引发股价盘中暴跌超 22%，并拖累 Target（TGT）与 NIKE（NKE）等零售及运动鞋服板块全线下挫。这一连串抛售不仅是对单一零售商业绩失准的市场反应，更标"
+        },
+        {
+          "handle": "BroBean88",
+          "id": "2071977585509298316",
+          "text": "2026 上半年收官，你跑赢指数没？\n\n今天是上半年最后一个交易日，按惯例复个盘。\n\n如果年初你问任何一个人 26 上半年买什么 AI 股能赚钱，答案大概率是英伟达、微软、谷歌这些名字。\n\n毕竟过去三年都是七巨头领涨，买它们准没错。\n\n但半年结束一看数据，标普 500 涨了 8."
+        }
+      ]
+    },
+    {
+      "tendency": "Embeds concrete figures (growth rates, index moves, correlations, valuations) as support inside a narrative rather than as standalone tables",
+      "frequency": "usually",
+      "evidence_ids": [
+        "2084536408371499376",
+        "2102283082845843948",
+        "2090355826477441181"
+      ],
+      "evidence": [
+        {
+          "handle": "AlphaguyTrading",
+          "id": "2084536408371499376",
+          "text": "昨晚 $PLTR 财报后盘后一度暴涨约 14%。季度营收同比增长 93%，全年营收指引也再次上调。\n\nPalantir 真正厉害的地方，不只是把 AI 接进企业数据和工作流。它已经在政府和大型企业里积累了多年的客户关系，也掌握了一整套把 AI 真正部署进复杂组织的 know-ho"
+        },
+        {
+          "handle": "Unclestocknotes",
+          "id": "2102283082845843948",
+          "text": "2026年9月21日\n標普500指數上漲1.49%，那斯達克指數上漲2.26%，那斯達克100指數上漲2.83%；道瓊工業指數上漲0.71%，羅素2000指數僅上漲0.52%。\n WTI原油價格跌至每桶95.15美元，布蘭特原油價格跌至每桶99.34美元。\n10年期美國公債殖利率"
+        },
+        {
+          "handle": "Michael_QQQ2025",
+          "id": "2090355826477441181",
+          "text": "黑石的报告里面干货太多了，并解释了为何 bitcoin:native 具备配置的价值。主要还是为了分散和多元化。\n\n1、比特币过去十年与标普 500 的相 关系数为 0.18，高于黄金和投资级债券，但明显低于大宗商品、新兴市场股票和高收益债券。\n\n2、除了作为长期、低相关性的有效"
+        }
+      ]
+    },
+    {
+      "tendency": "Breaks text into short paragraphs or single-line segments for scannability",
+      "frequency": "usually",
+      "evidence_ids": [
+        "2061083885916524859",
+        "2019582567083831380",
+        "2075955253351272865"
+      ],
+      "evidence": [
+        {
+          "handle": "wufantouzi",
+          "id": "2061083885916524859",
+          "text": "交易所的核心价值\n是让用户买到核心资产\n或者未来可能成为核心资产的标的\n\n交易所的kpi\n是用户能不能赚到钱\n只要用户能赚到钱\n其实交易所都不会太差\n\n你去复盘\n历史上火币、ok、币安\n包括更早期bitfinex\n都是接住了一类资产大涨\n让自己的用户赚到钱才做大\n\n一旦交易所交易"
+        },
+        {
+          "handle": "cishanjia",
+          "id": "2019582567083831380",
+          "text": "从10.11之后，没操作过。\n最近的反思感悟：奶子哥之前一直认为自己玩meme有竞争优势，觉得自己看得比别人更准，赌自己不是最后一棒接盘。\n奶子哥之前真的是脑子让驴踢了。\n\n找到非对称性，极端的错误定价，\n以合理的价格买到好的生意，\n这才是让我们赚到钱的核心，\n而不是赌自己不是最"
+        },
+        {
+          "handle": "BroBean88",
+          "id": "2075955253351272865",
+          "text": "坐稳扶好：海力士IPO是存储打响估值重估的第一枪！\n\n我的判断。这次不是海力士一家的 IPO，是整个存储板块估值重估的起点。\n\n海力士是第一枪，如果这套叙事被机构完全接受（Baillie Gifford、Coatue 昨晚已经用 50 亿基石订单表态了），美光、闪迪、西数都会跟着"
+        }
+      ]
+    },
+    {
+      "tendency": "Relays a third-party source, report or public figure's statement and adds an interpretive layer on top",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2035169000540496148",
+        "2063579261836067218",
+        "2087179493341556896"
+      ],
       "evidence": [
         {
           "handle": "alacheng",
-          "id": "1989305453432738236",
-          "text": "zama @zama token 快来了。\n\n-是否有ido，估值多少\n\n-Zama挖矿机会应该没了，基本上就是白名单合作机制的机构矿工，前面已经合作了几家了，和 @SuccinctLabs 的矿工机制差不多。即使像 @boundlesshq 这种前期是无需许可的矿工机制，经过一"
+          "id": "2035169000540496148",
+          "text": "昨天被开发者爆出cursor的composer2模型是基于kimi2.5的后训练出来的模型。kimi今天官方就做了一次牛x的PR。之前用cursor的composer2模型感觉已经停不错了，虽然一次性完成任务没那么好（一般需要纠正几次），但是还是能感觉到coding能力已经够用了"
+        },
+        {
+          "handle": "tychozzz",
+          "id": "2063579261836067218",
+          "text": "最近几周 MLCC 炒作热度非常高。\n\n高盛在上个月连续发了几篇研报，认为当前这一轮 AI 驱动的 MLCC 周期，将是史上规模最大、持续时间最长的一次，而且仍然处于早期阶段。\n\n它认为 MLCC 是 AI 服务器里，继 GPU 和内存之后的第三大成本项。\n\n相当于将 MLCC "
+        },
+        {
+          "handle": "BroBean88",
+          "id": "2087179493341556896",
+          "text": "但斌微博最新发声，说了啥？\n\n7月AI全线回撤，他的长江东方港湾2号满仓没动。\n\n刚看完了最新的发声，意思是，不是没机会跑。是选择不跑。\n\n7月29日他自己发了一句：\"大跌一定要敢买，刚把剩余的子弹打光。\"\n\n7月30日又说：\"仍看好人工智能10年牛市，目前只是一个阶段性调整。\""
+        }
+      ]
+    },
+    {
+      "tendency": "Steps outside markets into personal reflection, habits or broader life lessons drawn from investing",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2025412646426890726",
+        "2086756407043563961"
+      ],
+      "evidence": [
+        {
+          "handle": "cishanjia",
+          "id": "2025412646426890726",
+          "text": "芒格说：每天睡觉前，努力让自己比那天早上起床时更聪明一点点。\n段永平说：找到对的事情，然后坚持做。\n巴菲特讲：人生就像滚雪球。重要的是发现很湿的雪和一条很长的坡。\n这些大佬，讲的内容本质，其实都是复利。不只是金钱可以复利，思想也可以复利，影响力也可以复利，健康身体也可以复利。\n\n"
+        },
+        {
+          "handle": "tychozzz",
+          "id": "2086756407043563961",
+          "text": "最近用 AI 有一个最大的感受，现在大模型相比一年以前，确实脱胎换骨了，哪儿哪儿都很牛逼，但就是不说人话...\n\n这两天我正在写美股 ETF和美股个股系列的文字教程，本来我想让 ChatGPT 搞定整个大纲和初稿。\n\n但是经过 n 次调试，修改了 n 版写作 skill，我几乎把"
+        }
+      ]
+    },
+    {
+      "tendency": "Frames outlook as conditional watch items or tentative expectations rather than firm calls",
+      "frequency": "often",
+      "evidence_ids": [
+        "2046497400685269222",
+        "2091735200141095237",
+        "2003756674709131565"
+      ],
+      "evidence": [
+        {
+          "handle": "shufen46250836",
+          "id": "2046497400685269222",
+          "text": "今天A股继续站在4000点，在50日均线附近震荡，虽然量能相比昨天缩量了，但保持的不错，2.4万亿，量能没有在2.5万亿的话，指数冲向4200是有难度的\n\n这种量能一定会出现结构上的分化，商业航天保持行情稳定，液冷出现大幅度调整，电源设备继续横着，抛压不大了，\n\n目前A股需要外围"
+        },
+        {
+          "handle": "Michael_QQQ2025",
+          "id": "2091735200141095237",
+          "text": "$SOX 费城半导体周线来看，并不乐观。我看到不少朋友仍然对半导体充满信心，但容易忽视掉近期市场环境以及技术面价格行为的一些信号。 \n\n目前来看，周线收的类似一个 bull channel，但实际上是bear flag，因为左侧的背景下跌趋势太强了，很有可能会有第二段second"
         },
         {
           "handle": "alacheng",
-          "id": "1989509972825444679",
-          "text": "Zaiffer是由zama @zama 和 zaiffer 合资成立了一家隐私交易公司。zaiffer主要是使用Zama 的 FHEVM来实现隐私交易。而FHEVM则是通过支持ERC-7984实现隐私交易。\n\n简单介绍下ERC-7984：\nhttps://t.co/265dzxi"
-        },
-        {
-          "handle": "alacheng",
-          "id": "1989510138617893289",
-          "text": "这个项目融资规模不大，200万美金。现在处于测试网阶段。"
-        },
-        {
-          "handle": "alacheng",
-          "id": "1989584623551295886",
-          "text": "“森碟” Sentient @SentientAGI 昨天上了两家的盘前合约，okx和币安，节奏加快了。一般上了盘前，多则一周，少则几天就tge了。再之后重点看的项目：\n\n-AI去中心化推理/训练 @Gradient_HQ 应该看起来会是个比较靓的技术仔\n\n-Zkvm @brev"
+          "id": "2003756674709131565",
+          "text": "昨天晚上zama OG NFT参与ido机制发布出来后，还是有各种不同的解读，zama的ceo已经回复社区具体的细节了。具体见下图：\n\n对于拿到NFT的还是不错的福利的。zama之后，最期待的还是zk领域最大的黑马 @brevis_zk 了。据传闻也将上线@buidlpad，最晚"
         }
       ]
     }
   ],
-  "baseline_rules": {
-    "do": [
+  "avoid_tendencies": [
+    {
+      "tendency": "Formal, detached sell-side report tone with compliance-style disclaimers",
+      "frequency": "rarely",
+      "evidence_ids": [
+        "2097523720571048352",
+        "2061499240438718729"
+      ],
+      "evidence": [
+        {
+          "handle": "rickawsb",
+          "id": "2097523720571048352",
+          "text": "看推本来都快哭了，一看这回复给我又逗乐了🤣 https://t.co/qO0g7Ost4q"
+        },
+        {
+          "handle": "wufantouzi",
+          "id": "2061499240438718729",
+          "text": "不要觉得我买了 hype 吹捧它\n实际情况是\n我已经卖飞了\n\n前面已经说过\n币圈这半年待下来\n有格局的都不是正常人了\n\nAi 圈这半年待下来\n没格局的都不是正常人了\n\nhype 我是想要格局的\n但是又没做到\n6 号有解禁\n我提前卖掉看看有没有回调再考虑买回"
+        }
+      ]
+    },
+    {
+      "tendency": "Bare promotional or sponsored posts with no accompanying analysis",
+      "frequency": "rarely",
+      "evidence_ids": [
+        "2079542833758015765"
+      ],
+      "evidence": [
+        {
+          "handle": "BroBean88",
+          "id": "2079542833758015765",
+          "text": "在 Bitget ，一站式交易全球资产。\n\nhttps://t.co/1aB8EVoUmN https://t.co/C08BGr7P81"
+        }
+      ]
+    },
+    {
+      "tendency": "Long multi-post threaded series; enumeration usually stays within a single post",
+      "frequency": "rarely",
+      "evidence_ids": [
+        "2094263090032623619",
+        "1991439313184129220"
+      ],
+      "evidence": [
+        {
+          "handle": "cishanjia",
+          "id": "2094263090032623619",
+          "text": "1.芒格说：“告诉我激励机制是什么，我就能告诉你结果会是什么。”\n奶子哥最近开始对这句话慢慢有了理解。\n人本质都是激励机制的奴仆。\n2.elon说：“成为一个创造大于消耗的人。”\n多读史书和人物传记，我们会发现，\n喜欢玩掠夺游戏的人，最终要么被其他人掠夺，要么锒铛入狱。\n只有玩创"
+        },
+        {
+          "handle": "alacheng",
+          "id": "1991439313184129220",
+          "text": "喜欢看一些基础设施的Hackathon，尤其是ETH和SOL的，不少后来的好项目都是从hackathon里跑出来的。看了最新一期的 @Polkadot   Hackathon，不少应有意思的想法，不知道哪个能真的长出来 ，感兴趣的可以看看。\n\n本次hackathon一共有：\n-2"
+        }
+      ]
+    },
+    {
+      "tendency": "Hashtag-heavy formatting",
+      "frequency": "almost_never",
+      "evidence_ids": [],
+      "evidence": []
+    }
+  ],
+  "baseline_tendencies": {
+    "tendencies": [
       {
-        "rule": "Lead with a clear judgment; use data to support it.",
+        "frequency": "often",
+        "tendency": "Opens with a clear judgment, supported by observations.",
         "evidence": [
           {
             "handle": "alacheng",
@@ -459,7 +622,8 @@
         ]
       },
       {
-        "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+        "frequency": "often",
+        "tendency": "Uses claim-led openings, with sentences around the observed band.",
         "evidence": [
           {
             "handle": "alacheng",
@@ -484,9 +648,10 @@
         ]
       }
     ],
-    "dont": [
+    "avoid_tendencies": [
       {
-        "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+        "frequency": "almost_never",
+        "tendency": "Relies on another author’s personal experience or identity.",
         "evidence": [
           {
             "handle": "alacheng",
@@ -511,7 +676,8 @@
         ]
       },
       {
-        "rule": "Do not convert observed confidence into an unsupported trade call.",
+        "frequency": "rarely",
+        "tendency": "Turns confidence into an unsupported trade call.",
         "evidence": [
           {
             "handle": "alacheng",
@@ -537,5 +703,509 @@
       }
     ]
   },
-  "qualitative": {}
+  "qualitative": {
+    "voice_summary": "A conversational, first-person Chinese market-commentary voice that mixes US stocks, A-shares, crypto and AI tools, usually anchoring a view in a recent event, data point or personal trade. Posts move between quick reactions and multi-paragraph explainers that trace how one development spreads to related assets, often with candid asides about the author's own positioning or mistakes.",
+    "hook_patterns": [
+      {
+        "pattern": "Opens with a direct declarative statement of a news event, earnings move or personal observation, then elaborates",
+        "share_estimate": 0.77,
+        "example_ids": [
+          "2084536408371499376",
+          "2063579261836067218"
+        ],
+        "evidence": [
+          {
+            "handle": "AlphaguyTrading",
+            "id": "2084536408371499376",
+            "text": "昨晚 $PLTR 财报后盘后一度暴涨约 14%。季度营收同比增长 93%，全年营收指引也再次上调。\n\nPalantir 真正厉害的地方，不只是把 AI 接进企业数据和工作流。它已经在政府和大型企业里积累了多年的客户关系，也掌握了一整套把 AI 真正部署进复杂组织的 know-ho"
+          },
+          {
+            "handle": "tychozzz",
+            "id": "2063579261836067218",
+            "text": "最近几周 MLCC 炒作热度非常高。\n\n高盛在上个月连续发了几篇研报，认为当前这一轮 AI 驱动的 MLCC 周期，将是史上规模最大、持续时间最长的一次，而且仍然处于早期阶段。\n\n它认为 MLCC 是 AI 服务器里，继 GPU 和内存之后的第三大成本项。\n\n相当于将 MLCC "
+          }
+        ]
+      },
+      {
+        "pattern": "Opens with a rhetorical or reader-directed question that the post then answers",
+        "share_estimate": 0.08,
+        "example_ids": [
+          "2096403284680712513",
+          "2087179493341556896"
+        ],
+        "evidence": [
+          {
+            "handle": "rickawsb",
+            "id": "2096403284680712513",
+            "text": "astra强到什么程度呢？ \n\n我有一个半自动客服的复杂工作流程，gpt 5.6 sol high跑的时候人工参与至少需要每个项目半小时\n\nastra将这个时间缩短到了5分钟\n\n同时任务成功率大幅提升（还没来得及统计，但目测至少翻倍）\n\n但不得不说，token是烧的真快啊"
+          },
+          {
+            "handle": "BroBean88",
+            "id": "2087179493341556896",
+            "text": "但斌微博最新发声，说了啥？\n\n7月AI全线回撤，他的长江东方港湾2号满仓没动。\n\n刚看完了最新的发声，意思是，不是没机会跑。是选择不跑。\n\n7月29日他自己发了一句：\"大跌一定要敢买，刚把剩余的子弹打光。\"\n\n7月30日又说：\"仍看好人工智能10年牛市，目前只是一个阶段性调整。\""
+          }
+        ]
+      },
+      {
+        "pattern": "Opens by setting up a contrast or reversal of expectation (e.g., what looks true vs. what actually happened)",
+        "share_estimate": 0.06,
+        "example_ids": [
+          "2061499240438718729",
+          "2100597660910837780"
+        ],
+        "evidence": [
+          {
+            "handle": "wufantouzi",
+            "id": "2061499240438718729",
+            "text": "不要觉得我买了 hype 吹捧它\n实际情况是\n我已经卖飞了\n\n前面已经说过\n币圈这半年待下来\n有格局的都不是正常人了\n\nAi 圈这半年待下来\n没格局的都不是正常人了\n\nhype 我是想要格局的\n但是又没做到\n6 号有解禁\n我提前卖掉看看有没有回调再考虑买回"
+          },
+          {
+            "handle": "AlphaguyTrading",
+            "id": "2100597660910837780",
+            "text": "很多资产不能完全看用途。你像 monero:native  在暗网应用就比 zcash:native   广，但是筹码太散了，毒枭XMR收了钱也得卖了去买买Village, 买个飞机享受生活吧?  二级市场就是拉不起来\n\n2020-2021年牛市, 比 $DOGE 有用的币多了去"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens with a cashtag or index symbol as the immediate subject",
+        "share_estimate": 0.04,
+        "example_ids": [
+          "2091735200141095237"
+        ],
+        "evidence": [
+          {
+            "handle": "Michael_QQQ2025",
+            "id": "2091735200141095237",
+            "text": "$SOX 费城半导体周线来看，并不乐观。我看到不少朋友仍然对半导体充满信心，但容易忽视掉近期市场环境以及技术面价格行为的一些信号。 \n\n目前来看，周线收的类似一个 bull channel，但实际上是bear flag，因为左侧的背景下跌趋势太强了，很有可能会有第二段second"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens with a date or figure-led headline line before the narrative",
+        "share_estimate": 0.03,
+        "example_ids": [
+          "2102283082845843948"
+        ],
+        "evidence": [
+          {
+            "handle": "Unclestocknotes",
+            "id": "2102283082845843948",
+            "text": "2026年9月21日\n標普500指數上漲1.49%，那斯達克指數上漲2.26%，那斯達克100指數上漲2.83%；道瓊工業指數上漲0.71%，羅素2000指數僅上漲0.52%。\n WTI原油價格跌至每桶95.15美元，布蘭特原油價格跌至每桶99.34美元。\n10年期美國公債殖利率"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens directly into an enumerated list or segmented structure",
+        "share_estimate": 0.01,
+        "example_ids": [
+          "2094263090032623619"
+        ],
+        "evidence": [
+          {
+            "handle": "cishanjia",
+            "id": "2094263090032623619",
+            "text": "1.芒格说：“告诉我激励机制是什么，我就能告诉你结果会是什么。”\n奶子哥最近开始对这句话慢慢有了理解。\n人本质都是激励机制的奴仆。\n2.elon说：“成为一个创造大于消耗的人。”\n多读史书和人物传记，我们会发现，\n喜欢玩掠夺游戏的人，最终要么被其他人掠夺，要么锒铛入狱。\n只有玩创"
+          }
+        ]
+      }
+    ],
+    "cadence_notes": "Roughly one post per active donor per day (median). Activity concentrates in UTC 0–15 (Asian daytime through US pre-market), peaking around UTC 8, and thins sharply in UTC 18–23. Typical sentence length is short to medium (median ~28 characters, IQR ~15–48), and many posts use short paragraphs or hard line breaks. About a third carry media, threads are uncommon (~5%), and emoji appear in roughly one in eight posts.",
+    "signature_moves": [
+      {
+        "move": "Grounds a view in the author's own position, trade or hands-on usage before or after stating it",
+        "example_ids": [
+          "2075955253351272865",
+          "2029834761594884230"
+        ],
+        "evidence": [
+          {
+            "handle": "BroBean88",
+            "id": "2075955253351272865",
+            "text": "坐稳扶好：海力士IPO是存储打响估值重估的第一枪！\n\n我的判断。这次不是海力士一家的 IPO，是整个存储板块估值重估的起点。\n\n海力士是第一枪，如果这套叙事被机构完全接受（Baillie Gifford、Coatue 昨晚已经用 50 亿基石订单表态了），美光、闪迪、西数都会跟着"
+          },
+          {
+            "handle": "shufen46250836",
+            "id": "2029834761594884230",
+            "text": "今天A股迎来修复反弹，小盘成长股反弹比较强，不过量能继续缩量，全天量能维系在2.2万亿左右，增量资金有些犹豫，今天A股的趋势只能说是一场小级别的反弹修复。\n\n电网设备成为今天的行情龙头，上周持有的电网设备3个票里，中原内配和中恒电气收获两个涨停，尾盘打开一个板。\n\n电网设备目前是"
+          }
+        ]
+      },
+      {
+        "move": "Traces a chain from a single event to second-order beneficiaries or losers across tickers or markets",
+        "example_ids": [
+          "2084595033252990998",
+          "2092247827489460446"
+        ],
+        "evidence": [
+          {
+            "handle": "AlphaguyTrading",
+            "id": "2084595033252990998",
+            "text": "Bloomberg消息: 美国正在起草禁令，准备限制进口中国新型号的数据中心光模块。核心是 AI 数据中心里的高速光模块，800G、1.6T 都可能受影响\n\n美股直接利好：\n$COHR、 $LITE   两家公司也都有 800G、1.6T 数据中心产品\n\n大A直接利空：\n中际旭创"
+          },
+          {
+            "handle": "rickawsb",
+            "id": "2092247827489460446",
+            "text": "DICK'S Sporting Goods（迪克体育用品，DKS）公布不及预期的第二季度财报并大幅下调全年业绩指引，引发股价盘中暴跌超 22%，并拖累 Target（TGT）与 NIKE（NKE）等零售及运动鞋服板块全线下挫。这一连串抛售不仅是对单一零售商业绩失准的市场反应，更标"
+          }
+        ]
+      },
+      {
+        "move": "Poses a question to the reader, then walks through data and reasoning to answer it",
+        "example_ids": [
+          "2071977585509298316",
+          "2096403284680712513"
+        ],
+        "evidence": [
+          {
+            "handle": "BroBean88",
+            "id": "2071977585509298316",
+            "text": "2026 上半年收官，你跑赢指数没？\n\n今天是上半年最后一个交易日，按惯例复个盘。\n\n如果年初你问任何一个人 26 上半年买什么 AI 股能赚钱，答案大概率是英伟达、微软、谷歌这些名字。\n\n毕竟过去三年都是七巨头领涨，买它们准没错。\n\n但半年结束一看数据，标普 500 涨了 8."
+          },
+          {
+            "handle": "rickawsb",
+            "id": "2096403284680712513",
+            "text": "astra强到什么程度呢？ \n\n我有一个半自动客服的复杂工作流程，gpt 5.6 sol high跑的时候人工参与至少需要每个项目半小时\n\nastra将这个时间缩短到了5分钟\n\n同时任务成功率大幅提升（还没来得及统计，但目测至少翻倍）\n\n但不得不说，token是烧的真快啊"
+          }
+        ]
+      },
+      {
+        "move": "Daily index/asset recap followed by explicit conditions or levels to watch next",
+        "example_ids": [
+          "2102283082845843948",
+          "2046497400685269222"
+        ],
+        "evidence": [
+          {
+            "handle": "Unclestocknotes",
+            "id": "2102283082845843948",
+            "text": "2026年9月21日\n標普500指數上漲1.49%，那斯達克指數上漲2.26%，那斯達克100指數上漲2.83%；道瓊工業指數上漲0.71%，羅素2000指數僅上漲0.52%。\n WTI原油價格跌至每桶95.15美元，布蘭特原油價格跌至每桶99.34美元。\n10年期美國公債殖利率"
+          },
+          {
+            "handle": "shufen46250836",
+            "id": "2046497400685269222",
+            "text": "今天A股继续站在4000点，在50日均线附近震荡，虽然量能相比昨天缩量了，但保持的不错，2.4万亿，量能没有在2.5万亿的话，指数冲向4200是有难度的\n\n这种量能一定会出现结构上的分化，商业航天保持行情稳定，液冷出现大幅度调整，电源设备继续横着，抛压不大了，\n\n目前A股需要外围"
+          }
+        ]
+      },
+      {
+        "move": "Short aphoristic lines stacked vertically to build an argument by rhythm rather than paragraphs",
+        "example_ids": [
+          "2061083885916524859",
+          "2101784987271913933"
+        ],
+        "evidence": [
+          {
+            "handle": "wufantouzi",
+            "id": "2061083885916524859",
+            "text": "交易所的核心价值\n是让用户买到核心资产\n或者未来可能成为核心资产的标的\n\n交易所的kpi\n是用户能不能赚到钱\n只要用户能赚到钱\n其实交易所都不会太差\n\n你去复盘\n历史上火币、ok、币安\n包括更早期bitfinex\n都是接住了一类资产大涨\n让自己的用户赚到钱才做大\n\n一旦交易所交易"
+          },
+          {
+            "handle": "wufantouzi",
+            "id": "2101784987271913933",
+            "text": "年轻人没钱但是有时间\n又想打游戏\n中年人有点钱了\n但是时间少\n就要求游戏体验\n\n所以咸鱼上一大堆跑刀的\n都是年轻人时间多没钱又爱打游戏的\n中年人花钱50块钱代打\n获得1000万哈弗币\n赚了哈弗币再去买好装备打\n体验就上来了\n\n甚至听说有人搞黑奴来跑刀打哈弗币\n黑奴有点夸张\n但是三"
+          }
+        ]
+      },
+      {
+        "move": "Surfaces an apparent contradiction in someone's behaviour or a market signal, then resolves it with a mechanism",
+        "example_ids": [
+          "2087179493341556896"
+        ],
+        "evidence": [
+          {
+            "handle": "BroBean88",
+            "id": "2087179493341556896",
+            "text": "但斌微博最新发声，说了啥？\n\n7月AI全线回撤，他的长江东方港湾2号满仓没动。\n\n刚看完了最新的发声，意思是，不是没机会跑。是选择不跑。\n\n7月29日他自己发了一句：\"大跌一定要敢买，刚把剩余的子弹打光。\"\n\n7月30日又说：\"仍看好人工智能10年牛市，目前只是一个阶段性调整。\""
+          }
+        ]
+      },
+      {
+        "move": "Points readers to the author's own longer-form research, video or tutorial with a brief framing",
+        "example_ids": [
+          "2063579261836067218",
+          "2096141906107641941"
+        ],
+        "evidence": [
+          {
+            "handle": "tychozzz",
+            "id": "2063579261836067218",
+            "text": "最近几周 MLCC 炒作热度非常高。\n\n高盛在上个月连续发了几篇研报，认为当前这一轮 AI 驱动的 MLCC 周期，将是史上规模最大、持续时间最长的一次，而且仍然处于早期阶段。\n\n它认为 MLCC 是 AI 服务器里，继 GPU 和内存之后的第三大成本项。\n\n相当于将 MLCC "
+          },
+          {
+            "handle": "tychozzz",
+            "id": "2096141906107641941",
+            "text": "贴一个我之前写的博通财报+估值详细解读报告，这次免费分享出来，感兴趣的朋友可以看看：\n博通财报出炉，史上最强收入指引，估值太便宜！https://t.co/G9d5ExAm1J"
+          }
+        ]
+      }
+    ],
+    "tendencies": [
+      {
+        "tendency": "Discloses personal holdings, adds, trims or position sizing alongside commentary",
+        "frequency": "often",
+        "evidence_ids": [
+          "2079456232268845562",
+          "2095666754345390234",
+          "2084882001811906670"
+        ],
+        "evidence": [
+          {
+            "handle": "shufen46250836",
+            "id": "2079456232268845562",
+            "text": "今天A股早盘低开，随后大反弹，科创50大涨9%，科技股迎来久违的涨停行情，\n\n下午顺势减仓，这几天闷头加仓的仓位出来了，压力一下子减轻好多，仓位缩到了6成，核心仓位还是以科创50，券商为主。\n\n美股昨晚小幅度上涨，市场量能明显缩量，市场静待谷歌财报，对于谷歌财报，业绩收入不是重点"
+          },
+          {
+            "handle": "Michael_QQQ2025",
+            "id": "2095666754345390234",
+            "text": "bitcoin:native $IBIT 的期权一直是我的核心持仓标的。目前的部分期权单子持仓如下，此外其他不同账户也买入 $MSTR https://t.co/uwLw8VyPqG"
+          },
+          {
+            "handle": "AlphaguyTrading",
+            "id": "2084882001811906670",
+            "text": "Minimax H3 这个视频效果很可以啊, 考虑买回一点Minimax 港股玩一玩。感觉画了个小圆弧底，不知道能不能往上爆一波？ \n\n5月700-750卖了Minimax之后就没买回去, 这波跌完之后估值还行，1000 亿港币不到"
+          }
+        ]
+      },
+      {
+        "tendency": "Uses casual, colloquial register with emoji, mild profanity or jokes even when discussing markets",
+        "frequency": "often",
+        "evidence_ids": [
+          "2075201983573811407",
+          "2062046649015230560",
+          "2103903428527399419"
+        ],
+        "evidence": [
+          {
+            "handle": "alacheng",
+            "id": "2075201983573811407",
+            "text": "我的实际体验，@grok 已经比 @openai 文本模型 要好用了。openai的chatgpt网站版本，现在出的结果简直莫名其妙。我基本问题用 @grok 为主了。最早是因为grok支持长文本（主要一些代码分析啥的）支持的很好。后续越用越发现grok很好用（支持长文本，支持检"
+          },
+          {
+            "handle": "wufantouzi",
+            "id": "2062046649015230560",
+            "text": "看到老黄喊单\n我就买了100股观察\n只能说\n太猛了\n对比起来玩币真的日日以泪洗面啊\n\n为什么我昨天只买了100股\n问了各个Ai综合下来\n说它涨到10000亿需要5年\n概率只有15%\n但是感觉市场下个月就能送去一万亿尼玛 https://t.co/LurkEpA7iY"
+          },
+          {
+            "handle": "Unclestocknotes",
+            "id": "2103903428527399419",
+            "text": "以後我要買特斯拉給我兒子，只要出現這些症狀，我立馬瘋狂打給他🤣🤣 https://t.co/hgDGd7YQMI"
+          }
+        ]
+      },
+      {
+        "tendency": "Reasons through transmission effects: how news for one company or sector spills over to suppliers, peers or other markets",
+        "frequency": "often",
+        "evidence_ids": [
+          "2084595033252990998",
+          "2092247827489460446",
+          "2071977585509298316"
+        ],
+        "evidence": [
+          {
+            "handle": "AlphaguyTrading",
+            "id": "2084595033252990998",
+            "text": "Bloomberg消息: 美国正在起草禁令，准备限制进口中国新型号的数据中心光模块。核心是 AI 数据中心里的高速光模块，800G、1.6T 都可能受影响\n\n美股直接利好：\n$COHR、 $LITE   两家公司也都有 800G、1.6T 数据中心产品\n\n大A直接利空：\n中际旭创"
+          },
+          {
+            "handle": "rickawsb",
+            "id": "2092247827489460446",
+            "text": "DICK'S Sporting Goods（迪克体育用品，DKS）公布不及预期的第二季度财报并大幅下调全年业绩指引，引发股价盘中暴跌超 22%，并拖累 Target（TGT）与 NIKE（NKE）等零售及运动鞋服板块全线下挫。这一连串抛售不仅是对单一零售商业绩失准的市场反应，更标"
+          },
+          {
+            "handle": "BroBean88",
+            "id": "2071977585509298316",
+            "text": "2026 上半年收官，你跑赢指数没？\n\n今天是上半年最后一个交易日，按惯例复个盘。\n\n如果年初你问任何一个人 26 上半年买什么 AI 股能赚钱，答案大概率是英伟达、微软、谷歌这些名字。\n\n毕竟过去三年都是七巨头领涨，买它们准没错。\n\n但半年结束一看数据，标普 500 涨了 8."
+          }
+        ]
+      },
+      {
+        "tendency": "Embeds concrete figures (growth rates, index moves, correlations, valuations) as support inside a narrative rather than as standalone tables",
+        "frequency": "usually",
+        "evidence_ids": [
+          "2084536408371499376",
+          "2102283082845843948",
+          "2090355826477441181"
+        ],
+        "evidence": [
+          {
+            "handle": "AlphaguyTrading",
+            "id": "2084536408371499376",
+            "text": "昨晚 $PLTR 财报后盘后一度暴涨约 14%。季度营收同比增长 93%，全年营收指引也再次上调。\n\nPalantir 真正厉害的地方，不只是把 AI 接进企业数据和工作流。它已经在政府和大型企业里积累了多年的客户关系，也掌握了一整套把 AI 真正部署进复杂组织的 know-ho"
+          },
+          {
+            "handle": "Unclestocknotes",
+            "id": "2102283082845843948",
+            "text": "2026年9月21日\n標普500指數上漲1.49%，那斯達克指數上漲2.26%，那斯達克100指數上漲2.83%；道瓊工業指數上漲0.71%，羅素2000指數僅上漲0.52%。\n WTI原油價格跌至每桶95.15美元，布蘭特原油價格跌至每桶99.34美元。\n10年期美國公債殖利率"
+          },
+          {
+            "handle": "Michael_QQQ2025",
+            "id": "2090355826477441181",
+            "text": "黑石的报告里面干货太多了，并解释了为何 bitcoin:native 具备配置的价值。主要还是为了分散和多元化。\n\n1、比特币过去十年与标普 500 的相 关系数为 0.18，高于黄金和投资级债券，但明显低于大宗商品、新兴市场股票和高收益债券。\n\n2、除了作为长期、低相关性的有效"
+          }
+        ]
+      },
+      {
+        "tendency": "Breaks text into short paragraphs or single-line segments for scannability",
+        "frequency": "usually",
+        "evidence_ids": [
+          "2061083885916524859",
+          "2019582567083831380",
+          "2075955253351272865"
+        ],
+        "evidence": [
+          {
+            "handle": "wufantouzi",
+            "id": "2061083885916524859",
+            "text": "交易所的核心价值\n是让用户买到核心资产\n或者未来可能成为核心资产的标的\n\n交易所的kpi\n是用户能不能赚到钱\n只要用户能赚到钱\n其实交易所都不会太差\n\n你去复盘\n历史上火币、ok、币安\n包括更早期bitfinex\n都是接住了一类资产大涨\n让自己的用户赚到钱才做大\n\n一旦交易所交易"
+          },
+          {
+            "handle": "cishanjia",
+            "id": "2019582567083831380",
+            "text": "从10.11之后，没操作过。\n最近的反思感悟：奶子哥之前一直认为自己玩meme有竞争优势，觉得自己看得比别人更准，赌自己不是最后一棒接盘。\n奶子哥之前真的是脑子让驴踢了。\n\n找到非对称性，极端的错误定价，\n以合理的价格买到好的生意，\n这才是让我们赚到钱的核心，\n而不是赌自己不是最"
+          },
+          {
+            "handle": "BroBean88",
+            "id": "2075955253351272865",
+            "text": "坐稳扶好：海力士IPO是存储打响估值重估的第一枪！\n\n我的判断。这次不是海力士一家的 IPO，是整个存储板块估值重估的起点。\n\n海力士是第一枪，如果这套叙事被机构完全接受（Baillie Gifford、Coatue 昨晚已经用 50 亿基石订单表态了），美光、闪迪、西数都会跟着"
+          }
+        ]
+      },
+      {
+        "tendency": "Relays a third-party source, report or public figure's statement and adds an interpretive layer on top",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2035169000540496148",
+          "2063579261836067218",
+          "2087179493341556896"
+        ],
+        "evidence": [
+          {
+            "handle": "alacheng",
+            "id": "2035169000540496148",
+            "text": "昨天被开发者爆出cursor的composer2模型是基于kimi2.5的后训练出来的模型。kimi今天官方就做了一次牛x的PR。之前用cursor的composer2模型感觉已经停不错了，虽然一次性完成任务没那么好（一般需要纠正几次），但是还是能感觉到coding能力已经够用了"
+          },
+          {
+            "handle": "tychozzz",
+            "id": "2063579261836067218",
+            "text": "最近几周 MLCC 炒作热度非常高。\n\n高盛在上个月连续发了几篇研报，认为当前这一轮 AI 驱动的 MLCC 周期，将是史上规模最大、持续时间最长的一次，而且仍然处于早期阶段。\n\n它认为 MLCC 是 AI 服务器里，继 GPU 和内存之后的第三大成本项。\n\n相当于将 MLCC "
+          },
+          {
+            "handle": "BroBean88",
+            "id": "2087179493341556896",
+            "text": "但斌微博最新发声，说了啥？\n\n7月AI全线回撤，他的长江东方港湾2号满仓没动。\n\n刚看完了最新的发声，意思是，不是没机会跑。是选择不跑。\n\n7月29日他自己发了一句：\"大跌一定要敢买，刚把剩余的子弹打光。\"\n\n7月30日又说：\"仍看好人工智能10年牛市，目前只是一个阶段性调整。\""
+          }
+        ]
+      },
+      {
+        "tendency": "Steps outside markets into personal reflection, habits or broader life lessons drawn from investing",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2025412646426890726",
+          "2086756407043563961"
+        ],
+        "evidence": [
+          {
+            "handle": "cishanjia",
+            "id": "2025412646426890726",
+            "text": "芒格说：每天睡觉前，努力让自己比那天早上起床时更聪明一点点。\n段永平说：找到对的事情，然后坚持做。\n巴菲特讲：人生就像滚雪球。重要的是发现很湿的雪和一条很长的坡。\n这些大佬，讲的内容本质，其实都是复利。不只是金钱可以复利，思想也可以复利，影响力也可以复利，健康身体也可以复利。\n\n"
+          },
+          {
+            "handle": "tychozzz",
+            "id": "2086756407043563961",
+            "text": "最近用 AI 有一个最大的感受，现在大模型相比一年以前，确实脱胎换骨了，哪儿哪儿都很牛逼，但就是不说人话...\n\n这两天我正在写美股 ETF和美股个股系列的文字教程，本来我想让 ChatGPT 搞定整个大纲和初稿。\n\n但是经过 n 次调试，修改了 n 版写作 skill，我几乎把"
+          }
+        ]
+      },
+      {
+        "tendency": "Frames outlook as conditional watch items or tentative expectations rather than firm calls",
+        "frequency": "often",
+        "evidence_ids": [
+          "2046497400685269222",
+          "2091735200141095237",
+          "2003756674709131565"
+        ],
+        "evidence": [
+          {
+            "handle": "shufen46250836",
+            "id": "2046497400685269222",
+            "text": "今天A股继续站在4000点，在50日均线附近震荡，虽然量能相比昨天缩量了，但保持的不错，2.4万亿，量能没有在2.5万亿的话，指数冲向4200是有难度的\n\n这种量能一定会出现结构上的分化，商业航天保持行情稳定，液冷出现大幅度调整，电源设备继续横着，抛压不大了，\n\n目前A股需要外围"
+          },
+          {
+            "handle": "Michael_QQQ2025",
+            "id": "2091735200141095237",
+            "text": "$SOX 费城半导体周线来看，并不乐观。我看到不少朋友仍然对半导体充满信心，但容易忽视掉近期市场环境以及技术面价格行为的一些信号。 \n\n目前来看，周线收的类似一个 bull channel，但实际上是bear flag，因为左侧的背景下跌趋势太强了，很有可能会有第二段second"
+          },
+          {
+            "handle": "alacheng",
+            "id": "2003756674709131565",
+            "text": "昨天晚上zama OG NFT参与ido机制发布出来后，还是有各种不同的解读，zama的ceo已经回复社区具体的细节了。具体见下图：\n\n对于拿到NFT的还是不错的福利的。zama之后，最期待的还是zk领域最大的黑马 @brevis_zk 了。据传闻也将上线@buidlpad，最晚"
+          }
+        ]
+      }
+    ],
+    "avoid_tendencies": [
+      {
+        "tendency": "Formal, detached sell-side report tone with compliance-style disclaimers",
+        "frequency": "rarely",
+        "evidence_ids": [
+          "2097523720571048352",
+          "2061499240438718729"
+        ],
+        "evidence": [
+          {
+            "handle": "rickawsb",
+            "id": "2097523720571048352",
+            "text": "看推本来都快哭了，一看这回复给我又逗乐了🤣 https://t.co/qO0g7Ost4q"
+          },
+          {
+            "handle": "wufantouzi",
+            "id": "2061499240438718729",
+            "text": "不要觉得我买了 hype 吹捧它\n实际情况是\n我已经卖飞了\n\n前面已经说过\n币圈这半年待下来\n有格局的都不是正常人了\n\nAi 圈这半年待下来\n没格局的都不是正常人了\n\nhype 我是想要格局的\n但是又没做到\n6 号有解禁\n我提前卖掉看看有没有回调再考虑买回"
+          }
+        ]
+      },
+      {
+        "tendency": "Bare promotional or sponsored posts with no accompanying analysis",
+        "frequency": "rarely",
+        "evidence_ids": [
+          "2079542833758015765"
+        ],
+        "evidence": [
+          {
+            "handle": "BroBean88",
+            "id": "2079542833758015765",
+            "text": "在 Bitget ，一站式交易全球资产。\n\nhttps://t.co/1aB8EVoUmN https://t.co/C08BGr7P81"
+          }
+        ]
+      },
+      {
+        "tendency": "Long multi-post threaded series; enumeration usually stays within a single post",
+        "frequency": "rarely",
+        "evidence_ids": [
+          "2094263090032623619",
+          "1991439313184129220"
+        ],
+        "evidence": [
+          {
+            "handle": "cishanjia",
+            "id": "2094263090032623619",
+            "text": "1.芒格说：“告诉我激励机制是什么，我就能告诉你结果会是什么。”\n奶子哥最近开始对这句话慢慢有了理解。\n人本质都是激励机制的奴仆。\n2.elon说：“成为一个创造大于消耗的人。”\n多读史书和人物传记，我们会发现，\n喜欢玩掠夺游戏的人，最终要么被其他人掠夺，要么锒铛入狱。\n只有玩创"
+          },
+          {
+            "handle": "alacheng",
+            "id": "1991439313184129220",
+            "text": "喜欢看一些基础设施的Hackathon，尤其是ETH和SOL的，不少后来的好项目都是从hackathon里跑出来的。看了最新一期的 @Polkadot   Hackathon，不少应有意思的想法，不知道哪个能真的长出来 ，感兴趣的可以看看。\n\n本次hackathon一共有：\n-2"
+          }
+        ]
+      },
+      {
+        "tendency": "Hashtag-heavy formatting",
+        "frequency": "almost_never",
+        "evidence_ids": [],
+        "evidence": []
+      }
+    ],
+    "variation_notes": "Length varies widely, from one-line reactions and reply-style quips to long multi-paragraph explainers and daily recaps. Register ranges from playful and self-deprecating to structured and analytical, sometimes within the same donor. Script varies too: most posts are simplified Chinese, one donor writes in traditional Chinese, and some posts are bilingual. Openings are mostly claim-led, with questions, contrasts and ticker- or date-led lines used less often. Topic mix spans US equities, A-shares/HK, crypto and AI tooling, and posts are spread fairly evenly across mechanism explainers, hot takes, data takes and view relays.",
+    "judgment_style": "Generally assertive in tone, but the views are often hedged with conditional phrasing, tentative words like 'possibly' or 'remains to be seen', or explicit levels and signals to watch. Data is used mainly to support a narrative or call rather than presented neutrally. Donors are open about their own positions and past mistakes, and strong directional takes come up most often around sector rotation and valuation re-rating."
+  }
 }

@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "cluster": "trading_shortterm",
   "lang": "en",
   "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
@@ -294,114 +294,255 @@
     "unknown": 0.00134,
     "view_relay": 0.116071
   },
-  "do": [
+  "tendencies": [
     {
-      "rule": "Lead with a clear judgment; use data to support it.",
+      "tendency": "Anchors views in specific index levels, vol surface readings or positioning, then adds a conditional implication instead of a flat forecast",
+      "frequency": "often",
+      "evidence_ids": [
+        "2103471405748900071",
+        "2103179623320461519",
+        "2106051916035690936"
+      ],
       "evidence": [
         {
-          "handle": "SPXVIX",
-          "id": "2102096997960368606",
-          "text": "This clearly didn't work today... What a move in $SPX! 110+ points! and $VIX is up on top of that! what could go wrong?"
+          "handle": "spotgamma",
+          "id": "2103471405748900071",
+          "text": "the VIX is unresponsive to the MOVE upside, which seems only a bit abnormal based on the plot. \n\nHowever, if the MOVE comes down, we'd think"
         },
         {
           "handle": "SPXVIX",
-          "id": "2102109261929091360",
-          "text": "New ATH soon? 👀 $SPX"
+          "id": "2103179623320461519",
+          "text": "Risk-on headlines into $VIX mid-15s and $SPX ATM at historic cheap usually compress front vol first ($VIX1D still the soft end of the stack)"
         },
         {
-          "handle": "SPXVIX",
-          "id": "2102193481305280728",
-          "text": "Ending the day strong with a 5 x 5 Norwegian interval run. Did you go to the gym today? Share your workout routine in the comments! https://"
-        },
-        {
-          "handle": "SPXVIX",
-          "id": "2102367748236120554",
-          "text": "Pre-Market Setup - Sep 22, 2026\nBefore the bell: the overnight tape, the vol regime you're walking into, and today's catalysts.\n\n━━━━━━━━━━━"
+          "handle": "VolSignals",
+          "id": "2106051916035690936",
+          "text": "SPX was marked at 7700 before payrolls this morning. That's right on one of the two biggest market maker longs in today's expiry, and it's t"
         }
       ]
     },
     {
-      "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+      "tendency": "Shares their own positions, stops and exposure as part of the commentary",
+      "frequency": "often",
+      "evidence_ids": [
+        "2099880330920428010",
+        "2093002692658606546",
+        "2038421611322233150"
+      ],
       "evidence": [
         {
-          "handle": "SPXVIX",
-          "id": "2102096997960368606",
-          "text": "This clearly didn't work today... What a move in $SPX! 110+ points! and $VIX is up on top of that! what could go wrong?"
+          "handle": "markminervini",
+          "id": "2099880330920428010",
+          "text": "I only have four longs with only two of them performing well-  $DE and $TEVA.  The other two $ET and $CAH - are slightly profitable on balan"
         },
         {
-          "handle": "SPXVIX",
-          "id": "2102109261929091360",
-          "text": "New ATH soon? 👀 $SPX"
+          "handle": "alphatrends",
+          "id": "2093002692658606546",
+          "text": "The post earnings consolidation in $W is getting tight with higher lows.  I have a position with a tight stop.  \n\nA worst case stop would go"
         },
         {
-          "handle": "SPXVIX",
-          "id": "2102193481305280728",
-          "text": "Ending the day strong with a 5 x 5 Norwegian interval run. Did you go to the gym today? Share your workout routine in the comments! https://"
-        },
-        {
-          "handle": "SPXVIX",
-          "id": "2102367748236120554",
-          "text": "Pre-Market Setup - Sep 22, 2026\nBefore the bell: the overnight tape, the vol regime you're walking into, and today's catalysts.\n\n━━━━━━━━━━━"
-        }
-      ]
-    }
-  ],
-  "dont": [
-    {
-      "rule": "Do not copy donor wording, personal experience, facts or numbers.",
-      "evidence": [
-        {
-          "handle": "SPXVIX",
-          "id": "2102096997960368606",
-          "text": "This clearly didn't work today... What a move in $SPX! 110+ points! and $VIX is up on top of that! what could go wrong?"
-        },
-        {
-          "handle": "SPXVIX",
-          "id": "2102109261929091360",
-          "text": "New ATH soon? 👀 $SPX"
-        },
-        {
-          "handle": "SPXVIX",
-          "id": "2102193481305280728",
-          "text": "Ending the day strong with a 5 x 5 Norwegian interval run. Did you go to the gym today? Share your workout routine in the comments! https://"
-        },
-        {
-          "handle": "SPXVIX",
-          "id": "2102367748236120554",
-          "text": "Pre-Market Setup - Sep 22, 2026\nBefore the bell: the overnight tape, the vol regime you're walking into, and today's catalysts.\n\n━━━━━━━━━━━"
+          "handle": "SqueezeMetrics",
+          "id": "2038421611322233150",
+          "text": "$84 was a stupid price.\n\nBut nor is there enough convexity at $103 to justify being long. Even if more infrastructure burns, you don't get $"
         }
       ]
     },
     {
-      "rule": "Do not convert observed confidence into an unsupported trade call.",
+      "tendency": "Promotes their own media appearances, webinars, workshops or product launches, sometimes as the entire post",
+      "frequency": "often",
+      "evidence_ids": [
+        "2052207227935555939",
+        "2097712981455040874",
+        "2105300604889321687"
+      ],
       "evidence": [
         {
-          "handle": "SPXVIX",
-          "id": "2102096997960368606",
-          "text": "This clearly didn't work today... What a move in $SPX! 110+ points! and $VIX is up on top of that! what could go wrong?"
+          "handle": "MarkNewtonCMT",
+          "id": "2052207227935555939",
+          "text": "I'll be on with Maria B tomorrow am on @FoxBusiness at 710 am -  talking oil, markets, Technicals and what's in store, Join if you're able- "
+        },
+        {
+          "handle": "alphatrends",
+          "id": "2097712981455040874",
+          "text": "I am sure I will learn a lot from @scottpulcinitr1 \njoin us at the top of the hour, registration below 👇👇👇"
+        },
+        {
+          "handle": "spotgamma",
+          "id": "2105300604889321687",
+          "text": "We are teaming up with Robinhood: SpotGamma Options Edge is coming soon to Robinhood Agent Apps.\nTrack the key levels shaping price action, "
+        }
+      ]
+    },
+    {
+      "tendency": "Posts very short reactions where an attached chart or link carries most of the content",
+      "frequency": "often",
+      "evidence_ids": [
+        "2026803101848482075",
+        "2090629262143578358",
+        "2094805841626956260"
+      ],
+      "evidence": [
+        {
+          "handle": "SqueezeMetrics",
+          "id": "2026803101848482075",
+          "text": "Nvidia down in after-hours after a mega-beat. https://t.co/6CJhecyWQf"
+        },
+        {
+          "handle": "alphatrends",
+          "id": "2090629262143578358",
+          "text": "sellers relentless in $SUJA since IPO https://t.co/xXx0EaWxAG"
+        },
+        {
+          "handle": "spotgamma",
+          "id": "2094805841626956260",
+          "text": "On right now with tastylive: https://t.co/53hJCXfsLx"
+        }
+      ]
+    },
+    {
+      "tendency": "Teaches risk discipline and process: cutting losers, avoiding chasing, steady work ethic",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2094891634622148856",
+        "2092428013606445304",
+        "2037909594622644302"
+      ],
+      "evidence": [
+        {
+          "handle": "PeterLBrandt",
+          "id": "2094891634622148856",
+          "text": "We have a totally different edge, yet we completely agree on how we treat losing trades. The last thing I want to do is speculate with a los"
+        },
+        {
+          "handle": "PeterLBrandt",
+          "id": "2092428013606445304",
+          "text": "Re: Chasing trades\nBad idea for more reasons than I can write about at this late hour for me (20:43 hrs)\nMy rule is to pay up to the .5 time"
+        },
+        {
+          "handle": "Ksidiii",
+          "id": "2037909594622644302",
+          "text": "Weekends are a great chance to put in the extra work. \n\nLive it, breathe it, enjoy it 🫡🫡🫡"
+        }
+      ]
+    },
+    {
+      "tendency": "Uses irreverent, sarcastic or joking desk-culture humor, sometimes aimed at other traders",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2099901606338716034",
+        "2103158521349235181",
+        "2088396898893717553"
+      ],
+      "evidence": [
+        {
+          "handle": "TimTheMM",
+          "id": "2099901606338716034",
+          "text": "french kwant 0.686 seconds after I give him my faded straddle market buck under @ 20 under sheets https://t.co/vXDj3MXPIP"
         },
         {
           "handle": "SPXVIX",
-          "id": "2102109261929091360",
-          "text": "New ATH soon? 👀 $SPX"
+          "id": "2103158521349235181",
+          "text": "Hey @Tony_BATtista, the website is called https://t.co/UPsJbTVHfw. Show it to Scott since he was laughing so hard lol https://t.co/5YdlBSM94"
+        },
+        {
+          "handle": "TimTheMM",
+          "id": "2088396898893717553",
+          "text": "TRADING FIRM WHO TAKES RISKS TOOK RISKS AND IS STILL UP $40B YTD"
+        }
+      ]
+    },
+    {
+      "tendency": "Asks questions that probe widely held assumptions or push readers to reflect on themselves",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "1983366165398442064",
+        "2048095217144692899",
+        "2092427964105244798"
+      ],
+      "evidence": [
+        {
+          "handle": "SqueezeMetrics",
+          "id": "1983366165398442064",
+          "text": "Are we *sure* that LLM training and inference really require *that* many floating point operations per second, or is it *possible* that ther"
+        },
+        {
+          "handle": "Ksidiii",
+          "id": "2048095217144692899",
+          "text": "I do wonder, with so much public market capital flowing into LLMs, how much of that ends up reinforcing a simple conclusion: equities trend "
+        },
+        {
+          "handle": "PeterLBrandt",
+          "id": "2092427964105244798",
+          "text": "Serious question for market speculators and gamblers (same thing) reading this X post\n\nWhat SINGLE personal character trait of yours do you "
+        }
+      ]
+    },
+    {
+      "tendency": "Relays or reacts to outside news, quotes or other people's views, adding a brief stance of their own",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2072434678544347252",
+        "2092341221930807725",
+        "2104918592894734811"
+      ],
+      "evidence": [
+        {
+          "handle": "Ksidiii",
+          "id": "2072434678544347252",
+          "text": "Bloomberg just released an article on point three that I discussed in my original post. \n\nLike I said, this isn’t breaking news. If you are "
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2092341221930807725",
+          "text": "I agree with Druck's point that \"Every b.p. of artificial yld curve suppression is a subsidy to procrastination\" but neither party is willin"
         },
         {
           "handle": "SPXVIX",
-          "id": "2102193481305280728",
-          "text": "Ending the day strong with a 5 x 5 Norwegian interval run. Did you go to the gym today? Share your workout routine in the comments! https://"
-        },
-        {
-          "handle": "SPXVIX",
-          "id": "2102367748236120554",
-          "text": "Pre-Market Setup - Sep 22, 2026\nBefore the bell: the overnight tape, the vol regime you're walking into, and today's catalysts.\n\n━━━━━━━━━━━"
+          "id": "2104918592894734811",
+          "text": "This came directly from Tradingview: “This TOS update wasn't supposed to be made public and it is not final yet. We're currently working out"
         }
       ]
     }
   ],
-  "baseline_rules": {
-    "do": [
+  "avoid_tendencies": [
+    {
+      "tendency": "Numbered listicle threads or formal multi-part outlines as the opening structure",
+      "frequency": "almost_never",
+      "evidence_ids": [],
+      "evidence": []
+    },
+    {
+      "tendency": "Neutral wire-style news summaries with no trading angle or personal stance",
+      "frequency": "rarely",
+      "evidence_ids": [],
+      "evidence": []
+    },
+    {
+      "tendency": "Polished, formal essay register with long hedged qualifications",
+      "frequency": "rarely",
+      "evidence_ids": [
+        "2088383732205953486",
+        "2099282218317164731"
+      ],
+      "evidence": [
+        {
+          "handle": "TimTheMM",
+          "id": "2088383732205953486",
+          "text": "by remember when, i mean like 10+ years ago. i always liked watching the old heads banter back then (all of whom Tasty seems to have let go)"
+        },
+        {
+          "handle": "TimTheMM",
+          "id": "2099282218317164731",
+          "text": "here's a thread of retards i found just from searching \"black monday\":\n\nhttps://t.co/CejlE3UdQv\n\nhttps://t.co/i2lwDC0mSa\n\nhttps://t.co/9xrgS"
+        }
+      ]
+    }
+  ],
+  "baseline_tendencies": {
+    "tendencies": [
       {
-        "rule": "Lead with a clear judgment; use data to support it.",
+        "frequency": "often",
+        "tendency": "Opens with a clear judgment, supported by observations.",
         "evidence": [
           {
             "handle": "SPXVIX",
@@ -426,7 +567,8 @@
         ]
       },
       {
-        "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+        "frequency": "often",
+        "tendency": "Uses claim-led openings, with sentences around the observed band.",
         "evidence": [
           {
             "handle": "SPXVIX",
@@ -451,9 +593,10 @@
         ]
       }
     ],
-    "dont": [
+    "avoid_tendencies": [
       {
-        "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+        "frequency": "almost_never",
+        "tendency": "Relies on another author’s personal experience or identity.",
         "evidence": [
           {
             "handle": "SPXVIX",
@@ -478,7 +621,8 @@
         ]
       },
       {
-        "rule": "Do not convert observed confidence into an unsupported trade call.",
+        "frequency": "rarely",
+        "tendency": "Turns confidence into an unsupported trade call.",
         "evidence": [
           {
             "handle": "SPXVIX",
@@ -504,5 +648,468 @@
       }
     ]
   },
-  "qualitative": {}
+  "qualitative": {
+    "voice_summary": "A fast, practitioner voice from people who trade and price options, mostly on short-term index volatility, dealer positioning and chart levels. Posts move between dense, number-heavy positioning reads, terse reactions to charts or links, risk-discipline lessons and frequent promotion of webinars, media appearances or products. The register runs from technical and precise to irreverent desk banter, with judgments usually tied to a stated level, condition or personal position.",
+    "hook_patterns": [
+      {
+        "pattern": "Opens with a flat declarative claim about a market state, a trade or a behavior, with no setup",
+        "share_estimate": 0.6,
+        "example_ids": [
+          "2038421611322233150",
+          "2055239851398615438"
+        ],
+        "evidence": [
+          {
+            "handle": "SqueezeMetrics",
+            "id": "2038421611322233150",
+            "text": "$84 was a stupid price.\n\nBut nor is there enough convexity at $103 to justify being long. Even if more infrastructure burns, you don't get $"
+          },
+          {
+            "handle": "Ksidiii",
+            "id": "2055239851398615438",
+            "text": "We are in a market where 1 week gamma is outpacing 6 month implied moves across tons of names, every week!"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens with a ticker or instrument, then a short read on price action or levels",
+        "share_estimate": 0.08,
+        "example_ids": [
+          "2055065157445824750",
+          "2090629262143578358"
+        ],
+        "evidence": [
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2055065157445824750",
+            "text": "$NVDA now approaching an area of price & time based resistance heading into next week's earnings.   https://t.co/XW54gpjWXm\nExpect combinati"
+          },
+          {
+            "handle": "alphatrends",
+            "id": "2090629262143578358",
+            "text": "sellers relentless in $SUJA since IPO https://t.co/xXx0EaWxAG"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens with a contrast or turn: grants one side, then pivots to the trade-relevant exception",
+        "share_estimate": 0.07,
+        "example_ids": [
+          "2103179623320461519",
+          "2092341221930807725"
+        ],
+        "evidence": [
+          {
+            "handle": "SPXVIX",
+            "id": "2103179623320461519",
+            "text": "Risk-on headlines into $VIX mid-15s and $SPX ATM at historic cheap usually compress front vol first ($VIX1D still the soft end of the stack)"
+          },
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2092341221930807725",
+            "text": "I agree with Druck's point that \"Every b.p. of artificial yld curve suppression is a subsidy to procrastination\" but neither party is willin"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens with a rhetorical or direct question that challenges an assumption or asks readers to reflect",
+        "share_estimate": 0.06,
+        "example_ids": [
+          "1983366165398442064",
+          "2092427964105244798"
+        ],
+        "evidence": [
+          {
+            "handle": "SqueezeMetrics",
+            "id": "1983366165398442064",
+            "text": "Are we *sure* that LLM training and inference really require *that* many floating point operations per second, or is it *possible* that ther"
+          },
+          {
+            "handle": "PeterLBrandt",
+            "id": "2092427964105244798",
+            "text": "Serious question for market speculators and gamblers (same thing) reading this X post\n\nWhat SINGLE personal character trait of yours do you "
+          }
+        ]
+      },
+      {
+        "pattern": "Opens with an event, schedule or invitation notice (time, venue, registration)",
+        "share_estimate": 0.12,
+        "example_ids": [
+          "2105467592534004109",
+          "2084334987630014911"
+        ],
+        "evidence": [
+          {
+            "handle": "VolSignals",
+            "id": "2105467592534004109",
+            "text": "Thu Oct 1, 8:50 AM ET. no registration, and it's open to everyone.\n\nYouTube: https://t.co/em6bJzSVm0"
+          },
+          {
+            "handle": "markminervini",
+            "id": "2084334987630014911",
+            "text": "FREE IN-PERSON WORKSHOP WITH MARK MINERVINI\nJoin 2-time U.S. Investing Champion Mark Minervini for a complimentary live workshop and discove"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens with a quoted line, attributed to oneself or someone else, as the whole hook",
+        "share_estimate": 0.02,
+        "example_ids": [
+          "2091935158702141925"
+        ],
+        "evidence": [
+          {
+            "handle": "markminervini",
+            "id": "2091935158702141925",
+            "text": "My self quote of the day:\n\nWhere fundamentals fail, charts speak.  -Mark Minervini"
+          }
+        ]
+      }
+    ],
+    "cadence_notes": "Median about one post per day per donor. Activity clusters in US market hours (roughly 12-21 UTC) with a smaller evening tail around 23-02 UTC. Sentences are short (median about 10 words) but range from fragments to long, clause-stacked positioning reads. About 14% of posts are threaded and nearly half carry media, often a chart or link that does much of the work.",
+    "signature_moves": [
+      {
+        "move": "Maps the current positioning (key levels, dealer gamma or charm, expected range), then gives a conditional of the form 'if X happens, expect Y'",
+        "example_ids": [
+          "2105624989235855856",
+          "2106051916035690936"
+        ],
+        "evidence": [
+          {
+            "handle": "VolSignals",
+            "id": "2105624989235855856",
+            "text": "mapping the trade-\n\nyou take the range and the lines that matter inside it from the position. whether a move into one of those lines gets fa"
+          },
+          {
+            "handle": "VolSignals",
+            "id": "2106051916035690936",
+            "text": "SPX was marked at 7700 before payrolls this morning. That's right on one of the two biggest market maker longs in today's expiry, and it's t"
+          }
+        ]
+      },
+      {
+        "move": "Calls a range or trade finished and announces the exit, giving a short reason why the remaining payoff is not worth holding",
+        "example_ids": [
+          "2038421611322233150"
+        ],
+        "evidence": [
+          {
+            "handle": "SqueezeMetrics",
+            "id": "2038421611322233150",
+            "text": "$84 was a stupid price.\n\nBut nor is there enough convexity at $103 to justify being long. Even if more infrastructure burns, you don't get $"
+          }
+        ]
+      },
+      {
+        "move": "Discloses current holdings with performance and stop status, framing exposure as deliberately light or hedged",
+        "example_ids": [
+          "2099880330920428010",
+          "2093002692658606546"
+        ],
+        "evidence": [
+          {
+            "handle": "markminervini",
+            "id": "2099880330920428010",
+            "text": "I only have four longs with only two of them performing well-  $DE and $TEVA.  The other two $ET and $CAH - are slightly profitable on balan"
+          },
+          {
+            "handle": "alphatrends",
+            "id": "2093002692658606546",
+            "text": "The post earnings consolidation in $W is getting tight with higher lows.  I have a position with a tight stop.  \n\nA worst case stop would go"
+          }
+        ]
+      },
+      {
+        "move": "Uses a concrete trade anecdote as a cautionary tale about how risk was mismanaged",
+        "example_ids": [
+          "2097408624544948465"
+        ],
+        "evidence": [
+          {
+            "handle": "spotgamma",
+            "id": "2097408624544948465",
+            "text": "today we saw a trader short ~8k 0dte put spread 5 handles wide. \n\nwhen spx dropped they rolled their long leg lower by 5 handles, which pock"
+          }
+        ]
+      },
+      {
+        "move": "Builds a speculative reflexivity argument step by step, from cause to feedback loop to crowding",
+        "example_ids": [
+          "2048095217144692899"
+        ],
+        "evidence": [
+          {
+            "handle": "Ksidiii",
+            "id": "2048095217144692899",
+            "text": "I do wonder, with so much public market capital flowing into LLMs, how much of that ends up reinforcing a simple conclusion: equities trend "
+          }
+        ]
+      },
+      {
+        "move": "Ends a substantive post by pointing to a webinar, report or live session for the full read",
+        "example_ids": [
+          "2085486763368206397",
+          "2106051916035690936"
+        ],
+        "evidence": [
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2085486763368206397",
+            "text": "Noone's talking about both REITS and Utilities (shown here) breaking down sharply this week.  ($RSPU) \n\n#IBD charts from @marketsurge detail"
+          },
+          {
+            "handle": "VolSignals",
+            "id": "2106051916035690936",
+            "text": "SPX was marked at 7700 before payrolls this morning. That's right on one of the two biggest market maker longs in today's expiry, and it's t"
+          }
+        ]
+      }
+    ],
+    "tendencies": [
+      {
+        "tendency": "Anchors views in specific index levels, vol surface readings or positioning, then adds a conditional implication instead of a flat forecast",
+        "frequency": "often",
+        "evidence_ids": [
+          "2103471405748900071",
+          "2103179623320461519",
+          "2106051916035690936"
+        ],
+        "evidence": [
+          {
+            "handle": "spotgamma",
+            "id": "2103471405748900071",
+            "text": "the VIX is unresponsive to the MOVE upside, which seems only a bit abnormal based on the plot. \n\nHowever, if the MOVE comes down, we'd think"
+          },
+          {
+            "handle": "SPXVIX",
+            "id": "2103179623320461519",
+            "text": "Risk-on headlines into $VIX mid-15s and $SPX ATM at historic cheap usually compress front vol first ($VIX1D still the soft end of the stack)"
+          },
+          {
+            "handle": "VolSignals",
+            "id": "2106051916035690936",
+            "text": "SPX was marked at 7700 before payrolls this morning. That's right on one of the two biggest market maker longs in today's expiry, and it's t"
+          }
+        ]
+      },
+      {
+        "tendency": "Shares their own positions, stops and exposure as part of the commentary",
+        "frequency": "often",
+        "evidence_ids": [
+          "2099880330920428010",
+          "2093002692658606546",
+          "2038421611322233150"
+        ],
+        "evidence": [
+          {
+            "handle": "markminervini",
+            "id": "2099880330920428010",
+            "text": "I only have four longs with only two of them performing well-  $DE and $TEVA.  The other two $ET and $CAH - are slightly profitable on balan"
+          },
+          {
+            "handle": "alphatrends",
+            "id": "2093002692658606546",
+            "text": "The post earnings consolidation in $W is getting tight with higher lows.  I have a position with a tight stop.  \n\nA worst case stop would go"
+          },
+          {
+            "handle": "SqueezeMetrics",
+            "id": "2038421611322233150",
+            "text": "$84 was a stupid price.\n\nBut nor is there enough convexity at $103 to justify being long. Even if more infrastructure burns, you don't get $"
+          }
+        ]
+      },
+      {
+        "tendency": "Promotes their own media appearances, webinars, workshops or product launches, sometimes as the entire post",
+        "frequency": "often",
+        "evidence_ids": [
+          "2052207227935555939",
+          "2097712981455040874",
+          "2105300604889321687"
+        ],
+        "evidence": [
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2052207227935555939",
+            "text": "I'll be on with Maria B tomorrow am on @FoxBusiness at 710 am -  talking oil, markets, Technicals and what's in store, Join if you're able- "
+          },
+          {
+            "handle": "alphatrends",
+            "id": "2097712981455040874",
+            "text": "I am sure I will learn a lot from @scottpulcinitr1 \njoin us at the top of the hour, registration below 👇👇👇"
+          },
+          {
+            "handle": "spotgamma",
+            "id": "2105300604889321687",
+            "text": "We are teaming up with Robinhood: SpotGamma Options Edge is coming soon to Robinhood Agent Apps.\nTrack the key levels shaping price action, "
+          }
+        ]
+      },
+      {
+        "tendency": "Posts very short reactions where an attached chart or link carries most of the content",
+        "frequency": "often",
+        "evidence_ids": [
+          "2026803101848482075",
+          "2090629262143578358",
+          "2094805841626956260"
+        ],
+        "evidence": [
+          {
+            "handle": "SqueezeMetrics",
+            "id": "2026803101848482075",
+            "text": "Nvidia down in after-hours after a mega-beat. https://t.co/6CJhecyWQf"
+          },
+          {
+            "handle": "alphatrends",
+            "id": "2090629262143578358",
+            "text": "sellers relentless in $SUJA since IPO https://t.co/xXx0EaWxAG"
+          },
+          {
+            "handle": "spotgamma",
+            "id": "2094805841626956260",
+            "text": "On right now with tastylive: https://t.co/53hJCXfsLx"
+          }
+        ]
+      },
+      {
+        "tendency": "Teaches risk discipline and process: cutting losers, avoiding chasing, steady work ethic",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2094891634622148856",
+          "2092428013606445304",
+          "2037909594622644302"
+        ],
+        "evidence": [
+          {
+            "handle": "PeterLBrandt",
+            "id": "2094891634622148856",
+            "text": "We have a totally different edge, yet we completely agree on how we treat losing trades. The last thing I want to do is speculate with a los"
+          },
+          {
+            "handle": "PeterLBrandt",
+            "id": "2092428013606445304",
+            "text": "Re: Chasing trades\nBad idea for more reasons than I can write about at this late hour for me (20:43 hrs)\nMy rule is to pay up to the .5 time"
+          },
+          {
+            "handle": "Ksidiii",
+            "id": "2037909594622644302",
+            "text": "Weekends are a great chance to put in the extra work. \n\nLive it, breathe it, enjoy it 🫡🫡🫡"
+          }
+        ]
+      },
+      {
+        "tendency": "Uses irreverent, sarcastic or joking desk-culture humor, sometimes aimed at other traders",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2099901606338716034",
+          "2103158521349235181",
+          "2088396898893717553"
+        ],
+        "evidence": [
+          {
+            "handle": "TimTheMM",
+            "id": "2099901606338716034",
+            "text": "french kwant 0.686 seconds after I give him my faded straddle market buck under @ 20 under sheets https://t.co/vXDj3MXPIP"
+          },
+          {
+            "handle": "SPXVIX",
+            "id": "2103158521349235181",
+            "text": "Hey @Tony_BATtista, the website is called https://t.co/UPsJbTVHfw. Show it to Scott since he was laughing so hard lol https://t.co/5YdlBSM94"
+          },
+          {
+            "handle": "TimTheMM",
+            "id": "2088396898893717553",
+            "text": "TRADING FIRM WHO TAKES RISKS TOOK RISKS AND IS STILL UP $40B YTD"
+          }
+        ]
+      },
+      {
+        "tendency": "Asks questions that probe widely held assumptions or push readers to reflect on themselves",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "1983366165398442064",
+          "2048095217144692899",
+          "2092427964105244798"
+        ],
+        "evidence": [
+          {
+            "handle": "SqueezeMetrics",
+            "id": "1983366165398442064",
+            "text": "Are we *sure* that LLM training and inference really require *that* many floating point operations per second, or is it *possible* that ther"
+          },
+          {
+            "handle": "Ksidiii",
+            "id": "2048095217144692899",
+            "text": "I do wonder, with so much public market capital flowing into LLMs, how much of that ends up reinforcing a simple conclusion: equities trend "
+          },
+          {
+            "handle": "PeterLBrandt",
+            "id": "2092427964105244798",
+            "text": "Serious question for market speculators and gamblers (same thing) reading this X post\n\nWhat SINGLE personal character trait of yours do you "
+          }
+        ]
+      },
+      {
+        "tendency": "Relays or reacts to outside news, quotes or other people's views, adding a brief stance of their own",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2072434678544347252",
+          "2092341221930807725",
+          "2104918592894734811"
+        ],
+        "evidence": [
+          {
+            "handle": "Ksidiii",
+            "id": "2072434678544347252",
+            "text": "Bloomberg just released an article on point three that I discussed in my original post. \n\nLike I said, this isn’t breaking news. If you are "
+          },
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2092341221930807725",
+            "text": "I agree with Druck's point that \"Every b.p. of artificial yld curve suppression is a subsidy to procrastination\" but neither party is willin"
+          },
+          {
+            "handle": "SPXVIX",
+            "id": "2104918592894734811",
+            "text": "This came directly from Tradingview: “This TOS update wasn't supposed to be made public and it is not final yet. We're currently working out"
+          }
+        ]
+      }
+    ],
+    "avoid_tendencies": [
+      {
+        "tendency": "Numbered listicle threads or formal multi-part outlines as the opening structure",
+        "frequency": "almost_never",
+        "evidence_ids": [],
+        "evidence": []
+      },
+      {
+        "tendency": "Neutral wire-style news summaries with no trading angle or personal stance",
+        "frequency": "rarely",
+        "evidence_ids": [],
+        "evidence": []
+      },
+      {
+        "tendency": "Polished, formal essay register with long hedged qualifications",
+        "frequency": "rarely",
+        "evidence_ids": [
+          "2088383732205953486",
+          "2099282218317164731"
+        ],
+        "evidence": [
+          {
+            "handle": "TimTheMM",
+            "id": "2088383732205953486",
+            "text": "by remember when, i mean like 10+ years ago. i always liked watching the old heads banter back then (all of whom Tasty seems to have let go)"
+          },
+          {
+            "handle": "TimTheMM",
+            "id": "2099282218317164731",
+            "text": "here's a thread of retards i found just from searching \"black monday\":\n\nhttps://t.co/CejlE3UdQv\n\nhttps://t.co/i2lwDC0mSa\n\nhttps://t.co/9xrgS"
+          }
+        ]
+      }
+    ],
+    "variation_notes": "Length swings widely, from emoji or single-line reactions to multi-paragraph mechanism explanations and long positioning reads. The register moves between precise options terminology, coaching tones and crude banter, depending on the donor and the moment. Hooks are mostly direct claims, with occasional questions, ticker leads, quoted lines and event notices. Promotional and community posts are common alongside the analytical ones, so not every post carries a market view.",
+    "judgment_style": "Mostly assertive and specific, but the strongest market calls are often framed as conditionals tied to a level or signal (what confirms, what fades) rather than unconditional predictions. Data such as levels, implied versus realized moves and returns serves as the support for a view, not as an end in itself. Personal positioning and stops are used to show conviction and risk limits. Explicit hedging words are uncommon, and uncertainty is shown through 'we shall see' style deferral or through scenario framing."
+  }
 }

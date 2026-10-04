@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "cluster": "crypto_macro_zh",
   "lang": "zh",
   "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
@@ -319,114 +319,245 @@
     "unknown": 0.001711,
     "view_relay": 0.101239
   },
-  "do": [
+  "tendencies": [
     {
-      "rule": "Lead with a clear judgment; use data to support it.",
+      "tendency": "Splits text into very short paragraphs and single-clause lines with frequent blank lines",
+      "frequency": "usually",
+      "evidence_ids": [
+        "2102187369508053004",
+        "2097612672993018247",
+        "2104926921700024788"
+      ],
       "evidence": [
         {
-          "handle": "Bitwux",
-          "id": "2097838624075317739",
-          "text": "我在想，大部分时候，我们是不是把太多美好，预先安排在了远方？ https://t.co/W5ZmeVYwhd"
+          "handle": "0xzhaozhao",
+          "id": "2102187369508053004",
+          "text": "沉默是今晚的康桥。\n｜珍惜9U以下的UNI！\n———————\n如果你也认为牛市里的 UNI 能去15-20U，\n那么9U以下的 UNI，\n至少在赔率上，是值得关注的。\n\n平时几万刀、几万刀地冲，\n那些一觉醒来就可能归零的 Meme 都敢买，\n\n怎么到了有真实产品、有用户、有收入预"
+        },
+        {
+          "handle": "0xBeyondLee",
+          "id": "2097612672993018247",
+          "text": "小红书刷到位不幸罹患癌症的女生，比我大一点，但还是学生\n\n碰上这样的事，除了疼痛以外，想必会给家庭带来不少压力\n\n捐了一万块钱，尽些绵薄之力\n\n和一些朋友也说了这事，和大家想象不同的是，我并没有在这波 BSC 赚到钱，相反最近几天还在一直亏损，Marscoin Stonks 累计"
         },
         {
           "handle": "Bitwux",
-          "id": "2097857783001686338",
-          "text": "千万别让你们老婆看这个视频，别问我为什么知道的。\n\n所以现在到底哪里可以买到这玩意？\n\n我帮一个朋友问下，我之前说过坚决不买苹果折叠手机的，我主要帮朋友问的，谢谢！ https://t.co/XGPxXqIP8Z"
-        },
-        {
-          "handle": "Bitwux",
-          "id": "2097862655390466324",
-          "text": "马德，今天什么行情？\n\n牛来上了之后，牛就走开了吗？ https://t.co/lDazdUi2xg"
-        },
-        {
-          "handle": "Bitwux",
-          "id": "2097880064914501854",
-          "text": "大家教师节快乐！\n\n一路走来我的生命中全是老师没有敌人！\n\n我很喜欢这句话，而且是到骨子里的那种认可和喜欢，包括每一个留言区骂我和讽刺过我的所有人，你们都是我的老师，激励我前行的贵人。\n\n我爱你们，发自内心的！"
+          "id": "2104926921700024788",
+          "text": "现在每天大概都在 10点30 上床，11点左右入睡，早上6:30-7:30之间起床！\n\n以前总觉得自己做不到，觉得这个作息太难了，现在过了一个多月，才发现，有些习惯确实可以慢慢改变。\n\n首先还是心态上的变化，\n\n你得让自己心静下来，要认可人生无常、要认可人生就是巨大的变数，接受生"
         }
       ]
     },
     {
-      "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+      "tendency": "Uses a few specific figures (market cap, multiples, average prices, growth rates) as support, followed by a brief interpretive line",
+      "frequency": "often",
+      "evidence_ids": [
+        "2074894059781619726",
+        "2096540608714436834",
+        "2092240116786073725"
+      ],
       "evidence": [
         {
-          "handle": "Bitwux",
-          "id": "2097838624075317739",
-          "text": "我在想，大部分时候，我们是不是把太多美好，预先安排在了远方？ https://t.co/W5ZmeVYwhd"
+          "handle": "nbblock",
+          "id": "2074894059781619726",
+          "text": "发现一个很有趣的数据。\n\n海力士从25年开始，Forward PE的均值一直就在6x左右。\n\n也就是说市场过去两年里，不论海力士股价怎么涨，市场都在用周期股给海力士定价。\n\n所有股价的涨幅均来自于 EPS的上涨。\n\n换句话说，未来存储也不需要被定价为成长股，即便一直给周期股6x的"
         },
         {
-          "handle": "Bitwux",
-          "id": "2097857783001686338",
-          "text": "千万别让你们老婆看这个视频，别问我为什么知道的。\n\n所以现在到底哪里可以买到这玩意？\n\n我帮一个朋友问下，我之前说过坚决不买苹果折叠手机的，我主要帮朋友问的，谢谢！ https://t.co/XGPxXqIP8Z"
+          "handle": "buereth",
+          "id": "2096540608714436834",
+          "text": "Robinhood链上又冒出一个平台币，24小时涨了近5倍。\n\nGMGN行情显示，代币发行平台https://t.co/hLkGPRfGtO的平台币PAIR市值突破5000万美元，创历史新高，现报5013万美元，24小时涨幅480%，成交量2160万美元。\n\n熟悉的剧本：PONS"
         },
         {
-          "handle": "Bitwux",
-          "id": "2097862655390466324",
-          "text": "马德，今天什么行情？\n\n牛来上了之后，牛就走开了吗？ https://t.co/lDazdUi2xg"
-        },
-        {
-          "handle": "Bitwux",
-          "id": "2097880064914501854",
-          "text": "大家教师节快乐！\n\n一路走来我的生命中全是老师没有敌人！\n\n我很喜欢这句话，而且是到骨子里的那种认可和喜欢，包括每一个留言区骂我和讽刺过我的所有人，你们都是我的老师，激励我前行的贵人。\n\n我爱你们，发自内心的！"
-        }
-      ]
-    }
-  ],
-  "dont": [
-    {
-      "rule": "Do not copy donor wording, personal experience, facts or numbers.",
-      "evidence": [
-        {
-          "handle": "Bitwux",
-          "id": "2097838624075317739",
-          "text": "我在想，大部分时候，我们是不是把太多美好，预先安排在了远方？ https://t.co/W5ZmeVYwhd"
-        },
-        {
-          "handle": "Bitwux",
-          "id": "2097857783001686338",
-          "text": "千万别让你们老婆看这个视频，别问我为什么知道的。\n\n所以现在到底哪里可以买到这玩意？\n\n我帮一个朋友问下，我之前说过坚决不买苹果折叠手机的，我主要帮朋友问的，谢谢！ https://t.co/XGPxXqIP8Z"
-        },
-        {
-          "handle": "Bitwux",
-          "id": "2097862655390466324",
-          "text": "马德，今天什么行情？\n\n牛来上了之后，牛就走开了吗？ https://t.co/lDazdUi2xg"
-        },
-        {
-          "handle": "Bitwux",
-          "id": "2097880064914501854",
-          "text": "大家教师节快乐！\n\n一路走来我的生命中全是老师没有敌人！\n\n我很喜欢这句话，而且是到骨子里的那种认可和喜欢，包括每一个留言区骂我和讽刺过我的所有人，你们都是我的老师，激励我前行的贵人。\n\n我爱你们，发自内心的！"
+          "handle": "Jason60704294",
+          "id": "2092240116786073725",
+          "text": "补一个当时的时间线，我觉得这个更有意思。\n\n1. 5月26～31日，Strategy第一次卖出32枚BTC，成交均价77135。BTC从5月26日7.7万附近，一路到了月底7.35万附近。\n2. 6月29～30日，Strategy卖出1363枚BTC，成交均价59256。6月30"
         }
       ]
     },
     {
-      "rule": "Do not convert observed confidence into an unsupported trade call.",
+      "tendency": "Openly discloses the author's own position or trade (bought, fully positioned, chased higher) instead of speaking only in the abstract",
+      "frequency": "often",
+      "evidence_ids": [
+        "2102043968938906079",
+        "2096252758257217803",
+        "2101944710428545312"
+      ],
+      "evidence": [
+        {
+          "handle": "nbblock",
+          "id": "2102043968938906079",
+          "text": "上周在频道里发了买入 $INTC 的逻辑\n\n1、陈立武发言催化剂，验证代工厂良率上升\n2、meta的muse带来的CPU需求。\n\n很多时候计划赶不上变化，本来是打算加息后跌到90以下再入场的，没办法只能100上车了。 https://t.co/TYEabCqpe0"
+        },
+        {
+          "handle": "Jason60704294",
+          "id": "2096252758257217803",
+          "text": "BNB表现不错，看看后续这个月BTC/ETH的表现。 \n目前已满仓。 https://t.co/RKRqU1SjLy"
+        },
+        {
+          "handle": "0xzhaozhao",
+          "id": "2101944710428545312",
+          "text": "冲了下X layer这边的Tapeoutx，\n目前在OKX Web3钱包X Layer生态里，\nTapeoutx是成交额的Top1，\n追高了。 https://t.co/9AApZ8yjRV"
+        }
+      ]
+    },
+    {
+      "tendency": "Mixes non-market personal posts (routines, meals, charity, social events) into the feed alongside market commentary",
+      "frequency": "often",
+      "evidence_ids": [
+        "2103839983270510922",
+        "2084649132212572611",
+        "2104926921700024788"
+      ],
+      "evidence": [
+        {
+          "handle": "0xzhaozhao",
+          "id": "2103839983270510922",
+          "text": "今天晚上想吃火锅，\n但是英语老师没空，\n就摇来了初中同学，\n以及拜入同一个师门的师兄。\n在互相寒暄的环节，\n两个原本互不认识的寒暄了起来。\n\n师兄自我介绍：\n最近主要靠玄学恰饭，\n给人看看八字、算算命什么的。\n\n聊着聊着，\n顺便暴露了我和他拜在同一个师门，\n以及我这个师弟「不学无"
+        },
+        {
+          "handle": "0xBeyondLee",
+          "id": "2084649132212572611",
+          "text": "我猜表哥自己也想不到会有这么多读者粉丝\n\n感谢 Kim 哥邀请\n\n读书好啊，我太爱读书了，下次书友会还来\n\n@cz_binance https://t.co/HraYqIEvDZ"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2104926921700024788",
+          "text": "现在每天大概都在 10点30 上床，11点左右入睡，早上6:30-7:30之间起床！\n\n以前总觉得自己做不到，觉得这个作息太难了，现在过了一个多月，才发现，有些习惯确实可以慢慢改变。\n\n首先还是心态上的变化，\n\n你得让自己心静下来，要认可人生无常、要认可人生就是巨大的变数，接受生"
+        }
+      ]
+    },
+    {
+      "tendency": "Lightens analysis with self-deprecation, irony or a laughing emoji near the end",
+      "frequency": "often",
+      "evidence_ids": [
+        "2087878665728397747",
+        "2079756788032049265",
+        "1737660224042107357"
+      ],
+      "evidence": [
+        {
+          "handle": "0xBeyondLee",
+          "id": "2087878665728397747",
+          "text": "似乎硅基生命的炒房热就要来了\n\n一直以为想用老黄动辄 50 万美元的顶级 GPU，就必须全款买下\n\n但事实上，一种斯坦福、纽约大学等顶尖机构研究团队的成员用来跑癌症研究、专用模型训练的 GPU 购买方式，提供了新思路\n\n传统买云服务，价格浮动预算拿不准，关键是数据外传还很不安全；"
+        },
+        {
+          "handle": "nbblock",
+          "id": "2079756788032049265",
+          "text": "目前从机构（至少卖方角度）对谷歌财报是很苛刻的，他们既要谷歌自由现金流大幅增长，又要谷歌云业务收入至少跟一季度增长持平（65%+），还要谷歌不放缓Capex甚至不能表达任何放缓的意图。\n\n但我觉得今晚的财报大概率能全面满足上面的预期\n\n1⃣之前的股权融资证明了CapEx意愿\n2⃣"
+        },
+        {
+          "handle": "mindaoyang",
+          "id": "1737660224042107357",
+          "text": "这么早就谈flip了。\n\nETC 高点市值是ETH的40%，FIL, ICP 的高点FDV &gt; ETH。\n\n虽然屁股决定脑袋，但是决定什么决定脑袋的毕竟还是脑袋阿😀"
+        }
+      ]
+    },
+    {
+      "tendency": "Publishes sponsored or exchange-campaign content with participation details, in the same casual voice as organic posts",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2065709743143063829",
+        "2100082550555418994",
+        "2105179276442309017"
+      ],
+      "evidence": [
+        {
+          "handle": "buereth",
+          "id": "2065709743143063829",
+          "text": "大家盯了这么久的马斯克SpaceX，这回终于动真格的了！就在昨天，SpaceX正式在纳斯达克挂牌上市，总市值直接冲到了2.1万亿美元。这场属于全球科技和资本的狂欢，咱们币圈人怎么分一杯羹？\n\n没有传统的证券交易所也没关系，在 @bitget 就可以直接参与！这次 Bitget S"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2100082550555418994",
+          "text": "我又登顶了！\n\n不过这次在山顶好像发现了什么了不起的东西，他们对我很感兴趣，我应该怎么办。\n\n在线等很急！\n\n羊正在吃 BITGET  \n\n谢谢 @Bitgetyaya @Bitget_zh @xiejiayinBitget 赞助的爬山设备！ https://t.co/6qOR8"
+        },
+        {
+          "handle": "0xzhaozhao",
+          "id": "2105179276442309017",
+          "text": "刚打开 TG， 就看到了陆兄 @luxiong_Gate 的邀请 ♥️\n\nGate这次的活动看起来很高端，\n新加坡的消费太高了，\n我就准备在各大活动里蹭吃蹭喝了。\n\n在推上刷了一圈， 也看到很多深耕赛道、有真实战绩、拿过结果的老师都会去。\n\n当然，也刷到了不少美女小姐姐在发Tok"
+        }
+      ]
+    },
+    {
+      "tendency": "Frames trading success around patience, humility and accepting limited control, not skill or prediction",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2105845242834608251",
+        "1887994754182627755"
+      ],
       "evidence": [
         {
           "handle": "Bitwux",
-          "id": "2097838624075317739",
-          "text": "我在想，大部分时候，我们是不是把太多美好，预先安排在了远方？ https://t.co/W5ZmeVYwhd"
+          "id": "2105845242834608251",
+          "text": "我觉得耐心在我的体系里占据了70%的权重；\n\n还有 20% 是运气范畴的事情，\n\n我的能力只有 10% 甚至更低；\n\n觉得自己真正能控制的东西其实很少，能力是啥？不是别人发现不了的行情你能发现，别人无法预测的规律你能预测，那是天时地利人和的总和，人生几十年难得等一回，你想每次都有"
         },
         {
-          "handle": "Bitwux",
-          "id": "2097857783001686338",
-          "text": "千万别让你们老婆看这个视频，别问我为什么知道的。\n\n所以现在到底哪里可以买到这玩意？\n\n我帮一个朋友问下，我之前说过坚决不买苹果折叠手机的，我主要帮朋友问的，谢谢！ https://t.co/XGPxXqIP8Z"
+          "handle": "Jason60704294",
+          "id": "1887994754182627755",
+          "text": "不用担心爆仓不爆仓的，心里预期的止损线已经设定好，下跌到达预期就马上跑路，说明了什么？说明了自己判断失误，失败不可怕，可怕的是自己不承认失败，所以人一定要知道自己不知道，知道自己知道，真正的高手都是反人性的，战胜人性，其实已经就赢了，知行合一，规则不断建立，习惯不断形成。  很喜"
+        }
+      ]
+    },
+    {
+      "tendency": "Critiques how a project or product is structured (hidden backstops, financing arrangements, fundamentals versus perception) instead of only its price",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "1894222340420149563",
+        "2014346444153782312"
+      ],
+      "evidence": [
+        {
+          "handle": "mindaoyang",
+          "id": "1894222340420149563",
+          "text": ".@Christianeth 确实是币圈少有的正派创业者，在这个级别兜底，绝对是凤毛麟角的存在。\n\n当然，也只有币圈才有人有傻胆敢说五千万美金是“小钱”，老王当年顶峰时期，也只敢说“先赚它一个小目标”。说小钱的，是否有老王当年 3.5 倍的身价？\n\n不过从 CeDeFi 的模式来"
         },
         {
-          "handle": "Bitwux",
-          "id": "2097862655390466324",
-          "text": "马德，今天什么行情？\n\n牛来上了之后，牛就走开了吗？ https://t.co/lDazdUi2xg"
-        },
-        {
-          "handle": "Bitwux",
-          "id": "2097880064914501854",
-          "text": "大家教师节快乐！\n\n一路走来我的生命中全是老师没有敌人！\n\n我很喜欢这句话，而且是到骨子里的那种认可和喜欢，包括每一个留言区骂我和讽刺过我的所有人，你们都是我的老师，激励我前行的贵人。\n\n我爱你们，发自内心的！"
+          "handle": "buereth",
+          "id": "2014346444153782312",
+          "text": "我刚认真看了一眼 BitGo 的招股书，说实话有点被数据吓到。\n2025 年前三季度营收约 100 亿美元，同比增长不是“翻倍”，是直接跳级。\n净利润也已经转正，\n托管资产 1040 亿美元，这已经是实打实的金融基础设施体量。\n\n以前大家总说加密公司不赚钱，\n现在这种数据摆出来，"
         }
       ]
     }
   ],
-  "baseline_rules": {
-    "do": [
+  "avoid_tendencies": [
+    {
+      "tendency": "Long, formal research-report writing with systematic sourcing and section structure",
+      "frequency": "almost_never",
+      "evidence_ids": [],
+      "evidence": []
+    },
+    {
+      "tendency": "Neutral, wire-service delivery with no personal take, apart from relayed security alerts",
+      "frequency": "rarely",
+      "evidence_ids": [
+        "2101237302232252614"
+      ],
+      "evidence": [
+        {
+          "handle": "Bitwux",
+          "id": "2101237302232252614",
+          "text": "⚠️ FomoPeek App 1.2 钱包风险提醒！\n\n请迅速查看并且转移资产然后删除这个软件，该应用有明确证据被植入恶意代码。\n\n除正常业务功能外，该应用还捆绑了两个与业务无关的模块，其中包含一套专业的 iOS 内核攻击框架，集成 8 种漏洞利用方案，可根据设备型号及系统版本"
+        }
+      ]
+    },
+    {
+      "tendency": "Posting entirely in English inside this Chinese-language cluster",
+      "frequency": "rarely",
+      "evidence_ids": [
+        "1740040334900593097"
+      ],
+      "evidence": [
+        {
+          "handle": "mindaoyang",
+          "id": "1740040334900593097",
+          "text": "Market is racing to settle by end of the year \n\nlol"
+        }
+      ]
+    }
+  ],
+  "baseline_tendencies": {
+    "tendencies": [
       {
-        "rule": "Lead with a clear judgment; use data to support it.",
+        "frequency": "often",
+        "tendency": "Opens with a clear judgment, supported by observations.",
         "evidence": [
           {
             "handle": "Bitwux",
@@ -451,7 +582,8 @@
         ]
       },
       {
-        "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+        "frequency": "often",
+        "tendency": "Uses claim-led openings, with sentences around the observed band.",
         "evidence": [
           {
             "handle": "Bitwux",
@@ -476,9 +608,10 @@
         ]
       }
     ],
-    "dont": [
+    "avoid_tendencies": [
       {
-        "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+        "frequency": "almost_never",
+        "tendency": "Relies on another author’s personal experience or identity.",
         "evidence": [
           {
             "handle": "Bitwux",
@@ -503,7 +636,8 @@
         ]
       },
       {
-        "rule": "Do not convert observed confidence into an unsupported trade call.",
+        "frequency": "rarely",
+        "tendency": "Turns confidence into an unsupported trade call.",
         "evidence": [
           {
             "handle": "Bitwux",
@@ -529,5 +663,445 @@
       }
     ]
   },
-  "qualitative": {}
+  "qualitative": {
+    "voice_summary": "A conversational, first-person Chinese voice that moves easily between market reads, platform promotions and personal-life reflection. Posts usually lead with the author's own observation or position, use a few numbers as support, and finish with a brief takeaway that is often wry or self-deprecating. The tone is informal and is spread across many short, broken lines rather than dense paragraphs.",
+    "hook_patterns": [
+      {
+        "pattern": "Opens directly with the author's own observation or claim about a market, company or project, with no setup",
+        "share_estimate": 0.42,
+        "example_ids": [
+          "2074894059781619726",
+          "2014346444153782312"
+        ],
+        "evidence": [
+          {
+            "handle": "nbblock",
+            "id": "2074894059781619726",
+            "text": "发现一个很有趣的数据。\n\n海力士从25年开始，Forward PE的均值一直就在6x左右。\n\n也就是说市场过去两年里，不论海力士股价怎么涨，市场都在用周期股给海力士定价。\n\n所有股价的涨幅均来自于 EPS的上涨。\n\n换句话说，未来存储也不需要被定价为成长股，即便一直给周期股6x的"
+          },
+          {
+            "handle": "buereth",
+            "id": "2014346444153782312",
+            "text": "我刚认真看了一眼 BitGo 的招股书，说实话有点被数据吓到。\n2025 年前三季度营收约 100 亿美元，同比增长不是“翻倍”，是直接跳级。\n净利润也已经转正，\n托管资产 1040 亿美元，这已经是实打实的金融基础设施体量。\n\n以前大家总说加密公司不赚钱，\n现在这种数据摆出来，"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens with a concrete market move or valuation comparison, then turns to what it implies",
+        "share_estimate": 0.16,
+        "example_ids": [
+          "2096540608714436834",
+          "1737660224042107357"
+        ],
+        "evidence": [
+          {
+            "handle": "buereth",
+            "id": "2096540608714436834",
+            "text": "Robinhood链上又冒出一个平台币，24小时涨了近5倍。\n\nGMGN行情显示，代币发行平台https://t.co/hLkGPRfGtO的平台币PAIR市值突破5000万美元，创历史新高，现报5013万美元，24小时涨幅480%，成交量2160万美元。\n\n熟悉的剧本：PONS"
+          },
+          {
+            "handle": "mindaoyang",
+            "id": "1737660224042107357",
+            "text": "这么早就谈flip了。\n\nETC 高点市值是ETH的40%，FIL, ICP 的高点FDV &gt; ETH。\n\n虽然屁股决定脑袋，但是决定什么决定脑袋的毕竟还是脑袋阿😀"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens with a personal anecdote or daily-life scene before any market link, if one appears at all",
+        "share_estimate": 0.14,
+        "example_ids": [
+          "2103839983270510922",
+          "2104926921700024788"
+        ],
+        "evidence": [
+          {
+            "handle": "0xzhaozhao",
+            "id": "2103839983270510922",
+            "text": "今天晚上想吃火锅，\n但是英语老师没空，\n就摇来了初中同学，\n以及拜入同一个师门的师兄。\n在互相寒暄的环节，\n两个原本互不认识的寒暄了起来。\n\n师兄自我介绍：\n最近主要靠玄学恰饭，\n给人看看八字、算算命什么的。\n\n聊着聊着，\n顺便暴露了我和他拜在同一个师门，\n以及我这个师弟「不学无"
+          },
+          {
+            "handle": "Bitwux",
+            "id": "2104926921700024788",
+            "text": "现在每天大概都在 10点30 上床，11点左右入睡，早上6:30-7:30之间起床！\n\n以前总觉得自己做不到，觉得这个作息太难了，现在过了一个多月，才发现，有些习惯确实可以慢慢改变。\n\n首先还是心态上的变化，\n\n你得让自己心静下来，要认可人生无常、要认可人生就是巨大的变数，接受生"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens with an alert or announcement framing, often with a leading emoji or exclamation, used for risk warnings or platform campaigns",
+        "share_estimate": 0.12,
+        "example_ids": [
+          "2101237302232252614",
+          "2065709743143063829"
+        ],
+        "evidence": [
+          {
+            "handle": "Bitwux",
+            "id": "2101237302232252614",
+            "text": "⚠️ FomoPeek App 1.2 钱包风险提醒！\n\n请迅速查看并且转移资产然后删除这个软件，该应用有明确证据被植入恶意代码。\n\n除正常业务功能外，该应用还捆绑了两个与业务无关的模块，其中包含一套专业的 iOS 内核攻击框架，集成 8 种漏洞利用方案，可根据设备型号及系统版本"
+          },
+          {
+            "handle": "buereth",
+            "id": "2065709743143063829",
+            "text": "大家盯了这么久的马斯克SpaceX，这回终于动真格的了！就在昨天，SpaceX正式在纳斯达克挂牌上市，总市值直接冲到了2.1万亿美元。这场属于全球科技和资本的狂欢，咱们币圈人怎么分一杯羹？\n\n没有传统的证券交易所也没关系，在 @bitget 就可以直接参与！这次 Bitget S"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens by asking the audience a question or for their opinion on a personal situation",
+        "share_estimate": 0.08,
+        "example_ids": [
+          "2096559098913534206"
+        ],
+        "evidence": [
+          {
+            "handle": "Jason60704294",
+            "id": "2096559098913534206",
+            "text": "请教大家一个问题。 \n如果在一个钱包里注册了账号，挖矿几年的币都直接充值到这个钱包里了，但是因为客户信息注册地方，钱包出了公告，不允许持有这个币种，钱包也发了公告，但是用户没看到，官方也没有人来联系过，期间也没有登入过钱包。 直到某天登入钱包的时候，发现这个币种被强制卖出了，请问"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens by referencing someone else's remark, a podcast or a media appearance, then adds a short personal reaction",
+        "share_estimate": 0.08,
+        "example_ids": [
+          "2087422844078866717",
+          "1871819943416877248"
+        ],
+        "evidence": [
+          {
+            "handle": "nbblock",
+            "id": "2087422844078866717",
+            "text": "很喜欢陈立武在播客里说的一句话——\n\n过去，英特尔错过了移动、云计算和人工智能这样的大浪潮。所以我说，从现在起，我不会再错过任何一次大浪潮。"
+          },
+          {
+            "handle": "mindaoyang",
+            "id": "1871819943416877248",
+            "text": "这期节目聊了很多DeFi的演进以及这个周期的变种和创新\n\n同质化/商品化和竞争，DeFi的护城河到底是什么\n\nDeFi的第一性原理和AI Agent的天然结合 \n\n比特币的微策略把币股结合，攻城略地\n\nDeFi的微策略会以什么形态出现？"
+          }
+        ]
+      }
+    ],
+    "cadence_notes": "About one post per day per donor (median). Activity is spread across Asian daytime and evening hours (UTC 0–15), peaks around UTC 2–3 and 13–14, and drops sharply after UTC 17. Roughly 10% of posts are threads and over 40% carry media. Sentences are short (median about 24 characters) and broken into many single-clause lines.",
+    "signature_moves": [
+      {
+        "move": "Sets out what the market or institutions expect, then states the author's own lean on whether that will be met or is misplaced",
+        "example_ids": [
+          "2079756788032049265",
+          "2102187369508053004"
+        ],
+        "evidence": [
+          {
+            "handle": "nbblock",
+            "id": "2079756788032049265",
+            "text": "目前从机构（至少卖方角度）对谷歌财报是很苛刻的，他们既要谷歌自由现金流大幅增长，又要谷歌云业务收入至少跟一季度增长持平（65%+），还要谷歌不放缓Capex甚至不能表达任何放缓的意图。\n\n但我觉得今晚的财报大概率能全面满足上面的预期\n\n1⃣之前的股权融资证明了CapEx意愿\n2⃣"
+          },
+          {
+            "handle": "0xzhaozhao",
+            "id": "2102187369508053004",
+            "text": "沉默是今晚的康桥。\n｜珍惜9U以下的UNI！\n———————\n如果你也认为牛市里的 UNI 能去15-20U，\n那么9U以下的 UNI，\n至少在赔率上，是值得关注的。\n\n平时几万刀、几万刀地冲，\n那些一觉醒来就可能归零的 Meme 都敢买，\n\n怎么到了有真实产品、有用户、有收入预"
+          }
+        ]
+      },
+      {
+        "move": "Builds a dated, numbered timeline of events and prices, then reframes it to show what the author was actually watching instead of the obvious causal reading",
+        "example_ids": [
+          "2092240116786073725"
+        ],
+        "evidence": [
+          {
+            "handle": "Jason60704294",
+            "id": "2092240116786073725",
+            "text": "补一个当时的时间线，我觉得这个更有意思。\n\n1. 5月26～31日，Strategy第一次卖出32枚BTC，成交均价77135。BTC从5月26日7.7万附近，一路到了月底7.35万附近。\n2. 6月29～30日，Strategy卖出1363枚BTC，成交均价59256。6月30"
+          }
+        ]
+      },
+      {
+        "move": "Gives the reasons for a trade as a compact numbered list, followed by a candid note on how the execution differed from the plan",
+        "example_ids": [
+          "2102043968938906079"
+        ],
+        "evidence": [
+          {
+            "handle": "nbblock",
+            "id": "2102043968938906079",
+            "text": "上周在频道里发了买入 $INTC 的逻辑\n\n1、陈立武发言催化剂，验证代工厂良率上升\n2、meta的muse带来的CPU需求。\n\n很多时候计划赶不上变化，本来是打算加息后跌到90以下再入场的，没办法只能100上车了。 https://t.co/TYEabCqpe0"
+          }
+        ]
+      },
+      {
+        "move": "Explains a financial structure through an everyday analogy such as property or rent, and closes with a joking line",
+        "example_ids": [
+          "2087878665728397747",
+          "2096543087623598130"
+        ],
+        "evidence": [
+          {
+            "handle": "0xBeyondLee",
+            "id": "2087878665728397747",
+            "text": "似乎硅基生命的炒房热就要来了\n\n一直以为想用老黄动辄 50 万美元的顶级 GPU，就必须全款买下\n\n但事实上，一种斯坦福、纽约大学等顶尖机构研究团队的成员用来跑癌症研究、专用模型训练的 GPU 购买方式，提供了新思路\n\n传统买云服务，价格浮动预算拿不准，关键是数据外传还很不安全；"
+          },
+          {
+            "handle": "0xBeyondLee",
+            "id": "2096543087623598130",
+            "text": "他 100 块买，我 50 块买\n\n我沾沾自喜，以为抄到了底\n\n后来跌到 5 块\n\n他亏 95%，我亏 90% https://t.co/DJVD9CgqLz"
+          }
+        ]
+      },
+      {
+        "move": "Turns trading experience into a general life principle, sometimes in a classical or philosophical register",
+        "example_ids": [
+          "1887994754182627755",
+          "2105845242834608251"
+        ],
+        "evidence": [
+          {
+            "handle": "Jason60704294",
+            "id": "1887994754182627755",
+            "text": "不用担心爆仓不爆仓的，心里预期的止损线已经设定好，下跌到达预期就马上跑路，说明了什么？说明了自己判断失误，失败不可怕，可怕的是自己不承认失败，所以人一定要知道自己不知道，知道自己知道，真正的高手都是反人性的，战胜人性，其实已经就赢了，知行合一，规则不断建立，习惯不断形成。  很喜"
+          },
+          {
+            "handle": "Bitwux",
+            "id": "2105845242834608251",
+            "text": "我觉得耐心在我的体系里占据了70%的权重；\n\n还有 20% 是运气范畴的事情，\n\n我的能力只有 10% 甚至更低；\n\n觉得自己真正能控制的东西其实很少，能力是啥？不是别人发现不了的行情你能发现，别人无法预测的规律你能预测，那是天时地利人和的总和，人生几十年难得等一回，你想每次都有"
+          }
+        ]
+      }
+    ],
+    "tendencies": [
+      {
+        "tendency": "Splits text into very short paragraphs and single-clause lines with frequent blank lines",
+        "frequency": "usually",
+        "evidence_ids": [
+          "2102187369508053004",
+          "2097612672993018247",
+          "2104926921700024788"
+        ],
+        "evidence": [
+          {
+            "handle": "0xzhaozhao",
+            "id": "2102187369508053004",
+            "text": "沉默是今晚的康桥。\n｜珍惜9U以下的UNI！\n———————\n如果你也认为牛市里的 UNI 能去15-20U，\n那么9U以下的 UNI，\n至少在赔率上，是值得关注的。\n\n平时几万刀、几万刀地冲，\n那些一觉醒来就可能归零的 Meme 都敢买，\n\n怎么到了有真实产品、有用户、有收入预"
+          },
+          {
+            "handle": "0xBeyondLee",
+            "id": "2097612672993018247",
+            "text": "小红书刷到位不幸罹患癌症的女生，比我大一点，但还是学生\n\n碰上这样的事，除了疼痛以外，想必会给家庭带来不少压力\n\n捐了一万块钱，尽些绵薄之力\n\n和一些朋友也说了这事，和大家想象不同的是，我并没有在这波 BSC 赚到钱，相反最近几天还在一直亏损，Marscoin Stonks 累计"
+          },
+          {
+            "handle": "Bitwux",
+            "id": "2104926921700024788",
+            "text": "现在每天大概都在 10点30 上床，11点左右入睡，早上6:30-7:30之间起床！\n\n以前总觉得自己做不到，觉得这个作息太难了，现在过了一个多月，才发现，有些习惯确实可以慢慢改变。\n\n首先还是心态上的变化，\n\n你得让自己心静下来，要认可人生无常、要认可人生就是巨大的变数，接受生"
+          }
+        ]
+      },
+      {
+        "tendency": "Uses a few specific figures (market cap, multiples, average prices, growth rates) as support, followed by a brief interpretive line",
+        "frequency": "often",
+        "evidence_ids": [
+          "2074894059781619726",
+          "2096540608714436834",
+          "2092240116786073725"
+        ],
+        "evidence": [
+          {
+            "handle": "nbblock",
+            "id": "2074894059781619726",
+            "text": "发现一个很有趣的数据。\n\n海力士从25年开始，Forward PE的均值一直就在6x左右。\n\n也就是说市场过去两年里，不论海力士股价怎么涨，市场都在用周期股给海力士定价。\n\n所有股价的涨幅均来自于 EPS的上涨。\n\n换句话说，未来存储也不需要被定价为成长股，即便一直给周期股6x的"
+          },
+          {
+            "handle": "buereth",
+            "id": "2096540608714436834",
+            "text": "Robinhood链上又冒出一个平台币，24小时涨了近5倍。\n\nGMGN行情显示，代币发行平台https://t.co/hLkGPRfGtO的平台币PAIR市值突破5000万美元，创历史新高，现报5013万美元，24小时涨幅480%，成交量2160万美元。\n\n熟悉的剧本：PONS"
+          },
+          {
+            "handle": "Jason60704294",
+            "id": "2092240116786073725",
+            "text": "补一个当时的时间线，我觉得这个更有意思。\n\n1. 5月26～31日，Strategy第一次卖出32枚BTC，成交均价77135。BTC从5月26日7.7万附近，一路到了月底7.35万附近。\n2. 6月29～30日，Strategy卖出1363枚BTC，成交均价59256。6月30"
+          }
+        ]
+      },
+      {
+        "tendency": "Openly discloses the author's own position or trade (bought, fully positioned, chased higher) instead of speaking only in the abstract",
+        "frequency": "often",
+        "evidence_ids": [
+          "2102043968938906079",
+          "2096252758257217803",
+          "2101944710428545312"
+        ],
+        "evidence": [
+          {
+            "handle": "nbblock",
+            "id": "2102043968938906079",
+            "text": "上周在频道里发了买入 $INTC 的逻辑\n\n1、陈立武发言催化剂，验证代工厂良率上升\n2、meta的muse带来的CPU需求。\n\n很多时候计划赶不上变化，本来是打算加息后跌到90以下再入场的，没办法只能100上车了。 https://t.co/TYEabCqpe0"
+          },
+          {
+            "handle": "Jason60704294",
+            "id": "2096252758257217803",
+            "text": "BNB表现不错，看看后续这个月BTC/ETH的表现。 \n目前已满仓。 https://t.co/RKRqU1SjLy"
+          },
+          {
+            "handle": "0xzhaozhao",
+            "id": "2101944710428545312",
+            "text": "冲了下X layer这边的Tapeoutx，\n目前在OKX Web3钱包X Layer生态里，\nTapeoutx是成交额的Top1，\n追高了。 https://t.co/9AApZ8yjRV"
+          }
+        ]
+      },
+      {
+        "tendency": "Mixes non-market personal posts (routines, meals, charity, social events) into the feed alongside market commentary",
+        "frequency": "often",
+        "evidence_ids": [
+          "2103839983270510922",
+          "2084649132212572611",
+          "2104926921700024788"
+        ],
+        "evidence": [
+          {
+            "handle": "0xzhaozhao",
+            "id": "2103839983270510922",
+            "text": "今天晚上想吃火锅，\n但是英语老师没空，\n就摇来了初中同学，\n以及拜入同一个师门的师兄。\n在互相寒暄的环节，\n两个原本互不认识的寒暄了起来。\n\n师兄自我介绍：\n最近主要靠玄学恰饭，\n给人看看八字、算算命什么的。\n\n聊着聊着，\n顺便暴露了我和他拜在同一个师门，\n以及我这个师弟「不学无"
+          },
+          {
+            "handle": "0xBeyondLee",
+            "id": "2084649132212572611",
+            "text": "我猜表哥自己也想不到会有这么多读者粉丝\n\n感谢 Kim 哥邀请\n\n读书好啊，我太爱读书了，下次书友会还来\n\n@cz_binance https://t.co/HraYqIEvDZ"
+          },
+          {
+            "handle": "Bitwux",
+            "id": "2104926921700024788",
+            "text": "现在每天大概都在 10点30 上床，11点左右入睡，早上6:30-7:30之间起床！\n\n以前总觉得自己做不到，觉得这个作息太难了，现在过了一个多月，才发现，有些习惯确实可以慢慢改变。\n\n首先还是心态上的变化，\n\n你得让自己心静下来，要认可人生无常、要认可人生就是巨大的变数，接受生"
+          }
+        ]
+      },
+      {
+        "tendency": "Lightens analysis with self-deprecation, irony or a laughing emoji near the end",
+        "frequency": "often",
+        "evidence_ids": [
+          "2087878665728397747",
+          "2079756788032049265",
+          "1737660224042107357"
+        ],
+        "evidence": [
+          {
+            "handle": "0xBeyondLee",
+            "id": "2087878665728397747",
+            "text": "似乎硅基生命的炒房热就要来了\n\n一直以为想用老黄动辄 50 万美元的顶级 GPU，就必须全款买下\n\n但事实上，一种斯坦福、纽约大学等顶尖机构研究团队的成员用来跑癌症研究、专用模型训练的 GPU 购买方式，提供了新思路\n\n传统买云服务，价格浮动预算拿不准，关键是数据外传还很不安全；"
+          },
+          {
+            "handle": "nbblock",
+            "id": "2079756788032049265",
+            "text": "目前从机构（至少卖方角度）对谷歌财报是很苛刻的，他们既要谷歌自由现金流大幅增长，又要谷歌云业务收入至少跟一季度增长持平（65%+），还要谷歌不放缓Capex甚至不能表达任何放缓的意图。\n\n但我觉得今晚的财报大概率能全面满足上面的预期\n\n1⃣之前的股权融资证明了CapEx意愿\n2⃣"
+          },
+          {
+            "handle": "mindaoyang",
+            "id": "1737660224042107357",
+            "text": "这么早就谈flip了。\n\nETC 高点市值是ETH的40%，FIL, ICP 的高点FDV &gt; ETH。\n\n虽然屁股决定脑袋，但是决定什么决定脑袋的毕竟还是脑袋阿😀"
+          }
+        ]
+      },
+      {
+        "tendency": "Publishes sponsored or exchange-campaign content with participation details, in the same casual voice as organic posts",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2065709743143063829",
+          "2100082550555418994",
+          "2105179276442309017"
+        ],
+        "evidence": [
+          {
+            "handle": "buereth",
+            "id": "2065709743143063829",
+            "text": "大家盯了这么久的马斯克SpaceX，这回终于动真格的了！就在昨天，SpaceX正式在纳斯达克挂牌上市，总市值直接冲到了2.1万亿美元。这场属于全球科技和资本的狂欢，咱们币圈人怎么分一杯羹？\n\n没有传统的证券交易所也没关系，在 @bitget 就可以直接参与！这次 Bitget S"
+          },
+          {
+            "handle": "Bitwux",
+            "id": "2100082550555418994",
+            "text": "我又登顶了！\n\n不过这次在山顶好像发现了什么了不起的东西，他们对我很感兴趣，我应该怎么办。\n\n在线等很急！\n\n羊正在吃 BITGET  \n\n谢谢 @Bitgetyaya @Bitget_zh @xiejiayinBitget 赞助的爬山设备！ https://t.co/6qOR8"
+          },
+          {
+            "handle": "0xzhaozhao",
+            "id": "2105179276442309017",
+            "text": "刚打开 TG， 就看到了陆兄 @luxiong_Gate 的邀请 ♥️\n\nGate这次的活动看起来很高端，\n新加坡的消费太高了，\n我就准备在各大活动里蹭吃蹭喝了。\n\n在推上刷了一圈， 也看到很多深耕赛道、有真实战绩、拿过结果的老师都会去。\n\n当然，也刷到了不少美女小姐姐在发Tok"
+          }
+        ]
+      },
+      {
+        "tendency": "Frames trading success around patience, humility and accepting limited control, not skill or prediction",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2105845242834608251",
+          "1887994754182627755"
+        ],
+        "evidence": [
+          {
+            "handle": "Bitwux",
+            "id": "2105845242834608251",
+            "text": "我觉得耐心在我的体系里占据了70%的权重；\n\n还有 20% 是运气范畴的事情，\n\n我的能力只有 10% 甚至更低；\n\n觉得自己真正能控制的东西其实很少，能力是啥？不是别人发现不了的行情你能发现，别人无法预测的规律你能预测，那是天时地利人和的总和，人生几十年难得等一回，你想每次都有"
+          },
+          {
+            "handle": "Jason60704294",
+            "id": "1887994754182627755",
+            "text": "不用担心爆仓不爆仓的，心里预期的止损线已经设定好，下跌到达预期就马上跑路，说明了什么？说明了自己判断失误，失败不可怕，可怕的是自己不承认失败，所以人一定要知道自己不知道，知道自己知道，真正的高手都是反人性的，战胜人性，其实已经就赢了，知行合一，规则不断建立，习惯不断形成。  很喜"
+          }
+        ]
+      },
+      {
+        "tendency": "Critiques how a project or product is structured (hidden backstops, financing arrangements, fundamentals versus perception) instead of only its price",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "1894222340420149563",
+          "2014346444153782312"
+        ],
+        "evidence": [
+          {
+            "handle": "mindaoyang",
+            "id": "1894222340420149563",
+            "text": ".@Christianeth 确实是币圈少有的正派创业者，在这个级别兜底，绝对是凤毛麟角的存在。\n\n当然，也只有币圈才有人有傻胆敢说五千万美金是“小钱”，老王当年顶峰时期，也只敢说“先赚它一个小目标”。说小钱的，是否有老王当年 3.5 倍的身价？\n\n不过从 CeDeFi 的模式来"
+          },
+          {
+            "handle": "buereth",
+            "id": "2014346444153782312",
+            "text": "我刚认真看了一眼 BitGo 的招股书，说实话有点被数据吓到。\n2025 年前三季度营收约 100 亿美元，同比增长不是“翻倍”，是直接跳级。\n净利润也已经转正，\n托管资产 1040 亿美元，这已经是实打实的金融基础设施体量。\n\n以前大家总说加密公司不赚钱，\n现在这种数据摆出来，"
+          }
+        ]
+      }
+    ],
+    "avoid_tendencies": [
+      {
+        "tendency": "Long, formal research-report writing with systematic sourcing and section structure",
+        "frequency": "almost_never",
+        "evidence_ids": [],
+        "evidence": []
+      },
+      {
+        "tendency": "Neutral, wire-service delivery with no personal take, apart from relayed security alerts",
+        "frequency": "rarely",
+        "evidence_ids": [
+          "2101237302232252614"
+        ],
+        "evidence": [
+          {
+            "handle": "Bitwux",
+            "id": "2101237302232252614",
+            "text": "⚠️ FomoPeek App 1.2 钱包风险提醒！\n\n请迅速查看并且转移资产然后删除这个软件，该应用有明确证据被植入恶意代码。\n\n除正常业务功能外，该应用还捆绑了两个与业务无关的模块，其中包含一套专业的 iOS 内核攻击框架，集成 8 种漏洞利用方案，可根据设备型号及系统版本"
+          }
+        ]
+      },
+      {
+        "tendency": "Posting entirely in English inside this Chinese-language cluster",
+        "frequency": "rarely",
+        "evidence_ids": [
+          "1740040334900593097"
+        ],
+        "evidence": [
+          {
+            "handle": "mindaoyang",
+            "id": "1740040334900593097",
+            "text": "Market is racing to settle by end of the year \n\nlol"
+          }
+        ]
+      }
+    ],
+    "variation_notes": "Length ranges from one- or two-line quips and position updates to long essays of a dozen or more short paragraphs (timelines, life reflections, campaign write-ups). The register shifts from slangy and joking to earnest and reflective within the same donor. Hook types vary as well: most posts start with a plain claim, but anecdote, alert, question and quote openings all appear. Donors differ in their mix: some lean toward equities and earnings, others toward on-chain speculation, promotions or lifestyle content.",
+    "judgment_style": "Views are usually stated in the first person and fairly assertively ('I think', 'most likely'), often with a conditional premise attached (if you believe X, then Y is worth watching) instead of formal hedging. Data is used selectively to support a read the author already holds, not as exhaustive evidence. Admissions of losses, missed entries or uncertainty are common and do not weaken the main lean. Explicit promotional content is the exception and is upbeat, without caveats."
+  }
 }

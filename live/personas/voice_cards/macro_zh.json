@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "cluster": "macro_zh",
   "lang": "zh",
   "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
@@ -295,114 +295,255 @@
     "unknown": 0.000645,
     "view_relay": 0.135554
   },
-  "do": [
+  "tendencies": [
     {
-      "rule": "Lead with a clear judgment; use data to support it.",
+      "tendency": "States personal views in the first person and openly labels them as the author's own reading",
+      "frequency": "usually",
+      "evidence_ids": [
+        "2087089467731640649",
+        "2081689209434493284",
+        "2081961366047359090"
+      ],
       "evidence": [
         {
-          "handle": "Btcxiaoyuan",
-          "id": "1978450118907990228",
-          "text": "从本月15日开始一直到24日，只要在其他所有VIP的，都可以提供等级截图来Bitget享受连升3级的VIP特权，活动时间有限，速来参与！\n#BGB  #Bitget VIP➕3"
+          "handle": "ChinaMacroFacts",
+          "id": "2087089467731640649",
+          "text": "最近不少人在讨论中国年内政策加码的机会，认为9月政治局有可能重演24年剧本。\n\n我认为可能性较小，且不论科技、出口、股市，仅仅基于最近的通胀数据看，核心通胀走势（考虑到黄金近年干扰太大，去除了“其他用品服务”这项）年内看，至少从宏观价格层面，看不到出“超常规逆周期政策”的机会。 "
         },
         {
           "handle": "Btcxiaoyuan",
-          "id": "1978820097998225789",
-          "text": "大的真要来了\n准备全面做空\n下半年全面看跌\n大饼看到88000\n以太看到2900\n拭目以待兄弟们\n#BTC #ETH"
+          "id": "2081689209434493284",
+          "text": "美光：不是技术最强，但风险收益比更容易计算\n\n美光最近一个财季实现：\n\n营收约414.6亿美元\n同比增长约346%\nGAAP净利润约282.4亿美元\n经营现金流约253.9亿美元\n\n增长主要来自DRAM、HBM和NAND需求及价格同步上升。\n\n目前美光股价约920.95美元，市值"
         },
         {
-          "handle": "Btcxiaoyuan",
-          "id": "1979138083896594599",
-          "text": "Gate合约积分空投第一期活动开始，老朋友 DOGE 成了主角，对合约党来说挺划算的。\n\n玩法很直接：只要 10 个合约积分 就能兑换 152 DOGE，积分平时攒着用处不大，这次直接变现，直接领取。\n门槛也不高，但有两点要注意：\n\n积分数量：账户至少要有 12 积分才能参与，少"
-        },
-        {
-          "handle": "Btcxiaoyuan",
-          "id": "1980198081116450837",
-          "text": "再熊的熊市都会有反弹\n再牛的牛市都会有下跌\n#BTC  #ETH"
+          "handle": "techeconomyana",
+          "id": "2081961366047359090",
+          "text": "Thinking Machines Lab 就属于完全误入歧途。搞模型微调，再发布一个开源模型，把自己的路往窄了走。现在创始人纷纷离开。\n\n虽然这些天开源模型非常热，但我再强调一次：开源模型和微调从来不是本轮大模型的主线，通用闭源模型的能力提升才是主线。"
         }
       ]
     },
     {
-      "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+      "tendency": "Ties forward-looking calls to upcoming catalysts and makes the conclusion depend on how those data come in",
+      "frequency": "often",
+      "evidence_ids": [
+        "2098232681867923910",
+        "2097968041900339680",
+        "2089599456375378393"
+      ],
       "evidence": [
         {
-          "handle": "Btcxiaoyuan",
-          "id": "1978450118907990228",
-          "text": "从本月15日开始一直到24日，只要在其他所有VIP的，都可以提供等级截图来Bitget享受连升3级的VIP特权，活动时间有限，速来参与！\n#BGB  #Bitget VIP➕3"
+          "handle": "TraderS18",
+          "id": "2098232681867923910",
+          "text": "如果今晚CPI符合预期，市场就仍然处在迷茫之后，这样美联储才能利益最大化\n\n这样9.16号FOMC会议上既可以按照沃什的言论：如果通胀没缓解就加息\n\n也可以按照沃勒言论：如果通胀没加剧就按兵不动\n\n这样两个人就都是对的，太鸡贼了，打得一手好算盘"
+        },
+        {
+          "handle": "qinbafrank",
+          "id": "2097968041900339680",
+          "text": "大饼近期是不是也快到一个拐点了？三周前大饼刚涨起来的时候很多人做空，当时聊到从时间维度上看行情能持续，得等到9月中下旬流动性考验来临的时候才会出现像样的调整。这马上进入到了9月中，确实考验也来了：\n1）油价站上了100以上；\n2）长债收益率也到了4.8%以上；\n对风险资产的压力其"
         },
         {
           "handle": "Btcxiaoyuan",
-          "id": "1978820097998225789",
-          "text": "大的真要来了\n准备全面做空\n下半年全面看跌\n大饼看到88000\n以太看到2900\n拭目以待兄弟们\n#BTC #ETH"
-        },
-        {
-          "handle": "Btcxiaoyuan",
-          "id": "1979138083896594599",
-          "text": "Gate合约积分空投第一期活动开始，老朋友 DOGE 成了主角，对合约党来说挺划算的。\n\n玩法很直接：只要 10 个合约积分 就能兑换 152 DOGE，积分平时攒着用处不大，这次直接变现，直接领取。\n门槛也不高，但有两点要注意：\n\n积分数量：账户至少要有 12 积分才能参与，少"
-        },
-        {
-          "handle": "Btcxiaoyuan",
-          "id": "1980198081116450837",
-          "text": "再熊的熊市都会有反弹\n再牛的牛市都会有下跌\n#BTC  #ETH"
-        }
-      ]
-    }
-  ],
-  "dont": [
-    {
-      "rule": "Do not copy donor wording, personal experience, facts or numbers.",
-      "evidence": [
-        {
-          "handle": "Btcxiaoyuan",
-          "id": "1978450118907990228",
-          "text": "从本月15日开始一直到24日，只要在其他所有VIP的，都可以提供等级截图来Bitget享受连升3级的VIP特权，活动时间有限，速来参与！\n#BGB  #Bitget VIP➕3"
-        },
-        {
-          "handle": "Btcxiaoyuan",
-          "id": "1978820097998225789",
-          "text": "大的真要来了\n准备全面做空\n下半年全面看跌\n大饼看到88000\n以太看到2900\n拭目以待兄弟们\n#BTC #ETH"
-        },
-        {
-          "handle": "Btcxiaoyuan",
-          "id": "1979138083896594599",
-          "text": "Gate合约积分空投第一期活动开始，老朋友 DOGE 成了主角，对合约党来说挺划算的。\n\n玩法很直接：只要 10 个合约积分 就能兑换 152 DOGE，积分平时攒着用处不大，这次直接变现，直接领取。\n门槛也不高，但有两点要注意：\n\n积分数量：账户至少要有 12 积分才能参与，少"
-        },
-        {
-          "handle": "Btcxiaoyuan",
-          "id": "1980198081116450837",
-          "text": "再熊的熊市都会有反弹\n再牛的牛市都会有下跌\n#BTC  #ETH"
+          "id": "2089599456375378393",
+          "text": "bitcoin:native \n本周真正决定美股和BTC的，不是AI，是美债。\n\n10Y重新逼近4.7%，说明市场交易的已不是“降不降息”，而是长期资金成本能不能真正下来。\n\n美股结构性偏多，BTC等待流动性确认。 AI内部继续分化，美光、海力士这类盈利兑现的存储链更占优势。\n\n"
         }
       ]
     },
     {
-      "rule": "Do not convert observed confidence into an unsupported trade call.",
+      "tendency": "Lists several figures in a row (revenue, growth rates, estimates against actuals) as scaffolding before a qualitative judgment",
+      "frequency": "often",
+      "evidence_ids": [
+        "2092806262744654313",
+        "2098236649851572669",
+        "2099688546072412664"
+      ],
       "evidence": [
         {
-          "handle": "Btcxiaoyuan",
-          "id": "1978450118907990228",
-          "text": "从本月15日开始一直到24日，只要在其他所有VIP的，都可以提供等级截图来Bitget享受连升3级的VIP特权，活动时间有限，速来参与！\n#BGB  #Bitget VIP➕3"
+          "handle": "TraderS18",
+          "id": "2092806262744654313",
+          "text": "英伟达果然还是AI股的严父，盘后带着一众小弟集体反弹了\n\n但如果细看的话，财报出来的第一时间先下跌，直到CFO Kress在电话会上说FY2028营收预计增长70%情绪才转过来。\n\n对比财报数据和此前预期的话，确实都超过了，但没有极端利好：\n\n营收 962亿美元，市场预期约922"
         },
         {
-          "handle": "Btcxiaoyuan",
-          "id": "1978820097998225789",
-          "text": "大的真要来了\n准备全面做空\n下半年全面看跌\n大饼看到88000\n以太看到2900\n拭目以待兄弟们\n#BTC #ETH"
+          "handle": "qinbafrank",
+          "id": "2098236649851572669",
+          "text": "关于甲骨文今天发布的最新财报，个人看法已经拿出更有说服力的算力交付和收入兑现数据。说说几个亮点：\n1、增速很强，而且增长规模已经足够大\n特别是甲骨文现在最重要的OCI业务（云、AI算力）过去几个季度的收入依次为：33.47亿 → 40.79亿 → 48.88亿 → 57.87亿 "
         },
         {
-          "handle": "Btcxiaoyuan",
-          "id": "1979138083896594599",
-          "text": "Gate合约积分空投第一期活动开始，老朋友 DOGE 成了主角，对合约党来说挺划算的。\n\n玩法很直接：只要 10 个合约积分 就能兑换 152 DOGE，积分平时攒着用处不大，这次直接变现，直接领取。\n门槛也不高，但有两点要注意：\n\n积分数量：账户至少要有 12 积分才能参与，少"
+          "handle": "MacroMargin",
+          "id": "2099688546072412664",
+          "text": "从涨跌分布看，环比上涨的城市数继续减少，一季度所谓“小阳春”之后持续收敛 https://t.co/RDABNr8Xzw"
+        }
+      ]
+    },
+    {
+      "tendency": "Relays another party's statement or news and attaches a brief personal interpretation or evaluation",
+      "frequency": "often",
+      "evidence_ids": [
+        "2090417089353826450",
+        "2093165866695471538",
+        "2103884241109225974"
+      ],
+      "evidence": [
+        {
+          "handle": "techeconomyana",
+          "id": "2090417089353826450",
+          "text": "任剑涛在15年前讲，中国经济出现无预警性停滞的风险。\n\n如果看社会消费品零售总额和固定资产投资这两个指标，中国经济毫无疑问发生了脆裂。"
         },
         {
-          "handle": "Btcxiaoyuan",
-          "id": "1980198081116450837",
-          "text": "再熊的熊市都会有反弹\n再牛的牛市都会有下跌\n#BTC  #ETH"
+          "handle": "ChinaMacroFacts",
+          "id": "2093165866695471538",
+          "text": "$nvda 虽然业绩很好很强劲，但earning call上关于jalapeno的问题，jensen的回答显然不太让人满意，全是一些没有意义的正能量排比句，侧面看出来jensen是没准备好的。"
+        },
+        {
+          "handle": "PhyrexNi",
+          "id": "2103884241109225974",
+          "text": "川普表示，伊朗提出的方案他已经拒绝了。按照他的说法，伊朗想达成协议、立即开放霍尔木兹海峡，是因为封锁切断了收入，他们已经撑不住了。\n\n他还称，美国完全掌控海峡，封锁针对伊朗，其他船只仍可通行，前一晚有29艘船驶出。川普表示自己愿意达成协议，但这份方案无法接受。\n\n在今天白天川普的"
+        }
+      ]
+    },
+    {
+      "tendency": "Drops into a casual, ironic or mocking register for short reactions, often with an emoji as a tone marker",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2105733175804866673",
+        "2105715376893972495",
+        "2097709859861057613"
+      ],
+      "evidence": [
+        {
+          "handle": "PhyrexNi",
+          "id": "2105733175804866673",
+          "text": "说的应该是油价，都两年了，现在油价新高还是拜登的错。🤡🤡 https://t.co/NpArpZSNy0"
+        },
+        {
+          "handle": "TJ_Research",
+          "id": "2105715376893972495",
+          "text": "联储副主席杰佛森：在下一次的加息前，美联储可能需要更多的时间来决定。10月加息概率跌到30%。\n就问你们专不专业吧😉"
+        },
+        {
+          "handle": "MacroMargin",
+          "id": "2097709859861057613",
+          "text": "美国财政部公布不及预期的国债回购计划后，美国长债收益率大幅走高。\n\n这种频繁救市，又不断被市场打脸的节奏，是不是很熟悉？\n\n某种程度上，美国财政部部长 ≈ 中国证监会主席，都是火山口😅 https://t.co/g1Cn2h6v5W"
+        }
+      ]
+    },
+    {
+      "tendency": "Shares the author's own trades, cash level or allocation preference to ground the view",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2099593237182685275",
+        "2101872314069454942",
+        "2100860671915393416"
+      ],
+      "evidence": [
+        {
+          "handle": "TJ_Research",
+          "id": "2099593237182685275",
+          "text": "今天硬件下跌，扫了一圈，很想加仓，但最后没有，主要因为现金仓位不多+很多标都没跌破7月份的位置。硬要加的话应该是 $NOK，现在的仓位有点少了。\n但我觉得今天的硬件下跌可以算是一个事件了，很多硬件的走势我看到了投降迹象。\nP.S. 我对于猜底部不是非常的拿手，“PACE” YOU"
+        },
+        {
+          "handle": "fannaoxiaoyang",
+          "id": "2101872314069454942",
+          "text": "我保留Q4回调7-15%，原因是若90-100美元的布油悬而未决，那就不能半场开香槟，庆祝长端拐点到来。\n\n我会更愿意把仓位放在确定性高的黄金+BTC+优质现金流股上。"
+        },
+        {
+          "handle": "PhyrexNi",
+          "id": "2100860671915393416",
+          "text": "虽然和预期的有些出入，Bitcoin 在市场上的表现比预期的好太多了，本来我还以为叠加美国和日本的加息会对市场有些影响，但实际来看还是我想多了，市场的坚韧程度确实不错。\n\n所以我就像昨天作业中说的一样，重新开始启动双币投资，个人想法是在 73,000 美元到 75,000 美元之"
+        }
+      ]
+    },
+    {
+      "tendency": "Uses analogies to other sectors, countries or technology eras to make a mechanism intuitive",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2100477645108469802",
+        "2097622944562455006",
+        "2097709859861057613"
+      ],
+      "evidence": [
+        {
+          "handle": "techeconomyana",
+          "id": "2100477645108469802",
+          "text": "Anthropic 不让中国用户使用 Claude 模型，应该类比的是特斯拉不建上海工厂、不在中国市场销售电车。 长远来看，收益远大于损失。\n\n用不了 Claude 对中国GDP和全要素生产率的损害，避免蒸馏导致比亚迪一类竞品出现。Anthropic反而会获得更高的营收。"
+        },
+        {
+          "handle": "williamlab",
+          "id": "2097622944562455006",
+          "text": "经典新模型上来爆了，暂停新用户订阅保用户体验。\n\n算力还是远远远远不够啊。。算力中心建设速度赶不上大模型更新烧的速度。让我想到了3G时代网速赶不上互联网创新的速度。抖音啊直播啊这些都是憋到4G时代，网速拉满才爆发的。\n\n那什么是大模型时代的抖音呢？就是算力拉满时代的创新会是什么呢"
+        },
+        {
+          "handle": "MacroMargin",
+          "id": "2097709859861057613",
+          "text": "美国财政部公布不及预期的国债回购计划后，美国长债收益率大幅走高。\n\n这种频繁救市，又不断被市场打脸的节奏，是不是很熟悉？\n\n某种程度上，美国财政部部长 ≈ 中国证监会主席，都是火山口😅 https://t.co/g1Cn2h6v5W"
+        }
+      ]
+    },
+    {
+      "tendency": "Appends a sponsor or broker promotional line after the substantive content; this is a monetization artifact, not a transferable style feature",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2105814572376703272",
+        "2092806262744654313",
+        "2103884241109225974"
+      ],
+      "evidence": [
+        {
+          "handle": "qinbafrank",
+          "id": "2105814572376703272",
+          "text": "继周二晚美联储三把手威廉姆斯表态后，昨晚美联储二把手副主席杰斐逊也表态需要更多时间来评估通胀走势，暗示10月倾向于不加息。\n\n他的原话是“自我们9月会议以来，整个期限结构的收益率进一步上升，这是投资者正在重新评估演变中的宏观经济格局的迹象。我的同事和我需要形成我们自己的判断，这可"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2092806262744654313",
+          "text": "英伟达果然还是AI股的严父，盘后带着一众小弟集体反弹了\n\n但如果细看的话，财报出来的第一时间先下跌，直到CFO Kress在电话会上说FY2028营收预计增长70%情绪才转过来。\n\n对比财报数据和此前预期的话，确实都超过了，但没有极端利好：\n\n营收 962亿美元，市场预期约922"
+        },
+        {
+          "handle": "PhyrexNi",
+          "id": "2103884241109225974",
+          "text": "川普表示，伊朗提出的方案他已经拒绝了。按照他的说法，伊朗想达成协议、立即开放霍尔木兹海峡，是因为封锁切断了收入，他们已经撑不住了。\n\n他还称，美国完全掌控海峡，封锁针对伊朗，其他船只仍可通行，前一晚有29艘船驶出。川普表示自己愿意达成协议，但这份方案无法接受。\n\n在今天白天川普的"
         }
       ]
     }
   ],
-  "baseline_rules": {
-    "do": [
+  "avoid_tendencies": [
+    {
+      "tendency": "Formal numbered-thread openers or tweet-count markers that announce a multi-part series",
+      "frequency": "almost_never",
+      "evidence_ids": [],
+      "evidence": []
+    },
+    {
+      "tendency": "Purely neutral, wire-style reporting with no evaluative word or implied stance",
+      "frequency": "rarely",
+      "evidence_ids": [
+        "2099688546072412664",
+        "2104680547968516565"
+      ],
+      "evidence": [
+        {
+          "handle": "MacroMargin",
+          "id": "2099688546072412664",
+          "text": "从涨跌分布看，环比上涨的城市数继续减少，一季度所谓“小阳春”之后持续收敛 https://t.co/RDABNr8Xzw"
+        },
+        {
+          "handle": "techeconomyana",
+          "id": "2104680547968516565",
+          "text": "Anthropic 内部的ECI模型能力指数，Sonnet 5.5为167.93，低于Opus 5.5的169.12。 https://t.co/eODbtiQ2kH"
+        }
+      ]
+    },
+    {
+      "tendency": "Formal sourcing apparatus such as citations, methodology notes or footnoted references",
+      "frequency": "almost_never",
+      "evidence_ids": [],
+      "evidence": []
+    }
+  ],
+  "baseline_tendencies": {
+    "tendencies": [
       {
-        "rule": "Lead with a clear judgment; use data to support it.",
+        "frequency": "often",
+        "tendency": "Opens with a clear judgment, supported by observations.",
         "evidence": [
           {
             "handle": "Btcxiaoyuan",
@@ -427,7 +568,8 @@
         ]
       },
       {
-        "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+        "frequency": "often",
+        "tendency": "Uses claim-led openings, with sentences around the observed band.",
         "evidence": [
           {
             "handle": "Btcxiaoyuan",
@@ -452,9 +594,10 @@
         ]
       }
     ],
-    "dont": [
+    "avoid_tendencies": [
       {
-        "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+        "frequency": "almost_never",
+        "tendency": "Relies on another author’s personal experience or identity.",
         "evidence": [
           {
             "handle": "Btcxiaoyuan",
@@ -479,7 +622,8 @@
         ]
       },
       {
-        "rule": "Do not convert observed confidence into an unsupported trade call.",
+        "frequency": "rarely",
+        "tendency": "Turns confidence into an unsupported trade call.",
         "evidence": [
           {
             "handle": "Btcxiaoyuan",
@@ -505,5 +649,474 @@
       }
     ]
   },
-  "qualitative": {}
+  "qualitative": {
+    "voice_summary": "A practitioner-commentator voice that mixes macro, rates, AI-industry and crypto topics. Posts usually open on a verdict or a reframed reading of a fresh event, then use stacked figures, upcoming data releases or policy signals as support. The register moves easily between analyst-style breakdowns and casual, sometimes sarcastic one-line reactions, and the stance is personal and often market-positioned.",
+    "hook_patterns": [
+      {
+        "pattern": "Opens directly with the author's verdict or judgment on a market, company or policy, and the evidence follows",
+        "share_estimate": 0.55,
+        "example_ids": [
+          "2081961366047359090",
+          "2089599456375378393"
+        ],
+        "evidence": [
+          {
+            "handle": "techeconomyana",
+            "id": "2081961366047359090",
+            "text": "Thinking Machines Lab 就属于完全误入歧途。搞模型微调，再发布一个开源模型，把自己的路往窄了走。现在创始人纷纷离开。\n\n虽然这些天开源模型非常热，但我再强调一次：开源模型和微调从来不是本轮大模型的主线，通用闭源模型的能力提升才是主线。"
+          },
+          {
+            "handle": "Btcxiaoyuan",
+            "id": "2089599456375378393",
+            "text": "bitcoin:native \n本周真正决定美股和BTC的，不是AI，是美债。\n\n10Y重新逼近4.7%，说明市场交易的已不是“降不降息”，而是长期资金成本能不能真正下来。\n\n美股结构性偏多，BTC等待流动性确认。 AI内部继续分化，美光、海力士这类盈利兑现的存储链更占优势。\n\n"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens by restating a just-released data point, official remark or news item, then pivots to what it implies",
+        "share_estimate": 0.15,
+        "example_ids": [
+          "2098388989409636493",
+          "2105814572376703272"
+        ],
+        "evidence": [
+          {
+            "handle": "TraderS18",
+            "id": "2098388989409636493",
+            "text": "四项CPI数据有三项符合预期，但最关键的核心CPI月率0.3%高于预期，这样9月加息基本就成定局了，不用等下周FOMC会议了 https://t.co/y1pWtbpQJC"
+          },
+          {
+            "handle": "qinbafrank",
+            "id": "2105814572376703272",
+            "text": "继周二晚美联储三把手威廉姆斯表态后，昨晚美联储二把手副主席杰斐逊也表态需要更多时间来评估通胀走势，暗示10月倾向于不加息。\n\n他的原话是“自我们9月会议以来，整个期限结构的收益率进一步上升，这是投资者正在重新评估演变中的宏观经济格局的迹象。我的同事和我需要形成我们自己的判断，这可"
+          }
+        ]
+      },
+      {
+        "pattern": "Contrast or reframe opener that rejects the consensus framing of an event and substitutes the author's preferred driver",
+        "share_estimate": 0.13,
+        "example_ids": [
+          "2093004787792884152",
+          "2082008927232004585"
+        ],
+        "evidence": [
+          {
+            "handle": "TJ_Research",
+            "id": "2093004787792884152",
+            "text": "与其说英伟达拯救了半导体和硬件，不如说软件公司的财报让量化开始反着做（多软件空硬件）,和我相信一些基金开始意识到软件并非会全部被AI破坏。\n太尴尬了，一季度才刚清了微软，不到半年又要加回来吗？🤣\nAI是一个所有人的未知领域，没有先知知道6个月以后行业落地会如何，大家都在学习，摸索"
+          },
+          {
+            "handle": "MacroMargin",
+            "id": "2082008927232004585",
+            "text": "讨论7月FOMC加不加息，不在于Warsh是否想不想在7月加息，我也认为他可能有这个想法和意愿。\n\n关键在于如果7月加息，是否能争取到足够的支持？\n这就要分析推测票比情况了，以及Warsh是否有足够能力去游说大部分鸽派阵营也支持加息？\n过去Powell有很强的游说能力，Warsh"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens with a question about whether a trend or cycle has reached a turning point",
+        "share_estimate": 0.06,
+        "example_ids": [
+          "2097968041900339680"
+        ],
+        "evidence": [
+          {
+            "handle": "qinbafrank",
+            "id": "2097968041900339680",
+            "text": "大饼近期是不是也快到一个拐点了？三周前大饼刚涨起来的时候很多人做空，当时聊到从时间维度上看行情能持续，得等到9月中下旬流动性考验来临的时候才会出现像样的调整。这马上进入到了9月中，确实考验也来了：\n1）油价站上了100以上；\n2）长债收益率也到了4.8%以上；\n对风险资产的压力其"
+          }
+        ]
+      },
+      {
+        "pattern": "Time-span or number-led first line that anchors the post in elapsed time or a measured move",
+        "share_estimate": 0.05,
+        "example_ids": [
+          "2085154789881516164"
+        ],
+        "evidence": [
+          {
+            "handle": "fannaoxiaoyang",
+            "id": "2085154789881516164",
+            "text": "8周过去，黄金即将完成宏观底部。突破前会出现反弹测试，直至积累足够多的买盘。\n\n虽然未来几周 $DXY潜在走强可能对测试不利，但基于时间的出清基本到了最后阶段，因此金价的下行空间会十分有限。"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens with a quoted passage from an official or public document, followed by the author's interpretation",
+        "share_estimate": 0.01,
+        "example_ids": [
+          "2087487773926359269"
+        ],
+        "evidence": [
+          {
+            "handle": "ChinaMacroFacts",
+            "id": "2087487773926359269",
+            "text": "“建立国有企业下岗职工基本生活保障、失业保险、城镇居民最低生活保障制度，下大力气解决拖欠职工工资、下岗职工再就业等问题。”\n\n但也看得出来，花这么多篇幅来讲下岗职工这部分内容，下岗是他最如鲠在喉的问题。\n\n江、朱去世，胡、温也终将离去，中国历史上最主动开放的二十年也将成为一代人的"
+          }
+        ]
+      }
+    ],
+    "cadence_notes": "Median about two posts per day per donor, with activity concentrated in the Asian daytime and US-open windows (roughly 01-08 and 12-15 UTC) and thinning in the late UTC evening. Long analytical posts sit alongside many short reactive ones. Posting tends to cluster around data releases (CPI, FOMC, earnings) and headline political events.",
+    "signature_moves": [
+      {
+        "move": "Branches the outlook on an upcoming data print or meeting into explicit if/then scenarios",
+        "example_ids": [
+          "2098232681867923910",
+          "2089599456375378393"
+        ],
+        "evidence": [
+          {
+            "handle": "TraderS18",
+            "id": "2098232681867923910",
+            "text": "如果今晚CPI符合预期，市场就仍然处在迷茫之后，这样美联储才能利益最大化\n\n这样9.16号FOMC会议上既可以按照沃什的言论：如果通胀没缓解就加息\n\n也可以按照沃勒言论：如果通胀没加剧就按兵不动\n\n这样两个人就都是对的，太鸡贼了，打得一手好算盘"
+          },
+          {
+            "handle": "Btcxiaoyuan",
+            "id": "2089599456375378393",
+            "text": "bitcoin:native \n本周真正决定美股和BTC的，不是AI，是美债。\n\n10Y重新逼近4.7%，说明市场交易的已不是“降不降息”，而是长期资金成本能不能真正下来。\n\n美股结构性偏多，BTC等待流动性确认。 AI内部继续分化，美光、海力士这类盈利兑现的存储链更占优势。\n\n"
+          }
+        ]
+      },
+      {
+        "move": "Enumerates drivers, highlights or disappointments as a numbered breakdown before giving a net verdict",
+        "example_ids": [
+          "2103831364172972489",
+          "2098236649851572669"
+        ],
+        "evidence": [
+          {
+            "handle": "ChinaMacroFacts",
+            "id": "2103831364172972489",
+            "text": "本轮访美成果低于我的预期，主要体现在几点：\n\n1. 美方没有明确表示不支持台独，这是中方最重要的博弈方向；\n\n2. 中方会后只提“贸易委员会”未提“投资委员会”，同时中方企业家未出席晚宴，说明对美投资计划落地短期不顺利；\n\n3. 中方未宣布大型采购计划；\n\n当然短期低于预期我认为"
+          },
+          {
+            "handle": "qinbafrank",
+            "id": "2098236649851572669",
+            "text": "关于甲骨文今天发布的最新财报，个人看法已经拿出更有说服力的算力交付和收入兑现数据。说说几个亮点：\n1、增速很强，而且增长规模已经足够大\n特别是甲骨文现在最重要的OCI业务（云、AI算力）过去几个季度的收入依次为：33.47亿 → 40.79亿 → 48.88亿 → 57.87亿 "
+          }
+        ]
+      },
+      {
+        "move": "Explains a current development through a cross-industry or historical analogy",
+        "example_ids": [
+          "2100477645108469802",
+          "2097622944562455006"
+        ],
+        "evidence": [
+          {
+            "handle": "techeconomyana",
+            "id": "2100477645108469802",
+            "text": "Anthropic 不让中国用户使用 Claude 模型，应该类比的是特斯拉不建上海工厂、不在中国市场销售电车。 长远来看，收益远大于损失。\n\n用不了 Claude 对中国GDP和全要素生产率的损害，避免蒸馏导致比亚迪一类竞品出现。Anthropic反而会获得更高的营收。"
+          },
+          {
+            "handle": "williamlab",
+            "id": "2097622944562455006",
+            "text": "经典新模型上来爆了，暂停新用户订阅保用户体验。\n\n算力还是远远远远不够啊。。算力中心建设速度赶不上大模型更新烧的速度。让我想到了3G时代网速赶不上互联网创新的速度。抖音啊直播啊这些都是憋到4G时代，网速拉满才爆发的。\n\n那什么是大模型时代的抖音呢？就是算力拉满时代的创新会是什么呢"
+          }
+        ]
+      },
+      {
+        "move": "Points back to the author's own earlier calls to frame the present event as a validation",
+        "example_ids": [
+          "2106315514419335630",
+          "2097968041900339680"
+        ],
+        "evidence": [
+          {
+            "handle": "qinbafrank",
+            "id": "2106315514419335630",
+            "text": "看到Blast准备关停了，也是唏嘘，当年也是大热项目，通过质押收益回馈用户以及稳定币也回传收益，再加上邀请制和积分空投模式在当时快速引爆，现在回头看在24年中写的“山寨认知迭代”的系列推文和“币市新常态”的提法（详细见引用的推文），基本上都被验证了。\n\n所谓“币市新常态”，就是加"
+          },
+          {
+            "handle": "qinbafrank",
+            "id": "2097968041900339680",
+            "text": "大饼近期是不是也快到一个拐点了？三周前大饼刚涨起来的时候很多人做空，当时聊到从时间维度上看行情能持续，得等到9月中下旬流动性考验来临的时候才会出现像样的调整。这马上进入到了9月中，确实考验也来了：\n1）油价站上了100以上；\n2）长债收益率也到了4.8%以上；\n对风险资产的压力其"
+          }
+        ]
+      },
+      {
+        "move": "Closes with an open question to readers or a rhetorical question instead of a summary",
+        "example_ids": [
+          "2097622944562455006",
+          "2106108243177078981"
+        ],
+        "evidence": [
+          {
+            "handle": "williamlab",
+            "id": "2097622944562455006",
+            "text": "经典新模型上来爆了，暂停新用户订阅保用户体验。\n\n算力还是远远远远不够啊。。算力中心建设速度赶不上大模型更新烧的速度。让我想到了3G时代网速赶不上互联网创新的速度。抖音啊直播啊这些都是憋到4G时代，网速拉满才爆发的。\n\n那什么是大模型时代的抖音呢？就是算力拉满时代的创新会是什么呢"
+          },
+          {
+            "handle": "TJ_Research",
+            "id": "2106108243177078981",
+            "text": "上年我11月份去硅谷时，用AI总结了AI公司的营收落地如图1，然后明天要在温哥华做线下，更新一下如图2，营收142B，一年不到5倍，明年线下我们再更新，我的预测1T。你们觉得会是多少？ https://t.co/K84xRJIya8"
+          }
+        ]
+      },
+      {
+        "move": "Discloses the author's own positioning or allocation choice as the practical takeaway",
+        "example_ids": [
+          "2099593237182685275",
+          "2101872314069454942"
+        ],
+        "evidence": [
+          {
+            "handle": "TJ_Research",
+            "id": "2099593237182685275",
+            "text": "今天硬件下跌，扫了一圈，很想加仓，但最后没有，主要因为现金仓位不多+很多标都没跌破7月份的位置。硬要加的话应该是 $NOK，现在的仓位有点少了。\n但我觉得今天的硬件下跌可以算是一个事件了，很多硬件的走势我看到了投降迹象。\nP.S. 我对于猜底部不是非常的拿手，“PACE” YOU"
+          },
+          {
+            "handle": "fannaoxiaoyang",
+            "id": "2101872314069454942",
+            "text": "我保留Q4回调7-15%，原因是若90-100美元的布油悬而未决，那就不能半场开香槟，庆祝长端拐点到来。\n\n我会更愿意把仓位放在确定性高的黄金+BTC+优质现金流股上。"
+          }
+        ]
+      }
+    ],
+    "tendencies": [
+      {
+        "tendency": "States personal views in the first person and openly labels them as the author's own reading",
+        "frequency": "usually",
+        "evidence_ids": [
+          "2087089467731640649",
+          "2081689209434493284",
+          "2081961366047359090"
+        ],
+        "evidence": [
+          {
+            "handle": "ChinaMacroFacts",
+            "id": "2087089467731640649",
+            "text": "最近不少人在讨论中国年内政策加码的机会，认为9月政治局有可能重演24年剧本。\n\n我认为可能性较小，且不论科技、出口、股市，仅仅基于最近的通胀数据看，核心通胀走势（考虑到黄金近年干扰太大，去除了“其他用品服务”这项）年内看，至少从宏观价格层面，看不到出“超常规逆周期政策”的机会。 "
+          },
+          {
+            "handle": "Btcxiaoyuan",
+            "id": "2081689209434493284",
+            "text": "美光：不是技术最强，但风险收益比更容易计算\n\n美光最近一个财季实现：\n\n营收约414.6亿美元\n同比增长约346%\nGAAP净利润约282.4亿美元\n经营现金流约253.9亿美元\n\n增长主要来自DRAM、HBM和NAND需求及价格同步上升。\n\n目前美光股价约920.95美元，市值"
+          },
+          {
+            "handle": "techeconomyana",
+            "id": "2081961366047359090",
+            "text": "Thinking Machines Lab 就属于完全误入歧途。搞模型微调，再发布一个开源模型，把自己的路往窄了走。现在创始人纷纷离开。\n\n虽然这些天开源模型非常热，但我再强调一次：开源模型和微调从来不是本轮大模型的主线，通用闭源模型的能力提升才是主线。"
+          }
+        ]
+      },
+      {
+        "tendency": "Ties forward-looking calls to upcoming catalysts and makes the conclusion depend on how those data come in",
+        "frequency": "often",
+        "evidence_ids": [
+          "2098232681867923910",
+          "2097968041900339680",
+          "2089599456375378393"
+        ],
+        "evidence": [
+          {
+            "handle": "TraderS18",
+            "id": "2098232681867923910",
+            "text": "如果今晚CPI符合预期，市场就仍然处在迷茫之后，这样美联储才能利益最大化\n\n这样9.16号FOMC会议上既可以按照沃什的言论：如果通胀没缓解就加息\n\n也可以按照沃勒言论：如果通胀没加剧就按兵不动\n\n这样两个人就都是对的，太鸡贼了，打得一手好算盘"
+          },
+          {
+            "handle": "qinbafrank",
+            "id": "2097968041900339680",
+            "text": "大饼近期是不是也快到一个拐点了？三周前大饼刚涨起来的时候很多人做空，当时聊到从时间维度上看行情能持续，得等到9月中下旬流动性考验来临的时候才会出现像样的调整。这马上进入到了9月中，确实考验也来了：\n1）油价站上了100以上；\n2）长债收益率也到了4.8%以上；\n对风险资产的压力其"
+          },
+          {
+            "handle": "Btcxiaoyuan",
+            "id": "2089599456375378393",
+            "text": "bitcoin:native \n本周真正决定美股和BTC的，不是AI，是美债。\n\n10Y重新逼近4.7%，说明市场交易的已不是“降不降息”，而是长期资金成本能不能真正下来。\n\n美股结构性偏多，BTC等待流动性确认。 AI内部继续分化，美光、海力士这类盈利兑现的存储链更占优势。\n\n"
+          }
+        ]
+      },
+      {
+        "tendency": "Lists several figures in a row (revenue, growth rates, estimates against actuals) as scaffolding before a qualitative judgment",
+        "frequency": "often",
+        "evidence_ids": [
+          "2092806262744654313",
+          "2098236649851572669",
+          "2099688546072412664"
+        ],
+        "evidence": [
+          {
+            "handle": "TraderS18",
+            "id": "2092806262744654313",
+            "text": "英伟达果然还是AI股的严父，盘后带着一众小弟集体反弹了\n\n但如果细看的话，财报出来的第一时间先下跌，直到CFO Kress在电话会上说FY2028营收预计增长70%情绪才转过来。\n\n对比财报数据和此前预期的话，确实都超过了，但没有极端利好：\n\n营收 962亿美元，市场预期约922"
+          },
+          {
+            "handle": "qinbafrank",
+            "id": "2098236649851572669",
+            "text": "关于甲骨文今天发布的最新财报，个人看法已经拿出更有说服力的算力交付和收入兑现数据。说说几个亮点：\n1、增速很强，而且增长规模已经足够大\n特别是甲骨文现在最重要的OCI业务（云、AI算力）过去几个季度的收入依次为：33.47亿 → 40.79亿 → 48.88亿 → 57.87亿 "
+          },
+          {
+            "handle": "MacroMargin",
+            "id": "2099688546072412664",
+            "text": "从涨跌分布看，环比上涨的城市数继续减少，一季度所谓“小阳春”之后持续收敛 https://t.co/RDABNr8Xzw"
+          }
+        ]
+      },
+      {
+        "tendency": "Relays another party's statement or news and attaches a brief personal interpretation or evaluation",
+        "frequency": "often",
+        "evidence_ids": [
+          "2090417089353826450",
+          "2093165866695471538",
+          "2103884241109225974"
+        ],
+        "evidence": [
+          {
+            "handle": "techeconomyana",
+            "id": "2090417089353826450",
+            "text": "任剑涛在15年前讲，中国经济出现无预警性停滞的风险。\n\n如果看社会消费品零售总额和固定资产投资这两个指标，中国经济毫无疑问发生了脆裂。"
+          },
+          {
+            "handle": "ChinaMacroFacts",
+            "id": "2093165866695471538",
+            "text": "$nvda 虽然业绩很好很强劲，但earning call上关于jalapeno的问题，jensen的回答显然不太让人满意，全是一些没有意义的正能量排比句，侧面看出来jensen是没准备好的。"
+          },
+          {
+            "handle": "PhyrexNi",
+            "id": "2103884241109225974",
+            "text": "川普表示，伊朗提出的方案他已经拒绝了。按照他的说法，伊朗想达成协议、立即开放霍尔木兹海峡，是因为封锁切断了收入，他们已经撑不住了。\n\n他还称，美国完全掌控海峡，封锁针对伊朗，其他船只仍可通行，前一晚有29艘船驶出。川普表示自己愿意达成协议，但这份方案无法接受。\n\n在今天白天川普的"
+          }
+        ]
+      },
+      {
+        "tendency": "Drops into a casual, ironic or mocking register for short reactions, often with an emoji as a tone marker",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2105733175804866673",
+          "2105715376893972495",
+          "2097709859861057613"
+        ],
+        "evidence": [
+          {
+            "handle": "PhyrexNi",
+            "id": "2105733175804866673",
+            "text": "说的应该是油价，都两年了，现在油价新高还是拜登的错。🤡🤡 https://t.co/NpArpZSNy0"
+          },
+          {
+            "handle": "TJ_Research",
+            "id": "2105715376893972495",
+            "text": "联储副主席杰佛森：在下一次的加息前，美联储可能需要更多的时间来决定。10月加息概率跌到30%。\n就问你们专不专业吧😉"
+          },
+          {
+            "handle": "MacroMargin",
+            "id": "2097709859861057613",
+            "text": "美国财政部公布不及预期的国债回购计划后，美国长债收益率大幅走高。\n\n这种频繁救市，又不断被市场打脸的节奏，是不是很熟悉？\n\n某种程度上，美国财政部部长 ≈ 中国证监会主席，都是火山口😅 https://t.co/g1Cn2h6v5W"
+          }
+        ]
+      },
+      {
+        "tendency": "Shares the author's own trades, cash level or allocation preference to ground the view",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2099593237182685275",
+          "2101872314069454942",
+          "2100860671915393416"
+        ],
+        "evidence": [
+          {
+            "handle": "TJ_Research",
+            "id": "2099593237182685275",
+            "text": "今天硬件下跌，扫了一圈，很想加仓，但最后没有，主要因为现金仓位不多+很多标都没跌破7月份的位置。硬要加的话应该是 $NOK，现在的仓位有点少了。\n但我觉得今天的硬件下跌可以算是一个事件了，很多硬件的走势我看到了投降迹象。\nP.S. 我对于猜底部不是非常的拿手，“PACE” YOU"
+          },
+          {
+            "handle": "fannaoxiaoyang",
+            "id": "2101872314069454942",
+            "text": "我保留Q4回调7-15%，原因是若90-100美元的布油悬而未决，那就不能半场开香槟，庆祝长端拐点到来。\n\n我会更愿意把仓位放在确定性高的黄金+BTC+优质现金流股上。"
+          },
+          {
+            "handle": "PhyrexNi",
+            "id": "2100860671915393416",
+            "text": "虽然和预期的有些出入，Bitcoin 在市场上的表现比预期的好太多了，本来我还以为叠加美国和日本的加息会对市场有些影响，但实际来看还是我想多了，市场的坚韧程度确实不错。\n\n所以我就像昨天作业中说的一样，重新开始启动双币投资，个人想法是在 73,000 美元到 75,000 美元之"
+          }
+        ]
+      },
+      {
+        "tendency": "Uses analogies to other sectors, countries or technology eras to make a mechanism intuitive",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2100477645108469802",
+          "2097622944562455006",
+          "2097709859861057613"
+        ],
+        "evidence": [
+          {
+            "handle": "techeconomyana",
+            "id": "2100477645108469802",
+            "text": "Anthropic 不让中国用户使用 Claude 模型，应该类比的是特斯拉不建上海工厂、不在中国市场销售电车。 长远来看，收益远大于损失。\n\n用不了 Claude 对中国GDP和全要素生产率的损害，避免蒸馏导致比亚迪一类竞品出现。Anthropic反而会获得更高的营收。"
+          },
+          {
+            "handle": "williamlab",
+            "id": "2097622944562455006",
+            "text": "经典新模型上来爆了，暂停新用户订阅保用户体验。\n\n算力还是远远远远不够啊。。算力中心建设速度赶不上大模型更新烧的速度。让我想到了3G时代网速赶不上互联网创新的速度。抖音啊直播啊这些都是憋到4G时代，网速拉满才爆发的。\n\n那什么是大模型时代的抖音呢？就是算力拉满时代的创新会是什么呢"
+          },
+          {
+            "handle": "MacroMargin",
+            "id": "2097709859861057613",
+            "text": "美国财政部公布不及预期的国债回购计划后，美国长债收益率大幅走高。\n\n这种频繁救市，又不断被市场打脸的节奏，是不是很熟悉？\n\n某种程度上，美国财政部部长 ≈ 中国证监会主席，都是火山口😅 https://t.co/g1Cn2h6v5W"
+          }
+        ]
+      },
+      {
+        "tendency": "Appends a sponsor or broker promotional line after the substantive content; this is a monetization artifact, not a transferable style feature",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2105814572376703272",
+          "2092806262744654313",
+          "2103884241109225974"
+        ],
+        "evidence": [
+          {
+            "handle": "qinbafrank",
+            "id": "2105814572376703272",
+            "text": "继周二晚美联储三把手威廉姆斯表态后，昨晚美联储二把手副主席杰斐逊也表态需要更多时间来评估通胀走势，暗示10月倾向于不加息。\n\n他的原话是“自我们9月会议以来，整个期限结构的收益率进一步上升，这是投资者正在重新评估演变中的宏观经济格局的迹象。我的同事和我需要形成我们自己的判断，这可"
+          },
+          {
+            "handle": "TraderS18",
+            "id": "2092806262744654313",
+            "text": "英伟达果然还是AI股的严父，盘后带着一众小弟集体反弹了\n\n但如果细看的话，财报出来的第一时间先下跌，直到CFO Kress在电话会上说FY2028营收预计增长70%情绪才转过来。\n\n对比财报数据和此前预期的话，确实都超过了，但没有极端利好：\n\n营收 962亿美元，市场预期约922"
+          },
+          {
+            "handle": "PhyrexNi",
+            "id": "2103884241109225974",
+            "text": "川普表示，伊朗提出的方案他已经拒绝了。按照他的说法，伊朗想达成协议、立即开放霍尔木兹海峡，是因为封锁切断了收入，他们已经撑不住了。\n\n他还称，美国完全掌控海峡，封锁针对伊朗，其他船只仍可通行，前一晚有29艘船驶出。川普表示自己愿意达成协议，但这份方案无法接受。\n\n在今天白天川普的"
+          }
+        ]
+      }
+    ],
+    "avoid_tendencies": [
+      {
+        "tendency": "Formal numbered-thread openers or tweet-count markers that announce a multi-part series",
+        "frequency": "almost_never",
+        "evidence_ids": [],
+        "evidence": []
+      },
+      {
+        "tendency": "Purely neutral, wire-style reporting with no evaluative word or implied stance",
+        "frequency": "rarely",
+        "evidence_ids": [
+          "2099688546072412664",
+          "2104680547968516565"
+        ],
+        "evidence": [
+          {
+            "handle": "MacroMargin",
+            "id": "2099688546072412664",
+            "text": "从涨跌分布看，环比上涨的城市数继续减少，一季度所谓“小阳春”之后持续收敛 https://t.co/RDABNr8Xzw"
+          },
+          {
+            "handle": "techeconomyana",
+            "id": "2104680547968516565",
+            "text": "Anthropic 内部的ECI模型能力指数，Sonnet 5.5为167.93，低于Opus 5.5的169.12。 https://t.co/eODbtiQ2kH"
+          }
+        ]
+      },
+      {
+        "tendency": "Formal sourcing apparatus such as citations, methodology notes or footnoted references",
+        "frequency": "almost_never",
+        "evidence_ids": [],
+        "evidence": []
+      }
+    ],
+    "variation_notes": "Length ranges from one-line reactions and single-data-point posts to multi-paragraph earnings or policy breakdowns. Median sentence length is about 32 characters, with a wide interquartile spread. Register moves from analyst-like structured lists to colloquial, sarcastic or lifestyle-adjacent asides. Some donors break posts into very short stacked lines, one clause per line, while others write dense paragraphs. Claim-led openings dominate, but question, quote, number-led and data-relay hooks all appear. About 40% of posts attach media. Emoji use is light and concentrated in short, ironic posts.",
+    "judgment_style": "Mostly assertive, with views stated as the author's own call, but often conditioned on specific upcoming data, meetings or price levels through explicit if/then framing. Probabilistic language and admissions of uncertainty appear sometimes, usually as a brief aside rather than extended hedging. Data mainly supports a pre-stated stance: figures are lined up to justify the verdict rather than explored neutrally. Forecasts are sometimes tied to the author's own positioning, and earlier calls are cited as a track record."
+  }
 }

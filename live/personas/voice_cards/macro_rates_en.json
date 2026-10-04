@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "cluster": "macro_rates_en",
   "lang": "en",
   "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
@@ -306,114 +306,255 @@
     "unknown": 0.046725,
     "view_relay": 0.202858
   },
-  "do": [
+  "tendencies": [
     {
-      "rule": "Lead with a clear judgment; use data to support it.",
+      "tendency": "States the conclusion up front, then supplies a compact datum or chart as support",
+      "frequency": "usually",
+      "evidence_ids": [
+        "2092847074551509396",
+        "2102750584415699397",
+        "2079569708412506139"
+      ],
       "evidence": [
         {
           "handle": "JeffSnider_EDU",
-          "id": "2087298009801605322",
-          "text": "Private credit is the new junk bond market. Except this one is opaque, illiquid, and about to be stress-tested.\n\nHere is how it happened. Th"
+          "id": "2092847074551509396",
+          "text": "Google just posted negative free cash flow for the first time since going public in 2004.\n\nNot a struggling startup. One of the most profita"
         },
         {
-          "handle": "JeffSnider_EDU",
-          "id": "2087358407556882834",
-          "text": "Nearly every credit transaction made today has an interest rate swap embedded in it somewhere, with dealers on both sides.\n\nWhich means swap"
+          "handle": "GlobalMktObserv",
+          "id": "2102750584415699397",
+          "text": "⚠️Market is EXTREMELY weak beneath the surface:\n\nJust 15% of S&P 500 industry groups are currently trading above their 10-week averages, mea"
         },
         {
-          "handle": "JeffSnider_EDU",
-          "id": "2087433906731528247",
-          "text": "Everyone's watching the Fed's next move like it's the whole story.\n\nBut the swap market is telling you something else entirely.\n\nDeeply nega"
-        },
-        {
-          "handle": "JeffSnider_EDU",
-          "id": "2087552892886548877",
-          "text": "Because govts have no f-ing idea how the world works...but they pretend they do.  \n\nStop listening to politicians, officials, and bureaucrat"
+          "handle": "jturek18",
+          "id": "2079569708412506139",
+          "text": "Now that AI capex is going to be issuance based instead of strictly FCF, guidance in Q2 earnings is now a bond market event as well."
         }
       ]
     },
     {
-      "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+      "tendency": "Relays other analysts', banks' or officials' views with explicit credit to the source",
+      "frequency": "often",
+      "evidence_ids": [
+        "2048031066535903439",
+        "2104243468671254617",
+        "2083203919988068372"
+      ],
       "evidence": [
         {
-          "handle": "JeffSnider_EDU",
-          "id": "2087298009801605322",
-          "text": "Private credit is the new junk bond market. Except this one is opaque, illiquid, and about to be stress-tested.\n\nHere is how it happened. Th"
+          "handle": "lisaabramowicz1",
+          "id": "2048031066535903439",
+          "text": "The world’s oil buffers are rapidly being depleted, with crude inventories poised to reach the lowest levels on record even if the Strait of"
         },
         {
-          "handle": "JeffSnider_EDU",
-          "id": "2087358407556882834",
-          "text": "Nearly every credit transaction made today has an interest rate swap embedded in it somewhere, with dealers on both sides.\n\nWhich means swap"
+          "handle": "BobEUnlimited",
+          "id": "2104243468671254617",
+          "text": "Some signs the hoped for a Milei miracle is starting to face macroeconomic realities, with inflation still elevated and growth collapsing in"
         },
         {
-          "handle": "JeffSnider_EDU",
-          "id": "2087433906731528247",
-          "text": "Everyone's watching the Fed's next move like it's the whole story.\n\nBut the swap market is telling you something else entirely.\n\nDeeply nega"
-        },
-        {
-          "handle": "JeffSnider_EDU",
-          "id": "2087552892886548877",
-          "text": "Because govts have no f-ing idea how the world works...but they pretend they do.  \n\nStop listening to politicians, officials, and bureaucrat"
-        }
-      ]
-    }
-  ],
-  "dont": [
-    {
-      "rule": "Do not copy donor wording, personal experience, facts or numbers.",
-      "evidence": [
-        {
-          "handle": "JeffSnider_EDU",
-          "id": "2087298009801605322",
-          "text": "Private credit is the new junk bond market. Except this one is opaque, illiquid, and about to be stress-tested.\n\nHere is how it happened. Th"
-        },
-        {
-          "handle": "JeffSnider_EDU",
-          "id": "2087358407556882834",
-          "text": "Nearly every credit transaction made today has an interest rate swap embedded in it somewhere, with dealers on both sides.\n\nWhich means swap"
-        },
-        {
-          "handle": "JeffSnider_EDU",
-          "id": "2087433906731528247",
-          "text": "Everyone's watching the Fed's next move like it's the whole story.\n\nBut the swap market is telling you something else entirely.\n\nDeeply nega"
-        },
-        {
-          "handle": "JeffSnider_EDU",
-          "id": "2087552892886548877",
-          "text": "Because govts have no f-ing idea how the world works...but they pretend they do.  \n\nStop listening to politicians, officials, and bureaucrat"
+          "handle": "NickTimiraos",
+          "id": "2083203919988068372",
+          "text": "The FOMC statement and the opening statement of Kevin Warsh's press conference provide some color on recent economic developments, and the l"
         }
       ]
     },
     {
-      "rule": "Do not convert observed confidence into an unsupported trade call.",
+      "tendency": "Explains causal chains (policy → prices → yields/credit) across several short paragraphs",
+      "frequency": "often",
+      "evidence_ids": [
+        "2104969658843746812",
+        "2104387349098492288",
+        "2026294272379490795"
+      ],
       "evidence": [
         {
           "handle": "JeffSnider_EDU",
-          "id": "2087298009801605322",
-          "text": "Private credit is the new junk bond market. Except this one is opaque, illiquid, and about to be stress-tested.\n\nHere is how it happened. Th"
+          "id": "2104969658843746812",
+          "text": "The stock market is quietly calling out private credit, and the funds cannot hide from it.\n\nThese BDCs report what their loans are worth. La"
         },
         {
-          "handle": "JeffSnider_EDU",
-          "id": "2087358407556882834",
-          "text": "Nearly every credit transaction made today has an interest rate swap embedded in it somewhere, with dealers on both sides.\n\nWhich means swap"
+          "handle": "NickTimiraos",
+          "id": "2104387349098492288",
+          "text": "In the early days of Trump’s second term, his economic advisers laid out a simple theory: Show the bond market that Washington was serious a"
         },
         {
-          "handle": "JeffSnider_EDU",
-          "id": "2087433906731528247",
-          "text": "Everyone's watching the Fed's next move like it's the whole story.\n\nBut the swap market is telling you something else entirely.\n\nDeeply nega"
+          "handle": "jturek18",
+          "id": "2026294272379490795",
+          "text": "This makes sense as Bessent wants to enforce his \"put\" in the long end. Bessent knows that for there to be a durable top in long end yields,"
+        }
+      ]
+    },
+    {
+      "tendency": "Flags uncertainty or calibrated confidence, distinguishing what the evidence does and does not show",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2100362693072871506",
+        "2045066576160780543",
+        "1905825291013915085"
+      ],
+      "evidence": [
+        {
+          "handle": "Brad_Setser",
+          "id": "2100362693072871506",
+          "text": "All I think can be said with confidence is that there is no good evidence of large Chinese sales -- and equally no good evidene of large Chi"
         },
         {
+          "handle": "lisaabramowicz1",
+          "id": "2045066576160780543",
+          "text": "(So far, few corporate CEOs (if any) have been able to give financial figures to earnings tied to AI, and relatively few have said they're c"
+        },
+        {
+          "handle": "DTAPCAP",
+          "id": "1905825291013915085",
+          "text": "Unlikely recession coming given Fed has room to cut interest rates--400bps possible to 0 if needed...\n\nBut this indicator has never been hig"
+        }
+      ]
+    },
+    {
+      "tendency": "Uses emphatic conviction markers such as capitalized words, rocket-style emoji or dismissive framing of opposing debates",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2087484038898389376",
+        "2100330912290357677",
+        "1908218093899550767"
+      ],
+      "evidence": [
+        {
+          "handle": "Convertbond",
+          "id": "2087484038898389376",
+          "text": "Gold vs. Bitcoin*\n\n1 Year: +30% vs. -47%\n2 Years: +76% vs. +7%\n3 Years: +125% vs. +116%\n5 Years: +144% vs +40%\n\n*Long-term track records &gt"
+        },
+        {
+          "handle": "BobEUnlimited",
+          "id": "2100330912290357677",
+          "text": "Rates remain far too low given current conditions.\n\nThose bickering over whether it’ll take one vs. two more hikes for the Fed to meet its m"
+        },
+        {
+          "handle": "DTAPCAP",
+          "id": "1908218093899550767",
+          "text": "\"Moment of realization\" for BTC.\n\nTariffs crushing analog markets and fears rampant with VIX at 40.\n\nAuthorities and co sitting by watching "
+        }
+      ]
+    },
+    {
+      "tendency": "Writes posts as continuation segments of a thread, opening mid-argument with a connective",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2100217833808347243",
+        "2079243122379288696",
+        "2105030970290086235"
+      ],
+      "evidence": [
+        {
+          "handle": "Brad_Setser",
+          "id": "2100217833808347243",
+          "text": "As impressive as the surge (a term used intentionally) in China's export of finished cars is, it is only part of the second China shock --\n\n"
+        },
+        {
+          "handle": "lisaabramowicz1",
+          "id": "2079243122379288696",
+          "text": "Still, it shows the degree to which investment-grade tech debt issued this year has almost universally lost value at a time of rising longer"
+        },
+        {
+          "handle": "Brad_Setser",
+          "id": "2105030970290086235",
+          "text": "And small differences add up over time -- the cumulative gap (mostly over the last 10ys) is now ~ $500b ... https://t.co/Tuhz8Xqk0r"
+        }
+      ]
+    },
+    {
+      "tendency": "Posts very short one- or two-line remarks that lean on an attached link or image for context",
+      "frequency": "often",
+      "evidence_ids": [
+        "2090062615280030122",
+        "2072676784227733645",
+        "2072709873754906958"
+      ],
+      "evidence": [
+        {
+          "handle": "Convertbond",
+          "id": "2090062615280030122",
+          "text": "Special thanks - Bloomberg terminal - USD look out below. They want USD LOWER. https://t.co/0GlZWC5Ivc"
+        },
+        {
+          "handle": "Convertbond",
+          "id": "2072676784227733645",
+          "text": "They lowered the \"target\" last summer to $21.25"
+        },
+        {
+          "handle": "cullenroche",
+          "id": "2072709873754906958",
+          "text": "The tracker is here if you want to follow it. \n\nhttps://t.co/NDoGV6voiQ"
+        }
+      ]
+    },
+    {
+      "tendency": "Mixes in self-referential promotion of own interviews, books or fund products",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2102902644813480115",
+        "2102469642371637503",
+        "2100548216936636541"
+      ],
+      "evidence": [
+        {
           "handle": "JeffSnider_EDU",
-          "id": "2087552892886548877",
-          "text": "Because govts have no f-ing idea how the world works...but they pretend they do.  \n\nStop listening to politicians, officials, and bureaucrat"
+          "id": "2102902644813480115",
+          "text": "new interview with @pboockvar just dropped\n\nyou can watch here"
+        },
+        {
+          "handle": "cullenroche",
+          "id": "2102469642371637503",
+          "text": "Very cool to see Your Perfect Portfolio on Christine Benz's recommended list of books. All 8 of these are fantastic. \n\n@awealthofcs @moneyov"
+        },
+        {
+          "handle": "BobEUnlimited",
+          "id": "2100548216936636541",
+          "text": "Excited to announce the prospectus filing for the Unlimited Unicorn Opportunities Fund I, a listed closed end fund holding equity exposure i"
         }
       ]
     }
   ],
-  "baseline_rules": {
-    "do": [
+  "avoid_tendencies": [
+    {
+      "tendency": "Opening with a numbered-list or 'here are N things' thread hook",
+      "frequency": "almost_never",
+      "evidence_ids": [],
+      "evidence": []
+    },
+    {
+      "tendency": "Purely personal or off-topic housekeeping posts unrelated to markets",
+      "frequency": "rarely",
+      "evidence_ids": [
+        "2047768443462557860"
+      ],
+      "evidence": [
+        {
+          "handle": "lisaabramowicz1",
+          "id": "2047768443462557860",
+          "text": "Robin Brooks has been hacked. He’s not trying to peddle crypto scams. For that matter, neither am I, despite the myriad imposters out there "
+        }
+      ]
+    },
+    {
+      "tendency": "Wire-style 'breaking' headline formatting as the main post structure",
+      "frequency": "rarely",
+      "evidence_ids": [],
+      "evidence": []
+    },
+    {
+      "tendency": "Explicit trade instructions with entries, stops or position sizing",
+      "frequency": "almost_never",
+      "evidence_ids": [],
+      "evidence": []
+    }
+  ],
+  "baseline_tendencies": {
+    "tendencies": [
       {
-        "rule": "Lead with a clear judgment; use data to support it.",
+        "frequency": "often",
+        "tendency": "Opens with a clear judgment, supported by observations.",
         "evidence": [
           {
             "handle": "JeffSnider_EDU",
@@ -438,7 +579,8 @@
         ]
       },
       {
-        "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+        "frequency": "often",
+        "tendency": "Uses claim-led openings, with sentences around the observed band.",
         "evidence": [
           {
             "handle": "JeffSnider_EDU",
@@ -463,9 +605,10 @@
         ]
       }
     ],
-    "dont": [
+    "avoid_tendencies": [
       {
-        "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+        "frequency": "almost_never",
+        "tendency": "Relies on another author’s personal experience or identity.",
         "evidence": [
           {
             "handle": "JeffSnider_EDU",
@@ -490,7 +633,8 @@
         ]
       },
       {
-        "rule": "Do not convert observed confidence into an unsupported trade call.",
+        "frequency": "rarely",
+        "tendency": "Turns confidence into an unsupported trade call.",
         "evidence": [
           {
             "handle": "JeffSnider_EDU",
@@ -516,5 +660,487 @@
       }
     ]
   },
-  "qualitative": {}
+  "qualitative": {
+    "voice_summary": "Market-commentary voice that is mostly data-forward and usually leads with a declarative claim about rates, credit, fiscal policy, FX or policy institutions, then backs it with a figure, chart or named source. Registers range from wire-like factual relays and calm mechanism explanations to blunt, emphatic conviction calls, with frequent attribution to other analysts and reporters.",
+    "hook_patterns": [
+      {
+        "pattern": "Declarative thesis or claim in the first line, with supporting detail after it",
+        "share_estimate": 0.75,
+        "example_ids": [
+          "2104969658843746812",
+          "2100330912290357677"
+        ],
+        "evidence": [
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2104969658843746812",
+            "text": "The stock market is quietly calling out private credit, and the funds cannot hide from it.\n\nThese BDCs report what their loans are worth. La"
+          },
+          {
+            "handle": "BobEUnlimited",
+            "id": "2100330912290357677",
+            "text": "Rates remain far too low given current conditions.\n\nThose bickering over whether it’ll take one vs. two more hikes for the Fed to meet its m"
+          }
+        ]
+      },
+      {
+        "pattern": "Contrast or turn opener: sets up a prevailing view or plan, then pivots to the reality that diverged from it",
+        "share_estimate": 0.08,
+        "example_ids": [
+          "2104387349098492288",
+          "1911632499857653898"
+        ],
+        "evidence": [
+          {
+            "handle": "NickTimiraos",
+            "id": "2104387349098492288",
+            "text": "In the early days of Trump’s second term, his economic advisers laid out a simple theory: Show the bond market that Washington was serious a"
+          },
+          {
+            "handle": "DTAPCAP",
+            "id": "1911632499857653898",
+            "text": "I admire what @POTUS,  @SecScottBessent, @elonmusk are doing on fiscal policy.\n\nBut if sentiment keeps falling it won't matter how sensible "
+          }
+        ]
+      },
+      {
+        "pattern": "Alert-style emoji flag followed by a capitalized-emphasis headline ending in a colon, then a single data point",
+        "share_estimate": 0.05,
+        "example_ids": [
+          "2102977764630392861",
+          "2102750584415699397"
+        ],
+        "evidence": [
+          {
+            "handle": "GlobalMktObserv",
+            "id": "2102977764630392861",
+            "text": "🚨The share of US Treasury debt held by the largest holders is FALLING:\n\nChina's Treasury holdings now represent just 6.8% of total Treasury "
+          },
+          {
+            "handle": "GlobalMktObserv",
+            "id": "2102750584415699397",
+            "text": "⚠️Market is EXTREMELY weak beneath the surface:\n\nJust 15% of S&P 500 industry groups are currently trading above their 10-week averages, mea"
+          }
+        ]
+      },
+      {
+        "pattern": "Rhetorical question opener that the post then answers or points to an external breakdown",
+        "share_estimate": 0.05,
+        "example_ids": [
+          "2101357429468299671",
+          "2088300977812320269"
+        ],
+        "evidence": [
+          {
+            "handle": "GlobalMktObserv",
+            "id": "2101357429468299671",
+            "text": "⚠️What is really driving higher Treasury yields?\n\nThe biggest structural driver is the surge in government borrowing, with fiscal factors ex"
+          },
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2088300977812320269",
+            "text": "Want to learn how to identify which investment environment you're actually in?\n\nI break down all four environments, the signals that define "
+          }
+        ]
+      },
+      {
+        "pattern": "Quote- or attribution-led opening that relays another speaker's or analyst's framing",
+        "share_estimate": 0.02,
+        "example_ids": [
+          "2071683877265903868"
+        ],
+        "evidence": [
+          {
+            "handle": "jturek18",
+            "id": "2071683877265903868",
+            "text": "Especially in light of Warsh's pivot away from guidance at June FOMC, I thought the way Lagarde framed it in her Sintra speech tonight was w"
+          }
+        ]
+      },
+      {
+        "pattern": "Company/ticker or number-led lead that names a concrete datum before interpreting it",
+        "share_estimate": 0.02,
+        "example_ids": [
+          "2092847074551509396",
+          "2031742187130454405"
+        ],
+        "evidence": [
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2092847074551509396",
+            "text": "Google just posted negative free cash flow for the first time since going public in 2004.\n\nNot a struggling startup. One of the most profita"
+          },
+          {
+            "handle": "jturek18",
+            "id": "2031742187130454405",
+            "text": "If you look at years that the $XLF was down 10% or more in Q1, the years that come up are:\n\n2002, 2008, 2009, 2020. \n\nDefinitely not boring "
+          }
+        ]
+      }
+    ],
+    "cadence_notes": "Deterministic stats show a median of about one post per day per donor. Activity concentrates in 13–17 UTC (US morning to midday) and stays meaningful into the US afternoon. It is lightest around 05–08 UTC. Roughly a quarter of posts are part of threads and nearly half carry media (charts/screenshots). Emoji appear in about one in nine posts, concentrated in a few donors. Sentences are short to medium (median ~11 words, interquartile ~5–21), and a mix of one-liners and multi-paragraph posts.",
+    "signature_moves": [
+      {
+        "move": "Step-by-step mechanism walk-through in short stacked paragraphs, building from an observed market signal to its implication",
+        "example_ids": [
+          "2104969658843746812",
+          "2092847074551509396"
+        ],
+        "evidence": [
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2104969658843746812",
+            "text": "The stock market is quietly calling out private credit, and the funds cannot hide from it.\n\nThese BDCs report what their loans are worth. La"
+          },
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2092847074551509396",
+            "text": "Google just posted negative free cash flow for the first time since going public in 2004.\n\nNot a struggling startup. One of the most profita"
+          }
+        ]
+      },
+      {
+        "move": "Side-by-side comparison table of returns across horizons followed by an emphatic footnoted caveat",
+        "example_ids": [
+          "2087484038898389376"
+        ],
+        "evidence": [
+          {
+            "handle": "Convertbond",
+            "id": "2087484038898389376",
+            "text": "Gold vs. Bitcoin*\n\n1 Year: +30% vs. -47%\n2 Years: +76% vs. +7%\n3 Years: +125% vs. +116%\n5 Years: +144% vs +40%\n\n*Long-term track records &gt"
+          }
+        ]
+      },
+      {
+        "move": "Numbered thread continuation markers, with posts that read as one segment of a longer argument",
+        "example_ids": [
+          "2100217833808347243",
+          "2100362693072871506"
+        ],
+        "evidence": [
+          {
+            "handle": "Brad_Setser",
+            "id": "2100217833808347243",
+            "text": "As impressive as the surge (a term used intentionally) in China's export of finished cars is, it is only part of the second China shock --\n\n"
+          },
+          {
+            "handle": "Brad_Setser",
+            "id": "2100362693072871506",
+            "text": "All I think can be said with confidence is that there is no good evidence of large Chinese sales -- and equally no good evidene of large Chi"
+          }
+        ]
+      },
+      {
+        "move": "Historical-analog enumeration: lists past years matching a condition and lets the pattern carry the point",
+        "example_ids": [
+          "2031742187130454405"
+        ],
+        "evidence": [
+          {
+            "handle": "jturek18",
+            "id": "2031742187130454405",
+            "text": "If you look at years that the $XLF was down 10% or more in Q1, the years that come up are:\n\n2002, 2008, 2009, 2020. \n\nDefinitely not boring "
+          }
+        ]
+      },
+      {
+        "move": "Reframing a common misconception by redefining the underlying economics",
+        "example_ids": [
+          "2065903718374203799",
+          "2100330912290357677"
+        ],
+        "evidence": [
+          {
+            "handle": "cullenroche",
+            "id": "2065903718374203799",
+            "text": "Some people actually think he took 1 trillion dollars from everyone else and is just hoarding it. No. \n\nHe GREW the pie 1 trillion dollars B"
+          },
+          {
+            "handle": "BobEUnlimited",
+            "id": "2100330912290357677",
+            "text": "Rates remain far too low given current conditions.\n\nThose bickering over whether it’ll take one vs. two more hikes for the Fed to meet its m"
+          }
+        ]
+      },
+      {
+        "move": "Policy-theory-versus-outcome narrative: states an official rationale, then explains why the outcome diverged",
+        "example_ids": [
+          "2104387349098492288"
+        ],
+        "evidence": [
+          {
+            "handle": "NickTimiraos",
+            "id": "2104387349098492288",
+            "text": "In the early days of Trump’s second term, his economic advisers laid out a simple theory: Show the bond market that Washington was serious a"
+          }
+        ]
+      },
+      {
+        "move": "Terse, imperative policy conclusions stacked as clipped lines after a brief setup",
+        "example_ids": [
+          "1905825291013915085",
+          "1911632499857653898"
+        ],
+        "evidence": [
+          {
+            "handle": "DTAPCAP",
+            "id": "1905825291013915085",
+            "text": "Unlikely recession coming given Fed has room to cut interest rates--400bps possible to 0 if needed...\n\nBut this indicator has never been hig"
+          },
+          {
+            "handle": "DTAPCAP",
+            "id": "1911632499857653898",
+            "text": "I admire what @POTUS,  @SecScottBessent, @elonmusk are doing on fiscal policy.\n\nBut if sentiment keeps falling it won't matter how sensible "
+          }
+        ]
+      }
+    ],
+    "tendencies": [
+      {
+        "tendency": "States the conclusion up front, then supplies a compact datum or chart as support",
+        "frequency": "usually",
+        "evidence_ids": [
+          "2092847074551509396",
+          "2102750584415699397",
+          "2079569708412506139"
+        ],
+        "evidence": [
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2092847074551509396",
+            "text": "Google just posted negative free cash flow for the first time since going public in 2004.\n\nNot a struggling startup. One of the most profita"
+          },
+          {
+            "handle": "GlobalMktObserv",
+            "id": "2102750584415699397",
+            "text": "⚠️Market is EXTREMELY weak beneath the surface:\n\nJust 15% of S&P 500 industry groups are currently trading above their 10-week averages, mea"
+          },
+          {
+            "handle": "jturek18",
+            "id": "2079569708412506139",
+            "text": "Now that AI capex is going to be issuance based instead of strictly FCF, guidance in Q2 earnings is now a bond market event as well."
+          }
+        ]
+      },
+      {
+        "tendency": "Relays other analysts', banks' or officials' views with explicit credit to the source",
+        "frequency": "often",
+        "evidence_ids": [
+          "2048031066535903439",
+          "2104243468671254617",
+          "2083203919988068372"
+        ],
+        "evidence": [
+          {
+            "handle": "lisaabramowicz1",
+            "id": "2048031066535903439",
+            "text": "The world’s oil buffers are rapidly being depleted, with crude inventories poised to reach the lowest levels on record even if the Strait of"
+          },
+          {
+            "handle": "BobEUnlimited",
+            "id": "2104243468671254617",
+            "text": "Some signs the hoped for a Milei miracle is starting to face macroeconomic realities, with inflation still elevated and growth collapsing in"
+          },
+          {
+            "handle": "NickTimiraos",
+            "id": "2083203919988068372",
+            "text": "The FOMC statement and the opening statement of Kevin Warsh's press conference provide some color on recent economic developments, and the l"
+          }
+        ]
+      },
+      {
+        "tendency": "Explains causal chains (policy → prices → yields/credit) across several short paragraphs",
+        "frequency": "often",
+        "evidence_ids": [
+          "2104969658843746812",
+          "2104387349098492288",
+          "2026294272379490795"
+        ],
+        "evidence": [
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2104969658843746812",
+            "text": "The stock market is quietly calling out private credit, and the funds cannot hide from it.\n\nThese BDCs report what their loans are worth. La"
+          },
+          {
+            "handle": "NickTimiraos",
+            "id": "2104387349098492288",
+            "text": "In the early days of Trump’s second term, his economic advisers laid out a simple theory: Show the bond market that Washington was serious a"
+          },
+          {
+            "handle": "jturek18",
+            "id": "2026294272379490795",
+            "text": "This makes sense as Bessent wants to enforce his \"put\" in the long end. Bessent knows that for there to be a durable top in long end yields,"
+          }
+        ]
+      },
+      {
+        "tendency": "Flags uncertainty or calibrated confidence, distinguishing what the evidence does and does not show",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2100362693072871506",
+          "2045066576160780543",
+          "1905825291013915085"
+        ],
+        "evidence": [
+          {
+            "handle": "Brad_Setser",
+            "id": "2100362693072871506",
+            "text": "All I think can be said with confidence is that there is no good evidence of large Chinese sales -- and equally no good evidene of large Chi"
+          },
+          {
+            "handle": "lisaabramowicz1",
+            "id": "2045066576160780543",
+            "text": "(So far, few corporate CEOs (if any) have been able to give financial figures to earnings tied to AI, and relatively few have said they're c"
+          },
+          {
+            "handle": "DTAPCAP",
+            "id": "1905825291013915085",
+            "text": "Unlikely recession coming given Fed has room to cut interest rates--400bps possible to 0 if needed...\n\nBut this indicator has never been hig"
+          }
+        ]
+      },
+      {
+        "tendency": "Uses emphatic conviction markers such as capitalized words, rocket-style emoji or dismissive framing of opposing debates",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2087484038898389376",
+          "2100330912290357677",
+          "1908218093899550767"
+        ],
+        "evidence": [
+          {
+            "handle": "Convertbond",
+            "id": "2087484038898389376",
+            "text": "Gold vs. Bitcoin*\n\n1 Year: +30% vs. -47%\n2 Years: +76% vs. +7%\n3 Years: +125% vs. +116%\n5 Years: +144% vs +40%\n\n*Long-term track records &gt"
+          },
+          {
+            "handle": "BobEUnlimited",
+            "id": "2100330912290357677",
+            "text": "Rates remain far too low given current conditions.\n\nThose bickering over whether it’ll take one vs. two more hikes for the Fed to meet its m"
+          },
+          {
+            "handle": "DTAPCAP",
+            "id": "1908218093899550767",
+            "text": "\"Moment of realization\" for BTC.\n\nTariffs crushing analog markets and fears rampant with VIX at 40.\n\nAuthorities and co sitting by watching "
+          }
+        ]
+      },
+      {
+        "tendency": "Writes posts as continuation segments of a thread, opening mid-argument with a connective",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2100217833808347243",
+          "2079243122379288696",
+          "2105030970290086235"
+        ],
+        "evidence": [
+          {
+            "handle": "Brad_Setser",
+            "id": "2100217833808347243",
+            "text": "As impressive as the surge (a term used intentionally) in China's export of finished cars is, it is only part of the second China shock --\n\n"
+          },
+          {
+            "handle": "lisaabramowicz1",
+            "id": "2079243122379288696",
+            "text": "Still, it shows the degree to which investment-grade tech debt issued this year has almost universally lost value at a time of rising longer"
+          },
+          {
+            "handle": "Brad_Setser",
+            "id": "2105030970290086235",
+            "text": "And small differences add up over time -- the cumulative gap (mostly over the last 10ys) is now ~ $500b ... https://t.co/Tuhz8Xqk0r"
+          }
+        ]
+      },
+      {
+        "tendency": "Posts very short one- or two-line remarks that lean on an attached link or image for context",
+        "frequency": "often",
+        "evidence_ids": [
+          "2090062615280030122",
+          "2072676784227733645",
+          "2072709873754906958"
+        ],
+        "evidence": [
+          {
+            "handle": "Convertbond",
+            "id": "2090062615280030122",
+            "text": "Special thanks - Bloomberg terminal - USD look out below. They want USD LOWER. https://t.co/0GlZWC5Ivc"
+          },
+          {
+            "handle": "Convertbond",
+            "id": "2072676784227733645",
+            "text": "They lowered the \"target\" last summer to $21.25"
+          },
+          {
+            "handle": "cullenroche",
+            "id": "2072709873754906958",
+            "text": "The tracker is here if you want to follow it. \n\nhttps://t.co/NDoGV6voiQ"
+          }
+        ]
+      },
+      {
+        "tendency": "Mixes in self-referential promotion of own interviews, books or fund products",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2102902644813480115",
+          "2102469642371637503",
+          "2100548216936636541"
+        ],
+        "evidence": [
+          {
+            "handle": "JeffSnider_EDU",
+            "id": "2102902644813480115",
+            "text": "new interview with @pboockvar just dropped\n\nyou can watch here"
+          },
+          {
+            "handle": "cullenroche",
+            "id": "2102469642371637503",
+            "text": "Very cool to see Your Perfect Portfolio on Christine Benz's recommended list of books. All 8 of these are fantastic. \n\n@awealthofcs @moneyov"
+          },
+          {
+            "handle": "BobEUnlimited",
+            "id": "2100548216936636541",
+            "text": "Excited to announce the prospectus filing for the Unlimited Unicorn Opportunities Fund I, a listed closed end fund holding equity exposure i"
+          }
+        ]
+      }
+    ],
+    "avoid_tendencies": [
+      {
+        "tendency": "Opening with a numbered-list or 'here are N things' thread hook",
+        "frequency": "almost_never",
+        "evidence_ids": [],
+        "evidence": []
+      },
+      {
+        "tendency": "Purely personal or off-topic housekeeping posts unrelated to markets",
+        "frequency": "rarely",
+        "evidence_ids": [
+          "2047768443462557860"
+        ],
+        "evidence": [
+          {
+            "handle": "lisaabramowicz1",
+            "id": "2047768443462557860",
+            "text": "Robin Brooks has been hacked. He’s not trying to peddle crypto scams. For that matter, neither am I, despite the myriad imposters out there "
+          }
+        ]
+      },
+      {
+        "tendency": "Wire-style 'breaking' headline formatting as the main post structure",
+        "frequency": "rarely",
+        "evidence_ids": [],
+        "evidence": []
+      },
+      {
+        "tendency": "Explicit trade instructions with entries, stops or position sizing",
+        "frequency": "almost_never",
+        "evidence_ids": [],
+        "evidence": []
+      }
+    ],
+    "variation_notes": "Length ranges widely within the cluster. Some posts are bare one-liners pointing to a chart or link, and others are five- to six-paragraph mechanism explainers. Register shifts by donor. Some read like neutral reporting or wire relays, others like measured economist commentary, and others like loud alert-style or conviction-heavy trading takes with emoji and capitals. Most hooks are plain claims. Contrast turns, alert-flag headlines, questions, quotes and number-led openers each appear only in a minority of posts. The post-type mix leans toward data takes and view relays, with hot takes and mechanism explainers also common.",
+    "judgment_style": "Mostly assertive, with views stated as conclusions rather than questions. Several donors deliberately hedge, saying evidence is inconclusive in both directions, using conditional thresholds, or presenting a scenario as 'unlikely, but'. Data usually serves as support for a stated view rather than standing alone, though a notable share of posts relay a datum or another analyst's call with little added opinion. Conditional and causal phrasing is common in policy and rates posts. The more emphatic donors pair a single indicator with a strong directional call."
+  }
 }

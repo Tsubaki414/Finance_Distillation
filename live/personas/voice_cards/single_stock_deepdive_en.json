@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "cluster": "single_stock_deepdive_en",
   "lang": "en",
   "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
@@ -322,114 +322,251 @@
     "unknown": 0.014773,
     "view_relay": 0.147761
   },
-  "do": [
+  "tendencies": [
     {
-      "rule": "Lead with a clear judgment; use data to support it.",
+      "tendency": "Anchors the post on a specific company datapoint and then reads what it implies for the company or its competitors",
+      "frequency": "usually",
+      "evidence_ids": [
+        "2097317808254136404",
+        "2105357140751679791",
+        "2087874930020843936"
+      ],
       "evidence": [
         {
-          "handle": "EconomyApp",
-          "id": "2049152412385185834",
-          "text": "$SPOT Spotify Q1 FY26:\n\n• MAU +12% to 761M.\n• Premium Subs +9% to 293M.\n• Revenue +8% Y/Y to €4.5B (€10M beat).\n• Operating margin 16% (+4pp"
+          "handle": "jpinsights",
+          "id": "2097317808254136404",
+          "text": "$AMZN just added another name to the custom silicon race.\n\nAWS and Qualcomm will co-develop AI inference chips across multiple product gener"
         },
         {
-          "handle": "EconomyApp",
-          "id": "2049152420501234166",
-          "text": "More earnings visualized here 👇\nhttps://t.co/umrnpym1ff"
+          "handle": "leadlagreport",
+          "id": "2105357140751679791",
+          "text": "$KMX sold about 14% more used cars in Q2. Gross profit per car fell $111 to $2,105.\n\nRetail gross profit still rose about 8%.\n\nGiving up mar"
         },
         {
-          "handle": "EconomyApp",
-          "id": "2049585307734122849",
-          "text": "$GOOG Alphabet Q1 FY26:\n\n• Revenue +22% Y/Y to $109.9B ($2.9B beat).\n• Operating margin 36% (+2pp Y/Y).\n• $37.7B net gains from equity inves"
-        },
-        {
-          "handle": "EconomyApp",
-          "id": "2049585310552732017",
-          "text": "Stay tuned for our review of $GOOG Google's earnings delivered to your inbox this afternoon!\n\nJoin 300,000+ subscribers.\n\nDid you read our N"
+          "handle": "RJCcapital",
+          "id": "2087874930020843936",
+          "text": "$NBIS - Nebius is expanding its UK AI infrastructure footprint with a new deployment at Vantage’s CWL1 campus in Newport, the first such dep"
         }
       ]
     },
     {
-      "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+      "tendency": "Builds an argument through stacked one-sentence paragraphs that land on a compact closing verdict",
+      "frequency": "often",
+      "evidence_ids": [
+        "2102911315836535273",
+        "2102901937536430202",
+        "2089322171189415949"
+      ],
       "evidence": [
         {
-          "handle": "EconomyApp",
-          "id": "2049152412385185834",
-          "text": "$SPOT Spotify Q1 FY26:\n\n• MAU +12% to 761M.\n• Premium Subs +9% to 293M.\n• Revenue +8% Y/Y to €4.5B (€10M beat).\n• Operating margin 16% (+4pp"
+          "handle": "StockMarketNerd",
+          "id": "2102911315836535273",
+          "text": "$META new VR glasses “on track to be sold without a loss” … at a third of the cost of $AAPL Vision Pro.\n\nObviously this is never going to en"
         },
         {
-          "handle": "EconomyApp",
-          "id": "2049152420501234166",
-          "text": "More earnings visualized here 👇\nhttps://t.co/umrnpym1ff"
+          "handle": "StockMarketNerd",
+          "id": "2102901937536430202",
+          "text": "$META announcing a slew of new connectors for Muse just now.\n\nIncluding:\n\nWalmart, Best Buy, Dick's, Instacart, Gap, Expedia, Turo and many "
         },
         {
-          "handle": "EconomyApp",
-          "id": "2049585307734122849",
-          "text": "$GOOG Alphabet Q1 FY26:\n\n• Revenue +22% Y/Y to $109.9B ($2.9B beat).\n• Operating margin 36% (+2pp Y/Y).\n• $37.7B net gains from equity inves"
-        },
-        {
-          "handle": "EconomyApp",
-          "id": "2049585310552732017",
-          "text": "Stay tuned for our review of $GOOG Google's earnings delivered to your inbox this afternoon!\n\nJoin 300,000+ subscribers.\n\nDid you read our N"
-        }
-      ]
-    }
-  ],
-  "dont": [
-    {
-      "rule": "Do not copy donor wording, personal experience, facts or numbers.",
-      "evidence": [
-        {
-          "handle": "EconomyApp",
-          "id": "2049152412385185834",
-          "text": "$SPOT Spotify Q1 FY26:\n\n• MAU +12% to 761M.\n• Premium Subs +9% to 293M.\n• Revenue +8% Y/Y to €4.5B (€10M beat).\n• Operating margin 16% (+4pp"
-        },
-        {
-          "handle": "EconomyApp",
-          "id": "2049152420501234166",
-          "text": "More earnings visualized here 👇\nhttps://t.co/umrnpym1ff"
-        },
-        {
-          "handle": "EconomyApp",
-          "id": "2049585307734122849",
-          "text": "$GOOG Alphabet Q1 FY26:\n\n• Revenue +22% Y/Y to $109.9B ($2.9B beat).\n• Operating margin 36% (+2pp Y/Y).\n• $37.7B net gains from equity inves"
-        },
-        {
-          "handle": "EconomyApp",
-          "id": "2049585310552732017",
-          "text": "Stay tuned for our review of $GOOG Google's earnings delivered to your inbox this afternoon!\n\nJoin 300,000+ subscribers.\n\nDid you read our N"
+          "handle": "JaradCapital",
+          "id": "2089322171189415949",
+          "text": "$SNAP dipped -13% premarket and fully recovered before most retails even woke up\n\nNo material news. Probably just institutional rebalancing "
         }
       ]
     },
     {
-      "rule": "Do not convert observed confidence into an unsupported trade call.",
+      "tendency": "Discloses a personal position, addition or holding history to frame the view",
+      "frequency": "often",
+      "evidence_ids": [
+        "2099944154465976747",
+        "2091598951136788746",
+        "2091661758628831597"
+      ],
+      "evidence": [
+        {
+          "handle": "jpinsights",
+          "id": "2099944154465976747",
+          "text": "Thought I was getting a good deal buying the “dip” in $AVGO at $390.\n\nBroadcom keeps falling while the business gives me more reasons to own"
+        },
+        {
+          "handle": "JaradCapital",
+          "id": "2091598951136788746",
+          "text": "The more I look at $APP here at ~15x 2027E earnings, the harder it gets not to add to my position\n\nYou can haircut consensus EPS by a massiv"
+        },
+        {
+          "handle": "FromValue",
+          "id": "2091661758628831597",
+          "text": "Tobi was the reason why I have been holding $SHOP shares since February 2017 ($5.58) and made it the first Potential Multibaggers pick in Ma"
+        }
+      ]
+    },
+    {
+      "tendency": "Relays a headline, chart or quarter snapshot with minimal or no added commentary",
+      "frequency": "often",
+      "evidence_ids": [
+        "2095815048702632180",
+        "2105390929448521922",
+        "2092929482143252592"
+      ],
+      "evidence": [
+        {
+          "handle": "Invesquotes",
+          "id": "2095815048702632180",
+          "text": "David Wadhwani announces he is leaving $ADBE https://t.co/JJc7cOWGJ5"
+        },
+        {
+          "handle": "StockMarketNerd",
+          "id": "2105390929448521922",
+          "text": "Snapshot of another elite $MU quarter: https://t.co/uJuOrF47da"
+        },
+        {
+          "handle": "Invesquotes",
+          "id": "2092929482143252592",
+          "text": "The $IGV today after strong $CRM, $VEEV and $NVDA earnings https://t.co/MYKG8ppEEQ"
+        }
+      ]
+    },
+    {
+      "tendency": "Qualifies a read with explicit self-doubt or a caveat about how far the conclusion goes",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2096915702191951915",
+        "2097317808254136404"
+      ],
+      "evidence": [
+        {
+          "handle": "Invesquotes",
+          "id": "2096915702191951915",
+          "text": "I might be very wrong here, but why is AGI good for the labs long term? \n\nIf OpenAI achieved AGI, that likely means that other model provide"
+        },
+        {
+          "handle": "jpinsights",
+          "id": "2097317808254136404",
+          "text": "$AMZN just added another name to the custom silicon race.\n\nAWS and Qualcomm will co-develop AI inference chips across multiple product gener"
+        }
+      ]
+    },
+    {
+      "tendency": "Positions the view against a named person or a prevailing bear or bull narrative",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2095154161876947205",
+        "2095238862612152596",
+        "2096684599799632216"
+      ],
+      "evidence": [
+        {
+          "handle": "garyblack00",
+          "id": "2095154161876947205",
+          "text": "Not sure why otherwise smart people like @farzyness don’t get this about $UBER - more autonomous vehicles from multiple manufacturers will a"
+        },
+        {
+          "handle": "jpinsights",
+          "id": "2095238862612152596",
+          "text": "$CRDO Imagine using “Credo didn’t surprise by as much as they usually do” as part of the bear case.\n\nWe’ve known for a while that H2 is wher"
+        },
+        {
+          "handle": "garyblack00",
+          "id": "2096684599799632216",
+          "text": "John is a long-time $TSLA bull who  attacks anyone who questions the TSLA bull story.  I was right in making $TSLA one of my biggest long po"
+        }
+      ]
+    },
+    {
+      "tendency": "Uses valuation multiples or price levels as the main support for a directional call",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2082037502521618616",
+        "2077754276974149964",
+        "2091598951136788746"
+      ],
+      "evidence": [
+        {
+          "handle": "garyblack00",
+          "id": "2082037502521618616",
+          "text": "I expect $TSLA to fall below $300/share and $SPCX to break $100/share in the coming weeks on valuation concerns. Both trade at FY’26 P/E in "
+        },
+        {
+          "handle": "DeepSailCapital",
+          "id": "2077754276974149964",
+          "text": "$OUST - back to $35.  Much more reasonable valuation."
+        },
+        {
+          "handle": "JaradCapital",
+          "id": "2091598951136788746",
+          "text": "The more I look at $APP here at ~15x 2027E earnings, the harder it gets not to add to my position\n\nYou can haircut consensus EPS by a massiv"
+        }
+      ]
+    },
+    {
+      "tendency": "Addresses the audience directly with a promotion of own content or an open request for ideas",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2052484290831859939",
+        "2092653927892226330",
+        "2074466516200775755"
+      ],
       "evidence": [
         {
           "handle": "EconomyApp",
-          "id": "2049152412385185834",
-          "text": "$SPOT Spotify Q1 FY26:\n\n• MAU +12% to 761M.\n• Premium Subs +9% to 293M.\n• Revenue +8% Y/Y to €4.5B (€10M beat).\n• Operating margin 16% (+4pp"
+          "id": "2052484290831859939",
+          "text": "If you like this, you'll love our newsletter!\n\nHundreds of visuals every earnings season.\n\nJoin 300,000+ subscribers. 👇\nhttps://t.co/xTJlfss"
         },
         {
-          "handle": "EconomyApp",
-          "id": "2049152420501234166",
-          "text": "More earnings visualized here 👇\nhttps://t.co/umrnpym1ff"
+          "handle": "jpinsights",
+          "id": "2092653927892226330",
+          "text": "Been a while since I showed up on the Trending list. Nice to be back.\n\nIf you like investing in the companies selling the picks and shovels "
         },
         {
-          "handle": "EconomyApp",
-          "id": "2049585307734122849",
-          "text": "$GOOG Alphabet Q1 FY26:\n\n• Revenue +22% Y/Y to $109.9B ($2.9B beat).\n• Operating margin 36% (+2pp Y/Y).\n• $37.7B net gains from equity inves"
-        },
-        {
-          "handle": "EconomyApp",
-          "id": "2049585310552732017",
-          "text": "Stay tuned for our review of $GOOG Google's earnings delivered to your inbox this afternoon!\n\nJoin 300,000+ subscribers.\n\nDid you read our N"
+          "handle": "DeepSailCapital",
+          "id": "2074466516200775755",
+          "text": "Semi Regular Thread:    What is your best short idea right now?  Please provide ticker and reason why.    \n\n#shortidea"
         }
       ]
     }
   ],
-  "baseline_rules": {
-    "do": [
+  "avoid_tendencies": [
+    {
+      "tendency": "Long formal compliance-style paragraphs written in regulatory register",
+      "frequency": "rarely",
+      "evidence_ids": [
+        "2102130255406199240"
+      ],
+      "evidence": [
+        {
+          "handle": "leadlagreport",
+          "id": "2102130255406199240",
+          "text": "The performance data quoted represents past performance and is no guarantee of future results. Investment return and principal value of an i"
+        }
+      ]
+    },
+    {
+      "tendency": "Posts with no market or company content at all, such as personal or hobby updates",
+      "frequency": "rarely",
+      "evidence_ids": [
+        "2086967135394312255"
+      ],
+      "evidence": [
+        {
+          "handle": "RJCcapital",
+          "id": "2086967135394312255",
+          "text": "just hired @gmoneyNFT to turn my latest art piece into an NFT https://t.co/vIUmsvfAAI"
+        }
+      ]
+    },
+    {
+      "tendency": "Heavy hashtag use as an organizing device",
+      "frequency": "almost_never",
+      "evidence_ids": [],
+      "evidence": []
+    }
+  ],
+  "baseline_tendencies": {
+    "tendencies": [
       {
-        "rule": "Lead with a clear judgment; use data to support it.",
+        "frequency": "often",
+        "tendency": "Opens with a clear judgment, supported by observations.",
         "evidence": [
           {
             "handle": "EconomyApp",
@@ -454,7 +591,8 @@
         ]
       },
       {
-        "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+        "frequency": "often",
+        "tendency": "Uses claim-led openings, with sentences around the observed band.",
         "evidence": [
           {
             "handle": "EconomyApp",
@@ -479,9 +617,10 @@
         ]
       }
     ],
-    "dont": [
+    "avoid_tendencies": [
       {
-        "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+        "frequency": "almost_never",
+        "tendency": "Relies on another author’s personal experience or identity.",
         "evidence": [
           {
             "handle": "EconomyApp",
@@ -506,7 +645,8 @@
         ]
       },
       {
-        "rule": "Do not convert observed confidence into an unsupported trade call.",
+        "frequency": "rarely",
+        "tendency": "Turns confidence into an unsupported trade call.",
         "evidence": [
           {
             "handle": "EconomyApp",
@@ -532,5 +672,433 @@
       }
     ]
   },
-  "qualitative": {}
+  "qualitative": {
+    "voice_summary": "A ticker-first, data-heavy voice that mostly reacts to earnings, product news and valuation moves within a few lines, often with a first-person stake in the name. Output ranges from a bare relay or chart pointer to short mechanism explanations that stack one-line paragraphs toward a verdict. Tone is conversational and confident, sometimes combative or promotional, with hedges used selectively rather than by default.",
+    "hook_patterns": [
+      {
+        "pattern": "Opens with a cashtag followed by a dash or colon, then a terse verdict or fact",
+        "share_estimate": 0.19,
+        "example_ids": [
+          "2077754276974149964",
+          "2087874930020843936"
+        ],
+        "evidence": [
+          {
+            "handle": "DeepSailCapital",
+            "id": "2077754276974149964",
+            "text": "$OUST - back to $35.  Much more reasonable valuation."
+          },
+          {
+            "handle": "RJCcapital",
+            "id": "2087874930020843936",
+            "text": "$NBIS - Nebius is expanding its UK AI infrastructure footprint with a new deployment at Vantage’s CWL1 campus in Newport, the first such dep"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens with a declarative claim or observation and no framing device",
+        "share_estimate": 0.6,
+        "example_ids": [
+          "2102901937536430202",
+          "2091868621458801150"
+        ],
+        "evidence": [
+          {
+            "handle": "StockMarketNerd",
+            "id": "2102901937536430202",
+            "text": "$META announcing a slew of new connectors for Muse just now.\n\nIncluding:\n\nWalmart, Best Buy, Dick's, Instacart, Gap, Expedia, Turo and many "
+          },
+          {
+            "handle": "JaradCapital",
+            "id": "2091868621458801150",
+            "text": "Stocks don’t bottom on good news. They bottom when bad news stops getting worse\n\nBy the time the headlines turn positive, the stock has alre"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens by setting up an opposing view or bear argument in order to push back on it",
+        "share_estimate": 0.05,
+        "example_ids": [
+          "2095238862612152596",
+          "2095154161876947205"
+        ],
+        "evidence": [
+          {
+            "handle": "jpinsights",
+            "id": "2095238862612152596",
+            "text": "$CRDO Imagine using “Credo didn’t surprise by as much as they usually do” as part of the bear case.\n\nWe’ve known for a while that H2 is wher"
+          },
+          {
+            "handle": "garyblack00",
+            "id": "2095154161876947205",
+            "text": "Not sure why otherwise smart people like @farzyness don’t get this about $UBER - more autonomous vehicles from multiple manufacturers will a"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens with an emoji marker that points to a chart, visual or report",
+        "share_estimate": 0.06,
+        "example_ids": [
+          "2054202080097874187",
+          "2084740124890595553"
+        ],
+        "evidence": [
+          {
+            "handle": "EconomyApp",
+            "id": "2054202080097874187",
+            "text": "🎮 AI is raising costs for Sony and Nintendo.\n\nThe memory crunch pushed both to raise hardware prices to defend margins.\n\nInvestors see the c"
+          },
+          {
+            "handle": "EconomyApp",
+            "id": "2084740124890595553",
+            "text": "📊 Check out the latest monthly report with 100+ companies visualized.\nhttps://t.co/2qiie7Wpnf"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens with a direct question to the audience or an open conceptual question",
+        "share_estimate": 0.04,
+        "example_ids": [
+          "2075941206052233268",
+          "2096915702191951915"
+        ],
+        "evidence": [
+          {
+            "handle": "DeepSailCapital",
+            "id": "2075941206052233268",
+            "text": "With earnings season coming up, what small cap company earnings are you most excited for or think could be game changing for the company?"
+          },
+          {
+            "handle": "Invesquotes",
+            "id": "2096915702191951915",
+            "text": "I might be very wrong here, but why is AGI good for the labs long term? \n\nIf OpenAI achieved AGI, that likely means that other model provide"
+          }
+        ]
+      },
+      {
+        "pattern": "Numbered thread segment that continues a longer multi-post argument",
+        "share_estimate": 0.02,
+        "example_ids": [
+          "2091154061546422539"
+        ],
+        "evidence": [
+          {
+            "handle": "garyblack00",
+            "id": "2091154061546422539",
+            "text": "3/ Opening arguments began on Tuesday, and Bonta reminded reporters after the first day that the trial centers around \"civil penalties, rest"
+          }
+        ]
+      }
+    ],
+    "cadence_notes": "Median around two posts per day per donor, concentrated in US market hours with peaks near the open and again in the late afternoon UTC; overnight activity is thin. Sentences are short, typically around nine words, and roughly one in six posts belongs to a thread. Activity clusters around earnings releases and company events, when several quick reactions may follow one another.",
+    "signature_moves": [
+      {
+        "move": "States the reported numbers first, then gives a one-line interpretation and names what to monitor next",
+        "example_ids": [
+          "2105357140751679791"
+        ],
+        "evidence": [
+          {
+            "handle": "leadlagreport",
+            "id": "2105357140751679791",
+            "text": "$KMX sold about 14% more used cars in Q2. Gross profit per car fell $111 to $2,105.\n\nRetail gross profit still rose about 8%.\n\nGiving up mar"
+          }
+        ]
+      },
+      {
+        "move": "Concedes an apparent weakness, then pivots to argue that it does not matter for the business model",
+        "example_ids": [
+          "2102911315836535273"
+        ],
+        "evidence": [
+          {
+            "handle": "StockMarketNerd",
+            "id": "2102911315836535273",
+            "text": "$META new VR glasses “on track to be sold without a loss” … at a third of the cost of $AAPL Vision Pro.\n\nObviously this is never going to en"
+          }
+        ]
+      },
+      {
+        "move": "Stress-tests a valuation by applying a hypothetical haircut to consensus and showing the multiple stays reasonable",
+        "example_ids": [
+          "2091598951136788746"
+        ],
+        "evidence": [
+          {
+            "handle": "JaradCapital",
+            "id": "2091598951136788746",
+            "text": "The more I look at $APP here at ~15x 2027E earnings, the harder it gets not to add to my position\n\nYou can haircut consensus EPS by a massiv"
+          }
+        ]
+      },
+      {
+        "move": "Delivers a general market maxim and then attaches specific tickers it applies to",
+        "example_ids": [
+          "2091868621458801150"
+        ],
+        "evidence": [
+          {
+            "handle": "JaradCapital",
+            "id": "2091868621458801150",
+            "text": "Stocks don’t bottom on good news. They bottom when bad news stops getting worse\n\nBy the time the headlines turn positive, the stock has alre"
+          }
+        ]
+      },
+      {
+        "move": "Reasons from an observed scarcity of imitators to an inference that the model is harder than it looks",
+        "example_ids": [
+          "2103161433953599531"
+        ],
+        "evidence": [
+          {
+            "handle": "Invesquotes",
+            "id": "2103161433953599531",
+            "text": "What $CSU.TO and its universe does seems “simple” enough but you can’t find anything similar when looking at 99.9% of serial acquirers so th"
+          }
+        ]
+      }
+    ],
+    "tendencies": [
+      {
+        "tendency": "Anchors the post on a specific company datapoint and then reads what it implies for the company or its competitors",
+        "frequency": "usually",
+        "evidence_ids": [
+          "2097317808254136404",
+          "2105357140751679791",
+          "2087874930020843936"
+        ],
+        "evidence": [
+          {
+            "handle": "jpinsights",
+            "id": "2097317808254136404",
+            "text": "$AMZN just added another name to the custom silicon race.\n\nAWS and Qualcomm will co-develop AI inference chips across multiple product gener"
+          },
+          {
+            "handle": "leadlagreport",
+            "id": "2105357140751679791",
+            "text": "$KMX sold about 14% more used cars in Q2. Gross profit per car fell $111 to $2,105.\n\nRetail gross profit still rose about 8%.\n\nGiving up mar"
+          },
+          {
+            "handle": "RJCcapital",
+            "id": "2087874930020843936",
+            "text": "$NBIS - Nebius is expanding its UK AI infrastructure footprint with a new deployment at Vantage’s CWL1 campus in Newport, the first such dep"
+          }
+        ]
+      },
+      {
+        "tendency": "Builds an argument through stacked one-sentence paragraphs that land on a compact closing verdict",
+        "frequency": "often",
+        "evidence_ids": [
+          "2102911315836535273",
+          "2102901937536430202",
+          "2089322171189415949"
+        ],
+        "evidence": [
+          {
+            "handle": "StockMarketNerd",
+            "id": "2102911315836535273",
+            "text": "$META new VR glasses “on track to be sold without a loss” … at a third of the cost of $AAPL Vision Pro.\n\nObviously this is never going to en"
+          },
+          {
+            "handle": "StockMarketNerd",
+            "id": "2102901937536430202",
+            "text": "$META announcing a slew of new connectors for Muse just now.\n\nIncluding:\n\nWalmart, Best Buy, Dick's, Instacart, Gap, Expedia, Turo and many "
+          },
+          {
+            "handle": "JaradCapital",
+            "id": "2089322171189415949",
+            "text": "$SNAP dipped -13% premarket and fully recovered before most retails even woke up\n\nNo material news. Probably just institutional rebalancing "
+          }
+        ]
+      },
+      {
+        "tendency": "Discloses a personal position, addition or holding history to frame the view",
+        "frequency": "often",
+        "evidence_ids": [
+          "2099944154465976747",
+          "2091598951136788746",
+          "2091661758628831597"
+        ],
+        "evidence": [
+          {
+            "handle": "jpinsights",
+            "id": "2099944154465976747",
+            "text": "Thought I was getting a good deal buying the “dip” in $AVGO at $390.\n\nBroadcom keeps falling while the business gives me more reasons to own"
+          },
+          {
+            "handle": "JaradCapital",
+            "id": "2091598951136788746",
+            "text": "The more I look at $APP here at ~15x 2027E earnings, the harder it gets not to add to my position\n\nYou can haircut consensus EPS by a massiv"
+          },
+          {
+            "handle": "FromValue",
+            "id": "2091661758628831597",
+            "text": "Tobi was the reason why I have been holding $SHOP shares since February 2017 ($5.58) and made it the first Potential Multibaggers pick in Ma"
+          }
+        ]
+      },
+      {
+        "tendency": "Relays a headline, chart or quarter snapshot with minimal or no added commentary",
+        "frequency": "often",
+        "evidence_ids": [
+          "2095815048702632180",
+          "2105390929448521922",
+          "2092929482143252592"
+        ],
+        "evidence": [
+          {
+            "handle": "Invesquotes",
+            "id": "2095815048702632180",
+            "text": "David Wadhwani announces he is leaving $ADBE https://t.co/JJc7cOWGJ5"
+          },
+          {
+            "handle": "StockMarketNerd",
+            "id": "2105390929448521922",
+            "text": "Snapshot of another elite $MU quarter: https://t.co/uJuOrF47da"
+          },
+          {
+            "handle": "Invesquotes",
+            "id": "2092929482143252592",
+            "text": "The $IGV today after strong $CRM, $VEEV and $NVDA earnings https://t.co/MYKG8ppEEQ"
+          }
+        ]
+      },
+      {
+        "tendency": "Qualifies a read with explicit self-doubt or a caveat about how far the conclusion goes",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2096915702191951915",
+          "2097317808254136404"
+        ],
+        "evidence": [
+          {
+            "handle": "Invesquotes",
+            "id": "2096915702191951915",
+            "text": "I might be very wrong here, but why is AGI good for the labs long term? \n\nIf OpenAI achieved AGI, that likely means that other model provide"
+          },
+          {
+            "handle": "jpinsights",
+            "id": "2097317808254136404",
+            "text": "$AMZN just added another name to the custom silicon race.\n\nAWS and Qualcomm will co-develop AI inference chips across multiple product gener"
+          }
+        ]
+      },
+      {
+        "tendency": "Positions the view against a named person or a prevailing bear or bull narrative",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2095154161876947205",
+          "2095238862612152596",
+          "2096684599799632216"
+        ],
+        "evidence": [
+          {
+            "handle": "garyblack00",
+            "id": "2095154161876947205",
+            "text": "Not sure why otherwise smart people like @farzyness don’t get this about $UBER - more autonomous vehicles from multiple manufacturers will a"
+          },
+          {
+            "handle": "jpinsights",
+            "id": "2095238862612152596",
+            "text": "$CRDO Imagine using “Credo didn’t surprise by as much as they usually do” as part of the bear case.\n\nWe’ve known for a while that H2 is wher"
+          },
+          {
+            "handle": "garyblack00",
+            "id": "2096684599799632216",
+            "text": "John is a long-time $TSLA bull who  attacks anyone who questions the TSLA bull story.  I was right in making $TSLA one of my biggest long po"
+          }
+        ]
+      },
+      {
+        "tendency": "Uses valuation multiples or price levels as the main support for a directional call",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2082037502521618616",
+          "2077754276974149964",
+          "2091598951136788746"
+        ],
+        "evidence": [
+          {
+            "handle": "garyblack00",
+            "id": "2082037502521618616",
+            "text": "I expect $TSLA to fall below $300/share and $SPCX to break $100/share in the coming weeks on valuation concerns. Both trade at FY’26 P/E in "
+          },
+          {
+            "handle": "DeepSailCapital",
+            "id": "2077754276974149964",
+            "text": "$OUST - back to $35.  Much more reasonable valuation."
+          },
+          {
+            "handle": "JaradCapital",
+            "id": "2091598951136788746",
+            "text": "The more I look at $APP here at ~15x 2027E earnings, the harder it gets not to add to my position\n\nYou can haircut consensus EPS by a massiv"
+          }
+        ]
+      },
+      {
+        "tendency": "Addresses the audience directly with a promotion of own content or an open request for ideas",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2052484290831859939",
+          "2092653927892226330",
+          "2074466516200775755"
+        ],
+        "evidence": [
+          {
+            "handle": "EconomyApp",
+            "id": "2052484290831859939",
+            "text": "If you like this, you'll love our newsletter!\n\nHundreds of visuals every earnings season.\n\nJoin 300,000+ subscribers. 👇\nhttps://t.co/xTJlfss"
+          },
+          {
+            "handle": "jpinsights",
+            "id": "2092653927892226330",
+            "text": "Been a while since I showed up on the Trending list. Nice to be back.\n\nIf you like investing in the companies selling the picks and shovels "
+          },
+          {
+            "handle": "DeepSailCapital",
+            "id": "2074466516200775755",
+            "text": "Semi Regular Thread:    What is your best short idea right now?  Please provide ticker and reason why.    \n\n#shortidea"
+          }
+        ]
+      }
+    ],
+    "avoid_tendencies": [
+      {
+        "tendency": "Long formal compliance-style paragraphs written in regulatory register",
+        "frequency": "rarely",
+        "evidence_ids": [
+          "2102130255406199240"
+        ],
+        "evidence": [
+          {
+            "handle": "leadlagreport",
+            "id": "2102130255406199240",
+            "text": "The performance data quoted represents past performance and is no guarantee of future results. Investment return and principal value of an i"
+          }
+        ]
+      },
+      {
+        "tendency": "Posts with no market or company content at all, such as personal or hobby updates",
+        "frequency": "rarely",
+        "evidence_ids": [
+          "2086967135394312255"
+        ],
+        "evidence": [
+          {
+            "handle": "RJCcapital",
+            "id": "2086967135394312255",
+            "text": "just hired @gmoneyNFT to turn my latest art piece into an NFT https://t.co/vIUmsvfAAI"
+          }
+        ]
+      },
+      {
+        "tendency": "Heavy hashtag use as an organizing device",
+        "frequency": "almost_never",
+        "evidence_ids": [],
+        "evidence": []
+      }
+    ],
+    "variation_notes": "Length swings widely, from a single line with a cashtag and a few words to multi-paragraph mechanism explanations or numbered threads. Register moves between neutral reporting, casual reaction with exclamations or slang, occasional combative or profane outbursts, and polished promotional copy. Hook types are mostly plain claims or cashtag-led openings, with a minority of questions, emoji pointers, contrast setups and thread numbering; no single template dominates every donor.",
+    "judgment_style": "Mostly assertive, with views stated as direct calls on direction, valuation or management quality, frequently tied to the author's own positioning. Hedging appears selectively through conditional phrasing about whether a ramp or trend holds, explicit admissions of possibly being wrong, or questions instead of claims. Data such as reported metrics, multiples and price levels usually serves as the support for the opinion rather than standing alone, though a substantial share of posts are pure data or visual relays with the judgment left implicit."
+  }
 }

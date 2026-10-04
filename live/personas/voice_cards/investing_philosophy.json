@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "cluster": "investing_philosophy",
   "lang": "en",
   "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
@@ -295,114 +295,283 @@
     "unknown": 0.004811,
     "view_relay": 0.214849
   },
-  "do": [
+  "tendencies": [
     {
-      "rule": "Lead with a clear judgment; use data to support it.",
+      "tendency": "Puts a single data point first and follows it with a brief interpretive implication or comparison",
+      "frequency": "often",
+      "evidence_ids": [
+        "2083283366254616833",
+        "2064099683606098266",
+        "2105321018403192960"
+      ],
       "evidence": [
         {
-          "handle": "MebFaber",
-          "id": "1108070025770856448",
-          "text": "For the investment professionals out there.  What belief do you hold that the vast majority of your peers (75%+) do not share?\n\nHere's a few"
+          "handle": "choffstein",
+          "id": "2083283366254616833",
+          "text": "In the last 4 years, levered single-name ETFs went from $0 to $65B.\n\nAs this trend continues, I think we continue to see both the level and "
+        },
+        {
+          "handle": "callieabost",
+          "id": "2064099683606098266",
+          "text": "There are a lot of eye-popping stats out there about the massive SpaceX IPO\n\nMy favorite: $SPCX's $75 billion float alone would be equal to "
         },
         {
           "handle": "MebFaber",
-          "id": "1788241864153522426",
-          "text": "21. Investing in riskier bonds doesn't make sense if the yield spread vs. T-Bills isn't wide enough.\n\nhttps://t.co/i72VjOViPG"
-        },
-        {
-          "handle": "MebFaber",
-          "id": "2085448298719227909",
-          "text": "An entire generation is miserable because they're on their phones all day, envious of the imaginary life their peers are living...\n\nhttps://"
-        },
-        {
-          "handle": "MebFaber",
-          "id": "2085455354834636902",
-          "text": "👇👇👇"
+          "id": "2105321018403192960",
+          "text": "Gen Z says it needs a $600,000 salary to feel financially successful, a 99th percentile income versus a median salary near $60,000."
         }
       ]
     },
     {
-      "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+      "tendency": "Breaks longer posts into short stacked lines that build toward a closing takeaway",
+      "frequency": "often",
+      "evidence_ids": [
+        "2105297182760861950",
+        "2073384704686928116",
+        "2106451604123894128"
+      ],
       "evidence": [
         {
-          "handle": "MebFaber",
-          "id": "1108070025770856448",
-          "text": "For the investment professionals out there.  What belief do you hold that the vast majority of your peers (75%+) do not share?\n\nHere's a few"
+          "handle": "SJosephBurns",
+          "id": "2105297182760861950",
+          "text": "The real power of a trading edge isn't just one great trade.\n\nIt's knowing you can find another one.\n\nToday.\nTomorrow\nNext week.\nNext month."
         },
         {
-          "handle": "MebFaber",
-          "id": "1788241864153522426",
-          "text": "21. Investing in riskier bonds doesn't make sense if the yield spread vs. T-Bills isn't wide enough.\n\nhttps://t.co/i72VjOViPG"
+          "handle": "choffstein",
+          "id": "2073384704686928116",
+          "text": "Wife told me we were hosting friends for the 4th.\n\nDon't own a grill at the moment. \n\nDecided to smoke brisket in some flower pots.\n\nSurely "
         },
         {
-          "handle": "MebFaber",
-          "id": "2085448298719227909",
-          "text": "An entire generation is miserable because they're on their phones all day, envious of the imaginary life their peers are living...\n\nhttps://"
-        },
-        {
-          "handle": "MebFaber",
-          "id": "2085455354834636902",
-          "text": "👇👇👇"
-        }
-      ]
-    }
-  ],
-  "dont": [
-    {
-      "rule": "Do not copy donor wording, personal experience, facts or numbers.",
-      "evidence": [
-        {
-          "handle": "MebFaber",
-          "id": "1108070025770856448",
-          "text": "For the investment professionals out there.  What belief do you hold that the vast majority of your peers (75%+) do not share?\n\nHere's a few"
-        },
-        {
-          "handle": "MebFaber",
-          "id": "1788241864153522426",
-          "text": "21. Investing in riskier bonds doesn't make sense if the yield spread vs. T-Bills isn't wide enough.\n\nhttps://t.co/i72VjOViPG"
-        },
-        {
-          "handle": "MebFaber",
-          "id": "2085448298719227909",
-          "text": "An entire generation is miserable because they're on their phones all day, envious of the imaginary life their peers are living...\n\nhttps://"
-        },
-        {
-          "handle": "MebFaber",
-          "id": "2085455354834636902",
-          "text": "👇👇👇"
+          "handle": "GrahamStephan",
+          "id": "2106451604123894128",
+          "text": "People keep saying that more spending and higher inflation will push asset prices even higher.\n\nBut here’s the counterargument:\n\nHigher infl"
         }
       ]
     },
     {
-      "rule": "Do not convert observed confidence into an unsupported trade call.",
+      "tendency": "Uses the post as a teaser for the author's own essay or analysis: a provocative framing line, then a link",
+      "frequency": "often",
+      "evidence_ids": [
+        "2091115672038174783",
+        "2011098107824545802",
+        "2069437331858223229"
+      ],
+      "evidence": [
+        {
+          "handle": "iancassel",
+          "id": "2091115672038174783",
+          "text": "This week I wrote about how nobody starts investing with a blank slate. We start with a personality and temperament that's already been wire"
+        },
+        {
+          "handle": "dollarsanddata",
+          "id": "2011098107824545802",
+          "text": "I'm back and I'm here to tell you that U.S. home equity is mostly fake wealth.\n\nBut it doesn't have to be.\n\nMy latest on the true value of h"
+        },
+        {
+          "handle": "ByrneHobart",
+          "id": "2069437331858223229",
+          "text": "It's finally affordable to check on something I've always wondered about: how well does the sentiment in Hacker News S-1 threads predict sub"
+        }
+      ]
+    },
+    {
+      "tendency": "Positions a view explicitly against consensus or conventional wisdom",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2105304225739640885",
+        "1955971505226912040",
+        "2100969786800771288"
+      ],
       "evidence": [
         {
           "handle": "MebFaber",
-          "id": "1108070025770856448",
-          "text": "For the investment professionals out there.  What belief do you hold that the vast majority of your peers (75%+) do not share?\n\nHere's a few"
+          "id": "2105304225739640885",
+          "text": "Non consensus view:\n\nRegulators opened the door this week for well designed 351s to hit the mainstream. \n\nFrom the IRS notice: \n\n\"This notic"
+        },
+        {
+          "handle": "dollarsanddata",
+          "id": "1955971505226912040",
+          "text": "Unfortunate truth: Money buys happiness...but only if you're already happy.\n\nIf your net worth is over $1M and you still aren't happy, I pro"
+        },
+        {
+          "handle": "callieabost",
+          "id": "2100969786800771288",
+          "text": "This has been true at multiple points this year, even though inflation expectations (via breakevens) are tamer now than 4-5 months ago.\n\nInt"
+        }
+      ]
+    },
+    {
+      "tendency": "Mixes in off-topic humor, family moments, or casual reactions alongside market content",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2106495960968741023",
+        "2082523024428089606",
+        "2082771660080394735"
+      ],
+      "evidence": [
+        {
+          "handle": "ByrneHobart",
+          "id": "2106495960968741023",
+          "text": "8yo spent an hour sculpting a clay dragon head. So I got to tell her that this proves what I’ve been saying: if you work hard, you’ll get a "
+        },
+        {
+          "handle": "GrahamStephan",
+          "id": "2082523024428089606",
+          "text": "There's no way we aren't living in a simulation lol"
+        },
+        {
+          "handle": "iancassel",
+          "id": "2082771660080394735",
+          "text": "There are certain stocks you don't own but once did that when they get acquired you have such joy. Why? \nBecause you never have to hear of t"
+        }
+      ]
+    },
+    {
+      "tendency": "Explains investor behavior through psychology, temperament, or evolutionary wiring rather than valuation",
+      "frequency": "often",
+      "evidence_ids": [
+        "1955779630566400471",
+        "2086452455236128915",
+        "2091115672038174783"
+      ],
+      "evidence": [
+        {
+          "handle": "morganhousel",
+          "id": "1955779630566400471",
+          "text": "The key to understanding most online debates is that a lot of people take joy in being angry. It's their preferred mindset because it makes "
         },
         {
           "handle": "MebFaber",
-          "id": "1788241864153522426",
-          "text": "21. Investing in riskier bonds doesn't make sense if the yield spread vs. T-Bills isn't wide enough.\n\nhttps://t.co/i72VjOViPG"
+          "id": "2086452455236128915",
+          "text": "🧠  𝗬𝗼𝘂𝗿 𝗯𝗿𝗮𝗶𝗻 𝘄𝗮𝘀𝗻'𝘁 𝗯𝘂𝗶𝗹𝘁 𝗳𝗼𝗿 𝘁𝗵𝗲 𝘀𝘁𝗼𝗰𝗸 𝗺𝗮𝗿𝗸𝗲𝘁\n\nIt was built to run from lions.\n\nThat's why volatility feels like a threat to your survival"
         },
         {
-          "handle": "MebFaber",
-          "id": "2085448298719227909",
-          "text": "An entire generation is miserable because they're on their phones all day, envious of the imaginary life their peers are living...\n\nhttps://"
+          "handle": "iancassel",
+          "id": "2091115672038174783",
+          "text": "This week I wrote about how nobody starts investing with a blank slate. We start with a personality and temperament that's already been wire"
+        }
+      ]
+    },
+    {
+      "tendency": "Relays someone else's quote, book lesson, or stat with little or no added commentary",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2020937357713981686",
+        "2104571535960756680",
+        "1991617247010517086"
+      ],
+      "evidence": [
+        {
+          "handle": "morganhousel",
+          "id": "2020937357713981686",
+          "text": "Chris Rock says teachers provide half of the education at school, bullies provide the other. “And learning how to deal with bullies is that "
         },
         {
-          "handle": "MebFaber",
-          "id": "2085455354834636902",
-          "text": "👇👇👇"
+          "handle": "SJosephBurns",
+          "id": "2104571535960756680",
+          "text": "Lesson from the book Trading is Math: https://t.co/Md5ExrdbSK https://t.co/ll8rZ9RsDx"
+        },
+        {
+          "handle": "callieabost",
+          "id": "1991617247010517086",
+          "text": "Went to grab the stat and he just…tweeted it out"
+        }
+      ]
+    },
+    {
+      "tendency": "Marks the view as personal with first-person belief framing, while still holding a fairly confident directional stance",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2102532316958797952",
+        "2083283366254616833",
+        "2106451604123894128"
+      ],
+      "evidence": [
+        {
+          "handle": "CathieDWood",
+          "id": "2102532316958797952",
+          "text": "As the stock market hits record highs in the face of higher interest rates, I believe the current Technology Revolution will continue to imp"
+        },
+        {
+          "handle": "choffstein",
+          "id": "2083283366254616833",
+          "text": "In the last 4 years, levered single-name ETFs went from $0 to $65B.\n\nAs this trend continues, I think we continue to see both the level and "
+        },
+        {
+          "handle": "GrahamStephan",
+          "id": "2106451604123894128",
+          "text": "People keep saying that more spending and higher inflation will push asset prices even higher.\n\nBut here’s the counterargument:\n\nHigher infl"
         }
       ]
     }
   ],
-  "baseline_rules": {
-    "do": [
+  "avoid_tendencies": [
+    {
+      "tendency": "Showing multi-step quantitative derivations or models inside the post; numbers are stated, not computed",
+      "frequency": "almost_never",
+      "evidence_ids": [
+        "2029542500612944067",
+        "2103799212513349983"
+      ],
+      "evidence": [
+        {
+          "handle": "dollarsanddata",
+          "id": "2029542500612944067",
+          "text": "When to pay off debt vs. invest (based on interest rate): \n\n>8% = Pay off debt ASAP. Ignore investing for now. \n4%-8% = Judgment call. Pay o"
+        },
+        {
+          "handle": "iancassel",
+          "id": "2103799212513349983",
+          "text": "In 1977, Peter Lynch took over the Magellan Fund. In Lynch's first year the fund had 41 stocks and 343% turnover. By 1983, the portfolio exp"
+        }
+      ]
+    },
+    {
+      "tendency": "Neutral wire-style news reporting with no angle; even news-like posts add a reading or reaction",
+      "frequency": "rarely",
+      "evidence_ids": [
+        "2102173404375687480",
+        "2093328842157072551"
+      ],
+      "evidence": [
+        {
+          "handle": "choffstein",
+          "id": "2102173404375687480",
+          "text": "Winton filing for a U.S. Equity + Managed Futures ETF.\n\nLooks like Managed Futures will be a combination of trend and carry.\n\nThe category g"
+        },
+        {
+          "handle": "morganhousel",
+          "id": "2093328842157072551",
+          "text": "The Psychology of Money Podcast: \n\nHousehold debt/GDP has plunged at the same time Government debt/GDP surged. On net, we're about where we "
+        }
+      ]
+    },
+    {
+      "tendency": "Extended both-sides caveating that leaves the stance unresolved",
+      "frequency": "rarely",
+      "evidence_ids": [
+        "1955971505226912040",
+        "2104505830909620317"
+      ],
+      "evidence": [
+        {
+          "handle": "dollarsanddata",
+          "id": "1955971505226912040",
+          "text": "Unfortunate truth: Money buys happiness...but only if you're already happy.\n\nIf your net worth is over $1M and you still aren't happy, I pro"
+        },
+        {
+          "handle": "SJosephBurns",
+          "id": "2104505830909620317",
+          "text": "Relative strength is easiest to recognize when the market gives a stock an excuse to fall and it refuses to use it."
+        }
+      ]
+    }
+  ],
+  "baseline_tendencies": {
+    "tendencies": [
       {
-        "rule": "Lead with a clear judgment; use data to support it.",
+        "frequency": "often",
+        "tendency": "Opens with a clear judgment, supported by observations.",
         "evidence": [
           {
             "handle": "MebFaber",
@@ -427,7 +596,8 @@
         ]
       },
       {
-        "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+        "frequency": "often",
+        "tendency": "Uses claim-led openings, with sentences around the observed band.",
         "evidence": [
           {
             "handle": "MebFaber",
@@ -452,9 +622,10 @@
         ]
       }
     ],
-    "dont": [
+    "avoid_tendencies": [
       {
-        "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+        "frequency": "almost_never",
+        "tendency": "Relies on another author’s personal experience or identity.",
         "evidence": [
           {
             "handle": "MebFaber",
@@ -479,7 +650,8 @@
         ]
       },
       {
-        "rule": "Do not convert observed confidence into an unsupported trade call.",
+        "frequency": "rarely",
+        "tendency": "Turns confidence into an unsupported trade call.",
         "evidence": [
           {
             "handle": "MebFaber",
@@ -505,5 +677,490 @@
       }
     ]
   },
-  "qualitative": {}
+  "qualitative": {
+    "voice_summary": "A conversational, mostly declarative investing voice. It moves between compact data observations, behavioral-psychology explanations, and promotion of the donors' own essays, podcasts, and letters. Views are usually stated plainly and supported by one number or mechanism rather than a long argument, with frequent off-topic humor and personal asides mixed in.",
+    "hook_patterns": [
+      {
+        "pattern": "Plain declarative claim or observation as the first line, with no framing device",
+        "share_estimate": 0.6,
+        "example_ids": [
+          "1955779630566400471",
+          "2100969786800771288"
+        ],
+        "evidence": [
+          {
+            "handle": "morganhousel",
+            "id": "1955779630566400471",
+            "text": "The key to understanding most online debates is that a lot of people take joy in being angry. It's their preferred mindset because it makes "
+          },
+          {
+            "handle": "callieabost",
+            "id": "2100969786800771288",
+            "text": "This has been true at multiple points this year, even though inflation expectations (via breakevens) are tamer now than 4-5 months ago.\n\nInt"
+          }
+        ]
+      },
+      {
+        "pattern": "Statistic or historical figure up front, with any interpretation coming after",
+        "share_estimate": 0.15,
+        "example_ids": [
+          "2105321018403192960",
+          "2103799212513349983"
+        ],
+        "evidence": [
+          {
+            "handle": "MebFaber",
+            "id": "2105321018403192960",
+            "text": "Gen Z says it needs a $600,000 salary to feel financially successful, a 99th percentile income versus a median salary near $60,000."
+          },
+          {
+            "handle": "iancassel",
+            "id": "2103799212513349983",
+            "text": "In 1977, Peter Lynch took over the Magellan Fund. In Lynch's first year the fund had 41 stocks and 343% turnover. By 1983, the portfolio exp"
+          }
+        ]
+      },
+      {
+        "pattern": "Opening question, either rhetorical-provocative or genuinely curious about a testable idea",
+        "share_estimate": 0.07,
+        "example_ids": [
+          "2106043554363502992",
+          "2069437331858223229"
+        ],
+        "evidence": [
+          {
+            "handle": "MebFaber",
+            "id": "2106043554363502992",
+            "text": "Is it monopolistic behavior to exclude a $25b ETF from search just because it doesn't pay you extortion fees?\n\ncc @TheJusticeDept https://t."
+          },
+          {
+            "handle": "ByrneHobart",
+            "id": "2069437331858223229",
+            "text": "It's finally affordable to check on something I've always wondered about: how well does the sentiment in Hacker News S-1 threads predict sub"
+          }
+        ]
+      },
+      {
+        "pattern": "Short label or framing prefix (stance tag, show name) followed by a colon before the substance",
+        "share_estimate": 0.07,
+        "example_ids": [
+          "2105304225739640885",
+          "2093328842157072551"
+        ],
+        "evidence": [
+          {
+            "handle": "MebFaber",
+            "id": "2105304225739640885",
+            "text": "Non consensus view:\n\nRegulators opened the door this week for well designed 351s to hit the mainstream. \n\nFrom the IRS notice: \n\n\"This notic"
+          },
+          {
+            "handle": "morganhousel",
+            "id": "2093328842157072551",
+            "text": "The Psychology of Money Podcast: \n\nHousehold debt/GDP has plunged at the same time Government debt/GDP surged. On net, we're about where we "
+          }
+        ]
+      },
+      {
+        "pattern": "Brief reaction or interjection that comes before a chart or stat",
+        "share_estimate": 0.05,
+        "example_ids": [
+          "2080083565363028384",
+          "1991617247010517086"
+        ],
+        "evidence": [
+          {
+            "handle": "callieabost",
+            "id": "2080083565363028384",
+            "text": "Woof, what a chart.\n\n$GOOG just posted its first quarter of negative free cash flow in at least 10 years. https://t.co/nxtSA38INo"
+          },
+          {
+            "handle": "callieabost",
+            "id": "1991617247010517086",
+            "text": "Went to grab the stat and he just…tweeted it out"
+          }
+        ]
+      },
+      {
+        "pattern": "Attributed quote from a third party, with the speaker named first",
+        "share_estimate": 0.05,
+        "example_ids": [
+          "2020937357713981686",
+          "1935023995029762216"
+        ],
+        "evidence": [
+          {
+            "handle": "morganhousel",
+            "id": "2020937357713981686",
+            "text": "Chris Rock says teachers provide half of the education at school, bullies provide the other. “And learning how to deal with bullies is that "
+          },
+          {
+            "handle": "morganhousel",
+            "id": "1935023995029762216",
+            "text": ".@jimmycarr:\n\nIn your 20s you worry about what everyone thinks of you. \n\nIn your 30s you say “I don’t care what anyone thinks of me.”\n\nIn yo"
+          }
+        ]
+      }
+    ],
+    "cadence_notes": "Activity is concentrated in US daytime hours (roughly 13–19 UTC), with a long thin overnight tail. Median sentence length is about 10 words, with an interquartile range of about 5–18. About one post in five is a thread and over a quarter carry media. Emoji appear in under a tenth of posts and usually as a single closing accent rather than decoration. Line breaks often stand in for punctuation, giving a stacked, one-thought-per-line rhythm in the longer posts.",
+    "signature_moves": [
+      {
+        "move": "States the prevailing market narrative, then sets out a step-by-step counter-mechanism and closes with a mildly hedged personal read",
+        "example_ids": [
+          "2106451604123894128"
+        ],
+        "evidence": [
+          {
+            "handle": "GrahamStephan",
+            "id": "2106451604123894128",
+            "text": "People keep saying that more spending and higher inflation will push asset prices even higher.\n\nBut here’s the counterargument:\n\nHigher infl"
+          }
+        ]
+      },
+      {
+        "move": "Gives a decision rule as tiered numeric thresholds and then admits it is imperfect",
+        "example_ids": [
+          "2029542500612944067"
+        ],
+        "evidence": [
+          {
+            "handle": "dollarsanddata",
+            "id": "2029542500612944067",
+            "text": "When to pay off debt vs. invest (based on interest rate): \n\n>8% = Pay off debt ASAP. Ignore investing for now. \n4%-8% = Judgment call. Pay o"
+          }
+        ]
+      },
+      {
+        "move": "Draws a sardonic second-order inference from a reported number",
+        "example_ids": [
+          "2082257263968784529"
+        ],
+        "evidence": [
+          {
+            "handle": "ByrneHobart",
+            "id": "2082257263968784529",
+            "text": "128 people at Anthropic have to hide the horrible, life-ruining secret that they're worried about misaligned AI. This is probably a rough pr"
+          }
+        ]
+      },
+      {
+        "move": "Traces a chronology of escalating figures and lets the trajectory make the point without commentary",
+        "example_ids": [
+          "2103799212513349983"
+        ],
+        "evidence": [
+          {
+            "handle": "iancassel",
+            "id": "2103799212513349983",
+            "text": "In 1977, Peter Lynch took over the Magellan Fund. In Lynch's first year the fund had 41 stocks and 343% turnover. By 1983, the portfolio exp"
+          }
+        ]
+      },
+      {
+        "move": "Opens with a stylized header, explains the evolutionary or psychological mechanism, then supports it with an extended quote",
+        "example_ids": [
+          "2086452455236128915"
+        ],
+        "evidence": [
+          {
+            "handle": "MebFaber",
+            "id": "2086452455236128915",
+            "text": "🧠  𝗬𝗼𝘂𝗿 𝗯𝗿𝗮𝗶𝗻 𝘄𝗮𝘀𝗻'𝘁 𝗯𝘂𝗶𝗹𝘁 𝗳𝗼𝗿 𝘁𝗵𝗲 𝘀𝘁𝗼𝗰𝗸 𝗺𝗮𝗿𝗸𝗲𝘁\n\nIt was built to run from lions.\n\nThat's why volatility feels like a threat to your survival"
+          }
+        ]
+      },
+      {
+        "move": "Builds a straight-faced setup and then undercuts it with a pun or ironic twist",
+        "example_ids": [
+          "2106516071213609153",
+          "2106495960968741023"
+        ],
+        "evidence": [
+          {
+            "handle": "ByrneHobart",
+            "id": "2106516071213609153",
+            "text": "One fun thing about reading old finance books is that they’ll talk about how shocking some number was when we’ve since blown past it. \n\nFor "
+          },
+          {
+            "handle": "ByrneHobart",
+            "id": "2106495960968741023",
+            "text": "8yo spent an hour sculpting a clay dragon head. So I got to tell her that this proves what I’ve been saying: if you work hard, you’ll get a "
+          }
+        ]
+      }
+    ],
+    "tendencies": [
+      {
+        "tendency": "Puts a single data point first and follows it with a brief interpretive implication or comparison",
+        "frequency": "often",
+        "evidence_ids": [
+          "2083283366254616833",
+          "2064099683606098266",
+          "2105321018403192960"
+        ],
+        "evidence": [
+          {
+            "handle": "choffstein",
+            "id": "2083283366254616833",
+            "text": "In the last 4 years, levered single-name ETFs went from $0 to $65B.\n\nAs this trend continues, I think we continue to see both the level and "
+          },
+          {
+            "handle": "callieabost",
+            "id": "2064099683606098266",
+            "text": "There are a lot of eye-popping stats out there about the massive SpaceX IPO\n\nMy favorite: $SPCX's $75 billion float alone would be equal to "
+          },
+          {
+            "handle": "MebFaber",
+            "id": "2105321018403192960",
+            "text": "Gen Z says it needs a $600,000 salary to feel financially successful, a 99th percentile income versus a median salary near $60,000."
+          }
+        ]
+      },
+      {
+        "tendency": "Breaks longer posts into short stacked lines that build toward a closing takeaway",
+        "frequency": "often",
+        "evidence_ids": [
+          "2105297182760861950",
+          "2073384704686928116",
+          "2106451604123894128"
+        ],
+        "evidence": [
+          {
+            "handle": "SJosephBurns",
+            "id": "2105297182760861950",
+            "text": "The real power of a trading edge isn't just one great trade.\n\nIt's knowing you can find another one.\n\nToday.\nTomorrow\nNext week.\nNext month."
+          },
+          {
+            "handle": "choffstein",
+            "id": "2073384704686928116",
+            "text": "Wife told me we were hosting friends for the 4th.\n\nDon't own a grill at the moment. \n\nDecided to smoke brisket in some flower pots.\n\nSurely "
+          },
+          {
+            "handle": "GrahamStephan",
+            "id": "2106451604123894128",
+            "text": "People keep saying that more spending and higher inflation will push asset prices even higher.\n\nBut here’s the counterargument:\n\nHigher infl"
+          }
+        ]
+      },
+      {
+        "tendency": "Uses the post as a teaser for the author's own essay or analysis: a provocative framing line, then a link",
+        "frequency": "often",
+        "evidence_ids": [
+          "2091115672038174783",
+          "2011098107824545802",
+          "2069437331858223229"
+        ],
+        "evidence": [
+          {
+            "handle": "iancassel",
+            "id": "2091115672038174783",
+            "text": "This week I wrote about how nobody starts investing with a blank slate. We start with a personality and temperament that's already been wire"
+          },
+          {
+            "handle": "dollarsanddata",
+            "id": "2011098107824545802",
+            "text": "I'm back and I'm here to tell you that U.S. home equity is mostly fake wealth.\n\nBut it doesn't have to be.\n\nMy latest on the true value of h"
+          },
+          {
+            "handle": "ByrneHobart",
+            "id": "2069437331858223229",
+            "text": "It's finally affordable to check on something I've always wondered about: how well does the sentiment in Hacker News S-1 threads predict sub"
+          }
+        ]
+      },
+      {
+        "tendency": "Positions a view explicitly against consensus or conventional wisdom",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2105304225739640885",
+          "1955971505226912040",
+          "2100969786800771288"
+        ],
+        "evidence": [
+          {
+            "handle": "MebFaber",
+            "id": "2105304225739640885",
+            "text": "Non consensus view:\n\nRegulators opened the door this week for well designed 351s to hit the mainstream. \n\nFrom the IRS notice: \n\n\"This notic"
+          },
+          {
+            "handle": "dollarsanddata",
+            "id": "1955971505226912040",
+            "text": "Unfortunate truth: Money buys happiness...but only if you're already happy.\n\nIf your net worth is over $1M and you still aren't happy, I pro"
+          },
+          {
+            "handle": "callieabost",
+            "id": "2100969786800771288",
+            "text": "This has been true at multiple points this year, even though inflation expectations (via breakevens) are tamer now than 4-5 months ago.\n\nInt"
+          }
+        ]
+      },
+      {
+        "tendency": "Mixes in off-topic humor, family moments, or casual reactions alongside market content",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2106495960968741023",
+          "2082523024428089606",
+          "2082771660080394735"
+        ],
+        "evidence": [
+          {
+            "handle": "ByrneHobart",
+            "id": "2106495960968741023",
+            "text": "8yo spent an hour sculpting a clay dragon head. So I got to tell her that this proves what I’ve been saying: if you work hard, you’ll get a "
+          },
+          {
+            "handle": "GrahamStephan",
+            "id": "2082523024428089606",
+            "text": "There's no way we aren't living in a simulation lol"
+          },
+          {
+            "handle": "iancassel",
+            "id": "2082771660080394735",
+            "text": "There are certain stocks you don't own but once did that when they get acquired you have such joy. Why? \nBecause you never have to hear of t"
+          }
+        ]
+      },
+      {
+        "tendency": "Explains investor behavior through psychology, temperament, or evolutionary wiring rather than valuation",
+        "frequency": "often",
+        "evidence_ids": [
+          "1955779630566400471",
+          "2086452455236128915",
+          "2091115672038174783"
+        ],
+        "evidence": [
+          {
+            "handle": "morganhousel",
+            "id": "1955779630566400471",
+            "text": "The key to understanding most online debates is that a lot of people take joy in being angry. It's their preferred mindset because it makes "
+          },
+          {
+            "handle": "MebFaber",
+            "id": "2086452455236128915",
+            "text": "🧠  𝗬𝗼𝘂𝗿 𝗯𝗿𝗮𝗶𝗻 𝘄𝗮𝘀𝗻'𝘁 𝗯𝘂𝗶𝗹𝘁 𝗳𝗼𝗿 𝘁𝗵𝗲 𝘀𝘁𝗼𝗰𝗸 𝗺𝗮𝗿𝗸𝗲𝘁\n\nIt was built to run from lions.\n\nThat's why volatility feels like a threat to your survival"
+          },
+          {
+            "handle": "iancassel",
+            "id": "2091115672038174783",
+            "text": "This week I wrote about how nobody starts investing with a blank slate. We start with a personality and temperament that's already been wire"
+          }
+        ]
+      },
+      {
+        "tendency": "Relays someone else's quote, book lesson, or stat with little or no added commentary",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2020937357713981686",
+          "2104571535960756680",
+          "1991617247010517086"
+        ],
+        "evidence": [
+          {
+            "handle": "morganhousel",
+            "id": "2020937357713981686",
+            "text": "Chris Rock says teachers provide half of the education at school, bullies provide the other. “And learning how to deal with bullies is that "
+          },
+          {
+            "handle": "SJosephBurns",
+            "id": "2104571535960756680",
+            "text": "Lesson from the book Trading is Math: https://t.co/Md5ExrdbSK https://t.co/ll8rZ9RsDx"
+          },
+          {
+            "handle": "callieabost",
+            "id": "1991617247010517086",
+            "text": "Went to grab the stat and he just…tweeted it out"
+          }
+        ]
+      },
+      {
+        "tendency": "Marks the view as personal with first-person belief framing, while still holding a fairly confident directional stance",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2102532316958797952",
+          "2083283366254616833",
+          "2106451604123894128"
+        ],
+        "evidence": [
+          {
+            "handle": "CathieDWood",
+            "id": "2102532316958797952",
+            "text": "As the stock market hits record highs in the face of higher interest rates, I believe the current Technology Revolution will continue to imp"
+          },
+          {
+            "handle": "choffstein",
+            "id": "2083283366254616833",
+            "text": "In the last 4 years, levered single-name ETFs went from $0 to $65B.\n\nAs this trend continues, I think we continue to see both the level and "
+          },
+          {
+            "handle": "GrahamStephan",
+            "id": "2106451604123894128",
+            "text": "People keep saying that more spending and higher inflation will push asset prices even higher.\n\nBut here’s the counterargument:\n\nHigher infl"
+          }
+        ]
+      }
+    ],
+    "avoid_tendencies": [
+      {
+        "tendency": "Showing multi-step quantitative derivations or models inside the post; numbers are stated, not computed",
+        "frequency": "almost_never",
+        "evidence_ids": [
+          "2029542500612944067",
+          "2103799212513349983"
+        ],
+        "evidence": [
+          {
+            "handle": "dollarsanddata",
+            "id": "2029542500612944067",
+            "text": "When to pay off debt vs. invest (based on interest rate): \n\n>8% = Pay off debt ASAP. Ignore investing for now. \n4%-8% = Judgment call. Pay o"
+          },
+          {
+            "handle": "iancassel",
+            "id": "2103799212513349983",
+            "text": "In 1977, Peter Lynch took over the Magellan Fund. In Lynch's first year the fund had 41 stocks and 343% turnover. By 1983, the portfolio exp"
+          }
+        ]
+      },
+      {
+        "tendency": "Neutral wire-style news reporting with no angle; even news-like posts add a reading or reaction",
+        "frequency": "rarely",
+        "evidence_ids": [
+          "2102173404375687480",
+          "2093328842157072551"
+        ],
+        "evidence": [
+          {
+            "handle": "choffstein",
+            "id": "2102173404375687480",
+            "text": "Winton filing for a U.S. Equity + Managed Futures ETF.\n\nLooks like Managed Futures will be a combination of trend and carry.\n\nThe category g"
+          },
+          {
+            "handle": "morganhousel",
+            "id": "2093328842157072551",
+            "text": "The Psychology of Money Podcast: \n\nHousehold debt/GDP has plunged at the same time Government debt/GDP surged. On net, we're about where we "
+          }
+        ]
+      },
+      {
+        "tendency": "Extended both-sides caveating that leaves the stance unresolved",
+        "frequency": "rarely",
+        "evidence_ids": [
+          "1955971505226912040",
+          "2104505830909620317"
+        ],
+        "evidence": [
+          {
+            "handle": "dollarsanddata",
+            "id": "1955971505226912040",
+            "text": "Unfortunate truth: Money buys happiness...but only if you're already happy.\n\nIf your net worth is over $1M and you still aren't happy, I pro"
+          },
+          {
+            "handle": "SJosephBurns",
+            "id": "2104505830909620317",
+            "text": "Relative strength is easiest to recognize when the market gives a stock an excuse to fall and it refuses to use it."
+          }
+        ]
+      }
+    ],
+    "variation_notes": "Length ranges from one-line quips and bare link posts to multi-paragraph mini-essays and quote-heavy threads. Register shifts freely between earnest behavioral reflection, dry data commentary, promotional announcements, and deadpan jokes, sometimes within the same donor. Hooks are mostly plain claims, with questions, stat-first openings, label prefixes, and reactions appearing intermittently rather than in a fixed rotation. Formatting runs from unbroken single sentences to heavily line-broken lists, and emoji use is sparse and uneven across donors.",
+    "judgment_style": "Predominantly assertive: views are stated as observations or truths, sometimes explicitly labeled as contrarian. Hedging is light and personal ('I think', 'I believe', 'I don't think') rather than probabilistic, and conditional phrasing shows up mainly in mechanism chains (if X, then Y) or rule-of-thumb thresholds that come with a brief admission of imperfection. Data usually serves as a single anchoring support or an ironic contrast, not a systematic proof, and the interpretive leap from number to conclusion is kept short."
+  }
 }

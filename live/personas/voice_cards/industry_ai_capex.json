@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "cluster": "industry_ai_capex",
   "lang": "en",
   "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
@@ -311,114 +311,251 @@
     "unknown": 0.003453,
     "view_relay": 0.281474
   },
-  "do": [
+  "tendencies": [
     {
-      "rule": "Lead with a clear judgment; use data to support it.",
+      "tendency": "Reports a figure (revenue, growth or guidance against consensus) with little or no interpretive text around it.",
+      "frequency": "often",
+      "evidence_ids": [
+        "2097921040144093335",
+        "2091277142029959626",
+        "2097283329322078473"
+      ],
       "evidence": [
         {
-          "handle": "IanCutress",
-          "id": "2080346881742483595",
-          "text": "@AMD @cerebras @andrewdfeldman ROCm releases every six weeks. https://t.co/RBMFZysaRR"
+          "handle": "jukan05",
+          "id": "2097921040144093335",
+          "text": "TSMC August revenue: NT$514,806mn\n(+10.1% MoM, +53.3% YoY)\n\n$TSM https://t.co/UJtgcH2F2T"
         },
         {
-          "handle": "IanCutress",
-          "id": "2080361822662574538",
-          "text": "@AMD Lisa back to the stage. https://t.co/p8Q9Kia7U6"
+          "handle": "Beth_Kindig",
+          "id": "2091277142029959626",
+          "text": "Anthropic reported Q2 revenue of $11.6 billion, up more than 145% from $4.73 billion in Q1, and outpacing OpenAI’s $6.7 billion in Q2 revenu"
         },
         {
-          "handle": "IanCutress",
-          "id": "2080362158307598819",
-          "text": "@AMD Florence, Ferrara, Fidenza https://t.co/mOTfNvEOcS"
-        },
-        {
-          "handle": "IanCutress",
-          "id": "2080363114608931183",
-          "text": "@AMD Final thought: AI is having the biggest impact.\n\nYes my view is obscured by the camera crew. Why right at this exact second. https://t."
+          "handle": "matthew_sigel",
+          "id": "2097283329322078473",
+          "text": "sei-network:native pre-announces +ve Q3 &amp; Q4, raises full-year guidance, guides Q127 $200-240M EBIDTA vs consensus $137M.\n\nsei-network:n"
         }
       ]
     },
     {
-      "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+      "tendency": "Relays an outside source (a CEO, a newspaper or a company memo) and adds one short line on the implication or the poster's reaction.",
+      "frequency": "often",
+      "evidence_ids": [
+        "2105943565918703696",
+        "2097158555665399925",
+        "2070565423372747250"
+      ],
       "evidence": [
         {
-          "handle": "IanCutress",
-          "id": "2080346881742483595",
-          "text": "@AMD @cerebras @andrewdfeldman ROCm releases every six weeks. https://t.co/RBMFZysaRR"
+          "handle": "aleabitoreddit",
+          "id": "2105943565918703696",
+          "text": "$LITE CEO: \"Next year with the advent of CPO and NPO in 2027, our estimates are that we'll be undershipping demand...\n\nBy 70%. Literally 70%"
         },
         {
-          "handle": "IanCutress",
-          "id": "2080361822662574538",
-          "text": "@AMD Lisa back to the stage. https://t.co/p8Q9Kia7U6"
+          "handle": "jukan05",
+          "id": "2097158555665399925",
+          "text": "FT: CXMT and YMTC have secured enough ASML DUV tools to support their capacity expansion plans for the next three years…\n\nThis is so fucking"
         },
         {
-          "handle": "IanCutress",
-          "id": "2080362158307598819",
-          "text": "@AMD Florence, Ferrara, Fidenza https://t.co/mOTfNvEOcS"
-        },
-        {
-          "handle": "IanCutress",
-          "id": "2080363114608931183",
-          "text": "@AMD Final thought: AI is having the biggest impact.\n\nYes my view is obscured by the camera crew. Why right at this exact second. https://t."
-        }
-      ]
-    }
-  ],
-  "dont": [
-    {
-      "rule": "Do not copy donor wording, personal experience, facts or numbers.",
-      "evidence": [
-        {
-          "handle": "IanCutress",
-          "id": "2080346881742483595",
-          "text": "@AMD @cerebras @andrewdfeldman ROCm releases every six weeks. https://t.co/RBMFZysaRR"
-        },
-        {
-          "handle": "IanCutress",
-          "id": "2080361822662574538",
-          "text": "@AMD Lisa back to the stage. https://t.co/p8Q9Kia7U6"
-        },
-        {
-          "handle": "IanCutress",
-          "id": "2080362158307598819",
-          "text": "@AMD Florence, Ferrara, Fidenza https://t.co/mOTfNvEOcS"
-        },
-        {
-          "handle": "IanCutress",
-          "id": "2080363114608931183",
-          "text": "@AMD Final thought: AI is having the biggest impact.\n\nYes my view is obscured by the camera crew. Why right at this exact second. https://t."
+          "handle": "citrini",
+          "id": "2070565423372747250",
+          "text": "For every SOTA model release going forward, it’s likely the government will decide which companies have access to them.\n\nBelow is from OpenA"
         }
       ]
     },
     {
-      "rule": "Do not convert observed confidence into an unsupported trade call.",
+      "tendency": "Frames forward views conditionally, with stated scenarios, time horizons or caveats about scope, instead of flat certainty.",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2063951426695676278",
+        "2078862978737402304",
+        "2104383254988206259"
+      ],
       "evidence": [
+        {
+          "handle": "mingchikuo",
+          "id": "2063951426695676278",
+          "text": "WWDC26 不影響 Apple 2H26 股價正向趨勢，但將揭露多頭敘事的續航力\n‒‒ \n\n1. Apple 目前的多頭核心敘事，是一個近乎直覺、沒什麼人反駁的市場共識：「即使 Apple 在 AI 進度上暫時落後，最終仍能後來居上」。\n\n2. 根據最新的供應鏈調查，我認為 A"
+        },
+        {
+          "handle": "kevinsxu",
+          "id": "2078862978737402304",
+          "text": "Alibaba is a major investor of Moonshot. Kimi, in turn, uses a big chunk of AliCloud GPUs (oftentimes competing away Qwen team's resources)\n"
+        },
+        {
+          "handle": "citrini",
+          "id": "2104383254988206259",
+          "text": "Also this should be limited to banks that have a high % of retail deposits, although it’s not impossible that we would see some sort of smal"
+        }
+      ]
+    },
+    {
+      "tendency": "Ends with a dry, ironic or teasing punchline that undercuts the headline it just reported.",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2105381923996528689",
+        "2097715126275097051",
+        "2104405843655401704"
+      ],
+      "evidence": [
+        {
+          "handle": "LexSokolin",
+          "id": "2105381923996528689",
+          "text": "Anthropic's S-1 warns of 'existential risks to humanity' and reports an $8 billion loss.\n\nTwo apocalypses in one prospectus. Only one of the"
+        },
+        {
+          "handle": "kevinsxu",
+          "id": "2097715126275097051",
+          "text": "A national legislation banning AI super intelligence now has a &gt;10% chance of passing thanks to vagueposts about a &gt;10% chance AI supe"
+        },
+        {
+          "handle": "SemiAnalysis_",
+          "id": "2104405843655401704",
+          "text": "ALERT🚨: Just 4 TPUv7s were able to get close to 1 giant @cerebras wafer in terms of interactivity due to the cracked @inferact 200IQ softwar"
+        }
+      ]
+    },
+    {
+      "tendency": "Presents a new data point as confirming the poster's earlier call or trade.",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "1920066758439997938",
+        "2100369726341816468"
+      ],
+      "evidence": [
+        {
+          "handle": "mingchikuo",
+          "id": "1920066758439997938",
+          "text": "Super Micro (SMCI) Q3 FY2025 earnings call confirms my earlier prediction. The company's financial forecast for Q4 FY2025 (2Q25) came in bel"
+        },
+        {
+          "handle": "citrini",
+          "id": "2100369726341816468",
+          "text": "5s30s has flattened by 33bps in the three weeks since we initiated the trade in our latest macro memo. \n\nDid we write 36 pages of macro reas"
+        }
+      ]
+    },
+    {
+      "tendency": "Walks through a technical or economic mechanism step by step in longer paragraphs.",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2100027192327450846",
+        "2075261367402090768",
+        "2092775598733332741"
+      ],
+      "evidence": [
+        {
+          "handle": "SemiAnalysis_",
+          "id": "2100027192327450846",
+          "text": "HiCache sits between HBM and the external DRAM KV store as a per-rank host-side L2 buffer, so every load and offload takes an extra copy, th"
+        },
+        {
+          "handle": "kevinsxu",
+          "id": "2075261367402090768",
+          "text": "The San Marcos, Texas ban is largely preemptively. No data centers have been proposed in that area, though some are happening in the neighbo"
+        },
+        {
+          "handle": "matthew_sigel",
+          "id": "2092775598733332741",
+          "text": "I've never seen a credible dispute of this economic reality:\n\nFor networks defined by massive fixed costs, whether they are power grids or a"
+        }
+      ]
+    },
+    {
+      "tendency": "Posts very short reactions or replies of only a few words, with no supporting data.",
+      "frequency": "often",
+      "evidence_ids": [
+        "2099521822039609660",
+        "2104477318391734659",
+        "2080346881742483595"
+      ],
+      "evidence": [
+        {
+          "handle": "jukan05",
+          "id": "2099521822039609660",
+          "text": "I can’t believe there are firms willing to pay $100K a month for this."
+        },
+        {
+          "handle": "LexSokolin",
+          "id": "2104477318391734659",
+          "text": "Austin is right\n\nIt’s your money,\nIt does not belong to the box you put it in"
+        },
         {
           "handle": "IanCutress",
           "id": "2080346881742483595",
           "text": "@AMD @cerebras @andrewdfeldman ROCm releases every six weeks. https://t.co/RBMFZysaRR"
+        }
+      ]
+    },
+    {
+      "tendency": "Places cashtags as tags at the end of a post or at the start of a line, marking the read-through to related stocks.",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2087197597769642350",
+        "2092723047107355133"
+      ],
+      "evidence": [
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087197597769642350",
+          "text": "The chart below shows reasoning versus non-reasoning token usage on OpenRouter from late 2024 through late 2025.\n\nSince the start of 2025, t"
         },
         {
-          "handle": "IanCutress",
-          "id": "2080361822662574538",
-          "text": "@AMD Lisa back to the stage. https://t.co/p8Q9Kia7U6"
-        },
-        {
-          "handle": "IanCutress",
-          "id": "2080362158307598819",
-          "text": "@AMD Florence, Ferrara, Fidenza https://t.co/mOTfNvEOcS"
-        },
-        {
-          "handle": "IanCutress",
-          "id": "2080363114608931183",
-          "text": "@AMD Final thought: AI is having the biggest impact.\n\nYes my view is obscured by the camera crew. Why right at this exact second. https://t."
+          "handle": "aleabitoreddit",
+          "id": "2092723047107355133",
+          "text": "$NVDA: \"We expect to grow revenue by approximately 70% in fiscal 2028. This is a supply constrained outlook\"\n\nThat statement alone is probab"
         }
       ]
     }
   ],
-  "baseline_rules": {
-    "do": [
+  "avoid_tendencies": [
+    {
+      "tendency": "Numbered list or thread-announcement openers that promise a multi-part breakdown up front.",
+      "frequency": "almost_never",
+      "evidence_ids": [],
+      "evidence": []
+    },
+    {
+      "tendency": "Emoji-heavy hype banners as the opening line.",
+      "frequency": "rarely",
+      "evidence_ids": [
+        "2104405843655401704"
+      ],
+      "evidence": [
+        {
+          "handle": "SemiAnalysis_",
+          "id": "2104405843655401704",
+          "text": "ALERT🚨: Just 4 TPUv7s were able to get close to 1 giant @cerebras wafer in terms of interactivity due to the cracked @inferact 200IQ softwar"
+        }
+      ]
+    },
+    {
+      "tendency": "Explicit promotional pitches for paid research or subscriptions inside an analytical post.",
+      "frequency": "rarely",
+      "evidence_ids": [
+        "2098591199460196470"
+      ],
+      "evidence": [
+        {
+          "handle": "SemiAnalysis_",
+          "id": "2098591199460196470",
+          "text": "We recently published two company-specific notes for our institutional subscribers looking at the economics of modular and how modular capex"
+        }
+      ]
+    },
+    {
+      "tendency": "Hashtag clusters or generic engagement bait.",
+      "frequency": "almost_never",
+      "evidence_ids": [],
+      "evidence": []
+    }
+  ],
+  "baseline_tendencies": {
+    "tendencies": [
       {
-        "rule": "Lead with a clear judgment; use data to support it.",
+        "frequency": "often",
+        "tendency": "Opens with a clear judgment, supported by observations.",
         "evidence": [
           {
             "handle": "IanCutress",
@@ -443,7 +580,8 @@
         ]
       },
       {
-        "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+        "frequency": "often",
+        "tendency": "Uses claim-led openings, with sentences around the observed band.",
         "evidence": [
           {
             "handle": "IanCutress",
@@ -468,9 +606,10 @@
         ]
       }
     ],
-    "dont": [
+    "avoid_tendencies": [
       {
-        "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+        "frequency": "almost_never",
+        "tendency": "Relies on another author’s personal experience or identity.",
         "evidence": [
           {
             "handle": "IanCutress",
@@ -495,7 +634,8 @@
         ]
       },
       {
-        "rule": "Do not convert observed confidence into an unsupported trade call.",
+        "frequency": "rarely",
+        "tendency": "Turns confidence into an unsupported trade call.",
         "evidence": [
           {
             "handle": "IanCutress",
@@ -521,5 +661,446 @@
       }
     ]
   },
-  "qualitative": {}
+  "qualitative": {
+    "voice_summary": "An industry-and-capex voice that mostly leads with a concrete claim, figure or relayed disclosure and adds a short read on what it means for the supply chain or for valuations. The register moves between terse wire-style reporting, dense technical mechanism threads and dry or ironic one-line reactions. Opinions sit on top of data instead of replacing it.",
+    "hook_patterns": [
+      {
+        "pattern": "Opens with a plain declarative claim or fact about a company, product or market. There is no setup and no framing device.",
+        "share_estimate": 0.76,
+        "example_ids": [
+          "1925904346450915799",
+          "2070565423372747250"
+        ],
+        "evidence": [
+          {
+            "handle": "mingchikuo",
+            "id": "1925904346450915799",
+            "text": "In terms of profitability, it's way better for Apple to take the hit of a 25% tariff on iPhones sold in the US market than to move iPhone as"
+          },
+          {
+            "handle": "citrini",
+            "id": "2070565423372747250",
+            "text": "For every SOTA model release going forward, it’s likely the government will decide which companies have access to them.\n\nBelow is from OpenA"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens on a ticker or company name, followed straight away by a reported metric or statement.",
+        "share_estimate": 0.08,
+        "example_ids": [
+          "2097921040144093335",
+          "2092723047107355133"
+        ],
+        "evidence": [
+          {
+            "handle": "jukan05",
+            "id": "2097921040144093335",
+            "text": "TSMC August revenue: NT$514,806mn\n(+10.1% MoM, +53.3% YoY)\n\n$TSM https://t.co/UJtgcH2F2T"
+          },
+          {
+            "handle": "aleabitoreddit",
+            "id": "2092723047107355133",
+            "text": "$NVDA: \"We expect to grow revenue by approximately 70% in fiscal 2028. This is a supply constrained outlook\"\n\nThat statement alone is probab"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens with a contrast or turn: it sets up an expected reading, then pivots to the 'real' point or a surprising reveal.",
+        "share_estimate": 0.06,
+        "example_ids": [
+          "2090123380598919431",
+          "2071647875772149825"
+        ],
+        "evidence": [
+          {
+            "handle": "LexSokolin",
+            "id": "2090123380598919431",
+            "text": "Tesla's Optimus bot is valued at $20 trillion by some analysts\n\nWe can debate the number all day\n\nBut that's not the insight\n\nIt's an all-in"
+          },
+          {
+            "handle": "kevinsxu",
+            "id": "2071647875772149825",
+            "text": "Not to pile on but...the \"engineers\" mentioned here are not from DeepSeek, Alibaba, Meta, or xAI...\n\nThey are from Amazon! https://t.co/3yvT"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens with a question, either asked of the audience or as a teaser for a clip or discussion.",
+        "share_estimate": 0.05,
+        "example_ids": [
+          "2105066689813700669",
+          "2101008136098193790"
+        ],
+        "evidence": [
+          {
+            "handle": "Beth_Kindig",
+            "id": "2105066689813700669",
+            "text": "What stocks could win big from the shift to AI inference?\n\nI break down my thoughts in the clip below.\n@cvpayne https://t.co/uSJwCbrv9J"
+          },
+          {
+            "handle": "LexSokolin",
+            "id": "2101008136098193790",
+            "text": "what are you building with @typesafeai ?"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens with a direct quote from an executive or interviewee, then gives the account's own interpretation.",
+        "share_estimate": 0.02,
+        "example_ids": [
+          "2099679686758400144",
+          "2105943565918703696"
+        ],
+        "evidence": [
+          {
+            "handle": "SemiAnalysis_",
+            "id": "2099679686758400144",
+            "text": "GPT-6 Astra reportedly gets deeper without getting bigger. The labs already know what that means for scaling.\n\n\"It's basically confirmed tha"
+          },
+          {
+            "handle": "aleabitoreddit",
+            "id": "2105943565918703696",
+            "text": "$LITE CEO: \"Next year with the advent of CPO and NPO in 2027, our estimates are that we'll be undershipping demand...\n\nBy 70%. Literally 70%"
+          }
+        ]
+      },
+      {
+        "pattern": "Opens with an alert-style emoji banner that flags urgency, usually as a playful jab.",
+        "share_estimate": 0.01,
+        "example_ids": [
+          "2104405843655401704"
+        ],
+        "evidence": [
+          {
+            "handle": "SemiAnalysis_",
+            "id": "2104405843655401704",
+            "text": "ALERT🚨: Just 4 TPUv7s were able to get close to 1 giant @cerebras wafer in terms of interactivity due to the cracked @inferact 200IQ softwar"
+          }
+        ]
+      }
+    ],
+    "cadence_notes": "About 2 posts per active day (median). Activity is concentrated from 14 to 21 UTC, which overlaps US market hours, and is lightest from roughly 04 to 11 UTC. Sentences are short (median about 9 words, middle half about 4–18). Most posts are single tweets. Roughly one in six is part of a thread, and a bit over a third carry media or a link.",
+    "signature_moves": [
+      {
+        "move": "States a headline valuation or metric, then dismisses the number as beside the point and reframes it as a bet on a structural platform shift.",
+        "example_ids": [
+          "2090123380598919431"
+        ],
+        "evidence": [
+          {
+            "handle": "LexSokolin",
+            "id": "2090123380598919431",
+            "text": "Tesla's Optimus bot is valued at $20 trillion by some analysts\n\nWe can debate the number all day\n\nBut that's not the insight\n\nIt's an all-in"
+          }
+        ]
+      },
+      {
+        "move": "Relays a guidance quote, asks rhetorically whether that line matters more than the headline beat, then names which part of the supply chain benefits.",
+        "example_ids": [
+          "2092723047107355133"
+        ],
+        "evidence": [
+          {
+            "handle": "aleabitoreddit",
+            "id": "2092723047107355133",
+            "text": "$NVDA: \"We expect to grow revenue by approximately 70% in fiscal 2028. This is a supply constrained outlook\"\n\nThat statement alone is probab"
+          }
+        ]
+      },
+      {
+        "move": "Builds a numbered chain of reasoning that ends in an explicit if/then split between two scenarios for a stock narrative.",
+        "example_ids": [
+          "2063951426695676278"
+        ],
+        "evidence": [
+          {
+            "handle": "mingchikuo",
+            "id": "2063951426695676278",
+            "text": "WWDC26 不影響 Apple 2H26 股價正向趨勢，但將揭露多頭敘事的續航力\n‒‒ \n\n1. Apple 目前的多頭核心敘事，是一個近乎直覺、沒什麼人反駁的市場共識：「即使 Apple 在 AI 進度上暫時落後，最終仍能後來居上」。\n\n2. 根據最新的供應鏈調查，我認為 A"
+          }
+        ]
+      },
+      {
+        "move": "Turns a corporate filing into labelled fields (counterparty, scope, value, period) with no commentary.",
+        "example_ids": [
+          "2104787376740692239"
+        ],
+        "evidence": [
+          {
+            "handle": "jukan05",
+            "id": "2104787376740692239",
+            "text": "▶️ Samsung Electro-Mechanics Announces Sales/Supply Contract\n\n- Counterparty: Major global company\n\n- Contract Details: (Other Sales/Supply "
+          }
+        ]
+      },
+      {
+        "move": "Links ownership or resource dependencies between companies to infer an upcoming earnings outcome.",
+        "example_ids": [
+          "2078862978737402304"
+        ],
+        "evidence": [
+          {
+            "handle": "kevinsxu",
+            "id": "2078862978737402304",
+            "text": "Alibaba is a major investor of Moonshot. Kimi, in turn, uses a big chunk of AliCloud GPUs (oftentimes competing away Qwen team's resources)\n"
+          }
+        ]
+      },
+      {
+        "move": "Recounts a personal tooling anecdote and lists several candidate technical causes with letters, without picking one.",
+        "example_ids": [
+          "2101261861182468492"
+        ],
+        "evidence": [
+          {
+            "handle": "IanCutress",
+            "id": "2101261861182468492",
+            "text": "Well here's a 1 in 10000 output from my Claude Code. Apparently the character is used to signify 'genuine' and when I asked Claude about it,"
+          }
+        ]
+      }
+    ],
+    "tendencies": [
+      {
+        "tendency": "Reports a figure (revenue, growth or guidance against consensus) with little or no interpretive text around it.",
+        "frequency": "often",
+        "evidence_ids": [
+          "2097921040144093335",
+          "2091277142029959626",
+          "2097283329322078473"
+        ],
+        "evidence": [
+          {
+            "handle": "jukan05",
+            "id": "2097921040144093335",
+            "text": "TSMC August revenue: NT$514,806mn\n(+10.1% MoM, +53.3% YoY)\n\n$TSM https://t.co/UJtgcH2F2T"
+          },
+          {
+            "handle": "Beth_Kindig",
+            "id": "2091277142029959626",
+            "text": "Anthropic reported Q2 revenue of $11.6 billion, up more than 145% from $4.73 billion in Q1, and outpacing OpenAI’s $6.7 billion in Q2 revenu"
+          },
+          {
+            "handle": "matthew_sigel",
+            "id": "2097283329322078473",
+            "text": "sei-network:native pre-announces +ve Q3 &amp; Q4, raises full-year guidance, guides Q127 $200-240M EBIDTA vs consensus $137M.\n\nsei-network:n"
+          }
+        ]
+      },
+      {
+        "tendency": "Relays an outside source (a CEO, a newspaper or a company memo) and adds one short line on the implication or the poster's reaction.",
+        "frequency": "often",
+        "evidence_ids": [
+          "2105943565918703696",
+          "2097158555665399925",
+          "2070565423372747250"
+        ],
+        "evidence": [
+          {
+            "handle": "aleabitoreddit",
+            "id": "2105943565918703696",
+            "text": "$LITE CEO: \"Next year with the advent of CPO and NPO in 2027, our estimates are that we'll be undershipping demand...\n\nBy 70%. Literally 70%"
+          },
+          {
+            "handle": "jukan05",
+            "id": "2097158555665399925",
+            "text": "FT: CXMT and YMTC have secured enough ASML DUV tools to support their capacity expansion plans for the next three years…\n\nThis is so fucking"
+          },
+          {
+            "handle": "citrini",
+            "id": "2070565423372747250",
+            "text": "For every SOTA model release going forward, it’s likely the government will decide which companies have access to them.\n\nBelow is from OpenA"
+          }
+        ]
+      },
+      {
+        "tendency": "Frames forward views conditionally, with stated scenarios, time horizons or caveats about scope, instead of flat certainty.",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2063951426695676278",
+          "2078862978737402304",
+          "2104383254988206259"
+        ],
+        "evidence": [
+          {
+            "handle": "mingchikuo",
+            "id": "2063951426695676278",
+            "text": "WWDC26 不影響 Apple 2H26 股價正向趨勢，但將揭露多頭敘事的續航力\n‒‒ \n\n1. Apple 目前的多頭核心敘事，是一個近乎直覺、沒什麼人反駁的市場共識：「即使 Apple 在 AI 進度上暫時落後，最終仍能後來居上」。\n\n2. 根據最新的供應鏈調查，我認為 A"
+          },
+          {
+            "handle": "kevinsxu",
+            "id": "2078862978737402304",
+            "text": "Alibaba is a major investor of Moonshot. Kimi, in turn, uses a big chunk of AliCloud GPUs (oftentimes competing away Qwen team's resources)\n"
+          },
+          {
+            "handle": "citrini",
+            "id": "2104383254988206259",
+            "text": "Also this should be limited to banks that have a high % of retail deposits, although it’s not impossible that we would see some sort of smal"
+          }
+        ]
+      },
+      {
+        "tendency": "Ends with a dry, ironic or teasing punchline that undercuts the headline it just reported.",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2105381923996528689",
+          "2097715126275097051",
+          "2104405843655401704"
+        ],
+        "evidence": [
+          {
+            "handle": "LexSokolin",
+            "id": "2105381923996528689",
+            "text": "Anthropic's S-1 warns of 'existential risks to humanity' and reports an $8 billion loss.\n\nTwo apocalypses in one prospectus. Only one of the"
+          },
+          {
+            "handle": "kevinsxu",
+            "id": "2097715126275097051",
+            "text": "A national legislation banning AI super intelligence now has a &gt;10% chance of passing thanks to vagueposts about a &gt;10% chance AI supe"
+          },
+          {
+            "handle": "SemiAnalysis_",
+            "id": "2104405843655401704",
+            "text": "ALERT🚨: Just 4 TPUv7s were able to get close to 1 giant @cerebras wafer in terms of interactivity due to the cracked @inferact 200IQ softwar"
+          }
+        ]
+      },
+      {
+        "tendency": "Presents a new data point as confirming the poster's earlier call or trade.",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "1920066758439997938",
+          "2100369726341816468"
+        ],
+        "evidence": [
+          {
+            "handle": "mingchikuo",
+            "id": "1920066758439997938",
+            "text": "Super Micro (SMCI) Q3 FY2025 earnings call confirms my earlier prediction. The company's financial forecast for Q4 FY2025 (2Q25) came in bel"
+          },
+          {
+            "handle": "citrini",
+            "id": "2100369726341816468",
+            "text": "5s30s has flattened by 33bps in the three weeks since we initiated the trade in our latest macro memo. \n\nDid we write 36 pages of macro reas"
+          }
+        ]
+      },
+      {
+        "tendency": "Walks through a technical or economic mechanism step by step in longer paragraphs.",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2100027192327450846",
+          "2075261367402090768",
+          "2092775598733332741"
+        ],
+        "evidence": [
+          {
+            "handle": "SemiAnalysis_",
+            "id": "2100027192327450846",
+            "text": "HiCache sits between HBM and the external DRAM KV store as a per-rank host-side L2 buffer, so every load and offload takes an extra copy, th"
+          },
+          {
+            "handle": "kevinsxu",
+            "id": "2075261367402090768",
+            "text": "The San Marcos, Texas ban is largely preemptively. No data centers have been proposed in that area, though some are happening in the neighbo"
+          },
+          {
+            "handle": "matthew_sigel",
+            "id": "2092775598733332741",
+            "text": "I've never seen a credible dispute of this economic reality:\n\nFor networks defined by massive fixed costs, whether they are power grids or a"
+          }
+        ]
+      },
+      {
+        "tendency": "Posts very short reactions or replies of only a few words, with no supporting data.",
+        "frequency": "often",
+        "evidence_ids": [
+          "2099521822039609660",
+          "2104477318391734659",
+          "2080346881742483595"
+        ],
+        "evidence": [
+          {
+            "handle": "jukan05",
+            "id": "2099521822039609660",
+            "text": "I can’t believe there are firms willing to pay $100K a month for this."
+          },
+          {
+            "handle": "LexSokolin",
+            "id": "2104477318391734659",
+            "text": "Austin is right\n\nIt’s your money,\nIt does not belong to the box you put it in"
+          },
+          {
+            "handle": "IanCutress",
+            "id": "2080346881742483595",
+            "text": "@AMD @cerebras @andrewdfeldman ROCm releases every six weeks. https://t.co/RBMFZysaRR"
+          }
+        ]
+      },
+      {
+        "tendency": "Places cashtags as tags at the end of a post or at the start of a line, marking the read-through to related stocks.",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2087197597769642350",
+          "2092723047107355133"
+        ],
+        "evidence": [
+          {
+            "handle": "Beth_Kindig",
+            "id": "2087197597769642350",
+            "text": "The chart below shows reasoning versus non-reasoning token usage on OpenRouter from late 2024 through late 2025.\n\nSince the start of 2025, t"
+          },
+          {
+            "handle": "aleabitoreddit",
+            "id": "2092723047107355133",
+            "text": "$NVDA: \"We expect to grow revenue by approximately 70% in fiscal 2028. This is a supply constrained outlook\"\n\nThat statement alone is probab"
+          }
+        ]
+      }
+    ],
+    "avoid_tendencies": [
+      {
+        "tendency": "Numbered list or thread-announcement openers that promise a multi-part breakdown up front.",
+        "frequency": "almost_never",
+        "evidence_ids": [],
+        "evidence": []
+      },
+      {
+        "tendency": "Emoji-heavy hype banners as the opening line.",
+        "frequency": "rarely",
+        "evidence_ids": [
+          "2104405843655401704"
+        ],
+        "evidence": [
+          {
+            "handle": "SemiAnalysis_",
+            "id": "2104405843655401704",
+            "text": "ALERT🚨: Just 4 TPUv7s were able to get close to 1 giant @cerebras wafer in terms of interactivity due to the cracked @inferact 200IQ softwar"
+          }
+        ]
+      },
+      {
+        "tendency": "Explicit promotional pitches for paid research or subscriptions inside an analytical post.",
+        "frequency": "rarely",
+        "evidence_ids": [
+          "2098591199460196470"
+        ],
+        "evidence": [
+          {
+            "handle": "SemiAnalysis_",
+            "id": "2098591199460196470",
+            "text": "We recently published two company-specific notes for our institutional subscribers looking at the economics of modular and how modular capex"
+          }
+        ]
+      },
+      {
+        "tendency": "Hashtag clusters or generic engagement bait.",
+        "frequency": "almost_never",
+        "evidence_ids": [],
+        "evidence": []
+      }
+    ],
+    "variation_notes": "Length runs from a few words to multi-paragraph technical explanations, and the long-form posts tend to appear as threads. The register ranges from neutral, structured disclosure summaries to casual or profane reactions, self-deprecating asides and sardonic one-liners. Hooks are mostly direct claims. Questions, contrast pivots, quote-led openings and the occasional emoji banner add variety without dominating. Some donors post in both English and Chinese, and their structure stays the same across the two languages.",
+    "judgment_style": "Mostly assertive on direction, with data as the main support. About three quarters of posts lean on figures, disclosures or quotes. When the subject is a forecast, views are often hedged with conditions, scenario splits, time windows or limits on scope. Judgments tend to show up as a brief read-through after the evidence, such as which part of the supply chain benefits or whether a narrative holds, rather than as a standalone thesis. Strong, unhedged opinions appear mainly in short reactive or ironic posts."
+  }
 }
