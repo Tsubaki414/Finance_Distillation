@@ -59,6 +59,9 @@ def contradiction_findings(body):
         time = tuple(m.group().casefold() for m in _TIME.finditer(sentence))
         matches = list(NUMBER.finditer(sentence))
         for i, match in enumerate(matches):
+            # Dates are anchors, not metric values ('2026年9月', '7月', '15日', 'in 2026').
+            if re.match(r'\s*(?:年|月|日|号)', sentence[match.end():]) or re.fullmatch(r'(?:19|20)\d{2}', match.group().strip()):
+                continue
             before = sentence[matches[i-1].end() if i else 0:match.start()]
             after = sentence[match.end():matches[i+1].start() if i+1 < len(matches) else len(sentence)]
             # Strip period anchors before extracting the adjacent subject.
