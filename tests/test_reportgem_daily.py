@@ -370,3 +370,126 @@ class RateLimitTests(unittest.TestCase):
             data = client('search_research', {'query': 'x'})
             self.assertEqual(data['results'], [])
             self.assertEqual(state['calls'], 2)
+
+
+class TightenTests(unittest.TestCase):
+    def test_excluded_bofa_counted_once_before_screening(self):
+        qs = rg.listing_queries(['industry_ai_capex'], day='2026-10-04')
+        report = {}
+        rows = rg.daily_listing(lambda *_: search_response([item(1, inst='BofA Global Research'), item(1, inst='BofA'), item(2)]),
+                                qs, day='2026-10-04', budget=rg.Points(40), report=report)
+        self.assertEqual([r['source_id'] for r in rows], ['2'])
+        self.assertEqual(report['excluded_banks'], {'BofA': 1})
+        self.assertEqual(rg.bank_of('Bank of America'), 'BofA')
+        self.assertIn('2026-10-04', rg.EXCLUDED_BANKS['BofA'])
+
+    def test_targeted_queries_dedup_and_catchup_window(self):
+        personas = ['investing_philosophy', 'trading_shortterm', 'industry_ai_capex', 'zh_us_stock_commentary']
+        base = rg.listing_queries(personas, day='2026-10-04')
+        qs = rg.listing_queries(personas, day='2026-10-04', targeted=personas * 2, date_from='2026-09-20')
+        self.assertEqual(len(qs), len(base) + 8)
+        self.assertEqual(len({(q['query'], tuple(q['sources'])) for q in qs}), len(qs))
+        for q in qs:
+            self.assertEqual(q['date_from'], '2026-09-27' if 'chinese_research' in q['sources'] else '2026-09-20')
+            if 'chinese_research' in q['sources']:
+                self.assertNotIn(' ', q['query'])
+        rows = rg.daily_listing(lambda *_: search_response([item(8, date='2026-09-21')]), qs[:1],
+                                day='2026-10-04', date_from='2026-09-20', budget=rg.Points(40))
+        self.assertEqual(len(rows), 1)
+
+    def test_targeted_queries_use_week_window_and_wider_limit(self):
+        base = rg.listing_queries(['trading_shortterm'], day='2026-10-04')
+        qs = rg.listing_queries(['trading_shortterm'], day='2026-10-04', targeted=['trading_shortterm'])
+        self.assertEqual(qs[:len(base)], base)  # main query keys unchanged
+        for q in qs[len(base):]:
+            self.assertEqual((q['date_from'], q['limit']), ('2026-09-27', 10))
+        old = item(9, date='2026-09-28')
+        main = rg.daily_listing(lambda *_: search_response([old]), base[:1], day='2026-10-04', budget=rg.Points(40))
+        tgt = rg.daily_listing(lambda *_: search_response([old]), qs[len(base):][:1], day='2026-10-04', budget=rg.Points(40))
+        self.assertEqual((len(main), len(tgt)), (0, 1))
+
+    def test_jev_confidence_gate_and_downgrade_count(self):
+        class Jev:
+            def review(self, state, questions):
+                return {'status': 'completed', 'answers': {q: {'choice': 'strong', **a} for q, a in zip(questions, [{'confidence': .69}, {'confidence': .7}, {}])}}
+        rows = [dict(item(i), bank='Goldman Sachs') for i in range(3)]
+        scores = rg.prescreen(rows, ['investing_philosophy'], jev=Jev())
+        self.assertEqual(scores['investing_philosophy'], {'0': 'weak', '1': 'strong', '2': 'weak'})
+        self.assertEqual(scores['_downgraded']['investing_philosophy'], 2)
+
+    def test_failed_batch_retried_once_and_only_that_batch_falls_back(self):
+        class Jev:
+            calls = 0
+            def review(self, state, questions):
+                self.calls += 1
+                if self.calls in (2, 3):
+                    raise RuntimeError('offline')
+                return {'status': 'completed', 'answers': {q: {'choice': 'none'} for q in questions}}
+        jev = Jev()
+        rows = [dict(item(i, title='PMI survey'), bank='Goldman Sachs') for i in range(35)]
+        scores = rg.prescreen(rows, ['market_data_charts'], jev=jev)
+        self.assertEqual(jev.calls, 4)
+        self.assertEqual(scores['market_data_charts']['0'], 'none')
+        self.assertEqual(scores['market_data_charts']['16'], 'strong')
+        self.assertEqual(scores['market_data_charts']['34'], 'none')
+        self.assertEqual(scores['_method']['market_data_charts'], 'mixed')
+        self.assertEqual(scores['_method']['fallback_items']['market_data_charts'], 16)
+
+    def test_failed_batch_recovers_on_retry(self):
+        class Jev:
+            calls = 0
+            def review(self, state, questions):
+                self.calls += 1
+                return {'status': 'blocked'} if self.calls == 1 else {'status': 'completed', 'answers': {q: {'choice': 'none'} for q in questions}}
+        jev = Jev()
+        scores = rg.prescreen([dict(item(1), bank='Goldman Sachs')], ['industry_ai_capex'], jev=jev)
+        self.assertEqual(jev.calls, 2)
+        self.assertEqual(scores['industry_ai_capex']['1'], 'none')
+        self.assertEqual(scores['_method']['industry_ai_capex'], 'jev')
+
+    def test_keyword_strong_requires_title_specific_or_two_distinct_hits(self):
+        for title, industry, expected in [('Monthly monthly', '', 'weak'), ('Data charts', '', 'strong'),
+                                          ('PMI', '', 'strong'), ('Company update', 'PMI survey', 'weak'), ('Company update', '', 'none')]:
+            self.assertEqual(rg._keyword_choice({'title': title, 'industry': industry}, 'market_data_charts'), expected)
+        for p, title in [('industry_ai_capex', 'AI'), ('investing_philosophy', 'Strategy'), ('single_stock_deepdive_en', 'Results')]:
+            self.assertEqual(rg._keyword_choice({'title': title}, p), 'weak')
+        generic = {'data', 'monthly', 'chart', 'results', 'quarter', 'tech', 'ai', 'rate', 'outlook', 'strategy'}
+        for p in rg.THEMES:
+            self.assertFalse(generic & set(rg.SPECIFIC[p]))
+            self.assertTrue(set(rg.SPECIFIC[p]) <= set(rg.THEMES[p][2]))
+
+    def test_sharpened_jev_instructions(self):
+        instructions = []
+        class Jev:
+            def review(self, state, questions):
+                instructions.append(next(iter(questions.values()))['instructions'])
+                return {'status': 'completed', 'answers': {q: {'choice': 'none'} for q in questions}}
+        rg.prescreen([dict(item(1), bank='Goldman Sachs')], ['investing_philosophy', 'trading_shortterm', 'market_data_charts'], jev=Jev())
+        for text, phrase in zip(instructions, ['long-horizon investing principles', 'short-term market structure', 'cross-market data trackers']):
+            self.assertIn(phrase, text)
+            self.assertIn('NOT', text)
+            self.assertIn('single-company notes', text)
+
+    def test_cli_targeted_catchup_and_exclusion_report(self):
+        import tempfile
+        from pathlib import Path
+        from unittest.mock import patch
+        from scripts import reportgem_daily as cli
+        with tempfile.TemporaryDirectory() as tmp:
+            run = Path(tmp)
+            calls = []
+            def replay_call(tool, args):
+                calls.append((tool, args))
+                return search_response([item(1, inst='BofA')])
+            with patch('sys.argv', ['reportgem_daily', '--run', tmp, '--day', '2026-10-04', '--no-jev', '--targeted', 'investing_philosophy,zh_us_stock_commentary', '--date-from', '2026-09-20']), patch.object(cli, 'replay', return_value=replay_call), patch('builtins.print'):
+                cli.main()
+            report = json.loads((run / 'report.json').read_text())
+            self.assertEqual(report['excluded_banks'], {'BofA': 1})
+            self.assertTrue(all(tool == 'search_research' for tool, _ in calls))
+            self.assertIn('long-term asset allocation outlook', {args['query'] for _, args in calls})
+            self.assertIn('美股', {args['query'] for _, args in calls})
+            for _, args in calls:
+                self.assertEqual(args['date_from'], '2026-09-27' if 'chinese_research' in args['sources'] else '2026-09-20')
+            self.assertEqual(report['listing_items'], 0)
+            self.assertEqual(report['points']['evidence_points'], 0)
+            self.assertEqual(report['personas']['investing_philosophy']['prescreen_downgraded'], 0)
