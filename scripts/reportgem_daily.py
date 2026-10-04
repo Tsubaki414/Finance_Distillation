@@ -57,22 +57,41 @@ def main():
         report['stage'] = 'listing'
     else:
         jev = None
-        if not args.no_jev:
+        cached = args.run / 'prescreen.json'
+        if cached.exists():
+            scores = json.loads(cached.read_text())
+        elif not args.no_jev:
             from live.jev_review_client import JevReviewClient
             from ml import budget as spend
             spend.STORE = args.run / 'ledger'
             spend.LEDGER = spend.STORE / 'spend.json'
             jev = JevReviewClient(args.run / 'jev_calls')
-        scores = rg.prescreen(items, PERSONAS, jev=jev)
-        top = rg.select_top(scores, per_persona=args.per_persona, max_total=args.max_top)
+        if not cached.exists():
+            scores = rg.prescreen(items, PERSONAS, jev=jev)
+            cached.write_text(json.dumps(scores, ensure_ascii=False, indent=1))
+        by_id = {str(i['source_id']): i for i in items}
+        rejected = set()
+        for sid, it in by_id.items():  # recorded evidence already known to be unusable -> pick the next item
+            args_ev = {'source_type': it['source_type'], 'source_id': sid, 'query': it['title'][:300], 'max_passages': args.passages}
+            try:
+                ev = call('get_evidence', args_ev)
+            except rg.Unrecorded:
+                continue
+            if rg.screen_evidence(it, ev):
+                rejected.add(sid)
+        excluded = sorted(sid for sid, i in by_id.items() if rg.is_rating_call(i) or sid in rejected)
+        top = rg.select_top(scores, per_persona=args.per_persona, max_total=args.max_top, exclude=excluded)
         report.update(prescreen_method=scores['_method'], prescreen={p: s for p, s in scores.items() if not p.startswith('_')},
                       top=[{'persona': p, 'source_id': sid} for p, sid in top])
-        by_id = {str(i['source_id']): i for i in items}
+        report['rejected_recorded'] = sorted(rejected)
         sources = []
         for persona, sid in top:
             it = by_id[sid]
             ev = rg._call(call, 'get_evidence', {'source_type': it['source_type'], 'source_id': sid,
                                                  'query': it['title'][:300], 'max_passages': args.passages}, budget, plan)
+            flags = rg.screen_evidence(it, ev) if ev else []
+            if flags:
+                report.setdefault('rejected', []).append({'source_id': sid, 'title': it['title'], 'flags': flags})
             src = rg.to_source(it, ev) if ev else None
             if src:
                 sources.append({'persona': persona, 'source': src})
@@ -91,9 +110,13 @@ def main():
             for s in sources:
                 src = s['source']
                 tier = registry.source_licence_tier(src['source_id'])
+                done = args.run / f'units_{src["id"]}.json'
                 try:
-                    out = content_units.extract(src, client, licence_tier=tier, publisher=src['publisher'])
-                    (args.run / f'units_{src["id"]}.json').write_text(json.dumps(out, ensure_ascii=False, indent=1))
+                    if done.exists():  # resume: never pay twice for the same source
+                        out = json.loads(done.read_text())
+                    else:
+                        out = content_units.extract(src, client, licence_tier=tier, publisher=src['publisher'])
+                        done.write_text(json.dumps(out, ensure_ascii=False, indent=1))
                     report['units'].append({'id': src['id'], 'persona': s['persona'], 'tier': tier, 'units': len(out['units']),
                                             'dropped': len(out['dropped_units']),
                                             'usage': sorted({u['usage'] for u in out['units']})})
@@ -104,7 +127,8 @@ def main():
     report['plan'] = plan
     (args.run / 'plan.json').write_text(json.dumps(plan, ensure_ascii=False, indent=1))
     (args.run / 'report.json').write_text(json.dumps(report, ensure_ascii=False, indent=1))
-    print(json.dumps({k: v for k, v in report.items() if k not in ('items', 'prescreen')}, ensure_ascii=False, indent=1)[:3000])
+    (args.run / 'report.json').write_text(json.dumps(report, ensure_ascii=False, indent=1))
+    print(json.dumps({k: v for k, v in report.items() if k not in ('items', 'prescreen', 'plan')}, ensure_ascii=False, indent=1))
 
 
 if __name__ == '__main__':

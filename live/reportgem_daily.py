@@ -19,6 +19,7 @@ call that is not recorded is appended to `plan` instead of being invented.
 from __future__ import annotations
 
 from datetime import date, timedelta
+import datetime as dt
 import hashlib
 import json
 import re
@@ -69,6 +70,16 @@ BOILERPLATE = re.compile(r'Reg AC|Disclosure Appendix|hereby certify|conflict of
                          r'does and seeks to do business', re.I)
 CONTACT = re.compile(r'[\w.+-]+@[\w-]+\.[\w.]+|\+?\d[\d\s()-]{7,}\d')
 SENTENCE = re.compile(r'(?<=[.!?。])\s+')
+# Ratings / price targets are bank recommendations, not facts we may relay.
+RATING = re.compile(r'Price Target|Price Objective|\bPO:|\bTP\b|target price|Maintain Rating|\bRating:|'
+                    r'\b(?:Overweight|Underweight|Outperform|Underperform)\b|Price \(\d', re.I)
+RATING_TITLE = re.compile(r'\b(?:TP|PO|price target|target price)\b|\b(?:upgrade|downgrade|initiat\w*)\b.*\b(?:buy|sell|overweight|underweight|neutral)\b|'
+                          r'(?:raising|cutting|lowering) (?:TP|PO|target)', re.I)
+WATERMARK = re.compile(r'Unauthori[sz]ed redistribution|intended for [\w.+-]+@|prepared for [\w.+-]+@', re.I)
+DOC_DATE = re.compile(r'\b(\d{1,2}) (January|February|March|April|May|June|July|August|September|October|November|December) (20\d\d)\b')
+MONTHS = {m: i for i, m in enumerate(('January February March April May June July August September October '
+                                      'November December').split(), 1)}
+STALE_DAYS = 21
 
 
 class Unrecorded(LookupError):
@@ -186,13 +197,14 @@ def prescreen(items, personas, *, jev=None):
     return scores
 
 
-def select_top(scores, *, per_persona=1, max_total=6):
-    out, used = [], set()
+def select_top(scores, *, per_persona=1, max_total=6, exclude=()):
+    out, used, excluded = [], set(), set(map(str, exclude))
     rank = {'strong': 0, 'weak': 1}
     for p, chosen in scores.items():
         if p.startswith('_'):
             continue
-        picks = sorted((rank[c], sid) for sid, c in chosen.items() if c in rank and sid not in used)
+        picks = sorted((rank[c], sid) for sid, c in chosen.items()
+                       if c in rank and sid not in used and sid not in excluded)
         for _, sid in picks[:per_persona]:
             out.append((p, sid))
             used.add(sid)
@@ -203,13 +215,37 @@ def source_id_for(bank):
     return 'reportgem_' + re.sub(r'[^a-z0-9]+', '_', bank.lower()).strip('_')
 
 
+def is_rating_call(item):
+    return bool(RATING_TITLE.search(item.get('title') or ''))
+
+
+def screen_evidence(item, evidence):
+    """Flags that disqualify an item: a redistribution watermark naming another
+    recipient (licence red flag) or a document date far older than the listing date."""
+    flags = []
+    texts = [p.get('matched_text') or p.get('text') or '' for p in (evidence or {}).get('passages') or []]
+    if any(WATERMARK.search(t) for t in texts):
+        flags.append('redistribution_watermark')
+    listed = (item.get('published_at') or '')[:10]
+    if listed and texts:
+        m = DOC_DATE.search(texts[0])
+        if m:
+            doc = dt.date(int(m.group(3)), MONTHS[m.group(2)], int(m.group(1)))
+            if (dt.date.fromisoformat(listed) - doc).days > STALE_DAYS:
+                flags.append('stale_document')
+    return flags
+
+
 def clean_passage(text):
     text = CONTACT.sub(' ', text or '')
-    keep = [s.strip() for s in SENTENCE.split(text) if s.strip() and not BOILERPLATE.search(s)]
+    text = re.sub(r'[“”„"]', "'", text)
+    keep = [s.strip() for s in SENTENCE.split(text) if s.strip() and not BOILERPLATE.search(s) and not RATING.search(s)]
     return re.sub(r'[ \t]{2,}', ' ', ' '.join(keep)).strip()
 
 
 def to_source(item, evidence):
+    if screen_evidence(item, evidence):
+        return None
     passages = []
     for p in (evidence or {}).get('passages') or []:
         cleaned = clean_passage(p.get('matched_text') or p.get('text') or '')
