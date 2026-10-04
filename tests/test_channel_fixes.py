@@ -7,7 +7,7 @@ from live.adapters import channels, common
 
 ROOT = Path(__file__).resolve().parents[1]
 BODY = 'Public research explains financial markets and economic developments. ' * 40
-ZH = '美股三大指数周五集体收涨，纳斯达克指数创下新高，市场关注下周公布的通胀数据与财报季开局。' * 30
+ZH = '美股三大指数周五集体收涨，纳斯达克指数创下新高，市场关注下周公布的通胀数据与财报季开局。' * 45
 
 
 def chan(cid):
