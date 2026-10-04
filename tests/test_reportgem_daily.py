@@ -304,3 +304,12 @@ class ScaleTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class ChineseQueryShapeTests(unittest.TestCase):
+    def test_chinese_queries_are_single_terms(self):
+        # Live 2026-10-04: chinese_research ANDs body keywords; '美联储 宏观 美债' returned 0, '宏观' returned 5.
+        from live import reportgem_daily as rd
+        for q in rd.listing_queries('2026-10-04'):
+            if 'chinese_research' in q['args']['sources']:
+                self.assertNotIn(' ', q['args']['query'].strip())

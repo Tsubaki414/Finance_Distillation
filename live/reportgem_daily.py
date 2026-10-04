@@ -117,15 +117,15 @@ THEMES = {
 # Query-specific source groups; retain beat descriptions and fallback keywords.
 _SECOND = {
  'macro_rates_en': 'Treasury yields central banks FX economic outlook',
- 'macro_zh': '美联储 美债 宏观 通胀 中国经济',
+ 'macro_zh': '宏观',
  'industry_ai_capex': 'GPU HBM cloud infrastructure power demand',
- 'zh_us_stock_commentary': '人工智能 算力 半导体 美股 财报',
+ 'zh_us_stock_commentary': '半导体',
  'single_stock_deepdive_en': 'company quarterly revenue margins earnings guidance',
  'trading_shortterm': 'market technicals dealer gamma fund flows',
  'market_data_charts': 'market breadth sentiment PMI statistics',
  'investing_philosophy': 'portfolio risk equity strategy investment principles',
  'crypto_macro_en': 'digital asset regulation ETF flows tokenization',
- 'crypto_macro_zh': '比特币 稳定币 数字资产 加密 流动性',
+ 'crypto_macro_zh': '数字资产',
 }
 for _p, (_q, _description, _keywords) in list(THEMES.items()):
     _zh = _p in ('macro_zh', 'zh_us_stock_commentary', 'crypto_macro_zh')
