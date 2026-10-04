@@ -119,6 +119,13 @@ class ComposeLevelTests(unittest.TestCase):
         self.assertEqual(result['draft_status'], 'needs_review')
         self.assertEqual(qa_levels.level({'code': 'number_words', 'sourced': True}, frame_found=True), 'soft')
 
+    def test_number_word_must_match_its_own_sourced_multiple(self):
+        units = [{'numbers': [], 'source_spans': [{'exact_text': 'Revenue doubled in the quarter.'}]}]
+        same = {f['detail']: f['sourced'] for f in compose.number_findings('营收翻倍。', units) if f['code'] == 'number_words'}
+        other = {f['detail']: f['sourced'] for f in compose.number_findings('营收增长三倍。', units) if f['code'] == 'number_words'}
+        self.assertEqual(same, {'翻倍': True})
+        self.assertEqual(other, {'三倍': False})
+
     def test_publishable_never_changes(self):
         result, _ = run(Fake(body='值得注意的是，' + GOOD_BODY), post_type='data_take')
         self.assertFalse(result['publishable'])
