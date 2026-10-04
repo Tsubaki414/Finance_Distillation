@@ -1,6 +1,10 @@
 """Explicit, budgeted relay transport for the existing account content stages.
 
-Credentials stay in process; there is no subprocess, provider retry or fallback.
+Credentials stay in process; there is no subprocess or provider retry. The only
+fallback is a stage's explicitly configured one (stage_models.json "fallback",
+e.g. COMPOSE gemini -> claude-opus-5-5) on an availability failure; it is
+recorded on the call (model_fallback, fallback_reason). A response-model
+mismatch never falls back.
 The configured rate is a local spending estimate, not a provider invoice.
 """
 from __future__ import annotations
@@ -84,6 +88,18 @@ def _safe(value, secret):
     return value
 
 
+def _fallback_worthy(exc):
+    """Availability failures of the primary model (transport, timeout, 408/429/5xx, no channel,
+    unusable body). Response-model mismatches, refusals and budget errors are not."""
+    text = str(exc)
+    if isinstance(exc, json.JSONDecodeError) or text.startswith(('Relay transport failed', 'Relay response has no choices')):
+        return True
+    if text.startswith('Relay HTTP'):
+        return bool(re.match(r'Relay HTTP (?:408|429|5\d\d)\b', text) or
+                    re.search(r'model_not_found|No available channel', text, re.I))
+    return False
+
+
 def _quota(status, error):
     return status == 402 or bool(re.search(
         r'额度不足|余额不足|预扣费额度失败|insufficient[_ ]quota|insufficient.*(?:balance|credit)',
@@ -112,6 +128,8 @@ class ErisedaiClient:
                 self.config['input_usd_per_million'], self.config['output_usd_per_million'])
         # Routed stages: resolve each key now (fail before any call), keep it in process only.
         self._route_keys = {}
+        self._route_missing = {}
+        self._fallback_keys = {}
         file_env = None
         for stage in (self.stage_models.get('stages') or {}):
             routed = stage_models.route(self.stage_models, stage)
@@ -126,17 +144,53 @@ class ErisedaiClient:
                 file_env = _dotenv() if file_env is None else file_env
                 value = file_env.get(name, '')
             if not value.strip():
-                raise ValueError(f'{name} is not set for routed stage {stage}')
+                if stage_models.fallback(self.stage_models, stage) is None:
+                    raise ValueError(f'{name} is not set for routed stage {stage}')
+                # Documented fallback: the stage runs on its fallback model, recorded per call.
+                self._route_missing[stage] = f'{name} is not set'
+                continue
             self._route_keys[stage] = value.strip()
+        for stage in (self.stage_models.get('stages') or {}):
+            fb = stage_models.fallback(self.stage_models, stage)
+            if fb is None:
+                continue
+            if fb['rates']:
+                budget.PRICES[PROVIDER + '/' + fb['model']] = fb['rates']
+            if fb['base_url']:
+                name = fb['api_key_env']
+                value = os.environ.get(name) or (file_env if file_env is not None else _dotenv()).get(name, '')
+                if not value.strip():
+                    raise ValueError(f'{name} is not set for the {stage} fallback')
+                self._fallback_keys[stage] = value.strip()
 
     def __call__(self, stage, messages, max_tokens):
+        fb = stage_models.fallback(self.stage_models, stage)
+        if stage in self._route_missing:
+            return self._fallback(stage, messages, max_tokens, fb, self._route_missing[stage])
+        routed = stage_models.route(self.stage_models, stage)
+        selected = stage_models.for_stage(self.stage_models, stage)
+        try:
+            return self._call(stage, messages, max_tokens, selected['model'], selected['temperature'],
+                              routed['base_url'] if routed else self.config['base_url'],
+                              self._route_keys[stage] if routed else self.config['api_key'],
+                              routed['api_key_env'] if routed else None)
+        except Exception as exc:
+            if fb is None or not _fallback_worthy(exc):
+                raise
+            return self._fallback(stage, messages, max_tokens, fb, f'{selected["model"]}: {exc}'[:300])
+
+    def _fallback(self, stage, messages, max_tokens, fb, reason):
+        if fb['base_url']:
+            base_url, secret, key_env = fb['base_url'], self._fallback_keys[stage], fb['api_key_env']
+        else:
+            base_url, secret, key_env = self.config['base_url'], self.config['api_key'], None
+        return self._call(stage, messages, max_tokens, fb['model'], fb['temperature'], base_url, secret, key_env,
+                          fallback_reason=reason)
+
+    def _call(self, stage, messages, max_tokens, model, temperature, base_url, secret, routed_key_env,
+              fallback_reason=None):
         call_id = uuid.uuid4().hex
         path = self.directory / (call_id + '.json')
-        routed = stage_models.route(self.stage_models, stage)
-        secret = self._route_keys[stage] if routed else self.config['api_key']
-        base_url = routed['base_url'] if routed else self.config['base_url']
-        selected = stage_models.for_stage(self.stage_models, stage)
-        model, temperature = selected['model'], selected['temperature']
         budget_model = PROVIDER + '/' + model
         payload = {'model': model, 'messages': copy.deepcopy(messages),
                    'max_tokens': max_tokens, 'temperature': temperature,
@@ -145,12 +199,13 @@ class ErisedaiClient:
                   'messages': messages, 'prompt_hash': digest(messages),
                   'model': model, 'upstream_model': model,
                   'provider': PROVIDER, 'host': urlsplit(base_url).netloc,
-                  'routed_key_env': routed['api_key_env'] if routed else None,
+                  'routed_key_env': routed_key_env,
                   'configuration_source': self.config.get('configuration_source', 'explicit_configuration'),
                   'temperature': temperature, 'max_tokens': max_tokens, 'status': 'started',
                   'stage_model_table': self.stage_models.get('version', 'inline'),
                   'response_format': copy.deepcopy(RESPONSE_FORMAT),
-                  'model_fallback': False, 'model_call_attempts': 0,
+                  'model_fallback': fallback_reason is not None, 'model_call_attempts': 0,
+                  **({'fallback_reason': _safe(fallback_reason, secret)} if fallback_reason else {}),
                   'cost_basis': 'configured conservative token/rate estimate; not invoice',
                   'rates_usd_per_million': {
                       'input': self.config['input_usd_per_million'],
@@ -199,7 +254,9 @@ class ErisedaiClient:
             result = {'text': (content or '').strip(), 'model': model,
                       'provider': PROVIDER, 'usage': data.get('usage'),
                       'response_id': data.get('id'), 'response_model': data.get('model'),
-                      'finish_reason': choice.get('finish_reason'), 'refusal': message.get('refusal')}
+                      'finish_reason': choice.get('finish_reason'), 'refusal': message.get('refusal'),
+                      'model_fallback': fallback_reason is not None,
+                      **({'fallback_reason': fallback_reason} if fallback_reason else {})}
             result = _safe(result, secret)
             record.update(response=result, status='completed')
             return result

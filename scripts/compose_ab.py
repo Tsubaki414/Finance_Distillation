@@ -153,7 +153,8 @@ def compose_candidate(name, out, max_tokens=None):
                 (cdir / 'status.json').write_text(json.dumps(status, indent=1))
                 print(json.dumps(status)); return
         accepted = [name] + ([status['probe']['response_model']] if status.get('probe', {}).get('response_model') else [])
-        table = stage_models.load() if name == 'claude-opus-5' else stage_models.override(
+        # explicit per-candidate table (the shipped COMPOSE default is now Gemini, with a fallback)
+        table = stage_models.override(
             stage_models.load(), 'compose', name, base_url=relay[0] if relay else None,
             api_key_env=relay[1] if relay else None, accepted=accepted, rates=spec['rates'])
         cfg = relay_config(); cfg['stage_models'] = table

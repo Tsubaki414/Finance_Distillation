@@ -1,6 +1,6 @@
 """COMPOSE/STANCE model + relay are configurable without code edits.
 
-Defaults stay claude-opus-5 on the configured relay. An override names a model,
+Defaults: claude-opus-5 on the configured relay, except COMPOSE (gemini-3.1-pro-preview, see test_compose_default_gemini.py). An override names a model,
 optionally an HTTPS base URL and the *name* of the env var holding its key;
 a key name is bound to its relay host (a key is never sent to another host).
 """
@@ -23,9 +23,11 @@ MICU = 'https://www.micuapi.ai/v1'
 class OverrideTableTests(unittest.TestCase):
     def test_no_env_keeps_shipped_defaults(self):
         table = stage_models.from_env(stage_models.load(), {})
-        for stage in ('compose', 'stance', 'extract'):
+        for stage in ('stance', 'extract'):
             self.assertEqual(stage_models.for_stage(table, stage), {'model': 'claude-opus-5', 'temperature': 0.0})
             self.assertIsNone(stage_models.route(table, stage))
+        # COMPOSE default moved to Gemini (2026-10-04 decision; see test_compose_default_gemini.py).
+        self.assertEqual(stage_models.for_stage(table, 'compose')['model'], 'gemini-3.1-pro-preview')
 
     def test_env_overrides_compose_only(self):
         env = {'FD_COMPOSE_MODEL': 'gpt-6.1-sol', 'FD_COMPOSE_BASE_URL': MICU,

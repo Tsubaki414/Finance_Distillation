@@ -65,6 +65,15 @@ def validate(table):
         names = accepted.get(entry['model'])
         if not isinstance(names, list) or not names or not all(isinstance(n, str) and n for n in names):
             raise ValueError(f'stage {stage}: model {entry["model"]} has no accepted response mapping')
+        fb = entry.get('fallback')
+        if fb is not None:
+            if not isinstance(fb, dict) or not isinstance(fb.get('model'), str) or not fb['model'] or 'fallback' in fb:
+                raise ValueError(f'stage {stage}: fallback needs a model (and no nested fallback)')
+            _check_route(stage + '.fallback', fb.get('base_url'), fb.get('api_key_env'))
+            _check_rates(stage + '.fallback', fb.get('rates'))
+            names = accepted.get(fb['model'])
+            if not isinstance(names, list) or not names:
+                raise ValueError(f'stage {stage}: fallback model {fb["model"]} has no accepted response mapping')
     return table
 
 
@@ -82,7 +91,19 @@ def accepted(table, model):
 
 
 def models(table):
-    return sorted({e['model'] for e in [table['default'], *(table.get('stages') or {}).values()]})
+    entries = [table['default'], *(table.get('stages') or {}).values()]
+    return sorted({e['model'] for e in entries} | {e['fallback']['model'] for e in entries if e.get('fallback')})
+
+
+def fallback(table, stage):
+    """The stage's documented fallback {'model','temperature','base_url','api_key_env','rates'} or None."""
+    entry = (table.get('stages') or {}).get(stage) or table['default']
+    fb = entry.get('fallback')
+    if not fb:
+        return None
+    return {'model': fb['model'], 'temperature': float(fb.get('temperature', 0.0)),
+            'base_url': fb['base_url'].rstrip('/') if fb.get('base_url') else None,
+            'api_key_env': fb.get('api_key_env'), 'rates': tuple(fb['rates']) if fb.get('rates') else None}
 
 
 def route(table, stage):

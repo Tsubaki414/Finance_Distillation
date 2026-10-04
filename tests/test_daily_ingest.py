@@ -171,7 +171,8 @@ def test_extract_model_override_needs_explicit_flag(tmp_path, monkeypatch):
     c = daily_ingest.extract_client(tmp_path, model='claude-sonnet-5', allow_nondefault=True)
     from live import stage_models
     assert stage_models.for_stage(c.stage_models, 'extract')['model'] == 'claude-sonnet-5'
-    assert stage_models.for_stage(c.stage_models, 'compose')['model'] == 'claude-opus-5'
+    # an extract override leaves COMPOSE on its shipped default
+    assert stage_models.for_stage(c.stage_models, 'compose') == stage_models.for_stage(stage_models.load(), 'compose')
     default = daily_ingest.extract_client(tmp_path/'d')
     assert stage_models.for_stage(default.stage_models, 'extract')['model'] == 'claude-opus-5'
 

@@ -1,7 +1,20 @@
 {
-  "version": "stage-models-v1",
-  "note": "Per-stage model and temperature. Defaults reproduce the validated relay setup. A stage override needs an accepted_response_models entry; there is no fallback.",
+  "version": "stage-models-v2",
+  "note": "Per-stage model and temperature. COMPOSE defaults to gemini-3.1-pro-preview on the micuapi relay (compose-model A/B 2026-10-04: best voice/fabrication per dollar). Its documented fallback is claude-opus-5-5 on the default relay, used only when the Gemini call errors, times out, has no channel or GEMINI_RELAY_API_KEY is unset; every fallback is recorded (model_fallback, fallback_reason). A response-model mismatch is never a fallback. All other stages stay on claude-opus-5. Revert with FD_COMPOSE_MODEL=claude-opus-5.",
   "default": {"model": "claude-opus-5", "temperature": 0.0},
-  "stages": {},
-  "accepted_response_models": {"claude-opus-5": ["claude-opus-5"]}
+  "stages": {
+    "compose": {
+      "model": "gemini-3.1-pro-preview",
+      "temperature": 0.0,
+      "base_url": "https://www.micuapi.ai/v1",
+      "api_key_env": "GEMINI_RELAY_API_KEY",
+      "rates": [2.0, 12.0],
+      "fallback": {"model": "claude-opus-5-5", "temperature": 0.0, "rates": [15.0, 75.0]}
+    }
+  },
+  "accepted_response_models": {
+    "claude-opus-5": ["claude-opus-5"],
+    "gemini-3.1-pro-preview": ["gemini-3.1-pro-preview"],
+    "claude-opus-5-5": ["claude-opus-5-5"]
+  }
 }
