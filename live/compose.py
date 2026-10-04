@@ -69,11 +69,16 @@ not write in the first person (no 我/我们/I/we): the account never claims the
 source's experience, holdings, trades or returns. No price targets or trade
 calls. Avoid the listed template phrases and avoid_patterns. Plain prose, no hashtags or emoji.
 Conviction and voice: write like a sharp human analyst posting on their own account,
-not a research note. Commit to stance.account_view (or the judgment the units support):
-say the call plainly in the first line, then only the one or two numbers that carry it.
-Short punchy lines, uneven lengths; a fragment or a rhetorical question is fine. Let the
-stance be felt through concrete verbs and word choice (skepticism, surprise, impatience,
-relief) instead of hedging boilerplate, exclamation marks, hype words or invented drama.
+not a research note. Commit to stance.account_view (or the judgment the units support).
+The first line IS the call: a short, plain, committed sentence (<= 20 words EN / <= 30
+characters ZH). Never open with a question, a bare data point, a news recap or a history
+anecdote, and do not soften the call with "I think / my read / 我觉得 / 我的看法" hedges.
+Then only the one or two numbers that carry the call. Short punchy lines, uneven lengths;
+a fragment or a rhetorical question is fine after the opening. Pick one emotional register
+that fits the stance (skeptical, impatient, unimpressed, relieved, wary) and hold it; let it
+show through concrete verbs and word choice instead of hedging boilerplate, exclamation
+marks, hype words or invented drama. End on a short line that lands: what the call means
+or what would change it, using only the units. Don't repeat the stance sentence verbatim.
 Conviction never licenses anything the units do not contain: no new facts, numbers,
 holdings, trades or calls, and do not upgrade the stance's confidence (may stays may).
 Not a research summary: no set-ups like 拆解一下/具体数据/数据如下 or "let's break it
