@@ -5,8 +5,10 @@ version written, not publishable."""
 import json
 from pathlib import Path
 import unittest
+from dataclasses import replace
+from unittest.mock import patch
 
-from live import compose
+from live import compose, registry
 from live.recorded_client import RecordedClient, load_calls
 
 FIXTURE = Path(__file__).parent / 'fixtures' / 'recorded' / 'compose_libertystreet'
@@ -16,8 +18,11 @@ class RecordedComposeTests(unittest.TestCase):
     def test_recorded_compose_passes_post_checks(self):
         data = json.loads((FIXTURE / 'input.json').read_text())
         client = RecordedClient(load_calls(FIXTURE / 'calls.jsonl'))
-        # Recorded before exemplar retrieval existed: replay the same request.
-        result = compose.compose_source(data['source'], data['account_id'], client, exemplars=False)
+        # Replay the historical persona configuration: this recording predates
+        # voice cards and exemplars. Keep the exact request hash and all checks.
+        historical_persona = replace(registry.persona_for_account(data['account_id']), voice_card={})
+        with patch('live.compose.registry.persona_for_account', return_value=historical_persona):
+            result = compose.compose_source(data['source'], data['account_id'], client, exemplars=False)
         self.assertEqual(client.used, ['extract', 'compose'])
         self.assertEqual(result['post_type'], 'data_take')
         self.assertEqual(result['post_checks'], [])
