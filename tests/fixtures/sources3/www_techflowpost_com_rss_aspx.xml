@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>TechFlow</title>
+        <link>https://www.techflowpost.com</link>
+        <description>深潮 TechFlow 是一个聚焦全球资产的价值发现平台，提供覆盖 比特币、黄金、美股、AI 科技、宏观经济 的深度研究与趋势洞察。我们追踪全球资本流动、政策变化、科技创新与市场结构，为投资者、创业者与行业决策者提供具有前瞻性、可信度与专业性的分析内容。</description>
+        <lastBuildDate>Sun, 04 Oct 2026 09:49:26 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://www.techflowpost.com</generator>
+        <language>zh-cn</language>
+        <copyright>TechFlow</copyright>
+        <item>
+            <title><![CDATA[IMF 发放 1.38 亿美元予萨尔瓦多，豁免比特币违规]]></title>
+            <link>https://www.techflowpost.com/newsletter/138802</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138802</guid>
+            <pubDate>Sun, 04 Oct 2026 09:45:42 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 4 日，据 Cointelegraph 报道，国际货币基金组织（IMF）执行董事会已于 10 月 1 日完成了对萨尔瓦多第二和第三轮审查，批准了约 1.38 亿美元（即 1.0196 亿特别提款权）的即时资金拨付。</p><p>此次贷款资金的释放建立在 IMF 提供的豁免基础上。萨尔瓦多此前因在法定许可范围之外继续增持比特币，违反了与 IMF 贷款协议中关于限制比特币积累的要求，从而面临无法按期放款的风险。</p><p>尽管获得了此次拨款和违约豁免，IMF 也在声明中施加了持续压力，要求萨尔瓦多停止进一步的比特币购买计划，并对其国内推出的加密货币钱包项目“Chivo”进行清理。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[以太坊解押队列飙升392%：MetaMask事故或引52.3万枚ETH排队退出]]></title>
+            <link>https://www.techflowpost.com/article/34364</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/article/34364</guid>
+            <pubDate>Sun, 04 Oct 2026 09:43:09 GMT</pubDate>
+            <description><![CDATA[<p><span style="color: rgb(140, 140, 140);">作者：Estefano Gomez</span></p><p><span style="color: rgb(140, 140, 140);">编译：深潮 TechFlow</span></p><p><strong>深潮导读</strong>：十月初以太坊验证者退出队列暴涨约 392%，峰值排队近 85 万枚 ETH、等候约 14.77 天；其中约 52.3 万枚来自 MetaMask Staking 在基础设施遭入侵后的预防性退出，并大量关联 Lido 运营。对 ETH与 LSD 持仓者而言，这是短期卖压被拉长、单点基础设施决策可牵动更大质押池的硬信号。</p><p><img src="https://upload.techflowpost.com/upload/images/20261004/20261004093145795337.png" alt="" data-href="" width="" height="" style=""/></p><p>MetaMask Staking 的一次安全惊吓，叠加部分看似兑现利润的操作，把以太坊验证者退出队列推到了今年以来的最高水平。</p><p>据在 X 上流传的数据，自十月初以来，以太坊解押量已跳升 392%。到 10月 2 日，约有 85 万枚 ETH 排队离开网络的验证者集合。</p><p>这是以太坊全年所见最长的退出队伍。它发生在同一周：MetaMask Staking 告知用户，其部分基础设施遭到入侵。</p><h2>是什么在推高退出队伍</h2><p>到 10月 2 日，估计退出等待时间已达约 14.77 天。九月下旬时，退出量还处在偏低到中等的约 10 万枚 ETH 量级。</p><p>队列峰值约为 85 万至 850,736枚 ETH。全网质押 ETH 约4360 万枚，活跃验证者约 87.8 万个。因此，待退出量接近全部质押供给的 2%。</p><h2>MetaMask Staking 事件</h2><p>9月 30 日，MetaMask Staking 披露其基础设施遭入侵。约 0.36枚 ETH、跨越 18 个区块的出块奖励曾被短暂转移。MetaMask 称，用户钱包与敏感数据未受影响。</p><p>MetaMask 随即安排退出近 1.7 万个验证者，合计持有约 52.3 万枚 ETH，其中相当一部分与 Lido 的运营绑定。退出被定性为预防措施，并预计在 10月 7 日前完成。</p><p>在约 85 万枚排队退出的 ETH 中，约 52.3 万枚单独来自 MetaMask 的验证者。</p><h2>不全是避险</h2><p>莱特币矿池创始人江卓尔表示，队列跳升暗示部分持有人正借当前价格锁定利润。</p><h2>价格几乎没动</h2><p>9月 30 日至 10月 2 日，ETH 在2686 美元至 2725 美元的窄幅区间交易。等待时间接近 14.77 天，意味着任何卖出都会被摊开，而不是一次性砸向市场。</p><h2>这对质押者与市场意味着什么</h2><p>MetaMask 的退出预计在 10月 7 日前完成。一旦清出，除非有新的退出顶上，队列应会明显收缩。</p><p>由于退出质押中相当一部分与 Lido 运营相关，这一事件凸显：单一基础设施合作伙伴的决策，可以牵动大得多的质押 ETH 池。</p><p>仍有约 4360 万枚 ETH 质押在约 87.8 万个验证者上。即便在峰值时，退出队列也只是这一总量里的一小块。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[孙宇晨发推“一切安康”，疑似回应枪击传闻]]></title>
+            <link>https://www.techflowpost.com/newsletter/138801</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138801</guid>
+            <pubDate>Sun, 04 Oct 2026 09:15:22 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，孙宇晨在 X 平台发文“一切安康”，疑似回应社区枪击传闻。</p><p>据悉，社区此前传闻孙宇晨在迪拜遭遇枪击被紧急送往医院救治，枪手身份、作案动机以及是否存在其他伤亡人员均不得而知。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[马斯克：不再使用“AI”一词，改用“SI”更好]]></title>
+            <link>https://www.techflowpost.com/newsletter/138800</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138800</guid>
+            <pubDate>Sun, 04 Oct 2026 08:50:19 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，特斯拉 CEO 埃隆·马斯克在 X 平台发文称：“不再使用 AI（人工智能），SI（超级智能）更好（No more AI，SI，It’s better）”。</p><p>市场分析认为，马斯克此次言论或意味着他更倾向于使用“SI”这一概念来描述未来更高级别的智能系统。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[分析：BTC长期持有者本轮周期始终处于盈利，暂无跌破成本熊市现象]]></title>
+            <link>https://www.techflowpost.com/newsletter/138799</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138799</guid>
+            <pubDate>Sun, 04 Oct 2026 08:41:23 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，Glassnode在 X 平台发文表示，比特币长期持有者（LTH）在本轮周期中始终保持盈利状态，这是自 2015 年以来历次熊市周期中从未出现的情况。在此前每轮熊市中，长期持有者 MVRV（LTH-MVRV）指标均曾跌破 1，意味着该群体整体持仓成本高于市场价格，进入亏损状态。而本轮周期中，该指标最低仍维持在 1 以上，目前正在重新上升。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[ETH 跌破 2,700 美元，24 小时涨幅 0.65%]]></title>
+            <link>https://www.techflowpost.com/newsletter/138798</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138798</guid>
+            <pubDate>Sun, 04 Oct 2026 08:19:52 GMT</pubDate>
+            <description><![CDATA[深潮 TechFlow 消息，10 月 4 日，据 HTX 行情数据显示，ETH 跌破 2,700 美元，现报 2,699.94 美元，24 小时涨幅 0.65%。]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[俄罗斯财政部首次以数字卢布支付员工工资]]></title>
+            <link>https://www.techflowpost.com/newsletter/138797</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138797</guid>
+            <pubDate>Sun, 04 Oct 2026 07:32:08 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 4 日，据 Cointelegraph 报道，俄罗斯财政部当地时间周五宣布，部分内部员工已通过数字货币系统首次领取到以数字卢布（Digital Ruble）计价的工资。据悉，这项面向俄罗斯公民开放的数字卢布支付服务实际上已于 10 月 1 日开始作为自愿选项运行。</p><p>虽然首批员工已完成收款，但财政部官方并未披露本次试点的具体参与人数及所发薪酬总额。财务部解释称，此举仅是应用了曾在 2025 年联邦预算支出试验中被证明可行的结算轨道；在那次试验期间，共有约 1600 万数字卢布（折合 192,245 美元）被成功发放。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[Benson Sun：BTC 8.3万至8.4万美元区间买盘承接明显]]></title>
+            <link>https://www.techflowpost.com/newsletter/138796</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138796</guid>
+            <pubDate>Sun, 04 Oct 2026 07:26:12 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，Coinkarma 创始人 Benson Sun 发文表示，10月 1日 23 时左右，美股及黄金同步走弱期间，Binance BTC/USDT 现货市场连续出现约 400枚 BTC 的市价买单，将价格支撑在 84000 美元上方，最终 K 线收出十字星。</p><p>10月 3日 1时 30 分左右，BTC 在相同价格区间内短时出现约 1400枚 BTC 的市价卖单，价格一度快速下跌并形成较长下影线，但随后仍守住该区域。Benson Sun 表示，当时市场每隔数秒便出现约 100枚 BTC 的卖单，但价格每次下探后均迅速被买盘拉回。</p><p>Benson Sun 指出，该区域与近期链上筹码快速积累的 83000至 84000 美元区间高度重合。结合现货订单流与链上数据，他认为该价格区间存在资金积极承接，BTC 进入该区域后买盘反应较为明显。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[某地址首次建仓382万美元ETH，1420枚ETH已存入Lido质押]]></title>
+            <link>https://www.techflowpost.com/newsletter/138795</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138795</guid>
+            <pubDate>Sun, 04 Oct 2026 07:19:17 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，据 Ai 姨监测，地址 0xe6d…047F9 首次建仓 382 万美元 ETH，过去 3 小时从 OKX 提取 1420枚 ETH，提取价格为 2692.47 美元。</p><p>目前，这 1420枚 ETH 已全部存入 Lido 进行质押。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[前ROVE增长负责人指控公司拖欠薪资及代币配额，称App已无法登录]]></title>
+            <link>https://www.techflowpost.com/newsletter/138794</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138794</guid>
+            <pubDate>Sun, 04 Oct 2026 07:17:48 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，前 ROVE 增长负责人、前 The Arena 顾问 Amy Street在 X 平台发文，指控 ROVE 公司及创始人 Jason 长期拖欠其薪资和费用报销，并拒绝提供其应得代币分配的完整账目。</p><p>Amy Street 称，自己去年因反复催讨工资而辞职。在任期间，她曾多次自掏腰包垫付活动开销，包括盈利活动相关费用，在阿布扎比出差期间仍有工资未获支付。辞职后，对方曾以签署“终止协议”为条件，才同意支付尾款及提供代币相关信息。过去近一年中，部分小额报销陆续到账，但大额欠款及代币分配问题仍未解决。</p><p>此外，她表示 Rove App 已约一年无法登录，用户资产因此被锁定，官方此前承诺“下周恢复”也未兑现。</p><p>Amy Street 称，自己已保留全部书面证据，并通过律师持续维权。她表示，此前已私下沟通一年，但问题始终未得到解决，因此选择公开相关情况。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[瑞银集团在纽约招聘两名数字资产负责人]]></title>
+            <link>https://www.techflowpost.com/newsletter/138793</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138793</guid>
+            <pubDate>Sun, 04 Oct 2026 06:56:42 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，瑞银集团（UBS）近期在纽约招聘两名数字资产相关负责人。</p><p>其中，IB Digital Assets Product Manager 将负责推动代币化产品、稳定币、结算基础设施、托管及其他分布式账本技术（DLT）商业模式，基础年薪为 22.5 万至 24.25 万美元。</p><p>另一职位 Digital Assets Distribution Manager 则负责推动代币化货币市场基金和结构性产品的分销，目标渠道包括金融科技公司、新型银行、券商以及数字财富管理平台等，基础年薪为 16.4 万至 21.1 万美元。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[知名交易员Killa：中期选举后或出现去风险化，届时再考虑对冲空单]]></title>
+            <link>https://www.techflowpost.com/newsletter/138792</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138792</guid>
+            <pubDate>Sun, 04 Oct 2026 06:48:29 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，交易员 Killa 表示，其目前仍维持比特币多头仓位，并不认为 BTC 将再次创出新低。但美国中期选举结束后，市场可能出现部分去风险化行为，因此当前并非提前建立对冲空单的合适时机。</p><p>Killa 指出，历史上的美国中期选举周期中，比特币在选举结束后的表现均偏弱。如果 BTC 在选举前继续上涨，交易员可以等到中期选举临近时，再根据届时的价格走势决定是否采取行动。</p><p>他认为，目前更合理的策略是继续持有多头，并在中期选举前后观察市场反应，随后再考虑是否建立对冲空单，而不是仅依据历史周期提前做空。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[Pump.fun过去30日协议收入达5550万美元，超过Hyperliquid]]></title>
+            <link>https://www.techflowpost.com/newsletter/138791</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138791</guid>
+            <pubDate>Sun, 04 Oct 2026 06:43:20 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，据 DefiLlama 数据，Pump.fun 过去 30 日协议收入达 5550 万美元，超过 Hyperliquid 同期的 5434 万美元。</p><p>按协议收入计算，Pump.fun 目前仅次于 Tether 的5.08 亿美元和 Circle 的2.08 亿美元。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[分析师：比特币幂律模型释放信号，参考目标价或可达15.78万美元]]></title>
+            <link>https://www.techflowpost.com/newsletter/138790</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138790</guid>
+            <pubDate>Sun, 04 Oct 2026 06:41:51 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，加密分析师 Darkfost 发文表示，过去十年间，比特币价格围绕“幂律（Power Law）”趋势线的波动幅度正在逐渐降低，市场周期波动趋于收敛，振荡指标峰值已从 2018 年的+169 下降至 2025 年的+102，其日变化标准差也从 4.81 降至 2.47，跌幅约 49%。</p><p>Darkfost 补充称，截至 10月 3 日该模型振荡指标为+34.5，比特币价格约为 84700 美元。根据当日模型参数计算，振荡指标达到+100 对应的比特币价格约为 157800 美元，较当前价格高出约 86%，他同时指出 157800 美元并非固定目标价，而是基于当前回归参数计算出的参考水平，如果未来幂律趋势线继续上升，该参考价格也将随之提高。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[AI热潮重塑韩国股市：韩资重仓半导体，外资减持三星、SK海力士]]></title>
+            <link>https://www.techflowpost.com/newsletter/138789</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138789</guid>
+            <pubDate>Sun, 04 Oct 2026 06:31:50 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，据韩媒 DAUM 报道，韩国交易所今日公布数据显示 AI 热潮正在重塑韩国股市，2026年 1月 2 日至 10月 2 日期间，韩国股市资金流向出现明显分化，韩资集中买入 AI 产业链核心半导体股三星电子、SK 海力士，而外资则大幅减持。</p><p>据悉，韩国个人投资者今年累计净买入三星电子 43.1143 万亿韩元，SK 海力士 39.5028 万亿韩元；机构投资者同样押注半导体，净买入三星电子 11.6193 万亿韩元、SK 海力士 8.5265 万亿韩元。相比之下，外资累计净卖出三星电子 84.5702 万亿韩元、SK 海力士 82.5040 万亿韩元，并减持现代汽车、SK Square 等股票。</p><p>分析认为，在美国国债收益率升至 5%区间的背景下，市场更关注具备盈利能力的行业，受 AI 基础设施投资推动的半导体和 IT 硬件仍应作为核心配置方向。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[BTC 突破 85,000 美元，24 小时涨幅 0.47%]]></title>
+            <link>https://www.techflowpost.com/newsletter/138788</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138788</guid>
+            <pubDate>Sun, 04 Oct 2026 06:22:14 GMT</pubDate>
+            <description><![CDATA[深潮 TechFlow 消息，10 月 4 日，据 HTX 行情数据显示，BTC 突破 85,000 美元，现报 85,016.80 美元，24 小时涨幅 0.47%。]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[韩国五大加密交易所周交易额降至20.5万亿韩元，环比下降19.56%]]></title>
+            <link>https://www.techflowpost.com/newsletter/138787</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138787</guid>
+            <pubDate>Sun, 04 Oct 2026 06:14:25 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，据 Digital Asset 统计，韩国五大加密交易所 9月 25 日至 10月 2 日周交易额约 20.5 万亿韩元，约合 151 亿美元，环比下降 19.56%，减少约 5 万亿韩元，约合 37 亿美元。</p><p>其中，Upbit 以64.04%的市场份额继续排名第一，但较前一周下降 3.3 个百分点。Bithumb和 Coinone 的市场份额分别升至 26.66%和 6.58%。五家交易所的排名未发生变化。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[分析师：英伟达股价新高后或带动人工智能相关ETF迎突破行情]]></title>
+            <link>https://www.techflowpost.com/newsletter/138786</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138786</guid>
+            <pubDate>Sun, 04 Oct 2026 06:08:06 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，加密分析师 Ali在 X 平台发文表示，英伟达（NVDA）股价于 10月 2 日创下 237.88 美元历史新高，自 9月 14 日以来累计上涨近 14%，目前正测试通道上沿阻力位，有望进一步升至 260 美元目标价。</p><p>随着 AI 板块重新受到市场关注，或带动人工智能相关 ETF 迎突破行情，其中 Direxion Daily Semiconductor Bull 3X ETF（SOXL）旨在实现半导体指数每日表现的 3 倍收益，近期走势显示出突破迹象，若 150 美元附近支撑位能够保持，后续上涨目标或关注 210 美元；另一只 Roundhill Memory ETF（DRAM）主要投资全球存储芯片企业，目前正在形成上升三角形整理形态，近期处于整理阶段，若价格有效突破 64 美元，可能进一步打开上涨空间，目标关注 80 美元，Ali 认为这两只 ETF 的后续走势或将能进一步确认 AI 行情延续。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[日本对俄实施制裁，涉参与利用加密资产规避金融制裁的团体]]></title>
+            <link>https://www.techflowpost.com/newsletter/138785</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138785</guid>
+            <pubDate>Sun, 04 Oct 2026 05:35:53 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，据参考消息援引《日本经济新闻》报道，日本政府在内阁会议上决定对俄罗斯实施追加制裁。针对俄罗斯为规避西方制裁而秘密运输原油的“影子船队”中的 35 艘船舶，日本政府原则上禁止向其提供运营、维修、保险及融资等服务。除针对“影子船队”的制裁措施外，日本政府还将 33 个俄罗斯军事相关团体和 9 名个人新列入资产冻结名单，其中包括参与利用加密资产（虚拟货币）规避金融制裁的团体。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[疑似Humanity团队关联钱包向CEX转入7000万枚H，价值491万美元]]></title>
+            <link>https://www.techflowpost.com/newsletter/138784</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138784</guid>
+            <pubDate>Sun, 04 Oct 2026 05:31:25 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，据 Arkham 监测数据显示，疑似 Humanity 团队关联钱包过去 24 小时向加密货币交易所 Bybit 转入 7000 万枚 H，价值 491 万美元。该钱包此前曾向 Sablier 发送超过 535 万美元 H，用于链上归属分配，109 天前该地址从项目方收到 27.7 亿枚 H 代币，目前仍持有超过 26 亿枚 H，监测显示此次向中心化交易所存入代币是该钱包首次进行相关操作，由于 H 代币过去一周价格基本横盘，市场分析此次大额转入可能增加后续价格波动风险。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[中国社科院张明：建议香港探索点心债代币化]]></title>
+            <link>https://www.techflowpost.com/newsletter/138783</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138783</guid>
+            <pubDate>Sun, 04 Oct 2026 05:30:40 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，据《财经》杂志报道，中国社会科学院世界经济与政治研究所副所长张明等人撰文表示，建议香港探索点心债代币化，将其作为港元稳定币时代值得优先发展的资产方向。点心债兼具人民币国际化、香港监管制度优势、国家资产配置需求以及离岸人民币和标准化金融属性，发行主体国际化以及标准化固收资产特征，符合全球 RWA（现实世界资产）代币化趋势，可成为香港数字金融发展的重要突破方向适合作为港元稳定币生态的优质底层资产。稳定币生态能否形成长期需求，关键不在于“谁发行”，而在于“可以购买、结算和配置什么资产”。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[特朗普家族加密项目WLFI向CEX转入近2600枚WLFI，价值约141万美元]]></title>
+            <link>https://www.techflowpost.com/newsletter/138782</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138782</guid>
+            <pubDate>Sun, 04 Oct 2026 04:25:34 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，据 Arkham 监测数据显示，大约 14 小时前，特朗普家族加密项目 World Liberty Fi 标记地址向加密货币交易所 Gate 转入 2599.7 万枚 WLFI，价值约合 141 万美元，疑似抛售。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[Ripple与XRPL基金会联合成立新组织XRP Asia，总部位于新加坡]]></title>
+            <link>https://www.techflowpost.com/newsletter/138781</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138781</guid>
+            <pubDate>Sun, 04 Oct 2026 04:24:49 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，Ripple与 XRP Ledger 基金会（XRPLF）联合成立新组织 XRP Asia，旨在推动亚太地区 XRP Ledger（XRPL）生态发展，总部位于新加坡，由前 Hedera 基金会亚太及金融科技/支付业务负责人 Sabrina Tachdjian 领导，该组织将支持开发者培训、黑客松、合作伙伴计划、创业支持以及生态活动，并对接基础设施服务商、孵化及资助项目，以及连接投资者和生态合作伙伴。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[Hyperliquid获首笔1458万美元USDC储备收入，按当前规模年化约1.93亿美元]]></title>
+            <link>https://www.techflowpost.com/newsletter/138780</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138780</guid>
+            <pubDate>Sun, 04 Oct 2026 03:46:15 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，Hyperdash 联合创始人 Hans 发文表示，Hyperliquid的 AQAv2 机制已形成新的收入来源。AQAv2 财库钱包完成首笔付款，为平台过去 30 天持有的 USDC 储备支付 1458 万美元，相关资金将进入援助基金，用于买入 HYPE。</p><p>根据该机制，用户将 USDC 桥接至 Hyperliquid 后，Circle 会在 HyperEVM 上铸造相应资产，并按照财库余额按日计费，每 30 天结算一次。Coinbase与 Circle 分别质押 50 万枚 HYPE，若未能按时付款，Coinbase 每天可能损失其质押量的 2%。</p><p>Hans 表示，Hyperliquid 此前的收入主要来自交易手续费，AQAv2 则使平台能够直接从保证金存款本身获得收入，无论相关资金是否参与交易。</p><p>首笔付款覆盖 8月 26 日至 9月 24 日，隐含平均费率约为 3.14%。按当前规模计算，AQAv2 年化收入约 1.93 亿美元。</p><p>今年 1月 1 日至 9月 30 日，Hyperliquid 未平仓合约规模由 77.2 亿美元增至 164 亿美元，平台保证金由 43.4 亿美元增至 72.2 亿美元。同期永续合约累计成交约 2 万亿美元，协议获得 4.933 亿美元手续费，相当于每 1 美元成交额收取约 2.46 个基点。</p><p>按照今年平均交易速度及当前 AQAv2 费率测算，每 1 美元保证金每年可为协议贡献约 0.154 美元收入，其中约 0.125 美元来自交易手续费，约 0.028 美元来自 AQAv2。</p><p>Hans 预计，在稳定币规模年增长 20%、Hyperliquid 维持当前约 8.7%市场份额的基准情景下，协议年收入到 2030 年底或由目前约 11.1 亿美元增至 24 亿美元。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[某地址斥资1027万美元7倍做多BTC，押注BTC反弹]]></title>
+            <link>https://www.techflowpost.com/newsletter/138779</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138779</guid>
+            <pubDate>Sun, 04 Oct 2026 03:17:16 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，据 Ai 姨监测，地址 0x799…15f4c 于今日凌晨在 Hyperliquid 开启 121.23枚 BTC 的7 倍多单，仓位价值约 1027 万美元，开仓价为 84918.9 美元。</p><p>目前该仓位浮亏约 2 万美元，这也是该地址首次在 Hyperliquid 进行开仓操作。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[Cronos代币经济提案获通过：2.28亿枚CRO已销毁，生态收入将全额回购销毁]]></title>
+            <link>https://www.techflowpost.com/newsletter/138778</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138778</guid>
+            <pubDate>Sun, 04 Oct 2026 03:15:33 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，Cronos Network 发文表示，两项代币经济模型提案均已获社区投票通过。根据提案结果，Cronos 社区池（Community Pool）中的 2.28 亿枚 CRO 已完成销毁，使 CRO 累计销毁数量达到 4.28 亿枚。</p><p>同时，Cronos Ult和 Cronos Launch 产生的 100%收入将用于公开市场回购 CRO，并按月进行销毁，相关交易的每笔交易哈希均将公开。</p><p>Cronos 表示，质押奖励机制保持不变，相关奖励将继续由战略储备（Strategic Reserve）提供资金支持。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[一地址因签署钓鱼授权损失超 16.7 万美元 LINK 代币]]></title>
+            <link>https://www.techflowpost.com/newsletter/138777</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138777</guid>
+            <pubDate>Sun, 04 Oct 2026 03:07:29 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，据 Scam Sniffer 监测，一名用户在以太坊上签署了一项针对 Permit2 的钓鱼授权，随后损失价值 167342 美元的 LINK 代币。</p><p>数据显示，该授权签署时间为 2025年 8月 18 日。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[Ansem：PUMP可按L1逻辑估值，看好pump.fun本轮周期成为超级应用]]></title>
+            <link>https://www.techflowpost.com/newsletter/138776</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138776</guid>
+            <pubDate>Sun, 04 Oct 2026 02:48:00 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，加密交易员 Ansem 表示，市场目前尚未充分计价 pump.fun 向类似 L1 底层基础设施演进的潜力，未来其他发币平台可能直接构建在 pump.fun 之上。</p><p>Ansem 指出，目前市场较少关注 pump.fun 向代币创建者支付的创作者手续费分成。该金额与平台收入接近 1:1，即平台每产生约 5 亿美元收入，代币创建者在代币完成绑定曲线阶段后可获得约 5 亿美元创作者手续费分成，因此相关团队有较强动力在 pump.fun 之上继续构建产品。</p><p>他认为，这种经济结构可能优于传统 L1，因为 pump.fun 不仅可以从各层发币平台收取手续费，也能够从这些平台发行的每种代币中获得手续费。随着自定义交易对、Callout Rewards 等功能推出，市场可能逐渐采用类似 L1 的逻辑为 PUMP 估值。</p><p>Ansem 同时表示，他高度看好 pump.fun 在本轮市场周期发展成为“超级应用”的投资逻辑。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[netherlol时隔一年多买入3.83亿枚PUMP，价值240万美元]]></title>
+            <link>https://www.techflowpost.com/newsletter/138775</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138775</guid>
+            <pubDate>Sun, 04 Oct 2026 02:24:38 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，据 Lookonchain 监测，netherlol（BKJ4...vzz5）时隔一年多再次买入 PUMP，累计购入 3.83 亿枚，价值约 240 万美元。</p><p>此外，一个新创建的钱包 GnZqfY（GnZq...X9qJz）于约 7 小时前从 MEXC 提取 1.89 亿枚 PUMP，价值约 118 万美元。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[分析师Murphy：BTC筹码集中度接近警戒区，未来1至2个月波动或放大]]></title>
+            <link>https://www.techflowpost.com/newsletter/138774</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138774</guid>
+            <pubDate>Sun, 04 Oct 2026 02:17:45 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，分析师 Murphy 发文表示，BTC 日线近期连续收出十字星，并出现上下插针的罕见走势，市场波动可能正在酝酿。</p><p>数据显示，8月 1 日，BTC 在6.2 万至 6.3 万美元区间出现两根明显筹码柱，合计约 168 万枚 BTC，当时筹码集中度为 12.9%。10月 3 日，8.3 万至 8.4 万美元区间同样出现两根显眼筹码柱，合计约 152 万枚 BTC，目前筹码集中度已升至 12%，上方警戒区近在咫尺。</p><p>Murphy 指出，8月 1 日出现类似数据组合后，BTC 仅用 17 天便从 6 万美元上涨至 8 万美元。他认为，筹码堆积和集中度上升并不意味着行情方向已经确定，但市场“波动放大”的概率正在提高。</p><p>他预计，短则 1 个月、长则 2 个月，市场可能出现重大变化。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[Nikita Bier回应离职原因：人身安全压力让其难以继续产品开发]]></title>
+            <link>https://www.techflowpost.com/newsletter/138773</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138773</guid>
+            <pubDate>Sun, 04 Oct 2026 02:16:26 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，前 X 产品负责人 Nikita Bier 发文回应离职原因。他表示，在 Elon Musk 的公司工作最吸引人的部分之一，是团队能够围绕最重要的问题快速调整方向。X 的组织结构足够扁平和敏捷，职位头衔并不重要，任何人都可以提出关键问题并亲自解决，或号召团队共同推进，这种创业公司式的工作方式很难在大型企业中实现。</p><p>Nikita Bier 此前曾表示，自己“被聘用时并不是为了处理垃圾信息（spam），但一场海啸正在来临，会放下一切专注解决这个问题”。</p><p>对于为何离职，他表示：“当有人经常出现在你家门口，试图伤害你或你的亲人时，很难继续进行产品开发。”他同时称，作为一名公开身份的领导者，承担由高曝光度带来的压力是一种必要的牺牲，因为这有助于凝聚团队，并建立一个让成员愿意投入的产品愿景。</p><p>Nikita Bier 已于今年 8 月宣布卸任 X 产品负责人并转任顾问，并表示该职位需要全天候投入，自己目前需要休息。此后，Benji Taylor 将负责设计，Singhai 负责核心产品工程，Dinkin Flicka 负责移动工程。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[巨鲸Corus斥资20万美元买入714万枚EDEL，EDEL 过去两个月涨幅达750%]]></title>
+            <link>https://www.techflowpost.com/newsletter/138772</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138772</guid>
+            <pubDate>Sun, 04 Oct 2026 01:55:26 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，据 Lookonchain 监测，知名巨鲸 Corus（0x807...aca1）已累计斥资 20 万美元买入 714 万枚 EDEL。</p><p>数据显示，该交易员此前在 Hyperliquid 交易中获利 3495 万美元，目前仍持有 13.71 万枚 HYPE，价值约 1227 万美元。EDEL 过去两个月上涨 750%。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[Aptos CEO否认未来6个月关停传言，称其为“愚蠢的谣言”]]></title>
+            <link>https://www.techflowpost.com/newsletter/138771</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138771</guid>
+            <pubDate>Sun, 04 Oct 2026 01:52:18 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，针对社区流传“Aptos 将在未来 6 个月内关闭区块链”的说法，Aptos Labs 联合创始人兼 CEO Avery Ching 公开回应称，这是“愚蠢的谣言”。</p><p>最初发布相关消息的 X 账号未提供 Aptos 官方公告、治理提案或其他文件作为依据。在被追问证据后，该账号表示相关内容只是“听说”，并提醒应谨慎看待。</p><p>此外，另有社区账号声称 Aptos 过去一年大幅裁员并面临资金压力，但该账号也承认消息来源“不可靠”，目前暂无公开资料证实上述说法。</p><p>Aptos 当前公开治理记录仍显示网络升级提案及已执行的主网功能更新，暂未发现任何关停主网的官方计划。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[菲律宾法院冻结25个虚拟资产钱包，涉及洪水工程贪腐调查]]></title>
+            <link>https://www.techflowpost.com/newsletter/138770</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138770</guid>
+            <pubDate>Sun, 04 Oct 2026 01:43:24 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，据 The Philippine Star 报道，菲律宾反洗钱委员会（AMLC）表示，上诉法院已下令冻结与一名国会议员及相关个人和实体有关的 25 个虚拟资产钱包，同时冻结 86 个银行账户、4 个投资账户和 1 份保险保单。</p><p>AMLC 表示，相关资产涉及针对洪水治理工程中涉嫌贪腐及侵吞公款行为的调查。涉案资金曾通过虚拟资产服务提供商及多个虚拟资产钱包转移，并经由多名收款人和不同金融渠道流转，以增加资金追踪难度。</p><p>AMLC 未公开涉事议员及相关实体的身份。该冻结令属于调查阶段的资产保全措施，并不代表相关人员已经被定罪。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[CoinGlass 数据：过去24小时全网爆仓5065万美元，4.07万人遭清算]]></title>
+            <link>https://www.techflowpost.com/newsletter/138769</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138769</guid>
+            <pubDate>Sun, 04 Oct 2026 01:39:52 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，据 Coinglass 数据，过去 24 小时全网爆仓 5065.08 万美元，其中多单爆仓 2353.22 万美元，空单爆仓 2711.86 万美元。</p><p>其中，比特币多单爆仓 165.67 万美元，空单爆仓 150.92 万美元；以太坊多单爆仓 88.97 万美元，空单爆仓 175.62 万美元。</p><p>过去 24 小时全球共有 40713 人被爆仓，最大单笔爆仓发生在 Hyperliquid的 PARA:10Y-USD，价值 52.3 万美元。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[知名交易员：BTC目标价仍看7.9万美元，最深回调或至6.9万至7.1万美元]]></title>
+            <link>https://www.techflowpost.com/newsletter/138768</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138768</guid>
+            <pubDate>Sun, 04 Oct 2026 01:34:53 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，交易员 Doctor Profit 表示，其已在比特币价格 86200 美元时建立空头仓位，并计划在 86500至 89500 美元区间挂出追加空单，以进一步建立波段空头仓位。</p><p>Doctor Profit 表示，当前目标价仍为 79000 美元。若 BTC 触及该价位，他将根据价格反应决定获利平仓或继续持有空单。他同时表示，目前考虑的最深回调区间为 69000至 71000 美元，不预期价格跌至更低水平。</p><p>他指出，86200 美元入场的空单目前已经奏效，但后续仍将逐个价位评估行情，而非直接押注深度回调。下一步将重点观察 79000 美元附近的支撑表现，并据此判断市场是继续下跌，还是出现反转并延续牛市、创下新的局部高点。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[灰度：AI 投资热潮延伸至加密市场，未来 5 年或出现主要赢家]]></title>
+            <link>https://www.techflowpost.com/newsletter/138767</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138767</guid>
+            <pubDate>Sun, 04 Oct 2026 01:23:42 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，灰度研究主管 Zach Pandl 发文表示，AI 加密板块 9 月上涨 54%，显著高于同期整体加密市场 24%的涨幅。尽管经历本轮上涨，该板块总市值仍仅约 150 亿美元，是灰度划分的六大加密板块中规模最小的一类。</p><p>代表性项目方面，NEAR 9 月上涨 183%，Venice（VVV）上涨 70%，World（WLD）上涨 47%，Bittensor（TAO）上涨 37%。灰度表示，这些项目分别覆盖智能体商业、隐私 AI 应用、人类身份验证，以及推理、智能体、数据和计算等开放 AI 网络。</p><p>灰度认为，公共区块链能够为 AI 智能体提供支付、身份认证、隐私计算和可验证记录等开放基础设施，从而补充当前由少数公司主导的 AI 生态。随着智能体经济的发展，AI 加密板块未来 5 年可能出现一个或多个主要赢家，而近期市场表现显示，投资者正开始为区块链在 AI 基础设施中的作用进行定价。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[Pump.fun调整Callout奖励机制：高频发布边际回报递减，奖励更看重内容质量]]></title>
+            <link>https://www.techflowpost.com/newsletter/138766</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138766</guid>
+            <pubDate>Sun, 04 Oct 2026 01:19:01 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，Pump.fun 联合创始人 Alon 表示，平台 1500 万美元 Callout 奖励计划推出两个月后，发现首版机制无意中激励了错误行为，导致低质量内容刷屏，并削弱用户持续创作优质内容的意愿。</p><p>Pump.fun 随后调整奖励算法，使机制更加重视内容质量而非发布数量。按照新机制，用户每天发布的 Callout 越多，新增内容带来的边际回报越低。Alon 表示，奖励机制仍在持续迭代，但要让大规模用户长期稳定地产出高质量内容，仍有大量工作需要完成。</p><p>他还表示，目前奖励已覆盖头部账号以及粉丝数不足 10 人的账号，不存在偏袒或优待。Alon 建议用户重点推荐优质代币，通过内容建立交易者信任，并根据由其 Callout 带来的交易量获得奖励。他强调，单纯刷屏发布 Callout，或向粉丝抛售代币，都无法获得持续回报。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[美财长贝森特批评 Anthropic、OpenAI 等风险警告：危言耸听]]></title>
+            <link>https://www.techflowpost.com/newsletter/138765</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138765</guid>
+            <pubDate>Sun, 04 Oct 2026 00:37:12 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，美国财政部长贝森特在接受 Axios 采访时批评 Anthropic CEO 阿莫代伊等人的 AI 生存性风险警告，称只发危言耸听的声音却拿不出解决方案不是领导力。他呼吁实验室负责人承担安全责任，并安全地加速发展。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[SOL 突破 120 美元，24 小时涨幅 0.84%]]></title>
+            <link>https://www.techflowpost.com/newsletter/138764</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138764</guid>
+            <pubDate>Sun, 04 Oct 2026 00:35:31 GMT</pubDate>
+            <description><![CDATA[深潮 TechFlow 消息，10 月 4 日，据 HTX 行情数据显示，SOL 突破 120 美元，现报 120.00 美元，24 小时涨幅 0.84%。]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[Vitalik 测试隐私保护 AI 健康系统：本地模型 + zkAPI + Tor 三层架构防身份泄露]]></title>
+            <link>https://www.techflowpost.com/newsletter/138763</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138763</guid>
+            <pubDate>Sun, 04 Oct 2026 00:29:10 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，Vitalik.eth 在 Farcaster 发文披露，其正在进行一项个人实验，通过结合本地模型与远程前沿模型，在保护隐私的前提下利用个人健康与旅行数据生成个性化饮食及运动建议。</p><p style="text-align: left;">系统采用三层隐私保护架构：</p><ul><li style="text-align: left;">身份层：由本地模型（Qwen 3.8B）代替用户构建查询请求，避免写作风格暴露身份</li><li style="text-align: left;">支付层：使用 zkAPI 隐藏支付信息</li><li style="text-align: left;">网络层：通过 Tor 隐藏 IP 地址</li></ul><p style="text-align: left;">目前系统已跑通，但 Vitalik 指出三大不足：Tor 在逐请求去关联方面效率低且延迟高；本地模型运行速度仅 20-30 TPS，体验流畅需达 100+ TPS；数据保护越严格，远程模型能提供的帮助越有限。相关代码已提交至以太坊 zkAPI 仓库。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[中东局势跟踪：胡塞武装袭击沙特阿美设施]]></title>
+            <link>https://www.techflowpost.com/newsletter/138762</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138762</guid>
+            <pubDate>Sun, 04 Oct 2026 00:26:39 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 4 日，据金十数据，也门胡塞武装表示使用弹道导弹和无人机袭击了位于利雅得的沙特阿美设施，但沙特主导联军指出该说法存在误导。市场消息传出一处阿美设施附近升起大量烟雾与火焰，目前沙特当局及阿美公司尚未确认。此外，伊朗格什姆岛附近海域及萨那均传出爆炸声，以军空袭致 5 人死亡。</p><p>在霍尔木兹海峡方面，伊媒称伊朗革命卫队近日对 7 艘违规油轮采取行动。伊拉克油轮公司通过一艘 VLCC 将 200 万桶原油运过海峡，并正寻求购买专业原油油轮扩展船队。和平谈判方面，据悉伊朗正在审议通过由卡塔尔转交的美国新提案。另据美媒报道，特朗普核心内阁成员近期在戴维营密会数小时，讨论针对伊朗及胡塞冲突的下一步行动。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[美联储和欧洲央行会议纪要将于下周公布，料凸出通胀担忧]]></title>
+            <link>https://www.techflowpost.com/newsletter/138761</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138761</guid>
+            <pubDate>Sun, 04 Oct 2026 00:18:06 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 04 日，受美国疲软的非农就业数据及法国金融市场剧烈动荡的影响，美联储和欧洲央行决策者在各自本月会议上跟进 9 月加息行动的紧迫感已有所减弱。两家央行未来几天将公布上月会议纪要。在上月的会议上，它们因担忧通胀压力上升而加息。美联储 9 月会议纪要可能显示，许多政策制定者当时对潜在价格趋势深感担忧，并预计在年底前至少再加息一次。然而，周五非农数据显示，新增就业低于预期，工资增长乏力，这进一步表明劳动力市场并未助推现有通胀压力。</p><p>本周早些时候，政府对 PCE 的修正显示，今年通胀一直略低于此前估计。经济学家认为，现在 10 月加息的门槛很高。即便会议纪要让市场回想起官员们在 9 月时表现出的鹰派立场，但随后的数据也强化了保持耐心的理由。虽然服务业通胀可能让 12 月加息的选项依然存在，但在再次加息之前，美联储很可能需要更明确的证据表明价格压力已卷土重来。(金十)</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[OpenPayd 拟年底前在纳斯达克上市，助力美国扩张]]></title>
+            <link>https://www.techflowpost.com/newsletter/138760</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138760</guid>
+            <pubDate>Sat, 03 Oct 2026 16:08:46 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 4 日，据 CoinDesk 报道，全球支付解决方案提供商 OpenPayd 宣布，公司正致力于在 2026 年底前通过合并 SPAC 实体 Titan Acquisition Corp.，在纳斯达克（Nasdaq）正式挂牌上市。CEO Iana Dimitrova 表示，此次上市的主要目的是为公司即将到来的美国市场扩张以及潜在的收购活动筹集资金。</p><p>OpenPayd 目前正处于美国证券交易委员会（SEC）对合并协议审查的最后阶段，预计交易将在年内完成，挂牌后将以 "OP" 作为股票代码进行流通。Dimitrova 指出，除了利用公开市场的资本实力外，公司还将利用上市公司股份作为支付手段进行并购，以此加速获取所需的业务牌照及技术资源。</p><p>作为一家连接传统金融机构与加密资产平台的支付网关，OpenPayd 已获得美国 43 个州的货币传输许可证，最新财年营收达 7300 万美元。其基础设施主要为 OKX、Kraken 等知名加密交易所提供法币出入金、外汇兑换及稳定的链上结算服务。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[加密货币 9 月职位激增三倍，求职者人数却下降]]></title>
+            <link>https://www.techflowpost.com/newsletter/138759</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138759</guid>
+            <pubDate>Sat, 03 Oct 2026 16:08:31 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 4 日，据 CoinDesk 报道，据 CryptoJobsList 数据显示，加密货币行业在经历了 2026 年上半年的沉寂后，9 月份迎来了招聘反弹。本月发布的职位总数飙升至 1,241 个，较 7 月份的 382 个增长了逾两倍，且招聘企业数量也恢复至 125 家，明显高于 8 月份的 77 家。</p><p>与此形成对比的是，申请热度却呈现降温趋势。统计显示，7 月份的申请总量曾达到 25,700 份，随后在 8 月降至 24,631 份，并于 9 月进一步滑落至不足 20,000 份。这种供需数量的倒挂暗示着，随着开放岗位的扩张，加密领域对专业人才的争夺可能正变得更为激烈。</p><p>需求细节方面，金融、工程与交易占据前三大招聘类别，稳定币、人工智能、安全及合规业务也跻身前十。在技术背景要求上，针对比特币、以太坊和 Solana 的熟悉度成为了最常被供应商寻找的核心技能。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[过去 24 小时全网爆仓 2.94 亿美元，主爆多单]]></title>
+            <link>https://www.techflowpost.com/newsletter/138758</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138758</guid>
+            <pubDate>Sat, 03 Oct 2026 15:08:25 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 03 日，据 CoinGlass 数据，过去 24 小时内加密货币市场总爆仓金额达 2.94 亿美元，其中多单爆仓 2.61 亿美元，空单爆仓 3312.81 万美元，共有 81,215 人被爆仓。</p><p style="text-align: left;">其中，BTC 爆仓金额约 5,517.35 万美元（多单 5,220.40 万美元，空单 297.39 万美元），ETH 爆仓约 5,320.39 万美元（多单 5,096.43 万美元，空单 224.19 万美元），ZEC 爆仓约 2,009.69 万美元（多单 1,895.30 万美元，空单 114.39 万美元），XRP 爆仓约 1,376.53 万美元（多单 1,354.45 万美元，空单 22.08 万美元），SAND 爆仓约 1,106.05 万美元，SOL 爆仓约 1,101.77 万美元（多单 1,035.25 万美元，空单 66.53 万美元），其他资产爆仓合计约 3,645.53 万美元。</p><p style="text-align: left;">过去 24 小时内最大单笔爆仓发生在 Binance 的 ZECUSDT 交易对上，价值 450.79 万美元。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[金十周六要闻：美联储表态、中东突发及 OpenAI 人事变动]]></title>
+            <link>https://www.techflowpost.com/newsletter/138757</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138757</guid>
+            <pubDate>Sat, 03 Oct 2026 15:06:46 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 3 日，据金十数据，周末重要消息涵盖宏观、地缘与科技领域。美联储哈马克表示非农数据符合近期招聘趋势，有充足时间决定政策立场。中东局势突发，伊朗格什姆岛附近海域传出爆炸声，市场消息称沙特阿美一处设施附近升起大量烟雾火焰，目前尚未获官方确认。</p><p>经贸与产业方面，马来西亚将于 11 月起取消部分黄金产品 10% 的进口关税。商务部宣布对原产于欧盟的进口对硝基甲苯发起反倾销调查。OpenAI 安全系统团队负责人正式辞职。国内方面，截至 8 月末我国 5G 基站总数超 519 万个，国庆档票房已破 5 亿元。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[FOMC 纪要将公布，G7 释放战略储备引关注]]></title>
+            <link>https://www.techflowpost.com/newsletter/138756</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138756</guid>
+            <pubDate>Sat, 03 Oct 2026 14:45:38 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 3 日，据金十数据，美联储 10 月加息选项已基本出局，市场交易重心迅速转向下周即将公布的 FOMC 会议纪要。投资者将重点解读会议对通胀与就业的最新评估，以判断其对 12 月利率决议的潜在指引作用。</p><p>大宗商品方面，G7 国家拟协调释放战略石油储备，此举旨在平抑国际油价剧烈波动，原油市场短期或延续高震荡格局。与此同时，黄金价格虽受多重利好支撑却表现疲软，长期美国国债收益率的演变路径将成为下一阶段宏观资产定价的核心锚点。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[NEAR Intents 9 月手续费创年内新高]]></title>
+            <link>https://www.techflowpost.com/newsletter/138755</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138755</guid>
+            <pubDate>Sat, 03 Oct 2026 14:11:09 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 03 日，据 Delphi Digital 披露，NEAR Intents 在 9 月迎来了今年手续费收入最高的月份。此前，NEAR 将 Hyperliquid 永续合约默认设置为隐私模式，来自其他区块链的存款通过 NEAR Intents 上的代币兑换进入相应仓位。</p><p style="text-align: left;">此外，隐私特性也促使用户在交易间隙将资金保留在 NEAR Intents 上。上线首日，该平台的机密余额已突破 7000 万美元。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+        <item>
+            <title><![CDATA[约 341.5 万美元 HYPE 从 Kinetiq 转至未知钱包]]></title>
+            <link>https://www.techflowpost.com/newsletter/138754</link>
+            <guid isPermaLink="false">https://www.techflowpost.com/newsletter/138754</guid>
+            <pubDate>Sat, 03 Oct 2026 13:27:45 GMT</pubDate>
+            <description><![CDATA[<p>深潮 TechFlow 消息，10 月 03 日，据 Whale Alert 监测，387,005枚 HYPE（约合 341.523 万美元）于 20 分钟前从 Kinetiq 转出至一个未知钱包。</p>]]></description>
+            <category>TechFlow</category>
+        </item>
+    </channel>
+</rss>

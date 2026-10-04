@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	
+	xmlns:georss="http://www.georss.org/georss"
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+	>
+
+<channel>
+	<title>SpotGamma™</title>
+	<atom:link href="https://spotgamma.com/feed/" rel="self" type="application/rss+xml" />
+	<link>https://spotgamma.com/</link>
+	<description>S&#38;P 500 Stock Market Gamma Trading Levels Based on Options Open Interest</description>
+	<lastBuildDate>Fri, 02 Oct 2026 16:51:06 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.0.5</generator>
+
+<image>
+	<url>https://spotgamma.com/wp-content/uploads/2020/12/cropped-SpotGamma-AI-RGB-PNG_7-32x32.png</url>
+	<title>SpotGamma™</title>
+	<link>https://spotgamma.com/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">165109031</site>	<item>
+		<title>Index Put Protection Is Cheap With 10-Year Treasury Bonds at 5.3%</title>
+		<link>https://spotgamma.com/index-put-protection-10-year-at-5-3-percent/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=index-put-protection-10-year-at-5-3-percent</link>
+		
+		<dc:creator><![CDATA[SpotGamma]]></dc:creator>
+		<pubDate>Thu, 01 Oct 2026 20:26:56 +0000</pubDate>
+				<category><![CDATA[Market Analysis]]></category>
+		<category><![CDATA[bond yields]]></category>
+		<category><![CDATA[hedging]]></category>
+		<category><![CDATA[implied volatility]]></category>
+		<category><![CDATA[negative gamma]]></category>
+		<category><![CDATA[put skew]]></category>
+		<category><![CDATA[tastylive]]></category>
+		<category><![CDATA[TLT]]></category>
+		<category><![CDATA[VIX]]></category>
+		<category><![CDATA[volatility risk premium]]></category>
+		<guid isPermaLink="false">https://spotgamma.com/?p=21940</guid>
+
+					<description><![CDATA[<p>SpotGamma founder Brent Kochuba joined tastylive to explain why index put protection stays cheap with the 10-year at 5.3% and bond volatility climbing.</p>
+<p>The post <a href="https://spotgamma.com/index-put-protection-10-year-at-5-3-percent/">Index Put Protection Is Cheap With 10-Year Treasury Bonds at 5.3%</a> appeared first on <a href="https://spotgamma.com">SpotGamma™</a>.</p>
+]]></description>
+		
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">21940</post-id>	</item>
+		<item>
+		<title>Friday Jobs Report Preview: What the Market Wants to See</title>
+		<link>https://spotgamma.com/september-jobs-report-preview/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=september-jobs-report-preview</link>
+		
+		<dc:creator><![CDATA[SpotGamma]]></dc:creator>
+		<pubDate>Thu, 01 Oct 2026 18:04:23 +0000</pubDate>
+				<category><![CDATA[Market Analysis]]></category>
+		<category><![CDATA[gamma]]></category>
+		<category><![CDATA[implied volatility]]></category>
+		<category><![CDATA[jobs report]]></category>
+		<category><![CDATA[negative gamma]]></category>
+		<category><![CDATA[payrolls]]></category>
+		<category><![CDATA[SPX]]></category>
+		<category><![CDATA[TLT]]></category>
+		<category><![CDATA[volatility]]></category>
+		<guid isPermaLink="false">https://spotgamma.com/?p=21924</guid>
+
+					<description><![CDATA[<p>The stock market faces its biggest economic test of the week Friday morning when the September jobs report is released at 8:30 a.m. ET.</p>
+<p>The post <a href="https://spotgamma.com/september-jobs-report-preview/">Friday Jobs Report Preview: What the Market Wants to See</a> appeared first on <a href="https://spotgamma.com">SpotGamma™</a>.</p>
+]]></description>
+		
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">21924</post-id>	</item>
+		<item>
+		<title>Understanding Market on Close Volatility, Gamma Risks, and Strategic Option Plays: A Deep Dive Analysis for SpotGamma Members</title>
+		<link>https://spotgamma.com/%f0%9f%94%a7-markets-mechanics-with-jt-10-1-26/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=%25f0%259f%2594%25a7-markets-mechanics-with-jt-10-1-26</link>
+		
+		<dc:creator><![CDATA[SpotGamma]]></dc:creator>
+		<pubDate>Thu, 01 Oct 2026 04:49:30 +0000</pubDate>
+				<category><![CDATA[Q&A]]></category>
+		<guid isPermaLink="false">https://spotgamma.com/?p=21955</guid>
+
+					<description><![CDATA[<p>### You must be logged in to access this content. Don't have an account with SpotGamma? Sign up today to view unique key levels, Founder's Notes, market commentary, options analysis tools, and expert insights. If you're already a SpotGamma subscriber, log in here: Username or E-mail Password Remember Me &#160; &#160; Forgot Password</p>
+<p>The post <a href="https://spotgamma.com/%f0%9f%94%a7-markets-mechanics-with-jt-10-1-26/">Understanding Market on Close Volatility, Gamma Risks, and Strategic Option Plays: A Deep Dive Analysis for SpotGamma Members</a> appeared first on <a href="https://spotgamma.com">SpotGamma™</a>.</p>
+]]></description>
+		
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">21955</post-id>	</item>
+		<item>
+		<title>Micron Earnings Preview: Can the AI Memory Boom Keep Delivering?</title>
+		<link>https://spotgamma.com/micron-earnings-preview-ai-memory-boom-options-implied-move/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=micron-earnings-preview-ai-memory-boom-options-implied-move</link>
+		
+		<dc:creator><![CDATA[SpotGamma]]></dc:creator>
+		<pubDate>Tue, 29 Sep 2026 23:26:25 +0000</pubDate>
+				<category><![CDATA[Market Analysis]]></category>
+		<category><![CDATA[butterfly spread]]></category>
+		<category><![CDATA[call spread]]></category>
+		<category><![CDATA[earnings]]></category>
+		<category><![CDATA[gamma]]></category>
+		<category><![CDATA[implied volatility]]></category>
+		<category><![CDATA[iron condor]]></category>
+		<category><![CDATA[MU]]></category>
+		<category><![CDATA[negative gamma]]></category>
+		<category><![CDATA[put spread]]></category>
+		<category><![CDATA[volatility]]></category>
+		<guid isPermaLink="false">https://spotgamma.com/?p=21814</guid>
+
+					<description><![CDATA[<p>Micron (MU) reports earnings Wednesday after the close, and this may be one of the most important semiconductor reports of the week.</p>
+<p>The post <a href="https://spotgamma.com/micron-earnings-preview-ai-memory-boom-options-implied-move/">Micron Earnings Preview: Can the AI Memory Boom Keep Delivering?</a> appeared first on <a href="https://spotgamma.com">SpotGamma™</a>.</p>
+]]></description>
+		
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">21814</post-id>	</item>
+		<item>
+		<title>Index Put Demand Returns Ahead of Friday&#8217;s Jobs Report</title>
+		<link>https://spotgamma.com/index-put-demand-0dte-flows-tastylive/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=index-put-demand-0dte-flows-tastylive</link>
+		
+		<dc:creator><![CDATA[SpotGamma]]></dc:creator>
+		<pubDate>Tue, 29 Sep 2026 18:30:24 +0000</pubDate>
+				<category><![CDATA[Market Analysis]]></category>
+		<category><![CDATA[0DTE]]></category>
+		<category><![CDATA[dealer hedging]]></category>
+		<category><![CDATA[IWM]]></category>
+		<category><![CDATA[Micron earnings]]></category>
+		<category><![CDATA[put skew]]></category>
+		<category><![CDATA[QQQ]]></category>
+		<category><![CDATA[realized volatility]]></category>
+		<category><![CDATA[tastylive]]></category>
+		<guid isPermaLink="false">https://spotgamma.com/?p=21800</guid>
+
+					<description><![CDATA[<p>Brent Kochuba, founder of SpotGamma, on tastylive: index put demand, same-day options flow, and why weekly vol prices almost no risk premium.</p>
+<p>The post <a href="https://spotgamma.com/index-put-demand-0dte-flows-tastylive/">Index Put Demand Returns Ahead of Friday&#8217;s Jobs Report</a> appeared first on <a href="https://spotgamma.com">SpotGamma™</a>.</p>
+]]></description>
+		
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">21800</post-id>	</item>
+	</channel>
+</rss>
