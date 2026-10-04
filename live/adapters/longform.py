@@ -73,10 +73,10 @@ def pdf_text(body):
 
 def fetch_berkshire(*, converter=None, transport=None, as_of=None):
     st, body = common.http_get(BERKSHIRE, transport=transport)
-    if st != 200:
-        return {'status': f'http_{st}', 'requests': 1, 'sources': []}
-    years = [int(y) for y in re.findall(r'(\d{4})ltr\.pdf', body, re.I)]
-    if not years:
+    index_status = 'ok' if st == 200 else f'http_{st}'
+    # The index can sit behind a bot challenge; the letter PDFs remain directly public.
+    years = [int(y) for y in re.findall(r'(\d{4})ltr\.pdf', body or '', re.I)] if st == 200 else []
+    if st == 200 and not years:
         return {'status': 'no_letters', 'requests': 1, 'sources': []}
     today = as_of or date.today()
     # The Buffett letters archive can lag the current CEO's annual letter.
@@ -103,7 +103,8 @@ def fetch_berkshire(*, converter=None, transport=None, as_of=None):
                                           publisher='Berkshire Hathaway', title=f'{year} shareholder letter', url=url,
                                           published_at=f'{year + 1}-02-01', adapter='berkshire',
                                           extra={'published_at_approximate': True, 'published_at_basis': 'February of year after letter year; day unknown', 'letter_year_from_index': year in years})
-    return {'status': 'ok' if sources else 'no_data', 'requests': requests, 'sources': sources}
+    return {'status': 'ok' if sources else 'no_data', 'requests': requests, 'sources': sources,
+            'index_status': index_status}
 
 
 def fetch_glassnode(*, limit=3, transport=None):
