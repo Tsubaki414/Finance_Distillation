@@ -1,24 +1,9 @@
-"""Two-level post QA: HARD findings block a draft, SOFT findings only warn.
-
-HARD (draft_status needs_review) is reserved for what can make a post wrong or
-unlawful to publish:
-  * numbers / periods / metric bindings that do not match the source units
-    (number_not_in_units, period_not_in_units, number_metric_binding, and
-    number words such as 翻倍 / doubled that no source span supports);
-  * licence: a tier the post type does not accept, or a D-tier source named in
-    the post (d_tier_source_leak);
-  * a same-language direct quote that is not an exact substring of a source
-    span (quote_not_exact);
-  * a required attribution frame that is missing (missing_attribution_frame),
-    and the source named / linked in the body when there is no frame.
-Unknown codes are HARD (fail closed): a new check must be classified here.
-
-SOFT (warning; draft stays draft_ready) covers style and placement: template
-phrases, length out of range, the source named in the body while the frame is
-present, attribution phrasing outside the frame, first person / borrowed
-experience (with a fix hint), code fences, translated quotes.
-Fabricated facts beyond numbers are covered by the claim_ledger contract
-(ContractError) and semantic QA, not by these lexical checks.
+"""QA never stalls on source numbers: number/period/metric/number_words,
+no_judgment, data_list, no_disagreement and view_number_unbound are SOFT.
+Trusted sources skip number checks. HARD: position_claim, trade_reco_specific,
+self_contradiction, licence_tier_not_allowed, d_tier_source_leak, quote_not_exact,
+missing_attribution_frame and provenance without a frame. Unknown codes fail
+closed. Style and placement checks are SOFT.
 """
 from __future__ import annotations
 
@@ -27,10 +12,10 @@ import re
 
 from live import registry
 
-HARD = frozenset({'number_not_in_units', 'period_not_in_units', 'number_metric_binding',
+HARD = frozenset({
                   'licence_tier_not_allowed', 'd_tier_source_leak', 'quote_not_exact',
                   'missing_attribution_frame', 'position_claim', 'trade_reco_specific', 'self_contradiction'})
-SOFT = frozenset({'template_phrase', 'length_out_of_range', 'attribution_outside_frame',
+SOFT = frozenset({'number_not_in_units', 'period_not_in_units', 'number_metric_binding', 'number_words', 'no_judgment', 'data_list', 'no_disagreement', 'view_number_unbound', 'template_phrase', 'length_out_of_range', 'attribution_outside_frame',
                   'trade_reco_soft', 'author_identity', 'code_fence', 'translated_quote', 'exemplar_phrase_copied'})
 FIXES = {
     'author_identity': 'Rewrite in third person or credit the source author inside the frame; '
@@ -48,8 +33,6 @@ def level(finding, *, frame_found):
     code = finding.get('code')
     if code == 'provenance_in_body':
         return 'soft' if frame_found else 'hard'
-    if code == 'number_words':
-        return 'soft' if finding.get('sourced') else 'hard'
     if code in SOFT:
         return 'soft'
     return 'hard'

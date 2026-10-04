@@ -25,7 +25,7 @@ def stance_step(view_unit, persona, client, *, calls=None, sleep=None):
     if view is None:
         return {'decision':'reject', 'account_view':'', 'supporting_unit_ids':[], 'rationale':'Legacy view lacks structured judgment.', 'confidence':1.0}
     try:
-        view = validate_view(view, view_unit.get('source_spans'))
+        view = validate_view(view, view_unit.get('source_spans'), source_or_unit=view_unit, number_warnings=True)
     except ContractError as exc:
         return {'decision':'reject', 'account_view':'', 'supporting_unit_ids':[], 'rationale':'Input view invalid: ' + str(exc)[:160], 'confidence':1.0}
     view_unit = dict(view_unit, view=view)
@@ -50,8 +50,8 @@ def stance_step(view_unit, persona, client, *, calls=None, sleep=None):
         require(sentence.strip() and len([s for s in re.split(r'[。！？!?]|(?<!\d)\.(?!\d)',sentence) if s.strip()]) == 1, 'stance: one judgment sentence required')
         require(view_unit['unit_id'] in ids, 'stance: supporting view required')
     if value['decision']=='adapt':
-        # The adapted view is the account's own judgment: numbers stay source-bound, wording need not trace.
-        revised=validate_view(value.get('view'), view_unit.get('source_spans'), require_trace=False)
+        # Retain the account's revised judgment, warning on unbound numbers.
+        revised=validate_view(value.get('view'), view_unit.get('source_spans'), require_trace=False, source_or_unit=view_unit, number_warnings=True)
         value['view'] = revised
         require(any(revised[k]!=view[k] for k in ('direction','conviction','horizon')) or
                 bool(revised.get('conditions')) and revised.get('conditions')!=view.get('conditions'), 'stance: adapt must change view')
