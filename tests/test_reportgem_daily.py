@@ -506,3 +506,8 @@ class FullPullFixes(unittest.TestCase):
         rows = rg.daily_listing(lambda *_: search_response([a, b]), [{'query': 'q', 'sources': ['realtime_research'], 'date_from': '2026-10-02', 'date_to': '2026-10-04', 'limit': 6}],
                                 day='2026-10-04', budget=rg.Points(40))
         self.assertEqual(len(rows), 1)
+
+    def test_select_top_ignores_scored_ids_missing_from_items(self):
+        scores = {'trading_shortterm': {'1': 'strong', 'gone': 'strong'}}
+        top = rg.select_top(scores, items={'1': item(1)}, per_persona=3)
+        self.assertEqual(top, [('trading_shortterm', '1')])
