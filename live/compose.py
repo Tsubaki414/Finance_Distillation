@@ -46,6 +46,7 @@ body outside the range is rejected. When the donors write short posts, short is
 right: do not pad.
 Lead with the account's own judgment in most posts; use at most a few numbers as support; vary hook, length and structure across posts — the tendencies describe the voice, they are not a checklist.
 Never claim personal holdings, trades, position sizes or P&L; this is an AI account.
+First-person opinion markers are fine and often natural ("I think", "my read", "我觉得", "我的看法"); follow persona.format_hint for line breaks.
 Match the voice_card rhythm block and style exemplars as tendencies. Natural imperfection
 is welcome: fragments, uneven sentence lengths, one-line paragraphs, persona idioms or
 casual connectors, an occasional rhetorical question. Avoid essay polish and symmetric paragraphs;
@@ -92,9 +93,29 @@ def body_length(spec_length, card, lang):
         return base
     ratio = 0.95 if lang == 'zh' else 0.82   # donor stats include whitespace; the check excludes it
     low = max(60, min(base['min'], round(post['p25'] * ratio)))
-    high = min(base['max'], max(low + 100, round(post['p75'] * ratio * 1.4)))
+    high = min(base['max'], max(low + 100, round(post['p75'] * ratio * 1.15)))
     return {'min': low, 'max': high,
             'note': f"donor posts are typically {post['p25']:g}-{post['p75']:g} chars; short is fine, do not pad"}
+
+
+def format_hint(card, lang):
+    """Descriptive layout hint from donor line-break habits ('' without a card)."""
+    if not card:
+        return ''
+    paragraphs = card.get('paragraphs')
+    if not paragraphs:
+        from live.voice_cards import layout
+        try:
+            paragraphs = layout(card)[1]
+        except Exception:
+            paragraphs = None
+    rate = (paragraphs or {}).get('line_break_rate')
+    if rate is None:
+        return ''
+    if rate >= 0.5:
+        return (f'About {rate:.0%} of donor posts put points on separate short lines or paragraphs '
+                '(often one or two sentences each, sometimes a one-line fragment); a single dense block is unusual.')
+    return f'Mostly single-block posts; only about {rate:.0%} of donor posts use line breaks.'
 
 
 def length_of(text):
@@ -329,6 +350,13 @@ def _ask(client, stage, system, payload, max_tokens, calls, *, sleep=None):
             error = exc
         except (OSError, TimeoutError) as exc:
             error = ContractError(f'{stage}: transient client error: {exc}')
+        except RuntimeError as exc:
+            if not re.search(r'HTTP (?:429|5\d\d)', str(exc)):
+                raise
+            error = exc
+            if attempt < 3:
+                sleep(3.0 * 2 ** (attempt - 1))   # rate limit / queue: longer backoff
+                continue
         else:
             # Refusals and client content contracts are never transport retries.
             require(not response.get('refusal'), f'{stage}: model refusal')
@@ -431,6 +459,9 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     if persona.voice_card:
         from live.voice_cards import compact_summary, variation_seed
         payload['persona']['voice_card'] = compact_summary(persona.voice_card)
+        hint = format_hint(persona.voice_card, persona.lang)
+        if hint:
+            payload['persona']['format_hint'] = hint
         payload['persona']['variation'] = variation_seed(persona.voice_card, source.get('source_hash') or digest(source))
     if any(u.get('quote_allowed') is False for u in chosen):
         payload['post_type_rules']['quote_policy'] = (
