@@ -174,7 +174,7 @@ SENTENCE = re.compile(r'(?<=[.!?])\s+|(?<=[。！？；])\s*')
 # Ratings / price targets are bank recommendations, not facts we may relay.
 RATING = re.compile(r'Price Target|Price Objective|\bPO:|\bTP\b|target price|Maintain Rating|\bRating:|'
                     r'目标价|评级|买入|增持|减持|跑赢|跑输|推荐评级|\b(?:Overweight|Underweight|Outperform|Underperform)\b|Price \(\d', re.I)
-RATING_TITLE = re.compile(r'\b(?:TP|PO|price target|target price)\b|;\s*(?:buy|sell|overweight|underweight)\b|\b(?:maintain|reiterate)\w*\s+(?:buy|sell|overweight|underweight|neutral)\b|\b(?:upgrade|downgrade|initiat\w*)\b.*\b(?:buy|sell|overweight|underweight|neutral)\b|'
+RATING_TITLE = re.compile(r'\b(?:TP|PO|price target|target price)\b|;\s*(?:buy|sell|overweight|underweight)\b|\b(?:maintain|reiterate|reit\.)\w*\s+(?:buy|sell|overweight|underweight|neutral)\b|\b(?:upgrade|downgrade|initiat\w*)\b.*\b(?:buy|sell|overweight|underweight|neutral)\b|'
                           r'目标价|评级|买入|增持|减持|跑赢|跑输|(?:raising|cutting|lowering) (?:TP|PO|target)', re.I)
 WATERMARK = re.compile(r'Unauthori[sz]ed redistribution|intended for [\w.+-]+@|prepared for [\w.+-]+@', re.I)
 DOC_DATE = re.compile(r'\b(\d{1,2}) (January|February|March|April|May|June|July|August|September|October|November|December) (20\d\d)\b')
@@ -258,7 +258,7 @@ def bank_of(institution):
 def daily_listing(call, queries, *, day, budget, plan=None, report=None, date_from=None):
     foreign_lo = date_from or window_start(day)
     cn_lo = (date.fromisoformat(day) - timedelta(days=7)).isoformat()
-    items, seen = [], {}
+    items, seen, seen_titles = [], {}, {}
     excluded_seen = set()
     excluded_counts = {bank: 0 for bank in EXCLUDED_BANKS}
     if report is not None:
@@ -277,6 +277,8 @@ def daily_listing(call, queries, *, day, budget, plan=None, report=None, date_fr
                         excluded_counts[bank] += 1
                         excluded_seen.add(key)
                     continue
+                twin = (bank, (r.get('title') or '').strip().casefold(), (r.get('published_at') or '')[:10])
+                key = seen_titles.setdefault(twin, key)  # ReportGem lists one report under twin ids (-N / 80000000N)
                 if key in seen:
                     if args['query'] not in seen[key]['queries']:
                         seen[key]['queries'].append(args['query'])
