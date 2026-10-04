@@ -141,6 +141,29 @@ def _quantities(text):
             continue
 
 
+ZH_DIGIT = {'一': 1, '二': 2, '两': 2, '三': 3, '四': 4, '五': 5, '六': 6, '七': 7, '八': 8, '九': 9, '十': 10}
+EN_MULT = {'doubled': 2, 'double': 2, 'twice': 2, 'tripled': 3, 'triple': 3, 'quadrupled': 4,
+           'halved': 0.5, 'half': 0.5}
+
+
+def _multiple(word):
+    """The multiple a number word states (翻倍 / doubled -> 2, 一半 -> 0.5); the word itself if unknown."""
+    w = word.lower()
+    if w in EN_MULT:
+        return EN_MULT[w]
+    if w in ('一半', '减半'):
+        return 0.5
+    if w.startswith('翻'):
+        digits = [ZH_DIGIT[c] for c in w if c in ZH_DIGIT]
+        if '番' in w:
+            return 2 ** (digits[0] if digits else 1)
+        return 2 if not digits or digits == [1] else digits[0] + 1
+    digits = [ZH_DIGIT[c] for c in w if c in ZH_DIGIT]
+    if w.endswith('倍') and len(digits) == 1:
+        return digits[0]
+    return w
+
+
 def number_findings(body, units):
     allowed, allowed_periods = {}, set()
     for unit in units:
@@ -162,9 +185,10 @@ def number_findings(body, units):
     findings = []
     if '```' in body:
         findings.append({'code': 'code_fence', 'detail': 'Code fences are not post text and hide numbers'})
-    sourced = any(NUMBER_WORDS.search(span['exact_text']) for unit in units for span in unit['source_spans'])
+    in_spans = {_multiple(m.group()) for unit in units for span in unit['source_spans']
+                for m in NUMBER_WORDS.finditer(span['exact_text'])}
     for m in NUMBER_WORDS.finditer(body):
-        findings.append({'code': 'number_words', 'detail': m.group(), 'sourced': sourced})
+        findings.append({'code': 'number_words', 'detail': m.group(), 'sourced': _multiple(m.group()) in in_spans})
     for p in sorted(periods(body) - allowed_periods):
         findings.append({'code': 'period_not_in_units', 'detail': p})
     for q in inventory(body):
