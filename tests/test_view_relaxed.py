@@ -215,7 +215,7 @@ def test_invalid_view_downgrades_unit_instead_of_failing_source():
     source = {'id': 's', 'source_id': 's', 'source_hash': cu.digest(text) if hasattr(cu, 'digest') else 'h', 'original_text': text}
     from live.content_units import paragraphs
     pid = paragraphs(text)[0]['paragraph_id']
-    raw = {'kind': 'view', 'statement': 'Demand drives revenue growth.', 'speaker': None, 'speaker_type': 'publisher',
+    raw = {'kind': 'view', 'statement': 'Demand drives revenue growth.', 'speaker': 'Analyst', 'speaker_type': 'author',
            'source_spans': [{'paragraph_id': pid, 'exact_text': text}], 'numbers': [], 'freshness_class': 'evergreen',
            'view': dict(view(), reasoning='The weather is sunny.')}
     u = cu._unit(source, raw, 0, {p['paragraph_id']: p for p in paragraphs(text)}, text, 'B', require_view=True)
