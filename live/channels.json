@@ -11,7 +11,7 @@
    "feed_url": null,
    "lang": "en",
    "mode": "existing_adapter",
-   "reason": "Existing adapter, but it should be retired: login-walled resale of GS/MS sell-side PDFs with no licence shown; member agreement 3.3.7 bans commercial use (gray_redistribution)",
+   "reason": "Served by the existing paid ReportGem MCP adapter (live/reportgem_daily.py; Fiona decision 2026-10-04, tier B, no_reproduction). Only direct scraping of the login-walled reportgem.com/foreign-rt.html web page is not used; resale-of-sell-side-PDF concern is unverified classifier output, not a reason to retire the MCP.",
    "licence_tier": "B",
    "no_reproduction": true,
    "persona_hint": "industry_ai_capex",
