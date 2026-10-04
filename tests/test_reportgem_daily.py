@@ -311,5 +311,5 @@ class ChineseQueryShapeTests(unittest.TestCase):
         # Live 2026-10-04: chinese_research ANDs body keywords; '美联储 宏观 美债' returned 0, '宏观' returned 5.
         from live import reportgem_daily as rd
         for q in rd.listing_queries(list(rd.THEMES), day='2026-10-04'):
-            if 'chinese_research' in q['args']['sources']:
-                self.assertNotIn(' ', q['args']['query'].strip())
+            if 'chinese_research' in q['sources']:
+                self.assertNotIn(' ', q['query'].strip())
