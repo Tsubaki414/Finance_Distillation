@@ -160,3 +160,17 @@ def test_failed_extract_is_not_retried_forever(tmp_path):
     for _ in range(3):
         run(**args, fetchers={'c':lambda:{'sources':[source('bad')]}}, extract=broken, backup=lambda:None, refresh=lambda:None)
     assert calls==['bad','bad']
+
+
+def test_extract_model_override_needs_explicit_flag(tmp_path, monkeypatch):
+    from live import daily_ingest
+    monkeypatch.setattr(daily_ingest, '_relay_config', lambda: {'base_url': 'https://api.erisedai.com/v1', 'api_key': 'k',
+                        'model': 'claude-opus-5', 'input_usd_per_million': 15.0, 'output_usd_per_million': 75.0})
+    with pytest.raises(ValueError, match='allow'):
+        daily_ingest.extract_client(tmp_path, model='claude-sonnet-5', allow_nondefault=False)
+    c = daily_ingest.extract_client(tmp_path, model='claude-sonnet-5', allow_nondefault=True)
+    from live import stage_models
+    assert stage_models.for_stage(c.stage_models, 'extract')['model'] == 'claude-sonnet-5'
+    assert stage_models.for_stage(c.stage_models, 'compose')['model'] == 'claude-opus-5'
+    default = daily_ingest.extract_client(tmp_path/'d')
+    assert stage_models.for_stage(default.stage_models, 'extract')['model'] == 'claude-opus-5'
