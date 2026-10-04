@@ -29,14 +29,21 @@ def to_source_and_units(data):
         d = by_key.get((code, dates[0]))
         if not d:
             continue
-        values = [('leveraged-funds net position', _net(d, 'lev_money')),
-                  ('asset-manager net position', _net(d, 'asset_mgr'))]
+        lev, mgr = 'leveraged funds (hedge funds, CTAs)', 'asset managers'
+        values = [(f'{lev} net position', _net(d, 'lev_money'), 'level'),
+                  (f'{mgr} net position', _net(d, 'asset_mgr'), 'level')]
         previous = by_key.get((code, dates[1])) if len(dates) > 1 else None
         if previous:
-            values.append(('week-over-week change of leveraged-funds net position', _net(d, 'lev_money') - _net(previous, 'lev_money')))
-        for metric, value in values:
+            values.append((f'{lev} week-over-week change in net position',
+                           _net(d, 'lev_money') - _net(previous, 'lev_money'), 'change'))
+        for metric, value, kind in values:
             number = str(value)
-            rows.append({'line': f'{d["contract_market_name"]} ({code}), {metric}, {period}: {number} contracts.',
+            if kind == 'level':
+                side = 'net short' if value < 0 else 'net long'
+            else:
+                side = 'shift toward short' if value < 0 else 'shift toward long'
+            rows.append({'line': f'CFTC Commitments of Traders futures positioning, {d["contract_market_name"]} ({code}): '
+                                 f'{metric}, {period}: {number} contracts ({side}).',
                          'number': number, 'metric': metric, 'period': period})
     return common.structured_result(rows, id='cftc-tff-' + dates[0], source_id='primary_cftc', publisher='CFTC',
                                     title='TFF futures-only positioning', url=URL, published_at=dates[0], adapter='cftc', tier='A')
