@@ -35,6 +35,7 @@ CANDIDATES = {
     'gpt-6.1-sol': dict(cli='codex', relay=(MICU, 'GEMINI_RELAY_API_KEY')),
     # the shipped stage_models.json as-is (COMPOSE gemini-3.1-pro-preview + opus-5-5 fallback)
     'gemini-default': dict(shipped=True, relay=(MICU, 'GEMINI_RELAY_API_KEY')),
+    'gemini-default-v2': dict(shipped=True, relay=(MICU, 'GEMINI_RELAY_API_KEY')),
 }
 
 
@@ -233,6 +234,7 @@ For EACH draft label return integer scores 1-5:
 - voice_match: rhythm, sentence length, hooks and norms against the voice_card and the two style-only exemplars.
 - emotion_punch: felt conviction, vivid concrete wording, rhythm (varied sentence length, a line that lands), a stance the reader can feel. NOT hype, clickbait, exclamation spam, emoji spam, or invented drama. A draft that invents facts, numbers, trades or personal positions not in the units/stance gets at most 2.
 - fabricated: true if the draft states facts, numbers, holdings or trades that the units/stance do not support.
+  The source tag / attribution frame naming source.publisher or source.author is added by the pipeline and is supported.
 - reason: one short sentence.
 Return ONLY JSON: {"scores": {"A": {"judgment_first": 4, "voice_match": 3, "emotion_punch": 3, "fabricated": false, "reason": "..."}, ...}}
 """
@@ -280,6 +282,7 @@ def judge_all(out, engines, keys=None, workers=6):
         style = exemplars.retrieve(persona, post_type=x['post_type'], query=' '.join(u['statement'] for u in x['units']),
                                    k=2, posts_dir=POSTS, tags_dir=TAGS)
         payload = {'voice_card': compact_summary(persona.voice_card), 'style_exemplars': [e.get('text') for e in style],
+                   'source': {'publisher': x['source'].get('publisher'), 'author': x['source'].get('author_name')},
                    'stance': {k: (x['stance'] or {}).get(k) for k in ('decision', 'account_view')},
                    'units': [{'statement': u['statement'], 'numbers': [n['text'] for n in u.get('numbers', [])]} for u in x['units']],
                    'drafts': {lab: drafts[c] for lab, c in labels.items()}}
