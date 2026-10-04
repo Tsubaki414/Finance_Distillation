@@ -37,7 +37,7 @@ def load_posts(handle, posts_dir=None):
     if not path.exists():
         return []
     out = []
-    for line in path.read_text().splitlines():
+    for line in path.read_text().split('\n'):  # not splitlines(): posts contain U+2028
         if line.strip():
             out.append(json.loads(line))
     return out
