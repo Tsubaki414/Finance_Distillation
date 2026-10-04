@@ -313,6 +313,353 @@
         "10-Q",
         "10-K"
       ]
+    },
+    "reportgem_wells_fargo": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "Wells Fargo",
+        "Wells Fargo Securities"
+      ]
+    },
+    "reportgem_rbc": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "RBC",
+        "Royal Bank of Canada"
+      ]
+    },
+    "reportgem_bnp_paribas": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "BNP Paribas",
+        "BNPP"
+      ]
+    },
+    "reportgem_societe_generale": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "Societe Generale",
+        "Société Générale",
+        "SocGen"
+      ]
+    },
+    "reportgem_mizuho": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "Mizuho"
+      ]
+    },
+    "reportgem_smbc_nikko": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "SMBC Nikko",
+        "SMBC"
+      ]
+    },
+    "reportgem_daiwa": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "Daiwa",
+        "大和"
+      ]
+    },
+    "reportgem_clsa": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "CLSA",
+        "里昂"
+      ]
+    },
+    "reportgem_ing": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "ING"
+      ]
+    },
+    "reportgem_santander": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "Santander"
+      ]
+    },
+    "reportgem_credit_agricole": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "Credit Agricole",
+        "Crédit Agricole",
+        "CA-CIB",
+        "CACIB"
+      ]
+    },
+    "reportgem_natixis": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "Natixis"
+      ]
+    },
+    "reportgem_td_securities": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "TD Securities"
+      ]
+    },
+    "reportgem_scotiabank": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "Scotiabank",
+        "Scotia"
+      ]
+    },
+    "reportgem_piper_sandler": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "Piper Sandler"
+      ]
+    },
+    "reportgem_wolfe_research": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "Wolfe Research"
+      ]
+    },
+    "reportgem_keybanc": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "KeyBanc",
+        "KeyBank"
+      ]
+    },
+    "reportgem_raymond_james": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "Raymond James"
+      ]
+    },
+    "reportgem_stifel": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "Stifel"
+      ]
+    },
+    "reportgem_bank_of_china_international": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "Bank of China International",
+        "BOCI",
+        "中银国际"
+      ]
+    },
+    "reportgem_cn_e4b8ade98791e585ace58fb8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "中金公司",
+        "CICC"
+      ]
+    },
+    "reportgem_cn_e4b8ade4bfa1e8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "中信证券",
+        "CITIC Securities"
+      ]
+    },
+    "reportgem_cn_e58d8ee6b3b0e8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "华泰证券",
+        "Huatai"
+      ]
+    },
+    "reportgem_cn_e59bbde6b3b0e6b5b7e9809a": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "国泰海通",
+        "国泰君安",
+        "海通证券",
+        "Guotai Haitong",
+        "Guotai Junan",
+        "Haitong Securities"
+      ]
+    },
+    "reportgem_cn_e68b9be59586e8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "招商证券"
+      ]
+    },
+    "reportgem_cn_e5b9bfe58f91e8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "广发证券"
+      ]
+    },
+    "reportgem_cn_e794b3e4b887e5ae8fe6ba90": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "申万宏源"
+      ]
+    },
+    "reportgem_cn_e4b8ade4bfa1e5bbbae68a95": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "中信建投"
+      ]
+    },
+    "reportgem_cn_e585b4e4b89ae8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "兴业证券"
+      ]
+    },
+    "reportgem_cn_e4b89ce696b9e8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "东方证券"
+      ]
+    },
+    "reportgem_cn_e59bbde4bfa1e8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "国信证券"
+      ]
+    },
+    "reportgem_cn_e58589e5a4a7e8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "光大证券"
+      ]
+    },
+    "reportgem_cn_e4b89ce590b4e8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "东吴证券"
+      ]
+    },
+    "reportgem_cn_e5a4a9e9a38ee8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "天风证券"
+      ]
+    },
+    "reportgem_cn_e6b599e59586e8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "浙商证券"
+      ]
+    },
+    "reportgem_cn_e995bfe6b19fe8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "长江证券"
+      ]
+    },
+    "reportgem_cn_e6b091e7949fe8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "民生证券"
+      ]
+    },
+    "reportgem_cn_e5bc80e6ba90e8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "开源证券"
+      ]
+    },
+    "reportgem_cn_e59bbde79b9be8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "国盛证券"
+      ]
+    },
+    "reportgem_cn_e58d8ee5889be8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "华创证券"
+      ]
+    },
+    "reportgem_cn_e696b9e6ada3e8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "方正证券"
+      ]
+    },
+    "reportgem_cn_e59bbde68a95e8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "安信证券",
+        "安信",
+        "国投证券"
+      ]
+    },
+    "reportgem_cn_e59bbde98791e8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "国金证券"
+      ]
+    },
+    "reportgem_cn_e4b8ade6b3b0e8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "中泰证券"
+      ]
+    },
+    "reportgem_cn_e58d8ee8a5bfe8af81e588b8": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "华西证券"
+      ]
+    },
+    "reportgem_cn_e6b5a6e993b6e59bbde99985": {
+      "tier": "B",
+      "basis": "Broker research excerpts via the paid ReportGem MCP; owner decision 2026-10-04 (overrides source_expansion.md D for MCP excerpts): paraphrase only, bank named in the frame, never ReportGem, no charts or target prices",
+      "aliases": [
+        "浦银国际"
+      ]
     }
   }
 }
