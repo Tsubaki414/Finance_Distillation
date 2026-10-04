@@ -191,3 +191,32 @@ def test_normalized_sidecar_supersedes_invalid_enrichment(tmp_path):
     (tmp_path / 'view_enrich.jsonl').write_text(json.dumps(dict(unit_id='u1', view=bad)) + '\n')
     (tmp_path / 'view_normalized.jsonl').write_text(json.dumps(dict(unit_id='u1', view=view())) + '\n')
     assert ContentStore(tmp_path).units()[0]['unit']['view_source'] == 'normalized'
+
+
+def test_cross_script_paraphrase_is_traceable_but_numbers_stay_bound():
+    proposed = view()
+    proposed['reasoning'] = 'Production is recovering while new orders soften.'
+    spans = [{'exact_text': '9月制造业生产指数上升1.3个百分点至51.7%，新订单指数小幅回落。'}]
+    assert cu.validate_view(proposed, spans)
+    proposed['reasoning'] = 'Production index rose to 52.9%.'
+    with pytest.raises(cu.ContractError, match='number not bound'):
+        cu.validate_view(proposed, spans)
+
+
+def test_conditions_coerced_to_text_or_dropped():
+    proposed = view(); proposed['conditions'] = ['if demand holds', 'if margins stay firm']
+    assert cu.validate_view(proposed, SPANS)['conditions'] == 'if demand holds; if margins stay firm'
+    proposed['conditions'] = None
+    assert 'conditions' not in cu.validate_view(proposed, SPANS)
+
+
+def test_invalid_view_downgrades_unit_instead_of_failing_source():
+    text = 'Revenue rose 10% as demand improved.'
+    source = {'id': 's', 'source_id': 's', 'source_hash': cu.digest(text) if hasattr(cu, 'digest') else 'h', 'original_text': text}
+    from live.content_units import paragraphs
+    pid = paragraphs(text)[0]['paragraph_id']
+    raw = {'kind': 'view', 'statement': 'Demand drives revenue growth.', 'speaker': None, 'speaker_type': 'publisher',
+           'source_spans': [{'paragraph_id': pid, 'exact_text': text}], 'numbers': [], 'freshness_class': 'evergreen',
+           'view': dict(view(), reasoning='The weather is sunny.')}
+    u = cu._unit(source, raw, 0, {p['paragraph_id']: p for p in paragraphs(text)}, text, 'B', require_view=True)
+    assert 'view' not in u and 'traceable' in u['view_error']
