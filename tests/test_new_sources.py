@@ -248,3 +248,12 @@ def test_berkshire_index_blocked_still_probes_letter_pdf():
     assert out['status'] == 'ok' and out['sources']
     assert out['sources'][0]['url'].endswith('2025ltr.pdf')
     assert out['index_status'] == 'http_307'
+
+
+def test_cftc_covers_vix_rates_fx_and_small_caps_for_two_weeks():
+    from urllib.parse import parse_qs, urlsplit
+    from live.adapters import cftc
+    for code in ('1170E1', '042601', '239742', '097741', '13874A'):
+        assert code in cftc.CODES
+        assert f"'{code}'" in parse_qs(urlsplit(cftc.URL).query)['$where'][0]
+    assert int(parse_qs(urlsplit(cftc.URL).query)['$limit'][0]) >= 2 * len(cftc.CODES)
