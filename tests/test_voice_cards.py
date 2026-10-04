@@ -60,7 +60,7 @@ class VoiceEdgeTests(unittest.TestCase):
             (root/'posts/beta.json').write_text(json.dumps(beta))
             c=build_cards(root/'posts',root/'tags',root/'roster.json')['sample']
             self.assertAlmostEqual(c['hooks']['question']['share'],.25)
-            self.assertAlmostEqual(c['hooks']['number-led']['share'],.25)
+            self.assertAlmostEqual(c['hooks']['number-led headline']['share'],.25)
             self.assertAlmostEqual(c['hooks']['claim-led']['share'],.5)
             self.assertAlmostEqual(c['thread_rate'],.25)
             self.assertAlmostEqual(c['emoji_rate'],0)
@@ -68,7 +68,7 @@ class VoiceEdgeTests(unittest.TestCase):
 
     def test_hook_types_and_missing_timestamps(self):
         from live.voice_cards import hook, build_cards
-        for line,kind in [('BREAKING: new release','breaking'),('🧵 Rates moved','emoji-led'),('“Liquidity matters”','quote'),('为什么需要证据？','question'),('42 basis points','number-led'),('Evidence matters','claim-led')]:
+        for line,kind in [('BREAKING: new release','news-wire'),('🧵 Rates moved','list/thread opener'),('“Liquidity matters”','quote'),('为什么需要证据？','question'),('42 basis points','number-led headline'),('Evidence matters','claim-led')]:
             self.assertEqual(hook(line),kind)
         roster=json.loads((FIX/'roster.json').read_text())
         roster['persona_clusters']['empty']={'lang':'zh','donors':[],'bench':['alpha']}
@@ -89,7 +89,7 @@ class VoiceEdgeTests(unittest.TestCase):
     def test_card_cli_writes_each_cluster_and_markdown(self):
         from scripts.build_voice_cards import main
         with tempfile.TemporaryDirectory() as tmp:
-            main(['--posts-dir',str(FIX/'posts'),'--tags-dir',str(FIX/'tags'),'--roster',str(FIX/'roster.json'),'--out',tmp])
+            main(['--posts-dir',str(FIX/'posts'),'--tags-dir',str(FIX/'tags'),'--roster',str(FIX/'roster.json'),'--out',tmp,'--no-llm'])
             self.assertTrue((Path(tmp)/'sample.json').exists())
             self.assertIn('sample',(Path(tmp)/'README.md').read_text())
 
