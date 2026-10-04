@@ -13,13 +13,13 @@ BLOCK = re.compile(r'</?(?:p|div|br|li|h[1-6]|tr|table|section|article|blockquot
 MAX_CHARS = 14000
 
 
-def http_get(url, *, headers=None, timeout=30, transport=None):
-    """(status, text). transport(url, headers) -> (status, text) is the test seam."""
+def http_get(url, *, headers=None, timeout=30, transport=None, binary=False):
+    """(status, body). binary selects bytes; transport(url, headers) is the test seam."""
     headers = {'User-Agent': DEFAULT_UA, **(headers or {})}
     if transport is not None:
         return transport(url, headers)
     r = httpx.get(url, headers=headers, timeout=timeout, follow_redirects=True)
-    return r.status_code, r.text
+    return r.status_code, r.content if binary else r.text
 
 
 def html_text(html):
@@ -56,6 +56,50 @@ def data_units(source, rows, *, speaker, tier='A'):
         raws.append({'kind': 'fact', 'statement': r['line'], 'speaker': speaker, 'speaker_type': 'official',
                      'freshness_class': 'current',
                      'source_spans': [{'paragraph_id': by_text[r['line']], 'exact_text': r['line']}],
-                     'numbers': [{'text': r['number'], 'metric': r['metric'], 'period': r['period'], 'span_ref': 0}]})
+                     'numbers': r.get('numbers') or [{'text': r['number'], 'metric': r['metric'], 'period': r['period'], 'span_ref': 0}]})
     units, dropped = cu.validate_units_partial(source, {'units': raws}, tier)
     return units
+
+
+def make_sources_chunked(*, text, id, title, max_chars=MAX_CHARS, max_parts=3, **kwargs):
+    """Pack paragraphs into bounded parts; explicitly record any omitted tail.
+
+    A paragraph larger than the limit is split so every part remains bounded.
+    """
+    if max_chars < 1 or max_parts < 1:
+        raise ValueError('max_chars and max_parts must be positive')
+    chunks, current = [], ''
+    for paragraph in re.split(r'\n\s*\n', text.strip()):
+        if not paragraph:
+            continue
+        if current and len(current) + 2 + len(paragraph) <= max_chars:
+            current += '\n\n' + paragraph
+            continue
+        if current:
+            chunks.append(current)
+            current = ''
+        while len(paragraph) > max_chars:
+            chunks.append(paragraph[:max_chars])
+            paragraph = paragraph[max_chars:]
+        current = paragraph
+    if current:
+        chunks.append(current)
+    kept = chunks[:max_parts]
+    sources = []
+    for k, chunk in enumerate(kept, 1):
+        src = make_source(id=f'{id}-p{k}', title=f'{title} (part {k}/{len(kept)})',
+                          text=chunk, max_chars=max_chars, **kwargs)
+        src.update(part=k, parts=len(kept), total_parts=len(chunks))
+        src['truncated'] = k == len(kept) and len(chunks) > max_parts
+        sources.append(src)
+    return sources
+
+
+def structured_result(rows, *, id, source_id, publisher, title, url, published_at, adapter, tier='B', requests=1):
+    """Build a small structured-data source and its validated deterministic units."""
+    if not rows:
+        return {'status': 'no_data', 'requests': requests, 'sources': [], 'units': []}
+    src = make_source(id=id, source_id=source_id, publisher=publisher, title=title, url=url,
+                      published_at=published_at, adapter=adapter, text='\n\n'.join(r['line'] for r in rows))
+    return {'status': 'ok', 'requests': requests, 'sources': [src],
+            'units': data_units(src, rows, speaker=publisher, tier=tier)}

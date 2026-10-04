@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from live import content_store, jev_front, registry  # noqa: E402
-from live.adapters import bls, edgar, fed, feeds, fred, treasury  # noqa: E402
+from live.adapters import bls, cboe, cftc, defillama, edgar, farside, fed, feeds, fred, longform, treasury  # noqa: E402
 
 ODD_LOTS = ('https://www.omnycontent.com/d/playlist/e73c998e-6e60-432f-8610-ae210140c5b1/8a94442e-5a74-4fa2-8b8d-ae27003a8d6b/'
             '982f5071-765c-403d-969d-ae27003a8d83/podcast.rss')
@@ -64,6 +64,18 @@ def gather(args, report):
         out = feeds.fetch_podcast(ODD_LOTS, source_id='podcast_odd_lots', publisher='Bloomberg Odd Lots')
         report['adapters']['podcasts'] = [{'feed': 'Odd Lots', **{k: v for k, v in out.items() if k != 'sources'}}]
         text_sources += out['sources']
+    for name, adapter in (('cftc', cftc), ('cboe', cboe), ('farside', farside), ('defillama', defillama)):
+        if name in args.adapters:
+            out = adapter.fetch()
+            report['adapters'][name] = {k: v for k, v in out.items() if k not in ('sources', 'units')} | {'units': len(out['units'])}
+            data += [(s, [u for u in out['units'] if u['source_hash'] == s['source_hash']], s['adapter']) for s in out['sources']]
+    for name, fetch, options in (('oaktree', longform.fetch_oaktree, {'limit': args.oaktree_n}),
+                                ('berkshire', longform.fetch_berkshire, {}),
+                                ('glassnode', longform.fetch_glassnode, {'limit': args.glassnode_n})):
+        if name in args.adapters:
+            out = fetch(**options)
+            report['adapters'][name] = {k: v for k, v in out.items() if k != 'sources'} | {'sources': [s['id'] for s in out['sources']]}
+            text_sources += out['sources']
     return text_sources, data
 
 
@@ -71,9 +83,12 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--run', type=Path, required=True)
     ap.add_argument('--store', type=Path, default=None)
-    ap.add_argument('--adapters', nargs='+', default=['edgar', 'fed', 'bls', 'treasury', 'fred', 'newsletters', 'podcasts'])
+    ap.add_argument('--adapters', nargs='+', default=['edgar', 'fed', 'bls', 'treasury', 'fred', 'newsletters', 'podcasts',
+                                                    'cftc', 'cboe', 'farside', 'defillama', 'oaktree', 'berkshire', 'glassnode'])
     ap.add_argument('--tickers', nargs='+', default=['MU', 'NVDA'])
     ap.add_argument('--newsletter-extract', type=int, default=3)
+    ap.add_argument('--oaktree-n', type=int, default=3)
+    ap.add_argument('--glassnode-n', type=int, default=3)
     ap.add_argument('--extract', action='store_true')
     ap.add_argument('--jev', action='store_true')
     args = ap.parse_args()
