@@ -227,3 +227,24 @@ def test_pdf_converter_uses_binary_stdin(monkeypatch):
     assert calls[0][0] == ['pdftotext', '-', '-']
     assert calls[0][1]['input'] == b'%PDF-content'
     assert calls[0][1]['check']
+
+
+def test_berkshire_index_blocked_still_probes_letter_pdf():
+    """The letters index sits behind a bot challenge (307, no Location); the PDF itself is public."""
+    from datetime import date
+    from live.adapters import longform
+    seen = []
+
+    def get(url, headers):
+        seen.append(url)
+        if url.endswith('letters.html'):
+            return 307, ''
+        if url.endswith('2025ltr.pdf'):
+            return 200, b'%PDF'
+        return 404, b''
+
+    out = longform.fetch_berkshire(transport=get, as_of=date(2026, 10, 4),
+                                   converter=lambda body: 'Letter paragraph one.\n\nLetter paragraph two.')
+    assert out['status'] == 'ok' and out['sources']
+    assert out['sources'][0]['url'].endswith('2025ltr.pdf')
+    assert out['index_status'] == 'http_307'
