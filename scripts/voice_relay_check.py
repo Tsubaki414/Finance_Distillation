@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Compose tagged store evidence for ten voices and collect advisory external judgments.
 
-Offline fake drafting is the default. --relay sends only COMPOSE to the existing
+Offline fake drafting is the default. --relay sends STANCE and COMPOSE to the existing
 relay; EXTRACT replays selected, validated store units. No publishing or QA gate.
 """
 import argparse
@@ -17,6 +17,7 @@ from live.content_store import ContentStore
 from live.distillation_source import digest, paragraphs
 from live.retrieval import units_for_persona
 from live.voice_cards import compact_summary
+from live.view_enrich import has_valid_view
 
 
 def judge(command, payload):
@@ -51,7 +52,7 @@ def judge(command, payload):
 
 
 class StoreClient:
-    """Replay validated evidence at EXTRACT; fake or relay at COMPOSE."""
+    """Replay validated evidence at EXTRACT; fake or relay at STANCE/COMPOSE."""
     def __init__(self, units, lang, relay=None):
         self.units, self.lang, self.relay = units, lang, relay
 
@@ -60,6 +61,10 @@ class StoreClient:
             value={'units':self.units}
         elif self.relay:
             return self.relay(stage,messages,max_tokens)
+        elif stage == 'stance':
+            payload=json.loads(messages[-1]['content'])
+            value={'decision':'take', 'account_view':'The conclusion depends on whether these conditions hold.' if self.lang=='en' else '需要先检验这个判断的适用条件。',
+                   'supporting_unit_ids':[payload['unit']['unit_id']], 'rationale':'Offline plumbing demonstration.', 'confidence':0.4}
         else:
             payload=json.loads(messages[-1]['content'])
             units=payload['units']
@@ -93,6 +98,13 @@ def evidence_source(records):
     return source, units
 
 
+def rank_evidence_groups(groups):
+    """Stable judgment-first ordering, requiring grounded views and a fact."""
+    return sorted(groups, key=lambda group: not (
+        any(has_valid_view(r['unit']) for r in group)
+        and any(r['unit'].get('kind') == 'fact' for r in group)))
+
+
 def run(store, output, *, accounts='all', n=2, judge_cmd='claude -p', relay=False, posts_dir=None, tags_dir=None):
     output=Path(output); output.mkdir(parents=True,exist_ok=True)
     personas=[p for p in registry.load_personas().values() if p.raw.get('donor_cluster')]
@@ -115,14 +127,17 @@ def run(store, output, *, accounts='all', n=2, judge_cmd='claude -p', relay=Fals
             source=record['source']; key=(source.get('source_hash'),source.get('id'))
             groups.setdefault(key,[]).append(record)
         drafts=[]
-        for group in groups.values():
+        for group in rank_evidence_groups(groups.values()):
             if len(drafts)>=n: break
             source,units=evidence_source(group)
-            draft={'source':source,'stored_unit_ids':[r['unit_id'] for r in group], 'mode':'relay' if relay else 'offline_fake'}
+            draft={'view_available':any(has_valid_view(r['unit']) for r in group), 'source':source,'stored_unit_ids':[r['unit_id'] for r in group], 'mode':'relay' if relay else 'offline_fake'}
             try:
                 result=compose.compose_source(source,persona.account_id,StoreClient(units,persona.lang,relay_client),exemplar_dir=posts_dir,exemplar_tags_dir=tags_dir)
                 if result.get('status')=='skipped': continue
                 draft['compose']=result
+                draft['post_type']=result.get('post_type')
+                if result.get('stance') is not None:
+                    draft['stance']=result['stance']
                 style=exemplars.retrieve(persona,post_type=result.get('post_type'),query=' '.join(u['statement'] for u in units),k=2,posts_dir=posts_dir,tags_dir=tags_dir)
                 draft['judge_exemplars']=[{'handle':e['handle'],'id':e['id']} for e in style]
                 draft['judge']=judge(judge_cmd,{'draft':result['text'],'voice_card':compact_summary(persona.voice_card),'style_exemplars':style,'style_exemplar_rule':compose.EXEMPLAR_RULE})
@@ -131,12 +146,12 @@ def run(store, output, *, accounts='all', n=2, judge_cmd='claude -p', relay=Fals
             drafts.append(draft)
         report.append({'persona':cluster,'account_id':persona.account_id,'status':'completed' if drafts else 'no_suitable_tagged_units','drafts':drafts,'advisory':True,'publishable':False})
     (output/'results.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
-    lines=['# Voice relay check','', 'Advisory only. Offline fake drafts verify plumbing, not writing quality. Missing or failed judgments remain unjudged. All drafts remain unpublished.','', '| Persona | Draft | Judgment first | Voice match | Reason |','| --- | --- | --- | --- | --- |']
+    lines=['# Voice relay check','', 'Advisory only. Offline fake drafts verify plumbing, not writing quality. Missing or failed judgments remain unjudged. All drafts remain unpublished.','', '| Persona | Draft | Judgment first | Voice match | View available | Post type | Stance decision | Reason |','| --- | --- | --- | --- | --- | --- | --- | --- |']
     for row in report:
         for i,d in enumerate(row['drafts'] or [{'reason':row['status']}],1):
             j=d.get('judge',{})
             reason=str(j.get('reason',d.get('reason','unjudged'))).replace('|','/').replace('\n',' ')
-            lines.append(f"| {row['persona']} | {i if row['drafts'] else '—'} | {j.get('judgment_first','—')} | {j.get('voice_match','—')} | {reason} |")
+            lines.append(f"| {row['persona']} | {i if row['drafts'] else '—'} | {j.get('judgment_first','—')} | {j.get('voice_match','—')} | {d.get('view_available','—')} | {d.get('post_type','—')} | {(d.get('stance') or {}).get('decision','—')} | {reason} |")
     (output/'results.md').write_text('\n'.join(lines)+'\n')
     return report
 
