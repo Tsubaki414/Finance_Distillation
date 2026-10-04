@@ -91,7 +91,7 @@ class ContentStore:
     def _load_sidecars(self):
         from live.persona_tags import tagged_personas
         views = {}
-        for name in ('persona_tags', 'licence_overrides', 'view_enrich', 'view_normalized'):
+        for name in ('persona_tags', 'licence_overrides', 'view_enrich', 'view_normalized', 'freshness'):
             path = self.root / (name + '.jsonl')
             if not path.exists():
                 continue
@@ -102,7 +102,10 @@ class ContentStore:
                 row = self._rows.get(entry['unit_id'])
                 if row is None:
                     continue
-                if name == 'persona_tags':
+                if name == 'freshness':
+                    row['unit'].update({k: entry[k] for k in ('as_of', 'as_of_source', 'date_unknown', 'freshness_flags') if k in entry})
+                    row['unit']['published_at_norm'] = entry.get('published_at')
+                elif name == 'persona_tags':
                     row['persona_tags'] = entry['tags']
                     row['tag_personas'] = tagged_personas(entry['tags'], entry['threshold'])
                 elif name in ('view_enrich', 'view_normalized'):

@@ -14,8 +14,8 @@ from live import registry
 
 HARD = frozenset({
                   'licence_tier_not_allowed', 'd_tier_source_leak', 'quote_not_exact',
-                  'missing_attribution_frame', 'position_claim', 'trade_reco_specific', 'self_contradiction'})
-SOFT = frozenset({'number_not_in_units', 'period_not_in_units', 'number_metric_binding', 'number_words', 'no_judgment', 'data_list', 'no_disagreement', 'view_number_unbound', 'template_phrase', 'length_out_of_range', 'attribution_outside_frame',
+                  'missing_attribution_frame', 'position_claim', 'trade_reco_specific', 'self_contradiction', 'wrong_date_fact'})
+SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_units', 'period_not_in_units', 'number_metric_binding', 'number_words', 'no_judgment', 'data_list', 'no_disagreement', 'view_number_unbound', 'template_phrase', 'length_out_of_range', 'attribution_outside_frame',
                   'trade_reco_soft', 'author_identity', 'code_fence', 'translated_quote', 'exemplar_phrase_copied'})
 FIXES = {
     'author_identity': 'Rewrite in third person or credit the source author inside the frame; '

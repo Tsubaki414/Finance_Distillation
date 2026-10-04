@@ -1,0 +1,112 @@
+{
+  "market_flow": {
+    "shelf_days": 2,
+    "prefixes": [
+      "cftc",
+      "cboe",
+      "farside",
+      "defillama",
+      "nyfed",
+      "glassnode",
+      "wallstreetcn",
+      "spotgamma"
+    ],
+    "keywords": [
+      "spotgamma",
+      "glassnode",
+      "华尔街见闻"
+    ],
+    "channel_ids": [
+      "ch068_api_one_wscn_awtmt_com",
+      "ch096_spotgamma_com",
+      "ch106_research_glassnode_com"
+    ]
+  },
+  "macro_release": {
+    "shelf_days": 7,
+    "prefixes": [
+      "bls_api",
+      "primary_bls",
+      "treasury_fiscaldata",
+      "fed_rss",
+      "fomc",
+      "fed",
+      "nbs",
+      "safe",
+      "bis",
+      "ecb",
+      "central_bank",
+      "central-bank"
+    ],
+    "keywords": [
+      "central bank",
+      "federal reserve",
+      "fomc",
+      "统计局",
+      "外汇管理局",
+      "bis",
+      "ecb",
+      "央行"
+    ],
+    "channel_ids": [
+      "ch043_www_ecb_europa_eu",
+      "ch046_www_bis_org",
+      "ch065_www_stats_gov_cn",
+      "ch067_www_safe_gov_cn"
+    ]
+  },
+  "filings_research": {
+    "shelf_days": 21,
+    "prefixes": [
+      "edgar",
+      "reportgem",
+      "ir_",
+      "ir:",
+      "sell_side",
+      "sell-side"
+    ],
+    "keywords": [
+      "reportgem",
+      "研报",
+      "investor relations",
+      "sell-side"
+    ],
+    "channel_ids": [
+      "ch000_www_reportgem_com",
+      "ch001_data_eastmoney_com",
+      "ch005_www_djyanbao_com",
+      "ch008_stock_finance_sina_com_cn"
+    ]
+  },
+  "commentary": {
+    "shelf_days": 14,
+    "prefixes": [
+      "newsletter",
+      "podcast",
+      "channel:"
+    ],
+    "keywords": [],
+    "channel_ids": []
+  },
+  "evergreen": {
+    "shelf_days": null,
+    "prefixes": [
+      "oaktree",
+      "berkshire",
+      "investing_philosophy"
+    ],
+    "keywords": [
+      "oaktree",
+      "berkshire"
+    ],
+    "non_fact_only": true,
+    "channel_ids": [
+      "ch030_www_oaktreecapital_com",
+      "ch097_abnormalreturns_com",
+      "ch098_ritholtz_com",
+      "ch099_awealthofcommonsense_com",
+      "ch104_feeds_megaphone_fm",
+      "ch127_wechat2rss_xlab_app"
+    ]
+  }
+}

@@ -79,3 +79,49 @@ def contradiction_findings(body):
             else:
                 seen[key] = value
     return findings
+
+
+def stale_time_findings(body, units, now=None, lang=None):
+    """Conservative clause-local date/number binding for supplied cited units."""
+    from live import freshness
+    from datetime import date
+    stale = [u for u in units if freshness.status(u, now)['status'] in ('stale', 'expired')]
+    findings = []
+    if stale and re.search(r"\b(?:today(?:'s)?|this week|just|latest)\b|今天|今日|本周|刚刚|最新|昨日", body, re.I):
+        findings.append({'code': 'stale_time_word', 'detail': 'Current-time wording cites aged material'})
+    clauses = re.split(r'[。！？!?;；\n]|\.(?:\s|$)', body)
+    def number_in(clause, unit):
+        unit=unit.get('unit',unit)
+        values=[]
+        for n in unit.get('numbers',[]):
+            values += re.findall(r'\d[\d,]*(?:\.\d+)?',str(n.get('text') or ''))
+        return any(re.search(r'(?<!\d)'+re.escape(v)+r'(?!\d)',clause) for v in values)
+    date_pattern = r'\d{4}-\d{2}-\d{2}|(?:\d{4}年)?\d{1,2}月\d{1,2}日|\b(?:'+freshness.MONTH_PATTERN+r')\.?\s+\d{1,2}(?:,?\s+\d{4})?\b'
+    for clause in clauses:
+        if re.search(r'\b(?:now|currently|current)\b|目前|当前|现在',clause,re.I) and any(number_in(clause,u) for u in stale):
+            if not any(f['code']=='stale_number_as_current' for f in findings):
+                findings.append({'code':'stale_number_as_current','detail':clause.strip()})
+        dates = re.findall(date_pattern, clause, re.I)
+        event_text = re.sub(date_pattern, '', clause, flags=re.I).casefold()
+        bound = []
+        for row in units:
+            unit = row.get('unit', row)
+            statement = str(unit.get('statement') or '').strip().rstrip('.。!?！？').casefold()
+            if number_in(event_text, row) or (len(statement) >= 12 and statement in event_text):
+                bound.append(row)
+        for stated in dates:
+            comparisons=[]
+            for row in bound:
+                u=row.get('unit',row)
+                derived=u if 'as_of' in u else freshness.derive_dates(row)
+                known=[v for v in (derived.get('as_of'),u.get('published_at_norm'),freshness.normalize_date(u.get('published_at')),derived.get('published_at')) if v]
+                if not known: continue
+                year=int(known[0][:4])
+                text=stated
+                if re.match(r'[A-Za-z]',text) and not re.search(r'\d{4}',text): text+=f', {year}'
+                parsed=freshness.parse_period(text,year)
+                if parsed:
+                    comparisons.append(any(abs((date.fromisoformat(parsed)-date.fromisoformat(k)).days)<=1 for k in known))
+            if comparisons and not any(comparisons):
+                findings.append({'code':'wrong_date_fact','detail':clause.strip()})
+    return findings
