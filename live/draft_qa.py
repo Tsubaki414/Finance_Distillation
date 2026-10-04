@@ -114,7 +114,9 @@ def stale_time_findings(body, units, now=None, lang=None):
             for row in bound:
                 u=row.get('unit',row)
                 derived=u if 'as_of' in u else freshness.derive_dates(row)
-                known=[v for v in (derived.get('as_of'),u.get('published_at_norm'),freshness.normalize_date(u.get('published_at')),derived.get('published_at')) if v]
+                # Normalise every candidate to YYYY-MM-DD: raw values may be ISO datetimes ending in 'Z'.
+                raw=(derived.get('as_of'),u.get('published_at_norm'),u.get('published_at'),derived.get('published_at'))
+                known=list(dict.fromkeys(d for d in (freshness.normalize_date(str(v)) if v else None for v in raw) if d))
                 if not known: continue
                 year=int(known[0][:4])
                 text=stated
