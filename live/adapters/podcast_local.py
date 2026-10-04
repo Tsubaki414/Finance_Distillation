@@ -61,7 +61,7 @@ def _items(xml):
     return out
 
 
-def fetch(ch, *, limit=1, transport=None, transcribe=None, max_seconds=1500):
+def fetch(ch, *, limit=1, transport=None, transcribe=None, max_seconds=1500, known=None):
     url = ch.get('feed_url') or ch['url']
     status, xml = common.http_get(url, transport=transport)
     if status != 200:
@@ -72,8 +72,11 @@ def fetch(ch, *, limit=1, transport=None, transcribe=None, max_seconds=1500):
     if transcribe is None and not available():
         return {'status': 'whisper_unavailable', 'sources': []}
     transcribe = transcribe or (lambda audio: transcribe_url(audio, max_seconds=max_seconds))
-    sources = []
+    sources, skipped = [], 0
     for it in _items(xml)[:limit]:
+        if known is not None and known(it['audio']):
+            skipped += 1   # already ingested: never spend CPU re-transcribing
+            continue
         text = transcribe(it['audio'])
         if len(text) < 1500:
             continue
@@ -82,4 +85,5 @@ def fetch(ch, *, limit=1, transport=None, transcribe=None, max_seconds=1500):
             publisher=common.html_text(ch['name']), title=it['title'], url=it['audio'],
             published_at=feeds._iso(it['published_raw']), adapter='podcast_whisper', lang=ch.get('lang', 'en'),
             extra={'no_reproduction': True, 'persona_hint': ch.get('persona_hint'), 'transcript': 'local_whisper_' + MODEL_NAME}))
-    return {'status': 'ok' if sources else 'no_transcript', 'sources': sources}
+    status = 'ok' if sources else ('no_new_episodes' if skipped else 'no_transcript')
+    return {'status': status, 'sources': sources, 'skipped_known': skipped}

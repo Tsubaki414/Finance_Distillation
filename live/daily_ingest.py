@@ -40,7 +40,21 @@ def bounded_fetch(fetch, timeout):
 DEFAULT_TIMEOUTS={'podcast:':900}
 
 
-def default_fetchers(state):
+def known_urls(store, state):
+    """Membership test for source URLs/ids already in the store or seen by any channel."""
+    seen=set()
+    path=Path(store)/'units.jsonl'
+    if path.exists():
+        for line in path.read_text().splitlines():
+            if line.strip():
+                src=json.loads(line).get('source') or {}
+                seen.update(v for v in (src.get('url'),src.get('id')) if v)
+    for entry in (state.get('channels') or {}).values():
+        seen.update(entry.get('seen') or [])
+    return seen.__contains__
+
+
+def default_fetchers(state, store=ROOT/'live/store/content_units'):
     from scripts import run_content_adapters as adapters
     from live.adapters import channels, edgar, feeds, fred
     from live import registry
@@ -67,9 +81,10 @@ def default_fetchers(state):
             prefix='rss_fulltext' if feed['id'] in adapters.RSS_FULLTEXT else 'newsletters'
             fetchers[prefix+':'+feed['id']] = lambda feed=feed:feeds.fetch_newsletter(feed,limit=2)
     from live.adapters import podcast_local
+    known=known_urls(store,state)
     for ch in channels.load_channels(ROOT/'live/channels.json'):
         if ch['mode']=='podcast_audio' and registry.source_licence_tier(ch['channel_id']) in ('A','B'):
-            fetchers['podcast:'+ch['channel_id']] = lambda ch=ch: podcast_local.fetch(ch,limit=1)
+            fetchers['podcast:'+ch['channel_id']] = lambda ch=ch: podcast_local.fetch(ch,limit=1,known=known)
     return fetchers
 
 
@@ -130,7 +145,7 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
             summary['status']='backup_failed'; return summary
         summary['fresh_by_persona_before']=fresh_counts()
         state=json.loads(state_path.read_text()) if state_path.exists() else {'channels':{}}
-        fs=default_fetchers(state) if fetchers is None else fetchers
+        fs=default_fetchers(state,store) if fetchers is None else fetchers
         if only:
             fs={k:v for k,v in fs.items() if k in only or k.split(':')[0] in only or ('channels' in only and k.startswith('ch'))}
         tasks=[]

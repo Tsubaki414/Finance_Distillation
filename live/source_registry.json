@@ -2137,19 +2137,6 @@
       "reason": "RSS gives summaries; posts are free"
     },
     {
-      "id": "ch100_www_omnycontent_com",
-      "name": "Odd Lots 播客",
-      "type": "channel",
-      "enabled": true,
-      "adapter": "channel:podcast_audio",
-      "mode": "podcast_audio",
-      "url": "https://www.omnycontent.com/d/playlist/e73c998e-6e60-432f-8610-ae210140c5b1/8a94442e-5a74-4fa2-8b8d-ae27003a8d6b/982f5071-765c-403d-969d-ae27003a8d83/podcast.rss",
-      "feed_url": "https://www.omnycontent.com/d/playlist/e73c998e-6e60-432f-8610-ae210140c5b1/8a94442e-5a74-4fa2-8b8d-ae27003a8d6b/982f5071-765c-403d-969d-ae27003a8d83/podcast.rss",
-      "lang": "en",
-      "persona_hint": "macro_rates_en",
-      "reason": "Feed has show notes only; official transcripts need a Bloomberg login, so transcribe the audio"
-    },
-    {
       "id": "ch101_rss_libsyn_com",
       "name": "Macro Musings（David Beckworth）",
       "type": "channel",

@@ -1448,16 +1448,6 @@
       "quote_allowed": false,
       "attribution_required": true
     },
-    "ch100_www_omnycontent_com": {
-      "tier": "B",
-      "basis": "Feed has show notes only; official transcripts need a Bloomberg login, so transcribe the audio",
-      "aliases": [
-        "Odd Lots 播客"
-      ],
-      "no_reproduction": true,
-      "quote_allowed": false,
-      "attribution_required": true
-    },
     "ch101_rss_libsyn_com": {
       "tier": "B",
       "basis": "Mercatus publishes public transcript pages; the feed has show notes",
