@@ -56,7 +56,7 @@ def test_compose_short_exemplars_and_all_clusters_enabled(tmp_path):
     fake = Recording()
     compose.compose_source(SOURCE, 'zh_industry', fake, post_type='data_take', exemplar_dir=posts, exemplar_tags_dir=tags)
     payload = json.loads(fake.messages[-1]['content'])
-    assert len(payload['style_exemplars']) == 4
+    assert len(payload['style_exemplars']) == 5   # 4 retrieved + 1 signature exemplar
     assert all(len(e['text']) <= 400 for e in payload['style_exemplars'])
     assert all(e['id'].endswith('short') for e in payload['style_exemplars'] if e.get('why') != 'signature exemplar')
     assert payload['persona']['voice_card']['rhythm']
@@ -116,7 +116,7 @@ def test_voice_card_always_enables_exemplars_and_bounds_k(tmp_path, monkeypatch,
     fake = Recording()
     compose.compose_source(SOURCE, 'zh_industry', fake, post_type='data_take', exemplars=None,
                            exemplar_dir=posts, exemplar_tags_dir=tags)
-    assert len(json.loads(fake.messages[-1]['content'])['style_exemplars']) == expected
+    assert len(json.loads(fake.messages[-1]['content'])['style_exemplars']) == expected + 1   # + 1 signature exemplar
 
 
 def test_body_length_follows_donor_post_lengths():

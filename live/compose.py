@@ -646,12 +646,11 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                                         k=max(3, min(5, int(retrieval.get('k', 4)))) if persona.voice_card else int(retrieval.get('k', 4)),
                                         posts_dir=exemplar_dir, post_types=post_types, tags_dir=exemplar_tags_dir)
         if sig.get('exemplars'):
-            # Signature exemplars (judge-picked donor posts) lead; retrieval fills the rest; same total.
-            total = len(shown) or 3
-            picked = [{'handle': e['handle'], 'id': e['id'], 'text': exemplar_store.short_text(e['text']),
-                       'why': 'signature exemplar'} for e in sig['exemplars'][:max(1, min(3, total - 1))]]
-            ids = {e['id'] for e in picked}
-            shown = (picked + [e for e in shown if e.get('id') not in ids])[:total]
+            # Retrieval stays intact and one signature exemplar (judge-picked donor post) is added.
+            # A/B v6: replacing retrieved exemplars with signature ones cost voice (3.62 vs 3.88) and emotion.
+            have = {e.get('id') for e in shown}
+            shown = shown + [{'handle': e['handle'], 'id': e['id'], 'text': exemplar_store.short_text(e['text']),
+                              'why': 'signature exemplar'} for e in sig['exemplars'] if e['id'] not in have][:1]
         if shown:
             payload['style_exemplars'] = shown
             payload['style_exemplar_rule'] = EXEMPLAR_RULE
