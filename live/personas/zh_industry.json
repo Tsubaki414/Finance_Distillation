@@ -55,7 +55,7 @@
   "donor_cluster": "zh_us_stock_commentary",
   "exemplar_retrieval": {
     "enabled": true,
-    "k": 3,
+    "k": 4,
     "use": "style only; facts, numbers and phrases never"
   },
   "banned": [

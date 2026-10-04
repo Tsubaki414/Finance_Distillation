@@ -55,7 +55,7 @@
   "donor_cluster": "industry_ai_capex",
   "exemplar_retrieval": {
     "enabled": true,
-    "k": 3,
+    "k": 4,
     "use": "style only; facts, numbers and phrases never"
   },
   "banned": [

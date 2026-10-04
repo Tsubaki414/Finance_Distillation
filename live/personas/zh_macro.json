@@ -54,7 +54,7 @@
   "donor_cluster": "macro_zh",
   "exemplar_retrieval": {
     "enabled": true,
-    "k": 3,
+    "k": 4,
     "use": "style only; facts, numbers and phrases never"
   },
   "banned": [

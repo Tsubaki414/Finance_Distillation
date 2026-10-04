@@ -61,7 +61,32 @@ def window_for(post_type, post_types=None):
     return int(spec['min'] * 0.5), int(spec['max'] * 1.5)
 
 
-def retrieve(persona, *, post_type=None, query='', k=3, posts_dir=None, post_types=None, tags_dir=None):
+def short_text(text, limit=400):
+    """Keep a real prefix, preferring a sentence end, then a word boundary."""
+    text = URL.sub('', text).strip()
+    if len(text) <= limit:
+        return text
+    prefix = text[:limit]
+    ends = [match for match in re.finditer(r'[。！？!?]|\.(?=\s|$)', text) if match.end() <= limit]
+    if ends:
+        return prefix[:ends[-1].end()].rstrip()
+    boundaries = list(re.finditer(r'\s+|(?<=[\u4e00-\u9fff])', prefix))
+    return prefix[:boundaries[-1].start()].rstrip() if boundaries else ''
+
+
+def _type_distance(requested, observed):
+    """Nearest rhetorical family, with untagged posts as the last fallback."""
+    if not requested or requested == observed:
+        return 0
+    families = ({'data_take', 'earnings_take', 'news_reaction'},
+                {'judgment_take', 'contrarian_take', 'hot_take', 'view_relay'},
+                {'mechanism_explainer', 'thread', 'educational'})
+    if any(requested in family and observed in family for family in families):
+        return 1
+    return 3 if observed in (None, 'unknown') else 2
+
+
+def retrieve(persona, *, post_type=None, query='', k=4, posts_dir=None, post_types=None, tags_dir=None):
     from live.voice_cards import load_tags, excluded, promo_heavy
     from live import registry
     weights = persona.donor_weights
@@ -76,17 +101,23 @@ def retrieve(persona, *, post_type=None, query='', k=3, posts_dir=None, post_typ
         tags = load_tags(handle, tags_dir)
         eligible_posts = [p for p in load_posts(handle, posts_dir)
                           if _usable(p, persona.lang, None) and not excluded(p, tags.get(str(p.get('id')), {}))]
-        matching = [p for p in eligible_posts if post_type and tags.get(str(p.get('id')), {}).get('post_type') == post_type]
-        # Prefer the requested type even when its length needs a graceful fallback.
-        pool = matching or eligible_posts
-        posts = [p for p in pool if _usable(p, persona.lang, window)] or pool
+        if not eligible_posts:
+            continue
+        def distance(post):
+            return _type_distance(post_type, tags.get(str(post.get('id')), {}).get('post_type'))
+        nearest = min(distance(p) for p in eligible_posts)
+        # Match type before length; nearby rhetorical families are the fallback.
+        pool = [p for p in eligible_posts if distance(p) == nearest]
+        short = [p for p in pool if len(URL.sub('', p['text']).strip()) <= 400]
+        posts = short or [p for p in pool if _usable(p, persona.lang, window)] or pool
+        posts = [p for p in posts if short_text(p['text'])]
         if not posts:
             continue
         scored = sorted(posts, key=lambda p: (-len(q & _tokens(p['text'])), str(p.get('id'))))
         top = scored[0]
         overlap = len(q & _tokens(top['text']))
-        best.append((0 if matching else 1, -(weight * (1 + overlap)), handle.lower(), {'handle': handle, 'id': str(top.get('id')),
-                                                                'text': URL.sub('', top['text']).strip()}))
+        best.append((nearest, -(weight * (1 + overlap)), handle.lower(), {'handle': handle, 'id': str(top.get('id')),
+                                                                'text': short_text(top['text'])}))
     best.sort(key=lambda row: row[:3])
     return [row[3] for row in best[:k]]
 

@@ -49,7 +49,7 @@
   "donor_cluster": "single_stock_deepdive_en",
   "exemplar_retrieval": {
     "enabled": true,
-    "k": 3,
+    "k": 4,
     "use": "style only; facts, numbers and phrases never"
   },
   "banned": [

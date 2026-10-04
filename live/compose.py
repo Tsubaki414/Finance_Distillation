@@ -46,6 +46,11 @@ body below min is rejected, so develop the units' mechanism and implications
 instead of stopping early.
 Lead with the account's own judgment in most posts; use at most a few numbers as support; vary hook, length and structure across posts — the tendencies describe the voice, they are not a checklist.
 Never claim personal holdings, trades, position sizes or P&L; this is an AI account.
+Match the voice_card rhythm block and style exemplars as tendencies. Natural imperfection
+is welcome: fragments, uneven sentence lengths, one-line paragraphs, persona idioms or
+casual connectors, an occasional rhetorical question. Avoid essay polish and symmetric paragraphs;
+don't make every post the same shape. Follow persona.voice_prompt_variant.guidance when supplied.
+Exemplars teach rhythm only, never facts, numbers or phrases.
 For judgment_take and contrarian_take, state the judgment first in your own voice;
 data only as support. The supplied stance.account_view is the account's own
 judgment and needs no opinion attribution wrapper. For contrarian_take clearly
@@ -301,8 +306,8 @@ EXEMPLAR_RULE = ('style_exemplars are real posts by other accounts, given for vo
 
 
 def compose_source(source, account_id, client, *, post_type=None, exemplars=None, exemplar_dir=None,
-                   exemplar_tags_dir=None, extracted_units=None, stance_output=None):
-    """exemplars: None = the persona's exemplar_retrieval setting; True/False forces it."""
+                   exemplar_tags_dir=None, extracted_units=None, stance_output=None, voice_prompt_variant=None):
+    """Voice cards always use exemplars; other personas honor the retrieval override."""
     persona = registry.persona_for_account(account_id)
     if 'aphorism_translation' in persona.post_type_mix:
         raise ValueError('aphorism_translation accounts use the translation chain, not COMPOSE')
@@ -367,6 +372,16 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                          for u in chosen]}
     if stance is not None:
         payload['stance'] = stance
+    import os
+    variant = voice_prompt_variant if voice_prompt_variant is not None else os.environ.get('VOICE_PROMPT_VARIANT', 'v1')
+    if variant not in ('v1', 'v2'):
+        raise ValueError('VOICE_PROMPT_VARIANT must be v1 or v2')
+    if persona.voice_card or voice_prompt_variant is not None or variant == 'v2':
+        payload['persona']['voice_prompt_variant'] = {
+            'name': variant,
+            'guidance': ('Match observed rhythm with natural variation.' if variant == 'v1' else
+                         'In roughly two thirds of posts, make the first line a short punchy hook '
+                         '(<= 12 words EN / <= 20 chars ZH); vary openings naturally.')}
     if persona.voice_card:
         from live.voice_cards import compact_summary, variation_seed
         payload['persona']['voice_card'] = compact_summary(persona.voice_card)
@@ -375,11 +390,12 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         payload['post_type_rules']['quote_policy'] = (
             'Paraphrase these units. Direct quotes, including translated quotes, are forbidden.')
     retrieval = persona.raw.get('exemplar_retrieval') or {}
-    use_exemplars = retrieval.get('enabled', False) if exemplars is None else exemplars
+    use_exemplars = bool(persona.voice_card) or (retrieval.get('enabled', False) if exemplars is None else exemplars)
     shown = []
     if use_exemplars:
         query = ' '.join(u['statement'] for u in chosen)
-        shown = exemplar_store.retrieve(persona, post_type=post_type, query=query, k=int(retrieval.get('k', 3)),
+        shown = exemplar_store.retrieve(persona, post_type=post_type, query=query,
+                                        k=max(3, min(5, int(retrieval.get('k', 4)))) if persona.voice_card else int(retrieval.get('k', 4)),
                                         posts_dir=exemplar_dir, post_types=post_types, tags_dir=exemplar_tags_dir)
         if shown:
             payload['style_exemplars'] = shown

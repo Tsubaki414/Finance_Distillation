@@ -425,6 +425,7 @@ def build_cards(posts_dir, tags_dir, roster, *, llm=None, clusters=None, sample_
                      'avoid_tendencies':[{'frequency':'almost_never', 'tendency':'Relies on another author’s personal experience or identity.','evidence':short},
                              {'frequency':'rarely', 'tendency':'Turns confidence into an unsupported trade call.','evidence':short}]}
         card = cards[name]
+        card['post_length'], card['paragraphs'] = _layout_stats((p['text'], w) for _, p, _, w in rows)
         card['baseline_tendencies'] = {'tendencies': card['tendencies'], 'avoid_tendencies': card['avoid_tendencies']}
         card['qualitative'] = {}
         if llm is not None:
@@ -440,6 +441,69 @@ def build_cards(posts_dir, tags_dir, roster, *, llm=None, clusters=None, sample_
     return cards
 
 
+def _layout_stats(weighted_posts):
+    """Observed post and line layout, preserving donor weights."""
+    lengths, lines = [], []
+    mass = breaks = short = 0
+    for text, weight in weighted_posts:
+        text = text.strip()
+        parts = [line.strip() for line in text.splitlines() if line.strip()]
+        if not parts:
+            continue
+        lengths.append((len(text), weight))
+        lines.append((len(parts), weight))
+        mass += weight
+        breaks += weight * (len(parts) > 1)
+        short += weight * (len(parts) <= 3 and all(len(line) <= 100 for line in parts))
+    def band(values):
+        return {key: quantile(values, q) for key, q in (('median', .5), ('p25', .25), ('p75', .75))}
+    return ({'unit': 'chars', **band(lengths)},
+            {**band(lines), 'line_break_rate': breaks / mass if mass else None,
+             'short_lines_share': short / mass if mass else None})
+
+
+def rhythm_profile(card):
+    """Compact numerical tendencies, never rules or donor phrases."""
+    post = card.get('post_length') or {}
+    paragraphs = card.get('paragraphs') or {}
+    if not post or not paragraphs:
+        from live import exemplars, registry
+        roster = registry.load_donor_roster()
+        cluster = roster['persona_clusters'].get(card.get('cluster'))
+        if cluster:
+            sample = sample_for_cluster(cluster, exemplars.POSTS_DIR,
+                                        exemplars.POSTS_DIR.parent / 'tags', roster)
+            counts = Counter(row['handle'] for row in sample)
+            weights = {d['handle']: d['weight'] for d in cluster['donors']}
+            sampled_post, sampled_paragraphs = _layout_stats(
+                (row['text'], weights[row['handle']] / counts[row['handle']]) for row in sample)
+            post = post or sampled_post
+            paragraphs = paragraphs or sampled_paragraphs
+    parts = ['Observed tendencies; vary naturally']
+    def band(label, stats, unit):
+        if stats.get('median') is not None:
+            text = f"median {label} ~{stats['median']:g} {unit}"
+            if stats.get('p25') is not None and stats.get('p75') is not None:
+                text += f", IQR {stats['p25']:g}-{stats['p75']:g}"
+            parts.append(text)
+    sentence = card.get('sentence_length') or {}
+    band('sentence', sentence, sentence.get('unit', 'words'))
+    band('post', post, post.get('unit', 'chars'))
+    band('paragraph/line count', paragraphs, 'per post')
+    if paragraphs.get('short_lines_share') is not None:
+        parts.append(f"~{paragraphs['short_lines_share']:.0%} of posts are 1-3 short lines")
+    if paragraphs.get('line_break_rate') is not None:
+        parts.append(f"~{paragraphs['line_break_rate']:.0%} use line breaks between points")
+    for key, label in (('thread_rate', 'threads'), ('emoji_rate', 'emoji')):
+        if card.get(key) is not None:
+            parts.append(f"~{card[key]:.0%} of posts use {label}")
+    hooks = sorted(((name, value['share']) for name, value in card.get('hooks', {}).items()
+                    if value.get('share')), key=lambda row: -row[1])
+    if hooks:
+        parts.append('hook shares: ' + ', '.join(f'{name} ~{share:.0%}' for name, share in hooks))
+    return '; '.join(parts) + '.'
+
+
 def compact_summary(card):
     if not card:
         return {}
@@ -449,6 +513,7 @@ def compact_summary(card):
     # never become prompt instructions. Operators rebuild them locally as v2.
     return {'use': 'voice tendencies (descriptive; vary naturally, do not apply mechanically)',
             'voice_summary': q.get('voice_summary', ''),
+            'rhythm': rhythm_profile(card),
             'hooks': {h: v['share'] for h, v in card['hooks'].items()},
             'sentence_length': {'use': 'loose range; vary naturally', **card['sentence_length']},
             'emoji_rate': card['emoji_rate'], 'thread_rate': card['thread_rate'],
