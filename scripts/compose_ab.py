@@ -33,6 +33,8 @@ CANDIDATES = {
     'gemini-3.1-pro-preview-thinking-low': dict(relay=(MICU, 'GEMINI_RELAY_API_KEY'), rates=(2.0, 12.0)),
     'gemini-3.1-pro-preview-low': dict(relay=(MICU, 'GEMINI_RELAY_API_KEY'), rates=(2.0, 12.0)),
     'gpt-6.1-sol': dict(cli='codex', relay=(MICU, 'GEMINI_RELAY_API_KEY')),
+    # the shipped stage_models.json as-is (COMPOSE gemini-3.1-pro-preview + opus-5-5 fallback)
+    'gemini-default': dict(shipped=True, relay=(MICU, 'GEMINI_RELAY_API_KEY')),
 }
 
 
@@ -136,7 +138,11 @@ def compose_candidate(name, out, max_tokens=None):
         # Thinking models count hidden reasoning tokens against max_tokens; 6000 truncates them.
         compose.MAX_TOKENS = max_tokens
         status['compose_max_tokens'] = max_tokens
-    if spec.get('cli'):
+    if spec.get('shipped'):
+        cfg = relay_config()
+        client = ErisedaiClient(cdir / 'calls', configuration=cfg)
+        status.update(transport='relay', host=MICU, table=stage_models.load().get('version'))
+    elif spec.get('cli'):
         client = CodexCompose(cdir / 'calls')
         status.update(transport='codex_cli', note='gpt-6.1-sol is not served on either relay key at run time; composed through the codex CLI')
     else:
