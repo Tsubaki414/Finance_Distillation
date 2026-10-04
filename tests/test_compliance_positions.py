@@ -130,3 +130,11 @@ def test_free_text_fields_drop_position_sentences():
         assert not any(p.search(out[k]) for p in POSITION_PATTERNS), out[k]
     assert 'Fast desk banter.' in out['voice_summary'] and 'Data supports views.' in out['voice_summary']
     assert out['judgment_style'].startswith('Assertive.')
+
+
+def test_zh_position_claims_with_time_words():
+    from live.compose import position_findings
+    for t in ('我今天加仓了英伟达', '我昨天刚刚清仓了特斯拉', '我们本周减仓了半导体', '我目前持有比特币现货'):
+        assert position_findings(t, 'zh'), t
+    for t in ('基金加仓科技股', '巴菲特今天减仓了苹果', '我认为机构在加仓'):
+        assert not position_findings(t, 'zh'), t
