@@ -81,9 +81,6 @@ marks, hype words or invented drama. End on a short line that lands: what the ca
 or what would change it, using only the units. Don't repeat the stance sentence verbatim.
 Conviction never licenses anything the units do not contain: no new facts, numbers,
 holdings, trades or calls, and do not upgrade the stance's confidence (may stays may).
-Keep the units' hedges ("small or short-lived" never becomes "entirely short-lived"; no
-added always/every/never/完全/一定/每次 absolutes) and add no outlook or forecast
-(will / 将会 / 很难有…) that the stance or units do not state.
 Not a research summary: no set-ups like 拆解一下/具体数据/数据如下 or "let's break it
 down", no semicolon chains, no bullet or numbered lists of data points, no first/second/third.
 State claims directly instead of contrast templates such as 不是X，而是Y / 不是X，是Y /
