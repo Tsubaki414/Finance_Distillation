@@ -33,7 +33,7 @@ def json_decode_failure(error):
     return error.startswith('contracterror:') and any(token in error for token in
         ('jsondecodeerror', 'json decode', 'malformed json', 'expecting value', 'expecting property name',
          "expecting ',' delimiter", "expecting ':' delimiter", 'unterminated string', 'invalid control character',
-         'extra data', 'invalid json'))
+         'extra data', 'invalid json', 'incomplete/unknown finish_reason'))
 
 
 def retry_run(run, store, *, cap_usd=6.0, jev=None, client=None):
@@ -44,7 +44,8 @@ def retry_run(run, store, *, cap_usd=6.0, jev=None, client=None):
     budget.LEDGER = budget.STORE / 'spend.json'
     budget.DISTILLATION_RUNS = budget.STORE / 'distillation_spend.jsonl'
     budget.RUNS = budget.STORE / 'review_runs.jsonl'
-    budget.set_cap(cap_usd)
+    prior = json.loads(budget.LEDGER.read_text()).get('spent_usd', 0.0) if budget.LEDGER.exists() else 0.0
+    budget.set_cap(float(prior) + cap_usd)  # cap_usd is additional budget for this retry
     report = json.loads((run/'report.json').read_text())
     saved = json.loads((run/'sources.json').read_text())
     sources = {s['id']: s for s in saved['text']}
@@ -52,7 +53,10 @@ def retry_run(run, store, *, cap_usd=6.0, jev=None, client=None):
     results = json.loads(journal.read_text()) if journal.exists() else {}
     for entry in report['sources']:
         sid = entry['id']; error = entry.get('error', '')
-        if entry.get('status') != 'extract_failed' or sid in results:
+        previous = results.get(sid)
+        budget_only = previous is not None and previous.get('attempts') and all(
+            str(a.get('error', '')).startswith('BudgetExceeded:') for a in previous['attempts'])
+        if entry.get('status') != 'extract_failed' or (previous is not None and not budget_only):
             continue
         if not (json_decode_failure(error) or error.startswith('BudgetExceeded:')):
             continue
