@@ -46,32 +46,12 @@
       "B"
     ]
   },
-  "exemplar_accounts": [
-    {
-      "handle": "aleabitoreddit",
-      "weight": 0.2,
-      "use": [
-        "voice",
-        "habit"
-      ]
-    },
-    {
-      "handle": "kovainvest",
-      "weight": 0.3,
-      "use": [
-        "voice",
-        "habit"
-      ]
-    },
-    {
-      "handle": "xingpt",
-      "weight": 0.5,
-      "use": [
-        "voice",
-        "habit"
-      ]
-    }
-  ],
+  "donor_cluster": "industry_ai_capex",
+  "exemplar_retrieval": {
+    "enabled": true,
+    "k": 3,
+    "use": "style only; facts, numbers and phrases never"
+  },
   "banned": [
     "claimed_employer",
     "claimed_positions",
@@ -85,6 +65,32 @@
   "lineage": {
     "migrated_from": "personas/industry.json",
     "generator_version": null,
-    "note": "Exemplars are the legacy donors (language weights); below the >=5 / <=0.35 rule for approval."
+    "note": "exemplar_accounts are loaded from live/donors/roster.json (donor_cluster); legacy donors kept here for reference.",
+    "legacy_exemplar_accounts": [
+      {
+        "handle": "aleabitoreddit",
+        "weight": 0.2,
+        "use": [
+          "voice",
+          "habit"
+        ]
+      },
+      {
+        "handle": "kovainvest",
+        "weight": 0.3,
+        "use": [
+          "voice",
+          "habit"
+        ]
+      },
+      {
+        "handle": "xingpt",
+        "weight": 0.5,
+        "use": [
+          "voice",
+          "habit"
+        ]
+      }
+    ]
   }
 }

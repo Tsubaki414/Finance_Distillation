@@ -31,13 +31,14 @@ HARD = frozenset({'number_not_in_units', 'period_not_in_units', 'number_metric_b
                   'licence_tier_not_allowed', 'd_tier_source_leak', 'quote_not_exact',
                   'missing_attribution_frame'})
 SOFT = frozenset({'template_phrase', 'length_out_of_range', 'attribution_outside_frame',
-                  'author_identity', 'code_fence', 'translated_quote'})
+                  'author_identity', 'code_fence', 'translated_quote', 'exemplar_phrase_copied'})
 FIXES = {
     'author_identity': 'Rewrite in third person or credit the source author inside the frame; '
                        'never present the author\'s experience, holdings or returns as the account\'s.',
     'provenance_in_body': 'Drop the source name / link from the body; the frame already credits it.',
     'template_phrase': 'Rephrase without the listed template phrase.',
     'length_out_of_range': 'Trim or extend toward the post type length range.',
+    'exemplar_phrase_copied': 'Rephrase: style exemplars are for voice only, never for wording.',
 }
 # D tier (source_expansion.md §6): never in the publishing chain, never named in a post.
 D_TIER_NAMES = ('ReportGem', '环球报告', '慧博', '发现报告', '洞见研报', '三个皮匠', '进门财经', 'Alpha派', 'Scribd')

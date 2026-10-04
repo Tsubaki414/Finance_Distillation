@@ -109,8 +109,8 @@ class RetrievalTests(unittest.TestCase):
 
 class ComposeExemplarTests(unittest.TestCase):
     def setUp(self):
-        self.dir = posts_dir({'qinbafrank': [{'id': '9', 'lang': 'zh', 'text': '存储周期这一轮的关键不是需求而是供给纪律，厂商宁可让价格涨也不扩产，这个判断要看资本开支指引。'}],
-                              'kovainvest': [{'id': '8', 'lang': 'zh', 'text': '美股科技财报季真正要看的不是营收，而是下一年的资本开支指引，这决定了整个链条的订单。'}]})
+        self.dir = posts_dir({'wufantouzi': [{'id': '9', 'lang': 'zh', 'text': '存储周期这一轮的关键不是需求而是供给纪律，厂商宁可让价格涨也不扩产，这个判断要看资本开支指引。'}],
+                              'Michael_QQQ2025': [{'id': '8', 'lang': 'zh', 'text': '美股科技财报季真正要看的不是营收，而是下一年的资本开支指引，这决定了整个链条的订单。'}]})
 
     def payload(self, fake):
         return json.loads(fake.messages[-1]['content'])

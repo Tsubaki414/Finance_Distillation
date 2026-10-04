@@ -1,0 +1,6735 @@
+{
+ "version": "1",
+ "generated": "2026-10-04",
+ "method": "RapidAPI twitter241 /user + /user-tweets(count=40) per handle; style tags from metrics.py on the fetched originals; category/persona/tone/hook by Claude classification over bio + 5 longest posts (classify_prompt.txt)",
+ "activity_cutoff": "2026-08-04",
+ "review_status": "draft (D2 pending Fiona)",
+ "use": "voice exemplars only: style, never facts, numbers or phrases",
+ "persona_clusters": {
+  "crypto_macro_zh": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "Bitwux",
+     "weight": 0.195
+    },
+    {
+     "handle": "buereth",
+     "weight": 0.195
+    },
+    {
+     "handle": "mindaoyang",
+     "weight": 0.195
+    },
+    {
+     "handle": "nbblock",
+     "weight": 0.158
+    },
+    {
+     "handle": "Jason60704294",
+     "weight": 0.125
+    },
+    {
+     "handle": "0xzhaozhao",
+     "weight": 0.072
+    },
+    {
+     "handle": "0xBeyondLee",
+     "weight": 0.061
+    }
+   ],
+   "bench": []
+  },
+  "zh_us_stock_commentary": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "alacheng",
+     "weight": 0.103
+    },
+    {
+     "handle": "AlphaguyTrading",
+     "weight": 0.103
+    },
+    {
+     "handle": "BroBean88",
+     "weight": 0.103
+    },
+    {
+     "handle": "cishanjia",
+     "weight": 0.103
+    },
+    {
+     "handle": "rickawsb",
+     "weight": 0.103
+    },
+    {
+     "handle": "tychozzz",
+     "weight": 0.103
+    },
+    {
+     "handle": "wufantouzi",
+     "weight": 0.103
+    },
+    {
+     "handle": "Michael_QQQ2025",
+     "weight": 0.097
+    },
+    {
+     "handle": "shufen46250836",
+     "weight": 0.097
+    },
+    {
+     "handle": "Unclestocknotes",
+     "weight": 0.088
+    }
+   ],
+   "bench": [
+    "_wmoon",
+    "Svwang1",
+    "maojietrading",
+    "LinQingV",
+    "ArtofSpecuycky",
+    "huahuayjy",
+    "tradergoku",
+    "xiaomustock",
+    "fi56622380",
+    "highFree2028",
+    "memekiller365",
+    "bboczeng",
+    "SVScholar",
+    "yijiangren",
+    "LabSpeculation",
+    "KelileoCUP"
+   ]
+  },
+  "industry_ai_capex": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "IanCutress",
+     "weight": 0.129
+    },
+    {
+     "handle": "mingchikuo",
+     "weight": 0.123
+    },
+    {
+     "handle": "SemiAnalysis_",
+     "weight": 0.123
+    },
+    {
+     "handle": "Beth_Kindig",
+     "weight": 0.111
+    },
+    {
+     "handle": "LexSokolin",
+     "weight": 0.105
+    },
+    {
+     "handle": "aleabitoreddit",
+     "weight": 0.105
+    },
+    {
+     "handle": "citrini",
+     "weight": 0.1
+    },
+    {
+     "handle": "jukan05",
+     "weight": 0.072
+    },
+    {
+     "handle": "kevinsxu",
+     "weight": 0.07
+    },
+    {
+     "handle": "matthew_sigel",
+     "weight": 0.061
+    }
+   ],
+   "bench": [
+    "dylan522p",
+    "chamath",
+    "SKundojjala",
+    "PatrickMoorhead",
+    "BenBajarin",
+    "WarrenPies"
+   ]
+  },
+  "trading_shortterm": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "Ksidiii",
+     "weight": 0.15
+    },
+    {
+     "handle": "spotgamma",
+     "weight": 0.138
+    },
+    {
+     "handle": "markminervini",
+     "weight": 0.133
+    },
+    {
+     "handle": "SqueezeMetrics",
+     "weight": 0.126
+    },
+    {
+     "handle": "VolSignals",
+     "weight": 0.091
+    },
+    {
+     "handle": "MarkNewtonCMT",
+     "weight": 0.087
+    },
+    {
+     "handle": "PeterLBrandt",
+     "weight": 0.084
+    },
+    {
+     "handle": "alphatrends",
+     "weight": 0.076
+    },
+    {
+     "handle": "SamanthaLaDuc",
+     "weight": 0.065
+    },
+    {
+     "handle": "OptionsHawk",
+     "weight": 0.051
+    }
+   ],
+   "bench": []
+  },
+  "macro_rates_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "JeffSnider_EDU",
+     "weight": 0.113
+    },
+    {
+     "handle": "lisaabramowicz1",
+     "weight": 0.108
+    },
+    {
+     "handle": "BobEUnlimited",
+     "weight": 0.103
+    },
+    {
+     "handle": "DTAPCAP",
+     "weight": 0.103
+    },
+    {
+     "handle": "GlobalMktObserv",
+     "weight": 0.103
+    },
+    {
+     "handle": "jturek18",
+     "weight": 0.103
+    },
+    {
+     "handle": "Brad_Setser",
+     "weight": 0.098
+    },
+    {
+     "handle": "Convertbond",
+     "weight": 0.093
+    },
+    {
+     "handle": "cullenroche",
+     "weight": 0.088
+    },
+    {
+     "handle": "NickTimiraos",
+     "weight": 0.088
+    }
+   ],
+   "bench": [
+    "elerianm",
+    "jameslavish",
+    "HAOHONG_CFA",
+    "jsblokland",
+    "RaoulGMI",
+    "M_C_Klein",
+    "profplum99",
+    "conorsen",
+    "JavierBlas",
+    "LizAnnSonders",
+    "michaelxpettis",
+    "caolei1",
+    "INArteCarloDoss",
+    "ernietedeschi",
+    "UrbanKaoboy",
+    "GeorgeGammon",
+    "jnordvig",
+    "dampedspring",
+    "LukeGromen",
+    "AnnaEconomist",
+    "AndreasSteno",
+    "Claudia_Sahm",
+    "biancoresearch",
+    "josephwang",
+    "LynAldenContact",
+    "fundstrat",
+    "SamRo",
+    "TheStalwart",
+    "TaviCosta",
+    "pboockvar",
+    "robin_j_brooks"
+   ]
+  },
+  "market_data_charts": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "Mr_Derivatives",
+     "weight": 0.148
+    },
+    {
+     "handle": "EricBalchunas",
+     "weight": 0.142
+    },
+    {
+     "handle": "bespokeinvest",
+     "weight": 0.12
+    },
+    {
+     "handle": "SoberLook",
+     "weight": 0.105
+    },
+    {
+     "handle": "jasongoepfert",
+     "weight": 0.094
+    },
+    {
+     "handle": "MacroCharts",
+     "weight": 0.087
+    },
+    {
+     "handle": "AndrewThrasher",
+     "weight": 0.082
+    },
+    {
+     "handle": "TheChartReport",
+     "weight": 0.081
+    },
+    {
+     "handle": "JSeyff",
+     "weight": 0.075
+    },
+    {
+     "handle": "Greenbackd",
+     "weight": 0.067
+    }
+   ],
+   "bench": [
+    "saxena_puru",
+    "KobeissiLetter",
+    "charliebilello",
+    "Callum_Thomas",
+    "michaelbatnick",
+    "RyanDetrick"
+   ]
+  },
+  "investing_philosophy": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "MebFaber",
+     "weight": 0.128
+    },
+    {
+     "handle": "ByrneHobart",
+     "weight": 0.122
+    },
+    {
+     "handle": "GrahamStephan",
+     "weight": 0.122
+    },
+    {
+     "handle": "choffstein",
+     "weight": 0.116
+    },
+    {
+     "handle": "dollarsanddata",
+     "weight": 0.098
+    },
+    {
+     "handle": "SJosephBurns",
+     "weight": 0.09
+    },
+    {
+     "handle": "iancassel",
+     "weight": 0.083
+    },
+    {
+     "handle": "morganhousel",
+     "weight": 0.083
+    },
+    {
+     "handle": "CathieDWood",
+     "weight": 0.082
+    },
+    {
+     "handle": "callieabost",
+     "weight": 0.077
+    }
+   ],
+   "bench": [
+    "BrianFeroldi",
+    "BullandBaird",
+    "JeremyDSchwartz",
+    "howardlindzon",
+    "awealthofcs"
+   ]
+  },
+  "single_stock_deepdive_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "EconomyApp",
+     "weight": 0.208
+    },
+    {
+     "handle": "FromValue",
+     "weight": 0.168
+    },
+    {
+     "handle": "DeepSailCapital",
+     "weight": 0.161
+    },
+    {
+     "handle": "leadlagreport",
+     "weight": 0.141
+    },
+    {
+     "handle": "garyblack00",
+     "weight": 0.125
+    },
+    {
+     "handle": "RJCcapital",
+     "weight": 0.109
+    },
+    {
+     "handle": "borrowed_ideas",
+     "weight": 0.088
+    }
+   ],
+   "bench": []
+  },
+  "macro_zh": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "Btcxiaoyuan",
+     "weight": 0.147
+    },
+    {
+     "handle": "ChinaMacroFacts",
+     "weight": 0.147
+    },
+    {
+     "handle": "PhyrexNi",
+     "weight": 0.14
+    },
+    {
+     "handle": "qinbafrank",
+     "weight": 0.14
+    },
+    {
+     "handle": "TraderS18",
+     "weight": 0.14
+    },
+    {
+     "handle": "williamlab",
+     "weight": 0.086
+    },
+    {
+     "handle": "MacroMargin",
+     "weight": 0.082
+    },
+    {
+     "handle": "TJ_Research",
+     "weight": 0.069
+    },
+    {
+     "handle": "xingpt",
+     "weight": 0.05
+    }
+   ],
+   "bench": []
+  },
+  "crypto_macro_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "NateGeraci",
+     "weight": 0.248
+    },
+    {
+     "handle": "zackvoell",
+     "weight": 0.247
+    },
+    {
+     "handle": "glassnode",
+     "weight": 0.223
+    },
+    {
+     "handle": "thedefiedge",
+     "weight": 0.124
+    },
+    {
+     "handle": "ki_young_ju",
+     "weight": 0.091
+    },
+    {
+     "handle": "intangiblecoins",
+     "weight": 0.047
+    },
+    {
+     "handle": "RyanWatkins_",
+     "weight": 0.02
+    }
+   ],
+   "bench": []
+  }
+ },
+ "donors": {
+  "0xbeyondlee": {
+   "handle": "0xBeyondLee",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 43824,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 2.1,
+   "frequency": "daily",
+   "median_chars": 507,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "personal",
+    "analytical"
+   ]
+  },
+  "0xdahua": {
+   "handle": "0xdahua",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 32928,
+   "latest_post": "2026-09-29",
+   "posts_per_day": 0.21,
+   "frequency": "weekly",
+   "median_chars": 293,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "promotional",
+    "conversational",
+    "educational"
+   ]
+  },
+  "0xdiyaaa": {
+   "handle": "0xDiyaaa",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 8099,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 0.38,
+   "frequency": "weekly",
+   "median_chars": 262,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "emoji",
+    "cashtags",
+    "question-hooks",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "hype",
+    "casual"
+   ]
+  },
+  "0xscottbtc": {
+   "handle": "0xScottBTC",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 14387,
+   "latest_post": "2026-09-25",
+   "posts_per_day": 0.22,
+   "frequency": "weekly",
+   "median_chars": 53,
+   "style_tags": [
+    "short",
+    "data-heavy",
+    "chart/media-led",
+    "question-hooks"
+   ],
+   "tone": [
+    "analytical",
+    "educational",
+    "measured"
+   ]
+  },
+  "0xtiger666": {
+   "handle": "0XTiger666",
+   "lang": "zh",
+   "category": "non_finance",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 11958,
+   "latest_post": "2026-09-21",
+   "posts_per_day": 0.63,
+   "frequency": "weekly",
+   "median_chars": 34,
+   "style_tags": [
+    "short",
+    "low-data",
+    "threads",
+    "emoji"
+   ],
+   "tone": [
+    "opinionated",
+    "nationalistic",
+    "conversational"
+   ]
+  },
+  "0xxsmart": {
+   "handle": "0xxsmart",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 14292,
+   "latest_post": "2026-08-28",
+   "posts_per_day": 0.22,
+   "frequency": "weekly",
+   "median_chars": 10,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led",
+    "emoji",
+    "cashtags",
+    "rt-heavy"
+   ],
+   "tone": [
+    "humorous",
+    "sardonic",
+    "terse"
+   ]
+  },
+  "0xzhaozhao": {
+   "handle": "0xzhaozhao",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 75098,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 7.96,
+   "frequency": "daily+",
+   "median_chars": 81,
+   "style_tags": [
+    "long-form",
+    "chart/media-led",
+    "threads",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "reflective",
+    "humorous"
+   ]
+  },
+  "1kbxx": {
+   "handle": "1kbxx",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 25265,
+   "latest_post": "2026-09-30",
+   "posts_per_day": 0.53,
+   "frequency": "weekly",
+   "median_chars": 50,
+   "style_tags": [
+    "short"
+   ],
+   "tone": [
+    "hype",
+    "conviction",
+    "bilingual"
+   ]
+  },
+  "_forab": {
+   "handle": "_FORAB",
+   "lang": "zh",
+   "category": "news_aggregator",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 146151,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 9.56,
+   "frequency": "daily+",
+   "median_chars": 136,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "punchy",
+    "explanatory"
+   ]
+  },
+  "_wmoon": {
+   "handle": "_wmoon",
+   "lang": "zh",
+   "category": "single_stock",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 11053,
+   "latest_post": "2026-09-30",
+   "posts_per_day": 0.9,
+   "frequency": "daily",
+   "median_chars": 534,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "analytical",
+    "measured",
+    "conviction"
+   ]
+  },
+  "ai_9684xtpa": {
+   "handle": "ai_9684xtpa",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 136110,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 3.93,
+   "frequency": "daily+",
+   "median_chars": 175,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "emoji",
+    "cashtags",
+    "structured/list",
+    "link-sharing"
+   ],
+   "tone": [
+    "conversational",
+    "data-driven",
+    "punchy"
+   ]
+  },
+  "alacheng": {
+   "handle": "alacheng",
+   "lang": "zh",
+   "category": "sector_industry",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 22340,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 3.64,
+   "frequency": "daily+",
+   "median_chars": 374,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "structured/list"
+   ],
+   "tone": [
+    "educational",
+    "conversational",
+    "curious"
+   ]
+  },
+  "aleabitoreddit": {
+   "handle": "aleabitoreddit",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "industry_ai_capex",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 1051494,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 1.67,
+   "frequency": "daily",
+   "median_chars": 490,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "analytical",
+    "conversational",
+    "conviction"
+   ]
+  },
+  "alexh_johnson": {
+   "handle": "AlexH_Johnson",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 29803,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 2.51,
+   "frequency": "daily",
+   "median_chars": 69,
+   "style_tags": [
+    "short",
+    "low-data"
+   ],
+   "tone": [
+    "measured",
+    "analytical",
+    "conversational"
+   ]
+  },
+  "alphaarchitect": {
+   "handle": "alphaarchitect",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 49336,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 0.63,
+   "frequency": "weekly",
+   "median_chars": 110,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "structured/list",
+    "rt-heavy"
+   ],
+   "tone": [
+    "educational",
+    "academic",
+    "humorous"
+   ]
+  },
+  "alphaguytrading": {
+   "handle": "AlphaguyTrading",
+   "lang": "zh",
+   "category": "single_stock",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 15622,
+   "latest_post": "2026-09-29",
+   "posts_per_day": 1.58,
+   "frequency": "daily",
+   "median_chars": 172,
+   "style_tags": [
+    "long-form",
+    "emoji",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "measured",
+    "analytical"
+   ]
+  },
+  "alphatrends": {
+   "handle": "alphatrends",
+   "lang": "en",
+   "category": "trading_technicals",
+   "persona_cluster": "trading_shortterm",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 430516,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 3.91,
+   "frequency": "daily+",
+   "median_chars": 72,
+   "style_tags": [
+    "short",
+    "chart/media-led",
+    "cashtags"
+   ],
+   "tone": [
+    "measured",
+    "technical",
+    "terse"
+   ]
+  },
+  "andreassteno": {
+   "handle": "AndreasSteno",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 298101,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 2.07,
+   "frequency": "daily",
+   "median_chars": 116,
+   "style_tags": [
+    "short",
+    "data-heavy"
+   ],
+   "tone": [
+    "punchy",
+    "humorous",
+    "confident"
+   ]
+  },
+  "andrewthrasher": {
+   "handle": "AndrewThrasher",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "market_data_charts",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 39379,
+   "latest_post": "2026-10-01",
+   "posts_per_day": 0.4,
+   "frequency": "weekly",
+   "median_chars": 132,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "cashtags"
+   ],
+   "tone": [
+    "measured",
+    "data-driven",
+    "terse"
+   ]
+  },
+  "annaeconomist": {
+   "handle": "AnnaEconomist",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 240572,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 1.9,
+   "frequency": "daily",
+   "median_chars": 158,
+   "style_tags": [
+    "long-form",
+    "low-data",
+    "structured/list"
+   ],
+   "tone": [
+    "academic",
+    "measured",
+    "analytical"
+   ]
+  },
+  "apompliano": {
+   "handle": "APompliano",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 2424342,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 6.32,
+   "frequency": "daily+",
+   "median_chars": 208,
+   "style_tags": [
+    "mid-length",
+    "data-heavy",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "promotional",
+    "conversational",
+    "hype"
+   ]
+  },
+  "artinmemes": {
+   "handle": "artinmemes",
+   "lang": "zh",
+   "category": "investing_general",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": true,
+   "followers": 86892,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 1.66,
+   "frequency": "daily",
+   "median_chars": 105,
+   "style_tags": [
+    "short",
+    "data-heavy",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "educational",
+    "conversational",
+    "promotional"
+   ]
+  },
+  "artofspecuycky": {
+   "handle": "ArtofSpecuycky",
+   "lang": "zh",
+   "category": "single_stock",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 42810,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 5.42,
+   "frequency": "daily+",
+   "median_chars": 137,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "emoji"
+   ],
+   "tone": [
+    "confident",
+    "conversational",
+    "hype"
+   ]
+  },
+  "awealthofcs": {
+   "handle": "awealthofcs",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 381387,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 3.8,
+   "frequency": "daily+",
+   "median_chars": 224,
+   "style_tags": [
+    "mid-length",
+    "data-heavy",
+    "chart/media-led",
+    "structured/list",
+    "rt-heavy"
+   ],
+   "tone": [
+    "measured",
+    "educational",
+    "conversational"
+   ]
+  },
+  "balder13946731": {
+   "handle": "Balder13946731",
+   "lang": "zh",
+   "category": "trading_technicals",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 37047,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 14.02,
+   "frequency": "daily+",
+   "median_chars": 66,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "quantitative",
+    "terse",
+    "formulaic"
+   ]
+  },
+  "bboczeng": {
+   "handle": "bboczeng",
+   "lang": "zh",
+   "category": "investing_general",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 224744,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 70.89,
+   "frequency": "daily+",
+   "median_chars": 26,
+   "style_tags": [
+    "short",
+    "structured/list"
+   ],
+   "tone": [
+    "analytical",
+    "measured",
+    "opinionated"
+   ]
+  },
+  "benbajarin": {
+   "handle": "BenBajarin",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "industry_ai_capex",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 51128,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 8.18,
+   "frequency": "daily+",
+   "median_chars": 171,
+   "style_tags": [
+    "mid-length",
+    "low-data"
+   ],
+   "tone": [
+    "analytical",
+    "measured",
+    "conversational"
+   ]
+  },
+  "bespokeinvest": {
+   "handle": "bespokeinvest",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "market_data_charts",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 267527,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 10.14,
+   "frequency": "daily+",
+   "median_chars": 108,
+   "style_tags": [
+    "short",
+    "chart/media-led"
+   ],
+   "tone": [
+    "measured",
+    "data-driven",
+    "terse"
+   ]
+  },
+  "beth_kindig": {
+   "handle": "Beth_Kindig",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "industry_ai_capex",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 183981,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 2.49,
+   "frequency": "daily",
+   "median_chars": 213,
+   "style_tags": [
+    "mid-length",
+    "data-heavy",
+    "cashtags"
+   ],
+   "tone": [
+    "analytical",
+    "measured",
+    "educational"
+   ]
+  },
+  "betterleaf": {
+   "handle": "betterleaf",
+   "lang": "zh",
+   "category": "non_finance",
+   "persona_cluster": "none",
+   "verified": false,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 13,
+   "latest_post": null,
+   "posts_per_day": null,
+   "frequency": null,
+   "median_chars": null,
+   "style_tags": [],
+   "tone": [
+    "none"
+   ]
+  },
+  "biancoresearch": {
+   "handle": "biancoresearch",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 786395,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 11.73,
+   "frequency": "daily+",
+   "median_chars": 264,
+   "style_tags": [
+    "mid-length",
+    "data-heavy",
+    "chart/media-led",
+    "threads",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "contrarian",
+    "analytical",
+    "measured"
+   ]
+  },
+  "billtheinvestor": {
+   "handle": "billtheinvestor",
+   "lang": "zh",
+   "category": "non_finance",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 118599,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 3.49,
+   "frequency": "daily+",
+   "median_chars": 38,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led"
+   ],
+   "tone": [
+    "opinionated",
+    "political",
+    "provocative"
+   ]
+  },
+  "bitwux": {
+   "handle": "Bitwux",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 387440,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 6.72,
+   "frequency": "daily+",
+   "median_chars": 129,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "reflective",
+    "conversational",
+    "measured"
+   ]
+  },
+  "bobeunlimited": {
+   "handle": "BobEUnlimited",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 305895,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 3.47,
+   "frequency": "daily+",
+   "median_chars": 213,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "chart/media-led",
+    "link-sharing"
+   ],
+   "tone": [
+    "conversational",
+    "measured",
+    "sardonic"
+   ]
+  },
+  "borrowed_ideas": {
+   "handle": "borrowed_ideas",
+   "lang": "en",
+   "category": "single_stock",
+   "persona_cluster": "single_stock_deepdive_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 150828,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 1.34,
+   "frequency": "daily",
+   "median_chars": 95,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led",
+    "cashtags",
+    "link-sharing"
+   ],
+   "tone": [
+    "analytical",
+    "measured",
+    "educational"
+   ]
+  },
+  "brad_setser": {
+   "handle": "Brad_Setser",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 158963,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 9.15,
+   "frequency": "daily+",
+   "median_chars": 233,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "threads"
+   ],
+   "tone": [
+    "academic",
+    "analytical",
+    "measured"
+   ]
+  },
+  "brianferoldi": {
+   "handle": "BrianFeroldi",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 672933,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 11.01,
+   "frequency": "daily+",
+   "median_chars": 76,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led",
+    "threads"
+   ],
+   "tone": [
+    "educational",
+    "punchy",
+    "measured"
+   ]
+  },
+  "brobean88": {
+   "handle": "BroBean88",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 97953,
+   "latest_post": "2026-09-30",
+   "posts_per_day": 0.99,
+   "frequency": "daily",
+   "median_chars": 1046,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "question-hooks",
+    "structured/list"
+   ],
+   "tone": [
+    "narrative",
+    "educational",
+    "measured"
+   ]
+  },
+  "bruceblue": {
+   "handle": "BruceBlue",
+   "lang": "zh",
+   "category": "non_finance",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 10623,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 8.62,
+   "frequency": "daily+",
+   "median_chars": 143,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "threads",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "technical",
+    "promotional",
+    "analytical"
+   ]
+  },
+  "btcbruce1": {
+   "handle": "BTCBruce1",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 164163,
+   "latest_post": "2026-09-30",
+   "posts_per_day": 0.94,
+   "frequency": "daily",
+   "median_chars": 63,
+   "style_tags": [
+    "short",
+    "low-data"
+   ],
+   "tone": [
+    "bullish",
+    "philosophical",
+    "opinionated"
+   ]
+  },
+  "btcdayu": {
+   "handle": "BTCdayu",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 327625,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 2.99,
+   "frequency": "daily",
+   "median_chars": 84,
+   "style_tags": [
+    "short",
+    "low-data",
+    "structured/list"
+   ],
+   "tone": [
+    "hype",
+    "personal",
+    "boastful"
+   ]
+  },
+  "btcxiaoyuan": {
+   "handle": "Btcxiaoyuan",
+   "lang": "zh",
+   "category": "macro_rates",
+   "persona_cluster": "macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 43560,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 0.49,
+   "frequency": "weekly",
+   "median_chars": 255,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "analytical",
+    "concise"
+   ]
+  },
+  "buereth": {
+   "handle": "buereth",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 77130,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 1.11,
+   "frequency": "daily",
+   "median_chars": 511,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "data-driven",
+    "punchy",
+    "analytical"
+   ]
+  },
+  "bullandbaird": {
+   "handle": "BullandBaird",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 40692,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 1.11,
+   "frequency": "daily",
+   "median_chars": 76,
+   "style_tags": [
+    "short",
+    "low-data"
+   ],
+   "tone": [
+    "contrarian",
+    "humorous",
+    "conversational"
+   ]
+  },
+  "byrnehobart": {
+   "handle": "ByrneHobart",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 61845,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 3.78,
+   "frequency": "daily+",
+   "median_chars": 166,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "threads"
+   ],
+   "tone": [
+    "sardonic",
+    "academic",
+    "humorous"
+   ]
+  },
+  "callieabost": {
+   "handle": "callieabost",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 36362,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 0.35,
+   "frequency": "weekly",
+   "median_chars": 119,
+   "style_tags": [
+    "short",
+    "low-data"
+   ],
+   "tone": [
+    "conversational",
+    "educational",
+    "humorous"
+   ]
+  },
+  "callum_thomas": {
+   "handle": "Callum_Thomas",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "market_data_charts",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 139396,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 4.7,
+   "frequency": "daily+",
+   "median_chars": 37,
+   "style_tags": [
+    "short",
+    "low-data",
+    "threads",
+    "emoji"
+   ],
+   "tone": [
+    "measured",
+    "educational",
+    "punchy"
+   ]
+  },
+  "calvintsaikm": {
+   "handle": "calvintsaikm",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": false,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 19908,
+   "latest_post": "2026-07-02",
+   "posts_per_day": 0.06,
+   "frequency": "sporadic",
+   "median_chars": 36,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led"
+   ],
+   "tone": [
+    "confessional",
+    "punchy"
+   ]
+  },
+  "caolei1": {
+   "handle": "caolei1",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 404382,
+   "latest_post": "2026-09-29",
+   "posts_per_day": 0.32,
+   "frequency": "weekly",
+   "median_chars": 0,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led"
+   ],
+   "tone": [
+    "punchy",
+    "analytical",
+    "measured"
+   ]
+  },
+  "cathiedwood": {
+   "handle": "CathieDWood",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 2967741,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 2.28,
+   "frequency": "daily",
+   "median_chars": 172,
+   "style_tags": [
+    "mid-length",
+    "low-data"
+   ],
+   "tone": [
+    "optimistic",
+    "educational",
+    "measured"
+   ]
+  },
+  "chamath": {
+   "handle": "chamath",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "industry_ai_capex",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 2446075,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 2.38,
+   "frequency": "daily",
+   "median_chars": 26,
+   "style_tags": [
+    "short",
+    "low-data"
+   ],
+   "tone": [
+    "contrarian",
+    "conversational",
+    "punchy"
+   ]
+  },
+  "charliebilello": {
+   "handle": "charliebilello",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "market_data_charts",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 870140,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 15.55,
+   "frequency": "daily+",
+   "median_chars": 171,
+   "style_tags": [
+    "mid-length",
+    "data-heavy",
+    "chart/media-led",
+    "structured/list",
+    "link-sharing"
+   ],
+   "tone": [
+    "educational",
+    "measured",
+    "punchy"
+   ]
+  },
+  "chinamacrofacts": {
+   "handle": "ChinaMacroFacts",
+   "lang": "zh",
+   "category": "macro_rates",
+   "persona_cluster": "macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 95265,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 1.08,
+   "frequency": "daily",
+   "median_chars": 142,
+   "style_tags": [
+    "mid-length",
+    "threads",
+    "structured/list"
+   ],
+   "tone": [
+    "analytical",
+    "contrarian",
+    "sardonic"
+   ]
+  },
+  "choffstein": {
+   "handle": "choffstein",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 86245,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 1.49,
+   "frequency": "daily",
+   "median_chars": 109,
+   "style_tags": [
+    "short",
+    "structured/list"
+   ],
+   "tone": [
+    "humorous",
+    "conversational",
+    "measured"
+   ]
+  },
+  "cishanjia": {
+   "handle": "cishanjia",
+   "lang": "zh",
+   "category": "investing_general",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 305874,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 0.12,
+   "frequency": "sporadic",
+   "median_chars": 452,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "question-hooks",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "reflective",
+    "educational"
+   ]
+  },
+  "citrini": {
+   "handle": "citrini",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "industry_ai_capex",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 291131,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 2.17,
+   "frequency": "daily",
+   "median_chars": 103,
+   "style_tags": [
+    "short",
+    "question-hooks"
+   ],
+   "tone": [
+    "contrarian",
+    "conversational",
+    "sardonic"
+   ]
+  },
+  "claudia_sahm": {
+   "handle": "Claudia_Sahm",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 83671,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 2.21,
+   "frequency": "daily",
+   "median_chars": 95,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led",
+    "threads"
+   ],
+   "tone": [
+    "academic",
+    "measured",
+    "critical"
+   ]
+  },
+  "cnfinancewatch": {
+   "handle": "cnfinancewatch",
+   "lang": "zh",
+   "category": "investing_general",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 130853,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 10.96,
+   "frequency": "daily+",
+   "median_chars": 53,
+   "style_tags": [
+    "short",
+    "data-heavy",
+    "threads",
+    "question-hooks",
+    "structured/list"
+   ],
+   "tone": [
+    "hype",
+    "educational",
+    "promotional"
+   ]
+  },
+  "conorsen": {
+   "handle": "conorsen",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 108667,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 10.17,
+   "frequency": "daily+",
+   "median_chars": 123,
+   "style_tags": [
+    "mid-length",
+    "low-data"
+   ],
+   "tone": [
+    "measured",
+    "conversational",
+    "opinionated"
+   ]
+  },
+  "convertbond": {
+   "handle": "Convertbond",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 145211,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 2.35,
+   "frequency": "daily",
+   "median_chars": 126,
+   "style_tags": [
+    "mid-length"
+   ],
+   "tone": [
+    "contrarian",
+    "sardonic",
+    "punchy"
+   ]
+  },
+  "cryptohayes": {
+   "handle": "CryptoHayes",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 814502,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 2.55,
+   "frequency": "daily",
+   "median_chars": 81,
+   "style_tags": [
+    "short",
+    "chart/media-led",
+    "question-hooks",
+    "rt-heavy"
+   ],
+   "tone": [
+    "promotional",
+    "humorous",
+    "hype"
+   ]
+  },
+  "cullenroche": {
+   "handle": "cullenroche",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 98960,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 2.26,
+   "frequency": "daily",
+   "median_chars": 309,
+   "style_tags": [
+    "long-form",
+    "threads",
+    "structured/list"
+   ],
+   "tone": [
+    "educational",
+    "measured",
+    "contrarian"
+   ]
+  },
+  "dailydirtnap": {
+   "handle": "dailydirtnap",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 96984,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 4.69,
+   "frequency": "daily+",
+   "median_chars": 81,
+   "style_tags": [
+    "short",
+    "low-data",
+    "question-hooks",
+    "rt-heavy"
+   ],
+   "tone": [
+    "opinionated",
+    "humorous",
+    "conversational"
+   ]
+  },
+  "daimajia": {
+   "handle": "daimajia",
+   "lang": "zh",
+   "category": "non_finance",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 16145,
+   "latest_post": "2026-10-01",
+   "posts_per_day": 2.5,
+   "frequency": "daily",
+   "median_chars": 47,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led"
+   ],
+   "tone": [
+    "casual",
+    "conversational",
+    "humorous"
+   ]
+  },
+  "dampedspring": {
+   "handle": "dampedspring",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 574346,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 6.64,
+   "frequency": "daily+",
+   "median_chars": 115,
+   "style_tags": [
+    "short"
+   ],
+   "tone": [
+    "academic",
+    "contrarian",
+    "educational"
+   ]
+  },
+  "daniel_braun": {
+   "handle": "daniel_braun",
+   "lang": "en",
+   "category": "non_finance",
+   "persona_cluster": "none",
+   "verified": false,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 0,
+   "latest_post": null,
+   "posts_per_day": null,
+   "frequency": null,
+   "median_chars": null,
+   "style_tags": [],
+   "tone": [
+    "unknown"
+   ]
+  },
+  "dariusdale42": {
+   "handle": "DariusDale42",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 106237,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 5.63,
+   "frequency": "daily+",
+   "median_chars": 153,
+   "style_tags": [
+    "long-form",
+    "low-data",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "hype",
+    "promotional",
+    "conversational"
+   ]
+  },
+  "davidbrear": {
+   "handle": "davidbrear",
+   "lang": "en",
+   "category": "non_finance",
+   "persona_cluster": "none",
+   "verified": false,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 43576,
+   "latest_post": "2026-07-23",
+   "posts_per_day": 0.02,
+   "frequency": "sporadic",
+   "median_chars": 76,
+   "style_tags": [
+    "short",
+    "low-data",
+    "question-hooks",
+    "rt-heavy"
+   ],
+   "tone": [
+    "conversational",
+    "humorous",
+    "promotional"
+   ]
+  },
+  "davidtaggart": {
+   "handle": "DavidTaggart",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 6966,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 1.08,
+   "frequency": "daily",
+   "median_chars": 89,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led",
+    "threads"
+   ],
+   "tone": [
+    "blunt",
+    "sardonic",
+    "conversational"
+   ]
+  },
+  "daxianvip": {
+   "handle": "daxianVIP",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 17378,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 1.76,
+   "frequency": "daily",
+   "median_chars": 294,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "hype",
+    "promotional",
+    "conversational"
+   ]
+  },
+  "deepsailcapital": {
+   "handle": "DeepSailCapital",
+   "lang": "en",
+   "category": "single_stock",
+   "persona_cluster": "single_stock_deepdive_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 57321,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 4.33,
+   "frequency": "daily+",
+   "median_chars": 162,
+   "style_tags": [
+    "mid-length",
+    "threads",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "analytical",
+    "measured",
+    "contrarian"
+   ]
+  },
+  "dimartinobooth": {
+   "handle": "DiMartinoBooth",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 338925,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 7.41,
+   "frequency": "daily+",
+   "median_chars": 137,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "question-hooks"
+   ],
+   "tone": [
+    "urgent",
+    "contrarian",
+    "critical"
+   ]
+  },
+  "dnystedt": {
+   "handle": "dnystedt",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "industry_ai_capex",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 55031,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 6.07,
+   "frequency": "daily+",
+   "median_chars": 363,
+   "style_tags": [
+    "long-form",
+    "threads",
+    "cashtags",
+    "rt-heavy"
+   ],
+   "tone": [
+    "factual",
+    "terse",
+    "neutral"
+   ]
+  },
+  "dollarsanddata": {
+   "handle": "dollarsanddata",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 190271,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 0.24,
+   "frequency": "weekly",
+   "median_chars": 179,
+   "style_tags": [
+    "mid-length",
+    "link-sharing"
+   ],
+   "tone": [
+    "educational",
+    "measured",
+    "data-driven"
+   ]
+  },
+  "dtapcap": {
+   "handle": "DTAPCAP",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 138510,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 0.74,
+   "frequency": "weekly",
+   "median_chars": 272,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "urgent",
+    "opinionated",
+    "conversational"
+   ]
+  },
+  "dylan522p": {
+   "handle": "dylan522p",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "industry_ai_capex",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 164983,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 0.96,
+   "frequency": "daily",
+   "median_chars": 164,
+   "style_tags": [
+    "mid-length",
+    "data-heavy",
+    "structured/list"
+   ],
+   "tone": [
+    "analytical",
+    "conversational",
+    "punchy"
+   ]
+  },
+  "earningswhisper": {
+   "handle": "Earningswhisper",
+   "lang": "en",
+   "category": "earnings_filings",
+   "persona_cluster": "none",
+   "verified": false,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 64,
+   "latest_post": null,
+   "posts_per_day": null,
+   "frequency": null,
+   "median_chars": null,
+   "style_tags": [],
+   "tone": [
+    "unknown"
+   ]
+  },
+  "economyapp": {
+   "handle": "EconomyApp",
+   "lang": "en",
+   "category": "earnings_filings",
+   "persona_cluster": "single_stock_deepdive_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 243249,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 0.91,
+   "frequency": "daily",
+   "median_chars": 200,
+   "style_tags": [
+    "mid-length",
+    "data-heavy",
+    "threads",
+    "emoji",
+    "cashtags",
+    "structured/list",
+    "link-sharing"
+   ],
+   "tone": [
+    "factual",
+    "punchy",
+    "educational"
+   ]
+  },
+  "efipm": {
+   "handle": "efipm",
+   "lang": "en",
+   "category": "news_aggregator",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 28293,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 6.15,
+   "frequency": "daily+",
+   "median_chars": 233,
+   "style_tags": [
+    "long-form",
+    "chart/media-led",
+    "emoji",
+    "structured/list",
+    "link-sharing"
+   ],
+   "tone": [
+    "promotional",
+    "hype",
+    "neutral"
+   ]
+  },
+  "elerianm": {
+   "handle": "elerianm",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 1112249,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 20.94,
+   "frequency": "daily+",
+   "median_chars": 286,
+   "style_tags": [
+    "long-form",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "academic",
+    "educational"
+   ]
+  },
+  "embercn": {
+   "handle": "EmberCN",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 149549,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 3.02,
+   "frequency": "daily+",
+   "median_chars": 271,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "cashtags",
+    "structured/list",
+    "link-sharing"
+   ],
+   "tone": [
+    "factual",
+    "data-driven",
+    "measured"
+   ]
+  },
+  "ericbalchunas": {
+   "handle": "EricBalchunas",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "market_data_charts",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 627226,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 10.15,
+   "frequency": "daily+",
+   "median_chars": 177,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "threads"
+   ],
+   "tone": [
+    "humorous",
+    "conversational",
+    "punchy"
+   ]
+  },
+  "ericjackson": {
+   "handle": "ericjackson",
+   "lang": "en",
+   "category": "news_aggregator",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 173238,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 7.66,
+   "frequency": "daily+",
+   "median_chars": 203,
+   "style_tags": [
+    "long-form",
+    "structured/list"
+   ],
+   "tone": [
+    "promotional",
+    "hype",
+    "punchy"
+   ]
+  },
+  "ernietedeschi": {
+   "handle": "ernietedeschi",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 41850,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 2.57,
+   "frequency": "daily",
+   "median_chars": 188,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led"
+   ],
+   "tone": [
+    "academic",
+    "measured",
+    "factual"
+   ]
+  },
+  "evacmore": {
+   "handle": "EvaCmore",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 73037,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 4.41,
+   "frequency": "daily+",
+   "median_chars": 81,
+   "style_tags": [
+    "short",
+    "data-heavy",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "promotional",
+    "conversational",
+    "hype"
+   ]
+  },
+  "ewhispers": {
+   "handle": "eWhispers",
+   "lang": "en",
+   "category": "earnings_filings",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 570947,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 3.17,
+   "frequency": "daily+",
+   "median_chars": 49,
+   "style_tags": [
+    "short",
+    "chart/media-led",
+    "cashtags",
+    "question-hooks"
+   ],
+   "tone": [
+    "factual",
+    "terse",
+    "neutral"
+   ]
+  },
+  "fenng": {
+   "handle": "Fenng",
+   "lang": "zh",
+   "category": "non_finance",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 218529,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 5.7,
+   "frequency": "daily+",
+   "median_chars": 54,
+   "style_tags": [
+    "short",
+    "low-data",
+    "emoji"
+   ],
+   "tone": [
+    "sardonic",
+    "humorous",
+    "reflective"
+   ]
+  },
+  "fi56622380": {
+   "handle": "fi56622380",
+   "lang": "zh",
+   "category": "sector_industry",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 78156,
+   "latest_post": "2026-08-29",
+   "posts_per_day": 0.12,
+   "frequency": "sporadic",
+   "median_chars": 5030,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "analytical",
+    "academic",
+    "educational"
+   ]
+  },
+  "financelancelot": {
+   "handle": "FinanceLancelot",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 367316,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 107.67,
+   "frequency": "daily+",
+   "median_chars": 117,
+   "style_tags": [
+    "short",
+    "threads",
+    "question-hooks"
+   ],
+   "tone": [
+    "educational",
+    "dramatic",
+    "conversational"
+   ]
+  },
+  "findingyouredg": {
+   "handle": "FindingYourEdg",
+   "lang": "zh",
+   "category": "trading_technicals",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 8221,
+   "latest_post": "2026-09-16",
+   "posts_per_day": 0.34,
+   "frequency": "weekly",
+   "median_chars": 51,
+   "style_tags": [
+    "short",
+    "cashtags",
+    "question-hooks",
+    "link-sharing"
+   ],
+   "tone": [
+    "promotional",
+    "educational",
+    "measured"
+   ]
+  },
+  "freearkshaw": {
+   "handle": "freearkshaw",
+   "lang": "zh",
+   "category": "sector_industry",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 30104,
+   "latest_post": "2026-09-30",
+   "posts_per_day": 4.51,
+   "frequency": "daily+",
+   "median_chars": 204,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "structured/list"
+   ],
+   "tone": [
+    "analytical",
+    "factual",
+    "measured"
+   ]
+  },
+  "fromvalue": {
+   "handle": "FromValue",
+   "lang": "en",
+   "category": "single_stock",
+   "persona_cluster": "single_stock_deepdive_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 122936,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 2.74,
+   "frequency": "daily",
+   "median_chars": 125,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "optimistic",
+    "educational"
+   ]
+  },
+  "fundstrat": {
+   "handle": "fundstrat",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 674950,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 6.47,
+   "frequency": "daily+",
+   "median_chars": 40,
+   "style_tags": [
+    "short",
+    "low-data",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "contrarian",
+    "punchy",
+    "hype"
+   ]
+  },
+  "fxhedgers": {
+   "handle": "Fxhedgers",
+   "lang": "en",
+   "category": "news_aggregator",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 472365,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 9.76,
+   "frequency": "daily+",
+   "median_chars": 497,
+   "style_tags": [
+    "long-form",
+    "chart/media-led",
+    "structured/list",
+    "rt-heavy"
+   ],
+   "tone": [
+    "punchy",
+    "neutral"
+   ]
+  },
+  "fxtrader": {
+   "handle": "fxtrader",
+   "lang": "zh",
+   "category": "news_aggregator",
+   "persona_cluster": "macro_zh",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 406127,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 6.06,
+   "frequency": "daily+",
+   "median_chars": 80,
+   "style_tags": [
+    "short",
+    "data-heavy",
+    "threads"
+   ],
+   "tone": [
+    "measured",
+    "neutral"
+   ]
+  },
+  "garyblack00": {
+   "handle": "garyblack00",
+   "lang": "en",
+   "category": "single_stock",
+   "persona_cluster": "single_stock_deepdive_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 582428,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 3.88,
+   "frequency": "daily+",
+   "median_chars": 417,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "cashtags"
+   ],
+   "tone": [
+    "measured",
+    "educational",
+    "contrarian"
+   ]
+  },
+  "georgegammon": {
+   "handle": "GeorgeGammon",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 333386,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 0.67,
+   "frequency": "weekly",
+   "median_chars": 56,
+   "style_tags": [
+    "short",
+    "low-data",
+    "link-sharing"
+   ],
+   "tone": [
+    "sardonic",
+    "contrarian",
+    "punchy"
+   ]
+  },
+  "glassnode": {
+   "handle": "glassnode",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 608908,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 2.02,
+   "frequency": "daily",
+   "median_chars": 208,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "academic",
+    "measured",
+    "educational"
+   ]
+  },
+  "globalmktobserv": {
+   "handle": "GlobalMktObserv",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 95951,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 11.5,
+   "frequency": "daily+",
+   "median_chars": 230,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "emoji",
+    "structured/list",
+    "link-sharing"
+   ],
+   "tone": [
+    "punchy",
+    "hype",
+    "educational"
+   ]
+  },
+  "gooaye": {
+   "handle": "GooAye",
+   "lang": "zh",
+   "category": "non_finance",
+   "persona_cluster": "none",
+   "verified": false,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 2,
+   "latest_post": null,
+   "posts_per_day": null,
+   "frequency": null,
+   "median_chars": null,
+   "style_tags": [],
+   "tone": [
+    "none"
+   ]
+  },
+  "grahamstephan": {
+   "handle": "GrahamStephan",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 216039,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 0.33,
+   "frequency": "weekly",
+   "median_chars": 84,
+   "style_tags": [
+    "short",
+    "low-data",
+    "question-hooks"
+   ],
+   "tone": [
+    "conversational",
+    "contrarian",
+    "educational"
+   ]
+  },
+  "grdecter": {
+   "handle": "GRDecter",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "none",
+   "verified": false,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 410920,
+   "latest_post": "2025-07-29",
+   "posts_per_day": 0.07,
+   "frequency": "sporadic",
+   "median_chars": 116,
+   "style_tags": [
+    "short",
+    "chart/media-led",
+    "threads",
+    "structured/list"
+   ],
+   "tone": [
+    "hype",
+    "promotional"
+   ]
+  },
+  "greenbackd": {
+   "handle": "Greenbackd",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "market_data_charts",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 71764,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 5.09,
+   "frequency": "daily+",
+   "median_chars": 41,
+   "style_tags": [
+    "short",
+    "chart/media-led"
+   ],
+   "tone": [
+    "measured",
+    "educational",
+    "humble"
+   ]
+  },
+  "haohong_cfa": {
+   "handle": "HAOHONG_CFA",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 355859,
+   "latest_post": "2026-10-01",
+   "posts_per_day": 0.34,
+   "frequency": "weekly",
+   "median_chars": 517,
+   "style_tags": [
+    "long-form",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "academic",
+    "confident"
+   ]
+  },
+  "harmongreg": {
+   "handle": "harmongreg",
+   "lang": "en",
+   "category": "options_flow",
+   "persona_cluster": "trading_shortterm",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 50762,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 9.52,
+   "frequency": "daily+",
+   "median_chars": 92,
+   "style_tags": [
+    "short",
+    "data-heavy",
+    "cashtags"
+   ],
+   "tone": [
+    "measured",
+    "terse",
+    "technical"
+   ]
+  },
+  "highfree2028": {
+   "handle": "highFree2028",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 7010,
+   "latest_post": "2026-09-27",
+   "posts_per_day": 0.08,
+   "frequency": "sporadic",
+   "median_chars": 36,
+   "style_tags": [
+    "short",
+    "chart/media-led"
+   ],
+   "tone": [
+    "conversational",
+    "analytical",
+    "candid"
+   ]
+  },
+  "howardlindzon": {
+   "handle": "howardlindzon",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 278550,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 4.36,
+   "frequency": "daily+",
+   "median_chars": 57,
+   "style_tags": [
+    "short",
+    "low-data"
+   ],
+   "tone": [
+    "humorous",
+    "sardonic",
+    "conversational"
+   ]
+  },
+  "howlemont": {
+   "handle": "howlemont",
+   "lang": "zh",
+   "category": "non_finance",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 13360,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 1.74,
+   "frequency": "daily",
+   "median_chars": 63,
+   "style_tags": [
+    "short",
+    "data-heavy",
+    "structured/list"
+   ],
+   "tone": [
+    "informative",
+    "casual",
+    "conversational"
+   ]
+  },
+  "huahuayjy": {
+   "handle": "huahuayjy",
+   "lang": "zh",
+   "category": "single_stock",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 307081,
+   "latest_post": "2026-09-28",
+   "posts_per_day": 0.15,
+   "frequency": "weekly",
+   "median_chars": 45,
+   "style_tags": [
+    "short",
+    "low-data"
+   ],
+   "tone": [
+    "casual",
+    "conversational",
+    "hype"
+   ]
+  },
+  "iancassel": {
+   "handle": "iancassel",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 294373,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 4.05,
+   "frequency": "daily+",
+   "median_chars": 137,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "chart/media-led",
+    "link-sharing"
+   ],
+   "tone": [
+    "reflective",
+    "educational",
+    "aphoristic"
+   ]
+  },
+  "iancutress": {
+   "handle": "IanCutress",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "industry_ai_capex",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 58695,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 2.41,
+   "frequency": "daily",
+   "median_chars": 163,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "threads"
+   ],
+   "tone": [
+    "conversational",
+    "technical",
+    "humorous"
+   ]
+  },
+  "inartecarlodoss": {
+   "handle": "INArteCarloDoss",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 199200,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 15.81,
+   "frequency": "daily+",
+   "median_chars": 56,
+   "style_tags": [
+    "short",
+    "question-hooks"
+   ],
+   "tone": [
+    "contrarian",
+    "punchy",
+    "opinionated"
+   ]
+  },
+  "intangiblecoins": {
+   "handle": "intangiblecoins",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 62308,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 2.83,
+   "frequency": "daily",
+   "median_chars": 167,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "emoji",
+    "structured/list",
+    "rt-heavy"
+   ],
+   "tone": [
+    "conversational",
+    "humorous",
+    "reflective"
+   ]
+  },
+  "investmattallen": {
+   "handle": "investmattallen",
+   "lang": "en",
+   "category": "single_stock",
+   "persona_cluster": "single_stock_deepdive_en",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 128114,
+   "latest_post": "2026-10-01",
+   "posts_per_day": 2.83,
+   "frequency": "daily",
+   "median_chars": 365,
+   "style_tags": [
+    "long-form",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "hype",
+    "promotional",
+    "punchy"
+   ]
+  },
+  "jackfarley96": {
+   "handle": "JackFarley96",
+   "lang": "en",
+   "category": "news_aggregator",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": true,
+   "followers": 90091,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 4.03,
+   "frequency": "daily+",
+   "median_chars": 97,
+   "style_tags": [
+    "short",
+    "low-data",
+    "threads",
+    "structured/list"
+   ],
+   "tone": [
+    "promotional",
+    "conversational"
+   ]
+  },
+  "jam_croissant": {
+   "handle": "jam_croissant",
+   "lang": "en",
+   "category": "options_flow",
+   "persona_cluster": "trading_shortterm",
+   "verified": false,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 280752,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 12.33,
+   "frequency": "daily+",
+   "median_chars": 44,
+   "style_tags": [
+    "short",
+    "chart/media-led",
+    "emoji",
+    "structured/list",
+    "rt-heavy"
+   ],
+   "tone": [
+    "sardonic",
+    "humorous",
+    "cryptic"
+   ]
+  },
+  "jameslavish": {
+   "handle": "jameslavish",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 173648,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 1.95,
+   "frequency": "daily",
+   "median_chars": 104,
+   "style_tags": [
+    "short",
+    "chart/media-led"
+   ],
+   "tone": [
+    "educational",
+    "measured",
+    "humorous"
+   ]
+  },
+  "jasielinvests": {
+   "handle": "Jasielinvests",
+   "lang": "en",
+   "category": "non_finance",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 15200,
+   "latest_post": "2026-08-20",
+   "posts_per_day": 17.67,
+   "frequency": "daily+",
+   "median_chars": 248,
+   "style_tags": [
+    "mid-length",
+    "threads",
+    "structured/list",
+    "link-sharing",
+    "rt-heavy"
+   ],
+   "tone": [
+    "educational",
+    "conversational"
+   ]
+  },
+  "jason60704294": {
+   "handle": "Jason60704294",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 121775,
+   "latest_post": "2026-09-24",
+   "posts_per_day": 0.73,
+   "frequency": "weekly",
+   "median_chars": 25,
+   "style_tags": [
+    "short",
+    "threads"
+   ],
+   "tone": [
+    "confident",
+    "conversational",
+    "analytical"
+   ]
+  },
+  "jasongoepfert": {
+   "handle": "jasongoepfert",
+   "lang": "en",
+   "category": "trading_technicals",
+   "persona_cluster": "market_data_charts",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 55037,
+   "latest_post": "2026-09-30",
+   "posts_per_day": 0.43,
+   "frequency": "weekly",
+   "median_chars": 190,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "threads",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "cautionary",
+    "educational"
+   ]
+  },
+  "jasonhenrichs": {
+   "handle": "jasonhenrichs",
+   "lang": "en",
+   "category": "non_finance",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 5081,
+   "latest_post": "2026-09-18",
+   "posts_per_day": 0.04,
+   "frequency": "sporadic",
+   "median_chars": 138,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "question-hooks",
+    "rt-heavy"
+   ],
+   "tone": [
+    "humorous",
+    "conversational"
+   ]
+  },
+  "javierblas": {
+   "handle": "JavierBlas",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 403079,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 11.61,
+   "frequency": "daily+",
+   "median_chars": 231,
+   "style_tags": [
+    "mid-length"
+   ],
+   "tone": [
+    "measured",
+    "authoritative",
+    "analytical"
+   ]
+  },
+  "jeffsnider_edu": {
+   "handle": "JeffSnider_EDU",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 140788,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 2.18,
+   "frequency": "daily",
+   "median_chars": 315,
+   "style_tags": [
+    "long-form",
+    "chart/media-led",
+    "threads",
+    "structured/list",
+    "link-sharing"
+   ],
+   "tone": [
+    "contrarian",
+    "punchy",
+    "educational"
+   ]
+  },
+  "jeremydschwartz": {
+   "handle": "JeremyDSchwartz",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 22003,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 1.18,
+   "frequency": "daily",
+   "median_chars": 188,
+   "style_tags": [
+    "long-form",
+    "low-data",
+    "chart/media-led",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "educational",
+    "optimistic"
+   ]
+  },
+  "jimmarous": {
+   "handle": "JimMarous",
+   "lang": "en",
+   "category": "non_finance",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 98361,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 1.09,
+   "frequency": "daily",
+   "median_chars": 927,
+   "style_tags": [
+    "long-form",
+    "chart/media-led",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "educational",
+    "measured",
+    "analytical"
+   ]
+  },
+  "jnordvig": {
+   "handle": "jnordvig",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 68882,
+   "latest_post": "2026-09-23",
+   "posts_per_day": 0.34,
+   "frequency": "weekly",
+   "median_chars": 271,
+   "style_tags": [
+    "long-form",
+    "low-data",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "academic",
+    "reflective"
+   ]
+  },
+  "josephwang": {
+   "handle": "josephwang",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 212139,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 2.02,
+   "frequency": "daily",
+   "median_chars": 103,
+   "style_tags": [
+    "short",
+    "chart/media-led"
+   ],
+   "tone": [
+    "academic",
+    "measured",
+    "educational"
+   ]
+  },
+  "jposhaughnessy": {
+   "handle": "jposhaughnessy",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 193124,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 4.82,
+   "frequency": "daily+",
+   "median_chars": 161,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "structured/list"
+   ],
+   "tone": [
+    "reflective",
+    "aphoristic",
+    "educational"
+   ]
+  },
+  "jsblokland": {
+   "handle": "jsblokland",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 123847,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 4.73,
+   "frequency": "daily+",
+   "median_chars": 535,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "contrarian",
+    "confident",
+    "educational"
+   ]
+  },
+  "jseyff": {
+   "handle": "JSeyff",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "market_data_charts",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 183676,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 6.46,
+   "frequency": "daily+",
+   "median_chars": 95,
+   "style_tags": [
+    "short",
+    "low-data",
+    "threads"
+   ],
+   "tone": [
+    "conversational",
+    "candid",
+    "analytical"
+   ]
+  },
+  "jturek18": {
+   "handle": "jturek18",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 20970,
+   "latest_post": "2026-10-01",
+   "posts_per_day": 0.69,
+   "frequency": "weekly",
+   "median_chars": 176,
+   "style_tags": [
+    "mid-length",
+    "low-data"
+   ],
+   "tone": [
+    "measured",
+    "analytical",
+    "conversational"
+   ]
+  },
+  "jukan05": {
+   "handle": "jukan05",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "industry_ai_capex",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 214861,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 6.69,
+   "frequency": "daily+",
+   "median_chars": 78,
+   "style_tags": [
+    "short",
+    "threads"
+   ],
+   "tone": [
+    "analytical",
+    "confident",
+    "punchy"
+   ]
+  },
+  "kaikodata": {
+   "handle": "KaikoData",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 23145,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 1.19,
+   "frequency": "daily",
+   "median_chars": 250,
+   "style_tags": [
+    "long-form",
+    "chart/media-led",
+    "threads",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "academic",
+    "measured",
+    "corporate"
+   ]
+  },
+  "kelileocup": {
+   "handle": "KelileoCUP",
+   "lang": "zh",
+   "category": "single_stock",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 5979,
+   "latest_post": "2026-09-02",
+   "posts_per_day": 0.09,
+   "frequency": "sporadic",
+   "median_chars": 43,
+   "style_tags": [
+    "short",
+    "chart/media-led",
+    "emoji",
+    "question-hooks",
+    "link-sharing",
+    "rt-heavy"
+   ],
+   "tone": [
+    "educational",
+    "conversational",
+    "hype"
+   ]
+  },
+  "kevinsxu": {
+   "handle": "kevinsxu",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "industry_ai_capex",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 17837,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 2.24,
+   "frequency": "daily",
+   "median_chars": 170,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "academic",
+    "conversational"
+   ]
+  },
+  "ki_young_ju": {
+   "handle": "ki_young_ju",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 434721,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 0.45,
+   "frequency": "weekly",
+   "median_chars": 48,
+   "style_tags": [
+    "long-form",
+    "chart/media-led",
+    "threads"
+   ],
+   "tone": [
+    "measured",
+    "conversational",
+    "hype"
+   ]
+  },
+  "kickdenim": {
+   "handle": "KICKDENIM",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 75041,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 3.8,
+   "frequency": "daily+",
+   "median_chars": 463,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "promotional",
+    "hype"
+   ]
+  },
+  "kobeissiletter": {
+   "handle": "KobeissiLetter",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "market_data_charts",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 2672823,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 25.53,
+   "frequency": "daily+",
+   "median_chars": 295,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "threads",
+    "structured/list"
+   ],
+   "tone": [
+    "punchy",
+    "hype",
+    "measured"
+   ]
+  },
+  "kovainvest": {
+   "handle": "kovainvest",
+   "lang": "zh",
+   "category": "trading_technicals",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 19178,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 6.15,
+   "frequency": "daily+",
+   "median_chars": 48,
+   "style_tags": [
+    "short",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "hype",
+    "humorous"
+   ]
+  },
+  "krisabdelmessih": {
+   "handle": "KrisAbdelmessih",
+   "lang": "en",
+   "category": "options_flow",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 52243,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 2.52,
+   "frequency": "daily",
+   "median_chars": 172,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "threads",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "humorous",
+    "educational"
+   ]
+  },
+  "ksidiii": {
+   "handle": "Ksidiii",
+   "lang": "en",
+   "category": "trading_technicals",
+   "persona_cluster": "trading_shortterm",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 87224,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 1.61,
+   "frequency": "daily",
+   "median_chars": 415,
+   "style_tags": [
+    "long-form",
+    "low-data",
+    "threads",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "conversational",
+    "educational"
+   ]
+  },
+  "labspeculation": {
+   "handle": "LabSpeculation",
+   "lang": "zh",
+   "category": "trading_technicals",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 86436,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 16.07,
+   "frequency": "daily+",
+   "median_chars": 377,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "educational",
+    "conversational",
+    "hype"
+   ]
+  },
+  "leadlagreport": {
+   "handle": "leadlagreport",
+   "lang": "en",
+   "category": "earnings_filings",
+   "persona_cluster": "single_stock_deepdive_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 772128,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 15.77,
+   "frequency": "daily+",
+   "median_chars": 223,
+   "style_tags": [
+    "mid-length",
+    "data-heavy",
+    "chart/media-led",
+    "cashtags",
+    "link-sharing"
+   ],
+   "tone": [
+    "measured",
+    "educational",
+    "punchy"
+   ]
+  },
+  "lexsokolin": {
+   "handle": "LexSokolin",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "industry_ai_capex",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 24138,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 3.33,
+   "frequency": "daily+",
+   "median_chars": 154,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "conversational",
+    "contrarian"
+   ]
+  },
+  "lidangzzz": {
+   "handle": "lidangzzz",
+   "lang": "zh",
+   "category": "non_finance",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 1611039,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 22.89,
+   "frequency": "daily+",
+   "median_chars": 188,
+   "style_tags": [
+    "long-form",
+    "structured/list"
+   ],
+   "tone": [
+    "contrarian",
+    "conversational",
+    "punchy"
+   ]
+  },
+  "linqingv": {
+   "handle": "LinQingV",
+   "lang": "zh",
+   "category": "sector_industry",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 55401,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 1.54,
+   "frequency": "daily",
+   "median_chars": 84,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "question-hooks"
+   ],
+   "tone": [
+    "measured",
+    "sardonic",
+    "educational"
+   ]
+  },
+  "lisaabramowicz1": {
+   "handle": "lisaabramowicz1",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 444180,
+   "latest_post": "2026-10-01",
+   "posts_per_day": 1.3,
+   "frequency": "daily",
+   "median_chars": 180,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "threads"
+   ],
+   "tone": [
+    "measured",
+    "punchy"
+   ]
+  },
+  "lizannsonders": {
+   "handle": "LizAnnSonders",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 824206,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 40.4,
+   "frequency": "daily+",
+   "median_chars": 92,
+   "style_tags": [
+    "short",
+    "chart/media-led"
+   ],
+   "tone": [
+    "measured",
+    "educational"
+   ]
+  },
+  "lookonchain": {
+   "handle": "lookonchain",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 712706,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 5.67,
+   "frequency": "daily+",
+   "median_chars": 156,
+   "style_tags": [
+    "mid-length",
+    "data-heavy",
+    "chart/media-led",
+    "cashtags",
+    "structured/list",
+    "link-sharing"
+   ],
+   "tone": [
+    "punchy",
+    "hype"
+   ]
+  },
+  "lukegromen": {
+   "handle": "LukeGromen",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 635454,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 6.19,
+   "frequency": "daily+",
+   "median_chars": 276,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "contrarian",
+    "measured",
+    "conversational"
+   ]
+  },
+  "lynaldencontact": {
+   "handle": "LynAldenContact",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 1140966,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 4.3,
+   "frequency": "daily+",
+   "median_chars": 248,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "threads",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "educational",
+    "conversational"
+   ]
+  },
+  "m_c_klein": {
+   "handle": "M_C_Klein",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 61951,
+   "latest_post": "2026-09-30",
+   "posts_per_day": 1.29,
+   "frequency": "daily",
+   "median_chars": 97,
+   "style_tags": [
+    "short",
+    "low-data",
+    "link-sharing"
+   ],
+   "tone": [
+    "academic",
+    "measured"
+   ]
+  },
+  "macroalf": {
+   "handle": "MacroAlf",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": false,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 466381,
+   "latest_post": "2026-01-14",
+   "posts_per_day": 0.09,
+   "frequency": "sporadic",
+   "median_chars": 187,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "measured",
+    "educational"
+   ]
+  },
+  "macrocharts": {
+   "handle": "MacroCharts",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "market_data_charts",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 198373,
+   "latest_post": "2026-09-26",
+   "posts_per_day": 0.27,
+   "frequency": "weekly",
+   "median_chars": 65,
+   "style_tags": [
+    "short",
+    "chart/media-led"
+   ],
+   "tone": [
+    "measured",
+    "punchy",
+    "educational"
+   ]
+  },
+  "macromargin": {
+   "handle": "MacroMargin",
+   "lang": "zh",
+   "category": "macro_rates",
+   "persona_cluster": "macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 198832,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 1.05,
+   "frequency": "daily",
+   "median_chars": 76,
+   "style_tags": [
+    "short",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "educational",
+    "academic"
+   ]
+  },
+  "maojietrading": {
+   "handle": "maojietrading",
+   "lang": "zh",
+   "category": "trading_technicals",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 44974,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 1.91,
+   "frequency": "daily",
+   "median_chars": 139,
+   "style_tags": [
+    "mid-length",
+    "question-hooks"
+   ],
+   "tone": [
+    "conversational",
+    "measured",
+    "educational"
+   ]
+  },
+  "marcruby": {
+   "handle": "MarcRuby",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 26375,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 0.08,
+   "frequency": "sporadic",
+   "median_chars": 64,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led"
+   ],
+   "tone": [
+    "conversational",
+    "humorous"
+   ]
+  },
+  "markminervini": {
+   "handle": "markminervini",
+   "lang": "en",
+   "category": "trading_technicals",
+   "persona_cluster": "trading_shortterm",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 765783,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 2.6,
+   "frequency": "daily",
+   "median_chars": 273,
+   "style_tags": [
+    "long-form",
+    "chart/media-led"
+   ],
+   "tone": [
+    "contrarian",
+    "measured",
+    "educational"
+   ]
+  },
+  "marknewtoncmt": {
+   "handle": "MarkNewtonCMT",
+   "lang": "en",
+   "category": "trading_technicals",
+   "persona_cluster": "trading_shortterm",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 116285,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 2.59,
+   "frequency": "daily",
+   "median_chars": 364,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "threads",
+    "cashtags"
+   ],
+   "tone": [
+    "educational",
+    "punchy",
+    "measured"
+   ]
+  },
+  "marktilbury": {
+   "handle": "marktilbury",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "none",
+   "verified": false,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 103542,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 35.7,
+   "frequency": "daily+",
+   "median_chars": 128,
+   "style_tags": [
+    "mid-length",
+    "threads",
+    "question-hooks",
+    "structured/list"
+   ],
+   "tone": [
+    "hype",
+    "educational"
+   ]
+  },
+  "matthew_sigel": {
+   "handle": "matthew_sigel",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "industry_ai_capex",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 66026,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 6.59,
+   "frequency": "daily+",
+   "median_chars": 199,
+   "style_tags": [
+    "mid-length",
+    "data-heavy",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "punchy"
+   ]
+  },
+  "maxfieldonbanks": {
+   "handle": "MaxfieldOnBanks",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 24342,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 1.27,
+   "frequency": "daily",
+   "median_chars": 101,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led"
+   ],
+   "tone": [
+    "conversational",
+    "educational"
+   ]
+  },
+  "mebfaber": {
+   "handle": "MebFaber",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 144156,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 6.09,
+   "frequency": "daily+",
+   "median_chars": 130,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "chart/media-led"
+   ],
+   "tone": [
+    "humorous",
+    "contrarian",
+    "educational"
+   ]
+  },
+  "meitoujun": {
+   "handle": "meitoujun",
+   "lang": "zh",
+   "category": "non_finance",
+   "persona_cluster": "none",
+   "verified": false,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 33,
+   "latest_post": "2023-08-20",
+   "posts_per_day": 50.0,
+   "frequency": "daily+",
+   "median_chars": 44,
+   "style_tags": [
+    "short",
+    "low-data",
+    "link-sharing"
+   ],
+   "tone": [
+    "sardonic"
+   ]
+  },
+  "memekiller365": {
+   "handle": "memekiller365",
+   "lang": "zh",
+   "category": "investing_general",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 26680,
+   "latest_post": "2026-10-01",
+   "posts_per_day": 2.47,
+   "frequency": "daily",
+   "median_chars": 31,
+   "style_tags": [
+    "short",
+    "low-data",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "sardonic",
+    "contrarian"
+   ]
+  },
+  "michael_qqq2025": {
+   "handle": "Michael_QQQ2025",
+   "lang": "zh",
+   "category": "options_flow",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 5143,
+   "latest_post": "2026-09-30",
+   "posts_per_day": 3.01,
+   "frequency": "daily+",
+   "median_chars": 100,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "educational",
+    "conversational",
+    "measured"
+   ]
+  },
+  "michaelbatnick": {
+   "handle": "michaelbatnick",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "market_data_charts",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 207729,
+   "latest_post": "2026-09-22",
+   "posts_per_day": 0.09,
+   "frequency": "sporadic",
+   "median_chars": 151,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "threads",
+    "question-hooks",
+    "structured/list",
+    "rt-heavy"
+   ],
+   "tone": [
+    "punchy",
+    "conversational",
+    "humorous"
+   ]
+  },
+  "michaelkitces": {
+   "handle": "MichaelKitces",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 96396,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 2.74,
+   "frequency": "daily",
+   "median_chars": 489,
+   "style_tags": [
+    "long-form",
+    "question-hooks",
+    "structured/list",
+    "link-sharing"
+   ],
+   "tone": [
+    "academic",
+    "educational",
+    "measured"
+   ]
+  },
+  "michaelxpettis": {
+   "handle": "michaelxpettis",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 195497,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 1.94,
+   "frequency": "daily",
+   "median_chars": 209,
+   "style_tags": [
+    "long-form"
+   ],
+   "tone": [
+    "academic",
+    "measured"
+   ]
+  },
+  "mikezaccardi": {
+   "handle": "MikeZaccardi",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "market_data_charts",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 80966,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 89.48,
+   "frequency": "daily+",
+   "median_chars": 118,
+   "style_tags": [
+    "short",
+    "chart/media-led"
+   ],
+   "tone": [
+    "measured",
+    "educational"
+   ]
+  },
+  "mikulaja": {
+   "handle": "mikulaja",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 29655,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 3.91,
+   "frequency": "daily+",
+   "median_chars": 101,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led"
+   ],
+   "tone": [
+    "sardonic",
+    "conversational"
+   ]
+  },
+  "mindaoyang": {
+   "handle": "mindaoyang",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 60447,
+   "latest_post": "2026-09-27",
+   "posts_per_day": 0.06,
+   "frequency": "sporadic",
+   "median_chars": 217,
+   "style_tags": [
+    "long-form",
+    "structured/list"
+   ],
+   "tone": [
+    "analytical",
+    "contrarian",
+    "educational"
+   ]
+  },
+  "mingchikuo": {
+   "handle": "mingchikuo",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "industry_ai_capex",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 251823,
+   "latest_post": "2026-09-30",
+   "posts_per_day": 0.23,
+   "frequency": "weekly",
+   "median_chars": 748,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "academic",
+    "educational"
+   ]
+  },
+  "morganhousel": {
+   "handle": "morganhousel",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 709585,
+   "latest_post": "2026-09-30",
+   "posts_per_day": 0.34,
+   "frequency": "weekly",
+   "median_chars": 130,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "chart/media-led"
+   ],
+   "tone": [
+    "measured",
+    "conversational",
+    "educational"
+   ]
+  },
+  "mr_derivatives": {
+   "handle": "Mr_Derivatives",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "market_data_charts",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 632808,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 0.26,
+   "frequency": "weekly",
+   "median_chars": 126,
+   "style_tags": [
+    "mid-length",
+    "data-heavy",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "punchy",
+    "humorous",
+    "conversational"
+   ]
+  },
+  "nanashuomeigu": {
+   "handle": "nanashuomeigu",
+   "lang": "zh",
+   "category": "single_stock",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": false,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 58,
+   "latest_post": "2026-08-13",
+   "posts_per_day": null,
+   "frequency": null,
+   "median_chars": 24,
+   "style_tags": [
+    "short"
+   ],
+   "tone": [
+    "humorous",
+    "sardonic",
+    "educational"
+   ]
+  },
+  "natbrunell": {
+   "handle": "natbrunell",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 646228,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 11.4,
+   "frequency": "daily+",
+   "median_chars": 157,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "emoji",
+    "structured/list",
+    "rt-heavy"
+   ],
+   "tone": [
+    "educational",
+    "conversational",
+    "measured"
+   ]
+  },
+  "nategeraci": {
+   "handle": "NateGeraci",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 74713,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 3.52,
+   "frequency": "daily+",
+   "median_chars": 215,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "conversational",
+    "educational"
+   ]
+  },
+  "nbblock": {
+   "handle": "nbblock",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 15059,
+   "latest_post": "2026-09-28",
+   "posts_per_day": 1.95,
+   "frequency": "daily",
+   "median_chars": 113,
+   "style_tags": [
+    "long-form",
+    "cashtags",
+    "question-hooks",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "punchy",
+    "contrarian"
+   ]
+  },
+  "nicktimiraos": {
+   "handle": "NickTimiraos",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 492579,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 5.92,
+   "frequency": "daily+",
+   "median_chars": 385,
+   "style_tags": [
+    "long-form",
+    "threads"
+   ],
+   "tone": [
+    "measured",
+    "academic",
+    "educational"
+   ]
+  },
+  "nikmilanovic": {
+   "handle": "NikMilanovic",
+   "lang": "en",
+   "category": "news_aggregator",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 34367,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 4.07,
+   "frequency": "daily+",
+   "median_chars": 71,
+   "style_tags": [
+    "short",
+    "chart/media-led",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "punchy",
+    "conversational",
+    "hype"
+   ]
+  },
+  "octopusycc": {
+   "handle": "octopusycc",
+   "lang": "zh",
+   "category": "options_flow",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 46888,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 5.37,
+   "frequency": "daily+",
+   "median_chars": 40,
+   "style_tags": [
+    "short",
+    "structured/list"
+   ],
+   "tone": [
+    "punchy",
+    "conversational",
+    "hype"
+   ]
+  },
+  "optionshawk": {
+   "handle": "OptionsHawk",
+   "lang": "en",
+   "category": "options_flow",
+   "persona_cluster": "trading_shortterm",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 119190,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 49.11,
+   "frequency": "daily+",
+   "median_chars": 34,
+   "style_tags": [
+    "short",
+    "low-data",
+    "threads",
+    "cashtags"
+   ],
+   "tone": [
+    "punchy",
+    "humorous",
+    "conversational"
+   ]
+  },
+  "ouyangzhuaibai": {
+   "handle": "OuYangZhuaiBai",
+   "lang": "zh",
+   "category": "non_finance",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 47686,
+   "latest_post": "2026-10-01",
+   "posts_per_day": 1.16,
+   "frequency": "daily",
+   "median_chars": 33,
+   "style_tags": [
+    "short",
+    "low-data"
+   ],
+   "tone": [
+    "humorous",
+    "conversational",
+    "sardonic"
+   ]
+  },
+  "patrick_oshag": {
+   "handle": "patrick_oshag",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 362384,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 5.07,
+   "frequency": "daily+",
+   "median_chars": 233,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "educational",
+    "measured"
+   ]
+  },
+  "patrickeboyle": {
+   "handle": "PatrickEBoyle",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "none",
+   "verified": false,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 35697,
+   "latest_post": "2026-09-04",
+   "posts_per_day": 0.0,
+   "frequency": "sporadic",
+   "median_chars": 103,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led"
+   ],
+   "tone": [
+    "formal",
+    "promotional"
+   ]
+  },
+  "patrickmoorhead": {
+   "handle": "PatrickMoorhead",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "industry_ai_capex",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 69174,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 5.65,
+   "frequency": "daily+",
+   "median_chars": 79,
+   "style_tags": [
+    "short",
+    "data-heavy"
+   ],
+   "tone": [
+    "measured",
+    "educational",
+    "conversational"
+   ]
+  },
+  "pboockvar": {
+   "handle": "pboockvar",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 46749,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 1.63,
+   "frequency": "daily",
+   "median_chars": 34,
+   "style_tags": [
+    "short",
+    "rt-heavy"
+   ],
+   "tone": [
+    "measured",
+    "contrarian",
+    "conversational"
+   ]
+  },
+  "pessimistsarc": {
+   "handle": "PessimistsArc",
+   "lang": "en",
+   "category": "non_finance",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 99521,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 4.9,
+   "frequency": "daily+",
+   "median_chars": 280,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "rt-heavy"
+   ],
+   "tone": [
+    "humorous",
+    "educational",
+    "sardonic"
+   ]
+  },
+  "peterlbrandt": {
+   "handle": "PeterLBrandt",
+   "lang": "en",
+   "category": "trading_technicals",
+   "persona_cluster": "trading_shortterm",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 1330191,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 7.99,
+   "frequency": "daily+",
+   "median_chars": 115,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led"
+   ],
+   "tone": [
+    "educational",
+    "punchy",
+    "contrarian"
+   ]
+  },
+  "phyrexni": {
+   "handle": "PhyrexNi",
+   "lang": "zh",
+   "category": "macro_rates",
+   "persona_cluster": "macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 407555,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 11.68,
+   "frequency": "daily+",
+   "median_chars": 359,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "educational",
+    "conversational"
+   ]
+  },
+  "profplum99": {
+   "handle": "profplum99",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 244929,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 1.41,
+   "frequency": "daily",
+   "median_chars": 107,
+   "style_tags": [
+    "short",
+    "low-data"
+   ],
+   "tone": [
+    "sardonic",
+    "contrarian",
+    "conversational"
+   ]
+  },
+  "qcompounding": {
+   "handle": "QCompounding",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 493136,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 19.17,
+   "frequency": "daily+",
+   "median_chars": 155,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "threads",
+    "structured/list"
+   ],
+   "tone": [
+    "educational",
+    "measured"
+   ]
+  },
+  "qinbafrank": {
+   "handle": "qinbafrank",
+   "lang": "zh",
+   "category": "macro_rates",
+   "persona_cluster": "macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 159503,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 5.04,
+   "frequency": "daily+",
+   "median_chars": 539,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "question-hooks",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "educational",
+    "conversational"
+   ]
+  },
+  "raoulgmi": {
+   "handle": "RaoulGMI",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 1501880,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 5.13,
+   "frequency": "daily+",
+   "median_chars": 162,
+   "style_tags": [
+    "long-form",
+    "low-data",
+    "chart/media-led",
+    "threads",
+    "structured/list",
+    "link-sharing"
+   ],
+   "tone": [
+    "educational",
+    "academic",
+    "conversational"
+   ]
+  },
+  "rickawsb": {
+   "handle": "rickawsb",
+   "lang": "zh",
+   "category": "sector_industry",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 149673,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 1.1,
+   "frequency": "daily",
+   "median_chars": 85,
+   "style_tags": [
+    "short",
+    "data-heavy",
+    "structured/list"
+   ],
+   "tone": [
+    "analytical",
+    "conversational",
+    "humorous"
+   ]
+  },
+  "riskreversal": {
+   "handle": "RiskReversal",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 109504,
+   "latest_post": "2026-10-01",
+   "posts_per_day": 0.79,
+   "frequency": "weekly",
+   "median_chars": 220,
+   "style_tags": [
+    "long-form",
+    "low-data",
+    "chart/media-led",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "contrarian",
+    "sardonic",
+    "conversational"
+   ]
+  },
+  "ritholtz": {
+   "handle": "Ritholtz",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 255911,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 3.7,
+   "frequency": "daily+",
+   "median_chars": 35,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led"
+   ],
+   "tone": [
+    "measured",
+    "conversational",
+    "humorous"
+   ]
+  },
+  "rjccapital": {
+   "handle": "RJCcapital",
+   "lang": "en",
+   "category": "single_stock",
+   "persona_cluster": "single_stock_deepdive_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 49633,
+   "latest_post": "2026-10-01",
+   "posts_per_day": 0.42,
+   "frequency": "weekly",
+   "median_chars": 47,
+   "style_tags": [
+    "short",
+    "low-data",
+    "question-hooks"
+   ],
+   "tone": [
+    "sardonic",
+    "humorous",
+    "conversational"
+   ]
+  },
+  "robin_j_brooks": {
+   "handle": "robin_j_brooks",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 396036,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 35.4,
+   "frequency": "daily+",
+   "median_chars": 255,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "link-sharing",
+    "rt-heavy"
+   ],
+   "tone": [
+    "measured",
+    "academic",
+    "contrarian"
+   ]
+  },
+  "rtk17025": {
+   "handle": "rtk17025",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 40404,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 2.41,
+   "frequency": "daily",
+   "median_chars": 121,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "sardonic",
+    "punchy"
+   ]
+  },
+  "rwang07": {
+   "handle": "rwang07",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "industry_ai_capex",
+   "verified": false,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 32845,
+   "latest_post": "2026-09-12",
+   "posts_per_day": 1.23,
+   "frequency": "daily",
+   "median_chars": 33,
+   "style_tags": [
+    "short",
+    "low-data",
+    "emoji",
+    "question-hooks",
+    "rt-heavy"
+   ],
+   "tone": [
+    "humorous",
+    "punchy"
+   ]
+  },
+  "ryandetrick": {
+   "handle": "RyanDetrick",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "market_data_charts",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 224935,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 13.33,
+   "frequency": "daily+",
+   "median_chars": 110,
+   "style_tags": [
+    "short",
+    "chart/media-led",
+    "rt-heavy"
+   ],
+   "tone": [
+    "contrarian",
+    "punchy",
+    "educational"
+   ]
+  },
+  "ryanwatkins_": {
+   "handle": "RyanWatkins_",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 88969,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 1.38,
+   "frequency": "daily",
+   "median_chars": 272,
+   "style_tags": [
+    "long-form",
+    "low-data",
+    "threads",
+    "structured/list",
+    "rt-heavy"
+   ],
+   "tone": [
+    "measured",
+    "contrarian",
+    "conversational"
+   ]
+  },
+  "samanthaladuc": {
+   "handle": "SamanthaLaDuc",
+   "lang": "en",
+   "category": "trading_technicals",
+   "persona_cluster": "trading_shortterm",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 73933,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 8.11,
+   "frequency": "daily+",
+   "median_chars": 221,
+   "style_tags": [
+    "mid-length",
+    "data-heavy",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "conversational",
+    "educational"
+   ]
+  },
+  "samro": {
+   "handle": "SamRo",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 76030,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 10.05,
+   "frequency": "daily+",
+   "median_chars": 95,
+   "style_tags": [
+    "short",
+    "question-hooks",
+    "rt-heavy"
+   ],
+   "tone": [
+    "humorous",
+    "measured",
+    "sardonic"
+   ]
+  },
+  "saxena_puru": {
+   "handle": "saxena_puru",
+   "lang": "en",
+   "category": "trading_technicals",
+   "persona_cluster": "market_data_charts",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 403265,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 1.91,
+   "frequency": "daily",
+   "median_chars": 194,
+   "style_tags": [
+    "long-form",
+    "structured/list",
+    "link-sharing"
+   ],
+   "tone": [
+    "measured",
+    "educational",
+    "punchy"
+   ]
+  },
+  "semianalysis_": {
+   "handle": "SemiAnalysis_",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "industry_ai_capex",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 169586,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 4.74,
+   "frequency": "daily+",
+   "median_chars": 245,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "threads",
+    "emoji"
+   ],
+   "tone": [
+    "academic",
+    "measured",
+    "educational"
+   ]
+  },
+  "sethcl": {
+   "handle": "SethCL",
+   "lang": "en",
+   "category": "non_finance",
+   "persona_cluster": "none",
+   "verified": false,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 60693,
+   "latest_post": null,
+   "posts_per_day": null,
+   "frequency": null,
+   "median_chars": null,
+   "style_tags": [],
+   "tone": [
+    "measured"
+   ]
+  },
+  "shufen46250836": {
+   "handle": "shufen46250836",
+   "lang": "zh",
+   "category": "single_stock",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 82324,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 0.9,
+   "frequency": "daily",
+   "median_chars": 377,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "measured",
+    "humorous"
+   ]
+  },
+  "sjosephburns": {
+   "handle": "SJosephBurns",
+   "lang": "en",
+   "category": "trading_technicals",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 1108071,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 22.74,
+   "frequency": "daily+",
+   "median_chars": 113,
+   "style_tags": [
+    "short",
+    "structured/list"
+   ],
+   "tone": [
+    "punchy",
+    "educational",
+    "motivational"
+   ]
+  },
+  "skundojjala": {
+   "handle": "SKundojjala",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "industry_ai_capex",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 22967,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 0.87,
+   "frequency": "daily",
+   "median_chars": 545,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "threads",
+    "structured/list"
+   ],
+   "tone": [
+    "academic",
+    "measured",
+    "educational"
+   ]
+  },
+  "soberlook": {
+   "handle": "SoberLook",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "market_data_charts",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 170724,
+   "latest_post": "2026-09-30",
+   "posts_per_day": 0.8,
+   "frequency": "daily",
+   "median_chars": 192,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "chart/media-led"
+   ],
+   "tone": [
+    "measured",
+    "academic",
+    "educational"
+   ]
+  },
+  "sofigoodboy": {
+   "handle": "Sofigoodboy",
+   "lang": "en",
+   "category": "single_stock",
+   "persona_cluster": "none",
+   "verified": false,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 12450,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 12.58,
+   "frequency": "daily+",
+   "median_chars": 84,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led",
+    "cashtags",
+    "structured/list",
+    "link-sharing",
+    "rt-heavy"
+   ],
+   "tone": [
+    "conversational",
+    "hype"
+   ]
+  },
+  "spotgamma": {
+   "handle": "spotgamma",
+   "lang": "en",
+   "category": "options_flow",
+   "persona_cluster": "trading_shortterm",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 152274,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 2.5,
+   "frequency": "daily",
+   "median_chars": 118,
+   "style_tags": [
+    "short",
+    "low-data",
+    "cashtags"
+   ],
+   "tone": [
+    "measured",
+    "educational",
+    "punchy"
+   ]
+  },
+  "squeezemetrics": {
+   "handle": "SqueezeMetrics",
+   "lang": "en",
+   "category": "options_flow",
+   "persona_cluster": "trading_shortterm",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 92268,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 0.18,
+   "frequency": "weekly",
+   "median_chars": 68,
+   "style_tags": [
+    "short",
+    "low-data",
+    "threads"
+   ],
+   "tone": [
+    "sardonic",
+    "contrarian",
+    "academic"
+   ]
+  },
+  "stockjabber": {
+   "handle": "StockJabber",
+   "lang": "en",
+   "category": "news_aggregator",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 119381,
+   "latest_post": "2026-09-28",
+   "posts_per_day": 0.18,
+   "frequency": "weekly",
+   "median_chars": 260,
+   "style_tags": [
+    "long-form",
+    "low-data",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "conversational"
+   ]
+  },
+  "stockmktnewz": {
+   "handle": "StockMKTNewz",
+   "lang": "en",
+   "category": "news_aggregator",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 1151587,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 18.77,
+   "frequency": "daily+",
+   "median_chars": 102,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "punchy",
+    "hype"
+   ]
+  },
+  "subutrade": {
+   "handle": "SubuTrade",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "market_data_charts",
+   "verified": false,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 52967,
+   "latest_post": "2026-04-16",
+   "posts_per_day": 0.53,
+   "frequency": "weekly",
+   "median_chars": 131,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "educational",
+    "punchy"
+   ]
+  },
+  "surfcapitalfour": {
+   "handle": "surfcapitalfour",
+   "lang": "zh",
+   "category": "investing_general",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 140016,
+   "latest_post": "2026-10-01",
+   "posts_per_day": 1.67,
+   "frequency": "daily",
+   "median_chars": 28,
+   "style_tags": [
+    "short",
+    "low-data"
+   ],
+   "tone": [
+    "conversational",
+    "promotional",
+    "casual"
+   ]
+  },
+  "svscholar": {
+   "handle": "SVScholar",
+   "lang": "zh",
+   "category": "investing_general",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 107062,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 7.67,
+   "frequency": "daily+",
+   "median_chars": 75,
+   "style_tags": [
+    "short",
+    "data-heavy",
+    "question-hooks",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "educational",
+    "measured"
+   ]
+  },
+  "svwang1": {
+   "handle": "Svwang1",
+   "lang": "zh",
+   "category": "investing_general",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 187828,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 1.31,
+   "frequency": "daily",
+   "median_chars": 123,
+   "style_tags": [
+    "long-form",
+    "structured/list"
+   ],
+   "tone": [
+    "reflective",
+    "contrarian",
+    "analytical"
+   ]
+  },
+  "sytaylor": {
+   "handle": "sytaylor",
+   "lang": "en",
+   "category": "sector_industry",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 72644,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 9.14,
+   "frequency": "daily+",
+   "median_chars": 68,
+   "style_tags": [
+    "short",
+    "low-data"
+   ],
+   "tone": [
+    "conversational",
+    "measured",
+    "humorous"
+   ]
+  },
+  "taoray": {
+   "handle": "TaoRay",
+   "lang": "zh",
+   "category": "macro_rates",
+   "persona_cluster": "macro_zh",
+   "verified": false,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 150910,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 13.73,
+   "frequency": "daily+",
+   "median_chars": 187,
+   "style_tags": [
+    "long-form",
+    "chart/media-led",
+    "question-hooks",
+    "rt-heavy"
+   ],
+   "tone": [
+    "contrarian",
+    "conversational",
+    "hype"
+   ]
+  },
+  "tavicosta": {
+   "handle": "TaviCosta",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 324771,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 1.62,
+   "frequency": "daily",
+   "median_chars": 246,
+   "style_tags": [
+    "long-form",
+    "low-data",
+    "chart/media-led",
+    "structured/list",
+    "link-sharing",
+    "rt-heavy"
+   ],
+   "tone": [
+    "measured",
+    "contrarian",
+    "conversational"
+   ]
+  },
+  "thealphathought": {
+   "handle": "TheAlphaThought",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 104676,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 10.33,
+   "frequency": "daily+",
+   "median_chars": 153,
+   "style_tags": [
+    "mid-length",
+    "low-data"
+   ],
+   "tone": [
+    "educational",
+    "punchy",
+    "contrarian"
+   ]
+  },
+  "thebrianjung": {
+   "handle": "thebrianjung",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 113807,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 0.69,
+   "frequency": "weekly",
+   "median_chars": 102,
+   "style_tags": [
+    "short",
+    "low-data"
+   ],
+   "tone": [
+    "hype",
+    "conversational"
+   ]
+  },
+  "thechartreport": {
+   "handle": "TheChartReport",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "market_data_charts",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 40799,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 10.34,
+   "frequency": "daily+",
+   "median_chars": 151,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led"
+   ],
+   "tone": [
+    "measured",
+    "educational"
+   ]
+  },
+  "thedefiedge": {
+   "handle": "thedefiedge",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 299558,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 1.98,
+   "frequency": "daily",
+   "median_chars": 270,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "threads",
+    "structured/list"
+   ],
+   "tone": [
+    "educational",
+    "measured"
+   ]
+  },
+  "thestalwart": {
+   "handle": "TheStalwart",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 450534,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 9.05,
+   "frequency": "daily+",
+   "median_chars": 186,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "chart/media-led",
+    "threads",
+    "rt-heavy"
+   ],
+   "tone": [
+    "conversational",
+    "humorous",
+    "measured"
+   ]
+  },
+  "thetranscript_": {
+   "handle": "TheTranscript_",
+   "lang": "en",
+   "category": "earnings_filings",
+   "persona_cluster": "industry_ai_capex",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 103713,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 8.23,
+   "frequency": "daily+",
+   "median_chars": 231,
+   "style_tags": [
+    "mid-length",
+    "cashtags"
+   ],
+   "tone": [
+    "measured",
+    "educational"
+   ]
+  },
+  "tj_research": {
+   "handle": "TJ_Research",
+   "lang": "zh",
+   "category": "macro_rates",
+   "persona_cluster": "macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 96607,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 8.83,
+   "frequency": "daily+",
+   "median_chars": 60,
+   "style_tags": [
+    "short",
+    "data-heavy",
+    "emoji"
+   ],
+   "tone": [
+    "conversational",
+    "contrarian",
+    "measured"
+   ]
+  },
+  "tmel0211": {
+   "handle": "tmel0211",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 51270,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 2.5,
+   "frequency": "daily",
+   "median_chars": 227,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "academic",
+    "hype"
+   ]
+  },
+  "tradergoku": {
+   "handle": "tradergoku",
+   "lang": "zh",
+   "category": "trading_technicals",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 13190,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 2.4,
+   "frequency": "daily",
+   "median_chars": 32,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led",
+    "cashtags"
+   ],
+   "tone": [
+    "measured",
+    "educational",
+    "conversational"
+   ]
+  },
+  "traders18": {
+   "handle": "TraderS18",
+   "lang": "zh",
+   "category": "macro_rates",
+   "persona_cluster": "macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 67548,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 3.89,
+   "frequency": "daily+",
+   "median_chars": 118,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "measured"
+   ]
+  },
+  "tradexwhisperer": {
+   "handle": "TradexWhisperer",
+   "lang": "en",
+   "category": "single_stock",
+   "persona_cluster": "single_stock_deepdive_en",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": true,
+   "followers": 145215,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 8.95,
+   "frequency": "daily+",
+   "median_chars": 232,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "hype",
+    "punchy"
+   ]
+  },
+  "tseides": {
+   "handle": "tseides",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 39083,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 0.38,
+   "frequency": "weekly",
+   "median_chars": 288,
+   "style_tags": [
+    "long-form",
+    "low-data",
+    "structured/list"
+   ],
+   "tone": [
+    "educational",
+    "measured"
+   ]
+  },
+  "tychozzz": {
+   "handle": "tychozzz",
+   "lang": "zh",
+   "category": "investing_general",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 94043,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 1.4,
+   "frequency": "daily",
+   "median_chars": 304,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "question-hooks",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "educational",
+    "measured"
+   ]
+  },
+  "unclestocknotes": {
+   "handle": "Unclestocknotes",
+   "lang": "zh",
+   "category": "single_stock",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 29761,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 15.19,
+   "frequency": "daily+",
+   "median_chars": 580,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "educational"
+   ]
+  },
+  "unusual_whales": {
+   "handle": "unusual_whales",
+   "lang": "en",
+   "category": "options_flow",
+   "persona_cluster": "market_data_charts",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 5430970,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 10.15,
+   "frequency": "daily+",
+   "median_chars": 143,
+   "style_tags": [
+    "mid-length",
+    "threads"
+   ],
+   "tone": [
+    "punchy",
+    "hype"
+   ]
+  },
+  "urbankaoboy": {
+   "handle": "UrbanKaoboy",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "macro_rates_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 115848,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 1.34,
+   "frequency": "daily",
+   "median_chars": 136,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "threads",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "sardonic",
+    "educational"
+   ]
+  },
+  "valley101_qian": {
+   "handle": "Valley101_Qian",
+   "lang": "zh",
+   "category": "sector_industry",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 21079,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 0.33,
+   "frequency": "weekly",
+   "median_chars": 149,
+   "style_tags": [
+    "long-form",
+    "emoji",
+    "question-hooks",
+    "structured/list"
+   ],
+   "tone": [
+    "journalistic",
+    "educational",
+    "measured"
+   ]
+  },
+  "verdadcap": {
+   "handle": "verdadcap",
+   "lang": "en",
+   "category": "investing_general",
+   "persona_cluster": "investing_philosophy",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 48215,
+   "latest_post": "2026-09-29",
+   "posts_per_day": 0.69,
+   "frequency": "weekly",
+   "median_chars": 22,
+   "style_tags": [
+    "short",
+    "low-data",
+    "threads",
+    "link-sharing",
+    "rt-heavy"
+   ],
+   "tone": [
+    "academic",
+    "measured"
+   ]
+  },
+  "vida_bwe": {
+   "handle": "Vida_BWE",
+   "lang": "zh+en",
+   "category": "non_finance",
+   "persona_cluster": "none",
+   "verified": false,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 77621,
+   "latest_post": null,
+   "posts_per_day": null,
+   "frequency": null,
+   "median_chars": null,
+   "style_tags": [],
+   "tone": [
+    "conversational"
+   ]
+  },
+  "volsignals": {
+   "handle": "VolSignals",
+   "lang": "en",
+   "category": "options_flow",
+   "persona_cluster": "trading_shortterm",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 44200,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 9.0,
+   "frequency": "daily+",
+   "median_chars": 139,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "threads",
+    "structured/list"
+   ],
+   "tone": [
+    "educational",
+    "measured"
+   ]
+  },
+  "warrenpies": {
+   "handle": "WarrenPies",
+   "lang": "en",
+   "category": "macro_rates",
+   "persona_cluster": "industry_ai_capex",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 79272,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 1.67,
+   "frequency": "daily",
+   "median_chars": 207,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "contrarian",
+    "punchy"
+   ]
+  },
+  "williamlab": {
+   "handle": "williamlab",
+   "lang": "zh",
+   "category": "macro_rates",
+   "persona_cluster": "macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 198272,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 6.71,
+   "frequency": "daily+",
+   "median_chars": 18,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led"
+   ],
+   "tone": [
+    "humorous",
+    "sardonic",
+    "punchy"
+   ]
+  },
+  "wublockchain": {
+   "handle": "WuBlockchain",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 558944,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 8.52,
+   "frequency": "daily+",
+   "median_chars": 437,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "threads"
+   ],
+   "tone": [
+    "measured"
+   ]
+  },
+  "wufantouzi": {
+   "handle": "wufantouzi",
+   "lang": "zh",
+   "category": "single_stock",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 135338,
+   "latest_post": "2026-09-30",
+   "posts_per_day": 2.0,
+   "frequency": "daily",
+   "median_chars": 82,
+   "style_tags": [
+    "short",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "contrarian",
+    "humorous"
+   ]
+  },
+  "xiaomustock": {
+   "handle": "xiaomustock",
+   "lang": "zh",
+   "category": "trading_technicals",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 282850,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 1.91,
+   "frequency": "daily",
+   "median_chars": 56,
+   "style_tags": [
+    "short",
+    "chart/media-led"
+   ],
+   "tone": [
+    "sardonic",
+    "conversational",
+    "contrarian"
+   ]
+  },
+  "xingpt": {
+   "handle": "xingpt",
+   "lang": "zh",
+   "category": "macro_rates",
+   "persona_cluster": "macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 57680,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 1.51,
+   "frequency": "daily",
+   "median_chars": 29,
+   "style_tags": [
+    "short",
+    "question-hooks"
+   ],
+   "tone": [
+    "measured",
+    "conversational"
+   ]
+  },
+  "xuemanzi8848": {
+   "handle": "xuemanzi8848",
+   "lang": "zh",
+   "category": "sector_industry",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 170153,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 1.17,
+   "frequency": "daily",
+   "median_chars": 269,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "structured/list"
+   ],
+   "tone": [
+    "academic",
+    "educational"
+   ]
+  },
+  "yijiangren": {
+   "handle": "yijiangren",
+   "lang": "zh",
+   "category": "trading_technicals",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 27249,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 6.51,
+   "frequency": "daily+",
+   "median_chars": 68,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "punchy",
+    "educational"
+   ]
+  },
+  "yuxin_pig": {
+   "handle": "yuxin_pig",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 30423,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 1.32,
+   "frequency": "daily",
+   "median_chars": 28,
+   "style_tags": [
+    "long-form",
+    "chart/media-led",
+    "question-hooks",
+    "structured/list",
+    "rt-heavy"
+   ],
+   "tone": [
+    "reflective",
+    "conversational"
+   ]
+  },
+  "yuyy614893671": {
+   "handle": "yuyy614893671",
+   "lang": "zh",
+   "category": "macro_rates",
+   "persona_cluster": "macro_zh",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 71590,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 8.25,
+   "frequency": "daily+",
+   "median_chars": 83,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "reflective",
+    "educational",
+    "conversational"
+   ]
+  },
+  "zackvoell": {
+   "handle": "zackvoell",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 82320,
+   "latest_post": "2026-08-24",
+   "posts_per_day": 1.71,
+   "frequency": "daily",
+   "median_chars": 114,
+   "style_tags": [
+    "short",
+    "low-data"
+   ],
+   "tone": [
+    "sardonic",
+    "humorous",
+    "contrarian"
+   ]
+  },
+  "zerohedge": {
+   "handle": "zerohedge",
+   "lang": "en",
+   "category": "news_aggregator",
+   "persona_cluster": "none",
+   "verified": true,
+   "donor_fit": "radar",
+   "promo_heavy": false,
+   "followers": 3421679,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 62.6,
+   "frequency": "daily+",
+   "median_chars": 65,
+   "style_tags": [
+    "short",
+    "low-data",
+    "link-sharing"
+   ],
+   "tone": [
+    "sardonic",
+    "punchy"
+   ]
+  },
+  "zrbro": {
+   "handle": "zrbro",
+   "lang": "zh",
+   "category": "non_finance",
+   "persona_cluster": "none",
+   "verified": false,
+   "donor_fit": "exclude",
+   "promo_heavy": false,
+   "followers": 0,
+   "latest_post": null,
+   "posts_per_day": null,
+   "frequency": null,
+   "median_chars": null,
+   "style_tags": [],
+   "tone": [
+    "conversational"
+   ]
+  }
+ }
+}

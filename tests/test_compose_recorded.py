@@ -16,7 +16,8 @@ class RecordedComposeTests(unittest.TestCase):
     def test_recorded_compose_passes_post_checks(self):
         data = json.loads((FIXTURE / 'input.json').read_text())
         client = RecordedClient(load_calls(FIXTURE / 'calls.jsonl'))
-        result = compose.compose_source(data['source'], data['account_id'], client)
+        # Recorded before exemplar retrieval existed: replay the same request.
+        result = compose.compose_source(data['source'], data['account_id'], client, exemplars=False)
         self.assertEqual(client.used, ['extract', 'compose'])
         self.assertEqual(result['post_type'], 'data_take')
         self.assertEqual(result['post_checks'], [])

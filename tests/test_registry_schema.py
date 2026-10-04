@@ -85,7 +85,8 @@ class PersonaSchemaTests(unittest.TestCase):
 
     def test_missing_exemplars_rejected_for_persona_voice_types(self):
         raw = self._raw('zh_macro')
-        raw.pop('exemplar_accounts')
+        raw.pop('exemplar_accounts', None)
+        raw.pop('donor_cluster', None)  # donors now come from live/donors/roster.json
         with self.assertRaises(ValueError):
             registry.validate_persona(raw, registry.load_post_types())
         raw = self._raw('zh_macro')

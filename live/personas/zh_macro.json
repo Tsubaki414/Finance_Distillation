@@ -44,32 +44,12 @@
       "B"
     ]
   },
-  "exemplar_accounts": [
-    {
-      "handle": "phyrexni",
-      "weight": 0.2,
-      "use": [
-        "voice",
-        "habit"
-      ]
-    },
-    {
-      "handle": "qinbafrank",
-      "weight": 0.3,
-      "use": [
-        "voice",
-        "habit"
-      ]
-    },
-    {
-      "handle": "michael_qqq2025",
-      "weight": 0.5,
-      "use": [
-        "voice",
-        "habit"
-      ]
-    }
-  ],
+  "donor_cluster": "macro_zh",
+  "exemplar_retrieval": {
+    "enabled": true,
+    "k": 3,
+    "use": "style only; facts, numbers and phrases never"
+  },
   "banned": [
     "claimed_employer",
     "claimed_positions",
@@ -83,6 +63,32 @@
   "lineage": {
     "migrated_from": "personas/macro.json",
     "generator_version": null,
-    "note": "Exemplars are the legacy donors (language weights); below the >=5 / <=0.35 rule for approval."
+    "note": "exemplar_accounts are loaded from live/donors/roster.json (donor_cluster); legacy donors kept here for reference.",
+    "legacy_exemplar_accounts": [
+      {
+        "handle": "phyrexni",
+        "weight": 0.2,
+        "use": [
+          "voice",
+          "habit"
+        ]
+      },
+      {
+        "handle": "qinbafrank",
+        "weight": 0.3,
+        "use": [
+          "voice",
+          "habit"
+        ]
+      },
+      {
+        "handle": "michael_qqq2025",
+        "weight": 0.5,
+        "use": [
+          "voice",
+          "habit"
+        ]
+      }
+    ]
   }
 }

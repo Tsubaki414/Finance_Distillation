@@ -15,7 +15,7 @@ import json
 from pathlib import Path
 import re
 
-from live import attribution_frame, content_units, prompt_assembly, qa_levels, registry
+from live import attribution_frame, content_units, exemplars as exemplar_store, prompt_assembly, qa_levels, registry
 from live.distillation import ContractError, require
 from live.distillation_source import digest, now
 from live.fidelity import METRICS, metric_name
@@ -214,7 +214,13 @@ def _ask(client, stage, system, payload, max_tokens, calls):
     return value, response
 
 
-def compose_source(source, account_id, client, *, post_type=None):
+EXEMPLAR_RULE = ('style_exemplars are real posts by other accounts, given for voice, rhythm and '
+                 'structure only. Never use their facts, numbers, names, claims, experiences or phrases; '
+                 'every fact and number still comes from the units.')
+
+
+def compose_source(source, account_id, client, *, post_type=None, exemplars=None, exemplar_dir=None):
+    """exemplars: None = the persona's exemplar_retrieval setting; True/False forces it."""
     persona = registry.persona_for_account(account_id)
     if 'aphorism_translation' in persona.post_type_mix:
         raise ValueError('aphorism_translation accounts use the translation chain, not COMPOSE')
@@ -260,6 +266,16 @@ def compose_source(source, account_id, client, *, post_type=None):
                           'speaker': u['speaker'], 'source_spans': [s['exact_text'] for s in u['source_spans']],
                           'numbers': [{k: n[k] for k in ('text', 'metric', 'period', 'span_ref')} for n in u['numbers']]}
                          for u in chosen]}
+    retrieval = persona.raw.get('exemplar_retrieval') or {}
+    use_exemplars = retrieval.get('enabled', False) if exemplars is None else exemplars
+    shown = []
+    if use_exemplars:
+        query = ' '.join(u['statement'] for u in chosen)
+        shown = exemplar_store.retrieve(persona, post_type=post_type, query=query, k=int(retrieval.get('k', 3)),
+                                        posts_dir=exemplar_dir, post_types=post_types)
+        if shown:
+            payload['style_exemplars'] = shown
+            payload['style_exemplar_rule'] = EXEMPLAR_RULE
     value, response = _ask(client, 'compose', COMPOSE, payload, MAX_TOKENS, assembly)
     body = value.get('body')
     require(isinstance(body, str) and body.strip(), 'compose: body required')
@@ -276,6 +292,7 @@ def compose_source(source, account_id, client, *, post_type=None):
                 'compose: claim_ledger span_ref out of range')
     text = (frame['text'] + body) if frame['placement'] == 'lead' else (body + frame['text'])
     findings = post_checks(post_type, body, text, frame, tier, chosen, persona, post_types)
+    findings += qa_levels.classify(exemplar_store.copied_phrases(body, [e['text'] for e in shown]), frame_found=True)
     risks = [{**f, 'status': 'open'} for f in findings if f['level'] == 'hard']
     risks += [{**f, 'status': 'warning'} for f in findings if f['level'] == 'soft']
     if not persona.publishable:
@@ -283,6 +300,7 @@ def compose_source(source, account_id, client, *, post_type=None):
                       'detail': 'Persona voice is a draft pending D2; not publishable'})
     return {**base, 'units': chosen, 'all_units': len(units), 'post_type': post_type,
             'attribution_frame': frame, 'body': body, 'text': text, 'length': length_of(body),
+            'exemplars': [{'handle': e['handle'], 'id': e['id']} for e in shown],
             'claim_ledger': ledger, 'post_checks': findings, 'risks': risks, 'qa': qa_levels.summary(findings),
             'draft_status': qa_levels.draft_status(findings),
             'status': 'held',  # never auto-ready while not publishable

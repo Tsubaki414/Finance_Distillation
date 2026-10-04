@@ -16,3 +16,4 @@ generated_samples/
 .playwright-cli/
 .agents/
 *.sqlite3*
+live/donors/posts/

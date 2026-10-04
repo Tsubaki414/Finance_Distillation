@@ -18,6 +18,7 @@ PERSONAS = ROOT / 'personas'
 LICENCE = ROOT / 'source_licence.json'
 OWNED = ROOT / 'owned_accounts.json'
 UNIVERSES = ROOT / 'account_source_universes.json'
+DONOR_ROSTER = ROOT / 'donors' / 'roster.json'
 
 LICENCE_TIERS = ('A', 'B', 'C', 'D')
 WRITABLE_TIERS = ('A', 'B')  # C is topic-lead only, D is never used
@@ -28,8 +29,12 @@ REQUIRED_BANNED = frozenset({'claimed_positions', 'claimed_returns', 'source_aut
 MIN_EXEMPLARS, MAX_EXEMPLAR_WEIGHT = 5, 0.35
 
 
+class RegistryError(ValueError):
+    pass
+
+
 def _fail(message):
-    raise ValueError(message)
+    raise RegistryError(message)
 
 
 def validate_post_types(table):
@@ -88,6 +93,10 @@ class PersonaSpec:
     raw: dict = field(repr=False, compare=False)
 
     @property
+    def donor_weights(self):
+        return {e['handle']: e['weight'] for e in self.raw.get('exemplar_accounts') or []}
+
+    @property
     def publishable(self):
         return self.status in ('approved', 'active') and not self.voice.get('draft')
 
@@ -126,6 +135,36 @@ def validate_persona(raw, post_types):
     return raw
 
 
+def load_donor_roster(path=None):
+    return json.loads(Path(path or DONOR_ROSTER).read_text())
+
+
+def resolve_donors(raw, roster=None):
+    """A persona naming donor_cluster gets exemplar_accounts from the donor roster.
+
+    The cluster must exist, match the persona language, and every donor must be
+    a verified voice donor of that language; weights come from the roster.
+    """
+    cluster_name = raw.get('donor_cluster')
+    if not cluster_name:
+        return raw
+    roster = roster or load_donor_roster()
+    cluster = roster['persona_clusters'].get(cluster_name)
+    if cluster is None:
+        _fail(f'persona {raw.get("persona_id")}: unknown donor_cluster {cluster_name}')
+    if cluster['lang'] != raw.get('lang'):
+        _fail(f'persona {raw.get("persona_id")}: donor_cluster {cluster_name} is {cluster["lang"]}, persona is {raw.get("lang")}')
+    accounts = []
+    for d in cluster['donors']:
+        info = roster['donors'].get(d['handle'].lower()) or {}
+        if not info.get('verified') or info.get('donor_fit') != 'voice' or info.get('lang') != raw.get('lang'):
+            _fail(f'donor {d["handle"]} in {cluster_name} is not a verified {raw.get("lang")} voice donor')
+        accounts.append({'handle': d['handle'], 'weight': d['weight'], 'use': ['voice'], 'from': 'donor_roster'})
+    if len(accounts) < MIN_EXEMPLARS or any(a['weight'] > MAX_EXEMPLAR_WEIGHT for a in accounts):
+        _fail(f'donor_cluster {cluster_name} needs >= {MIN_EXEMPLARS} donors, each weight <= {MAX_EXEMPLAR_WEIGHT}')
+    return {**raw, 'exemplar_accounts': accounts}
+
+
 def _spec(raw):
     return PersonaSpec(raw['persona_id'], raw['version'], raw['status'], raw['account_id'], raw['lang'],
                        dict(raw['voice']), dict(raw['post_type_mix']), tuple(raw['banned']),
@@ -137,7 +176,7 @@ def load_personas(directory=PERSONAS, post_types=None):
     post_types = post_types or load_post_types()
     out = {}
     for path in sorted(Path(directory).glob('*.json')):
-        raw = validate_persona(json.loads(path.read_text()), post_types)
+        raw = validate_persona(resolve_donors(json.loads(path.read_text())), post_types)
         if raw['persona_id'] in out:
             _fail(f'duplicate persona {raw["persona_id"]}')
         out[raw['persona_id']] = _spec(raw)
