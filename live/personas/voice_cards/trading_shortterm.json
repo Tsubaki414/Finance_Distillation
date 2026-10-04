@@ -1,0 +1,357 @@
+{
+  "version": 1,
+  "cluster": "trading_shortterm",
+  "lang": "en",
+  "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
+  "sample": {
+    "posts": 1114,
+    "donors": {
+      "SPXVIX": 0.145,
+      "Ksidiii": 0.125,
+      "TimTheMM": 0.12,
+      "spotgamma": 0.115,
+      "markminervini": 0.11,
+      "SqueezeMetrics": 0.104,
+      "VolSignals": 0.076,
+      "MarkNewtonCMT": 0.072,
+      "PeterLBrandt": 0.07,
+      "alphatrends": 0.063
+    }
+  },
+  "method": "Roster weights normalized over available eligible donors; equal mass per donor post; sentence mass equal within post. UTC cadence over observed scrape interval. Signature lift is weighted cluster document frequency divided by unweighted eligible all-donor document frequency (3-word EN / 4-character ZH n-grams, present in at least 2 cluster posts).",
+  "cadence": {
+    "posts_per_day_median": 1,
+    "active_hours_utc": {
+      "0": 0.022354,
+      "1": 0.046635,
+      "2": 0.042945,
+      "3": 0.01663,
+      "4": 0.008323,
+      "6": 0.007407,
+      "7": 0.001526,
+      "8": 0.003723,
+      "9": 0.00549,
+      "10": 0.012475,
+      "11": 0.039653,
+      "12": 0.067524,
+      "13": 0.088121,
+      "14": 0.074248,
+      "15": 0.081025,
+      "16": 0.057522,
+      "17": 0.047883,
+      "18": 0.062427,
+      "19": 0.068735,
+      "20": 0.074215,
+      "21": 0.070089,
+      "22": 0.03111,
+      "23": 0.069939
+    }
+  },
+  "hooks": {
+    "question": {
+      "share": 0.069412147,
+      "first_lines": [
+        {
+          "handle": "SPXVIX",
+          "id": "2102096997960368606",
+          "text": "This clearly didn't work today... What a move in $SPX! 110+ points! and $VIX is up on top of that! what could go wrong?"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2102109261929091360",
+          "text": "New ATH soon? 👀 $SPX"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2102193481305280728",
+          "text": "Ending the day strong with a 5 x 5 Norwegian interval run. Did you go to the gym today? Share your workout routine in the comments! https://t.co/qHo6f9g7jq"
+        }
+      ]
+    },
+    "number-led": {
+      "share": 0.012948262,
+      "first_lines": [
+        {
+          "handle": "SPXVIX",
+          "id": "2103075401027158240",
+          "text": "99% of “traders” on X just state the obvious. $SPX is up. Futures are red... Less than 1% post something you can actually trade."
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2104212700012359829",
+          "text": "100% this! Always know your adjustment and exit triggers AT ORDER ENTRY. No emotions, no fear, no fomo…"
+        },
+        {
+          "handle": "Ksidiii",
+          "id": "2045233065501307276",
+          "text": "2018: Great year for vol trading"
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.902888412,
+      "first_lines": [
+        {
+          "handle": "SPXVIX",
+          "id": "2102367748236120554",
+          "text": "Pre-Market Setup - Sep 22, 2026"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2102391634956587253",
+          "text": "Ringing the cash register on this one. Thanks $TSLA for the quick $500😎 @TslaGroupie https://t.co/l9nnUwnOul"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2102392713245016369",
+          "text": "$SPX Expected Move  Sep 22, 2026"
+        }
+      ]
+    },
+    "breaking": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "emoji-led": {
+      "share": 0.003009367,
+      "first_lines": [
+        {
+          "handle": "Ksidiii",
+          "id": "2096990297779544235",
+          "text": "👇👇👇 https://t.co/9wdRspqCIc"
+        },
+        {
+          "handle": "markminervini",
+          "id": "2091415385199313177",
+          "text": "😇🥰"
+        },
+        {
+          "handle": "SqueezeMetrics",
+          "id": "1975379072491598117",
+          "text": "⚆ _ ⚆ https://t.co/akItbH8o9D"
+        }
+      ]
+    },
+    "quote": {
+      "share": 0.011741812,
+      "first_lines": [
+        {
+          "handle": "Ksidiii",
+          "id": "2055070216636314027",
+          "text": "“That dude makes money for his investors and cares a lot about what he does” https://t.co/Gxw33GtdtR"
+        },
+        {
+          "handle": "TimTheMM",
+          "id": "2092072014215368797",
+          "text": "\"i can't find a job!!\""
+        },
+        {
+          "handle": "TimTheMM",
+          "id": "2103484380173791740",
+          "text": "\"bro come over this weekend, we're mounting the AI-powered machine gun Bullfrog to the land cruiser\""
+        }
+      ]
+    }
+  },
+  "sentence_length": {
+    "unit": "words",
+    "median": 10,
+    "p25": 5,
+    "p75": 18
+  },
+  "signature_phrasing": [
+    {
+      "phrase": "a thread of",
+      "cluster_share": 0.003529,
+      "lift": 47.5447,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "bro it s",
+      "cluster_share": 0.003529,
+      "lift": 47.5447,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "say something without",
+      "cluster_share": 0.003529,
+      "lift": 47.5447,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "seconds after i",
+      "cluster_share": 0.003529,
+      "lift": 47.5447,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "something without everyone",
+      "cluster_share": 0.003529,
+      "lift": 47.5447,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "without everyone getting",
+      "cluster_share": 0.003529,
+      "lift": 47.5447,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "this day when",
+      "cluster_share": 0.003512,
+      "lift": 47.306,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "a forecast a",
+      "cluster_share": 0.031446,
+      "lift": 47.0673,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "vol is priced",
+      "cluster_share": 0.019217,
+      "lift": 47.0673,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "vol of vol",
+      "cluster_share": 0.01747,
+      "lift": 47.0673,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "a full read",
+      "cluster_share": 0.015723,
+      "lift": 47.0673,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "a pre market",
+      "cluster_share": 0.015723,
+      "lift": 47.0673,
+      "do_not_copy": true
+    }
+  ],
+  "emoji_rate": 0.075385,
+  "thread_rate": 0.137893,
+  "media_rate": 0.46444,
+  "data_opinion": {
+    "data_share": 0.674911601,
+    "opinion_share": 0.325088399,
+    "data_to_opinion": 2.07608639,
+    "definition": "Data: numeric tags or data_take/earnings_take; opinion: remaining posts (proxy, not semantic verdict)."
+  },
+  "post_type_mix": {
+    "data_take": 0.298062,
+    "earnings_take": 0.011172,
+    "hot_take": 0.459134,
+    "mechanism_explainer": 0.11422,
+    "unknown": 0.00134,
+    "view_relay": 0.116071
+  },
+  "do": [
+    {
+      "rule": "Lead with a clear judgment; use data to support it.",
+      "evidence": [
+        {
+          "handle": "SPXVIX",
+          "id": "2102096997960368606",
+          "text": "This clearly didn't work today... What a move in $SPX! 110+ points! and $VIX is up on top of that! what could go wrong?"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2102109261929091360",
+          "text": "New ATH soon? 👀 $SPX"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2102193481305280728",
+          "text": "Ending the day strong with a 5 x 5 Norwegian interval run. Did you go to the gym today? Share your workout routine in the comments! https://"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2102367748236120554",
+          "text": "Pre-Market Setup - Sep 22, 2026\nBefore the bell: the overnight tape, the vol regime you're walking into, and today's catalysts.\n\n━━━━━━━━━━━"
+        }
+      ]
+    },
+    {
+      "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+      "evidence": [
+        {
+          "handle": "SPXVIX",
+          "id": "2102096997960368606",
+          "text": "This clearly didn't work today... What a move in $SPX! 110+ points! and $VIX is up on top of that! what could go wrong?"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2102109261929091360",
+          "text": "New ATH soon? 👀 $SPX"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2102193481305280728",
+          "text": "Ending the day strong with a 5 x 5 Norwegian interval run. Did you go to the gym today? Share your workout routine in the comments! https://"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2102367748236120554",
+          "text": "Pre-Market Setup - Sep 22, 2026\nBefore the bell: the overnight tape, the vol regime you're walking into, and today's catalysts.\n\n━━━━━━━━━━━"
+        }
+      ]
+    }
+  ],
+  "dont": [
+    {
+      "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+      "evidence": [
+        {
+          "handle": "SPXVIX",
+          "id": "2102096997960368606",
+          "text": "This clearly didn't work today... What a move in $SPX! 110+ points! and $VIX is up on top of that! what could go wrong?"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2102109261929091360",
+          "text": "New ATH soon? 👀 $SPX"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2102193481305280728",
+          "text": "Ending the day strong with a 5 x 5 Norwegian interval run. Did you go to the gym today? Share your workout routine in the comments! https://"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2102367748236120554",
+          "text": "Pre-Market Setup - Sep 22, 2026\nBefore the bell: the overnight tape, the vol regime you're walking into, and today's catalysts.\n\n━━━━━━━━━━━"
+        }
+      ]
+    },
+    {
+      "rule": "Do not convert observed confidence into an unsupported trade call.",
+      "evidence": [
+        {
+          "handle": "SPXVIX",
+          "id": "2102096997960368606",
+          "text": "This clearly didn't work today... What a move in $SPX! 110+ points! and $VIX is up on top of that! what could go wrong?"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2102109261929091360",
+          "text": "New ATH soon? 👀 $SPX"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2102193481305280728",
+          "text": "Ending the day strong with a 5 x 5 Norwegian interval run. Did you go to the gym today? Share your workout routine in the comments! https://"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2102367748236120554",
+          "text": "Pre-Market Setup - Sep 22, 2026\nBefore the bell: the overnight tape, the vol regime you're walking into, and today's catalysts.\n\n━━━━━━━━━━━"
+        }
+      ]
+    }
+  ]
+}

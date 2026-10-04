@@ -1,5 +1,5 @@
 {
-  "note": "Five logical accounts. Route to account, then its language. Source voice is primary; personas guide audience fit, not a writing template.",
+  "note": "Eleven logical accounts: ten cluster personas plus the separate Morris source-voice archive. New cluster accounts are disabled; no platform bindings.",
   "publishing": "Human review only. No real platform accounts have been created or bound; no automatic publishing.",
   "daily_target": {
     "min": 1,
@@ -370,6 +370,156 @@
         ],
         "historical_content_allowed": true
       }
+    },
+    {
+      "id": "crypto_macro_zh",
+      "name": "crypto_macro_zh",
+      "lang": "zh",
+      "persona_id": "crypto_macro_zh",
+      "persona_description": "Chinese-language crypto with a macro angle: bitcoin, stablecoins, regulation",
+      "beats": [
+        "Chinese-language crypto with a macro angle: bitcoin, stablecoins, regulation"
+      ],
+      "enabled": false,
+      "publishing_enabled": false,
+      "platform": "unbound",
+      "handle": null,
+      "binding_status": "logical_account_only",
+      "domain": "finance",
+      "fidelity_policy": "finance",
+      "formats": [
+        "post",
+        "long_post"
+      ],
+      "lanes": [
+        "deep_research"
+      ],
+      "selection_scope": "Chinese-language crypto with a macro angle: bitcoin, stablecoins, regulation"
+    },
+    {
+      "id": "trading_shortterm",
+      "name": "trading_shortterm",
+      "lang": "en",
+      "persona_id": "trading_shortterm",
+      "persona_description": "English short-term market structure: options positioning, dealer hedging, flows, technicals",
+      "beats": [
+        "English short-term market structure: options positioning, dealer hedging, flows, technicals"
+      ],
+      "enabled": false,
+      "publishing_enabled": false,
+      "platform": "unbound",
+      "handle": null,
+      "binding_status": "logical_account_only",
+      "domain": "finance",
+      "fidelity_policy": "finance",
+      "formats": [
+        "post",
+        "long_post"
+      ],
+      "lanes": [
+        "deep_research"
+      ],
+      "selection_scope": "English short-term market structure: options positioning, dealer hedging, flows, technicals"
+    },
+    {
+      "id": "market_data_charts",
+      "name": "market_data_charts",
+      "lang": "en",
+      "persona_id": "market_data_charts",
+      "persona_description": "English market data: breadth, sentiment, flows, historical comparisons",
+      "beats": [
+        "English market data: breadth, sentiment, flows, historical comparisons"
+      ],
+      "enabled": false,
+      "publishing_enabled": false,
+      "platform": "unbound",
+      "handle": null,
+      "binding_status": "logical_account_only",
+      "domain": "finance",
+      "fidelity_policy": "finance",
+      "formats": [
+        "post",
+        "long_post"
+      ],
+      "lanes": [
+        "deep_research"
+      ],
+      "selection_scope": "English market data: breadth, sentiment, flows, historical comparisons"
+    },
+    {
+      "id": "investing_philosophy",
+      "name": "investing_philosophy",
+      "lang": "en",
+      "persona_id": "investing_philosophy",
+      "persona_description": "English investing philosophy: risk, behaviour, long-term principles",
+      "beats": [
+        "English investing philosophy: risk, behaviour, long-term principles"
+      ],
+      "enabled": false,
+      "publishing_enabled": false,
+      "platform": "unbound",
+      "handle": null,
+      "binding_status": "logical_account_only",
+      "domain": "finance",
+      "fidelity_policy": "finance",
+      "formats": [
+        "post",
+        "long_post"
+      ],
+      "lanes": [
+        "deep_research"
+      ],
+      "selection_scope": "English investing philosophy: risk, behaviour, long-term principles"
+    },
+    {
+      "id": "single_stock_deepdive_en",
+      "name": "single_stock_deepdive_en",
+      "lang": "en",
+      "persona_id": "single_stock_deepdive_en",
+      "persona_description": "English single-company earnings and filings first takes",
+      "beats": [
+        "English single-company earnings and filings first takes"
+      ],
+      "enabled": false,
+      "publishing_enabled": false,
+      "platform": "unbound",
+      "handle": null,
+      "binding_status": "logical_account_only",
+      "domain": "finance",
+      "fidelity_policy": "finance",
+      "formats": [
+        "post",
+        "long_post"
+      ],
+      "lanes": [
+        "deep_research"
+      ],
+      "selection_scope": "English single-company earnings and filings first takes"
+    },
+    {
+      "id": "crypto_macro_en",
+      "name": "crypto_macro_en",
+      "lang": "en",
+      "persona_id": "crypto_macro_en",
+      "persona_description": "English crypto with a macro angle: bitcoin, stablecoins, regulation, on-chain data",
+      "beats": [
+        "English crypto with a macro angle: bitcoin, stablecoins, regulation, on-chain data"
+      ],
+      "enabled": false,
+      "publishing_enabled": false,
+      "platform": "unbound",
+      "handle": null,
+      "binding_status": "logical_account_only",
+      "domain": "finance",
+      "fidelity_policy": "finance",
+      "formats": [
+        "post",
+        "long_post"
+      ],
+      "lanes": [
+        "deep_research"
+      ],
+      "selection_scope": "English crypto with a macro angle: bitcoin, stablecoins, regulation, on-chain data"
     }
   ],
   "unassigned_personas": [

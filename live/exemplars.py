@@ -33,14 +33,8 @@ def _tokens(text):
 
 
 def load_posts(handle, posts_dir=None):
-    path = Path(posts_dir or POSTS_DIR) / f'{handle.lower()}.jsonl'
-    if not path.exists():
-        return []
-    out = []
-    for line in path.read_text().split('\n'):  # not splitlines(): posts contain U+2028
-        if line.strip():
-            out.append(json.loads(line))
-    return out
+    from live.voice_cards import load_posts as read_posts
+    return read_posts(handle, posts_dir or POSTS_DIR)
 
 
 def _usable(post, lang, window):
@@ -67,24 +61,34 @@ def window_for(post_type, post_types=None):
     return int(spec['min'] * 0.5), int(spec['max'] * 1.5)
 
 
-def retrieve(persona, *, post_type=None, query='', k=3, posts_dir=None, post_types=None):
+def retrieve(persona, *, post_type=None, query='', k=3, posts_dir=None, post_types=None, tags_dir=None):
+    from live.voice_cards import load_tags, excluded, promo_heavy
+    from live import registry
     weights = persona.donor_weights
+    donor_info = registry.load_donor_roster()['donors']
+    tags_dir = tags_dir or Path(posts_dir or POSTS_DIR).parent / 'tags'
     window = window_for(post_type, post_types)
     q = _tokens(query)
     best = []
     for handle, weight in weights.items():
-        posts = [p for p in load_posts(handle, posts_dir) if _usable(p, persona.lang, window)]
-        if not posts and window:  # fall back to any length rather than drop the donor
-            posts = [p for p in load_posts(handle, posts_dir) if _usable(p, persona.lang, None)]
+        if promo_heavy(donor_info.get(handle.lower(), {})):
+            continue
+        tags = load_tags(handle, tags_dir)
+        eligible_posts = [p for p in load_posts(handle, posts_dir)
+                          if _usable(p, persona.lang, None) and not excluded(p, tags.get(str(p.get('id')), {}))]
+        matching = [p for p in eligible_posts if post_type and tags.get(str(p.get('id')), {}).get('post_type') == post_type]
+        # Prefer the requested type even when its length needs a graceful fallback.
+        pool = matching or eligible_posts
+        posts = [p for p in pool if _usable(p, persona.lang, window)] or pool
         if not posts:
             continue
         scored = sorted(posts, key=lambda p: (-len(q & _tokens(p['text'])), str(p.get('id'))))
         top = scored[0]
         overlap = len(q & _tokens(top['text']))
-        best.append((-(weight * (1 + overlap)), handle.lower(), {'handle': handle, 'id': str(top.get('id')),
+        best.append((0 if matching else 1, -(weight * (1 + overlap)), handle.lower(), {'handle': handle, 'id': str(top.get('id')),
                                                                 'text': URL.sub('', top['text']).strip()}))
-    best.sort(key=lambda row: row[:2])
-    return [row[2] for row in best[:k]]
+    best.sort(key=lambda row: row[:3])
+    return [row[3] for row in best[:k]]
 
 
 def copied_phrases(body, texts, min_zh=15, min_en_words=8):

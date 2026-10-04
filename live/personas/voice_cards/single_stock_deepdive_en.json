@@ -1,0 +1,369 @@
+{
+  "version": 1,
+  "cluster": "single_stock_deepdive_en",
+  "lang": "en",
+  "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
+  "sample": {
+    "posts": 1395,
+    "donors": {
+      "EconomyApp": 0.131,
+      "JaradCapital": 0.131,
+      "jpinsights": 0.131,
+      "FromValue": 0.106,
+      "DeepSailCapital": 0.101,
+      "leadlagreport": 0.089,
+      "Invesquotes": 0.085,
+      "StockMarketNerd": 0.08,
+      "garyblack00": 0.078,
+      "RJCcapital": 0.069
+    }
+  },
+  "method": "Roster weights normalized over available eligible donors; equal mass per donor post; sentence mass equal within post. UTC cadence over observed scrape interval. Signature lift is weighted cluster document frequency divided by unweighted eligible all-donor document frequency (3-word EN / 4-character ZH n-grams, present in at least 2 cluster posts).",
+  "cadence": {
+    "posts_per_day_median": 2,
+    "active_hours_utc": {
+      "0": 0.02468,
+      "1": 0.009724,
+      "2": 0.010012,
+      "3": 0.008854,
+      "4": 0.00273,
+      "5": 0.007352,
+      "6": 0.008381,
+      "7": 0.010938,
+      "8": 0.026128,
+      "9": 0.045457,
+      "10": 0.028385,
+      "11": 0.039037,
+      "12": 0.048528,
+      "13": 0.076349,
+      "14": 0.120138,
+      "15": 0.089841,
+      "16": 0.062295,
+      "17": 0.04296,
+      "18": 0.061311,
+      "19": 0.072447,
+      "20": 0.117702,
+      "21": 0.03953,
+      "22": 0.024039,
+      "23": 0.023184
+    }
+  },
+  "hooks": {
+    "question": {
+      "share": 0.045606208,
+      "first_lines": [
+        {
+          "handle": "EconomyApp",
+          "id": "2060096940315144583",
+          "text": "Did you miss our coverage of Walmart?"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2082925934919983473",
+          "text": "Did you miss our Microsoft quarter breakdown?"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2082930606028292544",
+          "text": "Did you check our coverage of Google's earnings?"
+        }
+      ]
+    },
+    "number-led": {
+      "share": 0.029227541,
+      "first_lines": [
+        {
+          "handle": "EconomyApp",
+          "id": "2083932468185612378",
+          "text": "100+ companies. One report."
+        },
+        {
+          "handle": "JaradCapital",
+          "id": "2097680493076435360",
+          "text": "2027 is when the Celsius platform starts to compound - $CELH"
+        },
+        {
+          "handle": "FromValue",
+          "id": "2080767213129154607",
+          "text": "2.2M followers for an idiot who can't read a balance sheet..."
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.862281312,
+      "first_lines": [
+        {
+          "handle": "EconomyApp",
+          "id": "2049152412385185834",
+          "text": "$SPOT Spotify Q1 FY26:"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2049152420501234166",
+          "text": "More earnings visualized here 👇"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2049585307734122849",
+          "text": "$GOOG Alphabet Q1 FY26:"
+        }
+      ]
+    },
+    "breaking": {
+      "share": 0.00165816,
+      "first_lines": [
+        {
+          "handle": "JaradCapital",
+          "id": "2098037743800447481",
+          "text": "Breaking Down Revenue Growth Management - $CELH"
+        },
+        {
+          "handle": "RJCcapital",
+          "id": "2087589957460267013",
+          "text": "BREAKING: NEW YORK — Rosenberg, Jacobs & Cohen LLP “RJC”, in connection with the prominent securities class-action firm Morgan & Morgan, announces that it has commenced an investigation on behalf of investors who suffered substantial losses after establishing short positions in Nebius Group N.V. “Nebius” or the “Company” NASDAQ: $NBIS in reliance upon statements published by Michael Burry Substack LLC."
+        }
+      ]
+    },
+    "emoji-led": {
+      "share": 0.057107339,
+      "first_lines": [
+        {
+          "handle": "EconomyApp",
+          "id": "2049586081902031291",
+          "text": "☁️ Google Cloud visualized. $GOOG https://t.co/zpblRn4VMZ"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2049912920012902662",
+          "text": "📊 Make your own charts here 👇"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2050582059564089384",
+          "text": "📊 Check out 37 key earnings of the past week visualized in our latest PRO issue. 👇"
+        }
+      ]
+    },
+    "quote": {
+      "share": 0.004119441,
+      "first_lines": [
+        {
+          "handle": "FromValue",
+          "id": "2078136369239425132",
+          "text": "\"This great book\" and of course no image because of the quote. 🙈 https://t.co/bkBMFYyjbA"
+        },
+        {
+          "handle": "FromValue",
+          "id": "2095897767470137724",
+          "text": "\"If you're going to do anything new or innovative, you have to be willing to be misunderstood."
+        },
+        {
+          "handle": "DeepSailCapital",
+          "id": "2088396476263084182",
+          "text": "“Just buy $NVDA and let Jensen allocate”"
+        }
+      ]
+    }
+  },
+  "sentence_length": {
+    "unit": "words",
+    "median": 9,
+    "p25": 5,
+    "p75": 16
+  },
+  "signature_phrasing": [
+    {
+      "phrase": "highest conviction holdings",
+      "cluster_share": 0.010067,
+      "lift": 38.7459,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "my highest conviction",
+      "cluster_share": 0.010067,
+      "lift": 38.7459,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "of my highest",
+      "cluster_share": 0.010067,
+      "lift": 38.7459,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "more to me",
+      "cluster_share": 0.005752,
+      "lift": 38.7459,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "conviction holdings and",
+      "cluster_share": 0.004314,
+      "lift": 38.7459,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "i like here",
+      "cluster_share": 0.004314,
+      "lift": 38.7459,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "in fy i",
+      "cluster_share": 0.004314,
+      "lift": 38.7459,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "like the direction",
+      "cluster_share": 0.004314,
+      "lift": 38.7459,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "me more confidence",
+      "cluster_share": 0.004314,
+      "lift": 38.7459,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "spend a lot",
+      "cluster_share": 0.004314,
+      "lift": 38.7459,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "the h ramp",
+      "cluster_share": 0.004314,
+      "lift": 38.7459,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "to my crdo",
+      "cluster_share": 0.004314,
+      "lift": 38.7459,
+      "do_not_copy": true
+    }
+  ],
+  "emoji_rate": 0.165186,
+  "thread_rate": 0.17134,
+  "media_rate": 0.372244,
+  "data_opinion": {
+    "data_share": 0.733339443,
+    "opinion_share": 0.266660557,
+    "data_to_opinion": 2.750085924,
+    "definition": "Data: numeric tags or data_take/earnings_take; opinion: remaining posts (proxy, not semantic verdict)."
+  },
+  "post_type_mix": {
+    "data_take": 0.258607,
+    "earnings_take": 0.174491,
+    "hot_take": 0.323948,
+    "mechanism_explainer": 0.080421,
+    "unknown": 0.014773,
+    "view_relay": 0.147761
+  },
+  "do": [
+    {
+      "rule": "Lead with a clear judgment; use data to support it.",
+      "evidence": [
+        {
+          "handle": "EconomyApp",
+          "id": "2049152412385185834",
+          "text": "$SPOT Spotify Q1 FY26:\n\n• MAU +12% to 761M.\n• Premium Subs +9% to 293M.\n• Revenue +8% Y/Y to €4.5B (€10M beat).\n• Operating margin 16% (+4pp"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2049152420501234166",
+          "text": "More earnings visualized here 👇\nhttps://t.co/umrnpym1ff"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2049585307734122849",
+          "text": "$GOOG Alphabet Q1 FY26:\n\n• Revenue +22% Y/Y to $109.9B ($2.9B beat).\n• Operating margin 36% (+2pp Y/Y).\n• $37.7B net gains from equity inves"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2049585310552732017",
+          "text": "Stay tuned for our review of $GOOG Google's earnings delivered to your inbox this afternoon!\n\nJoin 300,000+ subscribers.\n\nDid you read our N"
+        }
+      ]
+    },
+    {
+      "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+      "evidence": [
+        {
+          "handle": "EconomyApp",
+          "id": "2049152412385185834",
+          "text": "$SPOT Spotify Q1 FY26:\n\n• MAU +12% to 761M.\n• Premium Subs +9% to 293M.\n• Revenue +8% Y/Y to €4.5B (€10M beat).\n• Operating margin 16% (+4pp"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2049152420501234166",
+          "text": "More earnings visualized here 👇\nhttps://t.co/umrnpym1ff"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2049585307734122849",
+          "text": "$GOOG Alphabet Q1 FY26:\n\n• Revenue +22% Y/Y to $109.9B ($2.9B beat).\n• Operating margin 36% (+2pp Y/Y).\n• $37.7B net gains from equity inves"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2049585310552732017",
+          "text": "Stay tuned for our review of $GOOG Google's earnings delivered to your inbox this afternoon!\n\nJoin 300,000+ subscribers.\n\nDid you read our N"
+        }
+      ]
+    }
+  ],
+  "dont": [
+    {
+      "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+      "evidence": [
+        {
+          "handle": "EconomyApp",
+          "id": "2049152412385185834",
+          "text": "$SPOT Spotify Q1 FY26:\n\n• MAU +12% to 761M.\n• Premium Subs +9% to 293M.\n• Revenue +8% Y/Y to €4.5B (€10M beat).\n• Operating margin 16% (+4pp"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2049152420501234166",
+          "text": "More earnings visualized here 👇\nhttps://t.co/umrnpym1ff"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2049585307734122849",
+          "text": "$GOOG Alphabet Q1 FY26:\n\n• Revenue +22% Y/Y to $109.9B ($2.9B beat).\n• Operating margin 36% (+2pp Y/Y).\n• $37.7B net gains from equity inves"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2049585310552732017",
+          "text": "Stay tuned for our review of $GOOG Google's earnings delivered to your inbox this afternoon!\n\nJoin 300,000+ subscribers.\n\nDid you read our N"
+        }
+      ]
+    },
+    {
+      "rule": "Do not convert observed confidence into an unsupported trade call.",
+      "evidence": [
+        {
+          "handle": "EconomyApp",
+          "id": "2049152412385185834",
+          "text": "$SPOT Spotify Q1 FY26:\n\n• MAU +12% to 761M.\n• Premium Subs +9% to 293M.\n• Revenue +8% Y/Y to €4.5B (€10M beat).\n• Operating margin 16% (+4pp"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2049152420501234166",
+          "text": "More earnings visualized here 👇\nhttps://t.co/umrnpym1ff"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2049585307734122849",
+          "text": "$GOOG Alphabet Q1 FY26:\n\n• Revenue +22% Y/Y to $109.9B ($2.9B beat).\n• Operating margin 36% (+2pp Y/Y).\n• $37.7B net gains from equity inves"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2049585310552732017",
+          "text": "Stay tuned for our review of $GOOG Google's earnings delivered to your inbox this afternoon!\n\nJoin 300,000+ subscribers.\n\nDid you read our N"
+        }
+      ]
+    }
+  ]
+}

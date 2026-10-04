@@ -278,7 +278,8 @@ EXEMPLAR_RULE = ('style_exemplars are real posts by other accounts, given for vo
                  'every fact and number still comes from the units.')
 
 
-def compose_source(source, account_id, client, *, post_type=None, exemplars=None, exemplar_dir=None, extracted_units=None, stance_output=None):
+def compose_source(source, account_id, client, *, post_type=None, exemplars=None, exemplar_dir=None,
+                   exemplar_tags_dir=None, extracted_units=None, stance_output=None):
     """exemplars: None = the persona's exemplar_retrieval setting; True/False forces it."""
     persona = registry.persona_for_account(account_id)
     if 'aphorism_translation' in persona.post_type_mix:
@@ -344,6 +345,9 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                          for u in chosen]}
     if stance is not None:
         payload['stance'] = stance
+    if persona.voice_card:
+        from live.voice_cards import compact_summary
+        payload['persona']['voice_card'] = compact_summary(persona.voice_card)
     if any(u.get('quote_allowed') is False for u in chosen):
         payload['post_type_rules']['quote_policy'] = (
             'Paraphrase these units. Direct quotes, including translated quotes, are forbidden.')
@@ -353,7 +357,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     if use_exemplars:
         query = ' '.join(u['statement'] for u in chosen)
         shown = exemplar_store.retrieve(persona, post_type=post_type, query=query, k=int(retrieval.get('k', 3)),
-                                        posts_dir=exemplar_dir, post_types=post_types)
+                                        posts_dir=exemplar_dir, post_types=post_types, tags_dir=exemplar_tags_dir)
         if shown:
             payload['style_exemplars'] = shown
             payload['style_exemplar_rule'] = EXEMPLAR_RULE

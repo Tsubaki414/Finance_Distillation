@@ -218,7 +218,8 @@ def extract(source, client, *, licence_tier, publisher=None):
         raise LicenceRefused(f'licence tier {licence_tier!r} does not allow extraction')
     from live import registry
     from live.licence_rules import detect_no_reproduction, apply_no_reproduction
-    restricted = (registry.source_no_reproduction(source.get('source_id'))
+    restricted = (source.get('no_reproduction') is True
+                  or registry.source_no_reproduction(source.get('source_id'))
                   or detect_no_reproduction(source.get('original_text')))
     if restricted and licence_tier == 'A':
         licence_tier = 'B'

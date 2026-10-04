@@ -1,0 +1,360 @@
+{
+  "version": 1,
+  "cluster": "crypto_macro_en",
+  "lang": "en",
+  "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
+  "sample": {
+    "posts": 946,
+    "donors": {
+      "NateGeraci": 0.248,
+      "zackvoell": 0.247,
+      "glassnode": 0.223,
+      "thedefiedge": 0.124,
+      "ki_young_ju": 0.091,
+      "intangiblecoins": 0.047,
+      "RyanWatkins_": 0.02
+    }
+  },
+  "method": "Roster weights normalized over available eligible donors; equal mass per donor post; sentence mass equal within post. UTC cadence over observed scrape interval. Signature lift is weighted cluster document frequency divided by unweighted eligible all-donor document frequency (3-word EN / 4-character ZH n-grams, present in at least 2 cluster posts).",
+  "cadence": {
+    "posts_per_day_median": 1,
+    "active_hours_utc": {
+      "0": 0.067471,
+      "1": 0.090247,
+      "2": 0.058648,
+      "3": 0.017894,
+      "4": 0.025385,
+      "5": 0.019565,
+      "6": 0.008247,
+      "7": 0.011179,
+      "8": 0.019405,
+      "9": 0.038416,
+      "10": 0.035353,
+      "11": 0.055891,
+      "12": 0.051194,
+      "13": 0.051861,
+      "14": 0.070243,
+      "15": 0.067882,
+      "16": 0.050807,
+      "17": 0.049404,
+      "18": 0.036762,
+      "19": 0.031224,
+      "20": 0.037278,
+      "21": 0.028272,
+      "22": 0.02564,
+      "23": 0.05173
+    }
+  },
+  "hooks": {
+    "question": {
+      "share": 0.015169192,
+      "first_lines": [
+        {
+          "handle": "NateGeraci",
+          "id": "2083367139117801785",
+          "text": "Coldcard or ETF?"
+        },
+        {
+          "handle": "NateGeraci",
+          "id": "2101861582099656930",
+          "text": "Most likely reason Clarity Act failed?"
+        },
+        {
+          "handle": "zackvoell",
+          "id": "2080772503920685217",
+          "text": "Remember that one time when the algo was like really good for 24 hours? Dude it was so crazy"
+        }
+      ]
+    },
+    "number-led": {
+      "share": 0.018384628,
+      "first_lines": [
+        {
+          "handle": "NateGeraci",
+          "id": "2087693575710453898",
+          "text": "52% of Gen Z have directed investing funds to sports betting over past yr…"
+        },
+        {
+          "handle": "glassnode",
+          "id": "2080623992742768747",
+          "text": "25-delta skew has fallen sharply at the front end, with 1W dropping near 4%, while 3M–6M remain around 11–12%. Near-term downside hedging is unwinding, but longer-dated options retain a defensive premium."
+        },
+        {
+          "handle": "glassnode",
+          "id": "2090110942789210113",
+          "text": "$500m worth of shorts were just liquidated within minutes."
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.91400884,
+      "first_lines": [
+        {
+          "handle": "NateGeraci",
+          "id": "2074509967701270661",
+          "text": "*Vanguard* hiring Head of Digital Assets..."
+        },
+        {
+          "handle": "NateGeraci",
+          "id": "2074532109230743712",
+          "text": "Launching later this week…"
+        },
+        {
+          "handle": "NateGeraci",
+          "id": "2074848462034657665",
+          "text": "New partnership b/w Kansas Athletics &amp; Ripple…"
+        }
+      ]
+    },
+    "breaking": {
+      "share": 0.000526012,
+      "first_lines": [
+        {
+          "handle": "ki_young_ju",
+          "id": "2003871081292353850",
+          "text": "BREAKING: Jim Cramer is 100% bearish on Bitcoin."
+        }
+      ]
+    },
+    "emoji-led": {
+      "share": 0.014569771,
+      "first_lines": [
+        {
+          "handle": "glassnode",
+          "id": "2079173139548742072",
+          "text": "🔄 Update:"
+        },
+        {
+          "handle": "thedefiedge",
+          "id": "2099328881744613506",
+          "text": "🚨 The Damage Report (Sept 14)"
+        },
+        {
+          "handle": "thedefiedge",
+          "id": "2102034316645515348",
+          "text": "🗡️ The Damage Report (Sept 21) 🚨:"
+        }
+      ]
+    },
+    "quote": {
+      "share": 0.037341558,
+      "first_lines": [
+        {
+          "handle": "NateGeraci",
+          "id": "2085889376479801441",
+          "text": "“Come down and show everyone how your new Coldcard firmware update works” https://t.co/ktsKqRBzE2"
+        },
+        {
+          "handle": "NateGeraci",
+          "id": "2089870288833900813",
+          "text": "“Tokenization isn’t about putting stocks on a blockchain for the sake of it… it’s so that assets can move as freely as information does on the internet”… -@vladtenev"
+        },
+        {
+          "handle": "NateGeraci",
+          "id": "2091692944268857580",
+          "text": "“Bro, relax… we can just bomb interest rates down” https://t.co/6iEKD4NtR0"
+        }
+      ]
+    }
+  },
+  "sentence_length": {
+    "unit": "words",
+    "median": 9,
+    "p25": 6,
+    "p75": 15
+  },
+  "signature_phrasing": [
+    {
+      "phrase": "and now you're",
+      "cluster_share": 0.005429,
+      "lift": 73.1283,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "and your entire",
+      "cluster_share": 0.005429,
+      "lift": 73.1283,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "now you're selling",
+      "cluster_share": 0.005429,
+      "lift": 73.1283,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "what a bear",
+      "cluster_share": 0.005429,
+      "lift": 73.1283,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "or anything else",
+      "cluster_share": 0.004565,
+      "lift": 61.4955,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "the longer you",
+      "cluster_share": 0.004565,
+      "lift": 61.4955,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "while a few",
+      "cluster_share": 0.004565,
+      "lift": 61.4955,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "from the day",
+      "cluster_share": 0.004003,
+      "lift": 53.9285,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "the bitcoin market",
+      "cluster_share": 0.004003,
+      "lift": 53.9285,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "a medium of",
+      "cluster_share": 0.003948,
+      "lift": 53.1851,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "as a medium",
+      "cluster_share": 0.003948,
+      "lift": 53.1851,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "each other every",
+      "cluster_share": 0.003948,
+      "lift": 53.1851,
+      "do_not_copy": true
+    }
+  ],
+  "emoji_rate": 0.097851,
+  "thread_rate": 0.162038,
+  "media_rate": 0.544121,
+  "data_opinion": {
+    "data_share": 0.736696705,
+    "opinion_share": 0.263303295,
+    "data_to_opinion": 2.797901585,
+    "definition": "Data: numeric tags or data_take/earnings_take; opinion: remaining posts (proxy, not semantic verdict)."
+  },
+  "post_type_mix": {
+    "data_take": 0.311883,
+    "hot_take": 0.423278,
+    "mechanism_explainer": 0.076334,
+    "unknown": 0.011104,
+    "view_relay": 0.1774
+  },
+  "do": [
+    {
+      "rule": "Lead with a clear judgment; use data to support it.",
+      "evidence": [
+        {
+          "handle": "NateGeraci",
+          "id": "2074509967701270661",
+          "text": "*Vanguard* hiring Head of Digital Assets...\n\nI remember when they blocked spot btc &amp; eth ETFs on their brokerage platform.\n\nLife moves p"
+        },
+        {
+          "handle": "NateGeraci",
+          "id": "2074532109230743712",
+          "text": "Launching later this week…\n\niShares Nasdaq 100 ETF (IQQ)\n\nLong-term expense ratio = 0.12%\n\nWill be interesting battle for assets b/w Invesco"
+        },
+        {
+          "handle": "NateGeraci",
+          "id": "2074848462034657665",
+          "text": "New partnership b/w Kansas Athletics &amp; Ripple…\n\nXRP will be featured on all KU uniforms, the first time crypto on jersey of major colleg"
+        },
+        {
+          "handle": "NateGeraci",
+          "id": "2075052778540450110",
+          "text": "Told you the future was bright…"
+        }
+      ]
+    },
+    {
+      "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+      "evidence": [
+        {
+          "handle": "NateGeraci",
+          "id": "2074509967701270661",
+          "text": "*Vanguard* hiring Head of Digital Assets...\n\nI remember when they blocked spot btc &amp; eth ETFs on their brokerage platform.\n\nLife moves p"
+        },
+        {
+          "handle": "NateGeraci",
+          "id": "2074532109230743712",
+          "text": "Launching later this week…\n\niShares Nasdaq 100 ETF (IQQ)\n\nLong-term expense ratio = 0.12%\n\nWill be interesting battle for assets b/w Invesco"
+        },
+        {
+          "handle": "NateGeraci",
+          "id": "2074848462034657665",
+          "text": "New partnership b/w Kansas Athletics &amp; Ripple…\n\nXRP will be featured on all KU uniforms, the first time crypto on jersey of major colleg"
+        },
+        {
+          "handle": "NateGeraci",
+          "id": "2075052778540450110",
+          "text": "Told you the future was bright…"
+        }
+      ]
+    }
+  ],
+  "dont": [
+    {
+      "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+      "evidence": [
+        {
+          "handle": "NateGeraci",
+          "id": "2074509967701270661",
+          "text": "*Vanguard* hiring Head of Digital Assets...\n\nI remember when they blocked spot btc &amp; eth ETFs on their brokerage platform.\n\nLife moves p"
+        },
+        {
+          "handle": "NateGeraci",
+          "id": "2074532109230743712",
+          "text": "Launching later this week…\n\niShares Nasdaq 100 ETF (IQQ)\n\nLong-term expense ratio = 0.12%\n\nWill be interesting battle for assets b/w Invesco"
+        },
+        {
+          "handle": "NateGeraci",
+          "id": "2074848462034657665",
+          "text": "New partnership b/w Kansas Athletics &amp; Ripple…\n\nXRP will be featured on all KU uniforms, the first time crypto on jersey of major colleg"
+        },
+        {
+          "handle": "NateGeraci",
+          "id": "2075052778540450110",
+          "text": "Told you the future was bright…"
+        }
+      ]
+    },
+    {
+      "rule": "Do not convert observed confidence into an unsupported trade call.",
+      "evidence": [
+        {
+          "handle": "NateGeraci",
+          "id": "2074509967701270661",
+          "text": "*Vanguard* hiring Head of Digital Assets...\n\nI remember when they blocked spot btc &amp; eth ETFs on their brokerage platform.\n\nLife moves p"
+        },
+        {
+          "handle": "NateGeraci",
+          "id": "2074532109230743712",
+          "text": "Launching later this week…\n\niShares Nasdaq 100 ETF (IQQ)\n\nLong-term expense ratio = 0.12%\n\nWill be interesting battle for assets b/w Invesco"
+        },
+        {
+          "handle": "NateGeraci",
+          "id": "2074848462034657665",
+          "text": "New partnership b/w Kansas Athletics &amp; Ripple…\n\nXRP will be featured on all KU uniforms, the first time crypto on jersey of major colleg"
+        },
+        {
+          "handle": "NateGeraci",
+          "id": "2075052778540450110",
+          "text": "Told you the future was bright…"
+        }
+      ]
+    }
+  ]
+}

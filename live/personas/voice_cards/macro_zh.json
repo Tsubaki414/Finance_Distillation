@@ -1,0 +1,358 @@
+{
+  "version": 1,
+  "cluster": "macro_zh",
+  "lang": "zh",
+  "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
+  "sample": {
+    "posts": 1886,
+    "donors": {
+      "Btcxiaoyuan": 0.124,
+      "ChinaMacroFacts": 0.124,
+      "fannaoxiaoyang": 0.124,
+      "PhyrexNi": 0.118,
+      "qinbafrank": 0.118,
+      "TraderS18": 0.118,
+      "techeconomyana": 0.073,
+      "williamlab": 0.073,
+      "MacroMargin": 0.069,
+      "TJ_Research": 0.059
+    }
+  },
+  "method": "Roster weights normalized over available eligible donors; equal mass per donor post; sentence mass equal within post. UTC cadence over observed scrape interval. Signature lift is weighted cluster document frequency divided by unweighted eligible all-donor document frequency (3-word EN / 4-character ZH n-grams, present in at least 2 cluster posts).",
+  "cadence": {
+    "posts_per_day_median": 2,
+    "active_hours_utc": {
+      "0": 0.040628,
+      "1": 0.046618,
+      "2": 0.069382,
+      "3": 0.065971,
+      "4": 0.040844,
+      "5": 0.057167,
+      "6": 0.056803,
+      "7": 0.055009,
+      "8": 0.063432,
+      "9": 0.03537,
+      "10": 0.03303,
+      "11": 0.023931,
+      "12": 0.066684,
+      "13": 0.068906,
+      "14": 0.070492,
+      "15": 0.049613,
+      "16": 0.038233,
+      "17": 0.024641,
+      "18": 0.020531,
+      "19": 0.011782,
+      "20": 0.019176,
+      "21": 0.013471,
+      "22": 0.013688,
+      "23": 0.014599
+    }
+  },
+  "hooks": {
+    "question": {
+      "share": 0.06862425,
+      "first_lines": [
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1982743568423833694",
+          "text": "她突然凑近问我:“你平时玩什么meme啊?”"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "2008837148372529600",
+          "text": "牛市这就结束了吗？"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "2035965450409120016",
+          "text": "谁经历过当年“原油宝事件”？"
+        }
+      ]
+    },
+    "number-led": {
+      "share": 0.060422171,
+      "first_lines": [
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1985891974868844571",
+          "text": "10月16日的预言"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "2033836424143974760",
+          "text": "2022年3月这个时候"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "2044077007315841382",
+          "text": "4月初到4月14日，$RAVE 从约0.2美元一路爆拉至最高16.78美元，累计涨幅超过50倍，市值一度飙升至约28亿美元，跻身加密货币市值前50名。"
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.856364038,
+      "first_lines": [
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1978450118907990228",
+          "text": "从本月15日开始一直到24日，只要在其他所有VIP的，都可以提供等级截图来Bitget享受连升3级的VIP特权，活动时间有限，速来参与！"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1978820097998225789",
+          "text": "大的真要来了"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1979138083896594599",
+          "text": "Gate合约积分空投第一期活动开始，老朋友 DOGE 成了主角，对合约党来说挺划算的。"
+        }
+      ]
+    },
+    "breaking": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "emoji-led": {
+      "share": 0.004580958,
+      "first_lines": [
+        {
+          "handle": "PhyrexNi",
+          "id": "2104137938921525398",
+          "text": "🤡我说了很多小伙伴都不信，最好的保持精力的方式就是轻断食，让自己保持的适度的饥饿状态，但不是那种饥肠辘辘，尤其是我最近的体检指标远远的高于同龄者。"
+        },
+        {
+          "handle": "PhyrexNi",
+          "id": "2105355578675757349",
+          "text": "😂十年期美债收益率超过了 5.3% https://t.co/iFZCrjnktV"
+        },
+        {
+          "handle": "PhyrexNi",
+          "id": "2105706810812596517",
+          "text": "🤡之前因为信用卡被盗，我被迫将 200 美元的 ChatGPT 订阅改成了 100 美元，然后几乎每天都会用一次十月份的重置功能，一共用了五次，到了今天又没了。"
+        }
+      ]
+    },
+    "quote": {
+      "share": 0.010008583,
+      "first_lines": [
+        {
+          "handle": "ChinaMacroFacts",
+          "id": "2087487773926359269",
+          "text": "“建立国有企业下岗职工基本生活保障、失业保险、城镇居民最低生活保障制度，下大力气解决拖欠职工工资、下岗职工再就业等问题。”"
+        },
+        {
+          "handle": "qinbafrank",
+          "id": "2097514158204084329",
+          "text": "“我现在是庄家，所以当我们干预日元的时候，我对日本人、日本央行、日本决策层要做什么了如指掌，你们要想跟我对赌就尽管来。这是贝森特昨晚在访谈中直接说的，当一位曾经参与成功狙击过英镑和泰铢、在外汇市场有着丰富经验的基金经理成为了美国财政部长，他确实有着极强的“不对称信息”，看起来贝森特是铁了心要把美日汇率给干下去。"
+        },
+        {
+          "handle": "qinbafrank",
+          "id": "2099878474584559775",
+          "text": "“最好的夏天”和“秋意渐凉”的含金量，之后怎么看？"
+        }
+      ]
+    }
+  },
+  "sentence_length": {
+    "unit": "chars",
+    "median": 32,
+    "p25": 20,
+    "p75": 49
+  },
+  "signature_phrasing": [
+    {
+      "phrase": "央行信誉",
+      "cluster_share": 0.005511,
+      "lift": 37.1201,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "利率风险",
+      "cluster_share": 0.004133,
+      "lift": 37.1201,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "反弹测试",
+      "cluster_share": 0.004133,
+      "lift": 37.1201,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "一次次证",
+      "cluster_share": 0.002756,
+      "lift": 37.1201,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "主导的底",
+      "cluster_share": 0.002756,
+      "lift": 37.1201,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "从未改变",
+      "cluster_share": 0.002756,
+      "lift": 37.1201,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "关键能矿",
+      "cluster_share": 0.002756,
+      "lift": 37.1201,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "到五五开",
+      "cluster_share": 0.002756,
+      "lift": 37.1201,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "动平台期",
+      "cluster_share": 0.002756,
+      "lift": 37.1201,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "化财政主",
+      "cluster_share": 0.002756,
+      "lift": 37.1201,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "即使加息",
+      "cluster_share": 0.002756,
+      "lift": 37.1201,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "后一块拼",
+      "cluster_share": 0.002756,
+      "lift": 37.1201,
+      "do_not_copy": true
+    }
+  ],
+  "emoji_rate": 0.056914,
+  "thread_rate": 0.067844,
+  "media_rate": 0.41918,
+  "data_opinion": {
+    "data_share": 0.761147129,
+    "opinion_share": 0.238852871,
+    "data_to_opinion": 3.186677741,
+    "definition": "Data: numeric tags or data_take/earnings_take; opinion: remaining posts (proxy, not semantic verdict)."
+  },
+  "post_type_mix": {
+    "data_take": 0.245759,
+    "earnings_take": 0.010215,
+    "hot_take": 0.351166,
+    "mechanism_explainer": 0.256661,
+    "unknown": 0.000645,
+    "view_relay": 0.135554
+  },
+  "do": [
+    {
+      "rule": "Lead with a clear judgment; use data to support it.",
+      "evidence": [
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1978450118907990228",
+          "text": "从本月15日开始一直到24日，只要在其他所有VIP的，都可以提供等级截图来Bitget享受连升3级的VIP特权，活动时间有限，速来参与！\n#BGB  #Bitget VIP➕3"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1978820097998225789",
+          "text": "大的真要来了\n准备全面做空\n下半年全面看跌\n大饼看到88000\n以太看到2900\n拭目以待兄弟们\n#BTC #ETH"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1979138083896594599",
+          "text": "Gate合约积分空投第一期活动开始，老朋友 DOGE 成了主角，对合约党来说挺划算的。\n\n玩法很直接：只要 10 个合约积分 就能兑换 152 DOGE，积分平时攒着用处不大，这次直接变现，直接领取。\n门槛也不高，但有两点要注意：\n\n积分数量：账户至少要有 12 积分才能参与，少"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1980198081116450837",
+          "text": "再熊的熊市都会有反弹\n再牛的牛市都会有下跌\n#BTC  #ETH"
+        }
+      ]
+    },
+    {
+      "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+      "evidence": [
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1978450118907990228",
+          "text": "从本月15日开始一直到24日，只要在其他所有VIP的，都可以提供等级截图来Bitget享受连升3级的VIP特权，活动时间有限，速来参与！\n#BGB  #Bitget VIP➕3"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1978820097998225789",
+          "text": "大的真要来了\n准备全面做空\n下半年全面看跌\n大饼看到88000\n以太看到2900\n拭目以待兄弟们\n#BTC #ETH"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1979138083896594599",
+          "text": "Gate合约积分空投第一期活动开始，老朋友 DOGE 成了主角，对合约党来说挺划算的。\n\n玩法很直接：只要 10 个合约积分 就能兑换 152 DOGE，积分平时攒着用处不大，这次直接变现，直接领取。\n门槛也不高，但有两点要注意：\n\n积分数量：账户至少要有 12 积分才能参与，少"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1980198081116450837",
+          "text": "再熊的熊市都会有反弹\n再牛的牛市都会有下跌\n#BTC  #ETH"
+        }
+      ]
+    }
+  ],
+  "dont": [
+    {
+      "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+      "evidence": [
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1978450118907990228",
+          "text": "从本月15日开始一直到24日，只要在其他所有VIP的，都可以提供等级截图来Bitget享受连升3级的VIP特权，活动时间有限，速来参与！\n#BGB  #Bitget VIP➕3"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1978820097998225789",
+          "text": "大的真要来了\n准备全面做空\n下半年全面看跌\n大饼看到88000\n以太看到2900\n拭目以待兄弟们\n#BTC #ETH"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1979138083896594599",
+          "text": "Gate合约积分空投第一期活动开始，老朋友 DOGE 成了主角，对合约党来说挺划算的。\n\n玩法很直接：只要 10 个合约积分 就能兑换 152 DOGE，积分平时攒着用处不大，这次直接变现，直接领取。\n门槛也不高，但有两点要注意：\n\n积分数量：账户至少要有 12 积分才能参与，少"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1980198081116450837",
+          "text": "再熊的熊市都会有反弹\n再牛的牛市都会有下跌\n#BTC  #ETH"
+        }
+      ]
+    },
+    {
+      "rule": "Do not convert observed confidence into an unsupported trade call.",
+      "evidence": [
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1978450118907990228",
+          "text": "从本月15日开始一直到24日，只要在其他所有VIP的，都可以提供等级截图来Bitget享受连升3级的VIP特权，活动时间有限，速来参与！\n#BGB  #Bitget VIP➕3"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1978820097998225789",
+          "text": "大的真要来了\n准备全面做空\n下半年全面看跌\n大饼看到88000\n以太看到2900\n拭目以待兄弟们\n#BTC #ETH"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1979138083896594599",
+          "text": "Gate合约积分空投第一期活动开始，老朋友 DOGE 成了主角，对合约党来说挺划算的。\n\n玩法很直接：只要 10 个合约积分 就能兑换 152 DOGE，积分平时攒着用处不大，这次直接变现，直接领取。\n门槛也不高，但有两点要注意：\n\n积分数量：账户至少要有 12 积分才能参与，少"
+        },
+        {
+          "handle": "Btcxiaoyuan",
+          "id": "1980198081116450837",
+          "text": "再熊的熊市都会有反弹\n再牛的牛市都会有下跌\n#BTC  #ETH"
+        }
+      ]
+    }
+  ]
+}

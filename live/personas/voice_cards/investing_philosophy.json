@@ -1,0 +1,358 @@
+{
+  "version": 1,
+  "cluster": "investing_philosophy",
+  "lang": "en",
+  "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
+  "sample": {
+    "posts": 1813,
+    "donors": {
+      "MebFaber": 0.128,
+      "ByrneHobart": 0.122,
+      "GrahamStephan": 0.122,
+      "choffstein": 0.116,
+      "dollarsanddata": 0.098,
+      "SJosephBurns": 0.09,
+      "iancassel": 0.083,
+      "morganhousel": 0.083,
+      "CathieDWood": 0.082,
+      "callieabost": 0.077
+    }
+  },
+  "method": "Roster weights normalized over available eligible donors; equal mass per donor post; sentence mass equal within post. UTC cadence over observed scrape interval. Signature lift is weighted cluster document frequency divided by unweighted eligible all-donor document frequency (3-word EN / 4-character ZH n-grams, present in at least 2 cluster posts).",
+  "cadence": {
+    "posts_per_day_median": 0,
+    "active_hours_utc": {
+      "0": 0.04299,
+      "1": 0.031866,
+      "2": 0.019879,
+      "3": 0.014944,
+      "4": 0.009623,
+      "5": 0.008619,
+      "6": 0.008438,
+      "7": 0.008415,
+      "8": 0.024403,
+      "9": 0.040901,
+      "10": 0.016265,
+      "11": 0.054398,
+      "12": 0.050161,
+      "13": 0.088891,
+      "14": 0.072378,
+      "15": 0.084681,
+      "16": 0.077618,
+      "17": 0.0662,
+      "18": 0.058841,
+      "19": 0.057511,
+      "20": 0.045386,
+      "21": 0.0387,
+      "22": 0.032083,
+      "23": 0.046808
+    }
+  },
+  "hooks": {
+    "question": {
+      "share": 0.053531746,
+      "first_lines": [
+        {
+          "handle": "MebFaber",
+          "id": "1108070025770856448",
+          "text": "For the investment professionals out there.  What belief do you hold that the vast majority of your peers (75%+) do not share?"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2085483264597475348",
+          "text": "Should we do a @fesshole / @postsecret for all of your investment sins and dark secrets?"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2090112633185894705",
+          "text": "What's the best example of a \"normal\" stock (not tech, biotech, or South Korean) trading at a super-high P/E ratio right now?"
+        }
+      ]
+    },
+    "number-led": {
+      "share": 0.02767545,
+      "first_lines": [
+        {
+          "handle": "MebFaber",
+          "id": "1788241864153522426",
+          "text": "21. Investing in riskier bonds doesn't make sense if the yield spread vs. T-Bills isn't wide enough."
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2087643751330234743",
+          "text": "22. Dividend yield isn't income &amp; some magical free bonus you receive."
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2087644859465384056",
+          "text": "24. All time highs are a great time to invest..."
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.861313678,
+      "first_lines": [
+        {
+          "handle": "MebFaber",
+          "id": "2085448298719227909",
+          "text": "An entire generation is miserable because they're on their phones all day, envious of the imaginary life their peers are living..."
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2085682433127522572",
+          "text": "Investing Quote of the Day: \"Statistics are bloodless things.\" - Frederick Lewis Allen https://t.co/x9Og5pNMUt"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2085753464899129357",
+          "text": "Year 1:"
+        }
+      ]
+    },
+    "breaking": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "emoji-led": {
+      "share": 0.027018079,
+      "first_lines": [
+        {
+          "handle": "MebFaber",
+          "id": "2085455354834636902",
+          "text": "👇👇👇"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2086452455236128915",
+          "text": "🧠  𝗬𝗼𝘂𝗿 𝗯𝗿𝗮𝗶𝗻 𝘄𝗮𝘀𝗻'𝘁 𝗯𝘂𝗶𝗹𝘁 𝗳𝗼𝗿 𝘁𝗵𝗲 𝘀𝘁𝗼𝗰𝗸 𝗺𝗮𝗿𝗸𝗲𝘁"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2087229703560245291",
+          "text": "👀"
+        }
+      ]
+    },
+    "quote": {
+      "share": 0.030461047,
+      "first_lines": [
+        {
+          "handle": "MebFaber",
+          "id": "2086146680328474894",
+          "text": "\"Stocks always beat bonds in the long run.\" Joseph Moore (@drjoemoore) says the data disagrees."
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2087596741550113240",
+          "text": "\"Myth 3. Covered Calls Generate Income\""
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2088599087109091514",
+          "text": "\"𝗛𝗮𝗺𝗶𝗹𝘁𝗼𝗻𝗶𝗮𝗻 𝗲𝗰𝗼𝗻𝗼𝗺𝗶𝗰𝘀\" 𝗸𝗲𝗲𝗽𝘀 𝗰𝗼𝗺𝗶𝗻𝗴 𝘂𝗽 𝗳𝗿𝗼𝗺 𝗣𝗿𝗲𝘀𝗶𝗱𝗲𝗻𝘁 𝗧𝗿𝘂𝗺𝗽, 𝗝𝗗 𝗩𝗮𝗻𝗰𝗲, 𝗦𝗰𝗼𝘁𝘁 𝗕𝗲𝘀𝘀𝗲𝗻𝘁, 𝗮𝗻𝗱 𝗨𝗦𝗧𝗥 𝗚𝗿𝗲𝗲𝗿."
+        }
+      ]
+    }
+  },
+  "sentence_length": {
+    "unit": "words",
+    "median": 10,
+    "p25": 5,
+    "p75": 18
+  },
+  "signature_phrasing": [
+    {
+      "phrase": "wealth without losing",
+      "cluster_share": 0.003731,
+      "lift": 16.7533,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "without losing sleep",
+      "cluster_share": 0.003731,
+      "lift": 16.7533,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "build wealth without",
+      "cluster_share": 0.003109,
+      "lift": 16.7533,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "the full post",
+      "cluster_share": 0.003109,
+      "lift": 16.7533,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "up here to",
+      "cluster_share": 0.003109,
+      "lift": 16.7533,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "a weekly email",
+      "cluster_share": 0.002487,
+      "lift": 16.7533,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "access all past",
+      "cluster_share": 0.002487,
+      "lift": 16.7533,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "all past issues",
+      "cluster_share": 0.002487,
+      "lift": 16.7533,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "and access all",
+      "cluster_share": 0.002487,
+      "lift": 16.7533,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "deep dive on",
+      "cluster_share": 0.002487,
+      "lift": 16.7533,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "email on how",
+      "cluster_share": 0.002487,
+      "lift": 16.7533,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "in my newsletter",
+      "cluster_share": 0.002487,
+      "lift": 16.7533,
+      "do_not_copy": true
+    }
+  ],
+  "emoji_rate": 0.085018,
+  "thread_rate": 0.185362,
+  "media_rate": 0.281173,
+  "data_opinion": {
+    "data_share": 0.615367423,
+    "opinion_share": 0.384632577,
+    "data_to_opinion": 1.599883786,
+    "definition": "Data: numeric tags or data_take/earnings_take; opinion: remaining posts (proxy, not semantic verdict)."
+  },
+  "post_type_mix": {
+    "data_take": 0.140527,
+    "earnings_take": 0.004466,
+    "hot_take": 0.502259,
+    "mechanism_explainer": 0.133088,
+    "unknown": 0.004811,
+    "view_relay": 0.214849
+  },
+  "do": [
+    {
+      "rule": "Lead with a clear judgment; use data to support it.",
+      "evidence": [
+        {
+          "handle": "MebFaber",
+          "id": "1108070025770856448",
+          "text": "For the investment professionals out there.  What belief do you hold that the vast majority of your peers (75%+) do not share?\n\nHere's a few"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "1788241864153522426",
+          "text": "21. Investing in riskier bonds doesn't make sense if the yield spread vs. T-Bills isn't wide enough.\n\nhttps://t.co/i72VjOViPG"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2085448298719227909",
+          "text": "An entire generation is miserable because they're on their phones all day, envious of the imaginary life their peers are living...\n\nhttps://"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2085455354834636902",
+          "text": "👇👇👇"
+        }
+      ]
+    },
+    {
+      "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+      "evidence": [
+        {
+          "handle": "MebFaber",
+          "id": "1108070025770856448",
+          "text": "For the investment professionals out there.  What belief do you hold that the vast majority of your peers (75%+) do not share?\n\nHere's a few"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "1788241864153522426",
+          "text": "21. Investing in riskier bonds doesn't make sense if the yield spread vs. T-Bills isn't wide enough.\n\nhttps://t.co/i72VjOViPG"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2085448298719227909",
+          "text": "An entire generation is miserable because they're on their phones all day, envious of the imaginary life their peers are living...\n\nhttps://"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2085455354834636902",
+          "text": "👇👇👇"
+        }
+      ]
+    }
+  ],
+  "dont": [
+    {
+      "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+      "evidence": [
+        {
+          "handle": "MebFaber",
+          "id": "1108070025770856448",
+          "text": "For the investment professionals out there.  What belief do you hold that the vast majority of your peers (75%+) do not share?\n\nHere's a few"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "1788241864153522426",
+          "text": "21. Investing in riskier bonds doesn't make sense if the yield spread vs. T-Bills isn't wide enough.\n\nhttps://t.co/i72VjOViPG"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2085448298719227909",
+          "text": "An entire generation is miserable because they're on their phones all day, envious of the imaginary life their peers are living...\n\nhttps://"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2085455354834636902",
+          "text": "👇👇👇"
+        }
+      ]
+    },
+    {
+      "rule": "Do not convert observed confidence into an unsupported trade call.",
+      "evidence": [
+        {
+          "handle": "MebFaber",
+          "id": "1108070025770856448",
+          "text": "For the investment professionals out there.  What belief do you hold that the vast majority of your peers (75%+) do not share?\n\nHere's a few"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "1788241864153522426",
+          "text": "21. Investing in riskier bonds doesn't make sense if the yield spread vs. T-Bills isn't wide enough.\n\nhttps://t.co/i72VjOViPG"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2085448298719227909",
+          "text": "An entire generation is miserable because they're on their phones all day, envious of the imaginary life their peers are living...\n\nhttps://"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2085455354834636902",
+          "text": "👇👇👇"
+        }
+      ]
+    }
+  ]
+}

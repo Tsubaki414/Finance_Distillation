@@ -1,0 +1,369 @@
+{
+  "version": 1,
+  "cluster": "macro_rates_en",
+  "lang": "en",
+  "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
+  "sample": {
+    "posts": 1993,
+    "donors": {
+      "JeffSnider_EDU": 0.113,
+      "lisaabramowicz1": 0.108,
+      "BobEUnlimited": 0.103,
+      "DTAPCAP": 0.103,
+      "GlobalMktObserv": 0.103,
+      "jturek18": 0.103,
+      "Brad_Setser": 0.098,
+      "Convertbond": 0.093,
+      "cullenroche": 0.088,
+      "NickTimiraos": 0.088
+    }
+  },
+  "method": "Roster weights normalized over available eligible donors; equal mass per donor post; sentence mass equal within post. UTC cadence over observed scrape interval. Signature lift is weighted cluster document frequency divided by unweighted eligible all-donor document frequency (3-word EN / 4-character ZH n-grams, present in at least 2 cluster posts).",
+  "cadence": {
+    "posts_per_day_median": 1,
+    "active_hours_utc": {
+      "0": 0.027579,
+      "1": 0.01986,
+      "2": 0.013085,
+      "3": 0.026138,
+      "4": 0.021995,
+      "5": 0.019892,
+      "6": 0.010949,
+      "7": 0.013504,
+      "8": 0.017034,
+      "9": 0.035336,
+      "10": 0.049875,
+      "11": 0.053912,
+      "12": 0.060228,
+      "13": 0.084113,
+      "14": 0.069193,
+      "15": 0.085021,
+      "16": 0.072429,
+      "17": 0.063754,
+      "18": 0.048055,
+      "19": 0.060363,
+      "20": 0.049564,
+      "21": 0.036627,
+      "22": 0.037398,
+      "23": 0.024099
+    }
+  },
+  "hooks": {
+    "question": {
+      "share": 0.050020991,
+      "first_lines": [
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087594864775176315",
+          "text": "Want to learn how to identify which investment environment you're actually in?"
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087995324661190846",
+          "text": "Want to learn how to identify which investment environment you're actually in?"
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2088300977812320269",
+          "text": "Want to learn how to identify which investment environment you're actually in?"
+        }
+      ]
+    },
+    "number-led": {
+      "share": 0.010130166,
+      "first_lines": [
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2089970620746563681",
+          "text": "1997 was never really about reckless Asian governments."
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2091284280752353787",
+          "text": "1997 had a script. Thailand couldn't get enough dol"
+        },
+        {
+          "handle": "BobEUnlimited",
+          "id": "2078891381389480297",
+          "text": "$4 gas and $5 dollar diesel and moving in the wrong direction. https://t.co/lWcL2EG987"
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.857585281,
+      "first_lines": [
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087298009801605322",
+          "text": "Private credit is the new junk bond market. Except this one is opaque, illiquid, and about to be stress-tested."
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087358407556882834",
+          "text": "Nearly every credit transaction made today has an interest rate swap embedded in it somewhere, with dealers on both sides."
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087433906731528247",
+          "text": "Everyone's watching the Fed's next move like it's the whole story."
+        }
+      ]
+    },
+    "breaking": {
+      "share": 0.000944162,
+      "first_lines": [
+        {
+          "handle": "Convertbond",
+          "id": "2090170710773670228",
+          "text": "Breaking -- *US TOTAL PUBLIC DEBT OUTSTANDING EXCEEDS RECORD $40 TRILLION - Bloomberg."
+        },
+        {
+          "handle": "Convertbond",
+          "id": "2105277269640151391",
+          "text": "Breaking - *US AUG. CORE PCE PRICE INDEX RISES 3.0% Y/Y; EST. +3.3% - Bloomberg data."
+        }
+      ]
+    },
+    "emoji-led": {
+      "share": 0.055461538,
+      "first_lines": [
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101014394796712346",
+          "text": "🔴 Food inflation is the next major threat to global bonds:"
+        },
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101079837842571545",
+          "text": "⚠️US budget deficit is absolutely OUT OF CONTROL:"
+        },
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101122364276699457",
+          "text": "⚠️Investors are increasingly turning away from US Treasuries:"
+        }
+      ]
+    },
+    "quote": {
+      "share": 0.025857861,
+      "first_lines": [
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2091186250518798733",
+          "text": "\"It fundamentally changed the way I look at investing and at macro in general.\""
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2093686459740131719",
+          "text": "\"I had pretty high expectations. They were certainly met and exceeded.\""
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2096757844133777533",
+          "text": "\"I had pretty high expectations. They were certainly met and exceeded.\""
+        }
+      ]
+    }
+  },
+  "sentence_length": {
+    "unit": "words",
+    "median": 11,
+    "p25": 5,
+    "p75": 21
+  },
+  "signature_phrasing": [
+    {
+      "phrase": "image to see",
+      "cluster_share": 0.034994,
+      "lift": 17.7886,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "see full insight",
+      "cluster_share": 0.034994,
+      "lift": 17.7886,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "to see full",
+      "cluster_share": 0.034994,
+      "lift": 17.7886,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "tap image to",
+      "cluster_share": 0.034333,
+      "lift": 17.7886,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "level since while",
+      "cluster_share": 0.004622,
+      "lift": 17.7886,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "have surged to",
+      "cluster_share": 0.003962,
+      "lift": 17.7886,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "is flashing a",
+      "cluster_share": 0.003962,
+      "lift": 17.7886,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "rose trillion in",
+      "cluster_share": 0.003962,
+      "lift": 17.7886,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "treasury yield surged",
+      "cluster_share": 0.003962,
+      "lift": 17.7886,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "adding further pressure",
+      "cluster_share": 0.003301,
+      "lift": 17.7886,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "are adding further",
+      "cluster_share": 0.003301,
+      "lift": 17.7886,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "breadth is flashing",
+      "cluster_share": 0.003301,
+      "lift": 17.7886,
+      "do_not_copy": true
+    }
+  ],
+  "emoji_rate": 0.113279,
+  "thread_rate": 0.238491,
+  "media_rate": 0.455144,
+  "data_opinion": {
+    "data_share": 0.767352369,
+    "opinion_share": 0.232647631,
+    "data_to_opinion": 3.298345947,
+    "definition": "Data: numeric tags or data_take/earnings_take; opinion: remaining posts (proxy, not semantic verdict)."
+  },
+  "post_type_mix": {
+    "data_take": 0.395969,
+    "earnings_take": 0.00559,
+    "hot_take": 0.236627,
+    "mechanism_explainer": 0.112231,
+    "unknown": 0.046725,
+    "view_relay": 0.202858
+  },
+  "do": [
+    {
+      "rule": "Lead with a clear judgment; use data to support it.",
+      "evidence": [
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087298009801605322",
+          "text": "Private credit is the new junk bond market. Except this one is opaque, illiquid, and about to be stress-tested.\n\nHere is how it happened. Th"
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087358407556882834",
+          "text": "Nearly every credit transaction made today has an interest rate swap embedded in it somewhere, with dealers on both sides.\n\nWhich means swap"
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087433906731528247",
+          "text": "Everyone's watching the Fed's next move like it's the whole story.\n\nBut the swap market is telling you something else entirely.\n\nDeeply nega"
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087552892886548877",
+          "text": "Because govts have no f-ing idea how the world works...but they pretend they do.  \n\nStop listening to politicians, officials, and bureaucrat"
+        }
+      ]
+    },
+    {
+      "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+      "evidence": [
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087298009801605322",
+          "text": "Private credit is the new junk bond market. Except this one is opaque, illiquid, and about to be stress-tested.\n\nHere is how it happened. Th"
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087358407556882834",
+          "text": "Nearly every credit transaction made today has an interest rate swap embedded in it somewhere, with dealers on both sides.\n\nWhich means swap"
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087433906731528247",
+          "text": "Everyone's watching the Fed's next move like it's the whole story.\n\nBut the swap market is telling you something else entirely.\n\nDeeply nega"
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087552892886548877",
+          "text": "Because govts have no f-ing idea how the world works...but they pretend they do.  \n\nStop listening to politicians, officials, and bureaucrat"
+        }
+      ]
+    }
+  ],
+  "dont": [
+    {
+      "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+      "evidence": [
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087298009801605322",
+          "text": "Private credit is the new junk bond market. Except this one is opaque, illiquid, and about to be stress-tested.\n\nHere is how it happened. Th"
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087358407556882834",
+          "text": "Nearly every credit transaction made today has an interest rate swap embedded in it somewhere, with dealers on both sides.\n\nWhich means swap"
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087433906731528247",
+          "text": "Everyone's watching the Fed's next move like it's the whole story.\n\nBut the swap market is telling you something else entirely.\n\nDeeply nega"
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087552892886548877",
+          "text": "Because govts have no f-ing idea how the world works...but they pretend they do.  \n\nStop listening to politicians, officials, and bureaucrat"
+        }
+      ]
+    },
+    {
+      "rule": "Do not convert observed confidence into an unsupported trade call.",
+      "evidence": [
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087298009801605322",
+          "text": "Private credit is the new junk bond market. Except this one is opaque, illiquid, and about to be stress-tested.\n\nHere is how it happened. Th"
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087358407556882834",
+          "text": "Nearly every credit transaction made today has an interest rate swap embedded in it somewhere, with dealers on both sides.\n\nWhich means swap"
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087433906731528247",
+          "text": "Everyone's watching the Fed's next move like it's the whole story.\n\nBut the swap market is telling you something else entirely.\n\nDeeply nega"
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2087552892886548877",
+          "text": "Because govts have no f-ing idea how the world works...but they pretend they do.  \n\nStop listening to politicians, officials, and bureaucrat"
+        }
+      ]
+    }
+  ]
+}
