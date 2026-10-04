@@ -71,7 +71,13 @@ def match_channel(channel, row):
     absorbs SEC press releases). Matching requires at least one identity field.
     """
     source = row.get('source', row)
-    ids = _ids(channel)
+    if channel.get('channel_id') and source.get('source_id'):
+        # Channel IDs are authoritative; legacy adapter IDs retain their explicit mapping.
+        if source['source_id'] == channel['channel_id']:
+            return True
+        if source['source_id'] not in _ids(channel):
+            return False
+    ids = _ids(channel) | ({channel['channel_id']} if channel.get('channel_id') else set())
     identity = {str(source.get(k) or '').casefold() for k in ('source_id', 'id', 'adapter')}
     if any(i.casefold() in identity or (i == 'reportgem' and any(x.startswith('reportgem_') for x in identity)) for i in ids):
         return True
@@ -127,16 +133,22 @@ def _score(channel, allows, personas_fed):
             {'verified': verified, 'free_public': public, 'persona_gap_weight': gap, 'paraphrase_allowed': allows})
 
 
-def audit(expansion, registry, licence, roster, store_dir, donor_tags):
+def audit(expansion, registry, licence, roster, store_dir, donor_tags, *, runs=None, planned=None):
     store = ContentStore(store_dir)
     units = store.units()
     tiers = licence.get('tiers', licence.get('sources', {}))
     channels = []
-    for channel in expansion['sources']:
+    outcomes = {}
+    for report in runs or []:
+        if not isinstance(report, dict):
+            report = json.loads(Path(report).read_text())
+        for outcome in report.get('adapters', {}).get('channels', []):
+            outcomes[outcome.get('channel_id') or outcome.get('id')] = outcome
+    for channel in planned if planned is not None else expansion['sources']:
         matched = [r for r in units if match_channel(channel, r)]
         built = _build_rows(channel, registry)
         personas = sorted({p for r in matched for p in r.get('tag_personas', [])})
-        tier_ids = set(_ids(channel)) | {r['id'] for r in built}
+        tier_ids = ({channel['channel_id']} if channel.get('channel_id') else set()) | set(_ids(channel)) | {r['id'] for r in built}
         if 'reportgem' in tier_ids:
             tier_ids |= {i for i in tiers if i.startswith('reportgem_')}
         allowed = any(tiers.get(i, {}).get('tier') in ('A', 'B') for i in tier_ids)
@@ -144,7 +156,11 @@ def audit(expansion, registry, licence, roster, store_dir, donor_tags):
         if not allowed:
             allowed = any(t in policy for t in ('paraphrase', '只取事实', '注明来源', '注明出处', '只取标题+机构+评级+要点')) and not any(t in policy for t in ('禁止', '仅作选题', '灰色', '高风险'))
         score, factors = _score(channel, allowed, len(personas))
-        channels.append({**channel, 'status': 'in_use' if matched else 'built_unused' if built else 'not_built',
+        outcome = outcomes.get(channel.get('channel_id'), {})
+        reason = outcome.get('reason') or channel.get('reason') or ('no stored content units' if built else 'no adapter or fetch outcome recorded')
+        channels.append({**channel, 'mode': channel.get('mode', 'existing_adapter' if built else 'unknown'),
+                         'fetch_outcome': outcome.get('status', 'not_run'), 'reason': reason,
+                         'personas': personas, 'status': 'in_use' if matched else 'built_unused' if built else 'not_built',
                          'units': len(matched), 'personas_fed': personas, 'built_ids': [r['id'] for r in built],
                          'score': score, 'score_factors': factors})
     tag_files = {p.stem.casefold(): p for p in Path(donor_tags).glob('*.json*')} if Path(donor_tags).exists() else {}
@@ -178,9 +194,9 @@ def markdown(result):
              '', '| Status | Channels | X donors |', '|---|---:|---:|']
     for status in ('in_use', 'built_unused', 'not_built'):
         lines.append(f"| {status} | {result['summary']['channels'].get(status, 0)} | {result['summary']['donors'].get(status, 0)} |")
-    lines += ['', '## Channels', '', '| Source | Status | Units | Personas fed |', '|---|---|---:|---|']
+    lines += ['', '## Channels', '', '| Source | Mode | Fetch outcome | Status | Units | Personas fed | Reason |', '|---|---|---|---|---:|---|---|']
     for r in result['channels']:
-        lines.append('| ' + ' | '.join(cell(v) for v in [r['name'], r['status'], r['units'], ', '.join(r['personas_fed'])]) + ' |')
+        lines.append('| ' + ' | '.join(cell(v) for v in [r['name'], r.get('mode', ''), r.get('fetch_outcome', 'not_run'), r['status'], r['units'], ', '.join(r['personas_fed']), r.get('reason', '')]) + ' |')
     lines += ['', '## X donors', '', '| Donor | Status | Units | Roster persona cluster | Voice/exemplar used | Usage |', '|---|---|---:|---|---|---|']
     for r in result['donors']:
         lines.append('| ' + ' | '.join(cell(v) for v in [r['name'], r['status'], r['units'], r['persona_cluster'],
@@ -196,6 +212,8 @@ def markdown(result):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--expansion', type=Path, default=Path('/workspace/x/source_expansion.json'))
+    ap.add_argument('--channels', type=Path, default=ROOT/'live/channels.json')
+    ap.add_argument('--runs', type=Path, nargs='+', default=[])
     ap.add_argument('--registry', type=Path, default=ROOT/'live/source_registry.json')
     ap.add_argument('--licence', type=Path, default=ROOT/'live/source_licence.json')
     ap.add_argument('--roster', type=Path, default=ROOT/'live/donors/roster.json')
@@ -204,7 +222,13 @@ def main():
     ap.add_argument('--out-md', type=Path, required=True)
     ap.add_argument('--out-json', type=Path, required=True)
     args = ap.parse_args()
-    result = audit(*(json.loads(p.read_text()) for p in (args.expansion, args.registry, args.licence, args.roster)), args.store, args.donor_tags)
+    from live.adapters.channels import load_channels
+    reports = []
+    for directory in args.runs:
+        paths = [directory] if directory.is_file() else sorted(directory.rglob('report.json'), key=lambda p: (p.stat().st_mtime_ns, str(p)))
+        reports.extend(json.loads(p.read_text()) for p in paths)
+    result = audit({'sources': []}, *(json.loads(p.read_text()) for p in (args.registry, args.licence, args.roster)),
+                   args.store, args.donor_tags, planned=load_channels(args.channels), runs=reports)
     for path, text in [(args.out_md, markdown(result)), (args.out_json, json.dumps(result, ensure_ascii=False, indent=2)+'\n')]:
         path.parent.mkdir(parents=True, exist_ok=True); path.write_text(text)
     print(json.dumps({'summary': result['summary'], 'donor_count': result['donor_count']}))

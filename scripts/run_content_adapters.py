@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from live import content_store, jev_front, registry  # noqa: E402
-from live.adapters import bls, cboe, cftc, defillama, edgar, farside, fed, feeds, fred, longform, treasury, wallstreetcn, nyfed  # noqa: E402
+from live.adapters import bls, cboe, cftc, defillama, edgar, farside, fed, feeds, fred, longform, treasury, wallstreetcn, nyfed, channels  # noqa: E402
 
 MEGACAP = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'META', 'NVDA', 'AVGO', 'TSLA', 'ORCL', 'MU', 'AMD']
 RSS_FULLTEXT = {'apricitas', 'employ_america', 'daily_shot_brief', 'chipstrat', 'wu_blockchain', 'coinshares_research'}
@@ -31,6 +31,19 @@ def newsletter_feeds():
 
 def gather(args, report):
     text_sources, data = [], []
+    if 'channels' in args.adapters:
+        selected = channels.select_channels(channels.load_channels(ROOT / 'live/channels.json'),
+                    modes=getattr(args, 'channel_modes', channels.DEFAULT_MODES),
+                    ids=getattr(args, 'channel_ids', None), batch=getattr(args, 'channel_batch', None))
+        outcomes = []
+        for ch in selected:
+            out = channels.fetch_channel(ch, limit=getattr(args, 'channel_limit', 1))
+            outcomes.append({'channel_id': ch['channel_id'], 'id': ch['channel_id'], 'mode': ch['mode'],
+                             **{k: v for k, v in out.items() if k != 'sources'},
+                             'sources': [s['id'] for s in out['sources']]})
+            if registry.source_licence_tier(ch['channel_id']) in ('A', 'B'):
+                text_sources += out['sources']
+        report['adapters']['channels'] = outcomes
     if 'edgar' in args.adapters:
         earnings = getattr(args, 'earnings_tickers', None) or []
         if earnings == ['megacap']:
@@ -93,9 +106,9 @@ def gather(args, report):
             out = adapter.fetch()
             report['adapters'][name] = {k: v for k, v in out.items() if k not in ('sources', 'units')} | {'units': len(out['units'])}
             data += [(s, [u for u in out['units'] if u['source_hash'] == s['source_hash']], s['adapter']) for s in out['sources']]
-    for name, fetch, options in (('oaktree', longform.fetch_oaktree, {'limit': args.oaktree_n}),
+    for name, fetch, options in (('oaktree', longform.fetch_oaktree, {'limit': getattr(args, 'oaktree_n', 3)}),
                                 ('berkshire', longform.fetch_berkshire, {}),
-                                ('glassnode', longform.fetch_glassnode, {'limit': args.glassnode_n})):
+                                ('glassnode', longform.fetch_glassnode, {'limit': getattr(args, 'glassnode_n', 3)})):
         if name in args.adapters:
             out = fetch(**options)
             report['adapters'][name] = {k: v for k, v in out.items() if k != 'sources'} | {'sources': [s['id'] for s in out['sources']]}
@@ -135,7 +148,11 @@ def main():
     ap.add_argument('--run', type=Path, required=True)
     ap.add_argument('--store', type=Path, default=None)
     ap.add_argument('--adapters', nargs='+', default=['edgar', 'fed', 'bls', 'treasury', 'fred', 'newsletters', 'podcasts',
-                                                    'cftc', 'cboe', 'farside', 'defillama', 'oaktree', 'berkshire', 'glassnode', 'wallstreetcn', 'nyfed', 'fomc', 'rss_fulltext'])
+                                                    'cftc', 'cboe', 'farside', 'defillama', 'oaktree', 'berkshire', 'glassnode', 'wallstreetcn', 'nyfed', 'fomc', 'rss_fulltext', 'channels'])
+    ap.add_argument('--channel-modes', nargs='+', choices=sorted(channels.MODES), default=list(channels.DEFAULT_MODES))
+    ap.add_argument('--channel-ids', nargs='+')
+    ap.add_argument('--channel-batch', help='1-based K/N contiguous batch')
+    ap.add_argument('--channel-limit', type=int, default=1)
     ap.add_argument('--tickers', nargs='+', default=['MU', 'NVDA'])
     ap.add_argument('--earnings-tickers', nargs='+', default=[])
     ap.add_argument('--max-age-days', type=int, default=120)
