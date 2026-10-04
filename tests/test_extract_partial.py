@@ -32,6 +32,13 @@ class PartialExtractTests(unittest.TestCase):
         with self.assertRaises(ContractError):
             cu.extract(SOURCE, Fake([bad, bad]), licence_tier='B')
 
+    def test_duplicate_unit_is_dropped_not_fatal(self):
+        # 2026-10-04 ReportGem smoke: one repeated unit failed a whole 2-passage BofA source.
+        result = cu.extract(SOURCE, Fake([unit(), unit()]), licence_tier='B')
+        self.assertEqual(len(result['units']), 1)
+        self.assertEqual([d['index'] for d in result['dropped_units']], [1])
+        self.assertIn('duplicate', result['dropped_units'][0]['reason'])
+
     def test_token_budgets_leave_room(self):
         self.assertGreaterEqual(cu.MAX_TOKENS, 12000)
         self.assertGreaterEqual(compose.MAX_TOKENS, 6000)
