@@ -7,8 +7,9 @@ target prices. (source_expansion.md had rated ReportGem D; this overrides it
 for excerpts returned by the paid MCP and is recorded in source_licence.json.)
 
 Flow: listing_queries (theme queries per persona over realtime research,
-day window) -> daily_listing (filter major banks + window, dedup, points cap)
--> prescreen (bounded Jev batches per persona; keyword fallback)
+day window, optional targeted/catch-up queries) -> daily_listing (exclude unsafe
+banks, filter window, dedup, points cap) -> prescreen (confidence-gated Jev
+batches, one retry and batch-local keyword fallback)
 -> select_top -> get_evidence passages -> to_source (disclosure boilerplate and
 analyst contact details dropped) -> content_units.extract as tier B.
 
@@ -90,6 +91,8 @@ BANKS.update({
     '浦银国际': ('浦银国际',),
 })
 
+EXCLUDED_BANKS = {'BofA': 'redistribution watermark naming another recipient + stale document dates on every evidence pull, 2026-10-04'}
+
 # Persona -> (listing query, screening description, fallback keywords)
 THEMES = {
     'macro_rates_en': ('Federal Reserve rates inflation payrolls outlook', 'US/global macro, rates, Fed, inflation, labour data, FX',
@@ -102,11 +105,11 @@ THEMES = {
                                ('ai', 'gpu', 'semiconductor', 'memory', 'dram', 'nvidia', 'apple', 'microsoft', 'tesla', 'earnings', 'tech')),
     'single_stock_deepdive_en': ('earnings results guidance first take', 'single-company earnings, guidance, filings',
                                  ('earnings', 'results', 'guidance', 'eps', 'first take', 'preview', 'beat', 'miss', 'quarter')),
-    'trading_shortterm': ('positioning flows volatility options CTA', 'positioning, flows, volatility, options, short-term trading',
+    'trading_shortterm': ('positioning flows volatility options CTA', 'short-term market structure: options/derivatives positioning, dealer gamma, CTA/systematic flows, volatility; NOT macro outlooks or single-company notes',
                           ('flow', 'positioning', 'volatility', 'vix', 'option', 'cta', 'gamma', 'technical', 'squeeze')),
-    'market_data_charts': ('monthly tracker exports survey data chart', 'data trackers, charts, monthly statistics',
+    'market_data_charts': ('monthly tracker exports survey data chart', 'cross-market data trackers and statistics worth a chart: breadth, sentiment surveys, flows, PMI/data releases with numbers; NOT single-company notes or narrative outlooks',
                            ('tracker', 'chart', 'data', 'monthly', 'exports', 'survey', 'pmi', 'statistics')),
-    'investing_philosophy': ('strategy outlook asset allocation valuation long-term', 'strategy, asset allocation, valuation, long-term outlook',
+    'investing_philosophy': ('strategy outlook asset allocation valuation long-term', 'long-horizon investing principles: asset allocation frameworks, valuation regimes, risk premia, behavioural lessons; NOT day-to-day market updates, single-company notes or data releases',
                              ('strategy', 'allocation', 'outlook', 'valuation', 'long-term', 'portfolio', 'equity risk premium')),
     'crypto_macro_en': ('bitcoin crypto stablecoin digital assets', 'crypto and digital assets with a macro angle',
                         ('bitcoin', 'crypto', 'stablecoin', 'digital asset', 'blockchain', 'ether', 'tokeni')),
@@ -137,6 +140,31 @@ for _p, (_q, _description, _keywords) in list(THEMES.items()):
     THEMES[_p] = ([(_q, ['realtime_research']),
                    (_SECOND[_p], ['chinese_research'] if _zh else ['realtime_research'])],
                   _description, _keywords + (_ZH_KEYWORDS[_p] if _zh else ()))
+
+TARGETED_LIMIT = 10
+TARGETED = {
+    'investing_philosophy': [('long-term asset allocation outlook', ['realtime_research']),
+                             ('equity strategy valuation risk premium', ['realtime_research'])],
+    'trading_shortterm': [('equity derivatives volatility positioning', ['realtime_research']),
+                          ('CTA systematic flows', ['realtime_research'])],
+    'industry_ai_capex': [('semiconductors AI data center', ['realtime_research']),
+                          ('hyperscaler capex memory', ['realtime_research'])],
+    'zh_us_stock_commentary': [('美股', ['chinese_research']), ('人工智能', ['chinese_research'])],
+}
+
+# Narrow title signals; generic keywords still contribute to weak/two-hit matches.
+SPECIFIC = {
+    'macro_rates_en': ('fed', 'treasur', 'inflation', 'cpi', 'payroll', 'ecb', 'boj', 'fx'),
+    'macro_zh': ('fed', 'inflation', 'cpi', 'payroll', 'pboc', 'rmb', '美联储', '美债', '通胀', '降息', '汇率', '国债'),
+    'industry_ai_capex': ('gpu', 'semiconductor', 'semis', 'dram', 'hbm', 'capex', 'data center', 'nvidia', 'tsmc'),
+    'zh_us_stock_commentary': ('gpu', 'semiconductor', 'dram', 'nvidia', 'apple', 'microsoft', 'tesla', '半导体', '人工智能', '算力', '美股', '芯片', '存储'),
+    'single_stock_deepdive_en': ('earnings', 'guidance', 'eps', 'first take'),
+    'trading_shortterm': ('positioning', 'volatility', 'vix', 'option', 'cta', 'gamma', 'squeeze'),
+    'market_data_charts': ('tracker', 'exports', 'survey', 'pmi', 'statistics'),
+    'investing_philosophy': ('allocation', 'valuation', 'long-term', 'portfolio', 'equity risk premium'),
+    'crypto_macro_en': ('bitcoin', 'crypto', 'stablecoin', 'digital asset', 'blockchain', 'ether', 'tokeni'),
+    'crypto_macro_zh': ('bitcoin', 'crypto', 'stablecoin', 'digital asset', 'blockchain', 'ether', 'tokeni', '数字资产', '比特币', '稳定币', '加密', '区块链', '代币'),
+}
 
 BOILERPLATE = re.compile(r'Reg AC|Disclosure Appendix|hereby certify|conflict of interest|single factor in making|'
                          r'not registered/qualified|FINRA|important disclosures|www\.\S+/research|'
@@ -202,16 +230,20 @@ def window_start(day):
     return d.isoformat()
 
 
-def listing_queries(personas, *, day, limit=6):
+def listing_queries(personas, *, day, limit=6, targeted=(), date_from=None):
     seen, out = set(), []
-    for p in personas:
-        for q, sources in THEMES[p][0]:
-            key = (q, tuple(sources))
-            if key in seen:
-                continue
-            seen.add(key)
-            lo = (date.fromisoformat(day) - timedelta(days=7)).isoformat() if 'chinese_research' in sources else window_start(day)
-            out.append({'query': q, 'sources': sources, 'date_from': lo, 'date_to': day, 'limit': min(limit, 20)})
+    week = (date.fromisoformat(day) - timedelta(days=7)).isoformat()
+    queries = [(query, False) for p in personas for query in THEMES[p][0]]
+    queries.extend((query, True) for p in targeted for query in TARGETED[p])
+    for (q, sources), is_targeted in queries:
+        key = (q, tuple(sources))
+        if key in seen:
+            continue
+        seen.add(key)
+        # Targeted (thin-persona) queries look back a week and ask for more rows: their topics are not daily.
+        lo = week if 'chinese_research' in sources else (date_from or (week if is_targeted else window_start(day)))
+        out.append({'query': q, 'sources': sources, 'date_from': lo, 'date_to': day,
+                    'limit': min(max(limit, TARGETED_LIMIT) if is_targeted else limit, 20)})
     return out
 
 
@@ -223,17 +255,28 @@ def bank_of(institution):
     return None
 
 
-def daily_listing(call, queries, *, day, budget, plan=None):
-    foreign_lo = window_start(day)
+def daily_listing(call, queries, *, day, budget, plan=None, report=None, date_from=None):
+    foreign_lo = date_from or window_start(day)
     cn_lo = (date.fromisoformat(day) - timedelta(days=7)).isoformat()
     items, seen = [], {}
+    excluded_seen = set()
+    excluded_counts = {bank: 0 for bank in EXCLUDED_BANKS}
+    if report is not None:
+        report['excluded_banks'] = excluded_counts
     for args in queries:
         response = _call(call, 'search_research', args, budget, plan)
         for r in (response or {}).get('results') or []:
             bank = bank_of(r.get('institution'))
             key = (r.get('source_type'), r.get('source_id'))
-            lo = cn_lo if r.get('source_type') == 'cn' else foreign_lo
+            lo = args.get('date_from') or foreign_lo
+            if r.get('source_type') == 'cn':
+                lo = min(lo, cn_lo)
             if bank and lo <= (r.get('published_at') or '')[:10] <= day:
+                if bank in EXCLUDED_BANKS:
+                    if key not in excluded_seen:
+                        excluded_counts[bank] += 1
+                        excluded_seen.add(key)
+                    continue
                 if key in seen:
                     if args['query'] not in seen[key]['queries']:
                         seen[key]['queries'].append(args['query'])
@@ -246,8 +289,13 @@ def daily_listing(call, queries, *, day, budget, plan=None):
 
 def _keyword_choice(item, persona):
     text = (item.get('title', '') + ' ' + (item.get('industry') or '')).lower()
-    hits = sum(1 for k in THEMES[persona][2] if re.search((r'\b' if k.isascii() else '') + re.escape(k), text))
-    return 'strong' if hits >= 1 and any(re.search((r'\b' if k.isascii() else '') + re.escape(k), item.get('title', '').lower()) for k in THEMES[persona][2]) else ('weak' if hits else 'none')
+    def matches(k, value):
+        return bool(re.search((r'\b' if k.isascii() else '') + re.escape(k), value))
+    title = item.get('title', '').lower()
+    title_hits = {k for k in THEMES[persona][2] if matches(k, title)}
+    if len(title_hits) >= 2 or title_hits.intersection(SPECIFIC[persona]):
+        return 'strong'
+    return 'weak' if any(matches(k, text) for k in THEMES[persona][2]) else 'none'
 
 
 CRITERIA = {'strong': 'The report is squarely on this persona\'s beat and has concrete facts or a clear view worth a post today.',
@@ -256,35 +304,48 @@ CRITERIA = {'strong': 'The report is squarely on this persona\'s beat and has co
 
 
 def prescreen(items, personas, *, jev=None):
-    scores = {'_method': {}}
-    fallback = {}
+    scores = {'_method': {}, '_downgraded': {}}
+    fallback_counts = {}
+    rows = list({str(i['source_id']): i for i in items}.items())
     for p in personas:
-        chosen, failed = {}, False
-        rows = list({str(i['source_id']): i for i in items}.items())
+        chosen, fallback_count, downgraded = {}, 0, 0
         for start in range(0, len(rows), 16):
             batch = rows[start:start + 16]
-            answers = {}
+            questions = {f'r{sid}': {'type': 'choice', 'criteria': CRITERIA,
+                'instructions': f'Persona beat: {THEMES[p][1]}. Broker report from {i["bank"]}, {i.get("published_at")}: "{i.get("title", "")[:220]}".'} for sid, i in batch}
+            answers = None
             if jev is not None:
-                questions = {f'r{sid}': {'type': 'choice', 'criteria': CRITERIA,
-                    'instructions': f'Persona beat: {THEMES[p][1]}. Broker report from {i["bank"]}, {i.get("published_at")}: "{i.get("title", "")[:220]}".'} for sid, i in batch}
-                try:
-                    result = jev.review({'task': 'broker research pre-screen', 'persona': p}, questions)
-                    if result.get('status') == 'completed':
-                        answers = result.get('answers') or {}
-                except Exception:
-                    pass
+                for _attempt in range(2):
+                    try:
+                        result = jev.review({'task': 'broker research pre-screen', 'persona': p}, questions)
+                        candidate = result.get('answers') or {}
+                        if result.get('status') == 'completed' and all(
+                                isinstance(candidate.get(q), dict) and candidate[q].get('choice') in CRITERIA for q in questions):
+                            answers = candidate
+                            break
+                    except Exception:
+                        pass
+            if answers is None:
+                fallback_count += len(batch)
             for sid, i in batch:
-                choice = answers.get('r' + sid, {}).get('choice')
-                if choice not in CRITERIA:
-                    failed = True
+                if answers is None:
                     choice = _keyword_choice(i, p)
+                else:
+                    answer = answers['r' + sid]
+                    choice = answer['choice']
+                    confidence = answer.get('confidence')
+                    if choice == 'strong' and not (isinstance(confidence, (int, float)) and confidence >= 0.7):
+                        choice = 'weak'
+                        downgraded += 1
                 chosen[sid] = choice
         scores[p] = chosen
-        scores['_method'][p] = 'keyword' if failed or jev is None else 'jev'
-        fallback[p] = failed or jev is None
-    # Record fallback explicitly whenever keyword screening was needed.
-    if any(fallback.values()):
-        scores['_method']['jev_fallback'] = fallback
+        scores['_downgraded'][p] = downgraded
+        scores['_method'][p] = ('keyword' if jev is None or fallback_count and fallback_count == len(rows)
+                                else 'mixed' if fallback_count else 'jev')
+        fallback_counts[p] = fallback_count
+    if any(fallback_counts.values()):
+        scores['_method']['fallback_items'] = fallback_counts
+        scores['_method']['jev_fallback'] = {p: bool(n) for p, n in fallback_counts.items()}
     return scores
 
 

@@ -39,6 +39,8 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--run', type=Path, required=True)
     ap.add_argument('--day', required=True)
+    ap.add_argument('--targeted', default='', help='comma-separated personas whose targeted queries are appended')
+    ap.add_argument('--date-from', type=rg.date.fromisoformat, help='override realtime window start (YYYY-MM-DD)')
     ap.add_argument('--cap', type=float, default=40.0)
     ap.add_argument('--limit', type=int, default=6)
     ap.add_argument('--per-persona', type=int, default=3)
@@ -49,6 +51,10 @@ def main():
     ap.add_argument('--extract', action='store_true')
     ap.add_argument('--partial', action='store_true', help='extract recorded sources even if planned calls remain (agent-relay runs)')
     args = ap.parse_args()
+    targeted = [p.strip() for p in args.targeted.split(',') if p.strip()]
+    if any(p not in rg.TARGETED for p in targeted):
+        ap.error('--targeted must name personas in: ' + ','.join(rg.TARGETED))
+    date_from = args.date_from.isoformat() if args.date_from else None
     (args.run / 'responses').mkdir(parents=True, exist_ok=True)
     recorded = replay(args.run)
     if args.transport == 'http':
@@ -61,12 +67,13 @@ def main():
         call = recorded
     plan = []
     budget = rg.Points(args.cap, per_call_estimate=0.6)
-    items = rg.daily_listing(call, rg.listing_queries(PERSONAS, day=args.day, limit=args.limit),
-                             day=args.day, budget=budget, plan=plan)
+    report = {'day': args.day}
+    items = rg.daily_listing(call, rg.listing_queries(PERSONAS, day=args.day, limit=args.limit, targeted=targeted, date_from=date_from),
+                             day=args.day, budget=budget, plan=plan, report=report, date_from=date_from)
     listing_points = budget.spent
     scores, top, sources = {}, [], []
-    report = {'day': args.day, 'listing_items': len(items), 'items': [
-        {k: i.get(k) for k in ('source_id', 'source_type', 'bank', 'published_at', 'title', 'query')} for i in items]}
+    report.update({'listing_items': len(items), 'items': [
+        {k: i.get(k) for k in ('source_id', 'source_type', 'bank', 'published_at', 'title', 'query')} for i in items]})
     if plan:
         report['stage'] = 'listing'
     else:
@@ -141,11 +148,13 @@ def main():
                 except Exception as exc:
                     report['units'].append({'id': src['id'], 'persona': s['persona'], 'error': f'{type(exc).__name__}: {str(exc)[:160]}'})
     report['personas'] = {}
-    queries_by_persona = {p: {q['query'] for q in rg.listing_queries([p], day=args.day, limit=args.limit)} for p in PERSONAS}
+    queries_by_persona = {p: {q['query'] for q in rg.listing_queries([p], day=args.day, limit=args.limit, targeted=[p] if p in targeted else (), date_from=date_from)} for p in PERSONAS}
     for p in PERSONAS:
         chosen = scores.get(p, {})
         report['personas'][p] = {
             'listed_items': sum(bool(set(i.get('queries', [i['query']])) & queries_by_persona[p]) for i in items),
+            'prescreen_downgraded': scores.get('_downgraded', {}).get(p, 0),
+            'prescreen_fallback_items': scores.get('_method', {}).get('fallback_items', {}).get(p, 0),
             'prescreen_strong': sum(c == 'strong' for c in chosen.values()),
             'prescreen_weak': sum(c == 'weak' for c in chosen.values()),
             'selected_reports': sum(persona == p for persona, _ in top),
