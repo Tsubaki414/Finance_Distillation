@@ -371,7 +371,7 @@ def select_top(scores, *, items=None, per_persona=3, max_total=30, exclude=()):
     for p, chosen in scores.items():
         if p.startswith('_'):
             continue
-        ok = [(sid, c) for sid, c in chosen.items() if c in ('strong', 'weak') and sid not in excluded
+        ok = [(sid, c) for sid, c in chosen.items() if c in ('strong', 'weak') and sid not in excluded and (items is None or sid in items)
               and not (items and p not in ZH_PERSONAS and (items.get(sid) or {}).get('source_type') == 'cn')]
         if any(c == 'strong' for _, c in ok):
             ok = [(sid, c) for sid, c in ok if c == 'strong']
