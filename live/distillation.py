@@ -36,8 +36,10 @@ def require(condition, message):
         raise ContractError(message)
 
 
-def accounts_from_file(path=ROOT / 'live/accounts.json'):
-    return json.loads(Path(path).read_text())['accounts']
+def accounts_from_file(path=ROOT / 'live/accounts.json', *, include_disabled=False):
+    """Operational accounts by default; disabled logical accounts are opt-in."""
+    rows = json.loads(Path(path).read_text())['accounts']
+    return rows if include_disabled else [row for row in rows if row.get('enabled') is True]
 
 
 def account_profiles(accounts,languages=DEFAULT_LANGUAGES,domain_policies=None):

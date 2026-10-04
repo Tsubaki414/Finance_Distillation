@@ -1,0 +1,358 @@
+{
+  "version": 1,
+  "cluster": "zh_us_stock_commentary",
+  "lang": "zh",
+  "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
+  "sample": {
+    "posts": 2065,
+    "donors": {
+      "alacheng": 0.103,
+      "AlphaguyTrading": 0.103,
+      "BroBean88": 0.103,
+      "cishanjia": 0.103,
+      "rickawsb": 0.103,
+      "tychozzz": 0.103,
+      "wufantouzi": 0.103,
+      "Michael_QQQ2025": 0.097,
+      "shufen46250836": 0.097,
+      "Unclestocknotes": 0.088
+    }
+  },
+  "method": "Roster weights normalized over available eligible donors; equal mass per donor post; sentence mass equal within post. UTC cadence over observed scrape interval. Signature lift is weighted cluster document frequency divided by unweighted eligible all-donor document frequency (3-word EN / 4-character ZH n-grams, present in at least 2 cluster posts).",
+  "cadence": {
+    "posts_per_day_median": 1,
+    "active_hours_utc": {
+      "0": 0.044769,
+      "1": 0.067151,
+      "2": 0.05517,
+      "3": 0.051274,
+      "4": 0.041082,
+      "5": 0.043586,
+      "6": 0.044975,
+      "7": 0.063174,
+      "8": 0.088511,
+      "9": 0.059114,
+      "10": 0.048276,
+      "11": 0.041462,
+      "12": 0.045567,
+      "13": 0.047439,
+      "14": 0.047774,
+      "15": 0.050961,
+      "16": 0.030852,
+      "17": 0.033018,
+      "18": 0.022567,
+      "19": 0.012505,
+      "20": 0.014157,
+      "21": 0.014291,
+      "22": 0.014607,
+      "23": 0.017717
+    }
+  },
+  "hooks": {
+    "question": {
+      "share": 0.090063745,
+      "first_lines": [
+        {
+          "handle": "alacheng",
+          "id": "2001286609870950450",
+          "text": "围绕 @VitalikButerin 编程，创业速度真快。ETH gas期货市场刚刚融了1200万美金。这离v的设想开始到融资，能有一个月？这速度越来越快。"
+        },
+        {
+          "handle": "alacheng",
+          "id": "2005606996834480295",
+          "text": "从openai离职出去创业的都在做啥？"
+        },
+        {
+          "handle": "alacheng",
+          "id": "2091373321174806738",
+          "text": "VibeFi 一个新概念？ 看名字看起来是启发自Vibe coding？氛围FI？"
+        }
+      ]
+    },
+    "number-led": {
+      "share": 0.036108158,
+      "first_lines": [
+        {
+          "handle": "alacheng",
+          "id": "1992043747698463187",
+          "text": "0xPolygon @0xPolygon 生态里的预测市场 @Polymarket 和 Kaito以及brevis_ @brevis_zk  合作，实现了可验证的 kaito mindshare markets。这样用户可以在Polymarket上进行kaito上项目的mindshare预测交易。"
+        },
+        {
+          "handle": "alacheng",
+          "id": "2099125625412108728",
+          "text": "4Dlabs @4Dlabs_Official 又一家具身智能数据类企业，模式也是通过web3的模式，但和之前介绍的Axis Robotics @axisrobotics 模式稍微不同，Axis Robotics 主要是仿真数据和手机app手机数据为核心。而4Dlabs则是三块："
+        },
+        {
+          "handle": "alacheng",
+          "id": "2105449382590181756",
+          "text": "1个月前的10亿美金涨到100亿美金 =》 1个月前的25亿美金涨到100亿美金"
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.863337475,
+      "first_lines": [
+        {
+          "handle": "alacheng",
+          "id": "1989305453432738236",
+          "text": "zama @zama token 快来了。"
+        },
+        {
+          "handle": "alacheng",
+          "id": "1989509972825444679",
+          "text": "Zaiffer是由zama @zama 和 zaiffer 合资成立了一家隐私交易公司。zaiffer主要是使用Zama 的 FHEVM来实现隐私交易。而FHEVM则是通过支持ERC-7984实现隐私交易。"
+        },
+        {
+          "handle": "alacheng",
+          "id": "1989510138617893289",
+          "text": "这个项目融资规模不大，200万美金。现在处于测试网阶段。"
+        }
+      ]
+    },
+    "breaking": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "emoji-led": {
+      "share": 0.00314253,
+      "first_lines": [
+        {
+          "handle": "AlphaguyTrading",
+          "id": "2102341675444273204",
+          "text": "😎😎😎🫡 https://t.co/ykSvAHKBQt"
+        },
+        {
+          "handle": "Michael_QQQ2025",
+          "id": "2090116945068933557",
+          "text": "🤣🤣🤣有人说BTC正经历历史最大的单日空头事件；polymarket也在狠狠押注BTC在8月破7万的事件，目前是73%."
+        },
+        {
+          "handle": "Michael_QQQ2025",
+          "id": "2092040185282511349",
+          "text": "🤷"
+        }
+      ]
+    },
+    "quote": {
+      "share": 0.007348092,
+      "first_lines": [
+        {
+          "handle": "alacheng",
+          "id": "1989584623551295886",
+          "text": "“森碟” Sentient @SentientAGI 昨天上了两家的盘前合约，okx和币安，节奏加快了。一般上了盘前，多则一周，少则几天就tge了。再之后重点看的项目："
+        },
+        {
+          "handle": "alacheng",
+          "id": "1990710061388403019",
+          "text": "\"Zama 使用 TokenOps 进行其自身的保密分发和空投 \" 这个太隐私了会不会缺少透明呢🤣"
+        },
+        {
+          "handle": "alacheng",
+          "id": "2025923974086214059",
+          "text": "“Q4－SDK发布目标为在生产环境中持续实现5000 TPS和500毫秒阻塞时间, 应用程式的运行速度将与 Web2 服务一样快，即使在重负荷下也能保持稳定的性能，应用程式的运行速度将与 Web2 服务一样快。”"
+        }
+      ]
+    }
+  },
+  "sentence_length": {
+    "unit": "chars",
+    "median": 28,
+    "p25": 15,
+    "p75": 48
+  },
+  "signature_phrasing": [
+    {
+      "phrase": "了奶子哥",
+      "cluster_share": 0.012323,
+      "lift": 13.8336,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "让奶子哥",
+      "cluster_share": 0.010269,
+      "lift": 13.8336,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "奶子哥发",
+      "cluster_share": 0.008729,
+      "lift": 13.8336,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "奶子哥之",
+      "cluster_share": 0.008215,
+      "lift": 13.8336,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "奶子哥的",
+      "cluster_share": 0.007702,
+      "lift": 13.8336,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "子哥之前",
+      "cluster_share": 0.007702,
+      "lift": 13.8336,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "奶子哥是",
+      "cluster_share": 0.007188,
+      "lift": 13.8336,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "奶子哥最",
+      "cluster_share": 0.007188,
+      "lift": 13.8336,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "子哥发现",
+      "cluster_share": 0.007188,
+      "lift": 13.8336,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "子哥最近",
+      "cluster_share": 0.007188,
+      "lift": 13.8336,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "后奶子哥",
+      "cluster_share": 0.006675,
+      "lift": 13.8336,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "奶子哥不",
+      "cluster_share": 0.006675,
+      "lift": 13.8336,
+      "do_not_copy": true
+    }
+  ],
+  "emoji_rate": 0.125654,
+  "thread_rate": 0.052784,
+  "media_rate": 0.331543,
+  "data_opinion": {
+    "data_share": 0.754389356,
+    "opinion_share": 0.245610644,
+    "data_to_opinion": 3.071484788,
+    "definition": "Data: numeric tags or data_take/earnings_take; opinion: remaining posts (proxy, not semantic verdict)."
+  },
+  "post_type_mix": {
+    "data_take": 0.244672,
+    "earnings_take": 0.037964,
+    "hot_take": 0.258837,
+    "mechanism_explainer": 0.285269,
+    "unknown": 0.00191,
+    "view_relay": 0.171348
+  },
+  "do": [
+    {
+      "rule": "Lead with a clear judgment; use data to support it.",
+      "evidence": [
+        {
+          "handle": "alacheng",
+          "id": "1989305453432738236",
+          "text": "zama @zama token 快来了。\n\n-是否有ido，估值多少\n\n-Zama挖矿机会应该没了，基本上就是白名单合作机制的机构矿工，前面已经合作了几家了，和 @SuccinctLabs 的矿工机制差不多。即使像 @boundlesshq 这种前期是无需许可的矿工机制，经过一"
+        },
+        {
+          "handle": "alacheng",
+          "id": "1989509972825444679",
+          "text": "Zaiffer是由zama @zama 和 zaiffer 合资成立了一家隐私交易公司。zaiffer主要是使用Zama 的 FHEVM来实现隐私交易。而FHEVM则是通过支持ERC-7984实现隐私交易。\n\n简单介绍下ERC-7984：\nhttps://t.co/265dzxi"
+        },
+        {
+          "handle": "alacheng",
+          "id": "1989510138617893289",
+          "text": "这个项目融资规模不大，200万美金。现在处于测试网阶段。"
+        },
+        {
+          "handle": "alacheng",
+          "id": "1989584623551295886",
+          "text": "“森碟” Sentient @SentientAGI 昨天上了两家的盘前合约，okx和币安，节奏加快了。一般上了盘前，多则一周，少则几天就tge了。再之后重点看的项目：\n\n-AI去中心化推理/训练 @Gradient_HQ 应该看起来会是个比较靓的技术仔\n\n-Zkvm @brev"
+        }
+      ]
+    },
+    {
+      "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+      "evidence": [
+        {
+          "handle": "alacheng",
+          "id": "1989305453432738236",
+          "text": "zama @zama token 快来了。\n\n-是否有ido，估值多少\n\n-Zama挖矿机会应该没了，基本上就是白名单合作机制的机构矿工，前面已经合作了几家了，和 @SuccinctLabs 的矿工机制差不多。即使像 @boundlesshq 这种前期是无需许可的矿工机制，经过一"
+        },
+        {
+          "handle": "alacheng",
+          "id": "1989509972825444679",
+          "text": "Zaiffer是由zama @zama 和 zaiffer 合资成立了一家隐私交易公司。zaiffer主要是使用Zama 的 FHEVM来实现隐私交易。而FHEVM则是通过支持ERC-7984实现隐私交易。\n\n简单介绍下ERC-7984：\nhttps://t.co/265dzxi"
+        },
+        {
+          "handle": "alacheng",
+          "id": "1989510138617893289",
+          "text": "这个项目融资规模不大，200万美金。现在处于测试网阶段。"
+        },
+        {
+          "handle": "alacheng",
+          "id": "1989584623551295886",
+          "text": "“森碟” Sentient @SentientAGI 昨天上了两家的盘前合约，okx和币安，节奏加快了。一般上了盘前，多则一周，少则几天就tge了。再之后重点看的项目：\n\n-AI去中心化推理/训练 @Gradient_HQ 应该看起来会是个比较靓的技术仔\n\n-Zkvm @brev"
+        }
+      ]
+    }
+  ],
+  "dont": [
+    {
+      "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+      "evidence": [
+        {
+          "handle": "alacheng",
+          "id": "1989305453432738236",
+          "text": "zama @zama token 快来了。\n\n-是否有ido，估值多少\n\n-Zama挖矿机会应该没了，基本上就是白名单合作机制的机构矿工，前面已经合作了几家了，和 @SuccinctLabs 的矿工机制差不多。即使像 @boundlesshq 这种前期是无需许可的矿工机制，经过一"
+        },
+        {
+          "handle": "alacheng",
+          "id": "1989509972825444679",
+          "text": "Zaiffer是由zama @zama 和 zaiffer 合资成立了一家隐私交易公司。zaiffer主要是使用Zama 的 FHEVM来实现隐私交易。而FHEVM则是通过支持ERC-7984实现隐私交易。\n\n简单介绍下ERC-7984：\nhttps://t.co/265dzxi"
+        },
+        {
+          "handle": "alacheng",
+          "id": "1989510138617893289",
+          "text": "这个项目融资规模不大，200万美金。现在处于测试网阶段。"
+        },
+        {
+          "handle": "alacheng",
+          "id": "1989584623551295886",
+          "text": "“森碟” Sentient @SentientAGI 昨天上了两家的盘前合约，okx和币安，节奏加快了。一般上了盘前，多则一周，少则几天就tge了。再之后重点看的项目：\n\n-AI去中心化推理/训练 @Gradient_HQ 应该看起来会是个比较靓的技术仔\n\n-Zkvm @brev"
+        }
+      ]
+    },
+    {
+      "rule": "Do not convert observed confidence into an unsupported trade call.",
+      "evidence": [
+        {
+          "handle": "alacheng",
+          "id": "1989305453432738236",
+          "text": "zama @zama token 快来了。\n\n-是否有ido，估值多少\n\n-Zama挖矿机会应该没了，基本上就是白名单合作机制的机构矿工，前面已经合作了几家了，和 @SuccinctLabs 的矿工机制差不多。即使像 @boundlesshq 这种前期是无需许可的矿工机制，经过一"
+        },
+        {
+          "handle": "alacheng",
+          "id": "1989509972825444679",
+          "text": "Zaiffer是由zama @zama 和 zaiffer 合资成立了一家隐私交易公司。zaiffer主要是使用Zama 的 FHEVM来实现隐私交易。而FHEVM则是通过支持ERC-7984实现隐私交易。\n\n简单介绍下ERC-7984：\nhttps://t.co/265dzxi"
+        },
+        {
+          "handle": "alacheng",
+          "id": "1989510138617893289",
+          "text": "这个项目融资规模不大，200万美金。现在处于测试网阶段。"
+        },
+        {
+          "handle": "alacheng",
+          "id": "1989584623551295886",
+          "text": "“森碟” Sentient @SentientAGI 昨天上了两家的盘前合约，okx和币安，节奏加快了。一般上了盘前，多则一周，少则几天就tge了。再之后重点看的项目：\n\n-AI去中心化推理/训练 @Gradient_HQ 应该看起来会是个比较靓的技术仔\n\n-Zkvm @brev"
+        }
+      ]
+    }
+  ]
+}

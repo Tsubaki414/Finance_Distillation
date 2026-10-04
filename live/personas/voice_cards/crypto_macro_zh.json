@@ -1,0 +1,355 @@
+{
+  "version": 1,
+  "cluster": "crypto_macro_zh",
+  "lang": "zh",
+  "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
+  "sample": {
+    "posts": 1316,
+    "donors": {
+      "Bitwux": 0.195,
+      "buereth": 0.195,
+      "mindaoyang": 0.195,
+      "nbblock": 0.158,
+      "Jason60704294": 0.125,
+      "0xzhaozhao": 0.072,
+      "0xBeyondLee": 0.061
+    }
+  },
+  "method": "Roster weights normalized over available eligible donors; equal mass per donor post; sentence mass equal within post. UTC cadence over observed scrape interval. Signature lift is weighted cluster document frequency divided by unweighted eligible all-donor document frequency (3-word EN / 4-character ZH n-grams, present in at least 2 cluster posts).",
+  "cadence": {
+    "posts_per_day_median": 1,
+    "active_hours_utc": {
+      "0": 0.037656,
+      "1": 0.047641,
+      "2": 0.081945,
+      "3": 0.075537,
+      "4": 0.048356,
+      "5": 0.052038,
+      "6": 0.051903,
+      "7": 0.047076,
+      "8": 0.048025,
+      "9": 0.059689,
+      "10": 0.049512,
+      "11": 0.047815,
+      "12": 0.057456,
+      "13": 0.066983,
+      "14": 0.087424,
+      "15": 0.046374,
+      "16": 0.033041,
+      "17": 0.020835,
+      "18": 0.01139,
+      "19": 0.003421,
+      "20": 0.005672,
+      "21": 0.002251,
+      "22": 0.007878,
+      "23": 0.01008
+    }
+  },
+  "hooks": {
+    "question": {
+      "share": 0.068670201,
+      "first_lines": [
+        {
+          "handle": "Bitwux",
+          "id": "2097838624075317739",
+          "text": "我在想，大部分时候，我们是不是把太多美好，预先安排在了远方？ https://t.co/W5ZmeVYwhd"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2097862655390466324",
+          "text": "马德，今天什么行情？"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2098251135488499774",
+          "text": "突然想到一件事：苍蝇这个叙事应该会比较符合 Meme 的叙事逻辑，有没有龙头出来给我追下？"
+        }
+      ]
+    },
+    "number-led": {
+      "share": 0.029100273,
+      "first_lines": [
+        {
+          "handle": "Bitwux",
+          "id": "2099748046108029293",
+          "text": "0x 起了一个相当挑衅的标题：“Uniswap v4 hooks were a mistake”。"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2100803824571322651",
+          "text": "7号说这哥们选的标的强势；"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2105136013861638387",
+          "text": "3%之外，当时可能还有发币预期，以及项目方的游说吧，真实情况我们也不得而知，"
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.876053005,
+      "first_lines": [
+        {
+          "handle": "Bitwux",
+          "id": "2097857783001686338",
+          "text": "千万别让你们老婆看这个视频，别问我为什么知道的。"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2097880064914501854",
+          "text": "大家教师节快乐！"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2097952684095774986",
+          "text": "感觉折叠屏现在对我最大的功能是这个！👀"
+        }
+      ]
+    },
+    "breaking": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "emoji-led": {
+      "share": 0.02215853,
+      "first_lines": [
+        {
+          "handle": "Bitwux",
+          "id": "2097901254626435450",
+          "text": "🧐 $LAPTOP 暴涨暴跌事件全面复盘：Hunter Biden 的 Meme 首秀，为什么两分钟就把一个 5000 万美元的币炒到了千亿美元估值？"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2099023974122635690",
+          "text": "📈 我们大 E 子也是差不多要好起来了！"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2099317710584742191",
+          "text": "📅 大家可以收藏下本周宏观交易日历："
+        }
+      ]
+    },
+    "quote": {
+      "share": 0.004017992,
+      "first_lines": [
+        {
+          "handle": "mindaoyang",
+          "id": "1749391903286759659",
+          "text": "“your prison is not prison” flex https://t.co/eWAf4nyt6l"
+        },
+        {
+          "handle": "nbblock",
+          "id": "2081586867271790770",
+          "text": "“英伟达正与OpenAI就高达2500亿美元的数据中心项目融资担保进行磋商。”"
+        },
+        {
+          "handle": "nbblock",
+          "id": "2087777364373860781",
+          "text": "“中国的开发者有非常强的网络安全意我从来没有见过他们用他们的真实的IP访问GitHub”"
+        }
+      ]
+    }
+  },
+  "sentence_length": {
+    "unit": "chars",
+    "median": 24,
+    "p25": 14,
+    "p75": 38
+  },
+  "signature_phrasing": [
+    {
+      "phrase": "买小跌小",
+      "cluster_share": 0.002837,
+      "lift": 25.4779,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "今天聊聊",
+      "cluster_share": 0.002837,
+      "lift": 25.4779,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "以比特币",
+      "cluster_share": 0.002837,
+      "lift": 25.4779,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "块化借贷",
+      "cluster_share": 0.002837,
+      "lift": 25.4779,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "大买小跌",
+      "cluster_share": 0.002837,
+      "lift": 25.4779,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "大家晚安",
+      "cluster_share": 0.002837,
+      "lift": 25.4779,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "大的创新",
+      "cluster_share": 0.002837,
+      "lift": 25.4779,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "大跌大买",
+      "cluster_share": 0.002837,
+      "lift": 25.4779,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "小跌小买",
+      "cluster_share": 0.002837,
+      "lift": 25.4779,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "模块化借",
+      "cluster_share": 0.002837,
+      "lift": 25.4779,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "被盗资金",
+      "cluster_share": 0.002837,
+      "lift": 25.4779,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "跌大买小",
+      "cluster_share": 0.002837,
+      "lift": 25.4779,
+      "do_not_copy": true
+    }
+  ],
+  "emoji_rate": 0.129343,
+  "thread_rate": 0.101976,
+  "media_rate": 0.437628,
+  "data_opinion": {
+    "data_share": 0.730911372,
+    "opinion_share": 0.269088628,
+    "data_to_opinion": 2.716247718,
+    "definition": "Data: numeric tags or data_take/earnings_take; opinion: remaining posts (proxy, not semantic verdict)."
+  },
+  "post_type_mix": {
+    "data_take": 0.218819,
+    "earnings_take": 0.009277,
+    "hot_take": 0.438004,
+    "mechanism_explainer": 0.23095,
+    "unknown": 0.001711,
+    "view_relay": 0.101239
+  },
+  "do": [
+    {
+      "rule": "Lead with a clear judgment; use data to support it.",
+      "evidence": [
+        {
+          "handle": "Bitwux",
+          "id": "2097838624075317739",
+          "text": "我在想，大部分时候，我们是不是把太多美好，预先安排在了远方？ https://t.co/W5ZmeVYwhd"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2097857783001686338",
+          "text": "千万别让你们老婆看这个视频，别问我为什么知道的。\n\n所以现在到底哪里可以买到这玩意？\n\n我帮一个朋友问下，我之前说过坚决不买苹果折叠手机的，我主要帮朋友问的，谢谢！ https://t.co/XGPxXqIP8Z"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2097862655390466324",
+          "text": "马德，今天什么行情？\n\n牛来上了之后，牛就走开了吗？ https://t.co/lDazdUi2xg"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2097880064914501854",
+          "text": "大家教师节快乐！\n\n一路走来我的生命中全是老师没有敌人！\n\n我很喜欢这句话，而且是到骨子里的那种认可和喜欢，包括每一个留言区骂我和讽刺过我的所有人，你们都是我的老师，激励我前行的贵人。\n\n我爱你们，发自内心的！"
+        }
+      ]
+    },
+    {
+      "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+      "evidence": [
+        {
+          "handle": "Bitwux",
+          "id": "2097838624075317739",
+          "text": "我在想，大部分时候，我们是不是把太多美好，预先安排在了远方？ https://t.co/W5ZmeVYwhd"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2097857783001686338",
+          "text": "千万别让你们老婆看这个视频，别问我为什么知道的。\n\n所以现在到底哪里可以买到这玩意？\n\n我帮一个朋友问下，我之前说过坚决不买苹果折叠手机的，我主要帮朋友问的，谢谢！ https://t.co/XGPxXqIP8Z"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2097862655390466324",
+          "text": "马德，今天什么行情？\n\n牛来上了之后，牛就走开了吗？ https://t.co/lDazdUi2xg"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2097880064914501854",
+          "text": "大家教师节快乐！\n\n一路走来我的生命中全是老师没有敌人！\n\n我很喜欢这句话，而且是到骨子里的那种认可和喜欢，包括每一个留言区骂我和讽刺过我的所有人，你们都是我的老师，激励我前行的贵人。\n\n我爱你们，发自内心的！"
+        }
+      ]
+    }
+  ],
+  "dont": [
+    {
+      "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+      "evidence": [
+        {
+          "handle": "Bitwux",
+          "id": "2097838624075317739",
+          "text": "我在想，大部分时候，我们是不是把太多美好，预先安排在了远方？ https://t.co/W5ZmeVYwhd"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2097857783001686338",
+          "text": "千万别让你们老婆看这个视频，别问我为什么知道的。\n\n所以现在到底哪里可以买到这玩意？\n\n我帮一个朋友问下，我之前说过坚决不买苹果折叠手机的，我主要帮朋友问的，谢谢！ https://t.co/XGPxXqIP8Z"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2097862655390466324",
+          "text": "马德，今天什么行情？\n\n牛来上了之后，牛就走开了吗？ https://t.co/lDazdUi2xg"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2097880064914501854",
+          "text": "大家教师节快乐！\n\n一路走来我的生命中全是老师没有敌人！\n\n我很喜欢这句话，而且是到骨子里的那种认可和喜欢，包括每一个留言区骂我和讽刺过我的所有人，你们都是我的老师，激励我前行的贵人。\n\n我爱你们，发自内心的！"
+        }
+      ]
+    },
+    {
+      "rule": "Do not convert observed confidence into an unsupported trade call.",
+      "evidence": [
+        {
+          "handle": "Bitwux",
+          "id": "2097838624075317739",
+          "text": "我在想，大部分时候，我们是不是把太多美好，预先安排在了远方？ https://t.co/W5ZmeVYwhd"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2097857783001686338",
+          "text": "千万别让你们老婆看这个视频，别问我为什么知道的。\n\n所以现在到底哪里可以买到这玩意？\n\n我帮一个朋友问下，我之前说过坚决不买苹果折叠手机的，我主要帮朋友问的，谢谢！ https://t.co/XGPxXqIP8Z"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2097862655390466324",
+          "text": "马德，今天什么行情？\n\n牛来上了之后，牛就走开了吗？ https://t.co/lDazdUi2xg"
+        },
+        {
+          "handle": "Bitwux",
+          "id": "2097880064914501854",
+          "text": "大家教师节快乐！\n\n一路走来我的生命中全是老师没有敌人！\n\n我很喜欢这句话，而且是到骨子里的那种认可和喜欢，包括每一个留言区骂我和讽刺过我的所有人，你们都是我的老师，激励我前行的贵人。\n\n我爱你们，发自内心的！"
+        }
+      ]
+    }
+  ]
+}

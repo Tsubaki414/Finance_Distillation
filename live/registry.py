@@ -91,10 +91,12 @@ class PersonaSpec:
     exemplar_accounts: tuple
     source_affinity: dict
     raw: dict = field(repr=False, compare=False)
+    voice_card: dict = field(default_factory=dict, repr=False, compare=False)
 
     @property
     def donor_weights(self):
-        return {e['handle']: e['weight'] for e in self.raw.get('exemplar_accounts') or []}
+        resolved = resolve_donors(self.raw) if not self.raw.get('exemplar_accounts') and self.raw.get('donor_cluster') else self.raw
+        return {e['handle']: e['weight'] for e in resolved.get('exemplar_accounts') or []}
 
     @property
     def publishable(self):
@@ -179,7 +181,12 @@ def load_personas(directory=PERSONAS, post_types=None):
         raw = validate_persona(resolve_donors(json.loads(path.read_text())), post_types)
         if raw['persona_id'] in out:
             _fail(f'duplicate persona {raw["persona_id"]}')
-        out[raw['persona_id']] = _spec(raw)
+        card_path = Path(directory) / 'voice_cards' / (str(raw.get('donor_cluster')) + '.json')
+        spec = _spec(raw)
+        if card_path.exists():
+            from dataclasses import replace
+            spec = replace(spec, voice_card=json.loads(card_path.read_text()))
+        out[raw['persona_id']] = spec
     return out
 
 

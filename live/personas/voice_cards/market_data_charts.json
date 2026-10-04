@@ -1,0 +1,364 @@
+{
+  "version": 1,
+  "cluster": "market_data_charts",
+  "lang": "en",
+  "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
+  "sample": {
+    "posts": 1776,
+    "donors": {
+      "Mr_Derivatives": 0.148,
+      "EricBalchunas": 0.142,
+      "bespokeinvest": 0.12,
+      "SoberLook": 0.105,
+      "jasongoepfert": 0.094,
+      "MacroCharts": 0.087,
+      "AndrewThrasher": 0.082,
+      "TheChartReport": 0.081,
+      "JSeyff": 0.075,
+      "Greenbackd": 0.067
+    }
+  },
+  "method": "Roster weights normalized over available eligible donors; equal mass per donor post; sentence mass equal within post. UTC cadence over observed scrape interval. Signature lift is weighted cluster document frequency divided by unweighted eligible all-donor document frequency (3-word EN / 4-character ZH n-grams, present in at least 2 cluster posts).",
+  "cadence": {
+    "posts_per_day_median": 1,
+    "active_hours_utc": {
+      "0": 0.023836,
+      "1": 0.016301,
+      "2": 0.00447,
+      "3": 0.003084,
+      "4": 0.005486,
+      "5": 0.002102,
+      "6": 0.000347,
+      "7": 0.002123,
+      "8": 0.002043,
+      "9": 0.03188,
+      "10": 0.019964,
+      "11": 0.066243,
+      "12": 0.092563,
+      "13": 0.111404,
+      "14": 0.093922,
+      "15": 0.085088,
+      "16": 0.063511,
+      "17": 0.074318,
+      "18": 0.048138,
+      "19": 0.04639,
+      "20": 0.063885,
+      "21": 0.073603,
+      "22": 0.036488,
+      "23": 0.032812
+    }
+  },
+  "hooks": {
+    "question": {
+      "share": 0.042664879,
+      "first_lines": [
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2104800976217723335",
+          "text": "Damn the very fact that I’m highly interested in the Pokemon TCG for the first time in my life + Coinbase now announcing digital rips, has gotta be a top signal right?"
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2104894783034655125",
+          "text": "Fitbit 2.0?"
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2105675932212310498",
+          "text": "$SPX I think Tom Lee withdrew his drawdown talks now?"
+        }
+      ]
+    },
+    "number-led": {
+      "share": 0.013662132,
+      "first_lines": [
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2103977133978886651",
+          "text": "$738k market cap on my Heisenberg meme coin just now. Wow."
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2103990148979704259",
+          "text": "1) I did not create the $HEISENBERG coin, someone else did it for me. Clearly."
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2104578388245827936",
+          "text": "10yr yield hit another fresh multi decade high not seen since 2007 and has that look it may want 5.50%’s…"
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.916651269,
+      "first_lines": [
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2078332586464825380",
+          "text": "$TSM Down 7 days in a row, worst losing streak since June-July 2022!"
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2082182601134178772",
+          "text": "The last three times $USO hit a 70+ RSI, it pulled back significantly."
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2087296560896028705",
+          "text": "$JPM Could use a healthy pullback.... https://t.co/FtekcK2lXV"
+        }
+      ]
+    },
+    "breaking": {
+      "share": 0.00046953,
+      "first_lines": [
+        {
+          "handle": "jasongoepfert",
+          "id": "1869118616555381060",
+          "text": "BREAKING: The Dow Jones Industrial Average is on track for its 9th consecutive down day, the first since 1978."
+        }
+      ]
+    },
+    "emoji-led": {
+      "share": 0.008031526,
+      "first_lines": [
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2104588769567572099",
+          "text": "🚨 The odds for a .25% rate hike at BOTH remaining FOMC’s in Oct and Dec are over 70% and 77% respectively now."
+        },
+        {
+          "handle": "bespokeinvest",
+          "id": "2100394690826600803",
+          "text": "👀"
+        },
+        {
+          "handle": "jasongoepfert",
+          "id": "1864767738683555923",
+          "text": "👀"
+        }
+      ]
+    },
+    "quote": {
+      "share": 0.018520663,
+      "first_lines": [
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2105231222016507909",
+          "text": "“Hey wake up babe..”"
+        },
+        {
+          "handle": "EricBalchunas",
+          "id": "2099889652178076028",
+          "text": "\"men used to go to war, now we're afraid of computers.\" - @psarofagis"
+        },
+        {
+          "handle": "EricBalchunas",
+          "id": "2099899629105983511",
+          "text": "\"ETFs should come with a drink ticket and a players card at this point.. There's been so many leveraged ETF closures this year that Spirit Halloween is going to open up temporary locations in the vacant tickers.\" - @SGHWealthMgmt w/ a colorful rant against hot sauce on ETF IQ yesterday w/ @scarletfu"
+        }
+      ]
+    }
+  },
+  "sentence_length": {
+    "unit": "words",
+    "median": 10,
+    "p25": 5,
+    "p75": 17
+  },
+  "signature_phrasing": [
+    {
+      "phrase": "day was shared",
+      "cluster_share": 0.016627,
+      "lift": 29.8647,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "in today's report",
+      "cluster_share": 0.016627,
+      "lift": 29.8647,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "more great charts",
+      "cluster_share": 0.016627,
+      "lift": 29.8647,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "plus more great",
+      "cluster_share": 0.016627,
+      "lift": 29.8647,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "report plus more",
+      "cluster_share": 0.016627,
+      "lift": 29.8647,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "today's chart of",
+      "cluster_share": 0.016627,
+      "lift": 29.8647,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "today's report plus",
+      "cluster_share": 0.016627,
+      "lift": 29.8647,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "was shared by",
+      "cluster_share": 0.016627,
+      "lift": 29.8647,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "details in today's",
+      "cluster_share": 0.013302,
+      "lift": 29.8647,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "full details in",
+      "cluster_share": 0.013302,
+      "lift": 29.8647,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "the full details",
+      "cluster_share": 0.013302,
+      "lift": 29.8647,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "full note in",
+      "cluster_share": 0.011085,
+      "lift": 29.8647,
+      "do_not_copy": true
+    }
+  ],
+  "emoji_rate": 0.039756,
+  "thread_rate": 0.125135,
+  "media_rate": 0.622826,
+  "data_opinion": {
+    "data_share": 0.811462484,
+    "opinion_share": 0.188537516,
+    "data_to_opinion": 4.303984166,
+    "definition": "Data: numeric tags or data_take/earnings_take; opinion: remaining posts (proxy, not semantic verdict)."
+  },
+  "post_type_mix": {
+    "data_take": 0.450418,
+    "earnings_take": 0.011714,
+    "hot_take": 0.294391,
+    "mechanism_explainer": 0.026964,
+    "unknown": 0.002405,
+    "view_relay": 0.214109
+  },
+  "do": [
+    {
+      "rule": "Lead with a clear judgment; use data to support it.",
+      "evidence": [
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2078332586464825380",
+          "text": "$TSM Down 7 days in a row, worst losing streak since June-July 2022!\n\nSitting right at this critical support line dating back to the April 2"
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2082182601134178772",
+          "text": "The last three times $USO hit a 70+ RSI, it pulled back significantly."
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2087296560896028705",
+          "text": "$JPM Could use a healthy pullback.... https://t.co/FtekcK2lXV"
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2095294890683072618",
+          "text": "$HIMS Just give me a 20-25% bouncer here. I promise to eat my vegetables. https://t.co/UCgQUnBjEW"
+        }
+      ]
+    },
+    {
+      "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+      "evidence": [
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2078332586464825380",
+          "text": "$TSM Down 7 days in a row, worst losing streak since June-July 2022!\n\nSitting right at this critical support line dating back to the April 2"
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2082182601134178772",
+          "text": "The last three times $USO hit a 70+ RSI, it pulled back significantly."
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2087296560896028705",
+          "text": "$JPM Could use a healthy pullback.... https://t.co/FtekcK2lXV"
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2095294890683072618",
+          "text": "$HIMS Just give me a 20-25% bouncer here. I promise to eat my vegetables. https://t.co/UCgQUnBjEW"
+        }
+      ]
+    }
+  ],
+  "dont": [
+    {
+      "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+      "evidence": [
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2078332586464825380",
+          "text": "$TSM Down 7 days in a row, worst losing streak since June-July 2022!\n\nSitting right at this critical support line dating back to the April 2"
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2082182601134178772",
+          "text": "The last three times $USO hit a 70+ RSI, it pulled back significantly."
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2087296560896028705",
+          "text": "$JPM Could use a healthy pullback.... https://t.co/FtekcK2lXV"
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2095294890683072618",
+          "text": "$HIMS Just give me a 20-25% bouncer here. I promise to eat my vegetables. https://t.co/UCgQUnBjEW"
+        }
+      ]
+    },
+    {
+      "rule": "Do not convert observed confidence into an unsupported trade call.",
+      "evidence": [
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2078332586464825380",
+          "text": "$TSM Down 7 days in a row, worst losing streak since June-July 2022!\n\nSitting right at this critical support line dating back to the April 2"
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2082182601134178772",
+          "text": "The last three times $USO hit a 70+ RSI, it pulled back significantly."
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2087296560896028705",
+          "text": "$JPM Could use a healthy pullback.... https://t.co/FtekcK2lXV"
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2095294890683072618",
+          "text": "$HIMS Just give me a 20-25% bouncer here. I promise to eat my vegetables. https://t.co/UCgQUnBjEW"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,369 @@
+{
+  "version": 1,
+  "cluster": "industry_ai_capex",
+  "lang": "en",
+  "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
+  "sample": {
+    "posts": 1943,
+    "donors": {
+      "IanCutress": 0.129,
+      "mingchikuo": 0.123,
+      "SemiAnalysis_": 0.123,
+      "Beth_Kindig": 0.111,
+      "LexSokolin": 0.105,
+      "aleabitoreddit": 0.105,
+      "citrini": 0.1,
+      "jukan05": 0.072,
+      "kevinsxu": 0.07,
+      "matthew_sigel": 0.061
+    }
+  },
+  "method": "Roster weights normalized over available eligible donors; equal mass per donor post; sentence mass equal within post. UTC cadence over observed scrape interval. Signature lift is weighted cluster document frequency divided by unweighted eligible all-donor document frequency (3-word EN / 4-character ZH n-grams, present in at least 2 cluster posts).",
+  "cadence": {
+    "posts_per_day_median": 2,
+    "active_hours_utc": {
+      "0": 0.044037,
+      "1": 0.037019,
+      "2": 0.032242,
+      "3": 0.036095,
+      "4": 0.02197,
+      "5": 0.024523,
+      "6": 0.02446,
+      "7": 0.02734,
+      "8": 0.028064,
+      "9": 0.025446,
+      "10": 0.0241,
+      "11": 0.022331,
+      "12": 0.036722,
+      "13": 0.032512,
+      "14": 0.05487,
+      "15": 0.060015,
+      "16": 0.085599,
+      "17": 0.088889,
+      "18": 0.059215,
+      "19": 0.056159,
+      "20": 0.05529,
+      "21": 0.052772,
+      "22": 0.025994,
+      "23": 0.044337
+    }
+  },
+  "hooks": {
+    "question": {
+      "share": 0.057017725,
+      "first_lines": [
+        {
+          "handle": "IanCutress",
+          "id": "2084643148723110138",
+          "text": "Did anyone tell them yet? https://t.co/OsDgvPeHGt"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2087097943526453474",
+          "text": "So, copy paste into a different model and say 'strip the watermark'.?"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2087544196127175104",
+          "text": "Low Power AI Is More Efficient ?!"
+        }
+      ]
+    },
+    "number-led": {
+      "share": 0.01141478,
+      "first_lines": [
+        {
+          "handle": "IanCutress",
+          "id": "2095619548124737795",
+          "text": "£180,000 (or $245,000) !!!"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2102799787481268676",
+          "text": "3d fabric, nanosheet, backside power, and next gen HBM, COUPE for optics. Holistic paradigm that spans the semi stack. Scale in, scale up, scale out."
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2102802092272554062",
+          "text": "3dfabric alliance shows that no one company can solve packaging alone. Alliance brings alignment and pioneering open standards."
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.900426527,
+      "first_lines": [
+        {
+          "handle": "IanCutress",
+          "id": "2080346881742483595",
+          "text": "@AMD @cerebras @andrewdfeldman ROCm releases every six weeks. https://t.co/RBMFZysaRR"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2080361822662574538",
+          "text": "@AMD Lisa back to the stage. https://t.co/p8Q9Kia7U6"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2080362158307598819",
+          "text": "@AMD Florence, Ferrara, Fidenza https://t.co/mOTfNvEOcS"
+        }
+      ]
+    },
+    "breaking": {
+      "share": 0.001251058,
+      "first_lines": [
+        {
+          "handle": "mingchikuo",
+          "id": "2067438616188739960",
+          "text": "Breaking down TSMC's glass core substrate slide"
+        },
+        {
+          "handle": "SemiAnalysis_",
+          "id": "2100661179932700867",
+          "text": "BREAKING: AMD MI355X is quickly closing the perf/TCO gap in agentic inference, when compared to GB300 apples-to-apples. (1/3)🧵 https://t.co/DyK8QPmuRv"
+        }
+      ]
+    },
+    "emoji-led": {
+      "share": 0.00892655,
+      "first_lines": [
+        {
+          "handle": "IanCutress",
+          "id": "2099968445777387664",
+          "text": "😭"
+        },
+        {
+          "handle": "SemiAnalysis_",
+          "id": "2105447635062575437",
+          "text": "🚨 IMPORTANT THREAD FOR GPU RENTERS 🚨"
+        },
+        {
+          "handle": "SemiAnalysis_",
+          "id": "2106217837643575607",
+          "text": "🚨Custom HBM frees up die space for compute🚨"
+        }
+      ]
+    },
+    "quote": {
+      "share": 0.02096336,
+      "first_lines": [
+        {
+          "handle": "IanCutress",
+          "id": "2097625189911494965",
+          "text": "\"Hi techtechpotato,"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2098710313315016727",
+          "text": "\"The CUDA moat is gone\" says @DavidBennett__ , the CEO of a new Japanese neocloud called ai&amp; (aka @aiand_). A chunk of their infrastructure is built on @tenstorrent hardware, one of the largest deployments outside of the USA."
+        },
+        {
+          "handle": "SemiAnalysis_",
+          "id": "2106582776975958095",
+          "text": "\"6.1 Astra\""
+        }
+      ]
+    }
+  },
+  "sentence_length": {
+    "unit": "words",
+    "median": 9,
+    "p25": 4,
+    "p75": 18
+  },
+  "signature_phrasing": [
+    {
+      "phrase": "of hot chips",
+      "cluster_share": 0.003269,
+      "lift": 22.019,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "the show floor",
+      "cluster_share": 0.003269,
+      "lift": 22.019,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "add more headphones",
+      "cluster_share": 0.001635,
+      "lift": 22.019,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "ai hardware show",
+      "cluster_share": 0.001635,
+      "lift": 22.019,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "frequency by half",
+      "cluster_share": 0.001635,
+      "lift": 22.019,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "heard you like",
+      "cluster_share": 0.001635,
+      "lift": 22.019,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "i heard you",
+      "cluster_share": 0.001635,
+      "lift": 22.019,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "is hbm e",
+      "cluster_share": 0.001635,
+      "lift": 22.019,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "oip is the",
+      "cluster_share": 0.001635,
+      "lift": 22.019,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "out of hot",
+      "cluster_share": 0.001635,
+      "lift": 22.019,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "richard ho rh",
+      "cluster_share": 0.001635,
+      "lift": 22.019,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "service and parts",
+      "cluster_share": 0.001635,
+      "lift": 22.019,
+      "do_not_copy": true
+    }
+  ],
+  "emoji_rate": 0.078992,
+  "thread_rate": 0.168126,
+  "media_rate": 0.362814,
+  "data_opinion": {
+    "data_share": 0.739889434,
+    "opinion_share": 0.260110566,
+    "data_to_opinion": 2.844518949,
+    "definition": "Data: numeric tags or data_take/earnings_take; opinion: remaining posts (proxy, not semantic verdict)."
+  },
+  "post_type_mix": {
+    "data_take": 0.223259,
+    "earnings_take": 0.040174,
+    "hot_take": 0.328997,
+    "mechanism_explainer": 0.122644,
+    "unknown": 0.003453,
+    "view_relay": 0.281474
+  },
+  "do": [
+    {
+      "rule": "Lead with a clear judgment; use data to support it.",
+      "evidence": [
+        {
+          "handle": "IanCutress",
+          "id": "2080346881742483595",
+          "text": "@AMD @cerebras @andrewdfeldman ROCm releases every six weeks. https://t.co/RBMFZysaRR"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2080361822662574538",
+          "text": "@AMD Lisa back to the stage. https://t.co/p8Q9Kia7U6"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2080362158307598819",
+          "text": "@AMD Florence, Ferrara, Fidenza https://t.co/mOTfNvEOcS"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2080363114608931183",
+          "text": "@AMD Final thought: AI is having the biggest impact.\n\nYes my view is obscured by the camera crew. Why right at this exact second. https://t."
+        }
+      ]
+    },
+    {
+      "rule": "Prefer claim-led openings and the observed sentence band as flexible guidance.",
+      "evidence": [
+        {
+          "handle": "IanCutress",
+          "id": "2080346881742483595",
+          "text": "@AMD @cerebras @andrewdfeldman ROCm releases every six weeks. https://t.co/RBMFZysaRR"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2080361822662574538",
+          "text": "@AMD Lisa back to the stage. https://t.co/p8Q9Kia7U6"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2080362158307598819",
+          "text": "@AMD Florence, Ferrara, Fidenza https://t.co/mOTfNvEOcS"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2080363114608931183",
+          "text": "@AMD Final thought: AI is having the biggest impact.\n\nYes my view is obscured by the camera crew. Why right at this exact second. https://t."
+        }
+      ]
+    }
+  ],
+  "dont": [
+    {
+      "rule": "Do not copy donor wording, personal experience, facts or numbers.",
+      "evidence": [
+        {
+          "handle": "IanCutress",
+          "id": "2080346881742483595",
+          "text": "@AMD @cerebras @andrewdfeldman ROCm releases every six weeks. https://t.co/RBMFZysaRR"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2080361822662574538",
+          "text": "@AMD Lisa back to the stage. https://t.co/p8Q9Kia7U6"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2080362158307598819",
+          "text": "@AMD Florence, Ferrara, Fidenza https://t.co/mOTfNvEOcS"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2080363114608931183",
+          "text": "@AMD Final thought: AI is having the biggest impact.\n\nYes my view is obscured by the camera crew. Why right at this exact second. https://t."
+        }
+      ]
+    },
+    {
+      "rule": "Do not convert observed confidence into an unsupported trade call.",
+      "evidence": [
+        {
+          "handle": "IanCutress",
+          "id": "2080346881742483595",
+          "text": "@AMD @cerebras @andrewdfeldman ROCm releases every six weeks. https://t.co/RBMFZysaRR"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2080361822662574538",
+          "text": "@AMD Lisa back to the stage. https://t.co/p8Q9Kia7U6"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2080362158307598819",
+          "text": "@AMD Florence, Ferrara, Fidenza https://t.co/mOTfNvEOcS"
+        },
+        {
+          "handle": "IanCutress",
+          "id": "2080363114608931183",
+          "text": "@AMD Final thought: AI is having the biggest impact.\n\nYes my view is obscured by the camera crew. Why right at this exact second. https://t."
+        }
+      ]
+    }
+  ]
+}
