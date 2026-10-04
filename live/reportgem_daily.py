@@ -127,11 +127,16 @@ _SECOND = {
  'crypto_macro_en': 'digital asset regulation ETF flows tokenization',
  'crypto_macro_zh': '数字资产',
 }
+_ZH_KEYWORDS = {
+ 'macro_zh': ('宏观', '美联储', '美债', '利率', '通胀', '降息', '经济', '政策', '汇率', '国债'),
+ 'zh_us_stock_commentary': ('半导体', '人工智能', '算力', '美股', '财报', '科技', '芯片', '存储'),
+ 'crypto_macro_zh': ('数字资产', '比特币', '稳定币', '加密', '区块链', '代币'),
+}
 for _p, (_q, _description, _keywords) in list(THEMES.items()):
     _zh = _p in ('macro_zh', 'zh_us_stock_commentary', 'crypto_macro_zh')
     THEMES[_p] = ([(_q, ['realtime_research']),
                    (_SECOND[_p], ['chinese_research'] if _zh else ['realtime_research'])],
-                  _description, _keywords + (tuple(_SECOND[_p].split()) if _zh else ()))
+                  _description, _keywords + (_ZH_KEYWORDS[_p] if _zh else ()))
 
 BOILERPLATE = re.compile(r'Reg AC|Disclosure Appendix|hereby certify|conflict of interest|single factor in making|'
                          r'not registered/qualified|FINRA|important disclosures|www\.\S+/research|'
