@@ -47,7 +47,7 @@ body outside the range is rejected. When the donors write short posts, short is
 right: do not pad.
 Lead with the account's own judgment in most posts; use at most a few numbers as support; vary hook, length and structure across posts — the tendencies describe the voice, they are not a checklist.
 Never claim personal holdings, trades, position sizes or P&L; this is an AI account.
-First-person opinion markers are fine and often natural ("I think", "my read", "我觉得", "我的看法"); follow persona.format_hint for line breaks.
+First person: opinion markers only ("I think", "my read", "I'm not convinced", "我觉得", "我认为", "在我看来", "我的看法"); never first-person experience, actions, holdings, trades or "we/我们". Follow persona.format_hint for line breaks.
 Match the voice_card rhythm block and style exemplars as tendencies. Natural imperfection
 is welcome: fragments, uneven sentence lengths, one-line paragraphs, persona idioms or
 casual connectors, an occasional rhetorical question. Avoid essay polish and symmetric paragraphs;
@@ -64,9 +64,9 @@ units' numbers (you may convert scale, e.g. $54.23 billion = 542.3亿美元, but
 never round, combine or compute new numbers), keeping its metric and period. Do not add years, dates or other numbers that
 are not in the units' numbers or spans.
 The pipeline attaches the attribution frame that names the source: do not name
-the source, publication or author, do not add links or a source line, and do
-not write in the first person (no 我/我们/I/we): the account never claims the
-source's experience, holdings, trades or returns. No price targets or trade
+the source, publication or author, and do not add links or a source line. Beyond
+the opinion markers above, no first person: the account never claims the source's
+(or its own) experience, holdings, trades or returns. No price targets or trade
 calls. Avoid the listed template phrases and avoid_patterns. Plain prose, no hashtags or emoji.
 Conviction and voice: write like a sharp human analyst posting on their own account,
 not a research note. Commit to stance.account_view (or the judgment the units support).
@@ -362,14 +362,40 @@ def certainty_findings(body, units, stance, lang):
     return findings
 
 
+JUDGMENT_MARKERS = re.compile(
+    r"\b(?:bullish|bearish|expect|unlikely|likely|looks|should|prefer|overpriced|underpriced|skeptical|sceptical|"
+    r"disagree|tight|fragile|real|overdone|overstated|understated|matters?|isn't|aren't|not|won't|can't|"
+    r"weak(?:er|ening)?|strong(?:er)?|intact|thin|cheap|expensive|risk(?:y)?|durable|peak(?:ing|ed)?|stalls?|cracks?)\b|"
+    r"看好|看空|判断|预计|认为|觉得|更可能|难以|不认同|不同意|偏紧|偏弱|偏强|仍需|还不足以|不足以|说明|意味着|"
+    r"关键|风险|见顶|拐点|钝化|失效|压制|韧性|乐观|悲观|高估|低估|真实|不会|未必|别急", re.I)
+_STOP = set('the a an and or but of to in on for with is are was were be been it its this that these those '
+            'right now than from by as at into over more less most very just still also'.split())
+
+
+def _tokens(text):
+    """EN: crude-stemmed content words; ZH: CJK character bigrams."""
+    words = {re.sub(r'(?:ing|ed|es|s)$', '', w) for w in re.findall(r"[a-z][a-z'-]{2,}", text.lower()) if w not in _STOP}
+    cjk = re.sub(r'[^\u4e00-\u9fff]', '', text)
+    return {w[:6] for w in words if len(w) >= 3} | {cjk[i:i + 2] for i in range(len(cjk) - 1)}
+
+
 def judgment_findings(body, stance):
+    """The opening must carry the stance's call (content overlap with stance.account_view) or a
+    clear judgment marker; an opening question or bare data line is not a judgment."""
     sentences = [s.strip() for s in re.split(r'(?<!\d)\.(?!\d)|[。！？!?]|\n', body) if s.strip()]
+    first_line = next((l.strip() for l in body.split('\n') if l.strip()), '')
     first = sentences[0] if sentences else ''
-    own = (stance or {}).get('account_view', '').rstrip('.。!?！？')
-    judgment = re.search(r'\b(?:bullish|bearish|expect|unlikely|likely|looks|should|prefer|overpriced|underpriced|skeptical|disagree|tight|fragile)\b|看好|看空|判断|预计|认为|更可能|难以|不认同|不同意|偏紧|偏弱', first, re.I)
     findings = []
-    if not judgment and not (own and own.casefold() in first.casefold()):
-        findings.append({'code':'no_judgment', 'detail':'First sentence has no clear judgment'})
+    own = str((stance or {}).get('account_view') or '')
+    view_tokens = _tokens(own)
+    overlap = len(view_tokens & _tokens(first)) / len(view_tokens) if view_tokens else 0.0
+    question = first_line.rstrip().endswith(('?', '？'))
+    data_led = bool(re.match(r'^\W{0,2}[$€£¥]?\d', first)) and not JUDGMENT_MARKERS.search(first)
+    carries = overlap >= 0.25 or (own and own.rstrip('.。!?！？').casefold() in first.casefold())
+    marked = bool(JUDGMENT_MARKERS.search(first)) and not data_led
+    if question or data_led or not (carries or (marked and (overlap >= 0.1 or not view_tokens))):
+        findings.append({'code': 'no_judgment', 'detail': 'Opening does not state the account\'s call'
+                         + (f' (stance overlap {overlap:.2f})' if view_tokens else '')})
     if sentences and sum(bool(inventory(s)) for s in sentences) / len(sentences) > .6:
         findings.append({'code':'data_list', 'detail':'More than 60% of sentences are numeric'})
     return findings

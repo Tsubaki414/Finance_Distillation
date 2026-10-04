@@ -26,6 +26,13 @@ EXPERIENCE = re.compile(
     r'\bmy\s+(?:fund|portfolio|returns|clients|positions|book)|'
     r'我(?:自己)?(?:管理|持有|持仓|收取|赚|实测|一直|曾经|曾|在[^，。]{0,12}工作|做多|做空)|我的(?:基金|组合|客户|收益|仓位)', re.I)
 FIRST_PERSON = re.compile(r'\b(?:I|my|we|our)\b|(?<!自)我(?!国)(?:们)?', re.I)
+# Persona voice may use first-person OPINION markers (one rule shared with the COMPOSE prompt);
+# any other first person (experience, actions, holdings, 'we') remains an identity finding.
+OPINION_MARKERS = re.compile(
+    r"\bI\s+(?:think|suspect|doubt|expect|believe|guess|wonder|'d\s+(?:argue|say|bet\s+against)|would\s+(?:argue|say))\b|"
+    r"\bI'?m\s+(?:not\s+)?(?:convinced|sold|skeptical|sceptical|unconvinced|worried|cautious|wary)\b|"
+    r"\bmy\s+(?:read|take|view|guess|bet|sense|concern|worry)\b|"
+    r"我(?:个人)?(?:觉得|认为|看|倾向于?|更倾向于?|不认为|不觉得|怀疑|担心|判断|的看法|的判断|的理解|的观点)|在我看来", re.I)
 REGISTRY_FILE = Path(__file__).with_name('source_registry.json')
 
 
@@ -137,6 +144,6 @@ def check(post_type, text, frame, licence_tier, post_types=None):
         flag('provenance_in_body', 'Source named or linked outside the attribution frame')
     if spec['voice'] == 'persona' and OTHER_ATTRIBUTION.search(body):
         flag('attribution_outside_frame', 'Attribution to a source outside the frame')
-    if EXPERIENCE.search(text) or (spec['voice'] == 'persona' and FIRST_PERSON.search(body)):
+    if EXPERIENCE.search(text) or (spec['voice'] == 'persona' and FIRST_PERSON.search(OPINION_MARKERS.sub(' ', body))):
         flag('author_identity', 'Source experience/positions or first person written as the account')
     return findings
