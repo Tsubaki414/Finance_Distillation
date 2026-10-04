@@ -322,6 +322,32 @@
       ]
     },
     {
+      "tendency": "Shares their own positions, stops and exposure as part of the commentary",
+      "frequency": "often",
+      "evidence_ids": [
+        "2099880330920428010",
+        "2093002692658606546",
+        "2038421611322233150"
+      ],
+      "evidence": [
+        {
+          "handle": "markminervini",
+          "id": "2099880330920428010",
+          "text": "I only have four longs with only two of them performing well-  $DE and $TEVA.  The other two $ET and $CAH - are slightly profitable on balan"
+        },
+        {
+          "handle": "alphatrends",
+          "id": "2093002692658606546",
+          "text": "The post earnings consolidation in $W is getting tight with higher lows.  I have a position with a tight stop.  \n\nA worst case stop would go"
+        },
+        {
+          "handle": "SqueezeMetrics",
+          "id": "2038421611322233150",
+          "text": "$84 was a stupid price.\n\nBut nor is there enough convexity at $103 to justify being long. Even if more infrastructure burns, you don't get $"
+        }
+      ]
+    },
+    {
       "tendency": "Promotes their own media appearances, webinars, workshops or product launches, sometimes as the entire post",
       "frequency": "often",
       "evidence_ids": [
@@ -510,11 +536,6 @@
           "text": "here's a thread of retards i found just from searching \"black monday\":\n\nhttps://t.co/CejlE3UdQv\n\nhttps://t.co/i2lwDC0mSa\n\nhttps://t.co/9xrgS"
         }
       ]
-    },
-    {
-      "frequency": "almost_never",
-      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
-      "evidence_ids": []
     }
   ],
   "baseline_tendencies": {
@@ -624,11 +645,6 @@
             "text": "Pre-Market Setup - Sep 22, 2026\nBefore the bell: the overnight tape, the vol regime you're walking into, and today's catalysts.\n\n━━━━━━━━━━━"
           }
         ]
-      },
-      {
-        "frequency": "almost_never",
-        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
-        "evidence_ids": []
       }
     ]
   },
@@ -772,6 +788,38 @@
         ]
       },
       {
+        "move": "Calls a range or trade finished and announces the exit, giving a short reason why the remaining payoff is not worth holding",
+        "example_ids": [
+          "2038421611322233150"
+        ],
+        "evidence": [
+          {
+            "handle": "SqueezeMetrics",
+            "id": "2038421611322233150",
+            "text": "$84 was a stupid price.\n\nBut nor is there enough convexity at $103 to justify being long. Even if more infrastructure burns, you don't get $"
+          }
+        ]
+      },
+      {
+        "move": "Discloses current holdings with performance and stop status, framing exposure as deliberately light or hedged",
+        "example_ids": [
+          "2099880330920428010",
+          "2093002692658606546"
+        ],
+        "evidence": [
+          {
+            "handle": "markminervini",
+            "id": "2099880330920428010",
+            "text": "I only have four longs with only two of them performing well-  $DE and $TEVA.  The other two $ET and $CAH - are slightly profitable on balan"
+          },
+          {
+            "handle": "alphatrends",
+            "id": "2093002692658606546",
+            "text": "The post earnings consolidation in $W is getting tight with higher lows.  I have a position with a tight stop.  \n\nA worst case stop would go"
+          }
+        ]
+      },
+      {
         "move": "Uses a concrete trade anecdote as a cautionary tale about how risk was mismanaged",
         "example_ids": [
           "2097408624544948465"
@@ -841,6 +889,32 @@
             "handle": "VolSignals",
             "id": "2106051916035690936",
             "text": "SPX was marked at 7700 before payrolls this morning. That's right on one of the two biggest market maker longs in today's expiry, and it's t"
+          }
+        ]
+      },
+      {
+        "tendency": "Shares their own positions, stops and exposure as part of the commentary",
+        "frequency": "often",
+        "evidence_ids": [
+          "2099880330920428010",
+          "2093002692658606546",
+          "2038421611322233150"
+        ],
+        "evidence": [
+          {
+            "handle": "markminervini",
+            "id": "2099880330920428010",
+            "text": "I only have four longs with only two of them performing well-  $DE and $TEVA.  The other two $ET and $CAH - are slightly profitable on balan"
+          },
+          {
+            "handle": "alphatrends",
+            "id": "2093002692658606546",
+            "text": "The post earnings consolidation in $W is getting tight with higher lows.  I have a position with a tight stop.  \n\nA worst case stop would go"
+          },
+          {
+            "handle": "SqueezeMetrics",
+            "id": "2038421611322233150",
+            "text": "$84 was a stupid price.\n\nBut nor is there enough convexity at $103 to justify being long. Even if more infrastructure burns, you don't get $"
           }
         ]
       },
@@ -1033,19 +1107,9 @@
             "text": "here's a thread of retards i found just from searching \"black monday\":\n\nhttps://t.co/CejlE3UdQv\n\nhttps://t.co/i2lwDC0mSa\n\nhttps://t.co/9xrgS"
           }
         ]
-      },
-      {
-        "frequency": "almost_never",
-        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
-        "evidence_ids": []
       }
     ],
     "variation_notes": "Length swings widely, from emoji or single-line reactions to multi-paragraph mechanism explanations and long positioning reads. The register moves between precise options terminology, coaching tones and crude banter, depending on the donor and the moment. Hooks are mostly direct claims, with occasional questions, ticker leads, quoted lines and event notices. Promotional and community posts are common alongside the analytical ones, so not every post carries a market view.",
     "judgment_style": "Mostly assertive and specific, but the strongest market calls are often framed as conditionals tied to a level or signal (what confirms, what fades) rather than unconditional predictions. Data such as levels, implied versus realized moves and returns serves as the support for a view, not as an end in itself. Personal positioning and stops are used to show conviction and risk limits. Explicit hedging words are uncommon, and uncertainty is shown through 'we shall see' style deferral or through scenario framing."
-  },
-  "compliance_removed": [
-    "Shares their own positions, stops and exposure as part of the commentary",
-    "Calls a range or trade finished and announces the exit, giving a short reason why the remaining payoff is not worth holding",
-    "Discloses current holdings with performance and stop status, framing exposure as deliberately light or hedged"
-  ]
+  }
 }

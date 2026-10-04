@@ -329,6 +329,32 @@
   },
   "tendencies": [
     {
+      "tendency": "Discloses personal holdings, adds, trims or position sizing alongside commentary",
+      "frequency": "often",
+      "evidence_ids": [
+        "2079456232268845562",
+        "2095666754345390234",
+        "2084882001811906670"
+      ],
+      "evidence": [
+        {
+          "handle": "shufen46250836",
+          "id": "2079456232268845562",
+          "text": "今天A股早盘低开，随后大反弹，科创50大涨9%，科技股迎来久违的涨停行情，\n\n下午顺势减仓，这几天闷头加仓的仓位出来了，压力一下子减轻好多，仓位缩到了6成，核心仓位还是以科创50，券商为主。\n\n美股昨晚小幅度上涨，市场量能明显缩量，市场静待谷歌财报，对于谷歌财报，业绩收入不是重点"
+        },
+        {
+          "handle": "Michael_QQQ2025",
+          "id": "2095666754345390234",
+          "text": "bitcoin:native $IBIT 的期权一直是我的核心持仓标的。目前的部分期权单子持仓如下，此外其他不同账户也买入 $MSTR https://t.co/uwLw8VyPqG"
+        },
+        {
+          "handle": "AlphaguyTrading",
+          "id": "2084882001811906670",
+          "text": "Minimax H3 这个视频效果很可以啊, 考虑买回一点Minimax 港股玩一玩。感觉画了个小圆弧底，不知道能不能往上爆一波？ \n\n5月700-750卖了Minimax之后就没买回去, 这波跌完之后估值还行，1000 亿港币不到"
+        }
+      ]
+    },
+    {
       "tendency": "Uses casual, colloquial register with emoji, mild profanity or jokes even when discussing markets",
       "frequency": "often",
       "evidence_ids": [
@@ -565,11 +591,6 @@
       "frequency": "almost_never",
       "evidence_ids": [],
       "evidence": []
-    },
-    {
-      "frequency": "almost_never",
-      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
-      "evidence_ids": []
     }
   ],
   "baseline_tendencies": {
@@ -679,11 +700,6 @@
             "text": "“森碟” Sentient @SentientAGI 昨天上了两家的盘前合约，okx和币安，节奏加快了。一般上了盘前，多则一周，少则几天就tge了。再之后重点看的项目：\n\n-AI去中心化推理/训练 @Gradient_HQ 应该看起来会是个比较靓的技术仔\n\n-Zkvm @brev"
           }
         ]
-      },
-      {
-        "frequency": "almost_never",
-        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
-        "evidence_ids": []
       }
     ]
   },
@@ -796,6 +812,25 @@
     "cadence_notes": "Roughly one post per active donor per day (median). Activity concentrates in UTC 0–15 (Asian daytime through US pre-market), peaking around UTC 8, and thins sharply in UTC 18–23. Typical sentence length is short to medium (median ~28 characters, IQR ~15–48), and many posts use short paragraphs or hard line breaks. About a third carry media, threads are uncommon (~5%), and emoji appear in roughly one in eight posts.",
     "signature_moves": [
       {
+        "move": "Grounds a view in the author's own position, trade or hands-on usage before or after stating it",
+        "example_ids": [
+          "2075955253351272865",
+          "2029834761594884230"
+        ],
+        "evidence": [
+          {
+            "handle": "BroBean88",
+            "id": "2075955253351272865",
+            "text": "坐稳扶好：海力士IPO是存储打响估值重估的第一枪！\n\n我的判断。这次不是海力士一家的 IPO，是整个存储板块估值重估的起点。\n\n海力士是第一枪，如果这套叙事被机构完全接受（Baillie Gifford、Coatue 昨晚已经用 50 亿基石订单表态了），美光、闪迪、西数都会跟着"
+          },
+          {
+            "handle": "shufen46250836",
+            "id": "2029834761594884230",
+            "text": "今天A股迎来修复反弹，小盘成长股反弹比较强，不过量能继续缩量，全天量能维系在2.2万亿左右，增量资金有些犹豫，今天A股的趋势只能说是一场小级别的反弹修复。\n\n电网设备成为今天的行情龙头，上周持有的电网设备3个票里，中原内配和中恒电气收获两个涨停，尾盘打开一个板。\n\n电网设备目前是"
+          }
+        ]
+      },
+      {
         "move": "Traces a chain from a single event to second-order beneficiaries or losers across tickers or markets",
         "example_ids": [
           "2084595033252990998",
@@ -905,6 +940,32 @@
       }
     ],
     "tendencies": [
+      {
+        "tendency": "Discloses personal holdings, adds, trims or position sizing alongside commentary",
+        "frequency": "often",
+        "evidence_ids": [
+          "2079456232268845562",
+          "2095666754345390234",
+          "2084882001811906670"
+        ],
+        "evidence": [
+          {
+            "handle": "shufen46250836",
+            "id": "2079456232268845562",
+            "text": "今天A股早盘低开，随后大反弹，科创50大涨9%，科技股迎来久违的涨停行情，\n\n下午顺势减仓，这几天闷头加仓的仓位出来了，压力一下子减轻好多，仓位缩到了6成，核心仓位还是以科创50，券商为主。\n\n美股昨晚小幅度上涨，市场量能明显缩量，市场静待谷歌财报，对于谷歌财报，业绩收入不是重点"
+          },
+          {
+            "handle": "Michael_QQQ2025",
+            "id": "2095666754345390234",
+            "text": "bitcoin:native $IBIT 的期权一直是我的核心持仓标的。目前的部分期权单子持仓如下，此外其他不同账户也买入 $MSTR https://t.co/uwLw8VyPqG"
+          },
+          {
+            "handle": "AlphaguyTrading",
+            "id": "2084882001811906670",
+            "text": "Minimax H3 这个视频效果很可以啊, 考虑买回一点Minimax 港股玩一玩。感觉画了个小圆弧底，不知道能不能往上爆一波？ \n\n5月700-750卖了Minimax之后就没买回去, 这波跌完之后估值还行，1000 亿港币不到"
+          }
+        ]
+      },
       {
         "tendency": "Uses casual, colloquial register with emoji, mild profanity or jokes even when discussing markets",
         "frequency": "often",
@@ -1142,18 +1203,9 @@
         "frequency": "almost_never",
         "evidence_ids": [],
         "evidence": []
-      },
-      {
-        "frequency": "almost_never",
-        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
-        "evidence_ids": []
       }
     ],
     "variation_notes": "Length varies widely, from one-line reactions and reply-style quips to long multi-paragraph explainers and daily recaps. Register ranges from playful and self-deprecating to structured and analytical, sometimes within the same donor. Script varies too: most posts are simplified Chinese, one donor writes in traditional Chinese, and some posts are bilingual. Openings are mostly claim-led, with questions, contrasts and ticker- or date-led lines used less often. Topic mix spans US equities, A-shares/HK, crypto and AI tooling, and posts are spread fairly evenly across mechanism explainers, hot takes, data takes and view relays.",
     "judgment_style": "Generally assertive in tone, but the views are often hedged with conditional phrasing, tentative words like 'possibly' or 'remains to be seen', or explicit levels and signals to watch. Data is used mainly to support a narrative or call rather than presented neutrally. Donors are open about their own positions and past mistakes, and strong directional takes come up most often around sector rotation and valuation re-rating."
-  },
-  "compliance_removed": [
-    "Discloses personal holdings, adds, trims or position sizing alongside commentary",
-    "Grounds a view in the author's own position, trade or hands-on usage before or after stating it"
-  ]
+  }
 }

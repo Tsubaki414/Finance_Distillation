@@ -531,11 +531,6 @@
           "text": "Since the start of the decade, the Dow Jones Industrial Average has repeatedly shown the same behavior: former resistance becomes support, a"
         }
       ]
-    },
-    {
-      "frequency": "almost_never",
-      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
-      "evidence_ids": []
     }
   ],
   "baseline_tendencies": {
@@ -645,11 +640,6 @@
             "text": "$HIMS Just give me a 20-25% bouncer here. I promise to eat my vegetables. https://t.co/UCgQUnBjEW"
           }
         ]
-      },
-      {
-        "frequency": "almost_never",
-        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
-        "evidence_ids": []
       }
     ]
   },
@@ -1079,15 +1069,9 @@
             "text": "Since the start of the decade, the Dow Jones Industrial Average has repeatedly shown the same behavior: former resistance becomes support, a"
           }
         ]
-      },
-      {
-        "frequency": "almost_never",
-        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
-        "evidence_ids": []
       }
     ],
     "variation_notes": "Length ranges from a single word or ticker line to multi-paragraph explanations, but most posts stay at one or two short lines plus media. Register moves between clipped desk shorthand, measured analytical prose with caveats, and casual banter or personal posts from the same donors. Hooks are mostly flat declarative claims. Contrast, ticker-first, question and quotation openers appear as smaller but steady minorities.",
     "judgment_style": "Views are usually stated plainly and then tempered: a historical tendency is given along with its exceptions, or a setup is called attractive while the trigger is admitted to be unknown. Conditional phrasing such as 'tend to', 'might be showing early signs' and 'not a good reason on its own' is common in the analytical posts. Short technical calls are blunter. Data and charts are the main support for a view, and opinion makes up a smaller share, roughly 1 part opinion to 4 parts data."
-  },
-  "compliance_removed": []
+  }
 }

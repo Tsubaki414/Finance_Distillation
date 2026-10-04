@@ -118,3 +118,15 @@ def test_position_patterns_spare_rhetorical_tendencies():
               "Grounds a view in the author's own position, trade or hands-on use",
               '经常晒出自己的持仓和加仓记录'):
         assert hit(t), t
+
+
+def test_free_text_fields_drop_position_sentences():
+    from live.voice_cards import sanitize_card, POSITION_PATTERNS
+    card = {'qualitative': {'voice_summary': 'Fast desk banter. Judgments are tied to a stated level or personal position. Data supports views.',
+                            'judgment_style': 'Assertive. Donors are open about their own positions and past mistakes.',
+                            'tendencies': [], 'avoid_tendencies': []}}
+    out = sanitize_card(card)['qualitative']
+    for k in ('voice_summary', 'judgment_style'):
+        assert not any(p.search(out[k]) for p in POSITION_PATTERNS), out[k]
+    assert 'Fast desk banter.' in out['voice_summary'] and 'Data supports views.' in out['voice_summary']
+    assert out['judgment_style'].startswith('Assertive.')

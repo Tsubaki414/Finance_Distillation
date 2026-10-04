@@ -376,6 +376,58 @@
       ]
     },
     {
+      "tendency": "Discloses a personal position, addition or holding history to frame the view",
+      "frequency": "often",
+      "evidence_ids": [
+        "2099944154465976747",
+        "2091598951136788746",
+        "2091661758628831597"
+      ],
+      "evidence": [
+        {
+          "handle": "jpinsights",
+          "id": "2099944154465976747",
+          "text": "Thought I was getting a good deal buying the “dip” in $AVGO at $390.\n\nBroadcom keeps falling while the business gives me more reasons to own"
+        },
+        {
+          "handle": "JaradCapital",
+          "id": "2091598951136788746",
+          "text": "The more I look at $APP here at ~15x 2027E earnings, the harder it gets not to add to my position\n\nYou can haircut consensus EPS by a massiv"
+        },
+        {
+          "handle": "FromValue",
+          "id": "2091661758628831597",
+          "text": "Tobi was the reason why I have been holding $SHOP shares since February 2017 ($5.58) and made it the first Potential Multibaggers pick in Ma"
+        }
+      ]
+    },
+    {
+      "tendency": "Relays a headline, chart or quarter snapshot with minimal or no added commentary",
+      "frequency": "often",
+      "evidence_ids": [
+        "2095815048702632180",
+        "2105390929448521922",
+        "2092929482143252592"
+      ],
+      "evidence": [
+        {
+          "handle": "Invesquotes",
+          "id": "2095815048702632180",
+          "text": "David Wadhwani announces he is leaving $ADBE https://t.co/JJc7cOWGJ5"
+        },
+        {
+          "handle": "StockMarketNerd",
+          "id": "2105390929448521922",
+          "text": "Snapshot of another elite $MU quarter: https://t.co/uJuOrF47da"
+        },
+        {
+          "handle": "Invesquotes",
+          "id": "2092929482143252592",
+          "text": "The $IGV today after strong $CRM, $VEEV and $NVDA earnings https://t.co/MYKG8ppEEQ"
+        }
+      ]
+    },
+    {
       "tendency": "Qualifies a read with explicit self-doubt or a caveat about how far the conclusion goes",
       "frequency": "sometimes",
       "evidence_ids": [
@@ -392,6 +444,32 @@
           "handle": "jpinsights",
           "id": "2097317808254136404",
           "text": "$AMZN just added another name to the custom silicon race.\n\nAWS and Qualcomm will co-develop AI inference chips across multiple product gener"
+        }
+      ]
+    },
+    {
+      "tendency": "Positions the view against a named person or a prevailing bear or bull narrative",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2095154161876947205",
+        "2095238862612152596",
+        "2096684599799632216"
+      ],
+      "evidence": [
+        {
+          "handle": "garyblack00",
+          "id": "2095154161876947205",
+          "text": "Not sure why otherwise smart people like @farzyness don’t get this about $UBER - more autonomous vehicles from multiple manufacturers will a"
+        },
+        {
+          "handle": "jpinsights",
+          "id": "2095238862612152596",
+          "text": "$CRDO Imagine using “Credo didn’t surprise by as much as they usually do” as part of the bear case.\n\nWe’ve known for a while that H2 is wher"
+        },
+        {
+          "handle": "garyblack00",
+          "id": "2096684599799632216",
+          "text": "John is a long-time $TSLA bull who  attacks anyone who questions the TSLA bull story.  I was right in making $TSLA one of my biggest long po"
         }
       ]
     },
@@ -482,11 +560,6 @@
       "frequency": "almost_never",
       "evidence_ids": [],
       "evidence": []
-    },
-    {
-      "frequency": "almost_never",
-      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
-      "evidence_ids": []
     }
   ],
   "baseline_tendencies": {
@@ -596,11 +669,6 @@
             "text": "Stay tuned for our review of $GOOG Google's earnings delivered to your inbox this afternoon!\n\nJoin 300,000+ subscribers.\n\nDid you read our N"
           }
         ]
-      },
-      {
-        "frequency": "almost_never",
-        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
-        "evidence_ids": []
       }
     ]
   },
@@ -844,6 +912,58 @@
         ]
       },
       {
+        "tendency": "Discloses a personal position, addition or holding history to frame the view",
+        "frequency": "often",
+        "evidence_ids": [
+          "2099944154465976747",
+          "2091598951136788746",
+          "2091661758628831597"
+        ],
+        "evidence": [
+          {
+            "handle": "jpinsights",
+            "id": "2099944154465976747",
+            "text": "Thought I was getting a good deal buying the “dip” in $AVGO at $390.\n\nBroadcom keeps falling while the business gives me more reasons to own"
+          },
+          {
+            "handle": "JaradCapital",
+            "id": "2091598951136788746",
+            "text": "The more I look at $APP here at ~15x 2027E earnings, the harder it gets not to add to my position\n\nYou can haircut consensus EPS by a massiv"
+          },
+          {
+            "handle": "FromValue",
+            "id": "2091661758628831597",
+            "text": "Tobi was the reason why I have been holding $SHOP shares since February 2017 ($5.58) and made it the first Potential Multibaggers pick in Ma"
+          }
+        ]
+      },
+      {
+        "tendency": "Relays a headline, chart or quarter snapshot with minimal or no added commentary",
+        "frequency": "often",
+        "evidence_ids": [
+          "2095815048702632180",
+          "2105390929448521922",
+          "2092929482143252592"
+        ],
+        "evidence": [
+          {
+            "handle": "Invesquotes",
+            "id": "2095815048702632180",
+            "text": "David Wadhwani announces he is leaving $ADBE https://t.co/JJc7cOWGJ5"
+          },
+          {
+            "handle": "StockMarketNerd",
+            "id": "2105390929448521922",
+            "text": "Snapshot of another elite $MU quarter: https://t.co/uJuOrF47da"
+          },
+          {
+            "handle": "Invesquotes",
+            "id": "2092929482143252592",
+            "text": "The $IGV today after strong $CRM, $VEEV and $NVDA earnings https://t.co/MYKG8ppEEQ"
+          }
+        ]
+      },
+      {
         "tendency": "Qualifies a read with explicit self-doubt or a caveat about how far the conclusion goes",
         "frequency": "sometimes",
         "evidence_ids": [
@@ -860,6 +980,32 @@
             "handle": "jpinsights",
             "id": "2097317808254136404",
             "text": "$AMZN just added another name to the custom silicon race.\n\nAWS and Qualcomm will co-develop AI inference chips across multiple product gener"
+          }
+        ]
+      },
+      {
+        "tendency": "Positions the view against a named person or a prevailing bear or bull narrative",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2095154161876947205",
+          "2095238862612152596",
+          "2096684599799632216"
+        ],
+        "evidence": [
+          {
+            "handle": "garyblack00",
+            "id": "2095154161876947205",
+            "text": "Not sure why otherwise smart people like @farzyness don’t get this about $UBER - more autonomous vehicles from multiple manufacturers will a"
+          },
+          {
+            "handle": "jpinsights",
+            "id": "2095238862612152596",
+            "text": "$CRDO Imagine using “Credo didn’t surprise by as much as they usually do” as part of the bear case.\n\nWe’ve known for a while that H2 is wher"
+          },
+          {
+            "handle": "garyblack00",
+            "id": "2096684599799632216",
+            "text": "John is a long-time $TSLA bull who  attacks anyone who questions the TSLA bull story.  I was right in making $TSLA one of my biggest long po"
           }
         ]
       },
@@ -950,19 +1096,9 @@
         "frequency": "almost_never",
         "evidence_ids": [],
         "evidence": []
-      },
-      {
-        "frequency": "almost_never",
-        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
-        "evidence_ids": []
       }
     ],
     "variation_notes": "Length swings widely, from a single line with a cashtag and a few words to multi-paragraph mechanism explanations or numbered threads. Register moves between neutral reporting, casual reaction with exclamations or slang, occasional combative or profane outbursts, and polished promotional copy. Hook types are mostly plain claims or cashtag-led openings, with a minority of questions, emoji pointers, contrast setups and thread numbering; no single template dominates every donor.",
     "judgment_style": "Mostly assertive, with views stated as direct calls on direction, valuation or management quality, frequently tied to the author's own positioning. Hedging appears selectively through conditional phrasing about whether a ramp or trend holds, explicit admissions of possibly being wrong, or questions instead of claims. Data such as reported metrics, multiples and price levels usually serves as the support for the opinion rather than standing alone, though a substantial share of posts are pure data or visual relays with the judgment left implicit."
-  },
-  "compliance_removed": [
-    "Discloses a personal position, addition or holding history to frame the view",
-    "Relays a headline, chart or quarter snapshot with minimal or no added commentary",
-    "Positions the view against a named person or a prevailing bear or bull narrative"
-  ]
+  }
 }

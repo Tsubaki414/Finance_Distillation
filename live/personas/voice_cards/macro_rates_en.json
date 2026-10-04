@@ -544,9 +544,10 @@
       "evidence": []
     },
     {
+      "tendency": "Explicit trade instructions with entries, stops or position sizing",
       "frequency": "almost_never",
-      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
-      "evidence_ids": []
+      "evidence_ids": [],
+      "evidence": []
     }
   ],
   "baseline_tendencies": {
@@ -656,11 +657,6 @@
             "text": "Because govts have no f-ing idea how the world works...but they pretend they do.  \n\nStop listening to politicians, officials, and bureaucrat"
           }
         ]
-      },
-      {
-        "frequency": "almost_never",
-        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
-        "evidence_ids": []
       }
     ]
   },
@@ -1138,15 +1134,13 @@
         "evidence": []
       },
       {
+        "tendency": "Explicit trade instructions with entries, stops or position sizing",
         "frequency": "almost_never",
-        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
-        "evidence_ids": []
+        "evidence_ids": [],
+        "evidence": []
       }
     ],
     "variation_notes": "Length ranges widely within the cluster. Some posts are bare one-liners pointing to a chart or link, and others are five- to six-paragraph mechanism explainers. Register shifts by donor. Some read like neutral reporting or wire relays, others like measured economist commentary, and others like loud alert-style or conviction-heavy trading takes with emoji and capitals. Most hooks are plain claims. Contrast turns, alert-flag headlines, questions, quotes and number-led openers each appear only in a minority of posts. The post-type mix leans toward data takes and view relays, with hot takes and mechanism explainers also common.",
     "judgment_style": "Mostly assertive, with views stated as conclusions rather than questions. Several donors deliberately hedge, saying evidence is inconclusive in both directions, using conditional thresholds, or presenting a scenario as 'unlikely, but'. Data usually serves as support for a stated view rather than standing alone, though a notable share of posts relay a datum or another analyst's call with little added opinion. Conditional and causal phrasing is common in policy and rates posts. The more emphatic donors pair a single indicator with a strong directional call."
-  },
-  "compliance_removed": [
-    "Explicit trade instructions with entries, stops or position sizing"
-  ]
+  }
 }

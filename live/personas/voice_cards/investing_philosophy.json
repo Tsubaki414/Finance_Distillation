@@ -375,6 +375,32 @@
       ]
     },
     {
+      "tendency": "Positions a view explicitly against consensus or conventional wisdom",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2105304225739640885",
+        "1955971505226912040",
+        "2100969786800771288"
+      ],
+      "evidence": [
+        {
+          "handle": "MebFaber",
+          "id": "2105304225739640885",
+          "text": "Non consensus view:\n\nRegulators opened the door this week for well designed 351s to hit the mainstream. \n\nFrom the IRS notice: \n\n\"This notic"
+        },
+        {
+          "handle": "dollarsanddata",
+          "id": "1955971505226912040",
+          "text": "Unfortunate truth: Money buys happiness...but only if you're already happy.\n\nIf your net worth is over $1M and you still aren't happy, I pro"
+        },
+        {
+          "handle": "callieabost",
+          "id": "2100969786800771288",
+          "text": "This has been true at multiple points this year, even though inflation expectations (via breakevens) are tamer now than 4-5 months ago.\n\nInt"
+        }
+      ]
+    },
+    {
       "tendency": "Mixes in off-topic humor, family moments, or casual reactions alongside market content",
       "frequency": "sometimes",
       "evidence_ids": [
@@ -423,6 +449,58 @@
           "handle": "iancassel",
           "id": "2091115672038174783",
           "text": "This week I wrote about how nobody starts investing with a blank slate. We start with a personality and temperament that's already been wire"
+        }
+      ]
+    },
+    {
+      "tendency": "Relays someone else's quote, book lesson, or stat with little or no added commentary",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2020937357713981686",
+        "2104571535960756680",
+        "1991617247010517086"
+      ],
+      "evidence": [
+        {
+          "handle": "morganhousel",
+          "id": "2020937357713981686",
+          "text": "Chris Rock says teachers provide half of the education at school, bullies provide the other. “And learning how to deal with bullies is that "
+        },
+        {
+          "handle": "SJosephBurns",
+          "id": "2104571535960756680",
+          "text": "Lesson from the book Trading is Math: https://t.co/Md5ExrdbSK https://t.co/ll8rZ9RsDx"
+        },
+        {
+          "handle": "callieabost",
+          "id": "1991617247010517086",
+          "text": "Went to grab the stat and he just…tweeted it out"
+        }
+      ]
+    },
+    {
+      "tendency": "Marks the view as personal with first-person belief framing, while still holding a fairly confident directional stance",
+      "frequency": "sometimes",
+      "evidence_ids": [
+        "2102532316958797952",
+        "2083283366254616833",
+        "2106451604123894128"
+      ],
+      "evidence": [
+        {
+          "handle": "CathieDWood",
+          "id": "2102532316958797952",
+          "text": "As the stock market hits record highs in the face of higher interest rates, I believe the current Technology Revolution will continue to imp"
+        },
+        {
+          "handle": "choffstein",
+          "id": "2083283366254616833",
+          "text": "In the last 4 years, levered single-name ETFs went from $0 to $65B.\n\nAs this trend continues, I think we continue to see both the level and "
+        },
+        {
+          "handle": "GrahamStephan",
+          "id": "2106451604123894128",
+          "text": "People keep saying that more spending and higher inflation will push asset prices even higher.\n\nBut here’s the counterargument:\n\nHigher infl"
         }
       ]
     }
@@ -487,11 +565,6 @@
           "text": "Relative strength is easiest to recognize when the market gives a stock an excuse to fall and it refuses to use it."
         }
       ]
-    },
-    {
-      "frequency": "almost_never",
-      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
-      "evidence_ids": []
     }
   ],
   "baseline_tendencies": {
@@ -601,11 +674,6 @@
             "text": "👇👇👇"
           }
         ]
-      },
-      {
-        "frequency": "almost_never",
-        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
-        "evidence_ids": []
       }
     ]
   },
@@ -900,6 +968,32 @@
         ]
       },
       {
+        "tendency": "Positions a view explicitly against consensus or conventional wisdom",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2105304225739640885",
+          "1955971505226912040",
+          "2100969786800771288"
+        ],
+        "evidence": [
+          {
+            "handle": "MebFaber",
+            "id": "2105304225739640885",
+            "text": "Non consensus view:\n\nRegulators opened the door this week for well designed 351s to hit the mainstream. \n\nFrom the IRS notice: \n\n\"This notic"
+          },
+          {
+            "handle": "dollarsanddata",
+            "id": "1955971505226912040",
+            "text": "Unfortunate truth: Money buys happiness...but only if you're already happy.\n\nIf your net worth is over $1M and you still aren't happy, I pro"
+          },
+          {
+            "handle": "callieabost",
+            "id": "2100969786800771288",
+            "text": "This has been true at multiple points this year, even though inflation expectations (via breakevens) are tamer now than 4-5 months ago.\n\nInt"
+          }
+        ]
+      },
+      {
         "tendency": "Mixes in off-topic humor, family moments, or casual reactions alongside market content",
         "frequency": "sometimes",
         "evidence_ids": [
@@ -948,6 +1042,58 @@
             "handle": "iancassel",
             "id": "2091115672038174783",
             "text": "This week I wrote about how nobody starts investing with a blank slate. We start with a personality and temperament that's already been wire"
+          }
+        ]
+      },
+      {
+        "tendency": "Relays someone else's quote, book lesson, or stat with little or no added commentary",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2020937357713981686",
+          "2104571535960756680",
+          "1991617247010517086"
+        ],
+        "evidence": [
+          {
+            "handle": "morganhousel",
+            "id": "2020937357713981686",
+            "text": "Chris Rock says teachers provide half of the education at school, bullies provide the other. “And learning how to deal with bullies is that "
+          },
+          {
+            "handle": "SJosephBurns",
+            "id": "2104571535960756680",
+            "text": "Lesson from the book Trading is Math: https://t.co/Md5ExrdbSK https://t.co/ll8rZ9RsDx"
+          },
+          {
+            "handle": "callieabost",
+            "id": "1991617247010517086",
+            "text": "Went to grab the stat and he just…tweeted it out"
+          }
+        ]
+      },
+      {
+        "tendency": "Marks the view as personal with first-person belief framing, while still holding a fairly confident directional stance",
+        "frequency": "sometimes",
+        "evidence_ids": [
+          "2102532316958797952",
+          "2083283366254616833",
+          "2106451604123894128"
+        ],
+        "evidence": [
+          {
+            "handle": "CathieDWood",
+            "id": "2102532316958797952",
+            "text": "As the stock market hits record highs in the face of higher interest rates, I believe the current Technology Revolution will continue to imp"
+          },
+          {
+            "handle": "choffstein",
+            "id": "2083283366254616833",
+            "text": "In the last 4 years, levered single-name ETFs went from $0 to $65B.\n\nAs this trend continues, I think we continue to see both the level and "
+          },
+          {
+            "handle": "GrahamStephan",
+            "id": "2106451604123894128",
+            "text": "People keep saying that more spending and higher inflation will push asset prices even higher.\n\nBut here’s the counterargument:\n\nHigher infl"
           }
         ]
       }
@@ -1012,19 +1158,9 @@
             "text": "Relative strength is easiest to recognize when the market gives a stock an excuse to fall and it refuses to use it."
           }
         ]
-      },
-      {
-        "frequency": "almost_never",
-        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
-        "evidence_ids": []
       }
     ],
     "variation_notes": "Length ranges from one-line quips and bare link posts to multi-paragraph mini-essays and quote-heavy threads. Register shifts freely between earnest behavioral reflection, dry data commentary, promotional announcements, and deadpan jokes, sometimes within the same donor. Hooks are mostly plain claims, with questions, stat-first openings, label prefixes, and reactions appearing intermittently rather than in a fixed rotation. Formatting runs from unbroken single sentences to heavily line-broken lists, and emoji use is sparse and uneven across donors.",
     "judgment_style": "Predominantly assertive: views are stated as observations or truths, sometimes explicitly labeled as contrarian. Hedging is light and personal ('I think', 'I believe', 'I don't think') rather than probabilistic, and conditional phrasing shows up mainly in mechanism chains (if X, then Y) or rule-of-thumb thresholds that come with a brief admission of imperfection. Data usually serves as a single anchoring support or an ironic contrast, not a systematic proof, and the interpretive leap from number to conclusion is kept short."
-  },
-  "compliance_removed": [
-    "Positions a view explicitly against consensus or conventional wisdom",
-    "Relays someone else's quote, book lesson, or stat with little or no added commentary",
-    "Marks the view as personal with first-person belief framing, while still holding a fairly confident directional stance"
-  ]
+  }
 }
