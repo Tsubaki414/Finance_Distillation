@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from pathlib import Path
 
 import httpx
@@ -11,7 +12,7 @@ from live.reportgem_daily import call_key
 
 
 class ReportGemHTTP:
-    def __init__(self, url=None, token=None, *, run, transport=None):
+    def __init__(self, url=None, token=None, *, run, transport=None, sleep=time.sleep, min_interval=1.5, retries=4):
         url = url or os.environ.get('REPORTGEM_MCP_URL')
         token = token or os.environ.get('REPORTGEM_MCP_TOKEN')
         if not url or not token:
@@ -23,6 +24,7 @@ class ReportGemHTTP:
             'Content-Type': 'application/json',
         })
         self.initialized = False
+        self.sleep, self.min_interval, self.retries, self.last = sleep, min_interval, retries, 0.0
         (self.run / 'responses').mkdir(parents=True, exist_ok=True)
 
     def _rpc(self, method, params=None, *, notification=False):
@@ -64,9 +66,19 @@ class ReportGemHTTP:
             self.client.headers['MCP-Protocol-Version'] = result.get('protocolVersion', '2025-03-26')
             self._rpc('notifications/initialized', notification=True)
             self.initialized = True
-        result = self._rpc('tools/call', {'name': tool, 'arguments': args})
+        for attempt in range(self.retries + 1):
+            wait = self.min_interval - (time.monotonic() - self.last)
+            if wait > 0:
+                self.sleep(wait)  # pace calls: parallel bursts get rate_limited
+            result = self._rpc('tools/call', {'name': tool, 'arguments': args})
+            self.last = time.monotonic()
+            text = ' '.join(c.get('text', '') for c in result.get('content') or [] if isinstance(c, dict))
+            if result.get('isError') and 'rate_limited' in text and attempt < self.retries:
+                self.sleep(5 * 2 ** attempt)  # ReportGem: rate-limited calls are not charged
+                continue
+            break
         if result.get('isError'):
-            raise ValueError('reportgem_http_tool_error')
+            raise ValueError('reportgem_http_tool_error: ' + text[:200])
         if result.get('structuredContent') is not None:
             data = result['structuredContent']
         else:
