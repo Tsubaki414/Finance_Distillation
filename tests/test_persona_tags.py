@@ -90,3 +90,23 @@ def test_tags_date_order_age_limit_and_latest_threshold(tmp_path):
     assert [r['unit_id'] for r in units_for_persona(store, 'macro_rates_en', as_of='2026-10-03', max_age_days=1, limit=1)] == ['b']
     store.set_persona_tags({'b': {'macro_rates_en': dict(verdict='relevant', confidence=.8)}}, .9)
     assert 'b' not in [r['unit_id'] for r in units_for_persona(ContentStore(tmp_path), 'macro_rates_en')]
+
+
+def test_tag_instructions_are_language_neutral():
+    """Chinese-language personas write in Chinese; English source units still fit their topic."""
+    from live import persona_tags
+
+    class Fake:
+        def __init__(self):
+            self.calls = []
+
+        def review(self, state, questions):
+            self.calls.append((state, questions))
+            return {'status': 'completed', 'answers': {}}
+
+    fake = Fake()
+    persona_tags.tag_units([{'unit_id': 'u1', 'statement': 'BTC ETF inflows', 'kind': 'fact'}],
+                           jev=fake, personas=['crypto_macro_zh'], max_calls=1)
+    text = next(iter(fake.calls[0][1].values()))['instructions']
+    assert 'language' in text.lower() and 'topic' in text.lower()
+    assert 'any language' in text.lower()
