@@ -47,6 +47,7 @@ def main():
     ap.add_argument('--no-jev', action='store_true')
     ap.add_argument('--transport', choices=('replay', 'http'), default='replay')
     ap.add_argument('--extract', action='store_true')
+    ap.add_argument('--partial', action='store_true', help='extract recorded sources even if planned calls remain (agent-relay runs)')
     args = ap.parse_args()
     (args.run / 'responses').mkdir(parents=True, exist_ok=True)
     recorded = replay(args.run)
@@ -115,7 +116,7 @@ def main():
         report['sources'] = [{'persona': s['persona'], 'id': s['source']['id'], 'source_id': s['source']['source_id'],
                               'title': s['source']['title'], 'chars': len(s['source']['original_text'])} for s in sources]
         (args.run / 'sources.json').write_text(json.dumps(sources, ensure_ascii=False, indent=1))
-        if args.extract and not plan:
+        if args.extract and (not plan or args.partial):
             from live import content_units, registry
             from live.erisedai_distillation_client import ErisedaiClient
             from ml import budget as spend
