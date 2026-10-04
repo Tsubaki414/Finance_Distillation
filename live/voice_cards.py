@@ -462,8 +462,8 @@ def _layout_stats(weighted_posts):
              'short_lines_share': short / mass if mass else None})
 
 
-def rhythm_profile(card):
-    """Compact numerical tendencies, never rules or donor phrases."""
+def layout(card):
+    """(post_length, paragraphs) from the card, else from sampled real donor posts."""
     post = card.get('post_length') or {}
     paragraphs = card.get('paragraphs') or {}
     if not post or not paragraphs:
@@ -479,6 +479,12 @@ def rhythm_profile(card):
                 (row['text'], weights[row['handle']] / counts[row['handle']]) for row in sample)
             post = post or sampled_post
             paragraphs = paragraphs or sampled_paragraphs
+    return post, paragraphs
+
+
+def rhythm_profile(card):
+    """Compact numerical tendencies, never rules or donor phrases."""
+    post, paragraphs = layout(card)
     parts = ['Observed tendencies; vary naturally']
     def band(label, stats, unit):
         if stats.get('median') is not None:

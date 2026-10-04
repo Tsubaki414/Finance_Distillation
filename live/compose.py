@@ -42,8 +42,8 @@ Write the body of one social post of the given post_type for the given persona,
 in the persona language, using only the supplied content units. Respect the
 post_type body_length: the body must have at least min and at most max
 characters (whitespace excluded; each Chinese character counts as one); a
-body below min is rejected, so develop the units' mechanism and implications
-instead of stopping early.
+body outside the range is rejected. When the donors write short posts, short is
+right: do not pad.
 Lead with the account's own judgment in most posts; use at most a few numbers as support; vary hook, length and structure across posts — the tendencies describe the voice, they are not a checklist.
 Never claim personal holdings, trades, position sizes or P&L; this is an AI account.
 Match the voice_card rhythm block and style exemplars as tendencies. Natural imperfection
@@ -74,6 +74,27 @@ Schema: {"body":"...","claim_ledger":[{"claim":"...","unit_id":"cu-...","span_re
 def blacklist(lang):
     data = json.loads(BLACKLIST.read_text())
     return list(data.get(lang, []))
+
+
+def body_length(spec_length, card, lang):
+    """Body range: the post_type range, narrowed toward the donors' observed post lengths."""
+    base = {'min': spec_length['min'], 'max': spec_length['max']}
+    if not card:
+        return base
+    post = card.get('post_length')
+    if not post:
+        from live.voice_cards import layout
+        try:
+            post = layout(card)[0]
+        except Exception:
+            post = None
+    if not post or post.get('p25') is None or post.get('p75') is None:
+        return base
+    ratio = 0.95 if lang == 'zh' else 0.82   # donor stats include whitespace; the check excludes it
+    low = max(60, min(base['min'], round(post['p25'] * ratio)))
+    high = min(base['max'], max(low + 100, round(post['p75'] * ratio * 1.4)))
+    return {'min': low, 'max': high,
+            'note': f"donor posts are typically {post['p25']:g}-{post['p75']:g} chars; short is fine, do not pad"}
 
 
 def length_of(text):
@@ -267,9 +288,10 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
     findings = [{'code': f['code'], 'detail': f['detail']}
                 for f in attribution_frame.check(post_type, text, frame, licence_tier, post_types)]
     size = length_of(body)
-    if not spec['length'].get('follows_source') and not spec['length']['min'] <= size <= spec['length']['max']:
+    rng = body_length(spec['length'], getattr(persona, 'voice_card', None), persona.lang)
+    if not spec['length'].get('follows_source') and not rng['min'] <= size <= rng['max']:
         findings.append({'code': 'length_out_of_range',
-                         'detail': {'length': size, 'range': [spec['length']['min'], spec['length']['max']]}})
+                         'detail': {'length': size, 'range': [rng['min'], rng['max']]}})
     lowered = body.lower()
     for phrase in blacklist(persona.lang):
         if phrase.lower() in lowered:
@@ -382,7 +404,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     spec = post_types['post_types'][post_type]
     payload = {'post_type': post_type,
                'post_type_rules': {'units': spec['units'], 'usage': spec['usage'],
-                                   'body_length': {'min': spec['length']['min'], 'max': spec['length']['max'],
+                                   'body_length': {**body_length(spec['length'], persona.voice_card, persona.lang),
                                                    'unit': 'characters excluding whitespace'}},
                'persona': {'lang': persona.lang, 'voice': persona.voice, 'banned': list(persona.banned),
                            'focus': persona.raw.get('focus')},
@@ -414,7 +436,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         payload['post_type_rules']['quote_policy'] = (
             'Paraphrase these units. Direct quotes, including translated quotes, are forbidden.')
     retrieval = persona.raw.get('exemplar_retrieval') or {}
-    use_exemplars = bool(persona.voice_card) or (retrieval.get('enabled', False) if exemplars is None else exemplars)
+    use_exemplars = (bool(persona.voice_card) or retrieval.get('enabled', False)) if exemplars is None else exemplars
     shown = []
     if use_exemplars:
         query = ' '.join(u['statement'] for u in chosen)
