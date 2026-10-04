@@ -454,7 +454,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                     'why':'Persona rejected the view'}
 
     try:
-        frame = attribution_frame.render(post_type, source, post_types, speaker=primary['speaker'])
+        frame = attribution_frame.render(post_type, source, post_types, speaker=primary['speaker'], lang=persona.lang)
     except ValueError as exc:
         return {**base, 'units': chosen, 'post_type': post_type, 'draft_status': 'not_suitable',
                 'status': 'skipped', 'text': '', 'post_checks': [], 'claim_ledger': [], 'risks': [],

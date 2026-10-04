@@ -5,6 +5,7 @@
     "lead_speaker": {
       "placement": "lead",
       "template": "{publisher} 的 {speaker} 认为：",
+      "template_en": "{speaker} ({publisher}): ",
       "requires": [
         "publisher",
         "speaker"
@@ -13,6 +14,7 @@
     "lead_publisher": {
       "placement": "lead",
       "template": "{publisher}：",
+      "template_en": "{publisher}: ",
       "requires": [
         "publisher"
       ]
@@ -20,6 +22,7 @@
     "footer_source": {
       "placement": "footer",
       "template": "（来源：{publisher}）",
+      "template_en": "\n\nSource: {publisher}",
       "requires": [
         "publisher"
       ]
@@ -32,6 +35,7 @@
     "footer_disagreement": {
       "placement": "footer",
       "template": "（不同意 {publisher} 的 {speaker} 的观点）",
+      "template_en": "\n\n(Pushing back on {speaker}, {publisher})",
       "requires": [
         "publisher",
         "speaker"

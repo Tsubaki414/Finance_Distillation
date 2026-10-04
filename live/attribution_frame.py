@@ -60,8 +60,11 @@ def _fields(source, speaker=None):
     return {'publisher': publisher, 'speaker': author}
 
 
-def render(post_type, source, post_types=None, speaker=None):
+def render(post_type, source, post_types=None, speaker=None, lang=None):
     """Return {'name','placement','text','names'} for the post type, or None if it has no frame.
+
+    lang: the post language; 'en' uses the frame's template_en (English source tag, ASCII
+    punctuation), anything else keeps the Chinese template.
 
     speaker: the chosen primary unit's speaker; the speaker frame is used only
     when it is the source's author.
@@ -78,7 +81,8 @@ def render(post_type, source, post_types=None, speaker=None):
         if all(values.get(key) for key in frame.get('requires') or []):
             names = [v for v in (values['publisher'], values['speaker']) if v]
             names += [a for a in aliases(source.get('source_id')) if a not in names]
-            return {'name': name, 'placement': frame['placement'], 'text': frame['template'].format(**values),
+            template = frame.get('template_en') if lang == 'en' and frame.get('template_en') else frame['template']
+            return {'name': name, 'placement': frame['placement'], 'text': template.format(**values),
                     'names': names}
     raise ValueError(f'{post_type}: no attribution frame can be rendered for {source.get("source_id")}')
 
