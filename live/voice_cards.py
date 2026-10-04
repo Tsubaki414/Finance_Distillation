@@ -50,6 +50,15 @@ def sanitize_card(card):
                 else:
                     kept.append(row)
             section[key] = kept
+        for key in ('voice_summary', 'judgment_style', 'variation_notes', 'cadence_notes'):
+            text = section.get(key)
+            if isinstance(text, str) and any(p.search(text) for p in POSITION_PATTERNS):
+                parts = re.split(r'(?<=[.!?。！？])\s*', text)
+                bad = [x for x in parts if x and any(p.search(x) for p in POSITION_PATTERNS)]
+                section[key] = ' '.join(x for x in parts if x and x not in bad).strip()
+                for x in bad:
+                    if x not in removed:
+                        removed.append(x)
         if section is card or 'avoid_tendencies' in section:
             avoid = section.setdefault('avoid_tendencies', [])
             if not any(isinstance(r, dict) and r.get('tendency') == POSITION_AVOID['tendency'] for r in avoid):
