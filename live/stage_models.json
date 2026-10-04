@@ -1,6 +1,6 @@
 {
   "version": "stage-models-v2",
-  "note": "Per-stage model and temperature. COMPOSE defaults to gemini-3.1-pro-preview on the micuapi relay (compose-model A/B 2026-10-04: best voice/fabrication per dollar). Its documented fallback is claude-opus-5-5 on the default relay, used only when the Gemini call errors, times out, has no channel or GEMINI_RELAY_API_KEY is unset; every fallback is recorded (model_fallback, fallback_reason). A response-model mismatch is never a fallback. All other stages stay on claude-opus-5. Revert with FD_COMPOSE_MODEL=claude-opus-5.",
+  "note": "Per-stage model and temperature. COMPOSE defaults to gemini-3.1-pro-preview on the micuapi relay (compose-model A/B 2026-10-04: best voice/fabrication per dollar). Its documented fallback is claude-opus-5-5 on the default relay, used only when the Gemini call errors, times out, has no channel, the micuapi key quota is exhausted, or GEMINI_RELAY_API_KEY is unset; every fallback is recorded (model_fallback, fallback_reason). A response-model mismatch is never a fallback. All other stages stay on claude-opus-5. Revert with FD_COMPOSE_MODEL=claude-opus-5.",
   "default": {"model": "claude-opus-5", "temperature": 0.0},
   "stages": {
     "compose": {

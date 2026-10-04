@@ -128,6 +128,15 @@ class ClientFallbackTests(unittest.TestCase):
             return ok(model)
         self.assertEqual(self.client(no_channel)('compose', MSG, 10)['model'], 'claude-opus-5-5')
 
+    def test_gemini_quota_exhausted_falls_back(self):
+        def quota(host, model):
+            if host == 'www.micuapi.ai':
+                return httpx.Response(403, json={'error': {'code': 'insufficient_user_quota', 'message': '令牌额度不足'}})
+            return ok(model)
+        out = self.client(quota)('compose', MSG, 10)
+        self.assertEqual(out['model'], 'claude-opus-5-5')
+        self.assertTrue(out['model_fallback'])
+
     def test_missing_gemini_key_uses_fallback_without_failing(self):
         c = self.client(lambda host, model: ok(model), env={})
         out = c('compose', MSG, 10)

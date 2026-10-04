@@ -90,8 +90,10 @@ def _safe(value, secret):
 
 def _fallback_worthy(exc):
     """Availability failures of the primary model (transport, timeout, 408/429/5xx, no channel,
-    unusable body). Response-model mismatches, refusals and budget errors are not."""
+    relay quota exhausted, unusable body). Response-model mismatches, refusals and budget errors are not."""
     text = str(exc)
+    if isinstance(exc, ProviderQuotaError):   # relay-side quota/balance exhausted on the primary key
+        return True
     if isinstance(exc, json.JSONDecodeError) or text.startswith(('Relay transport failed', 'Relay response has no choices')):
         return True
     if text.startswith('Relay HTTP'):
