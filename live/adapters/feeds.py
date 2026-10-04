@@ -49,7 +49,7 @@ def fetch_podcast(feed_url, *, source_id, publisher, limit=1, transport=None):
             text = srt_text(body)
             sources.append(common.make_source(id=f'pod-{source_id}-{common.digest(it["title"])[:10]}', source_id=source_id,
                                               text=text, publisher=publisher, title=it['title'], url=it['transcript_url'],
-                                              published_at='', adapter='podcast_rss'))
+                                              published_at=_iso(it['published_raw']), adapter='podcast_rss'))
     return {'status': 'ok' if sources else 'no_transcripts', 'sources': sources}
 
 

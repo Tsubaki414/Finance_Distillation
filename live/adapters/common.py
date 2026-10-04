@@ -39,7 +39,7 @@ def make_source(*, id, source_id, text, publisher, title, url, published_at, ada
         kept = [p for p in paragraphs(text) if p['end'] <= max_chars]
         text = text[:kept[-1]['end']] if kept else text[:max_chars]
         truncated = True
-    published = published_at if 'T' in (published_at or '') else (published_at or '') + 'T00:00:00Z'
+    published = (published_at if 'T' in published_at else published_at + 'T00:00:00Z') if published_at else None
     return {'id': id, 'source_id': source_id, 'source_hash': digest(text), 'original_text': text,
             'author_name': author_name or publisher, 'publisher': publisher, 'title': title, 'url': url,
             'published_at': published, 'source_language': lang, 'source_version': adapter + '-v1',

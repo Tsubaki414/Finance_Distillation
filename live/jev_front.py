@@ -59,7 +59,10 @@ def _ask(jev, state, questions):
         return None
     try:
         result = jev.review(state, questions)
-    except Exception:
+    except Exception as exc:
+        from ml.budget import BudgetExceeded
+        if isinstance(exc, BudgetExceeded):
+            raise
         return None
     return result['answers'] if result.get('status') == 'completed' else None
 

@@ -445,7 +445,7 @@ def to_source(item, evidence):
     return {'id': f'reportgem-{item["source_type"]}-{item["source_id"]}', 'source_id': source_id_for(bank),
             'source_hash': hashlib.sha256(text.encode()).hexdigest(), 'original_text': text,
             'author_name': bank, 'publisher': bank, 'title': item.get('title'),
-            'published_at': (item.get('published_at') or '') + 'T00:00:00Z', 'source_language': 'zh' if item['source_type'] == 'cn' else 'en',
+            'published_at': ((item['published_at'] if 'T' in item['published_at'] else item['published_at'] + 'T00:00:00Z') if item.get('published_at') else None), 'source_language': 'zh' if item['source_type'] == 'cn' else 'en',
             'source_version': 'reportgem-mcp-excerpt',
             'provenance': {'via': 'ReportGem MCP', 'reportgem_source_type': item['source_type'],
                            'reportgem_id': str(item['source_id']), 'url': item.get('url'),

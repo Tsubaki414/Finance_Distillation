@@ -64,12 +64,14 @@ def derive_dates(row):
     flags=[]
     raw=u.get('published_at') or src.get('published_at')
     published=normalize_date(raw)
-    if raw and not published:
+    if not raw or raw == 'T00:00:00Z':
+        flags.append('missing_published_at')
+    elif not published:
         try:
             future=date.fromisoformat(str(raw)[:10]) > today()+timedelta(days=2)
         except ValueError:
             future=False
-        flags.append('future_date' if future else 'malformed_published_at')
+        flags.append('future_published_at' if future else 'malformed_published_at')
     source_published=normalize_date(src.get('published_at'))
     published=published or source_published
     year=int(published[:4]) if published else None
@@ -84,7 +86,7 @@ def derive_dates(row):
     for candidate,label in candidates:
         if candidate:
             if date.fromisoformat(candidate)>today()+timedelta(days=2):
-                if 'future_date' not in flags: flags.append('future_date')
+                if 'forward_period_skipped' not in flags: flags.append('forward_period_skipped')
                 continue
             as_of,origin=candidate,label
             break

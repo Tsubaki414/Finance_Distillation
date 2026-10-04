@@ -68,7 +68,7 @@ def to_source(filing, text):
                               extra={'form': filing['form'], 'accession': filing['accession']})
 
 
-def fetch(ticker_or_cik, *, forms=('8-K',), earnings_only=True, limit=1, transport=None, max_age_days=None, as_of=None):
+def fetch(ticker_or_cik, *, forms=('8-K',), earnings_only=True, limit=1, transport=None, max_age_days=None, as_of=None, since=None):
     import json
     ua, placeholder = user_agent()
     cik = WATCHLIST.get(ticker_or_cik, ticker_or_cik).zfill(10)
@@ -81,6 +81,8 @@ def fetch(ticker_or_cik, *, forms=('8-K',), earnings_only=True, limit=1, transpo
         from datetime import date
         today = as_of or date.today()
         filings = [f for f in filings if 0 <= (today - date.fromisoformat(f['date'])).days <= max_age_days]
+    if since:
+        filings = [f for f in filings if f['date'] >= str(since)[:10]]
     sources, requests = [], 1
     for f in filings:
         time.sleep(0.15)  # well under 10 req/s
