@@ -174,3 +174,16 @@ def test_extract_model_override_needs_explicit_flag(tmp_path, monkeypatch):
     assert stage_models.for_stage(c.stage_models, 'compose')['model'] == 'claude-opus-5'
     default = daily_ingest.extract_client(tmp_path/'d')
     assert stage_models.for_stage(default.stage_models, 'extract')['model'] == 'claude-opus-5'
+
+
+def test_incomplete_output_retries_once_on_a_shorter_source(tmp_path):
+    from live.daily_ingest import run
+    seen=[]
+    long=make_source(id='long', source_id='sec_edgar', text='\n\n'.join(f'para {i} '+'x'*300 for i in range(15)),
+                     publisher='p', title='t', url='https://example.test/long2', published_at='2026-10-04', adapter='edgar')
+    def ex(s):
+        seen.append(len(s['original_text']))
+        if len(seen)==1: raise RuntimeError('ContractError: extract: incomplete/unknown finish_reason')
+        return FakeExtract()(s)
+    r=run(**setup(tmp_path), fetchers={'c':lambda:{'sources':[long]}}, extract=ex, backup=lambda:None, refresh=lambda:None)
+    assert len(seen)==2 and seen[1] < seen[0] and r['channels'][0]['units']==1
