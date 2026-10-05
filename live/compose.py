@@ -1448,6 +1448,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         qa['number_check'] = 'skipped_trusted_source'
     if (view_ledger is not None and stance and stance.get('decision') != 'reject' and stance.get('account_view')
             and qa_levels.draft_status(findings) == 'draft_ready'):
+        if 'continuity' not in stance:   # supplied stance_output never went through stance_step linking
+            stance = view_ledger.link_continuity(stance, input_view=input_view)
         try:
             view_ledger.record(stance, unit_ids=[u['unit_id'] for u in chosen], source_ids=[source.get('id')],
                                draft_id=base['id'], input_view=input_view if stance.get('decision') == 'take' else None)

@@ -16,7 +16,8 @@ Rules for account_view:
   (before that door closes / that door closes), 链路往下推, 每一环的议价权, 这才是要分开看的地方.
 - Do not invent facts, numbers, holdings, trades or experience. No "X said" wrapper.
 Schema: {decision: take|adapt|reject, account_view: string, supporting_unit_ids: [supplied IDs],
-rationale: nonempty string, confidence: number between 0 and 1, view: optional object}.
+rationale: nonempty string, confidence: number between 0 and 1, view: optional object,
+revises_view_id: optional prior view id, cited_prior_view_ids: optional [prior view ids]}.
 For adapt, view is required: a complete revised view with direction, subject,
 conviction, reasoning, horizon and optional conditions. Change direction,
 conviction or horizon, or add a new condition. For reject account_view is empty.
@@ -28,8 +29,9 @@ view overlaps the subject, PREFER continuing or updating that lasting view over 
 fresh one-shot take: keep the same call in account_view with a continuity phrase when evidence
 agrees, or set revises_view_id to that prior view id and say why in rationale when direction /
 conviction / horizon actually changes. Do not ignore an overlapping prior. Prior view ids never
-go in supporting_unit_ids (those are evidence unit IDs only). Views only: never holdings, trades
-or positions.''')
+go in supporting_unit_ids (those are evidence unit IDs only); list a prior view you keep in
+cited_prior_view_ids instead. Do not output continues_view_id: the system links a continued call
+to its prior view itself. Views only: never holdings, trades or positions.''')
 
 # Banned cadence Fiona keeps flagging in stance -> thesis_lock -> line 1.
 # Keep aligned with live/anti_repeat.py where possible.
@@ -134,9 +136,16 @@ def _validate_stance_value(value, view_unit, view, prior, allowed):
         value['cited_prior_view_ids'] = [i for i in ids if i in prior_ids]
         ids = value['supporting_unit_ids'] = [i for i in ids if i not in prior_ids]
     require(isinstance(ids, list) and all(i in allowed for i in ids), 'stance: supporting IDs not supplied')
+    cited = value.get('cited_prior_view_ids')
+    if cited is not None:
+        # Explicit citations are a continuity hint only; unknown ids are dropped, never an error.
+        value['cited_prior_view_ids'] = [i for i in (cited if isinstance(cited, list) else []) if i in prior_ids]
     if value.get('revises_view_id') is not None:
-        require(value['revises_view_id'] in {r['id'] for r in prior},
+        require(value['revises_view_id'] in prior_ids,
                 'stance: revises_view_id is not a supplied prior view')
+    # continues_view_id is linked deterministically from ledger match scores (view_ledger.link_continuity);
+    # a model-typed id is never trusted.
+    value.pop('continues_view_id', None)
     sentence = value.get('account_view')
     require(isinstance(sentence, str), 'stance: account_view required')
     if value['decision'] == 'reject':
@@ -255,6 +264,8 @@ def stance_step(view_unit, persona, client, *, calls=None, sleep=None, context_u
             value['stance_scrub_retry'] = scrub_retry
 
     if ledger is not None:
+        if value['decision'] != 'reject':
+            value = ledger.link_continuity(value, prior, input_view=view)
         probe = value if value.get('view') else dict(value, view=view)
         findings = list(ledger.contradictions(probe))
         findings += list(ledger.ignores_prior(probe, prior))

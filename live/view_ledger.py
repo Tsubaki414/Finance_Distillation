@@ -6,6 +6,16 @@ call that flips direction on the same subject without naming the view it revises
 (subject, direction, conviction, horizon), the supporting unit/source ids and time - never
 holdings, trades, sizes or P&L (rejected on write).
 Storage: one JSONL per account under FD_VIEW_LEDGER_DIR (default <repo>/store/view_ledger).
+
+Continuity links (see docs/2026-10-05_continues_view_id.md): every recorded call is exactly one of
+  continue  - `continues_view_id` = the prior call it carries forward (same subject, same direction);
+              set DETERMINISTICALLY by `link_continuity` from ledger match scores, never from raw
+              model-typed ids;
+  revise    - `revises_view_id` = the prior call it changes (model-set, validated against the
+              supplied prior_views; flips must be explained in rationale);
+  fresh     - neither.
+Both supersede the parent in `current()`, so a lasting view stays one chain head instead of
+accumulating near-duplicates.
 """
 from __future__ import annotations
 
@@ -23,9 +33,27 @@ POSITION = re.compile(r"\b(?:we|i)(?:'re| are| am)?\s+(?:long|short)\b|\b(?:our|
                       r"\badded to\b|\btrimmed\b|\bbought\b|\bsold\b|\bP&L\b|仓位|持仓|加仓|减仓|建仓|做多了|做空了|我们持有|我持有", re.I)
 
 
+# Deterministic continue-link thresholds (min-normalised token overlap; EN stems / ZH bigrams).
+CONTINUE_SUBJECT_MIN = 0.4     # subject vs subject
+CONTINUE_TEXT_MIN = 0.3        # subject + account_view vs subject + account_view
+
+
 def _tokens(text):
     from live.compose import _tokens as tok
     return tok(text or '')
+
+
+def _overlap(a, b):
+    return len(a & b) / (min(len(a), len(b)) or 1)
+
+
+def continue_score(view, account_view, row):
+    """(subject_overlap, text_overlap) between a new call and a ledger row."""
+    subject = _tokens(str((view or {}).get('subject') or ''))
+    text = subject | _tokens(str(account_view or ''))
+    row_subject = _tokens(str(row.get('subject') or ''))
+    row_text = row_subject | _tokens(str(row.get('account_view') or ''))
+    return round(_overlap(subject, row_subject), 3), round(_overlap(text, row_text), 3)
 
 
 class ViewLedger:
@@ -45,12 +73,21 @@ class ViewLedger:
             raise ValueError('view ledger: only take/adapt calls with an account_view are recorded')
         if POSITION.search(text):
             raise ValueError('view ledger: views only - position/trade language is never recorded')
+        continues, revises = stance.get('continues_view_id'), stance.get('revises_view_id')
+        if continues and revises:
+            raise ValueError('view ledger: a call either continues or revises a prior view, not both')
+        if continues or revises:
+            known = {r['id'] for r in self.entries()}
+            for name, vid in (('continues_view_id', continues), ('revises_view_id', revises)):
+                if vid and vid not in known:
+                    raise ValueError(f'view ledger: {name} {vid} is not a recorded view of this account')
         # A 'take' adopts the input view and may omit `view`; record the adopted view's structure so
         # later flips on the same subject can still be flagged (else subject/direction are None).
         v = stance.get('view') or input_view or {}
         entry = {'id': 'view-' + uuid.uuid4().hex[:12], 'account_id': self.account_id, 'account_view': text,
                  'subject': v.get('subject'), 'direction': v.get('direction'), 'conviction': v.get('conviction'),
-                 'horizon': v.get('horizon'), 'revises_view_id': stance.get('revises_view_id'),
+                 'horizon': v.get('horizon'), 'revises_view_id': revises or None,
+                 'continues_view_id': continues or None,
                  'unit_ids': list(unit_ids), 'source_ids': list(source_ids), 'draft_id': draft_id,
                  'created_at': datetime.now(timezone.utc).isoformat(timespec='seconds')}
         self.path.parent.mkdir(parents=True, exist_ok=True)
@@ -59,10 +96,76 @@ class ViewLedger:
         return entry
 
     def current(self):
-        """Entries not superseded by a later revision."""
+        """Entries not superseded by a later revision or continuation (chain heads)."""
         rows = self.entries()
-        revised = {r.get('revises_view_id') for r in rows if r.get('revises_view_id')}
-        return [r for r in rows if r['id'] not in revised]
+        superseded = {r.get(k) for r in rows for k in ('revises_view_id', 'continues_view_id') if r.get(k)}
+        return [r for r in rows if r['id'] not in superseded]
+
+    def lineage(self, view_id):
+        """[view_id, parent, grandparent, ...] following continues/revises links."""
+        by_id = {r['id']: r for r in self.entries()}
+        chain, seen = [], set()
+        while view_id and view_id in by_id and view_id not in seen:
+            seen.add(view_id)
+            chain.append(view_id)
+            r = by_id[view_id]
+            view_id = r.get('continues_view_id') or r.get('revises_view_id')
+        return chain
+
+    def link_continuity(self, stance, prior_rows=None, input_view=None):
+        """Return a copy of stance with exactly one of continue / revise / fresh resolved.
+
+        - reject: no links.
+        - revises_view_id already set (model, validated upstream): keep it, continues cleared.
+        - otherwise pick the best current prior on the same subject AND same direction by
+          deterministic match score (subject / text token overlap; a prior the model cited in
+          cited_prior_view_ids wins ties, then the latest call) and set continues_view_id.
+          An opposite-direction match is a flip: it is NOT linked as a continuation (the
+          contradicts_prior_view finding stays until the model sets revises_view_id).
+        Any model-supplied continues_view_id is ignored (ids are linked from scores, not trusted).
+        `continuity` records which branch fired and why.
+        """
+        out = dict(stance)
+        out.pop('continues_view_id', None)
+        if out.get('decision') not in ('take', 'adapt') or not str(out.get('account_view') or '').strip():
+            out['revises_view_id'] = out['continues_view_id'] = None
+            out['continuity'] = {'link': 'none', 'source': 'not_recordable'}
+            return out
+        if out.get('revises_view_id'):
+            out['continues_view_id'] = None
+            out['continuity'] = {'link': 'revise', 'source': 'model', 'view_id': out['revises_view_id']}
+            return out
+        v = out.get('view') or input_view or {}
+        direction = v.get('direction')
+        rows = prior_rows if prior_rows is not None else self.related(
+            ' '.join(str(x or '') for x in (v.get('subject'), out.get('account_view'))), k=5)
+        order = {r['id']: i for i, r in enumerate(self.current())}   # append order = recency
+        cited = set(out.get('cited_prior_view_ids') or [])
+        best, flip = None, None
+        for r in rows:
+            if r.get('id') not in order:
+                continue
+            subj, text = continue_score(v, out.get('account_view'), r)
+            if subj < CONTINUE_SUBJECT_MIN and text < CONTINUE_TEXT_MIN:
+                continue
+            if direction and OPPOSITE.get(direction) == r.get('direction'):
+                flip = flip or r['id']
+                continue
+            if not (direction and r.get('direction') == direction):
+                continue   # direction changed / unknown: a revise is the model's call, not ours
+            key = (r['id'] in cited, max(subj, text), str(r.get('created_at') or ''), order[r['id']])
+            if best is None or key > best[0]:
+                best = (key, r['id'], subj, text)
+        out['revises_view_id'] = None
+        if best:
+            out['continues_view_id'] = best[1]
+            out['continuity'] = {'link': 'continue', 'source': 'ledger_match', 'view_id': best[1],
+                                 'subject_overlap': best[2], 'text_overlap': best[3]}
+        else:
+            out['continues_view_id'] = None
+            out['continuity'] = {'link': 'fresh', 'source': 'ledger_match',
+                                 **({'unacknowledged_flip_of': flip} if flip else {})}
+        return out
 
     def related(self, text, k=5):
         want = _tokens(text)
@@ -80,7 +183,7 @@ class ViewLedger:
         """Soft flag when take/adapt on an overlapping subject neither continues nor revises."""
         if stance.get('decision') not in ('take', 'adapt'):
             return []
-        if stance.get('revises_view_id') or stance.get('cited_prior_view_ids'):
+        if stance.get('revises_view_id') or stance.get('continues_view_id') or stance.get('cited_prior_view_ids'):
             return []
         v = stance.get('view') or {}
         subject = _tokens(str(v.get('subject') or ''))
@@ -111,7 +214,7 @@ class ViewLedger:
         out = []
         subject = _tokens(str(v.get('subject') or ''))
         for r in self.current():
-            if r['id'] == stance.get('revises_view_id'):
+            if r['id'] in (stance.get('revises_view_id'), stance.get('continues_view_id')):
                 continue
             same = subject and len(subject & _tokens(str(r.get('subject') or ''))) / len(subject) >= 0.5
             if same and OPPOSITE.get(direction) == r.get('direction'):

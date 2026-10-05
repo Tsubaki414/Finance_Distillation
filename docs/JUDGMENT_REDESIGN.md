@@ -19,7 +19,7 @@ Ship this round only if a small demo (3 personas × 1 draft, mix ZH/EN) meets al
 | A2 | Data is evidence | ≤40% of sentences are primarily numeric; no research-summary set-ups / bullet data lists. |
 | A3 | Pack is not pure-data | When the unit pool has any non-fact unit (`mechanism` / `view` / `aphorism`), the compose pack includes ≥1 of them. Pure-fact packs only when no non-fact exists. |
 | A4 | Signature open/close | Compose payload marks donor openings/closings as **hard constraints** (judgment-first open; landing close). Soft repair note if opening fails A1. |
-| A5 | Lasting view | When a prior ledger view exists on the same subject, stance prefers **continue / update** that view (`revises_view_id` or explicit continuity in `account_view`); fresh one-shot takes without acknowledging the prior are soft-flagged. |
+| A5 | Lasting view | When a prior ledger view exists on the same subject, stance prefers **continue / update** that view (`revises_view_id`, or `continues_view_id` linked deterministically - see `docs/2026-10-05_continues_view_id.md`); fresh one-shot takes without acknowledging the prior are soft-flagged. |
 | A6 | Demo feel | Blind skim: 2/3 drafts read as “analyst with a book,” not “newsletter digest.” Fiona sign-off on the 3 samples. |
 
 **Out of scope this round (explicitly won’t do):** persona scale-to-1000, new donor scrapes, RapidAPI/X, big Gemini A/B burns, publish/outbox, hard-blocking drafts on voice (soft findings + one soft rewrite only), rewriting emotion tiers.
