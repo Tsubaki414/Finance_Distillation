@@ -675,24 +675,37 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     body = value.get('body')
     require(isinstance(body, str) and body.strip(), 'compose: body required')
     body = body.strip()
-    # ZH over-claim: soft-warn is not enough for clear overreach vs stance — retry once.
-    # Never hard-block; if the retry still overclaims, keep the soft warning and the last body.
-    certainty_retry = None
-    if persona.lang == 'zh' and certainty_findings(body, chosen, stance, 'zh'):
+    # Soft thesis/grounding repair (EN + ZH): sentence-level check + fixed repair instructions
+    # by reason code. Retry once on trigger; never hard-block / stall the pipeline.
+    from live import thesis_grounding as tg
+    grounding_retry = None
+    first_body = body
+    grounding = tg.review(body, stance, chosen, persona.lang)
+    if grounding['decision'] == 'REPAIR' and grounding.get('repair_instruction'):
         retry_payload = dict(payload)
-        retry_payload['rewrite_note'] = (
-            'Your previous draft used certainty or crowd wording the stance/units do not carry '
-            '(e.g. 彻底/一定/市场都/各方都/惊弓之鸟). Rewrite without those; keep the call, hedges and numbers.')
+        retry_payload['rewrite_note'] = grounding['repair_instruction']
         value2, response2 = _ask(client, 'compose', COMPOSE, retry_payload, MAX_TOKENS, assembly)
         body2 = (value2.get('body') or '').strip()
         if body2:
-            certainty_retry = {'attempted': True,
-                               'first_findings': certainty_findings(body, chosen, stance, 'zh'),
-                               'retry_findings': certainty_findings(body2, chosen, stance, 'zh'),
-                               'kept': 'retry'}
+            after = tg.review(body2, stance, chosen, persona.lang)
+            grounding_retry = {'attempted': True, 'kept': 'retry',
+                               'first_reason_codes': list(grounding['reason_codes']),
+                               'retry_reason_codes': after['reason_codes'],
+                               'repair_instruction': grounding['repair_instruction'],
+                               'first_spans': grounding['spans'][:8]}
             body, value, response = body2, value2, response2
+            grounding = after
         else:
-            certainty_retry = {'attempted': True, 'kept': 'original'}
+            grounding_retry = {'attempted': True, 'kept': 'original',
+                               'first_reason_codes': list(grounding['reason_codes']),
+                               'repair_instruction': grounding['repair_instruction']}
+    # Back-compat: certainty_retry when the first draft had certainty/crowd overreach.
+    certainty_retry = None
+    first_certainty = certainty_findings(first_body, chosen, stance, persona.lang)
+    if grounding_retry and first_certainty:
+        certainty_retry = {'attempted': True, 'kept': grounding_retry.get('kept'),
+                           'first_findings': first_certainty,
+                           'retry_findings': certainty_findings(body, chosen, stance, persona.lang)}
     ledger = value.get('claim_ledger')
     require(isinstance(ledger, list) and ledger, 'compose: claim_ledger required')
     by_id = {u['unit_id']: u for u in chosen}
@@ -705,6 +718,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                 'compose: claim_ledger span_ref out of range')
     text = (frame['text'] + body) if frame['placement'] == 'lead' else (body + frame['text'])
     findings = post_checks(post_type, body, text, frame, tier, chosen, persona, post_types, stance, source=source, now=now)
+    findings += qa_levels.classify(grounding.get('findings') or [], frame_found=True)
     findings += qa_levels.classify(exemplar_store.copied_phrases(body, [e['text'] for e in shown]), frame_found=True)
     if view_ledger is not None and stance and stance.get('decision') != 'reject':
         ledger_findings = stance.get('ledger_findings')
@@ -737,7 +751,11 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             'why': ('post checks passed; persona voice draft' if not findings else
                     'hard post checks failed' if qa_levels.draft_status(findings) == 'needs_review' else
                     'soft warnings only; persona voice draft'),
-            **({'certainty_retry': certainty_retry} if certainty_retry else {})}
+            **({'certainty_retry': certainty_retry} if certainty_retry else {}),
+            **({'grounding_retry': grounding_retry} if grounding_retry else {}),
+            **({'thesis_grounding': {'decision': grounding.get('decision'),
+                                     'reason_codes': grounding.get('reason_codes'),
+                                     'repair_instruction': grounding.get('repair_instruction')}} if grounding else {})}
 
 
 def arbitrate_batch(results, *, mode='soft'):
