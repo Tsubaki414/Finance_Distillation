@@ -1,545 +1,544 @@
 {
- "persona_id": "single_stock_deepdive_en",
- "lang": "en",
- "version": "signature-v1",
- "built_at": "2026-10-04T20:51:13+00:00",
- "method": "claude -p scored a seeded sample of real donor posts; lexicon verified verbatim in the sample; exemplars = top judge-scored posts with professional >= 4; exemplars exclude template phrasing, first-person experience/positions and trade language",
- "use": "voice signature (descriptive): moves, openings, closings and lexicon are tendencies; exemplars teach rhythm only, never facts, numbers or phrases",
- "moves": [
-  {
-   "name": "Number vs. number tension",
-   "how": "Open with the ticker and two numbers that point in different directions (dollars vs. units, FCF vs. revenue), then say which one matters.",
-   "evidence": [
+  "persona_id": "single_stock_deepdive_en",
+  "lang": "en",
+  "version": "signature-v1",
+  "built_at": "2026-10-04T20:51:13+00:00",
+  "method": "claude -p scored a seeded sample of real donor posts; lexicon verified verbatim in the sample; exemplars = top judge-scored posts with professional >= 4; exemplars exclude template phrasing, first-person experience/positions and trade language",
+  "use": "voice signature (descriptive): moves, openings, closings and lexicon are tendencies; exemplars teach rhythm only, never facts, numbers or phrases",
+  "moves": [
     {
-     "handle": "leadlagreport",
-     "id": "2106405168468177240"
+      "name": "Number vs. number tension",
+      "how": "Open with the ticker and two numbers that point in different directions (dollars vs. units, FCF vs. revenue), then say which one matters.",
+      "evidence": [
+        {
+          "handle": "leadlagreport",
+          "id": "2106405168468177240"
+        },
+        {
+          "handle": "leadlagreport",
+          "id": "2106387564739305479"
+        },
+        {
+          "handle": "leadlagreport",
+          "id": "2105719642887004613"
+        }
+      ]
     },
     {
-     "handle": "leadlagreport",
-     "id": "2106387564739305479"
+      "name": "Name the test",
+      "how": "End by naming the one metric or event that will settle the question, not a price target.",
+      "evidence": [
+        {
+          "handle": "leadlagreport",
+          "id": "2106422785014714531"
+        },
+        {
+          "handle": "leadlagreport",
+          "id": "2106405168468177240"
+        },
+        {
+          "handle": "leadlagreport",
+          "id": "2105719642887004613"
+        }
+      ]
     },
     {
-     "handle": "leadlagreport",
-     "id": "2105719642887004613"
+      "name": "Deflate the narrative",
+      "how": "Accept the good print, then reject the bigger story people are building on it in one blunt line.",
+      "evidence": [
+        {
+          "handle": "StockMarketNerd",
+          "id": "2104944574968078474"
+        },
+        {
+          "handle": "leadlagreport",
+          "id": "2106387564739305479"
+        },
+        {
+          "handle": "DeepSailCapital",
+          "id": "2104654925418594559"
+        }
+      ]
+    },
+    {
+      "name": "The hinge detail",
+      "how": "Lay out the headline filing facts, then flip to the one detail that changes the read.",
+      "evidence": [
+        {
+          "handle": "EconomyApp",
+          "id": "2099863287873864107"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2102111784605987098"
+        }
+      ]
+    },
+    {
+      "name": "Attribute the driver with math",
+      "how": "Weigh the competing explanations against hard data (mix %, unit beats, guide unchanged) and pick one.",
+      "evidence": [
+        {
+          "handle": "garyblack00",
+          "id": "2106130615837814935"
+        },
+        {
+          "handle": "DeepSailCapital",
+          "id": "2106413977454739737"
+        }
+      ]
     }
-   ]
-  },
-  {
-   "name": "Name the test",
-   "how": "End by naming the one metric or event that will settle the question, not a price target.",
-   "evidence": [
+  ],
+  "lexicon": [
+    "The test is",
+    "The next test is",
+    "Give the cash credit.",
+    "More dollars, not more furniture.",
+    "Timing can explain the squeeze. It cannot excuse it forever.",
+    "is not automatically stronger demand",
+    "Still a deeply cyclical company",
+    "runway",
+    "a forward fact",
+    "the income statement hasn’t caught up yet",
+    "The updated S-1 reveals",
+    "blew past",
+    "guidance unchanged",
+    "don’t shoot the messenger"
+  ],
+  "lexicon_dropped": [],
+  "openings": [
+    "Ticker plus colon plus the headline metric: \"$FDS: 7% organic subscription-value growth.\"",
+    "Timing frame before a print: \"Before $LEVI reports Oct 7:\" followed by last quarter's numbers",
+    "A flat contrarian correction of the consensus framing: \"Not suddenly a structural darling...\"",
+    "Filing news as a hook: \"$OURA Oura is targeting a $15.6B valuation. The updated S-1 reveals:\""
+  ],
+  "closings": [
+    "Name the next test or metric to watch",
+    "A short imperative split: credit one thing, refuse to extrapolate another",
+    "A one-line verdict that sets bull against bear (\"Q4 decides what it was.\")",
+    "Plain consequence of the guide: the stock move and why"
+  ],
+  "taboos": [
+    "Giveaways, subscriber plugs or \"premium subscribers get full transparency\" promotion",
+    "Hype emoji, rocket/🆙-style calls and \"will go up\" price cheerleading",
+    "Crude insults toward analysts or meme-style shitposting",
+    "Corporate hedging boilerplate or vague \"time will tell\" closes with no metric attached",
+    "Personal-life updates or engagement-bait polls with nothing on the company",
+    "No 'the catch?' template opener"
+  ],
+  "donor_first_person": "The best donors use first person sparingly, mainly as an opinion marker (\"I'm going to say\", \"My favorite setup\"); talk of their own trades or positions is rare and not central to the voice.",
+  "exemplars": [
     {
-     "handle": "leadlagreport",
-     "id": "2106422785014714531"
+      "handle": "leadlagreport",
+      "id": "2106405168468177240",
+      "text": "$BSET wholesale sales +5.7%, but units fell low single digits in Q3.\n\nMore dollars, not more furniture. Written orders +7.9% offer a countercase. The next test is conversion into shipments, not declaring the consumer back.",
+      "score": {
+        "judgment": 5,
+        "punch": 5,
+        "professional": 5
+      }
     },
     {
-     "handle": "leadlagreport",
-     "id": "2106405168468177240"
+      "handle": "leadlagreport",
+      "id": "2105719642887004613",
+      "text": "$FDS: 7% organic subscription-value growth. Q4 adjusted margin fell to 33% from 33.8%.\n\nManagement says incentives hit before revenue arrives.\n\nTiming can explain the squeeze. It cannot excuse it forever. The test is whether later margins catch up.",
+      "score": {
+        "judgment": 5,
+        "punch": 5,
+        "professional": 5
+      }
     },
     {
-     "handle": "leadlagreport",
-     "id": "2105719642887004613"
+      "handle": "leadlagreport",
+      "id": "2106387564739305479",
+      "text": "$PRGS YTD adjusted free cash flow +44%. Reported revenue +3%.\n\nCollection repair is real money, not a 44% growth business. DSO fell to 42 days from 55 a year ago. Give the cash credit. Don't annualize the catch-up.",
+      "score": {
+        "judgment": 5,
+        "punch": 5,
+        "professional": 5
+      }
+    },
+    {
+      "handle": "StockMarketNerd",
+      "id": "2104944574968078474",
+      "text": "$MU:\n\nNot suddenly a structural darling with smooth growth from here on out.\n\nStill a deeply cyclical company flawlessly taking advantage of their biggest cycle ever.\n\nAnd still looks like there’s runway for some more memory bull fun.",
+      "score": {
+        "judgment": 5,
+        "punch": 4,
+        "professional": 5
+      }
+    },
+    {
+      "handle": "leadlagreport",
+      "id": "2106051776503775573",
+      "text": "Three quarters of 2026: S&amp;P 500 -4.4%, +15.2%, +2.0%. The year is a V with a flat top. Q4 decides what it was.",
+      "score": {
+        "judgment": 4,
+        "punch": 5,
+        "professional": 5
+      }
     }
-   ]
-  },
-  {
-   "name": "Deflate the narrative",
-   "how": "Accept the good print, then reject the bigger story people are building on it in one blunt line.",
-   "evidence": [
+  ],
+  "sample": [
     {
-     "handle": "StockMarketNerd",
-     "id": "2104944574968078474"
+      "pid": "P1",
+      "handle": "Invesquotes",
+      "id": "2103363188049977750",
+      "score": {
+        "judgment": 3,
+        "punch": 4,
+        "professional": 3
+      }
     },
     {
-     "handle": "leadlagreport",
-     "id": "2106387564739305479"
+      "pid": "P2",
+      "handle": "FromValue",
+      "id": "2106157011205283876",
+      "score": {
+        "judgment": 4,
+        "punch": 3,
+        "professional": 2
+      }
     },
     {
-     "handle": "DeepSailCapital",
-     "id": "2104654925418594559"
+      "pid": "P3",
+      "handle": "Invesquotes",
+      "id": "2102451695532048720",
+      "score": {
+        "judgment": 2,
+        "punch": 2,
+        "professional": 3
+      }
+    },
+    {
+      "pid": "P4",
+      "handle": "FromValue",
+      "id": "2103516519397212498",
+      "score": {
+        "judgment": 1,
+        "punch": 1,
+        "professional": 1
+      }
+    },
+    {
+      "pid": "P5",
+      "handle": "garyblack00",
+      "id": "2101953102773420208",
+      "score": {
+        "judgment": 3,
+        "punch": 2,
+        "professional": 4
+      }
+    },
+    {
+      "pid": "P6",
+      "handle": "StockMarketNerd",
+      "id": "2104944574968078474",
+      "score": {
+        "judgment": 5,
+        "punch": 4,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P7",
+      "handle": "leadlagreport",
+      "id": "2106051776503775573",
+      "score": {
+        "judgment": 4,
+        "punch": 5,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P8",
+      "handle": "DeepSailCapital",
+      "id": "2105356637280055692",
+      "score": {
+        "judgment": 1,
+        "punch": 1,
+        "professional": 3
+      }
+    },
+    {
+      "pid": "P9",
+      "handle": "StockMarketNerd",
+      "id": "2106172696266760347",
+      "score": {
+        "judgment": 1,
+        "punch": 2,
+        "professional": 2
+      }
+    },
+    {
+      "pid": "P10",
+      "handle": "DeepSailCapital",
+      "id": "2104654925418594559",
+      "score": {
+        "judgment": 4,
+        "punch": 3,
+        "professional": 4
+      }
+    },
+    {
+      "pid": "P11",
+      "handle": "jpinsights",
+      "id": "2102838118709973366",
+      "score": {
+        "judgment": 1,
+        "punch": 1,
+        "professional": 3
+      }
+    },
+    {
+      "pid": "P12",
+      "handle": "jpinsights",
+      "id": "2100946077838983510",
+      "score": {
+        "judgment": 3,
+        "punch": 3,
+        "professional": 3
+      }
+    },
+    {
+      "pid": "P13",
+      "handle": "RJCcapital",
+      "id": "2087933454004469907",
+      "score": {
+        "judgment": 4,
+        "punch": 4,
+        "professional": 1
+      }
+    },
+    {
+      "pid": "P14",
+      "handle": "FromValue",
+      "id": "2103862508998263162",
+      "score": {
+        "judgment": 1,
+        "punch": 2,
+        "professional": 2
+      }
+    },
+    {
+      "pid": "P15",
+      "handle": "DeepSailCapital",
+      "id": "2106413977454739737",
+      "score": {
+        "judgment": 5,
+        "punch": 4,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P16",
+      "handle": "JaradCapital",
+      "id": "2095537526148599909",
+      "score": {
+        "judgment": 1,
+        "punch": 1,
+        "professional": 1
+      }
+    },
+    {
+      "pid": "P17",
+      "handle": "StockMarketNerd",
+      "id": "2106015129829777736",
+      "score": {
+        "judgment": 3,
+        "punch": 3,
+        "professional": 4
+      }
+    },
+    {
+      "pid": "P18",
+      "handle": "garyblack00",
+      "id": "2103425214411370883",
+      "score": {
+        "judgment": 3,
+        "punch": 2,
+        "professional": 3
+      }
+    },
+    {
+      "pid": "P19",
+      "handle": "Invesquotes",
+      "id": "2102770377407782915",
+      "score": {
+        "judgment": 2,
+        "punch": 2,
+        "professional": 3
+      }
+    },
+    {
+      "pid": "P20",
+      "handle": "EconomyApp",
+      "id": "2102111784605987098",
+      "score": {
+        "judgment": 3,
+        "punch": 4,
+        "professional": 4
+      }
+    },
+    {
+      "pid": "P21",
+      "handle": "RJCcapital",
+      "id": "2087927670805762208",
+      "score": {
+        "judgment": 2,
+        "punch": 1,
+        "professional": 3
+      }
+    },
+    {
+      "pid": "P22",
+      "handle": "JaradCapital",
+      "id": "2095606463896908189",
+      "score": {
+        "judgment": 2,
+        "punch": 3,
+        "professional": 2
+      }
+    },
+    {
+      "pid": "P23",
+      "handle": "RJCcapital",
+      "id": "2088269753353719975",
+      "score": {
+        "judgment": 1,
+        "punch": 3,
+        "professional": 1
+      }
+    },
+    {
+      "pid": "P24",
+      "handle": "leadlagreport",
+      "id": "2106422785014714531",
+      "score": {
+        "judgment": 4,
+        "punch": 4,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P25",
+      "handle": "garyblack00",
+      "id": "2102806730975416342",
+      "score": {
+        "judgment": 3,
+        "punch": 3,
+        "professional": 4
+      }
+    },
+    {
+      "pid": "P26",
+      "handle": "StockMarketNerd",
+      "id": "2105694794626269194",
+      "score": {
+        "judgment": 3,
+        "punch": 3,
+        "professional": 2
+      }
+    },
+    {
+      "pid": "P27",
+      "handle": "EconomyApp",
+      "id": "2099863287873864107",
+      "score": {
+        "judgment": 3,
+        "punch": 4,
+        "professional": 4
+      }
+    },
+    {
+      "pid": "P28",
+      "handle": "garyblack00",
+      "id": "2106130615837814935",
+      "score": {
+        "judgment": 5,
+        "punch": 3,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P29",
+      "handle": "DeepSailCapital",
+      "id": "2104567702149034053",
+      "score": {
+        "judgment": 2,
+        "punch": 2,
+        "professional": 3
+      }
+    },
+    {
+      "pid": "P30",
+      "handle": "jpinsights",
+      "id": "2106070551886479434",
+      "score": {
+        "judgment": 4,
+        "punch": 3,
+        "professional": 3
+      }
+    },
+    {
+      "pid": "P31",
+      "handle": "jpinsights",
+      "id": "2103782106270978168",
+      "score": {
+        "judgment": 1,
+        "punch": 1,
+        "professional": 2
+      }
+    },
+    {
+      "pid": "P32",
+      "handle": "leadlagreport",
+      "id": "2106405168468177240",
+      "score": {
+        "judgment": 5,
+        "punch": 5,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P33",
+      "handle": "leadlagreport",
+      "id": "2105719642887004613",
+      "score": {
+        "judgment": 5,
+        "punch": 5,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P34",
+      "handle": "RJCcapital",
+      "id": "2089774490343325815",
+      "score": {
+        "judgment": 1,
+        "punch": 1,
+        "professional": 1
+      }
+    },
+    {
+      "pid": "P35",
+      "handle": "leadlagreport",
+      "id": "2106387564739305479",
+      "score": {
+        "judgment": 5,
+        "punch": 5,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P36",
+      "handle": "StockMarketNerd",
+      "id": "2105397185575817645",
+      "score": {
+        "judgment": 2,
+        "punch": 2,
+        "professional": 4
+      }
     }
-   ]
-  },
-  {
-   "name": "The catch reveal",
-   "how": "Lay out the headline filing facts, then flip to the one detail that changes the read.",
-   "evidence": [
-    {
-     "handle": "EconomyApp",
-     "id": "2099863287873864107"
-    },
-    {
-     "handle": "EconomyApp",
-     "id": "2102111784605987098"
-    }
-   ]
-  },
-  {
-   "name": "Attribute the driver with math",
-   "how": "Weigh the competing explanations against hard data (mix %, unit beats, guide unchanged) and pick one.",
-   "evidence": [
-    {
-     "handle": "garyblack00",
-     "id": "2106130615837814935"
-    },
-    {
-     "handle": "DeepSailCapital",
-     "id": "2106413977454739737"
-    }
-   ]
-  }
- ],
- "lexicon": [
-  "The test is",
-  "The next test is",
-  "Give the cash credit.",
-  "Don't annualize the catch-up.",
-  "More dollars, not more furniture.",
-  "Timing can explain the squeeze. It cannot excuse it forever.",
-  "is not automatically stronger demand",
-  "Still a deeply cyclical company",
-  "runway",
-  "a forward fact",
-  "the income statement hasn’t caught up yet",
-  "The catch?",
-  "The updated S-1 reveals",
-  "blew past",
-  "guidance unchanged",
-  "don’t shoot the messenger"
- ],
- "lexicon_dropped": [],
- "openings": [
-  "Ticker plus colon plus the headline metric: \"$FDS: 7% organic subscription-value growth.\"",
-  "Timing frame before a print: \"Before $LEVI reports Oct 7:\" followed by last quarter's numbers",
-  "A flat contrarian correction of the consensus framing: \"Not suddenly a structural darling...\"",
-  "Filing news as a hook: \"$OURA Oura is targeting a $15.6B valuation. The updated S-1 reveals:\""
- ],
- "closings": [
-  "Name the next test or metric to watch",
-  "A short imperative split: credit one thing, refuse to extrapolate another",
-  "A one-line verdict that sets bull against bear (\"Q4 decides what it was.\")",
-  "Plain consequence of the guide: the stock move and why"
- ],
- "taboos": [
-  "Giveaways, subscriber plugs or \"premium subscribers get full transparency\" promotion",
-  "Hype emoji, rocket/🆙-style calls and \"will go up\" price cheerleading",
-  "Crude insults toward analysts or meme-style shitposting",
-  "Corporate hedging boilerplate or vague \"time will tell\" closes with no metric attached",
-  "Personal-life updates or engagement-bait polls with nothing on the company"
- ],
- "donor_first_person": "The best donors use first person sparingly, mainly as an opinion marker (\"I'm going to say\", \"My favorite setup\"); talk of their own trades or positions is rare and not central to the voice.",
- "exemplars": [
-  {
-   "handle": "leadlagreport",
-   "id": "2106405168468177240",
-   "text": "$BSET wholesale sales +5.7%, but units fell low single digits in Q3.\n\nMore dollars, not more furniture. Written orders +7.9% offer a countercase. The next test is conversion into shipments, not declaring the consumer back.",
-   "score": {
-    "judgment": 5,
-    "punch": 5,
-    "professional": 5
-   }
-  },
-  {
-   "handle": "leadlagreport",
-   "id": "2105719642887004613",
-   "text": "$FDS: 7% organic subscription-value growth. Q4 adjusted margin fell to 33% from 33.8%.\n\nManagement says incentives hit before revenue arrives.\n\nTiming can explain the squeeze. It cannot excuse it forever. The test is whether later margins catch up.",
-   "score": {
-    "judgment": 5,
-    "punch": 5,
-    "professional": 5
-   }
-  },
-  {
-   "handle": "leadlagreport",
-   "id": "2106387564739305479",
-   "text": "$PRGS YTD adjusted free cash flow +44%. Reported revenue +3%.\n\nCollection repair is real money, not a 44% growth business. DSO fell to 42 days from 55 a year ago. Give the cash credit. Don't annualize the catch-up.",
-   "score": {
-    "judgment": 5,
-    "punch": 5,
-    "professional": 5
-   }
-  },
-  {
-   "handle": "StockMarketNerd",
-   "id": "2104944574968078474",
-   "text": "$MU:\n\nNot suddenly a structural darling with smooth growth from here on out.\n\nStill a deeply cyclical company flawlessly taking advantage of their biggest cycle ever.\n\nAnd still looks like there’s runway for some more memory bull fun.",
-   "score": {
-    "judgment": 5,
-    "punch": 4,
-    "professional": 5
-   }
-  },
-  {
-   "handle": "leadlagreport",
-   "id": "2106051776503775573",
-   "text": "Three quarters of 2026: S&amp;P 500 -4.4%, +15.2%, +2.0%. The year is a V with a flat top. Q4 decides what it was.",
-   "score": {
-    "judgment": 4,
-    "punch": 5,
-    "professional": 5
-   }
-  }
- ],
- "sample": [
-  {
-   "pid": "P1",
-   "handle": "Invesquotes",
-   "id": "2103363188049977750",
-   "score": {
-    "judgment": 3,
-    "punch": 4,
-    "professional": 3
-   }
-  },
-  {
-   "pid": "P2",
-   "handle": "FromValue",
-   "id": "2106157011205283876",
-   "score": {
-    "judgment": 4,
-    "punch": 3,
-    "professional": 2
-   }
-  },
-  {
-   "pid": "P3",
-   "handle": "Invesquotes",
-   "id": "2102451695532048720",
-   "score": {
-    "judgment": 2,
-    "punch": 2,
-    "professional": 3
-   }
-  },
-  {
-   "pid": "P4",
-   "handle": "FromValue",
-   "id": "2103516519397212498",
-   "score": {
-    "judgment": 1,
-    "punch": 1,
-    "professional": 1
-   }
-  },
-  {
-   "pid": "P5",
-   "handle": "garyblack00",
-   "id": "2101953102773420208",
-   "score": {
-    "judgment": 3,
-    "punch": 2,
-    "professional": 4
-   }
-  },
-  {
-   "pid": "P6",
-   "handle": "StockMarketNerd",
-   "id": "2104944574968078474",
-   "score": {
-    "judgment": 5,
-    "punch": 4,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P7",
-   "handle": "leadlagreport",
-   "id": "2106051776503775573",
-   "score": {
-    "judgment": 4,
-    "punch": 5,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P8",
-   "handle": "DeepSailCapital",
-   "id": "2105356637280055692",
-   "score": {
-    "judgment": 1,
-    "punch": 1,
-    "professional": 3
-   }
-  },
-  {
-   "pid": "P9",
-   "handle": "StockMarketNerd",
-   "id": "2106172696266760347",
-   "score": {
-    "judgment": 1,
-    "punch": 2,
-    "professional": 2
-   }
-  },
-  {
-   "pid": "P10",
-   "handle": "DeepSailCapital",
-   "id": "2104654925418594559",
-   "score": {
-    "judgment": 4,
-    "punch": 3,
-    "professional": 4
-   }
-  },
-  {
-   "pid": "P11",
-   "handle": "jpinsights",
-   "id": "2102838118709973366",
-   "score": {
-    "judgment": 1,
-    "punch": 1,
-    "professional": 3
-   }
-  },
-  {
-   "pid": "P12",
-   "handle": "jpinsights",
-   "id": "2100946077838983510",
-   "score": {
-    "judgment": 3,
-    "punch": 3,
-    "professional": 3
-   }
-  },
-  {
-   "pid": "P13",
-   "handle": "RJCcapital",
-   "id": "2087933454004469907",
-   "score": {
-    "judgment": 4,
-    "punch": 4,
-    "professional": 1
-   }
-  },
-  {
-   "pid": "P14",
-   "handle": "FromValue",
-   "id": "2103862508998263162",
-   "score": {
-    "judgment": 1,
-    "punch": 2,
-    "professional": 2
-   }
-  },
-  {
-   "pid": "P15",
-   "handle": "DeepSailCapital",
-   "id": "2106413977454739737",
-   "score": {
-    "judgment": 5,
-    "punch": 4,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P16",
-   "handle": "JaradCapital",
-   "id": "2095537526148599909",
-   "score": {
-    "judgment": 1,
-    "punch": 1,
-    "professional": 1
-   }
-  },
-  {
-   "pid": "P17",
-   "handle": "StockMarketNerd",
-   "id": "2106015129829777736",
-   "score": {
-    "judgment": 3,
-    "punch": 3,
-    "professional": 4
-   }
-  },
-  {
-   "pid": "P18",
-   "handle": "garyblack00",
-   "id": "2103425214411370883",
-   "score": {
-    "judgment": 3,
-    "punch": 2,
-    "professional": 3
-   }
-  },
-  {
-   "pid": "P19",
-   "handle": "Invesquotes",
-   "id": "2102770377407782915",
-   "score": {
-    "judgment": 2,
-    "punch": 2,
-    "professional": 3
-   }
-  },
-  {
-   "pid": "P20",
-   "handle": "EconomyApp",
-   "id": "2102111784605987098",
-   "score": {
-    "judgment": 3,
-    "punch": 4,
-    "professional": 4
-   }
-  },
-  {
-   "pid": "P21",
-   "handle": "RJCcapital",
-   "id": "2087927670805762208",
-   "score": {
-    "judgment": 2,
-    "punch": 1,
-    "professional": 3
-   }
-  },
-  {
-   "pid": "P22",
-   "handle": "JaradCapital",
-   "id": "2095606463896908189",
-   "score": {
-    "judgment": 2,
-    "punch": 3,
-    "professional": 2
-   }
-  },
-  {
-   "pid": "P23",
-   "handle": "RJCcapital",
-   "id": "2088269753353719975",
-   "score": {
-    "judgment": 1,
-    "punch": 3,
-    "professional": 1
-   }
-  },
-  {
-   "pid": "P24",
-   "handle": "leadlagreport",
-   "id": "2106422785014714531",
-   "score": {
-    "judgment": 4,
-    "punch": 4,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P25",
-   "handle": "garyblack00",
-   "id": "2102806730975416342",
-   "score": {
-    "judgment": 3,
-    "punch": 3,
-    "professional": 4
-   }
-  },
-  {
-   "pid": "P26",
-   "handle": "StockMarketNerd",
-   "id": "2105694794626269194",
-   "score": {
-    "judgment": 3,
-    "punch": 3,
-    "professional": 2
-   }
-  },
-  {
-   "pid": "P27",
-   "handle": "EconomyApp",
-   "id": "2099863287873864107",
-   "score": {
-    "judgment": 3,
-    "punch": 4,
-    "professional": 4
-   }
-  },
-  {
-   "pid": "P28",
-   "handle": "garyblack00",
-   "id": "2106130615837814935",
-   "score": {
-    "judgment": 5,
-    "punch": 3,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P29",
-   "handle": "DeepSailCapital",
-   "id": "2104567702149034053",
-   "score": {
-    "judgment": 2,
-    "punch": 2,
-    "professional": 3
-   }
-  },
-  {
-   "pid": "P30",
-   "handle": "jpinsights",
-   "id": "2106070551886479434",
-   "score": {
-    "judgment": 4,
-    "punch": 3,
-    "professional": 3
-   }
-  },
-  {
-   "pid": "P31",
-   "handle": "jpinsights",
-   "id": "2103782106270978168",
-   "score": {
-    "judgment": 1,
-    "punch": 1,
-    "professional": 2
-   }
-  },
-  {
-   "pid": "P32",
-   "handle": "leadlagreport",
-   "id": "2106405168468177240",
-   "score": {
-    "judgment": 5,
-    "punch": 5,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P33",
-   "handle": "leadlagreport",
-   "id": "2105719642887004613",
-   "score": {
-    "judgment": 5,
-    "punch": 5,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P34",
-   "handle": "RJCcapital",
-   "id": "2089774490343325815",
-   "score": {
-    "judgment": 1,
-    "punch": 1,
-    "professional": 1
-   }
-  },
-  {
-   "pid": "P35",
-   "handle": "leadlagreport",
-   "id": "2106387564739305479",
-   "score": {
-    "judgment": 5,
-    "punch": 5,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P36",
-   "handle": "StockMarketNerd",
-   "id": "2105397185575817645",
-   "score": {
-    "judgment": 2,
-    "punch": 2,
-    "professional": 4
-   }
-  }
- ]
+  ]
 }

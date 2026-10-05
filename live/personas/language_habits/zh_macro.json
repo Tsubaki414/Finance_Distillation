@@ -1,0 +1,44 @@
+{
+  "persona_id": "zh_macro",
+  "lang": "zh",
+  "basis": "donor observations",
+  "posts": 1888,
+  "judgment_first_share": 0.914,
+  "short_fragment_lines_per_post": 1.11,
+  "sellside_jargon_post_share": 0.013,
+  "connector_rates": {
+    "所以": 0.115,
+    "其实": 0.057,
+    "而且": 0.049,
+    "但是": 0.044,
+    "不过": 0.043,
+    "因此": 0.031,
+    "反而": 0.029,
+    "说白了": 0.005
+  },
+  "prefer": [
+    "判断句开门，数字后置",
+    "短句/断行，少用研报连接词",
+    "点名约束或证伪条件，不堆术语链"
+  ],
+  "avoid": [
+    "研报腔：链路往下推/每一环的议价权/基本面支撑套话",
+    "信息罗列而无判断",
+    "还早着呢等口癖收尾"
+  ],
+  "sample_ids": [
+    "2106276785013068071",
+    "2103529204549841136",
+    "2102277091865903234",
+    "2101502027293659233",
+    "2100901211650347230",
+    "2100483113407394261",
+    "2099379050699489603",
+    "2099190422870659147",
+    "2098350841216536690",
+    "2097253687601328343",
+    "2096841512546120178",
+    "2096232893102342386"
+  ],
+  "guidance": "Write like the donors: judgment-first, short beats, concrete falsifiers. Avoid analyst-report cadence and Fiona-banned fillers."
+}

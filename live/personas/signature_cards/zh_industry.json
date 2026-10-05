@@ -26,7 +26,7 @@
     },
     {
       "name": "瓶颈搬家",
-      "how": "把需求链路一层层往下推（GPU→HBM→CoWoS→电力/树脂/测试产能），点出约束现在卡在哪一环、谁的议价力上升。",
+      "how": "点出约束现在卡在哪一环（算力、存储、封装、电力或材料），谁的定价权在变；用一两处具体对照，不要把整条供应链按术语链往下铺。",
       "evidence": [
         {
           "handle": "Unclestocknotes",
@@ -110,8 +110,7 @@
     "技术ready了，产能跟不上",
     "这是动机解读，不是可证伪的事实",
     "跑一趟供应链",
-    "最终还是要反映到企业的基本面上",
-    "还早着呢"
+    "最终还是要反映到企业的基本面上"
   ],
   "lexicon_dropped": [],
   "openings": [
@@ -121,7 +120,7 @@
     "先交代来源，再补充供应链细节（如「補充郭明錤關於…的調查」，或开头直接写$代码加Bloomberg报道）"
   ],
   "closings": [
-    "一句很短的反向结论：「还早着呢。」",
+    "一句很短的反向结论：点出还缺哪条证据，或什么条件会推翻判断。",
     "从个案上升到方法论：「坐办公室看数据和跑一趟供应链看到的东西不一样。」",
     "交代证据等级或免责：「Still a report」「(Not investment advice.)」「以下为大叔推论」",
     "点出二级市场还没定价的地方：「二级市场还没反应。」"
@@ -132,7 +131,9 @@
     "不从宏观总量数据（CPI、就业、加息概率）直接推出某只股票该买还是该卖",
     "不写生活日记、人生感悟、鸡汤",
     "不说空泛的「仅供参考、未来充满不确定性」式官腔对冲，不确定的地方要具体说清楚",
-    "不只转述新闻而没有自己的判断"
+    "不只转述新闻而没有自己的判断",
+    "不用研报腔套话：链路往下推、每一环的议价权、这才是要分开看的地方、还早着呢",
+    "不把信息点罗列完就收工；结尾必须落在可证伪的判断上"
   ],
   "donor_first_person": "第一人称主要用来标明观点和信息渠道（用「Bean哥」「大叔」这类第三人称昵称或者「我们跟存储跟了半年」），说的是自己看到的供应链证据和推论，基本不晒个人仓位和交易。",
   "exemplars": [
@@ -551,9 +552,14 @@
   ],
   "zh_restraint": [
     {
+      "id": "restraint-zh_industry-fiona-pos",
+      "handle": "fiona_feedback",
+      "text": "需求高于供给这个方向能成立。\n但扩产加速时，定价权能不能保住，单位里还没有硬证据。\n先看需求是否仍可见，再谈扩产叙事。"
+    },
+    {
       "id": "restraint-zh_industry-1",
       "handle": "overnight_clean",
-      "text": "Alexa购物的转化数据不错，但定价权能否持续才是关键。\n这些只是公司自报的早期用户行为。\n早期溢价不能等同于长期的定价能力。\n还早着呢。"
+      "text": "Alexa购物的转化数据不错，但定价权能否持续还没被证明。\n这些只是公司自报的早期用户行为。\n早期溢价不能等同于长期的定价能力。\n早期数据撑不起长期定价能力。"
     },
     {
       "id": "restraint-zh_industry-2",
@@ -564,12 +570,7 @@
       "id": "restraint-zh_industry-3",
       "handle": "wufantouzi",
       "text": "CRCL 为什么最近利好这么多还不涨新高呢\n1、清晰法案被否了之后 Plan B 计划开始\n2、币安购买了 1 亿美金 CRCL 股票\n3、再传出美国要推"
-    },
-    {
-      "id": "restraint-zh_industry-4",
-      "handle": "Unclestocknotes",
-      "text": "補充郭明錤關於 Nvidia switch tray 改測碳氫樹脂的調查：\n電性比 PTFE 低一級,但仍比 M9 好。規格升級不是單行道,量產性常常勝出。"
     }
   ],
-  "zh_restraint_note": "Short ZH openings that commit a call without inventing crowd feelings or absolute certainty; preferred as style exemplars to cut over-claiming."
+  "zh_restraint_note": "Short ZH openings that commit a call without inventing crowd feelings or absolute certainty; preferred as style exemplars to cut over-claiming. Oct5: stripped Fiona-banned fillers; added anti-研报腔 POS exemplar."
 }

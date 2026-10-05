@@ -1,549 +1,550 @@
 {
- "persona_id": "en_macro",
- "lang": "en",
- "version": "signature-v1",
- "built_at": "2026-10-04T20:50:58+00:00",
- "method": "claude -p scored a seeded sample of real donor posts; lexicon verified verbatim in the sample; exemplars = top judge-scored posts with professional >= 4; exemplars exclude template phrasing, first-person experience/positions and trade language",
- "use": "voice signature (descriptive): moves, openings, closings and lexicon are tendencies; exemplars teach rhythm only, never facts, numbers or phrases",
- "moves": [
-  {
-   "name": "Check the number first",
-   "how": "Test the headline figure or methodology before reading anything into it, then give the view with conditions attached ('That said...').",
-   "evidence": [
+  "persona_id": "en_macro",
+  "lang": "en",
+  "version": "signature-v1",
+  "built_at": "2026-10-04T20:50:58+00:00",
+  "method": "claude -p scored a seeded sample of real donor posts; lexicon verified verbatim in the sample; exemplars = top judge-scored posts with professional >= 4; exemplars exclude template phrasing, first-person experience/positions and trade language",
+  "use": "voice signature (descriptive): moves, openings, closings and lexicon are tendencies; exemplars teach rhythm only, never facts, numbers or phrases",
+  "moves": [
     {
-     "handle": "Brad_Setser",
-     "id": "2106036476572029323"
+      "name": "Check the number first",
+      "how": "Test the headline figure or methodology before reading anything into it, then give the view with an explicit condition (what would change the call).",
+      "evidence": [
+        {
+          "handle": "Brad_Setser",
+          "id": "2106036476572029323"
+        },
+        {
+          "handle": "NickTimiraos",
+          "id": "2105236461410730024"
+        },
+        {
+          "handle": "Brad_Setser",
+          "id": "2105395654109647185"
+        }
+      ]
     },
     {
-     "handle": "NickTimiraos",
-     "id": "2105236461410730024"
+      "name": "Headline vs. substance",
+      "how": "Set the soundbite against the full text or the rest of the data to show the takeaway is off ('the rest of his speech kind of contradicted that').",
+      "evidence": [
+        {
+          "handle": "jturek18",
+          "id": "2105242038988112014"
+        },
+        {
+          "handle": "NickTimiraos",
+          "id": "2104996769226436805"
+        },
+        {
+          "handle": "jturek18",
+          "id": "2097693842132668519"
+        }
+      ]
     },
     {
-     "handle": "Brad_Setser",
-     "id": "2105395654109647185"
+      "name": "Zoom out to base rates",
+      "how": "Undercut a scary narrative with a long-run average or the full balance sheet, then end with a calm verdict.",
+      "evidence": [
+        {
+          "handle": "cullenroche",
+          "id": "2103155242682716518"
+        },
+        {
+          "handle": "cullenroche",
+          "id": "2103167147874918533"
+        },
+        {
+          "handle": "cullenroche",
+          "id": "2104953180576702504"
+        }
+      ]
+    },
+    {
+      "name": "Name the hidden segment",
+      "how": "Point to the part of the economy nobody is watching, then explain the mechanism in short declarative steps.",
+      "evidence": [
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2105731211360657585"
+        },
+        {
+          "handle": "cullenroche",
+          "id": "2102419378230960248"
+        }
+      ]
+    },
+    {
+      "name": "Flag the contradiction",
+      "how": "Put conflicting signals side by side and let the tension carry the point, or ask an open question about what changed.",
+      "evidence": [
+        {
+          "handle": "Convertbond",
+          "id": "2105423745561018501"
+        },
+        {
+          "handle": "jturek18",
+          "id": "2095091509972381988"
+        },
+        {
+          "handle": "lisaabramowicz1",
+          "id": "2104893519101825430"
+        }
+      ]
     }
-   ]
-  },
-  {
-   "name": "Headline vs. substance",
-   "how": "Set the soundbite against the full text or the rest of the data to show the takeaway is off ('the rest of his speech kind of contradicted that').",
-   "evidence": [
+  ],
+  "lexicon": [
+    "doesn't seem to check out",
+    "temporary low",
+    "no urgency",
+    "underlying momentum",
+    "Not all Fedspeak is created equal",
+    "subject to a bit more uncertainty than usual",
+    "give or take",
+    "recency bias",
+    "fallacy of composition",
+    "balance sheet terms",
+    "is the tell",
+    "It's not even close.",
+    "negative supply shock",
+    "Carry on."
+  ],
+  "lexicon_dropped": [],
+  "openings": [
+    "Correct the record on a figure: 'I amplified X's number... and it doesn't seem to check out.'",
+    "Contrarian thesis up front: 'Lots of scary talk in bonds these days, but it's mostly recency bias.'",
+    "Set up a gap: 'What was interesting about the ... comments was that...' / 'You have heard about X. There is one for Y too.'",
+    "Data-calendar framing: 'August PCE figures, due Wednesday morning, are subject to...'"
+  ],
+  "closings": [
+    "A conditional forward view with a concrete trigger: 'I do think… if soft data keeps printing.'",
+    "A short, flat verdict: 'Carry on.' / 'There is no one left to cut.'",
+    "An open question that reframes the debate: 'I wonder if the Bessent move in USTs just changed the distribution around DXY?'",
+    "A consensus number with an error band: 'around 0.27%, give or take.'"
+  ],
+  "taboos": [
+    "Rocket or hype emoji and calls to buy assets ('Bullish Nasdaq, gold, btc 🚀🚀')",
+    "Calling a rate cut, a hike or 'policy error' from a single monthly print",
+    "Engagement bait and promo ('TAP IMAGE TO SEE FULL INSIGHT👇', 'new interview just dropped')",
+    "All-caps alarm words and profanity ('SKYROCKETING', 'EXTREMELY', 'Wtf Fed')",
+    "Corporate hedging that never lands on a view",
+    "Off-domain personal chatter that crowds out the macro read",
+    "No empty 'That said' / door-metaphor contrast; if you hedge, name the trigger",
+    "No 'Calling a strong chance' or 'is a start' filler"
+  ],
+  "donor_first_person": "First person marks a stated opinion or a correction of the writer's own earlier claim ('I do think', 'I feel like', 'I wonder if', 'I amplified... and it doesn't seem to check out'), never personal positions or trades.",
+  "exemplars": [
     {
-     "handle": "jturek18",
-     "id": "2105242038988112014"
+      "handle": "cullenroche",
+      "id": "2103167147874918533",
+      "text": "Let's put this in balance sheet terms because a lot of this talk is just a fallacy of composition in which the sovereign debt crisis crowd only looks at the debt side of things and ignores the fact that the asset side has also boomed. \n\nThere is no balance sheet in the world that is healthier than the aggregate US economy's. It's not even close. Here's a chart of household and non-profit net worth relative to public debt. The reason the public debt isn't a worry is because the total assets of the private sector are gigantic and growing fast. The reason rates haven't changed much in the last 20 years is because the balance sheet the US government taxes has remained incredibly strong.",
+      "score": {
+        "judgment": 5,
+        "punch": 4,
+        "professional": 5
+      }
     },
     {
-     "handle": "NickTimiraos",
-     "id": "2104996769226436805"
+      "handle": "JeffSnider_EDU",
+      "id": "2105731211360657585",
+      "text": "You have heard about the K-shaped economy for consumers. There is one for businesses too, and nobody talks about it.\n\nAt the top, the big corporations are fine. Pressured on margins, but still profitable.\n\nAt the bottom are the small and medium businesses. You never hear about them because they do not trade on any exchange.\n\nThey are the ones actually struggling. They stopped hiring years ago, and now they are quietly cutting hours.\n\nThat is why there is no wave of layoffs. They are already running barebones. There is no one left to cut.",
+      "score": {
+        "judgment": 5,
+        "punch": 4,
+        "professional": 4
+      }
     },
     {
-     "handle": "jturek18",
-     "id": "2097693842132668519"
+      "handle": "cullenroche",
+      "id": "2102419378230960248",
+      "text": "This is a good takedown. \n\nIt’s hard to emphasize how bad Prop 40 (the one time billionaire tax) actually is. It’s so near sighted and void of evidence that its passing relies entirely on narrative. \n\nThe fact that it’s retroactive to Jan 1, 2026 is the tell. The people supporting this know it causes capital flight so they made it retroactive to tax people who leave before they leave. But they’ll leave anyhow because they’ll assume this isn’t really a one time tax (it never is, anyhow). \n\nCapital is global. A billionaire moving from CA to TX doesn't change what gets funded. What changes is who pays CA income tax, and the top 1% pays ~half of it. Attacking that wealth is a long-run impediment",
+      "score": {
+        "judgment": 5,
+        "punch": 4,
+        "professional": 4
+      }
+    },
+    {
+      "handle": "NickTimiraos",
+      "id": "2104996769226436805",
+      "text": "Sidenote: Not all Fedspeak is created equal. The vice chair of the FOMC traditionally participates in the monetary policy steering meetings led by the Fed chair, and in that role, Williams has (with possibly one exception early in his tenure that was swiftly corrected) never sung off key in a way that would create expectations that are off kilter with the chair.",
+      "score": {
+        "judgment": 4,
+        "punch": 3,
+        "professional": 5
+      }
+    },
+    {
+      "handle": "Brad_Setser",
+      "id": "2105389210144264236",
+      "text": "Dangerous to disagree with an auto CEO --\n\nBut Chinese imports are no more than 15% of the EU market right now (including VW/ Tesla cars made in China and sold in the EU).   That leaves a big market for European producers if Europe takes smart action now ...\n\n1/2",
+      "score": {
+        "judgment": 4,
+        "punch": 3,
+        "professional": 5
+      }
     }
-   ]
-  },
-  {
-   "name": "Zoom out to base rates",
-   "how": "Undercut a scary narrative with a long-run average or the full balance sheet, then end with a calm verdict.",
-   "evidence": [
+  ],
+  "sample": [
     {
-     "handle": "cullenroche",
-     "id": "2103155242682716518"
+      "pid": "P1",
+      "handle": "Brad_Setser",
+      "id": "2106036476572029323",
+      "score": {
+        "judgment": 4,
+        "punch": 3,
+        "professional": 5
+      }
     },
     {
-     "handle": "cullenroche",
-     "id": "2103167147874918533"
+      "pid": "P2",
+      "handle": "DTAPCAP",
+      "id": "2104957351694327864",
+      "score": {
+        "judgment": 5,
+        "punch": 4,
+        "professional": 2
+      }
     },
     {
-     "handle": "cullenroche",
-     "id": "2104953180576702504"
+      "pid": "P3",
+      "handle": "Brad_Setser",
+      "id": "2105389210144264236",
+      "score": {
+        "judgment": 4,
+        "punch": 3,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P4",
+      "handle": "DTAPCAP",
+      "id": "2106032651148685574",
+      "score": {
+        "judgment": 5,
+        "punch": 4,
+        "professional": 1
+      }
+    },
+    {
+      "pid": "P5",
+      "handle": "cullenroche",
+      "id": "2102419378230960248",
+      "score": {
+        "judgment": 5,
+        "punch": 4,
+        "professional": 4
+      }
+    },
+    {
+      "pid": "P6",
+      "handle": "Convertbond",
+      "id": "2103266434977513970",
+      "score": {
+        "judgment": 3,
+        "punch": 3,
+        "professional": 4
+      }
+    },
+    {
+      "pid": "P7",
+      "handle": "jturek18",
+      "id": "2105242038988112014",
+      "score": {
+        "judgment": 4,
+        "punch": 3,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P8",
+      "handle": "GlobalMktObserv",
+      "id": "2106515055801978974",
+      "score": {
+        "judgment": 3,
+        "punch": 2,
+        "professional": 2
+      }
+    },
+    {
+      "pid": "P9",
+      "handle": "Convertbond",
+      "id": "2105423745561018501",
+      "score": {
+        "judgment": 3,
+        "punch": 4,
+        "professional": 4
+      }
+    },
+    {
+      "pid": "P10",
+      "handle": "GlobalMktObserv",
+      "id": "2105716131549815027",
+      "score": {
+        "judgment": 2,
+        "punch": 2,
+        "professional": 3
+      }
+    },
+    {
+      "pid": "P11",
+      "handle": "BobEUnlimited",
+      "id": "2104651124422611004",
+      "score": {
+        "judgment": 3,
+        "punch": 3,
+        "professional": 4
+      }
+    },
+    {
+      "pid": "P12",
+      "handle": "BobEUnlimited",
+      "id": "2105375931875348655",
+      "score": {
+        "judgment": 4,
+        "punch": 3,
+        "professional": 4
+      }
+    },
+    {
+      "pid": "P13",
+      "handle": "NickTimiraos",
+      "id": "2105236461410730024",
+      "score": {
+        "judgment": 2,
+        "punch": 2,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P14",
+      "handle": "DTAPCAP",
+      "id": "2098417528628228156",
+      "score": {
+        "judgment": 5,
+        "punch": 4,
+        "professional": 1
+      }
+    },
+    {
+      "pid": "P15",
+      "handle": "GlobalMktObserv",
+      "id": "2106356595055583239",
+      "score": {
+        "judgment": 3,
+        "punch": 3,
+        "professional": 2
+      }
+    },
+    {
+      "pid": "P16",
+      "handle": "lisaabramowicz1",
+      "id": "2104893519101825430",
+      "score": {
+        "judgment": 3,
+        "punch": 2,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P17",
+      "handle": "Convertbond",
+      "id": "2105586414171930962",
+      "score": {
+        "judgment": 4,
+        "punch": 3,
+        "professional": 3
+      }
+    },
+    {
+      "pid": "P18",
+      "handle": "cullenroche",
+      "id": "2103167147874918533",
+      "score": {
+        "judgment": 5,
+        "punch": 4,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P19",
+      "handle": "Brad_Setser",
+      "id": "2105395654109647185",
+      "score": {
+        "judgment": 2,
+        "punch": 2,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P20",
+      "handle": "JeffSnider_EDU",
+      "id": "2105731211360657585",
+      "score": {
+        "judgment": 5,
+        "punch": 4,
+        "professional": 4
+      }
+    },
+    {
+      "pid": "P21",
+      "handle": "NickTimiraos",
+      "id": "2104996769226436805",
+      "score": {
+        "judgment": 4,
+        "punch": 3,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P22",
+      "handle": "lisaabramowicz1",
+      "id": "2100902759079760033",
+      "score": {
+        "judgment": 1,
+        "punch": 2,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P23",
+      "handle": "NickTimiraos",
+      "id": "2105391561336864823",
+      "score": {
+        "judgment": 1,
+        "punch": 2,
+        "professional": 4
+      }
+    },
+    {
+      "pid": "P24",
+      "handle": "jturek18",
+      "id": "2095451642694885582",
+      "score": {
+        "judgment": 3,
+        "punch": 2,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P25",
+      "handle": "cullenroche",
+      "id": "2103155242682716518",
+      "score": {
+        "judgment": 5,
+        "punch": 5,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P26",
+      "handle": "Convertbond",
+      "id": "2103445761140920414",
+      "score": {
+        "judgment": 3,
+        "punch": 3,
+        "professional": 2
+      }
+    },
+    {
+      "pid": "P27",
+      "handle": "JeffSnider_EDU",
+      "id": "2102902644813480115",
+      "score": {
+        "judgment": 1,
+        "punch": 1,
+        "professional": 3
+      }
+    },
+    {
+      "pid": "P28",
+      "handle": "cullenroche",
+      "id": "2104953180576702504",
+      "score": {
+        "judgment": 4,
+        "punch": 4,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P29",
+      "handle": "GlobalMktObserv",
+      "id": "2105632512001155576",
+      "score": {
+        "judgment": 3,
+        "punch": 2,
+        "professional": 3
+      }
+    },
+    {
+      "pid": "P30",
+      "handle": "BobEUnlimited",
+      "id": "2104288715396837793",
+      "score": {
+        "judgment": 1,
+        "punch": 2,
+        "professional": 3
+      }
+    },
+    {
+      "pid": "P31",
+      "handle": "BobEUnlimited",
+      "id": "2106333152742723797",
+      "score": {
+        "judgment": 1,
+        "punch": 1,
+        "professional": 2
+      }
+    },
+    {
+      "pid": "P32",
+      "handle": "jturek18",
+      "id": "2097693842132668519",
+      "score": {
+        "judgment": 4,
+        "punch": 3,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P33",
+      "handle": "jturek18",
+      "id": "2094410956738544119",
+      "score": {
+        "judgment": 3,
+        "punch": 2,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P34",
+      "handle": "NickTimiraos",
+      "id": "2105342629835641315",
+      "score": {
+        "judgment": 2,
+        "punch": 2,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P35",
+      "handle": "jturek18",
+      "id": "2095091509972381988",
+      "score": {
+        "judgment": 3,
+        "punch": 3,
+        "professional": 5
+      }
+    },
+    {
+      "pid": "P36",
+      "handle": "Convertbond",
+      "id": "2105604542029070710",
+      "score": {
+        "judgment": 3,
+        "punch": 4,
+        "professional": 3
+      }
     }
-   ]
-  },
-  {
-   "name": "Name the hidden segment",
-   "how": "Point to the part of the economy nobody is watching, then explain the mechanism in short declarative steps.",
-   "evidence": [
-    {
-     "handle": "JeffSnider_EDU",
-     "id": "2105731211360657585"
-    },
-    {
-     "handle": "cullenroche",
-     "id": "2102419378230960248"
-    }
-   ]
-  },
-  {
-   "name": "Flag the contradiction",
-   "how": "Put conflicting signals side by side and let the tension carry the point, or ask an open question about what changed.",
-   "evidence": [
-    {
-     "handle": "Convertbond",
-     "id": "2105423745561018501"
-    },
-    {
-     "handle": "jturek18",
-     "id": "2095091509972381988"
-    },
-    {
-     "handle": "lisaabramowicz1",
-     "id": "2104893519101825430"
-    }
-   ]
-  }
- ],
- "lexicon": [
-  "doesn't seem to check out",
-  "That said",
-  "temporary low",
-  "no urgency",
-  "underlying momentum",
-  "Not all Fedspeak is created equal",
-  "subject to a bit more uncertainty than usual",
-  "give or take",
-  "recency bias",
-  "fallacy of composition",
-  "balance sheet terms",
-  "is the tell",
-  "It's not even close.",
-  "negative supply shock",
-  "Carry on."
- ],
- "lexicon_dropped": [],
- "openings": [
-  "Correct the record on a figure: 'I amplified X's number... and it doesn't seem to check out.'",
-  "Contrarian thesis up front: 'Lots of scary talk in bonds these days, but it's mostly recency bias.'",
-  "Set up a gap: 'What was interesting about the ... comments was that...' / 'You have heard about X. There is one for Y too.'",
-  "Data-calendar framing: 'August PCE figures, due Wednesday morning, are subject to...'"
- ],
- "closings": [
-  "A conditional forward view: 'That said, I do think... is poised to...'",
-  "A short, flat verdict: 'Carry on.' / 'There is no one left to cut.'",
-  "An open question that reframes the debate: 'I wonder if the Bessent move in USTs just changed the distribution around DXY?'",
-  "A consensus number with an error band: 'around 0.27%, give or take.'"
- ],
- "taboos": [
-  "Rocket or hype emoji and calls to buy assets ('Bullish Nasdaq, gold, btc 🚀🚀')",
-  "Calling a rate cut, a hike or 'policy error' from a single monthly print",
-  "Engagement bait and promo ('TAP IMAGE TO SEE FULL INSIGHT👇', 'new interview just dropped')",
-  "All-caps alarm words and profanity ('SKYROCKETING', 'EXTREMELY', 'Wtf Fed')",
-  "Corporate hedging that never lands on a view",
-  "Off-domain personal chatter that crowds out the macro read"
- ],
- "donor_first_person": "First person marks a stated opinion or a correction of the writer's own earlier claim ('I do think', 'I feel like', 'I wonder if', 'I amplified... and it doesn't seem to check out'), never personal positions or trades.",
- "exemplars": [
-  {
-   "handle": "cullenroche",
-   "id": "2103167147874918533",
-   "text": "Let's put this in balance sheet terms because a lot of this talk is just a fallacy of composition in which the sovereign debt crisis crowd only looks at the debt side of things and ignores the fact that the asset side has also boomed. \n\nThere is no balance sheet in the world that is healthier than the aggregate US economy's. It's not even close. Here's a chart of household and non-profit net worth relative to public debt. The reason the public debt isn't a worry is because the total assets of the private sector are gigantic and growing fast. The reason rates haven't changed much in the last 20 years is because the balance sheet the US government taxes has remained incredibly strong.",
-   "score": {
-    "judgment": 5,
-    "punch": 4,
-    "professional": 5
-   }
-  },
-  {
-   "handle": "JeffSnider_EDU",
-   "id": "2105731211360657585",
-   "text": "You have heard about the K-shaped economy for consumers. There is one for businesses too, and nobody talks about it.\n\nAt the top, the big corporations are fine. Pressured on margins, but still profitable.\n\nAt the bottom are the small and medium businesses. You never hear about them because they do not trade on any exchange.\n\nThey are the ones actually struggling. They stopped hiring years ago, and now they are quietly cutting hours.\n\nThat is why there is no wave of layoffs. They are already running barebones. There is no one left to cut.",
-   "score": {
-    "judgment": 5,
-    "punch": 4,
-    "professional": 4
-   }
-  },
-  {
-   "handle": "cullenroche",
-   "id": "2102419378230960248",
-   "text": "This is a good takedown. \n\nIt’s hard to emphasize how bad Prop 40 (the one time billionaire tax) actually is. It’s so near sighted and void of evidence that its passing relies entirely on narrative. \n\nThe fact that it’s retroactive to Jan 1, 2026 is the tell. The people supporting this know it causes capital flight so they made it retroactive to tax people who leave before they leave. But they’ll leave anyhow because they’ll assume this isn’t really a one time tax (it never is, anyhow). \n\nCapital is global. A billionaire moving from CA to TX doesn't change what gets funded. What changes is who pays CA income tax, and the top 1% pays ~half of it. Attacking that wealth is a long-run impediment",
-   "score": {
-    "judgment": 5,
-    "punch": 4,
-    "professional": 4
-   }
-  },
-  {
-   "handle": "NickTimiraos",
-   "id": "2104996769226436805",
-   "text": "Sidenote: Not all Fedspeak is created equal. The vice chair of the FOMC traditionally participates in the monetary policy steering meetings led by the Fed chair, and in that role, Williams has (with possibly one exception early in his tenure that was swiftly corrected) never sung off key in a way that would create expectations that are off kilter with the chair.",
-   "score": {
-    "judgment": 4,
-    "punch": 3,
-    "professional": 5
-   }
-  },
-  {
-   "handle": "Brad_Setser",
-   "id": "2105389210144264236",
-   "text": "Dangerous to disagree with an auto CEO --\n\nBut Chinese imports are no more than 15% of the EU market right now (including VW/ Tesla cars made in China and sold in the EU).   That leaves a big market for European producers if Europe takes smart action now ...\n\n1/2",
-   "score": {
-    "judgment": 4,
-    "punch": 3,
-    "professional": 5
-   }
-  }
- ],
- "sample": [
-  {
-   "pid": "P1",
-   "handle": "Brad_Setser",
-   "id": "2106036476572029323",
-   "score": {
-    "judgment": 4,
-    "punch": 3,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P2",
-   "handle": "DTAPCAP",
-   "id": "2104957351694327864",
-   "score": {
-    "judgment": 5,
-    "punch": 4,
-    "professional": 2
-   }
-  },
-  {
-   "pid": "P3",
-   "handle": "Brad_Setser",
-   "id": "2105389210144264236",
-   "score": {
-    "judgment": 4,
-    "punch": 3,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P4",
-   "handle": "DTAPCAP",
-   "id": "2106032651148685574",
-   "score": {
-    "judgment": 5,
-    "punch": 4,
-    "professional": 1
-   }
-  },
-  {
-   "pid": "P5",
-   "handle": "cullenroche",
-   "id": "2102419378230960248",
-   "score": {
-    "judgment": 5,
-    "punch": 4,
-    "professional": 4
-   }
-  },
-  {
-   "pid": "P6",
-   "handle": "Convertbond",
-   "id": "2103266434977513970",
-   "score": {
-    "judgment": 3,
-    "punch": 3,
-    "professional": 4
-   }
-  },
-  {
-   "pid": "P7",
-   "handle": "jturek18",
-   "id": "2105242038988112014",
-   "score": {
-    "judgment": 4,
-    "punch": 3,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P8",
-   "handle": "GlobalMktObserv",
-   "id": "2106515055801978974",
-   "score": {
-    "judgment": 3,
-    "punch": 2,
-    "professional": 2
-   }
-  },
-  {
-   "pid": "P9",
-   "handle": "Convertbond",
-   "id": "2105423745561018501",
-   "score": {
-    "judgment": 3,
-    "punch": 4,
-    "professional": 4
-   }
-  },
-  {
-   "pid": "P10",
-   "handle": "GlobalMktObserv",
-   "id": "2105716131549815027",
-   "score": {
-    "judgment": 2,
-    "punch": 2,
-    "professional": 3
-   }
-  },
-  {
-   "pid": "P11",
-   "handle": "BobEUnlimited",
-   "id": "2104651124422611004",
-   "score": {
-    "judgment": 3,
-    "punch": 3,
-    "professional": 4
-   }
-  },
-  {
-   "pid": "P12",
-   "handle": "BobEUnlimited",
-   "id": "2105375931875348655",
-   "score": {
-    "judgment": 4,
-    "punch": 3,
-    "professional": 4
-   }
-  },
-  {
-   "pid": "P13",
-   "handle": "NickTimiraos",
-   "id": "2105236461410730024",
-   "score": {
-    "judgment": 2,
-    "punch": 2,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P14",
-   "handle": "DTAPCAP",
-   "id": "2098417528628228156",
-   "score": {
-    "judgment": 5,
-    "punch": 4,
-    "professional": 1
-   }
-  },
-  {
-   "pid": "P15",
-   "handle": "GlobalMktObserv",
-   "id": "2106356595055583239",
-   "score": {
-    "judgment": 3,
-    "punch": 3,
-    "professional": 2
-   }
-  },
-  {
-   "pid": "P16",
-   "handle": "lisaabramowicz1",
-   "id": "2104893519101825430",
-   "score": {
-    "judgment": 3,
-    "punch": 2,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P17",
-   "handle": "Convertbond",
-   "id": "2105586414171930962",
-   "score": {
-    "judgment": 4,
-    "punch": 3,
-    "professional": 3
-   }
-  },
-  {
-   "pid": "P18",
-   "handle": "cullenroche",
-   "id": "2103167147874918533",
-   "score": {
-    "judgment": 5,
-    "punch": 4,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P19",
-   "handle": "Brad_Setser",
-   "id": "2105395654109647185",
-   "score": {
-    "judgment": 2,
-    "punch": 2,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P20",
-   "handle": "JeffSnider_EDU",
-   "id": "2105731211360657585",
-   "score": {
-    "judgment": 5,
-    "punch": 4,
-    "professional": 4
-   }
-  },
-  {
-   "pid": "P21",
-   "handle": "NickTimiraos",
-   "id": "2104996769226436805",
-   "score": {
-    "judgment": 4,
-    "punch": 3,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P22",
-   "handle": "lisaabramowicz1",
-   "id": "2100902759079760033",
-   "score": {
-    "judgment": 1,
-    "punch": 2,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P23",
-   "handle": "NickTimiraos",
-   "id": "2105391561336864823",
-   "score": {
-    "judgment": 1,
-    "punch": 2,
-    "professional": 4
-   }
-  },
-  {
-   "pid": "P24",
-   "handle": "jturek18",
-   "id": "2095451642694885582",
-   "score": {
-    "judgment": 3,
-    "punch": 2,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P25",
-   "handle": "cullenroche",
-   "id": "2103155242682716518",
-   "score": {
-    "judgment": 5,
-    "punch": 5,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P26",
-   "handle": "Convertbond",
-   "id": "2103445761140920414",
-   "score": {
-    "judgment": 3,
-    "punch": 3,
-    "professional": 2
-   }
-  },
-  {
-   "pid": "P27",
-   "handle": "JeffSnider_EDU",
-   "id": "2102902644813480115",
-   "score": {
-    "judgment": 1,
-    "punch": 1,
-    "professional": 3
-   }
-  },
-  {
-   "pid": "P28",
-   "handle": "cullenroche",
-   "id": "2104953180576702504",
-   "score": {
-    "judgment": 4,
-    "punch": 4,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P29",
-   "handle": "GlobalMktObserv",
-   "id": "2105632512001155576",
-   "score": {
-    "judgment": 3,
-    "punch": 2,
-    "professional": 3
-   }
-  },
-  {
-   "pid": "P30",
-   "handle": "BobEUnlimited",
-   "id": "2104288715396837793",
-   "score": {
-    "judgment": 1,
-    "punch": 2,
-    "professional": 3
-   }
-  },
-  {
-   "pid": "P31",
-   "handle": "BobEUnlimited",
-   "id": "2106333152742723797",
-   "score": {
-    "judgment": 1,
-    "punch": 1,
-    "professional": 2
-   }
-  },
-  {
-   "pid": "P32",
-   "handle": "jturek18",
-   "id": "2097693842132668519",
-   "score": {
-    "judgment": 4,
-    "punch": 3,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P33",
-   "handle": "jturek18",
-   "id": "2094410956738544119",
-   "score": {
-    "judgment": 3,
-    "punch": 2,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P34",
-   "handle": "NickTimiraos",
-   "id": "2105342629835641315",
-   "score": {
-    "judgment": 2,
-    "punch": 2,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P35",
-   "handle": "jturek18",
-   "id": "2095091509972381988",
-   "score": {
-    "judgment": 3,
-    "punch": 3,
-    "professional": 5
-   }
-  },
-  {
-   "pid": "P36",
-   "handle": "Convertbond",
-   "id": "2105604542029070710",
-   "score": {
-    "judgment": 3,
-    "punch": 4,
-    "professional": 3
-   }
-  }
- ]
+  ]
 }

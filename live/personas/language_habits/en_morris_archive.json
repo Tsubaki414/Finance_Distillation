@@ -1,0 +1,23 @@
+{
+  "persona_id": "en_morris_archive",
+  "lang": "en",
+  "basis": "Fiona Oct 5 default; donor posts missing",
+  "posts": 0,
+  "judgment_first_share": null,
+  "short_fragment_lines_per_post": null,
+  "sellside_jargon_post_share": null,
+  "connector_rates": {},
+  "prefer": [
+    "Lead with the call, then 1–2 numbers",
+    "Plain verbs over sell-side jargon",
+    "Name the falsifier (level/flow/condition), skip empty contrast"
+  ],
+  "avoid": [
+    "valuation-free optimism",
+    "Calling a strong chance / is a start",
+    "Empty That said / door metaphor",
+    "supply-discipline check as filler"
+  ],
+  "sample_ids": [],
+  "guidance": "Write like the donors: judgment-first, short beats, concrete falsifiers. Avoid analyst-report cadence and Fiona-banned fillers."
+}

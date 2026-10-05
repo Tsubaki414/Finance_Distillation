@@ -95,6 +95,10 @@ down", no semicolon chains, no bullet or numbered lists of data points, no first
 State claims directly instead of contrast templates such as 不是X，而是Y / 不是X，是Y /
 与其说X不如说Y / 真正的问题是 / 说白了 / "X isn't A — it's B" / "not X but Y" /
 "it's not about" / "the real story" / "here's the thing".
+Industry ZH/EN: no 研报腔 / sell-side cadence. Ban 链路往下推, 每一环的议价权, valuation-free
+optimism, Calling a strong chance, is a start, empty That said, door metaphors. Prefer Fiona
+feedback shapes when supplied in style_exemplars (skeptical call + levels; rates vs ETF/OI;
+demand visibility vs supply — not valuation).
 claim_ledger lists each factual claim in the body with the unit_id and the
 source_spans index (span_ref) it comes from.
 Schema: {"body":"...","claim_ledger":[{"claim":"...","unit_id":"cu-...","span_ref":0}]}''')
@@ -975,9 +979,11 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         emotion_brief = ec.build_emotion_brief(chosen, stance, source=source, lang=persona.lang, account_id=account_id)
         payload['emotion_brief'] = emotion_brief
     if use_emotion:  # Shared payload switch keeps recorded fixture mode stable.
-        from live import posting_habits
+        from live import posting_habits, language_habits
         payload['persona']['posting_habits'] = posting_habits.load_card(persona)
-        payload['persona']['format_hint'] = posting_habits.GUIDANCE
+        payload['persona']['language_habits'] = language_habits.load_card(persona)
+        hint = posting_habits.GUIDANCE + ' ' + language_habits.GUIDANCE
+        payload['persona']['format_hint'] = hint
     import os
     variant = voice_prompt_variant if voice_prompt_variant is not None else os.environ.get('VOICE_PROMPT_VARIANT', 'v1')
     if variant not in ('v1', 'v2'):
@@ -993,7 +999,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         payload['persona']['voice_card'] = compact_summary(persona.voice_card)
         hint = format_hint(persona.voice_card, persona.lang)
         if hint:
-            payload['persona']['format_hint'] = hint + (' ' + posting_habits.GUIDANCE if use_emotion else '')
+            payload['persona']['format_hint'] = hint + ((' ' + posting_habits.GUIDANCE + ' ' + language_habits.GUIDANCE) if use_emotion else '')
         payload['persona']['variation'] = variation_seed(persona.voice_card, source.get('source_hash') or digest(source))
     sig = getattr(persona, 'signature_card', None) or {}
     if sig:
@@ -1005,6 +1011,13 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         ]
         if persona.lang == 'zh':
             hard.append('HARD (ZH): commit the call without inventing what the market or others feel.')
+        from live import language_habits as _lh
+        lang_card = _lh.load_card(persona)
+        for line in lang_card.get('industry_constraints') or []:
+            hard.append(line)
+        for e in (sig.get('fiona_feedback_exemplars') or [])[:2]:
+            lesson = e.get('lesson') or 'Fiona feedback shape'
+            hard.append('POS shape (' + lesson + '): prefer this rhythm — judgment, thin evidence, concrete falsifier.')
         payload['persona']['signature'] = {
             'use': 'HARD account signature — openings/closings/moves are constraints, not suggestions'
                       + ('; for ZH: prefer the restraint exemplars — commit the call without inventing what the market or others feel' if persona.lang == 'zh' else ''),
@@ -1023,17 +1036,22 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         shown = exemplar_store.retrieve(persona, post_type=post_type, query=query,
                                         k=max(3, min(5, int(retrieval.get('k', 4)))) if persona.voice_card else int(retrieval.get('k', 4)),
                                         posts_dir=exemplar_dir, post_types=post_types, tags_dir=exemplar_tags_dir)
-        if sig.get('exemplars') or sig.get('zh_restraint'):
-            # Retrieval stays intact; add one signature exemplar and, for ZH, up to two restraint snippets
-            # (short clean openings that do not invent crowd feelings or absolutes).
+        if sig.get('exemplars') or sig.get('zh_restraint') or sig.get('fiona_feedback_exemplars'):
+            # Retrieval stays intact; add Fiona feedback shapes, ZH restraint, then one signature exemplar.
             have = {e.get('id') for e in shown}
             picked = []
+            for e in sig.get('fiona_feedback_exemplars') or []:
+                if e.get('id') in have: continue
+                picked.append({'handle': e.get('handle') or 'fiona_feedback', 'id': e['id'],
+                               'text': e['text'], 'why': 'fiona feedback exemplar: ' + (e.get('lesson') or 'shape')})
+                have.add(e['id'])
+                if len(picked) >= 1: break
             for e in sig.get('zh_restraint') or []:
                 if e.get('id') in have: continue
                 picked.append({'handle': e.get('handle') or 'restraint', 'id': e['id'],
                                'text': e['text'], 'why': 'zh restraint exemplar'})
                 have.add(e['id'])
-                if len(picked) >= 2: break
+                if len([x for x in picked if x['why'].startswith('zh')]) >= 2: break
             for e in sig.get('exemplars') or []:
                 if e['id'] in have: continue
                 picked.append({'handle': e['handle'], 'id': e['id'], 'text': exemplar_store.short_text(e['text']),
