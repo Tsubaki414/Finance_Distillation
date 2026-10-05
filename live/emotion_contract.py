@@ -92,8 +92,8 @@ def build_emotion_brief(units, stance, *, source=None, lang='en'):
     emotions = [name for score, name in ranked if score][:2] or ['skeptical']
     marker_energy = ranked[0][0] if ranked else 0
     punct = min(2, joined.count('!') + joined.count('！'))
-    # Hot / high-energy source → floor 3; stronger markers push toward 5.
-    target = min(5, max(3 if marker_energy or punct else 2, 2 + int(marker_energy >= 2) + int(marker_energy >= 4) + punct))
+    # xao-style floor: always at least 3 so soft EMOTION_DROP can fire on flat recaps.
+    target = min(5, max(3, 3 + int(marker_energy >= 2) + int(marker_energy >= 4 or punct >= 2)))
     energetic = sorted(
         statements,
         key=lambda t: -sum(_score_text(t, ms) for ms in EMOTION_MARKERS.values()),
