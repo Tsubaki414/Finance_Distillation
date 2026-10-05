@@ -65,5 +65,7 @@ All cross-topic pairs in that sim score <= 0.05.
 - Thresholds are calibrated on one small sim; the trading pair sits right at the subject threshold.
 - Cross-language: ZH ledger entries vs EN unit subjects share no tokens, so a ZH persona whose ledger
   subject is Chinese and whose new view subject is English will be `fresh` (same limit as `related()`).
+  **Partly addressed 2026-10-06** by a bilingual finance alias layer for high-frequency subjects; see
+  `docs/2026-10-06_bilingual_subject_aliases.md`. Long-tail subjects are still language-bound.
 - Flips are not auto-linked as revises (by design); an unacknowledged flip stays a soft finding.
 - Existing ledger files are not back-filled; old rows simply lack `continues_view_id` (treated as null).

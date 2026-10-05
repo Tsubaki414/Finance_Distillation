@@ -33,14 +33,22 @@ POSITION = re.compile(r"\b(?:we|i)(?:'re| are| am)?\s+(?:long|short)\b|\b(?:our|
                       r"\badded to\b|\btrimmed\b|\bbought\b|\bsold\b|\bP&L\b|仓位|持仓|加仓|减仓|建仓|做多了|做空了|我们持有|我持有", re.I)
 
 
-# Deterministic continue-link thresholds (min-normalised token overlap; EN stems / ZH bigrams).
+# Deterministic continue-link thresholds (min-normalised token overlap; EN stems / ZH bigrams /
+# bilingual alias concepts). Thresholds are unchanged by the alias layer (2026-10-06).
 CONTINUE_SUBJECT_MIN = 0.4     # subject vs subject
 CONTINUE_TEXT_MIN = 0.3        # subject + account_view vs subject + account_view
 
 
 def _tokens(text):
+    """EN stems / ZH bigrams, with bilingual finance aliases folded into '@concept' tokens first
+    (live/finance_aliases.py) so ZH<->EN peers ("美联储降息路径" / "Fed rate cut path") overlap."""
     from live.compose import _tokens as tok
-    return tok(text or '')
+    from live.finance_aliases import canonicalize
+    concepts, segments = canonicalize(str(text or ''))
+    out = set(concepts)
+    for seg in segments:
+        out |= tok(seg)
+    return out
 
 
 def _overlap(a, b):
