@@ -2096,6 +2096,21 @@
    "licence_tier": "B",
    "no_reproduction": true,
    "persona_hint": "zh_us_stock_commentary"
+  },
+  {
+   "channel_id": "ch140_moontowermeta_com",
+   "index": 140,
+   "name": "Moontower (Kris Abdelmessih)",
+   "url": "https://moontowermeta.com/feed/",
+   "feed_url": "https://moontowermeta.com/feed/",
+   "lang": "en",
+   "mode": "feed_fulltext",
+   "reason": "Free public options/volatility practitioner blog; feed carries full text; paraphrase with attribution (added 2026-10-05 for trading_shortterm, pending review)",
+   "licence_tier": "B",
+   "no_reproduction": false,
+   "persona_hint": "trading_shortterm",
+   "probe_file": null,
+   "probe_status": 200
   }
  ]
 }

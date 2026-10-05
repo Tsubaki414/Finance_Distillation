@@ -151,6 +151,18 @@
     "ch139_eastmoney_us_stock": {
       "zh": "东方财富",
       "en": "East Money"
+    },
+    "ch140_moontowermeta_com": {
+      "en": "Moontower",
+      "zh": "Moontower"
+    },
+    "cboe_options_stats": {
+      "en": "Cboe",
+      "zh": "芝加哥期权交易所"
+    },
+    "squeezemetrics_dix": {
+      "en": "SqueezeMetrics",
+      "zh": "SqueezeMetrics"
     }
   }
 }

@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from live import content_store, jev_front, registry  # noqa: E402
-from live.adapters import bls, cboe, cftc, defillama, edgar, farside, fed, feeds, fred, longform, treasury, wallstreetcn, nyfed, channels  # noqa: E402
+from live.adapters import bls, cboe, cftc, defillama, edgar, farside, fed, feeds, fred, longform, treasury, wallstreetcn, nyfed, channels, options_flow  # noqa: E402
 
 MEGACAP = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'META', 'NVDA', 'AVGO', 'TSLA', 'ORCL', 'MU', 'AMD']
 RSS_FULLTEXT = {'apricitas', 'employ_america', 'daily_shot_brief', 'chipstrat', 'wu_blockchain', 'coinshares_research'}
@@ -118,7 +118,7 @@ def gather(args, report):
         out = feeds.fetch_podcast(ODD_LOTS, source_id='podcast_odd_lots', publisher='Bloomberg Odd Lots')
         report['adapters']['podcasts'] = [{'feed': 'Odd Lots', **{k: v for k, v in out.items() if k != 'sources'}}]
         text_sources += out['sources']
-    for name, adapter in (('nyfed', nyfed), ('cftc', cftc), ('cboe', cboe), ('farside', farside), ('defillama', defillama)):
+    for name, adapter in (('nyfed', nyfed), ('cftc', cftc), ('cboe', cboe), ('options_flow', options_flow), ('farside', farside), ('defillama', defillama)):
         if name in args.adapters:
             out = adapter.fetch()
             report['adapters'][name] = {k: v for k, v in out.items() if k not in ('sources', 'units')} | {'units': len(out['units'])}
@@ -165,7 +165,7 @@ def main():
     ap.add_argument('--run', type=Path, required=True)
     ap.add_argument('--store', type=Path, default=None)
     ap.add_argument('--adapters', nargs='+', default=['edgar', 'fed', 'bls', 'treasury', 'fred', 'newsletters', 'podcasts',
-                                                    'cftc', 'cboe', 'farside', 'defillama', 'oaktree', 'berkshire', 'glassnode', 'wallstreetcn', 'nyfed', 'fomc', 'rss_fulltext', 'channels'])
+                                                    'cftc', 'cboe', 'options_flow', 'farside', 'defillama', 'oaktree', 'berkshire', 'glassnode', 'wallstreetcn', 'nyfed', 'fomc', 'rss_fulltext', 'channels'])
     ap.add_argument('--channel-modes', nargs='+', choices=sorted(channels.MODES), default=list(channels.DEFAULT_MODES))
     ap.add_argument('--channel-ids', nargs='+')
     ap.add_argument('--channel-batch', help='1-based K/N contiguous batch')

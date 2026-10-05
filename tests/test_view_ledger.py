@@ -78,3 +78,20 @@ def test_compose_records_view_and_flags_flip(tmp_path):
     r2 = compose.compose_source(SOURCE, 'zh_industry', Fake(), post_type='data_take', stance_output=flip, view_ledger=led)
     assert 'contradicts_prior_view' in [f['code'] for f in r2['post_checks']]
     assert len(led.entries()) == 2   # soft finding: still a draft, still recorded
+
+
+def test_prior_view_id_cited_as_support_is_kept_out_of_evidence(tmp_path):
+    """Live 3-day sim: the model listed the prior view id in supporting_unit_ids; that was a hard
+    ContractError and the day's stance was lost. It is consistency, not evidence: strip and record it."""
+    from live import registry
+    led = view_ledger.ViewLedger('crypto_macro_en', tmp_path)
+    prior = led.record(view(), unit_ids=[], source_ids=[])
+    unit = {'unit_id': 'cu-v', 'kind': 'view', 'statement': 'Bitcoin rally lacks ETF flow support.', 'speaker': 'Glassnode',
+            'source_spans': [{'exact_text': 'Bitcoin rally lacks ETF flow support.'}], 'numbers': [],
+            'view': {'subject': 'Bitcoin', 'direction': 'bearish', 'conviction': 'medium', 'horizon': 'weeks',
+                     'reasoning': 'ETF flows are weak.', 'trace': [0]}}
+    client = StanceClient({'decision': 'take', 'account_view': 'Bitcoin rally is thin without ETF flows.',
+                           'supporting_unit_ids': ['cu-v', prior['id']], 'rationale': 'consistent with my earlier call',
+                           'confidence': 0.6})
+    out = stance_step(unit, registry.persona_for_account('crypto_macro_en'), client, ledger=led)
+    assert out['supporting_unit_ids'] == ['cu-v'] and out['cited_prior_view_ids'] == [prior['id']]

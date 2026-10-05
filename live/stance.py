@@ -19,7 +19,8 @@ context_units (optional) are other units from the same evidence: you may combine
 view to form one judgment; list every unit you rely on in supporting_unit_ids.
 prior_views (optional) are this account's own earlier calls on related subjects: stay consistent
 with them; if the new evidence really changes the call, set revises_view_id to that prior view id
-and say why in rationale. Views only: never holdings, trades or positions.''')
+and say why in rationale. Prior view ids never go in supporting_unit_ids (those are evidence
+unit IDs only). Views only: never holdings, trades or positions.''')
 
 
 def stance_step(view_unit, persona, client, *, calls=None, sleep=None, context_units=None, ledger=None):
@@ -56,6 +57,11 @@ def stance_step(view_unit, persona, client, *, calls=None, sleep=None, context_u
     require(type(c) in (int,float) and 0 <= c <= 1, 'stance: invalid confidence')
     ids=value.get('supporting_unit_ids')
     allowed = {view_unit['unit_id'], *(u['unit_id'] for u in context)}
+    prior_ids = {r['id'] for r in prior}
+    if isinstance(ids, list) and prior_ids & set(ids):
+        # A prior view cited as support is consistency, not evidence: keep it on record, out of the evidence list.
+        value['cited_prior_view_ids'] = [i for i in ids if i in prior_ids]
+        ids = value['supporting_unit_ids'] = [i for i in ids if i not in prior_ids]
     require(isinstance(ids,list) and all(i in allowed for i in ids), 'stance: supporting IDs not supplied')
     if value.get('revises_view_id') is not None:
         require(value['revises_view_id'] in {r['id'] for r in prior}, 'stance: revises_view_id is not a supplied prior view')

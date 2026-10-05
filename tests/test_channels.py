@@ -67,7 +67,7 @@ def test_validation(tmp_path):
     for bad in [dict(channel(),mode='invalid'), dict(channel(),mode='excluded',reason=''), dict(channel(),mode='podcast_audio',reason='')]:
         p=tmp_path/'channels.json'; p.write_text(json.dumps({'channels':[bad]}))
         with pytest.raises(ValueError): channels.load_channels(p)
-    assert len(channels.load_channels(ROOT/'live/channels.json')) == 139
+    assert len(channels.load_channels(ROOT/'live/channels.json')) == 140  # +ch140 Moontower (trading_shortterm, 2026-10-05)
 
 def test_batching():
     rows = [dict(channel(),channel_id=str(i)) for i in range(11)]
@@ -90,7 +90,7 @@ def test_utilization_reasons(tmp_path):
     cs=channels.load_channels(ROOT/'live/channels.json')
     result=utilization.audit({'sources':cs},{'sources':[]},{'tiers':{}},{},tmp_path/'store',tmp_path/'tags',
                              runs=[{'adapters':{'channels':[{'channel_id':cs[1]['channel_id'],'status':'radar','reason':'titles only'}]}}])
-    assert len(result['channels'])==139
+    assert len(result['channels'])==140
     assert result['channels'][1]['fetch_outcome']=='radar'
     assert result['channels'][1]['reason']=='titles only'
     assert all(r['reason'] for r in result['channels'] if r['units']==0)
@@ -183,6 +183,6 @@ def test_utilization_cli_runs_directory(tmp_path):
                     '--roster',str(roster),'--runs',str(tmp_path/'runs'),'--out-md',str(tmp_path/'audit.md'),
                     '--out-json',str(output)],check=True,capture_output=True)
     result=json.loads(output.read_text())
-    assert len(result['channels'])==139
+    assert len(result['channels'])==140
     assert result['channels'][1]['fetch_outcome']=='radar'
     assert result['channels'][1]['reason']=='titles only'

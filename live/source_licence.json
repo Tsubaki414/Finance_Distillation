@@ -1657,6 +1657,38 @@
       "no_reproduction": true,
       "quote_allowed": false,
       "attribution_required": true
+    },
+    "ch140_moontowermeta_com": {
+      "tier": "B",
+      "basis": "Free public blog posts (full text in feed); paraphrase with attribution; added 2026-10-05 pending review",
+      "aliases": [
+        "Moontower",
+        "Kris Abdelmessih"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "cboe_options_stats": {
+      "tier": "B",
+      "basis": "Public Cboe daily options market statistics (put/call ratios, volume); paraphrase-only with attribution to Cboe Global Markets; no republication of tables; added 2026-10-05",
+      "aliases": [
+        "Cboe Global Markets",
+        "Cboe"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "squeezemetrics_dix": {
+      "tier": "B",
+      "basis": "Free public DIX/GEX CSV from SqueezeMetrics; cite figures with attribution; no republication of the dataset; added 2026-10-05 pending review",
+      "aliases": [
+        "SqueezeMetrics"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
     }
   }
 }
