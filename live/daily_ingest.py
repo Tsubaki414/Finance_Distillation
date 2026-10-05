@@ -88,7 +88,7 @@ def default_fetchers(state, store=ROOT/'live/store/content_units'):
     from scripts import run_content_adapters as adapters
     from live.adapters import channels, edgar, feeds, fred
     from live import registry
-    names = ['fed','fomc','bls','treasury','fred','nyfed','cftc','cboe','farside',
+    names = ['fed','fomc','bls','treasury','fred','nyfed','cftc','cboe','options_flow','farside',
              'defillama','glassnode','oaktree','wallstreetcn']
     def gather(name):
         args = SimpleNamespace(adapters=[name], tickers=[], newsletter_extract=999,

@@ -102,3 +102,25 @@ def test_ignores_prior_view_soft_flag(tmp_path):
 def test_stance_prompt_mentions_continue_update():
     from live import stance as st
     assert 'PREFER continuing or updating' in st.STANCE
+
+
+def test_augment_non_fact_from_store_when_pure_facts():
+    facts = [{'unit_id': 'cu-only-f1', 'kind': 'fact', 'statement': 'VIX closed 15.2', 'usage': 'cite',
+              'numbers': [{'text': '15.2'}], 'source_spans': []},
+             {'unit_id': 'cu-only-f2', 'kind': 'fact', 'statement': 'SPX little changed', 'usage': 'cite',
+              'numbers': [], 'source_spans': []}]
+    out, info = compose.augment_non_fact_units(facts, 'trading_shortterm', limit=2)
+    assert info.get('augmented') is True and info.get('added', 0) >= 1
+    assert any(u.get('kind') in compose.NON_FACT_KINDS for u in out)
+    # No-op when already balanced
+    out2, info2 = compose.augment_non_fact_units(out, 'trading_shortterm')
+    assert info2.get('augmented') is False
+
+
+def test_augment_respects_explicit_missing_store(tmp_path):
+    facts = [{'unit_id': 'cu-only-f1', 'kind': 'fact', 'statement': 'VIX closed 15.2', 'usage': 'cite',
+              'numbers': [{'text': '15.2'}], 'source_spans': []}]
+    out, info = compose.augment_non_fact_units(
+        facts, 'trading_shortterm', store_root=tmp_path / 'missing', limit=2)
+    assert info.get('augmented') is False and info.get('reason') == 'no_store'
+    assert [u['unit_id'] for u in out] == ['cu-only-f1']

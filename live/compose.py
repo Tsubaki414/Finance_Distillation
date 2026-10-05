@@ -190,7 +190,11 @@ def choose(units, persona, licence_tier, post_types, now=None):
     over data_take so accounts do not default to info dumps.
     """
     allowed = set(registry.post_types_for_tier(licence_tier, post_types))
-    has_view = any(u.get('kind') == 'view' and u.get('usage') != 'topic_only' for u in units)
+    aid = getattr(persona, 'account_id', None) or (persona.raw or {}).get('account_id')
+    has_view = any(
+        u.get('kind') == 'view' and u.get('usage') != 'topic_only'
+        and (not aid or _horizon_compatible(u, aid))
+        for u in units)
     def _key(kv):
         pt, w = kv
         # demote pure data_take; promote judgment types especially when a view exists
@@ -207,7 +211,7 @@ NEWS_TYPES = {'data_take', 'judgment_take', 'contrarian_take', 'view_relay', 'ea
 NON_FACT_KINDS = ('mechanism', 'view', 'aphorism')
 
 
-def pick_units(post_type, units, now=None, post_types=None):
+def pick_units(post_type, units, now=None, post_types=None, account_id=None):
     """Fill the post_type recipe, then enforce judgment-led pack balance.
 
     When the pool has any non-fact unit (mechanism / view / aphorism) and the
@@ -218,6 +222,11 @@ def pick_units(post_type, units, now=None, post_types=None):
     units = freshness.rank(units, now)
     primary_kind, n, support_kinds, m = RECIPES[post_type]
     candidates = eligible(post_type, units)
+    if post_type in JUDGMENT_TYPES and account_id and candidates:
+        compat = [u for u in candidates if _horizon_compatible(u, account_id)]
+        if compat:
+            rest = [u for u in candidates if u not in compat]
+            candidates = compat + rest
     spec = ((post_types or {}).get('post_types') or {}).get(post_type, {})
     news = post_type in NEWS_TYPES or spec.get('news') or spec.get('category') == 'news'
     if news:
@@ -259,6 +268,103 @@ def pack_balance(units):
     non_fact = sum(c[k] for k in NON_FACT_KINDS)
     return {'kinds': dict(c), 'n': len(units), 'non_fact': non_fact,
             'pure_data': non_fact == 0 and c.get('fact', 0) > 0}
+
+
+def _horizon_compatible(unit, account_id):
+    """Skip view units whose horizon is too far from the persona stance (hard reject)."""
+    try:
+        from live import registry
+        from live.content_units import HORIZONS
+        persona = registry.persona_for_account(account_id)
+        spec = (persona.raw or {}).get('stance') or {}
+    except Exception:
+        return True
+    view = unit.get('view') if isinstance(unit.get('view'), dict) else None
+    if not view:
+        return True
+    horizon = view.get('horizon')
+    target = spec.get('horizon')
+    order = {h: i for i, h in enumerate(HORIZONS[:-1])}
+    if target in order and horizon in order and abs(order[target] - order[horizon]) > 2:
+        if horizon not in (spec.get('allowed_horizons') or []):
+            return False
+    return True
+
+
+def augment_non_fact_units(units, account_id, *, store_root=None, limit=2):
+    """Daily-path hardening: if this source pack is pure facts, pull recent non-fact
+    units tagged for the persona from the content store (when available).
+
+    Does not invent units. When store_root is omitted, uses live/store/content_units.
+    When store_root is set but missing, returns no_store (no silent live fallback).
+    Views with incompatible persona horizons are skipped so stance does not hard-reject.
+    """
+    from pathlib import Path as _P
+    meta = pack_balance(units)
+    if meta['non_fact'] > 0 or limit <= 0:
+        return list(units), {'augmented': False, 'added': 0}
+    default_root = _P(__file__).resolve().parents[1] / 'live' / 'store' / 'content_units'
+    explicit = store_root is not None
+    root = _P(store_root) if explicit else default_root
+    if not (root / 'units.jsonl').exists():
+        if explicit:
+            return list(units), {'augmented': False, 'added': 0, 'reason': 'no_store'}
+        alt = _P(__file__).with_name('store') / 'content_units'
+        root = alt if (alt / 'units.jsonl').exists() else root
+    if not (root / 'units.jsonl').exists():
+        return list(units), {'augmented': False, 'added': 0, 'reason': 'no_store'}
+    try:
+        from live.content_store import ContentStore
+        from live import registry, freshness
+        db = ContentStore(root)
+        try:
+            pid = registry.persona_for_account(account_id).persona_id
+        except Exception:
+            pid = account_id
+    except Exception as exc:
+        return list(units), {'augmented': False, 'added': 0, 'reason': type(exc).__name__}
+    have = {u.get('unit_id') for u in units if u.get('unit_id')}
+    extras = []
+    for row in db.units():
+        uid = row.get('unit_id')
+        if uid in have:
+            continue
+        tags = row.get('persona_tags') or {}
+        personas = set(row.get('tag_personas') or []) | set(row.get('personas') or [])
+        if account_id not in personas and pid not in personas and account_id not in tags and pid not in tags:
+            continue
+        unit = dict(row.get('unit') or {})
+        kind = unit.get('kind') or row.get('kind')
+        if kind not in NON_FACT_KINDS:
+            continue
+        tag = tags.get(account_id) or tags.get(pid) or {}
+        if isinstance(tag, dict) and tag.get('verdict') in ('drop', 'weak'):
+            continue
+        if not _horizon_compatible(unit, account_id):
+            continue
+        unit.setdefault('unit_id', uid)
+        unit.setdefault('kind', kind)
+        unit.setdefault('usage', unit.get('usage') or 'cite')
+        src = row.get('source') if isinstance(row.get('source'), dict) else {}
+        for k in ('published_at', 'as_of', 'freshness_class', 'source_id'):
+            if row.get(k):
+                unit.setdefault(k, row[k])
+            if src.get(k):
+                unit.setdefault(k, src[k])
+        extras.append(unit)
+        if len(extras) >= 48:
+            break
+    if not extras:
+        return list(units), {'augmented': False, 'added': 0, 'reason': 'none_in_store'}
+    # Prefer view/prediction over mechanism/norm, then freshness within that.
+    kind_rank = {'view': 0, 'prediction': 1, 'mechanism': 2, 'norm': 3}
+    ranked = freshness.rank(extras)
+    fres_i = {id(u): i for i, u in enumerate(ranked)}
+    ranked.sort(key=lambda u: (kind_rank.get(u.get('kind'), 9), fres_i[id(u)]))
+    picked = ranked[:limit]
+    return list(units) + picked, {'augmented': True, 'added': len(picked),
+                                  'kinds': [u.get('kind') for u in picked]}
+
 
 
 CLAUSE = re.compile(r'[.;!?。；！？](?=\s|$)|\n')
@@ -425,8 +531,9 @@ def certainty_findings(body, units, stance, lang):
 
 
 JUDGMENT_MARKERS = re.compile(
-    r"\b(?:bullish|bearish|expect|unlikely|likely|looks|should|prefer|overpriced|underpriced|skeptical|sceptical|"
+    r"\b(?:bullish|bearish|dovish|hawkish|expect|unlikely|likely|looks|should|prefer|overpriced|underpriced|skeptical|sceptical|"
     r"disagree|tight|fragile|real|overdone|overstated|understated|matters?|isn't|aren't|not|won't|can't|"
+    r"premature|unresponsive|contagion|exceptional|guaranteed|"
     r"weak(?:er|ening)?|strong(?:er)?|intact|thin|cheap|expensive|risk(?:y)?|durable|peak(?:ing|ed)?|stalls?|cracks?)\b|"
     r"看好|看空|判断|预计|认为|觉得|更可能|难以|不认同|不同意|偏紧|偏弱|偏强|仍需|还不足以|不足以|说明|意味着|"
     r"关键|风险|见顶|拐点|钝化|失效|压制|韧性|乐观|悲观|高估|低估|真实|不会|未必|别急", re.I)
@@ -441,25 +548,99 @@ def _tokens(text):
     return {w[:6] for w in words if len(w) >= 3} | {cjk[i:i + 2] for i in range(len(cjk) - 1)}
 
 
+def _stance_field(stance):
+    """Join the account's call + structured view so openings can match meaning, not catchphrases."""
+    if not stance:
+        return ''
+    view = stance.get('view') or {}
+    parts = [stance.get('account_view'), view.get('subject'), view.get('direction'),
+             view.get('horizon'), view.get('conviction')]
+    reasoning = view.get('reasoning') or []
+    if isinstance(reasoning, list):
+        parts.extend(reasoning)
+    else:
+        parts.append(reasoning)
+    if view.get('conditions'):
+        parts.append(view.get('conditions'))
+    for row in view.get('support') or []:
+        if isinstance(row, dict) and row.get('quote'):
+            parts.append(row['quote'])
+    return ' '.join(str(x) for x in parts if x)
+
+
+def _is_thesis_shape(text):
+    """Declarative judgment shape (contrast / stance word), not a keyword whitelist of finance terms."""
+    t = text or ''
+    if t.rstrip().endswith(('?', '？')):
+        return False  # questions are handled separately (rhetorical vs bare)
+    if re.search(r"\b(?:but|however|though|rather|mostly|isn't|aren't|not\s+the|instead)\b|"
+                 r"不是|而是|只是|根本|并不足以|谈不上|并没有", t, re.I):
+        return True
+    # Imperative / caution call (common trading judgment openings)
+    if re.match(r"^(?:don't|do not|avoid|wait(?:\s+for)?|skip|fade|respect)\b", t.strip(), re.I):
+        return True
+    # Evaluative paraphrase without a contrast word
+    if re.search(r"\b(?:doesn't seem|does not seem|far from|losing (?:their|its) grip|requires? more|"
+                 r"check(?:s)? out|overstat(?:e|ed|ing)|understat(?:e|ed|ing)|premature)\b|"
+                 r"谈不上|并不足以|站不住", t, re.I):
+        return True
+    # Short assertive one-liner without a leading figure
+    if len(t) <= 160 and not re.match(r'^\W{0,2}[$€£¥]?\d', t) and re.search(r"[.。!！]$", t.strip()):
+        return bool(re.search(r"\b(?:is|are|looks?|means?|remains?|stays?|holds?)\b|是|就是|说明|意味着", t, re.I))
+    return False
+
+
 def judgment_findings(body, stance):
-    """The opening must carry the stance's call (content overlap with stance.account_view) or a
-    clear judgment marker; an opening question or bare data line is not a judgment."""
+    """Opening must carry the stance's call.
+
+    Reads the stance field (account_view + subject + reasoning), not a finance-keyword list:
+    a declarative thesis that overlaps the stance's meaning passes even when wording diverges.
+    Questions and bare data openings still fail. Without a stance, fall back to markers.
+    """
     sentences = [s.strip() for s in re.split(r'(?<!\d)\.(?!\d)|[。！？!?]|\n', body) if s.strip()]
     first_line = next((l.strip() for l in body.split('\n') if l.strip()), '')
     first = sentences[0] if sentences else ''
     findings = []
     own = str((stance or {}).get('account_view') or '')
+    view = (stance or {}).get('view') or {}
+    subject = str(view.get('subject') or '')
+    field = _stance_field(stance)
     view_tokens = _tokens(own)
-    overlap = len(view_tokens & _tokens(first)) / len(view_tokens) if view_tokens else 0.0
+    field_tokens = _tokens(field)
+    first_tokens = _tokens(first) | _tokens(first_line)
+    overlap = len(view_tokens & first_tokens) / len(view_tokens) if view_tokens else 0.0
+    field_overlap = len(field_tokens & first_tokens) / len(field_tokens) if field_tokens else 0.0
+    subject_tokens = _tokens(subject)
+    subject_hit = bool(subject_tokens & first_tokens)
     question = first_line.rstrip().endswith(('?', '？'))
-    data_led = bool(re.match(r'^\W{0,2}[$€£¥]?\d', first)) and not JUDGMENT_MARKERS.search(first)
-    carries = overlap >= 0.25 or (own and own.rstrip('.。!?！？').casefold() in first.casefold())
-    marked = bool(JUDGMENT_MARKERS.search(first)) and not data_led
-    if question or data_led or not (carries or (marked and (overlap >= 0.1 or not view_tokens))):
-        findings.append({'code': 'no_judgment', 'detail': 'Opening does not state the account\'s call'
-                         + (f' (stance overlap {overlap:.2f})' if view_tokens else '')})
+    # A leading figure is not "data-led" when the line evaluates/challenges a narrative.
+    _eval = re.search(
+        r"\b(?:challenge|undercut|contradict|signal|imply|suggest|mean|show that|refute|overstate|understate)\b|"
+        r"说明|意味着|挑战|并不足以|谈不上", first, re.I)
+    data_led = (bool(re.match(r'^\W{0,2}[$€£¥]?\d', first)) and not JUDGMENT_MARKERS.search(first)
+                and not _is_thesis_shape(first) and not _eval)
+    thesis = _is_thesis_shape(first) or _is_thesis_shape(first_line)
+    shared_n = len(field_tokens & first_tokens)
+    rhetorical = question and bool(re.search(
+        r"\b(?:actually|really|anyone|seriously|looking past|supposed to)\b|难道|不就",
+        first_line, re.I))
+    # Stance-aware: meaning overlap with the full stance field beats raw keyword markers.
+    carries = (
+        overlap >= 0.25
+        or (own and own.rstrip('.。!?！？').casefold() in first.casefold())
+        or (not data_led and not question and field_overlap >= 0.12)
+        or (not data_led and not question and subject_hit and field_overlap >= 0.05)
+        or (not data_led and not question and thesis and (shared_n >= 1 or not field_tokens))
+        or (not data_led and not question and _eval and (shared_n >= 1 or not field_tokens))
+        or (rhetorical and not data_led and (shared_n >= 1 or not field_tokens))
+    )
+    marked = bool(JUDGMENT_MARKERS.search(first) or JUDGMENT_MARKERS.search(first_line)) and not data_led
+    bare_question = question and not carries and not marked
+    if data_led or bare_question or not (carries or (marked and (overlap >= 0.1 or field_overlap >= 0.08 or not view_tokens))):
+        findings.append({'code': 'no_judgment', 'detail': "Opening does not state the account's call"
+                         + (f' (stance overlap {overlap:.2f}, field {field_overlap:.2f})' if (view_tokens or field_tokens) else '')})
     if sentences and sum(bool(inventory(s)) for s in sentences) / len(sentences) > .6:
-        findings.append({'code':'data_list', 'detail':'More than 60% of sentences are numeric'})
+        findings.append({'code': 'data_list', 'detail': 'More than 60% of sentences are numeric'})
     return findings
 
 
@@ -583,7 +764,7 @@ EXEMPLAR_RULE = ('style_exemplars are real posts by other accounts, given for vo
 
 def compose_source(source, account_id, client, *, post_type=None, exemplars=None, exemplar_dir=None,
                    exemplar_tags_dir=None, extracted_units=None, stance_output=None, voice_prompt_variant=None, now=None, view_ledger=None,
-                   emotion_contract=None):
+                   emotion_contract=None, pack_augment=None):
     """Voice cards always use exemplars; other personas honor the retrieval override."""
     persona = registry.persona_for_account(account_id)
     if 'aphorism_translation' in persona.post_type_mix:
@@ -622,6 +803,15 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         enriched.setdefault('source_id', source.get('source_id'))
         units.append(enriched)
     base['extract_dropped_units'] = extracted.get('dropped_units', [])
+    import os as _os_aug
+    do_augment = pack_augment if pack_augment is not None else (_os_aug.environ.get('FD_PACK_AUGMENT', '0') == '1')
+    units_before_augment = list(units)
+    forced_post_type = post_type
+    if do_augment:
+        units, augment_info = augment_non_fact_units(units, account_id)
+    else:
+        augment_info = {'augmented': False, 'added': 0, 'reason': 'disabled'}
+    base['unit_augment'] = augment_info
     if post_type is not None:
         require(post_type in RECIPES and post_type in persona.post_type_mix, 'compose: post_type not in persona mix')
         require(post_type in registry.post_types_for_tier(tier, post_types), 'compose: post_type not allowed for licence tier')
@@ -632,14 +822,34 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                 'why': 'No units for an allowed post type of this persona'}
     require(post_type in persona.post_type_mix, 'compose: post_type not in persona mix')
     require(post_type in registry.post_types_for_tier(tier, post_types), 'compose: post_type not allowed for licence tier')
-    chosen = pick_units(post_type, units, now=now, post_types=post_types)
+    chosen = pick_units(post_type, units, now=now, post_types=post_types, account_id=account_id)
     primary = eligible(post_type, chosen)[0]
     stance = stance_output
     if post_type in JUDGMENT_TYPES:
         from live.stance import stance_step
         stance = stance or stance_step(primary, persona, client, ledger=view_ledger,
                                        context_units=[u for u in chosen if u is not primary])
-        if stance['decision'] == 'reject':
+        if stance['decision'] == 'reject' and augment_info.get('augmented') and forced_post_type is None:
+            # Bad store augment: revert to source pack so we can still ship a data_take / fact post.
+            units = units_before_augment
+            base['unit_augment'] = {**augment_info, 'reverted': True, 'revert_why': stance.get('rationale')}
+            post_type = choose(units, persona, tier, post_types, now=now)
+            if post_type is None or not eligible(post_type, units):
+                return {**base, 'units': units, 'post_type': post_type, 'stance': stance,
+                        'draft_status': 'not_suitable', 'status': 'skipped', 'text': '',
+                        'post_checks': [], 'claim_ledger': [], 'risks': [],
+                        'why': 'Persona rejected the view'}
+            chosen = pick_units(post_type, units, now=now, post_types=post_types, account_id=account_id)
+            primary = eligible(post_type, chosen)[0]
+            stance = stance_output
+            if post_type in JUDGMENT_TYPES:
+                stance = stance or stance_step(primary, persona, client, ledger=view_ledger,
+                                               context_units=[u for u in chosen if u is not primary])
+                if stance['decision'] == 'reject':
+                    return {**base, 'units': chosen, 'post_type': post_type, 'stance': stance,
+                            'draft_status': 'not_suitable', 'status': 'skipped', 'text': '',
+                            'post_checks': [], 'why': 'Persona rejected the view'}
+        elif stance['decision'] == 'reject':
             return {**base, 'units':chosen, 'post_type':post_type, 'stance':stance,
                     'draft_status':'not_suitable', 'status':'skipped', 'text':'', 'post_checks':[],
                     'why':'Persona rejected the view'}
@@ -887,7 +1097,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             **({'emotion_brief': emotion_brief} if emotion_brief else {}),
             **({'emotion_retry': emotion_retry} if emotion_retry else {}),
             **({'judgment_retry': judgment_retry} if judgment_retry else {}),
-            'pack_balance': pack_balance(chosen)}
+            'pack_balance': pack_balance(chosen),
+            'unit_augment': base.get('unit_augment') or {}}
 
 
 def arbitrate_batch(results, *, mode='soft'):

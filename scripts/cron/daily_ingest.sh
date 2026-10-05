@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+export FD_PACK_AUGMENT=1
 cd /workspace/fd_new/Finance_Distillation
 DAY=$(TZ=Europe/London date +%F)
 RUN=/workspace/x/ingest_runs

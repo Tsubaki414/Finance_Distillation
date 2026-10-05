@@ -406,7 +406,7 @@ def _compose_result(source, account_id, output_dir, client, follow_up_of):
     failure, composed = None, {}
     try:
         from live.view_ledger import ViewLedger
-        composed = compose.compose_source(record, account_id, client, view_ledger=ViewLedger(account_id))
+        composed = compose.compose_source(record, account_id, client, view_ledger=ViewLedger(account_id), pack_augment=True)
         draft_status, status = composed["draft_status"], composed["status"]
     except (ContractError, LicenceRefused) as exc:
         stage = "compose" if str(exc).startswith("compose") else "extract"
