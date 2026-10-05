@@ -39,13 +39,15 @@ class ViewLedger:
             return []
         return [json.loads(line) for line in self.path.read_text().splitlines() if line.strip()]
 
-    def record(self, stance, *, unit_ids, source_ids, draft_id=None):
+    def record(self, stance, *, unit_ids, source_ids, draft_id=None, input_view=None):
         text = str(stance.get('account_view') or '').strip()
         if not text or stance.get('decision') == 'reject':
             raise ValueError('view ledger: only take/adapt calls with an account_view are recorded')
         if POSITION.search(text):
             raise ValueError('view ledger: views only - position/trade language is never recorded')
-        v = stance.get('view') or {}
+        # A 'take' adopts the input view and may omit `view`; record the adopted view's structure so
+        # later flips on the same subject can still be flagged (else subject/direction are None).
+        v = stance.get('view') or input_view or {}
         entry = {'id': 'view-' + uuid.uuid4().hex[:12], 'account_id': self.account_id, 'account_view': text,
                  'subject': v.get('subject'), 'direction': v.get('direction'), 'conviction': v.get('conviction'),
                  'horizon': v.get('horizon'), 'revises_view_id': stance.get('revises_view_id'),
@@ -70,7 +72,8 @@ class ViewLedger:
             overlap = len(want & have) / (len(want) or 1)
             if overlap > 0:
                 scored.append((overlap, r['created_at'], r))
-        scored.sort(key=lambda t: (-t[0], t[1]), reverse=False)
+        scored.sort(key=lambda t: t[1], reverse=True)   # ties: latest call first
+        scored.sort(key=lambda t: -t[0])
         return [dict(r, overlap=round(o, 2)) for o, _, r in scored[:k]]
 
     def ignores_prior(self, stance, prior_rows=None):

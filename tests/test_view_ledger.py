@@ -95,3 +95,37 @@ def test_prior_view_id_cited_as_support_is_kept_out_of_evidence(tmp_path):
                            'confidence': 0.6})
     out = stance_step(unit, registry.persona_for_account('crypto_macro_en'), client, ledger=led)
     assert out['supporting_unit_ids'] == ['cu-v'] and out['cited_prior_view_ids'] == [prior['id']]
+
+
+def test_take_without_view_records_adopted_input_view(tmp_path, monkeypatch):
+    """Live sim Oct 5: a 'take' may omit `view` (it adopts the input view). The ledger then stored
+    subject/direction = None, so a later flip on the same subject was never flagged."""
+    from live import anti_repeat
+    from tests.test_compose import UNITS
+    monkeypatch.setattr(anti_repeat, 'HISTORY_DIR', tmp_path / 'hist')
+    view_unit = {'kind': 'view', 'statement': 'Memory supply stays tight because fabs take years.',
+                 'source_spans': [{'paragraph_id': 'P3', 'exact_text': 'Memory makers will not build a glut because building a fab takes years and prices keep rising.'}],
+                 'numbers': [], 'speaker': 'The Next Platform', 'speaker_type': 'media', 'freshness_class': 'current',
+                 'view': {'subject': 'memory supply', 'direction': 'tighter', 'conviction': 'medium', 'horizon': 'quarters',
+                          'reasoning': ['building a fab takes years and prices keep rising'], 'trace': [0]}}
+    fake = Fake(units={'units': UNITS['units'] + [view_unit]})
+    led = view_ledger.ViewLedger('zh_industry', tmp_path / 'views')
+    take = {'decision': 'take', 'account_view': '存储供给偏紧会延续。', 'confidence': 0.7,
+            'supporting_unit_ids': [], 'rationale': 'adopt'}
+    r = compose.compose_source(SOURCE, 'zh_industry', fake, post_type='judgment_take', stance_output=take, view_ledger=led)
+    assert r['draft_status'] == 'draft_ready'
+    e = led.entries()[-1]
+    assert (e['subject'], e['direction'], e['horizon']) == ('memory supply', 'tighter', 'quarters')
+    flip = view(subject='memory supply', direction='wider', account_view='存储供给会转松。')
+    assert [f['code'] for f in led.contradictions(flip)] == ['contradicts_prior_view']
+
+
+def test_related_ties_prefer_latest_call(tmp_path):
+    led = view_ledger.ViewLedger('crypto_macro_en', tmp_path)
+    old = led.record(view(), unit_ids=[], source_ids=[])
+    rows = [json.loads(line) for line in led.path.read_text().splitlines()]
+    rows[0]['created_at'] = '2026-01-01T00:00:00+00:00'
+    led.path.write_text(''.join(json.dumps(r) + '\n' for r in rows))
+    new = led.record(view(), unit_ids=[], source_ids=[])
+    rel = led.related('Bitcoin fragile year end', k=2)
+    assert [r['id'] for r in rel] == [new['id'], old['id']]

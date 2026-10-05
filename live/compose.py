@@ -1430,10 +1430,12 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         findings += qa_levels.classify(stance['stance_findings'], frame_found=True)
     findings += qa_levels.classify(
         verbatim_line1_findings(body, stance, thesis_lock=payload.get('thesis_lock')), frame_found=True)
+    input_view = (primary or {}).get('view') if stance else None
     if view_ledger is not None and stance and stance.get('decision') != 'reject':
         ledger_findings = stance.get('ledger_findings')
         if ledger_findings is None:
-            ledger_findings = view_ledger.contradictions(stance)
+            ledger_findings = view_ledger.contradictions(
+                stance if stance.get('view') or not input_view else dict(stance, view=input_view))
         findings += qa_levels.classify(ledger_findings, frame_found=True)
     risks = [{**f, 'status': 'open'} for f in findings if f['level'] == 'hard']
     risks += [{**f, 'status': 'warning'} for f in findings if f['level'] == 'soft']
@@ -1447,7 +1449,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     if (view_ledger is not None and stance and stance.get('decision') != 'reject' and stance.get('account_view')
             and qa_levels.draft_status(findings) == 'draft_ready'):
         try:
-            view_ledger.record(stance, unit_ids=[u['unit_id'] for u in chosen], source_ids=[source.get('id')], draft_id=base['id'])
+            view_ledger.record(stance, unit_ids=[u['unit_id'] for u in chosen], source_ids=[source.get('id')],
+                               draft_id=base['id'], input_view=input_view if stance.get('decision') == 'take' else None)
         except ValueError as exc:   # position language never enters the ledger
             findings.append({'code': 'view_not_recorded', 'detail': str(exc), 'level': 'soft'})
     if body:
