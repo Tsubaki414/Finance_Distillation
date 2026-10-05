@@ -100,3 +100,87 @@ def test_aliases_respect_word_boundaries_and_entities():
     toks = view_ledger._tokens('通胀和美联储独立性')
     assert {'@inflation', '@fed', '独立', '立性'} <= toks and '储独' not in toks and '和独' not in toks
     assert finance_aliases.ALIAS_COUNT >= 200 and finance_aliases.CONCEPT_COUNT >= 50
+
+
+# --- Entity-family veto (different primary entities must not continue-link) ---
+
+@pytest.mark.parametrize('a,b', [
+    ('Fed rate cut path', 'ECB rate cut path'),
+    ('美联储降息路径', '欧央行降息路径'),
+    ('BTC outlook', 'ETH outlook'),
+    ('Bitcoin ETF flows', 'Ethereum ETF flows'),
+    ('BoJ policy path', 'BoE policy path'),
+    ('oil supply outlook', 'gold supply outlook'),
+    ('S&P 500 outlook', 'Nasdaq outlook'),
+])
+def test_different_entities_same_family_score_zero(a, b):
+    s, t = score(a, b, a, b)
+    assert s == 0.0 and t == 0.0, (a, b, s, t)
+    assert finance_aliases.entity_conflict(
+        view_ledger._tokens(a), view_ledger._tokens(b))
+
+
+def test_fed_zh_en_still_links_despite_entity_check(tmp_path):
+    led = view_ledger.ViewLedger('zh_macro', tmp_path)
+    prior = led.record(call('美联储降息路径', account_view='美联储降息路径会比市场预期更慢。'),
+                       unit_ids=[], source_ids=[])
+    out = led.link_continuity(call('Fed rate cut path',
+                                   account_view='The Fed rate cut path stays slower than priced.'))
+    assert out['continues_view_id'] == prior['id'] and out['continuity']['link'] == 'continue'
+
+
+def test_fed_vs_ecb_no_continue_link(tmp_path):
+    led = view_ledger.ViewLedger('zh_macro', tmp_path)
+    led.record(call('Fed rate cut path', account_view='Fed cuts come slower than priced.'),
+               unit_ids=[], source_ids=[])
+    out = led.link_continuity(call('ECB rate cut path', account_view='ECB cuts come slower than priced.'))
+    assert out['continues_view_id'] is None and out['continuity']['link'] == 'fresh'
+
+
+def test_zh_fed_vs_zh_ecb_no_continue_link(tmp_path):
+    led = view_ledger.ViewLedger('zh_macro', tmp_path)
+    led.record(call('美联储降息路径', account_view='美联储降息路径偏慢。'), unit_ids=[], source_ids=[])
+    out = led.link_continuity(call('欧央行降息路径', account_view='欧央行降息路径偏慢。'))
+    assert out['continues_view_id'] is None and out['continuity']['link'] == 'fresh'
+
+
+def test_btc_vs_eth_no_continue_link(tmp_path):
+    led = view_ledger.ViewLedger('crypto_macro_en', tmp_path)
+    led.record(call('BTC outlook', direction='bearish', account_view='BTC outlook stays fragile.'),
+               unit_ids=[], source_ids=[])
+    out = led.link_continuity(call('ETH outlook', direction='bearish',
+                                   account_view='ETH outlook stays fragile.'))
+    assert out['continues_view_id'] is None and out['continuity']['link'] == 'fresh'
+
+
+def test_no_entity_keeps_existing_overlap():
+    # One side has no concrete entity: shared framing still overlaps as before.
+    s, _ = score('rate cut path', 'Fed rate cut path')
+    assert s >= CONTINUE_SUBJECT_MIN
+    assert not finance_aliases.entity_conflict(
+        view_ledger._tokens('rate cut path'), view_ledger._tokens('Fed rate cut path'))
+
+
+def test_trading_shortterm_en_en_still_links(tmp_path):
+    """Regression: EN-EN systematic de-risking / VIX midterms pair still continues."""
+    led = view_ledger.ViewLedger('trading_shortterm', tmp_path)
+    r1 = led.record(call('Systematic de-risking vulnerability into midterm elections',
+                         direction='higher', horizon='days',
+                         account_view='Unusually low VIX curve pricing ahead of the midterms leaves the '
+                         'market vulnerable to systematic de-risking if macro overhangs force a sudden '
+                         'volatility spike.'),
+                    unit_ids=[], source_ids=[])
+    r2 = call('systematic de-risking triggered by steepening index put skew and rising VIX',
+              direction='higher', horizon='days',
+              account_view='With TLT skew maxed at 100 while SPY IV sits at yearly lows, a sudden '
+                           'steepening in index put skew alongside a rising VIX will confirm rates '
+                           'contagion and ignite the systematic de-risking vulnerability we previously '
+                           'flagged.')
+    assert led.link_continuity(r2)['continues_view_id'] == r1['id']
+
+
+def test_related_excludes_conflicting_entities(tmp_path):
+    led = view_ledger.ViewLedger('zh_macro', tmp_path)
+    led.record(call('Fed rate cut path', account_view='Fed path slower.'), unit_ids=[], source_ids=[])
+    rows = led.related('ECB rate cut path ECB path slower.', k=5)
+    assert rows == []

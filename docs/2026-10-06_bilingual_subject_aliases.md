@@ -7,7 +7,7 @@ subject is English ("Fed rate cut path") scored 0.0 → `fresh` instead of `cont
 cross-language flips went unflagged.
 
 ## Change
-`live/finance_aliases.py`: a deterministic lookup table (64 concepts, 281 aliases: EN regex patterns,
+`live/finance_aliases.py`: a deterministic lookup table (65 concepts, 284 aliases (incl. BoE): EN regex patterns,
 letter-bounded, case-insensitive; ZH literals). `view_ledger._tokens` now:
 1. `canonicalize(text)` – leftmost/longest alias hits become language-neutral `@concept` tokens
    (`美联储`/`Fed`/`FOMC`/`Powell` → `@fed`; `降息`/`rate cut` → `@rate_cut` + `@rates`;
@@ -37,12 +37,27 @@ inflation expectations, 非农就业/nonfarm payrolls, VIX波动率/VIX volatili
 six unrelated cross-language pairs ≤ 0.05; cross-language opposite direction is still a flip
 (`unacknowledged_flip_of` + `contradicts_prior_view`).
 
+## Entity-family veto (2026-10-06 follow-up)
+Shared framing tokens (`@path`, `@outlook`, `@rates`, `@crypto`, …) previously made different
+primary entities score high and continue-link (Fed vs ECB rate-cut path ≈ 0.75; BTC vs ETH ≈ 0.67).
+`ENTITY_FAMILIES` in `live/finance_aliases.py` lists mutually exclusive concrete entities:
+
+| family | tokens |
+|---|---|
+| central banks | `@fed`, `@ecb`, `@boj`, `@boe`, `@pboc` |
+| crypto majors | `@btc`, `@eth` |
+| equity indices | `@spx`, `@nasdaq`, `@ashares` |
+| commodities | `@oil`, `@gold` |
+
+`entity_conflict(a, b)` is true when both sides name at least one token in the same family and share
+none. `_overlap` / `related()` / same-subject checks for flip & ignores-prior then force overlap 0 /
+non-match. Same entity across ZH↔EN still matches (美联储↔Fed). If either side has no concrete
+entity in a family, existing overlap behaviour is unchanged.
+
 ## Limits
 - Coverage is only the table: long-tail subjects (single names, sectors beyond memory/semis/property,
   niche macro series, policy jargon) remain language-bound and still go `fresh` cross-language.
-- Generic concepts (`@path`, `@outlook`, `@supply`, `@rates`) can raise overlap between different
-  entities that share framing ("Fed rate cut path" vs "ECB rate cut path" scores 0.75 – same as the
-  pre-existing EN-EN behaviour; the alias layer does not add an entity veto).
+- Entity veto only covers the families above; unlisted peers that share framing can still overlap.
 - Alias hits are substring/regex based: no word segmentation for ZH, so e.g. `存储` inside an
   unrelated compound will still fold to `@memory`. Short EN aliases (`ai`, `fx`, `qe`, `eth`) are
   letter-bounded only.

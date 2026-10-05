@@ -10,6 +10,9 @@ vs "Fed rate cut path") now share concept tokens instead of nothing.
 Purely a lookup table - no translation model in the hot path. Long-tail subjects are NOT covered.
 Hierarchical concepts (降息 -> @rate_cut + @rates) keep "rate cut" vs "rates" peers overlapping.
 Keep entities distinct (Fed vs ECB vs PBoC) so aliases never merge different issuers/assets.
+Mutually exclusive ENTITY_FAMILIES (central banks, crypto majors, equity indices, commodities)
+force non-match when both sides name different concrete entities in the same family, even if
+they share framing tokens (@path/@outlook/@rates); same entity across ZH<->EN still matches.
 """
 from __future__ import annotations
 
@@ -20,6 +23,7 @@ _TABLE = [
     (('fed',), [r'fed', r'federal reserve', r'fomc', r'powell', r'the fed'], ['美联储', '联储', '联邦储备', '鲍威尔']),
     (('ecb',), [r'ecb', r'european central bank', r'lagarde'], ['欧洲央行', '欧央行']),
     (('boj',), [r'boj', r'bank of japan'], ['日本央行', '日银']),
+    (('boe',), [r'boe', r'bank of england'], ['英格兰银行', '英央行']),
     (('pboc',), [r'pboc', r"people'?s bank of china"], ['中国人民银行', '人民银行']),
     (('central_bank',), [r'central banks?'], ['央行']),
     (('rate_cut', 'rates'), [r'rate cuts?', r'cut(?:ting)? rates', r'easing cycle', r'cuts'], ['降息', '减息']),
@@ -117,3 +121,38 @@ def canonicalize(text):
         last = m.end()
     segments.append((text or '')[last:])
     return concepts, segments
+
+
+# Mutually exclusive concrete entity tokens. Hierarchical parents (@crypto, @equities, @rates,
+# @central_bank) are intentionally absent: only distinct primary entities veto each other.
+ENTITY_FAMILIES = (
+    frozenset({'fed', 'ecb', 'boj', 'boe', 'pboc'}),   # central banks
+    frozenset({'btc', 'eth'}),                         # crypto majors
+    frozenset({'spx', 'nasdaq', 'ashares'}),           # equity indices
+    frozenset({'oil', 'gold'}),                        # commodities
+)
+
+
+def _bare(tokens):
+    """Strip leading '@' from concept tokens; leave residual stems/bigrams alone."""
+    return {t[1:] if isinstance(t, str) and t.startswith('@') else t for t in (tokens or ())}
+
+
+def concrete_entities(tokens):
+    """Map family -> frozenset of concrete entity tokens present in `tokens` (may be empty)."""
+    bare = _bare(tokens)
+    return {i: frozenset(bare & fam) for i, fam in enumerate(ENTITY_FAMILIES) if bare & fam}
+
+
+def entity_conflict(tokens_a, tokens_b):
+    """True when both sides name concrete entities in the same family but share none.
+
+    Same entity (incl. ZH<->EN aliases of one concept) is fine. If either side has no concrete
+    entity token in a family, that family does not veto - existing overlap behaviour stands.
+    """
+    a, b = _bare(tokens_a), _bare(tokens_b)
+    for fam in ENTITY_FAMILIES:
+        ae, be = a & fam, b & fam
+        if ae and be and not (ae & be):
+            return True
+    return False

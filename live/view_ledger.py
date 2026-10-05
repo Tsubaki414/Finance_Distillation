@@ -52,7 +52,27 @@ def _tokens(text):
 
 
 def _overlap(a, b):
+    """Min-normalised token overlap; 0 when both sides name different entities in one family."""
+    from live.finance_aliases import entity_conflict
+    if entity_conflict(a, b):
+        return 0.0
     return len(a & b) / (min(len(a), len(b)) or 1)
+
+
+def _asymmetric_overlap(want, have):
+    """want-normalised overlap (related()); same entity-family veto as _overlap."""
+    from live.finance_aliases import entity_conflict
+    if entity_conflict(want, have):
+        return 0.0
+    return len(want & have) / (len(want) or 1)
+
+
+def _same_subject(subject, other):
+    """True when `subject` substantially overlaps `other` and entities do not conflict."""
+    from live.finance_aliases import entity_conflict
+    if not subject or entity_conflict(subject, other):
+        return False
+    return len(subject & other) / len(subject) >= 0.5
 
 
 def continue_score(view, account_view, row):
@@ -180,7 +200,7 @@ class ViewLedger:
         scored = []
         for r in self.current():
             have = _tokens(' '.join(str(x or '') for x in (r.get('subject'), r.get('account_view'))))
-            overlap = len(want & have) / (len(want) or 1)
+            overlap = _asymmetric_overlap(want, have)
             if overlap > 0:
                 scored.append((overlap, r['created_at'], r))
         scored.sort(key=lambda t: t[1], reverse=True)   # ties: latest call first
@@ -200,7 +220,7 @@ class ViewLedger:
         rows = prior_rows if prior_rows is not None else self.related(
             ' '.join(str(x or '') for x in (v.get('subject'), stance.get('account_view'))), k=5)
         for r in rows:
-            same = len(subject & _tokens(str(r.get('subject') or ''))) / len(subject) >= 0.5
+            same = _same_subject(subject, _tokens(str(r.get('subject') or '')))
             if not same:
                 continue
             # Continuity: account_view shares substantial tokens with the prior call
@@ -224,7 +244,7 @@ class ViewLedger:
         for r in self.current():
             if r['id'] in (stance.get('revises_view_id'), stance.get('continues_view_id')):
                 continue
-            same = subject and len(subject & _tokens(str(r.get('subject') or ''))) / len(subject) >= 0.5
+            same = _same_subject(subject, _tokens(str(r.get('subject') or '')))
             if same and OPPOSITE.get(direction) == r.get('direction'):
                 out.append({'code': 'contradicts_prior_view',
                             'detail': f"flips {r.get('direction')} call {r['id']} ({r['account_view'][:80]}) without revises_view_id"})
