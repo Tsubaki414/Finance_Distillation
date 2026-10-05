@@ -19,7 +19,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import compose_ab
-from voice_relay_check import evidence_source, rank_evidence_groups
+from voice_relay_check import evidence_source, has_valid_view, rank_evidence_groups
 from live import anti_repeat, compose, registry
 from live.content_store import ContentStore
 from live.retrieval import units_for_persona
@@ -34,8 +34,18 @@ def write_json(path, value):
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
 
 
+def balanced(records):
+    """A judgment packet needs >=1 grounded view AND >=1 fact (else zh/en slice may be pure_data)."""
+    return (any(has_valid_view(r['unit']) for r in records)
+            and any(r['unit'].get('kind') == 'fact' for r in records))
+
+
 def select_groups(store, accounts):
-    """Rank grounded packets; prefer the same original source across each pair."""
+    """Rank grounded packets; prefer the same original source across each pair.
+
+    A shared source is used only when EVERY side's own slice is balanced (view + fact); otherwise
+    each account picks its own best balanced packet (Oct 6: zh_industry got a 1-fact shared slice).
+    """
     grouped = {}
     for account in accounts:
         groups = {}
@@ -50,6 +60,7 @@ def select_groups(store, accounts):
     for pair in (('zh_macro', 'en_macro'), ('zh_industry', 'en_industry')):
         present = [a for a in pair if a in grouped]
         shared = (set(grouped[present[0]]) & set(grouped[present[1]])) if len(present) == 2 else set()
+        shared = {key for key in shared if all(balanced(grouped[a][key]) for a in present)}
         if shared:
             # Rank shared sources on the union; no cross-persona records enter a packet.
             candidates = [sum((grouped[a][key] for a in present), [])
@@ -60,8 +71,8 @@ def select_groups(store, accounts):
                 chosen[account] = grouped[account][key]
         else:
             for account in present:
-                ranked = rank_evidence_groups(grouped[account].values())
-                chosen[account] = ranked[0] if ranked else []
+                ranked = [g for g in rank_evidence_groups(grouped[account].values()) if balanced(g)]
+                chosen[account] = ranked[0] if ranked else []   # no balanced packet -> skip, never pure_data
     return chosen
 
 

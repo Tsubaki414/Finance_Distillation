@@ -101,3 +101,37 @@ def test_live_uses_direct_compose_and_adds_synthetic_hold(tmp_path, monkeypatch)
     example = json.loads((tmp_path / 'synthetic_arbitration_example.json').read_text())
     assert {r['arbitration']['status'] for r in example} == {'WRITE', 'HOLD'}
     assert 'Synthetic arbitration example' in (tmp_path / 'SUMMARY.md').read_text()
+
+
+def _rec(account, source, kind):
+    return {'unit_id': f'{account}-{source}-{kind}', 'licence_tier': 'A',
+            'source': {'source_hash': source, 'id': source}, 'unit': {'kind': kind}}
+
+
+def test_shared_source_needs_view_and_fact_on_every_side(monkeypatch):
+    """Oct 6: zh_industry got a 1-fact slice of the shared source (pure_data -> not_suitable)."""
+    monkeypatch.setattr(demo, 'has_valid_view', lambda unit: unit.get('kind') == 'view')
+    pools = {
+        'zh_macro': [_rec('zh_macro', 'jpm', 'view'), _rec('zh_macro', 'jpm', 'fact')],
+        'en_macro': [_rec('en_macro', 'jpm', 'view'), _rec('en_macro', 'jpm', 'fact')],
+        # shared 'summit' is balanced for EN but pure fact for ZH -> must not be shared
+        'zh_industry': [_rec('zh_industry', 'summit', 'fact'),
+                        _rec('zh_industry', 'meta', 'view'), _rec('zh_industry', 'meta', 'fact')],
+        'en_industry': [_rec('en_industry', 'summit', 'view'), _rec('en_industry', 'summit', 'fact')],
+    }
+    monkeypatch.setattr(demo, 'units_for_persona', lambda store, account, **_k: pools[account])
+    chosen = demo.select_groups(object(), list(demo.ACCOUNTS))
+    assert {r['source']['id'] for r in chosen['zh_macro']} == {'jpm'}   # balanced pair stays shared
+    assert {r['source']['id'] for r in chosen['en_macro']} == {'jpm'}
+    assert {r['source']['id'] for r in chosen['zh_industry']} == {'meta'}
+    assert {r['source']['id'] for r in chosen['en_industry']} == {'summit'}
+    assert all(demo.balanced(group) for group in chosen.values())
+
+
+def test_no_balanced_packet_means_empty_not_pure_data(monkeypatch):
+    monkeypatch.setattr(demo, 'has_valid_view', lambda unit: unit.get('kind') == 'view')
+    pools = {'zh_industry': [_rec('zh_industry', 'x', 'fact')],
+             'en_industry': [_rec('en_industry', 'x', 'fact')]}
+    monkeypatch.setattr(demo, 'units_for_persona', lambda store, account, **_k: pools[account])
+    chosen = demo.select_groups(object(), ['zh_industry', 'en_industry'])
+    assert chosen == {'zh_industry': [], 'en_industry': []}

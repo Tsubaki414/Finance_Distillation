@@ -1079,6 +1079,19 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                           'source_spans': [s['exact_text'] for s in u['source_spans']],
                           'numbers': [{k: n[k] for k in ('text', 'metric', 'period', 'span_ref')} for n in u['numbers']]}
                          for u in chosen]}
+    if frame and frame.get('credit_policy') not in (None, 'name') and frame.get('never_name'):
+        # Generic credit (sell-side via ReportGem): the bank is named in unit statements/speaker but
+        # must never reach the post (hard QA never_name_in_post, Oct 6 zh_macro wrote 摩根大通).
+        # Tell the model explicitly and hide the speaker; payload-only, so other composes are unchanged.
+        payload['never_name'] = {
+            'names': list(dict.fromkeys(frame['never_name'])),
+            'rule': ('HARD: never write any of these names in the body - in any language, translation, '
+                     'abbreviation or nickname (e.g. J.P. Morgan = 摩根大通 = 小摩) - even when a unit '
+                     'statement or speaker names them. State the view as the account call, or refer '
+                     'to it only as "sell-side research" / "券商研报"; the attached frame does the credit.')}
+        generic = (frame.get('names') or [''])[0]
+        for u in payload['units']:
+            u['speaker'] = generic
     if stance is not None:
         # Defense in depth: scrub supplied stance_output the same way stance_step does,
         # so dirty fixtures cannot teach banned cadence via thesis_lock.
