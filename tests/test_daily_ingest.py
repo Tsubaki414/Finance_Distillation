@@ -188,3 +188,19 @@ def test_incomplete_output_retries_once_on_a_shorter_source(tmp_path):
         return FakeExtract()(s)
     r=run(**setup(tmp_path), fetchers={'c':lambda:{'sources':[long]}}, extract=ex, backup=lambda:None, refresh=lambda:None)
     assert len(seen)==2 and seen[1] < seen[0] and r['channels'][0]['units']==1
+
+
+def test_preflight_local_checks_and_safe_relay_output(tmp_path, monkeypatch):
+    from scripts import daily_ingest_preflight as preflight
+    monkeypatch.setattr(preflight, 'relay_config', lambda: {
+        'configuration_source': 'REVIEW', 'base_url': 'https://api.erisedai.com/v1', 'api_key': 'secret'})
+    result = preflight.check(tmp_path/'store', tmp_path/'runs')
+    assert result['status'] == 'ok'
+    assert result['configuration_source'] == 'REVIEW'
+    assert result['host'] == 'api.erisedai.com'
+    assert 'secret' not in json.dumps(result)
+    import fcntl
+    with (tmp_path/'runs/daily_ingest.lock').open('a') as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        assert preflight.check(tmp_path/'store', tmp_path/'runs')['status'] == 'failed'
+    assert preflight.check(tmp_path/'store', tmp_path/'runs')['status'] == 'ok'

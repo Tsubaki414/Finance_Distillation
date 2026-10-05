@@ -1,5 +1,6 @@
 """Per-persona emotion tiers: HIGH retries, MID warns, LOW restrained."""
 import json
+import pytest
 
 from live import emotion_contract as ec
 from tests.test_compose import Fake, GOOD_BODY, run
@@ -42,18 +43,21 @@ def test_mid_soft_findings_without_force_retry():
     assert brief['tier'] == 'mid'
 
 
-def test_low_restrained_no_soft_findings_or_retry():
+def test_low_restrained_soft_findings_without_retry():
     pol = ec.tier_policy('en_macro')
-    assert pol['tier'] == 'low' and pol['emotion_retry'] is False and pol['soft_findings'] is False
+    assert pol['tier'] == 'low' and pol['emotion_retry'] is False and pol['soft_findings'] is True
     brief = ec.build_emotion_brief(
         [{'unit_id': '1', 'statement': 'Core PCE 0.25%', 'source_spans': [], 'numbers': []}],
         {'account_view': 'One print does not make a turn.'}, lang='en', account_id='en_macro')
     assert 2 <= brief['target_intensity'] <= 3
     assert brief['emotion_retry'] is False
+    finding = ec.emotion_findings('Core PCE was reported.', brief)[0]
+    assert finding['code'] == 'emotion_drop' and finding['level'] == 'soft'
 
 
-def test_mid_compose_warn_only_no_emotion_force_rewrite():
-    """MID attaches brief + may warn; must not force-rewrite for emotion alone."""
+@pytest.mark.parametrize('account,tier', [('zh_industry', 'mid'), ('en_macro', 'low')])
+def test_mid_compose_warn_only_no_emotion_force_rewrite(account, tier):
+    """MID/LOW attach brief + may warn; must not force-rewrite for emotion alone."""
     class AlwaysFlat(Fake):
         def __call__(self, stage, messages, max_tokens):
             self.calls.append(stage)
@@ -71,8 +75,8 @@ def test_mid_compose_warn_only_no_emotion_force_rewrite():
             return {'text': json.dumps({'body': body, 'claim_ledger': ledger}, ensure_ascii=False),
                     'finish_reason': 'stop', 'model': 'fake'}
 
-    result, fake = run(AlwaysFlat(), post_type='data_take', account='zh_industry')
-    assert result.get('emotion_brief', {}).get('tier') == 'mid'
+    result, fake = run(AlwaysFlat(), post_type='data_take', account=account)
+    assert result.get('emotion_brief', {}).get('tier') == tier
     assert result.get('emotion_brief', {}).get('emotion_retry') is False
     er = result.get('emotion_retry') or {}
     # Either no emotion_retry block, or warn_only / no EMOTION_DROP rewrite

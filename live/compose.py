@@ -529,6 +529,8 @@ def _negated_match(text, match, lang):
     prefix = text[:match.start()]
     if lang == 'zh':
         prefix = re.sub(r'\s+', '', prefix)
+        if re.search(r'(?:远?未到|不到|谈不上)$', prefix):
+            return True
         # Negator must sit right before the marker (optionally one light filler such as 会/是/必).
         # Anchoring stops 未来一定 / 非常肯定 / 不仅彻底 from reading as negated hedges.
         return bool(re.search(r'(?:并非|并不|没有|无法|不是|不|未|没|非)(?:会|是|能|太|再|必|算|够|那么|见得)?$', prefix))
@@ -539,6 +541,8 @@ def _negated_match(text, match, lang):
 
 def _zh_idiom(text, match):
     suffix = re.sub(r'\s+', '', text[match.end():])
+    if re.match(r'的?(?:确定性|把握|可能)?(?:并不?存在|是不存在)', suffix):
+        return True
     patterns = {'一定': r'程度|的|比例|规模|范围|数量|时间',
                 '绝对': r'值|收益|额|水平|数', '所有': r'权|者|制',
                 '肯定': r'了', '完全': r'取决|看|依赖'}
@@ -743,6 +747,9 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
     spec = post_types['post_types'][post_type]
     findings = [{'code': f['code'], 'detail': f['detail']}
                 for f in attribution_frame.check(post_type, text, frame, licence_tier, post_types)]
+    if pack_balance(units)['pure_data']:
+        findings.append({'code': 'thin_judgment_pack',
+                         'detail': 'Chosen pack contains facts only; no view or mechanism unit is available.'})
     size = length_of(body)
     rng = body_length(spec['length'], getattr(persona, 'voice_card', None), persona.lang)
     if not spec['length'].get('follows_source') and not rng['min'] <= size <= rng['max']:
@@ -953,6 +960,9 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                          for u in chosen]}
     if stance is not None:
         payload['stance'] = stance
+        if pack_balance(chosen)['pure_data'] and stance.get('account_view'):
+            payload['pack_guidance'] = ('Line 1 must still be the account call from stance.account_view. '
+                                        'Use facts as evidence; do not invent non-fact units.')
     from live import emotion_contract as ec
     import os as _os
     # Master off-switch for recorded/hash stability; per-persona tiers gate retry.

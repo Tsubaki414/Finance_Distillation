@@ -203,7 +203,8 @@ def emotion_findings(body, brief):
     findings = []
     has_reaction = first_two_have_reaction(body)
     # Soft gate: missing a real reaction in the first two lines (intensity is advisory).
-    if target >= 3 and not has_reaction:
+    if not has_reaction and ((brief.get('tier') == 'low' and (intensity < target or target >= 2))
+                             or (brief.get('tier') != 'low' and target >= 3)):
         findings.append({
             'code': 'emotion_drop',
             'level': 'soft',

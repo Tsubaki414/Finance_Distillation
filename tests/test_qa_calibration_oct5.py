@@ -168,3 +168,43 @@ def test_attitude_openings_count_as_reaction(body):
 
 def test_calm_recap_still_lacks_reaction():
     assert not ec.first_two_have_reaction('Rate expectations are not driving Bitcoin right now. Odds fell from 66% to 22%.')
+
+
+@pytest.mark.parametrize('body', [
+    '还远未到板上钉钉的程度。', '未到板上钉钉的地步。',
+    '不到板上钉钉的水平。', '谈不上板上钉钉。',
+    '百分之百的确定性并不存在，但方向清楚。',
+    '百分之百的把握并不存在。', '百分之百的可能并不存在。',
+    '百分之百是不存在的。',
+])
+def test_zh_distance_and_certainty_denials(body):
+    assert not compose.certainty_findings(body, [], {}, 'zh')
+
+
+@pytest.mark.parametrize('body', ['板上钉钉要降息了', '毫无疑问会降息', '很显然需求已经见顶'])
+def test_zh_unhedged_certainty_still_fires(body):
+    assert compose.certainty_findings(body, [], {}, 'zh')
+
+
+@pytest.mark.parametrize('kind,expected', [('fact', True), ('view', False), ('mechanism', False)])
+def test_thin_judgment_pack_fake_compose(kind, expected, monkeypatch):
+    monkeypatch.setenv('FD_PACK_AUGMENT', '0')
+    from copy import deepcopy
+    from tests.test_judgment_redesign import _units_fact_only, _units_with_view
+    from tests.test_compose import UNITS
+    units = _units_fact_only() if kind == 'fact' else (_units_with_view() if kind == 'view' else UNITS)
+    class PackSpy(Fake):
+        def __call__(self, stage, messages, max_tokens):
+            if stage == 'compose':
+                self.payload = json.loads(messages[-1]['content'])
+            return super().__call__(stage, messages, max_tokens)
+    fake = PackSpy(units=deepcopy(units))
+    result = compose.compose_source(SOURCE, 'zh_industry', fake, post_type='data_take',
+                                    stance_output={'decision': 'adapt', 'account_view': '供给偏紧，被高估。'})
+    assert ('pack_guidance' in fake.payload) == expected
+    if expected:
+        assert 'stance.account_view' in fake.payload['pack_guidance']
+        assert 'do not invent' in fake.payload['pack_guidance']
+    findings = [f for f in result['post_checks'] if f['code'] == 'thin_judgment_pack']
+    assert bool(findings) == expected
+    assert all(f['level'] == 'soft' for f in findings)

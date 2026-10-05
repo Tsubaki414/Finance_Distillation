@@ -20,7 +20,7 @@
       "target_intensity": 2,
       "target_intensity_max": 3,
       "emotion_retry": false,
-      "soft_findings": false,
+      "soft_findings": true,
       "include_brief": true
     }
   },
