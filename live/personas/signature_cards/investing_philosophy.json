@@ -105,9 +105,9 @@
  ],
  "openings": [
   "A flat declarative truth stated as law (\"The market can forgive...\")",
-  "A precise data point or backtest (\"The optimal portfolio of the last 54 years had...\")",
-  "A label that marks a contrarian stance (\"Non consensus view:\")",
-  "A rhetorical hook that flips an assumption (\"What if I told you...\" / \"Most X answer a question nobody asks\")"
+  "A label that marks a contrarian stance, with the claim in the same line (\"Non consensus view: …\")",
+  "A one-line assumption flip stated as a claim, not a question (\"Most X answer a question nobody asks.\")",
+  "The lesson first, then one backtest or data point as evidence on line 2 (never the backtest as line 1)"
  ],
  "closings": [
   "A one-line rule that sums up the post (\"The worst time to invent your rules is while you're trading.\")",
@@ -537,5 +537,6 @@
     "professional": 4
    }
   }
- ]
+ ],
+ "openings_note": "Oct5 root-cause rewrite: openings are judgment/call-first; data-led, source-first, news-recap and calendar openings removed (they fought the judgment-first COMPOSE rules)."
 }

@@ -100,10 +100,10 @@
   ],
   "lexicon_dropped": [],
   "openings": [
-    "一句话标题式陈述事实，里面带关键数字（如“23 亿枚增发，他拿走 229 万”）",
-    "新闻加破折号“——”，紧接着给出定性",
-    "直接抛出反问，戳中圈内的双重标准",
-    "先把事件讲清楚，比如谁、什么时候、做了什么"
+    "一句定性判断开头：直接说这件事意味着什么（如「当前比特币的定价逻辑已脱离货币政策预期」），数字放到第二行当证据",
+    "事件只用半句点到，紧跟破折号「——」给出定性；第一句的重心是定性，不是事件经过",
+    "用反问戳破圈内的双重标准，反问本身就是立场（不是没有答案的设问）",
+    "先下结论再补事件：结论一句，谁/何时/做了什么压缩成一句证据"
   ],
   "closings": [
     "一句冷峻的短句，重复那个反差数字",
@@ -556,5 +556,6 @@
       "text": "Time for DATs to reinvent themselves.\nRaising money only when markets are insanely expensive is backwards."
     }
   ],
-  "zh_restraint_note": "Short ZH openings that commit a call without inventing crowd feelings or absolute certainty; preferred as style exemplars to cut over-claiming."
+  "zh_restraint_note": "Short ZH openings that commit a call without inventing crowd feelings or absolute certainty; preferred as style exemplars to cut over-claiming.",
+  "openings_note": "Oct5 root-cause rewrite: openings are judgment/call-first; data-led, source-first, news-recap and calendar openings removed (they fought the judgment-first COMPOSE rules)."
 }

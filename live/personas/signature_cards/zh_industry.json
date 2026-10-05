@@ -114,10 +114,10 @@
   ],
   "lexicon_dropped": [],
   "openings": [
-    "用设问抛出下一个约束：「GPU够了，HBM够了，然后呢？」",
-    "点名一条消息并定性：「老黄这条推信息量很大。」",
-    "开头一句短陈述就是事实：「Jeff Pu翻多了。」",
-    "先交代来源，再补充供应链细节（如「補充郭明錤關於…的調查」，或开头直接写$代码加Bloomberg报道）"
+    "需求 vs 供给的判断句开头：先说方向能不能成立（「需求高于供给这个方向能成立。」），第二句再点出还缺哪条证据",
+    "对定价权泼冷水：直接说证据还撑不起什么（「转化数据不错，但定价权能否持续还没被证明。」）",
+    "点出约束卡在哪一环并直接下判断（「瓶颈搬到了X，定价权跟着走。」）：判断句，不是设问，也不是供应链清单",
+    "表面 vs 实质一句定性：第一句是自己的定性，消息本身最多半句带过（出处由系统署名，不写进开头）"
   ],
   "closings": [
     "一句很短的反向结论：点出还缺哪条证据，或什么条件会推翻判断。",
@@ -572,5 +572,14 @@
       "text": "CRCL 为什么最近利好这么多还不涨新高呢\n1、清晰法案被否了之后 Plan B 计划开始\n2、币安购买了 1 亿美金 CRCL 股票\n3、再传出美国要推"
     }
   ],
-  "zh_restraint_note": "Short ZH openings that commit a call without inventing crowd feelings or absolute certainty; preferred as style exemplars to cut over-claiming. Oct5: stripped Fiona-banned fillers; added anti-研报腔 POS exemplar."
+  "zh_restraint_note": "Short ZH openings that commit a call without inventing crowd feelings or absolute certainty; preferred as style exemplars to cut over-claiming. Oct5: stripped Fiona-banned fillers; added anti-研报腔 POS exemplar.",
+  "openings_note": "Oct5 root-cause rewrite: openings are judgment/call-first; data-led, source-first, news-recap and calendar openings removed (they fought the judgment-first COMPOSE rules).",
+  "hard_constraints": [
+    "第一句就是判断（需求能否撑住供给、定价权能否保住），不是事实、消息来源或新闻复述。",
+    "全文最多引用 2 个数字。",
+    "不写研报腔：不铺供应链清单，不写「拆解一下/具体数据」，不分点罗列。",
+    "结尾落在可证伪的判断上：说清什么数据出来就说明判断错了。",
+    "用不上的单位就不用，不要把每条事实都塞进正文。",
+    "不加「我的判断：」这类标签包装，判断直接写成一句话。"
+  ]
 }

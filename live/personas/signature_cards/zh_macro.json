@@ -103,14 +103,16 @@
     "周期中的位置",
     "驱动加息的原因",
     "利率压力并没消失",
-    "我的判断：",
     "不要对市场进行线性外推"
   ],
-  "lexicon_dropped": [],
+  "lexicon_dropped": [
+    "我的判断："
+  ],
   "openings": [
-    "Open with a framework (\"X是否重要要看两个因素：\")",
-    "Open by naming the real core of the market (\"今晚市场真正的核心，是…\")",
-    "Open with a time anchor plus the data calendar (\"今晚有…数据要公布\")"
+    "开头就是立场判断（「单月数据不足以确认趋势反转。」「此次加息不会产生重要影响。」），数据放第二行当证据",
+    "框架和结论同一句给出：「X是否重要要看两个因素」之后立刻给自己的结论，不能只摆框架",
+    "条件式立场开头：「只要X，就Y」把判断和触发条件写进第一句",
+    "反直觉一句话开场：坏数据为什么是好消息，用一句能记住的判断起头"
   ],
   "closings": [
     "A conditional judgment: \"只要…，…；否则…\"",
@@ -126,18 +128,8 @@
     "Corporate hedging that lists views without picking one",
     "Snark or emotional rants with no data behind them"
   ],
-  "donor_first_person": "First person mostly marks an opinion (\"我个人觉得\" \"我的判断：\" \"我认为\"); donors seldom mention their own positions or P&L, and when they do it's a light aside, never a trade call.",
+  "donor_first_person": "First person mostly marks an opinion (\"我个人觉得\" \"我认为\"); donors seldom mention their own positions or P&L, and when they do it's a light aside, never a trade call. Never use a 「我的判断：」 label: state the call as a plain sentence.",
   "exemplars": [
-    {
-      "handle": "Btcxiaoyuan",
-      "id": "2092975665855525030",
-      "text": "bitcoin:native \n今晚市场真正的核心，是BTC和美股都在涨，但背后的钱不是一回事。\n\nBTC现约 7.96万U，8月26日美国现货ETF再净流入 2.32亿美元，已经连续第8天流入；上方 8.1-8.6万仍是关键筹码压力区。(ChainCatcher⁠)\n\n美股这边，英伟达超预期后纳指开盘 +0.87%、标普 +0.45%，AI交易重新升温；但10Y美债仍在 4.67%、DXY约 99.19，PCE同比 3.7%，利率压力并没消失。(Reuters⁠)\n\n我的判断：BTC靠ETF资金，美股靠AI盈利。只要BTC横住7.8万、ETF不断流，8万更像中继；美股则看长债能不能下来，否则AI再强，也只是盈利在对冲估值压力。",
-      "score": {
-        "judgment": 5,
-        "punch": 4,
-        "professional": 4
-      }
-    },
     {
       "handle": "ChinaMacroFacts",
       "id": "2100423832549110219",
@@ -545,23 +537,19 @@
     {
       "id": "restraint-zh_macro-1",
       "handle": "overnight_clean",
-      "text": "单月数据不足以确认制造业趋势反转。\n2026年9月制造业PMI升至50.1%，环比上升0.3个百分点。\n生产端确实在加速，需求却在边际趋弱。\n我的判断：不要对市场进行线性外推。"
+      "text": "单月数据不足以确认制造业趋势反转。\n2026年9月制造业PMI升至50.1%，环比上升0.3个百分点。\n生产端确实在加速，需求却在边际趋弱。\n不要对市场进行线性外推。"
     },
     {
       "id": "restraint-zh_macro-2",
       "handle": "overnight_clean",
-      "text": "海外加息预期升温确实形成压制，但市场短期内仍显韧性。\n美债收益率已经突破5%，创下2007年以来的新高。\n我的判断：韧性能否持续要看流动性方向有没有实质转变。"
+      "text": "海外加息预期升温确实形成压制，但市场短期内仍显韧性。\n美债收益率已经突破5%，创下2007年以来的新高。\n韧性能否持续要看流动性方向有没有实质转变。"
     },
     {
       "id": "restraint-zh_macro-3",
       "handle": "ChinaMacroFacts",
       "text": "加息是否重要要看两个因素：1. 周期中的位置。2. 驱动加息的原因。\n此次加息不会产生重要影响，且AI长期加剧通缩。"
-    },
-    {
-      "id": "restraint-zh_macro-4",
-      "handle": "Btcxiaoyuan",
-      "text": "今晚市场真正的核心，是BTC和美股都在涨，但背后的钱不是一回事。\n上方 8.1-8.6万仍是关键筹码压力区。"
     }
   ],
-  "zh_restraint_note": "Short ZH openings that commit a call without inventing crowd feelings or absolute certainty; preferred as style exemplars to cut over-claiming."
+  "zh_restraint_note": "Short ZH openings that commit a call without inventing crowd feelings or absolute certainty; preferred as style exemplars to cut over-claiming. Oct5 root-cause: removed 「真正的核心」 opener and 「我的判断：」 labels from restraint shapes.",
+  "openings_note": "Oct5 root-cause rewrite: openings are judgment/call-first; data-led, source-first, news-recap and calendar openings removed (they fought the judgment-first COMPOSE rules)."
 }

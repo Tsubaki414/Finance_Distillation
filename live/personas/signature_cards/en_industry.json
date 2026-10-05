@@ -111,10 +111,10 @@
   ],
   "lexicon_dropped": [],
   "openings": [
-    "A declarative thesis that names the real driver ('The memory supply-demand gap will keep widening through 2027.')",
-    "A sourced data point stated flatly (company + number + effective date)",
-    "A quote or report excerpt, followed by the writer's own read",
-    "A contrarian framing line ('There is no Fedwire for the internet.' / 'Real estate on the compute die is extremely valuable, yet…')"
+    "A conditional demand-vs-supply call ('The demand story only holds if visible orders keep pace with the capex.')",
+    "A skeptical pricing-power verdict that names what the evidence does not prove yet ('Customer agreements are not margins.' / 'Early adoption is not pricing power.')",
+    "A declarative thesis naming the binding constraint (which side, demand or supply, is short), one claim and no figures in line 1",
+    "A contrarian framing line that flips the consensus read ('Real estate on the compute die is extremely valuable, yet…')"
   ],
   "closings": [
     "A dry one-line kicker that turns the evidence against the hype ('So much for … calling for an AI slowdown?')",
@@ -555,5 +555,14 @@
       "lesson": "Question supply vs visible demand; agreements ≠ margins; no valuation talk",
       "text": "The demand story only holds if visible orders keep pace with the capex.\nCustomer agreements are not margins.\nWithout hard supply data, calling next year stronger is just a narrative."
     }
+  ],
+  "openings_note": "Oct5 root-cause rewrite: openings are judgment/call-first; data-led, source-first, news-recap and calendar openings removed (they fought the judgment-first COMPOSE rules).",
+  "hard_constraints": [
+    "Line 1 is the judgment (does demand outrun supply, does pricing power hold), never a filing fact, quote or news recap.",
+    "Cite at most 2 numbers in the whole body.",
+    "No research-note / sell-side cadence: no supply-chain walk-through, no 'let's break it down', no bullet list of facts.",
+    "End on a falsifiable call: name the data point that would prove it wrong.",
+    "Leave unused units unused; do not cite every supplied fact.",
+    "No meta-label wrappers ('My read is', 'The catch?', 'My take:', 我的判断：); state the call plainly."
   ]
 }

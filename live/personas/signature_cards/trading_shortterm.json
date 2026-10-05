@@ -116,10 +116,10 @@
  ],
  "lexicon_dropped": [],
  "openings": [
-  "A hard number on the tape right now (\"SPX lost about 40 points in the last hour...\")",
-  "A named instrument and what it just did (\"$TLT ... has an IV Rank of 100\")",
-  "A short provocative claim or question (\"Front-month NYMEX crude at $76 feels a bit crazy.\")",
-  "A direct call-out to a group of traders (\"HEY CHART SWING TRADERS\")"
+  "A short provocative claim on the tape (\"Front-month NYMEX crude at $76 feels a bit crazy.\"): the claim, not the print, is the point",
+  "A risk-discipline call (\"Not a buyer here until X reclaims Y.\" / \"Respect the trend until it breaks.\")",
+  "A direct call-out to a group of traders that carries the warning itself (\"HEY CHART SWING TRADERS: this breakout has no volume behind it.\")",
+  "[data_take only] A hard number on the tape right now (\"SPX lost about 40 points in the last hour...\"); never use this data-led open for judgment_take / contrarian_take / view_relay."
  ],
  "closings": [
   "A one-word or one-line position or target (\"Bought.\" / \"Pin 6475.\")",
@@ -549,5 +549,6 @@
     "professional": 4
    }
   }
- ]
+ ],
+ "openings_note": "Oct5 root-cause rewrite: openings are judgment/call-first; data-led, source-first, news-recap and calendar openings removed (they fought the judgment-first COMPOSE rules)."
 }

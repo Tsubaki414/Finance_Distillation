@@ -111,10 +111,10 @@
   ],
   "lexicon_dropped": [],
   "openings": [
-    "Correct the record on a figure: 'I amplified X's number... and it doesn't seem to check out.'",
     "Contrarian thesis up front: 'Lots of scary talk in bonds these days, but it's mostly recency bias.'",
-    "Set up a gap: 'What was interesting about the ... comments was that...' / 'You have heard about X. There is one for Y too.'",
-    "Data-calendar framing: 'August PCE figures, due Wednesday morning, are subject to...'"
+    "Correct the record as a verdict: say the widely shared figure does not check out; the figure itself comes after",
+    "A gap the writer has a view on, with the view in the same sentence ('What was interesting about the … comments was that …')",
+    "A conditional macro call with its trigger in line 1 (the Fed / curve / dollar call, then the condition that keeps it true)"
   ],
   "closings": [
     "A conditional forward view with a concrete trigger: 'I do think… if soft data keeps printing.'",
@@ -546,5 +546,6 @@
         "professional": 3
       }
     }
-  ]
+  ],
+  "openings_note": "Oct5 root-cause rewrite: openings are judgment/call-first; data-led, source-first, news-recap and calendar openings removed (they fought the judgment-first COMPOSE rules)."
 }

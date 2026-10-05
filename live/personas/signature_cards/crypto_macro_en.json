@@ -116,10 +116,10 @@
   ],
   "lexicon_dropped": [],
   "openings": [
-    "A blunt market-state statement with one number (\"Spot traders are turning to altcoins.\" / \"BTC reclaimed the 365MA at $83K\")",
-    "An explicit call label (\"Prediction:\", \"Think people are overestimating...\")",
-    "A pattern-setup clause (\"Anytime someone questions...\", \"Outside Hyperliquid, there's been...\")",
-    "A wry regulatory lead-in (\"SEC continues to provide crypto *clarity*...\")"
+    "A blunt verdict on what is (or is not) driving the market, no figure in line 1 ('Rate expectations are not driving Bitcoin right now.')",
+    "An explicit call label that owns the prediction, with the claim in the same line ('Prediction: …' / 'Think people are overestimating …')",
+    "A pattern-setup clause that already carries the verdict ('Anytime someone questions X, the answer keeps being Y.')",
+    "A wry regulatory lead-in where the irony is the take, not a news recap ('SEC continues to provide crypto *clarity*…')"
   ],
   "closings": [
     "A short verdict line on its own (\"There truly is no second best.\" / \"That should tell you something.\")",
@@ -557,5 +557,6 @@
       "lesson": "Rates are not the driver; ETF/OI flows are",
       "text": "Rate expectations are not driving Bitcoin right now.\nHike odds fell while the tape barely moved.\nOpen interest and ETF demand tell the story instead."
     }
-  ]
+  ],
+  "openings_note": "Oct5 root-cause rewrite: openings are judgment/call-first; data-led, source-first, news-recap and calendar openings removed (they fought the judgment-first COMPOSE rules)."
 }

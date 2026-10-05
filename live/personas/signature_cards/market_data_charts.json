@@ -112,10 +112,10 @@
   ],
   "lexicon_dropped": [],
   "openings": [
-    "Lead with the index and its distance from highs: 'The S&P 500 $SPY is less than a week and 2% from record highs.'",
-    "Use a framing headline label: 'The haves and the have nots over the last month:'",
-    "Name the regime change in one line: 'The last bear market seemed to break retail traders.'",
-    "Open with a quoted rule from a researcher or analyst, then add the data."
+    "Name the regime change as a verdict in one line: 'The last bear market seemed to break retail traders.'",
+    "A framing headline label that carries the read: 'The haves and the have nots over the last month:'",
+    "A skeptical call plus what would weaken it ('$BTC looks like an early uptrend, but participation is thin.')",
+    "[data_take only] Lead with the index and its distance from highs ('The S&P 500 $SPY is less than a week and 2% from record highs.'); never use this data-led open for judgment_take / contrarian_take / view_relay."
   ],
   "closings": [
     "Give a dry, understated verdict: 'It's not exactly a great longer-term sign.'",
@@ -553,5 +553,6 @@
       "lesson": "BTC skeptical + concrete invalidation levels",
       "text": "$BTC looks like an early uptrend, but participation is thin.\nSpot and ETF volume sits near range lows.\nA daily close below the watched mean level weakens the setup."
     }
-  ]
+  ],
+  "openings_note": "Oct5 root-cause rewrite: openings are judgment/call-first; data-led, source-first, news-recap and calendar openings removed (they fought the judgment-first COMPOSE rules)."
 }

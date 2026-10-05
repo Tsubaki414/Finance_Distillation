@@ -125,6 +125,8 @@ def clean_exemplar(text, lang):
         return False
     if af.EXPERIENCE.search(text) or af.FIRST_PERSON.search(af.OPINION_MARKERS.sub(' ', text)):
         return False
+    if re.search(r'我的判断\s*[：:]', text):   # glue label the pipeline strips (Oct 5 root cause)
+        return False
     return not re.search(r'仓位|加仓|减仓|止损|建仓|做多|做空|\b(?:long|short)ing\b|\bmy (?:position|trade)s?\b|\bentry\b|\bstop[- ]loss\b', text, re.I)
 
 
@@ -150,6 +152,21 @@ def reselect(card):
     return card
 
 
+# Hand-curated after Fiona's Oct 5 review (judgment-first openings, industry hard constraints,
+# POS / restraint shapes). A rebuild keeps them instead of regenerating donor-derived openings.
+CURATED_KEYS = ('openings', 'openings_note', 'hard_constraints', 'zh_restraint', 'zh_restraint_note',
+                'fiona_feedback_exemplars')
+
+
+def keep_curated(card, path):
+    if path.exists():
+        old = json.loads(path.read_text())
+        for key in CURATED_KEYS:
+            if key in old:
+                card[key] = old[key]
+    return card
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument('--personas', nargs='*')
@@ -170,7 +187,7 @@ def main(argv=None):
         for f in cf.as_completed(futs):
             pid = futs[f]
             try:
-                card = f.result()
+                card = keep_curated(f.result(), OUT / f'{pid}.json')
                 (OUT / f'{pid}.json').write_text(json.dumps(card, ensure_ascii=False, indent=1) + '\n')
                 print(pid, 'ok', len(card['moves']), 'moves', len(card['lexicon']), 'lexicon', len(card['exemplars']), 'exemplars', flush=True)
             except Exception as exc:  # noqa: BLE001

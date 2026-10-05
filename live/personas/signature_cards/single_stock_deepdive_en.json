@@ -107,10 +107,10 @@
   ],
   "lexicon_dropped": [],
   "openings": [
-    "Ticker plus colon plus the headline metric: \"$FDS: 7% organic subscription-value growth.\"",
-    "Timing frame before a print: \"Before $LEVI reports Oct 7:\" followed by last quarter's numbers",
     "A flat contrarian correction of the consensus framing: \"Not suddenly a structural darling...\"",
-    "Filing news as a hook: \"$OURA Oura is targeting a $15.6B valuation. The updated S-1 reveals:\""
+    "Ticker plus colon plus a one-clause verdict on what the print proves (\"$TICKER: growth is price, volume is flat.\"), not the headline metric",
+    "A before-the-print stance: name the one thing that decides the quarter (\"Before $TICKER reports: the guide matters more than the beat.\")",
+    "Filing news as a hook only when the same line states the read (\"The updated S-1 shows the valuation rests on one product.\")"
   ],
   "closings": [
     "Name the next test or metric to watch",
@@ -540,5 +540,6 @@
         "professional": 4
       }
     }
-  ]
+  ],
+  "openings_note": "Oct5 root-cause rewrite: openings are judgment/call-first; data-led, source-first, news-recap and calendar openings removed (they fought the judgment-first COMPOSE rules)."
 }
