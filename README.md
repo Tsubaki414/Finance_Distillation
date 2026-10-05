@@ -129,7 +129,6 @@ bash scripts/run_tests.sh
 
 ## 相关路径
 
-- 账号外壳（显示名 / handle / bio）：[`docs/persona_account_shells.md`](docs/persona_account_shells.md)
 
 - 人设与账号：`live/accounts.json`、`live/personas/`
 - 成稿模型：`live/stage_models.json`
