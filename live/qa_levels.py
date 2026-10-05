@@ -19,7 +19,7 @@ SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_u
                   'trade_reco_soft', 'author_identity', 'code_fence', 'translated_quote', 'exemplar_phrase_copied', 'research_summary', 'certainty_overreach', 'contradicts_prior_view', 'ignores_prior_view', 'view_not_recorded', 'cross_persona_claim_duplicate', 'thesis_grounding', 'emotion_drop', 'emotion_overfire', 'thin_judgment_pack', 'stylistic_repeat', 'judgment_label', 'phrase_ban', 'duplicate_topic', 'verify_source', 'info_dump', 'stance_cadence', 'verbatim_line1'})
 FIXES = {
     'stylistic_repeat': 'Vary the repeated stylistic phrase and closing; retain source facts.',
-    'judgment_label': 'Drop the 「我的判断：」 label; state the judgment directly as a plain sentence.',
+    'judgment_label': 'Drop the 「我的判断：」/「以我个人判断，」/「个人判断：」 label; state the judgment directly as a plain sentence.',
     'phrase_ban': 'Rephrase without the flagged filler or stylistic template.',
     'duplicate_topic': 'Continue the prior thread with a new beat, or switch subject/ticker.',
     'verify_source': 'Check the original source number and period with a human before publishing; do not invent a replacement.',

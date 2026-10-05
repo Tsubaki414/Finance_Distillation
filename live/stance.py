@@ -10,7 +10,7 @@ Apply the persona stance, beliefs and rejects. Write account_view as ONE plain c
 sentence in the persona language - the account's own call, not a meta-label.
 Rules for account_view:
 - ONE sentence only; prefer a concrete falsifiable call (what would break the view).
-- NO meta-labels: 我的判断： / 我的看法： / "my read" / "The catch?" / "My take:".
+- NO meta-labels: 我的判断： / 以我个人判断， / 个人判断： / 我的看法： / "my read" / "The catch?" / "My take:".
 - NO banned filler families: 还早着呢, 才是关键, 真正的核心, 真正的问题, valuation-free optimism,
   Calling a strong chance, is a start, supply-discipline check (as empty slogan), door metaphors
   (before that door closes / that door closes), 链路往下推, 每一环的议价权, 这才是要分开看的地方.
@@ -39,14 +39,19 @@ BANNED_PHRASES = (
     'valuation-free optimism', 'Calling a strong chance', 'is a start',
     'supply-discipline check', 'before that door closes', 'that door closes',
     'my read is that', 'my read is', 'The catch?',
+    '以我个人判断', '个人判断：', '个人判断:',
 )
 META_LABEL_RES = (
     re.compile(r'^\s*我的判断\s*[：:]\s*'),
+    re.compile(r'^\s*以我个人判断\s*[，,：:]?\s*'),
+    re.compile(r'^\s*我?个人判断\s*[：:]\s*'),
     re.compile(r'^\s*我的看法\s*[：:]\s*'),
     re.compile(r'^\s*(?:My\s+)?(?:read|take|view)\s*(?:is\s*)?[:：]\s*', re.I),
     re.compile(r'^\s*The\s+catch\?\s*', re.I),
 )
 _SAFE_STRIP = (
+    re.compile(r'以我个人判断\s*[，,：:]?\s*'),
+    re.compile(r'我?个人判断\s*[：:]\s*'),
     re.compile(r'才是关键'),
     re.compile(r'还早着呢[。！？!?]?'),
     re.compile(r'真正的核心'),

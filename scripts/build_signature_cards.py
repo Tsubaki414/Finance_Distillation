@@ -125,7 +125,7 @@ def clean_exemplar(text, lang):
         return False
     if af.EXPERIENCE.search(text) or af.FIRST_PERSON.search(af.OPINION_MARKERS.sub(' ', text)):
         return False
-    if re.search(r'我的判断\s*[：:]', text):   # glue label the pipeline strips (Oct 5 root cause)
+    if re.search(r'我的判断\s*[：:]|以我个人判断|个人判断\s*[：:]', text):   # glue label the pipeline strips (Oct 5 root cause)
         return False
     return not re.search(r'仓位|加仓|减仓|止损|建仓|做多|做空|\b(?:long|short)ing\b|\bmy (?:position|trade)s?\b|\bentry\b|\bstop[- ]loss\b', text, re.I)
 

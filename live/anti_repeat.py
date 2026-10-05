@@ -11,7 +11,10 @@ ZH = ('还早着呢', '还要再看', '才是关键', '才值得看', '真正的
 EN = ('my read is that', 'the catch?', 'valuation-free', 'supply-discipline check',
       'Calling a strong chance', 'is a start.', 'is a start', 'That said,', 'before that door closes',
       'that door closes')
-LABEL = re.compile(r'(?m)^\s*我的判断(?:\s*[：:]\s*|[ \t]+)|我的判断[：:]\s*')
+# Judgment glue labels (same family): 我的判断： / 以我个人判断(，) / 个人判断：
+LABEL = re.compile(r'(?m)^\s*(?:我的判断|我?个人判断)(?:\s*[：:]\s*|[ \t]+)'
+                   r'|以我个人判断\s*[，,：:]?\s*'
+                   r'|(?:我的|我?个人)判断[：:]\s*')
 
 
 def strip_judgment_label(body):
@@ -125,8 +128,9 @@ def findings(body, persona_id, *, units=None, stance=None, source=None, now=None
     out = [{'code': 'phrase_ban', 'detail': phrase} for phrase in ZH + EN if phrase.casefold() in body.casefold()]
     if re.search(r'这才是[^。！？\n]{1,30}的地方', body):
         out.append({'code': 'phrase_ban', 'detail': '这才是…的地方'})
-    if strip_judgment_label(body)[1]:
-        out.append({'code': 'judgment_label', 'detail': '我的判断：'})
+    label = LABEL.search(body)
+    if label:
+        out.append({'code': 'judgment_label', 'detail': label.group(0).strip() or '我的判断：'})
     recent = load_recent(persona_id) if recent is None else recent
     grams, closing = _style_tokens(body, units), _closing(body, units)
     for row in recent[-30:]:
