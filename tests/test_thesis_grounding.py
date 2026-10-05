@@ -78,7 +78,7 @@ def test_compose_retries_once_on_en_consensus_soft():
                     'finish_reason': 'stop', 'model': 'fake'}
 
     result, fake = run(Alternating(), post_type='data_take', account='en_macro')
-    assert fake.calls.count('compose') == 2
+    assert fake.calls.count('compose') >= 2  # grounding retry; emotion may add another soft retry
     assert result.get('grounding_retry', {}).get('attempted') is True
     assert result['grounding_retry']['kept'] == 'retry'
     assert 'UNSUPPORTED_CONSENSUS_CLAIM' in result['grounding_retry']['first_reason_codes']
