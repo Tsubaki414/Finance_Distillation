@@ -31,7 +31,12 @@ REASON_CODES = (
     'CLAIM_STRENGTH_UPGRADE',
 )
 
-REPAIR_TRIGGERS = frozenset(REASON_CODES)
+# High-precision codes: soft finding + one compose retry.
+# OFF_THESIS / UNSUPPORTED_NEW_CLAIM stay as span labels (advisory) — deterministic
+# number matching is too noisy across 亿/$ formats to auto-repair without false positives.
+REPAIR_TRIGGERS = frozenset({
+    'UNSUPPORTED_CONSENSUS_CLAIM', 'ANALOGY_AS_EVIDENCE', 'CLAIM_STRENGTH_UPGRADE',
+})
 
 # Fixed repair instructions by reason code (compose rewrite_note). thesis_repair vs grounding_repair.
 REPAIR_FAMILY = {
