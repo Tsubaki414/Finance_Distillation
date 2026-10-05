@@ -129,17 +129,20 @@ def run(out, cap, *, live=False, command=''):
             from live.erisedai_distillation_client import ErisedaiClient, relay_config
             from live import stage_models
             compose_ab.relay_env()
+            # Cheap HTTP probes first (no budget burn beyond optional later client call).
+            gemini = compose_ab.probe('gemini-3.1-pro-preview', (compose_ab.MICU, 'GEMINI_RELAY_API_KEY'))
+            opus = compose_ab.probe('claude-opus-5', (compose_ab.ERISED, 'RELAY_API_KEY'))
+            if not gemini.get('available'):
+                raise RuntimeError(f"compose relay unavailable: {gemini}")
+            if not opus.get('available'):
+                raise RuntimeError(f"stance relay unavailable: {opus}")
             configuration = relay_config()
             configuration['stage_models'] = stage_models.load()
             client = ErisedaiClient(out / 'calls', configuration=configuration)
-            # Both probes use the same reservation/settlement path as real calls.
-            for stage in ('stance', 'compose'):
-                response = client(stage, [{'role': 'user', 'content': 'Reply with JSON {"ok": true}'}], 64)
-                if response.get('finish_reason') != 'stop' or json.loads(response['text']).get('ok') is not True:
-                    raise ValueError('Relay probe did not return ok=true')
-            notes.append('Live relay probes passed using shipped stage models.')
+            notes.append('Live relays probed OK (gemini compose + opus stance path).')
+            notes.append(f"probe_gemini={gemini.get('response_model')}; probe_opus={opus.get('response_model')}")
         except Exception as exc:
-            reason = f'Live probe unavailable: {type(exc).__name__}; remaining slots synthetic.'
+            reason = f'Live probe unavailable: {type(exc).__name__}: {exc}; remaining slots synthetic.'
             notes.append(reason)
             client = None
     selected = select_groups(ContentStore(compose_ab.STORE), accounts) if client else {}

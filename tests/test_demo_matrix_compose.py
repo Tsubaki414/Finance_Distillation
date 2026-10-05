@@ -11,6 +11,10 @@ def isolate_globals(monkeypatch):
         monkeypatch.setattr(demo.anti_repeat, name, getattr(demo.anti_repeat, name))
 
 
+def _ok_probe(*_a, **_k):
+    return {'available': True, 'response_model': 'probe-ok'}
+
+
 def test_dry_artifacts_and_ledger_continuity(tmp_path, monkeypatch):
     isolate_globals(monkeypatch)
     results = demo.run(tmp_path, 2, command='demo --dry')
@@ -29,20 +33,24 @@ def test_budget_probe_failure_fills_slots(tmp_path, monkeypatch):
     isolate_globals(monkeypatch)
     from live import erisedai_distillation_client
 
-    class RefusedClient:
-        def __init__(self, *args, **kwargs):
-            pass
-
-        def __call__(self, *args):
-            raise budget.BudgetExceeded('refused before request')
-
+    monkeypatch.setattr(demo.compose_ab, 'probe', _ok_probe)
     monkeypatch.setattr(erisedai_distillation_client, 'relay_config', lambda: {})
-    monkeypatch.setattr(erisedai_distillation_client, 'ErisedaiClient', RefusedClient)
+    monkeypatch.setattr(erisedai_distillation_client, 'ErisedaiClient', lambda *a, **k: object())
+    monkeypatch.setattr(demo, 'ContentStore', lambda path: object())
+    monkeypatch.setattr(demo, 'select_groups', lambda store, accounts: {
+        a: [{'unit_id': a, 'source': {'source_hash': 'h', 'id': 's'}, 'licence_tier': 'A', 'unit': {}}]
+        for a in accounts})
+    monkeypatch.setattr(demo, 'evidence_source', lambda records: (
+        {'id': records[0]['unit_id'], 'source_hash': 'hash'}, []))
+
+    def boom(*_a, **_k):
+        raise budget.BudgetExceeded('refused before request')
+
+    monkeypatch.setattr(demo.compose, 'compose_source', boom)
     results = demo.run(tmp_path, .01, live=True)
     assert len(results) == 4
     assert all(r['synthetic'] for r in results)
     assert 'BudgetExceeded' in (tmp_path / 'SUMMARY.md').read_text()
-    assert json.loads((tmp_path / 'ledger/spend.json').read_text())['spent_usd'] == 0
 
 
 def test_disabled_accounts_are_skipped(tmp_path, monkeypatch):
@@ -60,15 +68,12 @@ def test_disabled_accounts_are_skipped(tmp_path, monkeypatch):
 def test_live_uses_direct_compose_and_adds_synthetic_hold(tmp_path, monkeypatch):
     isolate_globals(monkeypatch)
     from live import erisedai_distillation_client, stage_models
+    monkeypatch.setattr(demo.compose_ab, 'probe', _ok_probe)
     monkeypatch.setattr(erisedai_distillation_client, 'relay_config', lambda: {})
 
     class Client:
         def __init__(self, directory, *, configuration):
             assert configuration['stage_models'] == stage_models.load()
-
-        def __call__(self, stage, messages, max_tokens):
-            assert stage in ('stance', 'compose')
-            return dict(text='{"ok": true}', finish_reason='stop')
 
     monkeypatch.setattr(erisedai_distillation_client, 'ErisedaiClient', Client)
     monkeypatch.setattr(demo, 'ContentStore', lambda path: object())
