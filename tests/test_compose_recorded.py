@@ -37,7 +37,7 @@ class RecordedComposeTests(unittest.TestCase):
         # request hash and all checks using the saved historical templates.
         historical_persona = replace(registry.persona_for_account(data['account_id']), voice_card={}, signature_card={})
         with patch('live.compose.registry.persona_for_account', return_value=historical_persona), patch('live.compose.COMPOSE', (FIXTURE / 'compose_prompt.txt').read_text()), patch('live.content_units.EXTRACT', (FIXTURE / 'extract_prompt.txt').read_text()):
-            result = compose.compose_source(data['source'], data['account_id'], historical_client, exemplars=False, post_type='data_take')
+            result = compose.compose_source(data['source'], data['account_id'], historical_client, exemplars=False, post_type='data_take', emotion_contract=False)
         self.assertEqual(client.used, ['extract', 'compose'])
         self.assertEqual(result['post_type'], 'data_take')
         self.assertEqual(result['post_checks'], [])

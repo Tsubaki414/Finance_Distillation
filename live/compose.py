@@ -80,7 +80,10 @@ Then only the one or two numbers that carry the call. Short punchy lines, uneven
 a fragment or a rhetorical question is fine after the opening. Pick one emotional register
 that fits the stance (skeptical, impatient, unimpressed, relieved, wary) and hold it; let it
 show through concrete verbs and word choice instead of hedging boilerplate, exclamation
-marks, hype words or invented drama. End on a short line that lands: what the call means
+marks, hype words or invented drama. When emotion_brief is supplied it is the soft emotion
+contract: hit its target_intensity (0-5), show a real reaction in the first two lines, keep
+one dominant emotion from dominant_labels, use allowed_devices, and respect boundary
+(amplify rhetoric, never fact certainty or invented experience). End on a short line that lands: what the call means
 or what would change it, using only the units. Don't repeat the stance sentence verbatim.
 Conviction never licenses anything the units do not contain: no new facts, numbers,
 holdings, trades or calls, and do not upgrade the stance's confidence (may stays may).
@@ -528,7 +531,8 @@ EXEMPLAR_RULE = ('style_exemplars are real posts by other accounts, given for vo
 
 
 def compose_source(source, account_id, client, *, post_type=None, exemplars=None, exemplar_dir=None,
-                   exemplar_tags_dir=None, extracted_units=None, stance_output=None, voice_prompt_variant=None, now=None, view_ledger=None):
+                   exemplar_tags_dir=None, extracted_units=None, stance_output=None, voice_prompt_variant=None, now=None, view_ledger=None,
+                   emotion_contract=None):
     """Voice cards always use exemplars; other personas honor the retrieval override."""
     persona = registry.persona_for_account(account_id)
     if 'aphorism_translation' in persona.post_type_mix:
@@ -615,6 +619,12 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                          for u in chosen]}
     if stance is not None:
         payload['stance'] = stance
+    from live import emotion_contract as ec
+    import os as _os
+    use_emotion = emotion_contract if emotion_contract is not None else (_os.environ.get('FD_EMOTION_CONTRACT', '1') != '0')
+    emotion_brief = ec.build_emotion_brief(chosen, stance, source=source, lang=persona.lang) if use_emotion else None
+    if emotion_brief:
+        payload['emotion_brief'] = emotion_brief
     import os
     variant = voice_prompt_variant if voice_prompt_variant is not None else os.environ.get('VOICE_PROMPT_VARIANT', 'v1')
     if variant not in ('v1', 'v2'):
@@ -706,6 +716,27 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         certainty_retry = {'attempted': True, 'kept': grounding_retry.get('kept'),
                            'first_findings': first_certainty,
                            'retry_findings': certainty_findings(body, chosen, stance, persona.lang)}
+    # Soft emotion contract: EMOTION_DROP warns + one repair/retry; never hard-block.
+    emotion_retry = None
+    emo_findings = ec.emotion_findings(body, emotion_brief) if emotion_brief else []
+    if emo_findings:
+        note = ec.repair_instruction(emotion_brief, emo_findings)
+        if note:
+            retry_payload = dict(payload)
+            retry_payload['rewrite_note'] = note
+            value_e, response_e = _ask(client, 'compose', COMPOSE, retry_payload, MAX_TOKENS, assembly)
+            body_e = (value_e.get('body') or '').strip()
+            if body_e:
+                emotion_retry = {'attempted': True, 'kept': 'retry',
+                                 'first_findings': emo_findings,
+                                 'repair_instruction': note,
+                                 'retry_findings': ec.emotion_findings(body_e, emotion_brief)}
+                body, value, response = body_e, value_e, response_e
+                emo_findings = emotion_retry['retry_findings']
+            else:
+                emotion_retry = {'attempted': True, 'kept': 'original', 'first_findings': emo_findings,
+                                 'repair_instruction': note}
+
     ledger = value.get('claim_ledger')
     require(isinstance(ledger, list) and ledger, 'compose: claim_ledger required')
     by_id = {u['unit_id']: u for u in chosen}
@@ -719,6 +750,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     text = (frame['text'] + body) if frame['placement'] == 'lead' else (body + frame['text'])
     findings = post_checks(post_type, body, text, frame, tier, chosen, persona, post_types, stance, source=source, now=now)
     findings += qa_levels.classify(grounding.get('findings') or [], frame_found=True)
+    findings += qa_levels.classify(emo_findings or [], frame_found=True)
     findings += qa_levels.classify(exemplar_store.copied_phrases(body, [e['text'] for e in shown]), frame_found=True)
     if view_ledger is not None and stance and stance.get('decision') != 'reject':
         ledger_findings = stance.get('ledger_findings')
@@ -755,7 +787,9 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             **({'grounding_retry': grounding_retry} if grounding_retry else {}),
             **({'thesis_grounding': {'decision': grounding.get('decision'),
                                      'reason_codes': grounding.get('reason_codes'),
-                                     'repair_instruction': grounding.get('repair_instruction')}} if grounding else {})}
+                                     'repair_instruction': grounding.get('repair_instruction')}} if grounding else {}),
+            **({'emotion_brief': emotion_brief} if emotion_brief else {}),
+            **({'emotion_retry': emotion_retry} if emotion_retry else {})}
 
 
 def arbitrate_batch(results, *, mode='soft'):
