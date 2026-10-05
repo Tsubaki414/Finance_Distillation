@@ -145,15 +145,16 @@ INFO_DUMP_NUMBERS = 4   # distinct numbers in a judgment body that read as 信�
 INFO_DUMP_CLAUSES = 3   # semicolon / 顿号 separated clauses that carry a figure
 
 
-def info_dump_findings(body, post_type):
-    """SOFT: a judgment post that reads as a data dump (never hard-blocks).
+def info_dump_findings(body, post_type, *, thesis_locked=False):
+    """SOFT: a judgment / thesis-locked post that reads as a data dump (never hard-blocks).
 
-    Fires for JUDGMENT_TYPES when the body cites >= INFO_DUMP_NUMBERS distinct numbers,
-    or >= INFO_DUMP_CLAUSES semicolon/顿号-separated clauses that each carry a figure.
-    summary_findings already flags semicolon chains / bullet lists as research_summary;
-    this check adds the number budget that the thesis-locked pack is meant to enforce.
+    Fires for JUDGMENT_TYPES (or when thesis_locked) when the body cites >= INFO_DUMP_NUMBERS
+    distinct numbers, or >= INFO_DUMP_CLAUSES semicolon/顿号-separated clauses that each
+    carry a figure. summary_findings already flags semicolon chains / bullet lists as
+    research_summary; this check adds the number budget that the thesis-locked pack is
+    meant to enforce.
     """
-    if post_type not in JUDGMENT_TYPES or not body:
+    if not body or (post_type not in JUDGMENT_TYPES and not thesis_locked):
         return []
     numbers = len(set(inventory(body)))
     clauses = [c for c in re.split(r'[;；、]', body) if re.search(r'\d', c)]
@@ -163,6 +164,41 @@ def info_dump_findings(body, post_type):
     if len(clauses) >= INFO_DUMP_CLAUSES:
         reasons.append(f'{len(clauses)} data clauses split by ；/、')
     return [{'code': 'info_dump', 'detail': '; '.join(reasons)}] if reasons else []
+
+
+VERBATIM_LINE1_RATIO = 0.88  # SequenceMatcher / containment threshold vs thesis_lock
+
+
+def _first_line(body):
+    return next((ln.strip() for ln in (body or '').splitlines() if ln.strip()), '')
+
+
+def _norm_line(text):
+    text = re.sub(r'[。！？!?\.…]+$', '', (text or '').strip())
+    return re.sub(r'\s+', ' ', text).casefold()
+
+
+def line1_near_thesis(body, thesis, *, ratio=VERBATIM_LINE1_RATIO):
+    """True when body line 1 is exact / contained / high-similarity to thesis_lock."""
+    from difflib import SequenceMatcher
+    a, b = _norm_line(_first_line(body)), _norm_line(thesis)
+    if not a or not b:
+        return False
+    if a == b or a in b or b in a:
+        return True
+    return SequenceMatcher(None, a, b).ratio() >= ratio
+
+
+def verbatim_line1_findings(body, stance=None, thesis_lock=None):
+    """SOFT: line 1 copies thesis_lock / account_view nearly verbatim."""
+    thesis = thesis_lock or (stance or {}).get('account_view') or ''
+    if not thesis or not body:
+        return []
+    if line1_near_thesis(body, thesis):
+        return [{'code': 'verbatim_line1',
+                 'detail': 'Line 1 is near-identical to thesis_lock / account_view'}]
+    return []
+
 
 
 def body_length(spec_length, card, lang):
@@ -842,7 +878,7 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
     from live import anti_repeat
     findings += anti_repeat.findings(body, persona.persona_id, units=units, stance=stance, source=source, now=now)
     findings += summary_findings(body, persona.lang)
-    findings += info_dump_findings(body, post_type)
+    findings += info_dump_findings(body, post_type, thesis_locked=bool(stance and stance.get('account_view')))
     if post_type in JUDGMENT_TYPES or (stance and stance.get('account_view')):
         findings += judgment_findings(body, stance)
     findings += certainty_findings(body, units, stance, persona.lang)
@@ -1042,6 +1078,10 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                           'numbers': [{k: n[k] for k in ('text', 'metric', 'period', 'span_ref')} for n in u['numbers']]}
                          for u in chosen]}
     if stance is not None:
+        # Defense in depth: scrub supplied stance_output the same way stance_step does,
+        # so dirty fixtures cannot teach banned cadence via thesis_lock.
+        from live.stance import apply_stance_scrub
+        stance = apply_stance_scrub(stance)
         payload['stance'] = stance
         if stance.get('account_view'):
             # Thesis first, thin evidence: lock the call and cap the numbers before writing.
@@ -1232,26 +1272,37 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                          'repair_instruction': ec.repair_instruction(emotion_brief, emo_findings)}
 
     # Soft judgment rewrite when signature hard constraints are present and the
-    # opening is data-led / missing the call. One retry; never hard-block.
+    # opening is data-led / missing the call, OR line 1 copies thesis_lock verbatim.
+    # One retry shared across no_judgment / data_list / verbatim_line1; never hard-block.
     judgment_retry = None
+    thesis_for_line1 = (payload.get('thesis_lock') or (stance or {}).get('account_view') or '')
     if sig and (stance and stance.get('account_view') or post_type in JUDGMENT_TYPES):
         j_findings = [f for f in judgment_findings(body, stance) if f['code'] in ('no_judgment', 'data_list')]
+        j_findings += verbatim_line1_findings(body, stance, thesis_lock=thesis_for_line1)
         if j_findings:
-            note = (
-                '[judgment_repair] HARD: rewrite so line 1 is the account call from stance.account_view '
-                '(judgment first). Numbers are evidence only. Open in the family of signature.openings; '
-                'close in the family of signature.closings. Do not invent facts.'
-            )
+            codes = {f['code'] for f in j_findings}
+            if 'verbatim_line1' in codes and not (codes & {'no_judgment', 'data_list'}):
+                note = (
+                    '[judgment_repair] HARD: paraphrase line 1; keep the same call; do not copy '
+                    'thesis_lock verbatim. Numbers are evidence only. Do not invent facts.'
+                )
+            else:
+                note = (
+                    '[judgment_repair] HARD: rewrite so line 1 is the account call from stance.account_view '
+                    '(judgment first). Paraphrase thesis_lock — do not copy it verbatim. '
+                    'Numbers are evidence only. Open in the family of signature.openings; '
+                    'close in the family of signature.closings. Do not invent facts.'
+                )
             retry_payload = dict(payload)
             retry_payload['rewrite_note'] = note
             value_j, response_j = _ask(client, 'compose', COMPOSE, retry_payload, MAX_TOKENS, assembly)
             body_j = (value_j.get('body') or '').strip()
             if body_j:
+                retry_j = [f for f in judgment_findings(body_j, stance) if f['code'] in ('no_judgment', 'data_list')]
+                retry_j += verbatim_line1_findings(body_j, stance, thesis_lock=thesis_for_line1)
                 judgment_retry = {'attempted': True, 'kept': 'retry', 'first_findings': j_findings,
-                                  'repair_instruction': note,
-                                  'retry_findings': judgment_findings(body_j, stance)}
-                after_j = [f for f in judgment_retry['retry_findings'] if f['code'] in ('no_judgment', 'data_list')]
-                if len(after_j) < len(j_findings):
+                                  'repair_instruction': note, 'retry_findings': retry_j}
+                if len(retry_j) < len(j_findings):
                     new_codes = _guard_codes(body_j, chosen, stance, persona.lang) - _guard_codes(body, chosen, stance, persona.lang)
                     if new_codes:
                         judgment_retry['guard_regression'] = sorted(new_codes)
@@ -1261,6 +1312,55 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             else:
                 judgment_retry = {'attempted': True, 'kept': 'original', 'first_findings': j_findings,
                                   'repair_instruction': note, 'reject_reason': 'no_improvement'}
+
+    # Soft info_dump / research_summary / lingering data_list rewrite (one shot).
+    # Fires for JUDGMENT_TYPES or when thesis_lock is present. Soft only; keep original
+    # if the rewrite regresses hard guards or fails to clear the dump codes.
+    info_dump_retry = None
+    thesis_locked = bool(payload.get('thesis_lock') or (stance and stance.get('account_view')))
+    if post_type in JUDGMENT_TYPES or thesis_locked:
+        dump_findings = list(info_dump_findings(body, post_type, thesis_locked=thesis_locked))
+        dump_findings += summary_findings(body, persona.lang)
+        # data_list may already have been attempted in judgment_retry; still include if present.
+        dump_findings += [f for f in judgment_findings(body, stance) if f['code'] == 'data_list']
+        if dump_findings:
+            note = (
+                '[info_dump_repair] Soft rewrite: keep the same call, drop to at most 2 numbers, '
+                'cut data clauses / research-summary lists. Leave surplus units unused. '
+                'Do not invent facts.'
+            )
+            retry_payload = dict(payload, rewrite_note=note)
+            try:
+                value_d, response_d = _ask(client, 'compose', COMPOSE, retry_payload, MAX_TOKENS, assembly)
+            except Exception as exc:
+                value_d, response_d = {}, {}
+                retry_payload['retry_error'] = type(exc).__name__
+            body_d = (value_d.get('body') or '').strip()
+            if body_d:
+                after_dump = list(info_dump_findings(body_d, post_type, thesis_locked=thesis_locked))
+                after_dump += summary_findings(body_d, persona.lang)
+                after_dump += [f for f in judgment_findings(body_d, stance) if f['code'] == 'data_list']
+                improved = len(after_dump) < len(dump_findings)
+                regression = _guard_codes(body_d, chosen, stance, persona.lang) - _guard_codes(body, chosen, stance, persona.lang)
+                # Also reject if paraphrase of thesis got worse (new verbatim) or judgment lost.
+                after_verb = verbatim_line1_findings(body_d, stance, thesis_lock=thesis_for_line1)
+                before_verb = verbatim_line1_findings(body, stance, thesis_lock=thesis_for_line1)
+                verb_regressed = bool(after_verb) and not before_verb
+                keep = bool(improved and not regression and not verb_regressed)
+                info_dump_retry = {
+                    'attempted': True, 'kept': 'retry' if keep else 'original',
+                    'first_findings': dump_findings, 'retry_findings': after_dump,
+                    'rewrite_note': note,
+                    **({'reject_reason': 'guard_regression' if regression else
+                        ('verbatim_regression' if verb_regressed else 'no_improvement')} if not keep else {}),
+                }
+                if keep:
+                    body, value, response = body_d, value_d, response_d
+            else:
+                info_dump_retry = {
+                    'attempted': True, 'kept': 'original', 'first_findings': dump_findings,
+                    'rewrite_note': note, 'reject_reason': 'empty_body',
+                }
 
     from live import anti_repeat
     repeat_retry = None
@@ -1314,6 +1414,10 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     findings += qa_levels.classify(grounding.get('findings') or [], frame_found=True)
     findings += qa_levels.classify(emo_findings or [], frame_found=True)
     findings += qa_levels.classify(exemplar_store.copied_phrases(body, [e['text'] for e in shown]), frame_found=True)
+    if stance and stance.get('stance_findings'):
+        findings += qa_levels.classify(stance['stance_findings'], frame_found=True)
+    findings += qa_levels.classify(
+        verbatim_line1_findings(body, stance, thesis_lock=payload.get('thesis_lock')), frame_found=True)
     if view_ledger is not None and stance and stance.get('decision') != 'reject':
         ledger_findings = stance.get('ledger_findings')
         if ledger_findings is None:
@@ -1356,6 +1460,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             **({'emotion_retry': emotion_retry} if emotion_retry else {}),
             **({'anti_repeat_retry': repeat_retry} if repeat_retry else {}),
             **({'judgment_retry': judgment_retry} if judgment_retry else {}),
+            **({'info_dump_retry': info_dump_retry} if info_dump_retry else {}),
             'pack_balance': pack_balance(chosen),
             'unit_augment': base.get('unit_augment') or {}}
 

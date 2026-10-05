@@ -43,3 +43,9 @@ adds the number budget on top of it.
   unless balance or the stance adds more).
 - The emotion contract is unchanged. Thin packs should give it room, but there is no new emotion
   logic in this change.
+
+## Follow-on (same day): stance scrub
+
+`thesis_lock` made stance quality load-bearing. See `docs/2026-10-05_stance_scrub.md`:
+deterministic `account_view` scrub + one stance repair, line-1 paraphrase sharing the
+judgment_repair slot, and a soft info_dump style rewrite.
