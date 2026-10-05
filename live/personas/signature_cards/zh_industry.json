@@ -576,10 +576,10 @@
   "openings_note": "Oct5 root-cause rewrite: openings are judgment/call-first; data-led, source-first, news-recap and calendar openings removed (they fought the judgment-first COMPOSE rules).",
   "hard_constraints": [
     "第一句就是判断（需求能否撑住供给、定价权能否保住），不是事实、消息来源或新闻复述。",
-    "全文最多引用 2 个数字。",
+    "全文最多引用 3 个数字。",
     "不写研报腔：不铺供应链清单，不写「拆解一下/具体数据」，不分点罗列。",
     "结尾落在可证伪的判断上：说清什么数据出来就说明判断错了。",
-    "用不上的单位就不用，不要把每条事实都塞进正文。",
+    "多余的单位优先留着不用，不必把每条事实都塞进正文。",
     "不加「我的判断：」这类标签包装，判断直接写成一句话。"
   ]
 }

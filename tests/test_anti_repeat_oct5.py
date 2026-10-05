@@ -26,18 +26,27 @@ def test_label():
     assert 'judgment_label' not in codes('我认为利润撑不起估值。')
 
 
+def _seed_history(n=2):
+    # Unrelated finalized bodies so the persona clears MIN_HISTORY.
+    for i in range(n):
+        ar.record_draft('test', f'filler{i}')
+
+
 def test_repeat():
+    _seed_history()
     ar.record_draft('test', 'AAPL还要等待。风险不会自动消失')
     assert 'stylistic_repeat' in codes('TSLA仍有压力。风险不会自动消失')
 
 
 def test_facts_not_style():
+    _seed_history()
     ar.record_draft('test', 'AAPL revenue growth 12% 2026-10-05')
     assert 'stylistic_repeat' not in codes('AAPL revenue growth 12% 2026-10-05',
                                           units=[{'numbers': [{'metric': 'revenue growth'}]}])
 
 
 def test_topic():
+    _seed_history()
     ar.record_draft('test', '$MU pressure', meta={'subject': 'Micron'})
     assert 'duplicate_topic' in codes('$MU margins', stance={'subject': 'Micron'})
     assert 'duplicate_topic' not in codes('Update: $MU margins', stance={'subject': 'Micron'})
@@ -105,6 +114,7 @@ def test_posting_habits_default(monkeypatch):
 
 
 def test_topic_expired():
+    _seed_history()
     ar.record_draft('test', '$MU pressure', meta={'subject': 'Micron'})
     from datetime import timedelta
     assert 'duplicate_topic' not in codes('$MU margins', stance={'subject': 'Micron'},
@@ -133,3 +143,25 @@ def test_morris_merge_opt_in(monkeypatch):
     assert len(exemplars.retrieve(persona)) == 1
     raw = {**persona.raw, 'exemplar_retrieval': {'include_morris': False}}
     assert exemplars.retrieve(replace(persona, raw=raw)) == []
+
+
+def test_short_history_skips_repeat_and_topic_but_keeps_phrase_ban():
+    assert ar.MIN_HISTORY == 3
+    ar.record_draft('test', '$MU pressure. 风险不会自动消失', meta={'subject': 'Micron'})
+    ar.record_draft('test', 'filler')
+    got = codes('$MU margins. 风险不会自动消失。还早着呢', stance={'subject': 'Micron'})
+    assert 'stylistic_repeat' not in got and 'duplicate_topic' not in got
+    assert 'phrase_ban' in got
+    assert 'judgment_label' in codes('我的判断：利润撑不起估值。')
+    # Third prior body: history checks switch back on.
+    ar.record_draft('test', '$MU pressure. 风险不会自动消失', meta={'subject': 'Micron'})
+    got = codes('$MU margins. 风险不会自动消失', stance={'subject': 'Micron'})
+    assert {'stylistic_repeat', 'duplicate_topic'} <= got
+
+
+def test_short_history_explicit_recent_list():
+    rows = [{'ts': datetime.now(timezone.utc).isoformat(), 'text': 'AAPL还要等待。风险不会自动消失',
+             'subject': '', 'tickers': ['AAPL']}]
+    assert 'stylistic_repeat' not in codes('TSLA仍有压力。风险不会自动消失', recent=rows)
+    assert 'stylistic_repeat' in codes('TSLA仍有压力。风险不会自动消失',
+                                       recent=[dict(rows[0], text=f'f{i}') for i in range(2)] + rows)

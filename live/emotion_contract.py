@@ -69,6 +69,11 @@ _REACTION = re.compile(
     r'根本不|免疫|无法主导|只会引来|别碰|别追|误判|错杀|高估|低估|过度|太早|想多了|陷阱|别被|当心|不对劲|看错|反应过度|泡沫|站不住|谈不上|看好|看空|偏弱|偏强|钝化|失效|压制|韧性|乐观|悲观|别急|还早|撑不住',
     re.I,
 )
+# Dry source = at most this many emotion-marker hits in the dominant register and no '!'.
+DRY_SOURCE_MAX_MARKERS = 1
+# Lowest accept_intensity per tier under the dry-source clamp (LOW is not clamped).
+DRY_CLAMP_FLOOR = {'mid': 2, 'high': 3}
+
 _SENTENCE = re.compile(r'(?<!\d)[.!?。！？]|\n+')
 
 
@@ -142,6 +147,15 @@ def build_emotion_brief(units, stance, *, source=None, lang='en', account_id=Non
             target = floor                                        # ~3
     else:
         target = min(5, max(3, raw))  # legacy default when no persona tier
+    # Dry-source clamp (PM relax 2026-10-05 eve). target_intensity is unchanged (the prompt still
+    # aims at it); accept_intensity is the floor the existing soft emotion retry may accept when
+    # the source text itself is dry. MID/HIGH only, one step down, never below 2 (MID) / 3 (HIGH),
+    # never above target. LOW and any non-dry source: accept_intensity == target.
+    tier_name = (policy or {}).get('tier')
+    source_dry = marker_energy <= DRY_SOURCE_MAX_MARKERS and punct == 0
+    accept = int(target)
+    if source_dry and tier_name in DRY_CLAMP_FLOOR:
+        accept = min(int(target), max(int(target) - 1, DRY_CLAMP_FLOOR[tier_name]))
     energetic = sorted(
         statements,
         key=lambda t: -sum(_score_text(t, ms) for ms in EMOTION_MARKERS.values()),
@@ -151,6 +165,8 @@ def build_emotion_brief(units, stance, *, source=None, lang='en', account_id=Non
         'dominant_emotions': emotions,
         'dominant_labels': labels,
         'target_intensity': int(target),
+        'source_dry': bool(source_dry),
+        'accept_intensity': int(accept),
         'tier': (policy or {}).get('tier'),
         'emotion_retry': bool((policy or {}).get('emotion_retry')),
         'source_high_energy_lines': energetic,
@@ -216,6 +232,31 @@ def emotion_findings(body, brief):
             'dominant_emotions': brief.get('dominant_emotions'),
         })
     return findings
+
+
+def dry_source_accepts(body, brief):
+    """True when the dry-source clamp accepts this draft's intensity (MID/HIGH only)."""
+    if not brief or not brief.get('source_dry') or brief.get('tier') not in DRY_CLAMP_FLOOR:
+        return False
+    accept = int(brief.get('accept_intensity') or brief.get('target_intensity') or 0)
+    return accept < int(brief.get('target_intensity') or 0) and draft_intensity(body, brief) >= accept
+
+
+def retry_improved(first_body, retry_body, brief, lang, first_findings, retry_findings):
+    """Acceptance rule for the soft emotion retry.
+
+    (reason, ok): ok when the retry clears an emotion finding ('fewer_findings'), or — dry-source
+    clamp, MID/HIGH only — when emotion_drop still fires but the retry reaches accept_intensity,
+    is strictly more intense than the first draft, and adds no emotion_overfire
+    ('dry_source_clamp'). The clamp only lowers the acceptance bar; it never raises a target.
+    """
+    if len(retry_findings) < len(first_findings):
+        return 'fewer_findings', True
+    if (dry_source_accepts(retry_body, brief)
+            and draft_intensity(retry_body, brief) > draft_intensity(first_body, brief)
+            and len(overfire_findings(retry_body, brief, lang)) <= len(overfire_findings(first_body, brief, lang))):
+        return 'dry_source_clamp', True
+    return None, False
 
 
 def repair_instruction(brief, findings):

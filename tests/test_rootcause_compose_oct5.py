@@ -1,6 +1,9 @@
 """Oct 5 root-cause fixes (not phrase bans): judgment-first signature openings,
 thin thesis-locked packs (1 view + <=2 facts), thesis_lock / evidence_budget in the
-COMPOSE payload, and a soft info_dump finding for judgment posts."""
+COMPOSE payload, and a soft info_dump finding for judgment posts.
+
+PM relax (2026-10-05 eve): judgment recipes carry 2 facts (aligned with
+JUDGMENT_MAX_FACTS), evidence budget 3 numbers, info_dump fires at >=5 distinct numbers."""
 import json
 from pathlib import Path
 
@@ -22,8 +25,10 @@ def _card(pid):
 # --- A. signature openings -------------------------------------------------------------
 
 def test_recipe_counts_are_thin():
-    assert compose.RECIPES['judgment_take'] == ('view', 1, ('fact',), 1)
-    assert compose.RECIPES['contrarian_take'] == ('view', 1, ('fact',), 1)
+    assert compose.RECIPES['judgment_take'] == ('view', 1, ('fact',), 2)
+    assert compose.RECIPES['contrarian_take'] == ('view', 1, ('fact',), 2)
+    # Recipe support count is aligned with the trim cap, so packs aren't starved.
+    assert compose.RECIPES['judgment_take'][3] == compose.JUDGMENT_MAX_FACTS == 2
     assert compose.RECIPES['view_relay'] == ('view', 1, ('fact', 'mechanism'), 1)
     assert compose.RECIPES['earnings_take'] == ('fact', 2, ('view', 'mechanism'), 1)
     assert compose.RECIPES['data_take'] == ('fact', 3, ('mechanism',), 1)
@@ -58,8 +63,12 @@ def test_industry_cards_have_hard_constraints():
         hard = _card(pid).get('hard_constraints')
         assert isinstance(hard, list) and 4 <= len(hard) <= 6, pid
         joined = ' '.join(hard)
-        assert '2' in joined   # <= 2 numbers
+        assert '3' in joined and '最多引用 2' not in joined and 'at most 2 numbers' not in joined  # <= 3 numbers
         assert '我的判断' in joined or 'My read' in joined
+        # Judgment-first and falsifiable landing stay mandatory.
+        assert hard[0].startswith(('第一句就是判断', 'Line 1 is the judgment'))
+        assert '可证伪' in joined or 'falsifiable' in joined
+        assert '研报腔' in joined or 'sell-side cadence' in joined
 
 
 def test_first_person_markers_do_not_teach_judgment_label():
@@ -130,11 +139,12 @@ def test_compose_payload_carries_thesis_lock_and_evidence_budget():
     assert result['post_type'] == 'judgment_take'
     payload = seen['compose']
     assert payload['thesis_lock'] == 'Memory supply looks tight.'
-    assert payload['evidence_budget'] == {'max_numbers': 2, 'unused_units_ok': True}
+    assert payload['evidence_budget'] == {'max_numbers': 3, 'unused_units_ok': True}
     kinds = [u['kind'] for u in payload['units']]
     assert kinds.count('view') == 1 and kinds.count('fact') <= 2
     hard = payload['persona']['signature']['hard_constraints']
-    assert any('at most 2 numbers' in h for h in hard)          # card-level constraint forwarded
+    assert any('at most 3 numbers' in h for h in hard)          # card-level constraint forwarded
+    assert 'at most 2 numbers' not in compose.COMPOSE and 'at most 3 numbers' in compose.COMPOSE
     assert any('[data_take only]' in h for h in hard)
     assert 'MUST leave surplus units unused' in compose.COMPOSE
 
@@ -156,7 +166,7 @@ def test_no_thesis_lock_without_stance():
 # --- C. soft info_dump -----------------------------------------------------------------
 
 def test_info_dump_soft_for_judgment_only():
-    dump = '需求撑不住扩产。营收增长4.8倍，利润率69.5%，库存天数120天，资本开支300亿美元。'
+    dump = '需求撑不住扩产。营收增长4.8倍，利润率69.5%，库存天数120天，资本开支300亿美元，毛利率41%。'
     found = compose.info_dump_findings(dump, 'judgment_take')
     assert found and found[0]['code'] == 'info_dump'
     assert compose.info_dump_findings(dump, 'data_take') == []
@@ -165,3 +175,27 @@ def test_info_dump_soft_for_judgment_only():
     assert compose.info_dump_findings(clauses, 'contrarian_take')
     thin = '需求高于供给这个方向能成立。利润率69.5%还撑得住，但扩产之后就难说了。'
     assert compose.info_dump_findings(thin, 'judgment_take') == []
+
+
+def test_info_dump_relaxed_to_five_numbers():
+    assert compose.INFO_DUMP_NUMBERS == 5 and compose.INFO_DUMP_CLAUSES == 3
+    assert compose.EVIDENCE_BUDGET['max_numbers'] == 3
+    four = '需求撑不住扩产。营收增长4.8倍，利润率69.5%，库存天数120天，资本开支300亿美元。'
+    assert compose.info_dump_findings(four, 'judgment_take') == []      # was a false positive at >=4
+    found = compose.info_dump_findings(four + '毛利率41%。', 'judgment_take')
+    assert found and 'budget 3' in found[0]['detail']
+    # The >=3 data-clause rule is unchanged.
+    assert compose.info_dump_findings('Call. A 1、B 2、C 3', 'judgment_take')
+
+
+def test_info_dump_repair_note_says_three():
+    src = Path(compose.__file__).read_text()
+    assert 'drop to at most 3 numbers' in src and 'drop to at most 2 numbers' not in src
+    assert 'at most 3 numbers' in qa_levels.FIXES['info_dump']
+
+
+def test_pick_units_judgment_pack_gets_two_facts_when_available():
+    pool = [_u(0, 'view'), *[_u(i, 'fact') for i in range(1, 6)]]
+    chosen = compose.pick_units('judgment_take', pool)
+    kinds = [u['kind'] for u in chosen]
+    assert kinds.count('view') == 1 and kinds.count('fact') == 2

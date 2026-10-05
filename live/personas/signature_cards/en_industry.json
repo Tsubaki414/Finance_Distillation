@@ -559,10 +559,10 @@
   "openings_note": "Oct5 root-cause rewrite: openings are judgment/call-first; data-led, source-first, news-recap and calendar openings removed (they fought the judgment-first COMPOSE rules).",
   "hard_constraints": [
     "Line 1 is the judgment (does demand outrun supply, does pricing power hold), never a filing fact, quote or news recap.",
-    "Cite at most 2 numbers in the whole body.",
+    "Cite at most 3 numbers in the whole body.",
     "No research-note / sell-side cadence: no supply-chain walk-through, no 'let's break it down', no bullet list of facts.",
     "End on a falsifiable call: name the data point that would prove it wrong.",
-    "Leave unused units unused; do not cite every supplied fact.",
+    "Prefer leaving surplus units unused; no need to cite every supplied fact.",
     "No meta-label wrappers ('My read is', 'The catch?', 'My take:', 我的判断：); state the call plainly."
   ]
 }

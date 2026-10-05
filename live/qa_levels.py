@@ -35,7 +35,7 @@ FIXES = {
     'cross_persona_claim_duplicate': 'Another persona already owns this same-conclusion claim for the topic lane; keep as HOLD or reassign.',
     'thesis_grounding': 'Rewrite per the fixed repair instruction for the reason code (consensus needs consensus evidence; analogies are not evidence; drop ungrounded claims / off-thesis lines).',
     'emotion_drop': 'Put a real reaction in the first two lines and hold the brief\'s emotion register; do not soften into a calm recap.',
-    'info_dump': 'Judgment post reads as a data dump: keep the call, cite at most 2 numbers, leave surplus units unused.',
+    'info_dump': 'Judgment post reads as a data dump: keep the call, cite at most 3 numbers, leave surplus units unused.',
     'stance_cadence': 'Rewrite account_view as one plain committed sentence without banned filler or meta-labels.',
     'verbatim_line1': 'Paraphrase line 1; keep the same call; do not copy thesis_lock verbatim.',
     'research_summary': 'Write it as a post, not a research note: one call, one or two numbers, no lists.',

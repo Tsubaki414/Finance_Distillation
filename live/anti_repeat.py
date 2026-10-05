@@ -124,6 +124,13 @@ def verify_source(body, units=None, source=None):
     return findings[:1]
 
 
+# PM relax 2026-10-05 eve: with < MIN_HISTORY prior bodies, history-based checks
+# (stylistic_repeat / duplicate_topic) are skipped. A fresh persona or a fixture
+# re-smoke otherwise matched its own first draft and triggered a false regenerate.
+# phrase_ban / judgment_label / verify_source always run.
+MIN_HISTORY = 3
+
+
 def findings(body, persona_id, *, units=None, stance=None, source=None, now=None, recent=None):
     out = [{'code': 'phrase_ban', 'detail': phrase} for phrase in ZH + EN if phrase.casefold() in body.casefold()]
     if re.search(r'这才是[^。！？\n]{1,30}的地方', body):
@@ -132,6 +139,8 @@ def findings(body, persona_id, *, units=None, stance=None, source=None, now=None
     if label:
         out.append({'code': 'judgment_label', 'detail': label.group(0).strip() or '我的判断：'})
     recent = load_recent(persona_id) if recent is None else recent
+    if len(recent) < MIN_HISTORY:
+        return out + verify_source(body, units, source)
     grams, closing = _style_tokens(body, units), _closing(body, units)
     for row in recent[-30:]:
         old = row['text']
