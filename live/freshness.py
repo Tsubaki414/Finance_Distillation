@@ -101,7 +101,7 @@ def shelf_days(row):
         return None
     ids=[str(src.get(k) or u.get(k) or '').casefold() for k in ('adapter','source_id','channel_id')]
     ids += [s.removeprefix('channel:') for s in ids if s.startswith('channel:')]
-    days=14
+    days=5  # default = commentary shelf (tightened 2026-10-05)
     for name in ('evergreen','market_flow','macro_release','filings_research','commentary'):
         spec=POLICY[name]
         if spec.get('non_fact_only') and u.get('kind')=='fact': continue

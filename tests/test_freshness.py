@@ -20,16 +20,17 @@ def test_invalid_future_and_clamp():
     r = row('2026-09-01'); r['unit']['numbers'][0]['period'] = 'September 2026'
     assert f.derive_dates(r)['as_of'] <= '2026-09-02'
 
-@pytest.mark.parametrize('adapter,days',[('cftc',2),('cboe',2),('bls_api',7),('fed_rss',7),('edgar',21),('reportgem_daily',21),('newsletter',14)])
+@pytest.mark.parametrize('adapter,days',[('cftc',1),('cboe',1),('bls_api',3),('fed_rss',3),('edgar',10),('reportgem_daily',10),('newsletter',5)])
 def test_shelf(adapter,days):
     assert f.shelf_days(row(adapter=adapter)) == days
 
 def test_evergreen_breaking_thresholds_and_rank():
     assert f.shelf_days(row(kind='mechanism')) is None
     assert f.shelf_days(row(adapter='oaktree',kind='view')) is None
-    assert f.shelf_days(row(adapter='oaktree')) == 14
+    assert f.shelf_days(row(adapter='oaktree')) == 5
     assert f.shelf_days(row(adapter='edgar',freshness_class='breaking')) == 2
-    for date, expected in [('2026-10-02','fresh'),('2026-10-01','fresh'),('2026-09-30','fresh'),('2026-09-29','stale'),('2026-09-24','expired')]:  # market_flow ages in business days (NOW is a Sunday)
+    # market_flow shelf=1 business day; NOW is Sunday 2026-10-04
+    for date, expected in [('2026-10-02','fresh'),('2026-10-01','stale'),('2026-09-30','expired'),('2026-09-29','expired'),('2026-09-24','expired')]:
         assert f.status(row(date),NOW)['status'] == expected
     assert f.status(row('bad'),NOW)['status'] == 'unknown'
     assert f.rank([row('2026-09-01'),row()],NOW)[0]['source']['published_at']=='2026-10-02'
@@ -92,7 +93,7 @@ def test_channel_classification():
     import json
     from pathlib import Path
     channels=json.loads(Path('live/channels.json').read_text())['channels']
-    for keyword,days in [('SpotGamma',2),('ECB',7),('ReportGem',21)]:
+    for keyword,days in [('SpotGamma',1),('ECB',3),('ReportGem',10)]:
         matches=[c for c in channels if keyword.casefold() in c['name'].casefold()]
         assert matches
         for c in matches:

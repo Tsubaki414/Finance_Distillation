@@ -1,6 +1,6 @@
 {
   "market_flow": {
-    "shelf_days": 2,
+    "shelf_days": 1,
     "prefixes": [
       "cftc",
       "cboe",
@@ -24,7 +24,7 @@
     "age_unit": "business_days"
   },
   "macro_release": {
-    "shelf_days": 7,
+    "shelf_days": 3,
     "prefixes": [
       "bls_api",
       "primary_bls",
@@ -57,7 +57,7 @@
     ]
   },
   "filings_research": {
-    "shelf_days": 21,
+    "shelf_days": 10,
     "prefixes": [
       "edgar",
       "reportgem",
@@ -80,7 +80,7 @@
     ]
   },
   "commentary": {
-    "shelf_days": 14,
+    "shelf_days": 5,
     "prefixes": [
       "newsletter",
       "podcast",
