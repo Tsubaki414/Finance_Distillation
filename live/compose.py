@@ -53,9 +53,12 @@ is welcome: fragments, uneven sentence lengths, one-line paragraphs, persona idi
 casual connectors, an occasional rhetorical question. Avoid essay polish and symmetric paragraphs;
 don't make every post the same shape. Follow persona.voice_prompt_variant.guidance when supplied.
 Exemplars teach rhythm only, never facts, numbers or phrases.
-persona.signature is the account's signature voice: lean on one or two of its moves, open and
-close the way it does, use its lexicon sparingly, and never break its taboos (the rules in this
-prompt still win over the signature).
+persona.signature is HARD voice law for this account (not optional flavour): open the way
+signature.openings describe (judgment / call first — never a data dump or news recap as line 1);
+close the way signature.closings describe (a landing line: what the call means or what would
+change it). Lean on one or two signature.moves; use lexicon sparingly; never break taboos.
+When signature.hard_constraints is present, treat every line in it as mandatory. Rules in this
+prompt still win over the signature on facts and licence.
 No specific trade recommendations (instrument + strike/entry/structure); directional views are fine.
 For judgment_take and contrarian_take, state the judgment first in your own voice;
 data only as support. The supplied stance.account_view is the account's own
@@ -181,18 +184,36 @@ def eligible(post_type, units):
 
 
 def choose(units, persona, licence_tier, post_types, now=None):
-    """Highest-weight persona post type allowed for the tier that has its primary units."""
+    """Highest-weight persona post type allowed for the tier that has its primary units.
+
+    Judgment-led: when the pool has a usable view unit, prefer judgment/contrarian
+    over data_take so accounts do not default to info dumps.
+    """
     allowed = set(registry.post_types_for_tier(licence_tier, post_types))
-    for post_type, _ in sorted(persona.post_type_mix.items(), key=lambda kv: (kv[0] == 'data_take', kv[0] not in JUDGMENT_TYPES, -kv[1])):
+    has_view = any(u.get('kind') == 'view' and u.get('usage') != 'topic_only' for u in units)
+    def _key(kv):
+        pt, w = kv
+        # demote pure data_take; promote judgment types especially when a view exists
+        return (pt == 'data_take',
+                0 if (has_view and pt in JUDGMENT_TYPES) else (pt not in JUDGMENT_TYPES),
+                -w)
+    for post_type, _ in sorted(persona.post_type_mix.items(), key=_key):
         if persona.post_type_mix[post_type] > 0 and post_type in allowed and post_type in RECIPES and eligible(post_type, units):
             return post_type
     return None
 
 
 NEWS_TYPES = {'data_take', 'judgment_take', 'contrarian_take', 'view_relay', 'earnings_take'}
+NON_FACT_KINDS = ('mechanism', 'view', 'aphorism')
 
 
 def pick_units(post_type, units, now=None, post_types=None):
+    """Fill the post_type recipe, then enforce judgment-led pack balance.
+
+    When the pool has any non-fact unit (mechanism / view / aphorism) and the
+    selected pack would otherwise be pure facts, inject >=1 non-fact. Caps
+    info-dump packs without inventing units that are not in the pool.
+    """
     from live import freshness
     units = freshness.rank(units, now)
     primary_kind, n, support_kinds, m = RECIPES[post_type]
@@ -206,8 +227,38 @@ def pick_units(post_type, units, now=None, post_types=None):
     support = [u for u in units if u['kind'] in support_kinds and u not in primary
                and u['usage'] != 'topic_only'][:m]
     selected = freshness.rank(primary + support, now)
+    selected = balance_pack(selected, units, now=now)
     return [dict(u, historical=True) if news and freshness.status(u, now)['status'] == 'expired'
             else u for u in selected]
+
+
+def balance_pack(selected, pool, *, now=None):
+    """Ensure >=1 non-fact when available; return list (mutates order via freshness.rank)."""
+    from live import freshness
+    selected = list(selected)
+    kinds = {u.get('kind') for u in selected}
+    if kinds & set(NON_FACT_KINDS):
+        return selected
+    have_ids = {u.get('unit_id') for u in selected if u.get('unit_id')}
+    extras = [u for u in freshness.rank(pool, now)
+              if u.get('kind') in NON_FACT_KINDS and u.get('usage') != 'topic_only'
+              and u.get('unit_id') not in have_ids and u not in selected]
+    if not extras:
+        return selected  # pure-data only when pool has no non-fact
+    # Prefer view > mechanism > aphorism for lasting judgment
+    rank = {'view': 0, 'mechanism': 1, 'aphorism': 2}
+    extras.sort(key=lambda u: (rank.get(u.get('kind'), 9),))
+    selected.append(extras[0])
+    return freshness.rank(selected, now)
+
+
+def pack_balance(units):
+    """Demo/test metadata: kind counts + whether pack is judgment-capable."""
+    from collections import Counter
+    c = Counter(u.get('kind') for u in units)
+    non_fact = sum(c[k] for k in NON_FACT_KINDS)
+    return {'kinds': dict(c), 'n': len(units), 'non_fact': non_fact,
+            'pure_data': non_fact == 0 and c.get('fact', 0) > 0}
 
 
 CLAUSE = re.compile(r'[.;!?。；！？](?=\s|$)|\n')
@@ -451,7 +502,7 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
         if rx.search(body):
             findings.append({'code': 'template_phrase', 'detail': show})
     findings += summary_findings(body, persona.lang)
-    if post_type in JUDGMENT_TYPES:
+    if post_type in JUDGMENT_TYPES or (stance and stance.get('account_view')):
         findings += judgment_findings(body, stance)
     findings += certainty_findings(body, units, stance, persona.lang)
     if post_type == 'contrarian_take' and not re.search(r'\b(?:disagree|reject|contrary|unconvinced|overstates|understates)\b|不同意|不认同|反对|高估|低估', body, re.I):
@@ -647,9 +698,18 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         payload['persona']['variation'] = variation_seed(persona.voice_card, source.get('source_hash') or digest(source))
     sig = getattr(persona, 'signature_card', None) or {}
     if sig:
+        hard = [
+            'HARD: first line is the account call (judgment first). Data / numbers are evidence only — never the opening.',
+            'HARD: open in the family of signature.openings (same move type, not a pasted donor sentence).',
+            'HARD: close in the family of signature.closings (a short landing line, not another data point).',
+            'HARD: never break signature.taboos.',
+        ]
+        if persona.lang == 'zh':
+            hard.append('HARD (ZH): commit the call without inventing what the market or others feel.')
         payload['persona']['signature'] = {
-            'use': 'the account signature: use one or two moves per post, lexicon sparingly and never copy donor sentences; never break the taboos'
+            'use': 'HARD account signature — openings/closings/moves are constraints, not suggestions'
                       + ('; for ZH: prefer the restraint exemplars — commit the call without inventing what the market or others feel' if persona.lang == 'zh' else ''),
+            'hard_constraints': hard,
             'moves': [m['name'] + ': ' + m['how'] for m in sig.get('moves', [])],
             'openings': sig.get('openings', []), 'closings': sig.get('closings', []),
             'lexicon': sig.get('lexicon', []), 'taboos': sig.get('taboos', [])}
@@ -749,6 +809,30 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                          'first_findings': emo_findings,
                          'repair_instruction': ec.repair_instruction(emotion_brief, emo_findings)}
 
+    # Soft judgment rewrite when signature hard constraints are present and the
+    # opening is data-led / missing the call. One retry; never hard-block.
+    judgment_retry = None
+    if sig and (stance and stance.get('account_view') or post_type in JUDGMENT_TYPES):
+        j_findings = [f for f in judgment_findings(body, stance) if f['code'] in ('no_judgment', 'data_list')]
+        if j_findings:
+            note = (
+                '[judgment_repair] HARD: rewrite so line 1 is the account call from stance.account_view '
+                '(judgment first). Numbers are evidence only. Open in the family of signature.openings; '
+                'close in the family of signature.closings. Do not invent facts.'
+            )
+            retry_payload = dict(payload)
+            retry_payload['rewrite_note'] = note
+            value_j, response_j = _ask(client, 'compose', COMPOSE, retry_payload, MAX_TOKENS, assembly)
+            body_j = (value_j.get('body') or '').strip()
+            if body_j:
+                judgment_retry = {'attempted': True, 'kept': 'retry', 'first_findings': j_findings,
+                                  'repair_instruction': note,
+                                  'retry_findings': judgment_findings(body_j, stance)}
+                body, value, response = body_j, value_j, response_j
+            else:
+                judgment_retry = {'attempted': True, 'kept': 'original', 'first_findings': j_findings,
+                                  'repair_instruction': note}
+
     ledger = value.get('claim_ledger')
     require(isinstance(ledger, list) and ledger, 'compose: claim_ledger required')
     by_id = {u['unit_id']: u for u in chosen}
@@ -801,7 +885,9 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                                      'reason_codes': grounding.get('reason_codes'),
                                      'repair_instruction': grounding.get('repair_instruction')}} if grounding else {}),
             **({'emotion_brief': emotion_brief} if emotion_brief else {}),
-            **({'emotion_retry': emotion_retry} if emotion_retry else {})}
+            **({'emotion_retry': emotion_retry} if emotion_retry else {}),
+            **({'judgment_retry': judgment_retry} if judgment_retry else {}),
+            'pack_balance': pack_balance(chosen)}
 
 
 def arbitrate_batch(results, *, mode='soft'):

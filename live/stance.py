@@ -17,10 +17,13 @@ conviction or horizon, or add a new condition. For reject account_view is empty.
 Supporting IDs must include the input view for take/adapt.
 context_units (optional) are other units from the same evidence: you may combine them with the
 view to form one judgment; list every unit you rely on in supporting_unit_ids.
-prior_views (optional) are this account's own earlier calls on related subjects: stay consistent
-with them; if the new evidence really changes the call, set revises_view_id to that prior view id
-and say why in rationale. Prior view ids never go in supporting_unit_ids (those are evidence
-unit IDs only). Views only: never holdings, trades or positions.''')
+prior_views (optional) are this account's own earlier calls on related subjects. When any prior
+view overlaps the subject, PREFER continuing or updating that lasting view over inventing a
+fresh one-shot take: keep the same call in account_view with a continuity phrase when evidence
+agrees, or set revises_view_id to that prior view id and say why in rationale when direction /
+conviction / horizon actually changes. Do not ignore an overlapping prior. Prior view ids never
+go in supporting_unit_ids (those are evidence unit IDs only). Views only: never holdings, trades
+or positions.''')
 
 
 def stance_step(view_unit, persona, client, *, calls=None, sleep=None, context_units=None, ledger=None):
@@ -80,6 +83,8 @@ def stance_step(view_unit, persona, client, *, calls=None, sleep=None, context_u
                 bool(revised.get('conditions')) and revised.get('conditions')!=view.get('conditions'), 'stance: adapt must change view')
     if ledger is not None:
         probe = value if value.get('view') else dict(value, view=view)
-        value['ledger_findings'] = ledger.contradictions(probe)
+        findings = list(ledger.contradictions(probe))
+        findings += list(ledger.ignores_prior(probe, prior))
+        value['ledger_findings'] = findings
     value['calls'] = calls
     return value

@@ -16,7 +16,7 @@ HARD = frozenset({
                   'licence_tier_not_allowed', 'd_tier_source_leak', 'quote_not_exact',
                   'missing_attribution_frame', 'position_claim', 'trade_reco_specific', 'self_contradiction', 'wrong_date_fact'})
 SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_units', 'period_not_in_units', 'number_metric_binding', 'number_words', 'no_judgment', 'data_list', 'no_disagreement', 'view_number_unbound', 'template_phrase', 'length_out_of_range', 'attribution_outside_frame',
-                  'trade_reco_soft', 'author_identity', 'code_fence', 'translated_quote', 'exemplar_phrase_copied', 'research_summary', 'certainty_overreach', 'contradicts_prior_view', 'view_not_recorded', 'cross_persona_claim_duplicate', 'thesis_grounding', 'emotion_drop'})
+                  'trade_reco_soft', 'author_identity', 'code_fence', 'translated_quote', 'exemplar_phrase_copied', 'research_summary', 'certainty_overreach', 'contradicts_prior_view', 'ignores_prior_view', 'view_not_recorded', 'cross_persona_claim_duplicate', 'thesis_grounding', 'emotion_drop'})
 FIXES = {
     'author_identity': 'Rewrite in third person or credit the source author inside the frame; '
                        'never present the author\'s experience, holdings or returns as the account\'s.',
@@ -24,6 +24,7 @@ FIXES = {
     'template_phrase': 'Rephrase without the listed template phrase.',
     'certainty_overreach': 'Match the stance and units: keep their hedges, do not add absolutes or forecasts.',
     'contradicts_prior_view': 'Stay consistent with the account\'s earlier call, or revise it explicitly with new evidence.',
+    'ignores_prior_view': 'Continue or update the account\'s earlier call on this subject; do not invent a one-shot take.',
     'cross_persona_claim_duplicate': 'Another persona already owns this same-conclusion claim for the topic lane; keep as HOLD or reassign.',
     'thesis_grounding': 'Rewrite per the fixed repair instruction for the reason code (consensus needs consensus evidence; analogies are not evidence; drop ungrounded claims / off-thesis lines).',
     'emotion_drop': 'Put a real reaction in the first two lines and hold the brief\'s emotion register; do not soften into a calm recap.',

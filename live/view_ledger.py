@@ -73,6 +73,33 @@ class ViewLedger:
         scored.sort(key=lambda t: (-t[0], t[1]), reverse=False)
         return [dict(r, overlap=round(o, 2)) for o, _, r in scored[:k]]
 
+    def ignores_prior(self, stance, prior_rows=None):
+        """Soft flag when take/adapt on an overlapping subject neither continues nor revises."""
+        if stance.get('decision') not in ('take', 'adapt'):
+            return []
+        if stance.get('revises_view_id') or stance.get('cited_prior_view_ids'):
+            return []
+        v = stance.get('view') or {}
+        subject = _tokens(str(v.get('subject') or ''))
+        if not subject:
+            return []
+        rows = prior_rows if prior_rows is not None else self.related(
+            ' '.join(str(x or '') for x in (v.get('subject'), stance.get('account_view'))), k=5)
+        for r in rows:
+            same = len(subject & _tokens(str(r.get('subject') or ''))) / len(subject) >= 0.5
+            if not same:
+                continue
+            # Continuity: account_view shares substantial tokens with the prior call
+            prior_toks = _tokens(str(r.get('account_view') or ''))
+            new_toks = _tokens(str(stance.get('account_view') or ''))
+            overlap = len(prior_toks & new_toks) / (len(prior_toks) or 1)
+            if overlap >= 0.35:
+                return []  # continuing the same call in substance
+            return [{'code': 'ignores_prior_view',
+                     'detail': f"new take on overlapping subject ignores prior {r['id']} "
+                               f"({(r.get('account_view') or '')[:80]}) — continue or set revises_view_id"}]
+        return []
+
     def contradictions(self, stance):
         v = stance.get('view') or {}
         direction = v.get('direction')
