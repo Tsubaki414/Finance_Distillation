@@ -738,3 +738,13 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                     'hard post checks failed' if qa_levels.draft_status(findings) == 'needs_review' else
                     'soft warnings only; persona voice draft'),
             **({'certainty_retry': certainty_retry} if certainty_retry else {})}
+
+
+def arbitrate_batch(results, *, mode='soft'):
+    """Post-stance / post-compose soft cross-persona claim arbitration.
+
+    Same-day same-conclusion claims keep the best-fit persona; others HOLD
+    with a soft finding (drafts never deleted). See live/claim_arbitration.py.
+    """
+    from live.claim_arbitration import apply_to_results
+    return apply_to_results(results, mode=mode)
