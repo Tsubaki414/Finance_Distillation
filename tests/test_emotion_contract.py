@@ -37,7 +37,8 @@ def test_punchy_opening_avoids_drop():
     assert ec.first_two_have_reaction(body)
 
 
-def test_compose_includes_emotion_brief_and_soft_retry():
+def test_compose_includes_emotion_brief_mid_no_force():
+    """MID personas get emotion_brief + soft findings; no force rewrite (retry OFF)."""
     class Alternating(Fake):
         def __call__(self, stage, messages, max_tokens):
             self.calls.append(stage)
@@ -45,20 +46,15 @@ def test_compose_includes_emotion_brief_and_soft_retry():
                 return {'text': json.dumps(self.units), 'finish_reason': 'stop', 'model': 'fake'}
             payload = json.loads(messages[-1]['content'])
             assert 'emotion_brief' in payload and payload['emotion_brief']['target_intensity'] >= 2
+            assert payload['emotion_brief'].get('tier') == 'mid'
+            assert payload['emotion_brief'].get('emotion_retry') is False
             ids = [u['unit_id'] for u in payload['units']]
-            n = self.calls.count('compose')
-            # First body is a flat recap (triggers EMOTION_DROP); retry is punchy.
-            flat = '营收同比增长4.8倍，达到542.3亿美元，营业利润率为69.5%。存储供给偏紧。'
-            punchy = '供给端的克制会延续，短期内很难看到过剩。\n' + GOOD_BODY
-            body = flat if n == 1 and 'rewrite_note' not in payload else punchy
-            # If first compose already has emotion_brief, first body may still drop;
-            # grounding may also retry — accept >=2 compose calls.
+            body = '供给端的克制会延续，短期内很难看到过剩。\n' + GOOD_BODY
             ledger = [{'claim': '营收', 'unit_id': ids[0], 'span_ref': 0}]
             return {'text': json.dumps({'body': body, 'claim_ledger': ledger}, ensure_ascii=False),
                     'finish_reason': 'stop', 'model': 'fake'}
 
     result, fake = run(Alternating(), post_type='data_take', account='zh_industry')
     assert 'emotion_brief' in result
-    assert fake.calls.count('compose') >= 1
-    # Soft only.
+    assert result['emotion_brief']['tier'] == 'mid'
     assert result['draft_status'] == 'draft_ready'

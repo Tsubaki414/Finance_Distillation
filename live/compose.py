@@ -621,9 +621,12 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         payload['stance'] = stance
     from live import emotion_contract as ec
     import os as _os
+    # Master off-switch for recorded/hash stability; per-persona tiers gate retry.
     use_emotion = emotion_contract if emotion_contract is not None else (_os.environ.get('FD_EMOTION_CONTRACT', '1') != '0')
-    emotion_brief = ec.build_emotion_brief(chosen, stance, source=source, lang=persona.lang) if use_emotion else None
-    if emotion_brief:
+    emo_policy = ec.tier_policy(account_id) if use_emotion else {'tier': None, 'emotion_retry': False, 'soft_findings': False, 'include_brief': False}
+    emotion_brief = None
+    if use_emotion and emo_policy.get('include_brief', True):
+        emotion_brief = ec.build_emotion_brief(chosen, stance, source=source, lang=persona.lang, account_id=account_id)
         payload['emotion_brief'] = emotion_brief
     import os
     variant = voice_prompt_variant if voice_prompt_variant is not None else os.environ.get('VOICE_PROMPT_VARIANT', 'v1')
@@ -716,10 +719,14 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         certainty_retry = {'attempted': True, 'kept': grounding_retry.get('kept'),
                            'first_findings': first_certainty,
                            'retry_findings': certainty_findings(body, chosen, stance, persona.lang)}
-    # Soft emotion contract: EMOTION_DROP warns + one repair/retry; never hard-block.
+    # Soft emotion contract by persona tier (Fiona 2026-10-05):
+    # HIGH = findings + one repair/retry; MID = soft remind only; LOW = no emotion rewrite
+    # (overclaim/grounding checks still run). Never hard-block.
     emotion_retry = None
-    emo_findings = ec.emotion_findings(body, emotion_brief) if emotion_brief else []
-    if emo_findings:
+    emo_findings = []
+    if emotion_brief and emo_policy.get('soft_findings'):
+        emo_findings = ec.emotion_findings(body, emotion_brief)
+    if emo_findings and emo_policy.get('emotion_retry'):
         note = ec.repair_instruction(emotion_brief, emo_findings)
         if note:
             retry_payload = dict(payload)
@@ -727,15 +734,20 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             value_e, response_e = _ask(client, 'compose', COMPOSE, retry_payload, MAX_TOKENS, assembly)
             body_e = (value_e.get('body') or '').strip()
             if body_e:
-                emotion_retry = {'attempted': True, 'kept': 'retry',
+                emotion_retry = {'attempted': True, 'kept': 'retry', 'tier': emo_policy.get('tier'),
                                  'first_findings': emo_findings,
                                  'repair_instruction': note,
                                  'retry_findings': ec.emotion_findings(body_e, emotion_brief)}
                 body, value, response = body_e, value_e, response_e
                 emo_findings = emotion_retry['retry_findings']
             else:
-                emotion_retry = {'attempted': True, 'kept': 'original', 'first_findings': emo_findings,
-                                 'repair_instruction': note}
+                emotion_retry = {'attempted': True, 'kept': 'original', 'tier': emo_policy.get('tier'),
+                                 'first_findings': emo_findings, 'repair_instruction': note}
+    elif emo_findings:
+        # MID: soft remind only — surface finding, do not force rewrite.
+        emotion_retry = {'attempted': False, 'kept': 'warn_only', 'tier': emo_policy.get('tier'),
+                         'first_findings': emo_findings,
+                         'repair_instruction': ec.repair_instruction(emotion_brief, emo_findings)}
 
     ledger = value.get('claim_ledger')
     require(isinstance(ledger, list) and ledger, 'compose: claim_ledger required')

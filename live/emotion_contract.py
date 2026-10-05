@@ -7,9 +7,34 @@ than the source/stance target — never hard-block.
 """
 from __future__ import annotations
 
+import json
 import re
+from pathlib import Path
 
 # Bilingual markers (xao Chinese set + EN finance-voice equivalents).
+
+TIERS_PATH = Path(__file__).with_name('emotion_tiers.json')
+
+
+def _load_tiers():
+    return json.loads(TIERS_PATH.read_text())
+
+
+def persona_tier(account_id):
+    """Return tier name for an account/persona id (high|mid|low)."""
+    cfg = _load_tiers()
+    return (cfg.get('personas') or {}).get(account_id) or cfg.get('default_tier') or 'mid'
+
+
+def tier_policy(account_id):
+    """Resolved policy dict for this persona: target, retry, findings, include_brief."""
+    cfg = _load_tiers()
+    name = persona_tier(account_id)
+    base = dict((cfg.get('tiers') or {}).get(name) or {})
+    base['tier'] = name
+    base['account_id'] = account_id
+    return base
+
 EMOTION_MARKERS = {
     'excited': ('冲', '暴涨', '爆', '牛市', '机会', '起飞', 'bull', 'moon', 'rally', 'breakout', '🔥'),
     'anxious': ('焦虑', '恐慌', '慌', '错过', '来不及', '不安', 'overwhelmed', 'anxiety', 'panic', 'spooked', 'nervous', 'uneasy'),
@@ -81,8 +106,11 @@ def _statements_from(units, stance, source=None):
     return [s for s in out if s.strip()]
 
 
-def build_emotion_brief(units, stance, *, source=None, lang='en'):
-    """Pick dominant emotion + target intensity 0–5 from source/stance text."""
+def build_emotion_brief(units, stance, *, source=None, lang='en', account_id=None, tier=None):
+    """Pick dominant emotion + target intensity 0–5 from source/stance text.
+
+    When account_id/tier is set, clamp target to that persona tier's policy.
+    """
     statements = _statements_from(units, stance, source)
     joined = '\n'.join(statements).casefold()
     ranked = sorted(
@@ -92,8 +120,22 @@ def build_emotion_brief(units, stance, *, source=None, lang='en'):
     emotions = [name for score, name in ranked if score][:2] or ['skeptical']
     marker_energy = ranked[0][0] if ranked else 0
     punct = min(2, joined.count('!') + joined.count('！'))
-    # xao-style floor: always at least 3 so soft EMOTION_DROP can fire on flat recaps.
-    target = min(5, max(3, 3 + int(marker_energy >= 2) + int(marker_energy >= 4 or punct >= 2)))
+    policy = None
+    if tier or account_id:
+        policy = tier_policy(account_id) if account_id else dict((_load_tiers().get('tiers') or {}).get(tier) or {}, tier=tier)
+    # Base intensity from source energy, then clamp into the persona tier band.
+    raw = 2 + int(marker_energy >= 1) + int(marker_energy >= 3) + int(marker_energy >= 5 or punct >= 2)
+    if policy:
+        floor = int(policy.get('target_intensity') or 3)
+        ceil = int(policy.get('target_intensity_max') or (5 if policy.get('tier') == 'high' else floor))
+        if policy.get('tier') == 'high':
+            target = max(floor, min(5, max(raw, floor)))          # ~4
+        elif policy.get('tier') == 'low':
+            target = max(floor, min(ceil, raw if raw >= floor else floor))  # 2–3
+        else:
+            target = floor                                        # ~3
+    else:
+        target = min(5, max(3, raw))  # legacy default when no persona tier
     energetic = sorted(
         statements,
         key=lambda t: -sum(_score_text(t, ms) for ms in EMOTION_MARKERS.values()),
@@ -103,6 +145,8 @@ def build_emotion_brief(units, stance, *, source=None, lang='en'):
         'dominant_emotions': emotions,
         'dominant_labels': labels,
         'target_intensity': int(target),
+        'tier': (policy or {}).get('tier'),
+        'emotion_retry': bool((policy or {}).get('emotion_retry')),
         'source_high_energy_lines': energetic,
         'required_effect': (
             'The reader must feel a real reaction from the author in the first two lines — '

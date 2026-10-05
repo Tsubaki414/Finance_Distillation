@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "note": "Per-persona emotion tiers (Fiona 2026-10-05). Retry only for HIGH; MID soft-reminds; LOW restrained (overclaim checks stay on).",
+  "default_tier": "mid",
+  "tiers": {
+    "high": {
+      "target_intensity": 4,
+      "emotion_retry": true,
+      "soft_findings": true,
+      "include_brief": true
+    },
+    "mid": {
+      "target_intensity": 3,
+      "emotion_retry": false,
+      "soft_findings": true,
+      "include_brief": true
+    },
+    "low": {
+      "target_intensity": 2,
+      "target_intensity_max": 3,
+      "emotion_retry": false,
+      "soft_findings": false,
+      "include_brief": true
+    }
+  },
+  "personas": {
+    "crypto_macro_zh": "high",
+    "crypto_macro_en": "high",
+    "trading_shortterm": "high",
+    "market_data_charts": "high",
+    "zh_macro": "mid",
+    "zh_industry": "mid",
+    "en_industry": "mid",
+    "en_macro": "low",
+    "investing_philosophy": "low",
+    "single_stock_deepdive_en": "low",
+    "en_morris_archive": "low"
+  }
+}
