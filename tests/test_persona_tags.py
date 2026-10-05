@@ -110,3 +110,14 @@ def test_tag_instructions_are_language_neutral():
     text = next(iter(fake.calls[0][1].values()))['instructions']
     assert 'language' in text.lower() and 'topic' in text.lower()
     assert 'any language' in text.lower()
+
+
+def test_retrieval_accepts_account_ids(tmp_path):
+    from live.retrieval import units_for_persona
+    (tmp_path / 'units.jsonl').write_text(json.dumps(row('macro')) + '\n')
+    store = ContentStore(tmp_path)
+    store.set_persona_tags({'macro': {'macro_zh': dict(verdict='relevant', confidence=.9)}}, .7)
+    assert units_for_persona(store, 'zh_macro') == units_for_persona(store, 'macro_zh')
+    assert [r['unit_id'] for r in units_for_persona(store, 'zh_macro')] == ['macro']
+    with pytest.raises(ValueError, match='Unknown persona: truly_unknown'):
+        units_for_persona(store, 'truly_unknown')

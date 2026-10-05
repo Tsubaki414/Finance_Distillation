@@ -2,7 +2,7 @@
 from datetime import date, datetime, timedelta, timezone
 import re
 
-from live.jev_front import KEYWORDS, PERSONAS
+from live.jev_front import KEYWORDS, PERSONAS, jev_persona_for
 from live.reportgem_daily import THEMES
 
 _ZH_EQUIVALENTS = {'macro_zh': 'macro_rates_en', 'crypto_macro_zh': 'crypto_macro_en',
@@ -31,8 +31,10 @@ def units_for_persona(store, persona, *, limit=None, as_of=None, max_age_days=No
     Without a date filter unknown publication dates sort last. Routing overrides
     keyword scoring; ties are deterministic by unit_id. No store writes occur.
     """
+    original_persona = persona
+    persona = jev_persona_for(persona)
     if persona not in PERSONAS:
-        raise ValueError(f'Unknown persona: {persona}')
+        raise ValueError(f'Unknown persona: {original_persona}')
     if limit is not None and (type(limit) is not int or limit < 0):
         raise ValueError('limit must be a nonnegative integer')
     if max_age_days is not None and max_age_days < 0:
