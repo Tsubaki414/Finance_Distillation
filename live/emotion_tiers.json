@@ -5,6 +5,7 @@
   "tiers": {
     "high": {
       "target_intensity": 4,
+      "target_intensity_max": 4,
       "emotion_retry": true,
       "soft_findings": true,
       "include_brief": true

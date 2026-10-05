@@ -46,6 +46,9 @@ EMOTION_MARKERS = {
     'relieved': ('松一口气', '缓和', '好转', 'relief', 'relieved', 'easing', 'cooling'),
 }
 
+# High-arousal registers. Only these may push a HIGH persona to intensity 5 or count as overfire.
+HOT_EMOTIONS = ('excited', 'anxious', 'annoyed', 'absurd')
+
 # Maps to a short compose-facing label (EN; ZH personas still understand these).
 EMOTION_LABEL = {
     'excited': 'excited / 兴奋',
@@ -61,9 +64,9 @@ EMOTION_LABEL = {
 _REACTION = re.compile(
     r"\b(?:unlikely|skeptical|doubt|thin|fragile|overdone|nonsense|ridiculous|absurd|"
     r"panic|nervous|uneasy|wary|relief|relieved|curious|odd|interesting|crash|dump|"
-    r"bullish|bearish|unimpressed|impatient|annoyed)\b|"
+    r"shrug\w*|distraction|screaming|asleep|mistake|starved|too (?:cheap|rich|early|late|complacent)|losing (?:its|their) grip|don't front-run|isn't landing|wrong|misread\w*|mispric\w*|underpric\w*|overpric\w*|complacen\w*|bias|trap|blind\w*|ignor\w*|overreact\w*|hype\w*|stretched|frothy|premature|overstat\w*|understat\w*|bullish|bearish|unimpressed|impatient|annoyed)\b|"
     r'未必|不足以|还早|撑不住|别急|离谱|荒谬|焦虑|恐慌|警惕|有意思|没想到|'
-    r'看好|看空|偏弱|偏强|钝化|失效|压制|韧性|乐观|悲观|别急|还早|撑不住',
+    r'根本不|免疫|无法主导|只会引来|别碰|别追|误判|错杀|高估|低估|过度|太早|想多了|陷阱|别被|当心|不对劲|看错|反应过度|泡沫|站不住|谈不上|看好|看空|偏弱|偏强|钝化|失效|压制|韧性|乐观|悲观|别急|还早|撑不住',
     re.I,
 )
 _SENTENCE = re.compile(r'(?<!\d)[.!?。！？]|\n+')
@@ -127,9 +130,12 @@ def build_emotion_brief(units, stance, *, source=None, lang='en', account_id=Non
     raw = 2 + int(marker_energy >= 1) + int(marker_energy >= 3) + int(marker_energy >= 5 or punct >= 2)
     if policy:
         floor = int(policy.get('target_intensity') or 3)
-        ceil = int(policy.get('target_intensity_max') or (5 if policy.get('tier') == 'high' else floor))
+        ceil = int(policy.get('target_intensity_max') or (4 if policy.get('tier') == 'high' else floor))
         if policy.get('tier') == 'high':
-            target = max(floor, min(5, max(raw, floor)))          # ~4
+            # 5 only for a genuinely hot source register; 'wary'/'skeptical' saturate on finance
+            # vocabulary (risk/watch) and pushing them to 5 is what made HIGH personas overfire.
+            hot_source = emotions[0] in HOT_EMOTIONS and marker_energy >= 5
+            target = max(floor, min(5 if hot_source or punct >= 2 else ceil, max(raw, floor)))  # ~4
         elif policy.get('tier') == 'low':
             target = max(floor, min(ceil, raw if raw >= floor else floor))  # 2–3
         else:
@@ -219,5 +225,29 @@ def repair_instruction(brief, findings):
         f"[emotion_repair] Target intensity {brief.get('target_intensity')}/5 with dominant emotion(s): {labels}. "
         'Put a real reaction in the first two lines (short punchy judgment, not a calm recap). '
         'Hold one register through the post. Amplify rhetoric only — never facts or certainty. '
-        f"Devices: {', '.join(brief.get('allowed_devices') or [])}."
+        f"Devices: {', '.join(brief.get('allowed_devices') or [])}. "
+        'Do not add crowd feelings (市场都/大家都/everyone is panicking), absolutes, superlatives, '
+        "or more than one exclamation mark; the reaction is the author's own judgment, not invented market mood."
     )
+
+
+def overfire_findings(body, brief, lang):
+    """Advisory ceiling for rhetoric, including restrained persona tiers."""
+    if brief is None:
+        return []
+    body = body or ''
+    reasons = []
+    exclamations = body.count('!') + body.count('！')
+    if exclamations > 2:
+        reasons.append(f'{exclamations} exclamation marks')
+    # Hot-register words only (hype / panic / scorn / meme). Skeptical or wary judgment words are
+    # the restrained voice we want, so draft_intensity (which counts them) is not used here.
+    hot = sum(_score_text(body, EMOTION_MARKERS[e]) for e in HOT_EMOTIONS)
+    limit = 4 if brief.get('tier') == 'high' else 2
+    if hot > limit:
+        reasons.append(f'{hot} hot-register words (limit {limit} for tier {brief.get("tier") or "default"})')
+    # Pictographic emoji only; market symbols such as ▲▼ ° stay allowed for chart personas.
+    emojis = sum(0x1F300 <= ord(c) <= 0x1FAFF or 0x2600 <= ord(c) <= 0x27BF for c in body)
+    if lang in ('zh', 'en') and emojis >= 2:
+        reasons.append(f'{emojis} emoji/symbols')
+    return [{'code': 'emotion_overfire', 'level': 'soft', 'detail': '; '.join(reasons)}] if reasons else []

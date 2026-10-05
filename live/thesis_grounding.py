@@ -142,7 +142,8 @@ def classify_sentence(sentence, thesis_tokens, evidence_tokens, evidence_blob, u
     thesis_overlap = (len(stoks & thesis_tokens) / len(thesis_tokens)) if thesis_tokens else 0.0
     evid_overlap = (len(stoks & evidence_tokens) / len(stoks)) if stoks else 0.0
 
-    if _CONSENSUS[lang].search(s) and not _has_consensus_evidence(units):
+    from live.compose import _negated_match
+    if any(not _negated_match(s, m, lang) for m in _CONSENSUS[lang].finditer(s)) and not _has_consensus_evidence(units):
         return 'UNGROUNDED_NEW_CLAIM', 'UNSUPPORTED_CONSENSUS_CLAIM', s[:120]
 
     if _ANALOGY[lang].search(s):

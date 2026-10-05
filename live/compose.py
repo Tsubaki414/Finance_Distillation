@@ -486,10 +486,10 @@ def number_findings(body, units):
 
 CERTAINTY = {
     'en': (r"\b(?:entirely|completely|totally|always|never|every|certainly|definitely|guaranteed|undeniabl[ey]|"
-           r"no doubt|without question|impossible|inevitabl[ey]|nothing|nobody|"
+           r"unprecedented|everyone knows|without a doubt|beyond doubt|no doubt|without question|impossible|inevitabl[ey]|nothing|nobody|"
            r"everyone (?:is|was) watching|the market is (?:afraid|spooked|panicking))\b"),
     # ZH: absolutes PLUS invented crowd feelings / consensus (overnight fab flags).
-    'zh': (r'完全|彻底|一定|必然|必定|肯定|绝对|永远|从不|从来不|毫无|一律|注定|势必|全部|所有|每次|'
+    'zh': (r'毫无疑问|毋庸置疑|显而易见|很显然|众所周知|不言而喻|板上钉钉|百分之百|史无前例|前所未有|人人自危|散户都|资金都在|恐慌情绪蔓延|完全|彻底|一定|必然|必定|肯定|绝对|永远|从不|从来不|毫无|一律|注定|势必|全部|所有|每次|'
            r'市场都|各方都|投资者都|大家都在|人人都|没有人不|惊弓之鸟|人心惶惶|一致认为|市场恐慌'),
 }
 FORECAST = {
@@ -512,6 +512,39 @@ ZH_EQUIV = {'完全': ('entirely', 'completely', 'fully', 'totally'), '彻底': 
             '惊弓之鸟': (), '人心惶惶': (), '一致认为': (), '市场恐慌': ()}
 
 
+ZH_EQUIV.update({
+    '毫无疑问': ('undoubtedly', 'no doubt'), '毋庸置疑': ('no doubt', 'undeniabl'),
+    '显而易见': ('obvious', 'clearly'), '很显然': ('obvious', 'clearly'),
+    '众所周知': ('well known', 'everyone knows'), '百分之百': ('100%',),
+    '史无前例': ('unprecedented', 'record', 'first time'),
+    '前所未有': ('unprecedented', 'record', 'first time'),
+    '恐慌情绪蔓延': ('panic',),
+})
+
+
+def _negated_match(text, match, lang):
+    """Only local negation scopes a marker; sentence-wide hedges do not."""
+    if lang == 'en' and match.group().casefold() in ('never', 'nothing', 'nobody'):
+        return False
+    prefix = text[:match.start()]
+    if lang == 'zh':
+        prefix = re.sub(r'\s+', '', prefix)
+        # Negator must sit right before the marker (optionally one light filler such as 会/是/必).
+        # Anchoring stops 未来一定 / 非常肯定 / 不仅彻底 from reading as negated hedges.
+        return bool(re.search(r'(?:并非|并不|没有|无法|不是|不|未|没|非)(?:会|是|能|太|再|必|算|够|那么|见得)?$', prefix))
+    return bool(re.search(
+        r"(?:\bnot|n't|\bfar from|\bhardly|\bby no means|\bno longer)"
+        r"(?:\s+(?:[a-z]+ly|very|quite|rather|almost|nearly|even|ever|just))?\s*$", prefix, re.I))
+
+
+def _zh_idiom(text, match):
+    suffix = re.sub(r'\s+', '', text[match.end():])
+    patterns = {'一定': r'程度|的|比例|规模|范围|数量|时间',
+                '绝对': r'值|收益|额|水平|数', '所有': r'权|者|制',
+                '肯定': r'了', '完全': r'取决|看|依赖'}
+    return bool(re.match(patterns.get(match.group(), r'(?!)'), suffix))
+
+
 def certainty_findings(body, units, stance, lang):
     """Certainty/forecast wording in the draft that neither the stance nor any unit carries
     (e.g. 'small or short-lived' -> 'entirely short-lived', or an added outlook). SOFT."""
@@ -523,16 +556,35 @@ def certainty_findings(body, units, stance, lang):
     lang = 'zh' if lang == 'zh' else 'en'
     findings = []
     for kind, table in (('certainty', CERTAINTY), ('forecast', FORECAST)):
-        found = {m.casefold() for m in re.findall(table[lang], body, re.I)}
+        found = set()
+        forward_call = bool(str(view.get('direction') or '').strip() and
+                            str(view.get('horizon') or '').strip().casefold() not in ('', 'unspecified'))
+        soft_modals = {'will', 'going to', '将会', '大概率', '接下来会'}
+        for match in re.finditer(table[lang], body, re.I):
+            marker = match.group().casefold()
+            if _negated_match(body, match, lang) or (lang == 'zh' and _zh_idiom(body, match)):
+                continue
+            if kind == 'forecast' and forward_call and marker in soft_modals:
+                continue
+            found.add(marker)
         added = sorted(m for m in found if m not in inputs and not any(e in inputs for e in ZH_EQUIV.get(m, ())))
         if added:
             findings.append({'code': 'certainty_overreach', 'detail': f'{kind} wording not in stance/units: ' + ', '.join(added)})
     return findings
 
 
+def _guard_codes(body, chosen, stance, lang):
+    from live import thesis_grounding as tg
+    codes = set(tg.review(body, stance, chosen, lang)['reason_codes'])
+    for finding in certainty_findings(body, chosen, stance, lang):
+        kind, words = finding['detail'].split(' wording not in stance/units: ', 1)
+        codes.update(f'{kind}:{word}' for word in words.split(', '))
+    return codes
+
+
 JUDGMENT_MARKERS = re.compile(
     r"\b(?:bullish|bearish|dovish|hawkish|expect|unlikely|likely|looks|should|prefer|overpriced|underpriced|skeptical|sceptical|"
-    r"disagree|tight|fragile|real|overdone|overstated|understated|matters?|isn't|aren't|not|won't|can't|"
+    r"disagree|tight(?:en(?:s|ing)?)?|loosen(?:s|ing)?|fragile|real|overdone|overstated|understated|matters?|isn't|aren't|not|won't|can't|"
     r"premature|unresponsive|contagion|exceptional|guaranteed|"
     r"weak(?:er|ening)?|strong(?:er)?|intact|thin|cheap|expensive|risk(?:y)?|durable|peak(?:ing|ed)?|stalls?|cracks?)\b|"
     r"看好|看空|判断|预计|认为|觉得|更可能|难以|不认同|不同意|偏紧|偏弱|偏强|仍需|还不足以|不足以|说明|意味着|"
@@ -590,6 +642,23 @@ def _is_thesis_shape(text):
     return False
 
 
+# ZH evaluative moves that carry a call on their own (restraint / conditional / normative).
+ZH_STRONG_EVAL = re.compile(r'另说|只能算|还没|撑不起|撑不住|站得住|站不住|割裂|免疫|别急|才是|没有异议|必须|不能|'
+                            r'谈不上|不足以|未必|算不上|言之过早|为时尚早')
+ZH_CONTRAST = re.compile(r'但|却|然而')
+
+
+def _zh_judgment_shape(first, first_line):
+    """ZH opening that evaluates rather than recaps. Contrast words only count when the
+    sentence is not itself a data line (≤1 figure), so 'PMI 50.1%，但新订单49.8%' still fails."""
+    text = first_line or first
+    if not re.search(r'[\u4e00-\u9fff]', text) or text.rstrip().endswith(('?', '？')):
+        return False
+    if ZH_STRONG_EVAL.search(text):
+        return True
+    return bool(ZH_CONTRAST.search(first) and len(inventory(first)) <= 1)
+
+
 def judgment_findings(body, stance):
     """Opening must carry the stance's call.
 
@@ -621,6 +690,7 @@ def judgment_findings(body, stance):
                 and not _is_thesis_shape(first) and not _eval)
     thesis = _is_thesis_shape(first) or _is_thesis_shape(first_line)
     shared_n = len(field_tokens & first_tokens)
+    zh_open = len(re.findall(r'[\u4e00-\u9fff]', first_line)) >= max(4, len(first_line) // 3)
     rhetorical = question and bool(re.search(
         r"\b(?:actually|really|anyone|seriously|looking past|supposed to)\b|难道|不就",
         first_line, re.I))
@@ -633,6 +703,9 @@ def judgment_findings(body, stance):
         or (not data_led and not question and thesis and (shared_n >= 1 or not field_tokens))
         or (not data_led and not question and _eval and (shared_n >= 1 or not field_tokens))
         or (rhetorical and not data_led and (shared_n >= 1 or not field_tokens))
+        # ZH: CJK bigram ratios are diluted by long stances; evaluate shape + absolute overlap.
+        or (not data_led and not question and _zh_judgment_shape(first, first_line))
+        or (not data_led and not question and zh_open and shared_n >= 3 and not re.search(r'\d', first))
     )
     marked = bool(JUDGMENT_MARKERS.search(first) or JUDGMENT_MARKERS.search(first_line)) and not data_led
     bare_question = question and not carries and not marked
@@ -976,12 +1049,16 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                                'retry_reason_codes': after['reason_codes'],
                                'repair_instruction': grounding['repair_instruction'],
                                'first_spans': grounding['spans'][:8]}
-            body, value, response = body2, value2, response2
-            grounding = after
+            before_codes, after_codes = set(grounding['reason_codes']), set(after['reason_codes'])
+            if len(after_codes) <= len(before_codes) and (after_codes <= before_codes or len(after_codes) < len(before_codes)):
+                body, value, response = body2, value2, response2
+                grounding = after
+            else:
+                grounding_retry.update(kept='original', reject_reason='guard_regression')
         else:
             grounding_retry = {'attempted': True, 'kept': 'original',
                                'first_reason_codes': list(grounding['reason_codes']),
-                               'repair_instruction': grounding['repair_instruction']}
+                               'repair_instruction': grounding['repair_instruction'], 'reject_reason': 'empty_body'}
     # Back-compat: certainty_retry when the first draft had certainty/crowd overreach.
     certainty_retry = None
     first_certainty = certainty_findings(first_body, chosen, stance, persona.lang)
@@ -1008,11 +1085,18 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                                  'first_findings': emo_findings,
                                  'repair_instruction': note,
                                  'retry_findings': ec.emotion_findings(body_e, emotion_brief)}
-                body, value, response = body_e, value_e, response_e
-                emo_findings = emotion_retry['retry_findings']
+                new_codes = _guard_codes(body_e, chosen, stance, persona.lang) - _guard_codes(body, chosen, stance, persona.lang)
+                improved = len(emotion_retry['retry_findings']) < len(emo_findings)
+                emotion_retry['new_guard_codes'] = sorted(new_codes)
+                if improved and not new_codes:
+                    body, value, response = body_e, value_e, response_e
+                    emo_findings = emotion_retry['retry_findings']
+                else:
+                    emotion_retry.update(kept='original', reject_reason='guard_regression' if new_codes else 'no_improvement')
             else:
                 emotion_retry = {'attempted': True, 'kept': 'original', 'tier': emo_policy.get('tier'),
-                                 'first_findings': emo_findings, 'repair_instruction': note}
+                                 'first_findings': emo_findings, 'repair_instruction': note,
+                                 'reject_reason': 'no_improvement', 'new_guard_codes': []}
     elif emo_findings:
         # MID: soft remind only — surface finding, do not force rewrite.
         emotion_retry = {'attempted': False, 'kept': 'warn_only', 'tier': emo_policy.get('tier'),
@@ -1038,10 +1122,17 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                 judgment_retry = {'attempted': True, 'kept': 'retry', 'first_findings': j_findings,
                                   'repair_instruction': note,
                                   'retry_findings': judgment_findings(body_j, stance)}
-                body, value, response = body_j, value_j, response_j
+                after_j = [f for f in judgment_retry['retry_findings'] if f['code'] in ('no_judgment', 'data_list')]
+                if len(after_j) < len(j_findings):
+                    new_codes = _guard_codes(body_j, chosen, stance, persona.lang) - _guard_codes(body, chosen, stance, persona.lang)
+                    if new_codes:
+                        judgment_retry['guard_regression'] = sorted(new_codes)
+                    body, value, response = body_j, value_j, response_j
+                else:
+                    judgment_retry.update(kept='original', reject_reason='no_improvement')
             else:
                 judgment_retry = {'attempted': True, 'kept': 'original', 'first_findings': j_findings,
-                                  'repair_instruction': note}
+                                  'repair_instruction': note, 'reject_reason': 'no_improvement'}
 
     ledger = value.get('claim_ledger')
     require(isinstance(ledger, list) and ledger, 'compose: claim_ledger required')
@@ -1055,6 +1146,10 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                 'compose: claim_ledger span_ref out of range')
     text = (frame['text'] + body) if frame['placement'] == 'lead' else (body + frame['text'])
     findings = post_checks(post_type, body, text, frame, tier, chosen, persona, post_types, stance, source=source, now=now)
+    grounding = tg.review(body, stance, chosen, persona.lang)
+    emo_findings = ec.emotion_findings(body, emotion_brief) if emotion_brief and emo_policy.get('soft_findings') else []
+    if emotion_brief:
+        findings += qa_levels.classify(ec.overfire_findings(body, emotion_brief, persona.lang), frame_found=True)
     findings += qa_levels.classify(grounding.get('findings') or [], frame_found=True)
     findings += qa_levels.classify(emo_findings or [], frame_found=True)
     findings += qa_levels.classify(exemplar_store.copied_phrases(body, [e['text'] for e in shown]), frame_found=True)
