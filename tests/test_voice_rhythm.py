@@ -56,9 +56,11 @@ def test_compose_short_exemplars_and_all_clusters_enabled(tmp_path):
     fake = Recording()
     compose.compose_source(SOURCE, 'zh_industry', fake, post_type='data_take', exemplar_dir=posts, exemplar_tags_dir=tags)
     payload = json.loads(fake.messages[-1]['content'])
-    assert len(payload['style_exemplars']) == 5   # 4 retrieved + 1 signature exemplar
+    # 4 retrieved + up to 2 ZH restraint + 1 signature exemplar
+    assert 5 <= len(payload['style_exemplars']) <= 7
+    assert any(e.get('why') == 'zh restraint exemplar' for e in payload['style_exemplars'])
     assert all(len(e['text']) <= 400 for e in payload['style_exemplars'])
-    assert all(e['id'].endswith('short') for e in payload['style_exemplars'] if e.get('why') != 'signature exemplar')
+    assert all(e['id'].endswith('short') for e in payload['style_exemplars'] if e.get('why') not in ('signature exemplar', 'zh restraint exemplar'))
     assert payload['persona']['voice_card']['rhythm']
     for persona in registry.load_personas().values():
         if persona.raw.get('donor_cluster'):
@@ -116,7 +118,8 @@ def test_voice_card_always_enables_exemplars_and_bounds_k(tmp_path, monkeypatch,
     fake = Recording()
     compose.compose_source(SOURCE, 'zh_industry', fake, post_type='data_take', exemplars=None,
                            exemplar_dir=posts, exemplar_tags_dir=tags)
-    assert len(json.loads(fake.messages[-1]['content'])['style_exemplars']) == expected + 1   # + 1 signature exemplar
+    n = len(json.loads(fake.messages[-1]['content'])['style_exemplars'])
+    assert expected + 1 <= n <= expected + 3   # + signature (+ ZH restraint when present)
 
 
 def test_body_length_follows_donor_post_lengths():

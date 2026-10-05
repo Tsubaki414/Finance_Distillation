@@ -21,3 +21,4 @@ live/donors/tags/
 live/donors/posts
 # user-owned book PDFs / extracted text (paraphrase-only sources; never commit)
 live/sources/
+store/view_ledger/

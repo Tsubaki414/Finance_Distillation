@@ -326,8 +326,11 @@ def number_findings(body, units):
 
 CERTAINTY = {
     'en': (r"\b(?:entirely|completely|totally|always|never|every|certainly|definitely|guaranteed|undeniabl[ey]|"
-           r"no doubt|without question|impossible|inevitabl[ey]|nothing|nobody)\b"),
-    'zh': r'完全|彻底|一定|必然|必定|肯定|绝对|永远|从不|从来不|毫无|一律|注定|势必|全部|所有|每次',
+           r"no doubt|without question|impossible|inevitabl[ey]|nothing|nobody|"
+           r"everyone (?:is|was) watching|the market is (?:afraid|spooked|panicking))\b"),
+    # ZH: absolutes PLUS invented crowd feelings / consensus (overnight fab flags).
+    'zh': (r'完全|彻底|一定|必然|必定|肯定|绝对|永远|从不|从来不|毫无|一律|注定|势必|全部|所有|每次|'
+           r'市场都|各方都|投资者都|大家都在|人人都|没有人不|惊弓之鸟|人心惶惶|一致认为|市场恐慌'),
 }
 FORECAST = {
     'en': r"\b(?:will|going to|is set to|are set to|bound to|sure to)\b",
@@ -344,7 +347,9 @@ ZH_EQUIV = {'完全': ('entirely', 'completely', 'fully', 'totally'), '彻底': 
             '全部': ('all', 'entire'), '所有': ('all', 'every'), '每次': ('every', 'each'),
             '将会': ('will',), '必将': ('will', 'inevitabl'), '很难有': ('unlikely', 'hard to', 'difficult'),
             '难以出现': ('unlikely',), '大概率': ('likely', 'probab'), '即将': ('soon', 'about to', 'imminent'),
-            '接下来会': ('will', 'next')}
+            '接下来会': ('will', 'next'),
+            '市场都': (), '各方都': (), '投资者都': (), '大家都在': (), '人人都': (), '没有人不': (),
+            '惊弓之鸟': (), '人心惶惶': (), '一致认为': (), '市场恐慌': ()}
 
 
 def certainty_findings(body, units, stance, lang):
@@ -630,7 +635,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     sig = getattr(persona, 'signature_card', None) or {}
     if sig:
         payload['persona']['signature'] = {
-            'use': 'the account signature: use one or two moves per post, lexicon sparingly and never copy donor sentences; never break the taboos',
+            'use': 'the account signature: use one or two moves per post, lexicon sparingly and never copy donor sentences; never break the taboos'
+                      + ('; for ZH: prefer the restraint exemplars — commit the call without inventing what the market or others feel' if persona.lang == 'zh' else ''),
             'moves': [m['name'] + ': ' + m['how'] for m in sig.get('moves', [])],
             'openings': sig.get('openings', []), 'closings': sig.get('closings', []),
             'lexicon': sig.get('lexicon', []), 'taboos': sig.get('taboos', [])}
@@ -645,12 +651,23 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         shown = exemplar_store.retrieve(persona, post_type=post_type, query=query,
                                         k=max(3, min(5, int(retrieval.get('k', 4)))) if persona.voice_card else int(retrieval.get('k', 4)),
                                         posts_dir=exemplar_dir, post_types=post_types, tags_dir=exemplar_tags_dir)
-        if sig.get('exemplars'):
-            # Retrieval stays intact and one signature exemplar (judge-picked donor post) is added.
-            # A/B v6: replacing retrieved exemplars with signature ones cost voice (3.62 vs 3.88) and emotion.
+        if sig.get('exemplars') or sig.get('zh_restraint'):
+            # Retrieval stays intact; add one signature exemplar and, for ZH, up to two restraint snippets
+            # (short clean openings that do not invent crowd feelings or absolutes).
             have = {e.get('id') for e in shown}
-            shown = shown + [{'handle': e['handle'], 'id': e['id'], 'text': exemplar_store.short_text(e['text']),
-                              'why': 'signature exemplar'} for e in sig['exemplars'] if e['id'] not in have][:1]
+            picked = []
+            for e in sig.get('zh_restraint') or []:
+                if e.get('id') in have: continue
+                picked.append({'handle': e.get('handle') or 'restraint', 'id': e['id'],
+                               'text': e['text'], 'why': 'zh restraint exemplar'})
+                have.add(e['id'])
+                if len(picked) >= 2: break
+            for e in sig.get('exemplars') or []:
+                if e['id'] in have: continue
+                picked.append({'handle': e['handle'], 'id': e['id'], 'text': exemplar_store.short_text(e['text']),
+                               'why': 'signature exemplar'})
+                break
+            shown = shown + picked
         if shown:
             payload['style_exemplars'] = shown
             payload['style_exemplar_rule'] = EXEMPLAR_RULE
@@ -658,6 +675,24 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     body = value.get('body')
     require(isinstance(body, str) and body.strip(), 'compose: body required')
     body = body.strip()
+    # ZH over-claim: soft-warn is not enough for clear overreach vs stance — retry once.
+    # Never hard-block; if the retry still overclaims, keep the soft warning and the last body.
+    certainty_retry = None
+    if persona.lang == 'zh' and certainty_findings(body, chosen, stance, 'zh'):
+        retry_payload = dict(payload)
+        retry_payload['rewrite_note'] = (
+            'Your previous draft used certainty or crowd wording the stance/units do not carry '
+            '(e.g. 彻底/一定/市场都/各方都/惊弓之鸟). Rewrite without those; keep the call, hedges and numbers.')
+        value2, response2 = _ask(client, 'compose', COMPOSE, retry_payload, MAX_TOKENS, assembly)
+        body2 = (value2.get('body') or '').strip()
+        if body2:
+            certainty_retry = {'attempted': True,
+                               'first_findings': certainty_findings(body, chosen, stance, 'zh'),
+                               'retry_findings': certainty_findings(body2, chosen, stance, 'zh'),
+                               'kept': 'retry'}
+            body, value, response = body2, value2, response2
+        else:
+            certainty_retry = {'attempted': True, 'kept': 'original'}
     ledger = value.get('claim_ledger')
     require(isinstance(ledger, list) and ledger, 'compose: claim_ledger required')
     by_id = {u['unit_id']: u for u in chosen}
@@ -701,4 +736,5 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                                 {'stage': 'compose', **{k: response.get(k) for k in ('model', 'response_model', 'finish_reason', 'usage', 'model_fallback', 'fallback_reason')}}],
             'why': ('post checks passed; persona voice draft' if not findings else
                     'hard post checks failed' if qa_levels.draft_status(findings) == 'needs_review' else
-                    'soft warnings only; persona voice draft')}
+                    'soft warnings only; persona voice draft'),
+            **({'certainty_retry': certainty_retry} if certainty_retry else {})}

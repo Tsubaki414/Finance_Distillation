@@ -123,8 +123,10 @@ class ComposeExemplarTests(unittest.TestCase):
         self.assertTrue(payload['style_exemplars'])
         self.assertIn('style', payload['style_exemplar_rule'])
         self.assertEqual([e['id'] for e in result['exemplars']], [e['id'] for e in payload['style_exemplars']])
+        # Retrieved exemplars stay on the donor roster; signature/restraint may use donor handles from the card.
+        retrieved = [e for e in result['exemplars'] if not str(e.get('id','')).startswith('restraint-')]
         self.assertTrue(all(e['handle'] in registry.persona_for_account('zh_industry').exemplar_accounts
-                            for e in result['exemplars']))
+                            for e in retrieved))
 
     def test_exemplars_off_keeps_the_payload_unchanged(self):
         fake = Recording()
