@@ -4,6 +4,23 @@
 
 当前默认分支：`fd-phase0`。`main` 为进入本阶段前的基线快照。
 
+
+## 当前流程
+
+```mermaid
+flowchart LR
+    A[合规来源渠道] --> B[抽取内容单元]
+    B --> C[共享观点库]
+    C --> D[选题与路由]
+    D --> E[人设立场 / 观点账本]
+    E --> F[跨号主张仲裁]
+    F --> G[成稿 Compose]
+    G --> H[软质检与定向重写]
+    H --> I[可审草稿]
+```
+
+热点与数据只决定研究对象；Thesis / 账号立场决定「说什么」；招牌写法与帖型结构决定「怎么说」。同一事件允许不同人设持相反判断；同结论换口吻会被仲裁 HOLD。
+
 ## 产品形态
 
 ```
@@ -117,10 +134,47 @@ git clone https://github.com/Tsubaki414/Finance_Distillation.git
 cd Finance_Distillation
 git checkout fd-phase0
 python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt   # 按仓库依赖安装
-export GEMINI_RELAY_API_KEY=... RELAY_API_KEY=...
+pip install -r requirements.txt
+export GEMINI_RELAY_API_KEY=... RELAY_API_KEY=...   # 按需再加 TYPESAFE_API_KEY 等
+```
+
+**离线看清链路（不花模型费）：**
+
+```bash
+python scripts/judgment_sample.py
+```
+
+**用中继跑一版十人设草稿（需已有内容单元库）：**
+
+```bash
+python scripts/voice_relay_check.py --relay
+```
+
+**日更拉取（默认成本上限约 $8）：**
+
+```bash
+bash scripts/cron/daily_ingest.sh
+```
+
+**测试：**
+
+```bash
 bash scripts/run_tests.sh
 ```
+
+## 关键配置
+
+| 文件 | 作用 |
+|------|------|
+| `live/accounts.json` | 十人设账号元数据、题材 beats、来源偏好 |
+| `live/personas/` | 人设卡与 `signature_cards/` 招牌开场收尾 |
+| `live/channels.json` | 来源渠道注册表（模式、授权、探针状态） |
+| `live/stage_models.json` | 各阶段模型 / 温度 / Gemini 回退策略 |
+| `live/emotion_tiers.json` | 人设情绪分档（高 / 中 / 低） |
+| `live/source_display.json` | 对外署名与显示名清洗 |
+| `live/freshness_policy.json` | 题材保质期与过期使用规则 |
+| `live/trusted_sources.json` | 高信任源数字免检名单 |
+| `docs/architecture`（若有） / 本 README | 产品与验收说明 |
 
 ## 分支
 
