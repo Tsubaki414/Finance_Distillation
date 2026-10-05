@@ -18,7 +18,18 @@
     "众所周知",
     "细思极恐",
     "炸裂",
-    "重磅"
+    "重磅",
+    "还早着呢",
+    "还要再看",
+    "才是关键",
+    "才值得看",
+    "真正的问题是",
+    "这才是……的地方",
+    "现在下结论还太早",
+    "能不能守住",
+    "链路往下推",
+    "每一环的议价权",
+    "这才是要分开看的地方"
   ],
   "en": [
     "it's worth noting",
@@ -28,7 +39,15 @@
     "game-changer",
     "delve into",
     "a testament to",
-    "buckle up"
+    "buckle up",
+    "my read is that",
+    "the catch?",
+    "valuation-free",
+    "supply-discipline check",
+    "Calling a strong chance",
+    "is a start.",
+    "That said,",
+    "before that door closes"
   ],
   "patterns": {
     "zh": [
@@ -51,6 +70,10 @@
       {
         "show": "说白了 / 说到底 / 一句话：",
         "regex": "说白了|说到底|一句话[：:]"
+      },
+      {
+        "show": "这才是…的地方",
+        "regex": "这才是[^。！？\\n]{1,30}的地方"
       }
     ],
     "en": [

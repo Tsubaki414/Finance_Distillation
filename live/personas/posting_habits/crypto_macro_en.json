@@ -1,0 +1,33 @@
+{
+  "persona_id": "crypto_macro_en",
+  "basis": "donor observations",
+  "length_mix": {
+    "short": 0.419,
+    "medium": 0.462,
+    "long": 0.119
+  },
+  "thread_vs_single": {
+    "thread_rate": 0.0,
+    "single_rate": 1.0,
+    "method": "thread_id/is_thread metadata; no length-based thread inference"
+  },
+  "short_line_break_habit": {
+    "prefer_no_intermediate_periods": true,
+    "observed_share": 0.692
+  },
+  "sample_ids": [
+    "2106425555402821799",
+    "2106353116878897652",
+    "2106207289816535308",
+    "2105841682205802739",
+    "2105818748125069818",
+    "2105769829500076511",
+    "2105755257716298174",
+    "2105725968841126347",
+    "2105725081032773723",
+    "2105461971051286833",
+    "2105460558631743495",
+    "2105456936749588711"
+  ],
+  "guidance": "Alternate longer threads with shorts; for short punchy posts prefer line breaks without trailing periods on intermediate lines."
+}

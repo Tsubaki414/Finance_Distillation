@@ -25,6 +25,8 @@ class RecordedComposeTests(unittest.TestCase):
             messages = copy.deepcopy(messages)
             if stage == 'compose':
                 payload = json.loads(messages[-1]['content'])
+                from live.anti_repeat import ZH, EN
+                payload['avoid_phrases'] = [p for p in payload['avoid_phrases'] if p not in ZH + EN]
                 payload.pop('avoid_patterns', None)   # added after the recording
                 for unit in payload['units']:
                     for key in ('historical', 'as_of', 'published_at'):

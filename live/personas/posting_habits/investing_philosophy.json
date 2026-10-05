@@ -1,0 +1,33 @@
+{
+  "persona_id": "investing_philosophy",
+  "basis": "donor observations",
+  "length_mix": {
+    "short": 0.561,
+    "medium": 0.351,
+    "long": 0.089
+  },
+  "thread_vs_single": {
+    "thread_rate": 0.0,
+    "single_rate": 1.0,
+    "method": "thread_id/is_thread metadata; no length-based thread inference"
+  },
+  "short_line_break_habit": {
+    "prefer_no_intermediate_periods": true,
+    "observed_share": 0.686
+  },
+  "sample_ids": [
+    "2106079898901131464",
+    "2106076460679389645",
+    "2106043554363502992",
+    "2105976139864850655",
+    "2105814821035712739",
+    "2105713954207195190",
+    "2105672738203730296",
+    "2105659005511282740",
+    "2105650930796372227",
+    "2105613755203588457",
+    "2105321018403192960",
+    "2105304225739640885"
+  ],
+  "guidance": "Alternate longer threads with shorts; for short punchy posts prefer line breaks without trailing periods on intermediate lines."
+}

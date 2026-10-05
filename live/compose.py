@@ -47,7 +47,7 @@ body outside the range is rejected. When the donors write short posts, short is
 right: do not pad.
 Lead with the account's own judgment in most posts; use at most a few numbers as support; vary hook, length and structure across posts — the tendencies describe the voice, they are not a checklist.
 Never claim personal holdings, trades, position sizes or P&L; this is an AI account.
-First person: opinion markers only ("I think", "my read", "I'm not convinced", "我觉得", "我认为", "在我看来", "我的看法"); never first-person experience, actions, holdings, trades or "we/我们". Follow persona.format_hint for line breaks.
+First person: opinion markers only ("I think", "I'm not convinced", "我觉得", "我认为", "在我看来", "我的看法"); never first-person experience, actions, holdings, trades or "we/我们". Follow persona.format_hint for line breaks.
 Match the voice_card rhythm block and style exemplars as tendencies. Natural imperfection
 is welcome: fragments, uneven sentence lengths, one-line paragraphs, persona idioms or
 casual connectors, an occasional rhetorical question. Avoid essay polish and symmetric paragraphs;
@@ -762,6 +762,8 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
     for show, rx in template_patterns(persona.lang):
         if rx.search(body):
             findings.append({'code': 'template_phrase', 'detail': show})
+    from live import anti_repeat
+    findings += anti_repeat.findings(body, persona.persona_id, units=units, stance=stance, source=source, now=now)
     findings += summary_findings(body, persona.lang)
     if post_type in JUDGMENT_TYPES or (stance and stance.get('account_view')):
         findings += judgment_findings(body, stance)
@@ -972,6 +974,10 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     if use_emotion and emo_policy.get('include_brief', True):
         emotion_brief = ec.build_emotion_brief(chosen, stance, source=source, lang=persona.lang, account_id=account_id)
         payload['emotion_brief'] = emotion_brief
+    if use_emotion:  # Shared payload switch keeps recorded fixture mode stable.
+        from live import posting_habits
+        payload['persona']['posting_habits'] = posting_habits.load_card(persona)
+        payload['persona']['format_hint'] = posting_habits.GUIDANCE
     import os
     variant = voice_prompt_variant if voice_prompt_variant is not None else os.environ.get('VOICE_PROMPT_VARIANT', 'v1')
     if variant not in ('v1', 'v2'):
@@ -987,7 +993,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         payload['persona']['voice_card'] = compact_summary(persona.voice_card)
         hint = format_hint(persona.voice_card, persona.lang)
         if hint:
-            payload['persona']['format_hint'] = hint
+            payload['persona']['format_hint'] = hint + (' ' + posting_habits.GUIDANCE if use_emotion else '')
         payload['persona']['variation'] = variation_seed(persona.voice_card, source.get('source_hash') or digest(source))
     sig = getattr(persona, 'signature_card', None) or {}
     if sig:
@@ -1144,6 +1150,37 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                 judgment_retry = {'attempted': True, 'kept': 'original', 'first_findings': j_findings,
                                   'repair_instruction': note, 'reject_reason': 'no_improvement'}
 
+    from live import anti_repeat
+    repeat_retry = None
+    first_repeat = anti_repeat.findings(body, persona.persona_id, units=chosen, stance=stance, source=source, now=now)
+    repair = [f for f in first_repeat if f['code'] != 'verify_source']
+    if repair:
+        note = ' '.join(dict.fromkeys(qa_levels.FIXES[f['code']] for f in repair))
+        retry_payload = dict(payload, rewrite_note=note)
+        try:
+            value_r, response_r = _ask(client, 'compose', COMPOSE, retry_payload, MAX_TOKENS, assembly)
+        except Exception as exc:  # Advisory rewrite failure retains the completed draft.
+            value_r, response_r = {}, {}
+            retry_payload['retry_error'] = type(exc).__name__
+        body_r = (value_r.get('body') or '').strip()
+        after = anti_repeat.findings(body_r, persona.persona_id, units=chosen, stance=stance, source=source, now=now) if body_r else repair
+        improved = len([f for f in after if f['code'] != 'verify_source']) < len(repair)
+        regression = _guard_codes(body_r, chosen, stance, persona.lang) - _guard_codes(body, chosen, stance, persona.lang) if body_r else set()
+        supplied = {u['unit_id']: u for u in chosen}
+        candidate_ledger = value_r.get('claim_ledger')
+        ledger_ok = isinstance(candidate_ledger, list) and bool(candidate_ledger) and all(
+            isinstance(r, dict) and r.get('unit_id') in supplied
+            and isinstance(r.get('claim'), str) and bool(r['claim'].strip())
+            and type(r.get('span_ref')) is int
+            and 0 <= r['span_ref'] < len(supplied[r['unit_id']]['source_spans'])
+            for r in candidate_ledger)
+        keep = bool(body_r and improved and not regression and ledger_ok)
+        repeat_retry = {'attempted': True, 'kept': 'retry' if keep else 'original',
+                        'first_findings': repair, 'retry_findings': after, 'rewrite_note': note}
+        if keep:
+            body, value, response = body_r, value_r, response_r
+    body, label_stripped = anti_repeat.strip_judgment_label(body)
+
     ledger = value.get('claim_ledger')
     require(isinstance(ledger, list) and ledger, 'compose: claim_ledger required')
     by_id = {u['unit_id']: u for u in chosen}
@@ -1156,6 +1193,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                 'compose: claim_ledger span_ref out of range')
     text = (frame['text'] + body) if frame['placement'] == 'lead' else (body + frame['text'])
     findings = post_checks(post_type, body, text, frame, tier, chosen, persona, post_types, stance, source=source, now=now)
+    if label_stripped:
+        findings += qa_levels.classify([{'code': 'judgment_label', 'detail': 'Label stripped automatically'}], frame_found=True)
     grounding = tg.review(body, stance, chosen, persona.lang)
     emo_findings = ec.emotion_findings(body, emotion_brief) if emotion_brief and emo_policy.get('soft_findings') else []
     if emotion_brief:
@@ -1183,6 +1222,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             view_ledger.record(stance, unit_ids=[u['unit_id'] for u in chosen], source_ids=[source.get('id')], draft_id=base['id'])
         except ValueError as exc:   # position language never enters the ledger
             findings.append({'code': 'view_not_recorded', 'detail': str(exc), 'level': 'soft'})
+    if body:
+        anti_repeat.record_draft(persona.persona_id, body, meta={**(stance or {}), 'draft_id': base['id']})
     return {**base, 'stance': stance, 'units': chosen, 'all_units': len(units), 'post_type': post_type,
             'attribution_frame': frame, 'body': body, 'text': text, 'length': length_of(body),
             'exemplars': [{'handle': e['handle'], 'id': e['id']} for e in shown],
@@ -1201,6 +1242,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                                      'repair_instruction': grounding.get('repair_instruction')}} if grounding else {}),
             **({'emotion_brief': emotion_brief} if emotion_brief else {}),
             **({'emotion_retry': emotion_retry} if emotion_retry else {}),
+            **({'anti_repeat_retry': repeat_retry} if repeat_retry else {}),
             **({'judgment_retry': judgment_retry} if judgment_retry else {}),
             'pack_balance': pack_balance(chosen),
             'unit_augment': base.get('unit_augment') or {}}

@@ -71,7 +71,8 @@ class ComposeTests(unittest.TestCase):
     def test_good_post_passes_all_post_checks(self):
         result, fake = run(post_type='data_take')
         self.assertEqual(fake.calls, ['extract', 'compose'])
-        self.assertEqual(result['post_checks'], [])
+        self.assertEqual({f['code'] for f in result['post_checks']}, {'verify_source'})
+        self.assertTrue(all(f['level'] == 'soft' for f in result['post_checks']))
         self.assertEqual(result['post_type'], 'data_take')
         frame = result['attribution_frame']
         self.assertEqual(frame['text'], 'The Next Platform：')

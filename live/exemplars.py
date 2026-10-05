@@ -119,7 +119,15 @@ def retrieve(persona, *, post_type=None, query='', k=4, posts_dir=None, post_typ
         best.append((nearest, -(weight * (1 + overlap)), handle.lower(), {'handle': handle, 'id': str(top.get('id')),
                                                                 'text': short_text(top['text'])}))
     best.sort(key=lambda row: row[:3])
-    return [row[3] for row in best[:k]]
+    result = [row[3] for row in best[:k]]
+    if persona.persona_id == 'investing_philosophy':
+        include_zh = persona.raw.get('exemplar_retrieval', {}).get('include_morris', False)
+        # ZH originals teach rhythm only; EXEMPLAR_RULE forbids borrowing claims/wording.
+        morris = [p for p in load_morris_posts() if p['lang'] == persona.lang or include_zh]
+        morris.sort(key=lambda p: (p['lang'] != persona.lang, -len(q & _tokens(p['text']))))
+        count = min(2, k, len(morris))
+        result = result[:max(0, k-count)] + morris[:count]
+    return result
 
 
 def copied_phrases(body, texts, min_zh=15, min_en_words=8):
@@ -143,3 +151,28 @@ def copied_phrases(body, texts, min_zh=15, min_en_words=8):
         if hit:
             findings.append({'code': 'exemplar_phrase_copied', 'detail': hit[:60]})
     return findings
+
+
+MORRIS_PATHS = (Path(__file__).resolve().parents[1] / 'runs/content_batch_v2/source_selection/en_morris_archive/selected_sources.json',
+                Path(__file__).resolve().parents[1] / 'runs/content_workbench_v1/morris/sources.json')
+
+
+def load_morris_posts(limit=20):
+    """Local archive only; never copy the corpus into tracked persona cards."""
+    posts, seen = [], set()
+    for path in MORRIS_PATHS:
+        try:
+            data = json.loads(path.read_text())
+        except (OSError, ValueError):
+            continue
+        for row in data.get('sources', []) if isinstance(data, dict) else data:
+            row = row.get('source') or row
+            identity = row.get('source_hash') or row.get('id')
+            if identity in seen:
+                continue
+            seen.add(identity)
+            texts = [row.get(k) for k in ('en_text', 'normalized_text', 'text', 'original_text') if row.get(k)]
+            text = next((t for t in texts if _lang(t) == 'en'), texts[0] if texts else '')
+            if text:
+                posts.append({'handle': 'Morris_LT', 'id': str(row.get('id')), 'text': short_text(text), 'lang': _lang(text)})
+    return posts[:limit]

@@ -1,0 +1,33 @@
+{
+  "persona_id": "market_data_charts",
+  "basis": "donor observations",
+  "length_mix": {
+    "short": 0.565,
+    "medium": 0.362,
+    "long": 0.073
+  },
+  "thread_vs_single": {
+    "thread_rate": 0.0,
+    "single_rate": 1.0,
+    "method": "thread_id/is_thread metadata; no length-based thread inference"
+  },
+  "short_line_break_habit": {
+    "prefer_no_intermediate_periods": true,
+    "observed_share": 0.312
+  },
+  "sample_ids": [
+    "2106557946687824222",
+    "2106553437349671110",
+    "2106508295968293236",
+    "2106507776923222109",
+    "2106448911636525087",
+    "2106434194088030651",
+    "2106419112373359089",
+    "2106399038040154354",
+    "2106386011064594735",
+    "2106161154250989969",
+    "2106157343432196298",
+    "2106156456403964198"
+  ],
+  "guidance": "Alternate longer threads with shorts; for short punchy posts prefer line breaks without trailing periods on intermediate lines."
+}

@@ -53,10 +53,14 @@ def units_for_persona(store, persona, *, limit=None, as_of=None, max_age_days=No
         if as_of is not None or earliest is not None:
             if published is None or published > cutoff or (earliest is not None and published < earliest):
                 continue
+        source = row.get('source') or {}
+        morris = persona == 'investing_philosophy' and any(record.get(k) in ('x_Morris_LT', 'Morris_LT')
+                                                                    for record in (source, row)
+                                                                    for k in ('source_id', 'author_handle', 'handle'))
         if mode == 'tags':
-            if persona not in row.get('tag_personas', []):
+            if persona not in row.get('tag_personas', []) and not morris:
                 continue
-            confidence = row['persona_tags'][persona]['confidence']
+            confidence = (row.get('persona_tags', {}).get(persona) or {}).get('confidence', 0.5)
             ranked.append(((-confidence, -published.timestamp() if published else float('inf'),
                             str(row.get('unit_id'))), dict(row, match='tagged')))
             continue
@@ -66,7 +70,7 @@ def units_for_persona(store, persona, *, limit=None, as_of=None, max_age_days=No
         hits = sum(bool(re.search((r'(?<![a-z])' if w.isascii() else '') + re.escape(w.lower()), text))
                    for w in words)
         routed = persona in (row.get('personas') or [])
-        if not routed and not hits:
+        if not routed and not hits and not morris:
             continue
         record = dict(row, match='routed' if routed else 'keyword')
         ranked.append(((0 if routed else 1, 0 if routed else -hits,

@@ -1,0 +1,20 @@
+{
+  "persona_id": "en_morris_archive",
+  "basis": "Fiona Oct 5 default; donor posts missing",
+  "length_mix": {
+    "short": 0.4,
+    "medium": 0.4,
+    "long": 0.2
+  },
+  "thread_vs_single": {
+    "thread_rate": 0.2,
+    "single_rate": 0.8,
+    "method": "thread_id/is_thread metadata; no length-based thread inference"
+  },
+  "short_line_break_habit": {
+    "prefer_no_intermediate_periods": true,
+    "observed_share": null
+  },
+  "sample_ids": [],
+  "guidance": "Alternate longer threads with shorts; for short punchy posts prefer line breaks without trailing periods on intermediate lines."
+}

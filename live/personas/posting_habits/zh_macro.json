@@ -1,0 +1,33 @@
+{
+  "persona_id": "zh_macro",
+  "basis": "donor observations",
+  "length_mix": {
+    "short": 0.685,
+    "medium": 0.164,
+    "long": 0.151
+  },
+  "thread_vs_single": {
+    "thread_rate": 0.0,
+    "single_rate": 1.0,
+    "method": "thread_id/is_thread metadata; no length-based thread inference"
+  },
+  "short_line_break_habit": {
+    "prefer_no_intermediate_periods": true,
+    "observed_share": 0.593
+  },
+  "sample_ids": [
+    "2106276785013068071",
+    "2103529204549841136",
+    "2102277091865903234",
+    "2101502027293659233",
+    "2100901211650347230",
+    "2100483113407394261",
+    "2099379050699489603",
+    "2099190422870659147",
+    "2098350841216536690",
+    "2097253687601328343",
+    "2096841512546120178",
+    "2096232893102342386"
+  ],
+  "guidance": "Alternate longer threads with shorts; for short punchy posts prefer line breaks without trailing periods on intermediate lines."
+}

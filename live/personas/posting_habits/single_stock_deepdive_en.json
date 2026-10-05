@@ -1,0 +1,33 @@
+{
+  "persona_id": "single_stock_deepdive_en",
+  "basis": "donor observations",
+  "length_mix": {
+    "short": 0.471,
+    "medium": 0.323,
+    "long": 0.207
+  },
+  "thread_vs_single": {
+    "thread_rate": 0.0,
+    "single_rate": 1.0,
+    "method": "thread_id/is_thread metadata; no length-based thread inference"
+  },
+  "short_line_break_habit": {
+    "prefer_no_intermediate_periods": true,
+    "observed_share": 0.593
+  },
+  "sample_ids": [
+    "2106408468953583684",
+    "2106034860137836666",
+    "2105756630533201976",
+    "2105756628582863138",
+    "2105417633789338018",
+    "2105417631918600673",
+    "2105391276799807747",
+    "2105391274367070346",
+    "2104956631788523781",
+    "2103880169345941751",
+    "2103497392645640279",
+    "2103219588473426111"
+  ],
+  "guidance": "Alternate longer threads with shorts; for short punchy posts prefer line breaks without trailing periods on intermediate lines."
+}

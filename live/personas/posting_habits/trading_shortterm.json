@@ -1,0 +1,33 @@
+{
+  "persona_id": "trading_shortterm",
+  "basis": "donor observations",
+  "length_mix": {
+    "short": 0.476,
+    "medium": 0.28,
+    "long": 0.243
+  },
+  "thread_vs_single": {
+    "thread_rate": 0.0,
+    "single_rate": 1.0,
+    "method": "thread_id/is_thread metadata; no length-based thread inference"
+  },
+  "short_line_break_habit": {
+    "prefer_no_intermediate_periods": true,
+    "observed_share": 0.764
+  },
+  "sample_ids": [
+    "2106417756056813815",
+    "2106156988623135128",
+    "2106115921701949483",
+    "2106039444125917569",
+    "2106016720951591210",
+    "2106011220398796934",
+    "2105991566703972429",
+    "2105677102473478417",
+    "2105654211581300916",
+    "2105629275227648423",
+    "2105379035543212117",
+    "2105362406188990758"
+  ],
+  "guidance": "Alternate longer threads with shorts; for short punchy posts prefer line breaks without trailing periods on intermediate lines."
+}

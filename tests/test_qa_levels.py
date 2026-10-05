@@ -58,8 +58,9 @@ class LevelTableTests(unittest.TestCase):
 class ComposeLevelTests(unittest.TestCase):
     def test_good_post_has_no_findings(self):
         result, _ = run(post_type='data_take')
-        self.assertEqual(result['post_checks'], [])
-        self.assertEqual(result['qa'], {'hard': [], 'soft': []})
+        self.assertEqual({f['code'] for f in result['post_checks']}, {'verify_source'})
+        self.assertTrue(all(f['level'] == 'soft' for f in result['post_checks']))
+        self.assertEqual(result['qa'], {'hard': [], 'soft': ['verify_source']})
         self.assertEqual(result['draft_status'], 'draft_ready')
 
     def test_short_post_is_a_warning(self):

@@ -50,7 +50,8 @@
   "exemplar_retrieval": {
     "enabled": true,
     "k": 4,
-    "use": "style only; facts, numbers and phrases never"
+    "use": "style only; facts, numbers and phrases never",
+    "include_morris": true
   },
   "banned": [
     "claimed_employer",
