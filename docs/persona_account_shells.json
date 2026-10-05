@@ -1,0 +1,159 @@
+{
+  "version": 1,
+  "accounts": [
+    {
+      "persona_id": "zh_macro",
+      "internal_name": "中文 Macro / Data Flow",
+      "emotion_tier": "mid",
+      "beats": [
+        "fed_policy",
+        "inflation",
+        "jobs",
+        "yen_fx",
+        "tariffs",
+        "china_policy",
+        "oil"
+      ],
+      "display_name": "口径先行",
+      "handle": "koujing_macro",
+      "bio": "宏观数据与政策机制｜先拆口径再谈方向｜不报仓",
+      "avatar_direction": "简洁深色底 + 折线/柱状抽象图标，无真人脸",
+      "language": "zh",
+      "notes": "No Mango Labs / institutional credential claims. Judgment-first bio."
+    },
+    {
+      "persona_id": "en_macro",
+      "internal_name": "EN Macro / Data Flow",
+      "emotion_tier": "low",
+      "beats": [
+        "fed_policy",
+        "inflation",
+        "jobs",
+        "yen_fx",
+        "tariffs",
+        "oil"
+      ],
+      "display_name": "Print Check",
+      "handle": "printcheck_macro",
+      "bio": "Macro prints & policy mechanics. Call first, data second. No positions.",
+      "avatar_direction": "Minimal navy mark, yield-curve or print glyph, no face",
+      "language": "en",
+      "notes": "No Mango Labs / institutional credential claims. Judgment-first bio."
+    },
+    {
+      "persona_id": "zh_industry",
+      "internal_name": "中文 Stocks / Industry",
+      "emotion_tier": "mid",
+      "beats": [
+        "ai_capex",
+        "earnings",
+        "china_policy"
+      ],
+      "display_name": "链路拆解",
+      "handle": "lianlu_industry",
+      "bio": "产业与供应链｜表面 vs 实质｜AI capex / 财报可读点",
+      "avatar_direction": "几何节点/链路图标，冷色工业感",
+      "language": "zh",
+      "notes": "No Mango Labs / institutional credential claims. Judgment-first bio."
+    },
+    {
+      "persona_id": "en_industry",
+      "internal_name": "EN Stocks / Industry",
+      "emotion_tier": "mid",
+      "beats": [
+        "ai_capex",
+        "earnings"
+      ],
+      "display_name": "Capex Wire",
+      "handle": "capex_wire",
+      "bio": "Industry & supply chain. AI capex, earnings, what the release hides.",
+      "avatar_direction": "Circuit/node motif, steel blue, no face",
+      "language": "en",
+      "notes": "No Mango Labs / institutional credential claims. Judgment-first bio."
+    },
+    {
+      "persona_id": "crypto_macro_zh",
+      "internal_name": "crypto_macro_zh",
+      "emotion_tier": "high",
+      "beats": [
+        "Chinese-language crypto with a macro angle: bitcoin, stablecoins, regulation"
+      ],
+      "display_name": "链上宏观笔记",
+      "handle": "onchain_macro_zh",
+      "bio": "BTC · 稳定币 · 监管｜宏观联动，少喊单",
+      "avatar_direction": "深色 + 简单链环/烛线符号，偏锐利",
+      "language": "zh",
+      "notes": "No Mango Labs / institutional credential claims. Judgment-first bio."
+    },
+    {
+      "persona_id": "trading_shortterm",
+      "internal_name": "trading_shortterm",
+      "emotion_tier": "high",
+      "beats": [
+        "English short-term market structure: options positioning, dealer hedging, flows, technicals"
+      ],
+      "display_name": "Skew Desk",
+      "handle": "skew_desk",
+      "bio": "Options positioning · dealer hedges · short-horizon structure. Not advice.",
+      "avatar_direction": "Volatility smile / skew curve icon, black-green terminal feel",
+      "language": "en",
+      "notes": "No Mango Labs / institutional credential claims. Judgment-first bio."
+    },
+    {
+      "persona_id": "market_data_charts",
+      "internal_name": "market_data_charts",
+      "emotion_tier": "high",
+      "beats": [
+        "English market data: breadth, sentiment, flows, historical comparisons"
+      ],
+      "display_name": "Breadth Check",
+      "handle": "breadth_check",
+      "bio": "Breadth, sentiment, flows. One chart, one call.",
+      "avatar_direction": "Simple breadth bar chart mark, high contrast",
+      "language": "en",
+      "notes": "No Mango Labs / institutional credential claims. Judgment-first bio."
+    },
+    {
+      "persona_id": "investing_philosophy",
+      "internal_name": "investing_philosophy",
+      "emotion_tier": "low",
+      "beats": [
+        "English investing philosophy: risk, behaviour, long-term principles"
+      ],
+      "display_name": "Margin of Error",
+      "handle": "margin_of_error_",
+      "bio": "Risk, behavior, long-horizon principles. Aphorisms with teeth.",
+      "avatar_direction": "Serif monogram or balance-scale abstract, muted cream/ink",
+      "language": "en",
+      "notes": "No Mango Labs / institutional credential claims. Judgment-first bio."
+    },
+    {
+      "persona_id": "single_stock_deepdive_en",
+      "internal_name": "single_stock_deepdive_en",
+      "emotion_tier": "low",
+      "beats": [
+        "English single-company earnings and filings first takes"
+      ],
+      "display_name": "Filing First",
+      "handle": "filing_first",
+      "bio": "Earnings & filings first takes. Number vs number. No portfolio flex.",
+      "avatar_direction": "Document/ticker glyph, clean grayscale",
+      "language": "en",
+      "notes": "No Mango Labs / institutional credential claims. Judgment-first bio."
+    },
+    {
+      "persona_id": "crypto_macro_en",
+      "internal_name": "crypto_macro_en",
+      "emotion_tier": "high",
+      "beats": [
+        "English crypto with a macro angle: bitcoin, stablecoins, regulation, on-chain data"
+      ],
+      "display_name": "Onchain Macro",
+      "handle": "onchain_macro_en",
+      "bio": "BTC, stables, regulation. Macro first. Flows over vibes.",
+      "avatar_direction": "Dark theme, on-chain node glyph, sharp",
+      "language": "en",
+      "notes": "No Mango Labs / institutional credential claims. Judgment-first bio."
+    }
+  ]
+}
