@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import math
 import re
 import shlex
@@ -173,6 +174,9 @@ def select_groups(store, accounts, selection=None, exclude_sources=(), recent=No
     return chosen
 
 
+SLOT_MIN_USD = float(os.environ.get('FD_SLOT_MIN_USD', '0.42'))
+
+
 def fake_result(account, ledger, reason, *, record=False):
     """Synthetic evidence and claims, never represented as corpus/model output.
 
@@ -296,9 +300,12 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
     for idx, account in enumerate(accounts):
         ledger = ViewLedger(account, out / 'views' / account)
         before = budget.spent()
-        # Oct 6 v7: per-slot sub-cap = fair share of what is left, so one slot's retries cannot
-        # starve the slots after it (v6: zh_industry used $0.52 and en_industry went synthetic).
-        slot_cap = round(max(0.0, cap - before) / (len(accounts) - idx), 6)
+        # Oct 6 v7: per-slot sub-cap so one slot's retries cannot starve the slots after it (v6:
+        # zh_industry used $0.52 and en_industry went synthetic). Each later slot keeps SLOT_MIN_USD
+        # (one stance + one compose at worst-case reservation); this slot gets the rest, never less
+        # than a fair share of what is left. Unused allowance rolls forward.
+        left, later = max(0.0, cap - before), len(accounts) - idx - 1
+        slot_cap = round(max(left / (later + 1), left - SLOT_MIN_USD * later), 6)
         budget.set_cap(min(cap, before + slot_cap))
         slot_caps[account] = slot_cap
         result = None

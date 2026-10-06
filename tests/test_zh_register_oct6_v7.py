@@ -217,6 +217,34 @@ def test_demo_slot_subcaps(tmp_path, monkeypatch):
     monkeypatch.setattr(demo.compose, 'compose_source', fake_compose)
     results = demo.run(tmp_path, 2.0, live=True, command='t')
     assert calls == list(demo.ACCOUNTS)               # slot 1 refusal did not stop the others
-    assert caps[0] == pytest.approx(0.5, abs=0.01)    # 2.0 / 4
+    assert caps[0] == pytest.approx(2.0 - 3 * demo.SLOT_MIN_USD, abs=0.01)   # later slots keep their floor
+    assert all(c >= demo.SLOT_MIN_USD - 0.01 for c in caps)
     assert all(r.get('slot_cap_usd') for r in results)
     assert budget.cap() == 2.0
+
+
+def test_zh_account_view_rewrite_small_call():
+    from live import stance
+    seen = []
+
+    def fake(stage, messages, max_tokens):
+        seen.append((stage, max_tokens, json.loads(messages[-1]['content'])))
+        return {'text': json.dumps({'account_view': 'Synopsys改成按出货量分成，这招能不能守住价格还得看'}, ensure_ascii=False),
+                'finish_reason': 'stop', 'model': 'f'}
+    value = {'account_view': 'Synopsys的收入模式正在从固定授权费转向随芯片出货量挂钩的分成结构，定价权能否在产能扩张中守住是这个逻辑的核心变量。',
+             'view': {'subject': 'Synopsys', 'direction': 'neutral', 'horizon': 'months'}}
+    meta = stance.zh_account_view_rewrite(fake, value, [])
+    assert meta['kept'] == 'retry' and len(zr.CJK.findall(value['account_view'])) <= 35
+    assert seen[0][1] == 400 and set(seen[0][2]) == {'account_view', 'problems', 'view'}
+    assert stance.zh_account_view_rewrite(fake, {'account_view': '工业利润下半年泄气了'}, []) is None
+
+
+def test_zh_account_view_rewrite_rejects_new_numbers():
+    from live import stance
+
+    def fake(stage, messages, max_tokens):
+        return {'text': json.dumps({'account_view': '利润只涨了4.2%，下半年难了'}, ensure_ascii=False),
+                'finish_reason': 'stop', 'model': 'f'}
+    value = {'account_view': '工业企业利润增长的结构性动能在下半年已经明显减弱，这一格局意味着四季度利润承压。', 'view': {}}
+    meta = stance.zh_account_view_rewrite(fake, value, [])
+    assert meta['kept'] == 'original' and meta['reject_reason'] == 'new_numbers'
