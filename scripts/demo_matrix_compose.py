@@ -117,6 +117,46 @@ def group_theme_repeat(group, recent):
     return False
 
 
+MAX_AGE_DAYS = 45
+
+
+def _funnel(records, licensed, dropped, groups):
+    """v10b: counts behind a slot's selection (why an account has no balanced packet)."""
+    def n_sources(rs):
+        return len({_key(r) for r in rs})
+    remaining = list(groups.values())
+    return {'max_age_days': MAX_AGE_DAYS,
+            'tagged_units': len(records), 'tagged_sources': n_sources(records),
+            'licence_dropped_units': len(records) - len(licensed),
+            'licence_dropped_sources': n_sources(records) - n_sources(licensed),
+            'excluded_used_sources': len(dropped),
+            'excluded_used_units': sum(map(len, dropped.values())),
+            'excluded_balanced_sources': sum(1 for g in dropped.values() if balanced(g)),
+            'remaining_sources': len(remaining),
+            'balanced_sources': sum(1 for g in remaining if balanced(g)),
+            'no_valid_view_sources': sum(1 for g in remaining if not any(has_valid_view(r['unit']) for r in g)),
+            'no_fact_sources': sum(1 for g in remaining if not any(r['unit'].get('kind') == 'fact' for r in g))}
+
+
+def no_candidate_reason(funnel, selection=None):
+    """Human-readable cause of an empty slot, from the actual filter counts (replaces the old
+    'No eligible tagged evidence within 45 days.', which blamed the window for chain exclusion)."""
+    f = funnel or {}
+    parts = [f"{f.get('tagged_units', 0)} tagged units/{f.get('tagged_sources', 0)} sources within "
+             f"{f.get('max_age_days', MAX_AGE_DAYS)}d"]
+    if f.get('licence_dropped_sources'):
+        parts.append(f"{f['licence_dropped_sources']} sources dropped by licence tier (not A/B)")
+    parts.append(f"{f.get('excluded_used_sources', 0)} sources excluded as already used by this account"
+                 + (f" ({f['excluded_balanced_sources']} of them balanced)" if f.get('excluded_balanced_sources') else ''))
+    unbalanced = f.get('remaining_sources', 0) - f.get('balanced_sources', 0)
+    parts.append(f"{unbalanced} remaining lacked a valid view + fact "
+                 f"({f.get('no_valid_view_sources', 0)} no valid view, {f.get('no_fact_sources', 0)} no fact)")
+    if f.get('balanced_sources'):
+        parts.append(f"{f['balanced_sources']} balanced source(s) left only as the pair partner's pick with no "
+                     "balanced shared slice")
+    return 'no balanced packet: ' + '; '.join(parts)
+
+
 def select_groups(store, accounts, selection=None, exclude_sources=(), recent=None, backups=None):
     """Pick one balanced (view + fact) packet per account; ZH prefers its OWN source.
 
@@ -133,21 +173,31 @@ def select_groups(store, accounts, selection=None, exclude_sources=(), recent=No
     selection = {} if selection is None else selection
     grouped = {}
     excluded_fresh = {}
+    funnels = {}
+    # v10b: a legacy (unattributed) entry whose document hash is in some account's history belongs to that
+    # account only; the per-account hash check below already covers it.
+    attributed_hashes = (set().union(*exclude_sources.by_account.values())
+                         if isinstance(exclude_sources, ExcludedSources) else set())
     for account in accounts:
         groups = {}
         dropped = {}
-        for record in units_for_persona(store, account, max_age_days=45):
-            if record.get('licence_tier') not in ('A', 'B'):
-                continue
+        own_used = excluded_for(exclude_sources, account)
+        legacy = exclude_sources.unattributed if isinstance(exclude_sources, ExcludedSources) else set()
+        records = units_for_persona(store, account, max_age_days=MAX_AGE_DAYS)
+        licensed = [r for r in records if r.get('licence_tier') in ('A', 'B')]
+        for record in licensed:
             src = record['source']
-            if src.get('id') in exclude_sources or (src.get('title') and src['title'] in exclude_sources):
+            keys = {src.get('id'), src.get('title'), src.get('source_hash')} - {None, ''}
+            hit = keys & own_used
+            if hit and not (hit <= legacy and src.get('source_hash') in attributed_hashes):
                 dropped.setdefault(_key(record), []).append(record)
-                continue   # already used by the previous batch (id, or same document under another id)
+                continue   # already used by this account (id, or same document under another id / hash)
             groups.setdefault(_key(record), []).append(record)
         grouped[account] = groups
         # v10: in-shelf packets the --continue-from chain excluded (Oct 6 v9a: today's 3 fresh sources had
         # all been used by v7, so every slot fell back to older material)
         excluded_fresh[account] = sum(1 for g in dropped.values() if balanced(g) and in_shelf(g))
+        funnels[account] = _funnel(records, licensed, dropped, groups)
 
     def strong(account, g):
         """v10 tier: a timely beat's in-shelf packet beats any older one that passes the same pre-screen."""
@@ -234,6 +284,11 @@ def select_groups(store, accounts, selection=None, exclude_sources=(), recent=No
             note(account, 'own' if chosen[account] else 'none', chosen[account], options)
             if backups is not None:
                 backups[account] = options[1:3]
+    for account in accounts:
+        if account in selection:
+            selection[account]['funnel'] = funnels[account]
+            if not chosen.get(account):
+                selection[account]['no_candidate_reason'] = no_candidate_reason(funnels[account], selection[account])
     return chosen
 
 
@@ -305,6 +360,9 @@ def plan_lines(plan):
            f"Per slot: base (stance + compose + 1 regen) ${plan['base_need_usd']:.3f}; "
            f"full (+1 backup stance) ${plan['full_need_usd']:.3f}.",
            f"Status: **{plan['status']}** — cap ${plan['cap_usd']:.2f} for {plan['slots']} slots."]
+    if plan.get('no_candidate_accounts'):
+        out.append('No candidate (zero need, not funded, error row with the selection funnel): '
+                   + ', '.join(plan['no_candidate_accounts']) + '.')
     if plan['status'] == 'INSUFFICIENT':
         out.append(f"**FAIL LOUD: cap funds only {plan['slots_funded']} of {plan['slots']} slots at base need; "
                    f"the rest are error rows (not attempted). Need ≥ ${plan['slots'] * plan['base_need_usd']:.2f}.**")
@@ -333,12 +391,19 @@ def error_result(account, kind, detail):
                 publishable=False, synthetic=False, error_kind=kind, error=detail, fallback_reason=detail)
 
 
+def no_candidate_result(account, sel=None):
+    """v10b: error row for a slot select_groups left empty, with the real reason and the funnel."""
+    sel = sel or {}
+    reason = sel.get('no_candidate_reason') or no_candidate_reason(sel.get('funnel'), sel)
+    return dict(error_result(account, 'no_candidate', reason), funnel=sel.get('funnel'), selection=sel or None)
+
+
 def run_slot(account, out, client, selected, backups, selection, batch_shapes, batch_size, notes):
     """One live slot: stance + compose on the best pre-screened packet; one backup packet on a reject."""
     ledger = ViewLedger(account, out / 'views' / account)
     group = selected.get(account) or []
     if not group:
-        return error_result(account, 'no_candidate', 'No eligible tagged evidence within 45 days.')
+        return no_candidate_result(account, selection.get(account))
     rejected, result, source = [], None, {}
     try:
         for attempt, grp in enumerate([group] + list(backups.get(account) or [])[:1]):
@@ -483,30 +548,148 @@ def judgment_type(account):
     raise ValueError('No judgment-capable post type for ' + account)
 
 
+class ExcludedSources(set):
+    """Sources (ids / titles / source hashes) already used along a --continue-from chain.
+
+    Oct 6 v10b (v9b zh_macro "No eligible tagged evidence"): the flat chain set excluded a source for
+    every account, so ZH-native macro sources only en_macro had written were lost to zh_macro. Now each
+    source is attributed to the account(s) that drafted or rejected it; an account only skips its own.
+    ``unattributed`` (legacy flat entries no draft of the chain names) still applies to all accounts.
+    As a set it is the union of everything, so older callers / tests that compare sets keep working."""
+
+    def __init__(self, by_account=None, unattributed=()):
+        self.by_account = {a: {x for x in v if x} for a, v in (by_account or {}).items()}
+        self.unattributed = {x for x in unattributed if x}
+        super().__init__(self.unattributed.union(*self.by_account.values()))
+
+    def add_for(self, account, values):
+        values = {x for x in values if x}
+        if account in ACCOUNTS:
+            self.by_account.setdefault(account, set()).update(values)
+        else:
+            self.unattributed.update(values)
+        self.update(values)
+
+    def for_account(self, account):
+        return self.by_account.get(account, set()) | self.unattributed
+
+    def to_json(self):
+        return {'version': 2, 'by_account': {a: sorted(v) for a, v in sorted(self.by_account.items()) if v},
+                'unattributed': sorted(self.unattributed), 'all': sorted(self)}
+
+
+def excluded_for(exclude_sources, account):
+    """Per-account view of ``exclude_sources``: ExcludedSources / v2 dict -> that account's set
+    (+ unattributed); a plain flat set or list applies to every account (backward compatible)."""
+    if isinstance(exclude_sources, ExcludedSources):
+        return exclude_sources.for_account(account)
+    if isinstance(exclude_sources, dict):
+        return set((exclude_sources.get('by_account') or {}).get(account) or ()) | set(
+            exclude_sources.get('unattributed') or ())
+    return set(exclude_sources or ())
+
+
+def _draft_sources(batch):
+    """{account: ids/titles} its drafts used (a rejected slot's document id and rejected backups count)."""
+    used = ExcludedSources()
+    for path in sorted((Path(batch) / 'drafts').glob('*.json')):
+        row = json.loads(path.read_text())
+        source = row.get('source') or {}
+        values = {source.get('id'), source.get('title')}
+        # v8: a rejected slot has no `source` block; its document id and rejected backups still count
+        if not row.get('synthetic') and not source:
+            values.add(row.get('source_id'))
+        values.update(r.get('source_id') for r in (row.get('selection_fallback') or {}).get('rejected') or [])
+        used.add_for(row.get('account_id') or path.stem, values)
+    return used
+
+
+def _history_hashes(batch):
+    """{account: source hashes} from the carried draft history rows (history/<account>.jsonl)."""
+    out = {}
+    for account in ACCOUNTS:
+        path = Path(batch) / 'history' / (account + '.jsonl')
+        if path.exists():
+            rows = [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
+            out[account] = {r.get('source_hash') for r in rows if r.get('source_hash')}
+    return out
+
+
+def _flat_excluded(batch):
+    path = Path(batch) / 'excluded_sources.json'
+    data = json.loads(path.read_text()) if path.exists() else []
+    return set(data.get('all') or ()) if isinstance(data, dict) else {x for x in data if x}
+
+
+def _chain_parents(batch):
+    """--continue-from / --fill-into dirs named by the batch's SUMMARY.md Command line. A batch without
+    one (v8 crashed before SUMMARY) gets the unique sibling whose used sources (its exclusions + its drafts)
+    equal this batch's exclusion list exactly; ambiguous or partial matches give no parent."""
+    path = Path(batch) / 'SUMMARY.md'
+    line = next((l for l in path.read_text().splitlines() if l.startswith('Command:')), '') if path.exists() else ''
+    if line:
+        try:
+            argv = shlex.split(line.partition('`')[2].rpartition('`')[0])
+        except ValueError:
+            return []
+        return [Path(argv[i + 1]) for i, a in enumerate(argv[:-1]) if a in ('--continue-from', '--fill-into')]
+    flat = _flat_excluded(batch)
+    if not flat:
+        return []
+    matches = [p for p in sorted(Path(batch).resolve().parent.iterdir())
+               if p.is_dir() and p != Path(batch).resolve() and (p / 'drafts').is_dir()
+               and _flat_excluded(p) | set(_draft_sources(p)) == flat]
+    return matches if len(matches) == 1 else []
+
+
+def _chain_draft_sources(batch, seen=None):
+    """Per-account draft sources of `batch` and every ancestor (legacy flat attribution)."""
+    seen = set() if seen is None else seen
+    batch = Path(batch).resolve()
+    if batch in seen or not batch.is_dir():
+        return ExcludedSources()
+    seen.add(batch)
+    used = _draft_sources(batch)
+    for parent in _chain_parents(batch):
+        for account, values in _chain_draft_sources(parent, seen).by_account.items():
+            used.add_for(account, values)
+    return used
+
+
+def load_excluded(batch):
+    """ExcludedSources from a batch's excluded_sources.json. v2 -> as written; legacy flat list ->
+    each entry goes to the account(s) whose drafts along the chain used it, the rest to all accounts."""
+    path = Path(batch) / 'excluded_sources.json'
+    if not path.exists():
+        return ExcludedSources()
+    data = json.loads(path.read_text())
+    if isinstance(data, dict):
+        return ExcludedSources(data.get('by_account'), data.get('unattributed') or ())
+    flat = {x for x in data if x}
+    chain = _chain_draft_sources(batch)
+    return ExcludedSources({a: v & flat for a, v in chain.by_account.items()},
+                           flat - set().union(*chain.by_account.values()))
+
+
 def continue_batch(prev, out):
     """Second consecutive batch: carry the previous batch's draft history (shape rotation) and
-    view ledgers into `out`; return the source ids it used so this batch picks new sources."""
+    view ledgers into `out`; return the sources it used (per account) so this batch picks new sources."""
     import shutil
     prev = Path(prev).resolve()
     for name in ('history', 'views'):
         if (prev / name).is_dir() and not (out / name).exists():
             shutil.copytree(prev / name, out / name)
-    used = set()
     # Oct 6 v5: exclusions accumulate along the chain (v5 continued from v4b but re-picked v4's
     # wealth-concentration source because only v4b's own drafts were excluded).
-    inherited = prev / 'excluded_sources.json'
-    if inherited.exists():
-        used.update(json.loads(inherited.read_text()))
-    for path in sorted((prev / 'drafts').glob('*.json')):
-        row = json.loads(path.read_text())
-        source = row.get('source') or {}
-        used.update([source.get('id'), source.get('title')])
-        # v8: a rejected slot has no `source` block; its document id and rejected backups still count
-        if not row.get('synthetic'):
-            used.add(row.get('source_id') if not source else None)
-        used.update(r.get('source_id') for r in (row.get('selection_fallback') or {}).get('rejected') or [])
-    used = {u for u in used if u}
-    (Path(out) / 'excluded_sources.json').write_text(json.dumps(sorted(used), ensure_ascii=False, indent=1) + '\n')
+    # v10b: per account (v2 file); the history rows' source hashes name the account that wrote them.
+    used = load_excluded(prev)
+    own = _draft_sources(prev)
+    for account, values in own.by_account.items():
+        used.add_for(account, values)
+    used.add_for(None, own.unattributed)
+    for account, hashes in _history_hashes(prev).items():
+        used.add_for(account, hashes)
+    write_json(Path(out) / 'excluded_sources.json', used.to_json())
     return used
 
 
@@ -518,11 +701,13 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
         relay.reset_quota_breaker()
     except Exception:   # noqa: BLE001
         pass
-    exclude_sources = continue_batch(continue_from, out) if continue_from else set()
+    exclude_sources = continue_batch(continue_from, out) if continue_from else ExcludedSources()
     if fill_into:   # v8: a fill-in never re-picks a source the batch it completes already used
+        # v10b: ... for the account that drafted it (cross-account duplicates are left to arbitration)
         for path in sorted((Path(fill_into) / 'drafts').glob('*.json')):
-            src = json.loads(path.read_text()).get('source') or {}
-            exclude_sources |= {x for x in (src.get('id'), src.get('title')) if x}
+            row = json.loads(path.read_text())
+            src = row.get('source') or {}
+            exclude_sources.add_for(row.get('account_id') or path.stem, (src.get('id'), src.get('title')))
     budget.STORE = out / 'ledger'
     budget.LEDGER = budget.STORE / 'spend.json'
     budget.RUNS = budget.STORE / 'review_runs.jsonl'
@@ -561,9 +746,12 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
             notes.append(reason)
             client = None
     selection = {}
-    if continue_from:
-        notes.append(f'Continues batch {continue_from}: history + view ledgers carried over; '
-                     f'{len(exclude_sources)} previous sources excluded.')
+    if continue_from or fill_into:
+        per = ', '.join(f'{a} {len(exclude_sources.by_account.get(a) or ())}' for a in accounts)
+        notes.append((f'Continues batch {continue_from}: history + view ledgers carried over; ' if continue_from
+                      else f'Fill-in for {fill_into}: ') + f'{len(exclude_sources)} previous sources/hashes excluded per account (used by: {per}; '
+                     f'{len(exclude_sources.unattributed)} legacy entries unattributed -> all accounts unless a '
+                     'history source hash names the account).')
     recent_rows = {a: anti_repeat.load_recent(registry.persona_for_account(a).persona_id) for a in accounts}
     backups = {}
     selected = (select_groups(ContentStore(compose_ab.STORE), accounts, selection, exclude_sources=exclude_sources,
@@ -582,9 +770,14 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
     batch_shapes = []   # composition shapes already used in this batch (structure variety)
     carried = []
     synthetic = []
-    plan = budget_plan(cap, len(accounts), slot_cost_model(out.parent))
+    # v10b: selection runs before the budget split; only slots with a candidate need funding (v9b funded the
+    # empty zh_macro slot and left en_industry unfunded with $1.9 of the cap unspent).
+    candidates = [a for a in accounts if selected.get(a)] if client else list(accounts)
+    no_candidate = [a for a in accounts if a not in candidates]
+    plan = budget_plan(cap, len(candidates), slot_cost_model(out.parent))
+    plan['no_candidate_accounts'] = no_candidate
     write_json(out / 'budget_plan.json', plan)
-    funded = accounts[:plan['slots_funded']] if client else list(accounts)   # dry mode spends nothing
+    funded = candidates[:plan['slots_funded']] if client else list(accounts)   # dry mode spends nothing
     try:
         carried = load_fill_into(fill_into, accounts) if fill_into else []
         if carried:
@@ -602,20 +795,24 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
         notes.append(f'Coherence reserve per slot: ${COHERENCE_RESERVE_USD:.2f} held back from polish retries.')
         for idx, account in enumerate(accounts):
             before = budget.spent()
-            later = len(accounts) - idx - 1
+            later = sum(1 for a in accounts[idx + 1:] if a in funded)
             # v9: every later slot keeps the base need (stance + compose + 1 regen at observed p90 cost +
             # reservation headroom); this slot may use the rest (first-come shared pool for a backup
             # stance / extra regen). Slots the plan cannot fund are error rows, never silent starvation.
             left = max(0.0, cap - before)
             slot_cap = round(max(min(left, plan['base_need_usd']), left - plan['base_need_usd'] * later), 6)
+            slot_cap = slot_cap if account in funded else 0.0   # v10b: no-candidate / unfunded slots need $0
             slot_caps[account] = slot_cap
             result = None
             try:
                 budget.set_cap(min(cap, before + slot_cap))
                 budget.set_advisory_hold(COHERENCE_RESERVE_USD)
-                if account not in funded:
+                if account in no_candidate:   # zero need; never consumes funding
+                    result = no_candidate_result(account, selection.get(account))
+                    notes.append(f"{account}: {result['error']}")
+                elif account not in funded:
                     result = error_result(account, 'unfunded', f'Budget plan: cap ${cap:.2f} funds '
-                                          f'{plan["slots_funded"]} of {len(accounts)} slots at '
+                                          f'{plan["slots_funded"]} of {len(candidates)} candidate slots at '
                                           f'${plan["base_need_usd"]:.2f} base need; slot not attempted.')
                 elif client:
                     result = run_slot(account, out, client, selected, backups, selection, batch_shapes,
@@ -707,7 +904,9 @@ def _write_outputs(out, cap, command, skipped, notes, results, carried, plan):
                       'Shape: ' + json.dumps({k: (r.get('composition_shape') or {}).get(k) for k in ('id', 'ending', 'length', 'skeleton')}, ensure_ascii=False),
                       f'Spend USD: ${float(r.get("spend_usd") or 0):.6f}',
                       f'Draft status: {r.get("draft_status")}; publishable=false / human review only',
-                      'Fallback: ' + str(r.get('fallback_reason', 'none')), '']
+                      'Fallback: ' + str(r.get('fallback_reason', 'none'))]
+            funnel = r.get('funnel') or (r.get('selection') or {}).get('funnel')
+            lines += (['Selection funnel: ' + json.dumps(funnel, ensure_ascii=False)] if funnel else []) + ['']
         except Exception as exc:
             errors.append(f'summary_row: {type(exc).__name__}: {exc}')
     if synthetic:
