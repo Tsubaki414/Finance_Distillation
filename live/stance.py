@@ -27,13 +27,19 @@ Rules for account_view:
   an adopted view is the account's own call.
 Schema: {decision: take|adapt|reject, account_view: string, supporting_unit_ids: [supplied IDs],
 rationale: nonempty string, confidence: number between 0 and 1, view: optional object,
-revises_view_id: optional prior view id, cited_prior_view_ids: optional [prior view ids]}.
+revises_view_id: optional prior view id, cited_prior_view_ids: optional [prior view ids],
+why_unit_ids: optional [context unit IDs], so_what_unit_ids: optional [context unit IDs]}.
 For adapt, view is required: a complete revised view with direction, subject,
 conviction, reasoning, horizon and optional conditions. Change direction,
 conviction or horizon, or add a new condition. For reject account_view is empty.
 Supporting IDs must include the input view for take/adapt.
 context_units (optional) are other units from the same evidence: you may combine them with the
 view to form one judgment; list every unit you rely on in supporting_unit_ids.
+Evidence for the post (optional, ids from context_units only): why_unit_ids = 1-2 fact or mechanism
+units that are the actual REASON the call holds (a cause / driver: a data print, an event, a
+mechanism), never a view unit and never just "X said"; so_what_unit_ids = 1 fact unit about the
+CONSEQUENCE (market pricing / odds / valuation / spreads / who gains or loses / what to watch).
+Prefer current units over evergreen background. Leave a list empty rather than guess.
 prior_views (optional) are this account's own earlier calls on related subjects. They are
 retrieved by keyword overlap and can be about a different subject (another AI or rates topic): a
 prior overlaps only when it is about the same subject / entity as your call; ignore the others
@@ -220,6 +226,31 @@ def _validate_stance_value(value, view_unit, view, prior, allowed):
     return value
 
 
+PACK_ID_LIMITS = {'why_unit_ids': (2, ('fact', 'mechanism')), 'so_what_unit_ids': (1, ('fact',))}
+
+
+def validate_pack_ids(value, context):
+    """Soft (Oct 6 v11): keep why_unit_ids / so_what_unit_ids that name supplied context units of the
+    right kind (why: fact/mechanism, never a view; so_what: fact); drop the rest into
+    pack_ids_dropped. Never raises: the pack falls back to a deterministic ranking."""
+    kinds = {u.get('unit_id'): u.get('kind') for u in context or () if u.get('unit_id')}
+    dropped = []
+    for key, (limit, ok_kinds) in PACK_ID_LIMITS.items():
+        raw = value.get(key)
+        if raw is None:
+            continue
+        kept = []
+        for uid in raw if isinstance(raw, list) else [raw]:
+            if isinstance(uid, str) and kinds.get(uid) in ok_kinds and uid not in kept and len(kept) < limit:
+                kept.append(uid)
+            else:
+                dropped.append({'field': key, 'id': uid})
+        value[key] = kept
+    if dropped:
+        value['pack_ids_dropped'] = dropped
+    return value
+
+
 def apply_stance_scrub(stance):
     """Scrub account_view on a stance dict (compose path for supplied stance_output too).
 
@@ -310,7 +341,8 @@ def stance_step(view_unit, persona, client, *, calls=None, sleep=None, context_u
     if context:
         payload['context_units'] = [
             {'unit_id': u['unit_id'], 'kind': u.get('kind'), 'statement': u.get('statement'),
-             'numbers': [n.get('text') for n in u.get('numbers', [])]} for u in context]
+             'numbers': [n.get('text') for n in u.get('numbers', [])],
+             **({'historical': True} if u.get('historical') else {})} for u in context]
     prior = ledger.related(' '.join(str(x) for x in (view.get('subject'), view_unit.get('statement'))), k=5) if ledger else []
     if prior:
         payload['prior_views'] = [
@@ -324,6 +356,7 @@ def stance_step(view_unit, persona, client, *, calls=None, sleep=None, context_u
     value, _ = _ask(client, 'stance', STANCE, payload, 2000, calls, sleep=sleep)
     allowed = {view_unit['unit_id'], *(u['unit_id'] for u in context)}
     value = _validate_stance_value(value, view_unit, view, prior, allowed)
+    validate_pack_ids(value, context)
 
     scrub_retry = None
     if value['decision'] != 'reject':
@@ -341,6 +374,7 @@ def stance_step(view_unit, persona, client, *, calls=None, sleep=None, context_u
             try:
                 value2, _ = _ask(client, 'stance', STANCE, retry_payload, 2000, calls, sleep=sleep)
                 value2 = _validate_stance_value(value2, view_unit, view, prior, allowed)
+                validate_pack_ids(value2, context)
                 cleaned2, scrub_meta2 = scrub_account_view(value2['account_view'])
                 value2['account_view'] = cleaned2
                 value2['stance_scrub'] = scrub_meta2

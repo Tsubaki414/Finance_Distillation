@@ -408,6 +408,152 @@ def trim_judgment_pack(selected, *, now=None, keep=(), max_facts=JUDGMENT_MAX_FA
     return [u for u in ranked if id(u) in kept_ids]
 
 
+# ---------------- v11: evidence pack by relation to the view (Oct 6 ZH root cause #1) ----------------
+# trim_judgment_pack kept 1 view + <=2 facts by FRESHNESS rank and never a mechanism, and the stance
+# step only saw those 3 units: v9a #1 (zh_macro) lost "29,000 jobs vs 84,000 expected" (the reason)
+# and "October hike odds 22% from 66%" (what it means) and got an evergreen yield-curve fact instead.
+# Now stance sees every usable unit of the source, names why / so-what units, and the post-stance
+# pack is view + 1 reason + 1 consequence + 1 mechanism (when the source has one). Without valid
+# stance ids a deterministic ranking by relation to the view fills the slots - never plain freshness.
+STANCE_CONTEXT_CAP = 14     # units shown to stance, incl. the primary view
+JUDGMENT_PACK_MAX = 4       # view + why + so-what + mechanism; number caps still come from the shape
+CONTEXT_KINDS = ('fact', 'mechanism', 'view')
+CONSEQUENCE_CUES = re.compile(
+    r'\b(?:probabilit\w*|odds|pric(?:ed|ing|es)\b|valuation\w*|multiples?|spreads?|yields?|expects?|'
+    r'expected to|futures|implied|premium|discount|re-?rat\w*|gain(?:s|ers)?|los(?:e|es|ers)|winners?|watch)\b|'
+    r'概率|定价|估值|利差|收益率|预期|倍数|溢价|受益|吃亏', re.I)
+_PACK_NUM = re.compile(r'\d+(?:[.,]\d+)*')
+
+
+def _usable(u):
+    return u.get('unit_id') and u.get('usage') != 'topic_only'
+
+
+def _historical_flag(u, news, now):
+    from live import freshness
+    return dict(u, historical=True) if news and freshness.status(u, now)['status'] == 'expired' else u
+
+
+def stance_context_units(primary, units, *, now=None, cap=STANCE_CONTEXT_CAP, post_type=None, post_types=None):
+    """Every usable fact / mechanism / view unit of the source except the primary, current first
+    (freshness order only decides which units fall past the cap), at most cap - 1 units."""
+    from live import freshness
+    spec = ((post_types or {}).get('post_types') or {}).get(post_type, {})
+    news = post_type in NEWS_TYPES or spec.get('news') or spec.get('category') == 'news'
+    pid = (primary or {}).get('unit_id')
+    pool = [u for u in units if _usable(u) and u.get('kind') in CONTEXT_KINDS and u.get('unit_id') != pid]
+    seen, out = set(), []
+    for u in freshness.rank(pool, now):
+        if u['unit_id'] in seen:
+            continue
+        seen.add(u['unit_id'])
+        out.append(_historical_flag(u, news, now))
+    return out[:max(0, cap - 1)]
+
+
+def _view_text(primary, stance):
+    view = (stance or {}).get('view') or (primary or {}).get('view') or {}
+    reasoning = view.get('reasoning') if isinstance(view, dict) else None
+    parts = [(primary or {}).get('statement'), (stance or {}).get('account_view'),
+             view.get('subject') if isinstance(view, dict) else None]
+    parts += reasoning if isinstance(reasoning, list) else [reasoning]
+    return ' '.join(str(p) for p in parts if p)
+
+
+def _relation(unit, view_toks, view_nums):
+    toks = _tokens(str(unit.get('statement') or ''))
+    nums = set(_PACK_NUM.findall(' '.join([str(unit.get('statement') or '')]
+                                          + [str(n.get('text') or '') for n in unit.get('numbers') or []])))
+    return len(toks & view_toks) + 2 * len(nums & view_nums)
+
+
+def select_judgment_pack(primary, units, stance=None, *, now=None, post_type=None, post_types=None,
+                         max_units=JUDGMENT_PACK_MAX):
+    """(pack, selection): primary view + 1 reason fact + 1 consequence fact + 1 mechanism unit.
+
+    Stance why_unit_ids / so_what_unit_ids win when they name usable units of the source; any slot
+    still empty is filled by relation to the view (token / number overlap with the view statement,
+    account_view and view.reasoning; consequence cue words for the so-what slot), with freshness only
+    as a tie-break. Never invents units; the 信息罗列 protection (thin pack, max_numbers) is unchanged:
+    more units != more numbers."""
+    from live import freshness
+    spec = ((post_types or {}).get('post_types') or {}).get(post_type, {})
+    news = post_type in NEWS_TYPES or spec.get('news') or spec.get('category') == 'news'
+    pid = primary.get('unit_id')
+    by_id = {}
+    for u in units:
+        if _usable(u) and u['unit_id'] != pid:
+            by_id.setdefault(u['unit_id'], u)
+    status = {uid: freshness.status(u, now) for uid, u in by_id.items()}
+    fresh = {uid: freshness.boost(st) for uid, st in status.items()}
+    # An evergreen background fact (v9a #1: the 2022-24 yield-curve inversion) is not the reason for or
+    # the consequence of a timely call: dated facts rank first, relation decides within each group.
+    dated = {uid: int(st['status'] != 'evergreen') for uid, st in status.items()}
+    vtext = _view_text(primary, stance)
+    vtoks, vnums = _tokens(vtext), set(_PACK_NUM.findall(vtext))
+    rel = {uid: _relation(u, vtoks, vnums) for uid, u in by_id.items()}
+    taken = set()
+
+    def ranked(kinds, key):
+        rows = [u for uid, u in by_id.items() if u.get('kind') in kinds and uid not in taken]
+        return sorted(rows, key=lambda u: (-(dated[u['unit_id']] if 'fact' in kinds else 0), -key(u),
+                                           -fresh[u['unit_id']], u['unit_id']))
+
+    def stance_ids(field, kinds):
+        ids = (stance or {}).get(field) or []
+        return [by_id[i] for i in ids if isinstance(i, str) and i in by_id
+                and by_id[i].get('kind') in kinds and i not in taken]
+
+    why, so_what, mechanism, slots = [], [], None, {}
+    for u in stance_ids('why_unit_ids', ('fact', 'mechanism')):
+        if u.get('kind') == 'mechanism' and mechanism is None:
+            mechanism = u
+        elif u.get('kind') == 'fact' and len(why) < 2:
+            why.append(u)
+        else:
+            continue
+        taken.add(u['unit_id'])
+    if why or mechanism:
+        slots['why'] = 'stance'
+    so = stance_ids('so_what_unit_ids', ('fact',))[:1]
+    if so:
+        so_what, slots['so_what'] = so, 'stance'
+        taken.add(so[0]['unit_id'])
+    cue = lambda u: len(CONSEQUENCE_CUES.findall(str(u.get('statement') or '')))
+    if not why:   # the reason: closest to the view, consequence-type facts (odds / pricing) held back
+        cands = ranked(('fact',), lambda u: rel[u['unit_id']] - 2 * cue(u))
+        if cands:
+            why, slots['why'] = cands[:1], slots.get('why') or 'fallback'
+            taken.add(cands[0]['unit_id'])
+    if not so_what:
+        cands = [u for u in ranked(('fact',), lambda u: 3 * cue(u) + rel[u['unit_id']]) if cue(u)]
+        if cands:
+            so_what, slots['so_what'] = cands[:1], 'fallback'
+            taken.add(cands[0]['unit_id'])
+    if not so_what:
+        cands = ranked(('fact',), lambda u: rel[u['unit_id']])
+        if cands:
+            so_what, slots['so_what'] = cands[:1], 'fallback'
+            taken.add(cands[0]['unit_id'])
+    if mechanism is None:
+        cands = ranked(('mechanism',), lambda u: rel[u['unit_id']])
+        if cands:
+            mechanism, slots['mechanism'] = cands[0], 'fallback'
+            taken.add(cands[0]['unit_id'])
+    elif 'mechanism' not in slots:
+        slots['mechanism'] = 'stance'
+    order = [primary] + why[:1] + so_what + ([mechanism] if mechanism else []) + why[1:]
+    pack = [_historical_flag(u, news, now) for u in order[:max_units]]
+    kept = {u['unit_id'] for u in pack}
+    method = 'stance' if 'stance' in slots.values() else 'fallback'
+    selection = {'method': method, 'slots': slots,
+                 'why': [u['unit_id'] for u in why if u['unit_id'] in kept],
+                 'so_what': [u['unit_id'] for u in so_what if u['unit_id'] in kept],
+                 'mechanism': mechanism['unit_id'] if mechanism and mechanism['unit_id'] in kept else None,
+                 'pool': len(by_id) + 1}
+    return pack, selection
+
+
 def pack_balance(units):
     """Demo/test metadata: kind counts + whether pack is judgment-capable."""
     from collections import Counter
@@ -1214,7 +1360,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     if post_type in JUDGMENT_TYPES:
         from live.stance import stance_step
         stance = stance or stance_step(primary, persona, client, ledger=view_ledger,
-                                       context_units=[u for u in chosen if u is not primary])
+                                       context_units=stance_context_units(primary, units, now=now, post_type=post_type,
+                                                                          post_types=post_types))
         if stance['decision'] == 'reject' and augment_info.get('augmented') and forced_post_type is None:
             # Bad store augment: revert to source pack so we can still ship a data_take / fact post.
             units = units_before_augment
@@ -1230,7 +1377,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             stance = stance_output
             if post_type in JUDGMENT_TYPES:
                 stance = stance or stance_step(primary, persona, client, ledger=view_ledger,
-                                               context_units=[u for u in chosen if u is not primary])
+                                               context_units=stance_context_units(
+                                                   primary, units, now=now, post_type=post_type, post_types=post_types))
                 if stance['decision'] == 'reject':
                     return {**base, 'units': chosen, 'post_type': post_type, 'stance': stance,
                             'draft_status': 'not_suitable', 'status': 'skipped', 'text': '',
@@ -1240,7 +1388,13 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                     'draft_status':'not_suitable', 'status':'skipped', 'text':'', 'post_checks':[],
                     'why':'Persona rejected the view'}
 
-    if stance is not None and stance.get('account_view') and post_type not in JUDGMENT_TYPES:
+    pack_selection = None
+    if stance is not None and stance.get('account_view') and post_type in JUDGMENT_TYPES:
+        # v11: view + reason + consequence (+ mechanism), chosen by relation to the view, not freshness.
+        chosen, pack_selection = select_judgment_pack(primary, units, stance, now=now, post_type=post_type,
+                                                      post_types=post_types)
+        primary = chosen[0]
+    elif stance is not None and stance.get('account_view') and post_type not in JUDGMENT_TYPES:
         # Thesis-locked non-judgment post (e.g. a supplied stance for view_relay): same thin pack.
         chosen = trim_judgment_pack(chosen, now=now, keep=[primary])
     try:
@@ -1851,6 +2005,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             **({'composition_shape': {**shape_info, 'skeleton': compose_shapes.skeleton(
                 body, payload['post_type_rules']['body_length'])}} if shape_info else {}),
             'pack_balance': pack_balance(chosen),
+            **({'pack_selection': pack_selection} if pack_selection else {}),
             'unit_augment': base.get('unit_augment') or {}}
 
 
