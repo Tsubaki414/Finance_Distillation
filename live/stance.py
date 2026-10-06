@@ -29,7 +29,8 @@ Schema: {decision: take|adapt|reject, account_view: string, supporting_unit_ids:
 rationale: nonempty string, confidence: number between 0 and 1, view: optional object,
 revises_view_id: optional prior view id, cited_prior_view_ids: optional [prior view ids],
 why_unit_ids: optional [context unit IDs], so_what_unit_ids: optional [context unit IDs],
-why_line: optional string, so_what_line: optional string}.
+why_line: optional string, so_what_line: optional string,
+zh_units: optional {unit ID: Chinese text} - only when zh_units_rule is supplied; follow that rule}.
 For adapt, view is required: a complete revised view with direction, subject,
 conviction, reasoning, horizon and optional conditions. Change direction,
 conviction or horizon, or add a new condition. For reject account_view is empty.
@@ -263,6 +264,49 @@ SAID_RX = re.compile(r'表态|表示|放话|声称|宣称|称|说过|直言|喊�
 SUPPORT_LINES = ('why_line', 'so_what_line')
 
 
+ZH_UNITS_ENV = 'FD_ZH_UNIT_TRANSLATE'   # 1 (default): ZH stance also returns zh_units; 0: off
+ZH_UNITS_RULE = ('zh_units: for the input unit and every unit you list in why_unit_ids / so_what_unit_ids, plus '
+                 'at most one mechanism unit from context_units, give {unit_id: 中文直译} of its statement. '
+                 'Faithful direct translation (直译), no embellishment, no added judgment; keep every number, name, '
+                 'period and unit exactly (scale conversions such as 29,000 = 2.9万 are fine).')
+
+
+def zh_units_enabled(raw):
+    import os
+    return (raw or {}).get('lang') == 'zh' and os.environ.get(ZH_UNITS_ENV, '1') != '0'
+
+
+def validate_zh_units(value, units):
+    """Soft (v11): keep a zh_units translation only for a supplied unit, written in Chinese, that keeps
+    every digit-number of the English statement (zh_register.numbers_covered); otherwise the English
+    statement stays for that unit and the rejection is recorded in zh_units_rejected."""
+    from live.zh_register import CJK, numbers_covered
+    raw = value.get('zh_units')
+    if raw is None:
+        return value
+    by_id = {u.get('unit_id'): u for u in units or () if u.get('unit_id')}
+    kept, rejected = {}, []
+    for uid, text in (raw.items() if isinstance(raw, dict) else ()):
+        unit = by_id.get(uid)
+        text = text.strip() if isinstance(text, str) else ''
+        if unit is None:
+            reason = 'unknown_unit'
+        elif not text or len(CJK.findall(text)) < 4:
+            reason = 'not_chinese'
+        elif not numbers_covered(str(unit.get('statement') or ''), [text]):
+            reason = 'numbers_lost'
+        else:
+            kept[uid] = text
+            continue
+        rejected.append({'unit_id': uid, 'reason': reason})
+    if not isinstance(raw, dict):
+        rejected.append({'unit_id': None, 'reason': 'not_an_object'})
+    value['zh_units'] = kept
+    if rejected:
+        value['zh_units_rejected'] = rejected
+    return value
+
+
 def validate_support_lines(value, units):
     """Soft (v11): keep why_line / so_what_line only when each is one non-empty sentence that adds no
     number beyond the supplied units; a why_line whose only reason is somebody's statement (表态 / said)
@@ -403,11 +447,17 @@ def stance_step(view_unit, persona, client, *, calls=None, sleep=None, context_u
         # Oct 6 v5: thesis_lock (= account_view) carried research prose into line 1 of every ZH draft.
         from live.zh_register import STANCE_RULE_ZH
         payload['account_view_register'] = STANCE_RULE_ZH
-    value, _ = _ask(client, 'stance', STANCE, payload, 2000, calls, sleep=sleep)
+    if zh_units_enabled(raw):
+        # v11 (root cause #6): ZH compose was always cross-language writing from English units; the stance
+        # call that already runs also translates the units it picks (no extra call).
+        payload['zh_units_rule'] = ZH_UNITS_RULE
+    max_tokens = 3000 if payload.get('zh_units_rule') else 2000
+    value, _ = _ask(client, 'stance', STANCE, payload, max_tokens, calls, sleep=sleep)
     allowed = {view_unit['unit_id'], *(u['unit_id'] for u in context)}
     value = _validate_stance_value(value, view_unit, view, prior, allowed)
     validate_pack_ids(value, context)
     validate_support_lines(value, [view_unit, *context])
+    validate_zh_units(value, [view_unit, *context])
 
     scrub_retry = None
     if value['decision'] != 'reject':
@@ -423,10 +473,11 @@ def stance_step(view_unit, persona, client, *, calls=None, sleep=None, context_u
             )
             retry_payload = dict(payload, rewrite_note=note)
             try:
-                value2, _ = _ask(client, 'stance', STANCE, retry_payload, 2000, calls, sleep=sleep)
+                value2, _ = _ask(client, 'stance', STANCE, retry_payload, max_tokens, calls, sleep=sleep)
                 value2 = _validate_stance_value(value2, view_unit, view, prior, allowed)
                 validate_pack_ids(value2, context)
                 validate_support_lines(value2, [view_unit, *context])
+                validate_zh_units(value2, [view_unit, *context])
                 cleaned2, scrub_meta2 = scrub_account_view(value2['account_view'])
                 value2['account_view'] = cleaned2
                 value2['stance_scrub'] = scrub_meta2

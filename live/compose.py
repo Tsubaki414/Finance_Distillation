@@ -1604,6 +1604,17 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         for key in ('why_line', 'so_what_line'):
             if stance and isinstance(stance.get(key), str) and stance[key].strip():
                 payload[key] = stance[key].strip()
+        # v11 (root cause #6): translate first, then compose. Validated stance zh_units replace the unit
+        # statement; the English stays in statement_en. source_spans / numbers are untouched, so every
+        # fidelity check still runs on the source text. FD_ZH_UNIT_TRANSLATE=0 turns this off.
+        zh_units = (stance or {}).get('zh_units') if _os.environ.get('FD_ZH_UNIT_TRANSLATE', '1') != '0' else None
+        if isinstance(zh_units, dict) and zh_units:
+            for u in payload['units']:
+                if isinstance(zh_units.get(u['unit_id']), str):
+                    u['statement_en'] = u['statement']
+                    u['statement'] = zh_units[u['unit_id']]
+    if isinstance(payload.get('stance'), dict) and 'zh_units' in payload['stance']:
+        payload['stance'] = {k: v for k, v in payload['stance'].items() if k != 'zh_units'}
     retrieval = persona.raw.get('exemplar_retrieval') or {}
     use_exemplars = (bool(persona.voice_card) or retrieval.get('enabled', False)) if exemplars is None else exemplars
     shown = []

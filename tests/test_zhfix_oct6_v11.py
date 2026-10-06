@@ -447,3 +447,49 @@ def test_compose_records_research_shape(monkeypatch, tmp_path):
     result = _compose(fake)
     shape = result['composition_shape']
     assert shape['research_source'] is True and shape['id'] != 'take_short'
+
+
+# ---------------- fix 6: translate units to Chinese first (stance zh_units), then compose ----------------
+
+ZH_UNITS = {'cu-view': '纽约联储主席John Williams表示，9月加息后没有再次加息的紧迫性，美联储有时间收集更多信息再行动。',
+            'cu-jobs': '美国9月新增就业2.9万个，远低于道琼斯调查预期的8.4万个，失业率升至4.2%。',
+            'cu-odds': '截至周五下午，联邦基金期货显示10月加息概率为22%，周一时为66%。'}
+
+
+def test_validate_zh_units_keeps_numbers_or_falls_back():
+    value = {'zh_units': dict(ZH_UNITS, **{'cu-pce': '核心PCE通胀高于美联储目标。',     # lost 3.0% / 2%
+                                           'cu-nope': '不存在的单元翻译文本。', 'cu-avg': 'average pace 51,000'})}
+    stance_mod.validate_zh_units(value, POOL)
+    assert set(value['zh_units']) == set(ZH_UNITS)
+    reasons = {r['unit_id']: r['reason'] for r in value['zh_units_rejected']}
+    assert reasons == {'cu-pce': 'numbers_lost', 'cu-nope': 'unknown_unit', 'cu-avg': 'not_chinese'}
+
+
+def test_zh_stance_requests_translation_en_does_not(monkeypatch, tmp_path):
+    _iso(monkeypatch, tmp_path)
+    fake = JudgmentFake({'why_unit_ids': ['cu-jobs'], 'so_what_unit_ids': ['cu-odds'], 'zh_units': ZH_UNITS})
+    result = _compose(fake)
+    assert fake.payloads['stance'][0]['zh_units_rule'] == stance_mod.ZH_UNITS_RULE
+    units = {u['unit_id']: u for u in fake.payloads['compose'][0]['units']}
+    assert units['cu-jobs']['statement'] == ZH_UNITS['cu-jobs']
+    assert units['cu-jobs']['statement_en'].startswith('The US economy added 29,000 jobs')
+    assert units['cu-jobs']['source_spans'] == [POOL[3]['statement']]                # spans / numbers unchanged
+    assert [n['text'] for n in units['cu-jobs']['numbers']] == ['29,000', '84,000', '4.2%']
+    assert 'statement_en' not in units['cu-mech']                                  # untranslated unit stays English
+    assert 'zh_units' not in fake.payloads['compose'][0]['stance']
+    assert 'statement_en' in fake.systems['compose'][0] and '直译' in fake.systems['compose'][0]
+    # post checks still run on the English source units
+    assert {u['unit_id']: u['statement'] for u in result['units']}['cu-jobs'] == POOL[3]['statement']
+
+
+def test_zh_unit_translation_env_off(monkeypatch, tmp_path):
+    _iso(monkeypatch, tmp_path)
+    monkeypatch.setenv('FD_ZH_UNIT_TRANSLATE', '0')
+    fake = JudgmentFake({'zh_units': ZH_UNITS})
+    _compose(fake)
+    assert 'zh_units_rule' not in fake.payloads['stance'][0]
+    assert not any('statement_en' in u for u in fake.payloads['compose'][0]['units'])
+
+
+def test_en_stance_never_asks_for_translation():
+    assert not stance_mod.zh_units_enabled({'lang': 'en'}) and stance_mod.zh_units_enabled({'lang': 'zh'})
