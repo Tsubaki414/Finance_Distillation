@@ -76,6 +76,10 @@
       {
         "show": "这才是…的地方",
         "regex": "这才是[^。！？\\n]{1,30}的地方"
+      },
+      {
+        "show": "元延续开头（延续此前判断 / 接着上次 / 正如我之前说）",
+        "regex": "延续(?:此前|之前|前期|上次|先前)的?(?:判断|观点|观察|看法|思路)|接着上次|正如我?(?:之前|此前|上次|前面)所?(?:说|讲|提到)|我(?:之前|此前|上次)就?(?:说过|提过|讲过)|如前(?:文|期)?所述|重申(?:此前|之前)的?(?:判断|观点)"
       }
     ],
     "en": [
@@ -94,6 +98,10 @@
       {
         "show": "the real story/question/tell; here's the thing; make no mistake",
         "regex": "\\bthe real (?:story|question|tell|signal|issue)\\b|\\bhere[’']?s the thing\\b|\\bmake no mistake\\b"
+      },
+      {
+        "show": "meta-continuation opener (Continuing the… / Following up on… / As I said…)",
+        "regex": "\\b(?:continuing (?:from|with|on) (?:my|our|the) (?:earlier|prior|previous|last)\\b|continuing (?:the|my|our) (?:earlier |prior |previous )?(?:expectation|view|call|thesis|argument|read|take)\\b|following up (?:on|from)\\b|building on (?:my|our|the) (?:earlier|prior|previous|last)\\b|as i (?:said|noted|argued|flagged|wrote|mentioned)\\b|as (?:previously|earlier) (?:noted|flagged|said|argued)\\b|to reiterate\\b)"
       }
     ]
   },

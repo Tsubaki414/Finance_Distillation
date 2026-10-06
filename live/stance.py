@@ -26,12 +26,16 @@ context_units (optional) are other units from the same evidence: you may combine
 view to form one judgment; list every unit you rely on in supporting_unit_ids.
 prior_views (optional) are this account's own earlier calls on related subjects. When any prior
 view overlaps the subject, PREFER continuing or updating that lasting view over inventing a
-fresh one-shot take: keep the same call in account_view with a continuity phrase when evidence
-agrees, or set revises_view_id to that prior view id and say why in rationale when direction /
-conviction / horizon actually changes. Do not ignore an overlapping prior. Prior view ids never
-go in supporting_unit_ids (those are evidence unit IDs only); list a prior view you keep in
-cited_prior_view_ids instead. Do not output continues_view_id: the system links a continued call
-to its prior view itself. Views only: never holdings, trades or positions.''')
+fresh one-shot take. CONTINUE = same subject and SAME direction, even if horizon or conviction
+changes or new evidence is added: do NOT set revises_view_id; list the prior in
+cited_prior_view_ids (the system then links continues_view_id itself). REVISE = the direction
+changes, or the core thesis (the reason the call holds) is replaced: set revises_view_id to that
+prior view id and say why in rationale. If you cite a prior and your direction differs from it,
+you MUST set revises_view_id. Do not ignore an overlapping prior. Show continuity in substance
+(the same call carried by new evidence), never with a meta-continuation opener such as
+"Continuing the expectation...", "Following up on...", "As I said...", 延续此前判断, 接着上次,
+正如我之前说. Prior view ids never go in supporting_unit_ids (those are evidence unit IDs only).
+Do not output continues_view_id. Views only: never holdings, trades or positions.''')
 
 # Banned cadence Fiona keeps flagging in stance -> thesis_lock -> line 1.
 # Keep aligned with live/anti_repeat.py where possible.
@@ -51,6 +55,32 @@ META_LABEL_RES = (
     re.compile(r'^\s*(?:My\s+)?(?:read|take|view)\s*(?:is\s*)?[:：]\s*', re.I),
     re.compile(r'^\s*The\s+catch\?\s*', re.I),
 )
+# Meta-continuation openers (Oct 6 P1-1: "Continuing the expectation that ..."). Continuity is
+# carried by the ledger link + substance, never by a meta-phrase. Detection is shared with the
+# compose soft-ban patterns in style_blacklist.json ('meta-continuation opener').
+_META_EN = (r"continuing (?:from|with|on) (?:my|our|the) (?:earlier|prior|previous|last)\b"
+            r"|continuing (?:the|my|our) (?:earlier |prior |previous )?(?:expectation|view|call|thesis|argument|read|take)\b"
+            r"|following up (?:on|from)\b|building on (?:my|our|the) (?:earlier|prior|previous|last)\b"
+            r"|as i (?:said|noted|argued|flagged|wrote|mentioned)\b"
+            r"|as (?:previously|earlier) (?:noted|flagged|said|argued)\b|to reiterate\b")
+_META_ZH = (r'延续(?:此前|之前|前期|上次|先前)的?(?:判断|观点|观察|看法|思路)|接着上次'
+            r'|正如我?(?:之前|此前|上次|前面)所?(?:说|讲|提到)|我(?:之前|此前|上次)就?(?:说过|提过|讲过)'
+            r'|如前(?:文|期)?所述|重申(?:此前|之前)的?(?:判断|观点)')
+META_CONTINUATION_EN = re.compile(r'\b(?:' + _META_EN + ')', re.I)
+META_CONTINUATION_ZH = re.compile(_META_ZH)
+_META_OPENER_STRIP = (
+    re.compile(r'^\s*(?:' + _META_EN + r')[^,;:.!?]{0,140}[,;:]\s*', re.I),
+    re.compile(r'^\s*(?:' + _META_ZH + r')[^，,；;。！？]{0,40}[，,；;]\s*'),
+)
+
+
+def meta_continuation_hits(text):
+    """Meta-continuation phrases present in text (EN + ZH)."""
+    if not text:
+        return []
+    return [m.group(0) for rx in (META_CONTINUATION_EN, META_CONTINUATION_ZH) for m in rx.finditer(text)]
+
+
 _SAFE_STRIP = (
     re.compile(r'以我个人判断\s*[，,：:]?\s*'),
     re.compile(r'我?个人判断\s*[：:]\s*'),
@@ -78,7 +108,7 @@ def banned_hits(text):
     if not text:
         return []
     low = text.casefold()
-    return [phrase for phrase in BANNED_PHRASES if phrase.casefold() in low]
+    return [phrase for phrase in BANNED_PHRASES if phrase.casefold() in low] + meta_continuation_hits(text)
 
 
 def scrub_account_view(text):
@@ -91,6 +121,11 @@ def scrub_account_view(text):
     original = text or ''
     hits_before = banned_hits(original)
     out = original
+    meta_continuation = bool(meta_continuation_hits(original))
+    for rx in _META_OPENER_STRIP:
+        stripped = rx.sub('', out, count=1)
+        if stripped != out:
+            out = stripped[:1].upper() + stripped[1:]
     for rx in META_LABEL_RES:
         out = rx.sub('', out)
     for rx in _SAFE_STRIP:
@@ -108,10 +143,12 @@ def scrub_account_view(text):
         return original, {
             'hits_before': hits_before, 'hits_after': hits_before,
             'changed': False, 'reverted': True, 'meta_stripped': False,
+            'meta_continuation': meta_continuation,
         }
     return out, {
         'hits_before': hits_before, 'hits_after': hits_after,
         'changed': changed, 'reverted': False, 'meta_stripped': meta_stripped,
+        'meta_continuation': meta_continuation,
     }
 
 
@@ -269,6 +306,7 @@ def stance_step(view_unit, persona, client, *, calls=None, sleep=None, context_u
         probe = value if value.get('view') else dict(value, view=view)
         findings = list(ledger.contradictions(probe))
         findings += list(ledger.ignores_prior(probe, prior))
+        findings += list(ledger.drift_findings(value))
         value['ledger_findings'] = findings
     value['calls'] = calls
     return value

@@ -16,7 +16,8 @@ HARD = frozenset({
                   'licence_tier_not_allowed', 'd_tier_source_leak', 'quote_not_exact',
                   'missing_attribution_frame', 'position_claim', 'trade_reco_specific', 'self_contradiction', 'wrong_date_fact'})
 SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_units', 'period_not_in_units', 'number_metric_binding', 'number_words', 'no_judgment', 'data_list', 'no_disagreement', 'view_number_unbound', 'template_phrase', 'length_out_of_range', 'attribution_outside_frame',
-                  'trade_reco_soft', 'author_identity', 'code_fence', 'translated_quote', 'exemplar_phrase_copied', 'research_summary', 'certainty_overreach', 'contradicts_prior_view', 'ignores_prior_view', 'view_not_recorded', 'cross_persona_claim_duplicate', 'thesis_grounding', 'emotion_drop', 'emotion_overfire', 'thin_judgment_pack', 'stylistic_repeat', 'judgment_label', 'phrase_ban', 'duplicate_topic', 'verify_source', 'info_dump', 'stance_cadence', 'verbatim_line1'})
+                  'trade_reco_soft', 'author_identity', 'code_fence', 'translated_quote', 'exemplar_phrase_copied', 'research_summary', 'certainty_overreach', 'contradicts_prior_view', 'ignores_prior_view', 'view_not_recorded', 'cross_persona_claim_duplicate', 'thesis_grounding', 'emotion_drop', 'emotion_overfire', 'thin_judgment_pack', 'stylistic_repeat', 'judgment_label', 'phrase_ban', 'duplicate_topic', 'verify_source', 'info_dump', 'stance_cadence', 'verbatim_line1',
+                  'direction_drift_unmarked'})
 FIXES = {
     'stylistic_repeat': 'Vary the repeated stylistic phrase and closing; retain source facts.',
     'judgment_label': 'Drop the 「我的判断：」/「以我个人判断，」/「个人判断：」 label; state the judgment directly as a plain sentence.',
@@ -38,6 +39,8 @@ FIXES = {
     'info_dump': 'Judgment post reads as a data dump: keep the call, cite at most 3 numbers, leave surplus units unused.',
     'stance_cadence': 'Rewrite account_view as one plain committed sentence without banned filler or meta-labels.',
     'verbatim_line1': 'Paraphrase line 1; keep the same call; do not copy thesis_lock verbatim.',
+    'direction_drift_unmarked': 'The call changed direction vs the account\'s earlier view without marking a revise: '
+                                'confirm the revise and say why, or keep the earlier direction.',
     'research_summary': 'Write it as a post, not a research note: one call, one or two numbers, no lists.',
     'length_out_of_range': 'Trim or extend toward the post type length range.',
     'exemplar_phrase_copied': 'Rephrase: style exemplars are for voice only, never for wording.',
