@@ -19,7 +19,10 @@
     "channel_ids": [
       "ch068_api_one_wscn_awtmt_com",
       "ch096_spotgamma_com",
-      "ch106_research_glassnode_com"
+      "ch106_research_glassnode_com",
+      "ch141_wscn_flash",
+      "ch143_eastmoney_flash",
+      "ch144_sina_flash"
     ],
     "age_unit": "business_days"
   },
@@ -53,7 +56,8 @@
       "ch043_www_ecb_europa_eu",
       "ch046_www_bis_org",
       "ch065_www_stats_gov_cn",
-      "ch067_www_safe_gov_cn"
+      "ch067_www_safe_gov_cn",
+      "ch142_wscn_global"
     ]
   },
   "filings_research": {

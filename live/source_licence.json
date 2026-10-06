@@ -1689,6 +1689,109 @@
       "no_reproduction": false,
       "quote_allowed": false,
       "attribution_required": true
+    },
+    "ch141_wscn_flash": {
+      "tier": "B",
+      "basis": "Fiona approved 2026-10-06. Public JSON list used by the outlet's own 7x24 page; same publisher and licence basis as the existing wallstreetcn adapter (B, facts only, no quotes/reproduction). Flashes go through the batched cheap extraction path (live/flash_extract.py) under the ring-fenced flash budget; the original outlet named in a flash (e.g. （新浪财经）) is credited.",
+      "aliases": [
+        "华尔街见闻 7x24 快讯（全球频道）"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "credit_original_outlet": true
+    },
+    "ch142_wscn_global": {
+      "tier": "B",
+      "basis": "Fiona approved 2026-10-06. Existing wallstreetcn article adapter pointed at global-channel (macro/global) besides us-stock-channel; same licence (B, facts only). Free articles only (paid/VIP skipped).",
+      "aliases": [
+        "华尔街见闻 全球/宏观频道文章"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "ch143_eastmoney_flash": {
+      "tier": "B",
+      "basis": "Fiona approved 2026-10-06. Public JSON list used by Eastmoney's own 7x24 page (same publisher family as ch139). Many flashes are syndicated: credit the original outlet when the flash names it; B facts/paraphrase only, no reproduction. Undocumented endpoint: a non-200 is reported as a failing channel, never as a quiet day.",
+      "aliases": [
+        "东方财富 7x24 快讯"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "credit_original_outlet": true
+    },
+    "ch144_sina_flash": {
+      "tier": "B",
+      "basis": "Fiona approved 2026-10-06. Public JSON feed of Sina Finance 7x24 (zhibo_id 152). Sina's copyright notice forbids reproduction: B facts only with attribution (credit the original outlet when named), no quotes.",
+      "aliases": [
+        "新浪财经 7x24"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "credit_original_outlet": true
+    },
+    "ch145_cnbc_rss": {
+      "tier": "C",
+      "basis": "Fiona approved 2026-10-06. CNBC official RSS; RSS terms are personal/non-commercial and article text is CNBC copyright. Tier C topic lead only: headline + timestamp tell the system what happened; never quote or paraphrase CNBC text; facts must come from an A/B source. Collected by live/news.py into live/store/news.jsonl (licence_tier C, usage topic_only); C rows can never become content units (ContentStore only writes A/B).",
+      "aliases": [
+        "CNBC RSS（Economy / Markets / Investing）"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "usage": "topic_only",
+      "topic_lead_only": true
+    },
+    "ch146_marketwatch_rss": {
+      "tier": "C",
+      "basis": "Fiona approved 2026-10-06. Dow Jones public RSS; articles often paywalled. Tier C topic lead only (headline). Collected by live/news.py into live/store/news.jsonl (licence_tier C, usage topic_only); C rows can never become content units (ContentStore only writes A/B).",
+      "aliases": [
+        "MarketWatch Top Stories（标题）"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "usage": "topic_only",
+      "topic_lead_only": true
+    },
+    "ch147_bloomberg_rss": {
+      "tier": "C",
+      "basis": "Fiona approved 2026-10-06. Official RSS headlines; article text is paywalled. Tier C topic lead only. Collected by live/news.py into live/store/news.jsonl (licence_tier C, usage topic_only); C rows can never become content units (ContentStore only writes A/B).",
+      "aliases": [
+        "Bloomberg Markets RSS（标题）"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "usage": "topic_only",
+      "topic_lead_only": true
+    },
+    "ch148_ft_rss": {
+      "tier": "C",
+      "basis": "Fiona approved 2026-10-06. Official RSS headlines; FT paywall. Tier C topic lead only (FT Alphaville body stays excluded, ch125). Collected by live/news.py into live/store/news.jsonl (licence_tier C, usage topic_only); C rows can never become content units (ContentStore only writes A/B).",
+      "aliases": [
+        "FT Markets RSS（标题）"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "usage": "topic_only",
+      "topic_lead_only": true
+    },
+    "ch149_nasdaq_rss": {
+      "tier": "C",
+      "basis": "Fiona approved 2026-10-06. Official RSS; mostly syndicated wire copy (RTTNews etc.). Tier C topic lead only. Collected by live/news.py into live/store/news.jsonl (licence_tier C, usage topic_only); C rows can never become content units (ContentStore only writes A/B).",
+      "aliases": [
+        "Nasdaq Markets RSS（标题）"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "usage": "topic_only",
+      "topic_lead_only": true
     }
   }
 }

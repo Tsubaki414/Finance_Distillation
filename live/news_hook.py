@@ -16,23 +16,25 @@ import re
 from datetime import datetime, timedelta, timezone
 
 HOOK_WINDOW_DAYS = 7
+# ASCII word boundaries: '9月CPI同比' must match \bCPI\b (in Unicode mode 月/同 are word chars).
+_FLAGS = re.I | re.A
 
 EVENTS = {
     'us_payrolls': re.compile(
         r'non-?farm|payrolls?\b|jobs report|jobs data|employment (?:situation|report)|labou?r market recap|'
         r'average hourly earnings|\bAHE\b|\d[\d,.]*\s*(?:k|thousand)?\s+(?:new )?jobs\b|jobs? (?:growth|gains?) (?:of|slow|cool)|'
-        r'非农|就业报告|新增就业|平均时薪|失业率', re.I),
-    'cpi': re.compile(r'\bCPI\b|consumer price index|消费者物价指数', re.I),
-    'us_pce': re.compile(r'\bPCE\b|personal consumption expenditure|个人消费支出', re.I),
+        r'非农|就业报告|新增就业|平均时薪|失业率', _FLAGS),
+    'cpi': re.compile(r'\bCPI\b|consumer price index|消费者物价指数', _FLAGS),
+    'us_pce': re.compile(r'\bPCE\b|personal consumption expenditure|个人消费支出', _FLAGS),
     'fomc_decision': re.compile(
-        r'\bFOMC\b|fed(?:eral reserve)? (?:rate|policy) decision|dot plot|议息|点阵图|FOMC声明', re.I),
-    'us_gdp': re.compile(r'GDP (?:report|release|print|estimate|data)|(?:advance|second|third) estimate of GDP|GDP初值|GDP数据', re.I),
-    'china_pmi': re.compile(r'\bPMI\b|purchasing managers|采购经理指数', re.I),
-    'china_industrial_profits': re.compile(r'industrial (?:enterprise )?profits|工业企业利润', re.I),
-    'china_credit_data': re.compile(r'\bTSF\b|total social financing|社融|新增贷款|\bM2\b', re.I),
-    'ecb_decision': re.compile(r'\bECB\b.{0,40}(?:decision|hike|cut|hold|meeting)|欧洲央行.{0,10}(?:加息|降息|议息|决议)', re.I),
-    'boj_decision': re.compile(r'\bBoJ\b.{0,40}(?:decision|hike|cut|hold|meeting)|日本央行.{0,10}(?:加息|降息|议息|决议)', re.I),
-    'boe_decision': re.compile(r'\bBoE\b.{0,40}(?:decision|hike|cut|hold|meeting)|英国央行.{0,10}(?:加息|降息|议息|决议)', re.I),
+        r'\bFOMC\b|fed(?:eral reserve)? (?:rate|policy) decision|dot plot|议息|点阵图|FOMC声明', _FLAGS),
+    'us_gdp': re.compile(r'GDP (?:report|release|print|estimate|data)|(?:advance|second|third) estimate of GDP|GDP初值|GDP数据', _FLAGS),
+    'china_pmi': re.compile(r'\bPMI\b|purchasing managers|采购经理指数', _FLAGS),
+    'china_industrial_profits': re.compile(r'industrial (?:enterprise )?profits|工业企业利润', _FLAGS),
+    'china_credit_data': re.compile(r'\bTSF\b|total social financing|社融|新增贷款|\bM2\b', _FLAGS),
+    'ecb_decision': re.compile(r'\bECB\b.{0,40}(?:decision|hike|cut|hold|meeting)|欧洲央行.{0,10}(?:加息|降息|议息|决议)', _FLAGS),
+    'boj_decision': re.compile(r'\bBoJ\b.{0,40}(?:decision|hike|cut|hold|meeting)|日本央行.{0,10}(?:加息|降息|议息|决议)', _FLAGS),
+    'boe_decision': re.compile(r'\bBoE\b.{0,40}(?:decision|hike|cut|hold|meeting)|英国央行.{0,10}(?:加息|降息|议息|决议)', _FLAGS),
 }
 
 

@@ -29,14 +29,22 @@ def iso_published(value):
     anything else (empty, 'T00:00:00Z', free text) is None - never a malformed string."""
     value = str(value or '').strip()
     try:
-        if re.fullmatch(r'\d{4}-\d{2}-\d{2}', value):
-            date.fromisoformat(value)
-            return value + 'T00:00:00Z'
+        m = re.fullmatch(r'(\d{4})-(\d{1,2})-(\d{1,2})', value)
+        if m:
+            return date(*map(int, m.groups())).isoformat() + 'T00:00:00Z'
         if re.match(r'\d{4}-\d{2}-\d{2}[T ]\d', value):
             datetime.fromisoformat(value.replace('Z', '+00:00'))
             return value
     except ValueError:
-        pass
+        return None
+    if re.search(r'\d{4}', value):   # RFC 2822 feed dates ('Mon, 05 Oct 2026 22:21 GMT') used to pass through
+        from email.utils import parsedate_to_datetime
+        try:
+            parsed = parsedate_to_datetime(value)
+        except (TypeError, ValueError, IndexError):
+            parsed = None
+        if parsed is not None:
+            return parsed.isoformat()
     return None
 
 

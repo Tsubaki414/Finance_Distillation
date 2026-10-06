@@ -20,13 +20,17 @@ ROOT = Path(__file__).resolve().parent / 'store' / 'content_units'
 WRITABLE = ('A', 'B')
 SOURCE_KEYS = ('id', 'source_id', 'publisher', 'author_name', 'title', 'url', 'published_at', 'source_hash',
                'adapter', 'truncated', 'source_language')
+OPTIONAL_SOURCE_KEYS = ('original_outlet', 'also_reported_by')   # v10 flashes; stored only when present
 
 
 def attribution(source, unit):
     from live import attribution_frame
     fields = attribution_frame._fields(source, speaker=unit.get('speaker'))
-    return {'publisher': fields['publisher'] or source.get('publisher'), 'speaker': unit.get('speaker'),
-            'speaker_type': unit.get('speaker_type'), 'usage': unit.get('usage')}
+    out = {'publisher': fields['publisher'] or source.get('publisher'), 'speaker': unit.get('speaker'),
+           'speaker_type': unit.get('speaker_type'), 'usage': unit.get('usage')}
+    if source.get('original_outlet'):   # v10 flashes: credit the outlet a syndicated flash names
+        out['original_outlet'] = source['original_outlet']
+    return out
 
 
 def normalize_claim(value):
@@ -228,7 +232,8 @@ class ContentStore:
                     continue
                 rec = {'unit_id': u['unit_id'], 'unit': u, 'licence_tier': u['licence_tier'],
                        'attribution': attribution(source, u),
-                       'source': {**{k: source.get(k) for k in SOURCE_KEYS}, 'adapter': adapter},
+                       'source': {**{k: source.get(k) for k in SOURCE_KEYS},
+                                  **{k: source[k] for k in OPTIONAL_SOURCE_KEYS if source.get(k)}, 'adapter': adapter},
                        'personas': list((personas or {}).get(u['unit_id'], [])),
                        'prescreen': (prescreen or {}).get(u['unit_id']), 'stored_at': now()}
                 if any(duplicate_content(row, rec) for row in self._rows.values()):

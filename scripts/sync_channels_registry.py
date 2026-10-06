@@ -24,6 +24,8 @@ def sync(channels_path, registry_path, licence_path):
         licence['tiers'][cid]={'tier':c['licence_tier'],'basis':c.get('reason','') or 'planned public channel',
             'aliases':[c['name']],'no_reproduction':bool(c.get('no_reproduction')),
             'quote_allowed':c['licence_tier']=='A' and not c.get('no_reproduction'), 'attribution_required':True}
+        if c['licence_tier']=='C':   # v10: headline leads - topic only, never quoted or paraphrased
+            licence['tiers'][cid].update(usage='topic_only',topic_lead_only=True)
     for path,value in ((registry_path,registry),(licence_path,licence)):
         path.write_text(json.dumps(value,ensure_ascii=False,indent=2)+'\n')
 

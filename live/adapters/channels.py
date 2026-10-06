@@ -14,7 +14,10 @@ import httpx
 from bs4 import BeautifulSoup
 from live.adapters import common
 
-MODES = {'feed_fulltext', 'feed_linkfollow', 'html_index', 'json_api', 'existing_adapter', 'podcast_audio', 'excluded'}
+# Oct 6 v10: flash_json = 7x24 flash outlets (live/adapters/flashes.py, batched cheap extract, tier B);
+# headline_lead = tier-C topic leads collected by live/news.py (headlines only, never content units).
+MODES = {'feed_fulltext', 'feed_linkfollow', 'html_index', 'json_api', 'existing_adapter', 'podcast_audio', 'excluded',
+         'flash_json', 'headline_lead'}
 PAYWALL = re.compile(r'subscribe to (?:continue|read)|sign in to read|log in to (?:read|continue)|login to (?:read|continue)|subscription required|premium content|register to read|unlock this article|订阅阅读全文|登录后阅读|登录后查看|登陆后查看|订阅后阅读|付费阅读|会员专享', re.I)
 DEFAULT_MODES = ('feed_fulltext', 'feed_linkfollow', 'html_index', 'json_api')
 
@@ -29,7 +32,10 @@ def load_channels(path):
         if ch.get('mode') not in MODES: raise ValueError(f'{cid}: invalid mode')
         if ch['mode'] in ('excluded', 'podcast_audio') and (not str(ch.get('reason') or '').strip() or str(ch['reason']).strip().lower() in ('n/a','unknown','excluded','podcast')):
             raise ValueError(f'{cid}: concrete reason required')
-        if ch.get('licence_tier') not in ('A','B'): raise ValueError(f'{cid}: invalid licence tier')
+        tier=ch.get('licence_tier')
+        if ch['mode']=='headline_lead':
+            if tier!='C': raise ValueError(f'{cid}: headline_lead channels are tier C (topic lead only)')
+        elif tier not in ('A','B'): raise ValueError(f'{cid}: invalid licence tier')
     return rows
 
 def select_channels(rows, *, modes=None, ids=None, batch=None):

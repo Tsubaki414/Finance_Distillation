@@ -38,7 +38,7 @@ Run: .venv/bin/python -B live/news.py [--source=cn_investing] [--dry-run]
 """
 from __future__ import annotations
 from pathlib import Path
-import sys, json, re, time, hashlib, datetime, urllib.request, urllib.error
+import sys, json, re, time, hashlib, collections, datetime, urllib.request, urllib.error
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -113,8 +113,41 @@ SOURCES = {
     },
 }
 
+# Oct 6 v10 (Fiona approved): headline feeds as tier-C topic leads (channels.json mode headline_lead).
+# Only title + timestamp + link are used, to know WHAT happened; facts for posts come from A/B sources.
+SOURCES.update({
+    'cnbc_economy': {'url': 'https://www.cnbc.com/id/20910258/device/rss/rss.html', 'lang': 'en', 'kind': 'rss',
+                     'max_age_hours': 24, 'channel_id': 'ch145_cnbc_rss'},
+    'cnbc_markets': {'url': 'https://www.cnbc.com/id/10000664/device/rss/rss.html', 'lang': 'en', 'kind': 'rss',
+                     'max_age_hours': 24, 'channel_id': 'ch145_cnbc_rss',
+                     'why': 'CNBC Finance/markets feed; Market Insider (20409666) went quiet in Aug 2026'},
+    'cnbc_investing': {'url': 'https://www.cnbc.com/id/15839069/device/rss/rss.html', 'lang': 'en', 'kind': 'rss',
+                       'max_age_hours': 24, 'channel_id': 'ch145_cnbc_rss',
+                       'why': 'collected ~05:00 London, after the US overnight gap'},
+    'marketwatch': {'url': 'https://feeds.content.dowjones.io/public/rss/mw_topstories', 'lang': 'en', 'kind': 'rss',
+                    'max_age_hours': 24, 'channel_id': 'ch146_marketwatch_rss'},
+    'bloomberg_markets': {'url': 'https://feeds.bloomberg.com/markets/news.rss', 'lang': 'en', 'kind': 'rss',
+                          'max_age_hours': 24, 'channel_id': 'ch147_bloomberg_rss'},
+    'ft_markets': {'url': 'https://www.ft.com/markets?format=rss', 'lang': 'en', 'kind': 'rss',
+                   'max_age_hours': 24, 'channel_id': 'ch148_ft_rss'},
+    'nasdaq_markets': {'url': 'https://www.nasdaq.com/feed/rssoutbound?category=Markets', 'lang': 'en', 'kind': 'rss',
+                       'max_age_hours': 24, 'channel_id': 'ch149_nasdaq_rss'},
+})
+# Every row here is a topic lead: licence tier C, usage topic_only. news.jsonl is never read into the
+# content store (which only accepts A/B), so no headline or summary text can reach a post.
+LEAD_TIER = 'C'
+
 NS = {'atom': 'http://www.w3.org/2005/Atom'}
 TAG = re.compile(r'<[^>]+>')
+
+
+def _hooks(text):
+    try:
+        from live.news_hook import hooks
+    except ImportError:   # run as a script from the repo root without the package on sys.path
+        sys.path.insert(0, str(ROOT))
+        from live.news_hook import hooks
+    return hooks(text)
 
 
 def _text(s):
@@ -139,11 +172,16 @@ def _parse_date(s):
         return None
 
 
+def _opener():
+    # Bloomberg answers its RSS with a 301 to bloomberg.com/feeds/...; urllib follows redirects by default.
+    return urllib.request.build_opener()
+
+
 def fetch(name, cfg):
     req = urllib.request.Request(cfg['url'], headers={'User-Agent': cfg.get('ua', UA)})
     t0 = time.monotonic()
     try:
-        with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
+        with _opener().open(req, timeout=TIMEOUT) as r:
             body = r.read().decode('utf-8', 'replace')
             status = r.status
     except urllib.error.HTTPError as e:
@@ -199,27 +237,27 @@ def _seen():
     return urls, hashes
 
 
-def collect(only=None, dry_run=False):
+def collect(only=None, dry_run=False, gap_seconds=None):
     now = datetime.datetime.now(datetime.timezone.utc)
     run_id = 'news-' + now.strftime('%Y%m%dT%H%M%S')
     seen_urls, seen_hashes = _seen()
     report, new_rows = [], []
 
     for name, cfg in SOURCES.items():
-        if only and name != only:
+        if only and name not in ((only,) if isinstance(only, str) else tuple(only)):
             continue
         r = fetch(name, cfg)
         row = {'source': name, 'url': cfg['url'], 'seconds': r['seconds'],
                'status': r.get('status')}
         if not r['ok']:
             report.append({**row, 'result': 'fetch_failed', 'error': r['error']})
-            time.sleep(GAP_SECONDS)
+            time.sleep(GAP_SECONDS if gap_seconds is None else gap_seconds)
             continue
         try:
             items = parse(r['body'], cfg['kind'])
         except ET.ParseError as e:
             report.append({**row, 'result': 'unparsable', 'error': str(e)[:140]})
-            time.sleep(GAP_SECONDS)
+            time.sleep(GAP_SECONDS if gap_seconds is None else gap_seconds)
             continue
 
         dated = [i for i in items if i['published']]
@@ -234,7 +272,7 @@ def collect(only=None, dry_run=False):
                            'note': ('the feed answered and parsed; its content is older than this '
                                     'source is allowed to be, so it is reported as failing rather '
                                     'than as a quiet news hour')})
-            time.sleep(GAP_SECONDS)
+            time.sleep(GAP_SECONDS if gap_seconds is None else gap_seconds)
             continue
 
         added = 0
@@ -257,11 +295,13 @@ def collect(only=None, dry_run=False):
                 # One layer only. See the module docstring: near-duplicate wire copy across
                 # outlets is not caught here and needs embeddings.
                 'dedup': 'url + title/summary hash',
+                'licence_tier': LEAD_TIER, 'usage': 'topic_only', 'channel_id': cfg.get('channel_id'),
+                'hooks': sorted(_hooks(it['title'] + ' ' + it['summary'][:400])),
             })
             added += 1
         report.append({**row, 'result': 'ok', 'items': len(items), 'new': added,
                        'newest_age_hours': age_h})
-        time.sleep(GAP_SECONDS)
+        time.sleep(GAP_SECONDS if gap_seconds is None else gap_seconds)
 
     if new_rows and not dry_run:
         STORE.mkdir(parents=True, exist_ok=True)
@@ -272,6 +312,8 @@ def collect(only=None, dry_run=False):
     summary = {'run_id': run_id, 'at': now.isoformat(), 'dry_run': dry_run,
                'new_items': len(new_rows), 'sources': report,
                'failing': [x['source'] for x in report if x['result'] != 'ok'],
+               # v10: event hooks across this run's new rows (topic leads for flash ordering; no text)
+               'lead_hooks': dict(collections.Counter(h for r in new_rows for h in r.get('hooks') or [])),
                'coverage_note': ('per-source item caps with a rolling feed do not guarantee '
                                  'complete capture during a busy hour or after a long gap')}
     if not dry_run:

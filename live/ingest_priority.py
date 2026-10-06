@@ -12,6 +12,16 @@ the cap unchanged, the extract order now is:
      legacy channel priority, then the channel rank.
 
 Previous-run deferred items also bypass `per_channel_max` at gather so they are not dropped again.
+
+v10 (Oct 6, Fiona: "timely material ranks ahead of earnings-call transcripts"). Each paid item gets a
+timeliness class (`timeliness()`):
+  timely     - central banks / macro releases / market flow (freshness_policy shelf <= 3 days), news
+               desks (华尔街见闻, The Block, CoinDesk, Treasury/EIA/SEC press, regional Fed), 7x24 flashes;
+  transcript - earnings-call transcripts (Motley Fool, AlphaStreet, Quartr/FMP, 'transcript' titles);
+  standard   - everything else.
+Order: pre_extracted -> timely (persona round-robin, prior-deferred first inside a persona) ->
+fair-share floor -> rest -> transcripts_last. 7x24 flashes have their own ring-fenced budget and run
+before this queue (live/daily_ingest.py), so docs never eat the flash budget.
 """
 from __future__ import annotations
 
@@ -127,6 +137,37 @@ def previous_deferred(runs_dir, *, before=None):
     return {'run': None, 'ids': set(), 'channels': Counter(), 'items': []}
 
 
+TIMELY_CHANNELS = ('ch038', 'ch039', 'ch040', 'ch041', 'ch043', 'ch044', 'ch045', 'ch046', 'ch047', 'ch055',
+                   'ch056', 'ch057', 'ch059', 'ch060', 'ch065', 'ch067', 'ch068', 'ch109', 'ch115', 'ch123',
+                   'ch139', 'ch141', 'ch142', 'ch143', 'ch144')
+TIMELY_KEYS = ('fed', 'fomc', 'bls', 'treasury', 'nyfed', 'cftc', 'cboe', 'ecb', 'boj', 'boe', 'pboc',
+               'wallstreetcn', 'wscn', 'flash', 'theblock', 'coindesk', 'cointelegraph')
+TRANSCRIPT_CHANNELS = ('ch018', 'ch019', 'ch020', 'ch021')
+# Earnings-call transcripts only (Fiona 10/6); interview transcripts (Ritholtz MiB) stay 'standard'.
+_TRANSCRIPT = re.compile(r'earnings call|conference call|电话会|(?:Q[1-4]|earnings|results).{0,40}transcript|'
+                         r'transcript.{0,40}(?:Q[1-4]|earnings)', re.I)
+
+
+def timeliness(channel_id, source=None):
+    """'timely' | 'standard' | 'transcript' (v10 extract order; see module doc)."""
+    source = source or {}
+    cid = _PREFIX.sub('', str(channel_id or '')).casefold()
+    sid = str(source.get('source_id') or '').casefold()
+    if cid.startswith(TRANSCRIPT_CHANNELS) or sid.startswith(TRANSCRIPT_CHANNELS) \
+            or _TRANSCRIPT.search(str(source.get('title') or '')):
+        return 'transcript'
+    if cid.startswith(TIMELY_CHANNELS) or sid.startswith(TIMELY_CHANNELS) \
+            or any(k in cid or k in sid for k in TIMELY_KEYS):
+        return 'timely'
+    try:
+        from live.freshness import shelf_days
+        days = shelf_days({'unit': {}, 'source': {'source_id': sid, 'adapter': source.get('adapter') or cid,
+                                                  'channel_id': cid}})
+    except Exception:
+        days = None
+    return 'timely' if days is not None and days <= 3 else 'standard'
+
+
 def _keys(source):
     return {str(source.get(k)) for k in ('id', 'url', 'source_hash') if source.get(k)}
 
@@ -147,35 +188,50 @@ def order_tasks(tasks, fresh_by_persona, deferred_ids=(), *, floor=2, legacy_pri
         need = fresh.get(neediest, 0) if known else 10 ** 6
         prior = bool(deferred_ids & (_keys(s) | set(task[4] or ())))
         return dict(persona=neediest, personas=ps, need=need, prior=prior,
-                    legacy=legacy(ch['id'], s), rank=task[5])
+                    legacy=legacy(ch['id'], s), rank=task[5], timeliness=timeliness(ch['id'], s))
 
     meta = [info(t) for t in tasks]
     idx = list(range(len(tasks)))
     free = [i for i in idx if tasks[i][2] is not None]            # phase 0: no extract cost
     paid = [i for i in idx if tasks[i][2] is None]
     within = lambda i: (not meta[i]['prior'], meta[i]['legacy'], meta[i]['rank'], i)
-    by_persona = {}
-    for i in sorted(paid, key=within):
-        by_persona.setdefault(meta[i]['persona'], []).append(i)
-    personas = sorted((p for p in by_persona if p != UNKNOWN), key=lambda p: (fresh.get(p, 0), p))
-    floor_order, taken = [], set()
     if not fresh:   # no freshness report (fresh store / failed report): legacy channel priority only
         floor = 0
         for m in meta:
             m['need'] = 0
-    for rnd in range(max(0, int(floor))):
-        for p in personas:
-            queue = [i for i in by_persona[p] if i not in taken]
-            if queue:
-                floor_order.append(queue[0]); taken.add(queue[0])
-    rest = sorted((i for i in paid if i not in taken),
+
+    def round_robin(pool, rounds=None):
+        """Persona round-robin over `pool` (neediest persona first, prior-deferred first inside one)."""
+        by_persona = {}
+        for i in sorted(pool, key=within):
+            by_persona.setdefault(meta[i]['persona'], []).append(i)
+        ps = sorted(by_persona, key=lambda p: (p == UNKNOWN, fresh.get(p, 0), p))
+        out, rnd = [], 0
+        while any(by_persona.values()) and (rounds is None or rnd < rounds):
+            picks = [by_persona[p].pop(0) for p in ps if by_persona[p] and (p != UNKNOWN or rounds is None)]
+            # inside one round: neediest persona first, then the legacy channel priority (no freshness report)
+            out += sorted(picks, key=lambda i: (meta[i]['need'], meta[i]['legacy'], meta[i]['rank'], i))
+            rnd += 1
+            if rounds is not None and not any(by_persona[p] for p in ps if p != UNKNOWN):
+                break
+        return out
+
+    # v10: timely first (round-robin so one persona's news desk does not take the whole cap), transcripts last.
+    timely = round_robin([i for i in paid if meta[i]['timeliness'] == 'timely'])
+    transcripts = sorted((i for i in paid if meta[i]['timeliness'] == 'transcript'),
+                         key=lambda i: (not meta[i]['prior'], meta[i]['need'], meta[i]['rank'], i))
+    middle = [i for i in paid if meta[i]['timeliness'] == 'standard']
+    floor_order = round_robin(middle, rounds=max(0, int(floor))) if floor else []
+    taken = set(floor_order)
+    rest = sorted((i for i in middle if i not in taken),
                   key=lambda i: (not meta[i]['prior'], meta[i]['need'], meta[i]['legacy'], meta[i]['rank'], i))
     order, plan = [], []
-    for phase, block in (('pre_extracted', free), ('fair_share_floor', floor_order), ('rest', rest)):
+    for phase, block in (('pre_extracted', free), ('timely', timely), ('fair_share_floor', floor_order),
+                         ('rest', rest), ('transcripts_last', transcripts)):
         for i in block:
             order.append(tasks[i])
             plan.append(dict(phase=phase, channel=tasks[i][0]['id'], id=tasks[i][1].get('id'),
                              persona=meta[i]['persona'], personas=meta[i]['personas'],
                              fresh=meta[i]['need'] if meta[i]['persona'] != UNKNOWN else None,
-                             prior_deferred=meta[i]['prior']))
+                             prior_deferred=meta[i]['prior'], timeliness=meta[i].get('timeliness')))
     return order, plan
