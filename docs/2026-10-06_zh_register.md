@@ -51,3 +51,10 @@ Fix (all soft):
   leap from one statistic to a different claim, e.g. billionaire wealth share → AI valuation premium).
   No automatic check: a cheap token-overlap test cannot separate a leap from a valid cross-language
   link (EN units, ZH call), so this stays a prompt rule plus editor review.
+
+## v6 follow-up (soft)
+- `theme_repeat` / selection also match on the named lead entity of the subject (Micron, NVIDIA, Fed …):
+  v6's en_industry fill-in picked a second Micron document (options implied move) that shared no
+  subject wording with the v5 8-K call.
+- Opener family: 2+ of the last 3 drafts opening with the same imperative (别… / don't …) is a soft
+  `structure_repeat` (v5–v6 ZH: 别急着 / 别指望 / 别看 / 别把 / 别被).

@@ -330,3 +330,12 @@ def test_opener_family_repeat():
     found = cs.history_findings('别被累计数据骗了，单月已经熄火。', recent)
     assert any('opener family' in f['detail'] for f in found)
     assert not any('opener family' in f['detail'] for f in cs.history_findings('单月利润已经熄火。', recent))
+
+
+def test_theme_repeat_same_lead_entity():
+    from live import anti_repeat as ar
+    recent = [{'subject': 'micron technology ai memory revenue trajectory', 'text': 'Micron AI memory revenue is durable.'}]
+    stance = {'account_view': 'Options underprice the earnings move.', 'view': {'subject': 'Micron earnings implied move'}}
+    assert ar.theme_findings(stance, recent)[0]['code'] == 'theme_repeat'
+    assert ar.lead_entity("NVIDIA's competitive position") == 'nvidia'
+    assert ar.lead_entity('AI capex demand') == '' and ar.lead_entity('China interest rates') == ''

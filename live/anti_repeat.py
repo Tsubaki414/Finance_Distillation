@@ -199,8 +199,26 @@ def _overlap_min(a, b):
     return len(a & b) / max(1, min(len(a), len(b))) if a and b else 0.0
 
 
+_NOT_ENTITY = frozenset({'the', 'ai', 'us', 'u.s.', 'global', 'china', 'chinese', 'market', 'markets', 'equity',
+                         'equities', 'year-on-year', 'near-term', 'long-term', 'sustainability', 'local'})
+
+
+def lead_entity(subject):
+    """Named lead entity of a subject ('Micron Technology AI memory ...' -> 'micron'), else ''.
+    v6: a second Micron source (options implied move) shared no subject wording with the 8-K call."""
+    words = re.findall(r"[A-Za-z][\w&.'-]+", str(subject or ''))
+    if not words:
+        return ''
+    w = re.sub(r"(?:'s|’s)$", '', words[0])
+    return '' if w.lower() in _NOT_ENTITY or not (w[0].isupper() and len(w) >= 3) else w.lower()
+
+
 def theme_overlap(subject, text, row):
-    """(subject overlap, subject+call overlap) between a call and a history row."""
+    """(subject overlap, subject+call overlap) between a call and a history row; the same named lead
+    entity (company / central bank) counts as full subject overlap."""
+    ent = lead_entity(subject)
+    if ent and re.match(re.escape(ent) + r"\b", str(row.get('subject') or '').lower()):
+        return 1.0, 1.0
     s1, t1 = _theme(subject, text)
     first = (row.get('text') or '').strip().splitlines()[0] if (row.get('text') or '').strip() else ''
     s2, t2 = _theme(row.get('subject'), row.get('account_view') or first)
