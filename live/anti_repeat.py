@@ -60,9 +60,16 @@ def record_draft(persona_id, text, *, meta=None):
            'tickers': meta.get('tickers', tickers), 'closing': text.strip().splitlines()[-1][-40:] if text.strip() else ''}
     if meta.get('draft_id'):
         row['draft_id'] = meta['draft_id']
-    for key in ('shape', 'skeleton', 'account_view', 'source_hash'):   # structure / theme history
+    for key in ('shape', 'skeleton', 'account_view', 'source_hash', 'source_title'):   # structure / theme history
         if meta.get(key):
             row[key] = meta[key]
+    try:   # Oct 6 v10: event (news hook) of the draft, for selection's same-event dedupe
+        from live import news_hook
+        hooks = sorted(news_hook.hooks(' '.join(str(x or '') for x in (text, row.get('subject'), meta.get('source_title')))))
+    except Exception:   # noqa: BLE001 - history writing never fails on hook tagging
+        hooks = []
+    if hooks:
+        row['news_hooks'] = hooks
     rows = load_recent(persona_id, 29) + [row]
     for directory in (HISTORY_DIR, FALLBACK_DIR):
         path = _path(persona_id, directory)

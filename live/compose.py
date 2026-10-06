@@ -1818,7 +1818,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             findings.append({'code': 'view_not_recorded', 'detail': str(exc), 'level': 'soft'})
     if body:
         anti_repeat.record_draft(persona.persona_id, body, meta={**(stance or {}), 'draft_id': base['id'],
-                                 'source_hash': source.get('source_hash'),
+                                 'source_hash': source.get('source_hash'), 'source_title': source.get('title'),
                                  'shape': (shape_info or {}).get('id'),
                                  'skeleton': compose_shapes.skeleton(body, payload['post_type_rules']['body_length'])})
     return {**base, 'stance': stance, 'units': chosen, 'all_units': len(units), 'post_type': post_type,

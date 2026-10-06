@@ -80,6 +80,29 @@ def ranked_balanced(groups, now=None):
     return sorted(balanced_groups, key=lambda g: -group_freshness(g, now))
 
 
+# Oct 6 v10 (Fiona: "这是今天收取的素材写出来的吗？"): for timely beats a packet inside its shelf life
+# (live/freshness_policy.json: market_flow 1 business day, macro 3d, commentary 5d, filings 10d; evergreen
+# unchanged) is a strong tier, not just a ranking weight. Older packets are a recorded fallback only.
+TIMELY_BEATS = frozenset({'macro_zh', 'macro_rates_en', 'industry_ai_capex', 'zh_us_stock_commentary',
+                          'market_data_charts', 'trading_shortterm', 'crypto_macro_en', 'crypto_macro_zh'})
+
+
+def timely(account):
+    from live.jev_front import jev_persona_for
+    return jev_persona_for(account) in TIMELY_BEATS
+
+
+def in_shelf(group, now=None):
+    """True when at least one dated fact/view of the packet is still inside its own shelf life."""
+    return group_freshness(group, now) >= 1.0
+
+
+def group_hook_repeat(group, recent, now=None):
+    """Events (one payroll release, one CPI print ...) of this packet the persona already wrote on."""
+    from live import news_hook
+    return news_hook.repeated(group, recent, now)
+
+
 def group_theme_repeat(group, recent):
     """True when the packet's view subjects strongly overlap one of the persona's last drafts
     (Oct 6 v5: zh_industry wrote 财富集中 again from a different source)."""
@@ -109,30 +132,56 @@ def select_groups(store, accounts, selection=None, exclude_sources=(), recent=No
     recent = recent or {}
     selection = {} if selection is None else selection
     grouped = {}
+    excluded_fresh = {}
     for account in accounts:
         groups = {}
+        dropped = {}
         for record in units_for_persona(store, account, max_age_days=45):
             if record.get('licence_tier') not in ('A', 'B'):
                 continue
             src = record['source']
             if src.get('id') in exclude_sources or (src.get('title') and src['title'] in exclude_sources):
+                dropped.setdefault(_key(record), []).append(record)
                 continue   # already used by the previous batch (id, or same document under another id)
             groups.setdefault(_key(record), []).append(record)
         grouped[account] = groups
+        # v10: in-shelf packets the --continue-from chain excluded (Oct 6 v9a: today's 3 fresh sources had
+        # all been used by v7, so every slot fell back to older material)
+        excluded_fresh[account] = sum(1 for g in dropped.values() if balanced(g) and in_shelf(g))
+
+    def strong(account, g):
+        """v10 tier: a timely beat's in-shelf packet beats any older one that passes the same pre-screen."""
+        return in_shelf(g) if timely(account) else True
 
     def ranked(account, exclude=()):
         # Oct 6 v4: freshness weight (en_industry used a 9/17 commentary source on 10/6).
         options = ranked_balanced([g for k, g in grouped[account].items() if k not in exclude])
         # v5: prefer a fresh theme over the persona's last drafts (stable sort keeps freshness order)
         # v9: persona pre-screen first - packets with a cheap reason to expect a stance reject rank last
-        return sorted(options, key=lambda g: (not prescreen.prescreen(account, g)['ok'],
+        # v10: in-shelf tier (timely beats), then news-hook repeat (same event the persona already wrote on)
+        return sorted(options, key=lambda g: (not prescreen.prescreen(account, g)['ok'], not strong(account, g),
+                                              bool(group_hook_repeat(g, recent.get(account))),
                                               group_theme_repeat(g, recent.get(account))))
 
-    def note(account, mode, group, **extra):
+    def fallback_info(account, group, pool):
+        """v10: why a timely beat's slot is not on an in-shelf packet (None when it is / beat not timely)."""
+        if not group or not timely(account) or in_shelf(group):
+            return None
+        fresh = [g for g in pool if in_shelf(g)]
+        return {'reason': 'in_shelf_failed_prescreen' if fresh else 'no_in_shelf_candidate',
+                'in_shelf_candidates': len(fresh),
+                'in_shelf_excluded_by_chain': excluded_fresh.get(account, 0),
+                'chosen_published_at': group[0]['source'].get('published_at'),
+                'chosen_freshness': group_freshness(group)}
+
+    def note(account, mode, group, pool=(), **extra):
         selection[account] = {'mode': mode, 'source_id': group[0]['source'].get('id') if group else None,
                               'theme_repeat': group_theme_repeat(group, recent.get(account)) if group else False,
+                              'news_hook_repeat': group_hook_repeat(group, recent.get(account)) if group else [],
                               'zh_native': zh_native(group) if group else False,
                               'freshness': group_freshness(group) if group else None,
+                              'in_shelf': in_shelf(group) if group else None,
+                              'freshness_fallback': fallback_info(account, group, pool),
                               'published_at': group[0]['source'].get('published_at') if group else None,
                               'prescreen': prescreen.prescreen(account, group) if group else None, **extra}
 
@@ -143,7 +192,7 @@ def select_groups(store, accounts, selection=None, exclude_sources=(), recent=No
             options = ranked(en)
             en_group = options[0] if options else []   # no balanced packet -> skip, never pure_data
             chosen[en] = en_group
-            note(en, 'own' if en_group else 'none', en_group)
+            note(en, 'own' if en_group else 'none', en_group, options)
             if backups is not None:
                 backups[en] = options[1:3]
         if zh not in grouped:
@@ -152,11 +201,15 @@ def select_groups(store, accounts, selection=None, exclude_sources=(), recent=No
         own = ranked(zh, exclude={en_key} if en_key else ())
         # ZH-native first among sources that are not past shelf life; a stale native source does
         # not beat a fresh different-angle one.
-        own.sort(key=lambda g: (not prescreen.prescreen(zh, g)['ok'], group_theme_repeat(g, recent.get(zh)),
+        # v10: in-shelf tier and news-hook repeat come before theme repeat / ZH-native preference.
+        own.sort(key=lambda g: (not prescreen.prescreen(zh, g)['ok'], not strong(zh, g),
+                                bool(group_hook_repeat(g, recent.get(zh))), group_theme_repeat(g, recent.get(zh)),
                                 group_freshness(g) < 1.0, not zh_native(g)))
         if own:
             chosen[zh] = own[0]
-            note(zh, 'own_zh_native' if zh_native(own[0]) else 'own_different_source', own[0])
+            note(zh, 'own_zh_native' if zh_native(own[0]) else 'own_different_source', own[0], own)
+            if selection[zh]['freshness_fallback'] and en_group and in_shelf(en_group):
+                selection[zh]['freshness_fallback']['in_shelf_taken_by_pair'] = en
             if backups is not None:
                 backups[zh] = own[1:3]
             continue
@@ -169,16 +222,16 @@ def select_groups(store, accounts, selection=None, exclude_sources=(), recent=No
         differentiated = [r for r in shared if r['unit_id'] not in en_views]
         if balanced(differentiated):
             chosen[zh] = differentiated
-            note(zh, 'shared_differentiated', differentiated, dropped_view_ids=sorted(en_views & _view_ids(shared)))
+            note(zh, 'shared_differentiated', differentiated, own, dropped_view_ids=sorted(en_views & _view_ids(shared)))
         else:
             chosen[zh] = shared
-            note(zh, 'shared_same_angle', shared, reason='no own balanced source and no view EN lacks; '
+            note(zh, 'shared_same_angle', shared, own, reason='no own balanced source and no view EN lacks; '
                  'arbitration decides (genuine duplicate -> HOLD)')
     for account in accounts:   # any account outside the two pairs: own best packet
         if account not in chosen:
             options = ranked(account)
             chosen[account] = options[0] if options else []
-            note(account, 'own' if chosen[account] else 'none', chosen[account])
+            note(account, 'own' if chosen[account] else 'none', chosen[account], options)
             if backups is not None:
                 backups[account] = options[1:3]
     return chosen
@@ -519,6 +572,12 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
                 if client else {})
     if selection:
         notes.append('Selection: ' + json.dumps({a: v['mode'] for a, v in selection.items()}, ensure_ascii=False))
+        for a, v in selection.items():   # v10: an older-than-shelf pick or a repeated event is said out loud
+            if v.get('freshness_fallback'):
+                notes.append(f"{a}: freshness_fallback {json.dumps(v['freshness_fallback'], ensure_ascii=False)}")
+            if v.get('news_hook_repeat'):
+                notes.append(f"{a}: news_hook_repeat {v['news_hook_repeat']} (persona already wrote on this event; "
+                             'no non-repeating candidate in the same tier)')
     results = []
     batch_shapes = []   # composition shapes already used in this batch (structure variety)
     carried = []
