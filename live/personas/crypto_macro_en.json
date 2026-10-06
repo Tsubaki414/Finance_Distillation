@@ -45,7 +45,7 @@
       "B"
     ]
   },
-  "donor_cluster": "crypto_macro_en",
+  "donor_cluster": "acct_crypto_macro_en",
   "exemplar_retrieval": {
     "enabled": true,
     "k": 4,
@@ -60,5 +60,14 @@
     "template_phrases",
     "copied_signature_phrases",
     "advertising"
-  ]
+  ],
+  "lineage": {
+    "donor_cluster_history": [
+      {
+        "cluster": "crypto_macro_en",
+        "until": "2026-10-06",
+        "why": "Fiona 10/06: per-account beat-fit multi-donor cluster"
+      }
+    ]
+  }
 }

@@ -1,45 +1,241 @@
 {
   "persona_id": "trading_shortterm",
   "lang": "en",
-  "basis": "donor observations",
-  "posts": 1113,
-  "judgment_first_share": 0.949,
-  "short_fragment_lines_per_post": 0.59,
-  "sellside_jargon_post_share": 0.01,
+  "basis": "donor cluster observations",
+  "cluster": "acct_trading_shortterm",
+  "donors": {
+    "OptionsHawk": {
+      "weight": 0.258,
+      "posts": 77
+    },
+    "SPXVIX": {
+      "weight": 0.216,
+      "posts": 70
+    },
+    "MarkNewtonCMT": {
+      "weight": 0.214,
+      "posts": 102
+    },
+    "TheChartReport": {
+      "weight": 0.184,
+      "posts": 71
+    },
+    "jasongoepfert": {
+      "weight": 0.128,
+      "posts": 77
+    }
+  },
+  "posts": 397,
+  "method": "up to weight x 600 recent originals per donor (min 20); sentences split on 。！？!?；/newlines (EN: . ! ? / newlines); openers = first 2 CJK chars / first word used by >= 2 donors; catchphrases = 4-char / 3-word grams in >= 6% of one donor's posts, <= 1% of the others'",
+  "judgment_first_share": 0.836,
+  "short_fragment_lines_per_post": 0.39,
+  "sellside_jargon_post_share": 0.018,
   "connector_rates": {
-    "and": 0.484,
-    "so": 0.335,
-    "but": 0.165,
-    "while": 0.084,
-    "still": 0.074,
-    "yet": 0.042,
-    "because": 0.036,
-    "though": 0.031
+    "and": 0.446,
+    "while": 0.166,
+    "but": 0.139,
+    "still": 0.086,
+    "so": 0.065,
+    "actually": 0.045,
+    "yet": 0.045,
+    "though": 0.033
+  },
+  "sentence_length": {
+    "p10": 4,
+    "p25": 6,
+    "median": 12,
+    "p75": 19,
+    "p90": 26,
+    "unit": "words"
+  },
+  "post_length_mix": {
+    "unit": "words",
+    "median": 35,
+    "short": 0.345,
+    "medium": 0.403,
+    "long": 0.252,
+    "bands": "short < 25, long >= 60 words"
+  },
+  "openers": [
+    {
+      "gram": "the",
+      "share": 0.076,
+      "donors": 3
+    },
+    {
+      "gram": "while",
+      "share": 0.028,
+      "donors": 2
+    },
+    {
+      "gram": "i",
+      "share": 0.023,
+      "donors": 4
+    },
+    {
+      "gram": "this",
+      "share": 0.02,
+      "donors": 3
+    },
+    {
+      "gram": "a",
+      "share": 0.013,
+      "donors": 3
+    },
+    {
+      "gram": "as",
+      "share": 0.01,
+      "donors": 3
+    },
+    {
+      "gram": "iwm",
+      "share": 0.008,
+      "donors": 2
+    },
+    {
+      "gram": "s",
+      "share": 0.008,
+      "donors": 3
+    },
+    {
+      "gram": "it's",
+      "share": 0.008,
+      "donors": 3
+    },
+    {
+      "gram": "for",
+      "share": 0.008,
+      "donors": 3
+    }
+  ],
+  "closers": {
+    "end_punct": {
+      "none": 0.567,
+      ".": 0.38,
+      "!": 0.033,
+      "?": 0.02
+    }
+  },
+  "connectives": {
+    "and": {
+      "per_post": 0.446,
+      "donors": 5
+    },
+    "while": {
+      "per_post": 0.166,
+      "donors": 5
+    },
+    "but": {
+      "per_post": 0.139,
+      "donors": 5
+    },
+    "still": {
+      "per_post": 0.086,
+      "donors": 5
+    },
+    "so": {
+      "per_post": 0.065,
+      "donors": 4
+    },
+    "actually": {
+      "per_post": 0.045,
+      "donors": 2
+    },
+    "yet": {
+      "per_post": 0.045,
+      "donors": 3
+    },
+    "though": {
+      "per_post": 0.033,
+      "donors": 3
+    },
+    "even": {
+      "per_post": 0.023,
+      "donors": 4
+    },
+    "because": {
+      "per_post": 0.005,
+      "donors": 1
+    },
+    "meanwhile": {
+      "per_post": 0.005,
+      "donors": 1
+    },
+    "instead": {
+      "per_post": 0.003,
+      "donors": 1
+    },
+    "which means": {
+      "per_post": 0.003,
+      "donors": 1
+    }
+  },
+  "reason_markers": {
+    "since": 0.902,
+    "because": 0.059,
+    "thanks to": 0.02,
+    "due to": 0.02
+  },
+  "implication_markers": {
+    "so ": 0.301,
+    "expect": 0.257,
+    "means": 0.177,
+    "watch": 0.088,
+    "bullish": 0.088,
+    "bearish": 0.044,
+    "good for": 0.018,
+    "implies": 0.009
+  },
+  "catchphrases": {
+    "SPXVIX": [
+      "vol is priced",
+      "you're walking into",
+      "y near term",
+      "where vol is",
+      "what's actually been"
+    ],
+    "MarkNewtonCMT": [
+      "to new highs",
+      "back to new",
+      "equal weighted spx"
+    ],
+    "TheChartReport": [
+      "today's report plus",
+      "report plus more",
+      "plus more great",
+      "more great charts",
+      "in today's report"
+    ],
+    "jasongoepfert": [
+      "amp p spy",
+      "a new high"
+    ]
   },
   "prefer": [
     "Lead with the call, then 1–2 numbers",
     "Plain verbs over sell-side jargon",
-    "Name the falsifier (level/flow/condition), skip empty contrast"
+    "Give the reason as a fact, skip empty contrast"
   ],
   "avoid": [
     "valuation-free optimism",
     "Calling a strong chance / is a start",
     "Empty That said / door metaphor",
-    "supply-discipline check as filler"
+    "supply-discipline check as filler",
+    "hedge-only lines (of course it could also… / not financial advice)"
   ],
   "sample_ids": [
-    "2106417756056813815",
-    "2106156988623135128",
-    "2106115921701949483",
-    "2106039444125917569",
-    "2106016720951591210",
-    "2106011220398796934",
-    "2105991566703972429",
-    "2105677102473478417",
-    "2105654211581300916",
-    "2105629275227648423",
-    "2105379035543212117",
-    "2105362406188990758"
+    "2106085684868268159",
+    "2106084898935333366",
+    "2106059021837090817",
+    "2106048774623932549",
+    "2106030021773246940",
+    "2106027485318221876",
+    "2106025585571193206",
+    "2106024598907297983",
+    "2106019774820167713",
+    "2106009016023613592",
+    "2106007415196144072",
+    "2106001571528180084"
   ],
-  "guidance": "Write like the donors: judgment-first, short beats, concrete falsifiers. Avoid analyst-report cadence and Fiona-banned fillers."
+  "guidance": "Write like the donors: judgment-first, short beats, plain reasons. Avoid analyst-report cadence, Fiona-banned fillers and hedge-only lines."
 }

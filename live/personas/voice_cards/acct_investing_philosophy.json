@@ -1,0 +1,538 @@
+{
+  "version": 2,
+  "cluster": "acct_investing_philosophy",
+  "lang": "en",
+  "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
+  "sample": {
+    "posts": 817,
+    "donors": {
+      "MarkNewtonCMT": 0.295,
+      "MebFaber": 0.199,
+      "GlobalMktObserv": 0.18,
+      "saxena_puru": 0.169,
+      "SJosephBurns": 0.157
+    }
+  },
+  "method": "Roster weights normalized over available eligible donors; equal mass per donor post; sentence mass equal within post. UTC cadence over observed scrape interval. Signature lift is weighted cluster document frequency divided by unweighted eligible all-donor document frequency (3-word EN / 4-character ZH n-grams, present in at least 2 cluster posts).",
+  "cadence": {
+    "posts_per_day_median": 3,
+    "active_hours_utc": {
+      "0": 0.039184,
+      "1": 0.034004,
+      "2": 0.008889,
+      "3": 0.017778,
+      "4": 0.042893,
+      "5": 0.008889,
+      "7": 0.008889,
+      "9": 0.051988,
+      "10": 0.012557,
+      "11": 0.069749,
+      "12": 0.081338,
+      "13": 0.039184,
+      "14": 0.067387,
+      "15": 0.054195,
+      "16": 0.008889,
+      "17": 0.115552,
+      "18": 0.022169,
+      "19": 0.025115,
+      "20": 0.116542,
+      "22": 0.103103,
+      "23": 0.071707
+    }
+  },
+  "hooks": {
+    "question": {
+      "share": 0.02425058,
+      "first_lines": [
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2052888711294017767",
+          "text": "While the Semis have surged in a way that would make the former Prince envious (RIP) :(  Is Imitation still the sincerest form of flattery? (1999) It's been the Software comeback that should have all of our attention  $DDOG @IBDinvestors @marketsurge"
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2064817140679451075",
+          "text": "Why bottom fish Tech when one can enjoy a nice Coca-Cola in June (\"Have a Coke and a Smile?\")  Where's Mean Joe Greene? https://t.co/XW54gpjWXm"
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2072431545420263529",
+          "text": "Bifurcation in Tech?  No Problem.   Tech continues to show minor consolidation, bit by bit, Software, then Mag-7, now Memory/Semis.  Yet has done so in a way where market indices have largely avoided weakness"
+        }
+      ]
+    },
+    "number-led headline": {
+      "share": 0.015490123,
+      "first_lines": [
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2055428600468304093",
+          "text": "10, and 30-year yields pushed sharply higher to test resistance at a 2.5 yr consolidation since late '23 & the domestic movement was far more controlled than what was seen in UK and Germany-  $TYX shown here"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "1788241864153522426",
+          "text": "21. Investing in riskier bonds doesn't make sense if the yield spread vs. T-Bills isn't wide enough."
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2087643751330234743",
+          "text": "22. Dividend yield isn't income &amp; some magical free bonus you receive."
+        }
+      ]
+    },
+    "ticker-led": {
+      "share": 0.061362509,
+      "first_lines": [
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2048905462473482422",
+          "text": "$NVDA - Breaking a nine-month sideways trend to push to ATH can certainly buoy the market, despite the recent breadth warnings of the last couple weeks.   @IBDinvestors @marketsurge"
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2055065157445824750",
+          "text": "$NVDA now approaching an area of price & time based resistance heading into next week's earnings.   https://t.co/XW54gpjWXm"
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2059460932359598472",
+          "text": "$DRAM (Roundhill's Memory ETF) managed to push back yet again to new record highs, surpassing the last 2 weeks of trading on a pickup in Volume.  @IBDinvestors @marketsurge"
+        }
+      ]
+    },
+    "contrast/turn": {
+      "share": 0.075974825,
+      "first_lines": [
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2047432216989294991",
+          "text": "Many have grown frustrated with the lack of immediate mean reversion out of Software, but gains often take time following such dramatic weakness over the last six months."
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2062696450295755150",
+          "text": "At a time when Healthcare has entered its most seasonally bullish time of the year following rampant underperformance, not only is it right to look for leaders like $LLY below, but also comps like $NVO which should gradually start to play catchup soon"
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2064171584978325989",
+          "text": "$AZO weakness in recent months has not only broken intermed. term trends since 2020 but recent selling pressure has occurred on much heavier volume, specifically on the most recent leg down"
+        }
+      ]
+    },
+    "list/thread opener": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "news-wire": {
+      "share": 0.000884817,
+      "first_lines": [
+        {
+          "handle": "saxena_puru",
+          "id": "2105279875968012491",
+          "text": "BREAKING: US August PCE falls to 3.4% vs. 3.7% consensus."
+        }
+      ]
+    },
+    "emoji-led": {
+      "share": 0.125427104,
+      "first_lines": [
+        {
+          "handle": "MebFaber",
+          "id": "2085455354834636902",
+          "text": "👇👇👇"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2086452455236128915",
+          "text": "🧠  𝗬𝗼𝘂𝗿 𝗯𝗿𝗮𝗶𝗻 𝘄𝗮𝘀𝗻'𝘁 𝗯𝘂𝗶𝗹𝘁 𝗳𝗼𝗿 𝘁𝗵𝗲 𝘀𝘁𝗼𝗰𝗸 𝗺𝗮𝗿𝗸𝗲𝘁"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2087947594114945521",
+          "text": "🧐"
+        }
+      ]
+    },
+    "quote": {
+      "share": 0.01091064,
+      "first_lines": [
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2105083337484189696",
+          "text": "\"Seven-Out?!!\"  Leisure-Gaming/Eqpt remains one of #IBD's worst ranked sectors, having plummeted following last months break of well-defined support"
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2086146680328474894",
+          "text": "\"Stocks always beat bonds in the long run.\" Joseph Moore (@drjoemoore) says the data disagrees."
+        },
+        {
+          "handle": "MebFaber",
+          "id": "2087596741550113240",
+          "text": "\"Myth 3. Covered Calls Generate Income\""
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.685699401,
+      "first_lines": [
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2046729956307132667",
+          "text": "Trust banks like NTRS and $STT below have been accelerating in recent months & still represent one of the better areas within Financials."
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2047152013775958222",
+          "text": "Many investors might be surprised to see that Aerospace & Defense stocks peaked right near the beginning of the attack on Iran"
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2047430816817385728",
+          "text": "While a number of different major sectors have not yet joined Technology's push back to new all-time highs relative to Equal-weighted $RSP, it is encouraging to see the Russell 3k Advance/Decline back at new high territory following the recent failed breakdown https://t.co/ICBKlezSGJ"
+        }
+      ]
+    }
+  },
+  "sentence_length": {
+    "unit": "words",
+    "median": 13,
+    "p25": 6,
+    "p75": 22
+  },
+  "signature_phrasing": [
+    {
+      "phrase": "back to new",
+      "cluster_share": 0.03364,
+      "lift": 68.5487,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "ibdinvestors marketsurge ibdpartner",
+      "cluster_share": 0.023289,
+      "lift": 68.5487,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "equal weighted spx",
+      "cluster_share": 0.020702,
+      "lift": 68.5487,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "push back to",
+      "cluster_share": 0.015526,
+      "lift": 68.5487,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "in tonight's note",
+      "cluster_share": 0.010351,
+      "lift": 68.5487,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "keep a close",
+      "cluster_share": 0.010351,
+      "lift": 68.5487,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "kick into gear",
+      "cluster_share": 0.010351,
+      "lift": 68.5487,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "rotation rotation rotation",
+      "cluster_share": 0.010351,
+      "lift": 68.5487,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "the broader mkt",
+      "cluster_share": 0.010351,
+      "lift": 68.5487,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "bit by bit",
+      "cluster_share": 0.007763,
+      "lift": 68.5487,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "cc fundstrat fundstratdirect",
+      "cluster_share": 0.007763,
+      "lift": 68.5487,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "charts via ibdinvestors",
+      "cluster_share": 0.007763,
+      "lift": 68.5487,
+      "do_not_copy": true
+    }
+  ],
+  "emoji_rate": 0.189265,
+  "thread_rate": 0.019415,
+  "media_rate": 0.041577,
+  "data_opinion": {
+    "data_share": 0.783811236,
+    "opinion_share": 0.216188764,
+    "data_to_opinion": 3.625587298,
+    "definition": "Data: numeric tags or data_take/earnings_take; opinion: remaining posts (proxy, not semantic verdict)."
+  },
+  "post_type_mix": {
+    "data_take": 0.433762,
+    "earnings_take": 0.0136,
+    "hot_take": 0.262975,
+    "mechanism_explainer": 0.123037,
+    "view_relay": 0.166625
+  },
+  "tendencies": [
+    {
+      "frequency": "often",
+      "tendency": "Opens with a clear judgment, supported by observations.",
+      "evidence": [
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2046729956307132667",
+          "text": "Trust banks like NTRS and $STT below have been accelerating in recent months & still represent one of the better areas within Financials.\n\nT"
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2047152013775958222",
+          "text": "Many investors might be surprised to see that Aerospace & Defense stocks peaked right near the beginning of the attack on Iran \n\nAs we know,"
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2047430816817385728",
+          "text": "While a number of different major sectors have not yet joined Technology's push back to new all-time highs relative to Equal-weighted $RSP, "
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2047432216989294991",
+          "text": "Many have grown frustrated with the lack of immediate mean reversion out of Software, but gains often take time following such dramatic weak"
+        }
+      ]
+    },
+    {
+      "frequency": "often",
+      "tendency": "Uses claim-led openings, with sentences around the observed band.",
+      "evidence": [
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2046729956307132667",
+          "text": "Trust banks like NTRS and $STT below have been accelerating in recent months & still represent one of the better areas within Financials.\n\nT"
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2047152013775958222",
+          "text": "Many investors might be surprised to see that Aerospace & Defense stocks peaked right near the beginning of the attack on Iran \n\nAs we know,"
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2047430816817385728",
+          "text": "While a number of different major sectors have not yet joined Technology's push back to new all-time highs relative to Equal-weighted $RSP, "
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2047432216989294991",
+          "text": "Many have grown frustrated with the lack of immediate mean reversion out of Software, but gains often take time following such dramatic weak"
+        }
+      ]
+    }
+  ],
+  "avoid_tendencies": [
+    {
+      "frequency": "almost_never",
+      "tendency": "Relies on another author’s personal experience or identity.",
+      "evidence": [
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2046729956307132667",
+          "text": "Trust banks like NTRS and $STT below have been accelerating in recent months & still represent one of the better areas within Financials.\n\nT"
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2047152013775958222",
+          "text": "Many investors might be surprised to see that Aerospace & Defense stocks peaked right near the beginning of the attack on Iran \n\nAs we know,"
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2047430816817385728",
+          "text": "While a number of different major sectors have not yet joined Technology's push back to new all-time highs relative to Equal-weighted $RSP, "
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2047432216989294991",
+          "text": "Many have grown frustrated with the lack of immediate mean reversion out of Software, but gains often take time following such dramatic weak"
+        }
+      ]
+    },
+    {
+      "frequency": "rarely",
+      "tendency": "Turns confidence into an unsupported trade call.",
+      "evidence": [
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2046729956307132667",
+          "text": "Trust banks like NTRS and $STT below have been accelerating in recent months & still represent one of the better areas within Financials.\n\nT"
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2047152013775958222",
+          "text": "Many investors might be surprised to see that Aerospace & Defense stocks peaked right near the beginning of the attack on Iran \n\nAs we know,"
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2047430816817385728",
+          "text": "While a number of different major sectors have not yet joined Technology's push back to new all-time highs relative to Equal-weighted $RSP, "
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2047432216989294991",
+          "text": "Many have grown frustrated with the lack of immediate mean reversion out of Software, but gains often take time following such dramatic weak"
+        }
+      ]
+    },
+    {
+      "frequency": "almost_never",
+      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+      "evidence_ids": []
+    }
+  ],
+  "post_length": {
+    "unit": "chars",
+    "median": 255,
+    "p25": 141,
+    "p75": 494
+  },
+  "paragraphs": {
+    "median": 3,
+    "p25": 1,
+    "p75": 4,
+    "line_break_rate": 0.7434442256025178,
+    "short_lines_share": 0.23452788960545665
+  },
+  "baseline_tendencies": {
+    "tendencies": [
+      {
+        "frequency": "often",
+        "tendency": "Opens with a clear judgment, supported by observations.",
+        "evidence": [
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2046729956307132667",
+            "text": "Trust banks like NTRS and $STT below have been accelerating in recent months & still represent one of the better areas within Financials.\n\nT"
+          },
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2047152013775958222",
+            "text": "Many investors might be surprised to see that Aerospace & Defense stocks peaked right near the beginning of the attack on Iran \n\nAs we know,"
+          },
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2047430816817385728",
+            "text": "While a number of different major sectors have not yet joined Technology's push back to new all-time highs relative to Equal-weighted $RSP, "
+          },
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2047432216989294991",
+            "text": "Many have grown frustrated with the lack of immediate mean reversion out of Software, but gains often take time following such dramatic weak"
+          }
+        ]
+      },
+      {
+        "frequency": "often",
+        "tendency": "Uses claim-led openings, with sentences around the observed band.",
+        "evidence": [
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2046729956307132667",
+            "text": "Trust banks like NTRS and $STT below have been accelerating in recent months & still represent one of the better areas within Financials.\n\nT"
+          },
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2047152013775958222",
+            "text": "Many investors might be surprised to see that Aerospace & Defense stocks peaked right near the beginning of the attack on Iran \n\nAs we know,"
+          },
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2047430816817385728",
+            "text": "While a number of different major sectors have not yet joined Technology's push back to new all-time highs relative to Equal-weighted $RSP, "
+          },
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2047432216989294991",
+            "text": "Many have grown frustrated with the lack of immediate mean reversion out of Software, but gains often take time following such dramatic weak"
+          }
+        ]
+      }
+    ],
+    "avoid_tendencies": [
+      {
+        "frequency": "almost_never",
+        "tendency": "Relies on another author’s personal experience or identity.",
+        "evidence": [
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2046729956307132667",
+            "text": "Trust banks like NTRS and $STT below have been accelerating in recent months & still represent one of the better areas within Financials.\n\nT"
+          },
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2047152013775958222",
+            "text": "Many investors might be surprised to see that Aerospace & Defense stocks peaked right near the beginning of the attack on Iran \n\nAs we know,"
+          },
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2047430816817385728",
+            "text": "While a number of different major sectors have not yet joined Technology's push back to new all-time highs relative to Equal-weighted $RSP, "
+          },
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2047432216989294991",
+            "text": "Many have grown frustrated with the lack of immediate mean reversion out of Software, but gains often take time following such dramatic weak"
+          }
+        ]
+      },
+      {
+        "frequency": "rarely",
+        "tendency": "Turns confidence into an unsupported trade call.",
+        "evidence": [
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2046729956307132667",
+            "text": "Trust banks like NTRS and $STT below have been accelerating in recent months & still represent one of the better areas within Financials.\n\nT"
+          },
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2047152013775958222",
+            "text": "Many investors might be surprised to see that Aerospace & Defense stocks peaked right near the beginning of the attack on Iran \n\nAs we know,"
+          },
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2047430816817385728",
+            "text": "While a number of different major sectors have not yet joined Technology's push back to new all-time highs relative to Equal-weighted $RSP, "
+          },
+          {
+            "handle": "MarkNewtonCMT",
+            "id": "2047432216989294991",
+            "text": "Many have grown frustrated with the lack of immediate mean reversion out of Software, but gains often take time following such dramatic weak"
+          }
+        ]
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
+      }
+    ]
+  },
+  "qualitative": {},
+  "compliance_removed": []
+}

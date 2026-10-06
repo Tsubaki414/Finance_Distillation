@@ -46,7 +46,7 @@
       "B"
     ]
   },
-  "donor_cluster": "investing_philosophy",
+  "donor_cluster": "acct_investing_philosophy",
   "exemplar_retrieval": {
     "enabled": true,
     "k": 4,
@@ -62,5 +62,14 @@
     "template_phrases",
     "copied_signature_phrases",
     "advertising"
-  ]
+  ],
+  "lineage": {
+    "donor_cluster_history": [
+      {
+        "cluster": "investing_philosophy",
+        "until": "2026-10-06",
+        "why": "Fiona 10/06: per-account beat-fit multi-donor cluster"
+      }
+    ]
+  }
 }

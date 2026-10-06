@@ -120,7 +120,9 @@ def run(store, output, *, accounts='all', n=2, judge_cmd='claude -p', relay=Fals
         relay_client=ErisedaiClient(output/'calls')
     for persona in sorted(personas,key=lambda p:p.raw['donor_cluster']):
         cluster=persona.raw['donor_cluster']
-        records=units_for_persona(store,cluster,mode='tags')
+        # Oct 6: acct_<account> donor clusters are voice-only; content tags still use the topic cluster they replaced.
+        tag=(registry.load_donor_roster()['persona_clusters'].get(cluster) or {}).get('previous_cluster') or cluster
+        records=units_for_persona(store,tag,mode='tags')
         groups={}
         for record in records:
             if record.get('licence_tier') not in ('A','B'): continue

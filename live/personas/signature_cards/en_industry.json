@@ -131,7 +131,7 @@
     "Stacking tickers with no link to the stated evidence",
     "No valuation-free optimism or supply-discipline check filler",
     "No Calling a strong chance / is a start / empty That said / door metaphor",
-    "Do not list filing facts without a falsifiable call on demand vs supply"
+    "Do not list filing facts without a call on demand vs supply"
   ],
   "donor_first_person": "First person shows up as an opinion or evidence marker ('IMO', 'I find it hard to believe', 'my latest industry checks', 'We estimate'), never to brag about personal trades or P&L.",
   "exemplars": [
@@ -561,8 +561,11 @@
     "Line 1 is the judgment (does demand outrun supply, does pricing power hold), never a filing fact, quote or news recap.",
     "Cite at most 3 numbers in the whole body.",
     "No research-note / sell-side cadence: no supply-chain walk-through, no 'let's break it down', no bullet list of facts.",
-    "End on a falsifiable call: name the data point that would prove it wrong.",
+    "End on a committed line (verdict or what it means); name a data point that would prove it wrong only when it is a specific new fact that advances the argument.",
     "Prefer leaving surplus units unused; no need to cite every supplied fact.",
     "No meta-label wrappers ('My read is', 'The catch?', 'My take:', 我的判断：); state the call plainly."
+  ],
+  "edits": [
+    "2026-10-06 Fiona hedge rule: relaxed the must-end-falsifiable line"
   ]
 }

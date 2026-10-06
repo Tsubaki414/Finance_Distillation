@@ -68,10 +68,11 @@ SHAPES = {
         'length': 'long', 'max_numbers': 3, 'max_number_lines': 2, 'ending': FALSIFIER,
         'line_breaks': 'three or four short paragraphs',
         'en': ('Short thread-style post: the call; one paragraph on the mechanism; one on the evidence '
-               '(at most two lines with numbers); close on the concrete condition that would prove the '
-               'call wrong.'),
+               '(at most two lines with numbers); close on a concrete trigger only if the units give a '
+               'specific level, date or data print not yet in the post, otherwise on what the call means.'),
         'zh': ('小长文：判断；一段讲机制；一段讲证据（带数字的行最多两行）；'
-               '结尾写清什么条件出现说明判断错了。'),
+               '结尾：units 里有一个正文还没用过的具体数据/时间点/价位能推进论证时，点出它会怎样改变判断；'
+               '没有就落在后果上。不写空泛的「除非…否则…依然成立」「当然也可能…」。'),
     },
 }
 LENGTH_BAND = {'short': (0.0, 0.35), 'medium': (0.3, 0.7), 'long': (0.6, 1.0)}
@@ -278,7 +279,11 @@ def payload_block(shape, lang, length_range):
     a, b = LENGTH_BAND[length]
     target = {'min': int(lo + a * (hi - lo)), 'max': int(lo + b * (hi - lo))}
     ending_rule = {
-        FALSIFIER: 'End on the concrete condition that would prove the call wrong.',
+        # Fiona 10/06 13:30: a generic falsifier / "unless X reverses" closer is a hedge; it stays only with a
+        # concrete new fact (live/hedge.py).
+        FALSIFIER: ('End on a concrete trigger only if the units give a specific level, date or data print that is not '
+                    'already in the post and moves the argument; otherwise end on what the call means. Never a generic '
+                    '"unless X reverses" restatement, a "could also..." caveat or a disclaimer.'),
         VERDICT: 'End on a flat committed verdict. NO conditional ending (no if / unless / provided / '
                  'only if / until / flips if / 只要 / 除非 / 若 / 如果 / 一旦 / 否则).',
         IMPLICATION: 'End on what the call means (who gains, what is not priced, what it implies). '
@@ -492,15 +497,29 @@ def history_findings(body, recent, *, shape=None):
     return out
 
 
+def _batch_catchphrases(account_id, body):
+    try:
+        from live import registry, language_habits
+        persona = registry.persona_for_account(account_id)
+        card = language_habits.load_card(persona)
+    except Exception:
+        return []
+    phrases = [p for ps in (card.get('catchphrases') or {}).values() for p in ps]
+    low = body.casefold()
+    return [p for p in dict.fromkeys(phrases) if p.casefold() in low]
+
+
 def batch_findings(results):
     """SOFT cross-draft check for one batch (matrix / daily): shared shape or skeleton, and more
     than one conditional-falsifier ending. Adds findings in place on later drafts; returns summary."""
     seen_shapes, seen_skeletons, falsifiers = {}, {}, []
+    seen_phrases = {}   # Oct 6 donor clusters: a donor catchphrase at most once per batch
     summary = []
     for r in results:
         body = r.get('body') or ''
         if not body:
             continue
+        phrases = _batch_catchphrases(r.get('account_id'), body)
         sk = skeleton(body)
         shape = (r.get('composition_shape') or {}).get('id')
         key = (sk['opener'], sk['ending'], min(sk['number_lines'], 3))
@@ -516,6 +535,13 @@ def batch_findings(results):
                 found.append({'code': 'structure_repeat', 'level': 'soft',
                               'detail': f'batch: another conditional-falsifier ending (also {", ".join(falsifiers)})'})
             falsifiers.append(r.get('account_id'))
+        again = [p for p in phrases if p in seen_phrases]
+        if again:
+            found.append({'code': 'catchphrase_repeat', 'level': 'soft',
+                          'detail': 'batch: donor catchphrase already used by ' +
+                                    ', '.join(f'{p} ({seen_phrases[p]})' for p in again)})
+        for p in phrases:
+            seen_phrases.setdefault(p, r.get('account_id'))
         if found:
             r['post_checks'] = list(r.get('post_checks') or []) + found
             r['risks'] = list(r.get('risks') or []) + [{**f, 'status': 'warning'} for f in found]

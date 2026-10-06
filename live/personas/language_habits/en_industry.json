@@ -1,51 +1,249 @@
 {
   "persona_id": "en_industry",
   "lang": "en",
-  "basis": "donor observations",
-  "posts": 1936,
-  "judgment_first_share": 0.96,
-  "short_fragment_lines_per_post": 0.78,
-  "sellside_jargon_post_share": 0.008,
+  "basis": "donor cluster observations",
+  "cluster": "acct_en_industry",
+  "donors": {
+    "SKundojjala": {
+      "weight": 0.269,
+      "posts": 156
+    },
+    "Beth_Kindig": {
+      "weight": 0.259,
+      "posts": 155
+    },
+    "EconomyApp": {
+      "weight": 0.2,
+      "posts": 120
+    },
+    "aleabitoreddit": {
+      "weight": 0.151,
+      "posts": 91
+    },
+    "jpinsights": {
+      "weight": 0.121,
+      "posts": 73
+    }
+  },
+  "posts": 595,
+  "method": "up to weight x 600 recent originals per donor (min 20); sentences split on 。！？!?；/newlines (EN: . ! ? / newlines); openers = first 2 CJK chars / first word used by >= 2 donors; catchphrases = 4-char / 3-word grams in >= 6% of one donor's posts, <= 1% of the others'",
+  "judgment_first_share": 0.857,
+  "short_fragment_lines_per_post": 1.37,
+  "sellside_jargon_post_share": 0.003,
   "connector_rates": {
-    "and": 0.477,
-    "so": 0.324,
-    "but": 0.159,
-    "still": 0.056,
-    "while": 0.04,
-    "though": 0.033,
-    "because": 0.032,
-    "yet": 0.02
+    "and": 0.545,
+    "but": 0.168,
+    "so": 0.101,
+    "still": 0.084,
+    "while": 0.076,
+    "even": 0.059,
+    "though": 0.024,
+    "actually": 0.024
+  },
+  "sentence_length": {
+    "p10": 3,
+    "p25": 5,
+    "median": 10,
+    "p75": 17,
+    "p90": 23,
+    "unit": "words"
+  },
+  "post_length_mix": {
+    "unit": "words",
+    "median": 45,
+    "short": 0.133,
+    "medium": 0.494,
+    "long": 0.373,
+    "bands": "short < 25, long >= 60 words"
+  },
+  "openers": [
+    {
+      "gram": "i",
+      "share": 0.034,
+      "donors": 2
+    },
+    {
+      "gram": "this",
+      "share": 0.03,
+      "donors": 5
+    },
+    {
+      "gram": "nvidia",
+      "share": 0.029,
+      "donors": 2
+    },
+    {
+      "gram": "the",
+      "share": 0.025,
+      "donors": 3
+    },
+    {
+      "gram": "if",
+      "share": 0.025,
+      "donors": 4
+    },
+    {
+      "gram": "tsmc",
+      "share": 0.024,
+      "donors": 2
+    },
+    {
+      "gram": "openai",
+      "share": 0.024,
+      "donors": 4
+    },
+    {
+      "gram": "micron",
+      "share": 0.012,
+      "donors": 3
+    },
+    {
+      "gram": "samsung",
+      "share": 0.012,
+      "donors": 3
+    },
+    {
+      "gram": "sk",
+      "share": 0.012,
+      "donors": 3
+    }
+  ],
+  "closers": {
+    "end_punct": {
+      "none": 0.553,
+      ".": 0.405,
+      "?": 0.034,
+      "!": 0.008
+    }
+  },
+  "connectives": {
+    "and": {
+      "per_post": 0.545,
+      "donors": 5
+    },
+    "but": {
+      "per_post": 0.168,
+      "donors": 5
+    },
+    "so": {
+      "per_post": 0.101,
+      "donors": 5
+    },
+    "still": {
+      "per_post": 0.084,
+      "donors": 5
+    },
+    "while": {
+      "per_post": 0.076,
+      "donors": 4
+    },
+    "even": {
+      "per_post": 0.059,
+      "donors": 4
+    },
+    "though": {
+      "per_post": 0.024,
+      "donors": 3
+    },
+    "actually": {
+      "per_post": 0.024,
+      "donors": 3
+    },
+    "because": {
+      "per_post": 0.02,
+      "donors": 3
+    },
+    "yet": {
+      "per_post": 0.017,
+      "donors": 5
+    },
+    "instead": {
+      "per_post": 0.008,
+      "donors": 4
+    },
+    "that means": {
+      "per_post": 0.002,
+      "donors": 1
+    },
+    "meanwhile": {
+      "per_post": 0.002,
+      "donors": 1
+    }
+  },
+  "reason_markers": {
+    "since": 0.536,
+    "driven by": 0.179,
+    "because": 0.179,
+    "due to": 0.095,
+    "thanks to": 0.012
+  },
+  "implication_markers": {
+    "so ": 0.479,
+    "expect": 0.393,
+    "watch": 0.037,
+    "bullish": 0.034,
+    "implies": 0.015,
+    "means": 0.011,
+    "bearish": 0.011,
+    "good for": 0.007
+  },
+  "catchphrases": {
+    "SKundojjala": [
+      "up q q",
+      "q q and",
+      "and y y",
+      "q and y",
+      "revenue up q"
+    ],
+    "Beth_Kindig": [
+      "msft amzn goog"
+    ],
+    "EconomyApp": [
+      "revenue y y",
+      "to b b",
+      "b b beat",
+      "gaap eps beat",
+      "pp y y"
+    ],
+    "jpinsights": [
+      "more interested in",
+      "one of my",
+      "of my highest",
+      "my highest conviction",
+      "i like the"
+    ]
   },
   "prefer": [
     "Lead with the call, then 1–2 numbers",
     "Plain verbs over sell-side jargon",
-    "Name the falsifier (level/flow/condition), skip empty contrast"
+    "Give the reason as a fact, skip empty contrast"
   ],
   "avoid": [
     "valuation-free optimism",
     "Calling a strong chance / is a start",
     "Empty That said / door metaphor",
-    "supply-discipline check as filler"
+    "supply-discipline check as filler",
+    "hedge-only lines (of course it could also… / not financial advice)"
   ],
   "sample_ids": [
-    "2105955945528295899",
-    "2105810038539600296",
-    "2105701525230350691",
-    "2105645809048199661",
-    "2105643681248088529",
-    "2105630526258495533",
-    "2105285312553660680",
-    "2105284760322859337",
-    "2104976221507563651",
-    "2103567999659544640",
-    "2103420780549677507",
-    "2103389914511327470"
+    "2105955919247057002",
+    "2105955505675850011",
+    "2105630625466323453",
+    "2105629797829263825",
+    "2105608746093392190",
+    "2105608617256968396",
+    "2105608296639954996",
+    "2105324206250672312",
+    "2100539582760796242",
+    "2098417134934331822",
+    "2097938661379870846",
+    "2097938439073141009"
   ],
-  "guidance": "Write like the donors: judgment-first, short beats, concrete falsifiers. Avoid analyst-report cadence and Fiona-banned fillers.",
+  "guidance": "Write like the donors: judgment-first, short beats, plain reasons. Avoid analyst-report cadence, Fiona-banned fillers and hedge-only lines.",
   "industry_constraints": [
     "NEG: no valuation-free optimism, supply-discipline check filler, or sell-side re-rating talk.",
     "NEG: no Calling a strong chance / is a start / empty That said / door metaphor.",
     "POS: lead with the call; test demand visibility vs supply/capex with numbers from units only.",
-    "POS: agreements ≠ margins — say what would falsify the demand story."
+    "POS: agreements ≠ margins — say which demand data the call rests on."
   ]
 }

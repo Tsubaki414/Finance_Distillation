@@ -79,7 +79,9 @@ def test_sentence_findings_and_donor_band():
     assert zr.sentence_findings(long_body)[0]['code'] == 'zh_sentence_length'
     assert zr.sentence_findings('利润掉得很快。\n8月只涨了4.2%。\n下半年难了。') == []
     band = zr.donor_sentence_band(_persona('zh_macro'))
-    assert 15 <= band['median'] <= 26     # CJK chars/sentence, not the voice-card 32
+    # CJK chars/sentence, not the voice-card 32; Oct 6 acct_zh_macro donors measure 23-30, and the band the prompt
+    # asks for must stay within what the soft zh_sentence_length check accepts.
+    assert 15 <= band['median'] <= zr.SENTENCE_MEDIAN_MAX
 
 
 def test_stance_view_findings_length_and_jargon():

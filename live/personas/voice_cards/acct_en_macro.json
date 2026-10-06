@@ -1,0 +1,544 @@
+{
+  "version": 2,
+  "cluster": "acct_en_macro",
+  "lang": "en",
+  "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
+  "sample": {
+    "posts": 774,
+    "donors": {
+      "robin_j_brooks": 0.242,
+      "elerianm": 0.238,
+      "GlobalMktObserv": 0.21,
+      "KobeissiLetter": 0.177,
+      "JeffSnider_EDU": 0.133
+    }
+  },
+  "method": "Roster weights normalized over available eligible donors; equal mass per donor post; sentence mass equal within post. UTC cadence over observed scrape interval. Signature lift is weighted cluster document frequency divided by unweighted eligible all-donor document frequency (3-word EN / 4-character ZH n-grams, present in at least 2 cluster posts).",
+  "cadence": {
+    "posts_per_day_median": 6,
+    "active_hours_utc": {
+      "1": 0.033557,
+      "4": 0.033557,
+      "9": 0.016779,
+      "10": 0.055346,
+      "11": 0.09247,
+      "12": 0.133517,
+      "13": 0.012856,
+      "14": 0.047479,
+      "15": 0.081382,
+      "16": 0.044491,
+      "17": 0.101605,
+      "18": 0.122662,
+      "19": 0.057114,
+      "20": 0.029634,
+      "21": 0.020934,
+      "22": 0.059269,
+      "23": 0.057347
+    }
+  },
+  "hooks": {
+    "question": {
+      "share": 0.020176921,
+      "first_lines": [
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103458269369143541",
+          "text": "What's the key lesson markets learned from all the back and forth on the Fed? It's that - if they drive market pricing high enough - this Fed validates that and hikes. We have 70% odds priced for a hike next month. The Fed's backed itself into a corner..."
+        },
+        {
+          "handle": "robin_j_brooks",
+          "id": "2104637582160331212",
+          "text": "Italy (lhs) and France (rhs) are getting absolutely clobbered today. 10y10y forward yields (orange) for both are up 10 bps in one day, which is a massive jump for the long end of the yield curve. At what point do we call this what it is? A debt crisis..."
+        },
+        {
+          "handle": "robin_j_brooks",
+          "id": "2105992016542802142",
+          "text": "The Euro zone is about political economy. Should low-debt countries like Germany and the Netherlands turn a blind eye - over and over - to the ECB bailing out high-debt countries when these refuse to bring debt down in good times? They obviously shouldn't."
+        }
+      ]
+    },
+    "number-led headline": {
+      "share": 0.00420792,
+      "first_lines": [
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2104606171432731032",
+          "text": "10-year US Treasury yields above 5% could be the new normal again:"
+        },
+        {
+          "handle": "KobeissiLetter",
+          "id": "2103271868841267630",
+          "text": "8 days ago, the Fed released their first unanimous decision since May 2025."
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2089970620746563681",
+          "text": "1997 was never really about reckless Asian governments."
+        }
+      ]
+    },
+    "ticker-led": {
+      "share": 0.00372028,
+      "first_lines": [
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2088385181673738503",
+          "text": "Amazon just tried to sell bonds to fund its AI buildout."
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2092847074551509396",
+          "text": "Google just posted negative free cash flow for the first time since going public in 2004."
+        },
+        {
+          "handle": "JeffSnider_EDU",
+          "id": "2094545769357521367",
+          "text": "Amazon just sold bonds at a bigger discount and still got a thinner order book."
+        }
+      ]
+    },
+    "contrast/turn": {
+      "share": 0.087763038,
+      "first_lines": [
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103127924886945807",
+          "text": "Schnabel is moving on from the ECB, but the things she did - cheerlead the TPI and oversee bond market interventions to cap yields in 2022 - will stay. What’s needed at the ECB are clawbacks so that policy makers can’t just ride off into the sunset…"
+        },
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103453736895152605",
+          "text": "If you want to be glass-half-full on Japan's interventions, they've kept $/JPY from going above 160. But the glass-half-empty take is that, as soon as global yields rise, it's testing 160 again. Only much higher Japanese interest rates can save the Yen..."
+        },
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103455313366323337",
+          "text": "A US export ban on diesel would be really bad news for all of Latin America. Mexico (MX) would be hardest hit, but Chile (CL), Peru (PE), Ecuador (EC), Brazil (BR) and Argentina (AR) are all vulnerable. Diesel prices would spike, hitting everyone hard..."
+        }
+      ]
+    },
+    "list/thread opener": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "news-wire": {
+      "share": 0.084497487,
+      "first_lines": [
+        {
+          "handle": "KobeissiLetter",
+          "id": "2101312784256438681",
+          "text": "BREAKING: France is facing a growing fuel shortage with 11% of the country's gas stations now reporting that they are out of stock of either gas or diesel, according to the latest data published by the French government."
+        },
+        {
+          "handle": "KobeissiLetter",
+          "id": "2101359916997017799",
+          "text": "BREAKING: US diesel prices rise to a fresh record high of $6.49/gallon and have now hit new a record for 12-straight days."
+        },
+        {
+          "handle": "KobeissiLetter",
+          "id": "2101463268661305452",
+          "text": "BREAKING: Foreign holdings of US Treasuries fell -$50 billion in July, to $9.25 trillion, the lowest total since October 2025."
+        }
+      ]
+    },
+    "emoji-led": {
+      "share": 0.114526408,
+      "first_lines": [
+        {
+          "handle": "elerianm",
+          "id": "2102556293974183982",
+          "text": "👇🏼 https://t.co/HslfbR8q3c"
+        },
+        {
+          "handle": "elerianm",
+          "id": "2105989296708587902",
+          "text": "👇🏼"
+        },
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101014394796712346",
+          "text": "🔴 Food inflation is the next major threat to global bonds:"
+        }
+      ]
+    },
+    "quote": {
+      "share": 0.006142322,
+      "first_lines": [
+        {
+          "handle": "elerianm",
+          "id": "2095127570765263044",
+          "text": "“Honey, I shrunk the bananas.” 😀😀😀😀 https://t.co/mfHme2KITB"
+        },
+        {
+          "handle": "elerianm",
+          "id": "2097657238261252341",
+          "text": "\"I am the house now:\" The Treasury buyback and the Yen"
+        },
+        {
+          "handle": "elerianm",
+          "id": "2098038686906524103",
+          "text": "“The decision we took today was a no-brainer.\""
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.678965622,
+      "first_lines": [
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103573518025970033",
+          "text": "I'm doing my usual Saturday morning live stream tomorrow at 9:30 am (ET). I'll talk about the debasement trade under Kevin Warsh. Two positive catalysts are starting to stack up, which should help gold and other precious metals do well in coming months..."
+        },
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103817981125967883",
+          "text": "I'm doing my usual Saturday live stream today at 9:30 am (ET). Gold has hung on to about half its gain since the July 29 Fed meeting. Markets know the Fed can't possibly deliver on all the hikes that are priced. The debasement trade will take off again..."
+        },
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103820303436755124",
+          "text": "Long-term Treasury yields are unusually responsive to the up and down in oil prices. This has gotten especially acute since the collapse of the Iran MoU. I see this as a sign how worried markets are about the fiscal outlook. War is bad for budget deficits."
+        }
+      ]
+    }
+  },
+  "sentence_length": {
+    "unit": "words",
+    "median": 12,
+    "p25": 7,
+    "p75": 20
+  },
+  "signature_phrasing": [
+    {
+      "phrase": "doing my usual",
+      "cluster_share": 0.022587,
+      "lift": 85.4744,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "i'm doing my",
+      "cluster_share": 0.022587,
+      "lift": 85.4744,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "i'll talk about",
+      "cluster_share": 0.01936,
+      "lift": 85.4744,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "am et i'll",
+      "cluster_share": 0.016133,
+      "lift": 85.4744,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "high debt countries",
+      "cluster_share": 0.016133,
+      "lift": 85.4744,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "morning live stream",
+      "cluster_share": 0.016133,
+      "lift": 85.4744,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "to cap yields",
+      "cluster_share": 0.016133,
+      "lift": 85.4744,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "et i'll talk",
+      "cluster_share": 0.012907,
+      "lift": 85.4744,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "global bond market",
+      "cluster_share": 0.012907,
+      "lift": 85.4744,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "my usual saturday",
+      "cluster_share": 0.012907,
+      "lift": 85.4744,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "y y forward",
+      "cluster_share": 0.012907,
+      "lift": 85.4744,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "aggressively to cap",
+      "cluster_share": 0.00968,
+      "lift": 85.4744,
+      "do_not_copy": true
+    }
+  ],
+  "emoji_rate": 0.136837,
+  "thread_rate": 0.004127,
+  "media_rate": 0.058657,
+  "data_opinion": {
+    "data_share": 0.906590995,
+    "opinion_share": 0.093409005,
+    "data_to_opinion": 9.70560599,
+    "definition": "Data: numeric tags or data_take/earnings_take; opinion: remaining posts (proxy, not semantic verdict)."
+  },
+  "post_type_mix": {
+    "data_take": 0.573287,
+    "earnings_take": 0.003278,
+    "hot_take": 0.121906,
+    "mechanism_explainer": 0.16721,
+    "view_relay": 0.13432
+  },
+  "tendencies": [
+    {
+      "frequency": "often",
+      "tendency": "Opens with a clear judgment, supported by observations.",
+      "evidence": [
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103127924886945807",
+          "text": "Schnabel is moving on from the ECB, but the things she did - cheerlead the TPI and oversee bond market interventions to cap yields in 2022 -"
+        },
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103453736895152605",
+          "text": "If you want to be glass-half-full on Japan's interventions, they've kept $/JPY from going above 160. But the glass-half-empty take is that, "
+        },
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103455313366323337",
+          "text": "A US export ban on diesel would be really bad news for all of Latin America. Mexico (MX) would be hardest hit, but Chile (CL), Peru (PE), Ec"
+        },
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103458269369143541",
+          "text": "What's the key lesson markets learned from all the back and forth on the Fed? It's that - if they drive market pricing high enough - this Fe"
+        }
+      ]
+    },
+    {
+      "frequency": "often",
+      "tendency": "Uses claim-led openings, with sentences around the observed band.",
+      "evidence": [
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103127924886945807",
+          "text": "Schnabel is moving on from the ECB, but the things she did - cheerlead the TPI and oversee bond market interventions to cap yields in 2022 -"
+        },
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103453736895152605",
+          "text": "If you want to be glass-half-full on Japan's interventions, they've kept $/JPY from going above 160. But the glass-half-empty take is that, "
+        },
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103455313366323337",
+          "text": "A US export ban on diesel would be really bad news for all of Latin America. Mexico (MX) would be hardest hit, but Chile (CL), Peru (PE), Ec"
+        },
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103458269369143541",
+          "text": "What's the key lesson markets learned from all the back and forth on the Fed? It's that - if they drive market pricing high enough - this Fe"
+        }
+      ]
+    }
+  ],
+  "avoid_tendencies": [
+    {
+      "frequency": "almost_never",
+      "tendency": "Relies on another author’s personal experience or identity.",
+      "evidence": [
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103127924886945807",
+          "text": "Schnabel is moving on from the ECB, but the things she did - cheerlead the TPI and oversee bond market interventions to cap yields in 2022 -"
+        },
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103453736895152605",
+          "text": "If you want to be glass-half-full on Japan's interventions, they've kept $/JPY from going above 160. But the glass-half-empty take is that, "
+        },
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103455313366323337",
+          "text": "A US export ban on diesel would be really bad news for all of Latin America. Mexico (MX) would be hardest hit, but Chile (CL), Peru (PE), Ec"
+        },
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103458269369143541",
+          "text": "What's the key lesson markets learned from all the back and forth on the Fed? It's that - if they drive market pricing high enough - this Fe"
+        }
+      ]
+    },
+    {
+      "frequency": "rarely",
+      "tendency": "Turns confidence into an unsupported trade call.",
+      "evidence": [
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103127924886945807",
+          "text": "Schnabel is moving on from the ECB, but the things she did - cheerlead the TPI and oversee bond market interventions to cap yields in 2022 -"
+        },
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103453736895152605",
+          "text": "If you want to be glass-half-full on Japan's interventions, they've kept $/JPY from going above 160. But the glass-half-empty take is that, "
+        },
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103455313366323337",
+          "text": "A US export ban on diesel would be really bad news for all of Latin America. Mexico (MX) would be hardest hit, but Chile (CL), Peru (PE), Ec"
+        },
+        {
+          "handle": "robin_j_brooks",
+          "id": "2103458269369143541",
+          "text": "What's the key lesson markets learned from all the back and forth on the Fed? It's that - if they drive market pricing high enough - this Fe"
+        }
+      ]
+    },
+    {
+      "frequency": "almost_never",
+      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+      "evidence_ids": []
+    }
+  ],
+  "post_length": {
+    "unit": "chars",
+    "median": 304,
+    "p25": 283,
+    "p75": 624
+  },
+  "paragraphs": {
+    "median": 4,
+    "p25": 2,
+    "p75": 5,
+    "line_break_rate": 0.9811136116232366,
+    "short_lines_share": 0.06396490945650442
+  },
+  "baseline_tendencies": {
+    "tendencies": [
+      {
+        "frequency": "often",
+        "tendency": "Opens with a clear judgment, supported by observations.",
+        "evidence": [
+          {
+            "handle": "robin_j_brooks",
+            "id": "2103127924886945807",
+            "text": "Schnabel is moving on from the ECB, but the things she did - cheerlead the TPI and oversee bond market interventions to cap yields in 2022 -"
+          },
+          {
+            "handle": "robin_j_brooks",
+            "id": "2103453736895152605",
+            "text": "If you want to be glass-half-full on Japan's interventions, they've kept $/JPY from going above 160. But the glass-half-empty take is that, "
+          },
+          {
+            "handle": "robin_j_brooks",
+            "id": "2103455313366323337",
+            "text": "A US export ban on diesel would be really bad news for all of Latin America. Mexico (MX) would be hardest hit, but Chile (CL), Peru (PE), Ec"
+          },
+          {
+            "handle": "robin_j_brooks",
+            "id": "2103458269369143541",
+            "text": "What's the key lesson markets learned from all the back and forth on the Fed? It's that - if they drive market pricing high enough - this Fe"
+          }
+        ]
+      },
+      {
+        "frequency": "often",
+        "tendency": "Uses claim-led openings, with sentences around the observed band.",
+        "evidence": [
+          {
+            "handle": "robin_j_brooks",
+            "id": "2103127924886945807",
+            "text": "Schnabel is moving on from the ECB, but the things she did - cheerlead the TPI and oversee bond market interventions to cap yields in 2022 -"
+          },
+          {
+            "handle": "robin_j_brooks",
+            "id": "2103453736895152605",
+            "text": "If you want to be glass-half-full on Japan's interventions, they've kept $/JPY from going above 160. But the glass-half-empty take is that, "
+          },
+          {
+            "handle": "robin_j_brooks",
+            "id": "2103455313366323337",
+            "text": "A US export ban on diesel would be really bad news for all of Latin America. Mexico (MX) would be hardest hit, but Chile (CL), Peru (PE), Ec"
+          },
+          {
+            "handle": "robin_j_brooks",
+            "id": "2103458269369143541",
+            "text": "What's the key lesson markets learned from all the back and forth on the Fed? It's that - if they drive market pricing high enough - this Fe"
+          }
+        ]
+      }
+    ],
+    "avoid_tendencies": [
+      {
+        "frequency": "almost_never",
+        "tendency": "Relies on another author’s personal experience or identity.",
+        "evidence": [
+          {
+            "handle": "robin_j_brooks",
+            "id": "2103127924886945807",
+            "text": "Schnabel is moving on from the ECB, but the things she did - cheerlead the TPI and oversee bond market interventions to cap yields in 2022 -"
+          },
+          {
+            "handle": "robin_j_brooks",
+            "id": "2103453736895152605",
+            "text": "If you want to be glass-half-full on Japan's interventions, they've kept $/JPY from going above 160. But the glass-half-empty take is that, "
+          },
+          {
+            "handle": "robin_j_brooks",
+            "id": "2103455313366323337",
+            "text": "A US export ban on diesel would be really bad news for all of Latin America. Mexico (MX) would be hardest hit, but Chile (CL), Peru (PE), Ec"
+          },
+          {
+            "handle": "robin_j_brooks",
+            "id": "2103458269369143541",
+            "text": "What's the key lesson markets learned from all the back and forth on the Fed? It's that - if they drive market pricing high enough - this Fe"
+          }
+        ]
+      },
+      {
+        "frequency": "rarely",
+        "tendency": "Turns confidence into an unsupported trade call.",
+        "evidence": [
+          {
+            "handle": "robin_j_brooks",
+            "id": "2103127924886945807",
+            "text": "Schnabel is moving on from the ECB, but the things she did - cheerlead the TPI and oversee bond market interventions to cap yields in 2022 -"
+          },
+          {
+            "handle": "robin_j_brooks",
+            "id": "2103453736895152605",
+            "text": "If you want to be glass-half-full on Japan's interventions, they've kept $/JPY from going above 160. But the glass-half-empty take is that, "
+          },
+          {
+            "handle": "robin_j_brooks",
+            "id": "2103455313366323337",
+            "text": "A US export ban on diesel would be really bad news for all of Latin America. Mexico (MX) would be hardest hit, but Chile (CL), Peru (PE), Ec"
+          },
+          {
+            "handle": "robin_j_brooks",
+            "id": "2103458269369143541",
+            "text": "What's the key lesson markets learned from all the back and forth on the Fed? It's that - if they drive market pricing high enough - this Fe"
+          }
+        ]
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
+      }
+    ]
+  },
+  "qualitative": {},
+  "compliance_removed": []
+}

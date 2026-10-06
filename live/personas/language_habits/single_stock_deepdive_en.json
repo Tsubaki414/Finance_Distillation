@@ -1,45 +1,252 @@
 {
   "persona_id": "single_stock_deepdive_en",
   "lang": "en",
-  "basis": "donor observations",
-  "posts": 1375,
-  "judgment_first_share": 0.762,
-  "short_fragment_lines_per_post": 1.1,
-  "sellside_jargon_post_share": 0.006,
+  "basis": "donor cluster observations",
+  "cluster": "acct_single_stock_deepdive_en",
+  "donors": {
+    "Beth_Kindig": {
+      "weight": 0.251,
+      "posts": 151
+    },
+    "EconomyApp": {
+      "weight": 0.229,
+      "posts": 137
+    },
+    "SKundojjala": {
+      "weight": 0.208,
+      "posts": 125
+    },
+    "garyblack00": {
+      "weight": 0.158,
+      "posts": 95
+    },
+    "MarkNewtonCMT": {
+      "weight": 0.154,
+      "posts": 92
+    }
+  },
+  "posts": 600,
+  "method": "up to weight x 600 recent originals per donor (min 20); sentences split on 。！？!?；/newlines (EN: . ! ? / newlines); openers = first 2 CJK chars / first word used by >= 2 donors; catchphrases = 4-char / 3-word grams in >= 6% of one donor's posts, <= 1% of the others'",
+  "judgment_first_share": 0.842,
+  "short_fragment_lines_per_post": 1.19,
+  "sellside_jargon_post_share": 0.012,
   "connector_rates": {
-    "and": 0.415,
-    "so": 0.313,
-    "but": 0.162,
-    "still": 0.071,
-    "while": 0.057,
-    "though": 0.036,
-    "because": 0.032,
-    "yet": 0.014
+    "and": 0.532,
+    "but": 0.14,
+    "while": 0.112,
+    "so": 0.047,
+    "still": 0.047,
+    "yet": 0.032,
+    "even": 0.028,
+    "though": 0.017
+  },
+  "sentence_length": {
+    "p10": 3,
+    "p25": 5,
+    "median": 10,
+    "p75": 20,
+    "p90": 29,
+    "unit": "words"
+  },
+  "post_length_mix": {
+    "unit": "words",
+    "median": 44,
+    "short": 0.135,
+    "medium": 0.5,
+    "long": 0.365,
+    "bands": "short < 25, long >= 60 words"
+  },
+  "openers": [
+    {
+      "gram": "this",
+      "share": 0.03,
+      "donors": 5
+    },
+    {
+      "gram": "nvidia",
+      "share": 0.027,
+      "donors": 2
+    },
+    {
+      "gram": "if",
+      "share": 0.025,
+      "donors": 3
+    },
+    {
+      "gram": "us",
+      "share": 0.025,
+      "donors": 2
+    },
+    {
+      "gram": "i",
+      "share": 0.023,
+      "donors": 2
+    },
+    {
+      "gram": "the",
+      "share": 0.02,
+      "donors": 4
+    },
+    {
+      "gram": "openai",
+      "share": 0.02,
+      "donors": 2
+    },
+    {
+      "gram": "tsmc",
+      "share": 0.018,
+      "donors": 2
+    },
+    {
+      "gram": "meta",
+      "share": 0.018,
+      "donors": 4
+    },
+    {
+      "gram": "while",
+      "share": 0.017,
+      "donors": 3
+    }
+  ],
+  "closers": {
+    "end_punct": {
+      "none": 0.652,
+      ".": 0.32,
+      "?": 0.018,
+      "!": 0.01
+    }
+  },
+  "connectives": {
+    "and": {
+      "per_post": 0.532,
+      "donors": 5
+    },
+    "but": {
+      "per_post": 0.14,
+      "donors": 5
+    },
+    "while": {
+      "per_post": 0.112,
+      "donors": 4
+    },
+    "so": {
+      "per_post": 0.047,
+      "donors": 5
+    },
+    "still": {
+      "per_post": 0.047,
+      "donors": 5
+    },
+    "yet": {
+      "per_post": 0.032,
+      "donors": 4
+    },
+    "even": {
+      "per_post": 0.028,
+      "donors": 5
+    },
+    "though": {
+      "per_post": 0.017,
+      "donors": 3
+    },
+    "because": {
+      "per_post": 0.012,
+      "donors": 2
+    },
+    "actually": {
+      "per_post": 0.01,
+      "donors": 4
+    },
+    "meanwhile": {
+      "per_post": 0.008,
+      "donors": 3
+    },
+    "instead": {
+      "per_post": 0.007,
+      "donors": 4
+    },
+    "that means": {
+      "per_post": 0.002,
+      "donors": 1
+    },
+    "which means": {
+      "per_post": 0.002,
+      "donors": 1
+    }
+  },
+  "reason_markers": {
+    "since": 0.656,
+    "driven by": 0.156,
+    "due to": 0.111,
+    "because": 0.078
+  },
+  "implication_markers": {
+    "expect": 0.489,
+    "so ": 0.295,
+    "watch": 0.084,
+    "bullish": 0.042,
+    "good for": 0.021,
+    "bearish": 0.021,
+    "implies": 0.016,
+    "means": 0.016
+  },
+  "catchphrases": {
+    "Beth_Kindig": [
+      "msft amzn goog"
+    ],
+    "EconomyApp": [
+      "revenue y y",
+      "to b b",
+      "b b beat",
+      "gaap eps beat",
+      "non gaap eps"
+    ],
+    "SKundojjala": [
+      "up q q",
+      "q q and",
+      "and y y",
+      "q and y",
+      "revenue up q"
+    ],
+    "garyblack00": [
+      "s p eps",
+      "p eps estimates",
+      "cautious on tsla",
+      "remain cautious on",
+      "i remain cautious"
+    ],
+    "MarkNewtonCMT": [
+      "to new highs",
+      "back to new",
+      "new all time",
+      "equal weighted spx"
+    ]
   },
   "prefer": [
     "Lead with the call, then 1–2 numbers",
     "Plain verbs over sell-side jargon",
-    "Name the falsifier (level/flow/condition), skip empty contrast"
+    "Give the reason as a fact, skip empty contrast"
   ],
   "avoid": [
     "valuation-free optimism",
     "Calling a strong chance / is a start",
     "Empty That said / door metaphor",
-    "supply-discipline check as filler"
+    "supply-discipline check as filler",
+    "hedge-only lines (of course it could also… / not financial advice)"
   ],
   "sample_ids": [
-    "2106408468953583684",
-    "2106034860137836666",
-    "2105756630533201976",
-    "2105756628582863138",
-    "2105417633789338018",
-    "2105417631918600673",
-    "2105391276799807747",
-    "2105391274367070346",
-    "2104956631788523781",
-    "2103880169345941751",
-    "2103497392645640279",
-    "2103219588473426111"
+    "2106496520124047555",
+    "2106496292507553937",
+    "2106481052097335539",
+    "2106177384789508374",
+    "2106135784830943539",
+    "2106127486153089121",
+    "2105784266458296501",
+    "2105764942292934883",
+    "2105403195895788020",
+    "2105354334628118890",
+    "2105072631334801778",
+    "2105066689813700669"
   ],
-  "guidance": "Write like the donors: judgment-first, short beats, concrete falsifiers. Avoid analyst-report cadence and Fiona-banned fillers."
+  "guidance": "Write like the donors: judgment-first, short beats, plain reasons. Avoid analyst-report cadence, Fiona-banned fillers and hedge-only lines."
 }

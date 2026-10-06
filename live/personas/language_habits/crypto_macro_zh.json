@@ -1,44 +1,260 @@
 {
   "persona_id": "crypto_macro_zh",
   "lang": "zh",
-  "basis": "donor observations",
-  "posts": 1327,
-  "judgment_first_share": 0.946,
-  "short_fragment_lines_per_post": 2.38,
-  "sellside_jargon_post_share": 0.015,
+  "basis": "donor cluster observations",
+  "cluster": "acct_crypto_macro_zh",
+  "donors": {
+    "buereth": {
+      "weight": 0.248,
+      "posts": 149
+    },
+    "PhyrexNi": {
+      "weight": 0.227,
+      "posts": 136
+    },
+    "mindaoyang": {
+      "weight": 0.22,
+      "posts": 82
+    },
+    "0xBeyondLee": {
+      "weight": 0.192,
+      "posts": 115
+    },
+    "Bitwux": {
+      "weight": 0.113,
+      "posts": 68
+    }
+  },
+  "posts": 550,
+  "method": "up to weight x 600 recent originals per donor (min 20); sentences split on 。！？!?；/newlines (EN: . ! ? / newlines); openers = first 2 CJK chars / first word used by >= 2 donors; catchphrases = 4-char / 3-word grams in >= 6% of one donor's posts, <= 1% of the others'",
+  "judgment_first_share": 0.924,
+  "short_fragment_lines_per_post": 1.33,
+  "sellside_jargon_post_share": 0.018,
   "connector_rates": {
-    "其实": 0.095,
-    "所以": 0.089,
-    "但是": 0.056,
-    "不过": 0.037,
-    "而且": 0.037,
-    "反而": 0.034,
-    "因此": 0.023,
-    "换句话说": 0.008
+    "所以": 0.142,
+    "只是": 0.12,
+    "其实": 0.091,
+    "而且": 0.067,
+    "结果": 0.065,
+    "不过": 0.06,
+    "毕竟": 0.056,
+    "当然": 0.053
+  },
+  "sentence_length": {
+    "p10": 8,
+    "p25": 13,
+    "median": 22,
+    "p75": 34,
+    "p90": 48,
+    "unit": "CJK chars"
+  },
+  "post_length_mix": {
+    "unit": "CJK chars",
+    "median": 198,
+    "short": 0.209,
+    "medium": 0.295,
+    "long": 0.496,
+    "bands": "short < 80, long >= 200 CJK chars"
+  },
+  "openers": [
+    {
+      "gram": "今天",
+      "share": 0.025,
+      "donors": 4
+    },
+    {
+      "gram": "比特",
+      "share": 0.016,
+      "donors": 2
+    },
+    {
+      "gram": "最近",
+      "share": 0.015,
+      "donors": 4
+    },
+    {
+      "gram": "币圈",
+      "share": 0.013,
+      "donors": 3
+    },
+    {
+      "gram": "昨天",
+      "share": 0.011,
+      "donors": 4
+    },
+    {
+      "gram": "以太",
+      "share": 0.011,
+      "donors": 2
+    },
+    {
+      "gram": "世界",
+      "share": 0.011,
+      "donors": 2
+    },
+    {
+      "gram": "现在",
+      "share": 0.009,
+      "donors": 4
+    },
+    {
+      "gram": "美国",
+      "share": 0.009,
+      "donors": 2
+    },
+    {
+      "gram": "这次",
+      "share": 0.007,
+      "donors": 4
+    }
+  ],
+  "closers": {
+    "end_punct": {
+      "。": 0.522,
+      "none": 0.389,
+      "！": 0.069,
+      "？": 0.018,
+      "…": 0.002
+    },
+    "end_particle": {
+      "了": 0.053,
+      "的": 0.036,
+      "吧": 0.009
+    }
+  },
+  "connectives": {
+    "所以": {
+      "per_post": 0.142,
+      "donors": 5
+    },
+    "只是": {
+      "per_post": 0.12,
+      "donors": 5
+    },
+    "其实": {
+      "per_post": 0.091,
+      "donors": 5
+    },
+    "而且": {
+      "per_post": 0.067,
+      "donors": 5
+    },
+    "结果": {
+      "per_post": 0.065,
+      "donors": 5
+    },
+    "不过": {
+      "per_post": 0.06,
+      "donors": 5
+    },
+    "毕竟": {
+      "per_post": 0.056,
+      "donors": 4
+    },
+    "当然": {
+      "per_post": 0.053,
+      "donors": 5
+    },
+    "甚至": {
+      "per_post": 0.053,
+      "donors": 5
+    },
+    "因此": {
+      "per_post": 0.042,
+      "donors": 4
+    },
+    "然后": {
+      "per_post": 0.04,
+      "donors": 5
+    },
+    "但是": {
+      "per_post": 0.04,
+      "donors": 4
+    },
+    "反而": {
+      "per_post": 0.038,
+      "donors": 4
+    },
+    "也就是说": {
+      "per_post": 0.027,
+      "donors": 2
+    }
+  },
+  "particles_per_1k_cjk": {
+    "了": 11.01,
+    "就是": 2.11,
+    "还是": 1.12,
+    "真的": 0.65,
+    "其实": 0.49,
+    "挺": 0.35,
+    "吧": 0.27,
+    "有点": 0.26,
+    "感觉": 0.25,
+    "估计": 0.16,
+    "啊": 0.07,
+    "这波": 0.07
+  },
+  "reason_markers": {
+    "因为": 0.38,
+    "靠": 0.213,
+    "毕竟": 0.136,
+    "来自": 0.072,
+    "在于": 0.068,
+    "导致": 0.059,
+    "主要是": 0.027,
+    "由于": 0.014
+  },
+  "implication_markers": {
+    "所以": 0.213,
+    "对于": 0.111,
+    "影响": 0.107,
+    "结果": 0.083,
+    "说明": 0.083,
+    "意味着": 0.074,
+    "那么": 0.065,
+    "接下来": 0.054
+  },
+  "catchphrases": {
+    "buereth": [
+      "真金白银",
+      "得关注的"
+    ],
+    "PhyrexNi": [
+      "霍尔木兹",
+      "木兹海峡",
+      "个交易日",
+      "近七个交",
+      "计净增持"
+    ],
+    "mindaoyang": [
+      "这个周期",
+      "以太坊的"
+    ]
   },
   "prefer": [
     "判断句开门，数字后置",
     "短句/断行，少用研报连接词",
-    "点名约束或证伪条件，不堆术语链"
+    "原因用一句有事实的话说清，不堆术语链"
   ],
   "avoid": [
     "研报腔：链路往下推/每一环的议价权/基本面支撑套话",
     "信息罗列而无判断",
-    "还早着呢等口癖收尾"
+    "还早着呢等口癖收尾",
+    "只为防质疑的对冲/免责句（当然也有可能…/不构成投资建议）"
   ],
   "sample_ids": [
-    "2106573192756363383",
-    "2106563100644360377",
-    "2106544252608262319",
-    "2106387474918645805",
-    "2106381219852382526",
-    "2106284445439557901",
-    "2106269517424787709",
-    "2106227772133974263",
-    "2106225059362914399",
-    "2106220521998454810",
-    "2106178266138808612",
-    "2105853526639247499"
+    "2106605616223617155",
+    "2106319032689500580",
+    "2106257420024787065",
+    "2105868857802125434",
+    "2105583683445141879",
+    "2105083791324930310",
+    "2104730265356730685",
+    "2104409638372540784",
+    "2104016684524916768",
+    "2103698101580259622",
+    "2103364334290383008",
+    "2102943358448750734"
   ],
-  "guidance": "Write like the donors: judgment-first, short beats, concrete falsifiers. Avoid analyst-report cadence and Fiona-banned fillers."
+  "guidance": "Write like the donors: judgment-first, short beats, plain reasons. Avoid analyst-report cadence, Fiona-banned fillers and hedge-only lines."
 }

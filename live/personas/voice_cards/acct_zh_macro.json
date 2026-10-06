@@ -1,0 +1,534 @@
+{
+  "version": 2,
+  "cluster": "acct_zh_macro",
+  "lang": "zh",
+  "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
+  "sample": {
+    "posts": 854,
+    "donors": {
+      "TraderS18": 0.312,
+      "MacroMargin": 0.21,
+      "qinbafrank": 0.199,
+      "LabSpeculation": 0.15,
+      "fannaoxiaoyang": 0.129
+    }
+  },
+  "method": "Roster weights normalized over available eligible donors; equal mass per donor post; sentence mass equal within post. UTC cadence over observed scrape interval. Signature lift is weighted cluster document frequency divided by unweighted eligible all-donor document frequency (3-word EN / 4-character ZH n-grams, present in at least 2 cluster posts).",
+  "cadence": {
+    "posts_per_day_median": 1,
+    "active_hours_utc": {
+      "0": 0.042849,
+      "1": 0.051327,
+      "2": 0.069488,
+      "3": 0.069558,
+      "4": 0.047062,
+      "5": 0.019859,
+      "6": 0.050268,
+      "7": 0.028683,
+      "8": 0.041215,
+      "9": 0.038658,
+      "10": 0.023566,
+      "11": 0.070698,
+      "12": 0.157472,
+      "13": 0.102656,
+      "14": 0.059605,
+      "15": 0.036603,
+      "16": 0.008824,
+      "17": 0.013602,
+      "18": 0.013602,
+      "19": 0.013602,
+      "20": 0.013602,
+      "22": 0.013602,
+      "23": 0.013602
+    }
+  },
+  "hooks": {
+    "question": {
+      "share": 0.071609313,
+      "first_lines": [
+        {
+          "handle": "TraderS18",
+          "id": "2094827417961742601",
+          "text": "美军空军发力了，陆军怎么不动啊？哦，原来是陆军部长辞职了哈哈哈哈。"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2094995477360152682",
+          "text": "别的标的我不清楚，闪迪这块，短鸟情绪指标绝对管用。跟上的应该都发了吧？ https://t.co/2kPyswIcfL"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2095354241884016770",
+          "text": "黄金居然没有继续跌了，没买够怎么办？看看下周 CPI 给不给机会。 https://t.co/GYo4vSefZy"
+        }
+      ]
+    },
+    "number-led headline": {
+      "share": 0.049370399,
+      "first_lines": [
+        {
+          "handle": "TraderS18",
+          "id": "2098026822525177888",
+          "text": "8月PPI数据公布了，年率5.4%，月率0.4%，跟预期相差不大，那么主要压力依然给到明晚的CPI数据了 https://t.co/cvcNEAK3HK"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2098027318103154909",
+          "text": "9月加息概率涨了4个点来到了64.2%，按照这个趋势的话明晚不容乐观，WTI油价刚刚已经破百了，越来越朝着连续加息的剧本去了 https://t.co/3miLLu96De"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2104565191505838310",
+          "text": "7点多的时候风险市场止跌回升除了有油价下跌因素之外，英伟达这个回购增加1500亿美元的消息也很重要。"
+        }
+      ]
+    },
+    "ticker-led": {
+      "share": 0.019627103,
+      "first_lines": [
+        {
+          "handle": "TraderS18",
+          "id": "2092806262744654313",
+          "text": "英伟达果然还是AI股的严父，盘后带着一众小弟集体反弹了"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2097365787820609947",
+          "text": "$SPCX 今天走的有点意思，开盘下杀145清掉犹豫多头后直接突破150来到154。"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2104572207020290414",
+          "text": "$SPCX 经过一波三折之后，最终发射还是成功了"
+        }
+      ]
+    },
+    "contrast/turn": {
+      "share": 0.11288871,
+      "first_lines": [
+        {
+          "handle": "TraderS18",
+          "id": "2092596640960180545",
+          "text": "核心PCE月率未四舍五入前给了一个0.25%，可谓是端水之集大成者。但实际上此前市场对核心PCE月率预期值为0.23%。这样就比预期略高了0.02%，但又不会被约等于到0.3%。球仍然在沃什脚下，静等周五发言。 https://t.co/2k0GF0qLad"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2092598032965804220",
+          "text": "但是如果我们再对比下近几个月的年率数据的话就会发现，5月3.4、6月3.3、7月还是3.3，数据根本没降温，最多可以被称之为没有变得更糟。"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2093343552688488700",
+          "text": "沃什讲话开始之后，9月加息概率上涨了8个点，算是比较鹰但不是特别鹰的水平。"
+        }
+      ]
+    },
+    "list/thread opener": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "news-wire": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "emoji-led": {
+      "share": 0.003143923,
+      "first_lines": [
+        {
+          "handle": "MacroMargin",
+          "id": "2075454135982604602",
+          "text": "👏“首次成功实施运载火箭一子级可控回收，标志着我国重复使用火箭技术取得重大突破”"
+        },
+        {
+          "handle": "MacroMargin",
+          "id": "2085188551940198843",
+          "text": "🤣Bessent特怒怼Nick：“Warsh美联储的亮点之一，就是看着那些冒充记者的速记员，比如《华尔街日报》的Nick Timiraos，因为他们无法在不被喂饭的情况下进行真正的经济或货币政策分析，只能沦落到报道美联储幕后八卦。”"
+        },
+        {
+          "handle": "LabSpeculation",
+          "id": "2104362841298096497",
+          "text": "🤔你20几岁，有个存款一亿的四五十岁大哥想娶你，你怎么办？"
+        }
+      ]
+    },
+    "quote": {
+      "share": 0.008844681,
+      "first_lines": [
+        {
+          "handle": "MacroMargin",
+          "id": "2088225496161235283",
+          "text": "“不是通缩”是定义问题，按官方定义的话，从来没正式承认过通缩，只说“通缩趋势”。"
+        },
+        {
+          "handle": "MacroMargin",
+          "id": "2091781980929282510",
+          "text": "“钟才文”连续三天人民日报发文，"
+        },
+        {
+          "handle": "MacroMargin",
+          "id": "2092069149988282496",
+          "text": "“稳投资”工作更进一步。"
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.734515871,
+      "first_lines": [
+        {
+          "handle": "TraderS18",
+          "id": "2092604448417906784",
+          "text": "PCE数据公布之后，美债收益率，美元指数全部反弹，这样就是利空黄金、比特币和美股了。"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2092610063362113561",
+          "text": "尼玛我以后再也不看盘了，分析什么基本面技术面都是扯淡浪费时间，以后只盯紧短鸟情绪指标做单，截至目前胜率高达100%"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2092799841772634218",
+          "text": "卧槽，一睁眼短鸟情绪指数的权威性还在上升，闪迪昨天发在最低，这都涨100多了，怀疑是隐藏大佬 https://t.co/9kulUrPbfH"
+        }
+      ]
+    }
+  },
+  "sentence_length": {
+    "unit": "chars",
+    "median": 37,
+    "p25": 23,
+    "p75": 52
+  },
+  "signature_phrasing": [
+    {
+      "phrase": "了买美股",
+      "cluster_share": 0.022392,
+      "lift": 39.5449,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "大非农数",
+      "cluster_share": 0.014928,
+      "lift": 39.5449,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "概率上涨",
+      "cluster_share": 0.011943,
+      "lift": 39.5449,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "存储三傻",
+      "cluster_share": 0.01045,
+      "lift": 39.5449,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "元首峰会",
+      "cluster_share": 0.008957,
+      "lift": 39.5449,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "短鸟情绪",
+      "cluster_share": 0.008957,
+      "lift": 39.5449,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "美元首峰",
+      "cluster_share": 0.008957,
+      "lift": 39.5449,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "鸟情绪指",
+      "cluster_share": 0.008957,
+      "lift": 39.5449,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "五大非农",
+      "cluster_share": 0.007464,
+      "lift": 39.5449,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "周五大非",
+      "cluster_share": 0.007464,
+      "lift": 39.5449,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "情绪指标",
+      "cluster_share": 0.007464,
+      "lift": 39.5449,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "晚大非农",
+      "cluster_share": 0.007464,
+      "lift": 39.5449,
+      "do_not_copy": true
+    }
+  ],
+  "emoji_rate": 0.097908,
+  "thread_rate": 0.004882,
+  "media_rate": 0.057006,
+  "data_opinion": {
+    "data_share": 0.849829251,
+    "opinion_share": 0.150170749,
+    "data_to_opinion": 5.659086468,
+    "definition": "Data: numeric tags or data_take/earnings_take; opinion: remaining posts (proxy, not semantic verdict)."
+  },
+  "post_type_mix": {
+    "data_take": 0.239891,
+    "earnings_take": 0.008235,
+    "hot_take": 0.211573,
+    "mechanism_explainer": 0.353153,
+    "view_relay": 0.187148
+  },
+  "tendencies": [
+    {
+      "frequency": "often",
+      "tendency": "Opens with a clear judgment, supported by observations.",
+      "evidence": [
+        {
+          "handle": "TraderS18",
+          "id": "2092596640960180545",
+          "text": "核心PCE月率未四舍五入前给了一个0.25%，可谓是端水之集大成者。但实际上此前市场对核心PCE月率预期值为0.23%。这样就比预期略高了0.02%，但又不会被约等于到0.3%。球仍然在沃什脚下，静等周五发言。 https://t.co/2k0GF0qLad"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2092598032965804220",
+          "text": "但是如果我们再对比下近几个月的年率数据的话就会发现，5月3.4、6月3.3、7月还是3.3，数据根本没降温，最多可以被称之为没有变得更糟。\n\n甚至刚刚市场在数据出来之后还微跌了一点，不知道这是不是在担忧一个符合预期的数据会加大沃什那侧本就吃重的压力从而被迫放鹰。\n\n不过好在本周油"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2092604448417906784",
+          "text": "PCE数据公布之后，美债收益率，美元指数全部反弹，这样就是利空黄金、比特币和美股了。\n\n而且9月加息概率也从36%小幅上涨到了40%\n\n但是对于具体操作来说，最好的走法还是趁这两天再涨点，给个高空机会，然后周五沃什放鹰直接打下来\n\n@BITstocks_CN 买美股上BIT，10"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2092610063362113561",
+          "text": "尼玛我以后再也不看盘了，分析什么基本面技术面都是扯淡浪费时间，以后只盯紧短鸟情绪指标做单，截至目前胜率高达100%"
+        }
+      ]
+    },
+    {
+      "frequency": "often",
+      "tendency": "Uses claim-led openings, with sentences around the observed band.",
+      "evidence": [
+        {
+          "handle": "TraderS18",
+          "id": "2092596640960180545",
+          "text": "核心PCE月率未四舍五入前给了一个0.25%，可谓是端水之集大成者。但实际上此前市场对核心PCE月率预期值为0.23%。这样就比预期略高了0.02%，但又不会被约等于到0.3%。球仍然在沃什脚下，静等周五发言。 https://t.co/2k0GF0qLad"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2092598032965804220",
+          "text": "但是如果我们再对比下近几个月的年率数据的话就会发现，5月3.4、6月3.3、7月还是3.3，数据根本没降温，最多可以被称之为没有变得更糟。\n\n甚至刚刚市场在数据出来之后还微跌了一点，不知道这是不是在担忧一个符合预期的数据会加大沃什那侧本就吃重的压力从而被迫放鹰。\n\n不过好在本周油"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2092604448417906784",
+          "text": "PCE数据公布之后，美债收益率，美元指数全部反弹，这样就是利空黄金、比特币和美股了。\n\n而且9月加息概率也从36%小幅上涨到了40%\n\n但是对于具体操作来说，最好的走法还是趁这两天再涨点，给个高空机会，然后周五沃什放鹰直接打下来\n\n@BITstocks_CN 买美股上BIT，10"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2092610063362113561",
+          "text": "尼玛我以后再也不看盘了，分析什么基本面技术面都是扯淡浪费时间，以后只盯紧短鸟情绪指标做单，截至目前胜率高达100%"
+        }
+      ]
+    }
+  ],
+  "avoid_tendencies": [
+    {
+      "frequency": "almost_never",
+      "tendency": "Relies on another author’s personal experience or identity.",
+      "evidence": [
+        {
+          "handle": "TraderS18",
+          "id": "2092596640960180545",
+          "text": "核心PCE月率未四舍五入前给了一个0.25%，可谓是端水之集大成者。但实际上此前市场对核心PCE月率预期值为0.23%。这样就比预期略高了0.02%，但又不会被约等于到0.3%。球仍然在沃什脚下，静等周五发言。 https://t.co/2k0GF0qLad"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2092598032965804220",
+          "text": "但是如果我们再对比下近几个月的年率数据的话就会发现，5月3.4、6月3.3、7月还是3.3，数据根本没降温，最多可以被称之为没有变得更糟。\n\n甚至刚刚市场在数据出来之后还微跌了一点，不知道这是不是在担忧一个符合预期的数据会加大沃什那侧本就吃重的压力从而被迫放鹰。\n\n不过好在本周油"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2092604448417906784",
+          "text": "PCE数据公布之后，美债收益率，美元指数全部反弹，这样就是利空黄金、比特币和美股了。\n\n而且9月加息概率也从36%小幅上涨到了40%\n\n但是对于具体操作来说，最好的走法还是趁这两天再涨点，给个高空机会，然后周五沃什放鹰直接打下来\n\n@BITstocks_CN 买美股上BIT，10"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2092610063362113561",
+          "text": "尼玛我以后再也不看盘了，分析什么基本面技术面都是扯淡浪费时间，以后只盯紧短鸟情绪指标做单，截至目前胜率高达100%"
+        }
+      ]
+    },
+    {
+      "frequency": "rarely",
+      "tendency": "Turns confidence into an unsupported trade call.",
+      "evidence": [
+        {
+          "handle": "TraderS18",
+          "id": "2092596640960180545",
+          "text": "核心PCE月率未四舍五入前给了一个0.25%，可谓是端水之集大成者。但实际上此前市场对核心PCE月率预期值为0.23%。这样就比预期略高了0.02%，但又不会被约等于到0.3%。球仍然在沃什脚下，静等周五发言。 https://t.co/2k0GF0qLad"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2092598032965804220",
+          "text": "但是如果我们再对比下近几个月的年率数据的话就会发现，5月3.4、6月3.3、7月还是3.3，数据根本没降温，最多可以被称之为没有变得更糟。\n\n甚至刚刚市场在数据出来之后还微跌了一点，不知道这是不是在担忧一个符合预期的数据会加大沃什那侧本就吃重的压力从而被迫放鹰。\n\n不过好在本周油"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2092604448417906784",
+          "text": "PCE数据公布之后，美债收益率，美元指数全部反弹，这样就是利空黄金、比特币和美股了。\n\n而且9月加息概率也从36%小幅上涨到了40%\n\n但是对于具体操作来说，最好的走法还是趁这两天再涨点，给个高空机会，然后周五沃什放鹰直接打下来\n\n@BITstocks_CN 买美股上BIT，10"
+        },
+        {
+          "handle": "TraderS18",
+          "id": "2092610063362113561",
+          "text": "尼玛我以后再也不看盘了，分析什么基本面技术面都是扯淡浪费时间，以后只盯紧短鸟情绪指标做单，截至目前胜率高达100%"
+        }
+      ]
+    },
+    {
+      "frequency": "almost_never",
+      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+      "evidence_ids": []
+    }
+  ],
+  "post_length": {
+    "unit": "chars",
+    "median": 182,
+    "p25": 81,
+    "p75": 385
+  },
+  "paragraphs": {
+    "median": 4,
+    "p25": 2,
+    "p75": 7,
+    "line_break_rate": 0.755482824094138,
+    "short_lines_share": 0.433226943671214
+  },
+  "baseline_tendencies": {
+    "tendencies": [
+      {
+        "frequency": "often",
+        "tendency": "Opens with a clear judgment, supported by observations.",
+        "evidence": [
+          {
+            "handle": "TraderS18",
+            "id": "2092596640960180545",
+            "text": "核心PCE月率未四舍五入前给了一个0.25%，可谓是端水之集大成者。但实际上此前市场对核心PCE月率预期值为0.23%。这样就比预期略高了0.02%，但又不会被约等于到0.3%。球仍然在沃什脚下，静等周五发言。 https://t.co/2k0GF0qLad"
+          },
+          {
+            "handle": "TraderS18",
+            "id": "2092598032965804220",
+            "text": "但是如果我们再对比下近几个月的年率数据的话就会发现，5月3.4、6月3.3、7月还是3.3，数据根本没降温，最多可以被称之为没有变得更糟。\n\n甚至刚刚市场在数据出来之后还微跌了一点，不知道这是不是在担忧一个符合预期的数据会加大沃什那侧本就吃重的压力从而被迫放鹰。\n\n不过好在本周油"
+          },
+          {
+            "handle": "TraderS18",
+            "id": "2092604448417906784",
+            "text": "PCE数据公布之后，美债收益率，美元指数全部反弹，这样就是利空黄金、比特币和美股了。\n\n而且9月加息概率也从36%小幅上涨到了40%\n\n但是对于具体操作来说，最好的走法还是趁这两天再涨点，给个高空机会，然后周五沃什放鹰直接打下来\n\n@BITstocks_CN 买美股上BIT，10"
+          },
+          {
+            "handle": "TraderS18",
+            "id": "2092610063362113561",
+            "text": "尼玛我以后再也不看盘了，分析什么基本面技术面都是扯淡浪费时间，以后只盯紧短鸟情绪指标做单，截至目前胜率高达100%"
+          }
+        ]
+      },
+      {
+        "frequency": "often",
+        "tendency": "Uses claim-led openings, with sentences around the observed band.",
+        "evidence": [
+          {
+            "handle": "TraderS18",
+            "id": "2092596640960180545",
+            "text": "核心PCE月率未四舍五入前给了一个0.25%，可谓是端水之集大成者。但实际上此前市场对核心PCE月率预期值为0.23%。这样就比预期略高了0.02%，但又不会被约等于到0.3%。球仍然在沃什脚下，静等周五发言。 https://t.co/2k0GF0qLad"
+          },
+          {
+            "handle": "TraderS18",
+            "id": "2092598032965804220",
+            "text": "但是如果我们再对比下近几个月的年率数据的话就会发现，5月3.4、6月3.3、7月还是3.3，数据根本没降温，最多可以被称之为没有变得更糟。\n\n甚至刚刚市场在数据出来之后还微跌了一点，不知道这是不是在担忧一个符合预期的数据会加大沃什那侧本就吃重的压力从而被迫放鹰。\n\n不过好在本周油"
+          },
+          {
+            "handle": "TraderS18",
+            "id": "2092604448417906784",
+            "text": "PCE数据公布之后，美债收益率，美元指数全部反弹，这样就是利空黄金、比特币和美股了。\n\n而且9月加息概率也从36%小幅上涨到了40%\n\n但是对于具体操作来说，最好的走法还是趁这两天再涨点，给个高空机会，然后周五沃什放鹰直接打下来\n\n@BITstocks_CN 买美股上BIT，10"
+          },
+          {
+            "handle": "TraderS18",
+            "id": "2092610063362113561",
+            "text": "尼玛我以后再也不看盘了，分析什么基本面技术面都是扯淡浪费时间，以后只盯紧短鸟情绪指标做单，截至目前胜率高达100%"
+          }
+        ]
+      }
+    ],
+    "avoid_tendencies": [
+      {
+        "frequency": "almost_never",
+        "tendency": "Relies on another author’s personal experience or identity.",
+        "evidence": [
+          {
+            "handle": "TraderS18",
+            "id": "2092596640960180545",
+            "text": "核心PCE月率未四舍五入前给了一个0.25%，可谓是端水之集大成者。但实际上此前市场对核心PCE月率预期值为0.23%。这样就比预期略高了0.02%，但又不会被约等于到0.3%。球仍然在沃什脚下，静等周五发言。 https://t.co/2k0GF0qLad"
+          },
+          {
+            "handle": "TraderS18",
+            "id": "2092598032965804220",
+            "text": "但是如果我们再对比下近几个月的年率数据的话就会发现，5月3.4、6月3.3、7月还是3.3，数据根本没降温，最多可以被称之为没有变得更糟。\n\n甚至刚刚市场在数据出来之后还微跌了一点，不知道这是不是在担忧一个符合预期的数据会加大沃什那侧本就吃重的压力从而被迫放鹰。\n\n不过好在本周油"
+          },
+          {
+            "handle": "TraderS18",
+            "id": "2092604448417906784",
+            "text": "PCE数据公布之后，美债收益率，美元指数全部反弹，这样就是利空黄金、比特币和美股了。\n\n而且9月加息概率也从36%小幅上涨到了40%\n\n但是对于具体操作来说，最好的走法还是趁这两天再涨点，给个高空机会，然后周五沃什放鹰直接打下来\n\n@BITstocks_CN 买美股上BIT，10"
+          },
+          {
+            "handle": "TraderS18",
+            "id": "2092610063362113561",
+            "text": "尼玛我以后再也不看盘了，分析什么基本面技术面都是扯淡浪费时间，以后只盯紧短鸟情绪指标做单，截至目前胜率高达100%"
+          }
+        ]
+      },
+      {
+        "frequency": "rarely",
+        "tendency": "Turns confidence into an unsupported trade call.",
+        "evidence": [
+          {
+            "handle": "TraderS18",
+            "id": "2092596640960180545",
+            "text": "核心PCE月率未四舍五入前给了一个0.25%，可谓是端水之集大成者。但实际上此前市场对核心PCE月率预期值为0.23%。这样就比预期略高了0.02%，但又不会被约等于到0.3%。球仍然在沃什脚下，静等周五发言。 https://t.co/2k0GF0qLad"
+          },
+          {
+            "handle": "TraderS18",
+            "id": "2092598032965804220",
+            "text": "但是如果我们再对比下近几个月的年率数据的话就会发现，5月3.4、6月3.3、7月还是3.3，数据根本没降温，最多可以被称之为没有变得更糟。\n\n甚至刚刚市场在数据出来之后还微跌了一点，不知道这是不是在担忧一个符合预期的数据会加大沃什那侧本就吃重的压力从而被迫放鹰。\n\n不过好在本周油"
+          },
+          {
+            "handle": "TraderS18",
+            "id": "2092604448417906784",
+            "text": "PCE数据公布之后，美债收益率，美元指数全部反弹，这样就是利空黄金、比特币和美股了。\n\n而且9月加息概率也从36%小幅上涨到了40%\n\n但是对于具体操作来说，最好的走法还是趁这两天再涨点，给个高空机会，然后周五沃什放鹰直接打下来\n\n@BITstocks_CN 买美股上BIT，10"
+          },
+          {
+            "handle": "TraderS18",
+            "id": "2092610063362113561",
+            "text": "尼玛我以后再也不看盘了，分析什么基本面技术面都是扯淡浪费时间，以后只盯紧短鸟情绪指标做单，截至目前胜率高达100%"
+          }
+        ]
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
+      }
+    ]
+  },
+  "qualitative": {},
+  "compliance_removed": []
+}

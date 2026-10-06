@@ -52,7 +52,7 @@
       "B"
     ]
   },
-  "donor_cluster": "zh_us_stock_commentary",
+  "donor_cluster": "acct_zh_industry",
   "exemplar_retrieval": {
     "enabled": true,
     "k": 4,
@@ -96,6 +96,13 @@
           "voice",
           "habit"
         ]
+      }
+    ],
+    "donor_cluster_history": [
+      {
+        "cluster": "zh_us_stock_commentary",
+        "until": "2026-10-06",
+        "why": "Fiona 10/06: per-account beat-fit multi-donor cluster"
       }
     ]
   }

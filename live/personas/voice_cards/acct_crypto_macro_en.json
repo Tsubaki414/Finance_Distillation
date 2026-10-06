@@ -1,0 +1,538 @@
+{
+  "version": 2,
+  "cluster": "acct_crypto_macro_en",
+  "lang": "en",
+  "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
+  "sample": {
+    "posts": 969,
+    "donors": {
+      "glassnode": 0.252,
+      "DTAPCAP": 0.249,
+      "ki_young_ju": 0.201,
+      "NateGeraci": 0.197,
+      "RaoulGMI": 0.101
+    }
+  },
+  "method": "Roster weights normalized over available eligible donors; equal mass per donor post; sentence mass equal within post. UTC cadence over observed scrape interval. Signature lift is weighted cluster document frequency divided by unweighted eligible all-donor document frequency (3-word EN / 4-character ZH n-grams, present in at least 2 cluster posts).",
+  "cadence": {
+    "posts_per_day_median": 1,
+    "active_hours_utc": {
+      "0": 0.08545,
+      "1": 0.021362,
+      "2": 0.031747,
+      "3": 0.025844,
+      "4": 0.012922,
+      "5": 0.051688,
+      "7": 0.015875,
+      "8": 0.025324,
+      "9": 0.028537,
+      "10": 0.044411,
+      "11": 0.023343,
+      "12": 0.031749,
+      "13": 0.033989,
+      "14": 0.099014,
+      "15": 0.122656,
+      "16": 0.121577,
+      "17": 0.033729,
+      "18": 0.088521,
+      "19": 0.044671,
+      "20": 0.033987,
+      "21": 0.010681,
+      "23": 0.012922
+    }
+  },
+  "hooks": {
+    "question": {
+      "share": 0.029023575,
+      "first_lines": [
+        {
+          "handle": "glassnode",
+          "id": "2089057786928021872",
+          "text": "Did whales go long at the top of the local bitcoin:native range?"
+        },
+        {
+          "handle": "DTAPCAP",
+          "id": "1889024900230262891",
+          "text": "So why is this so important?"
+        },
+        {
+          "handle": "DTAPCAP",
+          "id": "1892829811300847890",
+          "text": "Revolution?"
+        }
+      ]
+    },
+    "number-led headline": {
+      "share": 0.012687531,
+      "first_lines": [
+        {
+          "handle": "glassnode",
+          "id": "2090110942789210113",
+          "text": "$500m worth of shorts were just liquidated within minutes."
+        },
+        {
+          "handle": "glassnode",
+          "id": "2092326042598072580",
+          "text": "$5 billion of IBIT options expire on September 18."
+        },
+        {
+          "handle": "glassnode",
+          "id": "2092982832062751089",
+          "text": "1.05M $BTC of long-term holder supply sits between $83K and $86K, the first heavy cost-basis shelf above spot at $79K."
+        }
+      ]
+    },
+    "ticker-led": {
+      "share": 0.024762873,
+      "first_lines": [
+        {
+          "handle": "glassnode",
+          "id": "2071587258747023706",
+          "text": "$BTC fell from around $63K to a local low near $58K before stabilising. Defensive positioning persists across spot, derivatives and ETFs, while on-chain activity suggests the market remains in consolidation."
+        },
+        {
+          "handle": "glassnode",
+          "id": "2078083992994165112",
+          "text": "$BTC options are turning more constructive: volatility is easing, the put/call ratio is at a six-month low, and upside exposure is rebuilding."
+        },
+        {
+          "handle": "glassnode",
+          "id": "2078084000707428388",
+          "text": "$BTC is consolidating near $63K, below a dense negative-gamma cluster around $68K–$70K. A move into this zone could trigger more pro-cyclical dealer hedging and amplify volatility."
+        }
+      ]
+    },
+    "contrast/turn": {
+      "share": 0.04571754,
+      "first_lines": [
+        {
+          "handle": "glassnode",
+          "id": "2069052000809988580",
+          "text": "bitcoin:native  traded between $61K and $67K before stabilising near $65K. Institutional demand softened, but resilient holder behaviour and stable futures positioning continue to support a constructive market backdrop."
+        },
+        {
+          "handle": "glassnode",
+          "id": "2076594599225614364",
+          "text": "bitcoin:native  recovered toward $64K, but weak spot participation and subdued on-chain activity suggest the move lacks broad conviction. Institutions are returning, while options remain defensive."
+        },
+        {
+          "handle": "glassnode",
+          "id": "2079191578099200453",
+          "text": "bitcoin:native  is consolidating near $64.5K, supported by strong profitability and stable derivatives. Rising hot capital and sell-side pressure, however, leave the market increasingly sensitive to volatility."
+        }
+      ]
+    },
+    "list/thread opener": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "news-wire": {
+      "share": 0.00116185,
+      "first_lines": [
+        {
+          "handle": "ki_young_ju",
+          "id": "2003871081292353850",
+          "text": "BREAKING: Jim Cramer is 100% bearish on Bitcoin."
+        }
+      ]
+    },
+    "emoji-led": {
+      "share": 0.006104046,
+      "first_lines": [
+        {
+          "handle": "glassnode",
+          "id": "2079173139548742072",
+          "text": "🔄 Update:"
+        },
+        {
+          "handle": "ki_young_ju",
+          "id": "2022453350197784901",
+          "text": "🇺🇸 U.S. gov has seized 198,000 BTC and lost 0 BTC."
+        },
+        {
+          "handle": "ki_young_ju",
+          "id": "2066444883699867737",
+          "text": "📚 Alpha Library https://t.co/jgV17YaaAB"
+        }
+      ]
+    },
+    "quote": {
+      "share": 0.014061274,
+      "first_lines": [
+        {
+          "handle": "DTAPCAP",
+          "id": "1908218093899550767",
+          "text": "\"Moment of realization\" for BTC."
+        },
+        {
+          "handle": "DTAPCAP",
+          "id": "1974349051450831333",
+          "text": "\"The old world is being marked down.\""
+        },
+        {
+          "handle": "ki_young_ju",
+          "id": "2013693653248569565",
+          "text": "'@CryptoQuant_com now reliably tracks most real-time Coinbase BTC inflows/outflows, adapting to their latest wallet shuffling pattern update."
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.86648131,
+      "first_lines": [
+        {
+          "handle": "glassnode",
+          "id": "2067903063537709366",
+          "text": "BTC is back at a major support zone as price tests the February lows."
+        },
+        {
+          "handle": "glassnode",
+          "id": "2067903081279631734",
+          "text": "Put Buying Continues to Lead"
+        },
+        {
+          "handle": "glassnode",
+          "id": "2067903083968119057",
+          "text": "Wrap Up"
+        }
+      ]
+    }
+  },
+  "sentence_length": {
+    "unit": "words",
+    "median": 8,
+    "p25": 4,
+    "p75": 13
+  },
+  "signature_phrasing": [
+    {
+      "phrase": "week on chain",
+      "cluster_share": 0.018936,
+      "lift": 38.5866,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "read this week",
+      "cluster_share": 0.01748,
+      "lift": 38.5866,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "s market pulse",
+      "cluster_share": 0.01748,
+      "lift": 38.5866,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "week s market",
+      "cluster_share": 0.01748,
+      "lift": 38.5866,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "bitcoin native has",
+      "cluster_share": 0.01311,
+      "lift": 38.5866,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "full week on",
+      "cluster_share": 0.00874,
+      "lift": 38.5866,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "on chain activity",
+      "cluster_share": 0.00874,
+      "lift": 38.5866,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "about positioning volatility",
+      "cluster_share": 0.007283,
+      "lift": 38.5866,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "and sentiment beneath",
+      "cluster_share": 0.007283,
+      "lift": 38.5866,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "bitcoin native is",
+      "cluster_share": 0.007283,
+      "lift": 38.5866,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "btc options data",
+      "cluster_share": 0.007283,
+      "lift": 38.5866,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "data reveals about",
+      "cluster_share": 0.007283,
+      "lift": 38.5866,
+      "do_not_copy": true
+    }
+  ],
+  "emoji_rate": 0.197349,
+  "thread_rate": 0.016273,
+  "media_rate": 0.060428,
+  "data_opinion": {
+    "data_share": 0.809937051,
+    "opinion_share": 0.190062949,
+    "data_to_opinion": 4.261414728,
+    "definition": "Data: numeric tags or data_take/earnings_take; opinion: remaining posts (proxy, not semantic verdict)."
+  },
+  "post_type_mix": {
+    "data_take": 0.414283,
+    "hot_take": 0.326346,
+    "mechanism_explainer": 0.091351,
+    "view_relay": 0.16802
+  },
+  "tendencies": [
+    {
+      "frequency": "often",
+      "tendency": "Opens with a clear judgment, supported by observations.",
+      "evidence": [
+        {
+          "handle": "glassnode",
+          "id": "2067903063537709366",
+          "text": "BTC is back at a major support zone as price tests the February lows.\n\nHere's what BTC options data reveals about positioning, volatility, a"
+        },
+        {
+          "handle": "glassnode",
+          "id": "2067903081279631734",
+          "text": "Put Buying Continues to Lead\n\nPut buying dominated taker flow over the past 7 days, accounting for 28% of premium traded.\n\nPut selling follo"
+        },
+        {
+          "handle": "glassnode",
+          "id": "2067903083968119057",
+          "text": "Wrap Up\n\nImplied volatility has cooled.\n\nProtection demand has normalized.\n\nCalls remain out of favor.\n\nRealized volatility exceeds implied "
+        },
+        {
+          "handle": "glassnode",
+          "id": "2067942875107676466",
+          "text": "What the Oil Price means for bitcoin:native   \n\n📊Chart of the Week: WTI Crude Oil\nhttps://t.co/ilIAf82YSo https://t.co/2tIwMmA6e0"
+        }
+      ]
+    },
+    {
+      "frequency": "often",
+      "tendency": "Uses claim-led openings, with sentences around the observed band.",
+      "evidence": [
+        {
+          "handle": "glassnode",
+          "id": "2067903063537709366",
+          "text": "BTC is back at a major support zone as price tests the February lows.\n\nHere's what BTC options data reveals about positioning, volatility, a"
+        },
+        {
+          "handle": "glassnode",
+          "id": "2067903081279631734",
+          "text": "Put Buying Continues to Lead\n\nPut buying dominated taker flow over the past 7 days, accounting for 28% of premium traded.\n\nPut selling follo"
+        },
+        {
+          "handle": "glassnode",
+          "id": "2067903083968119057",
+          "text": "Wrap Up\n\nImplied volatility has cooled.\n\nProtection demand has normalized.\n\nCalls remain out of favor.\n\nRealized volatility exceeds implied "
+        },
+        {
+          "handle": "glassnode",
+          "id": "2067942875107676466",
+          "text": "What the Oil Price means for bitcoin:native   \n\n📊Chart of the Week: WTI Crude Oil\nhttps://t.co/ilIAf82YSo https://t.co/2tIwMmA6e0"
+        }
+      ]
+    }
+  ],
+  "avoid_tendencies": [
+    {
+      "frequency": "almost_never",
+      "tendency": "Relies on another author’s personal experience or identity.",
+      "evidence": [
+        {
+          "handle": "glassnode",
+          "id": "2067903063537709366",
+          "text": "BTC is back at a major support zone as price tests the February lows.\n\nHere's what BTC options data reveals about positioning, volatility, a"
+        },
+        {
+          "handle": "glassnode",
+          "id": "2067903081279631734",
+          "text": "Put Buying Continues to Lead\n\nPut buying dominated taker flow over the past 7 days, accounting for 28% of premium traded.\n\nPut selling follo"
+        },
+        {
+          "handle": "glassnode",
+          "id": "2067903083968119057",
+          "text": "Wrap Up\n\nImplied volatility has cooled.\n\nProtection demand has normalized.\n\nCalls remain out of favor.\n\nRealized volatility exceeds implied "
+        },
+        {
+          "handle": "glassnode",
+          "id": "2067942875107676466",
+          "text": "What the Oil Price means for bitcoin:native   \n\n📊Chart of the Week: WTI Crude Oil\nhttps://t.co/ilIAf82YSo https://t.co/2tIwMmA6e0"
+        }
+      ]
+    },
+    {
+      "frequency": "rarely",
+      "tendency": "Turns confidence into an unsupported trade call.",
+      "evidence": [
+        {
+          "handle": "glassnode",
+          "id": "2067903063537709366",
+          "text": "BTC is back at a major support zone as price tests the February lows.\n\nHere's what BTC options data reveals about positioning, volatility, a"
+        },
+        {
+          "handle": "glassnode",
+          "id": "2067903081279631734",
+          "text": "Put Buying Continues to Lead\n\nPut buying dominated taker flow over the past 7 days, accounting for 28% of premium traded.\n\nPut selling follo"
+        },
+        {
+          "handle": "glassnode",
+          "id": "2067903083968119057",
+          "text": "Wrap Up\n\nImplied volatility has cooled.\n\nProtection demand has normalized.\n\nCalls remain out of favor.\n\nRealized volatility exceeds implied "
+        },
+        {
+          "handle": "glassnode",
+          "id": "2067942875107676466",
+          "text": "What the Oil Price means for bitcoin:native   \n\n📊Chart of the Week: WTI Crude Oil\nhttps://t.co/ilIAf82YSo https://t.co/2tIwMmA6e0"
+        }
+      ]
+    },
+    {
+      "frequency": "almost_never",
+      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+      "evidence_ids": []
+    }
+  ],
+  "post_length": {
+    "unit": "chars",
+    "median": 257,
+    "p25": 121,
+    "p75": 299
+  },
+  "paragraphs": {
+    "median": 3,
+    "p25": 2,
+    "p75": 5,
+    "line_break_rate": 0.7918427367315625,
+    "short_lines_share": 0.30632883447462056
+  },
+  "baseline_tendencies": {
+    "tendencies": [
+      {
+        "frequency": "often",
+        "tendency": "Opens with a clear judgment, supported by observations.",
+        "evidence": [
+          {
+            "handle": "glassnode",
+            "id": "2067903063537709366",
+            "text": "BTC is back at a major support zone as price tests the February lows.\n\nHere's what BTC options data reveals about positioning, volatility, a"
+          },
+          {
+            "handle": "glassnode",
+            "id": "2067903081279631734",
+            "text": "Put Buying Continues to Lead\n\nPut buying dominated taker flow over the past 7 days, accounting for 28% of premium traded.\n\nPut selling follo"
+          },
+          {
+            "handle": "glassnode",
+            "id": "2067903083968119057",
+            "text": "Wrap Up\n\nImplied volatility has cooled.\n\nProtection demand has normalized.\n\nCalls remain out of favor.\n\nRealized volatility exceeds implied "
+          },
+          {
+            "handle": "glassnode",
+            "id": "2067942875107676466",
+            "text": "What the Oil Price means for bitcoin:native   \n\n📊Chart of the Week: WTI Crude Oil\nhttps://t.co/ilIAf82YSo https://t.co/2tIwMmA6e0"
+          }
+        ]
+      },
+      {
+        "frequency": "often",
+        "tendency": "Uses claim-led openings, with sentences around the observed band.",
+        "evidence": [
+          {
+            "handle": "glassnode",
+            "id": "2067903063537709366",
+            "text": "BTC is back at a major support zone as price tests the February lows.\n\nHere's what BTC options data reveals about positioning, volatility, a"
+          },
+          {
+            "handle": "glassnode",
+            "id": "2067903081279631734",
+            "text": "Put Buying Continues to Lead\n\nPut buying dominated taker flow over the past 7 days, accounting for 28% of premium traded.\n\nPut selling follo"
+          },
+          {
+            "handle": "glassnode",
+            "id": "2067903083968119057",
+            "text": "Wrap Up\n\nImplied volatility has cooled.\n\nProtection demand has normalized.\n\nCalls remain out of favor.\n\nRealized volatility exceeds implied "
+          },
+          {
+            "handle": "glassnode",
+            "id": "2067942875107676466",
+            "text": "What the Oil Price means for bitcoin:native   \n\n📊Chart of the Week: WTI Crude Oil\nhttps://t.co/ilIAf82YSo https://t.co/2tIwMmA6e0"
+          }
+        ]
+      }
+    ],
+    "avoid_tendencies": [
+      {
+        "frequency": "almost_never",
+        "tendency": "Relies on another author’s personal experience or identity.",
+        "evidence": [
+          {
+            "handle": "glassnode",
+            "id": "2067903063537709366",
+            "text": "BTC is back at a major support zone as price tests the February lows.\n\nHere's what BTC options data reveals about positioning, volatility, a"
+          },
+          {
+            "handle": "glassnode",
+            "id": "2067903081279631734",
+            "text": "Put Buying Continues to Lead\n\nPut buying dominated taker flow over the past 7 days, accounting for 28% of premium traded.\n\nPut selling follo"
+          },
+          {
+            "handle": "glassnode",
+            "id": "2067903083968119057",
+            "text": "Wrap Up\n\nImplied volatility has cooled.\n\nProtection demand has normalized.\n\nCalls remain out of favor.\n\nRealized volatility exceeds implied "
+          },
+          {
+            "handle": "glassnode",
+            "id": "2067942875107676466",
+            "text": "What the Oil Price means for bitcoin:native   \n\n📊Chart of the Week: WTI Crude Oil\nhttps://t.co/ilIAf82YSo https://t.co/2tIwMmA6e0"
+          }
+        ]
+      },
+      {
+        "frequency": "rarely",
+        "tendency": "Turns confidence into an unsupported trade call.",
+        "evidence": [
+          {
+            "handle": "glassnode",
+            "id": "2067903063537709366",
+            "text": "BTC is back at a major support zone as price tests the February lows.\n\nHere's what BTC options data reveals about positioning, volatility, a"
+          },
+          {
+            "handle": "glassnode",
+            "id": "2067903081279631734",
+            "text": "Put Buying Continues to Lead\n\nPut buying dominated taker flow over the past 7 days, accounting for 28% of premium traded.\n\nPut selling follo"
+          },
+          {
+            "handle": "glassnode",
+            "id": "2067903083968119057",
+            "text": "Wrap Up\n\nImplied volatility has cooled.\n\nProtection demand has normalized.\n\nCalls remain out of favor.\n\nRealized volatility exceeds implied "
+          },
+          {
+            "handle": "glassnode",
+            "id": "2067942875107676466",
+            "text": "What the Oil Price means for bitcoin:native   \n\n📊Chart of the Week: WTI Crude Oil\nhttps://t.co/ilIAf82YSo https://t.co/2tIwMmA6e0"
+          }
+        ]
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
+      }
+    ]
+  },
+  "qualitative": {},
+  "compliance_removed": []
+}

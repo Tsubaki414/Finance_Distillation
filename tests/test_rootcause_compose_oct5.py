@@ -65,9 +65,10 @@ def test_industry_cards_have_hard_constraints():
         joined = ' '.join(hard)
         assert '3' in joined and '最多引用 2' not in joined and 'at most 2 numbers' not in joined  # <= 3 numbers
         assert '我的判断' in joined or 'My read' in joined
-        # Judgment-first and falsifiable landing stay mandatory.
+        # Judgment-first stays mandatory. Fiona 10/06 13:30: the falsifiable landing is no longer forced - a
+        # falsifier only stays with a concrete new fact; hedge-only closers are removed (live/hedge.py).
         assert hard[0].startswith(('第一句就是判断', 'Line 1 is the judgment'))
-        assert '可证伪' in joined or 'falsifiable' in joined
+        assert '对冲' in joined or 'specific new fact' in joined
         assert '研报腔' in joined or 'sell-side cadence' in joined
 
 

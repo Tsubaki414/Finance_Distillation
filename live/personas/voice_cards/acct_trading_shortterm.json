@@ -1,0 +1,542 @@
+{
+  "version": 2,
+  "cluster": "acct_trading_shortterm",
+  "lang": "en",
+  "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
+  "sample": {
+    "posts": 574,
+    "donors": {
+      "OptionsHawk": 0.258,
+      "SPXVIX": 0.216,
+      "MarkNewtonCMT": 0.214,
+      "TheChartReport": 0.184,
+      "jasongoepfert": 0.128
+    }
+  },
+  "method": "Roster weights normalized over available eligible donors; equal mass per donor post; sentence mass equal within post. UTC cadence over observed scrape interval. Signature lift is weighted cluster document frequency divided by unweighted eligible all-donor document frequency (3-word EN / 4-character ZH n-grams, present in at least 2 cluster posts).",
+  "cadence": {
+    "posts_per_day_median": 3,
+    "active_hours_utc": {
+      "0": 0.07512,
+      "1": 0.037257,
+      "12": 0.057701,
+      "13": 0.133404,
+      "14": 0.065633,
+      "15": 0.076036,
+      "16": 0.092573,
+      "17": 0.051712,
+      "18": 0.055903,
+      "19": 0.037568,
+      "20": 0.116717,
+      "21": 0.018629,
+      "22": 0.098113,
+      "23": 0.083634
+    }
+  },
+  "hooks": {
+    "question": {
+      "share": 0.041139623,
+      "first_lines": [
+        {
+          "handle": "OptionsHawk",
+          "id": "2104756769386057831",
+          "text": "Is StubHub $STUB going to zero?"
+        },
+        {
+          "handle": "OptionsHawk",
+          "id": "2105623659998224685",
+          "text": "Airline fees getting nuttier, $4500 for 3 of us to fly to Florida, and they try to nickel and dime you for everything, like does row 31 really need to be a $25/seat add-on?"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2102096997960368606",
+          "text": "This clearly didn't work today... What a move in $SPX! 110+ points! and $VIX is up on top of that! what could go wrong?"
+        }
+      ]
+    },
+    "number-led headline": {
+      "share": 0.017005089,
+      "first_lines": [
+        {
+          "handle": "OptionsHawk",
+          "id": "2105094789092000140",
+          "text": "8 for 8 😂"
+        },
+        {
+          "handle": "OptionsHawk",
+          "id": "2105329263759266018",
+          "text": "7-10 Year Bonds $IEF stay ugly and 20K Jan. 2028 $86 puts buy 1.40"
+        },
+        {
+          "handle": "OptionsHawk",
+          "id": "2105718466233892883",
+          "text": "$10 diesel here we come!"
+        }
+      ]
+    },
+    "ticker-led": {
+      "share": 0.187594096,
+      "first_lines": [
+        {
+          "handle": "OptionsHawk",
+          "id": "2095578783546052808",
+          "text": "$MGNI spread sells 2500 Jan 19 puts 1.10 and buy 2500 Oct. 27 calls 0.94"
+        },
+        {
+          "handle": "OptionsHawk",
+          "id": "2103205955039342954",
+          "text": "$QMCO up 17%"
+        },
+        {
+          "handle": "OptionsHawk",
+          "id": "2104569117177254123",
+          "text": "META 8800 Nov 900 calls being sold"
+        }
+      ]
+    },
+    "contrast/turn": {
+      "share": 0.063837773,
+      "first_lines": [
+        {
+          "handle": "OptionsHawk",
+          "id": "2105659906724594149",
+          "text": "Here we go, finally, $SPY lost 761 put floor, does have lower value soon but give me 750 for some fun"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2103067711622295765",
+          "text": "Happy Thursday everyone! I am currently at the airport but can’t leave you without the educational tweet of the day!"
+        },
+        {
+          "handle": "SPXVIX",
+          "id": "2103545666509115658",
+          "text": "History can rhyme into Oct, but the skew book is not marking a 90% $VIX rewrite from this shelf: $SPX 1M ATM 11.5 is 3rd %ile and 3M 13.2 is 1st, $IWM 1M 17.4 / 7th and 3M 18.2 / 1st, while live cash is $VIX1D 11.24 vs $VIX 15.02 with 3M/$VIX still ~1.20x contango. $QQQ 1M 25Δ P/ATM prints 0th %ile against C/ATM 99th. Index ATM is cheap. The call wing is not."
+        }
+      ]
+    },
+    "list/thread opener": {
+      "share": 0.004961538,
+      "first_lines": [
+        {
+          "handle": "OptionsHawk",
+          "id": "2105129698359718002",
+          "text": "9/29 https://t.co/KwcoFWvH7T"
+        },
+        {
+          "handle": "OptionsHawk",
+          "id": "2105855304110051835",
+          "text": "10/1 Hawk Flow Report https://t.co/tsAbH0bCXI"
+        }
+      ]
+    },
+    "news-wire": {
+      "share": 0.00064,
+      "first_lines": [
+        {
+          "handle": "jasongoepfert",
+          "id": "1869118616555381060",
+          "text": "BREAKING: The Dow Jones Industrial Average is on track for its 9th consecutive down day, the first since 1978."
+        }
+      ]
+    },
+    "emoji-led": {
+      "share": 0.004400769,
+      "first_lines": [
+        {
+          "handle": "OptionsHawk",
+          "id": "2105637405672042535",
+          "text": "🔥"
+        },
+        {
+          "handle": "jasongoepfert",
+          "id": "1864767738683555923",
+          "text": "👀"
+        },
+        {
+          "handle": "jasongoepfert",
+          "id": "1868755687716929860",
+          "text": "🚨 NEW LOW 🚨"
+        }
+      ]
+    },
+    "quote": {
+      "share": 0.006957741,
+      "first_lines": [
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2105083337484189696",
+          "text": "\"Seven-Out?!!\"  Leisure-Gaming/Eqpt remains one of #IBD's worst ranked sectors, having plummeted following last months break of well-defined support"
+        },
+        {
+          "handle": "TheChartReport",
+          "id": "2105349704582312356",
+          "text": "\"When new lows outnumber new highs, consistently finding success on the long side becomes a challenge.\""
+        },
+        {
+          "handle": "jasongoepfert",
+          "id": "1912830957825953821",
+          "text": "“The whole secret lies in confusing the enemy, so that he cannot fathom our real intent.”"
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.67346337,
+      "first_lines": [
+        {
+          "handle": "OptionsHawk",
+          "id": "2104586261591887911",
+          "text": "L3 Harris $LHX buyer 300 Dec. $260 calls $6 into weakness as tries a hammer today"
+        },
+        {
+          "handle": "OptionsHawk",
+          "id": "2104598268240118218",
+          "text": "Nasdaq $QQQ 191,000 March $670 puts buy 18.27 adjusting December $660 puts, a long time hedge adjusts quarterly for a fund long Tech"
+        },
+        {
+          "handle": "OptionsHawk",
+          "id": "2104624279736504440",
+          "text": "At the current rate of NFL QB injuries, I might be able to get in for a local tryout"
+        }
+      ]
+    }
+  },
+  "sentence_length": {
+    "unit": "words",
+    "median": 11,
+    "p25": 5,
+    "p75": 20
+  },
+  "signature_phrasing": [
+    {
+      "phrase": "vol is priced",
+      "cluster_share": 0.028627,
+      "lift": 68.9378,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "a full read",
+      "cluster_share": 0.023422,
+      "lift": 68.9378,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "a seller's backdrop",
+      "cluster_share": 0.023422,
+      "lift": 68.9378,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "actually been delivered",
+      "cluster_share": 0.023422,
+      "lift": 68.9378,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "and today's catalysts",
+      "cluster_share": 0.023422,
+      "lift": 68.9378,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "at last close",
+      "cluster_share": 0.023422,
+      "lift": 68.9378,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "backdrop vix at",
+      "cluster_share": 0.023422,
+      "lift": 68.9378,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "before the bell",
+      "cluster_share": 0.023422,
+      "lift": 68.9378,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "bell the overnight",
+      "cluster_share": 0.023422,
+      "lift": 68.9378,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "calmer than further",
+      "cluster_share": 0.023422,
+      "lift": 68.9378,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "catalysts overnight es",
+      "cluster_share": 0.023422,
+      "lift": 68.9378,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "close range nq",
+      "cluster_share": 0.023422,
+      "lift": 68.9378,
+      "do_not_copy": true
+    }
+  ],
+  "emoji_rate": 0.060543,
+  "thread_rate": 0.019322,
+  "media_rate": 0.092071,
+  "data_opinion": {
+    "data_share": 0.875300513,
+    "opinion_share": 0.124699487,
+    "data_to_opinion": 7.01927921,
+    "definition": "Data: numeric tags or data_take/earnings_take; opinion: remaining posts (proxy, not semantic verdict)."
+  },
+  "post_type_mix": {
+    "data_take": 0.569617,
+    "earnings_take": 0.016158,
+    "hot_take": 0.23473,
+    "mechanism_explainer": 0.048945,
+    "view_relay": 0.130551
+  },
+  "tendencies": [
+    {
+      "frequency": "often",
+      "tendency": "Opens with a clear judgment, supported by observations.",
+      "evidence": [
+        {
+          "handle": "OptionsHawk",
+          "id": "2095578783546052808",
+          "text": "$MGNI spread sells 2500 Jan 19 puts 1.10 and buy 2500 Oct. 27 calls 0.94"
+        },
+        {
+          "handle": "OptionsHawk",
+          "id": "2103205955039342954",
+          "text": "$QMCO up 17%\n\nThe power of utilizing industry-wide and then drill into stock specific rel. strength price-action indicators! https://t.co/9j"
+        },
+        {
+          "handle": "OptionsHawk",
+          "id": "2104569117177254123",
+          "text": "META 8800 Nov 900 calls being sold"
+        },
+        {
+          "handle": "OptionsHawk",
+          "id": "2104572468879085953",
+          "text": "$MDB quick 25 point bounce off value support https://t.co/UFoNFgvNdA"
+        }
+      ]
+    },
+    {
+      "frequency": "often",
+      "tendency": "Uses claim-led openings, with sentences around the observed band.",
+      "evidence": [
+        {
+          "handle": "OptionsHawk",
+          "id": "2095578783546052808",
+          "text": "$MGNI spread sells 2500 Jan 19 puts 1.10 and buy 2500 Oct. 27 calls 0.94"
+        },
+        {
+          "handle": "OptionsHawk",
+          "id": "2103205955039342954",
+          "text": "$QMCO up 17%\n\nThe power of utilizing industry-wide and then drill into stock specific rel. strength price-action indicators! https://t.co/9j"
+        },
+        {
+          "handle": "OptionsHawk",
+          "id": "2104569117177254123",
+          "text": "META 8800 Nov 900 calls being sold"
+        },
+        {
+          "handle": "OptionsHawk",
+          "id": "2104572468879085953",
+          "text": "$MDB quick 25 point bounce off value support https://t.co/UFoNFgvNdA"
+        }
+      ]
+    }
+  ],
+  "avoid_tendencies": [
+    {
+      "frequency": "almost_never",
+      "tendency": "Relies on another author’s personal experience or identity.",
+      "evidence": [
+        {
+          "handle": "OptionsHawk",
+          "id": "2095578783546052808",
+          "text": "$MGNI spread sells 2500 Jan 19 puts 1.10 and buy 2500 Oct. 27 calls 0.94"
+        },
+        {
+          "handle": "OptionsHawk",
+          "id": "2103205955039342954",
+          "text": "$QMCO up 17%\n\nThe power of utilizing industry-wide and then drill into stock specific rel. strength price-action indicators! https://t.co/9j"
+        },
+        {
+          "handle": "OptionsHawk",
+          "id": "2104569117177254123",
+          "text": "META 8800 Nov 900 calls being sold"
+        },
+        {
+          "handle": "OptionsHawk",
+          "id": "2104572468879085953",
+          "text": "$MDB quick 25 point bounce off value support https://t.co/UFoNFgvNdA"
+        }
+      ]
+    },
+    {
+      "frequency": "rarely",
+      "tendency": "Turns confidence into an unsupported trade call.",
+      "evidence": [
+        {
+          "handle": "OptionsHawk",
+          "id": "2095578783546052808",
+          "text": "$MGNI spread sells 2500 Jan 19 puts 1.10 and buy 2500 Oct. 27 calls 0.94"
+        },
+        {
+          "handle": "OptionsHawk",
+          "id": "2103205955039342954",
+          "text": "$QMCO up 17%\n\nThe power of utilizing industry-wide and then drill into stock specific rel. strength price-action indicators! https://t.co/9j"
+        },
+        {
+          "handle": "OptionsHawk",
+          "id": "2104569117177254123",
+          "text": "META 8800 Nov 900 calls being sold"
+        },
+        {
+          "handle": "OptionsHawk",
+          "id": "2104572468879085953",
+          "text": "$MDB quick 25 point bounce off value support https://t.co/UFoNFgvNdA"
+        }
+      ]
+    },
+    {
+      "frequency": "almost_never",
+      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+      "evidence_ids": []
+    }
+  ],
+  "post_length": {
+    "unit": "chars",
+    "median": 211,
+    "p25": 110,
+    "p75": 361
+  },
+  "paragraphs": {
+    "median": 2,
+    "p25": 1,
+    "p75": 4,
+    "line_break_rate": 0.6115817117775028,
+    "short_lines_share": 0.3087795570123637
+  },
+  "baseline_tendencies": {
+    "tendencies": [
+      {
+        "frequency": "often",
+        "tendency": "Opens with a clear judgment, supported by observations.",
+        "evidence": [
+          {
+            "handle": "OptionsHawk",
+            "id": "2095578783546052808",
+            "text": "$MGNI spread sells 2500 Jan 19 puts 1.10 and buy 2500 Oct. 27 calls 0.94"
+          },
+          {
+            "handle": "OptionsHawk",
+            "id": "2103205955039342954",
+            "text": "$QMCO up 17%\n\nThe power of utilizing industry-wide and then drill into stock specific rel. strength price-action indicators! https://t.co/9j"
+          },
+          {
+            "handle": "OptionsHawk",
+            "id": "2104569117177254123",
+            "text": "META 8800 Nov 900 calls being sold"
+          },
+          {
+            "handle": "OptionsHawk",
+            "id": "2104572468879085953",
+            "text": "$MDB quick 25 point bounce off value support https://t.co/UFoNFgvNdA"
+          }
+        ]
+      },
+      {
+        "frequency": "often",
+        "tendency": "Uses claim-led openings, with sentences around the observed band.",
+        "evidence": [
+          {
+            "handle": "OptionsHawk",
+            "id": "2095578783546052808",
+            "text": "$MGNI spread sells 2500 Jan 19 puts 1.10 and buy 2500 Oct. 27 calls 0.94"
+          },
+          {
+            "handle": "OptionsHawk",
+            "id": "2103205955039342954",
+            "text": "$QMCO up 17%\n\nThe power of utilizing industry-wide and then drill into stock specific rel. strength price-action indicators! https://t.co/9j"
+          },
+          {
+            "handle": "OptionsHawk",
+            "id": "2104569117177254123",
+            "text": "META 8800 Nov 900 calls being sold"
+          },
+          {
+            "handle": "OptionsHawk",
+            "id": "2104572468879085953",
+            "text": "$MDB quick 25 point bounce off value support https://t.co/UFoNFgvNdA"
+          }
+        ]
+      }
+    ],
+    "avoid_tendencies": [
+      {
+        "frequency": "almost_never",
+        "tendency": "Relies on another author’s personal experience or identity.",
+        "evidence": [
+          {
+            "handle": "OptionsHawk",
+            "id": "2095578783546052808",
+            "text": "$MGNI spread sells 2500 Jan 19 puts 1.10 and buy 2500 Oct. 27 calls 0.94"
+          },
+          {
+            "handle": "OptionsHawk",
+            "id": "2103205955039342954",
+            "text": "$QMCO up 17%\n\nThe power of utilizing industry-wide and then drill into stock specific rel. strength price-action indicators! https://t.co/9j"
+          },
+          {
+            "handle": "OptionsHawk",
+            "id": "2104569117177254123",
+            "text": "META 8800 Nov 900 calls being sold"
+          },
+          {
+            "handle": "OptionsHawk",
+            "id": "2104572468879085953",
+            "text": "$MDB quick 25 point bounce off value support https://t.co/UFoNFgvNdA"
+          }
+        ]
+      },
+      {
+        "frequency": "rarely",
+        "tendency": "Turns confidence into an unsupported trade call.",
+        "evidence": [
+          {
+            "handle": "OptionsHawk",
+            "id": "2095578783546052808",
+            "text": "$MGNI spread sells 2500 Jan 19 puts 1.10 and buy 2500 Oct. 27 calls 0.94"
+          },
+          {
+            "handle": "OptionsHawk",
+            "id": "2103205955039342954",
+            "text": "$QMCO up 17%\n\nThe power of utilizing industry-wide and then drill into stock specific rel. strength price-action indicators! https://t.co/9j"
+          },
+          {
+            "handle": "OptionsHawk",
+            "id": "2104569117177254123",
+            "text": "META 8800 Nov 900 calls being sold"
+          },
+          {
+            "handle": "OptionsHawk",
+            "id": "2104572468879085953",
+            "text": "$MDB quick 25 point bounce off value support https://t.co/UFoNFgvNdA"
+          }
+        ]
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
+      }
+    ]
+  },
+  "qualitative": {},
+  "compliance_removed": []
+}

@@ -1,45 +1,246 @@
 {
   "persona_id": "investing_philosophy",
   "lang": "en",
-  "basis": "donor observations",
-  "posts": 1805,
-  "judgment_first_share": 0.961,
-  "short_fragment_lines_per_post": 0.59,
-  "sellside_jargon_post_share": 0.005,
+  "basis": "donor cluster observations",
+  "cluster": "acct_investing_philosophy",
+  "donors": {
+    "MarkNewtonCMT": {
+      "weight": 0.295,
+      "posts": 102
+    },
+    "MebFaber": {
+      "weight": 0.199,
+      "posts": 119
+    },
+    "GlobalMktObserv": {
+      "weight": 0.18,
+      "posts": 108
+    },
+    "saxena_puru": {
+      "weight": 0.169,
+      "posts": 101
+    },
+    "SJosephBurns": {
+      "weight": 0.157,
+      "posts": 94
+    }
+  },
+  "posts": 524,
+  "method": "up to weight x 600 recent originals per donor (min 20); sentences split on 。！？!?；/newlines (EN: . ! ? / newlines); openers = first 2 CJK chars / first word used by >= 2 donors; catchphrases = 4-char / 3-word grams in >= 6% of one donor's posts, <= 1% of the others'",
+  "judgment_first_share": 0.941,
+  "short_fragment_lines_per_post": 0.6,
+  "sellside_jargon_post_share": 0.023,
   "connector_rates": {
-    "and": 0.42,
-    "so": 0.292,
-    "but": 0.165,
-    "because": 0.047,
-    "still": 0.032,
-    "though": 0.024,
-    "while": 0.02,
-    "yet": 0.015
+    "and": 0.525,
+    "while": 0.153,
+    "but": 0.126,
+    "still": 0.078,
+    "even": 0.044,
+    "so": 0.04,
+    "meanwhile": 0.032,
+    "yet": 0.031
+  },
+  "sentence_length": {
+    "p10": 4,
+    "p25": 7,
+    "median": 13,
+    "p75": 20,
+    "p90": 28,
+    "unit": "words"
+  },
+  "post_length_mix": {
+    "unit": "words",
+    "median": 37,
+    "short": 0.288,
+    "medium": 0.395,
+    "long": 0.317,
+    "bands": "short < 25, long >= 60 words"
+  },
+  "openers": [
+    {
+      "gram": "the",
+      "share": 0.107,
+      "donors": 5
+    },
+    {
+      "gram": "us",
+      "share": 0.05,
+      "donors": 2
+    },
+    {
+      "gram": "a",
+      "share": 0.029,
+      "donors": 4
+    },
+    {
+      "gram": "ai",
+      "share": 0.019,
+      "donors": 3
+    },
+    {
+      "gram": "how",
+      "share": 0.017,
+      "donors": 2
+    },
+    {
+      "gram": "this",
+      "share": 0.013,
+      "donors": 4
+    },
+    {
+      "gram": "if",
+      "share": 0.011,
+      "donors": 3
+    },
+    {
+      "gram": "i",
+      "share": 0.011,
+      "donors": 2
+    },
+    {
+      "gram": "market",
+      "share": 0.011,
+      "donors": 3
+    },
+    {
+      "gram": "is",
+      "share": 0.01,
+      "donors": 2
+    }
+  ],
+  "closers": {
+    "end_punct": {
+      "none": 0.611,
+      ".": 0.34,
+      "!": 0.027,
+      "?": 0.023
+    }
+  },
+  "connectives": {
+    "and": {
+      "per_post": 0.525,
+      "donors": 5
+    },
+    "while": {
+      "per_post": 0.153,
+      "donors": 5
+    },
+    "but": {
+      "per_post": 0.126,
+      "donors": 5
+    },
+    "still": {
+      "per_post": 0.078,
+      "donors": 5
+    },
+    "even": {
+      "per_post": 0.044,
+      "donors": 5
+    },
+    "so": {
+      "per_post": 0.04,
+      "donors": 4
+    },
+    "meanwhile": {
+      "per_post": 0.032,
+      "donors": 2
+    },
+    "yet": {
+      "per_post": 0.031,
+      "donors": 3
+    },
+    "actually": {
+      "per_post": 0.025,
+      "donors": 4
+    },
+    "because": {
+      "per_post": 0.011,
+      "donors": 3
+    },
+    "instead": {
+      "per_post": 0.006,
+      "donors": 2
+    },
+    "in other words": {
+      "per_post": 0.006,
+      "donors": 2
+    },
+    "though": {
+      "per_post": 0.004,
+      "donors": 1
+    },
+    "that means": {
+      "per_post": 0.004,
+      "donors": 2
+    }
+  },
+  "reason_markers": {
+    "since": 0.871,
+    "driven by": 0.068,
+    "because": 0.041,
+    "due to": 0.02
+  },
+  "implication_markers": {
+    "so ": 0.436,
+    "expect": 0.288,
+    "watch": 0.103,
+    "bullish": 0.064,
+    "bearish": 0.038,
+    "means": 0.038,
+    "good for": 0.013,
+    "that means": 0.013
+  },
+  "catchphrases": {
+    "MarkNewtonCMT": [
+      "to new highs",
+      "back to new",
+      "new all time",
+      "equal weighted spx",
+      "all time highs"
+    ],
+    "MebFaber": [
+      "investing quote of"
+    ],
+    "GlobalMktObserv": [
+      "highest level since",
+      "its highest level",
+      "to see full",
+      "tap image to",
+      "see full insight"
+    ],
+    "saxena_puru": [
+      "us presidential cycle",
+      "the us presidential",
+      "our portfolio is",
+      "a multi month",
+      "portfolio is positioned"
+    ]
   },
   "prefer": [
     "Lead with the call, then 1–2 numbers",
     "Plain verbs over sell-side jargon",
-    "Name the falsifier (level/flow/condition), skip empty contrast"
+    "Give the reason as a fact, skip empty contrast"
   ],
   "avoid": [
     "valuation-free optimism",
     "Calling a strong chance / is a start",
     "Empty That said / door metaphor",
-    "supply-discipline check as filler"
+    "supply-discipline check as filler",
+    "hedge-only lines (of course it could also… / not financial advice)"
   ],
   "sample_ids": [
-    "2106079898901131464",
-    "2106076460679389645",
-    "2106043554363502992",
-    "2105976139864850655",
-    "2105814821035712739",
-    "2105713954207195190",
-    "2105672738203730296",
-    "2105659005511282740",
-    "2105650930796372227",
-    "2105613755203588457",
-    "2105321018403192960",
-    "2105304225739640885"
+    "2106153753631920369",
+    "2106153149295706402",
+    "2106152707447046541",
+    "2105762667738595450",
+    "2105762664958091575",
+    "2105762662797787239",
+    "2105762660100809167",
+    "2105712392017752269",
+    "2105710042699747415",
+    "2105673951619788942",
+    "2105083337484189696",
+    "2103631546712310014"
   ],
-  "guidance": "Write like the donors: judgment-first, short beats, concrete falsifiers. Avoid analyst-report cadence and Fiona-banned fillers."
+  "guidance": "Write like the donors: judgment-first, short beats, plain reasons. Avoid analyst-report cadence, Fiona-banned fillers and hedge-only lines."
 }

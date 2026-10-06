@@ -1,0 +1,543 @@
+{
+  "version": 2,
+  "cluster": "acct_single_stock_deepdive_en",
+  "lang": "en",
+  "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
+  "sample": {
+    "posts": 826,
+    "donors": {
+      "Beth_Kindig": 0.251,
+      "EconomyApp": 0.229,
+      "SKundojjala": 0.208,
+      "garyblack00": 0.158,
+      "MarkNewtonCMT": 0.154
+    }
+  },
+  "method": "Roster weights normalized over available eligible donors; equal mass per donor post; sentence mass equal within post. UTC cadence over observed scrape interval. Signature lift is weighted cluster document frequency divided by unweighted eligible all-donor document frequency (3-word EN / 4-character ZH n-grams, present in at least 2 cluster posts).",
+  "cadence": {
+    "posts_per_day_median": 1,
+    "active_hours_utc": {
+      "0": 0.013434,
+      "9": 0.043047,
+      "10": 0.058904,
+      "11": 0.013595,
+      "12": 0.057773,
+      "13": 0.040786,
+      "14": 0.130196,
+      "15": 0.063904,
+      "16": 0.025349,
+      "17": 0.070686,
+      "18": 0.026868,
+      "19": 0.023829,
+      "20": 0.197743,
+      "21": 0.0942,
+      "22": 0.09603,
+      "23": 0.043656
+    }
+  },
+  "hooks": {
+    "question": {
+      "share": 0.013246851,
+      "first_lines": [
+        {
+          "handle": "Beth_Kindig",
+          "id": "2105066689813700669",
+          "text": "What stocks could win big from the shift to AI inference?"
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2105764942292934883",
+          "text": "Nebius $NBIS is outperforming CoreWeave $CRWV by nearly 8X in 2026, despite CoreWeave generating 5X more revenue – so, what gives? Clearly something is happening beyond the income statement."
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2060096940315144583",
+          "text": "Did you miss our coverage of Walmart?"
+        }
+      ]
+    },
+    "number-led headline": {
+      "share": 0.012745497,
+      "first_lines": [
+        {
+          "handle": "EconomyApp",
+          "id": "2083932468185612378",
+          "text": "100+ companies. One report."
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2076553280063504648",
+          "text": "8 ATH quarters last 9. Insane demand. Leading-edge at full utilization rate. https://t.co/b1k0bC3kVC"
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2077278133544456260",
+          "text": "2027 EUV orders fully covered.  For 2028, has already received substantial EUV orders. https://t.co/CfpYrmp8Xa"
+        }
+      ]
+    },
+    "ticker-led": {
+      "share": 0.223828436,
+      "first_lines": [
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087245300251394118",
+          "text": "Microsoft $MSFT is reported to be unveiling its new Maia 300 AI accelerator this fall, and is said to be in talks with TSMC $TSM with production of up to 300,000 chips in 2027."
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087575085171240988",
+          "text": "Meta $META recently released its first AI coding agent, Muse Code, ramping up competition with OpenAI and Anthropic with Meta saying that “adoption has been exciting and strong.”"
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087667578722283957",
+          "text": "AMD $AMD CEO Lisa Su on data center growth:"
+        }
+      ]
+    },
+    "contrast/turn": {
+      "share": 0.071912105,
+      "first_lines": [
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087570052317168093",
+          "text": "Microsoft $MSFT is reportedly aiming to secure capacity for over 1 million Maia 300 chips, but component supplies and capacity negotiations with TSMC $TSM could constrain that plan."
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2090570552859619568",
+          "text": "The I/O Fund is raising our long-term Bitcoin target from $1M to $2M. It may sound extreme, but so was calling the bitcoin:native top near $100K and the previous bottom near $17K."
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2090898232050078125",
+          "text": "OpenAI's ARR has reportedly reached $40 billion, doubling from $20 billion at the end of 2025, but lagging the $47 billion that Anthropic reported in May."
+        }
+      ]
+    },
+    "list/thread opener": {
+      "share": 0.008507692,
+      "first_lines": [
+        {
+          "handle": "garyblack00",
+          "id": "2091154053434626459",
+          "text": "2/ After a three-week bench trial in 2021, Gonzalez Rogers largely sided with Apple, finding that Epic had failed to prove Apple was an illegal monopolist. She also determined that Apple's \"anti-steering\" rules violated California competition law and ordered the company to allow developers to direct users to outside payment options."
+        },
+        {
+          "handle": "garyblack00",
+          "id": "2091154061546422539",
+          "text": "3/ Opening arguments began on Tuesday, and Bonta reminded reporters after the first day that the trial centers around \"civil penalties, restitution and distortion,\" and is not primarily about money."
+        },
+        {
+          "handle": "garyblack00",
+          "id": "2093364863997190597",
+          "text": "2/ WSJ Op-Ed 8/7/2026 https://t.co/FasgMzbAmj"
+        }
+      ]
+    },
+    "news-wire": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "emoji-led": {
+      "share": 0.093167795,
+      "first_lines": [
+        {
+          "handle": "EconomyApp",
+          "id": "2049586081902031291",
+          "text": "☁️ Google Cloud visualized. $GOOG https://t.co/zpblRn4VMZ"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2049912920012902662",
+          "text": "📊 Make your own charts here 👇"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2050582059564089384",
+          "text": "📊 Check out 37 key earnings of the past week visualized in our latest PRO issue. 👇"
+        }
+      ]
+    },
+    "quote": {
+      "share": 0.004968176,
+      "first_lines": [
+        {
+          "handle": "Beth_Kindig",
+          "id": "2102138161195327793",
+          "text": "“We still forecast that customer demand will remain higher than our supply capacity even beyond 2030.”"
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2103191323352453199",
+          "text": "“Compute is worthless if you can’t power it.”"
+        },
+        {
+          "handle": "garyblack00",
+          "id": "2097579295740727706",
+          "text": "‘Birkin of smartphones’ to be introduced at $AAPL new product event today.  “Despite the high price, the foldable iPhone will be wildly successful,” said Nabila Popal, a longtime senior smartphone market researcher at IDC. “I won’t be surprised if it becomes the ‘Birkin’ of smartphones in China,” she said, referring to the luxury handbag made by Hermès.  Price starting at $2,199."
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.571623449,
+      "first_lines": [
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087172180249600325",
+          "text": "Envision Energy has commissioned a high-density data center campus in Mongolia that plans to eventually scale up to 2GW and house 1 million accelerators, with the company saying it could deliver up to 10X more compute per square meter than conventional data centers."
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087176710009843787",
+          "text": "Big Tech's capex intensity on a dollar basis is increasing substantially into 2H."
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087197597769642350",
+          "text": "The chart below shows reasoning versus non-reasoning token usage on OpenRouter from late 2024 through late 2025."
+        }
+      ]
+    }
+  },
+  "sentence_length": {
+    "unit": "words",
+    "median": 13,
+    "p25": 5,
+    "p75": 26
+  },
+  "signature_phrasing": [
+    {
+      "phrase": "back to new",
+      "cluster_share": 0.017561,
+      "lift": 35.7847,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "ibdinvestors marketsurge ibdpartner",
+      "cluster_share": 0.012158,
+      "lift": 35.7847,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "equal weighted spx",
+      "cluster_share": 0.010807,
+      "lift": 35.7847,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "push back to",
+      "cluster_share": 0.008105,
+      "lift": 35.7847,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "in tonight's note",
+      "cluster_share": 0.005404,
+      "lift": 35.7847,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "keep a close",
+      "cluster_share": 0.005404,
+      "lift": 35.7847,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "kick into gear",
+      "cluster_share": 0.005404,
+      "lift": 35.7847,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "rotation rotation rotation",
+      "cluster_share": 0.005404,
+      "lift": 35.7847,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "the broader mkt",
+      "cluster_share": 0.005404,
+      "lift": 35.7847,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "bit by bit",
+      "cluster_share": 0.004053,
+      "lift": 35.7847,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "cc fundstrat fundstratdirect",
+      "cluster_share": 0.004053,
+      "lift": 35.7847,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "charts via ibdinvestors",
+      "cluster_share": 0.004053,
+      "lift": 35.7847,
+      "do_not_copy": true
+    }
+  ],
+  "emoji_rate": 0.158928,
+  "thread_rate": 0.027177,
+  "media_rate": 0.036145,
+  "data_opinion": {
+    "data_share": 0.948297808,
+    "opinion_share": 0.051702192,
+    "data_to_opinion": 18.341539769,
+    "definition": "Data: numeric tags or data_take/earnings_take; opinion: remaining posts (proxy, not semantic verdict)."
+  },
+  "post_type_mix": {
+    "data_take": 0.447521,
+    "earnings_take": 0.279281,
+    "hot_take": 0.066123,
+    "mechanism_explainer": 0.053584,
+    "view_relay": 0.153491
+  },
+  "tendencies": [
+    {
+      "frequency": "often",
+      "tendency": "Opens with a clear judgment, supported by observations.",
+      "evidence": [
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087172180249600325",
+          "text": "Envision Energy has commissioned a high-density data center campus in Mongolia that plans to eventually scale up to 2GW and house 1 million "
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087176710009843787",
+          "text": "Big Tech's capex intensity on a dollar basis is increasing substantially into 2H. \n\nAll four are currently expected to see 2H spending betwe"
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087197597769642350",
+          "text": "The chart below shows reasoning versus non-reasoning token usage on OpenRouter from late 2024 through late 2025.\n\nSince the start of 2025, t"
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087245300251394118",
+          "text": "Microsoft $MSFT is reported to be unveiling its new Maia 300 AI accelerator this fall, and is said to be in talks with TSMC $TSM with produc"
+        }
+      ]
+    },
+    {
+      "frequency": "often",
+      "tendency": "Uses claim-led openings, with sentences around the observed band.",
+      "evidence": [
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087172180249600325",
+          "text": "Envision Energy has commissioned a high-density data center campus in Mongolia that plans to eventually scale up to 2GW and house 1 million "
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087176710009843787",
+          "text": "Big Tech's capex intensity on a dollar basis is increasing substantially into 2H. \n\nAll four are currently expected to see 2H spending betwe"
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087197597769642350",
+          "text": "The chart below shows reasoning versus non-reasoning token usage on OpenRouter from late 2024 through late 2025.\n\nSince the start of 2025, t"
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087245300251394118",
+          "text": "Microsoft $MSFT is reported to be unveiling its new Maia 300 AI accelerator this fall, and is said to be in talks with TSMC $TSM with produc"
+        }
+      ]
+    }
+  ],
+  "avoid_tendencies": [
+    {
+      "frequency": "almost_never",
+      "tendency": "Relies on another author’s personal experience or identity.",
+      "evidence": [
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087172180249600325",
+          "text": "Envision Energy has commissioned a high-density data center campus in Mongolia that plans to eventually scale up to 2GW and house 1 million "
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087176710009843787",
+          "text": "Big Tech's capex intensity on a dollar basis is increasing substantially into 2H. \n\nAll four are currently expected to see 2H spending betwe"
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087197597769642350",
+          "text": "The chart below shows reasoning versus non-reasoning token usage on OpenRouter from late 2024 through late 2025.\n\nSince the start of 2025, t"
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087245300251394118",
+          "text": "Microsoft $MSFT is reported to be unveiling its new Maia 300 AI accelerator this fall, and is said to be in talks with TSMC $TSM with produc"
+        }
+      ]
+    },
+    {
+      "frequency": "rarely",
+      "tendency": "Turns confidence into an unsupported trade call.",
+      "evidence": [
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087172180249600325",
+          "text": "Envision Energy has commissioned a high-density data center campus in Mongolia that plans to eventually scale up to 2GW and house 1 million "
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087176710009843787",
+          "text": "Big Tech's capex intensity on a dollar basis is increasing substantially into 2H. \n\nAll four are currently expected to see 2H spending betwe"
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087197597769642350",
+          "text": "The chart below shows reasoning versus non-reasoning token usage on OpenRouter from late 2024 through late 2025.\n\nSince the start of 2025, t"
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2087245300251394118",
+          "text": "Microsoft $MSFT is reported to be unveiling its new Maia 300 AI accelerator this fall, and is said to be in talks with TSMC $TSM with produc"
+        }
+      ]
+    },
+    {
+      "frequency": "almost_never",
+      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+      "evidence_ids": []
+    }
+  ],
+  "post_length": {
+    "unit": "chars",
+    "median": 274,
+    "p25": 201,
+    "p75": 484
+  },
+  "paragraphs": {
+    "median": 3,
+    "p25": 2,
+    "p75": 5,
+    "line_break_rate": 0.750687054686478,
+    "short_lines_share": 0.08759103277564201
+  },
+  "baseline_tendencies": {
+    "tendencies": [
+      {
+        "frequency": "often",
+        "tendency": "Opens with a clear judgment, supported by observations.",
+        "evidence": [
+          {
+            "handle": "Beth_Kindig",
+            "id": "2087172180249600325",
+            "text": "Envision Energy has commissioned a high-density data center campus in Mongolia that plans to eventually scale up to 2GW and house 1 million "
+          },
+          {
+            "handle": "Beth_Kindig",
+            "id": "2087176710009843787",
+            "text": "Big Tech's capex intensity on a dollar basis is increasing substantially into 2H. \n\nAll four are currently expected to see 2H spending betwe"
+          },
+          {
+            "handle": "Beth_Kindig",
+            "id": "2087197597769642350",
+            "text": "The chart below shows reasoning versus non-reasoning token usage on OpenRouter from late 2024 through late 2025.\n\nSince the start of 2025, t"
+          },
+          {
+            "handle": "Beth_Kindig",
+            "id": "2087245300251394118",
+            "text": "Microsoft $MSFT is reported to be unveiling its new Maia 300 AI accelerator this fall, and is said to be in talks with TSMC $TSM with produc"
+          }
+        ]
+      },
+      {
+        "frequency": "often",
+        "tendency": "Uses claim-led openings, with sentences around the observed band.",
+        "evidence": [
+          {
+            "handle": "Beth_Kindig",
+            "id": "2087172180249600325",
+            "text": "Envision Energy has commissioned a high-density data center campus in Mongolia that plans to eventually scale up to 2GW and house 1 million "
+          },
+          {
+            "handle": "Beth_Kindig",
+            "id": "2087176710009843787",
+            "text": "Big Tech's capex intensity on a dollar basis is increasing substantially into 2H. \n\nAll four are currently expected to see 2H spending betwe"
+          },
+          {
+            "handle": "Beth_Kindig",
+            "id": "2087197597769642350",
+            "text": "The chart below shows reasoning versus non-reasoning token usage on OpenRouter from late 2024 through late 2025.\n\nSince the start of 2025, t"
+          },
+          {
+            "handle": "Beth_Kindig",
+            "id": "2087245300251394118",
+            "text": "Microsoft $MSFT is reported to be unveiling its new Maia 300 AI accelerator this fall, and is said to be in talks with TSMC $TSM with produc"
+          }
+        ]
+      }
+    ],
+    "avoid_tendencies": [
+      {
+        "frequency": "almost_never",
+        "tendency": "Relies on another author’s personal experience or identity.",
+        "evidence": [
+          {
+            "handle": "Beth_Kindig",
+            "id": "2087172180249600325",
+            "text": "Envision Energy has commissioned a high-density data center campus in Mongolia that plans to eventually scale up to 2GW and house 1 million "
+          },
+          {
+            "handle": "Beth_Kindig",
+            "id": "2087176710009843787",
+            "text": "Big Tech's capex intensity on a dollar basis is increasing substantially into 2H. \n\nAll four are currently expected to see 2H spending betwe"
+          },
+          {
+            "handle": "Beth_Kindig",
+            "id": "2087197597769642350",
+            "text": "The chart below shows reasoning versus non-reasoning token usage on OpenRouter from late 2024 through late 2025.\n\nSince the start of 2025, t"
+          },
+          {
+            "handle": "Beth_Kindig",
+            "id": "2087245300251394118",
+            "text": "Microsoft $MSFT is reported to be unveiling its new Maia 300 AI accelerator this fall, and is said to be in talks with TSMC $TSM with produc"
+          }
+        ]
+      },
+      {
+        "frequency": "rarely",
+        "tendency": "Turns confidence into an unsupported trade call.",
+        "evidence": [
+          {
+            "handle": "Beth_Kindig",
+            "id": "2087172180249600325",
+            "text": "Envision Energy has commissioned a high-density data center campus in Mongolia that plans to eventually scale up to 2GW and house 1 million "
+          },
+          {
+            "handle": "Beth_Kindig",
+            "id": "2087176710009843787",
+            "text": "Big Tech's capex intensity on a dollar basis is increasing substantially into 2H. \n\nAll four are currently expected to see 2H spending betwe"
+          },
+          {
+            "handle": "Beth_Kindig",
+            "id": "2087197597769642350",
+            "text": "The chart below shows reasoning versus non-reasoning token usage on OpenRouter from late 2024 through late 2025.\n\nSince the start of 2025, t"
+          },
+          {
+            "handle": "Beth_Kindig",
+            "id": "2087245300251394118",
+            "text": "Microsoft $MSFT is reported to be unveiling its new Maia 300 AI accelerator this fall, and is said to be in talks with TSMC $TSM with produc"
+          }
+        ]
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
+      }
+    ]
+  },
+  "qualitative": {},
+  "compliance_removed": []
+}

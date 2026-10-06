@@ -36,8 +36,10 @@ def test_all_personas_have_clean_qualitative_cards():
     assert len(personas) == 10
     for persona in personas.values():
         card = persona.voice_card
-        assert card and card['qualitative']['tendencies']
-        for rows in (card['tendencies'], card['qualitative']['tendencies']):
+        # Oct 6 per-account cluster cards are built offline (--no-llm): deterministic tendencies, no qualitative pass.
+        assert card and card['tendencies']
+        qual = (card.get('qualitative') or {}).get('tendencies')
+        for rows in ([card['tendencies']] + ([qual] if qual else [])):
             assert rows
             assert all(not any(p.search(r['tendency']) for p in vc.POSITION_PATTERNS) for r in rows)
 

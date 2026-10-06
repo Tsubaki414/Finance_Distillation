@@ -1,0 +1,532 @@
+{
+  "version": 2,
+  "cluster": "acct_en_industry",
+  "lang": "en",
+  "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
+  "sample": {
+    "posts": 886,
+    "donors": {
+      "SKundojjala": 0.269,
+      "Beth_Kindig": 0.259,
+      "EconomyApp": 0.2,
+      "aleabitoreddit": 0.151,
+      "jpinsights": 0.121
+    }
+  },
+  "method": "Roster weights normalized over available eligible donors; equal mass per donor post; sentence mass equal within post. UTC cadence over observed scrape interval. Signature lift is weighted cluster document frequency divided by unweighted eligible all-donor document frequency (3-word EN / 4-character ZH n-grams, present in at least 2 cluster posts).",
+  "cadence": {
+    "posts_per_day_median": 1,
+    "active_hours_utc": {
+      "0": 0.012452,
+      "1": 0.007123,
+      "4": 0.014246,
+      "5": 0.007123,
+      "6": 0.01336,
+      "8": 0.033844,
+      "9": 0.074295,
+      "10": 0.081788,
+      "11": 0.040081,
+      "12": 0.064681,
+      "13": 0.033844,
+      "14": 0.104809,
+      "15": 0.085206,
+      "16": 0.043168,
+      "17": 0.045387,
+      "18": 0.038264,
+      "19": 0.045415,
+      "20": 0.109907,
+      "21": 0.081834,
+      "22": 0.05072,
+      "23": 0.012452
+    }
+  },
+  "hooks": {
+    "question": {
+      "share": 0.019777234,
+      "first_lines": [
+        {
+          "handle": "SKundojjala",
+          "id": "2070855648791990281",
+          "text": "Micron's mobile business is on a tear. Its gross profit per smartphone up 15x y/y in 3QF26. 87% gross margin in 3QF26 vs 24% a year ago quarter. Mobile revenue up 3.5x while gross profit up nearly 13x. How sustainable is this and how low units can go? https://t.co/fJkdpo5vyM"
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2105066689813700669",
+          "text": "What stocks could win big from the shift to AI inference?"
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2105764942292934883",
+          "text": "Nebius $NBIS is outperforming CoreWeave $CRWV by nearly 8X in 2026, despite CoreWeave generating 5X more revenue – so, what gives? Clearly something is happening beyond the income statement."
+        }
+      ]
+    },
+    "number-led headline": {
+      "share": 0.011145422,
+      "first_lines": [
+        {
+          "handle": "SKundojjala",
+          "id": "2076553280063504648",
+          "text": "8 ATH quarters last 9. Insane demand. Leading-edge at full utilization rate. https://t.co/b1k0bC3kVC"
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2077278133544456260",
+          "text": "2027 EUV orders fully covered.  For 2028, has already received substantial EUV orders. https://t.co/CfpYrmp8Xa"
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2077650555162550414",
+          "text": "2nm capacity growth of 70% between 2026 and 2028 is now bigger. Same for N3 numbers (bigger than what they showed at recent conference)."
+        }
+      ]
+    },
+    "ticker-led": {
+      "share": 0.2261718,
+      "first_lines": [
+        {
+          "handle": "SKundojjala",
+          "id": "2052646031821775241",
+          "text": "TSMC Apr 2026"
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2056994360965705951",
+          "text": "Intel 14A progressing well. 0.9 version of 14A PDK for external customers in Oct and internal customer earlier. Risk production in 2028 and mass production in 2029 (in line with TSMC timing). Driving roadmap to 10A.7A nodes to make customers sticky. Has recognised the importance of IPs to expand into mobile. Internal EDA spent consolidated."
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2057396134365315296",
+          "text": "NVIDIA QApr26"
+        }
+      ]
+    },
+    "contrast/turn": {
+      "share": 0.036819505,
+      "first_lines": [
+        {
+          "handle": "SKundojjala",
+          "id": "2055686576513102150",
+          "text": "Top-5 WFE companies' cumulative China revenue down -18% q/q and up 5% y/y. 3rd consecutive quarter of y/y growth. All five companies are guiding to 20-30% China share for 2026, down from 30-44% peaks in 2024-25. AMAT back to #1 spot but Lam stand out, only vendor with 4 consecutive y/y growth quarters, accelerating to +36% in 1Q. Non-China trends are strong with leading-edge logic, HBM/DRAM and advanced packaging investments."
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2055982292880027876",
+          "text": "CXMT 1Q26 revenue alone is almost equivalent to its whole 2025 revenue. Operating at 95%+ fab utilization rate. For context, CXMT's 1Q26 revenue is greater than Micron's DRAM revenue just 3 quarters ago but less than half of Micron's current quarter DRAM revenue. https://t.co/V6JlXQFcde"
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2057001622442832077",
+          "text": "Qualcomm's elusive search for growth driver coming to an end. Custom silicon revenue kicks from 2HC26 and sees 'very material' revenue in '27. Broadcom and Marvell target competition. Layering on top of this, CPU and AI accelerator which will roll out from '27 and beyond. QCOM is ready to take lower GM to get into the DC space but sees OPM accretive opportunities. Wouldn't be surprised if QCOM's DC revenue overtakes handset revenue in a few years time if they follow-up with a strong roadmap. QCOM is also working with hyperscalers on personal intelligence devices, a well suited effort."
+        }
+      ]
+    },
+    "list/thread opener": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "news-wire": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "emoji-led": {
+      "share": 0.082474831,
+      "first_lines": [
+        {
+          "handle": "SKundojjala",
+          "id": "2082776644864053415",
+          "text": "🟠NAND systems revenue dollars more than doubled q/q to 23% of systems (up from 12%); Lam’s SAM per wafer expected to double from 128L to 500L+ devices  🟠DRAM flattish q/q at record dollars (23% of systems). Expanding share in traditional DRAM via tech transitions; Akara etch momentum"
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2082776693031530831",
+          "text": "🟠CSBG (Services record $2.5B (+17% q/q, +43% y/y), 3rd consecutive record. Driven by record upgrades"
+        },
+        {
+          "handle": "EconomyApp",
+          "id": "2049586081902031291",
+          "text": "☁️ Google Cloud visualized. $GOOG https://t.co/zpblRn4VMZ"
+        }
+      ]
+    },
+    "quote": {
+      "share": 0.00531415,
+      "first_lines": [
+        {
+          "handle": "Beth_Kindig",
+          "id": "2102138161195327793",
+          "text": "“We still forecast that customer demand will remain higher than our supply capacity even beyond 2030.”"
+        },
+        {
+          "handle": "Beth_Kindig",
+          "id": "2103191323352453199",
+          "text": "“Compute is worthless if you can’t power it.”"
+        },
+        {
+          "handle": "aleabitoreddit",
+          "id": "2089165155741622679",
+          "text": "\"Severe InP Shortage Triggers Largest Price Hike Ever\" - $AXTI."
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.618297059,
+      "first_lines": [
+        {
+          "handle": "SKundojjala",
+          "id": "2052301707007406213",
+          "text": "Arm QMar26"
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2052302068103434706",
+          "text": "- Licensing up 62% q/q and 29% y/y to $819M record; SoftBank $200M flat run-rate; ACV up 22% y/y"
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2052302148122382743",
+          "text": "- Royalty CAGR guided 20% FY26-FY31 implying 65-35 between royalty and licensing by FY31; >70% of forecasted royalty already under contract (100% F27)"
+        }
+      ]
+    }
+  },
+  "sentence_length": {
+    "unit": "words",
+    "median": 11,
+    "p25": 5,
+    "p75": 20
+  },
+  "signature_phrasing": [
+    {
+      "phrase": "up q q",
+      "cluster_share": 0.069804,
+      "lift": 45.1001,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "q q and",
+      "cluster_share": 0.064696,
+      "lift": 45.1001,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "and y y",
+      "cluster_share": 0.062994,
+      "lift": 45.1001,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "q and y",
+      "cluster_share": 0.057886,
+      "lift": 45.1001,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "revenue up q",
+      "cluster_share": 0.044266,
+      "lift": 45.1001,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "to b at",
+      "cluster_share": 0.018728,
+      "lift": 45.1001,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "b at gm",
+      "cluster_share": 0.01362,
+      "lift": 45.1001,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "qsep guided to",
+      "cluster_share": 0.01362,
+      "lift": 45.1001,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "and q q",
+      "cluster_share": 0.011918,
+      "lift": 45.1001,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "qjun revenue up",
+      "cluster_share": 0.011918,
+      "lift": 45.1001,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "y and q",
+      "cluster_share": 0.011918,
+      "lift": 45.1001,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "down q q",
+      "cluster_share": 0.010215,
+      "lift": 45.1001,
+      "do_not_copy": true
+    }
+  ],
+  "emoji_rate": 0.141872,
+  "thread_rate": 0.008564,
+  "media_rate": 0.039996,
+  "data_opinion": {
+    "data_share": 0.91658628,
+    "opinion_share": 0.08341372,
+    "data_to_opinion": 10.988435494,
+    "definition": "Data: numeric tags or data_take/earnings_take; opinion: remaining posts (proxy, not semantic verdict)."
+  },
+  "post_type_mix": {
+    "data_take": 0.374994,
+    "earnings_take": 0.318477,
+    "hot_take": 0.079719,
+    "mechanism_explainer": 0.046926,
+    "view_relay": 0.179886
+  },
+  "tendencies": [
+    {
+      "frequency": "often",
+      "tendency": "Opens with a clear judgment, supported by observations.",
+      "evidence": [
+        {
+          "handle": "SKundojjala",
+          "id": "2052301707007406213",
+          "text": "Arm QMar26\n- Revenue up 20% q/q and 20% y/y to $1.49B (ATH); 3rd straight year of 20%+ growth\n- AGI CPU demand doubled in 90 days post-annou"
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2052302068103434706",
+          "text": "- Licensing up 62% q/q and 29% y/y to $819M record; SoftBank $200M flat run-rate; ACV up 22% y/y\n- FY26 revenue up 23% y/y to $4.92B; 3rd st"
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2052302148122382743",
+          "text": "- Royalty CAGR guided 20% FY26-FY31 implying 65-35 between royalty and licensing by FY31; >70% of forecasted royalty already under contract "
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2052646031821775241",
+          "text": "TSMC Apr 2026\n - Revenue up 0.4% M/M and 22.4% y/y to $13.084B, new monthly ATH, third record month of 2026 (Jan, Mar, Apr)\n- 4M YTD through"
+        }
+      ]
+    },
+    {
+      "frequency": "often",
+      "tendency": "Uses claim-led openings, with sentences around the observed band.",
+      "evidence": [
+        {
+          "handle": "SKundojjala",
+          "id": "2052301707007406213",
+          "text": "Arm QMar26\n- Revenue up 20% q/q and 20% y/y to $1.49B (ATH); 3rd straight year of 20%+ growth\n- AGI CPU demand doubled in 90 days post-annou"
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2052302068103434706",
+          "text": "- Licensing up 62% q/q and 29% y/y to $819M record; SoftBank $200M flat run-rate; ACV up 22% y/y\n- FY26 revenue up 23% y/y to $4.92B; 3rd st"
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2052302148122382743",
+          "text": "- Royalty CAGR guided 20% FY26-FY31 implying 65-35 between royalty and licensing by FY31; >70% of forecasted royalty already under contract "
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2052646031821775241",
+          "text": "TSMC Apr 2026\n - Revenue up 0.4% M/M and 22.4% y/y to $13.084B, new monthly ATH, third record month of 2026 (Jan, Mar, Apr)\n- 4M YTD through"
+        }
+      ]
+    }
+  ],
+  "avoid_tendencies": [
+    {
+      "frequency": "almost_never",
+      "tendency": "Relies on another author’s personal experience or identity.",
+      "evidence": [
+        {
+          "handle": "SKundojjala",
+          "id": "2052301707007406213",
+          "text": "Arm QMar26\n- Revenue up 20% q/q and 20% y/y to $1.49B (ATH); 3rd straight year of 20%+ growth\n- AGI CPU demand doubled in 90 days post-annou"
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2052302068103434706",
+          "text": "- Licensing up 62% q/q and 29% y/y to $819M record; SoftBank $200M flat run-rate; ACV up 22% y/y\n- FY26 revenue up 23% y/y to $4.92B; 3rd st"
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2052302148122382743",
+          "text": "- Royalty CAGR guided 20% FY26-FY31 implying 65-35 between royalty and licensing by FY31; >70% of forecasted royalty already under contract "
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2052646031821775241",
+          "text": "TSMC Apr 2026\n - Revenue up 0.4% M/M and 22.4% y/y to $13.084B, new monthly ATH, third record month of 2026 (Jan, Mar, Apr)\n- 4M YTD through"
+        }
+      ]
+    },
+    {
+      "frequency": "rarely",
+      "tendency": "Turns confidence into an unsupported trade call.",
+      "evidence": [
+        {
+          "handle": "SKundojjala",
+          "id": "2052301707007406213",
+          "text": "Arm QMar26\n- Revenue up 20% q/q and 20% y/y to $1.49B (ATH); 3rd straight year of 20%+ growth\n- AGI CPU demand doubled in 90 days post-annou"
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2052302068103434706",
+          "text": "- Licensing up 62% q/q and 29% y/y to $819M record; SoftBank $200M flat run-rate; ACV up 22% y/y\n- FY26 revenue up 23% y/y to $4.92B; 3rd st"
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2052302148122382743",
+          "text": "- Royalty CAGR guided 20% FY26-FY31 implying 65-35 between royalty and licensing by FY31; >70% of forecasted royalty already under contract "
+        },
+        {
+          "handle": "SKundojjala",
+          "id": "2052646031821775241",
+          "text": "TSMC Apr 2026\n - Revenue up 0.4% M/M and 22.4% y/y to $13.084B, new monthly ATH, third record month of 2026 (Jan, Mar, Apr)\n- 4M YTD through"
+        }
+      ]
+    },
+    {
+      "frequency": "almost_never",
+      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+      "evidence_ids": []
+    }
+  ],
+  "post_length": {
+    "unit": "chars",
+    "median": 273,
+    "p25": 197,
+    "p75": 477
+  },
+  "paragraphs": {
+    "median": 4,
+    "p25": 2,
+    "p75": 6,
+    "line_break_rate": 0.8470379483368176,
+    "short_lines_share": 0.10550033807237949
+  },
+  "baseline_tendencies": {
+    "tendencies": [
+      {
+        "frequency": "often",
+        "tendency": "Opens with a clear judgment, supported by observations.",
+        "evidence": [
+          {
+            "handle": "SKundojjala",
+            "id": "2052301707007406213",
+            "text": "Arm QMar26\n- Revenue up 20% q/q and 20% y/y to $1.49B (ATH); 3rd straight year of 20%+ growth\n- AGI CPU demand doubled in 90 days post-annou"
+          },
+          {
+            "handle": "SKundojjala",
+            "id": "2052302068103434706",
+            "text": "- Licensing up 62% q/q and 29% y/y to $819M record; SoftBank $200M flat run-rate; ACV up 22% y/y\n- FY26 revenue up 23% y/y to $4.92B; 3rd st"
+          },
+          {
+            "handle": "SKundojjala",
+            "id": "2052302148122382743",
+            "text": "- Royalty CAGR guided 20% FY26-FY31 implying 65-35 between royalty and licensing by FY31; >70% of forecasted royalty already under contract "
+          },
+          {
+            "handle": "SKundojjala",
+            "id": "2052646031821775241",
+            "text": "TSMC Apr 2026\n - Revenue up 0.4% M/M and 22.4% y/y to $13.084B, new monthly ATH, third record month of 2026 (Jan, Mar, Apr)\n- 4M YTD through"
+          }
+        ]
+      },
+      {
+        "frequency": "often",
+        "tendency": "Uses claim-led openings, with sentences around the observed band.",
+        "evidence": [
+          {
+            "handle": "SKundojjala",
+            "id": "2052301707007406213",
+            "text": "Arm QMar26\n- Revenue up 20% q/q and 20% y/y to $1.49B (ATH); 3rd straight year of 20%+ growth\n- AGI CPU demand doubled in 90 days post-annou"
+          },
+          {
+            "handle": "SKundojjala",
+            "id": "2052302068103434706",
+            "text": "- Licensing up 62% q/q and 29% y/y to $819M record; SoftBank $200M flat run-rate; ACV up 22% y/y\n- FY26 revenue up 23% y/y to $4.92B; 3rd st"
+          },
+          {
+            "handle": "SKundojjala",
+            "id": "2052302148122382743",
+            "text": "- Royalty CAGR guided 20% FY26-FY31 implying 65-35 between royalty and licensing by FY31; >70% of forecasted royalty already under contract "
+          },
+          {
+            "handle": "SKundojjala",
+            "id": "2052646031821775241",
+            "text": "TSMC Apr 2026\n - Revenue up 0.4% M/M and 22.4% y/y to $13.084B, new monthly ATH, third record month of 2026 (Jan, Mar, Apr)\n- 4M YTD through"
+          }
+        ]
+      }
+    ],
+    "avoid_tendencies": [
+      {
+        "frequency": "almost_never",
+        "tendency": "Relies on another author’s personal experience or identity.",
+        "evidence": [
+          {
+            "handle": "SKundojjala",
+            "id": "2052301707007406213",
+            "text": "Arm QMar26\n- Revenue up 20% q/q and 20% y/y to $1.49B (ATH); 3rd straight year of 20%+ growth\n- AGI CPU demand doubled in 90 days post-annou"
+          },
+          {
+            "handle": "SKundojjala",
+            "id": "2052302068103434706",
+            "text": "- Licensing up 62% q/q and 29% y/y to $819M record; SoftBank $200M flat run-rate; ACV up 22% y/y\n- FY26 revenue up 23% y/y to $4.92B; 3rd st"
+          },
+          {
+            "handle": "SKundojjala",
+            "id": "2052302148122382743",
+            "text": "- Royalty CAGR guided 20% FY26-FY31 implying 65-35 between royalty and licensing by FY31; >70% of forecasted royalty already under contract "
+          },
+          {
+            "handle": "SKundojjala",
+            "id": "2052646031821775241",
+            "text": "TSMC Apr 2026\n - Revenue up 0.4% M/M and 22.4% y/y to $13.084B, new monthly ATH, third record month of 2026 (Jan, Mar, Apr)\n- 4M YTD through"
+          }
+        ]
+      },
+      {
+        "frequency": "rarely",
+        "tendency": "Turns confidence into an unsupported trade call.",
+        "evidence": [
+          {
+            "handle": "SKundojjala",
+            "id": "2052301707007406213",
+            "text": "Arm QMar26\n- Revenue up 20% q/q and 20% y/y to $1.49B (ATH); 3rd straight year of 20%+ growth\n- AGI CPU demand doubled in 90 days post-annou"
+          },
+          {
+            "handle": "SKundojjala",
+            "id": "2052302068103434706",
+            "text": "- Licensing up 62% q/q and 29% y/y to $819M record; SoftBank $200M flat run-rate; ACV up 22% y/y\n- FY26 revenue up 23% y/y to $4.92B; 3rd st"
+          },
+          {
+            "handle": "SKundojjala",
+            "id": "2052302148122382743",
+            "text": "- Royalty CAGR guided 20% FY26-FY31 implying 65-35 between royalty and licensing by FY31; >70% of forecasted royalty already under contract "
+          },
+          {
+            "handle": "SKundojjala",
+            "id": "2052646031821775241",
+            "text": "TSMC Apr 2026\n - Revenue up 0.4% M/M and 22.4% y/y to $13.084B, new monthly ATH, third record month of 2026 (Jan, Mar, Apr)\n- 4M YTD through"
+          }
+        ]
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
+      }
+    ]
+  },
+  "qualitative": {},
+  "compliance_removed": []
+}

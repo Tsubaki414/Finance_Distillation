@@ -51,7 +51,7 @@
       "B"
     ]
   },
-  "donor_cluster": "macro_rates_en",
+  "donor_cluster": "acct_en_macro",
   "exemplar_retrieval": {
     "enabled": true,
     "k": 4,
@@ -95,6 +95,13 @@
           "voice",
           "habit"
         ]
+      }
+    ],
+    "donor_cluster_history": [
+      {
+        "cluster": "macro_rates_en",
+        "until": "2026-10-06",
+        "why": "Fiona 10/06: per-account beat-fit multi-donor cluster"
       }
     ]
   }

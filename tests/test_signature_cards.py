@@ -34,7 +34,12 @@ def test_compose_payload_carries_signature_and_exemplars():
     compose.compose_source(SOURCE, 'zh_industry', fake, post_type='data_take')
     sig = fake.payload['persona']['signature']
     assert {'moves', 'openings', 'closings', 'lexicon', 'taboos'} <= set(sig)
-    card = registry.persona_for_account('zh_industry').signature_card
+    persona = registry.persona_for_account('zh_industry')
+    card = persona.signature_card
     shown = [e.get('id') for e in fake.payload.get('style_exemplars', [])]
-    assert card['exemplars'][0]['id'] in shown
+    # Oct 6 donor clusters: only signature exemplars by a current cluster donor are shown.
+    cluster = {h.lower() for h in persona.donor_weights}
+    in_cluster = [e for e in card['exemplars'] if e['handle'].lower() in cluster]
+    assert in_cluster and in_cluster[0]['id'] in shown
+    assert not any(e['id'] in shown for e in card['exemplars'] if e['handle'].lower() not in cluster)
     assert 'signature' in compose.COMPOSE

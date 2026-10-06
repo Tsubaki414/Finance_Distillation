@@ -1,0 +1,545 @@
+{
+  "version": 2,
+  "cluster": "acct_market_data_charts",
+  "lang": "en",
+  "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
+  "sample": {
+    "posts": 740,
+    "donors": {
+      "GlobalMktObserv": 0.309,
+      "TheChartReport": 0.229,
+      "KobeissiLetter": 0.219,
+      "MarkNewtonCMT": 0.163,
+      "Mr_Derivatives": 0.08
+    }
+  },
+  "method": "Roster weights normalized over available eligible donors; equal mass per donor post; sentence mass equal within post. UTC cadence over observed scrape interval. Signature lift is weighted cluster document frequency divided by unweighted eligible all-donor document frequency (3-word EN / 4-character ZH n-grams, present in at least 2 cluster posts).",
+  "cadence": {
+    "posts_per_day_median": 8,
+    "active_hours_utc": {
+      "0": 0.078402,
+      "1": 0.094369,
+      "4": 0.038927,
+      "9": 0.017877,
+      "10": 0.017877,
+      "11": 0.017877,
+      "12": 0.035754,
+      "13": 0.026134,
+      "14": 0.060467,
+      "15": 0.038927,
+      "16": 0.012342,
+      "17": 0.071919,
+      "18": 0.036566,
+      "19": 0.042101,
+      "20": 0.120966,
+      "21": 0.038476,
+      "22": 0.133278,
+      "23": 0.117741
+    }
+  },
+  "hooks": {
+    "question": {
+      "share": 0.010922026,
+      "first_lines": [
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2105265596908659043",
+          "text": "Is the US equity market heading for a correction?"
+        },
+        {
+          "handle": "KobeissiLetter",
+          "id": "2101799240104095924",
+          "text": "Are gold prices heading to $5,000+?"
+        },
+        {
+          "handle": "KobeissiLetter",
+          "id": "2103271861421568145",
+          "text": "So, what's happening?"
+        }
+      ]
+    },
+    "number-led headline": {
+      "share": 0.00619997,
+      "first_lines": [
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2104606171432731032",
+          "text": "10-year US Treasury yields above 5% could be the new normal again:"
+        },
+        {
+          "handle": "KobeissiLetter",
+          "id": "2103271868841267630",
+          "text": "8 days ago, the Fed released their first unanimous decision since May 2025."
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2055428600468304093",
+          "text": "10, and 30-year yields pushed sharply higher to test resistance at a 2.5 yr consolidation since late '23 & the domestic movement was far more controlled than what was seen in UK and Germany-  $TYX shown here"
+        }
+      ]
+    },
+    "ticker-led": {
+      "share": 0.060196278,
+      "first_lines": [
+        {
+          "handle": "TheChartReport",
+          "id": "2104558084018291114",
+          "text": "Meta briefly broke down from a multi-year top relative to the S&P 500 before sharply reversing to the upside."
+        },
+        {
+          "handle": "TheChartReport",
+          "id": "2106143468208660616",
+          "text": "Nvidia has broken out of a cup-and-handle pattern to new all-time highs on a weekly closing basis."
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2048905462473482422",
+          "text": "$NVDA - Breaking a nine-month sideways trend to push to ATH can certainly buoy the market, despite the recent breadth warnings of the last couple weeks.   @IBDinvestors @marketsurge"
+        }
+      ]
+    },
+    "contrast/turn": {
+      "share": 0.043691204,
+      "first_lines": [
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101278857382842779",
+          "text": "🔴 AI adoption is growing, but the “rapid adoption” narrative is getting harder to defend:"
+        },
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2105329917525135733",
+          "text": "US core PCE inflation came in cooler than expected, but there is a catch:"
+        },
+        {
+          "handle": "TheChartReport",
+          "id": "2104604082606321891",
+          "text": "Yields have had an impressive run, but is it time for a breather?"
+        }
+      ]
+    },
+    "list/thread opener": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "news-wire": {
+      "share": 0.104547739,
+      "first_lines": [
+        {
+          "handle": "KobeissiLetter",
+          "id": "2101312784256438681",
+          "text": "BREAKING: France is facing a growing fuel shortage with 11% of the country's gas stations now reporting that they are out of stock of either gas or diesel, according to the latest data published by the French government."
+        },
+        {
+          "handle": "KobeissiLetter",
+          "id": "2101359916997017799",
+          "text": "BREAKING: US diesel prices rise to a fresh record high of $6.49/gallon and have now hit new a record for 12-straight days."
+        },
+        {
+          "handle": "KobeissiLetter",
+          "id": "2101463268661305452",
+          "text": "BREAKING: Foreign holdings of US Treasuries fell -$50 billion in July, to $9.25 trillion, the lowest total since October 2025."
+        }
+      ]
+    },
+    "emoji-led": {
+      "share": 0.165610119,
+      "first_lines": [
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101014394796712346",
+          "text": "🔴 Food inflation is the next major threat to global bonds:"
+        },
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101079837842571545",
+          "text": "⚠️US budget deficit is absolutely OUT OF CONTROL:"
+        },
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101122364276699457",
+          "text": "⚠️Investors are increasingly turning away from US Treasuries:"
+        }
+      ]
+    },
+    "quote": {
+      "share": 0.004947763,
+      "first_lines": [
+        {
+          "handle": "TheChartReport",
+          "id": "2105349704582312356",
+          "text": "\"When new lows outnumber new highs, consistently finding success on the long side becomes a challenge.\""
+        },
+        {
+          "handle": "MarkNewtonCMT",
+          "id": "2105083337484189696",
+          "text": "\"Seven-Out?!!\"  Leisure-Gaming/Eqpt remains one of #IBD's worst ranked sectors, having plummeted following last months break of well-defined support"
+        },
+        {
+          "handle": "Mr_Derivatives",
+          "id": "2105231222016507909",
+          "text": "“Hey wake up babe..”"
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.6038849,
+      "first_lines": [
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101485003188097370",
+          "text": "‼️Investor sentiment toward bonds is at its worst in years:"
+        },
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101628689926517089",
+          "text": "‼️The Bank of Japan is facing pressure from two different directions:"
+        },
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2102103821509873950",
+          "text": "‼️The US tech sector has never been bigger:"
+        }
+      ]
+    }
+  },
+  "sentence_length": {
+    "unit": "words",
+    "median": 14,
+    "p25": 6,
+    "p75": 22
+  },
+  "signature_phrasing": [
+    {
+      "phrase": "day was shared",
+      "cluster_share": 0.047055,
+      "lift": 83.0988,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "in today's report",
+      "cluster_share": 0.047055,
+      "lift": 83.0988,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "more great charts",
+      "cluster_share": 0.047055,
+      "lift": 83.0988,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "plus more great",
+      "cluster_share": 0.047055,
+      "lift": 83.0988,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "report plus more",
+      "cluster_share": 0.047055,
+      "lift": 83.0988,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "today's chart of",
+      "cluster_share": 0.047055,
+      "lift": 83.0988,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "today's report plus",
+      "cluster_share": 0.047055,
+      "lift": 83.0988,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "was shared by",
+      "cluster_share": 0.047055,
+      "lift": 83.0988,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "details in today's",
+      "cluster_share": 0.037644,
+      "lift": 83.0988,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "full details in",
+      "cluster_share": 0.037644,
+      "lift": 83.0988,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "the full details",
+      "cluster_share": 0.037644,
+      "lift": 83.0988,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "full note in",
+      "cluster_share": 0.03137,
+      "lift": 83.0988,
+      "do_not_copy": true
+    }
+  ],
+  "emoji_rate": 0.228591,
+  "thread_rate": 0.007258,
+  "media_rate": 0.067486,
+  "data_opinion": {
+    "data_share": 0.947832497,
+    "opinion_share": 0.052167503,
+    "data_to_opinion": 18.169021796,
+    "definition": "Data: numeric tags or data_take/earnings_take; opinion: remaining posts (proxy, not semantic verdict)."
+  },
+  "post_type_mix": {
+    "data_take": 0.70796,
+    "earnings_take": 0.006868,
+    "hot_take": 0.091313,
+    "mechanism_explainer": 0.026504,
+    "view_relay": 0.167355
+  },
+  "tendencies": [
+    {
+      "frequency": "often",
+      "tendency": "Opens with a clear judgment, supported by observations.",
+      "evidence": [
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101014394796712346",
+          "text": "🔴 Food inflation is the next major threat to global bonds:\n\nA UN index of global food commodities has risen to its highest level since late "
+        },
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101079837842571545",
+          "text": "⚠️US budget deficit is absolutely OUT OF CONTROL:\n\nIn the first 11 months of Fiscal Year 2026, the US government budget deficit surged to $1"
+        },
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101122364276699457",
+          "text": "⚠️Investors are increasingly turning away from US Treasuries:\n\nTreasury ETFs saw outflows of -0.5% of Net Asset Value last week, among the l"
+        },
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101168341868012015",
+          "text": "🔥 China’s demand for gold has rarely been this STRONG:\n\nThe People’s Bank of China acquired another +20 tonnes of gold in August, posting it"
+        }
+      ]
+    },
+    {
+      "frequency": "often",
+      "tendency": "Uses claim-led openings, with sentences around the observed band.",
+      "evidence": [
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101014394796712346",
+          "text": "🔴 Food inflation is the next major threat to global bonds:\n\nA UN index of global food commodities has risen to its highest level since late "
+        },
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101079837842571545",
+          "text": "⚠️US budget deficit is absolutely OUT OF CONTROL:\n\nIn the first 11 months of Fiscal Year 2026, the US government budget deficit surged to $1"
+        },
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101122364276699457",
+          "text": "⚠️Investors are increasingly turning away from US Treasuries:\n\nTreasury ETFs saw outflows of -0.5% of Net Asset Value last week, among the l"
+        },
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101168341868012015",
+          "text": "🔥 China’s demand for gold has rarely been this STRONG:\n\nThe People’s Bank of China acquired another +20 tonnes of gold in August, posting it"
+        }
+      ]
+    }
+  ],
+  "avoid_tendencies": [
+    {
+      "frequency": "almost_never",
+      "tendency": "Relies on another author’s personal experience or identity.",
+      "evidence": [
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101014394796712346",
+          "text": "🔴 Food inflation is the next major threat to global bonds:\n\nA UN index of global food commodities has risen to its highest level since late "
+        },
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101079837842571545",
+          "text": "⚠️US budget deficit is absolutely OUT OF CONTROL:\n\nIn the first 11 months of Fiscal Year 2026, the US government budget deficit surged to $1"
+        },
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101122364276699457",
+          "text": "⚠️Investors are increasingly turning away from US Treasuries:\n\nTreasury ETFs saw outflows of -0.5% of Net Asset Value last week, among the l"
+        },
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101168341868012015",
+          "text": "🔥 China’s demand for gold has rarely been this STRONG:\n\nThe People’s Bank of China acquired another +20 tonnes of gold in August, posting it"
+        }
+      ]
+    },
+    {
+      "frequency": "rarely",
+      "tendency": "Turns confidence into an unsupported trade call.",
+      "evidence": [
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101014394796712346",
+          "text": "🔴 Food inflation is the next major threat to global bonds:\n\nA UN index of global food commodities has risen to its highest level since late "
+        },
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101079837842571545",
+          "text": "⚠️US budget deficit is absolutely OUT OF CONTROL:\n\nIn the first 11 months of Fiscal Year 2026, the US government budget deficit surged to $1"
+        },
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101122364276699457",
+          "text": "⚠️Investors are increasingly turning away from US Treasuries:\n\nTreasury ETFs saw outflows of -0.5% of Net Asset Value last week, among the l"
+        },
+        {
+          "handle": "GlobalMktObserv",
+          "id": "2101168341868012015",
+          "text": "🔥 China’s demand for gold has rarely been this STRONG:\n\nThe People’s Bank of China acquired another +20 tonnes of gold in August, posting it"
+        }
+      ]
+    },
+    {
+      "frequency": "almost_never",
+      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+      "evidence_ids": []
+    }
+  ],
+  "post_length": {
+    "unit": "chars",
+    "median": 303,
+    "p25": 202,
+    "p75": 694
+  },
+  "paragraphs": {
+    "median": 4,
+    "p25": 2,
+    "p75": 5,
+    "line_break_rate": 0.91397520404491,
+    "short_lines_share": 0.1317935279489092
+  },
+  "baseline_tendencies": {
+    "tendencies": [
+      {
+        "frequency": "often",
+        "tendency": "Opens with a clear judgment, supported by observations.",
+        "evidence": [
+          {
+            "handle": "GlobalMktObserv",
+            "id": "2101014394796712346",
+            "text": "🔴 Food inflation is the next major threat to global bonds:\n\nA UN index of global food commodities has risen to its highest level since late "
+          },
+          {
+            "handle": "GlobalMktObserv",
+            "id": "2101079837842571545",
+            "text": "⚠️US budget deficit is absolutely OUT OF CONTROL:\n\nIn the first 11 months of Fiscal Year 2026, the US government budget deficit surged to $1"
+          },
+          {
+            "handle": "GlobalMktObserv",
+            "id": "2101122364276699457",
+            "text": "⚠️Investors are increasingly turning away from US Treasuries:\n\nTreasury ETFs saw outflows of -0.5% of Net Asset Value last week, among the l"
+          },
+          {
+            "handle": "GlobalMktObserv",
+            "id": "2101168341868012015",
+            "text": "🔥 China’s demand for gold has rarely been this STRONG:\n\nThe People’s Bank of China acquired another +20 tonnes of gold in August, posting it"
+          }
+        ]
+      },
+      {
+        "frequency": "often",
+        "tendency": "Uses claim-led openings, with sentences around the observed band.",
+        "evidence": [
+          {
+            "handle": "GlobalMktObserv",
+            "id": "2101014394796712346",
+            "text": "🔴 Food inflation is the next major threat to global bonds:\n\nA UN index of global food commodities has risen to its highest level since late "
+          },
+          {
+            "handle": "GlobalMktObserv",
+            "id": "2101079837842571545",
+            "text": "⚠️US budget deficit is absolutely OUT OF CONTROL:\n\nIn the first 11 months of Fiscal Year 2026, the US government budget deficit surged to $1"
+          },
+          {
+            "handle": "GlobalMktObserv",
+            "id": "2101122364276699457",
+            "text": "⚠️Investors are increasingly turning away from US Treasuries:\n\nTreasury ETFs saw outflows of -0.5% of Net Asset Value last week, among the l"
+          },
+          {
+            "handle": "GlobalMktObserv",
+            "id": "2101168341868012015",
+            "text": "🔥 China’s demand for gold has rarely been this STRONG:\n\nThe People’s Bank of China acquired another +20 tonnes of gold in August, posting it"
+          }
+        ]
+      }
+    ],
+    "avoid_tendencies": [
+      {
+        "frequency": "almost_never",
+        "tendency": "Relies on another author’s personal experience or identity.",
+        "evidence": [
+          {
+            "handle": "GlobalMktObserv",
+            "id": "2101014394796712346",
+            "text": "🔴 Food inflation is the next major threat to global bonds:\n\nA UN index of global food commodities has risen to its highest level since late "
+          },
+          {
+            "handle": "GlobalMktObserv",
+            "id": "2101079837842571545",
+            "text": "⚠️US budget deficit is absolutely OUT OF CONTROL:\n\nIn the first 11 months of Fiscal Year 2026, the US government budget deficit surged to $1"
+          },
+          {
+            "handle": "GlobalMktObserv",
+            "id": "2101122364276699457",
+            "text": "⚠️Investors are increasingly turning away from US Treasuries:\n\nTreasury ETFs saw outflows of -0.5% of Net Asset Value last week, among the l"
+          },
+          {
+            "handle": "GlobalMktObserv",
+            "id": "2101168341868012015",
+            "text": "🔥 China’s demand for gold has rarely been this STRONG:\n\nThe People’s Bank of China acquired another +20 tonnes of gold in August, posting it"
+          }
+        ]
+      },
+      {
+        "frequency": "rarely",
+        "tendency": "Turns confidence into an unsupported trade call.",
+        "evidence": [
+          {
+            "handle": "GlobalMktObserv",
+            "id": "2101014394796712346",
+            "text": "🔴 Food inflation is the next major threat to global bonds:\n\nA UN index of global food commodities has risen to its highest level since late "
+          },
+          {
+            "handle": "GlobalMktObserv",
+            "id": "2101079837842571545",
+            "text": "⚠️US budget deficit is absolutely OUT OF CONTROL:\n\nIn the first 11 months of Fiscal Year 2026, the US government budget deficit surged to $1"
+          },
+          {
+            "handle": "GlobalMktObserv",
+            "id": "2101122364276699457",
+            "text": "⚠️Investors are increasingly turning away from US Treasuries:\n\nTreasury ETFs saw outflows of -0.5% of Net Asset Value last week, among the l"
+          },
+          {
+            "handle": "GlobalMktObserv",
+            "id": "2101168341868012015",
+            "text": "🔥 China’s demand for gold has rarely been this STRONG:\n\nThe People’s Bank of China acquired another +20 tonnes of gold in August, posting it"
+          }
+        ]
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
+      }
+    ]
+  },
+  "qualitative": {},
+  "compliance_removed": []
+}

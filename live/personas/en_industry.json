@@ -52,7 +52,7 @@
       "B"
     ]
   },
-  "donor_cluster": "industry_ai_capex",
+  "donor_cluster": "acct_en_industry",
   "exemplar_retrieval": {
     "enabled": true,
     "k": 4,
@@ -96,6 +96,13 @@
           "voice",
           "habit"
         ]
+      }
+    ],
+    "donor_cluster_history": [
+      {
+        "cluster": "industry_ai_capex",
+        "until": "2026-10-06",
+        "why": "Fiona 10/06: per-account beat-fit multi-donor cluster"
       }
     ]
   }

@@ -9,7 +9,11 @@ class AllExemplarsTests(unittest.TestCase):
     def test_all_ten_clusters_have_personas_and_donors(self):
         personas = registry.load_personas()
         clusters = registry.load_donor_roster()['persona_clusters']
-        self.assertEqual({p.raw.get('donor_cluster') for p in personas.values()} - {None}, set(clusters))
+        # Oct 6 (Fiona): each account has its own acct_<account> cluster (>= 3 donors); the clusters they replaced
+        # stay in the roster as history, linked by previous_cluster.
+        used = {p.raw.get('donor_cluster') for p in personas.values()} - {None}
+        self.assertEqual(used, {n for n in clusters if n.startswith('acct_')})
+        self.assertTrue({clusters[n]['previous_cluster'] for n in used} <= set(clusters))
         for p in personas.values():
             if p.raw.get('donor_cluster'):
                 self.assertGreaterEqual(len(p.donor_weights),3)
@@ -17,7 +21,9 @@ class AllExemplarsTests(unittest.TestCase):
                 self.assertFalse(p.publishable)
 
     def test_each_cluster_retrieves_same_type_first_and_falls_back(self):
+        used={p.raw.get('donor_cluster') for p in registry.load_personas().values()}
         for name,c in registry.load_donor_roster()['persona_clusters'].items():
+            if name not in used: continue   # replaced clusters stay in the roster as history only
             with self.subTest(cluster=name), tempfile.TemporaryDirectory() as tmp:
                 root=Path(tmp); posts=root/'posts'; tags=root/'tags'; posts.mkdir(); tags.mkdir()
                 p=next(p for p in registry.load_personas().values() if p.raw.get('donor_cluster')==name)
@@ -49,7 +55,10 @@ class RunnerTests(unittest.TestCase):
             root=Path(tmp); store=ContentStore(root/'store')
             base=json.loads((FIX/'store_record.json').read_text())
             tags={}
-            for i,name in enumerate(registry.load_donor_roster()['persona_clusters']):
+            clusters=registry.load_donor_roster()['persona_clusters']
+            # content tags use the topic cluster an acct_<account> voice cluster replaced
+            tag_names=[c['previous_cluster'] for n,c in clusters.items() if n.startswith('acct_')]
+            for i,name in enumerate(tag_names):
                 row=copy.deepcopy(base); uid=f'synthetic-{i}'
                 row['unit_id']=row['unit']['unit_id']=uid
                 row['source']['id']=uid; row['source']['source_hash']=uid

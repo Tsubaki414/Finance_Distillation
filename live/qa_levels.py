@@ -23,8 +23,15 @@ SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_u
                   'phrase_repeat', 'theme_repeat', 'filler_closer',
                   'opener_move', 'length_band', 'zh_sentence_length', 'stance_copy',
                   'ai_template', 'zh_line_breaks', 'missing_why', 'missing_implication', 'zh_awkward_time',
-                  'zh_intensifier', 'zh_translationese', 'speaker_first_person', 'connective_repeat'})
+                  'zh_intensifier', 'zh_translationese', 'speaker_first_person', 'connective_repeat',
+                  'hedge_only', 'catchphrase_repeat'})
 FIXES = {
+    'hedge_only': ('Delete the hedge-only sentence(s) quoted in the detail - disclaimers, generic caveats, generic caution '
+                   'advice, or a closing condition that only restates the call in reverse (删掉只为防质疑的句子). Do not '
+                   'replace them with another hedge; end on the call or its consequence. Keep a caveat only if it states a '
+                   'concrete new fact or condition from the units that advances the argument.'),
+    'catchphrase_repeat': ('Drop or rephrase the donor catchphrase(s) named in the detail: at most one per post and not one '
+                           'already used in the recent drafts (口头禅一篇最多一个，最近用过的这篇不用).'),
     'stylistic_repeat': 'Vary the repeated stylistic phrase and closing; retain source facts.',
     'judgment_label': 'Drop the 「我的判断：」/「以我个人判断，」/「个人判断：」 label; state the judgment directly as a plain sentence.',
     'phrase_ban': 'Rephrase without the flagged filler or stylistic template.',

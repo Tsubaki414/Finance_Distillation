@@ -40,8 +40,9 @@ class RosterTests(unittest.TestCase):
 class RegistryTests(unittest.TestCase):
     def test_persona_loads_donors_from_its_cluster(self):
         data = roster()
-        for account, cluster in (('zh_macro', 'macro_zh'), ('zh_industry', 'zh_us_stock_commentary'),
-                                 ('en_macro', 'macro_rates_en'), ('en_industry', 'industry_ai_capex')):
+        # Oct 6 (Fiona): per-account beat-fit clusters; the previous cluster stays in the roster as history.
+        for account, cluster in (('zh_macro', 'acct_zh_macro'), ('zh_industry', 'acct_zh_industry'),
+                                 ('en_macro', 'acct_en_macro'), ('en_industry', 'acct_en_industry')):
             persona = registry.persona_for_account(account)
             self.assertEqual(persona.raw['donor_cluster'], cluster)
             expected = tuple(d['handle'] for d in data['persona_clusters'][cluster]['donors'])
@@ -109,7 +110,7 @@ class RetrievalTests(unittest.TestCase):
 
 class ComposeExemplarTests(unittest.TestCase):
     def setUp(self):
-        self.dir = posts_dir({'wufantouzi': [{'id': '9', 'lang': 'zh', 'text': '存储周期这一轮的关键不是需求而是供给纪律，厂商宁可让价格涨也不扩产，这个判断要看资本开支指引。'}],
+        self.dir = posts_dir({'shufen46250836': [{'id': '9', 'lang': 'zh', 'text': '存储周期这一轮的关键不是需求而是供给纪律，厂商宁可让价格涨也不扩产，这个判断要看资本开支指引。'}],
                               'Michael_QQQ2025': [{'id': '8', 'lang': 'zh', 'text': '美股科技财报季真正要看的不是营收，而是下一年的资本开支指引，这决定了整个链条的订单。'}]})
 
     def payload(self, fake):

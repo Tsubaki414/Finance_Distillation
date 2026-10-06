@@ -1,0 +1,551 @@
+{
+  "version": 2,
+  "cluster": "acct_crypto_macro_zh",
+  "lang": "zh",
+  "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
+  "sample": {
+    "posts": 1010,
+    "donors": {
+      "buereth": 0.248,
+      "PhyrexNi": 0.227,
+      "mindaoyang": 0.22,
+      "0xBeyondLee": 0.192,
+      "Bitwux": 0.113
+    }
+  },
+  "method": "Roster weights normalized over available eligible donors; equal mass per donor post; sentence mass equal within post. UTC cadence over observed scrape interval. Signature lift is weighted cluster document frequency divided by unweighted eligible all-donor document frequency (3-word EN / 4-character ZH n-grams, present in at least 2 cluster posts).",
+  "cadence": {
+    "posts_per_day_median": 1,
+    "active_hours_utc": {
+      "0": 0.032145,
+      "1": 0.045358,
+      "2": 0.071302,
+      "3": 0.101947,
+      "4": 0.071151,
+      "5": 0.098196,
+      "6": 0.062131,
+      "7": 0.018273,
+      "8": 0.051408,
+      "9": 0.089065,
+      "10": 0.012072,
+      "11": 0.036202,
+      "12": 0.024233,
+      "13": 0.024562,
+      "14": 0.078796,
+      "15": 0.036216,
+      "16": 0.012072,
+      "17": 0.024144,
+      "18": 0.036483,
+      "19": 0.012161,
+      "20": 0.024322,
+      "22": 0.012161,
+      "23": 0.0256
+    }
+  },
+  "hooks": {
+    "question": {
+      "share": 0.035109238,
+      "first_lines": [
+        {
+          "handle": "buereth",
+          "id": "2009235621458661635",
+          "text": "昨天深夜被兄弟电话轰炸醒，上来就吼：“别睡了！你以前看不起的那个板球项目，场外积分价格已经飞了！” 我迷迷糊糊回他：“不就是个体育盘子吗？” 结果他直接甩过来一张收益图——好家伙，比我撸了一年的L2空投还香。我瞬间清醒，甚至想抽自己两巴掌。"
+        },
+        {
+          "handle": "buereth",
+          "id": "2011388468296077454",
+          "text": "昨晚跟几个老哥在路边摊喝多了，聊起现在的行情，大家都在吐槽：现在这行情，新项目没点硬核背景根本没人看，全是套娃。结果席间一个平时不怎么说话的技术大拿突然冒出一句：“你们最近看 StandX 了吗？这玩意儿有点意思，可能是下一波去中心化计算的‘黑马’。”"
+        },
+        {
+          "handle": "buereth",
+          "id": "2038247147015975243",
+          "text": "项目方自己在出货？"
+        }
+      ]
+    },
+    "number-led headline": {
+      "share": 0.03683184,
+      "first_lines": [
+        {
+          "handle": "buereth",
+          "id": "1974388853948510390",
+          "text": "10月是 @weexglobal_ch 大使的丰收月 🌟"
+        },
+        {
+          "handle": "buereth",
+          "id": "2037545168140902709",
+          "text": "1inch要用钱孵化更多赚钱的方式。"
+        },
+        {
+          "handle": "buereth",
+          "id": "2038634046927110305",
+          "text": "70天了，市场还没从恐慌中走出来。"
+        }
+      ]
+    },
+    "ticker-led": {
+      "share": 0.008681378,
+      "first_lines": [
+        {
+          "handle": "buereth",
+          "id": "1971898084713209875",
+          "text": "$APEX 已正式上线 @weexglobal_ch ，平台同步推出限时新手福利活动，总奖池高达 5 万美金。"
+        },
+        {
+          "handle": "buereth",
+          "id": "2077304747942691165",
+          "text": "英伟达路演刚结束，SK 海力士 CEO 就出来喊 2027 年会有史上最严重的内存短缺，紧接着三星宣布龙仁晶圆厂提前到 2029 年投产。三条新闻挤在同一天，这不是巧合，是 AI 算力需求在沿着产业链一层层往下传。"
+        },
+        {
+          "handle": "buereth",
+          "id": "2083109446344155250",
+          "text": "微软 2026 财年第四财季这份财报相当能打，Azure 同比涨 43%，全年营收首次破千亿美元，Copilot 付费席位超三千万，AI 变现这条路算是被验证了；"
+        }
+      ]
+    },
+    "contrast/turn": {
+      "share": 0.086940733,
+      "first_lines": [
+        {
+          "handle": "buereth",
+          "id": "1983096428621914351",
+          "text": "昨天跟一个最近在冲meme的朋友聊天，他说有时候链上看见一个meme想买，但是等自己在交易所把手里的山寨挂单、卖出、再提现到链上之后，meme的价格往往都已经涨了好多了。"
+        },
+        {
+          "handle": "buereth",
+          "id": "2008846811570852184",
+          "text": "昨晚跟个做量化的大佬撸串，我看他手机上一堆单子开着，甚至还有点浮亏，但他居然一脸淡定。 我问他：“这行情这么磨人，你心态这么稳？” 他点起一根烟，嘿嘿一笑：“你不懂，我的保证金正在自己给自己‘回血’呢。” 我当时就愣住了，保证金还能自己动？"
+        },
+        {
+          "handle": "buereth",
+          "id": "2009991314314875074",
+          "text": "前两天跟一个做量化的老哥喝酒，他整个人状态特别紧绷。我问他怎么了，他说最近带单压力大得要死，用户天天怀疑他在后台偷摸改数据、搞滑点，甚至有人说他根本没用模型跑，全凭感觉。老哥拍着桌子跟我吼：“兄弟，我这是真金白银堆出来的算法，但我怎么证明我没作弊？我拿什么证明这笔单子就是AI推出来的？”"
+        }
+      ]
+    },
+    "list/thread opener": {
+      "share": 0.002396135,
+      "first_lines": [
+        {
+          "handle": "buereth",
+          "id": "2051588163999801741",
+          "text": "1/2"
+        },
+        {
+          "handle": "buereth",
+          "id": "2051588167732797637",
+          "text": "2/2"
+        }
+      ]
+    },
+    "news-wire": {
+      "share": 0.001198068,
+      "first_lines": [
+        {
+          "handle": "buereth",
+          "id": "1972497735292158033",
+          "text": "【新手福利来啦】Bybit送你 $XPL 大奖，新老用户都能参与！"
+        }
+      ]
+    },
+    "emoji-led": {
+      "share": 0.020065335,
+      "first_lines": [
+        {
+          "handle": "buereth",
+          "id": "1971778308569550930",
+          "text": "📢 @Ducatstable 清算功能已上线 Testnet，比特币原生稳定币的玩法又多了一种！"
+        },
+        {
+          "handle": "buereth",
+          "id": "1973025968928461118",
+          "text": "🔥@weexglobal_ch 在 #TOKEN2049 上的动作值得关注，这次不仅带来了联合创始人&首席安全官 Ethan 的首次公开亮相，还准备了互动福利。只需关注并在评论区提问，就有机会瓜分 200 $USDT。"
+        },
+        {
+          "handle": "buereth",
+          "id": "1973782594597826700",
+          "text": "🎬 大屏幕首秀！"
+        }
+      ]
+    },
+    "quote": {
+      "share": 0.003201294,
+      "first_lines": [
+        {
+          "handle": "mindaoyang",
+          "id": "1749391903286759659",
+          "text": "“your prison is not prison” flex https://t.co/eWAf4nyt6l"
+        },
+        {
+          "handle": "0xBeyondLee",
+          "id": "2054879298201481398",
+          "text": "「我大胆猜测 Gensyn 会成为下一个币安现货」"
+        },
+        {
+          "handle": "0xBeyondLee",
+          "id": "2065434957531734027",
+          "text": "「取消套保，@所有人，我的老天爷啊….」"
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.805575979,
+      "first_lines": [
+        {
+          "handle": "buereth",
+          "id": "1971530243837173812",
+          "text": "兄弟们，@OKXKINGX 的 $KINGX 最近在社区引起不少关注。上线一周就在线下聚了 400 人会议，还有几十个工作室在真地推，动静不小。市值目前还很低，洗盘也基本完成。"
+        },
+        {
+          "handle": "buereth",
+          "id": "1971576820983328964",
+          "text": "给大家推荐一个不错的项目 @overtake_world ；"
+        },
+        {
+          "handle": "buereth",
+          "id": "1972584631859110195",
+          "text": "最近风大的Perp Dex吹到了交易所——Gate Perp DEX 正式上线。@Gate @Gate_zh"
+        }
+      ]
+    }
+  },
+  "sentence_length": {
+    "unit": "chars",
+    "median": 32,
+    "p25": 20,
+    "p75": 50
+  },
+  "signature_phrasing": [
+    {
+      "phrase": "小时涨幅",
+      "cluster_share": 0.008386,
+      "lift": 31.7368,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "监测显示",
+      "cluster_share": 0.008386,
+      "lift": 31.7368,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "价值约万",
+      "cluster_share": 0.00599,
+      "lift": 31.7368,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "值约万美",
+      "cluster_share": 0.00599,
+      "lift": 31.7368,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "元小时涨",
+      "cluster_share": 0.00599,
+      "lift": 31.7368,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "它不是那",
+      "cluster_share": 0.00599,
+      "lift": 31.7368,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "是真金白",
+      "cluster_share": 0.00599,
+      "lift": 31.7368,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "现报美元",
+      "cluster_share": 0.00599,
+      "lift": 31.7368,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "交量万美",
+      "cluster_share": 0.004792,
+      "lift": 31.7368,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "以自己去",
+      "cluster_share": 0.004792,
+      "lift": 31.7368,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "值得记的",
+      "cluster_share": 0.004792,
+      "lift": 31.7368,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "元清算价",
+      "cluster_share": 0.004792,
+      "lift": 31.7368,
+      "do_not_copy": true
+    }
+  ],
+  "emoji_rate": 0.154179,
+  "thread_rate": 0.042683,
+  "media_rate": 0.054538,
+  "data_opinion": {
+    "data_share": 0.802638344,
+    "opinion_share": 0.197361656,
+    "data_to_opinion": 4.066840332,
+    "definition": "Data: numeric tags or data_take/earnings_take; opinion: remaining posts (proxy, not semantic verdict)."
+  },
+  "post_type_mix": {
+    "data_take": 0.258107,
+    "earnings_take": 0.001198,
+    "hot_take": 0.28821,
+    "mechanism_explainer": 0.318087,
+    "view_relay": 0.134398
+  },
+  "tendencies": [
+    {
+      "frequency": "often",
+      "tendency": "Opens with a clear judgment, supported by observations.",
+      "evidence": [
+        {
+          "handle": "buereth",
+          "id": "1971530243837173812",
+          "text": "兄弟们，@OKXKINGX 的 $KINGX 最近在社区引起不少关注。上线一周就在线下聚了 400 人会议，还有几十个工作室在真地推，动静不小。市值目前还很低，洗盘也基本完成。\n\n$KINGX 是建立在 X Layer 上的创新 Meme 代币，机制相当特别：\n\n🔸总量 1150"
+        },
+        {
+          "handle": "buereth",
+          "id": "1971576820983328964",
+          "text": "给大家推荐一个不错的项目 @overtake_world ；\n\n韩国老牌游戏资产交易平台 ItemMania 和 ItemBay 拥有超 3000 万用户、累计交易额超 30 亿美元，奠定了坚实的社区基础。如今，@overtake_world 正在把这套成熟经验带到 Sui 链上"
+        },
+        {
+          "handle": "buereth",
+          "id": "1971778308569550930",
+          "text": "📢 @Ducatstable 清算功能已上线 Testnet，比特币原生稳定币的玩法又多了一种！\n\n目前测试网已有 $2亿+ BTC 锁仓，想参与 BTC 清算套利？只需三步：\n\n1️⃣ 切换钱包到 Testnet，并创建 Vault\n2️⃣ 进入清算页面：https://t.c"
+        },
+        {
+          "handle": "buereth",
+          "id": "1971898084713209875",
+          "text": "$APEX 已正式上线 @weexglobal_ch ，平台同步推出限时新手福利活动，总奖池高达 5 万美金。\n\n活动时间：2025/09/27 13:30 - 2025/10/04 13:30 (UTC+8)\n\n主要亮点：\n\n首充 100 USDT 并完成首次 $APEX 交易"
+        }
+      ]
+    },
+    {
+      "frequency": "often",
+      "tendency": "Uses claim-led openings, with sentences around the observed band.",
+      "evidence": [
+        {
+          "handle": "buereth",
+          "id": "1971530243837173812",
+          "text": "兄弟们，@OKXKINGX 的 $KINGX 最近在社区引起不少关注。上线一周就在线下聚了 400 人会议，还有几十个工作室在真地推，动静不小。市值目前还很低，洗盘也基本完成。\n\n$KINGX 是建立在 X Layer 上的创新 Meme 代币，机制相当特别：\n\n🔸总量 1150"
+        },
+        {
+          "handle": "buereth",
+          "id": "1971576820983328964",
+          "text": "给大家推荐一个不错的项目 @overtake_world ；\n\n韩国老牌游戏资产交易平台 ItemMania 和 ItemBay 拥有超 3000 万用户、累计交易额超 30 亿美元，奠定了坚实的社区基础。如今，@overtake_world 正在把这套成熟经验带到 Sui 链上"
+        },
+        {
+          "handle": "buereth",
+          "id": "1971778308569550930",
+          "text": "📢 @Ducatstable 清算功能已上线 Testnet，比特币原生稳定币的玩法又多了一种！\n\n目前测试网已有 $2亿+ BTC 锁仓，想参与 BTC 清算套利？只需三步：\n\n1️⃣ 切换钱包到 Testnet，并创建 Vault\n2️⃣ 进入清算页面：https://t.c"
+        },
+        {
+          "handle": "buereth",
+          "id": "1971898084713209875",
+          "text": "$APEX 已正式上线 @weexglobal_ch ，平台同步推出限时新手福利活动，总奖池高达 5 万美金。\n\n活动时间：2025/09/27 13:30 - 2025/10/04 13:30 (UTC+8)\n\n主要亮点：\n\n首充 100 USDT 并完成首次 $APEX 交易"
+        }
+      ]
+    }
+  ],
+  "avoid_tendencies": [
+    {
+      "frequency": "almost_never",
+      "tendency": "Relies on another author’s personal experience or identity.",
+      "evidence": [
+        {
+          "handle": "buereth",
+          "id": "1971530243837173812",
+          "text": "兄弟们，@OKXKINGX 的 $KINGX 最近在社区引起不少关注。上线一周就在线下聚了 400 人会议，还有几十个工作室在真地推，动静不小。市值目前还很低，洗盘也基本完成。\n\n$KINGX 是建立在 X Layer 上的创新 Meme 代币，机制相当特别：\n\n🔸总量 1150"
+        },
+        {
+          "handle": "buereth",
+          "id": "1971576820983328964",
+          "text": "给大家推荐一个不错的项目 @overtake_world ；\n\n韩国老牌游戏资产交易平台 ItemMania 和 ItemBay 拥有超 3000 万用户、累计交易额超 30 亿美元，奠定了坚实的社区基础。如今，@overtake_world 正在把这套成熟经验带到 Sui 链上"
+        },
+        {
+          "handle": "buereth",
+          "id": "1971778308569550930",
+          "text": "📢 @Ducatstable 清算功能已上线 Testnet，比特币原生稳定币的玩法又多了一种！\n\n目前测试网已有 $2亿+ BTC 锁仓，想参与 BTC 清算套利？只需三步：\n\n1️⃣ 切换钱包到 Testnet，并创建 Vault\n2️⃣ 进入清算页面：https://t.c"
+        },
+        {
+          "handle": "buereth",
+          "id": "1971898084713209875",
+          "text": "$APEX 已正式上线 @weexglobal_ch ，平台同步推出限时新手福利活动，总奖池高达 5 万美金。\n\n活动时间：2025/09/27 13:30 - 2025/10/04 13:30 (UTC+8)\n\n主要亮点：\n\n首充 100 USDT 并完成首次 $APEX 交易"
+        }
+      ]
+    },
+    {
+      "frequency": "rarely",
+      "tendency": "Turns confidence into an unsupported trade call.",
+      "evidence": [
+        {
+          "handle": "buereth",
+          "id": "1971530243837173812",
+          "text": "兄弟们，@OKXKINGX 的 $KINGX 最近在社区引起不少关注。上线一周就在线下聚了 400 人会议，还有几十个工作室在真地推，动静不小。市值目前还很低，洗盘也基本完成。\n\n$KINGX 是建立在 X Layer 上的创新 Meme 代币，机制相当特别：\n\n🔸总量 1150"
+        },
+        {
+          "handle": "buereth",
+          "id": "1971576820983328964",
+          "text": "给大家推荐一个不错的项目 @overtake_world ；\n\n韩国老牌游戏资产交易平台 ItemMania 和 ItemBay 拥有超 3000 万用户、累计交易额超 30 亿美元，奠定了坚实的社区基础。如今，@overtake_world 正在把这套成熟经验带到 Sui 链上"
+        },
+        {
+          "handle": "buereth",
+          "id": "1971778308569550930",
+          "text": "📢 @Ducatstable 清算功能已上线 Testnet，比特币原生稳定币的玩法又多了一种！\n\n目前测试网已有 $2亿+ BTC 锁仓，想参与 BTC 清算套利？只需三步：\n\n1️⃣ 切换钱包到 Testnet，并创建 Vault\n2️⃣ 进入清算页面：https://t.c"
+        },
+        {
+          "handle": "buereth",
+          "id": "1971898084713209875",
+          "text": "$APEX 已正式上线 @weexglobal_ch ，平台同步推出限时新手福利活动，总奖池高达 5 万美金。\n\n活动时间：2025/09/27 13:30 - 2025/10/04 13:30 (UTC+8)\n\n主要亮点：\n\n首充 100 USDT 并完成首次 $APEX 交易"
+        }
+      ]
+    },
+    {
+      "frequency": "almost_never",
+      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+      "evidence_ids": []
+    }
+  ],
+  "post_length": {
+    "unit": "chars",
+    "median": 297,
+    "p25": 128,
+    "p75": 518
+  },
+  "paragraphs": {
+    "median": 5,
+    "p25": 3,
+    "p75": 9,
+    "line_break_rate": 0.8965970854892165,
+    "short_lines_share": 0.2328087307287346
+  },
+  "baseline_tendencies": {
+    "tendencies": [
+      {
+        "frequency": "often",
+        "tendency": "Opens with a clear judgment, supported by observations.",
+        "evidence": [
+          {
+            "handle": "buereth",
+            "id": "1971530243837173812",
+            "text": "兄弟们，@OKXKINGX 的 $KINGX 最近在社区引起不少关注。上线一周就在线下聚了 400 人会议，还有几十个工作室在真地推，动静不小。市值目前还很低，洗盘也基本完成。\n\n$KINGX 是建立在 X Layer 上的创新 Meme 代币，机制相当特别：\n\n🔸总量 1150"
+          },
+          {
+            "handle": "buereth",
+            "id": "1971576820983328964",
+            "text": "给大家推荐一个不错的项目 @overtake_world ；\n\n韩国老牌游戏资产交易平台 ItemMania 和 ItemBay 拥有超 3000 万用户、累计交易额超 30 亿美元，奠定了坚实的社区基础。如今，@overtake_world 正在把这套成熟经验带到 Sui 链上"
+          },
+          {
+            "handle": "buereth",
+            "id": "1971778308569550930",
+            "text": "📢 @Ducatstable 清算功能已上线 Testnet，比特币原生稳定币的玩法又多了一种！\n\n目前测试网已有 $2亿+ BTC 锁仓，想参与 BTC 清算套利？只需三步：\n\n1️⃣ 切换钱包到 Testnet，并创建 Vault\n2️⃣ 进入清算页面：https://t.c"
+          },
+          {
+            "handle": "buereth",
+            "id": "1971898084713209875",
+            "text": "$APEX 已正式上线 @weexglobal_ch ，平台同步推出限时新手福利活动，总奖池高达 5 万美金。\n\n活动时间：2025/09/27 13:30 - 2025/10/04 13:30 (UTC+8)\n\n主要亮点：\n\n首充 100 USDT 并完成首次 $APEX 交易"
+          }
+        ]
+      },
+      {
+        "frequency": "often",
+        "tendency": "Uses claim-led openings, with sentences around the observed band.",
+        "evidence": [
+          {
+            "handle": "buereth",
+            "id": "1971530243837173812",
+            "text": "兄弟们，@OKXKINGX 的 $KINGX 最近在社区引起不少关注。上线一周就在线下聚了 400 人会议，还有几十个工作室在真地推，动静不小。市值目前还很低，洗盘也基本完成。\n\n$KINGX 是建立在 X Layer 上的创新 Meme 代币，机制相当特别：\n\n🔸总量 1150"
+          },
+          {
+            "handle": "buereth",
+            "id": "1971576820983328964",
+            "text": "给大家推荐一个不错的项目 @overtake_world ；\n\n韩国老牌游戏资产交易平台 ItemMania 和 ItemBay 拥有超 3000 万用户、累计交易额超 30 亿美元，奠定了坚实的社区基础。如今，@overtake_world 正在把这套成熟经验带到 Sui 链上"
+          },
+          {
+            "handle": "buereth",
+            "id": "1971778308569550930",
+            "text": "📢 @Ducatstable 清算功能已上线 Testnet，比特币原生稳定币的玩法又多了一种！\n\n目前测试网已有 $2亿+ BTC 锁仓，想参与 BTC 清算套利？只需三步：\n\n1️⃣ 切换钱包到 Testnet，并创建 Vault\n2️⃣ 进入清算页面：https://t.c"
+          },
+          {
+            "handle": "buereth",
+            "id": "1971898084713209875",
+            "text": "$APEX 已正式上线 @weexglobal_ch ，平台同步推出限时新手福利活动，总奖池高达 5 万美金。\n\n活动时间：2025/09/27 13:30 - 2025/10/04 13:30 (UTC+8)\n\n主要亮点：\n\n首充 100 USDT 并完成首次 $APEX 交易"
+          }
+        ]
+      }
+    ],
+    "avoid_tendencies": [
+      {
+        "frequency": "almost_never",
+        "tendency": "Relies on another author’s personal experience or identity.",
+        "evidence": [
+          {
+            "handle": "buereth",
+            "id": "1971530243837173812",
+            "text": "兄弟们，@OKXKINGX 的 $KINGX 最近在社区引起不少关注。上线一周就在线下聚了 400 人会议，还有几十个工作室在真地推，动静不小。市值目前还很低，洗盘也基本完成。\n\n$KINGX 是建立在 X Layer 上的创新 Meme 代币，机制相当特别：\n\n🔸总量 1150"
+          },
+          {
+            "handle": "buereth",
+            "id": "1971576820983328964",
+            "text": "给大家推荐一个不错的项目 @overtake_world ；\n\n韩国老牌游戏资产交易平台 ItemMania 和 ItemBay 拥有超 3000 万用户、累计交易额超 30 亿美元，奠定了坚实的社区基础。如今，@overtake_world 正在把这套成熟经验带到 Sui 链上"
+          },
+          {
+            "handle": "buereth",
+            "id": "1971778308569550930",
+            "text": "📢 @Ducatstable 清算功能已上线 Testnet，比特币原生稳定币的玩法又多了一种！\n\n目前测试网已有 $2亿+ BTC 锁仓，想参与 BTC 清算套利？只需三步：\n\n1️⃣ 切换钱包到 Testnet，并创建 Vault\n2️⃣ 进入清算页面：https://t.c"
+          },
+          {
+            "handle": "buereth",
+            "id": "1971898084713209875",
+            "text": "$APEX 已正式上线 @weexglobal_ch ，平台同步推出限时新手福利活动，总奖池高达 5 万美金。\n\n活动时间：2025/09/27 13:30 - 2025/10/04 13:30 (UTC+8)\n\n主要亮点：\n\n首充 100 USDT 并完成首次 $APEX 交易"
+          }
+        ]
+      },
+      {
+        "frequency": "rarely",
+        "tendency": "Turns confidence into an unsupported trade call.",
+        "evidence": [
+          {
+            "handle": "buereth",
+            "id": "1971530243837173812",
+            "text": "兄弟们，@OKXKINGX 的 $KINGX 最近在社区引起不少关注。上线一周就在线下聚了 400 人会议，还有几十个工作室在真地推，动静不小。市值目前还很低，洗盘也基本完成。\n\n$KINGX 是建立在 X Layer 上的创新 Meme 代币，机制相当特别：\n\n🔸总量 1150"
+          },
+          {
+            "handle": "buereth",
+            "id": "1971576820983328964",
+            "text": "给大家推荐一个不错的项目 @overtake_world ；\n\n韩国老牌游戏资产交易平台 ItemMania 和 ItemBay 拥有超 3000 万用户、累计交易额超 30 亿美元，奠定了坚实的社区基础。如今，@overtake_world 正在把这套成熟经验带到 Sui 链上"
+          },
+          {
+            "handle": "buereth",
+            "id": "1971778308569550930",
+            "text": "📢 @Ducatstable 清算功能已上线 Testnet，比特币原生稳定币的玩法又多了一种！\n\n目前测试网已有 $2亿+ BTC 锁仓，想参与 BTC 清算套利？只需三步：\n\n1️⃣ 切换钱包到 Testnet，并创建 Vault\n2️⃣ 进入清算页面：https://t.c"
+          },
+          {
+            "handle": "buereth",
+            "id": "1971898084713209875",
+            "text": "$APEX 已正式上线 @weexglobal_ch ，平台同步推出限时新手福利活动，总奖池高达 5 万美金。\n\n活动时间：2025/09/27 13:30 - 2025/10/04 13:30 (UTC+8)\n\n主要亮点：\n\n首充 100 USDT 并完成首次 $APEX 交易"
+          }
+        ]
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
+      }
+    ]
+  },
+  "qualitative": {},
+  "compliance_removed": []
+}

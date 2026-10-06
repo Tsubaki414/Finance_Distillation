@@ -1,0 +1,546 @@
+{
+  "version": 2,
+  "cluster": "acct_zh_industry",
+  "lang": "zh",
+  "use": "Style evidence only; never copy phrases, facts, numbers or identity.",
+  "sample": {
+    "posts": 1016,
+    "donors": {
+      "shufen46250836": 0.311,
+      "BroBean88": 0.278,
+      "_wmoon": 0.2,
+      "fi56622380": 0.131,
+      "Michael_QQQ2025": 0.08
+    }
+  },
+  "method": "Roster weights normalized over available eligible donors; equal mass per donor post; sentence mass equal within post. UTC cadence over observed scrape interval. Signature lift is weighted cluster document frequency divided by unweighted eligible all-donor document frequency (3-word EN / 4-character ZH n-grams, present in at least 2 cluster posts).",
+  "cadence": {
+    "posts_per_day_median": 1,
+    "active_hours_utc": {
+      "0": 0.012944,
+      "1": 0.021573,
+      "2": 0.035571,
+      "3": 0.077963,
+      "4": 0.061968,
+      "5": 0.040049,
+      "6": 0.047788,
+      "7": 0.064275,
+      "8": 0.106319,
+      "9": 0.112887,
+      "10": 0.137537,
+      "11": 0.034384,
+      "12": 0.034384,
+      "13": 0.062201,
+      "14": 0.080449,
+      "15": 0.025988,
+      "16": 0.015596,
+      "18": 0.014062,
+      "22": 0.014062
+    }
+  },
+  "hooks": {
+    "question": {
+      "share": 0.141453065,
+      "first_lines": [
+        {
+          "handle": "shufen46250836",
+          "id": "2045104205611057628",
+          "text": "这个瑞银分析师故意唱空吧，下调评级的理由竟然是电动车电池生产商会转型到ESS储能领域，导致供应过剩？"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2087557489219035555",
+          "text": "最近的反弹好吗？ https://t.co/df41QfJAMm"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2095852604542886271",
+          "text": "？？？？这也太假了"
+        }
+      ]
+    },
+    "number-led headline": {
+      "share": 0.013438213,
+      "first_lines": [
+        {
+          "handle": "shufen46250836",
+          "id": "2021881052479042026",
+          "text": "1月的非农数据有假，劳动力市场并没有那么好，"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2026940532061356353",
+          "text": "200的达子不香，达子的财报已经被市场提前兑现，现在达子越赚钱，市场就担心庞大的AI支出回报率的问题，作为AI领域核心龙头，上游拿走那么多钱，下游回报担忧就会进一步加剧"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2061371481670709737",
+          "text": "6月首周的第一个交易日，A股在外围市场新高的前提下上演了科技板块大逃杀，科创50又跌了近5%"
+        }
+      ]
+    },
+    "ticker-led": {
+      "share": 0.032997454,
+      "first_lines": [
+        {
+          "handle": "shufen46250836",
+          "id": "2054873456601415980",
+          "text": "$FPS  ⚡️ 电也是光……"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2064348405640597762",
+          "text": "小米拉越来越好了，预警信号强，个股追踪全面，甚至还能宏观事件预判"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2074860198074982807",
+          "text": "$LQDA 120% ✅"
+        }
+      ]
+    },
+    "contrast/turn": {
+      "share": 0.070225382,
+      "first_lines": [
+        {
+          "handle": "shufen46250836",
+          "id": "2026926550990651498",
+          "text": "今天的A股指数微跌，但市场很热，量能继续扩大，到了2.5万亿，科技板块全面走强，今天赚钱效应很强，春晖收获20cm涨停，欧陆通、生益科技表现也不错，甚至买崩的新雷能赚钱了……"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2027286726205739009",
+          "text": "今天A股相比昨天，量能缩小了500亿，但表现还算不错，毕竟昨夜美股AI硬件崩了"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2029834761594884230",
+          "text": "今天A股迎来修复反弹，小盘成长股反弹比较强，不过量能继续缩量，全天量能维系在2.2万亿左右，增量资金有些犹豫，今天A股的趋势只能说是一场小级别的反弹修复。"
+        }
+      ]
+    },
+    "list/thread opener": {
+      "share": 0.0,
+      "first_lines": []
+    },
+    "news-wire": {
+      "share": 0.013459122,
+      "first_lines": [
+        {
+          "handle": "BroBean88",
+          "id": "2070435157320913044",
+          "text": "【大胆论证：存储超级周期已进入下个阶段！】"
+        },
+        {
+          "handle": "BroBean88",
+          "id": "2072615153741533692",
+          "text": "【谣言背后，Meta 其实是精明的资产管理】"
+        },
+        {
+          "handle": "BroBean88",
+          "id": "2072944409277292850",
+          "text": "【节点：中美 AI 走向分离】"
+        }
+      ]
+    },
+    "emoji-led": {
+      "share": 0.001170732,
+      "first_lines": [
+        {
+          "handle": "Michael_QQQ2025",
+          "id": "2090116945068933557",
+          "text": "🤣🤣🤣有人说BTC正经历历史最大的单日空头事件；polymarket也在狠狠押注BTC在8月破7万的事件，目前是73%."
+        },
+        {
+          "handle": "Michael_QQQ2025",
+          "id": "2092040185282511349",
+          "text": "🤷"
+        },
+        {
+          "handle": "Michael_QQQ2025",
+          "id": "2100741882326511683",
+          "text": "🤣🤣"
+        }
+      ]
+    },
+    "quote": {
+      "share": 0.006918606,
+      "first_lines": [
+        {
+          "handle": "BroBean88",
+          "id": "2072242613986775398",
+          "text": "“两年十倍”？康宁能不能追？逻辑是什么？"
+        },
+        {
+          "handle": "BroBean88",
+          "id": "2072277810006343738",
+          "text": "“两年十倍”？ 康宁 $GLW 现在能上吗？"
+        },
+        {
+          "handle": "BroBean88",
+          "id": "2089280301952639340",
+          "text": "“存储一直都没完犊子”"
+        }
+      ]
+    },
+    "claim-led": {
+      "share": 0.720337426,
+      "first_lines": [
+        {
+          "handle": "shufen46250836",
+          "id": "2023386043018530932",
+          "text": "春晚俨然成为中国AI应用的展现舞台了，机器人表演很棒，节后的A股机器人应该不错了"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2023411079628673470",
+          "text": "转发➕10086"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2025502540025237669",
+          "text": "从假期的港股表现来看，节后的A股机器人叙事继续，春晚合肥分会场也有不少亮点，太空叙事也不会缺"
+        }
+      ]
+    }
+  },
+  "sentence_length": {
+    "unit": "chars",
+    "median": 30,
+    "p25": 18,
+    "p75": 56
+  },
+  "signature_phrasing": [
+    {
+      "phrase": "电源设备",
+      "cluster_share": 0.0311,
+      "lift": 41.192,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "美股昨晚",
+      "cluster_share": 0.029545,
+      "lift": 41.192,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "科创指数",
+      "cluster_share": 0.02488,
+      "lift": 41.192,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "本周美股",
+      "cluster_share": 0.02177,
+      "lift": 41.192,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "构性行情",
+      "cluster_share": 0.01866,
+      "lift": 41.192,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "结构性行",
+      "cluster_share": 0.01866,
+      "lift": 41.192,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "万亿上方",
+      "cluster_share": 0.017105,
+      "lift": 41.192,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "今天股指",
+      "cluster_share": 0.017105,
+      "lift": 41.192,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "天股指数",
+      "cluster_share": 0.017105,
+      "lift": 41.192,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "了昨晚美",
+      "cluster_share": 0.01555,
+      "lift": 41.192,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "朗局势的",
+      "cluster_share": 0.01555,
+      "lift": 41.192,
+      "do_not_copy": true
+    },
+    {
+      "phrase": "震荡整理",
+      "cluster_share": 0.01555,
+      "lift": 41.192,
+      "do_not_copy": true
+    }
+  ],
+  "emoji_rate": 0.08316,
+  "thread_rate": 0.012021,
+  "media_rate": 0.019595,
+  "data_opinion": {
+    "data_share": 0.879906203,
+    "opinion_share": 0.120093797,
+    "data_to_opinion": 7.32682475,
+    "definition": "Data: numeric tags or data_take/earnings_take; opinion: remaining posts (proxy, not semantic verdict)."
+  },
+  "post_type_mix": {
+    "data_take": 0.326726,
+    "earnings_take": 0.045446,
+    "hot_take": 0.116403,
+    "mechanism_explainer": 0.335529,
+    "view_relay": 0.175896
+  },
+  "tendencies": [
+    {
+      "frequency": "often",
+      "tendency": "Opens with a clear judgment, supported by observations.",
+      "evidence": [
+        {
+          "handle": "shufen46250836",
+          "id": "2021881052479042026",
+          "text": "1月的非农数据有假，劳动力市场并没有那么好，\n\n降息是一定要降的，而且幅度不低，从昨晚美股看，AI中上游铲子们表现的很强势，\n\n主要原因是这些铲子股财报业绩是真的强，液冷铲子VRT昨晚领涨，\n\n现在上中游铲子们轮番表演，已经是市场一条明线，如果市场出现回调，这些铲子股一定要重点关"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2023386043018530932",
+          "text": "春晚俨然成为中国AI应用的展现舞台了，机器人表演很棒，节后的A股机器人应该不错了\n\n持仓机器人的小伙伴应该看的很高兴，大家除夕快乐……"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2023411079628673470",
+          "text": "转发➕10086"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2025502540025237669",
+          "text": "从假期的港股表现来看，节后的A股机器人叙事继续，春晚合肥分会场也有不少亮点，太空叙事也不会缺\n\n美股下周压力很大，宏观事件倒是少，但财报冲击多，下周三是比较重要的节点，两大软件股的财报好坏事关软件板块生死\n\n还有一个英伟达的财报，英伟达这次财报在当前市场情绪中，可不止用8倍镜去看"
+        }
+      ]
+    },
+    {
+      "frequency": "often",
+      "tendency": "Uses claim-led openings, with sentences around the observed band.",
+      "evidence": [
+        {
+          "handle": "shufen46250836",
+          "id": "2021881052479042026",
+          "text": "1月的非农数据有假，劳动力市场并没有那么好，\n\n降息是一定要降的，而且幅度不低，从昨晚美股看，AI中上游铲子们表现的很强势，\n\n主要原因是这些铲子股财报业绩是真的强，液冷铲子VRT昨晚领涨，\n\n现在上中游铲子们轮番表演，已经是市场一条明线，如果市场出现回调，这些铲子股一定要重点关"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2023386043018530932",
+          "text": "春晚俨然成为中国AI应用的展现舞台了，机器人表演很棒，节后的A股机器人应该不错了\n\n持仓机器人的小伙伴应该看的很高兴，大家除夕快乐……"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2023411079628673470",
+          "text": "转发➕10086"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2025502540025237669",
+          "text": "从假期的港股表现来看，节后的A股机器人叙事继续，春晚合肥分会场也有不少亮点，太空叙事也不会缺\n\n美股下周压力很大，宏观事件倒是少，但财报冲击多，下周三是比较重要的节点，两大软件股的财报好坏事关软件板块生死\n\n还有一个英伟达的财报，英伟达这次财报在当前市场情绪中，可不止用8倍镜去看"
+        }
+      ]
+    }
+  ],
+  "avoid_tendencies": [
+    {
+      "frequency": "almost_never",
+      "tendency": "Relies on another author’s personal experience or identity.",
+      "evidence": [
+        {
+          "handle": "shufen46250836",
+          "id": "2021881052479042026",
+          "text": "1月的非农数据有假，劳动力市场并没有那么好，\n\n降息是一定要降的，而且幅度不低，从昨晚美股看，AI中上游铲子们表现的很强势，\n\n主要原因是这些铲子股财报业绩是真的强，液冷铲子VRT昨晚领涨，\n\n现在上中游铲子们轮番表演，已经是市场一条明线，如果市场出现回调，这些铲子股一定要重点关"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2023386043018530932",
+          "text": "春晚俨然成为中国AI应用的展现舞台了，机器人表演很棒，节后的A股机器人应该不错了\n\n持仓机器人的小伙伴应该看的很高兴，大家除夕快乐……"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2023411079628673470",
+          "text": "转发➕10086"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2025502540025237669",
+          "text": "从假期的港股表现来看，节后的A股机器人叙事继续，春晚合肥分会场也有不少亮点，太空叙事也不会缺\n\n美股下周压力很大，宏观事件倒是少，但财报冲击多，下周三是比较重要的节点，两大软件股的财报好坏事关软件板块生死\n\n还有一个英伟达的财报，英伟达这次财报在当前市场情绪中，可不止用8倍镜去看"
+        }
+      ]
+    },
+    {
+      "frequency": "rarely",
+      "tendency": "Turns confidence into an unsupported trade call.",
+      "evidence": [
+        {
+          "handle": "shufen46250836",
+          "id": "2021881052479042026",
+          "text": "1月的非农数据有假，劳动力市场并没有那么好，\n\n降息是一定要降的，而且幅度不低，从昨晚美股看，AI中上游铲子们表现的很强势，\n\n主要原因是这些铲子股财报业绩是真的强，液冷铲子VRT昨晚领涨，\n\n现在上中游铲子们轮番表演，已经是市场一条明线，如果市场出现回调，这些铲子股一定要重点关"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2023386043018530932",
+          "text": "春晚俨然成为中国AI应用的展现舞台了，机器人表演很棒，节后的A股机器人应该不错了\n\n持仓机器人的小伙伴应该看的很高兴，大家除夕快乐……"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2023411079628673470",
+          "text": "转发➕10086"
+        },
+        {
+          "handle": "shufen46250836",
+          "id": "2025502540025237669",
+          "text": "从假期的港股表现来看，节后的A股机器人叙事继续，春晚合肥分会场也有不少亮点，太空叙事也不会缺\n\n美股下周压力很大，宏观事件倒是少，但财报冲击多，下周三是比较重要的节点，两大软件股的财报好坏事关软件板块生死\n\n还有一个英伟达的财报，英伟达这次财报在当前市场情绪中，可不止用8倍镜去看"
+        }
+      ]
+    },
+    {
+      "frequency": "almost_never",
+      "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+      "evidence_ids": []
+    }
+  ],
+  "post_length": {
+    "unit": "chars",
+    "median": 433,
+    "p25": 170,
+    "p75": 700
+  },
+  "paragraphs": {
+    "median": 8,
+    "p25": 4,
+    "p75": 14,
+    "line_break_rate": 0.9100888969905324,
+    "short_lines_share": 0.20640886482711832
+  },
+  "baseline_tendencies": {
+    "tendencies": [
+      {
+        "frequency": "often",
+        "tendency": "Opens with a clear judgment, supported by observations.",
+        "evidence": [
+          {
+            "handle": "shufen46250836",
+            "id": "2021881052479042026",
+            "text": "1月的非农数据有假，劳动力市场并没有那么好，\n\n降息是一定要降的，而且幅度不低，从昨晚美股看，AI中上游铲子们表现的很强势，\n\n主要原因是这些铲子股财报业绩是真的强，液冷铲子VRT昨晚领涨，\n\n现在上中游铲子们轮番表演，已经是市场一条明线，如果市场出现回调，这些铲子股一定要重点关"
+          },
+          {
+            "handle": "shufen46250836",
+            "id": "2023386043018530932",
+            "text": "春晚俨然成为中国AI应用的展现舞台了，机器人表演很棒，节后的A股机器人应该不错了\n\n持仓机器人的小伙伴应该看的很高兴，大家除夕快乐……"
+          },
+          {
+            "handle": "shufen46250836",
+            "id": "2023411079628673470",
+            "text": "转发➕10086"
+          },
+          {
+            "handle": "shufen46250836",
+            "id": "2025502540025237669",
+            "text": "从假期的港股表现来看，节后的A股机器人叙事继续，春晚合肥分会场也有不少亮点，太空叙事也不会缺\n\n美股下周压力很大，宏观事件倒是少，但财报冲击多，下周三是比较重要的节点，两大软件股的财报好坏事关软件板块生死\n\n还有一个英伟达的财报，英伟达这次财报在当前市场情绪中，可不止用8倍镜去看"
+          }
+        ]
+      },
+      {
+        "frequency": "often",
+        "tendency": "Uses claim-led openings, with sentences around the observed band.",
+        "evidence": [
+          {
+            "handle": "shufen46250836",
+            "id": "2021881052479042026",
+            "text": "1月的非农数据有假，劳动力市场并没有那么好，\n\n降息是一定要降的，而且幅度不低，从昨晚美股看，AI中上游铲子们表现的很强势，\n\n主要原因是这些铲子股财报业绩是真的强，液冷铲子VRT昨晚领涨，\n\n现在上中游铲子们轮番表演，已经是市场一条明线，如果市场出现回调，这些铲子股一定要重点关"
+          },
+          {
+            "handle": "shufen46250836",
+            "id": "2023386043018530932",
+            "text": "春晚俨然成为中国AI应用的展现舞台了，机器人表演很棒，节后的A股机器人应该不错了\n\n持仓机器人的小伙伴应该看的很高兴，大家除夕快乐……"
+          },
+          {
+            "handle": "shufen46250836",
+            "id": "2023411079628673470",
+            "text": "转发➕10086"
+          },
+          {
+            "handle": "shufen46250836",
+            "id": "2025502540025237669",
+            "text": "从假期的港股表现来看，节后的A股机器人叙事继续，春晚合肥分会场也有不少亮点，太空叙事也不会缺\n\n美股下周压力很大，宏观事件倒是少，但财报冲击多，下周三是比较重要的节点，两大软件股的财报好坏事关软件板块生死\n\n还有一个英伟达的财报，英伟达这次财报在当前市场情绪中，可不止用8倍镜去看"
+          }
+        ]
+      }
+    ],
+    "avoid_tendencies": [
+      {
+        "frequency": "almost_never",
+        "tendency": "Relies on another author’s personal experience or identity.",
+        "evidence": [
+          {
+            "handle": "shufen46250836",
+            "id": "2021881052479042026",
+            "text": "1月的非农数据有假，劳动力市场并没有那么好，\n\n降息是一定要降的，而且幅度不低，从昨晚美股看，AI中上游铲子们表现的很强势，\n\n主要原因是这些铲子股财报业绩是真的强，液冷铲子VRT昨晚领涨，\n\n现在上中游铲子们轮番表演，已经是市场一条明线，如果市场出现回调，这些铲子股一定要重点关"
+          },
+          {
+            "handle": "shufen46250836",
+            "id": "2023386043018530932",
+            "text": "春晚俨然成为中国AI应用的展现舞台了，机器人表演很棒，节后的A股机器人应该不错了\n\n持仓机器人的小伙伴应该看的很高兴，大家除夕快乐……"
+          },
+          {
+            "handle": "shufen46250836",
+            "id": "2023411079628673470",
+            "text": "转发➕10086"
+          },
+          {
+            "handle": "shufen46250836",
+            "id": "2025502540025237669",
+            "text": "从假期的港股表现来看，节后的A股机器人叙事继续，春晚合肥分会场也有不少亮点，太空叙事也不会缺\n\n美股下周压力很大，宏观事件倒是少，但财报冲击多，下周三是比较重要的节点，两大软件股的财报好坏事关软件板块生死\n\n还有一个英伟达的财报，英伟达这次财报在当前市场情绪中，可不止用8倍镜去看"
+          }
+        ]
+      },
+      {
+        "frequency": "rarely",
+        "tendency": "Turns confidence into an unsupported trade call.",
+        "evidence": [
+          {
+            "handle": "shufen46250836",
+            "id": "2021881052479042026",
+            "text": "1月的非农数据有假，劳动力市场并没有那么好，\n\n降息是一定要降的，而且幅度不低，从昨晚美股看，AI中上游铲子们表现的很强势，\n\n主要原因是这些铲子股财报业绩是真的强，液冷铲子VRT昨晚领涨，\n\n现在上中游铲子们轮番表演，已经是市场一条明线，如果市场出现回调，这些铲子股一定要重点关"
+          },
+          {
+            "handle": "shufen46250836",
+            "id": "2023386043018530932",
+            "text": "春晚俨然成为中国AI应用的展现舞台了，机器人表演很棒，节后的A股机器人应该不错了\n\n持仓机器人的小伙伴应该看的很高兴，大家除夕快乐……"
+          },
+          {
+            "handle": "shufen46250836",
+            "id": "2023411079628673470",
+            "text": "转发➕10086"
+          },
+          {
+            "handle": "shufen46250836",
+            "id": "2025502540025237669",
+            "text": "从假期的港股表现来看，节后的A股机器人叙事继续，春晚合肥分会场也有不少亮点，太空叙事也不会缺\n\n美股下周压力很大，宏观事件倒是少，但财报冲击多，下周三是比较重要的节点，两大软件股的财报好坏事关软件板块生死\n\n还有一个英伟达的财报，英伟达这次财报在当前市场情绪中，可不止用8倍镜去看"
+          }
+        ]
+      },
+      {
+        "frequency": "almost_never",
+        "tendency": "Claiming personal holdings, trades, position sizes or P&L (AI account; compliance rule)",
+        "evidence_ids": []
+      }
+    ]
+  },
+  "qualitative": {},
+  "compliance_removed": []
+}
