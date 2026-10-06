@@ -1453,7 +1453,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         else:
             shape_info = compose_shapes.choose_shape(persona, units=chosen, recent=recent_rows,
                                                      batch=tuple(shape_batch or ()), all_units=units,
-                                                     batch_size=shape_batch_size,
+                                                     batch_size=shape_batch_size, source=source,
                                                      seed=source.get('source_hash') or source.get('id') or '')
         shape_block = compose_shapes.payload_block(shape_info, persona.lang,
                                                    payload['post_type_rules']['body_length'])

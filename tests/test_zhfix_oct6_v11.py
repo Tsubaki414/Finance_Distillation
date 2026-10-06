@@ -376,3 +376,74 @@ def test_leadin_repeat_soft_cross_draft():
     rows = [{'text': t} for t in prev]
     assert any('背后是' in x['detail'] for x in cs.history_findings(body, rows))   # post-level soft check too
     assert qa_levels.level({'code': 'structure_repeat'}, frame_found=False) == 'soft'
+
+
+# ---------------- fix 5: fewer short shapes for research-type ZH sources ----------------
+
+LONG_NOTE_TEXT = 'Payrolls missed badly. ' * 80
+
+
+def _shape_units():
+    return [dict(u) for u in POOL]
+
+
+def test_research_source_signal():
+    assert cs.research_source({'original_text': LONG_NOTE_TEXT}, [])[0]
+    assert cs.research_source({'original_text': 'short'}, _shape_units())[1]['reason'] == 'many_units'
+    flash = {'adapter': 'flash:ch141_wscn_flash', 'source_version': 'flash-v1', 'original_text': LONG_NOTE_TEXT}
+    assert cs.research_source(flash, _shape_units()) == (False, {'reason': 'flash', 'adapter': 'flash:ch141_wscn_flash'})
+    assert not cs.research_source({'original_text': '美联储加息25个基点。'}, _shape_units()[:2])[0]
+
+
+@pytest.mark.parametrize('seed', [f's{i}' for i in range(12)])
+def test_zh_research_source_never_take_short_and_short_capped(seed):
+    persona = registry.persona_for_account('zh_macro')
+    units = _shape_units()
+    out = cs.choose_shape(persona, units=units, all_units=units, seed=seed, source={'original_text': LONG_NOTE_TEXT})
+    assert out['id'] != 'take_short' and 'take_short' not in out['candidates']
+    assert out['research_source'] is True
+    base = cs.persona_shapes(persona)
+    for sid, spec in cs.SHAPES.items():
+        if spec['length'] == 'short' and sid in out['candidates'] and sid in base:
+            assert base[sid] > cs.ZH_RESEARCH_SHORT_WEIGHT            # zh_macro short 0.685 really capped
+    if out['id'] == 'one_number_punch':
+        assert out['max_numbers'] == 2
+
+
+def test_zh_flash_and_en_keep_old_shapes():
+    persona = registry.persona_for_account('zh_macro')
+    units = _shape_units()
+    flash = {'adapter': 'flash:ch141_wscn_flash', 'original_text': LONG_NOTE_TEXT}
+    seen = {cs.choose_shape(persona, units=units, all_units=units, seed=f's{i}', source=flash)['id'] for i in range(40)}
+    assert 'take_short' in seen                                       # flashes keep the donor short mix
+    en = registry.persona_for_account('en_macro')
+    out = cs.choose_shape(en, units=units, all_units=units, seed='s1', source={'original_text': LONG_NOTE_TEXT})
+    assert 'research_source' not in out
+
+
+def test_research_punch_payload_allows_second_number_for_the_why():
+    shape = {'id': 'one_number_punch', 'research_source': True, **cs.ZH_RESEARCH_PUNCH}
+    block = cs.payload_block(shape, 'zh', {'min': 60, 'max': 300})
+    assert block['max_numbers'] == 2 and block['max_number_lines'] == 2
+    assert '第二个数字' in block['structure'] and '为什么' in block['structure']
+    assert compose.number_budget(block) == 2
+    plain = cs.payload_block({'id': 'one_number_punch'}, 'zh', {'min': 60, 'max': 300})
+    assert plain['max_numbers'] == 1 and '第二个数字' not in plain['structure']
+
+
+def test_rotation_still_avoids_last_shape_on_research_source():
+    persona = registry.persona_for_account('zh_macro')
+    units = _shape_units()
+    src = {'original_text': LONG_NOTE_TEXT}
+    first = cs.choose_shape(persona, units=units, all_units=units, seed='r1', source=src)
+    second = cs.choose_shape(persona, units=units, all_units=units, seed='r1', source=src,
+                             recent=[{'shape': first['id'], 'text': 'x'}])
+    assert second['id'] != first['id'] and second['last_shape'] == first['id']
+
+
+def test_compose_records_research_shape(monkeypatch, tmp_path):
+    _iso(monkeypatch, tmp_path)
+    fake = JudgmentFake({'why_unit_ids': ['cu-jobs'], 'so_what_unit_ids': ['cu-odds']})
+    result = _compose(fake)
+    shape = result['composition_shape']
+    assert shape['research_source'] is True and shape['id'] != 'take_short'

@@ -162,13 +162,52 @@ def _batch_items(batch):
     return ids, lengths
 
 
-def choose_shape(persona, *, units=(), recent=(), batch=(), seed='', all_units=None, batch_size=None):
+# ---------------- research-type sources (Oct 6 v11, root cause #5) ----------------
+# ZH got short shapes 10/16 (zh_macro length_mix short 0.685 vs en_macro 0.303) and donor short posts
+# rarely explain (reason/consequence markers: 33% under 100 chars vs 88-96% over 200). A donor's short
+# reaction post is the wrong mould for a research note. Signal (every source dict has these fields):
+# NOT a 7x24 flash (adapter 'flash:<channel>' / source_version 'flash-v1' from live/adapters/flashes.py)
+# AND either the text is long (>= RESEARCH_MIN_CHARS of original_text) or extraction produced
+# >= RESEARCH_MIN_UNITS usable units (a long article / note that was stored truncated still counts).
+RESEARCH_MIN_CHARS = 1500
+RESEARCH_MIN_UNITS = 5
+ZH_RESEARCH_SHORT_WEIGHT = 0.4
+ZH_RESEARCH_PUNCH = {'max_numbers': 2, 'max_number_lines': 2}
+ZH_RESEARCH_PUNCH_NOTE = ('（研报来源，本条覆盖上面的「只用一个数字」）可以再用第二个数字，但只用在说清为什么的那一句里；'
+                          '全文最多两个数字。')
+
+
+def research_source(source, units=()):
+    """(is_research, signal) for a source dict + its extracted units (see the rule above)."""
+    source = source or {}
+    adapter = str(source.get('adapter') or '')
+    if adapter.startswith('flash') or source.get('source_version') == 'flash-v1':
+        return False, {'reason': 'flash', 'adapter': adapter}
+    chars = len(re.sub(r'\s+', '', str(source.get('original_text') or '')))
+    n_units = sum(1 for u in units or () if u.get('usage') != 'topic_only')
+    signal = {'chars': chars, 'units': n_units}
+    if chars >= RESEARCH_MIN_CHARS:
+        return True, dict(signal, reason='long_text')
+    if n_units >= RESEARCH_MIN_UNITS:
+        return True, dict(signal, reason='many_units')
+    return False, dict(signal, reason='short')
+
+
+def choose_shape(persona, *, units=(), recent=(), batch=(), seed='', all_units=None, batch_size=None, source=None):
     """Pick one shape. recent: persona history rows (oldest first, may carry 'shape');
     batch: shapes already used in this batch (ids, or {'id', 'length'} dicts). Deterministic for a seed.
     all_units: every extracted unit of the source (mechanism count gates short_thread).
-    batch_size: when given, the remaining picks guarantee >= 1 long and >= 1 short post per batch."""
+    batch_size: when given, the remaining picks guarantee >= 1 long and >= 1 short post per batch.
+    source: the source dict; for ZH personas on a research-type source take_short (0 numbers) is out,
+    short shapes weigh at most ZH_RESEARCH_SHORT_WEIGHT and one_number_punch may use a 2nd number."""
     mech = mechanism_count(all_units if all_units is not None else units)
-    shapes = eligible_shapes(persona_shapes(persona), units, mechanisms=mech) or {'take_short': 1.0}
+    base = persona_shapes(persona)
+    research, signal = (research_source(source, all_units if all_units is not None else units)
+                        if source is not None and getattr(persona, 'lang', None) == 'zh' else (False, None))
+    if research:
+        base = {sid: (min(w, ZH_RESEARCH_SHORT_WEIGHT) if SHAPES[sid]['length'] == 'short' else w)
+                for sid, w in base.items() if sid != 'take_short'}
+    shapes = eligible_shapes(base, units, mechanisms=mech) or {'take_short': 1.0}
     batch_ids, batch_lengths = _batch_items(batch)
     batch = tuple(batch_ids)
     force = None
@@ -223,6 +262,11 @@ def choose_shape(persona, *, units=(), recent=(), batch=(), seed='', all_units=N
         out.update(length=length, length_override=True, line_breaks='two or three short paragraphs')
     if mix:
         out['batch_mix'] = mix
+    if signal is not None:
+        out['research_source'] = research
+        out['research_signal'] = signal
+    if research and sid == 'one_number_punch':
+        out.update(ZH_RESEARCH_PUNCH)
     return out
 
 
@@ -247,9 +291,12 @@ def payload_block(shape, lang, length_range):
         structure += LONG_NOTE[key]
     elif shape['id'] == 'short_thread':
         structure += THREAD_NOTE[key]
+    if key == 'zh' and shape.get('research_source') and shape['id'] == 'one_number_punch':
+        structure += ZH_RESEARCH_PUNCH_NOTE
     return {'id': shape['id'], 'structure': structure, 'length': length,
-            'length_target': target, 'max_numbers': spec['max_numbers'],
-            'max_number_lines': spec['max_number_lines'], 'line_breaks': shape.get('line_breaks') or spec['line_breaks'],
+            'length_target': target, 'max_numbers': shape.get('max_numbers', spec['max_numbers']),
+            'max_number_lines': shape.get('max_number_lines', spec['max_number_lines']),
+            'line_breaks': shape.get('line_breaks') or spec['line_breaks'],
             'ending': spec['ending'], 'ending_rule': ending_rule,
             'line1_rule': ('Line 1 is the unconditional call: no if / unless / provided / until / 若 / 只要 / '
                            '除非 / 一旦 clause in line 1; stance.view.conditions is background, not line 1.')}
