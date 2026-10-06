@@ -323,3 +323,10 @@ def test_real_closer_not_flagged():
 def test_prompts_carry_evidence_link_rule():
     from live import stance
     assert 'directly carry the call' in stance.STANCE and 'Evidence link' in compose.COMPOSE
+
+
+def test_opener_family_repeat():
+    recent = [{'text': '别指望美联储现在就停手。'}, {'text': '别看PMI回到扩张区间。'}, {'text': '降息这事还早。'}]
+    found = cs.history_findings('别被累计数据骗了，单月已经熄火。', recent)
+    assert any('opener family' in f['detail'] for f in found)
+    assert not any('opener family' in f['detail'] for f in cs.history_findings('单月利润已经熄火。', recent))

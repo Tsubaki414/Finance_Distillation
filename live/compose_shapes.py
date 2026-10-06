@@ -399,6 +399,14 @@ def opener_key(body):
 
 
 _GENERIC_OPENERS = {'the fed', 'the market', '美联储', '美国', '市场'}
+# v5/v6 live: ZH openers rotated words but kept one move - 别急着 / 别指望 / 别看 / 别把 / 别被 (imperative "don't").
+_OPENER_FAMILY = re.compile(r'^\s*(别|不要|千万别|先别|don\'t|do not|stop)', re.I)
+
+
+def opener_family(body):
+    first = next((ln for ln in (body or '').splitlines() if ln.strip()), '')
+    m = _OPENER_FAMILY.search(first)
+    return m.group(1).lower().replace('千万别', '别').replace('先别', '别') if m else ''
 
 
 def history_findings(body, recent, *, shape=None):
@@ -417,6 +425,10 @@ def history_findings(body, recent, *, shape=None):
         out.append({'code': 'structure_repeat', 'detail': 'conditional-falsifier ending is the majority of recent drafts'})
     if sk['opener'] == 'conditional' and last.get('opener') == 'conditional':
         out.append({'code': 'structure_repeat', 'detail': 'conditional opener again (previous draft too)'})
+    fam = opener_family(body)
+    if fam and sum(opener_family(r['text']) == fam for r in prior[-3:]) >= 2:
+        out.append({'code': 'structure_repeat',
+                    'detail': f'opener family "{fam}…" again (2+ of the last 3 drafts open the same way)'})
     key = opener_key(body)
     if key and key not in _GENERIC_OPENERS and any(opener_key(r['text']) == key for r in prior):
         out.append({'code': 'structure_repeat', 'detail': f'same opener "{key}" as a recent draft of this persona'})
