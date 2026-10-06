@@ -41,7 +41,7 @@ EMOTION_MARKERS = {
     'annoyed': ('离谱', '荒谬', '烂', '骗', '割', '砸盘', '崩', 'dump', 'crash', 'nonsense', 'ridiculous', 'absurd', 'unimpressed'),
     'absurd': ('绷不住', '笑死', '人才', '搞笑', 'meme', 'lol', 'farce', 'circus', 'joke'),
     'curious': ('为什么', '怎么会', '有意思', '没想到', 'why', 'interesting', 'curious', 'odd', 'strange'),
-    'skeptical': ('未必', '不足以', '还早', '撑不住', '别急', 'unlikely', 'not enough', 'skeptical', 'doubt', 'thin', 'fragile', 'overdone', 'shrug', 'tell'),
+    'skeptical': ('未必', '不足以', '还早', '撑不住', '别急', '怀疑', '存疑', '打问号', '打个问号', '不买账', 'unlikely', 'not enough', 'skeptical', 'doubt', 'thin', 'fragile', 'overdone', 'shrug', 'tell'),
     'wary': ('警惕', '小心', '风险', '压制', 'overhang', 'wary', 'caution', 'risk', 'watch'),
     'relieved': ('松一口气', '缓和', '好转', 'relief', 'relieved', 'easing', 'cooling'),
 }
@@ -64,8 +64,9 @@ EMOTION_LABEL = {
 _REACTION = re.compile(
     r"\b(?:unlikely|skeptical|doubt|thin|fragile|overdone|nonsense|ridiculous|absurd|"
     r"panic|nervous|uneasy|wary|relief|relieved|curious|odd|interesting|crash|dump|"
-    r"shrug\w*|distraction|screaming|asleep|mistake|starved|too (?:cheap|rich|early|late|complacent)|losing (?:its|their) grip|don't front-run|isn't landing|wrong|misread\w*|mispric\w*|underpric\w*|overpric\w*|complacen\w*|bias|trap|blind\w*|ignor\w*|overreact\w*|hype\w*|stretched|frothy|premature|overstat\w*|understat\w*|bullish|bearish|unimpressed|impatient|annoyed)\b|"
+    r"shrug\w*|stubborn\w*|trapped|questionable|doubtful|not convinced|hard to believe|distraction|screaming|asleep|mistake|starved|too (?:cheap|rich|early|late|complacent)|losing (?:its|their) grip|don't front-run|isn't landing|wrong|misread\w*|mispric\w*|underpric\w*|overpric\w*|complacen\w*|bias|trap|blind\w*|ignor\w*|overreact\w*|hype\w*|stretched|frothy|premature|overstat\w*|understat\w*|bullish|bearish|unimpressed|impatient|annoyed)\b|"
     r'未必|不足以|还早|撑不住|别急|离谱|荒谬|焦虑|恐慌|警惕|有意思|没想到|'
+    r'怀疑|存疑|打个?问号|不买账|持保留|'
     r'根本不|免疫|无法主导|只会引来|别碰|别追|误判|错杀|高估|低估|过度|太早|想多了|陷阱|别被|当心|不对劲|看错|反应过度|泡沫|站不住|谈不上|看好|看空|偏弱|偏强|钝化|失效|压制|韧性|乐观|悲观|别急|还早|撑不住',
     re.I,
 )
@@ -75,6 +76,25 @@ DRY_SOURCE_MAX_MARKERS = 1
 DRY_CLAMP_FLOOR = {'mid': 2, 'high': 3}
 
 _SENTENCE = re.compile(r'(?<!\d)[.!?。！？]|\n+')
+
+
+# Per-tier effect (Oct 6 root cause): line 1 must paraphrase thesis_lock, and stance writes that
+# call as a plain analytic sentence, so a neutral paraphrase left no slot for the reaction the brief
+# asked for "in the first two lines" (line 2 is evidence by signature). The effect now says WHERE the
+# register goes: inside the line-1 call itself. LOW is restrained conviction, not emotion.
+REQUIRED_EFFECT = {
+    None: ('The reader must feel a real reaction from the author in the first two lines — '
+           'not a calm recap of the materials.'),
+    'high': ('Line 1 is the thesis_lock call said WITH the dominant emotion (an emotion-bearing verb, '
+             'a short punchy framing, irony or a rhetorical jab) — never a neutral restatement of '
+             'thesis_lock. The reader must feel the author react in the first two lines.'),
+    'mid': ('Line 1 is the thesis_lock call carrying one clear reaction from the dominant emotion '
+            '(e.g. 怀疑 / 警惕 / 未必 / 别急 / 没想到; doubt / wary / premature / not convinced) — a neutral '
+            'paraphrase of thesis_lock reads as a calm recap.'),
+    'low': ('Restrained: line 1 is a committed call in plain words — a clear stance verb, negation or '
+            'condition (e.g. "does not", "is premature", "only if"; 不会 / 还不足以 / 除非). Conviction, not '
+            'emotion: no hype, no exclamation marks, no rhetorical jabs.'),
+}
 
 
 def _score_text(text, markers):
@@ -142,7 +162,11 @@ def build_emotion_brief(units, stance, *, source=None, lang='en', account_id=Non
             hot_source = emotions[0] in HOT_EMOTIONS and marker_energy >= 5
             target = max(floor, min(5 if hot_source or punct >= 2 else ceil, max(raw, floor)))  # ~4
         elif policy.get('tier') == 'low':
-            target = max(floor, min(ceil, raw if raw >= floor else floor))  # 2–3
+            # Restrained voice: stay at the floor. Finance vocabulary (risk / watch / caution) saturates
+            # 'wary', which used to lift LOW to 3 on almost every macro source (Oct 6: en_macro 3/3).
+            # Only a genuinely hot source register may lift LOW to its ceiling.
+            hot_source = emotions[0] in HOT_EMOTIONS and marker_energy >= 3
+            target = min(ceil, max(floor, raw)) if hot_source else floor   # 2 (3 only when hot)
         else:
             target = floor                                        # ~3
     else:
@@ -170,9 +194,7 @@ def build_emotion_brief(units, stance, *, source=None, lang='en', account_id=Non
         'tier': (policy or {}).get('tier'),
         'emotion_retry': bool((policy or {}).get('emotion_retry')),
         'source_high_energy_lines': energetic,
-        'required_effect': (
-            'The reader must feel a real reaction from the author in the first two lines — '
-            'not a calm recap of the materials.'),
+        'required_effect': REQUIRED_EFFECT.get((policy or {}).get('tier'), REQUIRED_EFFECT[None]),
         'allowed_devices': ['short lines', 'rhetorical question', 'light exaggeration',
                             'irony', 'rhythm break', 'emotion-bearing judgment verbs'],
         'boundary': 'Amplify emotion and rhetoric; never amplify fact certainty or invent lived experience.',
@@ -210,6 +232,13 @@ def first_two_have_reaction(body):
     return any(_score_text(head, ms) for ms in EMOTION_MARKERS.values())
 
 
+def first_two_have_judgment(body):
+    """Committed-call marker (compose.JUDGMENT_MARKERS) in the first two lines; LOW tier only."""
+    from live.compose import JUDGMENT_MARKERS
+    sentences = [s.strip() for s in _SENTENCE.split(body or '') if s.strip()]
+    return bool(JUDGMENT_MARKERS.search(' '.join(sentences[:2])))
+
+
 def emotion_findings(body, brief):
     """Soft findings only. EMOTION_DROP when draft weaker than target without reaction."""
     if not brief:
@@ -218,9 +247,14 @@ def emotion_findings(body, brief):
     intensity = draft_intensity(body, brief)
     findings = []
     has_reaction = first_two_have_reaction(body)
-    # Soft gate: missing a real reaction in the first two lines (intensity is advisory).
-    if not has_reaction and ((brief.get('tier') == 'low' and (intensity < target or target >= 2))
-                             or (brief.get('tier') != 'low' and target >= 3)):
+    if brief.get('tier') == 'low':
+        # LOW = restrained register: a committed call in the first two lines IS the target voice.
+        # Only a calm recap (no reaction AND no judgment marker) under target is an emotion_drop.
+        drop = not has_reaction and not first_two_have_judgment(body) and intensity < target
+    else:
+        # Soft gate: missing a real reaction in the first two lines (intensity is advisory).
+        drop = not has_reaction and target >= 3
+    if drop:
         findings.append({
             'code': 'emotion_drop',
             'level': 'soft',

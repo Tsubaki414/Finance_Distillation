@@ -37,7 +37,7 @@ def test_budget_probe_failure_fills_slots(tmp_path, monkeypatch):
     monkeypatch.setattr(erisedai_distillation_client, 'relay_config', lambda: {})
     monkeypatch.setattr(erisedai_distillation_client, 'ErisedaiClient', lambda *a, **k: object())
     monkeypatch.setattr(demo, 'ContentStore', lambda path: object())
-    monkeypatch.setattr(demo, 'select_groups', lambda store, accounts: {
+    monkeypatch.setattr(demo, 'select_groups', lambda store, accounts, *_a: {
         a: [{'unit_id': a, 'source': {'source_hash': 'h', 'id': 's'}, 'licence_tier': 'A', 'unit': {}}]
         for a in accounts})
     monkeypatch.setattr(demo, 'evidence_source', lambda records: (
@@ -77,7 +77,7 @@ def test_live_uses_direct_compose_and_adds_synthetic_hold(tmp_path, monkeypatch)
 
     monkeypatch.setattr(erisedai_distillation_client, 'ErisedaiClient', Client)
     monkeypatch.setattr(demo, 'ContentStore', lambda path: object())
-    monkeypatch.setattr(demo, 'select_groups', lambda store, accounts: {a: [{'unit_id': a}] for a in accounts})
+    monkeypatch.setattr(demo, 'select_groups', lambda store, accounts, *_a: {a: [{'unit_id': a}] for a in accounts})
     monkeypatch.setattr(demo, 'evidence_source', lambda records: (
         {'id': records[0]['unit_id'], 'source_hash': 'hash'}, []))
     calls = []

@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
 import shlex
 import sys
 from pathlib import Path
@@ -40,39 +41,86 @@ def balanced(records):
             and any(r['unit'].get('kind') == 'fact' for r in records))
 
 
-def select_groups(store, accounts):
-    """Rank grounded packets; prefer the same original source across each pair.
+def _key(record):
+    source = record['source']
+    return (source.get('source_hash'), source.get('id'))
 
-    A shared source is used only when EVERY side's own slice is balanced (view + fact); otherwise
-    each account picks its own best balanced packet (Oct 6: zh_industry got a 1-fact shared slice).
+
+def zh_native(group):
+    source = group[0]['source'] if group else {}
+    lang = str(source.get('source_language') or source.get('language') or '').lower()
+    return lang.startswith('zh') or bool(re.search(r'[\u4e00-\u9fff]', str(source.get('title') or '')))
+
+
+def _view_ids(group):
+    return {r['unit_id'] for r in group if has_valid_view(r['unit'])}
+
+
+def select_groups(store, accounts, selection=None):
+    """Pick one balanced (view + fact) packet per account; ZH prefers its OWN source.
+
+    Oct 6 v2: sharing the EN source made both ZH slots HOLD (same conclusion, same source).
+    Order per pair: EN takes its best balanced packet; ZH takes its best balanced packet from a
+    DIFFERENT source (ZH-native first). Only when ZH has no other balanced packet does it share
+    EN's source, and then only with a differentiated angle: ZH keeps the views EN does not carry
+    (slice must stay balanced). Without a different view the slice is kept as-is and marked
+    ``shared_same_angle`` so claim arbitration can HOLD the genuine duplicate.
+    ``selection`` (optional dict) receives {account: {'mode', 'source_id', ...}}.
     """
+    selection = {} if selection is None else selection
     grouped = {}
     for account in accounts:
         groups = {}
         for record in units_for_persona(store, account, max_age_days=45):
             if record.get('licence_tier') not in ('A', 'B'):
                 continue
-            source = record['source']
-            key = (source.get('source_hash'), source.get('id'))
-            groups.setdefault(key, []).append(record)
+            groups.setdefault(_key(record), []).append(record)
         grouped[account] = groups
+
+    def ranked(account, exclude=()):
+        return [g for g in rank_evidence_groups(
+            [g for k, g in grouped[account].items() if k not in exclude]) if balanced(g)]
+
+    def note(account, mode, group, **extra):
+        selection[account] = {'mode': mode, 'source_id': group[0]['source'].get('id') if group else None,
+                              'zh_native': zh_native(group) if group else False, **extra}
+
     chosen = {}
-    for pair in (('zh_macro', 'en_macro'), ('zh_industry', 'en_industry')):
-        present = [a for a in pair if a in grouped]
-        shared = (set(grouped[present[0]]) & set(grouped[present[1]])) if len(present) == 2 else set()
-        shared = {key for key in shared if all(balanced(grouped[a][key]) for a in present)}
-        if shared:
-            # Rank shared sources on the union; no cross-persona records enter a packet.
-            candidates = [sum((grouped[a][key] for a in present), [])
-                          for key in sorted(shared, key=str)]
-            best = rank_evidence_groups(candidates)[0][0]['source']
-            key = (best.get('source_hash'), best.get('id'))
-            for account in present:
-                chosen[account] = grouped[account][key]
+    for zh, en in (('zh_macro', 'en_macro'), ('zh_industry', 'en_industry')):
+        en_group = []
+        if en in grouped:
+            options = ranked(en)
+            en_group = options[0] if options else []   # no balanced packet -> skip, never pure_data
+            chosen[en] = en_group
+            note(en, 'own' if en_group else 'none', en_group)
+        if zh not in grouped:
+            continue
+        en_key = _key(en_group[0]) if en_group else None
+        own = ranked(zh, exclude={en_key} if en_key else ())
+        own.sort(key=lambda g: not zh_native(g))   # stable: ZH-native sources first
+        if own:
+            chosen[zh] = own[0]
+            note(zh, 'own_zh_native' if zh_native(own[0]) else 'own_different_source', own[0])
+            continue
+        shared = grouped[zh].get(en_key) if en_key else None
+        if not shared or not balanced(shared):
+            chosen[zh] = []
+            note(zh, 'none', [])
+            continue
+        en_views = _view_ids(en_group)
+        differentiated = [r for r in shared if r['unit_id'] not in en_views]
+        if balanced(differentiated):
+            chosen[zh] = differentiated
+            note(zh, 'shared_differentiated', differentiated, dropped_view_ids=sorted(en_views & _view_ids(shared)))
         else:
-            for account in present:
-                ranked = [g for g in rank_evidence_groups(grouped[account].values()) if balanced(g)]
-                chosen[account] = ranked[0] if ranked else []   # no balanced packet -> skip, never pure_data
+            chosen[zh] = shared
+            note(zh, 'shared_same_angle', shared, reason='no own balanced source and no view EN lacks; '
+                 'arbitration decides (genuine duplicate -> HOLD)')
+    for account in accounts:   # any account outside the two pairs: own best packet
+        if account not in chosen:
+            options = ranked(account)
+            chosen[account] = options[0] if options else []
+            note(account, 'own' if chosen[account] else 'none', chosen[account])
     return chosen
 
 
@@ -156,7 +204,10 @@ def run(out, cap, *, live=False, command=''):
             reason = f'Live probe unavailable: {type(exc).__name__}: {exc}; remaining slots synthetic.'
             notes.append(reason)
             client = None
-    selected = select_groups(ContentStore(compose_ab.STORE), accounts) if client else {}
+    selection = {}
+    selected = select_groups(ContentStore(compose_ab.STORE), accounts, selection) if client else {}
+    if selection:
+        notes.append('Selection: ' + json.dumps({a: v['mode'] for a, v in selection.items()}, ensure_ascii=False))
     results = []
     for account in accounts:
         ledger = ViewLedger(account, out / 'views' / account)
@@ -176,7 +227,7 @@ def run(out, cap, *, live=False, command=''):
                         exemplar_tags_dir=compose_ab.TAGS, view_ledger=ledger)
                     result.update(key=account, source=source, mode='live',
                                   stored_unit_ids=[r['unit_id'] for r in group],
-                                  ledger_prior_count=prior_count)
+                                  ledger_prior_count=prior_count, selection=selection.get(account))
                 except budget.BudgetExceeded:
                     reason = 'BudgetExceeded: live composes stopped before sending the refused call.'
                     notes.append(reason)
@@ -192,7 +243,7 @@ def run(out, cap, *, live=False, command=''):
         result['publishable'] = False
         result['spend_usd'] = round(budget.spent() - before, 6)
         results.append(result)
-    results = compose.arbitrate_batch(results, mode='soft')
+    results = compose.arbitrate_batch(results)   # default soft; FD_ARBITRATION=off disables
     synthetic = []
     if not any(r.get('arbitration', {}).get('status') == 'HOLD' for r in results):
         synthetic = compose.arbitrate_batch([

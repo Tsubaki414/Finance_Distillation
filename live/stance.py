@@ -14,7 +14,9 @@ Rules for account_view:
 - NO banned filler families: 还早着呢, 才是关键, 真正的核心, 真正的问题, valuation-free optimism,
   Calling a strong chance, is a start, supply-discipline check (as empty slogan), door metaphors
   (before that door closes / that door closes), 链路往下推, 每一环的议价权, 这才是要分开看的地方.
-- Do not invent facts, numbers, holdings, trades or experience. No "X said" wrapper.
+- Do not invent facts, numbers, holdings, trades or experience. No "X said" wrapper: never name or
+  credit the source in account_view (no bank / publisher / analyst names, no 券商 / 研报 / "sell-side");
+  an adopted view is the account's own call.
 Schema: {decision: take|adapt|reject, account_view: string, supporting_unit_ids: [supplied IDs],
 rationale: nonempty string, confidence: number between 0 and 1, view: optional object,
 revises_view_id: optional prior view id, cited_prior_view_ids: optional [prior view ids]}.

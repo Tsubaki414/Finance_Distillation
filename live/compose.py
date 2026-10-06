@@ -72,7 +72,8 @@ prompt still win over the signature on facts and licence.
 No specific trade recommendations (instrument + strike/entry/structure); directional views are fine.
 For judgment_take and contrarian_take, state the judgment first in your own voice;
 data only as support. When thesis_lock is supplied it IS the post: line 1 is a paraphrase of
-thesis_lock / stance.account_view with no meta-label (no 我的判断： / 以我个人判断， / 个人判断： / "my read is" / "The catch?").
+thesis_lock / stance.account_view, said in the register emotion_brief.required_effect asks for
+(not a neutral restatement), with no meta-label (no 我的判断： / 以我个人判断， / 个人判断： / "my read is" / "The catch?").
 You MUST leave surplus units unused: the units are an evidence pool, not a checklist. Respect
 evidence_budget: the body may cite at most 3 numbers (evidence_budget.max_numbers). The supplied stance.account_view is the account's own
 judgment and needs no opinion attribution wrapper. For contrarian_take clearly
@@ -83,7 +84,10 @@ units' numbers (you may convert scale, e.g. $54.23 billion = 542.3亿美元, but
 never round, combine or compute new numbers), keeping its metric and period. Do not add years, dates or other numbers that
 are not in the units' numbers or spans.
 The pipeline attaches the attribution frame that names the source: do not name
-the source, publication or author, and do not add links or a source line. Beyond
+the source, publication or author, and do not add links or a source line. Do not credit the view
+generically in the body either (券商研报 / 某投行 / 卖方 / 机构认为 / "sell-side research" /
+"a big bank" / "analysts say"): an adopted view is the account's own call, said in its own voice
+(contrarian_take may refer to "this view" / "the consensus"). Beyond
 the opinion markers above, no first person: the account never claims the source's
 (or its own) experience, holdings, trades or returns. No price targets or trade
 calls. Avoid the listed template phrases and avoid_patterns. Plain prose, no hashtags or emoji.
@@ -862,6 +866,27 @@ def position_findings(body, lang):
 from live.draft_qa import trade_reco_findings, contradiction_findings
 
 
+# Generic attribution inside a persona body (Oct 6: 「券商研报已将加息节点推迟至12月」). The frame
+# credits the source; the body speaks the adopted view as the account's own. SOFT.
+GENERIC_CREDIT = re.compile(
+    r"券商研报|券商(?:报告|预测|观点|认为|预计|分析师)|某(?:家)?(?:投行|券商|机构|大行|外资行)|卖方(?:研究|报告|分析师|机构)?"
+    r"|投行(?:认为|预计|预测|分析师)|华尔街(?:分析师|投行)|研报(?:认为|指出|预计|预测)|(?:有|一家)机构(?:认为|预计|预测)"
+    r"|\bsell[- ]side\b|\b(?:a|one) (?:big |major |large |top |bulge[- ]bracket )?(?:bank|investment bank|broker|house)\b"
+    r"|\b(?:wall street|street) analysts\b|\banalysts (?:say|said|expect|think|believe|at a)\b"
+    r"|\baccording to (?:a|one|the) (?:bank|broker|note|report)\b", re.I)
+
+
+NEVER_NAME_SPEAKER = 'source (credited by the frame; do not cite in body)'
+
+
+def generic_credit_findings(body, post_type, stance=None):
+    if post_type == 'contrarian_take' or not (post_type in JUDGMENT_TYPES or (stance and stance.get('account_view'))):
+        return []
+    hits = sorted({m.group(0) for m in GENERIC_CREDIT.finditer(body or '')})
+    return [{'code': 'generic_credit_in_body',
+             'detail': 'Generic credit in body (frame already credits the source): ' + ', '.join(hits)}] if hits else []
+
+
 def post_checks(post_type, body, text, frame, licence_tier, units, persona, post_types, stance=None, source=None, now=None):
     spec = post_types['post_types'][post_type]
     findings = [{'code': f['code'], 'detail': f['detail']}
@@ -898,6 +923,7 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
             if warning.startswith('reasoning number not bound to source:'):
                 findings.append({'code': 'view_number_unbound', 'detail': warning})
     findings += position_findings(body, persona.lang)
+    findings += generic_credit_findings(body, post_type, stance)
     findings += trade_reco_findings(body, persona.lang)
     from live.draft_qa import stale_time_findings
     findings += stale_time_findings(body, units, now, persona.lang)
@@ -1091,11 +1117,13 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             'names': list(dict.fromkeys(frame['never_name'])),
             'rule': ('HARD: never write any of these names in the body - in any language, translation, '
                      'abbreviation or nickname (e.g. J.P. Morgan = 摩根大通 = 小摩) - even when a unit '
-                     'statement or speaker names them. State the view as the account call, or refer '
-                     'to it only as "sell-side research" / "券商研报"; the attached frame does the credit.')}
-        generic = (frame.get('names') or [''])[0]
+                     'statement or speaker names them. Do not credit it generically either (no '
+                     '"sell-side research" / "券商研报" / "某投行" / "a big bank" in the body): state the '
+                     'view as the account\'s own call; the attached frame does the credit.')}
+        # Neutral speaker (Oct 6 v3): a generic credit like 券商研报 / "sell-side research" as speaker
+        # was copied into the body as attribution; the frame alone credits the source.
         for u in payload['units']:
-            u['speaker'] = generic
+            u['speaker'] = NEVER_NAME_SPEAKER
     if stance is not None:
         # Defense in depth: scrub supplied stance_output the same way stance_step does,
         # so dirty fixtures cannot teach banned cadence via thesis_lock.
@@ -1499,11 +1527,30 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             'unit_augment': base.get('unit_augment') or {}}
 
 
-def arbitrate_batch(results, *, mode='soft'):
-    """Post-stance / post-compose soft cross-persona claim arbitration.
+ARBITRATION_ENV = 'FD_ARBITRATION'   # soft (default) | off
+
+
+def arbitration_mode(mode=None):
+    """Resolve the batch arbitration mode: explicit arg > FD_ARBITRATION env > 'soft' (P1-2 default)."""
+    import os
+    value = (mode if mode is not None else os.environ.get(ARBITRATION_ENV) or 'soft').strip().lower()
+    if value in ('off', '0', 'false', 'no', 'none'):
+        return 'off'
+    if value not in ('soft', 'hard'):
+        raise ValueError(f'{ARBITRATION_ENV} must be soft or off, got {value!r}')
+    return value
+
+
+def arbitrate_batch(results, *, mode=None):
+    """Post-stance / post-compose cross-persona claim arbitration, SOFT by default.
 
     Same-day same-conclusion claims keep the best-fit persona; others HOLD
     with a soft finding (drafts never deleted). See live/claim_arbitration.py.
+    Turn off with mode='off' or FD_ARBITRATION=off (results returned unchanged,
+    each marked arbitration.status='OFF'). docs/2026-10-06_soft_arbitration_default.md
     """
+    resolved = arbitration_mode(mode)
+    if resolved == 'off':
+        return [dict(r, arbitration={'status': 'OFF', 'mode': 'off'}) for r in results]
     from live.claim_arbitration import apply_to_results
-    return apply_to_results(results, mode=mode)
+    return apply_to_results(results, mode=resolved)

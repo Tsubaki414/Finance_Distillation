@@ -21,7 +21,8 @@ def test_sell_side_payload_carries_never_name_rule_and_generic_speaker():
     rule = spy.payload['never_name']
     assert 'Goldman Sachs' in rule['names'] and '高盛' in rule['names']
     assert 'translation' in rule['rule'] and '券商研报' in rule['rule']
-    assert {u['speaker'] for u in spy.payload['units']} == {'券商研报'}
+    assert {u['speaker'] for u in spy.payload['units']} == {compose.NEVER_NAME_SPEAKER}
+    assert 'Do not credit it generically' in rule['rule']
 
 
 def test_named_source_payload_unchanged():
