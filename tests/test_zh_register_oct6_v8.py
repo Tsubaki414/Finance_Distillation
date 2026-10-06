@@ -179,3 +179,30 @@ def test_daily_ingest_prior_deferred_bypasses_channel_cap(tmp_path):
             backup=lambda: None, refresh=lambda: None)
     assert seen[0] == 's3' and set(seen) == {'s0', 's3'}
     assert r['ordering']['previous_run'] == '20261006.json' and r['ordering']['prior_deferred_gathered'] == 1
+
+
+def test_backup_failure_keeps_rejected_slot():
+    import demo_matrix_compose as d
+    rej = {'stance': {'decision': 'reject', 'account_view': ''}, 'status': 'skipped'}
+    kept = d._keep_rejected(rej, 'zh_macro', [{'source_id': 's1'}], 'BudgetExceeded')
+    assert kept['key'] == 'zh_macro' and kept['mode'] == 'live' and kept['selection_fallback']['rejected']
+    assert d._keep_rejected(None, 'zh_macro', [], 'x') is None
+    assert d._keep_rejected({'stance': {'decision': 'adapt'}}, 'zh_macro', [], 'x') is None
+
+
+def test_continue_batch_excludes_rejected_sources(tmp_path):
+    import demo_matrix_compose as d
+    prev = tmp_path / 'prev'
+    (prev / 'drafts').mkdir(parents=True)
+    (prev / 'drafts' / 'zh_macro.json').write_text(json.dumps(
+        {'source_id': 'reportgem-1', 'stance': {'decision': 'reject'},
+         'selection_fallback': {'rejected': [{'source_id': 'doc-2'}]}}))
+    out = tmp_path / 'out'
+    out.mkdir()
+    assert {'reportgem-1', 'doc-2'} <= d.continue_batch(prev, out)
+
+
+def test_direction_hedge_prefix_coerced():
+    from live.content_units import coerce_view
+    v = coerce_view({'direction': 'conditionally_bullish', 'subject': 'x', 'conviction': 'medium', 'horizon': 'quarters'})
+    assert v['direction'] == 'bullish'

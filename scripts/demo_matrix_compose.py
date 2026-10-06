@@ -185,6 +185,9 @@ SLOT_MIN_USD = float(os.environ.get('FD_SLOT_MIN_USD', '0.42'))
 # optional polish retries (info_dump / repeat / plain structure) so a coherence repair (judgment or
 # internal-contradiction retry) still fits. ~one gemini compose worst-case reservation ($0.21).
 COHERENCE_RESERVE_USD = float(os.environ.get('FD_COHERENCE_RESERVE_USD', '0.22'))
+# v8: a stance reject's backup packet costs a second stance call; v8 zh_macro's backup then ran out of
+# slot sub-cap before compose. The backup attempt may borrow from later slots down to this floor each.
+BACKUP_FLOOR_USD = float(os.environ.get('FD_BACKUP_FLOOR_USD', '0.36'))
 
 
 def load_fill_into(batch, accounts):
@@ -267,6 +270,18 @@ def fake_result(account, ledger, reason, *, record=False):
                 spend_usd=0.0)
 
 
+def _keep_rejected(result, account, rejected, reason):
+    """v8: a backup attempt that fails after a real stance reject keeps the reject (live, key set)
+    instead of leaving a half-built result (v8 run crashed on KeyError 'key')."""
+    if not result or result.get('key'):
+        return result if result and result.get('key') else None
+    if (result.get('stance') or {}).get('decision') != 'reject':
+        return None
+    return dict(result, key=account, account_id=account, mode='live', draft_status='not_suitable',
+                status='skipped', fallback_reason=reason, selection_fallback={'rejected': rejected,
+                                                                               'backup_error': reason})
+
+
 def judgment_type(account):
     mix = registry.persona_for_account(account).post_type_mix
     for name in ('judgment_take', *mix):
@@ -290,8 +305,13 @@ def continue_batch(prev, out):
     if inherited.exists():
         used.update(json.loads(inherited.read_text()))
     for path in sorted((prev / 'drafts').glob('*.json')):
-        source = json.loads(path.read_text()).get('source') or {}
+        row = json.loads(path.read_text())
+        source = row.get('source') or {}
         used.update([source.get('id'), source.get('title')])
+        # v8: a rejected slot has no `source` block; its document id and rejected backups still count
+        if not row.get('synthetic'):
+            used.add(row.get('source_id') if not source else None)
+        used.update(r.get('source_id') for r in (row.get('selection_fallback') or {}).get('rejected') or [])
     used = {u for u in used if u}
     (Path(out) / 'excluded_sources.json').write_text(json.dumps(sorted(used), ensure_ascii=False, indent=1) + '\n')
     return used
@@ -388,6 +408,10 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
                     batch_size = len(batch_shapes) + (len(accounts) - idx)
                     rejected = []
                     for attempt, grp in enumerate([group] + list(backups.get(account) or [])[:1]):
+                        if attempt:
+                            borrow = max(0.0, cap - budget.spent() - BACKUP_FLOOR_USD * later)
+                            budget.set_cap(min(cap, max(before + slot_cap, budget.spent() + borrow)))
+                            slot_caps[account] = round(budget.cap() - before, 6)
                         source, units = evidence_source(grp)
                         prior_count = len(ledger.current())
                         result = compose.compose_source(
@@ -414,9 +438,11 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
                     reason = (f'BudgetExceeded: slot sub-cap ${slot_cap:.2f} refused a call before sending; '
                               'slot synthetic, later slots keep their own sub-cap.')
                     notes.append(account + ': ' + reason)
+                    result = _keep_rejected(result, account, rejected, reason)
                 except Exception as exc:
-                    reason = f'Live compose failed: {type(exc).__name__}; slot synthetic.'
+                    reason = f'Live compose failed: {type(exc).__name__}: {str(exc)[:160]}; slot synthetic.'
                     notes.append(account + ': ' + reason)
+                    result = _keep_rejected(result, account, rejected, reason)
         if result is None:
             result = fake_result(account, ledger, reason)
         result.setdefault('pack_balance', compose.pack_balance(result.get('units') or []))
@@ -443,7 +469,7 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
         write_json(out / 'synthetic_arbitration_example.json', synthetic)
     for result in results:
         write_json(out / 'drafts' / (result['account_id'] + '.json'), result)
-    decisions = {r['key']: r.get('arbitration', {'status': 'NO_CANDIDATE'}) for r in results}
+    decisions = {r.get('key') or r.get('account_id'): r.get('arbitration', {'status': 'NO_CANDIDATE'}) for r in results}
     write_json(out / 'arbitration.json', decisions)
     lines = ['# Matrix compose demo', '', 'publishable=false / human review only', '',
              f'Command: `{command}`', f'Spend USD: ${budget.spent():.6f} / cap ${cap:.2f} (includes probes and failed calls).',

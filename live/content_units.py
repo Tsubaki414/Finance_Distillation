@@ -148,6 +148,9 @@ def coerce_view(view):
         ('horizon', HORIZONS, horizons, 'unspecified')):
         original = view.get(field)
         token = original.strip().casefold() if isinstance(original, str) else ''
+        if field == 'direction' and token not in allowed:
+            # v8: 'conditionally_bullish' / 'cautiously bearish' -> base direction (conditions carry the hedge)
+            token = re.sub(r'^(?:conditionally|cautiously|moderately|slightly|mildly|tentatively)[\s_-]+', '', token)
         value = token if token in allowed else synonyms.get(token, default)
         if field == 'conviction':
             try:

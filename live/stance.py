@@ -189,9 +189,11 @@ def _validate_stance_value(value, view_unit, view, prior, allowed):
     if cited is not None:
         # Explicit citations are a continuity hint only; unknown ids are dropped, never an error.
         value['cited_prior_view_ids'] = [i for i in (cited if isinstance(cited, list) else []) if i in prior_ids]
-    if value.get('revises_view_id') is not None:
-        require(value['revises_view_id'] in prior_ids,
-                'stance: revises_view_id is not a supplied prior view')
+    if value.get('revises_view_id') is not None and value['revises_view_id'] not in prior_ids:
+        # Oct 6 v8: soft. v8 zh_industry put a unit id here and the whole slot went synthetic
+        # (ContractError); an unknown revise target is dropped and reported, like cited ids.
+        value['revises_view_id_dropped'] = value['revises_view_id']
+        value['revises_view_id'] = None
     # continues_view_id is linked deterministically from ledger match scores (view_ledger.link_continuity);
     # a model-typed id is never trusted.
     value.pop('continues_view_id', None)
