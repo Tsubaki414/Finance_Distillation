@@ -493,3 +493,86 @@ def test_zh_unit_translation_env_off(monkeypatch, tmp_path):
 
 def test_en_stance_never_asks_for_translation():
     assert not stance_mod.zh_units_enabled({'lang': 'en'}) and stance_mod.zh_units_enabled({'lang': 'zh'})
+
+
+# ---------------- fix 7: missing_why checks that the reason cites a fact ----------------
+
+HEAD_BODY = ('美联储短期内不会再加息了。\n背后是哪怕核心PCE通胀还在3.0%，纽约联储主席Williams也明确表态没有紧迫性。\n'
+             '对市场来说，押注连续收紧的交易可以歇了。')
+REAL_BODY = ('美联储短期内不会再加息了。\n因为9月新增就业只有2.9万，远低于预期的8.4万。\n'
+             '对市场来说，10月加息的概率已经从66%掉到22%。')
+
+
+def _why(body, **kw):
+    return [f for f in zr.why_implication_findings(body, 'zh', **kw) if f['code'] == 'missing_why']
+
+
+def test_said_reason_with_keyword_does_not_pass():
+    ledger = [{'claim': 'Williams明确表态没有紧迫性', 'unit_id': 'cu-view', 'span_ref': 0}]
+    f = _why(HEAD_BODY, units=POOL, ledger=ledger)
+    assert f and f[0]['detail'] == '理由只是某人表态，没有事实'
+    assert _why(HEAD_BODY)                                       # keyword-only (背后是 + 表态) fails without units too
+
+
+def test_fact_backed_reason_passes():
+    assert _why(REAL_BODY, units=POOL, ledger=[]) == []          # 2.9万 / 8.4万 from the payroll fact unit
+    body = '美联储短期内不会再加息了。\n背后是就业数据一下子变得很难看。\n对市场来说，短端利率压力小了。'
+    ledger = [{'claim': '就业数据一下子变得很难看', 'unit_id': 'cu-jobs', 'span_ref': 0}]
+    assert _why(body, units=POOL, ledger=ledger) == []           # ledger row on a fact unit
+
+
+def test_reason_mapped_to_view_unit_is_missing_why():
+    body = '美联储短期内不会再加息了。\n背后是官方觉得手上时间还多。\n对市场来说，短端利率压力小了。'
+    ledger = [{'claim': '官方觉得手上时间还多', 'unit_id': 'cu-view', 'span_ref': 0}]
+    f = _why(body, units=POOL, ledger=ledger)
+    assert f and '观点单元' in f[0]['detail']
+
+
+def test_zh_unit_translation_lets_a_paraphrase_count():
+    body = '美联储短期内不会再加息了。\n因为新增就业远低于道琼斯调查的预期。\n对市场来说，短端利率压力小了。'
+    assert stance_mod and zr.reason_support('因为新增就业远低于道琼斯调查的预期', POOL, [],
+                                            {'cu-jobs': ZH_UNITS['cu-jobs']})[0] == 'fact'
+    assert _why(body, units=POOL, ledger=[], zh_units={'cu-jobs': ZH_UNITS['cu-jobs']}) == []
+
+
+def test_missing_why_soft_single_regen_and_yellow_flag(monkeypatch, tmp_path):
+    _iso(monkeypatch, tmp_path)
+
+    class Fake(JudgmentFake):
+        def __call__(self, stage, messages, max_tokens):
+            out = super().__call__(stage, messages, max_tokens)
+            if stage == 'compose':
+                n = len(self.payloads['compose'])
+                v = json.loads(out['text'])
+                v['body'] = HEAD_BODY if n == 1 else REAL_BODY
+                v['claim_ledger'] = ([{'claim': 'Williams也明确表态没有紧迫性', 'unit_id': 'cu-view', 'span_ref': 0}]
+                                     if n == 1 else [{'claim': '9月新增就业只有2.9万', 'unit_id': 'cu-jobs', 'span_ref': 0}])
+                out['text'] = json.dumps(v, ensure_ascii=False)
+            return out
+    fake = Fake({'why_unit_ids': ['cu-jobs'], 'so_what_unit_ids': ['cu-odds']})
+    result = _compose(fake)
+    sr = result['structure_retry']
+    first = [f for f in sr['first_findings'] if f['code'] == 'missing_why']
+    assert first and first[0]['detail'] == '理由只是某人表态，没有事实'
+    assert sr['kept'] == 'retry' and result['body'] == REAL_BODY
+    assert not [f for f in result['post_checks'] if f['code'] == 'missing_why']
+    assert len([p for p in fake.payloads['compose'] if str(p.get('rewrite_note', '')).startswith('[structure_repair]')]) == 1
+
+
+def test_missing_why_never_blocks(monkeypatch, tmp_path):
+    _iso(monkeypatch, tmp_path)
+
+    class Stubborn(JudgmentFake):
+        def __call__(self, stage, messages, max_tokens):
+            out = super().__call__(stage, messages, max_tokens)
+            if stage == 'compose':
+                v = json.loads(out['text'])
+                v['body'] = HEAD_BODY
+                v['claim_ledger'] = [{'claim': 'Williams也明确表态没有紧迫性', 'unit_id': 'cu-view', 'span_ref': 0}]
+                out['text'] = json.dumps(v, ensure_ascii=False)
+            return out
+    result = _compose(Stubborn())
+    flags = [f for f in result['post_checks'] if f['code'] == 'missing_why']
+    assert flags and all(f['level'] == 'soft' for f in flags)
+    assert 'missing_why' not in result['qa']['hard'] and 'missing_why' in result['qa']['soft']
+    assert result['structure_retry']['kept'] == 'original'

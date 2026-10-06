@@ -1843,7 +1843,10 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                        'zh_awkward_time', 'zh_intensifier', 'structure_repeat')
     recent_bodies = [r['text'] for r in recent_rows if isinstance(r, dict) and r.get('text')]
 
-    def _structure(b):
+    why_kw = {'units': chosen, 'why_line': (stance or {}).get('why_line'),
+              'zh_units': (stance or {}).get('zh_units')}   # v11: the why must cite a fact / mechanism unit
+
+    def _structure(b, ledger=None):
         from live.coherence import internal_contradiction_findings
         found = compose_shapes.shape_findings(b, shape_info) if shape_info else []
         if post_type in JUDGMENT_TYPES or thesis_locked:
@@ -1867,10 +1870,10 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             if post_type in JUDGMENT_TYPES or thesis_locked:     # v11: same stock why/so-what lead-in again
                 found += zr.leadin_repeat_findings(b, recent_bodies)
             if post_type in JUDGMENT_TYPES or thesis_locked:   # v10: 谜语人 - call without why / what it means
-                found += zr.why_implication_findings(b, persona.lang)
+                found += zr.why_implication_findings(b, persona.lang, ledger=ledger, **why_kw)
         return found + internal_contradiction_findings(b)
 
-    first_structure = _structure(body)
+    first_structure = _structure(body, value.get('claim_ledger'))
     if first_structure:
         from live.coherence import REPAIR
         parts = []
@@ -1889,7 +1892,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             value_s, response_s = {}, {}
             retry_payload['retry_error'] = type(exc).__name__
         body_s = (value_s.get('body') or '').strip()
-        after_s = _structure(body_s) if body_s else first_structure
+        after_s = _structure(body_s, value_s.get('claim_ledger')) if body_s else first_structure
         regression = (_guard_codes(body_s, chosen, stance, persona.lang) - _guard_codes(body, chosen, stance, persona.lang)
                       if body_s else set())
         supplied_s = {u['unit_id']: u for u in chosen}
@@ -1970,6 +1973,10 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                                    frame_found=True)
     if stance and stance.get('stance_findings'):
         findings += qa_levels.classify(stance['stance_findings'], frame_found=True)
+    if use_zh and (post_type in JUDGMENT_TYPES or thesis_locked):
+        # v11: soft yellow flag on the kept body (the regen above already had its one try).
+        findings += qa_levels.classify(zr.why_implication_findings(body, persona.lang, ledger=ledger, **why_kw),
+                                       frame_found=True)
     findings += qa_levels.classify(
         verbatim_line1_findings(body, stance, thesis_lock=payload.get('thesis_lock')), frame_found=True)
     input_view = (primary or {}).get('view') if stance else None

@@ -593,13 +593,108 @@ IMPLICATION_RX = re.compile(r'对[^，。；！？\n]{1,12}(?:来说|而言)|这
 AWKWARD_TIME = ('随后就会直接', '随后就直接', '接下来纯粹是', '直接停手', '走过场', '直接放话', '打没了')
 
 
-def why_implication_findings(body, lang='zh'):
-    """SOFT missing_why / missing_implication on a ZH judgment draft (see rule above)."""
+# v11 (root cause #4/#7): a keyword is not a reason. The head experiment wrote 「背后是哪怕核心PCE通胀还在
+# 3.0%，纽约联储主席Williams也明确表态没有紧迫性」 and passed. The why sentence (any sentence with a causal
+# marker, plus the sentence after line 1 closest to stance.why_line) is classified by reason_support: backed
+# by a fact / mechanism unit (claim_ledger row on such a unit, a number from one, or a name / phrase only a
+# fact unit carries), or a view (somebody's statement 表态 / 表示 / 放话 / 称 …, or a ledger row on a view
+# unit), or unknown. missing_why when no why sentence is fact-backed and one is a view. Unknown passes: a
+# Chinese paraphrase of an English unit has no lexical overlap (zh_units translations narrow that gap).
+SAID_ZH = re.compile(r'表态|表示|放话|声称|宣称|(?<![名简堪号职])称(?!为|得|作|之)|说过|直言|喊话|暗示|口风|发话')
+FACT_KINDS = ('fact', 'mechanism')
+_LATIN = re.compile(r'[A-Za-z][A-Za-z&.-]{1,}')
+
+
+def _sentences(text):
+    return [x.strip() for x in re.split(r'[。！？!?\n；;]+', str(text or '')) if x.strip()]
+
+
+def _bigrams(text):
+    t = ''.join(CJK.findall(str(text or '')))
+    return {t[i:i + 2] for i in range(len(t) - 1)}
+
+
+def _unit_texts(unit, zh_units=None):
+    parts = [str(unit.get('statement') or ''), str(unit.get('statement_en') or '')]
+    parts += [str(n.get('text') or '') for n in unit.get('numbers') or []]
+    parts += [str(sp.get('exact_text') if isinstance(sp, dict) else sp or '') for sp in unit.get('source_spans') or []]
+    if zh_units and isinstance(zh_units.get(unit.get('unit_id')), str):
+        parts.append(zh_units[unit['unit_id']])
+    return [p for p in parts if p]
+
+
+def _ledger_rows(sentence, ledger, by_id):
+    """claim_ledger rows whose claim is this sentence (claim contained, or >= half its CJK bigrams)."""
+    grams = _bigrams(sentence)
+    for row in ledger or ():
+        if not isinstance(row, dict) or row.get('unit_id') not in by_id:
+            continue
+        claim = str(row.get('claim') or '').strip()
+        cg = _bigrams(claim)
+        if claim and (claim in sentence or (cg and len(cg & grams) >= max(2, len(cg) // 2))):
+            yield row, by_id[row['unit_id']]
+
+
+def reason_support(sentence, units, ledger=None, zh_units=None):
+    """('fact' | 'view' | 'unknown', how) for one why sentence.
+    fact: a fact / mechanism unit backs it (number, claim_ledger row, a name or 3+ CJK bigrams only fact units
+    carry). view: the reason is somebody's statement (表态 / 表示 / 放话 …) or its ledger row is a view unit.
+    unknown: no evidence either way (a Chinese paraphrase of an English unit has no lexical overlap)."""
+    if SAID_ZH.search(sentence):
+        return 'view', 'said'
+    facts = [u for u in units if u.get('kind') in FACT_KINDS]
+    views = [u for u in units if u.get('kind') not in FACT_KINDS]
+    fact_texts = [t for u in facts for t in _unit_texts(u, zh_units)]
+    view_texts = ' '.join(t for u in views for t in _unit_texts(u, zh_units)).lower()
+    if re.search(r'\d', sentence) and fact_texts and numbers_covered(sentence, fact_texts):
+        return 'fact', 'number'
+    rows = list(_ledger_rows(sentence, ledger, {u.get('unit_id'): u for u in units}))
+    if any(u.get('kind') in FACT_KINDS for _, u in rows):
+        return 'fact', 'ledger'
+    fact_low = ' '.join(fact_texts).lower()
+    if any(w.lower() in fact_low and w.lower() not in view_texts for w in _LATIN.findall(sentence)):
+        return 'fact', 'name'
+    fact_grams = set().union(*[_bigrams(t) for t in fact_texts]) if fact_texts else set()
+    if len((_bigrams(sentence) & fact_grams) - _bigrams(view_texts)) >= 3:
+        return 'fact', 'phrase'
+    if rows:
+        return 'view', 'ledger_view'
+    return 'unknown', None
+
+
+def why_sentences(body, why_line=None):
+    """Sentences that carry the reason: any with a causal marker, plus the sentence after line 1 closest
+    to why_line (CJK bigram overlap >= 0.3)."""
+    sents = _sentences(body)
+    out = [x for x in sents if WHY_RX.search(x)]
+    if why_line and len(sents) > 1:
+        wl = _bigrams(why_line)
+        best = max(sents[1:], key=lambda x: len(_bigrams(x) & wl))
+        if wl and len(_bigrams(best) & wl) / len(wl) >= 0.3 and best not in out:
+            out.append(best)
+    return out
+
+
+def why_implication_findings(body, lang='zh', *, units=None, ledger=None, why_line=None, zh_units=None):
+    """SOFT missing_why / missing_implication on a ZH judgment draft (see rules above).
+
+    v11: a causal keyword is not enough - when no why sentence is backed by a fact / mechanism unit and
+    one only reports somebody's statement (表态 / 表示 / 放话 …) or maps to a view unit in claim_ledger,
+    missing_why fires (see reason_support). units / ledger / zh_units come from the draft."""
     if lang != 'zh' or not body or len(CJK.findall(str(body))) < 15:
         return []
     out = []
-    if not WHY_RX.search(body):
+    whys = why_sentences(body, why_line)
+    if not whys:
         out.append({'code': 'missing_why', 'detail': '只有判断和数字，没有一句说清为什么（哪个事实/数字导致了这个判断）'})
+    else:
+        support = [reason_support(x, units or [], ledger, zh_units) for x in whys]
+        kinds = {k for k, _ in support}
+        if 'fact' not in kinds and 'view' in kinds:
+            said = any(how == 'said' for _, how in support)
+            out.append({'code': 'missing_why',
+                        'detail': '理由只是某人表态，没有事实' if said else
+                                  '理由只引用了观点单元（claim_ledger），没有事实/数字'})
     if not IMPLICATION_RX.search(body):
         out.append({'code': 'missing_implication',
                     'detail': '没说这对市场/读者意味着什么（谁受益谁吃亏、还没被定价的是什么）'})
