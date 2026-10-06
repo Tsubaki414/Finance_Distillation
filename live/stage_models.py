@@ -19,7 +19,7 @@ PATH = Path(__file__).with_name('stage_models.json')
 KEY_HOSTS = {'GEMINI_RELAY_API_KEY': ('www.micuapi.ai',),
              'RELAY_API_KEY': ('api.erisedai.com',),
              'ACCOUNT_RELAY_API_KEY': ('api.erisedai.com',)}
-ENV_STAGES = ('compose', 'stance')
+ENV_STAGES = ('compose', 'stance', 'extract')
 
 
 def _check_route(stage, base_url, api_key_env):
@@ -62,6 +62,9 @@ def validate(table):
             raise ValueError(f'stage {stage}: temperature must be within [0, 2]')
         _check_route(stage, entry.get('base_url'), entry.get('api_key_env'))
         _check_rates(stage, entry.get('rates'))
+        mt = entry.get('max_tokens')
+        if mt is not None and (isinstance(mt, bool) or not isinstance(mt, int) or mt <= 0):
+            raise ValueError(f'stage {stage}: max_tokens must be a positive integer')
         names = accepted.get(entry['model'])
         if not isinstance(names, list) or not names or not all(isinstance(n, str) and n for n in names):
             raise ValueError(f'stage {stage}: model {entry["model"]} has no accepted response mapping')
@@ -71,6 +74,9 @@ def validate(table):
                 raise ValueError(f'stage {stage}: fallback needs a model (and no nested fallback)')
             _check_route(stage + '.fallback', fb.get('base_url'), fb.get('api_key_env'))
             _check_rates(stage + '.fallback', fb.get('rates'))
+            mt = fb.get('max_tokens')
+            if mt is not None and (isinstance(mt, bool) or not isinstance(mt, int) or mt <= 0):
+                raise ValueError(f'stage {stage}: fallback max_tokens must be a positive integer')
             names = accepted.get(fb['model'])
             if not isinstance(names, list) or not names:
                 raise ValueError(f'stage {stage}: fallback model {fb["model"]} has no accepted response mapping')
@@ -96,14 +102,24 @@ def models(table):
 
 
 def fallback(table, stage):
-    """The stage's documented fallback {'model','temperature','base_url','api_key_env','rates'} or None."""
+    """The stage's documented fallback {'model','temperature','base_url','api_key_env','rates','max_tokens'} or None.
+
+    max_tokens (optional) replaces the global fallback clamp for that stage (EXTRACT on opus needs its full
+    12000-token ceiling; compose fallbacks stay clamped)."""
     entry = (table.get('stages') or {}).get(stage) or table['default']
     fb = entry.get('fallback')
     if not fb:
         return None
     return {'model': fb['model'], 'temperature': float(fb.get('temperature', 0.0)),
             'base_url': fb['base_url'].rstrip('/') if fb.get('base_url') else None,
-            'api_key_env': fb.get('api_key_env'), 'rates': tuple(fb['rates']) if fb.get('rates') else None}
+            'api_key_env': fb.get('api_key_env'), 'rates': tuple(fb['rates']) if fb.get('rates') else None,
+            'max_tokens': int(fb['max_tokens']) if fb.get('max_tokens') else None}
+
+
+def max_tokens(table, stage):
+    """The stage primary's own output ceiling (e.g. Gemini EXTRACT: reasoning tokens count toward it) or None."""
+    entry = (table.get('stages') or {}).get(stage) or table['default']
+    return int(entry['max_tokens']) if entry.get('max_tokens') else None
 
 
 def route(table, stage):
@@ -140,7 +156,7 @@ def override(table, stage, model, *, temperature=0.0, base_url=None, api_key_env
 
 def from_env(table, environ):
     """Explicit env configuration: FD_<STAGE>_MODEL [+ FD_<STAGE>_BASE_URL + FD_<STAGE>_API_KEY_ENV,
-    FD_<STAGE>_ACCEPTED_MODELS, FD_<STAGE>_RATES "in,out"] for compose and stance. No vars -> unchanged."""
+    FD_<STAGE>_ACCEPTED_MODELS, FD_<STAGE>_RATES "in,out"] for compose, stance and extract. No vars -> unchanged."""
     out = table
     for stage in ENV_STAGES:
         key = 'FD_' + stage.upper() + '_'

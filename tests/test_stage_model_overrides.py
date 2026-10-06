@@ -23,9 +23,10 @@ MICU = 'https://www.micuapi.ai/v1'
 class OverrideTableTests(unittest.TestCase):
     def test_no_env_keeps_shipped_defaults(self):
         table = stage_models.from_env(stage_models.load(), {})
-        for stage in ('stance', 'extract'):
-            self.assertEqual(stage_models.for_stage(table, stage), {'model': 'claude-opus-5', 'temperature': 0.0})
-            self.assertIsNone(stage_models.route(table, stage))
+        self.assertEqual(stage_models.for_stage(table, 'stance'), {'model': 'claude-opus-5', 'temperature': 0.0})
+        self.assertIsNone(stage_models.route(table, 'stance'))
+        # EXTRACT default moved to Gemini (2026-10-06 decision; see test_gemini_extract.py).
+        self.assertEqual(stage_models.for_stage(table, 'extract')['model'], 'gemini-3.1-pro-preview')
         # COMPOSE default moved to Gemini (2026-10-04 decision; see test_compose_default_gemini.py).
         self.assertEqual(stage_models.for_stage(table, 'compose')['model'], 'gemini-3.1-pro-preview')
 
@@ -145,7 +146,7 @@ class ClientRoutesStageTests(unittest.TestCase):
                                    'choices': [{'message': {'content': '{}'}, 'finish_reason': 'stop'}],
                                    'usage': {'prompt_tokens': 1, 'completion_tokens': 1}}))[1]))
             c('compose', [{'role': 'user', 'content': 'x'}], 10)
-            c('extract', [{'role': 'user', 'content': 'x'}], 10)
+            c('stance', [{'role': 'user', 'content': 'x'}], 10)
         self.assertEqual(self.seen, ['claude-opus-5-5', 'claude-opus-5'])
 
 

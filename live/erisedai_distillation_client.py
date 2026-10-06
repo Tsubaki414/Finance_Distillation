@@ -190,7 +190,8 @@ class ErisedaiClient:
         if fb is not None and tripped:
             return self._fallback(stage, messages, max_tokens, fb, f'quota breaker open: {tripped}'[:300])
         try:
-            return self._call(stage, messages, max_tokens, selected['model'], selected['temperature'],
+            return self._call(stage, messages, stage_models.max_tokens(self.stage_models, stage) or max_tokens,
+                              selected['model'], selected['temperature'],
                               routed['base_url'] if routed else self.config['base_url'],
                               self._route_keys[stage] if routed else self.config['api_key'],
                               routed['api_key_env'] if routed else None)
@@ -206,7 +207,7 @@ class ErisedaiClient:
             base_url, secret, key_env = fb['base_url'], self._fallback_keys[stage], fb['api_key_env']
         else:
             base_url, secret, key_env = self.config['base_url'], self.config['api_key'], None
-        return self._call(stage, messages, min(int(max_tokens), FALLBACK_MAX_TOKENS), fb['model'], fb['temperature'],
+        return self._call(stage, messages, min(int(max_tokens), fb.get('max_tokens') or FALLBACK_MAX_TOKENS), fb['model'], fb['temperature'],
                           base_url, secret, key_env, fallback_reason=reason)
 
     def _call(self, stage, messages, max_tokens, model, temperature, base_url, secret, routed_key_env,

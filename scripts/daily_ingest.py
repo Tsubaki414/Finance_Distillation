@@ -19,7 +19,8 @@ def main():
     parser.add_argument('--max-source-chars',type=int,default=5000)
     parser.add_argument('--per-channel-max',type=int,default=2)
     parser.add_argument('--fair-share-floor',type=int,default=2,help='paid extracts per persona (fewest fresh first) before the rest')
-    parser.add_argument('--extract-model',default=None,help='relay model for EXTRACT only (default claude-opus-5)')
+    parser.add_argument('--extract-model',default=None,help='relay model for EXTRACT only (default: stage_models.json "extract")')
+    parser.add_argument('--no-persona-minimum',dest='persona_minimum',action='store_false',help='no persona_minimum slots in the budget window')
     parser.add_argument('--allow-nondefault-extract-model',action='store_true',help='explicit opt-in for a non-default --extract-model')
     # v10 (Oct 6, Fiona approved): 7x24 flashes on a ring-fenced budget inside --cost-cap-usd; tier-C headline leads.
     parser.add_argument('--flash-budget-usd',type=float,default=1.75,help='ring-fenced flash budget inside the cap (0 = no flashes extracted)')

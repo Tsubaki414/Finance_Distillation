@@ -22,6 +22,14 @@ timeliness class (`timeliness()`):
 Order: pre_extracted -> timely (persona round-robin, prior-deferred first inside a persona) ->
 fair-share floor -> rest -> transcripts_last. 7x24 flashes have their own ring-fenced budget and run
 before this queue (live/daily_ingest.py), so docs never eat the flash budget.
+
+persona_minimum (Oct 6, gemini EXTRACT): `order_tasks(..., fit=N)` where N = paid extracts expected to
+fit the docs budget (docs budget // est $/doc from stage_models.json "extract", capped by max_extract).
+Every known persona with a paid candidate but none in the first N paid positions gets its best
+candidate (first in the normal order) moved into that window, phase 'persona_minimum', fewest-fresh
+personas first, placed right after the window's timely items. The window stays exactly N long: each move pushes out the last window item whose
+persona keeps another slot (never another persona_minimum item); pushed-out items follow the window
+in their original order. If nothing can be pushed out, no more minimums. fit=None -> order above.
 """
 from __future__ import annotations
 
@@ -172,8 +180,10 @@ def _keys(source):
     return {str(source.get(k)) for k in ('id', 'url', 'source_hash') if source.get(k)}
 
 
-def order_tasks(tasks, fresh_by_persona, deferred_ids=(), *, floor=2, legacy_priority=None):
+def order_tasks(tasks, fresh_by_persona, deferred_ids=(), *, floor=2, legacy_priority=None, fit=None):
     """Return (ordered_tasks, plan). task = (channel_dict, source, units, adapter, keys, rank).
+
+    `fit` (int > 0): paid extracts expected to fit the budget -> persona_minimum pass (module doc).
 
     `plan` rows explain each position: phase, persona charged, prior-deferred flag."""
     fresh = dict(fresh_by_persona or {})
@@ -225,13 +235,51 @@ def order_tasks(tasks, fresh_by_persona, deferred_ids=(), *, floor=2, legacy_pri
     taken = set(floor_order)
     rest = sorted((i for i in middle if i not in taken),
                   key=lambda i: (not meta[i]['prior'], meta[i]['need'], meta[i]['legacy'], meta[i]['rank'], i))
-    order, plan = [], []
+    phase_of, paid_order = {}, []
     for phase, block in (('pre_extracted', free), ('timely', timely), ('fair_share_floor', floor_order),
                          ('rest', rest), ('transcripts_last', transcripts)):
         for i in block:
-            order.append(tasks[i])
-            plan.append(dict(phase=phase, channel=tasks[i][0]['id'], id=tasks[i][1].get('id'),
-                             persona=meta[i]['persona'], personas=meta[i]['personas'],
-                             fresh=meta[i]['need'] if meta[i]['persona'] != UNKNOWN else None,
-                             prior_deferred=meta[i]['prior'], timeliness=meta[i].get('timeliness')))
+            phase_of[i] = phase
+            if phase != 'pre_extracted':
+                paid_order.append(i)
+    if isinstance(fit, int) and not isinstance(fit, bool) and 0 < fit < len(paid_order):
+        paid_order = _persona_minimum(paid_order, fit, meta, fresh, phase_of)
+    order, plan = [], []
+    for i in free + paid_order:
+        order.append(tasks[i])
+        plan.append(dict(phase=phase_of[i], channel=tasks[i][0]['id'], id=tasks[i][1].get('id'),
+                         persona=meta[i]['persona'], personas=meta[i]['personas'],
+                         fresh=meta[i]['need'] if meta[i]['persona'] != UNKNOWN else None,
+                         prior_deferred=meta[i]['prior'], timeliness=meta[i].get('timeliness')))
     return order, plan
+
+
+def _persona_minimum(paid_order, fit, meta, fresh, phase_of):
+    """Give every known persona with a paid candidate one slot in the first `fit` paid positions.
+
+    The window stays exactly `fit` long: each added item pushes out the last window item whose persona
+    keeps another slot (never another persona_minimum item). Pushed-out items follow the window in
+    their original order. Updates phase_of in place for moved items."""
+    persona = lambda i: meta[i]['persona']
+    window, outside = list(paid_order[:fit]), list(paid_order[fit:])
+    count = Counter(persona(i) for i in window)
+    missing = sorted({persona(i) for i in outside if persona(i) != UNKNOWN and not count[persona(i)]},
+                     key=lambda p: (fresh.get(p, 0), p))
+    pushed, minimum = [], set()
+    for p in missing:
+        out = next((j for j in reversed(window) if j not in minimum
+                    and (persona(j) == UNKNOWN or count[persona(j)] > 1)), None)
+        if out is None:
+            break
+        best = next(i for i in outside if persona(i) == p)
+        window.remove(out); pushed.append(out); count[persona(out)] -= 1
+        outside.remove(best); window.append(best); count[p] += 1
+        minimum.add(best); phase_of[best] = 'persona_minimum'
+    pos = {i: n for n, i in enumerate(paid_order)}
+    # Minimum items sit right after the window's timely items (not at its tail), so a costlier-than-estimated
+    # day cuts the window's last floor/rest items first, not the persona minimums.
+    kept = [i for i in window if i not in minimum]
+    timely_head = [i for i in kept if phase_of[i] == 'timely']
+    window = timely_head + sorted(minimum, key=lambda i: (fresh.get(persona(i), 0), pos[i])) + \
+        [i for i in kept if phase_of[i] != 'timely']
+    return window + sorted(pushed, key=pos.get) + outside

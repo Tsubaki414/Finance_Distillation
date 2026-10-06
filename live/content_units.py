@@ -25,6 +25,8 @@ from live.numeric_fidelity import RANGE, inventory
 VERSION = 'content-units-extract-v2'
 KINDS = ('fact', 'mechanism', 'view', 'aphorism')
 SPEAKER_TYPES = ('kol', 'company_exec', 'sell_side', 'official', 'media', 'author')
+PLACEHOLDER_SPEAKERS = frozenset(SPEAKER_TYPES) | {'unknown', 'n/a', 'none', 'source', 'the source', 'publication',
+                                                  'the author', 'author'}
 FRESHNESS = ('breaking', 'current', 'evergreen')
 USAGE = {'A': 'quote', 'B': 'paraphrase', 'C': 'topic_only'}
 MAX_TOKENS = 12000
@@ -352,6 +354,13 @@ def extract(source, client, *, licence_tier, publisher=None):
     except ValueError as exc:
         raise ContractError('extract: ' + str(exc)) from exc
     units, dropped = validate_units_partial(source, value, licence_tier, require_view=True)
+    # A placeholder speaker ("media", "unknown", ...) names nobody: credit the publisher / author instead
+    # (extract A/B 10/6: Gemini wrote speaker "media" for 华尔街见闻 facts).
+    named = next((x.strip() for x in (publisher, source.get('author_name')) if isinstance(x, str) and x.strip()), None)
+    if named:
+        for unit in units:
+            if unit['speaker'].strip().casefold() in PLACEHOLDER_SPEAKERS:
+                unit.update(speaker=named, speaker_normalized=True)
     if restricted and licence_tier == 'B':
         apply_no_reproduction(units)
     elif restricted:

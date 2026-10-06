@@ -36,9 +36,11 @@ class ShippedTableTests(unittest.TestCase):
 
     def test_other_stages_unchanged(self):
         table = stage_models.load()
-        for stage in ('extract', 'stance', 'translate', 'qa'):
+        for stage in ('stance', 'translate', 'qa'):
             self.assertEqual(stage_models.for_stage(table, stage)['model'], 'claude-opus-5')
             self.assertIsNone(stage_models.route(table, stage))
+        # EXTRACT moved to Gemini on 2026-10-06 (tests/test_gemini_extract.py).
+        self.assertEqual(stage_models.for_stage(table, 'extract')['model'], 'gemini-3.1-pro-preview')
 
     def test_compose_fallback_is_opus_5_5_on_default_relay(self):
         fb = stage_models.fallback(stage_models.load(), 'compose')
@@ -151,7 +153,7 @@ class ClientFallbackTests(unittest.TestCase):
         self.assertEqual(len(self.seen), 1)
 
     def test_other_stages_stay_on_opus_5(self):
-        self.client(lambda host, model: ok(model))('extract', MSG, 10)
+        self.client(lambda host, model: ok(model))('stance', MSG, 10)
         self.assertEqual(self.seen, [('api.erisedai.com', 'Bearer default-key', 'claude-opus-5')])
 
 

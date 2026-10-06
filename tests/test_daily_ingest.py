@@ -164,6 +164,7 @@ def test_failed_extract_is_not_retried_forever(tmp_path):
 
 def test_extract_model_override_needs_explicit_flag(tmp_path, monkeypatch):
     from live import daily_ingest
+    monkeypatch.setenv('GEMINI_RELAY_API_KEY','dummy'); monkeypatch.delenv('FD_EXTRACT_MODEL',raising=False)
     monkeypatch.setattr(daily_ingest, '_relay_config', lambda: {'base_url': 'https://api.erisedai.com/v1', 'api_key': 'k',
                         'model': 'claude-opus-5', 'input_usd_per_million': 15.0, 'output_usd_per_million': 75.0})
     with pytest.raises(ValueError, match='allow'):
@@ -174,7 +175,7 @@ def test_extract_model_override_needs_explicit_flag(tmp_path, monkeypatch):
     # an extract override leaves COMPOSE on its shipped default
     assert stage_models.for_stage(c.stage_models, 'compose') == stage_models.for_stage(stage_models.load(), 'compose')
     default = daily_ingest.extract_client(tmp_path/'d')
-    assert stage_models.for_stage(default.stage_models, 'extract')['model'] == 'claude-opus-5'
+    assert stage_models.for_stage(default.stage_models, 'extract')['model'] == 'gemini-3.1-pro-preview'
 
 
 def test_incomplete_output_retries_once_on_a_shorter_source(tmp_path):

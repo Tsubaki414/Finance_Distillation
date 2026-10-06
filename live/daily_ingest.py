@@ -38,9 +38,12 @@ def bounded_fetch(fetch, timeout):
 
 
 DEFAULT_TIMEOUTS={'podcast:':900}
-DEFAULT_EXTRACT_MODEL='claude-opus-5'
+# Oct 6 (Fiona): full-article EXTRACT is config-driven - live/stage_models.json "extract" (gemini-3.1-pro-preview on
+# micuapi, documented fallback claude-opus-5 on error / no channel / quota / unset key). FD_EXTRACT_MODEL overrides.
+LEGACY_EXTRACT_MODEL='claude-opus-5'
 # List prices per 1M tokens (input, output) for the ledger when extract runs on a non-default relay model.
 EXTRACT_MODEL_RATES={'claude-sonnet-5':(3.0,15.0)}
+DEFAULT_EST_USD_PER_DOC=0.83   # opus-era measured average (relay $/extract), used when the stage sets no estimate
 
 
 def _relay_config():
@@ -48,25 +51,91 @@ def _relay_config():
     return relay_config()
 
 
+def extract_table(environ=None):
+    """The stage table EXTRACT runs on (stage_models.json + FD_EXTRACT_* env overrides)."""
+    import os
+    from live import stage_models
+    return stage_models.from_env(stage_models.load(), os.environ if environ is None else environ)
+
+
+def extract_plan(table=None):
+    """{'model','fallback','route_host','est_usd_per_doc'} for the configured EXTRACT stage."""
+    from live import stage_models
+    table=table or extract_table()
+    entry=(table.get('stages') or {}).get('extract') or {}
+    fb=stage_models.fallback(table,'extract')
+    route=stage_models.route(table,'extract')
+    return dict(model=stage_models.for_stage(table,'extract')['model'],fallback=fb['model'] if fb else None,
+                route_host=route['base_url'].split('/')[2] if route else None,
+                est_usd_per_doc=float(entry.get('est_usd_per_doc') or DEFAULT_EST_USD_PER_DOC),
+                fallback_est_usd_per_doc=float(((entry.get('fallback') or {}).get('est_usd_per_doc')) or DEFAULT_EST_USD_PER_DOC))
+
+
+def validated_extract_models(table=None):
+    """Models EXTRACT may run on without the explicit opt-in: the configured primary and its documented fallback."""
+    plan=extract_plan(table)
+    return {m for m in (plan['model'],plan['fallback'],LEGACY_EXTRACT_MODEL) if m}
+
+
 def extract_client(directory, *, model=None, allow_nondefault=False):
-    """Relay client for EXTRACT. The validated default is claude-opus-5; another model needs allow_nondefault=True
-    (CLI: --extract-model M --allow-nondefault-extract-model) and only overrides the extract stage."""
-    import copy
+    """Relay client for EXTRACT. The configured stage (stage_models.json "extract") runs by default. --extract-model M
+    pins one model for the extract stage (no route, no fallback): the configured primary / fallback / claude-opus-5
+    are validated; another model needs allow_nondefault=True (CLI: --allow-nondefault-extract-model)."""
     from live import stage_models
     from live.erisedai_distillation_client import ErisedaiClient, PROVIDER
     from ml import budget
     cfg=_relay_config()
-    if model and model!=DEFAULT_EXTRACT_MODEL:
-        if not allow_nondefault:
+    table=extract_table()
+    plan=extract_plan(table)
+    if model and model!=plan['model']:
+        if model not in validated_extract_models(table) and not allow_nondefault:
             raise ValueError(f'extract model {model} is not the validated default; pass allow_nondefault (--allow-nondefault-extract-model)')
-        table=copy.deepcopy(stage_models.load())
+        table=stage_models.copy_of(table)
         table['stages']=dict(table.get('stages') or {},extract={'model':model,'temperature':0.0})
-        table['accepted_response_models'][model]=[model,'anthropic/'+model]
-        cfg['stage_models']=table
+        table['accepted_response_models'][model]=sorted(set(table['accepted_response_models'].get(model,[]))|{model,'anthropic/'+model})
+    cfg['stage_models']=table
     client=ErisedaiClient(directory,configuration=cfg)
     if model in EXTRACT_MODEL_RATES:
         budget.PRICES[PROVIDER+'/'+model]=EXTRACT_MODEL_RATES[model]
     return client
+
+
+def extract_fit(*, cost_cap_usd, flash_budget_usd, max_extract, extract_model=None, injected=False, est_usd_per_doc=None):
+    """Paid document extracts expected to fit: min(max_extract, docs budget // est $/doc) (persona_minimum window).
+
+    est comes from stage_models.json "extract" (the pinned model's / fallback's estimate for --extract-model);
+    injected extract (tests) uses DEFAULT_EST_USD_PER_DOC unless est_usd_per_doc is given. Planning only: the
+    ledger cap is what limits spend."""
+    docs_budget=max(0.0,float(cost_cap_usd)-float(flash_budget_usd or 0))
+    model=extract_model
+    if est_usd_per_doc is not None:
+        est=float(est_usd_per_doc)
+    elif injected:
+        est=DEFAULT_EST_USD_PER_DOC
+    else:
+        try:
+            plan=extract_plan()
+            if extract_model and extract_model!=plan['model']:
+                est=plan['fallback_est_usd_per_doc'] if extract_model==plan['fallback'] else DEFAULT_EST_USD_PER_DOC
+            else:
+                est,model=plan['est_usd_per_doc'],plan['model']
+        except Exception:
+            est=DEFAULT_EST_USD_PER_DOC
+    fit=min(int(max_extract),int(docs_budget//est)) if est>0 else int(max_extract)
+    return dict(docs_budget_usd=round(docs_budget,4),est_usd_per_doc=est,max_extract=max_extract,fit=fit,extract_model=model)
+
+
+def extract_fallbacks(client):
+    """Count EXTRACT calls that ran on the documented fallback (records written by ErisedaiClient)."""
+    n,reasons=0,Counter()
+    for call in getattr(client,'calls',None) or []:
+        if call.get('stage')!='extract': continue
+        try: rec=json.loads(Path(call['path']).read_text())
+        except (OSError,ValueError,KeyError): continue
+        if rec.get('model_fallback'):
+            n+=1; reasons[str(rec.get('fallback_reason') or '')[:80]]+=1
+    return dict(calls=sum(1 for c in getattr(client,'calls',None) or [] if c.get('stage')=='extract'),fallback=n,
+                reasons=dict(reasons.most_common(3)))
 
 
 
@@ -257,7 +326,7 @@ def extract_flashes(db, selected, *, client, jev, budget, cost_cap_usd, flash_bu
 def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_runs',
         inbox='/workspace/x/ingest_inbox', cost_cap_usd=8.0, channel_timeout=90, channel_timeouts=None,
         max_extract=40, max_source_chars=5000, extract_model=None, allow_nondefault_extract_model=False, per_channel_max=2, no_dashboard=False, dry_run=False, only=None,
-        fair_share_floor=2,
+        fair_share_floor=2, persona_minimum=True, est_usd_per_doc=None,
         flash_budget_usd=FLASH_BUDGET_USD, flash_batch_size=FLASH_BATCH_SIZE, flash_max=FLASH_MAX,
         flash_window_hours=FLASH_WINDOW_HOURS, flash_dedupe_hours=FLASH_DEDUPE_HOURS, flashes=True, news_leads=True,
         flash_fetch=None, flash_extract_batch=None, flash_llm=None, news_collect=None,
@@ -334,11 +403,18 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
             print(f"[gather] {cid} {ch['status']} new={ch['new_items']} {ch['seconds']:.0f}s",file=sys.stderr,flush=True)
         summary['steps'].append(dict(id='gather',status='ok'))
         summary['steps'].append(dict(id='incremental',status='ok',new_items=len(tasks)))
+        fit_estimate=None
+        if persona_minimum:
+            fit_estimate=extract_fit(cost_cap_usd=cost_cap_usd,flash_budget_usd=flash_budget_usd if flashes else 0,
+                                     max_extract=max_extract,extract_model=extract_model,injected=extract is not None,
+                                     est_usd_per_doc=est_usd_per_doc)
         tasks,plan=ingest_priority.order_tasks(tasks,summary['fresh_by_persona_before'],prev['ids'],
-                                               floor=fair_share_floor,legacy_priority=priority)
+                                               floor=fair_share_floor,legacy_priority=priority,
+                                               fit=fit_estimate['fit'] if fit_estimate else None)
         summary['ordering']=dict(previous_run=prev['run'],previous_deferred=len(prev['ids']),
                                  prior_deferred_gathered=sum(r['prior_deferred'] for r in plan),
-                                 fair_share_floor=fair_share_floor,plan=plan)
+                                 fair_share_floor=fair_share_floor,plan=plan,fit_estimate=fit_estimate,
+                                 persona_minimum=[r['persona'] for r in plan if r['phase']=='persona_minimum'])
         # v10: tier-C headline leads (no LLM; titles/hooks only, never content units) then 7x24 flashes.
         lead_hooks=set()
         # Injected `fetchers` (tests / ad-hoc runs) skip the live leads/flash fetch unless their own fakes are given.
@@ -383,7 +459,9 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
             from live.jev_review_client import JevReviewClient
             from live import content_units
             client=extract_client(budget.STORE.parent/'extract_calls',model=extract_model,allow_nondefault=allow_nondefault_extract_model)
-            summary['extract_model']=extract_model or DEFAULT_EXTRACT_MODEL
+            xplan=extract_plan(client.stage_models)
+            summary['extract_model']=xplan['model']
+            summary['extract_fallback_model']=xplan['fallback']
             jev=jev or JevReviewClient(budget.STORE.parent/'jev_calls')
             def extract(s):
                 return content_units.extract(s,client,licence_tier=registry.source_licence_tier(s['source_id']),publisher=s.get('publisher'))['units']
@@ -443,6 +521,8 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
             ch['seconds']+=time.monotonic()-t
             print(f"[extract] {ch['id']} {s['id']} {ch['status']} units={ch['units']}",file=sys.stderr,flush=True)
         summary['steps'].append(dict(id='extract',status='ok',extracted=extracted,deferred=len(summary['deferred'])))
+        if 'client' in locals() and client is not None:
+            summary['extract_calls']=extract_fallbacks(client)
         for ch in summary['channels']:
             if ch['status']=='ok':state['channels'].setdefault(ch['id'],{'seen':[]})['last_run']=started.isoformat()
         atomic_json(state_path,state)
