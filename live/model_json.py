@@ -41,11 +41,16 @@ def _loads(raw):
     return json.loads(original)
 
 
-def parse_object(raw, *, repair_quotes=False):
+def parse_object(raw, *, repair_quotes=False, unwrap_singleton=False):
+    """unwrap_singleton (opt-in, STANCE only): accept `[{...}]` - exactly one object in a
+    one-element array, nothing else - as that object. Gemini returns this shape for stance
+    deterministically at temperature 0 (Oct 5/6), so strict parsing burned all 3 retries."""
     raw = raw.strip()
     if raw.startswith('```json\n') and raw.endswith('\n```'):
         raw = raw[8:-4]
     value = _loads(raw) if repair_quotes else json.loads(raw)
+    if unwrap_singleton and isinstance(value, list) and len(value) == 1 and isinstance(value[0], dict):
+        value = value[0]
     if not isinstance(value, dict):
         raise ValueError('Expected one JSON object')
     return value

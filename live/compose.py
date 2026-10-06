@@ -257,6 +257,10 @@ def eligible(post_type, units):
         rows = [u for u in rows if u['numbers']]
     if post_type == 'earnings_take':
         rows = [u for u in rows if u['speaker_type'] == 'company_exec']
+    if post_type in JUDGMENT_TYPES:
+        # rows[0] is the stance primary: a legacy view without a structured `view` is rejected
+        # pre-model ("Legacy view lacks structured judgment"), so structured views go first (stable).
+        rows.sort(key=lambda u: not isinstance(u.get('view'), dict))
     return rows
 
 
@@ -941,7 +945,7 @@ def _ask(client, stage, system, payload, max_tokens, calls, *, sleep=None):
                 error = ContractError(f'{stage}: incomplete/unknown finish_reason')
             else:
                 try:
-                    value = parse_object(response.get('text', ''))
+                    value = parse_object(response.get('text', ''), unwrap_singleton=stage == 'stance')
                 except (ValueError, TypeError, AttributeError) as exc:
                     error = ContractError(f'{stage}: {exc}')
                 else:
