@@ -85,7 +85,7 @@ def test_sentence_findings_and_donor_band():
 def test_stance_view_findings_length_and_jargon():
     v6 = 'Synopsys的收入模式正在从固定授权费转向随芯片出货量挂钩的分成结构，定价权能否在产能扩张中守住是这个逻辑的核心变量。'
     probs = zr.stance_view_findings(v6)
-    assert any('> 35' in p for p in probs) and any('核心变量' in p for p in probs)
+    assert any('> 50' in p for p in probs) and any('核心变量' in p for p in probs)   # v11: 35 -> 50
     assert zr.stance_view_findings('工业利润下半年明显泄气了') == []
     assert any('别' in p for p in zr.stance_view_findings('别指望美联储停手'))
 

@@ -1595,6 +1595,14 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                 var['unit'] = 'CJK chars per sentence'
         if sig and not frame_relevant(persona, chosen):
             payload['persona']['signature'] = scope_signature_frame(payload['persona']['signature'])
+        # v11 (root cause #2): the call, its reason and what it means travel together into the body.
+        # EN only sees these inside payload['stance'] (control group: EN instructions unchanged).
+        if pack_selection:
+            payload['pack_roles'] = {'why': pack_selection['why'], 'so_what': pack_selection['so_what'],
+                                     'mechanism': pack_selection['mechanism']}
+        for key in ('why_line', 'so_what_line'):
+            if stance and isinstance(stance.get(key), str) and stance[key].strip():
+                payload[key] = stance[key].strip()
     retrieval = persona.raw.get('exemplar_retrieval') or {}
     use_exemplars = (bool(persona.voice_card) or retrieval.get('enabled', False)) if exemplars is None else exemplars
     shown = []

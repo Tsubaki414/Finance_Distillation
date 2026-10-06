@@ -199,14 +199,14 @@ SYSTEM_ZH = """
 你在用这个中文账号自己的口吻发帖。不是写研报摘要，也不是把英文材料加工成书面中文。
 1. 先想这个人会怎么跟懂行的朋友说这件事，再动笔。thesis_lock 和 units 只给你意思和事实：不要逐句改写它们的句子，用你自己的话重说一遍。thesis_lock 里的书面词（核心变量、叠加、结构性、格局……）不要搬进正文，换成口语。
 2. 英文材料按意思直译成中文，再轻改成口语；不要润色成更书面、更华丽的中文，不要加修辞，不要为了口语硬凑比喻（v6 反例：「企业盈利根本没有托底的资本」——说不通）。每句写完自问：这句话懂行的人听得懂吗？
-3. 句子短。一句只说一件事；按 zh_register.sentence_length 的中位数写（真实账号大约 18-22 个字一句），最长别超过 35 个字，能断就断。
+3. 句子短。一句只说一件事；按 zh_register.sentence_length 的中位数写（真实账号大约 18-22 个字一句），最长别超过 35 个字，能断就断。例外：第一行的判断句可以带一个短理由，最长约 50 个字（本条优先于上文英文说明里第一行的字数限制）。
 4. 少用研报书面词：意味着、而非、以……为主、基准路径、结构性、实质性、显然、注定、生存空间、从而、进而、鉴于、与此同时、本质上、叠加、核心变量、难以为继、备用选项。要连接就用 zh_register.donor_connectors 里这些账号常用的口语连接词；像锚句那样带一两个口语词（其实、所以、得看、说实话、吧）就够，别堆。
 5. 不替别人说话：不写「很多人认为」「市场普遍认为」「大家都觉得」「很多人据此认为」这类别人怎么想的句子（除非 units 里有这个证据），直接说自己的判断。
 6. 不用 AI 套话：「不是X，而是Y」及其问句版（「只是…？人家这是…」「你以为…？其实…」）、「与其说X不如说Y」「理由听起来很完美」「看似合理」「归根结底」「不难发现」都不要写；也别堆「死死」「死磕」「狠狠」「拉满」这类夸张词（真实账号很少用）；不用「彻底」「根本」「注定」「必然」「完全」这类绝对化副词，除非 units 原文就这么说。
 7. zh_register.register_anchors 是这类账号参考的真实中文博主的原句，只用来对齐语气、句子长短和用词习惯。不要照抄其中任何词句，也不要借用里面的内容、数字或观点。
 8. 开头：第一句照样是明确的判断，但用 zh_register.opening_move 指定的开头动作（没指定 question 就不要用反问开头；全文最多一个反问句）。不要用「别…/不要…/别指望/别被」这种祈使句开头（真实账号里不到 1% 这样开头）；情绪靠判断里的词带出来。也不要跟 zh_register.recent_openers 用同一种开头。
 9. 时间：units 的 date_label 是数据所属的时间。标了 historical 的单元说清楚是哪个月/哪天的数据（如「8月的数据」「上周公布的」），但它仍是手上最新的一期，不要写成「回看历史」「当时」。时间和政策路径用平实词（之后、12月之后、下次会议前），不要写「随后就会直接停手」「接下来纯粹是走过场」「直接放话」「打没了」这类别扭说法。
-10. 不当谜语人：判断帖要有三样——判断；一句为什么（因为/背后是/靠的是 + units 里的事实）；一句这意味着什么（对市场/读者：对…来说、说白了、换句话说、接下来要看…；不要用「意味着」这种研报腔）。句子照样短，但理由和含义不能省：短稿宁可多写一行，也不要只抛结论和数字。
+10. 不当谜语人：判断帖正文必须有三样——判断；一句为什么（用你自己的话说 why_line 或 pack_roles.why 那条单元里的事实/数字/事件：因为/背后是/靠的是 + units 里的事实；某人「表态/表示/放话」不算理由）；一句这意味着什么（用自己的话说 so_what_line 或 pack_roles.so_what 那条单元：对市场/读者，对…来说、说白了、换句话说、接下来要看…；不要用「意味着」这种研报腔）。why_line / so_what_line 只给意思，不要原样照抄。句子照样短，但理由和含义不能省：短稿宁可多写一行，也不要只抛结论和数字。
 """.rstrip()
 
 RULES_ZH = ['用自己的口语重说判断，不逐句改写 thesis_lock / units 原句，不搬 thesis_lock 的书面词',
@@ -215,10 +215,15 @@ RULES_ZH = ['用自己的口语重说判断，不逐句改写 thesis_lock / unit
             '开头按 opening_move；不用「别…」祈使句开头',
             '判断 + 一句为什么 + 一句这意味着什么（对市场/读者）；句子短但理由不能省；不要谜语式只抛结论；时间说法用平实词（之后/12月之后/下次会议前）']
 
-STANCE_MAX_CJK = 35
-STANCE_RULE_ZH = ('account_view 写成这个中文账号会发的一句口语判断，35 字以内，一句话说完；不要用研报书面词'
-                  '（意味着、而非、以……为主、基准路径、结构性、实质性、显然、注定、叠加、核心变量、格局、取决于……的进一步）；'
-                  '不要用「别…/不要…」祈使句；条件放进 view.conditions，不写进 account_view。')
+# v11: 35 -> 50. At 35 the reason was cut out of the call (v7+ median 23.5 CJK chars, 1 of 6 with a reason;
+# EN account_view median 28 words, 14/17 carry because / but / enough that) and line 1 repeats the call.
+STANCE_MAX_CJK = 50
+STANCE_RULE_ZH = ('account_view 写成这个中文账号会发的一句口语判断：判断 + 几个字的理由（因为…/靠…/被…拖累），'
+                  '50 字以内，一句话说完；不要用研报书面词（而非、以……为主、基准路径、结构性、实质性、显然、注定、叠加、'
+                  '核心变量、格局）；不要用「别…/不要…」祈使句；条件放进 view.conditions，不写进 account_view。')
+# Reason clause of a ZH call (v11): a rewrite that drops it is rejected.
+REASON_CLAUSE = re.compile(r'因为|由于|使得?|让|导致|靠|拖累|压低|推高|拉低|拉高|带动|受[^，。；！？\n]{1,10}(?:影响|拖累|压制|推动)|'
+                           r'随着|源于|来自|在于|撑着|托着')
 
 
 def payload_block(persona, seed='', posts_dir=None, recent_bodies=()):
@@ -428,15 +433,26 @@ def donor_sentence_band(persona, posts_dir=None):
     return band
 
 
+JUDGMENT_LINE_MAX = 50   # v11: the call on line 1 may carry a short reason (= STANCE_MAX_CJK)
+
+
 def sentence_findings(body, lang='zh'):
-    """SOFT zh_sentence_length: median sentence > 28 CJK chars (donors 18-22)."""
+    """SOFT zh_sentence_length: median sentence > 28 CJK chars (donors 18-22), or the judgment sentence
+    (line 1) > 50 CJK chars. v11: the call may carry a short reason, so a judgment sentence of up to 50
+    chars counts as at most the median cap - it never pushes the donor-median rule over by itself."""
     if lang != 'zh' or not body:
         return []
     lens = sentence_lengths(body)
-    med = _median(lens)
+    if not lens:
+        return []
+    first = lens[0]
+    med = _median([min(first, SENTENCE_MEDIAN_MAX) if first <= JUDGMENT_LINE_MAX else first] + lens[1:])
+    out = []
     if len(lens) >= 2 and med > SENTENCE_MEDIAN_MAX:
-        return [{'code': 'zh_sentence_length', 'detail': f'句子中位数 {med} 字 (donors 18-22)；最长 {max(lens)} 字'}]
-    return []
+        out.append(f'句子中位数 {med} 字 (donors 18-22)；最长 {max(lens)} 字')
+    if first > JUDGMENT_LINE_MAX:
+        out.append(f'第一句判断 {first} 字 > {JUDGMENT_LINE_MAX}')
+    return [{'code': 'zh_sentence_length', 'detail': '; '.join(out)}] if out else []
 
 
 def _cjk_runs(text, n):
@@ -586,3 +602,57 @@ def awkward_time_findings(body, lang='zh'):
         return []
     hits = [w for w in AWKWARD_TIME if w in body]   # substring test: overlapping phrases all reported
     return [{'code': 'zh_awkward_time', 'detail': '别扭的时间/路径说法: ' + '、'.join(hits)}] if hits else []
+
+
+# ---------------- number coverage (Oct 6 v11) ----------------
+# why_line / so_what_line (fix 2) may not add numbers beyond the units; a ZH unit translation (fix 6)
+# must keep every number of the English statement. Small normaliser for the documented scale
+# conversions: 29,000 = 2.9万 = 29000; $54.23 billion = 542.3亿; Q2 = 二季度; September = 9月; FY27 = 2027.
+_NUM_SCALE = {'万亿': 1e12, '亿': 1e8, '万': 1e4, '千': 1e3, 'thousand': 1e3, 'k': 1e3, 'million': 1e6, 'mn': 1e6,
+              'm': 1e6, 'billion': 1e9, 'bn': 1e9, 'b': 1e9, 'trillion': 1e12, 'tn': 1e12}
+_NUM_RX = re.compile(r'(?<![\d.])(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?\s*(万亿|亿|万|千|thousand\b|million\b|billion\b|trillion\b|'
+                     r'bn\b|mn\b|tn\b|[kmb]\b)?', re.I)
+_MONTHS = ('january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october',
+           'november', 'december')
+_ZH_SMALL = {'一': 1, '二': 2, '两': 2, '三': 3, '四': 4}
+
+
+def _sig(value):
+    return float(f'{value:.9g}')
+
+
+def _values(text, *, words=False):
+    """Every reading of every digit-number in text: raw value and scaled value (and 2/4-digit year).
+    words=True also reads month names / 一-四季度 / 上下半年 (reference side only)."""
+    t = str(text or '')
+    out = []
+    for m in _NUM_RX.finditer(t):
+        raw = float(m.group(1).replace(',', '') + (m.group(2) or ''))
+        reads = {_sig(raw)}
+        scale = (m.group(3) or '').lower()
+        if scale:
+            reads.add(_sig(raw * _NUM_SCALE[scale]))
+        if raw.is_integer() and 1900 <= raw <= 2099:
+            reads.add(raw % 100)
+        if raw.is_integer() and raw < 100 and re.match(r'\s*E?\b', t[m.end():m.end() + 2]) and t[max(0, m.start() - 2):m.start()].upper() == 'FY':
+            reads.add(2000 + raw)
+        out.append(reads)
+    if words:
+        low = t.lower()
+        extra = {float(i + 1) for i, name in enumerate(_MONTHS) if re.search(r'\b' + name + r'\b', low)}
+        extra |= {float(i + 1) for i, name in enumerate(_MONTHS) if re.search(r'\b' + name[:3] + r'\b', low) and name != 'may'}
+        extra |= {float(_ZH_SMALL[c]) for c in re.findall(r'第?([一二三四])季度', t)}
+        extra |= {1.0} if '上半年' in t else set()
+        extra |= {2.0} if '下半年' in t else set()
+        out += [{v} for v in extra]
+    return out
+
+
+def numbers_covered(candidate, references):
+    """True when every digit-number in candidate matches a number in the reference texts under the
+    scale conversions above (or a month / quarter / year written in words there)."""
+    ref = set()
+    for text in references if not isinstance(references, str) else [references]:
+        for reads in _values(text, words=True):
+            ref |= reads
+    return all(reads & ref for reads in _values(candidate))

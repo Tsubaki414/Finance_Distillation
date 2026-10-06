@@ -165,3 +165,90 @@ def test_compose_pack_fallback_recorded(monkeypatch, tmp_path):
     assert result['pack_selection']['method'] == 'fallback'
     assert result['pack_selection']['so_what'] == ['cu-odds']
     assert len(result['units']) <= compose.JUDGMENT_PACK_MAX
+
+
+# ---------------- fix 2: ZH judgment line keeps its reason; why_line / so_what_line ----------------
+
+from live import registry, zh_register as zr   # noqa: E402
+
+
+def test_stance_rule_allows_reason_and_50_chars():
+    assert zr.STANCE_MAX_CJK == 50 and '50' in zr.STANCE_RULE_ZH
+    assert '意味着' not in zr.STANCE_RULE_ZH and '取决于' not in zr.STANCE_RULE_ZH
+    assert '别…' in zr.STANCE_RULE_ZH and '结构性' in zr.STANCE_RULE_ZH      # 别… + research-word bans stay
+    call = '美联储10月大概率不会再加息了，因为9月新增就业只有2.9万，比市场预期的8.4万差了一大截，就业撑不住'
+    assert 35 < len(zr.CJK.findall(call)) <= 50 and zr.stance_view_findings(call) == []
+    assert zr.stance_view_findings('别指望美联储10月再加息')
+
+
+def test_rewrite_rejects_dropping_the_reason():
+    def fake(stage, messages, max_tokens):
+        return {'text': json.dumps({'account_view': '美联储10月不会加息'}, ensure_ascii=False),
+                'finish_reason': 'stop', 'model': 'f'}
+    original = '美联储10月不会再加息，因为9月非农只有2.9万，这种结构性走弱的就业数据让加息的理由越来越站不住了'
+    value = {'account_view': original, 'view': {}}
+    meta = stance_mod.zh_account_view_rewrite(fake, value, [])
+    assert meta['kept'] == 'original' and meta['reject_reason'] == 'dropped_reason'
+    assert value['account_view'] == original
+
+
+def test_support_lines_validated_softly():
+    units = [POOL[3], POOL[5]]
+    value = {'why_line': '9月新增就业只有2.9万，远低于预期', 'so_what_line': '10月加息的概率已经掉到22%'}
+    stance_mod.validate_support_lines(value, units)
+    assert value['why_line'] and value['so_what_line'] and 'support_lines_dropped' not in value
+    value = {'why_line': '纽约联储主席Williams明确表态没有紧迫性', 'so_what_line': '加息概率掉到15%'}
+    stance_mod.validate_support_lines(value, units)
+    assert 'why_line' not in value and 'so_what_line' not in value
+    assert {d['reason'] for d in value['support_lines_dropped']} == {'said_only', 'new_numbers'}
+
+
+def test_numbers_covered_scale_conversions():
+    assert zr.numbers_covered('9月新增就业只有2.9万', ['The US economy added 29,000 jobs in September'])
+    assert zr.numbers_covered('542.3亿美元', ['$54.23 billion']) and zr.numbers_covered('二季度', ['Q2'])
+    assert not zr.numbers_covered('概率33%', ['odds 22%'])
+
+
+def test_judgment_line_may_be_50_chars_rest_follows_donor_median():
+    line1 = '美联储10月大概率不会再加息了，因为9月新增就业只有2.9万，比市场预期的8.4万差了一大截。'
+    assert zr.sentence_findings(line1 + '\n对债市来说，短端压力小了。\n接下来看10月通胀。') == []
+    too_long = '美联储10月大概率不会再加息了，因为9月新增就业只有2.9万，远远低于此前市场普遍预期的8.4万，失业率还一路升到了4.2%，就业明显撑不住了。'
+    assert '第一句判断' in zr.sentence_findings(too_long + '\n短端压力小了。')[0]['detail']
+    rest = '后面这一句写得特别特别长而且一直不断句一口气把好几件事情全都塞进来了看着就累。'
+    assert zr.sentence_findings(line1 + '\n' + rest + '\n' + rest)[0]['code'] == 'zh_sentence_length'
+
+
+def test_zh_compose_payload_carries_why_and_so_what(monkeypatch, tmp_path):
+    _iso(monkeypatch, tmp_path)
+    fake = JudgmentFake({'why_unit_ids': ['cu-jobs'], 'so_what_unit_ids': ['cu-odds'],
+                         'why_line': '9月新增就业只有2.9万，远低于预期的8.4万',
+                         'so_what_line': '10月加息的概率从66%掉到了22%'})
+    result = _compose(fake)
+    p = fake.payloads['compose'][0]
+    assert p['why_line'].startswith('9月新增就业') and p['so_what_line'].startswith('10月加息')
+    assert p['pack_roles'] == {'why': ['cu-jobs'], 'so_what': ['cu-odds'], 'mechanism': 'cu-mech'}
+    system = fake.systems['compose'][0]
+    assert 'why_line' in system and 'so_what_line' in system and '50 个字' in system
+    assert result['stance']['why_line'] == p['why_line']
+
+
+def test_en_compose_instructions_unchanged(monkeypatch, tmp_path):
+    _iso(monkeypatch, tmp_path)
+    fake = JudgmentFake({'why_unit_ids': ['cu-jobs'], 'so_what_unit_ids': ['cu-odds'],
+                         'why_line': 'Payrolls rose only 29,000 against 84,000 expected.',
+                         'so_what_line': 'October hike odds fell to 22%.'},
+                        body='The Fed is in no hurry to hike again.\nPayrolls rose only 29,000.\nOdds fell to 22%.')
+    fake_view = 'The Fed is in no hurry to hike again because payrolls missed'
+    orig = fake.__call__
+
+    def en_call(stage, messages, max_tokens):
+        out = orig(stage, messages, max_tokens)
+        if stage == 'stance':
+            v = json.loads(out['text']); v['account_view'] = fake_view; out['text'] = json.dumps(v)
+        return out
+    compose.compose_source(SOURCE, 'en_macro', en_call, post_type='judgment_take', extracted_units=[dict(u) for u in POOL],
+                           exemplars=False, emotion_contract=False, now=NOW)
+    p = fake.payloads['compose'][0]
+    assert 'why_line' not in p and 'pack_roles' not in p and 'zh_register' not in p
+    assert p['stance']['why_line'].startswith('Payrolls')          # optional support inside the stance only
+    assert fake.systems['compose'][0] == compose.COMPOSE
