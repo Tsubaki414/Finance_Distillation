@@ -97,7 +97,7 @@ STANCE = {'decision': 'adapt', 'account_view': '存储这轮紧缺还会延续',
           'rationale': 'r', 'confidence': 0.6, 'view': {'subject': 'memory supply', 'direction': 'bullish'}}
 FORMAL_BODY = ('存储紧缺这事还没完。\n这意味着供给端的结构性约束显然仍以产能纪律为主，而非需求驱动的基准路径。\n'
                '下游采购节奏得跟着改。')
-PLAIN_BODY = '存储这轮紧缺还没完。\n厂商就是不想扩产，价格其实还在涨。\n下游采购节奏得跟着改。'
+PLAIN_BODY = '存储这轮紧缺还没完。\n因为厂商就是不想扩产，价格其实还在涨。\n对下游来说，采购节奏得跟着改。'   # v10: call + why + what it means
 
 
 def _iso(monkeypatch, tmp_path):

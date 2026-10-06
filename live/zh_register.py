@@ -205,13 +205,15 @@ SYSTEM_ZH = """
 6. 不用 AI 套话：「不是X，而是Y」及其问句版（「只是…？人家这是…」「你以为…？其实…」）、「与其说X不如说Y」「理由听起来很完美」「看似合理」「归根结底」「不难发现」都不要写；也别堆「死死」「死磕」「狠狠」「拉满」这类夸张词（真实账号很少用）；不用「彻底」「根本」「注定」「必然」「完全」这类绝对化副词，除非 units 原文就这么说。
 7. zh_register.register_anchors 是这类账号参考的真实中文博主的原句，只用来对齐语气、句子长短和用词习惯。不要照抄其中任何词句，也不要借用里面的内容、数字或观点。
 8. 开头：第一句照样是明确的判断，但用 zh_register.opening_move 指定的开头动作（没指定 question 就不要用反问开头；全文最多一个反问句）。不要用「别…/不要…/别指望/别被」这种祈使句开头（真实账号里不到 1% 这样开头）；情绪靠判断里的词带出来。也不要跟 zh_register.recent_openers 用同一种开头。
-9. 时间：units 的 date_label 是数据所属的时间。标了 historical 的单元说清楚是哪个月/哪天的数据（如「8月的数据」「上周公布的」），但它仍是手上最新的一期，不要写成「回看历史」「当时」。
+9. 时间：units 的 date_label 是数据所属的时间。标了 historical 的单元说清楚是哪个月/哪天的数据（如「8月的数据」「上周公布的」），但它仍是手上最新的一期，不要写成「回看历史」「当时」。时间和政策路径用平实词（之后、12月之后、下次会议前），不要写「随后就会直接停手」「接下来纯粹是走过场」「直接放话」「打没了」这类别扭说法。
+10. 不当谜语人：判断帖要有三样——判断；一句为什么（因为/背后是/靠的是 + units 里的事实）；一句这意味着什么（对市场/读者：对…来说、说白了、换句话说、接下来要看…；不要用「意味着」这种研报腔）。句子照样短，但理由和含义不能省：短稿宁可多写一行，也不要只抛结论和数字。
 """.rstrip()
 
 RULES_ZH = ['用自己的口语重说判断，不逐句改写 thesis_lock / units 原句，不搬 thesis_lock 的书面词',
             '短句；一句一件事（中位数见 sentence_length）', '研报书面词尽量不用（见系统说明第 4 条）',
             '不写别人怎么想（很多人认为 / 市场普遍认为）', '英文材料：直译 + 轻改，不加工成书面语',
-            '开头按 opening_move；不用「别…」祈使句开头']
+            '开头按 opening_move；不用「别…」祈使句开头',
+            '判断 + 一句为什么 + 一句这意味着什么（对市场/读者）；句子短但理由不能省；不要谜语式只抛结论；时间说法用平实词（之后/12月之后/下次会议前）']
 
 STANCE_MAX_CJK = 35
 STANCE_RULE_ZH = ('account_view 写成这个中文账号会发的一句口语判断，35 字以内，一句话说完；不要用研报书面词'
@@ -544,3 +546,43 @@ def line_break_findings(body, lang='zh'):
                  'detail': f"{lay['lines']} 行，每行中位 {lay['line_len']} 字，{int(lay['no_punct'] * 100)}% 行尾无标点"
                            f"（donor 长帖每行约 51 字，每百字 1.7 行）"}]
     return []
+
+
+# ---------------- why / implication / time phrasing (Oct 6 v10) ----------------
+# Fiona on the v9 pack (ZH 0/4 publishable): 「像谜语人，缺少解释」「可以加 - 这意味着什么」. The
+# rejected drafts state a call and a number but never say WHY (no causal link) or WHAT IT MEANS for
+# markets/readers. Rule (keyword based, judgment drafts only):
+#   missing_why         - no causal marker anywhere (因为 / 背后 / 靠的是 / 受…拖累 / …导致 …). A number
+#                         line after the call, or 说明 / 可见, is NOT a reason on its own: it must be
+#                         linked by a causal marker.
+#   missing_implication - no consequence marker (对…来说 / 说白了 / 换句话说 / 所以 / 接下来要看 /
+#                         利好 …). 意味着 counts (a single one does not trip zh_register) but the
+#                         repair asks for colloquial forms so the two checks never fight.
+WHY_RX = re.compile(r'因为|由于|原因|背后|靠的是|靠着|在于|毕竟|主要是|一是|源于|来自|撑着|既然|'
+                    r'受[^，。；！？\n]{1,12}(?:拖累|影响|拉动|压制)|导致|带动|拖累|推着|根子')
+IMPLICATION_RX = re.compile(r'对[^，。；！？\n]{1,12}(?:来说|而言)|这对|换句话说|说白了|落到|所以|因此|也就是说|'
+                            r'接下来要看|下一步要看|要盯|得盯|得看|利好|利空|压力会|意味着|值得警惕|风险在于|'
+                            r'机会在于|受益|吃亏|还没定价|没被定价|这样一来')
+# Awkward colloquial time / policy-path phrases (v9 #1 / #3). Small and explicit on purpose.
+AWKWARD_TIME = ('随后就会直接', '随后就直接', '接下来纯粹是', '直接停手', '走过场', '直接放话', '打没了')
+
+
+def why_implication_findings(body, lang='zh'):
+    """SOFT missing_why / missing_implication on a ZH judgment draft (see rule above)."""
+    if lang != 'zh' or not body or len(CJK.findall(str(body))) < 15:
+        return []
+    out = []
+    if not WHY_RX.search(body):
+        out.append({'code': 'missing_why', 'detail': '只有判断和数字，没有一句说清为什么（因为/背后是/靠的是…）'})
+    if not IMPLICATION_RX.search(body):
+        out.append({'code': 'missing_implication',
+                    'detail': '没说这对市场/读者意味着什么（对…来说/说白了/接下来要看…）'})
+    return out
+
+
+def awkward_time_findings(body, lang='zh'):
+    """SOFT zh_awkward_time: colloquial time / policy-path slang (随后就会直接停手 / 走过场 ...)."""
+    if lang != 'zh' or not body:
+        return []
+    hits = [w for w in AWKWARD_TIME if w in body]   # substring test: overlapping phrases all reported
+    return [{'code': 'zh_awkward_time', 'detail': '别扭的时间/路径说法: ' + '、'.join(hits)}] if hits else []
