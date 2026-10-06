@@ -17,7 +17,8 @@ HARD = frozenset({
                   'missing_attribution_frame', 'position_claim', 'trade_reco_specific', 'self_contradiction', 'wrong_date_fact'})
 SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_units', 'period_not_in_units', 'number_metric_binding', 'number_words', 'no_judgment', 'data_list', 'no_disagreement', 'view_number_unbound', 'template_phrase', 'length_out_of_range', 'attribution_outside_frame',
                   'trade_reco_soft', 'author_identity', 'code_fence', 'translated_quote', 'exemplar_phrase_copied', 'research_summary', 'certainty_overreach', 'contradicts_prior_view', 'ignores_prior_view', 'view_not_recorded', 'cross_persona_claim_duplicate', 'thesis_grounding', 'emotion_drop', 'emotion_overfire', 'thin_judgment_pack', 'stylistic_repeat', 'judgment_label', 'phrase_ban', 'duplicate_topic', 'verify_source', 'info_dump', 'stance_cadence', 'verbatim_line1',
-                  'direction_drift_unmarked', 'generic_credit_in_body'})
+                  'direction_drift_unmarked', 'generic_credit_in_body',
+                  'structure_repeat', 'shape_mismatch', 'number_run', 'internal_contradiction'})
 FIXES = {
     'stylistic_repeat': 'Vary the repeated stylistic phrase and closing; retain source facts.',
     'judgment_label': 'Drop the 「我的判断：」/「以我个人判断，」/「个人判断：」 label; state the judgment directly as a plain sentence.',
@@ -39,6 +40,14 @@ FIXES = {
     'info_dump': 'Judgment post reads as a data dump: keep the call, cite at most 3 numbers, leave surplus units unused.',
     'stance_cadence': 'Rewrite account_view as one plain committed sentence without banned filler or meta-labels.',
     'verbatim_line1': 'Paraphrase line 1; keep the same call; do not copy thesis_lock verbatim.',
+    'structure_repeat': 'Change the structure, not just the words: different opener and ending family than recent drafts '
+                        '(no conditional falsifier ending again); follow composition_shape.',
+    'shape_mismatch': 'Follow composition_shape: unconditional line 1, its ending_rule (no if / unless / 只要 / 除非 '
+                      'ending unless the shape is falsifier) and its max_number_lines.',
+    'number_run': 'At most 2 lines with numbers (unless composition_shape is data_punch); replace the extra number '
+                  'line with one mechanism sentence (why / how it works).',
+    'internal_contradiction': 'Make every line agree with line 1 (direction, timing and sequence); remove the line '
+                              'that reverses the call.',
     'generic_credit_in_body': 'Drop the generic credit (券商研报 / 某投行 / "sell-side research" / "a big bank"); '
                               'say the adopted view as the account\'s own call - the frame credits the source.',
     'direction_drift_unmarked': 'The call changed direction vs the account\'s earlier view without marking a revise: '

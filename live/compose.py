@@ -103,8 +103,15 @@ show through concrete verbs and word choice instead of hedging boilerplate, excl
 marks, hype words or invented drama. When emotion_brief is supplied it is the soft emotion
 contract: hit its target_intensity (0-5), show a real reaction in the first two lines, keep
 one dominant emotion from dominant_labels, use allowed_devices, and respect boundary
-(amplify rhetoric, never fact certainty or invented experience). End on a short line that lands: what the call means
-or what would change it, using only the units. Don't repeat the stance sentence verbatim.
+(amplify rhetoric, never fact certainty or invented experience). End the way composition_shape.ending_rule says
+(without a composition_shape: a short line that lands - what the call means or what would change it), using only
+the units. Don't repeat the stance sentence verbatim.
+composition_shape, when supplied, is HARD for this post: follow its structure, length_target, max_numbers,
+max_number_lines, line_breaks, line1_rule and ending_rule. It overrides evidence_budget, signature.closings
+and signature hard_constraints on structure, ending and number count. Never stack three lines that each carry
+a number unless composition_shape.id is data_punch: say the mechanism instead of a third number.
+Coherence: every line must agree with line 1 - same direction, same timing and sequence (if line 1 says
+something stops after an event, no later line may say it stops now), no closer that quietly reverses the call.
 Conviction never licenses anything the units do not contain: no new facts, numbers,
 holdings, trades or calls, and do not upgrade the stance's confidence (may stays may).
 Not a research summary: no set-ups like 拆解一下/具体数据/数据如下 or "let's break it
@@ -877,6 +884,33 @@ GENERIC_CREDIT = re.compile(
 
 
 NEVER_NAME_SPEAKER = 'source (credited by the frame; do not cite in body)'
+# Signature hard lines whose job the composition_shape takes over (ending / number count).
+_SHAPE_OWNED = re.compile(r'falsifiab|可证伪|推翻|at most \d+ numbers|最多引用\s*\d+\s*个数字', re.I)
+
+
+def _evidence_text(units, source=None):
+    """Full text the selected units stand on: every span of every selected unit plus the parent
+    source document text (evidence packet), not only the numbers stored on the cited view span."""
+    parts = [str(s.get('exact_text') or '') for u in units or [] for s in u.get('source_spans') or [] if isinstance(s, dict)]
+    parts += [str(u.get('statement') or '') for u in units or []]
+    if source:
+        parts.append(str(source.get('original_text') or ''))
+    return '\n'.join(parts)
+
+
+def _number_in_text(number, text):
+    """Oct 6 v4: view_number_unbound false alarms (72 / 36 / $1.0 were in the source). Bound when the
+    quantity matches the inventory of the evidence text, or the bare literal occurs as a number."""
+    number = (number or '').strip()
+    if not number:
+        return True
+    try:
+        if set(inventory(number)) and set(inventory(number)) <= set(inventory(text)):
+            return True
+    except Exception:
+        pass
+    literal = re.sub(r'[^\d.]', '', number.replace(',', '')).strip('.')
+    return bool(literal) and bool(re.search(r'(?<![\d.])' + re.escape(literal) + r'(?![\d])', text.replace(',', '')))
 
 
 def generic_credit_findings(body, post_type, stance=None):
@@ -887,7 +921,8 @@ def generic_credit_findings(body, post_type, stance=None):
              'detail': 'Generic credit in body (frame already credits the source): ' + ', '.join(hits)}] if hits else []
 
 
-def post_checks(post_type, body, text, frame, licence_tier, units, persona, post_types, stance=None, source=None, now=None):
+def post_checks(post_type, body, text, frame, licence_tier, units, persona, post_types, stance=None, source=None, now=None,
+                shape=None, recent=None):
     spec = post_types['post_types'][post_type]
     findings = [{'code': f['code'], 'detail': f['detail']}
                 for f in attribution_frame.check(post_type, text, frame, licence_tier, post_types)]
@@ -918,12 +953,23 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
     from live.trust import trusted_inputs
     if not trusted_inputs(source, units):
         findings += number_findings(body, units)
+    evidence_text = _evidence_text(units, source)
     for view in [u.get('view') or {} for u in units] + [(stance or {}).get('view') or {}]:
         for warning in view.get('warnings', []):
-            if warning.startswith('reasoning number not bound to source:'):
+            if warning.startswith('reasoning number not bound to source:') and not _number_in_text(
+                    warning.split(':', 1)[1], evidence_text):
                 findings.append({'code': 'view_number_unbound', 'detail': warning})
     findings += position_findings(body, persona.lang)
     findings += generic_credit_findings(body, post_type, stance)
+    from live import compose_shapes
+    from live.coherence import internal_contradiction_findings
+    if post_type in JUDGMENT_TYPES or (stance and stance.get('account_view')):
+        findings += compose_shapes.number_run_findings(body, (shape or {}).get('id'))
+        findings += compose_shapes.shape_findings(body, shape)
+        if recent is None:
+            recent = anti_repeat.load_recent(persona.persona_id)
+        findings += compose_shapes.history_findings(body, recent, shape=shape)
+    findings += internal_contradiction_findings(body)
     findings += trade_reco_findings(body, persona.lang)
     from live.draft_qa import stale_time_findings
     findings += stale_time_findings(body, units, now, persona.lang)
@@ -992,7 +1038,7 @@ EXEMPLAR_RULE = ('style_exemplars are real posts by other accounts, given for vo
 
 def compose_source(source, account_id, client, *, post_type=None, exemplars=None, exemplar_dir=None,
                    exemplar_tags_dir=None, extracted_units=None, stance_output=None, voice_prompt_variant=None, now=None, view_ledger=None,
-                   emotion_contract=None, pack_augment=None):
+                   emotion_contract=None, pack_augment=None, shape=None, shape_batch=(), composition_shapes=None):
     """Voice cards always use exemplars; other personas honor the retrieval override."""
     persona = registry.persona_for_account(account_id)
     if 'aphorism_translation' in persona.post_type_mix:
@@ -1124,6 +1170,24 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         # was copied into the body as attribution; the frame alone credits the source.
         for u in payload['units']:
             u['speaker'] = NEVER_NAME_SPEAKER
+    from live import compose_shapes, anti_repeat as _ar
+    import os as _os_shape
+    use_shapes = (composition_shapes if composition_shapes is not None
+                  else _os_shape.environ.get('FD_COMPOSE_SHAPES', '1') != '0')
+    shape_info, shape_block = None, None
+    recent_rows = _ar.load_recent(persona.persona_id)
+    if use_shapes and (post_type in JUDGMENT_TYPES or (stance and stance.get('account_view'))):
+        if shape and shape in compose_shapes.SHAPES:
+            spec = compose_shapes.SHAPES[shape]
+            shape_info = {'id': shape, 'forced': True, **{k: spec[k] for k in (
+                'length', 'max_numbers', 'max_number_lines', 'ending', 'line_breaks')}}
+        else:
+            shape_info = compose_shapes.choose_shape(persona, units=chosen, recent=recent_rows,
+                                                     batch=tuple(shape_batch or ()),
+                                                     seed=source.get('source_hash') or source.get('id') or '')
+        shape_block = compose_shapes.payload_block(shape_info, persona.lang,
+                                                   payload['post_type_rules']['body_length'])
+        payload['composition_shape'] = shape_block
     if stance is not None:
         # Defense in depth: scrub supplied stance_output the same way stance_step does,
         # so dirty fixtures cannot teach banned cadence via thesis_lock.
@@ -1134,6 +1198,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             # Thesis first, thin evidence: lock the call and cap the numbers before writing.
             payload['thesis_lock'] = stance['account_view']
             payload['evidence_budget'] = dict(EVIDENCE_BUDGET)
+            if shape_block:
+                payload['evidence_budget']['max_numbers'] = min(EVIDENCE_BUDGET['max_numbers'], shape_block['max_numbers'])
         if pack_balance(chosen)['pure_data'] and stance.get('account_view'):
             payload['pack_guidance'] = ('Line 1 must still be the account call from stance.account_view. '
                                         'Use facts as evidence; do not invent non-fact units.')
@@ -1197,7 +1263,16 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             hard.append(line)
         for e in (sig.get('fiona_feedback_exemplars') or [])[:2]:
             lesson = e.get('lesson') or 'Fiona feedback shape'
-            hard.append('POS shape (' + lesson + '): prefer this rhythm — judgment, thin evidence, concrete falsifier.')
+            hard.append('POS shape (' + lesson + '): prefer this rhythm — judgment first, thin evidence; '
+                        'ending per composition_shape when supplied.')
+        if shape_block:
+            # Oct 6 v4 root cause: card lines "End on a falsifiable call" / "最多引用 3 个数字" forced one
+            # skeleton on every post. The composition_shape now owns ending and number count.
+            hard = [h for h in hard if not _SHAPE_OWNED.search(h)]
+            hard = [('HARD: close per composition_shape.ending_rule (use the signature.closings entry that fits it).'
+                     if h.startswith('HARD: close in the family of signature.closings') else h) for h in hard]
+            hard.append('HARD: follow composition_shape (structure, max_numbers, max_number_lines, ending_rule, '
+                        'line1_rule, length_target).')
         payload['persona']['signature'] = {
             'use': 'HARD account signature — openings/closings/moves are constraints, not suggestions'
                       + ('; for ZH: prefer the restraint exemplars — commit the call without inventing what the market or others feel' if persona.lang == 'zh' else ''),
@@ -1419,6 +1494,55 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                     'rewrite_note': note, 'reject_reason': 'empty_body',
                 }
 
+    # Soft structure / coherence repair (Oct 6 v4): ignored composition_shape, 3-number runs,
+    # internal contradiction. One regeneration; keep only if it clears more than it breaks.
+    structure_retry = None
+    structure_codes = ('shape_mismatch', 'number_run', 'internal_contradiction')
+
+    def _structure(b):
+        from live.coherence import internal_contradiction_findings
+        found = compose_shapes.shape_findings(b, shape_info) if shape_info else []
+        if post_type in JUDGMENT_TYPES or thesis_locked:
+            found += compose_shapes.number_run_findings(b, (shape_info or {}).get('id'))
+        return found + internal_contradiction_findings(b)
+
+    first_structure = _structure(body)
+    if first_structure:
+        from live.coherence import REPAIR
+        parts = []
+        for f in first_structure:
+            if f['code'] == 'internal_contradiction':
+                parts.append(REPAIR.format(detail=f['detail']))
+            else:
+                parts.append(qa_levels.FIXES[f['code']] + ' (' + str(f['detail']) + ')')
+        note = '[structure_repair] ' + ' '.join(dict.fromkeys(parts))
+        retry_payload = dict(payload, rewrite_note=note)
+        try:
+            value_s, response_s = _ask(client, 'compose', COMPOSE, retry_payload, MAX_TOKENS, assembly)
+        except Exception as exc:
+            value_s, response_s = {}, {}
+            retry_payload['retry_error'] = type(exc).__name__
+        body_s = (value_s.get('body') or '').strip()
+        after_s = _structure(body_s) if body_s else first_structure
+        regression = (_guard_codes(body_s, chosen, stance, persona.lang) - _guard_codes(body, chosen, stance, persona.lang)
+                      if body_s else set())
+        supplied_s = {u['unit_id']: u for u in chosen}
+        ledger_s = value_s.get('claim_ledger')
+        ledger_ok_s = isinstance(ledger_s, list) and bool(ledger_s) and all(
+            isinstance(r, dict) and r.get('unit_id') in supplied_s and isinstance(r.get('claim'), str)
+            and bool(r['claim'].strip()) and type(r.get('span_ref')) is int
+            and 0 <= r['span_ref'] < len(supplied_s[r['unit_id']]['source_spans']) for r in ledger_s)
+        contradiction_fixed = (any(f['code'] == 'internal_contradiction' for f in first_structure)
+                               and not any(f['code'] == 'internal_contradiction' for f in after_s))
+        keep = bool(body_s and ledger_ok_s and not regression
+                    and (len(after_s) < len(first_structure) or contradiction_fixed))
+        structure_retry = {'attempted': True, 'kept': 'retry' if keep else 'original',
+                           'first_findings': first_structure, 'retry_findings': after_s, 'rewrite_note': note,
+                           **({} if keep else {'reject_reason': 'guard_regression' if regression else
+                                               'invalid_ledger' if body_s and not ledger_ok_s else 'no_improvement'})}
+        if keep:
+            body, value, response = body_s, value_s, response_s
+
     from live import anti_repeat
     repeat_retry = None
     first_repeat = anti_repeat.findings(body, persona.persona_id, units=chosen, stance=stance, source=source, now=now)
@@ -1461,7 +1585,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         require(type(ref) is int and 0 <= ref < len(by_id[row['unit_id']]['source_spans']),
                 'compose: claim_ledger span_ref out of range')
     text = (frame['text'] + body) if frame['placement'] == 'lead' else (body + frame['text'])
-    findings = post_checks(post_type, body, text, frame, tier, chosen, persona, post_types, stance, source=source, now=now)
+    findings = post_checks(post_type, body, text, frame, tier, chosen, persona, post_types, stance, source=source, now=now,
+                           shape=shape_info, recent=recent_rows)
     if label_stripped:
         findings += qa_levels.classify([{'code': 'judgment_label', 'detail': 'Label stripped automatically'}], frame_found=True)
     grounding = tg.review(body, stance, chosen, persona.lang)
@@ -1501,7 +1626,9 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         except ValueError as exc:   # position language never enters the ledger
             findings.append({'code': 'view_not_recorded', 'detail': str(exc), 'level': 'soft'})
     if body:
-        anti_repeat.record_draft(persona.persona_id, body, meta={**(stance or {}), 'draft_id': base['id']})
+        anti_repeat.record_draft(persona.persona_id, body, meta={**(stance or {}), 'draft_id': base['id'],
+                                 'shape': (shape_info or {}).get('id'),
+                                 'skeleton': compose_shapes.skeleton(body, payload['post_type_rules']['body_length'])})
     return {**base, 'stance': stance, 'units': chosen, 'all_units': len(units), 'post_type': post_type,
             'attribution_frame': frame, 'body': body, 'text': text, 'length': length_of(body),
             'exemplars': [{'handle': e['handle'], 'id': e['id']} for e in shown],
@@ -1523,6 +1650,9 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             **({'anti_repeat_retry': repeat_retry} if repeat_retry else {}),
             **({'judgment_retry': judgment_retry} if judgment_retry else {}),
             **({'info_dump_retry': info_dump_retry} if info_dump_retry else {}),
+            **({'structure_retry': structure_retry} if structure_retry else {}),
+            **({'composition_shape': {**shape_info, 'skeleton': compose_shapes.skeleton(
+                body, payload['post_type_rules']['body_length'])}} if shape_info else {}),
             'pack_balance': pack_balance(chosen),
             'unit_augment': base.get('unit_augment') or {}}
 

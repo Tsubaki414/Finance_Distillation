@@ -139,11 +139,15 @@ def test_compose_payload_carries_thesis_lock_and_evidence_budget():
     assert result['post_type'] == 'judgment_take'
     payload = seen['compose']
     assert payload['thesis_lock'] == 'Memory supply looks tight.'
-    assert payload['evidence_budget'] == {'max_numbers': 3, 'unused_units_ok': True}
+    # Oct 6 v4: the composition_shape caps the number budget (take_short 0 ... data_punch 3).
+    assert payload['evidence_budget'] == {'max_numbers': min(3, payload['composition_shape']['max_numbers']),
+                                          'unused_units_ok': True}
     kinds = [u['kind'] for u in payload['units']]
     assert kinds.count('view') == 1 and kinds.count('fact') <= 2
     hard = payload['persona']['signature']['hard_constraints']
-    assert any('at most 3 numbers' in h for h in hard)          # card-level constraint forwarded
+    # Oct 6 v4: the card's number / falsifiable-ending lines are owned by composition_shape now.
+    assert any('follow composition_shape' in h for h in hard)
+    assert not any('falsifiab' in h.lower() or 'at most 3 numbers' in h for h in hard)
     assert 'at most 2 numbers' not in compose.COMPOSE and 'at most 3 numbers' in compose.COMPOSE
     assert any('[data_take only]' in h for h in hard)
     assert 'MUST leave surplus units unused' in compose.COMPOSE

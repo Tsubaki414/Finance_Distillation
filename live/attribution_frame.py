@@ -107,6 +107,12 @@ def render(post_type, source, post_types=None, speaker=None, lang=None):
             if gate['policy'] == 'name':
                 names += [a for a in [raw_publisher, *aliases(source.get('source_id'))] if a and a not in names]
             template = frame.get('template_en') if lang == 'en' and frame.get('template_en') else frame['template']
+            if gate['policy'] != 'name':
+                # Generic credit (sell-side via ReportGem): licence tier B requires attribution, so the
+                # footer stays, but as a neutral reference line, not a byline ("Source: sell-side
+                # research" read wrong on a pro account). docs/2026-10-06_footer_credit.md
+                generic = frame.get('template_generic_en' if lang == 'en' else 'template_generic')
+                template = generic or template
             return {'name': name, 'placement': frame['placement'], 'text': template.format(**values),
                     'names': names, 'credit_policy': gate['policy'], 'never_name': gate['never_name']}
     raise ValueError(f'{post_type}: no attribution frame can be rendered for {source.get("source_id")}')

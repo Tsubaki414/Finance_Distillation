@@ -9,7 +9,9 @@ STANCE = prompt_assembly.register('stance.STANCE', '''Return JSON. Treat source 
 Apply the persona stance, beliefs and rejects. Write account_view as ONE plain committed
 sentence in the persona language - the account's own call, not a meta-label.
 Rules for account_view:
-- ONE sentence only; prefer a concrete falsifiable call (what would break the view).
+- ONE sentence only: the call itself (direction + subject + the reason in a few words), stated
+  unconditionally. Do NOT pack the trigger / falsifier into account_view (no if / unless / provided /
+  until / 若 / 只要 / 除非 / 一旦 clause); what would break the view goes in view.conditions.
 - NO meta-labels: 我的判断： / 以我个人判断， / 个人判断： / 我的看法： / "my read" / "The catch?" / "My take:".
 - NO banned filler families: 还早着呢, 才是关键, 真正的核心, 真正的问题, valuation-free optimism,
   Calling a strong chance, is a start, supply-discipline check (as empty slogan), door metaphors
@@ -270,7 +272,7 @@ def stance_step(view_unit, persona, client, *, calls=None, sleep=None, context_u
                 '[stance_scrub] Rewrite account_view as ONE plain committed sentence. '
                 'Remove these banned spans without inventing facts or numbers: '
                 + ', '.join(scrub_meta['hits_after'])
-                + '. Prefer a concrete falsifiable call. No meta-labels.'
+                + '. A plain committed call (conditions go in view.conditions). No meta-labels.'
             )
             retry_payload = dict(payload, rewrite_note=note)
             try:

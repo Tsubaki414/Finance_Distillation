@@ -60,6 +60,9 @@ def record_draft(persona_id, text, *, meta=None):
            'tickers': meta.get('tickers', tickers), 'closing': text.strip().splitlines()[-1][-40:] if text.strip() else ''}
     if meta.get('draft_id'):
         row['draft_id'] = meta['draft_id']
+    for key in ('shape', 'skeleton'):   # structure-variety history (live/compose_shapes.py)
+        if meta.get(key):
+            row[key] = meta[key]
     rows = load_recent(persona_id, 29) + [row]
     for directory in (HISTORY_DIR, FALLBACK_DIR):
         path = _path(persona_id, directory)

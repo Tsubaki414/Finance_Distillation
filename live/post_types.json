@@ -25,7 +25,9 @@
       "template_en": "\n\nSource: {publisher}",
       "requires": [
         "publisher"
-      ]
+      ],
+      "template_generic": "（参考：{publisher}）",
+      "template_generic_en": "\n\n(ref: {publisher})"
     },
     "none": {
       "placement": "none",

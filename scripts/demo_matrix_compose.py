@@ -56,7 +56,30 @@ def _view_ids(group):
     return {r['unit_id'] for r in group if has_valid_view(r['unit'])}
 
 
-def select_groups(store, accounts, selection=None):
+def group_freshness(group, now=None):
+    """Freshness boost of a packet = its freshest dated fact/view (shelf classes in
+    live/freshness_policy.json: market_flow 1bd, macro 3d, commentary 5d, filings/research 10d).
+    1.0 fresh; stale decays to 0.3; expired 0.3; undated 0.4. Evergreen units are ignored."""
+    from live import freshness
+    best = None
+    for record in group:
+        if record['unit'].get('kind') not in ('fact', 'view'):
+            continue
+        status = freshness.status(record, now)
+        if status['status'] == 'evergreen':
+            continue
+        value = freshness.boost(status)
+        best = value if best is None else max(best, value)
+    return 0.4 if best is None else round(best, 3)
+
+
+def ranked_balanced(groups, now=None):
+    """Balanced packets, freshest first (stable within equal freshness = retrieval order)."""
+    balanced_groups = [g for g in rank_evidence_groups(list(groups)) if balanced(g)]
+    return sorted(balanced_groups, key=lambda g: -group_freshness(g, now))
+
+
+def select_groups(store, accounts, selection=None, exclude_sources=()):
     """Pick one balanced (view + fact) packet per account; ZH prefers its OWN source.
 
     Oct 6 v2: sharing the EN source made both ZH slots HOLD (same conclusion, same source).
@@ -74,16 +97,21 @@ def select_groups(store, accounts, selection=None):
         for record in units_for_persona(store, account, max_age_days=45):
             if record.get('licence_tier') not in ('A', 'B'):
                 continue
+            src = record['source']
+            if src.get('id') in exclude_sources or (src.get('title') and src['title'] in exclude_sources):
+                continue   # already used by the previous batch (id, or same document under another id)
             groups.setdefault(_key(record), []).append(record)
         grouped[account] = groups
 
     def ranked(account, exclude=()):
-        return [g for g in rank_evidence_groups(
-            [g for k, g in grouped[account].items() if k not in exclude]) if balanced(g)]
+        # Oct 6 v4: freshness weight (en_industry used a 9/17 commentary source on 10/6).
+        return ranked_balanced([g for k, g in grouped[account].items() if k not in exclude])
 
     def note(account, mode, group, **extra):
         selection[account] = {'mode': mode, 'source_id': group[0]['source'].get('id') if group else None,
-                              'zh_native': zh_native(group) if group else False, **extra}
+                              'zh_native': zh_native(group) if group else False,
+                              'freshness': group_freshness(group) if group else None,
+                              'published_at': group[0]['source'].get('published_at') if group else None, **extra}
 
     chosen = {}
     for zh, en in (('zh_macro', 'en_macro'), ('zh_industry', 'en_industry')):
@@ -97,7 +125,9 @@ def select_groups(store, accounts, selection=None):
             continue
         en_key = _key(en_group[0]) if en_group else None
         own = ranked(zh, exclude={en_key} if en_key else ())
-        own.sort(key=lambda g: not zh_native(g))   # stable: ZH-native sources first
+        # ZH-native first among sources that are not past shelf life; a stale native source does
+        # not beat a fresh different-angle one.
+        own.sort(key=lambda g: (group_freshness(g) < 1.0, not zh_native(g)))
         if own:
             chosen[zh] = own[0]
             note(zh, 'own_zh_native' if zh_native(own[0]) else 'own_different_source', own[0])
@@ -165,9 +195,25 @@ def judgment_type(account):
     raise ValueError('No judgment-capable post type for ' + account)
 
 
-def run(out, cap, *, live=False, command=''):
+def continue_batch(prev, out):
+    """Second consecutive batch: carry the previous batch's draft history (shape rotation) and
+    view ledgers into `out`; return the source ids it used so this batch picks new sources."""
+    import shutil
+    prev = Path(prev).resolve()
+    for name in ('history', 'views'):
+        if (prev / name).is_dir() and not (out / name).exists():
+            shutil.copytree(prev / name, out / name)
+    used = set()
+    for path in sorted((prev / 'drafts').glob('*.json')):
+        source = json.loads(path.read_text()).get('source') or {}
+        used.update([source.get('id'), source.get('title')])
+    return {u for u in used if u}
+
+
+def run(out, cap, *, live=False, command='', continue_from=None):
     out = Path(out).resolve()
     out.mkdir(parents=True, exist_ok=True)
+    exclude_sources = continue_batch(continue_from, out) if continue_from else set()
     budget.STORE = out / 'ledger'
     budget.LEDGER = budget.STORE / 'spend.json'
     budget.RUNS = budget.STORE / 'review_runs.jsonl'
@@ -205,10 +251,15 @@ def run(out, cap, *, live=False, command=''):
             notes.append(reason)
             client = None
     selection = {}
-    selected = select_groups(ContentStore(compose_ab.STORE), accounts, selection) if client else {}
+    if continue_from:
+        notes.append(f'Continues batch {continue_from}: history + view ledgers carried over; '
+                     f'{len(exclude_sources)} previous sources excluded.')
+    selected = (select_groups(ContentStore(compose_ab.STORE), accounts, selection, exclude_sources=exclude_sources)
+                if client else {})
     if selection:
         notes.append('Selection: ' + json.dumps({a: v['mode'] for a, v in selection.items()}, ensure_ascii=False))
     results = []
+    batch_shapes = []   # composition shapes already used in this batch (structure variety)
     for account in accounts:
         ledger = ViewLedger(account, out / 'views' / account)
         before = budget.spent()
@@ -224,7 +275,10 @@ def run(out, cap, *, live=False, command=''):
                     result = compose.compose_source(
                         source, account, client, post_type=judgment_type(account),
                         extracted_units=units, exemplar_dir=compose_ab.POSTS,
-                        exemplar_tags_dir=compose_ab.TAGS, view_ledger=ledger)
+                        exemplar_tags_dir=compose_ab.TAGS, view_ledger=ledger,
+                        shape_batch=tuple(batch_shapes))
+                    if (result.get('composition_shape') or {}).get('id'):
+                        batch_shapes.append(result['composition_shape']['id'])
                     result.update(key=account, source=source, mode='live',
                                   stored_unit_ids=[r['unit_id'] for r in group],
                                   ledger_prior_count=prior_count, selection=selection.get(account))
@@ -243,6 +297,9 @@ def run(out, cap, *, live=False, command=''):
         result['publishable'] = False
         result['spend_usd'] = round(budget.spent() - before, 6)
         results.append(result)
+    from live import compose_shapes
+    structure = compose_shapes.batch_findings(results)   # soft cross-draft structure check
+    write_json(out / 'structure.json', structure)
     results = compose.arbitrate_batch(results)   # default soft; FD_ARBITRATION=off disables
     synthetic = []
     if not any(r.get('arbitration', {}).get('status') == 'HOLD' for r in results):
@@ -272,6 +329,7 @@ def run(out, cap, *, live=False, command=''):
                   'pack_balance: ' + json.dumps(r['pack_balance'], ensure_ascii=False),
                   'Ledger continuity: ' + note,
                   'Arbitration: ' + json.dumps(r.get('arbitration', {'status': 'NO_CANDIDATE'})),
+                  'Shape: ' + json.dumps({k: (r.get('composition_shape') or {}).get(k) for k in ('id', 'ending', 'length', 'skeleton')}, ensure_ascii=False),
                   f'Spend USD: ${r["spend_usd"]:.6f}',
                   f'Draft status: {r["draft_status"]}; publishable=false / human review only',
                   'Fallback: ' + r.get('fallback_reason', 'none'), '']
@@ -292,11 +350,13 @@ def main(argv=None):
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument('--dry', action='store_true')
     mode.add_argument('--live', action='store_true')
+    parser.add_argument('--continue-from', type=Path, default=None,
+                        help='previous batch dir: reuse its draft history + view ledgers, exclude its sources')
     args = parser.parse_args(argv)
     if not math.isfinite(args.cap) or not 0 < args.cap <= 2:
         parser.error('--cap must be finite, positive and at most $2')
     command = shlex.join([sys.executable, str(Path(__file__).resolve()), *(sys.argv[1:] if argv is None else argv)])
-    run(args.out, args.cap, live=args.live, command=command)
+    run(args.out, args.cap, live=args.live, command=command, continue_from=args.continue_from)
     print(args.out / 'SUMMARY.md')
     return 0
 
