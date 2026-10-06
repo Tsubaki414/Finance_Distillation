@@ -19,6 +19,9 @@ Rules for account_view:
 - The supporting units must directly carry the call: no leap from one statistic to a different
   claim (v5: "94% of new wealth went to US billionaires" does NOT show an AI valuation premium cannot
   hold). If the evidence only supports a narrower call, make the narrower call.
+- persona.stance.beliefs are lenses, not templates: apply a belief only when the units are about its
+  topic (e.g. "pricing power must survive capacity expansion" only for capacity / pricing / supply
+  sources); never bolt it onto an unrelated source.
 - Do not invent facts, numbers, holdings, trades or experience. No "X said" wrapper: never name or
   credit the source in account_view (no bank / publisher / analyst names, no 券商 / 研报 / "sell-side");
   an adopted view is the account's own call.
@@ -308,6 +311,31 @@ def stance_step(view_unit, persona, client, *, calls=None, sleep=None, context_u
                     'first_hits': scrub_meta['hits_after'],
                     'rewrite_note': note, 'reject_reason': type(exc).__name__,
                 }
+        # Oct 6 v7: ZH account_view must be a spoken call <= 35 CJK chars with no research words / 别…
+        # imperative (v6 zh_industry thesis: 51 chars ending 「是这个逻辑的核心变量」, copied into the body).
+        zh_view = None
+        if payload.get('account_view_register'):
+            from live.zh_register import stance_view_findings, STANCE_RULE_ZH
+            problems = stance_view_findings(value.get('account_view'))
+            if problems:
+                note = ('[stance_register] 把 account_view 改写成一句口语判断：' + STANCE_RULE_ZH
+                        + ' 现在的问题：' + '；'.join(problems) + '。判断方向、view 和 supporting_unit_ids 不变。')
+                zh_view = {'attempted': True, 'kept': 'original', 'first_problems': problems, 'rewrite_note': note}
+                try:
+                    value3, _ = _ask(client, 'stance', STANCE, dict(payload, rewrite_note=note), 2000, calls, sleep=sleep)
+                    value3 = _validate_stance_value(value3, view_unit, view, prior, allowed)
+                    cleaned3, scrub3 = scrub_account_view(value3.get('account_view') or '')
+                    after = stance_view_findings(cleaned3)
+                    zh_view['retry_problems'] = after
+                    if (value3.get('decision') != 'reject' and cleaned3 and len(after) < len(problems)
+                            and not scrub3.get('hits_after')):
+                        value3['account_view'], value3['stance_scrub'] = cleaned3, scrub3
+                        value = value3
+                        zh_view['kept'] = 'retry'
+                except Exception as exc:
+                    zh_view['reject_reason'] = type(exc).__name__
+        if zh_view:
+            value['stance_zh_retry'] = zh_view
         cadence = stance_cadence_findings(value.get('account_view') or '')
         if cadence:
             value['stance_findings'] = cadence

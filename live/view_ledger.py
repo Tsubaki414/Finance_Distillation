@@ -90,16 +90,28 @@ def continue_score(view, account_view, row):
     return round(_overlap(subject, row_subject), 3), round(_overlap(text, row_text), 3)
 
 
+SYNTHETIC_SOURCE = re.compile(r'^synthetic-(?:macro|industry)$')   # demo fallback-slot source ids
+
+
+def is_synthetic(row):
+    """Placeholder rows from synthetic/fallback drafts (demo fallback source ids, or flagged)."""
+    return bool(row.get('synthetic')) or any(SYNTHETIC_SOURCE.match(str(x)) for x in row.get('source_ids') or [])
+
+
 class ViewLedger:
     def __init__(self, account_id, directory=None):
         self.account_id = account_id
         root = Path(directory or os.environ.get('FD_VIEW_LEDGER_DIR') or DEFAULT_DIR)
         self.path = root / f'{account_id}.jsonl'
 
-    def entries(self):
+    def entries(self, include_synthetic=False):
         if not self.path.exists():
             return []
-        return [json.loads(line) for line in self.path.read_text().splitlines() if line.strip()]
+        rows = [json.loads(line) for line in self.path.read_text().splitlines() if line.strip()]
+        if include_synthetic:
+            return rows
+        # Oct 6 v7: synthetic placeholder views (demo fallback slots) never anchor continuity.
+        return [r for r in rows if not is_synthetic(r)]
 
     def record(self, stance, *, unit_ids, source_ids, draft_id=None, input_view=None):
         text = str(stance.get('account_view') or '').strip()
@@ -107,6 +119,8 @@ class ViewLedger:
             raise ValueError('view ledger: only take/adapt calls with an account_view are recorded')
         if POSITION.search(text):
             raise ValueError('view ledger: views only - position/trade language is never recorded')
+        if any(SYNTHETIC_SOURCE.match(str(x)) for x in source_ids or []):
+            raise ValueError('view ledger: synthetic/fallback drafts never write views')
         continues, revises = stance.get('continues_view_id'), stance.get('revises_view_id')
         drift = stance.get('drift_of_view_id')
         if sum(bool(x) for x in (continues, revises, drift)) > 1:

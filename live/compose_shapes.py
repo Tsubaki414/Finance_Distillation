@@ -124,11 +124,13 @@ def mechanism_count(units):
 
 THREAD_MIN_MECHANISMS = 2
 LONG_VARIANTS = ('thesis_mechanism', 'data_punch')   # may run long when the batch lacks a long post
-LONG_NOTE = {'en': (' LONG variant: up to three short paragraphs, but every paragraph must add NEW information '
-                    '(a new piece of evidence or a new step of the mechanism). No restating the call, no filler; '
-                    'if there is nothing new, stop early.'),
-             'zh': ('（长版）最多三段，但每一段都必须带来新信息：新的证据或机制里新的一环。'
-                    '不重复判断，不凑字数；没有新东西就提前收住。')}
+LONG_NOTE = {'en': (' LONG variant: two or three short paragraphs reaching length_target.min; every paragraph adds NEW '
+                    'information (a new piece of evidence, a new step of the mechanism, or who it hits). '
+                    'No restating the call, no filler.'),
+             'zh': ('（长版）两到三段，写够 length_target 的下限；每一段都带来新信息：新的证据、机制里新的一环、'
+                    '或者这件事落到谁身上。不重复判断，不凑空话。')}
+# v7: the old "if there is nothing new, stop early" + body_length "short is fine" let long shapes
+# come back short (v5zh data_punch long: 114 chars vs 277-399).
 THREAD_NOTE = {'en': ' Every paragraph must add new information; never restate an earlier paragraph.',
                'zh': '每段都必须带来新信息，不重复前面的段落，不凑字数。'}
 
@@ -470,3 +472,34 @@ def batch_findings(results):
         summary.append({'account_id': r.get('account_id'), 'shape': shape, 'skeleton': sk,
                         'findings': [f['detail'] for f in found]})
     return summary
+
+
+LENGTH_TOLERANCE = {'long_min': 0.85, 'medium_min': 0.6, 'max': 1.2}
+
+
+def length_band_findings(body, shape):
+    """SOFT length_band (v7): long shape well under its band, or any shape well over it.
+    Length = characters excluding whitespace (same unit as body_length / length_target)."""
+    target = (shape or {}).get('length_target') or {}
+    if not body or not target:
+        return []
+    n = len(re.sub(r'\s', '', body))
+    length = shape.get('length')
+    lo, hi = target.get('min', 0), target.get('max', 0)
+    if length == 'long' and n < LENGTH_TOLERANCE['long_min'] * lo:
+        return [{'code': 'length_band', 'detail': f'long shape but {n} chars (target {lo}-{hi}); add a new evidence/mechanism paragraph'}]
+    if length == 'medium' and n < LENGTH_TOLERANCE['medium_min'] * lo:
+        return [{'code': 'length_band', 'detail': f'medium shape but {n} chars (target {lo}-{hi})'}]
+    if hi and n > LENGTH_TOLERANCE['max'] * hi:
+        return [{'code': 'length_band', 'detail': f'{n} chars over the {length} band ({lo}-{hi}); cut'}]
+    return []
+
+
+def recent_opener_findings(body, recent):
+    """SOFT opener_move (EN/any): same opener family (don\'t / stop / 别…) as either of the last two
+    drafts - c26d3a4's history rule, now feeding the structure regen."""
+    fam = opener_family(body)
+    prior = [r['text'] for r in (recent or []) if isinstance(r, dict) and r.get('text')][-2:]
+    if fam and any(opener_family(t) == fam for t in prior):
+        return [{'code': 'opener_move', 'detail': f'opener family "{fam}…" again (one of the last two drafts)'}]
+    return []

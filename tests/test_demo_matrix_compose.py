@@ -24,9 +24,12 @@ def test_dry_artifacts_and_ledger_continuity(tmp_path, monkeypatch):
     assert budget.spent() == 0
     assert len(list((tmp_path / 'drafts').glob('*.json'))) == 4
     assert 'no prior views (day-1)' in (tmp_path / 'SUMMARY.md').read_text()
+    # Oct 6 v7: synthetic/fallback slots never write views, so a second dry run has no prior view.
+    assert not list((tmp_path / 'views').rglob('*.jsonl')) or all(
+        not f.read_text().strip() for f in (tmp_path / 'views').rglob('*.jsonl'))
     again = demo.run(tmp_path, 2, command='demo --dry')
-    assert all(r['stance']['continues_view_id'] for r in again)
-    assert all(r['ledger_prior_count'] == 1 for r in again)
+    assert not any(r['stance'].get('continues_view_id') for r in again)
+    assert all(r['ledger_prior_count'] == 0 for r in again)
 
 
 def test_budget_probe_failure_fills_slots(tmp_path, monkeypatch):

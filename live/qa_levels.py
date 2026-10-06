@@ -20,7 +20,8 @@ SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_u
                   'direction_drift_unmarked', 'generic_credit_in_body',
                   'structure_repeat', 'shape_mismatch', 'number_run', 'internal_contradiction', 'hedged_opener',
                   'zh_register', 'market_feeling', 'thread_padding', 'revise_off_topic',
-                  'phrase_repeat', 'theme_repeat', 'filler_closer'})
+                  'phrase_repeat', 'theme_repeat', 'filler_closer',
+                  'opener_move', 'length_band', 'zh_sentence_length', 'stance_copy'})
 FIXES = {
     'stylistic_repeat': 'Vary the repeated stylistic phrase and closing; retain source facts.',
     'judgment_label': 'Drop the 「我的判断：」/「以我个人判断，」/「个人判断：」 label; state the judgment directly as a plain sentence.',
@@ -69,6 +70,12 @@ FIXES = {
                       'keep the call and facts, say it in new words.'),
     'theme_repeat': ('Same theme / entity as a recent draft of this persona: pick a fresh source or add a clearly '
                      'new beat; flagged for the editor, no rewrite can fix the topic choice.'),
+    'opener_move': ('Open with zh_register.opening_move (or a different move than your recent drafts); '
+                    'no 别… / 不要… / don\'t imperative opener.'),
+    'length_band': ('Match composition_shape.length_target: a long shape gets a second paragraph with new evidence '
+                    'or a new mechanism step; an over-long draft gets cut.'),
+    'zh_sentence_length': '句子改短：一句一件事，按 zh_register.sentence_length 的中位数（约 18-23 字），最长别超过 35 字。',
+    'stance_copy': '不要搬 thesis_lock 的原句和书面词（核心变量、叠加……），用自己的口语重说。',
     'filler_closer': ('Replace the empty closer (Carry on. / Stay tuned. / 拭目以待) with a last line that says '
                       'something: the implication, a verdict, or a pointed question.'),
     'research_summary': 'Write it as a post, not a research note: one call, one or two numbers, no lists.',

@@ -173,8 +173,11 @@ def select_groups(store, accounts, selection=None, exclude_sources=(), recent=No
     return chosen
 
 
-def fake_result(account, ledger, reason, *, record=True):
-    """Synthetic evidence and claims, never represented as corpus/model output."""
+def fake_result(account, ledger, reason, *, record=False):
+    """Synthetic evidence and claims, never represented as corpus/model output.
+
+    Oct 6 v7: never writes the synthetic view to the ledger (record=False is the default and the
+    loop never overrides it); v6 en_industry's placeholder view became a continuity anchor."""
     macro = account.endswith('macro')
     subject = 'Fed rate cut path' if macro else 'AI capex demand'
     english = ('The Fed easing path remains conditional on inflation cooling.' if macro else
@@ -289,9 +292,15 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
         notes.append('Selection: ' + json.dumps({a: v['mode'] for a, v in selection.items()}, ensure_ascii=False))
     results = []
     batch_shapes = []   # composition shapes already used in this batch (structure variety)
-    for account in accounts:
+    slot_caps = {}
+    for idx, account in enumerate(accounts):
         ledger = ViewLedger(account, out / 'views' / account)
         before = budget.spent()
+        # Oct 6 v7: per-slot sub-cap = fair share of what is left, so one slot's retries cannot
+        # starve the slots after it (v6: zh_industry used $0.52 and en_industry went synthetic).
+        slot_cap = round(max(0.0, cap - before) / (len(accounts) - idx), 6)
+        budget.set_cap(min(cap, before + slot_cap))
+        slot_caps[account] = slot_cap
         result = None
         if client:
             group = selected.get(account) or []
@@ -313,9 +322,9 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
                                   stored_unit_ids=[r['unit_id'] for r in group],
                                   ledger_prior_count=prior_count, selection=selection.get(account))
                 except budget.BudgetExceeded:
-                    reason = 'BudgetExceeded: live composes stopped before sending the refused call.'
-                    notes.append(reason)
-                    client = None
+                    reason = (f'BudgetExceeded: slot sub-cap ${slot_cap:.2f} refused a call before sending; '
+                              'slot synthetic, later slots keep their own sub-cap.')
+                    notes.append(account + ': ' + reason)
                 except Exception as exc:
                     reason = f'Live compose failed: {type(exc).__name__}; slot synthetic.'
                     notes.append(account + ': ' + reason)
@@ -326,6 +335,8 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
         result['ledger_findings'] = (result.get('stance') or {}).get('ledger_findings') or []
         result['publishable'] = False
         result['spend_usd'] = round(budget.spent() - before, 6)
+        result['slot_cap_usd'] = slot_cap
+        budget.set_cap(cap)
         results.append(result)
     from live import compose_shapes
     structure = compose_shapes.batch_findings(results)   # soft cross-draft structure check
@@ -335,7 +346,7 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
     if not any(r.get('arbitration', {}).get('status') == 'HOLD' for r in results):
         synthetic = compose.arbitrate_batch([
             fake_result(a, ViewLedger(a, out / 'synthetic_example_views'),
-                        'Synthetic arbitration example only.', record=False)
+                        'Synthetic arbitration example only.')
             for a in ('zh_macro', 'en_macro')], mode='soft')
         write_json(out / 'synthetic_arbitration_example.json', synthetic)
     for result in results:

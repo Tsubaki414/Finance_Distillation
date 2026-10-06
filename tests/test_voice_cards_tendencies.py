@@ -41,4 +41,10 @@ def test_compose_payload_contains_source_variation():
     compose.compose_source(SOURCE, 'zh_industry', client, post_type='data_take', exemplars=False)
     payload = json.loads(client.messages[-1]['content'])['persona']
     card = registry.persona_for_account('zh_industry').voice_card
-    assert payload['variation'] == vc.variation_seed(card, SOURCE['source_hash'])
+    want = vc.variation_seed(card, SOURCE['source_hash'])
+    # Oct 6 v7: ZH personas get the donor CJK sentence band (voice-card band counts punctuation/Latin).
+    from live import zh_register as zr
+    band = zr.donor_sentence_band(registry.persona_for_account('zh_industry'))
+    want['sentence_length_hint'] = band[{'shorter': 'p25'}.get(want['length_variant'], 'median')]
+    want['unit'] = 'CJK chars per sentence'
+    assert payload['variation'] == want
