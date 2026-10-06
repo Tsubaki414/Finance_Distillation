@@ -18,7 +18,8 @@ HARD = frozenset({
 SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_units', 'period_not_in_units', 'number_metric_binding', 'number_words', 'no_judgment', 'data_list', 'no_disagreement', 'view_number_unbound', 'template_phrase', 'length_out_of_range', 'attribution_outside_frame',
                   'trade_reco_soft', 'author_identity', 'code_fence', 'translated_quote', 'exemplar_phrase_copied', 'research_summary', 'certainty_overreach', 'contradicts_prior_view', 'ignores_prior_view', 'view_not_recorded', 'cross_persona_claim_duplicate', 'thesis_grounding', 'emotion_drop', 'emotion_overfire', 'thin_judgment_pack', 'stylistic_repeat', 'judgment_label', 'phrase_ban', 'duplicate_topic', 'verify_source', 'info_dump', 'stance_cadence', 'verbatim_line1',
                   'direction_drift_unmarked', 'generic_credit_in_body',
-                  'structure_repeat', 'shape_mismatch', 'number_run', 'internal_contradiction', 'hedged_opener'})
+                  'structure_repeat', 'shape_mismatch', 'number_run', 'internal_contradiction', 'hedged_opener',
+                  'zh_register', 'market_feeling', 'thread_padding', 'revise_off_topic'})
 FIXES = {
     'stylistic_repeat': 'Vary the repeated stylistic phrase and closing; retain source facts.',
     'judgment_label': 'Drop the 「我的判断：」/「以我个人判断，」/「个人判断：」 label; state the judgment directly as a plain sentence.',
@@ -54,6 +55,15 @@ FIXES = {
                               'say the adopted view as the account\'s own call - the frame credits the source.',
     'direction_drift_unmarked': 'The call changed direction vs the account\'s earlier view without marking a revise: '
                                 'confirm the revise and say why, or keep the earlier direction.',
+    'zh_register': ('Rewrite in the account\'s spoken Chinese: replace the research-note words listed (意味着 / 而非 / '
+                    '以…为主 / 基准路径 / 结构性 / 实质性 / 显然 / 注定 …) and AI template phrases with plain short '
+                    'sentences (把研报书面词换成口语短句，长句拆短); keep the same call, facts and numbers.'),
+    'market_feeling': ('Drop what the market / many people supposedly think (很多人认为 / 市场普遍认为 / 大家都觉得); '
+                       'state the account\'s own call directly (直接说自己的判断).'),
+    'thread_padding': ('Cut the paragraph that restates an earlier one; every paragraph must add new information '
+                       '(每段都要有新信息); if there is nothing new, write it shorter.'),
+    'revise_off_topic': ('The revise link pointed at a prior call on a different subject; it was dropped - revise '
+                         'only the earlier call on the same subject.'),
     'research_summary': 'Write it as a post, not a research note: one call, one or two numbers, no lists.',
     'length_out_of_range': 'Trim or extend toward the post type length range.',
     'exemplar_phrase_copied': 'Rephrase: style exemplars are for voice only, never for wording.',

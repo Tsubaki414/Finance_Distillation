@@ -28,8 +28,10 @@ conviction or horizon, or add a new condition. For reject account_view is empty.
 Supporting IDs must include the input view for take/adapt.
 context_units (optional) are other units from the same evidence: you may combine them with the
 view to form one judgment; list every unit you rely on in supporting_unit_ids.
-prior_views (optional) are this account's own earlier calls on related subjects. When any prior
-view overlaps the subject, PREFER continuing or updating that lasting view over inventing a
+prior_views (optional) are this account's own earlier calls on related subjects. They are
+retrieved by keyword overlap and can be about a different subject (another AI or rates topic): a
+prior overlaps only when it is about the same subject / entity as your call; ignore the others
+(do not cite or revise them). When any prior view overlaps the subject, PREFER continuing or updating that lasting view over inventing a
 fresh one-shot take. CONTINUE = same subject and SAME direction, even if horizon or conviction
 changes or new evidence is added: do NOT set revises_view_id; list the prior in
 cited_prior_view_ids (the system then links continues_view_id itself). REVISE = the direction
@@ -258,6 +260,11 @@ def stance_step(view_unit, persona, client, *, calls=None, sleep=None, context_u
         payload['prior_views'] = [
             {k: r.get(k) for k in ('id', 'account_view', 'subject', 'direction', 'conviction', 'horizon', 'created_at')}
             for r in prior]
+    import os as _os
+    if (raw or {}).get('lang') == 'zh' and _os.environ.get('FD_ZH_REGISTER', '1') != '0':
+        # Oct 6 v5: thesis_lock (= account_view) carried research prose into line 1 of every ZH draft.
+        from live.zh_register import STANCE_RULE_ZH
+        payload['account_view_register'] = STANCE_RULE_ZH
     value, _ = _ask(client, 'stance', STANCE, payload, 2000, calls, sleep=sleep)
     allowed = {view_unit['unit_id'], *(u['unit_id'] for u in context)}
     value = _validate_stance_value(value, view_unit, view, prior, allowed)

@@ -48,8 +48,12 @@ def test_market_flow_ages_in_business_days():
            'source': {'adapter': 'channel:feed_linkfollow', 'source_id': 'ch096_spotgamma_com'}}
     sunday = datetime(2026, 10, 4, 12, tzinfo=timezone.utc)   # Thu -> Sun = 1 business day
     assert f.status(row, sunday)['status'] == 'fresh'
+    # Fiona's 10/5 shelf policy (market flow shelf = 1 business day): stale after 1, expired after 2.
+    monday = datetime(2026, 10, 5, 12, tzinfo=timezone.utc)   # Thu -> Mon = 2 business days
+    assert f.status(row, monday)['status'] == 'stale'
     tuesday = datetime(2026, 10, 6, 12, tzinfo=timezone.utc)  # Thu -> Tue = 3 business days
-    assert f.status(row, tuesday)['status'] == 'stale'
-    # commentary keeps calendar days
+    assert f.status(row, tuesday)['status'] == 'expired'
+    # commentary keeps calendar days (10/5 commentary shelf = 5 days: stale after 5, expired after 10)
     row['source'] = {'adapter': 'newsletter_rss', 'source_id': 'nl-x'}
-    assert f.status(row, datetime(2026, 10, 20, tzinfo=timezone.utc))['status'] == 'stale'
+    assert f.status(row, datetime(2026, 10, 8, tzinfo=timezone.utc))['status'] == 'stale'
+    assert f.status(row, datetime(2026, 10, 20, tzinfo=timezone.utc))['status'] == 'expired'

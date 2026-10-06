@@ -174,6 +174,18 @@ class ViewLedger:
             return out
         v = out.get('view') or input_view or {}
         direction = v.get('direction')
+        dropped = None
+        if out.get('revises_view_id'):
+            # Topic gate (Oct 6 v5): v4b zh_industry revised "AI wealth concentration" with an "AI
+            # infrastructure demand" call and en_macro revised "Fed path" with "market resilience";
+            # the stance prompt only validated that the id was a supplied prior. A revise needs the
+            # same on-topic bar as a continuation; otherwise drop the link (soft revise_off_topic).
+            parent = next((r for r in self.entries() if r['id'] == out['revises_view_id']), None)
+            if parent is not None:
+                subj, text = continue_score(v, out.get('account_view'), parent)
+                if subj < CONTINUE_SUBJECT_MIN and text < CONTINUE_TEXT_MIN:
+                    dropped = {'view_id': out['revises_view_id'], 'subject_overlap': subj, 'text_overlap': text}
+                    out['revises_view_id'] = None
         if out.get('revises_view_id'):
             out['continues_view_id'] = out['drift_of_view_id'] = None
             out['continuity'] = {'link': 'revise', 'source': 'model', 'view_id': out['revises_view_id']}
@@ -227,6 +239,8 @@ class ViewLedger:
             out['continues_view_id'] = None
             out['continuity'] = {'link': 'fresh', 'source': 'ledger_match',
                                  **({'unacknowledged_flip_of': flip} if flip else {})}
+        if dropped:
+            out['continuity']['dropped_revise'] = dropped
         return out
 
     def related(self, text, k=5):
@@ -244,9 +258,15 @@ class ViewLedger:
     def drift_findings(self, stance):
         """SOFT `direction_drift_unmarked` when link_continuity linked a direction drift."""
         c = stance.get('continuity') or {}
+        out = []
+        if c.get('dropped_revise'):
+            d = c['dropped_revise']
+            out.append({'code': 'revise_off_topic',
+                        'detail': f"model revises_view_id {d['view_id']} is off-topic (subject overlap "
+                                  f"{d['subject_overlap']}, text overlap {d['text_overlap']}); link dropped"})
         if c.get('link') != 'drift':
-            return []
-        return [{'code': 'direction_drift_unmarked',
+            return out
+        return out + [{'code': 'direction_drift_unmarked',
                  'detail': f"direction {c.get('from_direction')} -> {c.get('to_direction')} on prior {c.get('view_id')} "
                            f"without revises_view_id; linked as drift_of_view_id (supersedes it) - confirm "
                            f"it is a revise and say why, or keep the prior direction"}]

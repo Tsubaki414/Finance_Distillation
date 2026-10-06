@@ -210,7 +210,7 @@ def continue_batch(prev, out):
     return {u for u in used if u}
 
 
-def run(out, cap, *, live=False, command='', continue_from=None):
+def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=None):
     out = Path(out).resolve()
     out.mkdir(parents=True, exist_ok=True)
     exclude_sources = continue_batch(continue_from, out) if continue_from else set()
@@ -223,8 +223,9 @@ def run(out, cap, *, live=False, command='', continue_from=None):
     anti_repeat.HISTORY_DIR = out / 'history'
     anti_repeat.FALLBACK_DIR = out / 'history'
     rows = {a['id']: a for a in json.loads((ROOT / 'live/accounts.json').read_text())['accounts']}
-    accounts = [a for a in ACCOUNTS if rows.get(a, {}).get('enabled')]
-    skipped = [a for a in ACCOUNTS if a not in accounts]
+    wanted = [a for a in ACCOUNTS if not only_accounts or a in only_accounts]
+    accounts = [a for a in wanted if rows.get(a, {}).get('enabled')]
+    skipped = [a for a in wanted if a not in accounts]
     notes = ['Explicit --live is required; default mode is dry.',
              'Spend uses configured token/rate estimates and retained reservations; not an invoice.']
     client = None
@@ -276,9 +277,10 @@ def run(out, cap, *, live=False, command='', continue_from=None):
                         source, account, client, post_type=judgment_type(account),
                         extracted_units=units, exemplar_dir=compose_ab.POSTS,
                         exemplar_tags_dir=compose_ab.TAGS, view_ledger=ledger,
-                        shape_batch=tuple(batch_shapes))
+                        shape_batch=tuple(batch_shapes), shape_batch_size=len(accounts))
                     if (result.get('composition_shape') or {}).get('id'):
-                        batch_shapes.append(result['composition_shape']['id'])
+                        batch_shapes.append({'id': result['composition_shape']['id'],
+                                             'length': result['composition_shape'].get('length')})
                     result.update(key=account, source=source, mode='live',
                                   stored_unit_ids=[r['unit_id'] for r in group],
                                   ledger_prior_count=prior_count, selection=selection.get(account))
@@ -352,11 +354,16 @@ def main(argv=None):
     mode.add_argument('--live', action='store_true')
     parser.add_argument('--continue-from', type=Path, default=None,
                         help='previous batch dir: reuse its draft history + view ledgers, exclude its sources')
+    parser.add_argument('--accounts', default=None,
+                        help='comma-separated subset of ' + ','.join(ACCOUNTS) + ' (e.g. a ZH-only round)')
     args = parser.parse_args(argv)
     if not math.isfinite(args.cap) or not 0 < args.cap <= 2:
         parser.error('--cap must be finite, positive and at most $2')
     command = shlex.join([sys.executable, str(Path(__file__).resolve()), *(sys.argv[1:] if argv is None else argv)])
-    run(args.out, args.cap, live=args.live, command=command, continue_from=args.continue_from)
+    only = [a.strip() for a in args.accounts.split(',') if a.strip()] if args.accounts else None
+    if only and set(only) - set(ACCOUNTS):
+        parser.error('--accounts must be a subset of ' + ','.join(ACCOUNTS))
+    run(args.out, args.cap, live=args.live, command=command, continue_from=args.continue_from, only_accounts=only)
     print(args.out / 'SUMMARY.md')
     return 0
 

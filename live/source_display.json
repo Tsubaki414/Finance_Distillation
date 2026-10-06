@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "note": "Display names + credit policy for attribution frames (live/source_display.py). sell_side_credit: 'generic' credits ReportGem broker excerpts as sell-side research without naming the bank (instruction 2026-10-04 night); 'bank' restores the earlier owner decision (bank named, never ReportGem).",
+  "note": "Display names + credit policy for attribution frames (live/source_display.py). sell_side_credit: 'generic' credits ReportGem broker excerpts as sell-side research without naming the bank (instruction 2026-10-04 night); 'bank' restores the earlier owner decision (bank named, never ReportGem). Oct 6 v5 audit: company IR / newsroom sources show the company name (NVIDIA newsroom was \"company investor relations\"); official primaries get their usual ZH names.",
   "sell_side_credit": "generic",
   "generic": {
     "sell_side": {
@@ -94,8 +94,8 @@
       "en": "EIA"
     },
     "ch062_nvidianews_nvidia_com": {
-      "zh": "公司投资者关系公告",
-      "en": "company investor relations"
+      "zh": "英伟达",
+      "en": "NVIDIA"
     },
     "ch063_www_cninfo_com_cn": {
       "zh": "巨潮资讯网",
@@ -163,6 +163,46 @@
     "squeezemetrics_dix": {
       "en": "SqueezeMetrics",
       "zh": "SqueezeMetrics"
+    },
+    "primary_nvidia": {
+      "zh": "英伟达",
+      "en": "NVIDIA"
+    },
+    "primary_amd": {
+      "zh": "AMD",
+      "en": "AMD"
+    },
+    "ch039_www_atlantafed_org": {
+      "zh": "亚特兰大联储",
+      "en": "Atlanta Fed"
+    },
+    "ch044_www_bankofengland_co_uk": {
+      "zh": "英国央行",
+      "en": "Bank of England"
+    },
+    "ch064_www1_hkexnews_hk": {
+      "zh": "港交所披露易",
+      "en": "HKEXnews"
+    },
+    "primary_fed": {
+      "zh": "美联储",
+      "en": "Federal Reserve Board"
+    },
+    "primary_nyfed": {
+      "zh": "纽约联储",
+      "en": "Federal Reserve Bank of New York"
+    },
+    "primary_bls": {
+      "zh": "美国劳工统计局",
+      "en": "Bureau of Labor Statistics"
+    },
+    "primary_bea": {
+      "zh": "美国经济分析局",
+      "en": "Bureau of Economic Analysis"
+    },
+    "primary_treasury": {
+      "zh": "美国财政部",
+      "en": "US Treasury"
     }
   }
 }

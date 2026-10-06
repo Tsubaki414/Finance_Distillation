@@ -13,6 +13,9 @@ from __future__ import annotations
 from live import compose
 
 
+SHAPE_WINDOW = 4   # Oct 6 v5: each batch of 4 has >= 1 long and >= 1 short post
+
+
 def compose_batch(jobs, client, *, ledger_factory=None, arbitration=None, on_error=None, **compose_kwargs):
     """Compose each job (errors become status='error' rows, never abort the batch), then arbitrate."""
     from live import compose_shapes
@@ -20,15 +23,20 @@ def compose_batch(jobs, client, *, ledger_factory=None, arbitration=None, on_err
     for i, job in enumerate(jobs):
         account = job['account_id']
         key = job.get('key') or f'{account}#{i}'
+        if i % SHAPE_WINDOW == 0:
+            batch_shapes = []   # every window of 4 gets its own shape rotation + long/short mix
+        window_size = min(SHAPE_WINDOW, len(jobs) - (i - i % SHAPE_WINDOW))
         try:
             ledger = ledger_factory(account) if ledger_factory else None
+            kwargs = {'shape_batch_size': window_size, **compose_kwargs}
             result = compose.compose_source(
                 job['source'], account, client, post_type=job.get('post_type'),
                 extracted_units=job.get('extracted_units'), view_ledger=ledger,
-                shape_batch=tuple(batch_shapes), **compose_kwargs)
+                shape_batch=tuple(batch_shapes), **kwargs)
             result = dict(result, key=key, source=job['source'])
             if (result.get('composition_shape') or {}).get('id'):
-                batch_shapes.append(result['composition_shape']['id'])
+                batch_shapes.append({'id': result['composition_shape']['id'],
+                                     'length': result['composition_shape'].get('length')})
         except Exception as exc:   # one bad source must not sink the day's batch
             if on_error is not None:
                 on_error(job, exc)

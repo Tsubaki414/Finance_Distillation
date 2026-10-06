@@ -108,8 +108,34 @@ def _numbers_in_units(units):
     return sum(len(u.get('numbers') or []) for u in units or [])
 
 
-def eligible_shapes(shapes, units):
+def mechanism_count(units):
+    """Distinct mechanism units in the extracted source (Oct 6 v5: a thread needs >= 2)."""
+    from live.compose import _tokens
+    seen = []
+    for u in units or ():
+        if u.get('kind') != 'mechanism':
+            continue
+        toks = _tokens(str(u.get('statement') or ''))
+        if toks and any(len(toks & t) / max(1, min(len(toks), len(t))) >= 0.6 for t in seen):
+            continue
+        seen.append(toks)
+    return len(seen)
+
+
+THREAD_MIN_MECHANISMS = 2
+LONG_VARIANTS = ('thesis_mechanism', 'data_punch')   # may run long when the batch lacks a long post
+LONG_NOTE = {'en': (' LONG variant: up to three short paragraphs, but every paragraph must add NEW information '
+                    '(a new piece of evidence or a new step of the mechanism). No restating the call, no filler; '
+                    'if there is nothing new, stop early.'),
+             'zh': ('（长版）最多三段，但每一段都必须带来新信息：新的证据或机制里新的一环。'
+                    '不重复判断，不凑字数；没有新东西就提前收住。')}
+THREAD_NOTE = {'en': ' Every paragraph must add new information; never restate an earlier paragraph.',
+               'zh': '每段都必须带来新信息，不重复前面的段落，不凑字数。'}
+
+
+def eligible_shapes(shapes, units, mechanisms=None):
     n = _numbers_in_units(units)
+    mech = mechanism_count(units) if mechanisms is None else mechanisms
     out = {}
     for sid, w in shapes.items():
         spec = SHAPES[sid]
@@ -117,14 +143,38 @@ def eligible_shapes(shapes, units):
             continue
         if sid == 'one_number_punch' and n < 1:
             continue
+        if sid == 'short_thread' and mech < THREAD_MIN_MECHANISMS:
+            continue   # v4b zh_industry: 1 view + 1 fact padded into 4 paragraphs
         out[sid] = w
     return out
 
 
-def choose_shape(persona, *, units=(), recent=(), batch=(), seed=''):
+def _batch_items(batch):
+    ids, lengths = [], []
+    for b in batch or ():
+        sid = b.get('id') if isinstance(b, dict) else b
+        if sid not in SHAPES:
+            continue
+        ids.append(sid)
+        lengths.append((b.get('length') if isinstance(b, dict) else None) or SHAPES[sid]['length'])
+    return ids, lengths
+
+
+def choose_shape(persona, *, units=(), recent=(), batch=(), seed='', all_units=None, batch_size=None):
     """Pick one shape. recent: persona history rows (oldest first, may carry 'shape');
-    batch: shape ids already used in this batch. Deterministic for a given seed."""
-    shapes = eligible_shapes(persona_shapes(persona), units) or {'take_short': 1.0}
+    batch: shapes already used in this batch (ids, or {'id', 'length'} dicts). Deterministic for a seed.
+    all_units: every extracted unit of the source (mechanism count gates short_thread).
+    batch_size: when given, the remaining picks guarantee >= 1 long and >= 1 short post per batch."""
+    mech = mechanism_count(all_units if all_units is not None else units)
+    shapes = eligible_shapes(persona_shapes(persona), units, mechanisms=mech) or {'take_short': 1.0}
+    batch_ids, batch_lengths = _batch_items(batch)
+    batch = tuple(batch_ids)
+    force = None
+    if batch_size:
+        remaining = int(batch_size) - len(batch_ids)
+        missing = [c for c in ('long', 'short') if c not in batch_lengths]
+        if remaining >= 1 and missing and len(missing) >= remaining:
+            force = missing[0]
     recent_shapes = [r.get('shape') for r in recent if isinstance(r, dict) and r.get('shape') in SHAPES]
     last = recent_shapes[-1] if recent_shapes else None
     last_len = SHAPES[last]['length'] if last else None
@@ -149,16 +199,37 @@ def choose_shape(persona, *, units=(), recent=(), batch=(), seed=''):
         scored.append((score * (0.85 + 0.3 * tie), sid))
         reasons[sid] = round(score, 4)
     scored.sort(reverse=True)
-    sid = scored[0][1]
-    return {'id': sid, **{k: SHAPES[sid][k] for k in ('length', 'max_numbers', 'max_number_lines', 'ending', 'line_breaks')},
-            'candidates': reasons, 'last_shape': last, 'batch_excluded': sorted(set(batch) & set(shapes))}
+    sid, length, mix = scored[0][1], None, None
+    if force == 'short' and SHAPES[sid]['length'] != 'short':
+        shorts = [x for x in scored if SHAPES[x[1]]['length'] == 'short']
+        sid = shorts[0][1] if shorts else 'take_short'
+        mix = 'forced short (batch had no short post)'
+    elif force == 'long' and SHAPES[sid]['length'] != 'long':
+        longs = [x for x in scored if SHAPES[x[1]]['length'] == 'long']
+        if longs:
+            sid = longs[0][1]
+        else:
+            variants = [x for x in scored if x[1] in LONG_VARIANTS] or [
+                (0, v) for v in LONG_VARIANTS if v in shapes] or [(0, 'thesis_mechanism')]
+            sid, length = variants[0][1], 'long'
+        mix = 'forced long (batch had no long post)'
+    spec = SHAPES[sid]
+    out = {'id': sid, **{k: spec[k] for k in ('length', 'max_numbers', 'max_number_lines', 'ending', 'line_breaks')},
+           'candidates': reasons, 'last_shape': last, 'batch_excluded': sorted(set(batch) & set(shapes)),
+           'mechanisms': mech}
+    if length:
+        out.update(length=length, length_override=True, line_breaks='two or three short paragraphs')
+    if mix:
+        out['batch_mix'] = mix
+    return out
 
 
 def payload_block(shape, lang, length_range):
     """composition_shape block for the COMPOSE payload (HARD for this post)."""
     spec = SHAPES[shape['id']]
+    length = shape.get('length') or spec['length']
     lo, hi = length_range['min'], length_range['max']
-    a, b = LENGTH_BAND[spec['length']]
+    a, b = LENGTH_BAND[length]
     target = {'min': int(lo + a * (hi - lo)), 'max': int(lo + b * (hi - lo))}
     ending_rule = {
         FALSIFIER: 'End on the concrete condition that would prove the call wrong.',
@@ -168,9 +239,15 @@ def payload_block(shape, lang, length_range):
                      'NO conditional ending (no if / unless / provided / until / 只要 / 除非 / 若 / 一旦).',
         QUESTION: 'End on one pointed open question. NO conditional ending.',
     }[spec['ending']]
-    return {'id': shape['id'], 'structure': spec['zh' if lang == 'zh' else 'en'],
+    key = 'zh' if lang == 'zh' else 'en'
+    structure = spec[key]
+    if shape.get('length_override') and length == 'long':
+        structure += LONG_NOTE[key]
+    elif shape['id'] == 'short_thread':
+        structure += THREAD_NOTE[key]
+    return {'id': shape['id'], 'structure': structure, 'length': length,
             'length_target': target, 'max_numbers': spec['max_numbers'],
-            'max_number_lines': spec['max_number_lines'], 'line_breaks': spec['line_breaks'],
+            'max_number_lines': spec['max_number_lines'], 'line_breaks': shape.get('line_breaks') or spec['line_breaks'],
             'ending': spec['ending'], 'ending_rule': ending_rule,
             'line1_rule': ('Line 1 is the unconditional call: no if / unless / provided / until / 若 / 只要 / '
                            '除非 / 一旦 clause in line 1; stance.view.conditions is background, not line 1.')}
@@ -237,6 +314,33 @@ def hedged_opener_findings(body):
     first = next((ln for ln in (body or '').splitlines() if ln.strip()), '')
     m = _HEDGE_OPENER.search(first)
     return [{'code': 'hedged_opener', 'detail': f'line 1 opens with "{m.group(0).strip()}"'}] if m else []
+
+
+def _paragraphs(body):
+    paras = [p.strip() for p in re.split(r'\n\s*\n', body or '') if p.strip()]
+    return paras if len(paras) > 1 else _lines(body)
+
+
+def thread_padding_findings(body, shape):
+    """SOFT thread_padding (long posts): a paragraph that mostly restates earlier ones, or more
+    paragraphs than the source has content for (v4b zh_industry: 4 paragraphs from 1 view + 1 fact)."""
+    if not shape or not (shape.get('id') == 'short_thread' or shape.get('length') == 'long'):
+        return []
+    from live.compose import _tokens
+    paras = _paragraphs(body)
+    out, seen = [], set()
+    for i, p in enumerate(paras):
+        toks = _tokens(p)
+        if i and toks and len(toks & seen) / len(toks) >= 0.5:
+            out.append({'code': 'thread_padding',
+                        'detail': f'paragraph {i + 1} mostly restates earlier paragraphs; cut it or add new information'})
+            break
+        seen |= toks
+    mech = shape.get('mechanisms')
+    if not out and mech is not None and len(paras) >= 4 and mech < THREAD_MIN_MECHANISMS:
+        out.append({'code': 'thread_padding',
+                    'detail': f'{len(paras)} paragraphs from a source with {mech} mechanism unit(s); write it shorter'})
+    return out
 
 
 def number_run_findings(body, shape_id=None):

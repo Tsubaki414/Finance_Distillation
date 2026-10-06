@@ -973,10 +973,14 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
         findings += compose_shapes.number_run_findings(body, (shape or {}).get('id'))
         findings += compose_shapes.shape_findings(body, shape)
         findings += compose_shapes.hedged_opener_findings(body)
+        findings += compose_shapes.thread_padding_findings(body, shape)
         if recent is None:
             recent = anti_repeat.load_recent(persona.persona_id)
         findings += compose_shapes.history_findings(body, recent, shape=shape)
     findings += internal_contradiction_findings(body)
+    if persona.lang == 'zh':
+        from live import zh_register as zr
+        findings += zr.register_findings(body, persona.lang) + zr.market_feeling_findings(body, persona.lang)
     findings += trade_reco_findings(body, persona.lang)
     from live.draft_qa import stale_time_findings
     findings += stale_time_findings(body, units, now, persona.lang)
@@ -1045,7 +1049,8 @@ EXEMPLAR_RULE = ('style_exemplars are real posts by other accounts, given for vo
 
 def compose_source(source, account_id, client, *, post_type=None, exemplars=None, exemplar_dir=None,
                    exemplar_tags_dir=None, extracted_units=None, stance_output=None, voice_prompt_variant=None, now=None, view_ledger=None,
-                   emotion_contract=None, pack_augment=None, shape=None, shape_batch=(), composition_shapes=None):
+                   emotion_contract=None, pack_augment=None, shape=None, shape_batch=(), composition_shapes=None,
+                   shape_batch_size=None, zh_register=None):
     """Voice cards always use exemplars; other personas honor the retrieval override."""
     persona = registry.persona_for_account(account_id)
     if 'aphorism_translation' in persona.post_type_mix:
@@ -1186,11 +1191,12 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     if use_shapes and (post_type in JUDGMENT_TYPES or (stance and stance.get('account_view'))):
         if shape and shape in compose_shapes.SHAPES:
             spec = compose_shapes.SHAPES[shape]
-            shape_info = {'id': shape, 'forced': True, **{k: spec[k] for k in (
-                'length', 'max_numbers', 'max_number_lines', 'ending', 'line_breaks')}}
+            shape_info = {'id': shape, 'forced': True, 'mechanisms': compose_shapes.mechanism_count(units),
+                          **{k: spec[k] for k in ('length', 'max_numbers', 'max_number_lines', 'ending', 'line_breaks')}}
         else:
             shape_info = compose_shapes.choose_shape(persona, units=chosen, recent=recent_rows,
-                                                     batch=tuple(shape_batch or ()),
+                                                     batch=tuple(shape_batch or ()), all_units=units,
+                                                     batch_size=shape_batch_size,
                                                      seed=source.get('source_hash') or source.get('id') or '')
         shape_block = compose_shapes.payload_block(shape_info, persona.lang,
                                                    payload['post_type_rules']['body_length'])
@@ -1290,6 +1296,18 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     if any(u.get('quote_allowed') is False for u in chosen):
         payload['post_type_rules']['quote_policy'] = (
             'Paraphrase these units. Direct quotes, including translated quotes, are forbidden.')
+    # Oct 6 v5 ZH register: Chinese system addendum + real donor register anchors (live/zh_register.py).
+    from live import zh_register as zr
+    # Voice-layer feature: default on for ZH personas with a signature / voice card (a historical persona
+    # without cards keeps its recorded prompt); FD_ZH_REGISTER=0 or zh_register=False turns it off.
+    use_zh = persona.lang == 'zh' and (zh_register if zh_register is not None
+                                       else (_os.environ.get('FD_ZH_REGISTER', '1') != '0'
+                                             and bool(sig or persona.voice_card)))
+    system_prompt = COMPOSE + '\n' + zr.SYSTEM_ZH if use_zh else COMPOSE
+    zh_anchor_texts = []
+    if use_zh:
+        payload['zh_register'] = zr.payload_block(persona, seed=source.get('source_hash') or source.get('id') or '')
+        zh_anchor_texts = [a['text'] for a in payload['zh_register']['register_anchors']]
     retrieval = persona.raw.get('exemplar_retrieval') or {}
     use_exemplars = (bool(persona.voice_card) or retrieval.get('enabled', False)) if exemplars is None else exemplars
     shown = []
@@ -1310,6 +1328,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                 if len(picked) >= 1: break
             for e in sig.get('zh_restraint') or []:
                 if e.get('id') in have: continue
+                if use_zh and e.get('handle') == 'overnight_clean':
+                    continue   # synthetic clean-prose shapes taught 研报腔; real donor anchors replace them
                 picked.append({'handle': e.get('handle') or 'restraint', 'id': e['id'],
                                'text': e['text'], 'why': 'zh restraint exemplar'})
                 have.add(e['id'])
@@ -1327,7 +1347,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         if shown:
             payload['style_exemplars'] = shown
             payload['style_exemplar_rule'] = EXEMPLAR_RULE
-    value, response = _ask(client, 'compose', COMPOSE, payload, MAX_TOKENS, assembly)
+    value, response = _ask(client, 'compose', system_prompt, payload, MAX_TOKENS, assembly)
     body = value.get('body')
     require(isinstance(body, str) and body.strip(), 'compose: body required')
     body = body.strip()
@@ -1340,7 +1360,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     if grounding['decision'] == 'REPAIR' and grounding.get('repair_instruction'):
         retry_payload = dict(payload)
         retry_payload['rewrite_note'] = grounding['repair_instruction']
-        value2, response2 = _ask(client, 'compose', COMPOSE, retry_payload, MAX_TOKENS, assembly)
+        value2, response2 = _ask(client, 'compose', system_prompt, retry_payload, MAX_TOKENS, assembly)
         body2 = (value2.get('body') or '').strip()
         if body2:
             after = tg.review(body2, stance, chosen, persona.lang)
@@ -1378,7 +1398,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         if note:
             retry_payload = dict(payload)
             retry_payload['rewrite_note'] = note
-            value_e, response_e = _ask(client, 'compose', COMPOSE, retry_payload, MAX_TOKENS, assembly)
+            value_e, response_e = _ask(client, 'compose', system_prompt, retry_payload, MAX_TOKENS, assembly)
             body_e = (value_e.get('body') or '').strip()
             if body_e:
                 emotion_retry = {'attempted': True, 'kept': 'retry', 'tier': emo_policy.get('tier'),
@@ -1434,7 +1454,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                 )
             retry_payload = dict(payload)
             retry_payload['rewrite_note'] = note
-            value_j, response_j = _ask(client, 'compose', COMPOSE, retry_payload, MAX_TOKENS, assembly)
+            value_j, response_j = _ask(client, 'compose', system_prompt, retry_payload, MAX_TOKENS, assembly)
             body_j = (value_j.get('body') or '').strip()
             if body_j:
                 retry_j = [f for f in judgment_findings(body_j, stance) if f['code'] in ('no_judgment', 'data_list')]
@@ -1470,7 +1490,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             )
             retry_payload = dict(payload, rewrite_note=note)
             try:
-                value_d, response_d = _ask(client, 'compose', COMPOSE, retry_payload, MAX_TOKENS, assembly)
+                value_d, response_d = _ask(client, 'compose', system_prompt, retry_payload, MAX_TOKENS, assembly)
             except Exception as exc:
                 value_d, response_d = {}, {}
                 retry_payload['retry_error'] = type(exc).__name__
@@ -1504,7 +1524,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     # Soft structure / coherence repair (Oct 6 v4): ignored composition_shape, 3-number runs,
     # internal contradiction. One regeneration; keep only if it clears more than it breaks.
     structure_retry = None
-    structure_codes = ('shape_mismatch', 'number_run', 'internal_contradiction')
+    structure_codes = ('shape_mismatch', 'number_run', 'internal_contradiction', 'zh_register', 'market_feeling',
+                       'thread_padding')
 
     def _structure(b):
         from live.coherence import internal_contradiction_findings
@@ -1512,6 +1533,9 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         if post_type in JUDGMENT_TYPES or thesis_locked:
             found += compose_shapes.number_run_findings(b, (shape_info or {}).get('id'))
             found += compose_shapes.hedged_opener_findings(b)
+            found += compose_shapes.thread_padding_findings(b, shape_info)
+        if use_zh:   # v5: 研报腔 density / AI template phrases and crowd-feeling attribution, one shared regen
+            found += zr.register_findings(b, persona.lang) + zr.market_feeling_findings(b, persona.lang)
         return found + internal_contradiction_findings(b)
 
     first_structure = _structure(body)
@@ -1526,7 +1550,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         note = '[structure_repair] ' + ' '.join(dict.fromkeys(parts))
         retry_payload = dict(payload, rewrite_note=note)
         try:
-            value_s, response_s = _ask(client, 'compose', COMPOSE, retry_payload, MAX_TOKENS, assembly)
+            value_s, response_s = _ask(client, 'compose', system_prompt, retry_payload, MAX_TOKENS, assembly)
         except Exception as exc:
             value_s, response_s = {}, {}
             retry_payload['retry_error'] = type(exc).__name__
@@ -1559,7 +1583,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         note = ' '.join(dict.fromkeys(qa_levels.FIXES[f['code']] for f in repair))
         retry_payload = dict(payload, rewrite_note=note)
         try:
-            value_r, response_r = _ask(client, 'compose', COMPOSE, retry_payload, MAX_TOKENS, assembly)
+            value_r, response_r = _ask(client, 'compose', system_prompt, retry_payload, MAX_TOKENS, assembly)
         except Exception as exc:  # Advisory rewrite failure retains the completed draft.
             value_r, response_r = {}, {}
             retry_payload['retry_error'] = type(exc).__name__
@@ -1605,7 +1629,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     findings += qa_levels.classify(emo_findings or [], frame_found=True)
     # v4b zh_industry pasted a signature closing quote (坐办公室看数据和跑一趟供应链…): check card quotes too.
     sig_texts = [str(x) for x in (sig.get('openings') or []) + (sig.get('closings') or [])] if sig else []
-    findings += qa_levels.classify(exemplar_store.copied_phrases(body, [e['text'] for e in shown] + sig_texts),
+    findings += qa_levels.classify(exemplar_store.copied_phrases(body, [e['text'] for e in shown] + sig_texts
+                                                                 + zh_anchor_texts),
                                    frame_found=True)
     if stance and stance.get('stance_findings'):
         findings += qa_levels.classify(stance['stance_findings'], frame_found=True)
