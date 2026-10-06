@@ -139,6 +139,7 @@ def priority(channel, source):
 def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_runs',
         inbox='/workspace/x/ingest_inbox', cost_cap_usd=8.0, channel_timeout=90, channel_timeouts=None,
         max_extract=40, max_source_chars=5000, extract_model=None, allow_nondefault_extract_model=False, per_channel_max=2, no_dashboard=False, dry_run=False, only=None,
+        fair_share_floor=2,
         fetchers=None, extract=None, jev=None, backup=None, refresh=None, state_path=None):
     from ml import budget
     from live import content_store, jev_front, registry
@@ -174,6 +175,9 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
         if not step('backup',backup or (lambda:command(sys.executable,str(ROOT/'scripts/backup_live.py')))):
             summary['status']='backup_failed'; return summary
         summary['fresh_by_persona_before']=fresh_counts()
+        # v8 (Oct 6): items the previous run deferred go first and bypass per_channel_max.
+        from live import ingest_priority
+        prev=ingest_priority.previous_deferred(runs_dir)
         state=json.loads(state_path.read_text()) if state_path.exists() else {'channels':{}}
         fs=default_fetchers(state,store) if fetchers is None else fetchers
         if only:
@@ -198,7 +202,8 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
                     keys=[str(s.get(k)) for k in ('id','url','source_hash') if s.get(k)]
                     if seen.intersection(keys) or not filter_known([s],store)[0]: continue
                     if any(failed.get(k,0)>=2 for k in keys): continue
-                    if units is None and per_channel_max and rank>=per_channel_max: continue
+                    prior=bool(prev['ids'].intersection(keys))
+                    if units is None and per_channel_max and rank>=per_channel_max and not prior: continue
                     ch['new_items']+=1; tasks.append((ch,s,units,adapter,keys,rank)); rank+=1
             except Exception as exc:
                 ch.update(status='timeout' if isinstance(exc,TimeoutError) else 'failed',error=f'{type(exc).__name__}: {exc}')
@@ -207,6 +212,11 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
             print(f"[gather] {cid} {ch['status']} new={ch['new_items']} {ch['seconds']:.0f}s",file=sys.stderr,flush=True)
         summary['steps'].append(dict(id='gather',status='ok'))
         summary['steps'].append(dict(id='incremental',status='ok',new_items=len(tasks)))
+        tasks,plan=ingest_priority.order_tasks(tasks,summary['fresh_by_persona_before'],prev['ids'],
+                                               floor=fair_share_floor,legacy_priority=priority)
+        summary['ordering']=dict(previous_run=prev['run'],previous_deferred=len(prev['ids']),
+                                 prior_deferred_gathered=sum(r['prior_deferred'] for r in plan),
+                                 fair_share_floor=fair_share_floor,plan=plan)
         if dry_run: summary['status']='dry_run'; return summary
         budget.STORE=runs_dir/(started.strftime('%Y%m%d')+'-'+uuid.uuid4().hex)/'ledger'
         budget.LEDGER=budget.STORE/'spend.json';ledger=budget.LEDGER
@@ -231,7 +241,7 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
                     return result
             jev = CappedJev()
         capped=False; extracted=0
-        for ch,s,units,adapter,keys,rank in sorted(tasks,key=lambda task:(priority(task[0]['id'],task[1]),task[5])):
+        for ch,s,units,adapter,keys,rank in tasks:   # v8: ingest_priority order (fair-share floor)
             t=time.monotonic()
             if capped or (units is None and extracted>=max_extract):
                 reason='deferred_cost_cap' if capped else 'deferred_max_extract'
