@@ -294,3 +294,11 @@ def test_stance_reject_tries_backup_and_batch_size_counts_remaining_slots(tmp_pa
     for account, _, size, done in seen:   # size = shapes so far + slots still to run
         idx = demo.ACCOUNTS.index(account)
         assert size == done + (len(demo.ACCOUNTS) - idx)
+
+
+def test_recent_statements_do_not_push_to_rare_moves():
+    import collections
+    p = _persona('zh_industry')
+    recent = ['利润掉得很快。', '这波涨价还没完。', '端侧推理在加速。']   # statement x3
+    c = collections.Counter(zr.choose_opening_move(p, f'r{i}', recent)['move'] for i in range(400))
+    assert c['statement'] / 400 > 0.5 and c['question'] / 400 < 0.2

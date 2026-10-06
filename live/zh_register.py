@@ -300,7 +300,9 @@ def choose_opening_move(persona, seed='', recent_bodies=(), posts_dir=None):
     weights = {}
     for move, share in shares.items():
         w = max(share, 0.0)
-        if move in recent:
+        # v7 live: damping 'statement' (the donor default, ~70%) pushed 3 of 4 live picks to 'question'
+        # (~6% in donors). Only the minority moves are damped when recent drafts used them.
+        if move in recent and move != STATEMENT[0]:
             w *= 0.15 if move == recent[-1] else 0.4
         weights[move] = w
     rng = random.Random(int(sha256(f'{seed}|opening'.encode()).hexdigest()[:12], 16))
