@@ -194,13 +194,15 @@ def research_source(source, units=()):
     return False, dict(signal, reason='short')
 
 
-def choose_shape(persona, *, units=(), recent=(), batch=(), seed='', all_units=None, batch_size=None, source=None):
+def choose_shape(persona, *, units=(), recent=(), batch=(), seed='', all_units=None, batch_size=None, source=None,
+                 only=None):
     """Pick one shape. recent: persona history rows (oldest first, may carry 'shape');
     batch: shapes already used in this batch (ids, or {'id', 'length'} dicts). Deterministic for a seed.
     all_units: every extracted unit of the source (mechanism count gates short_thread).
     batch_size: when given, the remaining picks guarantee >= 1 long and >= 1 short post per batch.
     source: the source dict; for ZH personas on a research-type source take_short (0 numbers) is out,
-    short shapes weigh at most ZH_RESEARCH_SHORT_WEIGHT and one_number_punch may use a 2nd number."""
+    short shapes weigh at most ZH_RESEARCH_SHORT_WEIGHT and one_number_punch may use a 2nd number.
+    only: shape ids the post's sampled post type allows (Oct 7 posting habits)."""
     mech = mechanism_count(all_units if all_units is not None else units)
     base = persona_shapes(persona)
     research, signal = (research_source(source, all_units if all_units is not None else units)
@@ -209,6 +211,13 @@ def choose_shape(persona, *, units=(), recent=(), batch=(), seed='', all_units=N
         base = {sid: (min(w, ZH_RESEARCH_SHORT_WEIGHT) if SHAPES[sid]['length'] == 'short' else w)
                 for sid, w in base.items() if sid != 'take_short'}
     shapes = eligible_shapes(base, units, mechanisms=mech) or {'take_short': 1.0}
+    if only:   # Oct 7: the sampled post type narrows the shapes (posting_habits.TYPE_SHAPES)
+        fit = {sid: w for sid, w in shapes.items() if sid in only}
+        if not fit:
+            fit = {sid: base.get(sid, 0.3) for sid in only if sid in SHAPES and sid != 'short_thread'} or \
+                  {sid: 0.3 for sid in only if sid in SHAPES}
+        shapes = fit
+        batch_size = None   # the post type owns length now
     batch_ids, batch_lengths = _batch_items(batch)
     batch = tuple(batch_ids)
     force = None

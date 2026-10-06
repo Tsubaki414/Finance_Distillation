@@ -419,8 +419,10 @@ def test_research_source_signal():
 
 
 @pytest.mark.parametrize('seed', [f's{i}' for i in range(12)])
-def test_zh_research_source_never_take_short_and_short_capped(seed):
+def test_zh_research_source_never_take_short_and_short_capped(seed, monkeypatch):
     persona = registry.persona_for_account('zh_macro')
+    from live import posting_habits   # pin the Oct 5 short-heavy mix (the Oct 7 cluster card is 0.33 short)
+    monkeypatch.setattr(posting_habits, 'load_card', lambda p: {'length_mix': {'short': 0.685, 'medium': 0.164, 'long': 0.151}})
     units = _shape_units()
     out = cs.choose_shape(persona, units=units, all_units=units, seed=seed, source={'original_text': LONG_NOTE_TEXT})
     assert out['id'] != 'take_short' and 'take_short' not in out['candidates']

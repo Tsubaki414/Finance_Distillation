@@ -135,7 +135,11 @@ feedback shapes when supplied in style_exemplars (skeptical call + levels; rates
 demand visibility vs supply — not valuation).
 claim_ledger lists each factual claim in the body with the unit_id and the
 source_spans index (span_ref) it comes from.
-Schema: {"body":"...","claim_ledger":[{"claim":"...","unit_id":"cu-...","span_ref":0}]}''')
+Schema: {"body":"...","claim_ledger":[{"claim":"...","unit_id":"cu-...","span_ref":0}]}
+post_format, when supplied, is HARD for this post: write that post type at its length_target and add the
+extra keys it asks for - "thread" (list of the thread's posts; body = them joined by a blank line),
+"image_needed" (chart / image to attach, chart_caption only) or "quoted" (the quoted headline,
+quote_comment only).''')
 
 
 def blacklist(lang):
@@ -1105,6 +1109,8 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
                          'detail': 'Chosen pack contains facts only; no view or mechanism unit is available.'})
     size = length_of(body)
     rng = body_length(spec['length'], getattr(persona, 'voice_card', None), persona.lang)
+    if (shape or {}).get('post_format') and (shape or {}).get('length_target'):   # Oct 7: the sampled post type owns length
+        rng = {'min': int(shape['length_target']['min'] * 0.6), 'max': int(shape['length_target']['max'] * 1.3)}
     if not spec['length'].get('follows_source') and not rng['min'] <= size <= rng['max']:
         findings.append({'code': 'length_out_of_range',
                          'detail': {'length': size, 'range': [rng['min'], rng['max']]}})
@@ -1324,8 +1330,10 @@ def _signature_lexicon(persona):
 def compose_source(source, account_id, client, *, post_type=None, exemplars=None, exemplar_dir=None,
                    exemplar_tags_dir=None, extracted_units=None, stance_output=None, voice_prompt_variant=None, now=None, view_ledger=None,
                    emotion_contract=None, pack_augment=None, shape=None, shape_batch=(), composition_shapes=None,
-                   shape_batch_size=None, zh_register=None):
-    """Voice cards always use exemplars; other personas honor the retrieval override."""
+                   shape_batch_size=None, zh_register=None, post_format=None):
+    """Voice cards always use exemplars; other personas honor the retrieval override.
+    post_format: None = sample the post type + length from the account's cluster posting habits
+    (FD_POST_FORMAT=0 or the emotion_contract payload switch off turns it off), a dict = use that format, False = off."""
     persona = registry.persona_for_account(account_id)
     if 'aphorism_translation' in persona.post_type_mix:
         raise ValueError('aphorism_translation accounts use the translation chain, not COMPOSE')
@@ -1473,6 +1481,19 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                   else _os_shape.environ.get('FD_COMPOSE_SHAPES', '1') != '0')
     shape_info, shape_block = None, None
     recent_rows = _ar.load_recent(persona.persona_id)
+    # Oct 7 posting habits: each post first samples a post type + length bucket from the account's donor
+    # cluster (live/posting_habits.py); the type narrows the composition shapes and owns the length target.
+    from live import posting_habits as _ph
+    fmt_info = None
+    _fmt_switch = emotion_contract if emotion_contract is not None else (_os_shape.environ.get('FD_EMOTION_CONTRACT', '1') != '0')
+    if (use_shapes and post_format is not False and getattr(persona, 'donor_weights', None)
+            and (isinstance(post_format, dict) or (_fmt_switch and _os_shape.environ.get('FD_POST_FORMAT', '1') != '0'))
+            and (post_type in JUDGMENT_TYPES or (stance and stance.get('account_view')))):
+        fmt_info = (dict(post_format) if isinstance(post_format, dict) else
+                    _ph.choose_format(persona, recent=recent_rows, seed=source.get('source_hash') or source.get('id') or ''))
+        fmt_info.setdefault('shapes', list(_ph.TYPE_SHAPES.get(fmt_info['type'], ())))
+        fmt_info.setdefault('length_target', _ph.target_chars(persona.lang, fmt_info['length'],
+                                                              parts=fmt_info.get('thread_parts')))
     if use_shapes and (post_type in JUDGMENT_TYPES or (stance and stance.get('account_view'))):
         if shape and shape in compose_shapes.SHAPES:
             spec = compose_shapes.SHAPES[shape]
@@ -1482,11 +1503,20 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             shape_info = compose_shapes.choose_shape(persona, units=chosen, recent=recent_rows,
                                                      batch=tuple(shape_batch or ()), all_units=units,
                                                      batch_size=shape_batch_size, source=source,
-                                                     seed=source.get('source_hash') or source.get('id') or '')
+                                                     seed=source.get('source_hash') or source.get('id') or '',
+                                                     only=(fmt_info or {}).get('shapes'))
         shape_block = compose_shapes.payload_block(shape_info, persona.lang,
                                                    payload['post_type_rules']['body_length'])
+        if fmt_info:
+            shape_block.update(length='long' if fmt_info['length'] == 'thread' else fmt_info['length'],
+                               length_target={k: fmt_info['length_target'][k] for k in ('min', 'max')})
+            payload['post_format'] = _ph.format_block(persona, fmt_info, seed=source.get('source_hash') or source.get('id') or '')
+            payload['post_type_rules']['body_length'] = dict(
+                payload['post_type_rules']['body_length'],
+                note='post_format.length_target wins over min/max here (this post is a ' + fmt_info['type'] + ').')
+            fmt_info['anchor_handles'] = [a['handle'] for a in payload['post_format']['anchor_posts']]
         payload['composition_shape'] = shape_block
-        if shape_block.get('length') == 'long':
+        if shape_block.get('length') == 'long' and not fmt_info:
             # v7: v5zh data_punch long came back at 114 chars vs target 277-399 - body_length.note said
             # "short is fine, do not pad" and LONG_NOTE said "stop early". The long band now wins.
             bl = dict(payload['post_type_rules']['body_length'])
@@ -1933,7 +1963,10 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         found += zr.template_ending_findings(b, recent_bodies, same_day_bodies)   # Oct 7: 还没充分定价 closers
         from live import language_habits as _lhc
         found += _lhc.catchphrase_findings(b, persona, recent_bodies, _signature_lexicon(persona))
-        return found + internal_contradiction_findings(b)
+        found += internal_contradiction_findings(b)
+        if _ph.compact_type(fmt_info):   # Oct 7: one-liner / flash / caption / quote / question carry no separate so-what line
+            found = [f for f in found if f['code'] != 'missing_implication']
+        return found
 
     first_structure = _structure(body, value.get('claim_ledger'))
     if first_structure:
@@ -2018,7 +2051,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                 'compose: claim_ledger span_ref out of range')
     text = (frame['text'] + body) if frame['placement'] == 'lead' else (body + frame['text'])
     findings = post_checks(post_type, body, text, frame, tier, chosen, persona, post_types, stance, source=source, now=now,
-                           shape=({**shape_info, 'length_target': shape_block['length_target']}
+                           shape=({**shape_info, 'length_target': shape_block['length_target'],
+                                   **({'post_format': fmt_info['type'], 'length': shape_block['length']} if fmt_info else {})}
                                   if shape_info and shape_block else shape_info), recent=recent_rows)
     if label_stripped:
         findings += qa_levels.classify([{'code': 'judgment_label', 'detail': 'Label stripped automatically'}], frame_found=True)
@@ -2037,7 +2071,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         findings += qa_levels.classify(stance['stance_findings'], frame_found=True)
     if use_zh and (post_type in JUDGMENT_TYPES or thesis_locked):
         # v11: soft yellow flag on the kept body (the regen above already had its one try).
-        findings += qa_levels.classify(zr.why_implication_findings(body, persona.lang, ledger=ledger, **why_kw),
+        findings += qa_levels.classify([f for f in zr.why_implication_findings(body, persona.lang, ledger=ledger, **why_kw)
+                                        if not (_ph.compact_type(fmt_info) and f['code'] == 'missing_implication')],
                                        frame_found=True)
     elif en_why and (post_type in JUDGMENT_TYPES or thesis_locked):
         findings += qa_levels.classify(zr.en_why_findings(body, ledger=ledger, units=chosen, why_line=why_kw['why_line']),
@@ -2073,6 +2108,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         anti_repeat.record_draft(persona.persona_id, body, meta={**(stance or {}), 'draft_id': base['id'],
                                  'source_hash': source.get('source_hash'), 'source_title': source.get('title'),
                                  'shape': (shape_info or {}).get('id'),
+                                 'post_format': (fmt_info or {}).get('type'),
                                  'skeleton': compose_shapes.skeleton(body, payload['post_type_rules']['body_length'])})
     return {**base, 'stance': stance, 'units': chosen, 'all_units': len(units), 'post_type': post_type,
             'attribution_frame': frame, 'body': body, 'text': text, 'length': length_of(body),
@@ -2100,8 +2136,27 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             **({'composition_shape': {**shape_info, 'skeleton': compose_shapes.skeleton(
                 body, payload['post_type_rules']['body_length'])}} if shape_info else {}),
             'pack_balance': pack_balance(chosen),
+            **(_format_result(fmt_info, value, body) if fmt_info else {}),
             **({'pack_selection': pack_selection} if pack_selection else {}),
             'unit_augment': base.get('unit_augment') or {}}
+
+
+def _format_result(fmt_info, value, body):
+    """post_format + its extra outputs on the result (thread parts, image_needed, quoted)."""
+    out = {'post_format': {k: v for k, v in fmt_info.items() if k not in ('type_weights',)}}
+    if fmt_info['type'] == 'thread':
+        parts = value.get('thread') if isinstance(value.get('thread'), list) else None
+        parts = [str(p).strip() for p in parts or () if str(p).strip()]
+        if not parts or re.sub(r'\s', '', ''.join(parts)) != re.sub(r'\s', '', body):
+            parts = [p.strip() for p in re.split(r'\n\s*\n', body) if p.strip()]
+        out['thread'] = parts
+    if fmt_info['type'] == 'chart_caption':
+        img = value.get('image_needed')
+        out['image_needed'] = str(img).strip() if isinstance(img, str) and img.strip() else None
+    if fmt_info['type'] == 'quote_comment':
+        q = value.get('quoted')
+        out['quoted'] = str(q).strip() if isinstance(q, str) and q.strip() else None
+    return out
 
 
 ARBITRATION_ENV = 'FD_ARBITRATION'   # soft (default) | off

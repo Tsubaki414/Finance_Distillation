@@ -1,33 +1,292 @@
 {
   "persona_id": "crypto_macro_en",
-  "basis": "donor observations",
+  "version": "cluster-v2",
+  "lang": "en",
+  "basis": "donor cluster observations",
+  "donors": {
+    "glassnode": {
+      "weight_capped": 0.252,
+      "posts": 168,
+      "recent_quote_share": 0.235
+    },
+    "DTAPCAP": {
+      "weight_capped": 0.249,
+      "posts": 202,
+      "recent_quote_share": 0.15
+    },
+    "ki_young_ju": {
+      "weight_capped": 0.201,
+      "posts": 162,
+      "recent_quote_share": 0.111
+    },
+    "NateGeraci": {
+      "weight_capped": 0.197,
+      "posts": 197,
+      "recent_quote_share": 0.059
+    },
+    "RaoulGMI": {
+      "weight_capped": 0.101,
+      "posts": 178,
+      "recent_quote_share": 0.0
+    }
+  },
+  "posts": 907,
+  "post_type_mix": {
+    "chart_caption": 0.5338,
+    "quick_take": 0.1609,
+    "quote_comment": 0.1286,
+    "long_take": 0.0624,
+    "one_liner": 0.0552,
+    "list_dump": 0.0251,
+    "thread": 0.0148,
+    "question": 0.0143,
+    "news_flash": 0.0049
+  },
+  "length_by_type": {
+    "one_liner": {
+      "short": 1.0
+    },
+    "quick_take": {
+      "medium": 0.7826,
+      "short": 0.2174
+    },
+    "question": {
+      "short": 0.708,
+      "medium": 0.292
+    },
+    "news_flash": {
+      "medium": 0.5932,
+      "short": 0.4068
+    },
+    "chart_caption": {
+      "medium": 0.5748,
+      "short": 0.4252
+    },
+    "list_dump": {
+      "long": 0.6265,
+      "medium": 0.2867,
+      "short": 0.0868
+    },
+    "long_take": {
+      "long": 1.0
+    },
+    "thread": {
+      "thread": 1.0
+    },
+    "quote_comment": {
+      "short": 0.6067,
+      "medium": 0.232,
+      "long": 0.1613
+    }
+  },
   "length_mix": {
-    "short": 0.419,
-    "medium": 0.462,
-    "long": 0.119
+    "short": 0.4095,
+    "medium": 0.4769,
+    "long": 0.0989,
+    "thread": 0.0148
   },
-  "thread_vs_single": {
-    "thread_rate": 0.0,
-    "single_rate": 1.0,
-    "method": "thread_id/is_thread metadata; no length-based thread inference"
+  "length_buckets": {
+    "unit": "characters without whitespace",
+    "short": [
+      20,
+      140
+    ],
+    "medium": [
+      140,
+      400
+    ],
+    "long": [
+      400,
+      1400
+    ],
+    "thread_part": [
+      120,
+      270
+    ]
   },
-  "short_line_break_habit": {
-    "prefer_no_intermediate_periods": true,
-    "observed_share": 0.692
+  "thread": {
+    "share": 0.0148,
+    "parts_observed": 16,
+    "parts_median": 3,
+    "parts_range": [
+      2,
+      5
+    ]
   },
-  "sample_ids": [
-    "2106425555402821799",
-    "2106353116878897652",
-    "2106207289816535308",
-    "2105841682205802739",
-    "2105818748125069818",
-    "2105769829500076511",
-    "2105755257716298174",
-    "2105725968841126347",
-    "2105725081032773723",
-    "2105461971051286833",
-    "2105460558631743495",
-    "2105456936749588711"
-  ],
-  "guidance": "Alternate longer threads with shorts; for short punchy posts prefer line breaks without trailing periods on intermediate lines."
+  "topic_mix": {
+    "crypto": 0.4639,
+    "other": 0.221,
+    "ai_semis": 0.0891,
+    "rates_fed": 0.0823,
+    "commodities": 0.0516,
+    "macro_data": 0.0303,
+    "fx": 0.0268,
+    "index_breadth": 0.0162,
+    "positioning_tech": 0.0115,
+    "investing_principles": 0.0043,
+    "earnings_stocks": 0.0021,
+    "policy_politics": 0.001
+  },
+  "per_type_habits": {
+    "chart_caption": {
+      "openers": {
+        "statement": 0.8577,
+        "attribution_or_label": 0.0598,
+        "question": 0.0338
+      },
+      "closers": {
+        "period": 0.5424,
+        "emoji": 0.1852,
+        "no_terminal_punct": 0.1637
+      }
+    },
+    "quick_take": {
+      "openers": {
+        "statement": 0.8649,
+        "attribution_or_label": 0.0989,
+        "question": 0.0188
+      },
+      "closers": {
+        "period": 0.739,
+        "no_terminal_punct": 0.1544,
+        "emoji": 0.0673
+      }
+    },
+    "quote_comment": {
+      "openers": {
+        "statement": 0.7908,
+        "question": 0.1189,
+        "attribution_or_label": 0.0903
+      },
+      "closers": {
+        "period": 0.7292,
+        "emoji": 0.1805,
+        "no_terminal_punct": 0.0903
+      }
+    },
+    "long_take": {
+      "openers": {
+        "statement": 0.9418,
+        "question": 0.0441,
+        "attribution_or_label": 0.0141
+      },
+      "closers": {
+        "period": 0.4057,
+        "no_terminal_punct": 0.2924,
+        "emoji": 0.252
+      }
+    },
+    "one_liner": {
+      "openers": {
+        "statement": 0.9683,
+        "emoji": 0.0201,
+        "attribution_or_label": 0.0116
+      },
+      "closers": {
+        "period": 0.5692,
+        "ellipsis": 0.1726,
+        "no_terminal_punct": 0.1329
+      }
+    },
+    "list_dump": {
+      "openers": {
+        "statement": 0.7902,
+        "attribution_or_label": 0.1317,
+        "question": 0.0448
+      },
+      "closers": {
+        "no_terminal_punct": 0.6437,
+        "period": 0.3234,
+        "question": 0.0329
+      }
+    },
+    "thread": {
+      "openers": {
+        "statement": 0.7653,
+        "ticker": 0.0839,
+        "attribution_or_label": 0.0839
+      },
+      "closers": {
+        "no_terminal_punct": 0.4563,
+        "period": 0.4099,
+        "emoji": 0.1338
+      }
+    },
+    "question": {
+      "openers": {
+        "statement": 0.6216,
+        "question": 0.3784
+      },
+      "closers": {
+        "question": 0.8965,
+        "emoji": 0.1035
+      }
+    },
+    "news_flash": {
+      "openers": {
+        "headline_tag": 1.0
+      },
+      "closers": {
+        "period": 0.5879,
+        "emoji": 0.3107,
+        "question": 0.1015
+      }
+    }
+  },
+  "punctuation": {
+    "short_no_terminal_period": 0.523,
+    "lines_per_post": 3.231,
+    "multi_line_share": 0.712,
+    "blank_line_paragraphs": 0.698,
+    "emoji_post_share": 0.192
+  },
+  "posting_hours_london": {
+    "0": 0.0388,
+    "1": 0.0674,
+    "2": 0.0606,
+    "3": 0.0403,
+    "4": 0.0359,
+    "5": 0.0499,
+    "6": 0.0395,
+    "7": 0.0136,
+    "8": 0.0224,
+    "9": 0.0144,
+    "10": 0.026,
+    "11": 0.0363,
+    "12": 0.0299,
+    "13": 0.0398,
+    "14": 0.0503,
+    "15": 0.0857,
+    "16": 0.0723,
+    "17": 0.0538,
+    "18": 0.0528,
+    "19": 0.0385,
+    "20": 0.0318,
+    "21": 0.0452,
+    "22": 0.0268,
+    "23": 0.028
+  },
+  "method": "per-donor shares mixed by donor weight capped at 40%; type = first match of thread marker, quote flag, flash tag, image, >=3 list lines, closing question, long, one line; quote share = recent-post share shrunk to the cluster mean (n=40, cluster mean 0.125), capped at 0.3; image = media photo or trailing t.co not reading as a link share; hours = tweet-id timestamps in Europe/London",
+  "guidance": "Write in the post_format the account sampled for this post (type, length, line breaks and punctuation habits of its donors), not one fixed judgment-post template.",
+  "previous_single_donor": {
+    "handle": "NateGeraci",
+    "posts": 197,
+    "post_type_mix": {
+      "quick_take": 0.3554,
+      "chart_caption": 0.3458,
+      "one_liner": 0.0816,
+      "long_take": 0.0672,
+      "quote_comment": 0.0588,
+      "list_dump": 0.0384,
+      "question": 0.024,
+      "thread": 0.0144,
+      "news_flash": 0.0144
+    },
+    "length_mix": {
+      "short": 0.4322,
+      "medium": 0.4274,
+      "long": 0.126,
+      "thread": 0.0144
+    }
+  }
 }
