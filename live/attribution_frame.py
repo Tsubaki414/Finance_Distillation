@@ -29,7 +29,7 @@ FIRST_PERSON = re.compile(r'\b(?:I|my|we|our)\b|(?<!自)我(?!国)(?:们)?', re.
 # Persona voice may use first-person OPINION markers (one rule shared with the COMPOSE prompt);
 # any other first person (experience, actions, holdings, 'we') remains an identity finding.
 OPINION_MARKERS = re.compile(
-    r"\bI\s+(?:think|suspect|doubt|expect|believe|guess|wonder|'d\s+(?:argue|say|bet\s+against)|would\s+(?:argue|say))\b|"
+    r"\bI\s+(?:(?:do|really|still|don't|do\s+not)\s+)?(?:think|suspect|doubt|expect|believe|guess|wonder|'d\s+(?:argue|say|bet\s+against)|would\s+(?:argue|say))\b|"
     r"\bI'?m\s+(?:not\s+)?(?:convinced|sold|skeptical|sceptical|unconvinced|worried|cautious|wary)\b|"
     r"\bmy\s+(?:read|take|view|guess|bet|sense|concern|worry)\b|"
     r"我(?:个人)?(?:觉得|认为|看|倾向于?|更倾向于?|不认为|不觉得|怀疑|担心|判断|的看法|的判断|的理解|的观点)|在我看来", re.I)

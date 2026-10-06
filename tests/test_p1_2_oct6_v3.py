@@ -192,3 +192,11 @@ def test_required_effect_differs_by_tier():
     assert 'thesis_lock call carrying one clear reaction' in mid['required_effect']
     assert 'WITH the dominant emotion' in high['required_effect']
     assert high['target_intensity'] > mid['target_intensity'] >= 2
+
+
+def test_adverbed_opinion_marker_is_own_view_not_identity():
+    """v3 en_macro: 'I do think they pause here' is the persona's own call (Fiona: judgments as own)."""
+    from live import attribution_frame as af
+    assert not af.FIRST_PERSON.search(af.OPINION_MARKERS.sub(' ', 'I do think they pause here.'))
+    assert not af.FIRST_PERSON.search(af.OPINION_MARKERS.sub(' ', "I don't think December is the last hike."))
+    assert af.FIRST_PERSON.search(af.OPINION_MARKERS.sub(' ', 'I do hold the long end.'))
