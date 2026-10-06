@@ -181,6 +181,54 @@ def select_groups(store, accounts, selection=None, exclude_sources=(), recent=No
 
 
 SLOT_MIN_USD = float(os.environ.get('FD_SLOT_MIN_USD', '0.42'))
+# Oct 6 v8: inside each slot the last COHERENCE_RESERVE_USD of the slot sub-cap is held back from
+# optional polish retries (info_dump / repeat / plain structure) so a coherence repair (judgment or
+# internal-contradiction retry) still fits. ~one gemini compose worst-case reservation ($0.21).
+COHERENCE_RESERVE_USD = float(os.environ.get('FD_COHERENCE_RESERVE_USD', '0.22'))
+
+
+def load_fill_into(batch, accounts):
+    """Oct 6 v8: drafts of the batch a fill-in run completes (v7_zi filled v7's zh_industry slot but
+    was arbitrated alone and duplicated v7 en_industry). Accounts re-run here are not carried."""
+    carried = []
+    for path in sorted((Path(batch) / 'drafts').glob('*.json')):
+        row = json.loads(path.read_text())
+        if row.get('account_id') in accounts or row.get('synthetic'):
+            continue
+        carried.append(dict(row, carried=True, key='carried:' + str(row.get('account_id'))))
+    return carried
+
+
+def arbitrate_with_carried(results, carried=()):
+    """Arbitrate new slots together with carried drafts of the same batch. Carried drafts were
+    already decided in their own batch, so they stay keepers: a new draft that collides with a carried
+    WRITE is HOLD (soft) even if its lane score is higher. Only the new results are returned."""
+    carried = list(carried or [])
+    merged = compose.arbitrate_batch(list(results) + carried)
+    new, old = merged[:len(results)], merged[len(results):]
+    if not old or not any('arbitration' in r for r in merged):
+        return new
+    from live.claim_arbitration import REASON_CODE_SOFT
+    for row in old:
+        arb = row.get('arbitration') or {}
+        if arb.get('status') != 'HOLD':
+            continue
+        group = arb.get('collision_group')
+        for r in new:
+            ra = r.get('arbitration') or {}
+            if ra.get('status') == 'WRITE' and group is not None and ra.get('collision_group') == group:
+                r['arbitration'] = dict(ra, status='HOLD', reason_code='carried_keeper',
+                                        reassigned_to=row.get('account_id'), soft=True)
+                finding = {'code': REASON_CODE_SOFT, 'level': 'soft',
+                           'detail': f"same-conclusion claim held; keeper={row.get('account_id')} (carried batch draft)"}
+                r['post_checks'] = list(r.get('post_checks') or []) + [finding]
+                r['risks'] = list(r.get('risks') or []) + [{**finding, 'status': 'warning'}]
+                if r.get('status') not in ('skipped', 'error', 'needs_review'):
+                    r['status'] = 'held'
+    for r in new:
+        if 'arbitration' in r:
+            r['arbitration']['with_carried'] = [c.get('account_id') for c in carried]
+    return new
 
 
 def fake_result(account, ledger, reason, *, record=False):
@@ -249,10 +297,14 @@ def continue_batch(prev, out):
     return used
 
 
-def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=None):
+def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=None, fill_into=None):
     out = Path(out).resolve()
     out.mkdir(parents=True, exist_ok=True)
     exclude_sources = continue_batch(continue_from, out) if continue_from else set()
+    if fill_into:   # v8: a fill-in never re-picks a source the batch it completes already used
+        for path in sorted((Path(fill_into) / 'drafts').glob('*.json')):
+            src = json.loads(path.read_text()).get('source') or {}
+            exclude_sources |= {x for x in (src.get('id'), src.get('title')) if x}
     budget.STORE = out / 'ledger'
     budget.LEDGER = budget.STORE / 'spend.json'
     budget.RUNS = budget.STORE / 'review_runs.jsonl'
@@ -304,7 +356,14 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
         notes.append('Selection: ' + json.dumps({a: v['mode'] for a, v in selection.items()}, ensure_ascii=False))
     results = []
     batch_shapes = []   # composition shapes already used in this batch (structure variety)
+    carried = load_fill_into(fill_into, accounts) if fill_into else []
+    if carried:
+        notes.append(f'Fill-in for batch {fill_into}: arbitration + shape mix include carried drafts '
+                     + ', '.join(c['account_id'] for c in carried) + '.')
+        batch_shapes += [{'id': c['composition_shape']['id'], 'length': c['composition_shape'].get('length')}
+                         for c in carried if (c.get('composition_shape') or {}).get('id')]
     slot_caps = {}
+    notes.append(f'Coherence reserve per slot: ${COHERENCE_RESERVE_USD:.2f} held back from polish retries.')
     for idx, account in enumerate(accounts):
         ledger = ViewLedger(account, out / 'views' / account)
         before = budget.spent()
@@ -315,6 +374,7 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
         left, later = max(0.0, cap - before), len(accounts) - idx - 1
         slot_cap = round(max(left / (later + 1), left - SLOT_MIN_USD * later), 6)
         budget.set_cap(min(cap, before + slot_cap))
+        budget.set_advisory_hold(COHERENCE_RESERVE_USD)
         slot_caps[account] = slot_cap
         result = None
         if client:
@@ -365,12 +425,15 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
         result['publishable'] = False
         result['spend_usd'] = round(budget.spent() - before, 6)
         result['slot_cap_usd'] = slot_cap
+        result['coherence_reserve_usd'] = COHERENCE_RESERVE_USD
+        budget.set_advisory_hold(0.0)
         budget.set_cap(cap)
         results.append(result)
     from live import compose_shapes
-    structure = compose_shapes.batch_findings(results)   # soft cross-draft structure check
+    structure = compose_shapes.batch_findings(results + carried)   # soft cross-draft structure check
     write_json(out / 'structure.json', structure)
-    results = compose.arbitrate_batch(results)   # default soft; FD_ARBITRATION=off disables
+    # default soft; FD_ARBITRATION=off disables. v8: fill-ins arbitrate with the batch they complete.
+    results = arbitrate_with_carried(results, carried)
     synthetic = []
     if not any(r.get('arbitration', {}).get('status') == 'HOLD' for r in results):
         synthetic = compose.arbitrate_batch([
@@ -422,6 +485,8 @@ def main(argv=None):
     mode.add_argument('--live', action='store_true')
     parser.add_argument('--continue-from', type=Path, default=None,
                         help='previous batch dir: reuse its draft history + view ledgers, exclude its sources')
+    parser.add_argument('--fill-into', type=Path, default=None,
+                        help='batch dir this run completes (missing slot): arbitrate with its drafts')
     parser.add_argument('--accounts', default=None,
                         help='comma-separated subset of ' + ','.join(ACCOUNTS) + ' (e.g. a ZH-only round)')
     args = parser.parse_args(argv)
@@ -431,7 +496,8 @@ def main(argv=None):
     only = [a.strip() for a in args.accounts.split(',') if a.strip()] if args.accounts else None
     if only and set(only) - set(ACCOUNTS):
         parser.error('--accounts must be a subset of ' + ','.join(ACCOUNTS))
-    run(args.out, args.cap, live=args.live, command=command, continue_from=args.continue_from, only_accounts=only)
+    run(args.out, args.cap, live=args.live, command=command, continue_from=args.continue_from, only_accounts=only,
+        fill_into=args.fill_into)
     print(args.out / 'SUMMARY.md')
     return 0
 

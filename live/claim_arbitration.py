@@ -32,6 +32,9 @@ COMPATIBLE = {
     'mixed': frozenset({'neutral', 'mixed'}),
 }
 
+# Same-sign directional labels across persona vocabularies (wider/tighter excluded: spread-dependent).
+POLARITY = {'bullish': 1, 'higher': 1, 'accelerating': 1, 'bearish': -1, 'lower': -1, 'decelerating': -1}
+
 WRITE, HOLD, IGNORE = 'WRITE', 'HOLD', 'IGNORE'
 REASON_DUPLICATE = 'DUPLICATED_BY_STRONGER_PERSONA'
 REASON_CODE_SOFT = 'cross_persona_claim_duplicate'
@@ -71,6 +74,10 @@ def direction_compatible(left, right):
         return True
     if OPPOSITE.get(left) == right:
         return False
+    # Oct 6 v8: stance vocabularies differ by persona (en_industry 'bullish' vs zh_industry 'higher'
+    # on the same source); same polarity is the same direction (v7_zi duplicate slipped through).
+    if POLARITY.get(left) and POLARITY.get(left) == POLARITY.get(right):
+        return True
     return right in COMPATIBLE.get(left, frozenset({left}))
 
 
@@ -240,7 +247,8 @@ def candidate_from_stance(account_id, stance, *, key=None, source=None, unit_ids
         'subject': view.get('subject') or '',
         'direction': view.get('direction'),
         'account_view': stance.get('account_view') or '',
-        'source_id': source.get('source_id') or source.get('id'),
+        # v8: the document id, not the publisher (two wallstreetcn articles are not one event)
+        'source_id': source.get('id') or source.get('source_id'),
         'source_lang': source.get('lang') or ('zh' if any('\u4e00' <= ch <= '\u9fff' for ch in (source.get('title') or '')[:80]) else 'en'),
         'unit_ids': list(unit_ids or stance.get('supporting_unit_ids') or []),
         'event_key': source.get('url') or source.get('title') or source.get('id'),
