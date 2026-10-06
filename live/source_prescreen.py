@@ -8,6 +8,7 @@ path. Each reject cost ~$0.17-0.21 of opus. These rules mirror the persona focus
   industry (semis / industry; "从实体需求和行业差异切入", rejects promotion_without_evidence):
     - policy / safety / regulation / personnel framing with no industry evidence -> demote
     - options trade ideas -> demote
+    - consumer-app / platform competition with no chip / capex / supply-chain evidence -> demote (v9a Muse)
   macro ("先辨认数据修订与方向", zh rejects unconditional_long_term_forecasts):
     - no macro data/policy signal at all -> demote
     - zh_macro: terminal-path forecast phrasing ("final hike", 终点利率) -> demote
@@ -29,6 +30,16 @@ INDUSTRY_EVIDENCE = re.compile(
     r'margin|capacity|utiliz|wafer|\bfab\b|HBM|DRAM|NAND|memory|bandwidth|\bGPU|server|data ?cent|guidance|'
     r'lease|inventor|lead time|bookings|units? sold|'
     r'营收|收入|出货|资本开支|订单|价格|涨价|降价|毛利|产能|晶圆|存储|内存|服务器|数据中心|租赁|库存|指引|算力|带宽', re.I)
+# v9a: zh_industry paid a stance call to reject "Meta Muse 打开率/留存" (consumer app competition is not its
+# semis / physical-demand lane). Consumer-app framing without supply-chain evidence -> demote.
+CONSUMER_APP = re.compile(
+    r'\bapps?\b|retention|open rate|daily active|monthly active|\bDAU\b|\bMAU\b|e-?commerce|travel platform|'
+    r'chatbot|subscriber|engagement|monetiz|super ?app|social (?:network|media)|'
+    r'应用|留存|打开率|日活|月活|电商|旅游平台|变现|用户粘性|社交|订阅用户|聊天机器人|爆红', re.I)
+SUPPLY_CHAIN = re.compile(
+    r'chip|semi|GPU|\bTPU|ASIC|HBM|DRAM|NAND|memory|wafer|\bfab\b|foundry|capex|capital (?:expenditure|spending)|'
+    r'data ?cent|server|rack|capacity|supply chain|lead time|shipment|lease|power|substrate|packaging|modem|'
+    r'芯片|半导体|晶圆|代工|存储|内存|服务器|数据中心|机柜|产能|供应链|出货|资本开支|租赁|算力|电力|封装|基带', re.I)
 OPTIONS_IDEA = re.compile(r'straddle|strangle|call skew|put skew|option ideas?|implied vol|\bIV\b|期权', re.I)
 MACRO_SIGNAL = re.compile(
     r'\bfed\b|federal reserve|fomc|\brates?\b|inflation|\bcpi\b|\bpce\b|\bpmi\b|payroll|\bjobs?\b|unemploy|'
@@ -68,6 +79,9 @@ def prescreen(account, group):
         evidence = INDUSTRY_EVIDENCE.search(views + ' ' + facts)
         if policy and not evidence:
             reasons.append('policy_or_personnel_without_industry_evidence:' + policy.group(0))
+        consumer = CONSUMER_APP.search(head)
+        if consumer and not SUPPLY_CHAIN.search(head + ' ' + facts):
+            reasons.append('consumer_app_without_supply_chain_evidence:' + consumer.group(0))
     elif account in MACRO:
         if not MACRO_SIGNAL.search(head + ' ' + facts):
             reasons.append('no_macro_signal')
