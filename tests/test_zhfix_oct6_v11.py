@@ -355,7 +355,8 @@ def test_plain_causal_and_implication_connectors_allowed():
     for word in ('从而', '进而', '鉴于'):
         assert zr.FORMAL_RX.search(word)                          # research words stay
     rule4 = next(line for line in zr.SYSTEM_ZH.splitlines() if line.startswith('4.'))
-    assert '意味着' not in rule4.split('平实')[0] and '这意味着' in rule4 and '从而' in rule4
+    # zh_native: no connective is required; 这意味着 / 其实 at most once per post (was: 这意味着 recommended)
+    assert '这意味着' in rule4 and '最多出现一次' in rule4 and '不要求用' in rule4 and '从而' in rule4
 
 
 def test_shuobaile_never_recommended_but_still_banned():
@@ -499,7 +500,7 @@ def test_zh_stance_requests_translation_en_does_not(monkeypatch, tmp_path):
     assert [n['text'] for n in units['cu-jobs']['numbers']] == ['29,000', '84,000', '4.2%']
     assert 'statement_en' not in units['cu-mech']                                  # untranslated unit stays English
     assert 'zh_units' not in fake.payloads['compose'][0]['stance']
-    assert 'statement_en' in fake.systems['compose'][0] and '直译' in fake.systems['compose'][0]
+    assert 'statement_en' in fake.systems['compose'][0] and '不是让你润色' in fake.systems['compose'][0]   # zh_native
     # post checks still run on the English source units
     assert {u['unit_id']: u['statement'] for u in result['units']}['cu-jobs'] == POOL[3]['statement']
 

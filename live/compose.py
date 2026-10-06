@@ -1158,6 +1158,10 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
                                                 restrained=_ec.restrained_devices(persona.persona_id))
             _recent = recent if recent is not None else anti_repeat.load_recent(persona.persona_id)
             findings += zr.opening_findings(body, None, [r['text'] for r in _recent if isinstance(r, dict) and r.get('text')])
+            findings += zr.translationese_findings(body, persona.lang)
+            findings += zr.speaker_voice_findings(body, units, None, persona.lang)
+            findings += zr.connective_repeat_findings(
+                body, [r['text'] for r in _recent if isinstance(r, dict) and r.get('text')], persona.lang)
     findings += trade_reco_findings(body, persona.lang)
     from live.draft_qa import stale_time_findings
     findings += stale_time_findings(body, units, now, persona.lang)
@@ -1610,12 +1614,18 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         # v11 (root cause #6): translate first, then compose. Validated stance zh_units replace the unit
         # statement; the English stays in statement_en. source_spans / numbers are untouched, so every
         # fidelity check still runs on the source text. FD_ZH_UNIT_TRANSLATE=0 turns this off.
+        # zh_native: a Chinese source gives its own Chinese sentences (source_spans) as the statement, never an
+        # English unit translated back; zh_units (plain Chinese facts) only fill units from English sources.
         zh_units = (stance or {}).get('zh_units') if _os.environ.get('FD_ZH_UNIT_TRANSLATE', '1') != '0' else None
-        if isinstance(zh_units, dict) and zh_units:
-            for u in payload['units']:
-                if isinstance(zh_units.get(u['unit_id']), str):
-                    u['statement_en'] = u['statement']
-                    u['statement'] = zh_units[u['unit_id']]
+        for u in payload['units']:
+            original = zr.zh_original(u)
+            if original:
+                u['statement_en'] = u['statement']
+                u['statement'] = original
+                u['statement_origin'] = 'source_zh'
+            elif isinstance(zh_units, dict) and isinstance(zh_units.get(u['unit_id']), str):
+                u['statement_en'] = u['statement']
+                u['statement'] = zh_units[u['unit_id']]
     if isinstance(payload.get('stance'), dict) and 'zh_units' in payload['stance']:
         payload['stance'] = {k: v for k, v in payload['stance'].items() if k != 'zh_units'}
     retrieval = persona.raw.get('exemplar_retrieval') or {}
@@ -1843,7 +1853,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     structure_codes = ('shape_mismatch', 'number_run', 'internal_contradiction', 'zh_register', 'market_feeling',
                        'thread_padding', 'filler_closer', 'opener_move', 'length_band', 'zh_sentence_length',
                        'stance_copy', 'ai_template', 'zh_line_breaks', 'missing_why', 'missing_implication',
-                       'zh_awkward_time', 'zh_intensifier', 'structure_repeat')
+                       'zh_awkward_time', 'zh_intensifier', 'structure_repeat', 'zh_translationese',
+                       'speaker_first_person', 'connective_repeat')
     recent_bodies = [r['text'] for r in recent_rows if isinstance(r, dict) and r.get('text')]
 
     why_kw = {'units': chosen, 'why_line': (stance or {}).get('why_line'),
@@ -1876,6 +1887,9 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             found += zr.line_break_findings(b, persona.lang)   # v8: long ZH as one-clause lines
             found += zr.awkward_time_findings(b, persona.lang)   # v10: 随后就会直接停手 / 走过场
             found += zr.intensifier_findings(b, persona.lang, restrained=restrained)   # v11: attitude words instead of a reason
+            found += zr.translationese_findings(b, persona.lang)     # zh_native: 的-chains / calques / 被
+            found += zr.speaker_voice_findings(b, chosen, ledger, persona.lang)   # quoted official's 我 / 我们
+            found += zr.connective_repeat_findings(b, recent_bodies, persona.lang)   # 其实 / 这意味着 template
             if post_type in JUDGMENT_TYPES or thesis_locked:     # v11: same stock why/so-what lead-in again
                 found += zr.leadin_repeat_findings(b, recent_bodies)
             if post_type in JUDGMENT_TYPES or thesis_locked:   # v10: 谜语人 - call without why / what it means

@@ -28,7 +28,7 @@ SHAPES = {
         'line_breaks': 'one block or two lines; do NOT break after every sentence',
         'en': ('Take-only short post: the call plus one sharp supporting thought, no numbers at all. '
                '2-3 sentences, may be a single block. End on a flat, committed verdict line.'),
-        'zh': ('短观点：判断；一句说清为什么：哪个事实导致了这个判断；一句说清影响：对市场/读者意味着什么、谁受益谁吃亏，全文不出现数字。'
+        'zh': ('短观点：判断；一句说清为什么：哪个事实导致了这个判断；一句说清影响：对市场/读者有什么后果、谁受益谁吃亏，全文不出现数字。'
                '3 句，可以一段写完，不必每句换行。结尾是一句干脆的定论。'),
     },
     'one_number_punch': {
@@ -37,7 +37,7 @@ SHAPES = {
         'en': ('One-number punch: the call, then the single number that carries it, then one line on '
                'what that number means for the call. Exactly one number. Short.'),
         'zh': ('一个数字定胜负：先判断；再用唯一一个最有分量的数字说清为什么：这个数字怎么导致了这个判断；'
-               '最后一句用大白话说清影响：对市场/读者意味着什么、谁受益谁吃亏、还没被定价的是什么。全文只用一个数字，短。'),
+               '最后一句用大白话说清影响：对市场/读者有什么后果、谁受益谁吃亏、还没被定价的是什么。全文只用一个数字，短。'),
     },
     'contrarian_question': {
         'length': 'short', 'max_numbers': 1, 'max_number_lines': 1, 'ending': QUESTION,
@@ -285,6 +285,10 @@ def payload_block(shape, lang, length_range):
                      'NO conditional ending (no if / unless / provided / until / 只要 / 除非 / 若 / 一旦).',
         QUESTION: 'End on one pointed open question. NO conditional ending.',
     }[spec['ending']]
+    if lang == 'zh' and spec['ending'] == IMPLICATION:
+        # zh_native: "what the call means" came back as a literal 这意味着 in every ZH draft.
+        ending_rule = ('结尾落在后果上：谁受益谁吃亏、什么还没被定价；说法每篇换，不要固定用「这意味着」起头。'
+                       '不要用条件句结尾（只要 / 除非 / 若 / 一旦 / if / unless）。')
     key = 'zh' if lang == 'zh' else 'en'
     structure = spec[key]
     if shape.get('length_override') and length == 'long':

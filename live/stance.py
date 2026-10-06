@@ -266,9 +266,12 @@ SUPPORT_LINES = ('why_line', 'so_what_line')
 
 ZH_UNITS_ENV = 'FD_ZH_UNIT_TRANSLATE'   # 1 (default): ZH stance also returns zh_units; 0: off
 ZH_UNITS_RULE = ('zh_units: for the input unit and every unit you list in why_unit_ids / so_what_unit_ids, plus '
-                 'at most one mechanism unit from context_units, give {unit_id: 中文直译} of its statement. '
-                 'Faithful direct translation (直译), no embellishment, no added judgment; keep every number, name, '
-                 'period and unit exactly (scale conversions such as 29,000 = 2.9万 are fine).')
+                 'at most one mechanism unit from context_units, give {unit_id: 中文事实要点} of its statement - '
+                 'except units that carry source_zh (their Chinese original is used as is). Plain facts in short '
+                 'Chinese clauses (subject + verb + number), NOT a sentence-by-sentence translation: no long 的-chains, '
+                 'no nominalised English phrases (not 「AI发行人的表外租赁负债」), no 被-passives, no embellishment, no '
+                 'added judgment; a named person\'s view stays third person (鲍曼认为…), never their 我 / 我们. Keep every '
+                 'number, name, period and unit exactly (scale conversions such as 29,000 = 2.9万 are fine).')
 
 
 def zh_units_enabled(raw):
@@ -437,10 +440,17 @@ def stance_step(view_unit, persona, client, *, calls=None, sleep=None, context_u
                 'rationale': 'Incompatible persona horizon.', 'confidence': 1.0}
     calls = [] if calls is None else calls
     payload = {'unit': view_unit, 'persona': raw}
+    # zh_native: a ZH persona sees a Chinese source's own sentences (source_zh), so account_view / why_line are
+    # written from the Chinese original instead of being translated back from the English unit statement.
+    from live.zh_register import zh_original
+    zh_persona = (raw or {}).get('lang') == 'zh'
+    if zh_persona and zh_original(view_unit):
+        payload['unit'] = dict(view_unit, source_zh=zh_original(view_unit))
     context = [u for u in (context_units or []) if u.get('unit_id') and u.get('unit_id') != view_unit['unit_id']]
     if context:
         payload['context_units'] = [
             {'unit_id': u['unit_id'], 'kind': u.get('kind'), 'statement': u.get('statement'),
+             **({'source_zh': zh_original(u)} if zh_persona and zh_original(u) else {}),
              'numbers': [n.get('text') for n in u.get('numbers', [])],
              **({'historical': True} if u.get('historical') else {})} for u in context]
     prior = ledger.related(' '.join(str(x) for x in (view.get('subject'), view_unit.get('statement'))), k=5) if ledger else []

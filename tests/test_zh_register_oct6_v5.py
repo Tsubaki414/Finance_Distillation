@@ -71,7 +71,7 @@ def test_anchors_are_real_donor_lines_and_rotate():
 
 def test_system_addendum_and_stance_rule_are_chinese():
     cjk = len(zr.CJK.findall(zr.SYSTEM_ZH)) / len(zr.SYSTEM_ZH.replace(' ', ''))
-    assert cjk > 0.6 and '不要逐句改写' in zr.SYSTEM_ZH and '直译' in zr.SYSTEM_ZH
+    assert cjk > 0.6 and '不要逐句改写' in zr.SYSTEM_ZH and '不要翻译' in zr.SYSTEM_ZH   # zh_native: no 直译 + 轻改
     # v11: judgment + short reason, 50 CJK chars; 意味着 / 取决于 no longer banned in account_view
     assert '50' in zr.STANCE_RULE_ZH and '理由' in zr.STANCE_RULE_ZH and '结构性' in zr.STANCE_RULE_ZH
 

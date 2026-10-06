@@ -77,7 +77,7 @@ def test_codes_soft_with_fixes():
 
 
 def test_prompt_rules_and_short_shapes_carry_why_and_implication():
-    assert any('一句为什么' in r and '意味着什么' in r for r in zr.RULES_ZH)
+    assert any('一句为什么' in r and '一句影响' in r for r in zr.RULES_ZH)   # zh_native: no 「这意味着什么」 wording
     assert '不当谜语人' in zr.SYSTEM_ZH and '随后就会直接停手' in zr.SYSTEM_ZH
     for sid in ('take_short', 'one_number_punch', 'contrarian_question'):
         zh = cs.SHAPES[sid]['zh']

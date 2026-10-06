@@ -23,7 +23,7 @@ SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_u
                   'phrase_repeat', 'theme_repeat', 'filler_closer',
                   'opener_move', 'length_band', 'zh_sentence_length', 'stance_copy',
                   'ai_template', 'zh_line_breaks', 'missing_why', 'missing_implication', 'zh_awkward_time',
-                  'zh_intensifier'})
+                  'zh_intensifier', 'zh_translationese', 'speaker_first_person', 'connective_repeat'})
 FIXES = {
     'stylistic_repeat': 'Vary the repeated stylistic phrase and closing; retain source facts.',
     'judgment_label': 'Drop the 「我的判断：」/「以我个人判断，」/「个人判断：」 label; state the judgment directly as a plain sentence.',
@@ -83,12 +83,19 @@ FIXES = {
                     '(a fact or mechanism unit, not somebody\'s statement 表态/表示) causes it - in your own words '
                     '(一句说清原因：哪个事实/数字导致了这个判断); no stock lead-in; keep sentences short.'),
     'missing_implication': ('ZH: add one short sentence on what it means for markets/readers - who gains or loses, '
-                            'what is not priced yet (一句说清影响：对市场/读者意味着什么) - in plain words; a plain '
-                            '这意味着 is fine, not a stock lead-in.'),
+                            'what is not priced yet (一句说清影响：对市场/读者有什么后果) - in plain words, phrased '
+                            'differently from recent drafts; no fixed connective (not 这意味着 every time).'),
     'zh_awkward_time': ('ZH: replace the awkward colloquial time / policy-path phrase (随后就会直接停手 / 走过场 / '
                         '直接放话 / 打没了) with plain neutral time words (之后 / 12月之后 / 下次会议前).'),
     'zh_intensifier': ('ZH: 去掉强化词/态度词（直接 / 纯粹 / 根本 / 完全 / 走过场 / 打没了 / 放话 …），情绪靠判断动词带出来；'
                        '原来用态度顶替的地方换成一句理由（units 里的事实）。'),
+    'zh_translationese': ('ZH 翻译腔：照 register_anchors / style_exemplars 里中文博主说话的方式重写这几句——长定语拆开'
+                          '（一个分句里「的」不超过两个），英文名词串改成主谓短句（「…的改善」→「…好转了」），少用「被」字句；'
+                          '事实、数字和判断不变。'),
+    'speaker_first_person': ('ZH: 讲话人（官员 / 分析师）的观点不能用他们的第一人称写：改成第三人称转述（「鲍曼的意思是…」'
+                             '「她认为…」）或者当成本账号自己的判断用本账号口吻说；正文不出现「我们」。'),
+    'connective_repeat': ('ZH: 换掉重复的连接词/副词（其实 / 这意味着 / 本质上 / 换句话说 …）：同一篇最多一次，最近几篇'
+                          '用过的这篇不用；影响换个说法自然带出（后果是… / 接下来… / 影响到… / 直接说结果）。'),
     'stance_copy': '不要搬 thesis_lock 的原句和书面词（核心变量、叠加……），用自己的口语重说。',
     'filler_closer': ('Replace the empty closer (Carry on. / Stay tuned. / 拭目以待) with a last line that says '
                       'something: the implication, a verdict, or a pointed question.'),

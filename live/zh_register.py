@@ -203,25 +203,30 @@ def connectors(persona):
 
 SYSTEM_ZH = """
 【中文账号写法（ZH persona；本段优先于上文英文说明里关于语气的描述）】
-你在用这个中文账号自己的口吻发帖。不是写研报摘要，也不是把英文材料加工成书面中文。
+你在用这个中文账号自己的口吻发帖。不是写研报摘要，也不是翻译：不要把英文材料加工成书面中文。
 1. 先想这个人会怎么跟懂行的朋友说这件事，再动笔。thesis_lock 和 units 只给你意思和事实：不要逐句改写它们的句子，用你自己的话重说一遍。thesis_lock 里的书面词（核心变量、叠加、结构性、格局……）不要搬进正文，换成口语。
-2. 英文材料按意思直译成中文，再轻改成口语；不要润色成更书面、更华丽的中文，不要加修辞，不要为了口语硬凑比喻（v6 反例：「企业盈利根本没有托底的资本」——说不通）。每句写完自问：这句话懂行的人听得懂吗？
+2. 不要翻译，照中文博主说话的方式写：先弄懂意思，再像 zh_register.register_anchors 和 style_exemplars 里这些真实中文博主平时那样说——他们怎么起句、怎么断句、用什么词，你就怎么写。不按英文语序搬：不写一长串定语（一个分句里「的」不超过两个）；不写名词化的翻译词（「进行调整」「存在……的风险」「……的改善」「表外租赁负债」这类英文名词串），换成主谓短句（「价差收窄了」「这些租约没上报表」）；少用「被」字句。不要加修辞，不要为了口语硬凑比喻（v6 反例：「企业盈利根本没有托底的资本」——说不通）。每句写完自问：中文博主会这么说吗？
 3. 句子短。一句只说一件事；按 zh_register.sentence_length 的中位数写（真实账号大约 18-22 个字一句），最长别超过 35 个字，能断就断。例外：第一行的判断句可以带一个短理由，最长约 50 个字（本条优先于上文英文说明里第一行的字数限制）。
-4. 少用研报书面词：而非、以……为主、基准路径、结构性、实质性、显然、注定、生存空间、从而、进而、鉴于、与此同时、本质上、叠加、核心变量、难以为继、备用选项。平实的因果和后果连接（因为、所以、这意味着、也就是说）可以用。要连接就用 zh_register.donor_connectors 里这些账号常用的口语连接词；像锚句那样带一两个口语词（其实、所以、得看、说实话、吧）就够，别堆。
+4. 少用研报书面词：而非、以……为主、基准路径、结构性、实质性、显然、注定、生存空间、从而、进而、鉴于、与此同时、本质上、叠加、核心变量、难以为继、备用选项。没有哪个连接词是必须的：影响和后果换着说法自然带出来（后果是…、所以…、接下来…、影响到…、谁吃亏…，或者直接把结果说出来），不要每篇都用同一个词。一篇里同一个连接词或副词（其实、这意味着、本质上、换句话说、也就是说……）最多出现一次；zh_register.recent_connectives 是这个账号最近几篇已经用过的，这篇换别的说法或干脆不用。zh_register.donor_connectors 只是这些账号会用的词，不要求用。
 5. 不替别人说话：不写「很多人认为」「市场普遍认为」「大家都觉得」「很多人据此认为」这类别人怎么想的句子（除非 units 里有这个证据），直接说自己的判断。
 6. 不用 AI 套话：「不是X，而是Y」及其问句版（「只是…？人家这是…」「你以为…？其实…」）、「与其说X不如说Y」「理由听起来很完美」「看似合理」「归根结底」「不难发现」都不要写；也别堆「死死」「死磕」「狠狠」「拉满」这类夸张词（真实账号很少用）；不用「彻底」「根本」「注定」「必然」「完全」这类绝对化副词，除非 units 原文就这么说。态度词、强化词、反讽都不能顶替理由：该解释的地方给一句有事实的理由（units 里的数字/事件），不给态度。emotion_brief 里有 zh_rule 时照它收着写（情绪靠判断动词，不用夸张、反讽或强化词）。
 7. zh_register.register_anchors 是这类账号参考的真实中文博主的原句，只用来对齐语气、句子长短和用词习惯。不要照抄其中任何词句，也不要借用里面的内容、数字或观点。
 8. 开头：第一句照样是明确的判断，但用 zh_register.opening_move 指定的开头动作（没指定 question 就不要用反问开头；全文最多一个反问句）。不要用「别…/不要…/别指望/别被」这种祈使句开头（真实账号里不到 1% 这样开头）；情绪靠判断里的词带出来。也不要跟 zh_register.recent_openers 用同一种开头。
 9. 时间：units 的 date_label 是数据所属的时间。标了 historical 的单元说清楚是哪个月/哪天的数据（如「8月的数据」「上周公布的」），但它仍是手上最新的一期，不要写成「回看历史」「当时」。时间和政策路径用平实词（之后、12月之后、下次会议前），不要写「随后就会直接停手」「接下来纯粹是走过场」「直接放话」「打没了」这类别扭说法。
-10. 不当谜语人：判断帖正文必须有三样——判断；一句说清原因：哪个事实/数字/事件导致了这个判断（用你自己的话说 why_line 或 pack_roles.why 那条单元；某人「表态/表示/放话」不算原因）；一句说清影响：对市场/读者意味着什么、谁受益谁吃亏、还没被定价的是什么（用自己的话说 so_what_line 或 pack_roles.so_what 那条单元）。why_line / so_what_line 只给意思，不要原样照抄；原因句和影响句用自己的话起头，不要每篇套同一个引子。句子照样短，但原因和影响不能省：短稿宁可多写一行，也不要只抛结论和数字。
-11. units 里带 statement_en 的单元，statement 已经直译成中文（statement_en 是英文原文）：在直译基础上轻改成口语，不要重新润色成书面语；数字、名字和时间以 numbers / source_spans 为准。
+10. 不当谜语人：判断帖正文必须有三样——判断；一句说清原因：哪个事实/数字/事件导致了这个判断（用你自己的话说 why_line 或 pack_roles.why 那条单元；某人「表态/表示/放话」不算原因）；一句说清影响：对市场/读者有什么后果、谁受益谁吃亏、还没被定价的是什么（用自己的话说 so_what_line 或 pack_roles.so_what 那条单元）。why_line / so_what_line 只给意思，不要原样照抄；原因句和影响句用自己的话起头，不要每篇套同一个引子。句子照样短，但原因和影响不能省：短稿宁可多写一行，也不要只抛结论和数字。
+11. units 里 statement_origin 为 source_zh 的单元：statement 就是中文原文里的句子（statement_en 只是英文提要），意思和说法以它为准，但要用自己的话说，不要整句照抄（连续十几个字照搬就算抄）。带 statement_en、没有这个标记的单元：statement 是从英文材料整理出的中文事实要点，只是事实，不是让你润色的句子，照第 2 条重新说。数字、名字和时间以 numbers / source_spans 为准。
+12. 别人的观点：单元的 speaker 是具体的官员、分析师或机构人士（比如美联储理事鲍曼）时，只有两种写法：用第三人称转述（「鲍曼的意思是…」「她认为…」，可以写这个人的名字，never_name 里的名字除外），或者把观点当成本账号自己的判断，用本账号的口吻说。绝不能用这个人的第一人称写：source_spans 里的 We can see / I think / our 不能写成「我们能看到」「我认为」；本账号自己也从不说「我们」。
 """.rstrip()
 
 RULES_ZH = ['用自己的口语重说判断，不逐句改写 thesis_lock / units 原句，不搬 thesis_lock 的书面词',
             '短句；一句一件事（中位数见 sentence_length）', '研报书面词尽量不用（见系统说明第 4 条）',
-            '不写别人怎么想（很多人认为 / 市场普遍认为）', '英文材料：直译 + 轻改，不加工成书面语',
+            '不写别人怎么想（很多人认为 / 市场普遍认为）',
+            '不要翻译：照 register_anchors / style_exemplars 里博主说话的方式写；不写「的的的」长定语、英文名词串和「被」字句',
+            '中文来源（statement_origin=source_zh）：以原文意思为准，用自己的话说，不整句照抄',
+            '别人的观点：第三人称转述（鲍曼的意思是…）或当成本账号自己的判断；绝不用对方的第一人称（我们/我认为）',
             '开头按 opening_move；不用「别…」祈使句开头',
-            '判断 + 一句为什么（哪个事实/数字导致了这个判断）+ 一句这意味着什么（对市场/读者：谁受益谁吃亏、还没被定价的是什么）；'
+            '没有必须用的连接词；同一个连接词/副词一篇最多一次，recent_connectives 里的这篇换说法',
+            '判断 + 一句为什么（哪个事实/数字导致了这个判断）+ 一句影响（对市场/读者的后果：谁受益谁吃亏、还没被定价的是什么），说法每篇不同；'
             '句子短但理由不能省；不要谜语式只抛结论；时间说法用平实词（之后/12月之后/下次会议前）']
 
 # v11: 35 -> 50. At 35 the reason was cut out of the call (v7+ median 23.5 CJK chars, 1 of 6 with a reason;
@@ -229,7 +234,9 @@ RULES_ZH = ['用自己的口语重说判断，不逐句改写 thesis_lock / unit
 STANCE_MAX_CJK = 50
 STANCE_RULE_ZH = ('account_view 写成这个中文账号会发的一句口语判断：判断 + 几个字的理由（因为…/靠…/被…拖累），'
                   '50 字以内，一句话说完；不要用研报书面词（而非、以……为主、基准路径、结构性、实质性、显然、注定、叠加、'
-                  '核心变量、格局）；不要用「别…/不要…」祈使句；条件放进 view.conditions，不写进 account_view。')
+                  '核心变量、格局）；不要用「别…/不要…」祈使句；条件放进 view.conditions，不写进 account_view。'
+                  '不要按英文语序翻译（不写「AI发行人的表外租赁负债」这类名词串）；unit / context_units 带 source_zh 的，'
+                  '那是中文原文，照原文的中文说法来，不要从英文 statement 翻回去。')
 # Reason clause of a ZH call (v11): a rewrite that drops it is rejected.
 REASON_CLAUSE = re.compile(r'因为|由于|使得?|让|导致|靠|拖累|压低|推高|拉低|拉高|带动|受[^，。；！？\n]{1,10}(?:影响|拖累|压制|推动)|'
                            r'随着|源于|来自|在于|撑着|托着')
@@ -259,6 +266,9 @@ def payload_block(persona, seed='', posts_dir=None, recent_bodies=()):
     openers = [_first_sentence(b)[:30] for b in list(recent_bodies)[-3:] if b]
     if openers:
         block['recent_openers'] = openers
+    used = recent_connectives(recent_bodies)
+    if used:   # zh_native: the persona's last drafts already used these; this post says it differently
+        block['recent_connectives'] = used
     return block
 
 
@@ -588,7 +598,7 @@ WHY_RX = re.compile(r'因为|由于|原因|背后|靠的是|靠着|在于|毕竟
                     r'受[^，。；！？\n]{1,12}(?:拖累|影响|拉动|压制)|导致|带动|拖累|推着|根子')
 IMPLICATION_RX = re.compile(r'对[^，。；！？\n]{1,12}(?:来说|而言)|这对|换句话说|落到|所以|因此|也就是说|'
                             r'接下来要看|下一步要看|要盯|得盯|得看|利好|利空|压力会|意味着|值得警惕|风险在于|'
-                            r'机会在于|受益|吃亏|还没定价|没被定价|这样一来')
+                            r'机会在于|受益|吃亏|还没定价|没被定价|这样一来|后果|影响到|影响的是|结果就是|接下来(?:会|要|得|可能)')
 # Awkward colloquial time / policy-path phrases (v9 #1 / #3). Small and explicit on purpose.
 AWKWARD_TIME = ('随后就会直接', '随后就直接', '接下来纯粹是', '直接停手', '走过场', '直接放话', '打没了')
 
@@ -910,3 +920,141 @@ def leadin_repeat_findings(body, recent_bodies=()):
         return []
     return [{'code': 'structure_repeat',
              'detail': '原因/影响句又用「' + '」「'.join(hits) + '」起头（最近 3 篇里至少 2 篇）；用自己的话说原因和影响'}]
+
+
+# ---------------- native Chinese composing (Oct 6 zh_native) ----------------
+# Fiona on demo_matrix_oct6_zhfix2 drafts 2-5: 其实 / 这意味着 in nearly every draft (a new template), and
+# 翻译腔 - 「AI发行人的表外租赁负债」, long nominal phrases, Bowman's speech written as 「我认为…我们能看到…」.
+# Causes (calls/ of that batch): every unit statement is English even for Chinese sources (the Chinese
+# sentence only sat in source_spans), fix 6 back-translated those English units into 直译 Chinese and
+# SYSTEM_ZH told the model to 直译 + 轻改; rule 4 / RULES_ZH / the shapes named 其实 and 这意味着; first-person
+# English spans of an official were translated as the account's own 我们 / 我认为. Fixes: Chinese sources
+# give the original Chinese sentences (zh_original), English sources get plain-fact zh_units, and three
+# soft checks below feed the one structure regen (never block).
+
+def zh_original(unit):
+    """The unit's Chinese source sentences (source_spans exact_text) when the source itself is Chinese, else ''."""
+    texts = []
+    for sp in (unit or {}).get('source_spans') or ():
+        t = sp.get('exact_text') if isinstance(sp, dict) else sp
+        if isinstance(t, str) and t.strip():
+            texts.append(t.strip())
+    text = ' '.join(texts)
+    cjk = len(CJK.findall(text))
+    return text if cjk >= 8 and cjk >= 0.4 * len(re.sub(r'\s', '', text)) else ''
+
+
+_CLAUSE_ZH = re.compile(r'[，,。；;！？!?、：:\n]+')
+_DE = re.compile(r'(?<![目有])的(?![确话])')
+CALQUE = re.compile(r'进行了?[^，。；\n]{0,6}(?:分析|调整|评估|讨论|研究|干预|操作|修正|定价)|'
+                    r'[作做]出了?[^，。；\n]{0,8}(?:决定|判断|调整)|具有[^，。；\n]{0,8}(?:意义|作用|价值)|'
+                    r'存在[^，。；\n]{0,8}(?:风险|可能性|不确定性)|(?:可能性|方面)(?=[，。；\n]|$)|'
+                    r'的(?:增加|减少|上升|下降|改善|恶化|收窄|走阔|放缓|提高|降低|提升)(?=[，。；、\n]|$|[会将对使让带])|'
+                    r'基于|就[^，。；\n]{1,10}而言|在[^，。；\n]{1,10}的(?:背景|情况|前提)下')
+_BEI = re.compile(r'被(?![子窝褥动告])')
+
+
+def translationese_findings(body, lang='zh'):
+    """SOFT zh_translationese: a clause with >= 3 的 (long attributive chain), nominalised English calques
+    (进行调整 / 存在…风险 / …的改善 / 基于), or >= 2 被-passives. The 我们 / quoted-official first person is
+    speaker_first_person. Feeds the one structure regen; never blocks."""
+    if lang != 'zh' or not body:
+        return []
+    parts = []
+    chains = [c.strip() for c in _CLAUSE_ZH.split(str(body)) if len(_DE.findall(c)) >= 3]
+    if chains:
+        parts.append('一个分句里 3 个以上「的」: ' + ' | '.join(c[:30] for c in chains[:2]))
+    calques = list(dict.fromkeys(m.group(0) for m in CALQUE.finditer(str(body))))
+    if calques:
+        parts.append('翻译式名词化: ' + '、'.join(calques[:4]))
+    bei = _BEI.findall(str(body))
+    if len(bei) >= 2:
+        parts.append(f'「被」字句 {len(bei)} 处')
+    return [{'code': 'zh_translationese', 'detail': '; '.join(parts)}] if parts else []
+
+
+SPEAKER_TYPES = ('official', 'sell_side', 'buy_side', 'analyst', 'executive', 'company', 'economist', 'expert',
+                 'person', 'researcher', 'politician', 'regulator', 'central_bank')
+_FP_SPAN = re.compile(r"\b(?:I|we|our|us|my)\b|\bI'm\b|\bwe're\b|我们|(?<!自)我(?![国司行])", re.I)
+_FP_BODY = re.compile(r'我们|我认为|我觉得|我判断|我看到|我相信|在我看来|我的看法|我预计')
+
+
+def speaker_voice_findings(body, units=(), ledger=None, lang='zh'):
+    """SOFT speaker_first_person: the body says 我们 (the account never does), or an opinion-marker sentence
+    (我认为 / 我们能看到 …) carries a named speaker's first-person source sentence - a quoted official's or
+    analyst's view must be third person (鲍曼的意思是…) or the account's own judgment, never their 我."""
+    if lang != 'zh' or not body:
+        return []
+    text = str(body)
+    hits = []
+    if '我们' in text:
+        hits.append('「我们」')
+    speakers = [u for u in units or () if (u.get('speaker_type') or '') in SPEAKER_TYPES
+                or (u.get('speaker') and u.get('kind') == 'view')]
+    fp_units = {u.get('unit_id') for u in speakers
+                if any(_FP_SPAN.search(str(sp.get('exact_text') if isinstance(sp, dict) else sp or ''))
+                       for sp in u.get('source_spans') or ())}
+    if fp_units:
+        for sent in _sentences(text):
+            m = _FP_BODY.search(sent)
+            if not m or m.group(0) == '我们':
+                continue
+            grams = _bigrams(sent)
+            rows = [r for r in ledger or () if isinstance(r, dict) and isinstance(r.get('claim'), str)
+                    and (sent in r['claim'] or r['claim'].strip() in sent
+                         or (grams and len(grams & _bigrams(r['claim'])) >= max(2, len(grams) // 2)))]
+            if (not ledger) or any(r.get('unit_id') in fp_units for r in rows):
+                hits.append(f'「{m.group(0)}」写的是讲话人自己的第一人称: {sent[:24]}')
+                break
+    if not hits:
+        return []
+    return [{'code': 'speaker_first_person', 'detail': '; '.join(hits)}]
+
+
+# Connectives / adverbs that became templates (其实 / 这意味着 in 4 of 4 zhfix2 drafts). Plain 因为 / 所以 /
+# 但是 / 不过 are grammar, not a template, and are not counted.
+CONNECTIVES = ('其实', '这意味着', '说白了', '本质上', '换句话说', '也就是说', '说到底', '归根结底', '事实上', '实际上',
+               '显然', '可以说', '某种程度上', '说实话', '老实说', '坦白说', '简单说', '总之', '关键是', '问题是',
+               '有意思的是', '不得不说', '值得一提', '更重要的是', '这说明')
+CONNECTIVE_WINDOW = 5   # this draft + the persona's previous 4
+
+
+def _connective_key(word):
+    return '这意味着' if word in ('这意味着', '意味着') else word
+
+
+def connective_counts(text):
+    t = str(text or '')
+    counts = {w: t.count(w) for w in CONNECTIVES if w in t}
+    bare = t.count('意味着') - t.count('这意味着')
+    if bare > 0:
+        counts['这意味着'] = counts.get('这意味着', 0) + bare
+    return counts
+
+
+def recent_connectives(recent_bodies=(), window=CONNECTIVE_WINDOW):
+    seen = []
+    for b in list(recent_bodies or ())[-(window - 1):]:
+        for w in connective_counts(b):
+            if w not in seen:
+                seen.append(w)
+    return seen
+
+
+def connective_repeat_findings(body, recent_bodies=(), lang='zh', window=CONNECTIVE_WINDOW):
+    """SOFT connective_repeat: a template connective / adverb used twice in this draft, or used here and
+    in at least one of the persona's previous window-1 drafts (= more than 1 of the last 5)."""
+    if lang != 'zh' or not body:
+        return []
+    counts = connective_counts(body)
+    twice = [w for w, n in counts.items() if n > 1]
+    prior = set(recent_connectives(recent_bodies, window))
+    again = [w for w in counts if w in prior and w not in twice]
+    if not twice and not again:
+        return []
+    parts = []
+    if twice:
+        parts.append('同一篇用了两次以上: ' + '、'.join(twice))
+    if again:
+        parts.append(f'最近 {window} 篇里又用: ' + '、'.join(again))
+    return [{'code': 'connective_repeat', 'detail': '; '.join(parts)}]
