@@ -328,6 +328,8 @@ def choose_opening_move(persona, seed='', recent_bodies=(), posts_dir=None):
         # (~6% in donors). Only the minority moves are damped when recent drafts used them.
         if move in recent and move != STATEMENT[0]:
             w *= 0.15 if move == recent[-1] else 0.4
+        if move == 'question' and 'question' in recent:   # v8 rolling cap: <= 1 question opener per 4
+            w = 0.0
         weights[move] = w
     rng = random.Random(int(sha256(f'{seed}|opening'.encode()).hexdigest()[:12], 16))
     total = sum(weights.values()) or 1.0
@@ -349,10 +351,14 @@ def opening_findings(body, assigned=None, recent_bodies=()):
     same opening move as 2+ of the last 3 drafts (c26d3a4's family rule, now in the shared regen)."""
     move = opener_move(body)
     out = []
+    recent = [opener_move(b) for b in list(recent_bodies)[-3:] if b]
     if move == 'neg_imperative' and (assigned or {}).get('move') != 'neg_imperative':
         out.append({'code': 'opener_move', 'detail': '「别…/不要…」祈使开头（donor 约 1-2%）；按 opening_move 换一种开头'})
+    elif move == 'question' and ((assigned or {}).get('move') not in (None, 'question') or 'question' in recent):
+        # Oct 6 v8: v8zh zh_macro opened 「…，难道还要硬加？」 right after v7's question openers; donors
+        # open with a question ~6% of the time. Rolling cap: at most 1 question opener per 4 drafts.
+        out.append({'code': 'opener_move', 'detail': '反问开头（donor 约 6%，最近 3 篇已有 / 未被指定）；第一句直接陈述判断'})
     else:
-        recent = [opener_move(b) for b in list(recent_bodies)[-3:] if b]
         if move != STATEMENT[0] and recent.count(move) >= 2:
             out.append({'code': 'opener_move', 'detail': f'开头动作 {move} 与最近 3 篇中的 2 篇相同'})
     return out

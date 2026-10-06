@@ -218,3 +218,15 @@ def test_stance_soft_contracts():
     out = _validate_stance_value(value, unit, view, [], {'u1'})
     assert out['decision'] == 'take' and out['adapt_unchanged']
     assert out['revises_view_id'] is None and out['revises_view_id_dropped'] == 'cu-not-a-view'
+
+
+def test_question_opener_rolling_cap():
+    q = '短期内继续加息的概率已经大幅降低，难道还要硬加？威廉姆斯表态放缓步伐后，内部态度已经很明显。'
+    recent = ['美联储真停得下来吗？我看未必。', '今天的PMI有点意思。', '我对这轮反弹没什么信心。']
+    assert zr.opening_findings(q, {'move': 'question'}, recent)              # question already in last 3
+    assert zr.opening_findings(q, {'move': 'statement'}, [])                 # not assigned
+    assert not zr.opening_findings(q, {'move': 'question'}, ['今天的PMI有点意思。'])
+    from live import registry
+    p = registry.persona_for_account('zh_macro')
+    if zr.opener_distribution(p)['shares']:
+        assert all(zr.choose_opening_move(p, f's{i}', recent)['move'] != 'question' for i in range(40))
