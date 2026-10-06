@@ -38,7 +38,32 @@
      "weight": 0.061
     }
    ],
-   "bench": []
+   "bench": [
+    "lanhubiji",
+    "0xTodd",
+    "cloakmk",
+    "bitfish",
+    "Wuhuoqiu",
+    "xuxiaopengmint",
+    "Jiangzhuoer2",
+    "hibtc37",
+    "Leooo2099",
+    "eyuCrypto",
+    "Mr57814170",
+    "0xcryptowizard",
+    "laofeiyyds",
+    "Michael_Liu93",
+    "Murphychen888",
+    "0xSunNFT",
+    "blockTVBee",
+    "jason_chen998",
+    "DL0868",
+    "KuiGas",
+    "CryptoKris666",
+    "Meimeibtcc",
+    "leslie_bit",
+    "Alligator199"
+   ]
   },
   "zh_us_stock_commentary": {
    "lang": "zh",
@@ -100,7 +125,8 @@
     "SVScholar",
     "yijiangren",
     "LabSpeculation",
-    "KelileoCUP"
+    "KelileoCUP",
+    "thcaroline2233"
    ]
   },
   "industry_ai_capex": {
@@ -517,7 +543,35 @@
      "weight": 0.02
     }
    ],
-   "bench": []
+   "bench": [
+    "willywoo",
+    "cburniske",
+    "DaanCrypto",
+    "TedPillows",
+    "DCinvestor",
+    "Truecrypto",
+    "gammichan",
+    "ChemistDeFi",
+    "BobLoukas",
+    "thedefivillain",
+    "nsquaredvalue",
+    "tulipking",
+    "john_j_brown",
+    "DefiIgnas",
+    "Pentosh1",
+    "CryptoMichNL",
+    "caprioleio",
+    "JA_Maartun",
+    "jjcmoreno",
+    "AxelAdlerJr",
+    "TheDeFinvestor",
+    "SalsaTekila",
+    "IT_Tech_PL",
+    "decodejar",
+    "TaikiMaeda2",
+    "LowBeta",
+    "andrewhong5297"
+   ]
   },
   "acct_zh_macro": {
    "lang": "zh",
@@ -7515,6 +7569,1737 @@
    "tone": [
     "conversational"
    ]
+  },
+  "lanhubiji": {
+   "handle": "lanhubiji",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 75546,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 4.38,
+   "frequency": "daily+",
+   "median_chars": 202,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "explanatory",
+    "big-picture"
+   ],
+   "secondary_category": "sector_industry",
+   "crypto_beat": "crypto_industry_research",
+   "structure": [
+    "long note",
+    "numbered list"
+   ],
+   "hook": "States a new development, then 'what makes it special' breakdown",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 215 originals, promo-pattern share 0.01; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "0xtodd": {
+   "handle": "0xTodd",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 72291,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 2.69,
+   "frequency": "daily",
+   "median_chars": 88,
+   "style_tags": [
+    "short",
+    "chart/media-led",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "witty",
+    "conversational",
+    "self-deprecating"
+   ],
+   "secondary_category": "investing_general",
+   "crypto_beat": "crypto_industry_research",
+   "structure": [
+    "short note",
+    "line-break paragraphs"
+   ],
+   "hook": "Personal aside or anecdote that turns into an industry point",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 210 originals, promo-pattern share 0.05; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "cloakmk": {
+   "handle": "cloakmk",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 246813,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 1.54,
+   "frequency": "daily",
+   "median_chars": 374,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "question-hooks",
+    "structured/list"
+   ],
+   "tone": [
+    "assertive",
+    "dramatic",
+    "motivational"
+   ],
+   "secondary_category": "trading_technicals",
+   "crypto_beat": "btc_market_analysis",
+   "structure": [
+    "line-break paragraphs",
+    "long note"
+   ],
+   "hook": "Price level or Fed event, then 'my judgment' verdict",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 214 originals, promo-pattern share 0.05; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "bitfish": {
+   "handle": "bitfish",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 223127,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 0.64,
+   "frequency": "weekly",
+   "median_chars": 63,
+   "style_tags": [
+    "short",
+    "structured/list"
+   ],
+   "tone": [
+    "wry",
+    "storytelling",
+    "dark humor"
+   ],
+   "secondary_category": "sector_industry",
+   "crypto_beat": "crypto_industry_stories",
+   "structure": [
+    "short story",
+    "link card"
+   ],
+   "hook": "Date + dollar figure opening a crypto history episode",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 173 originals, promo-pattern share 0.01; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "wuhuoqiu": {
+   "handle": "Wuhuoqiu",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 76242,
+   "latest_post": "2026-10-05",
+   "posts_per_day": 1.14,
+   "frequency": "daily",
+   "median_chars": 162,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "candid",
+    "mixed zh-en"
+   ],
+   "secondary_category": "investing_general",
+   "crypto_beat": "crypto_industry_research",
+   "structure": [
+    "numbered list",
+    "long note"
+   ],
+   "hook": "'这几天跟几个Founder聊下来' style first-person observation",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-05, >=5 originals in sample); deep scrape 204 originals, promo-pattern share 0.06; note: bio carries a broker referral link; posts are own commentary; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "xuxiaopengmint": {
+   "handle": "xuxiaopengmint",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 10515,
+   "latest_post": "2026-09-18",
+   "posts_per_day": 0.44,
+   "frequency": "weekly",
+   "median_chars": 139,
+   "style_tags": [
+    "long-form",
+    "low-data",
+    "structured/list"
+   ],
+   "tone": [
+    "analytical",
+    "measured",
+    "structured"
+   ],
+   "secondary_category": "investing_general",
+   "crypto_beat": "crypto_industry_research",
+   "structure": [
+    "long note",
+    "numbered list"
+   ],
+   "hook": "Frames a question then grades each claim's 验证度",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-09-18, >=5 originals in sample); deep scrape 183 originals, promo-pattern share 0.20; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "jiangzhuoer2": {
+   "handle": "Jiangzhuoer2",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 62683,
+   "latest_post": "2026-10-05",
+   "posts_per_day": 1.78,
+   "frequency": "daily",
+   "median_chars": 90,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "blunt",
+    "contrarian",
+    "data-driven"
+   ],
+   "secondary_category": "market_data_charts",
+   "crypto_beat": "btc_market_analysis",
+   "structure": [
+    "short-line verse layout",
+    "chart+caption"
+   ],
+   "hook": "ETF flow or liquidation figure, one clause per line",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-05, >=5 originals in sample); deep scrape 171 originals, promo-pattern share 0.02; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "hibtc37": {
+   "handle": "hibtc37",
+   "lang": "zh",
+   "category": "trading_technicals",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 27204,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 4.74,
+   "frequency": "daily+",
+   "median_chars": 111,
+   "style_tags": [
+    "long-form"
+   ],
+   "tone": [
+    "confident",
+    "bragging",
+    "folksy"
+   ],
+   "secondary_category": "crypto_macro",
+   "crypto_beat": "crypto_trading",
+   "structure": [
+    "short note"
+   ],
+   "hook": "Calls back a level hit ('第N次命中✅')",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-03, >=5 originals in sample); deep scrape 199 originals, promo-pattern share 0.01; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "leooo2099": {
+   "handle": "Leooo2099",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 17017,
+   "latest_post": "2026-09-29",
+   "posts_per_day": 0.86,
+   "frequency": "daily",
+   "median_chars": 466,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "structured/list"
+   ],
+   "tone": [
+    "punchy",
+    "narrative",
+    "comparative"
+   ],
+   "secondary_category": "macro_rates",
+   "crypto_beat": "crypto_macro",
+   "structure": [
+    "line-break paragraphs",
+    "long note"
+   ],
+   "hook": "A striking cross-market number, then 'the interesting part is'",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-09-29, >=5 originals in sample); deep scrape 201 originals, promo-pattern share 0.08; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "eyucrypto": {
+   "handle": "eyuCrypto",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 13297,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 1.96,
+   "frequency": "daily",
+   "median_chars": 321,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "explanatory",
+    "wry"
+   ],
+   "secondary_category": "sector_industry",
+   "crypto_beat": "crypto_industry_research",
+   "structure": [
+    "long note"
+   ],
+   "hook": "Personal trigger ('刚才在币安还了一笔') leading to a market insight",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 210 originals, promo-pattern share 0.02; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "mr57814170": {
+   "handle": "Mr57814170",
+   "lang": "zh",
+   "category": "trading_technicals",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 35511,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 1.53,
+   "frequency": "daily",
+   "median_chars": 450,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "didactic",
+    "disciplined",
+    "formulaic"
+   ],
+   "secondary_category": "crypto_macro",
+   "crypto_beat": "crypto_trading",
+   "structure": [
+    "dated market brief",
+    "levels list"
+   ],
+   "hook": "'10.5周一早间行情概述：#BTC …' dated header",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 215 originals, promo-pattern share 0.01; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "0xcryptowizard": {
+   "handle": "0xcryptowizard",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 229911,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 1.49,
+   "frequency": "daily",
+   "median_chars": 77,
+   "style_tags": [
+    "short",
+    "structured/list"
+   ],
+   "tone": [
+    "terse",
+    "aphoristic",
+    "opinionated"
+   ],
+   "secondary_category": "investing_general",
+   "crypto_beat": "defi_altcoin_narratives",
+   "structure": [
+    "one-liner",
+    "short note"
+   ],
+   "hook": "A flat declarative thesis line",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 181 originals, promo-pattern share 0.01; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "laofeiyyds": {
+   "handle": "laofeiyyds",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 270620,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 1.56,
+   "frequency": "daily",
+   "median_chars": 54,
+   "style_tags": [
+    "short",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "colloquial",
+    "emotional",
+    "self-mocking"
+   ],
+   "secondary_category": "trading_technicals",
+   "crypto_beat": "crypto_diary",
+   "structure": [
+    "short note",
+    "question"
+   ],
+   "hook": "Gut reaction to a coin move, then asks followers",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 214 originals, promo-pattern share 0.01; note: occasional giveaway posts; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "michael_liu93": {
+   "handle": "Michael_Liu93",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 89766,
+   "latest_post": "2026-10-05",
+   "posts_per_day": 2.09,
+   "frequency": "daily",
+   "median_chars": 99,
+   "style_tags": [
+    "long-form",
+    "threads",
+    "structured/list"
+   ],
+   "tone": [
+    "reflective",
+    "candid",
+    "reasoned"
+   ],
+   "secondary_category": "single_stock",
+   "crypto_beat": "crypto_trading",
+   "structure": [
+    "long note"
+   ],
+   "hook": "States a position change, then walks through the logic",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-05, >=5 originals in sample); deep scrape 206 originals, promo-pattern share 0.01; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "murphychen888": {
+   "handle": "Murphychen888",
+   "lang": "zh",
+   "category": "market_data_charts",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 81586,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 2.67,
+   "frequency": "daily",
+   "median_chars": 398,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "patient",
+    "analytical",
+    "warm"
+   ],
+   "secondary_category": "crypto_macro",
+   "crypto_beat": "onchain_data",
+   "structure": [
+    "long note",
+    "chart+caption"
+   ],
+   "hook": "Question headline about BTC supply/chip structure",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 172 originals, promo-pattern share 0.03; note: bio carries an exchange referral link; posts are own analysis; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "0xsunnft": {
+   "handle": "0xSunNFT",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 212005,
+   "latest_post": "2026-09-22",
+   "posts_per_day": 0.28,
+   "frequency": "weekly",
+   "median_chars": 216,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "calm",
+    "matter-of-fact",
+    "insider"
+   ],
+   "secondary_category": "trading_technicals",
+   "crypto_beat": "defi_altcoin_narratives",
+   "structure": [
+    "long note",
+    "numbered list"
+   ],
+   "hook": "'梳理一下本轮…' framing of on-chain storylines",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-09-22, >=5 originals in sample); deep scrape 198 originals, promo-pattern share 0.14; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "blocktvbee": {
+   "handle": "blockTVBee",
+   "lang": "zh",
+   "category": "market_data_charts",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 31858,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 2.49,
+   "frequency": "daily",
+   "median_chars": 482,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "threads",
+    "emoji",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "humorous",
+    "data-driven",
+    "plainspoken"
+   ],
+   "secondary_category": "crypto_macro",
+   "crypto_beat": "crypto_macro",
+   "structure": [
+    "long note",
+    "chart+caption"
+   ],
+   "hook": "Chart/RSI observation then the week's macro calendar",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 183 originals, promo-pattern share 0.03; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "jason_chen998": {
+   "handle": "jason_chen998",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 121008,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 2.42,
+   "frequency": "daily",
+   "median_chars": 375,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "emoji",
+    "question-hooks",
+    "structured/list"
+   ],
+   "tone": [
+    "newsy",
+    "explanatory",
+    "long-sentence"
+   ],
+   "secondary_category": "sector_industry",
+   "crypto_beat": "crypto_industry_research",
+   "structure": [
+    "long paragraph"
+   ],
+   "hook": "Exclamatory headline-claim then long explanatory paragraph",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 200 originals, promo-pattern share 0.06; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "dl0868": {
+   "handle": "DL0868",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 11626,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 1.13,
+   "frequency": "daily",
+   "median_chars": 127,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "conversational",
+    "street-smart",
+    "cautionary"
+   ],
+   "secondary_category": "trading_technicals",
+   "crypto_beat": "defi_altcoin_narratives",
+   "structure": [
+    "long note",
+    "numbered list"
+   ],
+   "hook": "Rug/meme event then 'let me sort it out for you'",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 205 originals, promo-pattern share 0.09; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "kuigas": {
+   "handle": "KuiGas",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 107806,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 2.65,
+   "frequency": "daily",
+   "median_chars": 172,
+   "style_tags": [
+    "long-form",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "reflective",
+    "diaristic",
+    "grounded"
+   ],
+   "secondary_category": "investing_general",
+   "crypto_beat": "crypto_diary",
+   "structure": [
+    "long note",
+    "numbered list"
+   ],
+   "hook": "Personal action ('我就随便玩玩吧') then 主要思考与判断",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 200 originals, promo-pattern share 0.19; note: occasional project-sale participation posts; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "cryptokris666": {
+   "handle": "CryptoKris666",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 9035,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 1.01,
+   "frequency": "daily",
+   "median_chars": 78,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "structured/list"
+   ],
+   "tone": [
+    "brisk",
+    "structured",
+    "explanatory"
+   ],
+   "secondary_category": "market_data_charts",
+   "crypto_beat": "crypto_market_recap",
+   "structure": [
+    "market recap",
+    "long note"
+   ],
+   "hook": "One-line theme headline then '先过盘面' recap",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 211 originals, promo-pattern share 0.13; note: event invitations / tool mentions; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "meimeibtcc": {
+   "handle": "Meimeibtcc",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 12459,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 0.9,
+   "frequency": "daily",
+   "median_chars": 96,
+   "style_tags": [
+    "long-form",
+    "chart/media-led",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "chatty",
+    "emotive",
+    "rhetorical"
+   ],
+   "secondary_category": "trading_technicals",
+   "crypto_beat": "crypto_diary",
+   "structure": [
+    "short note",
+    "question"
+   ],
+   "hook": "Rhetorical question or stacked-line punch",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 207 originals, promo-pattern share 0.06; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "leslie_bit": {
+   "handle": "leslie_bit",
+   "lang": "zh",
+   "category": "investing_general",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 17448,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 2.46,
+   "frequency": "daily",
+   "median_chars": 119,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "casual",
+    "curious",
+    "tinkerer"
+   ],
+   "secondary_category": "crypto_macro",
+   "crypto_beat": "crypto_diary",
+   "structure": [
+    "short note",
+    "numbered list"
+   ],
+   "hook": "Opinion question answered in 2 numbered points",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 206 originals, promo-pattern share 0.04; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "alligator199": {
+   "handle": "Alligator199",
+   "lang": "zh",
+   "category": "trading_technicals",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 8738,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 0.91,
+   "frequency": "daily",
+   "median_chars": 207,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "practical",
+    "cautious",
+    "plain"
+   ],
+   "secondary_category": "crypto_macro",
+   "crypto_beat": "crypto_trading",
+   "structure": [
+    "levels list",
+    "short note"
+   ],
+   "hook": "Geopolitics/macro headline then trading implication",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 167 originals, promo-pattern share 0.02; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "thcaroline2233": {
+   "handle": "thcaroline2233",
+   "lang": "zh",
+   "category": "investing_general",
+   "persona_cluster": "zh_us_stock_commentary",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 27581,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 6.13,
+   "frequency": "daily+",
+   "median_chars": 137,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "structured/list"
+   ],
+   "tone": [
+    "calm",
+    "explanatory",
+    "everyday"
+   ],
+   "secondary_category": "macro_rates",
+   "crypto_beat": "investor_diary",
+   "structure": [
+    "long note"
+   ],
+   "hook": "Everyday experience leading into an economic point",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 200 originals, promo-pattern share 0.03; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "willywoo": {
+   "handle": "willywoo",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 1239836,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 0.83,
+   "frequency": "daily",
+   "median_chars": 204,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "confident",
+    "contrarian",
+    "concise"
+   ],
+   "secondary_category": "crypto_macro",
+   "crypto_beat": "onchain_data",
+   "structure": [
+    "chart+caption",
+    "short note"
+   ],
+   "hook": "'Little known fact…' or a bold on-chain read",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 41 originals, promo-pattern share 0.00; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "cburniske": {
+   "handle": "cburniske",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 342946,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 0.13,
+   "frequency": "sporadic",
+   "median_chars": 126,
+   "style_tags": [
+    "mid-length"
+   ],
+   "tone": [
+    "aphoristic",
+    "measured",
+    "wry"
+   ],
+   "secondary_category": "investing_general",
+   "crypto_beat": "crypto_valuation",
+   "structure": [
+    "one-liner",
+    "short thread"
+   ],
+   "hook": "A crisp principle stated as fact",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-03, >=5 originals in sample); deep scrape 76 originals, promo-pattern share 0.00; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "daancrypto": {
+   "handle": "DaanCrypto",
+   "lang": "en",
+   "category": "trading_technicals",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 415295,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 4.68,
+   "frequency": "daily+",
+   "median_chars": 321,
+   "style_tags": [
+    "long-form",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "clear",
+    "measured",
+    "educational"
+   ],
+   "secondary_category": "crypto_macro",
+   "crypto_beat": "crypto_trading",
+   "structure": [
+    "chart+caption",
+    "short note"
+   ],
+   "hook": "$TICKER + what price just did to a liquidity level",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 206 originals, promo-pattern share 0.00; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "tedpillows": {
+   "handle": "TedPillows",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 321803,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 15.44,
+   "frequency": "daily+",
+   "median_chars": 114,
+   "style_tags": [
+    "short",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "punchy",
+    "confident",
+    "headline-y"
+   ],
+   "secondary_category": "market_data_charts",
+   "crypto_beat": "btc_market_analysis",
+   "structure": [
+    "chart+caption",
+    "one-liner"
+   ],
+   "hook": "Big stat in the first line ('$19B+ wiped out')",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 184 originals, promo-pattern share 0.00; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "dcinvestor": {
+   "handle": "DCinvestor",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 275720,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 3.13,
+   "frequency": "daily+",
+   "median_chars": 116,
+   "style_tags": [
+    "short",
+    "low-data",
+    "structured/list"
+   ],
+   "tone": [
+    "lowercase",
+    "speculative",
+    "thesis-driven"
+   ],
+   "secondary_category": "macro_rates",
+   "crypto_beat": "crypto_macro",
+   "structure": [
+    "line-break paragraphs",
+    "short thread"
+   ],
+   "hook": "'the thesis is:' / 'a bull case for…' framing",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 195 originals, promo-pattern share 0.01; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "truecrypto": {
+   "handle": "Truecrypto",
+   "lang": "en",
+   "category": "trading_technicals",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 245513,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 7.86,
+   "frequency": "daily+",
+   "median_chars": 279,
+   "style_tags": [
+    "long-form",
+    "structured/list"
+   ],
+   "tone": [
+    "motivational",
+    "rhythmic",
+    "contrarian"
+   ],
+   "secondary_category": "investing_general",
+   "crypto_beat": "trader_psychology",
+   "structure": [
+    "stacked short lines"
+   ],
+   "hook": "Parallel short lines building to a punch",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 124 originals, promo-pattern share 0.00; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "gammichan": {
+   "handle": "gammichan",
+   "lang": "en",
+   "category": "trading_technicals",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 101554,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 2.48,
+   "frequency": "daily",
+   "median_chars": 124,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "chart/media-led"
+   ],
+   "tone": [
+    "casual",
+    "reflective",
+    "nerdy"
+   ],
+   "secondary_category": "crypto_macro",
+   "crypto_beat": "crypto_trading",
+   "structure": [
+    "short note",
+    "list"
+   ],
+   "hook": "Observation about trading craft or a chart",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 209 originals, promo-pattern share 0.01; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "chemistdefi": {
+   "handle": "ChemistDeFi",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 52104,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 1.63,
+   "frequency": "daily",
+   "median_chars": 756,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "data-led",
+    "structured",
+    "explainer"
+   ],
+   "secondary_category": "market_data_charts",
+   "crypto_beat": "defi_altcoin_narratives",
+   "structure": [
+    "stacked stats",
+    "arrow list"
+   ],
+   "hook": "Three stacked numbers, then 'different stories, same pattern'",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 198 originals, promo-pattern share 0.13; note: a few sponsored project mentions; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "bobloukas": {
+   "handle": "BobLoukas",
+   "lang": "en",
+   "category": "trading_technicals",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 393999,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 1.6,
+   "frequency": "daily",
+   "median_chars": 334,
+   "style_tags": [
+    "long-form",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "measured",
+    "cyclical",
+    "fatherly"
+   ],
+   "secondary_category": "crypto_macro",
+   "crypto_beat": "cycle_trading",
+   "structure": [
+    "short note"
+   ],
+   "hook": "Cycle-timing verdict on BTC or stocks",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 186 originals, promo-pattern share 0.00; note: occasional membership-sale post; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "thedefivillain": {
+   "handle": "thedefivillain",
+   "lang": "en",
+   "category": "trading_technicals",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 61829,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 6.55,
+   "frequency": "daily+",
+   "median_chars": 76,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led",
+    "cashtags",
+    "question-hooks"
+   ],
+   "tone": [
+    "sarcastic",
+    "terse",
+    "degen"
+   ],
+   "secondary_category": "crypto_macro",
+   "crypto_beat": "defi_altcoin_narratives",
+   "structure": [
+    "one-liner",
+    "chart+caption"
+   ],
+   "hook": "Deadpan line over a chart",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 197 originals, promo-pattern share 0.01; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "nsquaredvalue": {
+   "handle": "nsquaredvalue",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 32633,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 2.81,
+   "frequency": "daily",
+   "median_chars": 206,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "question-hooks",
+    "structured/list"
+   ],
+   "tone": [
+    "professorial",
+    "contrarian",
+    "dry"
+   ],
+   "secondary_category": "market_data_charts",
+   "crypto_beat": "btc_valuation",
+   "structure": [
+    "short note",
+    "chart+caption"
+   ],
+   "hook": "Rebuts a bearish claim with a model view",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 187 originals, promo-pattern share 0.01; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "tulipking": {
+   "handle": "tulipking",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 30911,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 4.42,
+   "frequency": "daily+",
+   "median_chars": 150,
+   "style_tags": [
+    "long-form",
+    "structured/list"
+   ],
+   "tone": [
+    "candid",
+    "practical",
+    "insider"
+   ],
+   "secondary_category": "trading_technicals",
+   "crypto_beat": "defi_altcoin_narratives",
+   "structure": [
+    "bullet list",
+    "short note"
+   ],
+   "hook": "'Quick lesson in…' then bullets",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 164 originals, promo-pattern share 0.02; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "john_j_brown": {
+   "handle": "john_j_brown",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 93904,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 0.12,
+   "frequency": "sporadic",
+   "median_chars": 126,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "question-hooks"
+   ],
+   "tone": [
+    "aphoristic",
+    "libertarian",
+    "dry"
+   ],
+   "secondary_category": "investing_general",
+   "crypto_beat": "crypto_philosophy",
+   "structure": [
+    "one-liner"
+   ],
+   "hook": "Two-line contrast aphorism",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-04, >=5 originals in sample); deep scrape 201 originals, promo-pattern share 0.00; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "defiignas": {
+   "handle": "DefiIgnas",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 164658,
+   "latest_post": "2026-10-03",
+   "posts_per_day": 2.19,
+   "frequency": "daily",
+   "median_chars": 408,
+   "style_tags": [
+    "long-form",
+    "data-heavy",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "honest",
+    "analytical",
+    "self-critical"
+   ],
+   "secondary_category": "market_data_charts",
+   "crypto_beat": "defi_altcoin_narratives",
+   "structure": [
+    "short note",
+    "bullet list"
+   ],
+   "hook": "A tally or confession ('11 of these 15 sales are underwater')",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-03, >=5 originals in sample); deep scrape 210 originals, promo-pattern share 0.10; note: occasional fee-discount link; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "pentosh1": {
+   "handle": "Pentosh1",
+   "lang": "en",
+   "category": "trading_technicals",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 948415,
+   "latest_post": "2026-10-05",
+   "posts_per_day": 1.2,
+   "frequency": "daily",
+   "median_chars": 93,
+   "style_tags": [
+    "short",
+    "low-data",
+    "chart/media-led",
+    "cashtags"
+   ],
+   "tone": [
+    "brash",
+    "irreverent",
+    "confident"
+   ],
+   "secondary_category": "crypto_macro",
+   "crypto_beat": "crypto_trading",
+   "structure": [
+    "chart+caption",
+    "short note"
+   ],
+   "hook": "$TICKER chart verdict or trading-rule rant",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-05, >=5 originals in sample); deep scrape 204 originals, promo-pattern share 0.00; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "cryptomichnl": {
+   "handle": "CryptoMichNL",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 824291,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 17.98,
+   "frequency": "daily+",
+   "median_chars": 171,
+   "style_tags": [
+    "long-form",
+    "low-data",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "upbeat",
+    "bullish",
+    "simple"
+   ],
+   "secondary_category": "trading_technicals",
+   "crypto_beat": "btc_market_analysis",
+   "structure": [
+    "chart+caption"
+   ],
+   "hook": "$ETH/#Bitcoin state + expected breakout target",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 167 originals, promo-pattern share 0.00; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "caprioleio": {
+   "handle": "caprioleio",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 132645,
+   "latest_post": "2026-10-02",
+   "posts_per_day": 1.98,
+   "frequency": "daily",
+   "median_chars": 116,
+   "style_tags": [
+    "short",
+    "chart/media-led",
+    "question-hooks"
+   ],
+   "tone": [
+    "terse",
+    "quant",
+    "dramatic"
+   ],
+   "secondary_category": "crypto_macro",
+   "crypto_beat": "onchain_data",
+   "structure": [
+    "chart+caption",
+    "one-liner"
+   ],
+   "hook": "Metric name + extreme reading ('quantum discount has hit 28%')",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-02, >=5 originals in sample); deep scrape 163 originals, promo-pattern share 0.03; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "ja_maartun": {
+   "handle": "JA_Maartun",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 47270,
+   "latest_post": "2026-10-05",
+   "posts_per_day": 4.09,
+   "frequency": "daily+",
+   "median_chars": 153,
+   "style_tags": [
+    "mid-length",
+    "data-heavy",
+    "chart/media-led",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "clear",
+    "data-driven",
+    "light emoji"
+   ],
+   "secondary_category": "crypto_macro",
+   "crypto_beat": "onchain_data",
+   "structure": [
+    "chart+caption",
+    "short note"
+   ],
+   "hook": "🚨 metric alert line, then what it means",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-05, >=5 originals in sample); deep scrape 214 originals, promo-pattern share 0.05; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "jjcmoreno": {
+   "handle": "jjcmoreno",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 23345,
+   "latest_post": "2026-09-27",
+   "posts_per_day": 0.36,
+   "frequency": "weekly",
+   "median_chars": 182,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "structured/list"
+   ],
+   "tone": [
+    "sober",
+    "data-driven",
+    "direct"
+   ],
+   "secondary_category": "crypto_macro",
+   "crypto_beat": "onchain_data",
+   "structure": [
+    "chart+caption"
+   ],
+   "hook": "A single on-chain stat with direction and window",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-09-27, >=5 originals in sample); deep scrape 216 originals, promo-pattern share 0.00; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "axeladlerjr": {
+   "handle": "AxelAdlerJr",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 28882,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 3.22,
+   "frequency": "daily+",
+   "median_chars": 218,
+   "style_tags": [
+    "long-form",
+    "chart/media-led"
+   ],
+   "tone": [
+    "analytical",
+    "briefing",
+    "neutral"
+   ],
+   "secondary_category": "macro_rates",
+   "crypto_beat": "onchain_data",
+   "structure": [
+    "chart+caption",
+    "daily brief"
+   ],
+   "hook": "Question-led brief on ETF/LTH flows",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 187 originals, promo-pattern share 0.01; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "thedefinvestor": {
+   "handle": "TheDeFinvestor",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 166533,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 1.63,
+   "frequency": "daily",
+   "median_chars": 255,
+   "style_tags": [
+    "mid-length",
+    "data-heavy",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "informative",
+    "bullish",
+    "listy"
+   ],
+   "secondary_category": "market_data_charts",
+   "crypto_beat": "defi_altcoin_narratives",
+   "structure": [
+    "weekly list",
+    "short note"
+   ],
+   "hook": "'Crypto Watchlist for the week ahead:' or revenue stat",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 156 originals, promo-pattern share 0.10; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "salsatekila": {
+   "handle": "SalsaTekila",
+   "lang": "en",
+   "category": "trading_technicals",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 227709,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 0.15,
+   "frequency": "weekly",
+   "median_chars": 94,
+   "style_tags": [
+    "short"
+   ],
+   "tone": [
+    "self-mocking",
+    "degen",
+    "candid"
+   ],
+   "secondary_category": "crypto_macro",
+   "crypto_beat": "crypto_trading",
+   "structure": [
+    "short note"
+   ],
+   "hook": "Plan for the week in trader slang",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 209 originals, promo-pattern share 0.01; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "it_tech_pl": {
+   "handle": "IT_Tech_PL",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 47495,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 5.0,
+   "frequency": "daily+",
+   "median_chars": 183,
+   "style_tags": [
+    "mid-length",
+    "chart/media-led",
+    "threads",
+    "emoji",
+    "structured/list"
+   ],
+   "tone": [
+    "alert",
+    "concise",
+    "emoji"
+   ],
+   "secondary_category": "crypto_macro",
+   "crypto_beat": "onchain_data",
+   "structure": [
+    "chart+caption",
+    "newsletter teaser"
+   ],
+   "hook": "Liquidation map / 'On-chain Insights #N is out'",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 188 originals, promo-pattern share 0.06; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "decodejar": {
+   "handle": "decodejar",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 68276,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 2.3,
+   "frequency": "daily",
+   "median_chars": 100,
+   "style_tags": [
+    "short",
+    "question-hooks"
+   ],
+   "tone": [
+    "laconic",
+    "cyclical",
+    "confident"
+   ],
+   "secondary_category": "trading_technicals",
+   "crypto_beat": "crypto_macro",
+   "structure": [
+    "one-liner",
+    "chart+caption"
+   ],
+   "hook": "Flat cycle verdict ('So the 4 year cycle bottomed at 86k')",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 166 originals, promo-pattern share 0.00; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "taikimaeda2": {
+   "handle": "TaikiMaeda2",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 121581,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 0.46,
+   "frequency": "weekly",
+   "median_chars": 118,
+   "style_tags": [
+    "short",
+    "chart/media-led",
+    "cashtags",
+    "structured/list"
+   ],
+   "tone": [
+    "humorous",
+    "convicted",
+    "self-deprecating"
+   ],
+   "secondary_category": "trading_technicals",
+   "crypto_beat": "defi_altcoin_narratives",
+   "structure": [
+    "short note",
+    "video promo"
+   ],
+   "hook": "Joke framing of a real position ('Texas Hedge')",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 207 originals, promo-pattern share 0.02; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "lowbeta": {
+   "handle": "LowBeta",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 11194,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 3.92,
+   "frequency": "daily+",
+   "median_chars": 69,
+   "style_tags": [
+    "short",
+    "emoji"
+   ],
+   "tone": [
+    "institutional",
+    "concise",
+    "positive"
+   ],
+   "secondary_category": "investing_general",
+   "crypto_beat": "crypto_industry_research",
+   "structure": [
+    "one-liner",
+    "link to research"
+   ],
+   "hook": "One-line thesis plus pointer to a research note",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 139 originals, promo-pattern share 0.00; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
+  },
+  "andrewhong5297": {
+   "handle": "andrewhong5297",
+   "lang": "en",
+   "category": "market_data_charts",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 21859,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 1.18,
+   "frequency": "daily",
+   "median_chars": 162,
+   "style_tags": [
+    "mid-length",
+    "low-data",
+    "threads"
+   ],
+   "tone": [
+    "technical",
+    "nerdy",
+    "lowercase"
+   ],
+   "secondary_category": "crypto_macro",
+   "crypto_beat": "onchain_data",
+   "structure": [
+    "chart+caption",
+    "thread"
+   ],
+   "hook": "'oooh' noticing an on-chain flow, then mechanics",
+   "verify_note": "profile+timeline fetched 2026-10-06 via RapidAPI twitter241; active (latest original 2026-10-06, >=5 originals in sample); deep scrape 179 originals, promo-pattern share 0.02; manual read: original commentary, not news bot/signals/airdrop",
+   "added": "2026-10-06"
   }
  }
 }
