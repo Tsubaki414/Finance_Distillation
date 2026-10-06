@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "note": "Per-persona emotion tiers (Fiona 2026-10-05). Retry only for HIGH; MID soft-reminds; LOW restrained (overclaim checks stay on).",
+  "note": "Per-persona emotion tiers (Fiona 2026-10-05). Retry only for HIGH; MID soft-reminds; LOW restrained (overclaim checks stay on). v11 (Oct 6): zh_macro / zh_industry mid -> low - at intensity 3 with irony / exaggeration allowed the ZH drafts replaced the reason with attitude words (走过场 / 打没了 / 直接放话; donors 1.5 intensifiers per 1k CJK chars, v7+ drafts 19.6).",
   "default_tier": "mid",
   "tiers": {
     "high": {
@@ -29,8 +29,8 @@
     "crypto_macro_en": "high",
     "trading_shortterm": "high",
     "market_data_charts": "high",
-    "zh_macro": "mid",
-    "zh_industry": "mid",
+    "zh_macro": "low",
+    "zh_industry": "low",
     "en_industry": "mid",
     "en_macro": "low",
     "investing_philosophy": "low",

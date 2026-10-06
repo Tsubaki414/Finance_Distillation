@@ -16,9 +16,11 @@ def test_all_personas_mapped_to_tiers():
     assert expected <= set(cfg['personas'])
     for aid in ('crypto_macro_zh', 'crypto_macro_en', 'trading_shortterm', 'market_data_charts'):
         assert cfg['personas'][aid] == 'high'
-    for aid in ('zh_macro', 'zh_industry', 'en_industry'):
+    for aid in ('en_industry',):
         assert cfg['personas'][aid] == 'mid'
-    for aid in ('en_macro', 'investing_philosophy', 'single_stock_deepdive_en', 'en_morris_archive'):
+    # v11: zh_macro / zh_industry mid -> low (attitude words replaced the explanation)
+    for aid in ('zh_macro', 'zh_industry', 'en_macro', 'investing_philosophy', 'single_stock_deepdive_en',
+                'en_morris_archive'):
         assert cfg['personas'][aid] == 'low'
 
 
@@ -34,11 +36,11 @@ def test_high_tier_targets_four_and_retries():
 
 
 def test_mid_soft_findings_without_force_retry():
-    pol = ec.tier_policy('zh_macro')
+    pol = ec.tier_policy('en_industry')   # v11: zh_macro moved to low; en_industry is the MID persona
     assert pol['emotion_retry'] is False and pol['soft_findings'] is True
     brief = ec.build_emotion_brief(
         [{'unit_id': '1', 'statement': 'PMI 50.1', 'source_spans': [], 'numbers': []}],
-        {'account_view': '单月数据不足以确认趋势'}, lang='zh', account_id='zh_macro')
+        {'account_view': 'One print does not confirm a trend.'}, lang='en', account_id='en_industry')
     assert brief['target_intensity'] == 3 and brief['emotion_retry'] is False
     assert brief['tier'] == 'mid'
 
@@ -55,7 +57,7 @@ def test_low_restrained_soft_findings_without_retry():
     assert finding['code'] == 'emotion_drop' and finding['level'] == 'soft'
 
 
-@pytest.mark.parametrize('account,tier', [('zh_industry', 'mid'), ('en_macro', 'low')])
+@pytest.mark.parametrize('account,tier', [('zh_industry', 'low'), ('en_macro', 'low')])   # v11: zh_industry low
 def test_mid_compose_warn_only_no_emotion_force_rewrite(account, tier):
     """MID/LOW attach brief + may warn; must not force-rewrite for emotion alone."""
     class AlwaysFlat(Fake):

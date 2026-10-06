@@ -1153,6 +1153,7 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
             findings += zr.sentence_findings(body, persona.lang)
             findings += zr.stance_copy_findings(body, (stance or {}).get('account_view'), persona.lang)
             findings += zr.line_break_findings(body, persona.lang)
+            findings += zr.intensifier_findings(body, persona.lang)   # v11: soft yellow flag
             _recent = recent if recent is not None else anti_repeat.load_recent(persona.persona_id)
             findings += zr.opening_findings(body, None, [r['text'] for r in _recent if isinstance(r, dict) and r.get('text')])
     findings += trade_reco_findings(body, persona.lang)
@@ -1828,7 +1829,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     structure_codes = ('shape_mismatch', 'number_run', 'internal_contradiction', 'zh_register', 'market_feeling',
                        'thread_padding', 'filler_closer', 'opener_move', 'length_band', 'zh_sentence_length',
                        'stance_copy', 'ai_template', 'zh_line_breaks', 'missing_why', 'missing_implication',
-                       'zh_awkward_time')
+                       'zh_awkward_time', 'zh_intensifier')
     recent_bodies = [r['text'] for r in recent_rows if isinstance(r, dict) and r.get('text')]
 
     def _structure(b):
@@ -1851,6 +1852,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             found += zr.stance_copy_findings(b, payload.get('thesis_lock'), persona.lang)
             found += zr.line_break_findings(b, persona.lang)   # v8: long ZH as one-clause lines
             found += zr.awkward_time_findings(b, persona.lang)   # v10: 随后就会直接停手 / 走过场
+            found += zr.intensifier_findings(b, persona.lang)    # v11: attitude words instead of a reason
             if post_type in JUDGMENT_TYPES or thesis_locked:   # v10: 谜语人 - call without why / what it means
                 found += zr.why_implication_findings(b, persona.lang)
         return found + internal_contradiction_findings(b)

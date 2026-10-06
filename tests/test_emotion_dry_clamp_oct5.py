@@ -16,14 +16,14 @@ def brief(account, units=DRY):
 
 
 def test_clamp_is_one_step_down_for_mid_and_high_only():
-    high, mid, low = brief('trading_shortterm'), brief('zh_industry'), brief('en_macro')
+    high, mid, low = brief('trading_shortterm'), brief('en_industry'), brief('en_macro')   # v11: zh_* are low
     assert high['source_dry'] and high['target_intensity'] == 4 and high['accept_intensity'] == 3
     assert mid['source_dry'] and mid['target_intensity'] == 3 and mid['accept_intensity'] == 2
     assert low['accept_intensity'] == low['target_intensity']          # LOW never clamped
 
 
 def test_no_clamp_when_source_is_not_dry_and_target_never_raised():
-    for account in ('trading_shortterm', 'zh_industry'):
+    for account in ('trading_shortterm', 'en_industry'):
         b = brief(account, HOT)
         assert not b['source_dry'] and b['accept_intensity'] == b['target_intensity']
         assert b['target_intensity'] == brief(account, HOT)['target_intensity']

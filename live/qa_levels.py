@@ -22,7 +22,8 @@ SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_u
                   'zh_register', 'market_feeling', 'thread_padding', 'revise_off_topic',
                   'phrase_repeat', 'theme_repeat', 'filler_closer',
                   'opener_move', 'length_band', 'zh_sentence_length', 'stance_copy',
-                  'ai_template', 'zh_line_breaks', 'missing_why', 'missing_implication', 'zh_awkward_time'})
+                  'ai_template', 'zh_line_breaks', 'missing_why', 'missing_implication', 'zh_awkward_time',
+                  'zh_intensifier'})
 FIXES = {
     'stylistic_repeat': 'Vary the repeated stylistic phrase and closing; retain source facts.',
     'judgment_label': 'Drop the 「我的判断：」/「以我个人判断，」/「个人判断：」 label; state the judgment directly as a plain sentence.',
@@ -84,6 +85,8 @@ FIXES = {
                             '(对…来说/说白了/换句话说/接下来要看…), not 意味着-style 研报腔.'),
     'zh_awkward_time': ('ZH: replace the awkward colloquial time / policy-path phrase (随后就会直接停手 / 走过场 / '
                         '直接放话 / 打没了) with plain neutral time words (之后 / 12月之后 / 下次会议前).'),
+    'zh_intensifier': ('ZH: 去掉强化词/态度词（直接 / 纯粹 / 根本 / 完全 / 走过场 / 打没了 / 放话 …），情绪靠判断动词带出来；'
+                       '原来用态度顶替的地方换成一句理由（units 里的事实）。'),
     'stance_copy': '不要搬 thesis_lock 的原句和书面词（核心变量、叠加……），用自己的口语重说。',
     'filler_closer': ('Replace the empty closer (Carry on. / Stay tuned. / 拭目以待) with a last line that says '
                       'something: the implication, a verdict, or a pointed question.'),

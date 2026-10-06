@@ -202,7 +202,7 @@ SYSTEM_ZH = """
 3. 句子短。一句只说一件事；按 zh_register.sentence_length 的中位数写（真实账号大约 18-22 个字一句），最长别超过 35 个字，能断就断。例外：第一行的判断句可以带一个短理由，最长约 50 个字（本条优先于上文英文说明里第一行的字数限制）。
 4. 少用研报书面词：意味着、而非、以……为主、基准路径、结构性、实质性、显然、注定、生存空间、从而、进而、鉴于、与此同时、本质上、叠加、核心变量、难以为继、备用选项。要连接就用 zh_register.donor_connectors 里这些账号常用的口语连接词；像锚句那样带一两个口语词（其实、所以、得看、说实话、吧）就够，别堆。
 5. 不替别人说话：不写「很多人认为」「市场普遍认为」「大家都觉得」「很多人据此认为」这类别人怎么想的句子（除非 units 里有这个证据），直接说自己的判断。
-6. 不用 AI 套话：「不是X，而是Y」及其问句版（「只是…？人家这是…」「你以为…？其实…」）、「与其说X不如说Y」「理由听起来很完美」「看似合理」「归根结底」「不难发现」都不要写；也别堆「死死」「死磕」「狠狠」「拉满」这类夸张词（真实账号很少用）；不用「彻底」「根本」「注定」「必然」「完全」这类绝对化副词，除非 units 原文就这么说。
+6. 不用 AI 套话：「不是X，而是Y」及其问句版（「只是…？人家这是…」「你以为…？其实…」）、「与其说X不如说Y」「理由听起来很完美」「看似合理」「归根结底」「不难发现」都不要写；也别堆「死死」「死磕」「狠狠」「拉满」这类夸张词（真实账号很少用）；不用「彻底」「根本」「注定」「必然」「完全」这类绝对化副词，除非 units 原文就这么说；也别拿近义的强化词顶上（直接、纯粹、一点都不、毫无、砸到、放话）。情绪靠判断动词带出来，不靠夸张、反讽或强化词；该解释的地方给理由，不给态度。
 7. zh_register.register_anchors 是这类账号参考的真实中文博主的原句，只用来对齐语气、句子长短和用词习惯。不要照抄其中任何词句，也不要借用里面的内容、数字或观点。
 8. 开头：第一句照样是明确的判断，但用 zh_register.opening_move 指定的开头动作（没指定 question 就不要用反问开头；全文最多一个反问句）。不要用「别…/不要…/别指望/别被」这种祈使句开头（真实账号里不到 1% 这样开头）；情绪靠判断里的词带出来。也不要跟 zh_register.recent_openers 用同一种开头。
 9. 时间：units 的 date_label 是数据所属的时间。标了 historical 的单元说清楚是哪个月/哪天的数据（如「8月的数据」「上周公布的」），但它仍是手上最新的一期，不要写成「回看历史」「当时」。时间和政策路径用平实词（之后、12月之后、下次会议前），不要写「随后就会直接停手」「接下来纯粹是走过场」「直接放话」「打没了」这类别扭说法。
@@ -602,6 +602,32 @@ def awkward_time_findings(body, lang='zh'):
         return []
     hits = [w for w in AWKWARD_TIME if w in body]   # substring test: overlapping phrases all reported
     return [{'code': 'zh_awkward_time', 'detail': '别扭的时间/路径说法: ' + '、'.join(hits)}] if hits else []
+
+
+# ---------------- intensifier density (Oct 6 v11) ----------------
+# Root cause #3: attitude words stood in for the explanation. Per 1k CJK chars: donors 1.5, ZH drafts
+# v2-v6 9.0, v7+ 19.6. Flag above 5 per 1k (at least 2 hits, so one 直接 in a 150-char post does not
+# fire a regen on its own), or any of the slang ones.
+INTENSIFIER_WORDS = ('直接', '纯粹', '根本', '完全', '彻底', '一点都不', '一点也不', '毫无')
+INTENSIFIER_SLANG = ('走过场', '打没了', '砸到', '放话', '死死', '死磕', '狠狠')
+INTENSIFIER_DENSITY_MAX = 5.0
+
+
+def intensifier_findings(body, lang='zh'):
+    """SOFT zh_intensifier: attitude / intensifier words above donor density, or any slang one."""
+    if lang != 'zh' or not body:
+        return []
+    n = len(CJK.findall(str(body)))
+    if not n:
+        return []
+    hits = [w for w in INTENSIFIER_WORDS + INTENSIFIER_SLANG for _ in range(str(body).count(w))]
+    slang = [w for w in INTENSIFIER_SLANG if w in body]
+    per_1k = round(len(hits) / (n / 1000), 1)
+    if slang or (len(hits) >= 2 and per_1k > INTENSIFIER_DENSITY_MAX):
+        return [{'code': 'zh_intensifier',
+                 'detail': f"强化词/态度词 {'、'.join(dict.fromkeys(hits))}（{per_1k}/千字，donor 约 1.5）"
+                           + (f"；俚语 {'、'.join(slang)}" if slang else '')}]
+    return []
 
 
 # ---------------- number coverage (Oct 6 v11) ----------------

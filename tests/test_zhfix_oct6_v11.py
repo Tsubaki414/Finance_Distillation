@@ -252,3 +252,61 @@ def test_en_compose_instructions_unchanged(monkeypatch, tmp_path):
     assert 'why_line' not in p and 'pack_roles' not in p and 'zh_register' not in p
     assert p['stance']['why_line'].startswith('Payrolls')          # optional support inside the stance only
     assert fake.systems['compose'][0] == compose.COMPOSE
+
+
+# ---------------- fix 3: ZH emotion low, no irony / exaggeration, intensifier density ----------------
+
+from live import emotion_contract as ec, qa_levels   # noqa: E402
+
+
+@pytest.mark.parametrize('account', ['zh_macro', 'zh_industry'])
+def test_zh_personas_low_tier_target_two(account):
+    assert ec.persona_tier(account) == 'low'
+    brief = ec.build_emotion_brief([POOL[3]], {'account_view': '美联储暂时不急着加息'}, lang='zh', account_id=account)
+    assert brief['target_intensity'] == 2
+    assert not {'light exaggeration', 'irony', 'rhetorical question'} & set(brief['allowed_devices'])
+    assert brief['zh_rule'] == ec.ZH_EMOTION_RULE and '反讽' in brief['zh_rule']
+    assert 'irony or a rhetorical jab' not in brief['required_effect']
+
+
+def test_zh_high_tier_brief_never_invites_irony_and_en_unchanged():
+    zh = ec.build_emotion_brief([POOL[3]], {'account_view': 'x'}, lang='zh', account_id='crypto_macro_zh')
+    assert 'irony or a rhetorical jab' not in zh['required_effect'] and 'irony' not in zh['allowed_devices']
+    en = ec.build_emotion_brief([POOL[3]], {'account_view': 'x'}, lang='en', account_id='crypto_macro_en')
+    assert 'irony' in en['allowed_devices'] and 'light exaggeration' in en['allowed_devices']
+    assert 'zh_rule' not in en
+
+
+def test_system_zh_says_emotion_via_judgment_verbs():
+    assert '情绪靠判断动词带出来' in zr.SYSTEM_ZH and '反讽' in zr.SYSTEM_ZH
+
+
+def test_intensifier_density_finding():
+    v9a = ('此次加息后美联储其实一点都不急着继续动手，接下来纯粹是走过场看数据\n'
+           '纽约联储主席Williams直接放话毫无紧迫性，哪怕核心PCE还在3.0%的高位挂着\n'
+           '官方对通胀指标的无视，说明市场短期内继续收紧的预期已经打没了。')
+    f = zr.intensifier_findings(v9a)
+    assert f and f[0]['code'] == 'zh_intensifier' and '走过场' in f[0]['detail']
+    dense = '数据很差。降息根本没戏，完全看不到。直接停手。'
+    assert zr.intensifier_findings(dense)
+    plain = '美联储暂时不急着再加息。\n因为9月新增就业只有2.9万，远低于预期。\n对市场来说，10月加息的概率已经掉到22%。'
+    assert zr.intensifier_findings(plain) == []
+    one = plain + '\n这次就业数据直接改变了节奏，之后几周看通胀和工资，短端利率的压力也会小一些。'
+    assert zr.intensifier_findings(one) == []        # a single 直接 in a normal post is not a finding
+    assert zr.intensifier_findings(v9a, 'en') == []
+    assert qa_levels.level({'code': 'zh_intensifier'}, frame_found=False) == 'soft'
+    assert 'zh_intensifier' in qa_levels.FIXES
+
+
+def test_intensifier_joins_single_structure_regen(monkeypatch, tmp_path):
+    _iso(monkeypatch, tmp_path)
+    from tests.test_compose import SOURCE as CSOURCE
+    from tests.test_zh_register_oct6_v5 import SeqFake, STANCE
+    loud = '存储这轮紧缺还没完。\n因为厂商一点都不想扩产，价格纯粹是被推上去的，直接涨。\n对下游来说，采购节奏得跟着改。'
+    calm = '存储这轮紧缺还没完。\n因为厂商就是不想扩产，价格其实还在涨。\n对下游来说，采购节奏得跟着改。'
+    fake = SeqFake([loud, calm])
+    result = compose.compose_source(CSOURCE, 'zh_industry', fake, post_type='data_take',
+                                    stance_output=dict(STANCE), emotion_contract=False)
+    sr = result['structure_retry']
+    assert 'zh_intensifier' in {f['code'] for f in sr['first_findings']} and sr['kept'] == 'retry'
+    assert len([p for p in fake.payloads if str(p.get('rewrite_note', '')).startswith('[structure_repair]')]) == 1

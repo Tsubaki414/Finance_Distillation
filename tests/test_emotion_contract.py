@@ -46,7 +46,7 @@ def test_compose_includes_emotion_brief_mid_no_force():
                 return {'text': json.dumps(self.units), 'finish_reason': 'stop', 'model': 'fake'}
             payload = json.loads(messages[-1]['content'])
             assert 'emotion_brief' in payload and payload['emotion_brief']['target_intensity'] >= 2
-            assert payload['emotion_brief'].get('tier') == 'mid'
+            assert payload['emotion_brief'].get('tier') == 'low'   # v11: zh_industry mid -> low
             assert payload['emotion_brief'].get('emotion_retry') is False
             ids = [u['unit_id'] for u in payload['units']]
             body = '供给端的克制会延续，短期内很难看到过剩。\n' + GOOD_BODY
@@ -56,5 +56,5 @@ def test_compose_includes_emotion_brief_mid_no_force():
 
     result, fake = run(Alternating(), post_type='data_take', account='zh_industry')
     assert 'emotion_brief' in result
-    assert result['emotion_brief']['tier'] == 'mid'
+    assert result['emotion_brief']['tier'] == 'low'
     assert result['draft_status'] == 'draft_ready'

@@ -99,6 +99,16 @@ REQUIRED_EFFECT = {
 }
 
 
+# v11 (Oct 6 root cause #3): ZH drafts used attitude instead of explanation (走过场 / 打没了 / 直接放话,
+# intensifiers 19.6 per 1k CJK chars vs donors 1.5). ZH briefs never invite irony, a jab or
+# exaggeration; the emotion rides on the judgment verb.
+ZH_NO_DEVICES = ('light exaggeration', 'irony')
+ZH_EMOTION_RULE = '情绪靠判断动词带出来，不靠夸张、反讽或强化词（直接、纯粹、根本、完全、彻底、一点都不、毫无）。'
+REQUIRED_EFFECT_ZH_HIGH = ('Line 1 is the thesis_lock call said WITH the dominant emotion, carried by an emotion-bearing '
+                           'judgment verb and a short framing - no irony, no jab, no exaggeration or intensifiers; never a '
+                           'neutral restatement of thesis_lock. The reader must feel the author react in the first two lines.')
+
+
 def _score_text(text, markers):
     """Count marker hits; EN short tokens use word boundaries so 'odd' ≠ 'odds'."""
     low = (text or '').casefold()
@@ -196,11 +206,14 @@ def build_emotion_brief(units, stance, *, source=None, lang='en', account_id=Non
         'tier': (policy or {}).get('tier'),
         'emotion_retry': bool((policy or {}).get('emotion_retry')),
         'source_high_energy_lines': energetic,
-        'required_effect': REQUIRED_EFFECT.get((policy or {}).get('tier'), REQUIRED_EFFECT[None]),
+        'required_effect': (REQUIRED_EFFECT_ZH_HIGH if lang == 'zh' and (policy or {}).get('tier') == 'high'
+                            else REQUIRED_EFFECT.get((policy or {}).get('tier'), REQUIRED_EFFECT[None])),
         # v9: ZH drops 'rhetorical question' (v7/v8 ZH openers ran 3/4 and 1/2 questions; donors ~6%).
+        # v11: ZH also drops 'light exaggeration' and 'irony' (ZH_NO_DEVICES).
         'allowed_devices': [d for d in ('short lines', 'rhetorical question', 'light exaggeration',
                                         'irony', 'rhythm break', 'emotion-bearing judgment verbs')
-                            if not (lang == 'zh' and d == 'rhetorical question')],
+                            if not (lang == 'zh' and (d == 'rhetorical question' or d in ZH_NO_DEVICES))],
+        **({'zh_rule': ZH_EMOTION_RULE} if lang == 'zh' else {}),
         'boundary': 'Amplify emotion and rhetoric; never amplify fact certainty or invent lived experience.',
         'lang': 'zh' if lang == 'zh' else 'en',
     }

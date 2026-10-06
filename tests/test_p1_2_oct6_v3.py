@@ -187,7 +187,7 @@ def test_zh_doubt_vocabulary_detected():
 
 
 def test_required_effect_differs_by_tier():
-    mid = ec.build_emotion_brief(WARY_MACRO, {'account_view': 'x'}, lang='zh', account_id='zh_macro')
+    mid = ec.build_emotion_brief(WARY_MACRO, {'account_view': 'x'}, lang='en', account_id='en_industry')   # v11: zh_macro is low
     high = ec.build_emotion_brief(WARY_MACRO, {'account_view': 'x'}, lang='en', account_id='trading_shortterm')
     assert 'thesis_lock call carrying one clear reaction' in mid['required_effect']
     assert 'WITH the dominant emotion' in high['required_effect']
