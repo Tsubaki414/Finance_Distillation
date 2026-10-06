@@ -60,7 +60,7 @@ def record_draft(persona_id, text, *, meta=None):
            'tickers': meta.get('tickers', tickers), 'closing': text.strip().splitlines()[-1][-40:] if text.strip() else ''}
     if meta.get('draft_id'):
         row['draft_id'] = meta['draft_id']
-    for key in ('shape', 'skeleton'):   # structure-variety history (live/compose_shapes.py)
+    for key in ('shape', 'skeleton', 'account_view', 'source_hash'):   # structure / theme history
         if meta.get(key):
             row[key] = meta[key]
     rows = load_recent(persona_id, 29) + [row]
@@ -134,6 +134,95 @@ def verify_source(body, units=None, source=None):
 MIN_HISTORY = 3
 
 
+# Oct 6 v5 PM: en_industry v5 "The open question is who actually captures the volume" repeated v4
+# "But who actually captures the volume?" - not caught because the history had 2 rows (< MIN_HISTORY)
+# and the 3-gram check is gated. phrase_repeat runs from the first prior draft, with longer grams
+# (EN 5 words / ZH 6 chars), fact vocabulary removed, and skips drafts of the same source (re-smoke).
+PHRASE_EN_WORDS = 5
+PHRASE_ZH_CHARS = 6
+
+
+def _phrase_grams(text, units):
+    for unit in units or []:
+        unit = unit.get('unit') or unit
+        for number in unit.get('numbers') or []:
+            metric = str(number.get('metric') or '')
+            if metric:
+                text = re.sub(re.escape(metric), ' ', text, flags=re.I)
+    text = re.sub(r'\d+(?:[.,:/%-]\d+)*%?', ' ', text)
+    grams = set()
+    for run in re.findall(r'[\u4e00-\u9fff]+', text):
+        n = PHRASE_ZH_CHARS
+        grams.update(run[i:i + n] for i in range(len(run) - n + 1))
+    for run in re.split(r"[^a-zA-Z\s']+", text):
+        words = run.lower().split()
+        n = PHRASE_EN_WORDS
+        grams.update(' '.join(words[i:i + n]) for i in range(len(words) - n + 1))
+    return grams
+
+
+def phrase_repeat_findings(body, recent, units=None, source_hash=None):
+    if not recent:
+        return []
+    grams = _phrase_grams(body, units)
+    for unit in units or []:   # wording that comes from the evidence itself is not a style repeat
+        unit = unit.get('unit') or unit
+        evidence = str(unit.get('statement') or '') + ' ' + ' '.join(
+            str(sp.get('exact_text') or '') for sp in unit.get('source_spans', []) if isinstance(sp, dict))
+        grams -= _phrase_grams(evidence, [])
+    for row in reversed(recent[-30:]):
+        if source_hash and row.get('source_hash') == source_hash:
+            continue
+        if row.get('text', '').strip() == body.strip():
+            continue
+        shared = grams & _phrase_grams(row['text'], units)
+        if shared:
+            return [{'code': 'phrase_repeat', 'detail': f"phrase from a recent draft: {sorted(shared)[0]!r}"}]
+    return []
+
+
+# Theme repeat (v5 PM: zh_industry wrote 财富集中 again from a different source). Generic concept
+# tokens do not count as a shared theme.
+GENERIC_THEME = frozenset({'@path', '@rates', '@ai', '@expectations', '@outlook', 'market', 'marke'})
+THEME_SUBJECT_MIN = 0.6
+THEME_TEXT_MIN = 0.3
+THEME_WINDOW = 3
+
+
+def _theme(subject, text):
+    from live.view_ledger import _tokens
+    subj = _tokens(str(subject or '')) - GENERIC_THEME
+    return subj, subj | (_tokens(str(text or '')) - GENERIC_THEME)
+
+
+def _overlap_min(a, b):
+    return len(a & b) / max(1, min(len(a), len(b))) if a and b else 0.0
+
+
+def theme_overlap(subject, text, row):
+    """(subject overlap, subject+call overlap) between a call and a history row."""
+    s1, t1 = _theme(subject, text)
+    first = (row.get('text') or '').strip().splitlines()[0] if (row.get('text') or '').strip() else ''
+    s2, t2 = _theme(row.get('subject'), row.get('account_view') or first)
+    return round(_overlap_min(s1, s2), 2), round(_overlap_min(t1, t2), 2)
+
+
+def theme_findings(stance, recent, n=THEME_WINDOW):
+    """SOFT theme_repeat: this call's subject / entity strongly overlaps one of the persona's last n drafts."""
+    stance = stance or {}
+    subject = (stance.get('view') or {}).get('subject') or stance.get('subject')
+    if not subject and not stance.get('account_view'):
+        return []
+    for row in reversed((recent or [])[-n:]):
+        subj, text = theme_overlap(subject, stance.get('account_view'), row)
+        if subj >= THEME_SUBJECT_MIN or text >= THEME_TEXT_MIN:
+            link = (stance.get('continuity') or {}).get('link')
+            return [{'code': 'theme_repeat',
+                     'detail': f"same theme as recent draft ({row.get('subject') or row.get('text', '')[:40]}); "
+                               f"subject overlap {subj}, call overlap {text}" + (f"; ledger link: {link}" if link else '')}]
+    return []
+
+
 def findings(body, persona_id, *, units=None, stance=None, source=None, now=None, recent=None):
     out = [{'code': 'phrase_ban', 'detail': phrase} for phrase in ZH + EN if phrase.casefold() in body.casefold()]
     if re.search(r'这才是[^。！？\n]{1,30}的地方', body):
@@ -142,6 +231,7 @@ def findings(body, persona_id, *, units=None, stance=None, source=None, now=None
     if label:
         out.append({'code': 'judgment_label', 'detail': label.group(0).strip() or '我的判断：'})
     recent = load_recent(persona_id) if recent is None else recent
+    out += phrase_repeat_findings(body, recent, units, (source or {}).get('source_hash'))
     if len(recent) < MIN_HISTORY:
         return out + verify_source(body, units, source)
     grams, closing = _style_tokens(body, units), _closing(body, units)

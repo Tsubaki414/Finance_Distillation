@@ -343,6 +343,22 @@ def thread_padding_findings(body, shape):
     return out
 
 
+_FILLER_EN = re.compile(r"^\W*(?:carry on|stay tuned|time will tell|we(?:'ll| will) see|let'?s see|buckle up|watch this space|"
+                        r"enough said|nuff said|just saying|game on|you'?ve been warned|over to you|food for thought|"
+                        r"make of (?:that|this) what you will)\W*$", re.I)
+_FILLER_ZH = re.compile(r'拭目以待|静观其变|敬请期待|走着瞧|且看后续|让子弹飞一会|边走边看|咱们拭目|留给时间|交给时间|时间会给出答案')
+
+
+def filler_closer_findings(body):
+    """SOFT filler_closer: the post ends on an empty verdict (v5 en_macro "Carry on.", 拭目以待)."""
+    last = _last_sentence(body)
+    if not last:
+        return []
+    if _FILLER_EN.search(last) or (len(last) <= 30 and _FILLER_ZH.search(last)):
+        return [{'code': 'filler_closer', 'detail': f'ends on filler "{last.strip()[:40]}"'}]
+    return []
+
+
 def number_run_findings(body, shape_id=None):
     """SOFT: >=3 consecutive number lines (罗列), or >2 number lines outside data_punch."""
     sk = skeleton(body)

@@ -19,7 +19,8 @@ SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_u
                   'trade_reco_soft', 'author_identity', 'code_fence', 'translated_quote', 'exemplar_phrase_copied', 'research_summary', 'certainty_overreach', 'contradicts_prior_view', 'ignores_prior_view', 'view_not_recorded', 'cross_persona_claim_duplicate', 'thesis_grounding', 'emotion_drop', 'emotion_overfire', 'thin_judgment_pack', 'stylistic_repeat', 'judgment_label', 'phrase_ban', 'duplicate_topic', 'verify_source', 'info_dump', 'stance_cadence', 'verbatim_line1',
                   'direction_drift_unmarked', 'generic_credit_in_body',
                   'structure_repeat', 'shape_mismatch', 'number_run', 'internal_contradiction', 'hedged_opener',
-                  'zh_register', 'market_feeling', 'thread_padding', 'revise_off_topic'})
+                  'zh_register', 'market_feeling', 'thread_padding', 'revise_off_topic',
+                  'phrase_repeat', 'theme_repeat', 'filler_closer'})
 FIXES = {
     'stylistic_repeat': 'Vary the repeated stylistic phrase and closing; retain source facts.',
     'judgment_label': 'Drop the 「我的判断：」/「以我个人判断，」/「个人判断：」 label; state the judgment directly as a plain sentence.',
@@ -64,6 +65,12 @@ FIXES = {
                        '(每段都要有新信息); if there is nothing new, write it shorter.'),
     'revise_off_topic': ('The revise link pointed at a prior call on a different subject; it was dropped - revise '
                          'only the earlier call on the same subject.'),
+    'phrase_repeat': ('Reword the phrase this persona already used in a recent draft (cross-batch repeat); '
+                      'keep the call and facts, say it in new words.'),
+    'theme_repeat': ('Same theme / entity as a recent draft of this persona: pick a fresh source or add a clearly '
+                     'new beat; flagged for the editor, no rewrite can fix the topic choice.'),
+    'filler_closer': ('Replace the empty closer (Carry on. / Stay tuned. / 拭目以待) with a last line that says '
+                      'something: the implication, a verdict, or a pointed question.'),
     'research_summary': 'Write it as a post, not a research note: one call, one or two numbers, no lists.',
     'length_out_of_range': 'Trim or extend toward the post type length range.',
     'exemplar_phrase_copied': 'Rephrase: style exemplars are for voice only, never for wording.',

@@ -266,3 +266,60 @@ def test_continue_from_exclusions_accumulate(tmp_path):
     assert demo.continue_batch(a, b) == {'src-a', 'src-a-t'}
     c.mkdir()
     assert demo.continue_batch(b, c) == {'src-a', 'src-a-t', 'src-b', 'src-b-t'}
+
+
+# ---------- v5 PM follow-up: cross-batch phrase repeat, theme repeat, filler closers ----------
+
+def test_phrase_repeat_runs_with_short_history():
+    from live import anti_repeat as ar
+    recent = [{'text': 'Customer agreements are not margins.\nBut who actually captures the volume?', 'source_hash': 'v4'}]
+    body = 'Supply discipline is unproven.\nThe open question is who actually captures the volume'
+    found = ar.findings(body, 'en_industry', recent=recent)
+    assert any(f['code'] == 'phrase_repeat' and 'who actually captures the volume' in f['detail'] for f in found)
+    # same source (re-smoke) and wording that comes from the evidence are not repeats
+    assert ar.phrase_repeat_findings(body, [dict(recent[0], source_hash='s1')], source_hash='s1') == []
+    unit = {'kind': 'fact', 'statement': 'Analysts ask who actually captures the volume', 'source_spans': []}
+    assert ar.phrase_repeat_findings(body, recent, units=[unit]) == []
+
+
+def test_phrase_repeat_zh_six_chars():
+    from live import anti_repeat as ar
+    recent = [{'text': '这轮存储紧缺还没完，厂商就是不想扩产。'}]
+    assert ar.phrase_repeat_findings('存储涨价还会延续，厂商就是不想扩产。', recent)
+    assert ar.phrase_repeat_findings('存储涨价还会延续。', recent) == []
+
+
+def test_theme_repeat_flags_same_theme_different_source():
+    from live import anti_repeat as ar
+    recent = [{'subject': 'sustainability of ai-driven wealth concentration',
+               'text': 'AI驱动的财富集中已触及上限，举债和回报的缺口在压缩估值溢价。'}]
+    stance = {'account_view': 'AI投资举债已经甩开商业回报，科技财富集中撑不住这轮估值溢价。',
+              'view': {'subject': 'AI驱动财富集中的可持续性'}}
+    assert ar.theme_findings(stance, recent)[0]['code'] == 'theme_repeat'
+    other = {'account_view': '网络设备需求还会走强。', 'view': {'subject': 'AI networking demand'}}
+    assert ar.theme_findings(other, recent) == []
+
+
+def test_selection_prefers_fresh_theme():
+    from scripts import demo_matrix_compose as demo
+    def grp(subject):
+        return [{'unit': {'kind': 'view', 'statement': subject, 'view': {'subject': subject}}, 'unit_id': subject}]
+    recent = [{'subject': 'micron technology ai memory revenue trajectory', 'text': 'Micron AI memory revenue is durable.'}]
+    assert demo.group_theme_repeat(grp('Micron Technology AI memory revenue trajectory'), recent)
+    assert not demo.group_theme_repeat(grp('Broadcom custom accelerator orders'), recent)
+
+
+@pytest.mark.parametrize('body', ['The cycle is ending.\nCarry on.', 'Rates stay high.\nStay tuned!',
+                                  '降息还早。\n让我们拭目以待。', 'Yields matter.\nTime will tell.'])
+def test_filler_closer_flagged(body):
+    assert cs.filler_closer_findings(body)[0]['code'] == 'filler_closer'
+
+
+def test_real_closer_not_flagged():
+    assert cs.filler_closer_findings('The cycle is ending.\nPushing the next hike to December is the tell.') == []
+    assert cs.filler_closer_findings('降息还早。\n汇率一强，央行就不急。') == []
+
+
+def test_prompts_carry_evidence_link_rule():
+    from live import stance
+    assert 'directly carry the call' in stance.STANCE and 'Evidence link' in compose.COMPOSE

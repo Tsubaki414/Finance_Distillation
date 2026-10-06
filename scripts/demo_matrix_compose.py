@@ -79,7 +79,21 @@ def ranked_balanced(groups, now=None):
     return sorted(balanced_groups, key=lambda g: -group_freshness(g, now))
 
 
-def select_groups(store, accounts, selection=None, exclude_sources=()):
+def group_theme_repeat(group, recent):
+    """True when the packet's view subjects strongly overlap one of the persona's last drafts
+    (Oct 6 v5: zh_industry wrote 财富集中 again from a different source)."""
+    from live import anti_repeat
+    views = [r['unit'] for r in group if isinstance(r['unit'].get('view'), dict)]
+    subjects = ' '.join(str(u['view'].get('subject') or '') for u in views)
+    statements = ' '.join(str(u.get('statement') or '') for u in views)
+    for row in (recent or [])[-anti_repeat.THEME_WINDOW:]:
+        subj, text = anti_repeat.theme_overlap(subjects, statements, row)
+        if subj >= anti_repeat.THEME_SUBJECT_MIN or text >= anti_repeat.THEME_TEXT_MIN:
+            return True
+    return False
+
+
+def select_groups(store, accounts, selection=None, exclude_sources=(), recent=None):
     """Pick one balanced (view + fact) packet per account; ZH prefers its OWN source.
 
     Oct 6 v2: sharing the EN source made both ZH slots HOLD (same conclusion, same source).
@@ -89,7 +103,9 @@ def select_groups(store, accounts, selection=None, exclude_sources=()):
     (slice must stay balanced). Without a different view the slice is kept as-is and marked
     ``shared_same_angle`` so claim arbitration can HOLD the genuine duplicate.
     ``selection`` (optional dict) receives {account: {'mode', 'source_id', ...}}.
+    ``recent`` (optional {account: history rows}): packets repeating a recent theme rank last.
     """
+    recent = recent or {}
     selection = {} if selection is None else selection
     grouped = {}
     for account in accounts:
@@ -105,10 +121,13 @@ def select_groups(store, accounts, selection=None, exclude_sources=()):
 
     def ranked(account, exclude=()):
         # Oct 6 v4: freshness weight (en_industry used a 9/17 commentary source on 10/6).
-        return ranked_balanced([g for k, g in grouped[account].items() if k not in exclude])
+        options = ranked_balanced([g for k, g in grouped[account].items() if k not in exclude])
+        # v5: prefer a fresh theme over the persona's last drafts (stable sort keeps freshness order)
+        return sorted(options, key=lambda g: group_theme_repeat(g, recent.get(account)))
 
     def note(account, mode, group, **extra):
         selection[account] = {'mode': mode, 'source_id': group[0]['source'].get('id') if group else None,
+                              'theme_repeat': group_theme_repeat(group, recent.get(account)) if group else False,
                               'zh_native': zh_native(group) if group else False,
                               'freshness': group_freshness(group) if group else None,
                               'published_at': group[0]['source'].get('published_at') if group else None, **extra}
@@ -127,7 +146,7 @@ def select_groups(store, accounts, selection=None, exclude_sources=()):
         own = ranked(zh, exclude={en_key} if en_key else ())
         # ZH-native first among sources that are not past shelf life; a stale native source does
         # not beat a fresh different-angle one.
-        own.sort(key=lambda g: (group_freshness(g) < 1.0, not zh_native(g)))
+        own.sort(key=lambda g: (group_theme_repeat(g, recent.get(zh)), group_freshness(g) < 1.0, not zh_native(g)))
         if own:
             chosen[zh] = own[0]
             note(zh, 'own_zh_native' if zh_native(own[0]) else 'own_different_source', own[0])
@@ -262,7 +281,9 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
     if continue_from:
         notes.append(f'Continues batch {continue_from}: history + view ledgers carried over; '
                      f'{len(exclude_sources)} previous sources excluded.')
-    selected = (select_groups(ContentStore(compose_ab.STORE), accounts, selection, exclude_sources=exclude_sources)
+    recent_rows = {a: anti_repeat.load_recent(registry.persona_for_account(a).persona_id) for a in accounts}
+    selected = (select_groups(ContentStore(compose_ab.STORE), accounts, selection, exclude_sources=exclude_sources,
+                              recent=recent_rows)
                 if client else {})
     if selection:
         notes.append('Selection: ' + json.dumps({a: v['mode'] for a, v in selection.items()}, ensure_ascii=False))

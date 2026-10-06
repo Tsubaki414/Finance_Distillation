@@ -35,3 +35,19 @@ Fix (all soft):
   one structure regeneration. Anchors are added to the copy check.
 - Switches: `zh_register=False` / `FD_ZH_REGISTER=0`; default on only for ZH personas with a
   signature or voice card.
+
+## v5 PM follow-up (soft)
+- `phrase_repeat` (live/anti_repeat.py): cross-batch phrase repeat vs the persona history (EN 5-word /
+  ZH 6-char grams, evidence wording removed, same-source re-smokes skipped). Runs from the first
+  prior draft; the older 3-gram `stylistic_repeat` stays gated by MIN_HISTORY=3, which is why v5
+  en_industry's "who actually captures the volume" (history had 2 rows) was not caught. Joins the
+  anti-repeat regeneration.
+- `theme_repeat`: the call's subject / call text overlaps one of the persona's last 3 drafts
+  (subject ≥0.6 or subject+call ≥0.3, generic concepts like @ai/@rates ignored). Soft only (a rewrite
+  cannot change the topic); the demo selection ranks theme-repeating packets last.
+- `filler_closer`: empty closers ("Carry on.", "Stay tuned.", "Time will tell.", 拭目以待, 静观其变);
+  joins the structure regeneration.
+- Evidence link: STANCE and COMPOSE now say the supporting units must directly carry the call (no
+  leap from one statistic to a different claim, e.g. billionaire wealth share → AI valuation premium).
+  No automatic check: a cheap token-overlap test cannot separate a leap from a valid cross-language
+  link (EN units, ZH call), so this stays a prompt rule plus editor review.

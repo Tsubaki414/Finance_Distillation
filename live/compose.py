@@ -112,6 +112,9 @@ and signature hard_constraints on structure, ending and number count. Never stac
 a number unless composition_shape.id is data_punch: say the mechanism instead of a third number.
 Coherence: every line must agree with line 1 - same direction, same timing and sequence (if line 1 says
 something stops after an event, no later line may say it stops now), no closer that quietly reverses the call.
+Evidence link: every evidence line must directly support line 1 - no leap from one statistic to a different
+claim; if a unit only supports a narrower point, say the narrower point. No filler closers ("Carry on.",
+"Stay tuned.", "Time will tell.", 拭目以待, 静观其变): the last line says something.
 Conviction never licenses anything the units do not contain: no new facts, numbers,
 holdings, trades or calls, and do not upgrade the stance's confidence (may stays may).
 Not a research summary: no set-ups like 拆解一下/具体数据/数据如下 or "let's break it
@@ -974,9 +977,11 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
         findings += compose_shapes.shape_findings(body, shape)
         findings += compose_shapes.hedged_opener_findings(body)
         findings += compose_shapes.thread_padding_findings(body, shape)
+        findings += compose_shapes.filler_closer_findings(body)
         if recent is None:
             recent = anti_repeat.load_recent(persona.persona_id)
         findings += compose_shapes.history_findings(body, recent, shape=shape)
+        findings += anti_repeat.theme_findings(stance, recent)
     findings += internal_contradiction_findings(body)
     if persona.lang == 'zh':
         from live import zh_register as zr
@@ -1525,7 +1530,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     # internal contradiction. One regeneration; keep only if it clears more than it breaks.
     structure_retry = None
     structure_codes = ('shape_mismatch', 'number_run', 'internal_contradiction', 'zh_register', 'market_feeling',
-                       'thread_padding')
+                       'thread_padding', 'filler_closer')
 
     def _structure(b):
         from live.coherence import internal_contradiction_findings
@@ -1534,6 +1539,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             found += compose_shapes.number_run_findings(b, (shape_info or {}).get('id'))
             found += compose_shapes.hedged_opener_findings(b)
             found += compose_shapes.thread_padding_findings(b, shape_info)
+            found += compose_shapes.filler_closer_findings(b)
         if use_zh:   # v5: 研报腔 density / AI template phrases and crowd-feeling attribution, one shared regen
             found += zr.register_findings(b, persona.lang) + zr.market_feeling_findings(b, persona.lang)
         return found + internal_contradiction_findings(b)
@@ -1663,6 +1669,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             findings.append({'code': 'view_not_recorded', 'detail': str(exc), 'level': 'soft'})
     if body:
         anti_repeat.record_draft(persona.persona_id, body, meta={**(stance or {}), 'draft_id': base['id'],
+                                 'source_hash': source.get('source_hash'),
                                  'shape': (shape_info or {}).get('id'),
                                  'skeleton': compose_shapes.skeleton(body, payload['post_type_rules']['body_length'])})
     return {**base, 'stance': stance, 'units': chosen, 'all_units': len(units), 'post_type': post_type,
