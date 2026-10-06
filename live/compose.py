@@ -163,7 +163,19 @@ INFO_DUMP_NUMBERS = 5   # distinct numbers in a judgment body that read as 信�
 INFO_DUMP_CLAUSES = 3   # semicolon / 顿号 separated clauses that carry a figure
 
 
-def info_dump_findings(body, post_type, *, thesis_locked=False):
+def number_budget(shape_block=None):
+    """Oct 6 v9: numbers a body may cite. 3 by default (EVIDENCE_BUDGET); a long data-carrying shape
+    (data_punch promoted to long, short_thread) may cite 4; never more than the shape's own cap
+    except that long promotion. v8zh's long data_punch cited 6 against a budget of 3."""
+    if not shape_block:
+        return EVIDENCE_BUDGET['max_numbers']
+    cap = min(EVIDENCE_BUDGET['max_numbers'], shape_block.get('max_numbers', 3))
+    if shape_block.get('length') == 'long' and shape_block.get('max_numbers', 0) >= 3:
+        cap = 4
+    return cap
+
+
+def info_dump_findings(body, post_type, *, thesis_locked=False, budget_numbers=None):
     """SOFT: a judgment / thesis-locked post that reads as a data dump (never hard-blocks).
 
     Fires for JUDGMENT_TYPES (or when thesis_locked) when the body cites >= INFO_DUMP_NUMBERS
@@ -178,7 +190,7 @@ def info_dump_findings(body, post_type, *, thesis_locked=False):
     clauses = [c for c in re.split(r'[;；、]', body) if re.search(r'\d', c)]
     reasons = []
     if numbers >= INFO_DUMP_NUMBERS:
-        reasons.append(f'{numbers} distinct numbers (budget {EVIDENCE_BUDGET["max_numbers"]})')
+        reasons.append(f'{numbers} distinct numbers (budget {budget_numbers or EVIDENCE_BUDGET["max_numbers"]})')
     if len(clauses) >= INFO_DUMP_CLAUSES:
         reasons.append(f'{len(clauses)} data clauses split by ；/、')
     return [{'code': 'info_dump', 'detail': '; '.join(reasons)}] if reasons else []
@@ -1310,7 +1322,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             payload['thesis_lock'] = stance['account_view']
             payload['evidence_budget'] = dict(EVIDENCE_BUDGET)
             if shape_block:
-                payload['evidence_budget']['max_numbers'] = min(EVIDENCE_BUDGET['max_numbers'], shape_block['max_numbers'])
+                payload['evidence_budget']['max_numbers'] = number_budget(shape_block)
         if pack_balance(chosen)['pure_data'] and stance.get('account_view'):
             payload['pack_guidance'] = ('Line 1 must still be the account call from stance.account_view. '
                                         'Use facts as evidence; do not invent non-fact units.')
@@ -1601,13 +1613,14 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     info_dump_retry = None
     thesis_locked = bool(payload.get('thesis_lock') or (stance and stance.get('account_view')))
     if post_type in JUDGMENT_TYPES or thesis_locked:
-        dump_findings = list(info_dump_findings(body, post_type, thesis_locked=thesis_locked))
+        n_budget = (payload.get('evidence_budget') or {}).get('max_numbers') or EVIDENCE_BUDGET['max_numbers']
+        dump_findings = list(info_dump_findings(body, post_type, thesis_locked=thesis_locked, budget_numbers=n_budget))
         dump_findings += summary_findings(body, persona.lang)
         # data_list may already have been attempted in judgment_retry; still include if present.
         dump_findings += [f for f in judgment_findings(body, stance) if f['code'] == 'data_list']
         if dump_findings:
             note = (
-                '[info_dump_repair] Soft rewrite: keep the same call, drop to at most 3 numbers, '
+                f'[info_dump_repair] Soft rewrite: keep the same call, drop to at most {n_budget} numbers, '
                 'cut data clauses / research-summary lists. Leave surplus units unused. '
                 'Do not invent facts.'
             )
@@ -1620,10 +1633,12 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                 retry_payload['retry_error'] = type(exc).__name__
             body_d = (value_d.get('body') or '').strip()
             if body_d:
-                after_dump = list(info_dump_findings(body_d, post_type, thesis_locked=thesis_locked))
+                after_dump = list(info_dump_findings(body_d, post_type, thesis_locked=thesis_locked, budget_numbers=n_budget))
                 after_dump += summary_findings(body_d, persona.lang)
                 after_dump += [f for f in judgment_findings(body_d, stance) if f['code'] == 'data_list']
-                improved = len(after_dump) < len(dump_findings)
+                # v9: fewer distinct numbers also counts (v8zh: 6 -> still >= 5 was 'no_improvement')
+                improved = (len(after_dump) < len(dump_findings) or
+                            len(set(inventory(body_d))) < len(set(inventory(body))) and len(after_dump) <= len(dump_findings))
                 regression = _guard_codes(body_d, chosen, stance, persona.lang) - _guard_codes(body, chosen, stance, persona.lang)
                 # Also reject if paraphrase of thesis got worse (new verbatim) or judgment lost.
                 after_verb = verbatim_line1_findings(body_d, stance, thesis_lock=thesis_for_line1)

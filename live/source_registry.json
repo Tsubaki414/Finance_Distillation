@@ -713,7 +713,12 @@
       "adapter": "feed",
       "feed_url": "https://libertystreeteconomics.newyorkfed.org/feed/",
       "author": "Liberty Street Economics",
-      "source_type": "newsletter"
+      "source_type": "newsletter",
+      "persona_hints": [
+        "macro_rates_en",
+        "macro_zh"
+      ],
+      "persona_hint_basis": "NY Fed research; persona_tags: macro_rates_en 8.6, macro_zh 6.6 (Oct 6 v9)"
     },
     {
       "id": "lynalden",
@@ -733,7 +738,11 @@
       "adapter": "feed",
       "feed_url": "https://stayathomemacro.substack.com/feed",
       "author": "Claudia Sahm",
-      "source_type": "newsletter"
+      "source_type": "newsletter",
+      "persona_hints": [
+        "macro_rates_en"
+      ],
+      "persona_hint_basis": "all 11 stored units tagged macro_rates_en (Oct 6 v9)"
     },
     {
       "id": "crisesnotes",
@@ -763,7 +772,11 @@
       "adapter": "feed",
       "feed_url": "https://thesemiconductornewsletter.substack.com/feed",
       "author": "The Semiconductor Engineer",
-      "source_type": "newsletter"
+      "source_type": "newsletter",
+      "persona_hints": [
+        "industry_ai_capex"
+      ],
+      "persona_hint_basis": "stored units tagged industry_ai_capex (Oct 6 v9)"
     },
     {
       "id": "tmtb",
@@ -814,7 +827,12 @@
       "adapter": "feed",
       "feed_url": "https://stratechery.com/feed/",
       "author": "Ben Thompson",
-      "source_type": "newsletter"
+      "source_type": "newsletter",
+      "persona_hints": [
+        "zh_us_stock_commentary",
+        "industry_ai_capex"
+      ],
+      "persona_hint_basis": "tech-company strategy; persona_tags: zh_us_stock_commentary 1.64, industry_ai_capex 0.26 (Oct 6 v9)"
     },
     {
       "id": "rbnenergy",

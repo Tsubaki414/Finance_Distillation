@@ -56,6 +56,19 @@ def _store_personas(store=str(ROOT / 'live/store/content_units')):
     counts = {}
     if not path.exists():
         return {}
+    # v9: persona_tags relevance (relevant=1, tangential=0.4, x confidence) beats the unit's single
+    # `personas` label (libertystreet: one article labelled investing_philosophy; tags say macro_rates_en).
+    tags = {}
+    tag_path = Path(store) / 'persona_tags.jsonl'
+    if tag_path.exists():
+        with tag_path.open() as fh:
+            for line in fh:
+                try:
+                    row = json.loads(line)
+                except ValueError:
+                    continue
+                tags[row.get('unit_id')] = row.get('tags') or {}
+    weighted = {}
     with path.open() as fh:
         for line in fh:
             try:
@@ -66,8 +79,17 @@ def _store_personas(store=str(ROOT / 'live/store/content_units')):
             ps = row.get('tag_personas') or row.get('personas') or []
             if sid and ps:
                 counts.setdefault(sid, Counter()).update(ps)
+            for persona, t in (tags.get(row.get('unit_id')) or {}).items():
+                w = {'relevant': 1.0, 'tangential': 0.4}.get((t or {}).get('verdict'), 0) * float((t or {}).get('confidence') or 0)
+                if sid and w:
+                    weighted.setdefault(sid, Counter())[persona] += w
     out = {}
+    for sid, c in weighted.items():
+        top = c.most_common(2)
+        out[sid] = [p for p, v in top if v >= 0.5 * top[0][1]]
     for sid, c in counts.items():
+        if sid in out:
+            continue
         total = sum(c.values())
         out[sid] = [p for p, n in c.most_common(3) if n / total >= 0.2]
     return out

@@ -48,10 +48,13 @@ QFORM_ZH = re.compile(r'(?:只是|仅仅是|不过是|难道是|真的是|是不
                       r'|[吗么][？?]\s*(?:不[，,]|并不|并非|才不|错了|当然不)')
 QFORM_EN = re.compile(r"\b(?:just|only|merely|simply)\b[^?.!\n]{1,50}\?\s*(?:no|nope|not quite|hardly|think again|wrong|not even close)\b"
                       r"|\b(?:you think|think)\b[^?.!\n]{1,50}\?\s*(?:think again|wrong|no)\b"
-                      r"|\?\s*(?:No|Nope)[,.!]\s*(?:it'?s|this is|that'?s|the real)", re.I)
+                      r"|\?\s*(?:No|Nope)[,.!]\s*(?:it'?s|this is|that'?s|the real)"
+                      # v9 imperative variant (v8 en_industry): "Forget X — Y is/are the actual/real ..."
+                      r"|\b(?:forget|ignore|never mind)\b[^.!?\n]{1,140}?[—–:;-]\s*[^.!?\n]{1,180}?\b(?:is|are)\s+(?:the\s+)?(?:actual|real)\b", re.I)
 # v8: intensifiers. Donors 0.11-0.16 per 1k CJK chars; v4-v7 drafts 1.56 (死死 / 死磕 / 拉满).
 INTENSIFIER_STRONG = re.compile(r'死死|死磕|硬生生|彻彻底底|狠狠|血洗|核弹级|爆杀')
 INTENSIFIER = re.compile(r'死死|死磕|硬生生|彻彻底底|狠狠|血洗|核弹级|爆杀|疯狂|暴力|炸裂|拉满')
+OVERCLAIM_ZH = re.compile(r'彻底|注定|必然|必定|势必|板上钉钉|毫无疑问|毋庸置疑')
 COLLOQ = re.compile(r'吧|呢|啊|吗|嘛|呗|啥|咋|挺|估计|感觉|反正|真的|这波|有点|就是|其实|得看|说实话|还行|靠谱|离谱|没戏')
 _SENT = re.compile(r'[。！？!?\n；;]+')
 _PROMO = re.compile(r'返佣|开户|邀请码|注册|链接|抽奖|空投|福利|私信|进群|关注|点赞|转发|评论区|课程|社群|直播|报名|优惠|广告|'
@@ -88,6 +91,9 @@ def register_findings(body, lang='zh'):
     templates += [m.group(0) for m in QFORM_ZH.finditer(body)]   # v8 question-form 不是X而是Y
     parts = []
     strong, allint = INTENSIFIER_STRONG.findall(body), INTENSIFIER.findall(body)
+    over = OVERCLAIM_ZH.findall(body)
+    if over:   # v9: 彻底 / 注定 / 必然 ... (v8zh 「彻底进入了尾声」)
+        parts.append('绝对化副词 ' + '、'.join(dict.fromkeys(over)))
     if strong or len(allint) >= 2:
         parts.append('夸张强化词 ' + '、'.join(dict.fromkeys(allint)) + ' (donors ~0.1/千字)')
     if d['formal_hits'] >= MIN_FORMAL_HITS:
@@ -196,9 +202,9 @@ SYSTEM_ZH = """
 3. 句子短。一句只说一件事；按 zh_register.sentence_length 的中位数写（真实账号大约 18-22 个字一句），最长别超过 35 个字，能断就断。
 4. 少用研报书面词：意味着、而非、以……为主、基准路径、结构性、实质性、显然、注定、生存空间、从而、进而、鉴于、与此同时、本质上、叠加、核心变量、难以为继、备用选项。要连接就用 zh_register.donor_connectors 里这些账号常用的口语连接词；像锚句那样带一两个口语词（其实、所以、得看、说实话、吧）就够，别堆。
 5. 不替别人说话：不写「很多人认为」「市场普遍认为」「大家都觉得」「很多人据此认为」这类别人怎么想的句子（除非 units 里有这个证据），直接说自己的判断。
-6. 不用 AI 套话：「不是X，而是Y」及其问句版（「只是…？人家这是…」「你以为…？其实…」）、「与其说X不如说Y」「理由听起来很完美」「看似合理」「归根结底」「不难发现」都不要写；也别堆「死死」「死磕」「狠狠」「拉满」这类夸张词（真实账号很少用）。
+6. 不用 AI 套话：「不是X，而是Y」及其问句版（「只是…？人家这是…」「你以为…？其实…」）、「与其说X不如说Y」「理由听起来很完美」「看似合理」「归根结底」「不难发现」都不要写；也别堆「死死」「死磕」「狠狠」「拉满」这类夸张词（真实账号很少用）；不用「彻底」「根本」「注定」「必然」「完全」这类绝对化副词，除非 units 原文就这么说。
 7. zh_register.register_anchors 是这类账号参考的真实中文博主的原句，只用来对齐语气、句子长短和用词习惯。不要照抄其中任何词句，也不要借用里面的内容、数字或观点。
-8. 开头：第一句照样是明确的判断，但用 zh_register.opening_move 指定的开头动作。不要用「别…/不要…/别指望/别被」这种祈使句开头（真实账号里不到 1% 这样开头）；情绪靠判断里的词带出来。也不要跟 zh_register.recent_openers 用同一种开头。
+8. 开头：第一句照样是明确的判断，但用 zh_register.opening_move 指定的开头动作（没指定 question 就不要用反问开头；全文最多一个反问句）。不要用「别…/不要…/别指望/别被」这种祈使句开头（真实账号里不到 1% 这样开头）；情绪靠判断里的词带出来。也不要跟 zh_register.recent_openers 用同一种开头。
 9. 时间：units 的 date_label 是数据所属的时间。标了 historical 的单元说清楚是哪个月/哪天的数据（如「8月的数据」「上周公布的」），但它仍是手上最新的一期，不要写成「回看历史」「当时」。
 """.rstrip()
 

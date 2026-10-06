@@ -197,8 +197,10 @@ def build_emotion_brief(units, stance, *, source=None, lang='en', account_id=Non
         'emotion_retry': bool((policy or {}).get('emotion_retry')),
         'source_high_energy_lines': energetic,
         'required_effect': REQUIRED_EFFECT.get((policy or {}).get('tier'), REQUIRED_EFFECT[None]),
-        'allowed_devices': ['short lines', 'rhetorical question', 'light exaggeration',
-                            'irony', 'rhythm break', 'emotion-bearing judgment verbs'],
+        # v9: ZH drops 'rhetorical question' (v7/v8 ZH openers ran 3/4 and 1/2 questions; donors ~6%).
+        'allowed_devices': [d for d in ('short lines', 'rhetorical question', 'light exaggeration',
+                                        'irony', 'rhythm break', 'emotion-bearing judgment verbs')
+                            if not (lang == 'zh' and d == 'rhetorical question')],
         'boundary': 'Amplify emotion and rhetoric; never amplify fact certainty or invent lived experience.',
         'lang': 'zh' if lang == 'zh' else 'en',
     }

@@ -215,12 +215,12 @@ def test_demo_slot_subcaps(tmp_path, monkeypatch):
             raise budget.BudgetExceeded('slot 1 over its share')
         raise RuntimeError('stop after cap check')
     monkeypatch.setattr(demo.compose, 'compose_source', fake_compose)
-    results = demo.run(tmp_path, 2.0, live=True, command='t')
+    results = demo.run(tmp_path, 2.5, live=True, command='t')
     assert calls == list(demo.ACCOUNTS)               # slot 1 refusal did not stop the others
-    assert caps[0] == pytest.approx(2.0 - 3 * demo.SLOT_MIN_USD, abs=0.01)   # later slots keep their floor
+    assert caps[0] == pytest.approx(2.5 - 3 * demo.SLOT_MIN_USD, abs=0.01)   # later slots keep their floor
     assert all(c >= demo.SLOT_MIN_USD - 0.01 for c in caps)
     assert all(r.get('slot_cap_usd') for r in results)
-    assert budget.cap() == 2.0
+    assert budget.cap() == 2.5   # v9: base need per slot; $2.0 would fund only 3 slots (fail loud)
 
 
 def test_zh_account_view_rewrite_small_call():

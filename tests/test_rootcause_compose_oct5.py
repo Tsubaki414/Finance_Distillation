@@ -194,7 +194,9 @@ def test_info_dump_relaxed_to_five_numbers():
 
 def test_info_dump_repair_note_says_three():
     src = Path(compose.__file__).read_text()
-    assert 'drop to at most 3 numbers' in src and 'drop to at most 2 numbers' not in src
+    # Oct 6 v9: the note uses the slot's number budget (3 by default, 4 for long data shapes)
+    assert 'drop to at most {n_budget} numbers' in src and 'drop to at most 2 numbers' not in src
+    assert compose.number_budget() == 3
     assert 'at most 3 numbers' in qa_levels.FIXES['info_dump']
 
 

@@ -50,10 +50,15 @@ def test_budget_probe_failure_fills_slots(tmp_path, monkeypatch):
         raise budget.BudgetExceeded('refused before request')
 
     monkeypatch.setattr(demo.compose, 'compose_source', boom)
+    # v9: a cap that cannot fund the slots fails loud up front; nothing is attempted or faked
     results = demo.run(tmp_path, .01, live=True)
     assert len(results) == 4
-    assert all(r['synthetic'] for r in results)
-    assert 'BudgetExceeded' in (tmp_path / 'SUMMARY.md').read_text()
+    assert all(r['mode'] == 'error' and r['error_kind'] == 'unfunded' and not r['synthetic'] for r in results)
+    assert 'FAIL LOUD' in (tmp_path / 'SUMMARY.md').read_text()
+    # funded slots whose calls are refused become explicit error rows (not synthetic drafts)
+    results = demo.run(tmp_path / 'b', 2.5, live=True)
+    assert all(r['mode'] == 'error' and r['error_kind'] == 'budget' for r in results)
+    assert 'BudgetExceeded' in (tmp_path / 'b' / 'SUMMARY.md').read_text()
 
 
 def test_disabled_accounts_are_skipped(tmp_path, monkeypatch):
@@ -97,7 +102,7 @@ def test_live_uses_direct_compose_and_adds_synthetic_hold(tmp_path, monkeypatch)
                     units=[], draft_status='draft_ready', status='held')
 
     monkeypatch.setattr(demo.compose, 'compose_source', direct_compose)
-    results = demo.run(tmp_path, 2, live=True)
+    results = demo.run(tmp_path, 2.5, live=True)
     assert calls == list(demo.ACCOUNTS)
     assert all(r['mode'] == 'live' and not r['publishable'] for r in results)
     assert all(r['arbitration']['status'] == 'WRITE' for r in results)
