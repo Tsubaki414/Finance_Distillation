@@ -206,3 +206,15 @@ def test_direction_hedge_prefix_coerced():
     from live.content_units import coerce_view
     v = coerce_view({'direction': 'conditionally_bullish', 'subject': 'x', 'conviction': 'medium', 'horizon': 'quarters'})
     assert v['direction'] == 'bullish'
+
+
+def test_stance_soft_contracts():
+    from live.stance import _validate_stance_value
+    view = {'direction': 'higher', 'subject': 'Fed policy rate', 'conviction': 'medium', 'horizon': 'months',
+            'reasoning': ['Williams said no urgency.']}
+    unit = {'unit_id': 'u1', 'source_spans': [{'exact_text': 'Williams said no urgency.'}], 'view': view}
+    value = {'decision': 'adapt', 'account_view': '美联储不急着再加息。', 'supporting_unit_ids': ['u1'],
+             'rationale': 'r', 'confidence': 0.6, 'view': dict(view), 'revises_view_id': 'cu-not-a-view'}
+    out = _validate_stance_value(value, unit, view, [], {'u1'})
+    assert out['decision'] == 'take' and out['adapt_unchanged']
+    assert out['revises_view_id'] is None and out['revises_view_id_dropped'] == 'cu-not-a-view'

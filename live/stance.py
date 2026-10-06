@@ -210,9 +210,13 @@ def _validate_stance_value(value, view_unit, view, prior, allowed):
         revised = validate_view(value.get('view'), view_unit.get('source_spans'), require_trace=False,
                                 source_or_unit=view_unit, number_warnings=True)
         value['view'] = revised
-        require(any(revised[k] != view[k] for k in ('direction', 'conviction', 'horizon')) or
-                bool(revised.get('conditions')) and revised.get('conditions') != view.get('conditions'),
-                'stance: adapt must change view')
+        changed = (any(revised[k] != view[k] for k in ('direction', 'conviction', 'horizon')) or
+                   bool(revised.get('conditions')) and revised.get('conditions') != view.get('conditions'))
+        if not changed:
+            # Oct 6 v8: soft. v8_zf zh_macro went synthetic on 'adapt must change view'; an adapt that
+            # keeps the source view IS a take - relabel and report instead of failing the slot.
+            value['decision'] = 'take'
+            value['adapt_unchanged'] = True
     return value
 
 
