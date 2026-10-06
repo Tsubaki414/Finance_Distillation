@@ -36,3 +36,14 @@ def test_ask_keeps_strict_parse_for_other_stages():
     with pytest.raises(Exception, match='Expected one JSON object'):
         compose._ask(client, 'compose', 'system', {'x': 1}, 100, [], sleep=lambda s: None)
     assert calls == ['compose'] * 3
+
+
+def test_ask_repairs_bare_cjk_quotes_in_stance_first_try():
+    # Oct 6 zhfix pack: a ZH why_line quoted 无需紧迫行动 with bare ASCII quotes; strict parse
+    # resent the full stance call (~$0.42 reservation) and the slot sub-cap refused it.
+    text = '```json\n{"decision": "take", "why_line": "威廉姆斯表示9月加息后"无需紧迫行动"，再看数据。"}\n```'
+    client, calls = _client(text)
+    value, _ = compose._ask(client, 'stance', 'system', {'x': 1}, 100, [], sleep=lambda s: None)
+    assert value['why_line'] == '威廉姆斯表示9月加息后"无需紧迫行动"，再看数据。' and calls == ['stance']
+    with pytest.raises(Exception):
+        compose._ask(*_client(text)[:1], 'compose', 'system', {'x': 1}, 100, [], sleep=lambda s: None)

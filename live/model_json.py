@@ -1,8 +1,10 @@
 """One JSON object, optionally fenced. Never discard prose outside the object.
 
 Models sometimes copy CJK text whose “curly” quotes they normalise to bare ASCII
-quotes inside a JSON string. parse_object(repair_quotes=True) — used only by
-EXTRACT, whose output is re-validated span by span — repairs only that case: on an
+quotes inside a JSON string. parse_object(repair_quotes=True) — used by EXTRACT,
+whose output is re-validated span by span, and by STANCE (Oct 6: zh why_line /
+zh_units quoting 「无需紧迫行动」 as bare ASCII quotes burned a full ~$0.42 stance
+retry) — repairs only that case: on an
 "Expecting ',' delimiter" error it escapes the last unescaped quote before the
 error and retries (bounded). The repaired value still goes through every
 downstream contract check (exact spans, numbers), so nothing is relaxed.

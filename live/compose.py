@@ -1205,7 +1205,8 @@ def _ask(client, stage, system, payload, max_tokens, calls, *, sleep=None):
                 error = ContractError(f'{stage}: incomplete/unknown finish_reason')
             else:
                 try:
-                    value = parse_object(response.get('text', ''), unwrap_singleton=stage == 'stance')
+                    value = parse_object(response.get('text', ''), unwrap_singleton=stage == 'stance',
+                                         repair_quotes=stage == 'stance')
                 except (ValueError, TypeError, AttributeError) as exc:
                     error = ContractError(f'{stage}: {exc}')
                 else:
