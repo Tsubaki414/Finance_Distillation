@@ -143,7 +143,37 @@ def spent():
 
 
 def remaining():
-    return cap() - spent()
+    return cap() - spent() - _hold_now()
+
+
+# Oct 6 v8: a per-slot coherence reserve. Inside `advisory()` (optional polish retries) the last
+# `hold` dollars of the cap are off limits, so a later coherence repair (judgment / contradiction)
+# still fits; outside it (main calls, coherence repairs) the whole cap is usable. hold=0 by default.
+import contextlib as _contextlib
+import contextvars as _contextvars
+_HOLD = _contextvars.ContextVar('budget_advisory_hold', default=0.0)
+_ADVISORY = _contextvars.ContextVar('budget_advisory_active', default=False)
+
+
+def set_advisory_hold(usd):
+    _HOLD.set(max(0.0, float(usd or 0.0)))
+
+
+def advisory_hold():
+    return _HOLD.get()
+
+
+def _hold_now():
+    return _HOLD.get() if _ADVISORY.get() else 0.0
+
+
+@_contextlib.contextmanager
+def advisory():
+    token = _ADVISORY.set(True)
+    try:
+        yield
+    finally:
+        _ADVISORY.reset(token)
 
 
 def check(model, messages, max_tokens):
@@ -234,8 +264,9 @@ def reserve(model, messages, max_tokens, call_id, *, overhead_usd=0):
         pt = len(json.dumps(messages, ensure_ascii=False).encode('utf-8')) + 256
         model_estimate = cost_of(model, pt, max_tokens)
         estimate = _nonnegative_finite(model_estimate + overhead_usd, 'reservation estimate')
-        if estimate > float(d.get('cap_usd', DEFAULT_CAP_USD)) - float(d.get('spent_usd', 0)):
-            raise BudgetExceeded('distillation call would exceed configured spending cap')
+        if estimate > float(d.get('cap_usd', DEFAULT_CAP_USD)) - float(d.get('spent_usd', 0)) - _hold_now():
+            raise BudgetExceeded('distillation call would exceed configured spending cap'
+                                 + (' (coherence reserve held)' if _hold_now() else ''))
         reservation = {'model': model, 'estimate': estimate, 'settled': False}
         if overhead_usd:
             reservation.update(model_estimate=model_estimate, overhead_estimate=overhead_usd)

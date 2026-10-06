@@ -115,7 +115,8 @@ Coherence: every line must agree with line 1 - same direction, same timing and s
 something stops after an event, no later line may say it stops now), no closer that quietly reverses the call.
 Evidence link: every evidence line must directly support line 1 - no leap from one statistic to a different
 claim; if a unit only supports a narrower point, say the narrower point. No filler closers ("Carry on.",
-"Stay tuned.", "Time will tell.", 拭目以待, 静观其变): the last line says something.
+"Stay tuned.", "Time will tell.", 拭目以待, 静观其变): the last line says something. No question-form
+"not X but Y" ("Just X? No, it's Y" / 只是…？人家这是… / 你以为…？其实…): state the call directly.
 Conviction never licenses anything the units do not contain: no new facts, numbers,
 holdings, trades or calls, and do not upgrade the stance's confidence (may stays may).
 Not a research summary: no set-ups like 拆解一下/具体数据/数据如下 or "let's break it
@@ -980,6 +981,8 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
         findings += compose_shapes.thread_padding_findings(body, shape)
         findings += compose_shapes.filler_closer_findings(body)
         findings += compose_shapes.length_band_findings(body, shape)
+        from live import zh_register as _zr
+        findings += _zr.en_template_findings(body, persona.lang)
         if recent is None:
             recent = anti_repeat.load_recent(persona.persona_id)
         findings += compose_shapes.history_findings(body, recent, shape=shape)
@@ -991,6 +994,7 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
         if getattr(persona, 'signature_card', None) or persona.voice_card:   # v7 voice-layer checks
             findings += zr.sentence_findings(body, persona.lang)
             findings += zr.stance_copy_findings(body, (stance or {}).get('account_view'), persona.lang)
+            findings += zr.line_break_findings(body, persona.lang)
             _recent = recent if recent is not None else anti_repeat.load_recent(persona.persona_id)
             findings += zr.opening_findings(body, None, [r['text'] for r in _recent if isinstance(r, dict) and r.get('text')])
     findings += trade_reco_findings(body, persona.lang)
@@ -1085,11 +1089,22 @@ def scope_signature_frame(sig):
     return out
 
 
-def _ask_retry(client, system_prompt, payload, assembly, skips):
-    """One advisory compose retry; a refused call (slot sub-cap) keeps the first draft (Oct 6 v7)."""
+from contextlib import nullcontext as _nullcontext
+
+
+def _budget_advisory():
+    from ml import budget as _b
+    return _b.advisory()
+
+
+def _ask_retry(client, system_prompt, payload, assembly, skips, *, advisory=True):
+    """One compose retry; a refused call (slot sub-cap) keeps the first draft (Oct 6 v7).
+    advisory=True (polish) leaves the slot's coherence reserve untouched (v8); coherence repairs
+    (judgment / contradiction) pass advisory=False and may use it."""
     from ml import budget as _budget
     try:
-        return _ask(client, 'compose', system_prompt, payload, MAX_TOKENS, assembly)
+        with (_budget.advisory() if advisory else _nullcontext()):
+            return _ask(client, 'compose', system_prompt, payload, MAX_TOKENS, assembly)
     except _budget.BudgetExceeded as exc:
         skips.append({'note': str(payload.get('rewrite_note') or '')[:60], 'reason': str(exc)[:160]})
         return {}, {}
@@ -1466,7 +1481,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     if grounding['decision'] == 'REPAIR' and grounding.get('repair_instruction'):
         retry_payload = dict(payload)
         retry_payload['rewrite_note'] = grounding['repair_instruction']
-        value2, response2 = _ask_retry(client, system_prompt, retry_payload, assembly, budget_skips)
+        value2, response2 = _ask_retry(client, system_prompt, retry_payload, assembly, budget_skips,
+                                       advisory=False)   # v8: grounding = coherence repair, may use reserve
         body2 = (value2.get('body') or '').strip()
         if body2:
             after = tg.review(body2, stance, chosen, persona.lang)
@@ -1560,7 +1576,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                 )
             retry_payload = dict(payload)
             retry_payload['rewrite_note'] = note
-            value_j, response_j = _ask_retry(client, system_prompt, retry_payload, assembly, budget_skips)
+            value_j, response_j = _ask_retry(client, system_prompt, retry_payload, assembly, budget_skips,
+                                             advisory=False)   # v8: coherence repair may use the reserve
             body_j = (value_j.get('body') or '').strip()
             if body_j:
                 retry_j = [f for f in judgment_findings(body_j, stance) if f['code'] in ('no_judgment', 'data_list')]
@@ -1596,7 +1613,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             )
             retry_payload = dict(payload, rewrite_note=note)
             try:
-                value_d, response_d = _ask(client, 'compose', system_prompt, retry_payload, MAX_TOKENS, assembly)
+                with _budget_advisory():
+                    value_d, response_d = _ask(client, 'compose', system_prompt, retry_payload, MAX_TOKENS, assembly)
             except Exception as exc:
                 value_d, response_d = {}, {}
                 retry_payload['retry_error'] = type(exc).__name__
@@ -1632,7 +1650,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     structure_retry = None
     structure_codes = ('shape_mismatch', 'number_run', 'internal_contradiction', 'zh_register', 'market_feeling',
                        'thread_padding', 'filler_closer', 'opener_move', 'length_band', 'zh_sentence_length',
-                       'stance_copy')
+                       'stance_copy', 'ai_template', 'zh_line_breaks')
     recent_bodies = [r['text'] for r in recent_rows if isinstance(r, dict) and r.get('text')]
 
     def _structure(b):
@@ -1646,12 +1664,14 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             found += compose_shapes.length_band_findings(b, shape_block)   # v7: long shapes came back short
             if not use_zh:
                 found += compose_shapes.recent_opener_findings(b, recent_rows)
+                found += zr.en_template_findings(b, persona.lang)   # v8 question-form not-X-but-Y
         if use_zh:   # v5: 研报腔 density / AI template phrases and crowd-feeling attribution, one shared regen
             found += zr.register_findings(b, persona.lang) + zr.market_feeling_findings(b, persona.lang)
             # v7: 别… openers, long sentences, stance jargon carried into the body - same one regen
             found += zr.opening_findings(b, opening, recent_bodies)
             found += zr.sentence_findings(b, persona.lang)
             found += zr.stance_copy_findings(b, payload.get('thesis_lock'), persona.lang)
+            found += zr.line_break_findings(b, persona.lang)   # v8: long ZH as one-clause lines
         return found + internal_contradiction_findings(b)
 
     first_structure = _structure(body)
@@ -1666,6 +1686,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         note = '[structure_repair] ' + ' '.join(dict.fromkeys(parts))
         retry_payload = dict(payload, rewrite_note=note)
         try:
+            # v8: the structure retry carries internal_contradiction + register/shape repairs in one
+            # regen, so it may use the slot's coherence reserve (info_dump / repeat polish may not).
             value_s, response_s = _ask(client, 'compose', system_prompt, retry_payload, MAX_TOKENS, assembly)
         except Exception as exc:
             value_s, response_s = {}, {}
@@ -1699,7 +1721,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         note = ' '.join(dict.fromkeys(qa_levels.FIXES[f['code']] for f in repair))
         retry_payload = dict(payload, rewrite_note=note)
         try:
-            value_r, response_r = _ask(client, 'compose', system_prompt, retry_payload, MAX_TOKENS, assembly)
+            with _budget_advisory():
+                value_r, response_r = _ask(client, 'compose', system_prompt, retry_payload, MAX_TOKENS, assembly)
         except Exception as exc:  # Advisory rewrite failure retains the completed draft.
             value_r, response_r = {}, {}
             retry_payload['retry_error'] = type(exc).__name__

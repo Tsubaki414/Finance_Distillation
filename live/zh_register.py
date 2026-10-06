@@ -38,6 +38,20 @@ AI_TEMPLATE = re.compile(r'听起来(?:很|非常|十分)?(?:完美|合理|美�
 MARKET_FEELING = re.compile(
     r'(?:很多人|不少人|多数人|大多数人|大部分人|一般人|散户们?|投资者们?|市场上?普遍|市场(?:都|一致)|大家(?:都)?|普遍|主流观点|'
     r'各方|人们)(?:都|也|还|据此|因此|纷纷|一度|仍然|已经)?(?:在)?(?:认为|觉得|以为|担心|相信|期待|预期|押注|在赌|看好|看空|默认|共识)')
+# v8: crowd attention / action narration with a people subject (v7_zi 「大家都在盯着需求端那张诱人的大饼」).
+# Flows (市场 / 资金 / 机构) are left out - those can carry unit evidence.
+CROWD_ACTION = re.compile(r'(?:大家|所有人|很多人|不少人|多数人|大多数人|散户们?|投资者们?)(?:都|全都|也都|几乎都|还)?(?:在|还在|正在)?'
+                          r'(?:盯着|紧盯|关注|讨论|追捧|追涨|抢|炒|喊|吹|担心|害怕|恐慌|狂欢|押注|赌|一窝蜂)')
+# v8: question-form 「不是X而是Y」 (v7zh 「只是常规的财务招聘？人家这是…」); 0 of 3617 ZH donor posts.
+QFORM_ZH = re.compile(r'(?:只是|仅仅是|不过是|难道是|真的是|是不是)[^？?\n。]{1,30}[？?]\s*(?:人家|其实|实际上|分明|明明|说白了|错了|并不|并非|不是|才不|真正|这是)'
+                      r'|你以为[^？?\n。]{1,30}[？?]\s*(?:其实|错了|并不|并非|不是|才不|真正|人家)'
+                      r'|[吗么][？?]\s*(?:不[，,]|并不|并非|才不|错了|当然不)')
+QFORM_EN = re.compile(r"\b(?:just|only|merely|simply)\b[^?.!\n]{1,50}\?\s*(?:no|nope|not quite|hardly|think again|wrong|not even close)\b"
+                      r"|\b(?:you think|think)\b[^?.!\n]{1,50}\?\s*(?:think again|wrong|no)\b"
+                      r"|\?\s*(?:No|Nope)[,.!]\s*(?:it'?s|this is|that'?s|the real)", re.I)
+# v8: intensifiers. Donors 0.11-0.16 per 1k CJK chars; v4-v7 drafts 1.56 (死死 / 死磕 / 拉满).
+INTENSIFIER_STRONG = re.compile(r'死死|死磕|硬生生|彻彻底底|狠狠|血洗|核弹级|爆杀')
+INTENSIFIER = re.compile(r'死死|死磕|硬生生|彻彻底底|狠狠|血洗|核弹级|爆杀|疯狂|暴力|炸裂|拉满')
 COLLOQ = re.compile(r'吧|呢|啊|吗|嘛|呗|啥|咋|挺|估计|感觉|反正|真的|这波|有点|就是|其实|得看|说实话|还行|靠谱|离谱|没戏')
 _SENT = re.compile(r'[。！？!?\n；;]+')
 _PROMO = re.compile(r'返佣|开户|邀请码|注册|链接|抽奖|空投|福利|私信|进群|关注|点赞|转发|评论区|课程|社群|直播|报名|优惠|广告|'
@@ -71,7 +85,11 @@ def register_findings(body, lang='zh'):
         return []
     d = density(body)
     templates = list(dict.fromkeys(m.group(0) for m in AI_TEMPLATE.finditer(body)))
+    templates += [m.group(0) for m in QFORM_ZH.finditer(body)]   # v8 question-form 不是X而是Y
     parts = []
+    strong, allint = INTENSIFIER_STRONG.findall(body), INTENSIFIER.findall(body)
+    if strong or len(allint) >= 2:
+        parts.append('夸张强化词 ' + '、'.join(dict.fromkeys(allint)) + ' (donors ~0.1/千字)')
     if d['formal_hits'] >= MIN_FORMAL_HITS:
         parts.append('研报腔连接词 ' + '、'.join(d['formal_words']) + f" ({d['formal_per_1k']}/千字; donors ~1.6)")
     if templates:
@@ -86,6 +104,7 @@ def market_feeling_findings(body, lang='zh'):
     if lang != 'zh' or not body:
         return []
     hits = list(dict.fromkeys(m.group(0) for m in MARKET_FEELING.finditer(body)))
+    hits += [m.group(0) for m in CROWD_ACTION.finditer(body) if m.group(0) not in hits]
     return [{'code': 'market_feeling', 'detail': '替市场/别人说想法: ' + '、'.join(hits)}] if hits else []
 
 
@@ -177,7 +196,7 @@ SYSTEM_ZH = """
 3. 句子短。一句只说一件事；按 zh_register.sentence_length 的中位数写（真实账号大约 18-22 个字一句），最长别超过 35 个字，能断就断。
 4. 少用研报书面词：意味着、而非、以……为主、基准路径、结构性、实质性、显然、注定、生存空间、从而、进而、鉴于、与此同时、本质上、叠加、核心变量、难以为继、备用选项。要连接就用 zh_register.donor_connectors 里这些账号常用的口语连接词；像锚句那样带一两个口语词（其实、所以、得看、说实话、吧）就够，别堆。
 5. 不替别人说话：不写「很多人认为」「市场普遍认为」「大家都觉得」「很多人据此认为」这类别人怎么想的句子（除非 units 里有这个证据），直接说自己的判断。
-6. 不用 AI 套话：「不是X，而是Y」「与其说X不如说Y」「理由听起来很完美」「看似合理」「归根结底」「不难发现」都不要写。
+6. 不用 AI 套话：「不是X，而是Y」及其问句版（「只是…？人家这是…」「你以为…？其实…」）、「与其说X不如说Y」「理由听起来很完美」「看似合理」「归根结底」「不难发现」都不要写；也别堆「死死」「死磕」「狠狠」「拉满」这类夸张词（真实账号很少用）。
 7. zh_register.register_anchors 是这类账号参考的真实中文博主的原句，只用来对齐语气、句子长短和用词习惯。不要照抄其中任何词句，也不要借用里面的内容、数字或观点。
 8. 开头：第一句照样是明确的判断，但用 zh_register.opening_move 指定的开头动作。不要用「别…/不要…/别指望/别被」这种祈使句开头（真实账号里不到 1% 这样开头）；情绪靠判断里的词带出来。也不要跟 zh_register.recent_openers 用同一种开头。
 9. 时间：units 的 date_label 是数据所属的时间。标了 historical 的单元说清楚是哪个月/哪天的数据（如「8月的数据」「上周公布的」），但它仍是手上最新的一期，不要写成「回看历史」「当时」。
@@ -210,6 +229,11 @@ def payload_block(persona, seed='', posts_dir=None, recent_bodies=()):
                                  'donor_share': move['donor_share'],
                                  'donor_examples': move['examples'],
                                  'rule': '只学开头动作，不抄 donor_examples 的词句和内容。'}
+    lay = donor_long_layout(persona, posts_dir)
+    if lay:
+        block['long_layout'] = {'line_len_median': lay['line_len_median'], 'lines_per_100_median': lay['lines_per_100_median'],
+                                'rule': f"长帖（200 字以上）按段落写：每段两三句连写，一行约 {int(lay['line_len_median'])} 字，"
+                                        '句末带标点，段与段之间空一行；不要一句一行、不要省掉标点。'}
     openers = [_first_sentence(b)[:30] for b in list(recent_bodies)[-3:] if b]
     if openers:
         block['recent_openers'] = openers
@@ -435,4 +459,76 @@ def stance_view_findings(text):
         out.append('书面词 ' + '、'.join(words))
     if opener_move(t) == 'neg_imperative':
         out.append('「别…」祈使句')
+    if AI_TEMPLATE.search(t) or QFORM_ZH.search(t) or re.search(r'[，,]\s*(?:而)?不是[^，。！？]{1,16}[。！]?$', t):
+        out.append('「不是X而是Y」句式')
     return out
+
+
+def en_template_findings(body, lang='en'):
+    """SOFT ai_template (EN): question-form "not X but Y" ("Just X? No, it's Y"); 0 of 3844 EN donor posts."""
+    if lang == 'zh' or not body:
+        return []
+    hits = [m.group(0) for m in QFORM_EN.finditer(body)]
+    return [{'code': 'ai_template', 'detail': 'question-form template: ' + ' | '.join(hits)}] if hits else []
+
+
+# ---------------- long-post layout (Oct 6 v8) ----------------
+# v7_zi (long, 365 chars) came back as 20 one-clause lines, 85% without end punctuation. ZH donor long
+# posts (>= 250 chars; zh_macro 444, zh_industry 890) run a median ~51 chars per line (p10 25-27) and
+# 1.7-1.8 lines per 100 chars (p90 ~3.0), i.e. two or three sentences per line/paragraph.
+LONG_MIN_CHARS = 200
+LINE_LEN_MIN = 22          # below the donor p10
+LINES_PER_100_MAX = 3.2    # above the donor p90
+_END_PUNCT = re.compile(r'[。！？!?…~～）)」”"：:，,；;.\]】]$')
+_LAYOUT = {}
+
+
+def _layout(text):
+    lines = [ln.strip() for ln in str(text or '').splitlines() if ln.strip()]
+    n = len(re.sub(r'\s', '', str(text or '')))
+    if not lines or not n:
+        return None
+    lens = sorted(len(re.sub(r'\s', '', ln)) for ln in lines)
+    return {'chars': n, 'lines': len(lines), 'per100': round(len(lines) / n * 100, 2),
+            'line_len': _median(lens), 'no_punct': round(sum(1 for ln in lines if not _END_PUNCT.search(ln)) / len(lines), 2)}
+
+
+def donor_long_layout(persona, posts_dir=None):
+    key = (persona.persona_id, str(posts_dir or ''))
+    if key in _LAYOUT:
+        return _LAYOUT[key]
+    from live.exemplars import load_posts
+    rows = []
+    for handle in getattr(persona, 'donor_weights', {}) or {}:
+        try:
+            posts = load_posts(handle, posts_dir)
+        except Exception:
+            continue
+        for p in posts:
+            t = p.get('text') or ''
+            if p.get('rt') or p.get('reply') or len(CJK.findall(t)) / max(1, len(t)) < 0.3:
+                continue
+            if len(re.sub(r'\s', '', t)) >= 250:
+                lay = _layout(t)
+                if lay:
+                    rows.append(lay)
+    out = None
+    if rows:
+        out = {'posts': len(rows), 'line_len_median': _median([r['line_len'] for r in rows]),
+               'lines_per_100_median': _median([r['per100'] for r in rows])}
+    _LAYOUT[key] = out
+    return out
+
+
+def line_break_findings(body, lang='zh'):
+    """SOFT zh_line_breaks: a long ZH draft broken into one-clause lines (donor long posts: ~51 chars/line)."""
+    if lang != 'zh' or not body:
+        return []
+    lay = _layout(body)
+    if not lay or lay['chars'] < LONG_MIN_CHARS:
+        return []
+    if lay['line_len'] < LINE_LEN_MIN or lay['per100'] > LINES_PER_100_MAX:
+        return [{'code': 'zh_line_breaks',
+                 'detail': f"{lay['lines']} 行，每行中位 {lay['line_len']} 字，{int(lay['no_punct'] * 100)}% 行尾无标点"
+                           f"（donor 长帖每行约 51 字，每百字 1.7 行）"}]
+    return []

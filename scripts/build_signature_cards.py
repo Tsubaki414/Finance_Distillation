@@ -98,7 +98,10 @@ def build(persona):
     ranked = sorted(scores, key=lambda k: (-total(scores[k]), k))
     exemplars = [{'handle': by[k]['handle'], 'id': by[k]['id'], 'text': by[k]['text'], 'score': scores[k]}
                  for k in ranked if scores[k].get('professional', 0) >= 4][:5]
-    lexicon = [t for t in value.get('lexicon', []) if isinstance(t, str) and t.strip() and t.casefold() in corpus]
+    from live.compose_shapes import is_filler, strip_filler_examples
+    # Fiona 2026-10-06: filler closers ("Carry on.", 拭目以待 ...) are banned from cards.
+    lexicon = [t for t in value.get('lexicon', []) if isinstance(t, str) and t.strip() and t.casefold() in corpus
+               and not is_filler(t)]
     moves = [{'name': m.get('name', ''), 'how': m.get('how', ''),
               'evidence': [{'handle': by[i]['handle'], 'id': by[i]['id']} for i in m.get('post_ids', []) if i in by]}
              for m in value.get('moves', []) if isinstance(m, dict)][:5]
@@ -110,7 +113,7 @@ def build(persona):
                    'exemplars teach rhythm only, never facts, numbers or phrases',
             'moves': moves, 'lexicon': lexicon,
             'lexicon_dropped': [t for t in value.get('lexicon', []) if t not in lexicon],
-            'openings': value.get('openings', [])[:4], 'closings': value.get('closings', [])[:4],
+            'openings': value.get('openings', [])[:4], 'closings': [strip_filler_examples(c) for c in value.get('closings', [])[:4]],
             'taboos': value.get('taboos', [])[:6], 'donor_first_person': value.get('first_person', ''),
             'exemplars': exemplars,
             'sample': [{'pid': r['pid'], 'handle': r['handle'], 'id': r['id'], 'score': scores.get(r['pid'])} for r in rows]}

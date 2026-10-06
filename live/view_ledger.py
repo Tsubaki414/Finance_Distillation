@@ -81,6 +81,14 @@ def _same_subject(subject, other):
     return len(subject & other) / len(subject) >= 0.5
 
 
+def _family_match(view, account_view, row):
+    """Entity-family match between a new call and a ledger row (subject + call text on both sides)."""
+    from live.finance_aliases import entity_family_match
+    new = _tokens(str((view or {}).get('subject') or '')) | _tokens(str(account_view or ''))
+    old = _tokens(str(row.get('subject') or '')) | _tokens(str(row.get('account_view') or ''))
+    return entity_family_match(new, old)
+
+
 def continue_score(view, account_view, row):
     """(subject_overlap, text_overlap) between a new call and a ledger row."""
     subject = _tokens(str((view or {}).get('subject') or ''))
@@ -197,7 +205,8 @@ class ViewLedger:
             parent = next((r for r in self.entries() if r['id'] == out['revises_view_id']), None)
             if parent is not None:
                 subj, text = continue_score(v, out.get('account_view'), parent)
-                if subj < CONTINUE_SUBJECT_MIN and text < CONTINUE_TEXT_MIN:
+                # v8: a revise also needs the same concrete entity family (Fed vs PBoC never revise).
+                if (subj < CONTINUE_SUBJECT_MIN and text < CONTINUE_TEXT_MIN) or not _family_match(v, out.get('account_view'), parent):
                     dropped = {'view_id': out['revises_view_id'], 'subject_overlap': subj, 'text_overlap': text}
                     out['revises_view_id'] = None
         if out.get('revises_view_id'):
@@ -324,7 +333,8 @@ class ViewLedger:
             if r['id'] in (stance.get('revises_view_id'), stance.get('continues_view_id'), stance.get('drift_of_view_id')):
                 continue
             same = _same_subject(subject, _tokens(str(r.get('subject') or '')))
-            if same and OPPOSITE.get(direction) == r.get('direction'):
+            # v8: contradiction needs the same concrete entity family on both sides (subject + call)
+            if same and OPPOSITE.get(direction) == r.get('direction') and _family_match(v, stance.get('account_view'), r):
                 out.append({'code': 'contradicts_prior_view',
                             'detail': f"flips {r.get('direction')} call {r['id']} ({r['account_view'][:80]}) without revises_view_id"})
         return out[:1]

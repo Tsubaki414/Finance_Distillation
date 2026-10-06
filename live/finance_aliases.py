@@ -24,7 +24,9 @@ _TABLE = [
     (('ecb',), [r'ecb', r'european central bank', r'lagarde'], ['欧洲央行', '欧央行']),
     (('boj',), [r'boj', r'bank of japan'], ['日本央行', '日银']),
     (('boe',), [r'boe', r'bank of england'], ['英格兰银行', '英央行']),
-    (('pboc',), [r'pboc', r"people'?s bank of china"], ['中国人民银行', '人民银行']),
+    (('pboc',), [r'pboc', r"people'?s bank of china", r'reserve requirement ratios?', r'rrr', r'loan prime rate',
+                 r'lpr', r'mlf', r"china'?s? (?:interest |policy |benchmark )?rates?"],
+     ['中国人民银行', '人民银行', '中国央行', '降准', '存款准备金率', '准备金率', '贷款市场报价利率', 'LPR', 'MLF']),
     (('central_bank',), [r'central banks?'], ['央行']),
     (('rate_cut', 'rates'), [r'rate cuts?', r'cut(?:ting)? rates', r'easing cycle', r'cuts'], ['降息', '减息']),
     (('rate_hike', 'rates'), [r'rate hikes?', r'hik(?:e|ing) rates', r'tightening cycle', r'hikes'], ['加息', '升息']),
@@ -156,3 +158,15 @@ def entity_conflict(tokens_a, tokens_b):
         if ae and be and not (ae & be):
             return True
     return False
+
+
+def entity_family_match(tokens_a, tokens_b):
+    """Stricter than entity_conflict (Oct 6 v8, contradiction / revise gate): in every family where
+    EITHER side names a concrete entity, the other side must name one too and share it. A Fed call
+    no longer "flips" a China easing view just because both say rates (v7zh zh_macro)."""
+    a, b = _bare(tokens_a), _bare(tokens_b)
+    for fam in ENTITY_FAMILIES:
+        ae, be = a & fam, b & fam
+        if (ae or be) and not (ae & be):
+            return False
+    return True

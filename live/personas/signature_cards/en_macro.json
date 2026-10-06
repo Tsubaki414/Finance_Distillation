@@ -106,10 +106,11 @@
     "balance sheet terms",
     "is the tell",
     "It's not even close.",
-    "negative supply shock",
+    "negative supply shock"
+  ],
+  "lexicon_dropped": [
     "Carry on."
   ],
-  "lexicon_dropped": [],
   "openings": [
     "Contrarian thesis up front: 'Lots of scary talk in bonds these days, but it's mostly recency bias.'",
     "Correct the record as a verdict: say the widely shared figure does not check out; the figure itself comes after",
@@ -118,7 +119,7 @@
   ],
   "closings": [
     "A conditional forward view with a concrete trigger: 'I do think… if soft data keeps printing.'",
-    "A short, flat verdict: 'Carry on.' / 'There is no one left to cut.'",
+    "A short, flat verdict: 'There is no one left to cut.'",
     "An open question that reframes the debate: 'I wonder if the Bessent move in USTs just changed the distribution around DXY?'",
     "A consensus number with an error band: 'around 0.27%, give or take.'"
   ],
@@ -547,5 +548,11 @@
       }
     }
   ],
-  "openings_note": "Oct5 root-cause rewrite: openings are judgment/call-first; data-led, source-first, news-recap and calendar openings removed (they fought the judgment-first COMPOSE rules)."
+  "openings_note": "Oct5 root-cause rewrite: openings are judgment/call-first; data-led, source-first, news-recap and calendar openings removed (they fought the judgment-first COMPOSE rules).",
+  "fiona_decisions": [
+    {
+      "date": "2026-10-06",
+      "decision": "filler closers banned: \"Carry on.\" removed from lexicon and closings"
+    }
+  ]
 }

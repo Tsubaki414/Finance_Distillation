@@ -21,7 +21,8 @@ SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_u
                   'structure_repeat', 'shape_mismatch', 'number_run', 'internal_contradiction', 'hedged_opener',
                   'zh_register', 'market_feeling', 'thread_padding', 'revise_off_topic',
                   'phrase_repeat', 'theme_repeat', 'filler_closer',
-                  'opener_move', 'length_band', 'zh_sentence_length', 'stance_copy'})
+                  'opener_move', 'length_band', 'zh_sentence_length', 'stance_copy',
+                  'ai_template', 'zh_line_breaks'})
 FIXES = {
     'stylistic_repeat': 'Vary the repeated stylistic phrase and closing; retain source facts.',
     'judgment_label': 'Drop the 「我的判断：」/「以我个人判断，」/「个人判断：」 label; state the judgment directly as a plain sentence.',
@@ -70,6 +71,8 @@ FIXES = {
                       'keep the call and facts, say it in new words.'),
     'theme_repeat': ('Same theme / entity as a recent draft of this persona: pick a fresh source or add a clearly '
                      'new beat; flagged for the editor, no rewrite can fix the topic choice.'),
+    'ai_template': 'State the call directly; no question-form "not X but Y" ("Just X? No, it\'s Y").',
+    'zh_line_breaks': '长版按段落写：每段两三句连着写、句末带标点，段与段之间空一行；不要一句一行。',
     'opener_move': ('Open with zh_register.opening_move (or a different move than your recent drafts); '
                     'no 别… / 不要… / don\'t imperative opener.'),
     'length_band': ('Match composition_shape.length_target: a long shape gets a second paragraph with new evidence '
