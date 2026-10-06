@@ -30,6 +30,21 @@ PROVIDER = 'erisedai_relay'
 DEFAULT_MODEL = 'claude-opus-5'
 RESPONSE_FORMAT = {'type': 'json_object'}
 TIMEOUT = httpx.Timeout(180.0, connect=15.0, write=30.0, pool=15.0)
+# Oct 6 v9 reliability: once a stage's primary model answers "quota/balance exhausted" the rest of the process
+# goes straight to the documented fallback (v9a: two 403s each kept a conservative reservation, then the slot
+# could not afford the fallback). Keyed by (stage, primary model); reset_quota_breaker() clears it.
+QUOTA_TRIPPED = {}
+# The fallback (claude-opus-5-5) is not a thinking model: the primary's large max_tokens (12000/24000, sized for
+# Gemini thinking) made its reservation ~$1 per call. Historical opus compose completions are <2k tokens.
+FALLBACK_MAX_TOKENS = int(os.environ.get('FD_FALLBACK_MAX_TOKENS', '4000'))
+
+
+def reset_quota_breaker():
+    QUOTA_TRIPPED.clear()
+
+
+def quota_tripped():
+    return dict(QUOTA_TRIPPED)
 
 
 def relay_config():
@@ -171,6 +186,9 @@ class ErisedaiClient:
             return self._fallback(stage, messages, max_tokens, fb, self._route_missing[stage])
         routed = stage_models.route(self.stage_models, stage)
         selected = stage_models.for_stage(self.stage_models, stage)
+        tripped = QUOTA_TRIPPED.get((stage, selected['model']))
+        if fb is not None and tripped:
+            return self._fallback(stage, messages, max_tokens, fb, f'quota breaker open: {tripped}'[:300])
         try:
             return self._call(stage, messages, max_tokens, selected['model'], selected['temperature'],
                               routed['base_url'] if routed else self.config['base_url'],
@@ -179,6 +197,8 @@ class ErisedaiClient:
         except Exception as exc:
             if fb is None or not _fallback_worthy(exc):
                 raise
+            if isinstance(exc, ProviderQuotaError):
+                QUOTA_TRIPPED[(stage, selected['model'])] = f'{selected["model"]}: {exc}'[:200]
             return self._fallback(stage, messages, max_tokens, fb, f'{selected["model"]}: {exc}'[:300])
 
     def _fallback(self, stage, messages, max_tokens, fb, reason):
@@ -186,8 +206,8 @@ class ErisedaiClient:
             base_url, secret, key_env = fb['base_url'], self._fallback_keys[stage], fb['api_key_env']
         else:
             base_url, secret, key_env = self.config['base_url'], self.config['api_key'], None
-        return self._call(stage, messages, max_tokens, fb['model'], fb['temperature'], base_url, secret, key_env,
-                          fallback_reason=reason)
+        return self._call(stage, messages, min(int(max_tokens), FALLBACK_MAX_TOKENS), fb['model'], fb['temperature'],
+                          base_url, secret, key_env, fallback_reason=reason)
 
     def _call(self, stage, messages, max_tokens, model, temperature, base_url, secret, routed_key_env,
               fallback_reason=None):

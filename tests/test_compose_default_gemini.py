@@ -157,3 +157,34 @@ class ClientFallbackTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class QuotaBreakerTests(ClientFallbackTests):
+    """Oct 6 v9: after one quota answer the stage skips the primary for the rest of the process,
+    and the fallback's max_tokens is clamped (it is not a thinking model)."""
+
+    def test_quota_trips_breaker_and_clamps_fallback_tokens(self):
+        from live import erisedai_distillation_client as relay
+
+        def quota(host, model):
+            if host == 'www.micuapi.ai':
+                return httpx.Response(403, json={'error': {'code': 'insufficient_user_quota', 'message': '用户额度不足'}})
+            return ok(model)
+        client = self.client(quota)
+        client('compose', MSG, 12000)
+        client('compose', MSG, 12000)
+        self.assertEqual([s[2] for s in self.seen], ['gemini-3.1-pro-preview', 'claude-opus-5-5', 'claude-opus-5-5'])
+        self.assertIn(('compose', 'gemini-3.1-pro-preview'), relay.quota_tripped())
+        fallbacks = [r for r in self.logs() if r['model'] == 'claude-opus-5-5']
+        self.assertTrue(all(r['max_tokens'] == relay.FALLBACK_MAX_TOKENS for r in fallbacks))
+        self.assertTrue(any('quota breaker open' in r.get('fallback_reason', '') for r in fallbacks))
+
+    def test_timeout_does_not_trip_breaker(self):
+        from live import erisedai_distillation_client as relay
+
+        def timeout(host, model):
+            if host == 'www.micuapi.ai':
+                raise httpx.ReadTimeout('slow')
+            return ok(model)
+        self.client(timeout)('compose', MSG, 10)
+        self.assertEqual(relay.quota_tripped(), {})

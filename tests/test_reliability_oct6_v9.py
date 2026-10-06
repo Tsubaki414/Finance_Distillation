@@ -115,3 +115,43 @@ def test_ingest_mapping_for_newsletters():
     from live import ingest_priority as ip
     assert ip.channel_personas('newsletters:libertystreet')[0] == 'macro_rates_en'
     assert ip.channel_personas('newsletters:stratechery') != [ip.UNKNOWN]
+
+
+def test_continue_from_missing_dir_fails_loud(tmp_path):
+    import pytest
+    from scripts import demo_matrix_compose as demo
+    with pytest.raises(SystemExit):
+        demo.main(['--dry', '--out', str(tmp_path / 'o'), '--continue-from', str(tmp_path / 'nope')])
+
+
+def test_prescreen_demotes_consumer_app_without_supply_chain():
+    muse = [{'source': {'title': 'Meta Muse爆红后遇留存瓶颈：打开率低于主流应用，长期变现面临考验'},
+             'unit': {'kind': 'view', 'statement': 'Muse 对垂直电商和旅游平台短期没有威胁',
+                      'view': {'subject': 'Meta Muse', 'reasoning': ['用户渗透率低', '缺乏交易能力']}}}]
+    phone = [{'source': {'title': 'Qualcomm Makes Its Case for the Phone as AI Hub'},
+              'unit': {'kind': 'view', 'statement': 'On-device AI drives a smartphone chip upgrade cycle',
+                       'view': {'subject': 'Qualcomm', 'reasoning': ['modem and NPU content per phone rises']}}}]
+    assert ps.prescreen('zh_industry', muse)['reasons'][0].startswith('consumer_app_without_supply_chain_evidence')
+    assert ps.prescreen('zh_industry', phone)['ok']
+
+
+def test_backup_failure_after_reject_counts_as_error():
+    first = {'stance': {'decision': 'reject', 'rationale': 'not my lane'}}
+    row = demo._keep_rejected(first, 'zh_industry', [{'source_id': 's1'}], 'BudgetExceeded: x', 'budget')
+    assert row['error_kind'] == 'backup_budget' and row['mode'] == 'live' and not row.get('body')
+
+
+def test_summary_fails_loud_on_provider_quota(tmp_path, monkeypatch):
+    from live import erisedai_distillation_client as relay
+    isolate_globals(monkeypatch)
+    _live(monkeypatch)
+
+    def compose_source(source, account, client, **kw):
+        relay.QUOTA_TRIPPED[('compose', 'gemini-3.1-pro-preview')] = 'gemini: Relay HTTP 403 insufficient_user_quota'
+        return dict(account_id=account, text='J ' + account, body='J ' + account,
+                    stance={'decision': 'adapt', 'account_view': 'J ' + account,
+                            'view': {'subject': account, 'direction': 'neutral'}}, units=[], draft_status='draft_ready')
+    monkeypatch.setattr(demo.compose, 'compose_source', compose_source)
+    demo.run(tmp_path, 2.5, live=True, command='t')
+    summary = (tmp_path / 'SUMMARY.md').read_text()
+    assert 'FAIL LOUD — provider quota exhausted' in summary and 'insufficient_user_quota' in summary

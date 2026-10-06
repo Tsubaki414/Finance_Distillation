@@ -265,6 +265,14 @@ def plan_lines(plan):
 SLOT_MIN_USD = round(COST_DEFAULTS['stance_usd'] + COST_DEFAULTS['compose_usd'] + COST_DEFAULTS['compose_reserve_usd'], 3)
 
 
+def relay_quota_tripped():
+    try:
+        from live import erisedai_distillation_client as relay
+        return relay.quota_tripped()
+    except Exception:   # noqa: BLE001 - SUMMARY must still be written
+        return {}
+
+
 def error_result(account, kind, detail):
     """v9: explicit error row for a live slot (never dressed up as a synthetic draft)."""
     return dict(id='error-' + account, key=account, account_id=account, mode='error', status='error',
@@ -305,11 +313,12 @@ def run_slot(account, out, client, selected, backups, selection, batch_shapes, b
     except budget.BudgetExceeded as exc:
         reason = f'BudgetExceeded: slot sub-cap refused a call before sending ({str(exc)[:120]}).'
         notes.append(account + ': ' + reason)
-        return _keep_rejected(result, account, rejected, reason) or error_result(account, 'budget', reason)
+        return _keep_rejected(result, account, rejected, reason, 'budget') or error_result(account, 'budget', reason)
     except Exception as exc:
         reason = f'Live compose failed: {type(exc).__name__}: {str(exc)[:160]}.'
         notes.append(account + ': ' + reason)
-        return _keep_rejected(result, account, rejected, reason) or error_result(account, 'exception', reason)
+        return (_keep_rejected(result, account, rejected, reason, 'exception')
+                or error_result(account, 'exception', reason))
 
 
 # Oct 6 v8: inside each slot the last COHERENCE_RESERVE_USD of the slot sub-cap is held back from
@@ -398,15 +407,18 @@ def fake_result(account, ledger, reason, *, record=False):
                 spend_usd=0.0)
 
 
-def _keep_rejected(result, account, rejected, reason):
+def _keep_rejected(result, account, rejected, reason, kind='exception'):
     """v8: a backup attempt that fails after a real stance reject keeps the reject (live, key set)
-    instead of leaving a half-built result (v8 run crashed on KeyError 'key')."""
+    instead of leaving a half-built result (v8 run crashed on KeyError 'key').
+    v9: the row carries error_kind='backup_<kind>' so SUMMARY counts it as an error, not a quiet skip
+    (v9a zh_industry: backup stance accepted, its compose timed out, the fallback was refused)."""
     if not result or result.get('key'):
         return result if result and result.get('key') else None
     if (result.get('stance') or {}).get('decision') != 'reject':
         return None
     return dict(result, key=account, account_id=account, mode='live', draft_status='not_suitable',
-                status='skipped', fallback_reason=reason, selection_fallback={'rejected': rejected,
+                status='skipped', fallback_reason=reason, error_kind='backup_' + kind, error=reason,
+                selection_fallback={'rejected': rejected,
                                                                                'backup_error': reason})
 
 
@@ -448,6 +460,11 @@ def continue_batch(prev, out):
 def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=None, fill_into=None):
     out = Path(out).resolve()
     out.mkdir(parents=True, exist_ok=True)
+    try:   # v9: a quota breaker from an earlier run in this process must not leak into this batch
+        from live import erisedai_distillation_client as relay
+        relay.reset_quota_breaker()
+    except Exception:   # noqa: BLE001
+        pass
     exclude_sources = continue_batch(continue_from, out) if continue_from else set()
     if fill_into:   # v8: a fill-in never re-picks a source the batch it completes already used
         for path in sorted((Path(fill_into) / 'drafts').glob('*.json')):
@@ -601,9 +618,15 @@ def _write_outputs(out, cap, command, skipped, notes, results, carried, plan):
     live_n = sum(1 for r in results if r.get('mode') == 'live' and (r.get('body') or r.get('text')))
     lines = ['# Matrix compose demo', '', 'publishable=false / human review only', '',
              f'Command: `{command}`', f'Spend USD: ${budget.spent():.6f} / cap ${cap:.2f} (includes probes and failed calls).',
-             f'Live drafts: {live_n}/{len(results)}; errors: {sum(1 for r in results if r.get("mode") == "error")}; '
+             f'Live drafts: {live_n}/{len(results)}; '
+             f'errors: {sum(1 for r in results if r.get("mode") == "error" or r.get("error_kind"))}; '
              f'synthetic: {sum(1 for r in results if r.get("synthetic"))}',
              f'Skipped disabled accounts: {", ".join(skipped) or "none"}', '']
+    tripped = relay_quota_tripped()
+    if tripped:
+        lines += ['**FAIL LOUD — provider quota exhausted** (relay answered insufficient quota; every later call of the '
+                  'stage went straight to its documented fallback; a top-up is needed before the next batch):', '']
+        lines += [f'- {stage} / {model}: {why}' for (stage, model), why in sorted(tripped.items())] + ['']
     if plan:
         lines += ['## Budget plan', ''] + plan_lines(plan) + ['']
     lines += [*notes, '']
@@ -658,6 +681,10 @@ def main(argv=None):
         parser.error('--cap must be finite, positive and at most $4')
     if args.cap > 2.5:
         print(f'NOTE: --cap ${args.cap:.2f} exceeds the $2.50 per-batch guideline', file=sys.stderr)
+    for flag, path in (('--continue-from', args.continue_from), ('--fill-into', args.fill_into)):
+        if path is not None and not (path / 'drafts').is_dir():
+            parser.error(f'{flag} {path}: not a finished batch dir (no drafts/); refusing to run '
+                         'with an empty chain (v9a first attempt silently started fresh)')
     command = shlex.join([sys.executable, str(Path(__file__).resolve()), *(sys.argv[1:] if argv is None else argv)])
     only = [a.strip() for a in args.accounts.split(',') if a.strip()] if args.accounts else None
     if only and set(only) - set(ACCOUNTS):
