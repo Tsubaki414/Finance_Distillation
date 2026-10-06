@@ -503,3 +503,20 @@ def recent_opener_findings(body, recent):
     if fam and any(opener_family(t) == fam for t in prior):
         return [{'code': 'opener_move', 'detail': f'opener family "{fam}…" again (one of the last two drafts)'}]
     return []
+
+
+def is_filler(phrase):
+    t = str(phrase or '').strip()
+    return bool(_FILLER_EN.search(t) or (len(t) <= 30 and _FILLER_ZH.search(t)))
+
+
+_QUOTED = re.compile(r"\s*/?\s*['‘“「]([^'’”」]{1,40})['’”」]\s*/?")
+
+
+def strip_filler_examples(text):
+    """Drop quoted filler examples from a card line (en_macro closing: "A short, flat verdict:
+    'Carry on.' / 'There is no one left to cut.'" -> keeps the second example)."""
+    def repl(m):
+        return ' ' if is_filler(m.group(1)) else m.group(0)
+    out = _QUOTED.sub(repl, str(text))
+    return re.sub(r'\s{2,}', ' ', out).replace(': /', ':').strip()

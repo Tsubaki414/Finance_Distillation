@@ -248,3 +248,49 @@ def test_zh_account_view_rewrite_rejects_new_numbers():
     value = {'account_view': '工业企业利润增长的结构性动能在下半年已经明显减弱，这一格局意味着四季度利润承压。', 'view': {}}
     meta = stance.zh_account_view_rewrite(fake, value, [])
     assert meta['kept'] == 'original' and meta['reject_reason'] == 'new_numbers'
+
+
+def test_filler_examples_kept_out_of_signature_payload():
+    assert cs.strip_filler_examples("A short, flat verdict: 'Carry on.' / 'There is no one left to cut.'") == \
+        "A short, flat verdict: 'There is no one left to cut.'"
+    assert cs.is_filler('Carry on.') and not cs.is_filler('is the tell')
+
+
+def _demo_env(monkeypatch, tmp_path):
+    from scripts import demo_matrix_compose as demo
+    from tests.test_demo_matrix_compose import isolate_globals
+    isolate_globals(monkeypatch)
+    from live import erisedai_distillation_client
+    monkeypatch.setattr(demo.compose_ab, 'probe', lambda *a, **k: {'available': True, 'response_model': 'ok'})
+    monkeypatch.setattr(erisedai_distillation_client, 'relay_config', lambda: {})
+    monkeypatch.setattr(erisedai_distillation_client, 'ErisedaiClient', lambda *a, **k: object())
+    monkeypatch.setattr(demo, 'ContentStore', lambda path: object())
+    return demo
+
+
+def test_stance_reject_tries_backup_and_batch_size_counts_remaining_slots(tmp_path, monkeypatch):
+    demo = _demo_env(monkeypatch, tmp_path)
+
+    def select(store, accounts, selection=None, exclude_sources=(), recent=None, backups=None):
+        for a in accounts:
+            backups[a] = [[{'unit_id': 'b-' + a}]]
+        return {a: [{'unit_id': 'u-' + a}] for a in accounts}
+    monkeypatch.setattr(demo, 'select_groups', select)
+    monkeypatch.setattr(demo, 'evidence_source', lambda g: ({'id': g[0]['unit_id']}, []))
+    seen = []
+
+    def fake_compose(source, account, client, **kw):
+        seen.append((account, source['id'], kw['shape_batch_size'], len(kw['shape_batch'])))
+        if source['id'] == 'u-' + demo.ACCOUNTS[1]:
+            return {'account_id': account, 'stance': {'decision': 'reject', 'rationale': 'not usable'}, 'draft_status': 'not_suitable'}
+        return {'account_id': account, 'stance': {'decision': 'adapt'}, 'body': 'x', 'draft_status': 'draft_ready',
+                'composition_shape': {'id': 'take_short', 'length': 'short'}}
+    monkeypatch.setattr(demo.compose, 'compose_source', fake_compose)
+    results = demo.run(tmp_path, 2.0, live=True, command='t')
+    second = [s for s in seen if s[0] == demo.ACCOUNTS[1]]
+    assert [s[1] for s in second] == ['u-' + demo.ACCOUNTS[1], 'b-' + demo.ACCOUNTS[1]]
+    r2 = [r for r in results if r['account_id'] == demo.ACCOUNTS[1]][0]
+    assert r2['selection_fallback']['rejected'][0]['source_id'] == 'u-' + demo.ACCOUNTS[1]
+    for account, _, size, done in seen:   # size = shapes so far + slots still to run
+        idx = demo.ACCOUNTS.index(account)
+        assert size == done + (len(demo.ACCOUNTS) - idx)

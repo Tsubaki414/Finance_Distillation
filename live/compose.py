@@ -1374,8 +1374,12 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                       + ('; for ZH: prefer the restraint exemplars — commit the call without inventing what the market or others feel' if persona.lang == 'zh' else ''),
             'hard_constraints': hard,
             'moves': [m['name'] + ': ' + m['how'] for m in sig.get('moves', [])],
-            'openings': sig.get('openings', []), 'closings': sig.get('closings', []),
-            'lexicon': sig.get('lexicon', []), 'taboos': sig.get('taboos', [])}
+            'openings': sig.get('openings', []),
+            # v7: en_macro's card carries the donor sign-off "Carry on." (lexicon + closing example) and
+            # v5/v7 drafts ended on it; filler closers are kept out of the payload (card unchanged).
+            'closings': [compose_shapes.strip_filler_examples(c) for c in sig.get('closings', [])],
+            'lexicon': [w for w in sig.get('lexicon', []) if not compose_shapes.is_filler(w)],
+            'taboos': sig.get('taboos', [])}
     if any(u.get('quote_allowed') is False for u in chosen):
         payload['post_type_rules']['quote_policy'] = (
             'Paraphrase these units. Direct quotes, including translated quotes, are forbidden.')

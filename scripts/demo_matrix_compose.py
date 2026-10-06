@@ -94,7 +94,7 @@ def group_theme_repeat(group, recent):
     return False
 
 
-def select_groups(store, accounts, selection=None, exclude_sources=(), recent=None):
+def select_groups(store, accounts, selection=None, exclude_sources=(), recent=None, backups=None):
     """Pick one balanced (view + fact) packet per account; ZH prefers its OWN source.
 
     Oct 6 v2: sharing the EN source made both ZH slots HOLD (same conclusion, same source).
@@ -141,6 +141,8 @@ def select_groups(store, accounts, selection=None, exclude_sources=(), recent=No
             en_group = options[0] if options else []   # no balanced packet -> skip, never pure_data
             chosen[en] = en_group
             note(en, 'own' if en_group else 'none', en_group)
+            if backups is not None:
+                backups[en] = options[1:3]
         if zh not in grouped:
             continue
         en_key = _key(en_group[0]) if en_group else None
@@ -151,6 +153,8 @@ def select_groups(store, accounts, selection=None, exclude_sources=(), recent=No
         if own:
             chosen[zh] = own[0]
             note(zh, 'own_zh_native' if zh_native(own[0]) else 'own_different_source', own[0])
+            if backups is not None:
+                backups[zh] = own[1:3]
             continue
         shared = grouped[zh].get(en_key) if en_key else None
         if not shared or not balanced(shared):
@@ -171,6 +175,8 @@ def select_groups(store, accounts, selection=None, exclude_sources=(), recent=No
             options = ranked(account)
             chosen[account] = options[0] if options else []
             note(account, 'own' if chosen[account] else 'none', chosen[account])
+            if backups is not None:
+                backups[account] = options[1:3]
     return chosen
 
 
@@ -289,7 +295,9 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
         notes.append(f'Continues batch {continue_from}: history + view ledgers carried over; '
                      f'{len(exclude_sources)} previous sources excluded.')
     recent_rows = {a: anti_repeat.load_recent(registry.persona_for_account(a).persona_id) for a in accounts}
+    backups = {}
     selected = (select_groups(ContentStore(compose_ab.STORE), accounts, selection, exclude_sources=exclude_sources,
+                              backups=backups,
                               recent=recent_rows)
                 if client else {})
     if selection:
@@ -315,13 +323,27 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
                 reason = 'No eligible tagged evidence within 45 days.'
             else:
                 try:
-                    source, units = evidence_source(group)
-                    prior_count = len(ledger.current())
-                    result = compose.compose_source(
-                        source, account, client, post_type=judgment_type(account),
-                        extracted_units=units, exemplar_dir=compose_ab.POSTS,
-                        exemplar_tags_dir=compose_ab.TAGS, view_ledger=ledger,
-                        shape_batch=tuple(batch_shapes), shape_batch_size=len(accounts))
+                    # v7: the long/short mix counts slots still to run (v7: zh_industry was rejected,
+                    # en_industry believed one more slot followed and the batch ended with no long post).
+                    batch_size = len(batch_shapes) + (len(accounts) - idx)
+                    rejected = []
+                    for attempt, grp in enumerate([group] + list(backups.get(account) or [])[:1]):
+                        source, units = evidence_source(grp)
+                        prior_count = len(ledger.current())
+                        result = compose.compose_source(
+                            source, account, client, post_type=judgment_type(account),
+                            extracted_units=units, exemplar_dir=compose_ab.POSTS,
+                            exemplar_tags_dir=compose_ab.TAGS, view_ledger=ledger,
+                            shape_batch=tuple(batch_shapes), shape_batch_size=batch_size)
+                        group = grp
+                        # v7: a stance reject (source not usable for this persona) tries the next-best
+                        # packet once instead of leaving the slot empty.
+                        if (result.get('stance') or {}).get('decision') != 'reject' or attempt:
+                            break
+                        rejected.append({'source_id': source.get('id'), 'title': source.get('title'),
+                                         'rationale': ((result.get('stance') or {}).get('rationale') or '')[:200]})
+                    if rejected:
+                        result['selection_fallback'] = {'rejected': rejected}
                     if (result.get('composition_shape') or {}).get('id'):
                         batch_shapes.append({'id': result['composition_shape']['id'],
                                              'length': result['composition_shape'].get('length')})
