@@ -37,7 +37,28 @@ def check(store, runs_dir):
         # Do not echo exception text: injected configuration could contain secrets.
         return {**result, 'status': 'failed', 'reason': 'relay configuration does not resolve'}
     result.update(configuration_source=config['configuration_source'], host=urlsplit(config['base_url']).hostname)
+    result.update(extract_route())
     return result
+
+
+def extract_route():
+    """EXTRACT stage routing (no network, never fails the preflight): a routed stage whose key is unset runs
+    every extract on its documented fallback (Oct 6: gemini on micuapi -> claude-opus-5, ~8x the cost per doc)."""
+    try:
+        from live.daily_ingest import extract_plan, extract_table
+        from live import stage_models
+        from live.writer_backend import _dotenv
+        table = extract_table()
+        plan = extract_plan(table)
+        route = stage_models.route(table, 'extract')
+        out = {'extract_model': plan['model'], 'extract_fallback': plan['fallback'], 'extract_host': plan['route_host']}
+        if route:
+            name = route['api_key_env']
+            present = bool((os.environ.get(name) or _dotenv().get(name, '')).strip())
+            out['extract_key'] = 'set' if present else f'{name} missing -> every extract on {plan["fallback"]}'
+        return out
+    except Exception as exc:
+        return {'extract_route_error': type(exc).__name__}
 
 
 def main():

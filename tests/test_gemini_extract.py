@@ -300,3 +300,13 @@ def test_cli_flag():
     import scripts.daily_ingest as cli
     import inspect
     assert '--no-persona-minimum' in inspect.getsource(cli)
+
+
+def test_preflight_reports_extract_route(monkeypatch):
+    from scripts import daily_ingest_preflight as preflight
+    monkeypatch.setenv('GEMINI_RELAY_API_KEY', 'dummy')
+    with patch('live.writer_backend._dotenv', return_value={}):
+        out = preflight.extract_route()
+        assert out['extract_model'] == 'gemini-3.1-pro-preview' and out['extract_key'] == 'set'
+        monkeypatch.delenv('GEMINI_RELAY_API_KEY')
+        assert 'missing' in preflight.extract_route()['extract_key']
