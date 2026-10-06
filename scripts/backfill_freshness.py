@@ -16,12 +16,15 @@ from live.freshness import derive_dates, normalize_date
 
 def read_rows(store):
     # Deliberately avoid ContentStore's directory-creation behavior in read-only tools.
+    # Recovered dates (source_dates.jsonl) apply exactly as ContentStore applies them.
+    from live.content_store import apply_source_dates, load_source_dates
+    source_dates = load_source_dates(store)
     rows = {}
     with (Path(store) / 'units.jsonl').open() as fh:
         for line in fh:
             if line.strip():
                 row = json.loads(line)
-                rows[row['unit_id']] = row
+                rows[row['unit_id']] = apply_source_dates(row, source_dates)
     return list(rows.values())
 
 

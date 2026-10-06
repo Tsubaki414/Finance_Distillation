@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import html as htmllib
 import re
+from datetime import date, datetime
 
 import httpx
 
@@ -23,6 +24,22 @@ def http_get(url, *, headers=None, timeout=30, transport=None, binary=False):
     return r.status_code, r.content if binary else r.text
 
 
+def iso_published(value):
+    """Stored published_at: a bare date gets 'T00:00:00Z', a valid ISO datetime is kept as is,
+    anything else (empty, 'T00:00:00Z', free text) is None - never a malformed string."""
+    value = str(value or '').strip()
+    try:
+        if re.fullmatch(r'\d{4}-\d{2}-\d{2}', value):
+            date.fromisoformat(value)
+            return value + 'T00:00:00Z'
+        if re.match(r'\d{4}-\d{2}-\d{2}[T ]\d', value):
+            datetime.fromisoformat(value.replace('Z', '+00:00'))
+            return value
+    except ValueError:
+        pass
+    return None
+
+
 def html_text(html):
     html = re.sub(r'<(script|style|noscript)\b.*?</\1>', ' ', html or '', flags=re.S | re.I)
     html = re.sub(r'<!--.*?-->', ' ', html, flags=re.S)
@@ -40,7 +57,7 @@ def make_source(*, id, source_id, text, publisher, title, url, published_at, ada
         kept = [p for p in paragraphs(text) if p['end'] <= max_chars]
         text = text[:kept[-1]['end']] if kept else text[:max_chars]
         truncated = True
-    published = (published_at if 'T' in published_at else published_at + 'T00:00:00Z') if published_at else None
+    published = iso_published(published_at)
     return {'id': id, 'source_id': source_id, 'source_hash': digest(text), 'original_text': text,
             'author_name': author_name or publisher, 'publisher': publisher, 'title': title, 'url': url,
             'published_at': published, 'source_language': lang, 'source_version': adapter + '-v1',

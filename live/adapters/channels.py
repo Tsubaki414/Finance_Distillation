@@ -6,7 +6,7 @@ import json
 import re
 import subprocess
 import tempfile
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import urljoin, urlparse
 import feedparser
@@ -76,6 +76,18 @@ def _iso_date(value):
     except (ValueError,OverflowError):
         return ''
 
+PAGE_DATE = re.compile(r'(?:发布(?:日期|时间)|日期)\s*[：:]\s*(?:&nbsp;|\s)*'
+                       r'(?:(\d{4})-(\d{1,2})-(\d{1,2})|(\d{4})年(\d{1,2})月(\d{1,2})日)')
+
+def page_date(html_text):
+    """Labelled date in a page body ('日期：2026-10-06', '发布时间：2026年10月6日'); '' when absent or invalid."""
+    for source in (html_text or '', common.html_text(html_text or '')):
+        for match in PAGE_DATE.finditer(source):
+            y,m,d=match.groups()[:3] if match[1] else match.groups()[3:]
+            try: return date(int(y),int(m),int(d)).isoformat()
+            except ValueError: continue
+    return ''
+
 def _candidates(page, base):
     soup=BeautifulSoup(page,'html.parser'); found=[]; seen=set()
     for a in soup.find_all('a',href=True):
@@ -87,7 +99,10 @@ def _candidates(page, base):
         if a.find_parent(['nav','header','footer']): continue
         seen.add(url)
         nearby=a.parent.get_text(' ',strip=True)[:1000] if a.parent else ''
-        found.append({'url':url,'title':label,'published_at':_date(url) or _date(nearby)})
+        # List tables (e.g. Sina reports) keep the date in a sibling cell of the link's row.
+        row=a.find_parent('tr')
+        row_text=row.get_text(' ',strip=True)[:1000] if row else ''
+        found.append({'url':url,'title':label,'published_at':_date(url) or _date(nearby) or _date(row_text)})
     return sorted(found,key=lambda r:r['published_at'],reverse=True)
 
 def _pdf_allowed(ch,url):
@@ -129,7 +144,7 @@ def fetch_channel(ch, *, limit=1, transport=None, extractor=None, converter=None
             soup=BeautifulSoup(page,'html.parser')
             meta=soup.find('meta',attrs={'property':'article:published_time'}) or soup.find('meta',attrs={'name':'date'})
             time=soup.find('time')
-            published=(meta.get('content','') if meta else '') or (time.get('datetime','') if time else '')
+            published=(meta.get('content','') if meta else '') or (time.get('datetime','') if time else '') or page_date(page)
         published=_iso_date(published)
         ident=ch['channel_id']+'-'+hashlib.sha256(item['url'].encode()).hexdigest()[:16]
         out['sources']+=common.make_sources_chunked(id=ident,source_id=ch['channel_id'],text=text,publisher=common.html_text(ch['name']),title=item.get('title') or ch['name'],url=item['url'],published_at=published,adapter='channel:'+mode,lang=ch.get('lang','en'),max_parts=1,extra={'no_reproduction':bool(ch.get('no_reproduction'))})

@@ -64,6 +64,39 @@ def duplicate_content(first, second):
     return bool(x | y) and len(x & y) / len(x | y) >= .8
 
 
+def load_source_dates(root):
+    """source_dates.jsonl: recovered published_at by source key (source id) and url; later rows win."""
+    by_key, by_url = {}, {}
+    path = Path(root) / 'source_dates.jsonl'
+    if path.exists():
+        for line in path.read_text().splitlines():
+            if line.strip():
+                entry = json.loads(line)
+                if entry.get('source_key'):
+                    by_key[entry['source_key']] = entry
+                if entry.get('url'):
+                    by_url[entry['url']] = entry
+    return by_key, by_url
+
+
+def apply_source_dates(row, source_dates):
+    """Fill a missing/malformed source (and unit) published_at from the sidecar; valid dates are never touched."""
+    from live.adapters.common import iso_published
+    source = row.get('source') or {}
+    if iso_published(source.get('published_at')):
+        return row
+    by_key, by_url = source_dates
+    entry = by_key.get(source.get('id')) or by_url.get(source.get('url'))
+    value = iso_published(entry.get('published_at')) if entry else None
+    if not value:
+        return row
+    source = dict(source, published_at=value, published_at_recovered=entry.get('method') or 'source_dates')
+    unit = dict(row.get('unit') or {})
+    if not iso_published(unit.get('published_at')):
+        unit['published_at'] = value
+    return dict(row, source=source, unit=unit)
+
+
 class ContentStore:
     def __init__(self, root=None):
         self.root = Path(root or ROOT)
@@ -83,6 +116,8 @@ class ContentStore:
                 if line.strip():
                     self._rows.pop(json.loads(line)["unit_id"], None)
 
+        source_dates = load_source_dates(self.root)
+        self._rows = {uid: apply_source_dates(row, source_dates) for uid, row in self._rows.items()}
         for row in self._rows.values():
             row['persona_tags'] = {}
             row['tag_personas'] = []
