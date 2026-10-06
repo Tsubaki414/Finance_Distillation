@@ -204,10 +204,17 @@ def continue_batch(prev, out):
         if (prev / name).is_dir() and not (out / name).exists():
             shutil.copytree(prev / name, out / name)
     used = set()
+    # Oct 6 v5: exclusions accumulate along the chain (v5 continued from v4b but re-picked v4's
+    # wealth-concentration source because only v4b's own drafts were excluded).
+    inherited = prev / 'excluded_sources.json'
+    if inherited.exists():
+        used.update(json.loads(inherited.read_text()))
     for path in sorted((prev / 'drafts').glob('*.json')):
         source = json.loads(path.read_text()).get('source') or {}
         used.update([source.get('id'), source.get('title')])
-    return {u for u in used if u}
+    used = {u for u in used if u}
+    (Path(out) / 'excluded_sources.json').write_text(json.dumps(sorted(used), ensure_ascii=False, indent=1) + '\n')
+    return used
 
 
 def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=None):

@@ -29,8 +29,9 @@ Fix (all soft):
   own connectors from `language_habits`.
 - Stance: ZH personas get `account_view_register` (one spoken sentence ≤35 chars, no research words).
 - Synthetic `overnight_clean` restraint shapes are no longer sent when the ZH register is on.
-- Soft checks `zh_register` (≥2 research connectives or an AI template phrase; ~2% of donor posts
-  of draft length trip it) and `market_feeling` (很多人认为 / 市场普遍认为 / 大家都觉得 …) join the
+- Soft checks `zh_register` (≥2 research connectives or an AI template phrase; on donor posts of
+  draft length ~2–3% trip the connective rule and ~4–5% the 不是X，而是Y template, which Fiona bans
+  even though donors use it; v5 live added 重构 / 版图 / 格局 / 极端的 / 充分定价 to the lexicon) and `market_feeling` (很多人认为 / 市场普遍认为 / 大家都觉得 …) join the
   one structure regeneration. Anchors are added to the copy check.
 - Switches: `zh_register=False` / `FD_ZH_REGISTER=0`; default on only for ZH personas with a
   signature or voice card.

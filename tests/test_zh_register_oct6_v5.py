@@ -12,12 +12,14 @@ V4B_ZH_MACRO = ('别急着押注全面宽松，货币政策仍会以流动性和
                 '降息降准仅仅是应对增长压力进一步恶化的备用选项，而非当前的基准路径。')
 V4_ZH_MACRO = '9月全票加息叠加通胀预期升到4.6%，意味着市场对后续会议继续加息的定价显然不够充分。'
 V4_ZH_INDUSTRY = '举债和回报之间的缺口正在死死压缩估值溢价的生存空间，这种结构性的集中注定无法持续。'
+V5_ZH_INDUSTRY = ('AI举债投资的规模早就甩开了商业回报的节奏，科技财富集中的格局根本托不住这轮估值溢价\n'
+                  '这种极端的版图重构全靠预期吊着，二级市场还没给商业化落空的风险定价。')
 SPOKEN = '降息这事先别想太多。\n汇率最近挺强，央行其实没那么急。\n真要降，得等数据再差一截。'
 
 
 # ---------- register check ----------
 
-@pytest.mark.parametrize('body', [V4B_ZH_MACRO, V4_ZH_MACRO, V4_ZH_INDUSTRY])
+@pytest.mark.parametrize('body', [V4B_ZH_MACRO, V4_ZH_MACRO, V4_ZH_INDUSTRY, V5_ZH_INDUSTRY])
 def test_pm_examples_trip_zh_register(body):
     found = zr.register_findings(body)
     assert found and found[0]['code'] == 'zh_register'
@@ -253,3 +255,14 @@ def test_demo_accounts_option(monkeypatch, tmp_path):
     assert seen['only_accounts'] == ['zh_macro', 'zh_industry']
     with pytest.raises(SystemExit):
         demo.main(['--out', str(tmp_path), '--accounts', 'xx'])
+
+
+def test_continue_from_exclusions_accumulate(tmp_path):
+    from scripts import demo_matrix_compose as demo
+    a, b, c = tmp_path / 'a', tmp_path / 'b', tmp_path / 'c'
+    for d, sid in ((a, 'src-a'), (b, 'src-b')):
+        (d / 'drafts').mkdir(parents=True)
+        (d / 'drafts' / 'x.json').write_text(json.dumps({'source': {'id': sid, 'title': sid + '-t'}}))
+    assert demo.continue_batch(a, b) == {'src-a', 'src-a-t'}
+    c.mkdir()
+    assert demo.continue_batch(b, c) == {'src-a', 'src-a-t', 'src-b', 'src-b-t'}
