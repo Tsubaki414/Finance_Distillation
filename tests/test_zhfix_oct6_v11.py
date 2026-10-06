@@ -269,16 +269,37 @@ def test_zh_personas_low_tier_target_two(account):
     assert 'irony or a rhetorical jab' not in brief['required_effect']
 
 
-def test_zh_high_tier_brief_never_invites_irony_and_en_unchanged():
+def test_crypto_zh_keeps_high_emotion_irony_and_required_effect():
+    # v11 follow-up (Fiona): only restrained personas lose irony / exaggeration; crypto keeps its voice.
     zh = ec.build_emotion_brief([POOL[3]], {'account_view': 'x'}, lang='zh', account_id='crypto_macro_zh')
-    assert 'irony or a rhetorical jab' not in zh['required_effect'] and 'irony' not in zh['allowed_devices']
+    assert zh['tier'] == 'high' and zh['target_intensity'] >= 4
+    assert {'irony', 'light exaggeration'} <= set(zh['allowed_devices'])
+    assert 'rhetorical question' not in zh['allowed_devices']            # v9 ZH-wide rule unchanged
+    assert zh['required_effect'] == ec.REQUIRED_EFFECT['high'] and 'zh_rule' not in zh
     en = ec.build_emotion_brief([POOL[3]], {'account_view': 'x'}, lang='en', account_id='crypto_macro_en')
-    assert 'irony' in en['allowed_devices'] and 'light exaggeration' in en['allowed_devices']
-    assert 'zh_rule' not in en
+    assert {'irony', 'light exaggeration'} <= set(en['allowed_devices']) and en['target_intensity'] >= 4
+    assert en['required_effect'] == ec.REQUIRED_EFFECT['high'] and 'zh_rule' not in en
 
 
-def test_system_zh_says_emotion_via_judgment_verbs():
-    assert '情绪靠判断动词带出来' in zr.SYSTEM_ZH and '反讽' in zr.SYSTEM_ZH
+def test_restrained_persona_list_is_data_driven(monkeypatch, tmp_path):
+    cfg = json.loads(ec.TIERS_PATH.read_text())
+    assert cfg['restrained_devices_personas'] == ['zh_macro', 'zh_industry']
+    assert cfg['why_cites_fact_en_personas'] == ['crypto_macro_en']
+    assert not ec.restrained_devices('crypto_macro_zh') and ec.restrained_devices('zh_macro')
+    # the list, not the language, decides: drop zh_industry from it and its brief gets irony back
+    cfg['restrained_devices_personas'] = ['zh_macro']
+    path = tmp_path / 'emotion_tiers.json'
+    path.write_text(json.dumps(cfg))
+    monkeypatch.setattr(ec, 'TIERS_PATH', path)
+    brief = ec.build_emotion_brief([POOL[3]], {'account_view': 'x'}, lang='zh', account_id='zh_industry')
+    assert 'irony' in brief['allowed_devices'] and 'zh_rule' not in brief
+
+
+def test_system_zh_restraint_rides_on_the_brief():
+    assert '情绪靠判断动词带出来' in ec.ZH_EMOTION_RULE and '反讽' in ec.ZH_EMOTION_RULE
+    assert 'zh_rule' in zr.SYSTEM_ZH and '不能顶替理由' in zr.SYSTEM_ZH
+    # SYSTEM_ZH no longer forbids irony / intensifiers outright (crypto personas keep them)
+    assert '不靠夸张、反讽或强化词；' not in zr.SYSTEM_ZH and '别拿近义的强化词顶上' not in zr.SYSTEM_ZH
 
 
 def test_intensifier_density_finding():
@@ -294,6 +315,7 @@ def test_intensifier_density_finding():
     one = plain + '\n这次就业数据直接改变了节奏，之后几周看通胀和工资，短端利率的压力也会小一些。'
     assert zr.intensifier_findings(one) == []        # a single 直接 in a normal post is not a finding
     assert zr.intensifier_findings(v9a, 'en') == []
+    assert zr.intensifier_findings(v9a, restrained=False) == []      # crypto / HIGH personas: never flagged
     assert qa_levels.level({'code': 'zh_intensifier'}, frame_found=False) == 'soft'
     assert 'zh_intensifier' in qa_levels.FIXES
 
@@ -576,3 +598,108 @@ def test_missing_why_never_blocks(monkeypatch, tmp_path):
     assert flags and all(f['level'] == 'soft' for f in flags)
     assert 'missing_why' not in result['qa']['hard'] and 'missing_why' in result['qa']['soft']
     assert result['structure_retry']['kept'] == 'original'
+
+
+# ---------------- v11 follow-up: crypto keeps emotion; why-cites-fact applies to crypto too ----------------
+
+LOUD_ZH = '存储这轮紧缺还没完。\n因为厂商一点都不想扩产，价格纯粹是被推上去的，直接涨。\n对下游来说，采购节奏得跟着改。'
+
+
+@pytest.mark.parametrize('account,flagged', [('zh_industry', True), ('crypto_macro_zh', False)])
+def test_intensifier_only_for_restrained_personas(monkeypatch, tmp_path, account, flagged):
+    _iso(monkeypatch, tmp_path)
+    from tests.test_compose import SOURCE as CSOURCE
+    from tests.test_zh_register_oct6_v5 import SeqFake, STANCE
+    result = compose.compose_source(CSOURCE, account, SeqFake([LOUD_ZH, LOUD_ZH]), post_type='data_take',
+                                    stance_output=dict(STANCE), emotion_contract=False)
+    first = {f['code'] for f in (result.get('structure_retry') or {}).get('first_findings') or []}
+    posts = {f['code'] for f in result['post_checks']}
+    assert ('zh_intensifier' in first) is flagged and ('zh_intensifier' in posts) is flagged
+
+
+def test_crypto_zh_runs_the_zh_why_check(monkeypatch, tmp_path):
+    _iso(monkeypatch, tmp_path)
+
+    class Said(JudgmentFake):
+        def __call__(self, stage, messages, max_tokens):
+            out = super().__call__(stage, messages, max_tokens)
+            if stage == 'compose':
+                v = json.loads(out['text'])
+                v['body'] = HEAD_BODY
+                v['claim_ledger'] = [{'claim': 'Williams也明确表态没有紧迫性', 'unit_id': 'cu-view', 'span_ref': 0}]
+                out['text'] = json.dumps(v, ensure_ascii=False)
+            return out
+    result = _compose(Said(), account='crypto_macro_zh')
+    flags = [f for f in result['post_checks'] if f['code'] == 'missing_why']
+    assert flags and flags[0]['detail'] == '理由只是某人表态，没有事实' and flags[0]['level'] == 'soft'
+
+
+EN_SAID = ('Bitcoin is not getting a Fed tailwind this month.\n'
+           'That is because New York Fed President Williams said there is no urgency to hike again.\n'
+           'Risk appetite stays thin into October.')
+EN_FACT = ('Bitcoin is not getting a Fed tailwind this month.\n'
+           'That is because payrolls rose only 29,000 against 84,000 expected.\n'
+           'October hike odds fell to 22% from 66%.')
+
+
+def test_en_why_said_only_reason_is_missing_why():
+    ledger = [{'claim': 'Williams said there is no urgency to hike again', 'unit_id': 'cu-view', 'span_ref': 0}]
+    f = zr.en_why_findings(EN_SAID, units=POOL, ledger=ledger)
+    assert f and f[0]['code'] == 'missing_why' and "'X said'" in f[0]['detail']
+    for marker in ('told reporters', 'argued', 'warned', 'thinks'):
+        body = f'BTC looks heavy here.\nThat is driven by the Fed, which {marker} the job is not done.'
+        assert zr.en_why_findings(body, units=POOL), marker
+    assert zr.en_why_findings(EN_FACT, units=POOL, ledger=[]) == []      # 29,000 / 84,000 from the payroll unit
+    ledger_fact = [{'claim': 'hiring slowed sharply last month', 'unit_id': 'cu-jobs', 'span_ref': 0}]
+    assert zr.en_why_findings('BTC looks heavy.\nThat is due to hiring that slowed sharply last month.',
+                              units=POOL, ledger=ledger_fact) == []
+    assert zr.en_why_findings('BTC looks heavy. Such as gold, since 2020 it has been range-bound.', units=POOL) == []
+
+
+class EnFake(JudgmentFake):
+    def __init__(self, bodies, **kw):
+        super().__init__(kw)
+        self.bodies = list(bodies)
+
+    def __call__(self, stage, messages, max_tokens):
+        out = super().__call__(stage, messages, max_tokens)
+        v = json.loads(out['text'])
+        if stage == 'stance' and 'account_view' in v:
+            v['account_view'] = 'Bitcoin gets no Fed tailwind this month because payrolls missed'
+        if stage == 'compose':
+            n = len(self.payloads['compose'])
+            body = self.bodies[min(n, len(self.bodies)) - 1]
+            v['body'] = body
+            v['claim_ledger'] = ([{'claim': 'Williams said there is no urgency', 'unit_id': 'cu-view', 'span_ref': 0}]
+                                 if body == EN_SAID else
+                                 [{'claim': 'payrolls rose only 29,000', 'unit_id': 'cu-jobs', 'span_ref': 0}])
+        out['text'] = json.dumps(v, ensure_ascii=False)
+        return out
+
+
+def _compose_en(fake, account):
+    return compose.compose_source(SOURCE, account, fake, post_type='judgment_take',
+                                  extracted_units=[dict(u) for u in POOL], exemplars=False, emotion_contract=False,
+                                  now=NOW)
+
+
+def test_crypto_en_said_reason_soft_finding_and_single_regen(monkeypatch, tmp_path):
+    _iso(monkeypatch, tmp_path)
+    fake = EnFake([EN_SAID, EN_FACT])
+    result = _compose_en(fake, 'crypto_macro_en')
+    sr = result['structure_retry']
+    assert 'missing_why' in {f['code'] for f in sr['first_findings']} and sr['kept'] == 'retry'
+    assert result['body'] == EN_FACT and not [f for f in result['post_checks'] if f['code'] == 'missing_why']
+    assert len([p for p in fake.payloads['compose'] if str(p.get('rewrite_note', '')).startswith('[structure_repair]')]) == 1
+    # stubborn model: soft yellow flag on the kept body, never a block
+    _iso(monkeypatch, tmp_path / 'b')
+    result = _compose_en(EnFake([EN_SAID]), 'crypto_macro_en')
+    flags = [f for f in result['post_checks'] if f['code'] == 'missing_why']
+    assert flags and all(f['level'] == 'soft' for f in flags) and 'missing_why' not in result['qa']['hard']
+
+
+def test_en_macro_control_group_has_no_why_check(monkeypatch, tmp_path):
+    _iso(monkeypatch, tmp_path)
+    result = _compose_en(EnFake([EN_SAID]), 'en_macro')
+    assert not [f for f in result['post_checks'] if f['code'] == 'missing_why']
+    assert 'missing_why' not in {f['code'] for f in (result.get('structure_retry') or {}).get('first_findings') or []}

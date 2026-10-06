@@ -1,6 +1,10 @@
 {
   "version": 1,
   "note": "Per-persona emotion tiers (Fiona 2026-10-05). Retry only for HIGH; MID soft-reminds; LOW restrained (overclaim checks stay on). v11 (Oct 6): zh_macro / zh_industry mid -> low - at intensity 3 with irony / exaggeration allowed the ZH drafts replaced the reason with attitude words (走过场 / 打没了 / 直接放话; donors 1.5 intensifiers per 1k CJK chars, v7+ drafts 19.6).",
+  "restrained_devices_note": "v11 follow-up (Fiona, Oct 6): only these personas lose 'light exaggeration' / 'irony', carry the restraint rule (emotion via judgment verbs, no intensifiers) and get the zh_intensifier density check. Crypto / HIGH personas keep their intensity, irony and required_effect.",
+  "restrained_devices_personas": ["zh_macro", "zh_industry"],
+  "why_cites_fact_note": "v11 follow-up: attitude words must not replace the reason even for crypto accounts. ZH personas already run the why-cites-a-fact check (zh_register.why_implication_findings); these EN personas run its EN variant. en_macro / en_industry are the EN control group and are not listed.",
+  "why_cites_fact_en_personas": ["crypto_macro_en"],
   "default_tier": "mid",
   "tiers": {
     "high": {

@@ -1153,7 +1153,9 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
             findings += zr.sentence_findings(body, persona.lang)
             findings += zr.stance_copy_findings(body, (stance or {}).get('account_view'), persona.lang)
             findings += zr.line_break_findings(body, persona.lang)
-            findings += zr.intensifier_findings(body, persona.lang)   # v11: soft yellow flag
+            from live import emotion_contract as _ec   # v11: restrained personas only (not crypto / HIGH)
+            findings += zr.intensifier_findings(body, persona.lang,
+                                                restrained=_ec.restrained_devices(persona.persona_id))
             _recent = recent if recent is not None else anti_repeat.load_recent(persona.persona_id)
             findings += zr.opening_findings(body, None, [r['text'] for r in _recent if isinstance(r, dict) and r.get('text')])
     findings += trade_reco_findings(body, persona.lang)
@@ -1845,6 +1847,10 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
 
     why_kw = {'units': chosen, 'why_line': (stance or {}).get('why_line'),
               'zh_units': (stance or {}).get('zh_units')}   # v11: the why must cite a fact / mechanism unit
+    # v11 follow-up: crypto_macro_en (emotion_tiers.json why_cites_fact_en_personas) runs the EN variant;
+    # en_macro / en_industry stay the control group. Only restrained ZH personas get zh_intensifier.
+    en_why = persona.lang != 'zh' and ec.why_cites_fact_en(account_id)
+    restrained = ec.restrained_devices(account_id)
 
     def _structure(b, ledger=None):
         from live.coherence import internal_contradiction_findings
@@ -1858,6 +1864,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             if not use_zh:
                 found += compose_shapes.recent_opener_findings(b, recent_rows)
                 found += zr.en_template_findings(b, persona.lang)   # v8 question-form not-X-but-Y
+            if en_why:   # v11 follow-up: "X said" is not a reason on crypto_macro_en either
+                found += zr.en_why_findings(b, ledger=ledger, units=chosen, why_line=why_kw['why_line'])
         if use_zh:   # v5: 研报腔 density / AI template phrases and crowd-feeling attribution, one shared regen
             found += zr.register_findings(b, persona.lang) + zr.market_feeling_findings(b, persona.lang)
             # v7: 别… openers, long sentences, stance jargon carried into the body - same one regen
@@ -1866,7 +1874,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             found += zr.stance_copy_findings(b, payload.get('thesis_lock'), persona.lang)
             found += zr.line_break_findings(b, persona.lang)   # v8: long ZH as one-clause lines
             found += zr.awkward_time_findings(b, persona.lang)   # v10: 随后就会直接停手 / 走过场
-            found += zr.intensifier_findings(b, persona.lang)    # v11: attitude words instead of a reason
+            found += zr.intensifier_findings(b, persona.lang, restrained=restrained)   # v11: attitude words instead of a reason
             if post_type in JUDGMENT_TYPES or thesis_locked:     # v11: same stock why/so-what lead-in again
                 found += zr.leadin_repeat_findings(b, recent_bodies)
             if post_type in JUDGMENT_TYPES or thesis_locked:   # v10: 谜语人 - call without why / what it means
@@ -1976,6 +1984,9 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     if use_zh and (post_type in JUDGMENT_TYPES or thesis_locked):
         # v11: soft yellow flag on the kept body (the regen above already had its one try).
         findings += qa_levels.classify(zr.why_implication_findings(body, persona.lang, ledger=ledger, **why_kw),
+                                       frame_found=True)
+    elif en_why and (post_type in JUDGMENT_TYPES or thesis_locked):
+        findings += qa_levels.classify(zr.en_why_findings(body, ledger=ledger, units=chosen, why_line=why_kw['why_line']),
                                        frame_found=True)
     findings += qa_levels.classify(
         verbatim_line1_findings(body, stance, thesis_lock=payload.get('thesis_lock')), frame_found=True)

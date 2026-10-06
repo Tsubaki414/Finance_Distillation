@@ -209,7 +209,7 @@ SYSTEM_ZH = """
 3. 句子短。一句只说一件事；按 zh_register.sentence_length 的中位数写（真实账号大约 18-22 个字一句），最长别超过 35 个字，能断就断。例外：第一行的判断句可以带一个短理由，最长约 50 个字（本条优先于上文英文说明里第一行的字数限制）。
 4. 少用研报书面词：而非、以……为主、基准路径、结构性、实质性、显然、注定、生存空间、从而、进而、鉴于、与此同时、本质上、叠加、核心变量、难以为继、备用选项。平实的因果和后果连接（因为、所以、这意味着、也就是说）可以用。要连接就用 zh_register.donor_connectors 里这些账号常用的口语连接词；像锚句那样带一两个口语词（其实、所以、得看、说实话、吧）就够，别堆。
 5. 不替别人说话：不写「很多人认为」「市场普遍认为」「大家都觉得」「很多人据此认为」这类别人怎么想的句子（除非 units 里有这个证据），直接说自己的判断。
-6. 不用 AI 套话：「不是X，而是Y」及其问句版（「只是…？人家这是…」「你以为…？其实…」）、「与其说X不如说Y」「理由听起来很完美」「看似合理」「归根结底」「不难发现」都不要写；也别堆「死死」「死磕」「狠狠」「拉满」这类夸张词（真实账号很少用）；不用「彻底」「根本」「注定」「必然」「完全」这类绝对化副词，除非 units 原文就这么说；也别拿近义的强化词顶上（直接、纯粹、一点都不、毫无、砸到、放话）。情绪靠判断动词带出来，不靠夸张、反讽或强化词；该解释的地方给理由，不给态度。
+6. 不用 AI 套话：「不是X，而是Y」及其问句版（「只是…？人家这是…」「你以为…？其实…」）、「与其说X不如说Y」「理由听起来很完美」「看似合理」「归根结底」「不难发现」都不要写；也别堆「死死」「死磕」「狠狠」「拉满」这类夸张词（真实账号很少用）；不用「彻底」「根本」「注定」「必然」「完全」这类绝对化副词，除非 units 原文就这么说。态度词、强化词、反讽都不能顶替理由：该解释的地方给一句有事实的理由（units 里的数字/事件），不给态度。emotion_brief 里有 zh_rule 时照它收着写（情绪靠判断动词，不用夸张、反讽或强化词）。
 7. zh_register.register_anchors 是这类账号参考的真实中文博主的原句，只用来对齐语气、句子长短和用词习惯。不要照抄其中任何词句，也不要借用里面的内容、数字或观点。
 8. 开头：第一句照样是明确的判断，但用 zh_register.opening_move 指定的开头动作（没指定 question 就不要用反问开头；全文最多一个反问句）。不要用「别…/不要…/别指望/别被」这种祈使句开头（真实账号里不到 1% 这样开头）；情绪靠判断里的词带出来。也不要跟 zh_register.recent_openers 用同一种开头。
 9. 时间：units 的 date_label 是数据所属的时间。标了 historical 的单元说清楚是哪个月/哪天的数据（如「8月的数据」「上周公布的」），但它仍是手上最新的一期，不要写成「回看历史」「当时」。时间和政策路径用平实词（之后、12月之后、下次会议前），不要写「随后就会直接停手」「接下来纯粹是走过场」「直接放话」「打没了」这类别扭说法。
@@ -701,6 +701,88 @@ def why_implication_findings(body, lang='zh', *, units=None, ledger=None, why_li
     return out
 
 
+# v11 follow-up (Fiona): attitude words must not replace the reason on crypto accounts either. EN variant of
+# the why-cites-a-fact check for the EN personas in emotion_tiers.json why_cites_fact_en_personas
+# (crypto_macro_en); en_macro / en_industry are the control group and never run it. Only the "the reason is
+# just somebody's statement" half: EN has no missing_why-without-marker / missing_implication checks.
+WHY_RX_EN = re.compile(r"\b(?:because|since(?!\s+(?:\d|19|20|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|"
+                       r"last|early|mid|late|then))|driven\s+by|thanks\s+to|due\s+to|owing\s+to|on\s+the\s+back\s+of|"
+                       r"after|as\s+a\s+result\s+of|(?<!such\s)(?<!well\s)as(?!\s+(?:well|much|many|long|far|soon|if|"
+                       r"though|of|for|to|a\s+result)\b))\b", re.I)
+SAID_EN = re.compile(r"\b(?:said|says|say|told|tells|argued|argues|warned|warns|thinks|think|believes|claimed|claims|"
+                     r"stated|according\s+to|signal(?:l)?ed|insisted|insists)\b", re.I)
+_EN_STOP = frozenset('about after again against because been before being below between both could does doing down '
+                     'during each from further have having here into itself more most once only other over same should '
+                     'some such than that their them then there these they this those through under until very were '
+                     'what when where which while will with would your year years week month still just also'.split())
+
+
+def _en_sentences(text):
+    return [x.strip() for x in re.split(r'(?<=[.!?])\s+|\n+', str(text or '')) if x.strip()]
+
+
+def _en_words(text):
+    return {w for w in re.findall(r'[a-z][a-z-]{3,}', str(text or '').lower()) if w not in _EN_STOP}
+
+
+def en_reason_support(sentence, units, ledger=None):
+    """EN reason_support: ('fact' | 'view' | 'unknown', how). Same order as the ZH path: an 'X said' reason is a
+    view; a number from a fact / mechanism unit, a claim_ledger row on one, or 3+ content words only fact units
+    carry make it a fact."""
+    if SAID_EN.search(sentence):
+        return 'view', 'said'
+    facts = [u for u in units if u.get('kind') in FACT_KINDS]
+    views = [u for u in units if u.get('kind') not in FACT_KINDS]
+    fact_texts = [t for u in facts for t in _unit_texts(u)]
+    if re.search(r'\d', sentence) and fact_texts and numbers_covered(sentence, fact_texts):
+        return 'fact', 'number'
+    by_id = {u.get('unit_id'): u for u in units}
+    words = _en_words(sentence)
+    rows = [by_id[r['unit_id']] for r in ledger or () if isinstance(r, dict) and r.get('unit_id') in by_id
+            and str(r.get('claim') or '').strip()
+            and (str(r['claim']).strip().lower() in sentence.lower()
+                 or len(_en_words(r['claim']) & words) >= max(2, len(_en_words(r['claim'])) // 2))]
+    if any(u.get('kind') in FACT_KINDS for u in rows):
+        return 'fact', 'ledger'
+    view_words = set().union(*[_en_words(t) for u in views for t in _unit_texts(u)]) if views else set()
+    fact_words = set().union(*[_en_words(t) for t in fact_texts]) if fact_texts else set()
+    if len((words & fact_words) - view_words) >= 3:
+        return 'fact', 'phrase'
+    if rows:
+        return 'view', 'ledger_view'
+    return 'unknown', None
+
+
+def en_why_sentences(body, why_line=None):
+    """EN why sentences: any with a causal marker after line 1, plus the sentence after line 1 closest to
+    why_line (content-word overlap >= 0.3)."""
+    sents = _en_sentences(body)
+    out = [x for x in sents[1:] if WHY_RX_EN.search(x)]
+    if sents and WHY_RX_EN.search(sents[0]) and SAID_EN.search(sents[0]):
+        out.insert(0, sents[0])   # a one-line call whose only reason is "because X said"
+    if why_line and len(sents) > 1:
+        wl = _en_words(why_line)
+        best = max(sents[1:], key=lambda x: len(_en_words(x) & wl))
+        if wl and len(_en_words(best) & wl) / len(wl) >= 0.3 and best not in out:
+            out.append(best)
+    return out
+
+
+def en_why_findings(body, *, units=None, ledger=None, why_line=None):
+    """SOFT missing_why on an EN judgment draft of a why_cites_fact_en persona: no why sentence is backed by
+    a fact / mechanism unit and one only reports somebody's statement (said / told / argued / warned ...)."""
+    if not body:
+        return []
+    support = [en_reason_support(x, units or [], ledger) for x in en_why_sentences(body, why_line)]
+    kinds = {k for k, _ in support}
+    if support and 'fact' not in kinds and 'view' in kinds:
+        said = any(how == 'said' for _, how in support)
+        return [{'code': 'missing_why',
+                 'detail': ("the only reason is somebody's statement ('X said'), no fact" if said else
+                            'the reason only cites a view unit (claim_ledger), no fact / number')}]
+    return []
+
+
 def awkward_time_findings(body, lang='zh'):
     """SOFT zh_awkward_time: colloquial time / policy-path slang (随后就会直接停手 / 走过场 ...)."""
     if lang != 'zh' or not body:
@@ -718,9 +800,11 @@ INTENSIFIER_SLANG = ('走过场', '打没了', '砸到', '放话', '死死', '�
 INTENSIFIER_DENSITY_MAX = 5.0
 
 
-def intensifier_findings(body, lang='zh'):
-    """SOFT zh_intensifier: attitude / intensifier words above donor density, or any slang one."""
-    if lang != 'zh' or not body:
+def intensifier_findings(body, lang='zh', restrained=True):
+    """SOFT zh_intensifier: attitude / intensifier words above donor density, or any slang one.
+    v11 follow-up: only restrained personas (emotion_contract.restrained_devices: zh_macro, zh_industry);
+    crypto / HIGH personas keep their intensity, so restrained=False never flags."""
+    if lang != 'zh' or not body or not restrained:
         return []
     n = len(CJK.findall(str(body)))
     if not n:

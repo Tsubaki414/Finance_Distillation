@@ -92,7 +92,7 @@ def test_zh_emotion_devices_drop_rhetorical_question():
     from live import emotion_contract as ec
     import inspect
     src = inspect.getsource(ec)
-    assert "lang == 'zh' and (d == 'rhetorical question'" in src   # v11: + ZH_NO_DEVICES
+    assert "lang == 'zh' and d == 'rhetorical question'" in src
 
 
 def test_en_imperative_template_flagged():
