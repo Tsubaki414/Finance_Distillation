@@ -233,9 +233,8 @@ def test_budget_plan_skips_no_candidate_account(tmp_path, monkeypatch):
              for a in ('zh_industry', 'en_macro', 'en_industry')}
     pools['zh_macro'] = [_rec('zh_macro', 'zm-only-fact', 'fact')]
     calls = _live_setup(monkeypatch, pools)
-    base = round(demo.COST_DEFAULTS['stance_usd'] + demo.COST_DEFAULTS['compose_usd']
-                 + demo.COST_DEFAULTS['compose_reserve_usd'], 3)
-    cap = round(3 * base + 0.01, 3)   # funds 3 slots, not 4
+    # v11 cost: each slot's base uses its own-language stance estimate
+    cap = round(sum(demo.slot_min_usd(a) for a in ('zh_industry', 'en_macro', 'en_industry')) + 0.01, 3)
     results = {r['account_id']: r for r in demo.run(tmp_path, cap, live=True)}
     assert sorted(calls) == ['en_industry', 'en_macro', 'zh_industry']
     plan = json.loads((tmp_path / 'budget_plan.json').read_text())
@@ -248,7 +247,8 @@ def test_budget_plan_skips_no_candidate_account(tmp_path, monkeypatch):
     summary = (tmp_path / 'SUMMARY.md').read_text()
     assert 'Selection funnel' in summary and 'No candidate (zero need' in summary
     # FAIL LOUD still applies to the slots that do have a candidate
-    results = demo.run(tmp_path / 'b', round(2 * base + 0.01, 3), live=True)
+    results = demo.run(tmp_path / 'b', round(demo.slot_min_usd('zh_industry') + demo.slot_min_usd('en_macro') + 0.01, 3),
+                       live=True)
     kinds = {r['account_id']: r.get('error_kind') for r in results}
     assert kinds['zh_macro'] == 'no_candidate' and list(kinds.values()).count('unfunded') == 1
     assert 'FAIL LOUD' in (tmp_path / 'b' / 'SUMMARY.md').read_text()

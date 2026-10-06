@@ -295,7 +295,32 @@ def select_groups(store, accounts, selection=None, exclude_sources=(), recent=No
 # Oct 6 v9 slot budget sizing. Observed on Oct 6 v5-v8 live calls (configured token/rate estimates):
 # opus stance actual mean $0.170 / p90 $0.213 (reservation $0.315-0.328); gemini compose actual mean
 # $0.094 / p90 $0.129 (reservation $0.212-0.221); slot spend mean $0.31, p90 $0.52.
-COST_DEFAULTS = {'stance_usd': 0.213, 'compose_usd': 0.129, 'stance_reserve_usd': 0.328, 'compose_reserve_usd': 0.221}
+# Oct 6 v11: ZH stance sees all source facts and returns zh_units + why/so_what lines (max_tokens 3000).
+# Pre-fix (v9a/v9b, 7 calls): input ~5.1-5.4k tok, output median ~900, cost median $0.143, max $0.187.
+# Post-fix (demo_matrix_oct6_zhfix, 9 full ZH stance calls): input 5.5-7.1k, output median 990 (max 2132),
+# cost median $0.174, p90/max $0.252. EN stance keeps stance_usd.
+COST_DEFAULTS = {'stance_usd': 0.213, 'stance_zh_usd': 0.252, 'compose_usd': 0.129,
+                 'stance_reserve_usd': 0.328, 'compose_reserve_usd': 0.221}
+
+
+def account_lang(account):
+    return 'zh' if str(account).startswith('zh') else 'en'
+
+
+def stance_cost(m, lang):
+    return m.get('stance_zh_usd', m['stance_usd']) if lang == 'zh' else m['stance_usd']
+
+
+def slot_base_usd(m, lang):
+    """Per-slot base need: own-language stance + compose + 1 regen reservation (FD_SLOT_BASE_USD overrides)."""
+    return float(os.environ.get('FD_SLOT_BASE_USD')
+                 or round(stance_cost(m, lang) + m['compose_usd'] + m['compose_reserve_usd'], 3))
+
+
+def _is_zh_stance(row):
+    """v11 ZH stance request: carries zh_units_rule (max_tokens 3000)."""
+    return ((row.get('max_tokens') or 0) >= 3000
+            or 'zh_units_rule' in json.dumps(row.get('messages') or '', ensure_ascii=False))
 
 
 def _p(values, q):
@@ -305,17 +330,18 @@ def _p(values, q):
 
 def slot_cost_model(root, *, limit=300):
     """p90 actual cost per stance / compose call and max reservation, from recent demo runs under `root`
-    (demo_matrix_*/calls, */ledger/spend.json). Falls back to COST_DEFAULTS when < 10 samples."""
+    (demo_matrix_*/calls, */ledger/spend.json). Falls back to COST_DEFAULTS when < 10 samples; the v11 ZH
+    stance p90 is computed separately and falls back to its default when < 5 ZH samples."""
     model, source = dict(COST_DEFAULTS), 'defaults (Oct 6 v5-v8 observed)'
     try:
         calls = sorted(Path(root).glob('demo_matrix_*/calls/*.json'), key=lambda p: p.stat().st_mtime)[-limit:]
-        stance, comp = [], []
+        stance, stance_zh, comp = [], [], []
         for path in calls:
             row = json.loads(path.read_text())
             if row.get('status') != 'completed' or not row.get('estimated_cost_usd'):
                 continue
             if row.get('stage') == 'stance' and (row.get('max_tokens') or 0) >= 1000:
-                stance.append(row['estimated_cost_usd'])
+                (stance_zh if _is_zh_stance(row) else stance).append(row['estimated_cost_usd'])
             elif row.get('stage') == 'compose':
                 comp.append(row['estimated_cost_usd'])
         res = {'opus': [], 'gemini': []}
@@ -331,41 +357,60 @@ def slot_cost_model(root, *, limit=300):
             if res['gemini']:
                 model['compose_reserve_usd'] = round(max(res['gemini']), 3)
             source = f'observed p90 of {len(stance)} stance / {len(comp)} compose calls under {root}'
+        if len(stance_zh) >= 5:
+            model['stance_zh_usd'] = round(_p(stance_zh, 0.9), 3)
+            source += f'; ZH stance observed p90 of {len(stance_zh)} calls'
+        else:
+            source += f'; ZH stance default ({len(stance_zh)} samples < 5)'
     except Exception as exc:   # never block a run on the estimator
         source = f'defaults (estimator error {type(exc).__name__})'
     model['source'] = source
     return model
 
 
-def budget_plan(cap, n_slots, m):
+def budget_plan(cap, n_slots, m, langs=None):
     """Per-slot need and how many slots the cap funds. base = stance + compose + 1 regen headroom
-    (the regen needs a full compose reservation when it is sent); full = base + 1 backup stance."""
-    base = float(os.environ.get('FD_SLOT_BASE_USD') or round(m['stance_usd'] + m['compose_usd'] + m['compose_reserve_usd'], 3))
-    full = round(base + m['stance_usd'], 3)
-    funded = min(n_slots, int((cap + 1e-9) // base)) if base > 0 else n_slots
-    pool = round(cap - n_slots * base, 3)
-    status = ('OK_FULL' if cap + 1e-9 >= n_slots * full else
-              'OK_BASE_SHARED_BACKUP' if cap + 1e-9 >= n_slots * base else 'INSUFFICIENT')
-    return {'cap_usd': cap, 'slots': n_slots, 'base_need_usd': base, 'full_need_usd': full,
+    (the regen needs a full compose reservation when it is sent); full = base + 1 backup stance.
+    v11: `langs` (one 'zh'/'en' per slot, default all EN) sizes each slot with its own-language stance."""
+    langs = list(langs or ['en'] * n_slots)
+    bases = [slot_base_usd(m, lang) for lang in langs]
+    fulls = [round(b + stance_cost(m, lang), 3) for b, lang in zip(bases, langs)]
+    funded, total = 0, 0.0
+    for b in bases:
+        if total + b > cap + 1e-9:
+            break
+        total, funded = total + b, funded + 1
+    need, full_need = round(sum(bases), 3), round(sum(fulls), 3)
+    pool = round(cap - need, 3)
+    status = ('OK_FULL' if cap + 1e-9 >= full_need else
+              'OK_BASE_SHARED_BACKUP' if cap + 1e-9 >= need else 'INSUFFICIENT')
+    backup = max(stance_cost(m, lang) for lang in langs) if langs else m['stance_usd']
+    return {'cap_usd': cap, 'slots': n_slots, 'langs': langs,
+            'base_need_usd': max(bases) if bases else slot_base_usd(m, 'en'),
+            'full_need_usd': max(fulls) if fulls else round(slot_base_usd(m, 'en') + m['stance_usd'], 3),
+            'base_need_by_lang': {lang: slot_base_usd(m, lang) for lang in ('en', 'zh')},
+            'slot_base_usd': bases, 'total_base_need_usd': need,
             'slots_funded': funded, 'shared_pool_usd': max(0.0, pool),
-            'backups_covered': max(0, int(max(0.0, pool) // m['stance_usd'])) if status != 'OK_FULL' else n_slots,
-            'cap_for_full_guarantee_usd': math.ceil(n_slots * full * 10) / 10,
+            'backups_covered': max(0, int(max(0.0, pool) // backup)) if status != 'OK_FULL' else n_slots,
+            'cap_for_full_guarantee_usd': math.ceil(full_need * 10) / 10,
             'status': status, 'cost_model': m}
 
 
 def plan_lines(plan):
     m = plan['cost_model']
-    out = [f"Cost model ({m['source']}): stance ${m['stance_usd']:.3f}, compose ${m['compose_usd']:.3f}, "
-           f"compose reservation ${m['compose_reserve_usd']:.3f}.",
-           f"Per slot: base (stance + compose + 1 regen) ${plan['base_need_usd']:.3f}; "
-           f"full (+1 backup stance) ${plan['full_need_usd']:.3f}.",
+    by = plan.get('base_need_by_lang') or {'en': plan['base_need_usd'], 'zh': plan['base_need_usd']}
+    out = [f"Cost model ({m['source']}): stance EN ${m['stance_usd']:.3f} / ZH ${stance_cost(m, 'zh'):.3f}, "
+           f"compose ${m['compose_usd']:.3f}, compose reservation ${m['compose_reserve_usd']:.3f}.",
+           f"Per slot: base (stance + compose + 1 regen) EN ${by['en']:.3f} / ZH ${by['zh']:.3f}; "
+           f"full (+1 backup stance) up to ${plan['full_need_usd']:.3f}.",
            f"Status: **{plan['status']}** — cap ${plan['cap_usd']:.2f} for {plan['slots']} slots."]
     if plan.get('no_candidate_accounts'):
         out.append('No candidate (zero need, not funded, error row with the selection funnel): '
                    + ', '.join(plan['no_candidate_accounts']) + '.')
     if plan['status'] == 'INSUFFICIENT':
         out.append(f"**FAIL LOUD: cap funds only {plan['slots_funded']} of {plan['slots']} slots at base need; "
-                   f"the rest are error rows (not attempted). Need ≥ ${plan['slots'] * plan['base_need_usd']:.2f}.**")
+                   f"the rest are error rows (not attempted). "
+                   f"Need ≥ ${plan.get('total_base_need_usd', plan['slots'] * plan['base_need_usd']):.2f}.**")
     elif plan['status'] == 'OK_BASE_SHARED_BACKUP':
         out.append(f"Every slot funded at base; shared pool ${plan['shared_pool_usd']:.2f} covers "
                    f"{plan['backups_covered']} backup stance(s) first-come. Full guarantee for all slots needs "
@@ -374,6 +419,12 @@ def plan_lines(plan):
 
 
 SLOT_MIN_USD = round(COST_DEFAULTS['stance_usd'] + COST_DEFAULTS['compose_usd'] + COST_DEFAULTS['compose_reserve_usd'], 3)
+SLOT_MIN_ZH_USD = round(COST_DEFAULTS['stance_zh_usd'] + COST_DEFAULTS['compose_usd']
+                        + COST_DEFAULTS['compose_reserve_usd'], 3)
+
+
+def slot_min_usd(account):
+    return SLOT_MIN_ZH_USD if account_lang(account) == 'zh' else SLOT_MIN_USD
 
 
 def relay_quota_tripped():
@@ -774,7 +825,9 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
     # empty zh_macro slot and left en_industry unfunded with $1.9 of the cap unspent).
     candidates = [a for a in accounts if selected.get(a)] if client else list(accounts)
     no_candidate = [a for a in accounts if a not in candidates]
-    plan = budget_plan(cap, len(candidates), slot_cost_model(out.parent))
+    plan = budget_plan(cap, len(candidates), slot_cost_model(out.parent),
+                       langs=[account_lang(a) for a in candidates])
+    slot_base = dict(zip(candidates, plan['slot_base_usd']))
     plan['no_candidate_accounts'] = no_candidate
     write_json(out / 'budget_plan.json', plan)
     funded = candidates[:plan['slots_funded']] if client else list(accounts)   # dry mode spends nothing
@@ -795,12 +848,13 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
         notes.append(f'Coherence reserve per slot: ${COHERENCE_RESERVE_USD:.2f} held back from polish retries.')
         for idx, account in enumerate(accounts):
             before = budget.spent()
-            later = sum(1 for a in accounts[idx + 1:] if a in funded)
+            later = sum(slot_base[a] for a in accounts[idx + 1:] if a in funded)   # v11: own-language bases
             # v9: every later slot keeps the base need (stance + compose + 1 regen at observed p90 cost +
             # reservation headroom); this slot may use the rest (first-come shared pool for a backup
             # stance / extra regen). Slots the plan cannot fund are error rows, never silent starvation.
             left = max(0.0, cap - before)
-            slot_cap = round(max(min(left, plan['base_need_usd']), left - plan['base_need_usd'] * later), 6)
+            own = slot_base.get(account, plan['base_need_usd'])
+            slot_cap = round(max(min(left, own), left - later), 6)
             slot_cap = slot_cap if account in funded else 0.0   # v10b: no-candidate / unfunded slots need $0
             slot_caps[account] = slot_cap
             result = None
@@ -813,7 +867,8 @@ def run(out, cap, *, live=False, command='', continue_from=None, only_accounts=N
                 elif account not in funded:
                     result = error_result(account, 'unfunded', f'Budget plan: cap ${cap:.2f} funds '
                                           f'{plan["slots_funded"]} of {len(candidates)} candidate slots at '
-                                          f'${plan["base_need_usd"]:.2f} base need; slot not attempted.')
+                                          f'${slot_base.get(account, plan["base_need_usd"]):.2f} base need; '
+                                          'slot not attempted.')
                 elif client:
                     result = run_slot(account, out, client, selected, backups, selection, batch_shapes,
                                       len(batch_shapes) + (len(accounts) - idx), notes)

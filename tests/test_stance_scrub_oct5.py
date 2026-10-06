@@ -80,7 +80,8 @@ def test_stance_step_mechanical_scrub_clears_without_retry():
 
 
 def test_stance_step_retries_when_scrub_reverts():
-    """When the whole account_view IS a banned span, scrub reverts and one repair fires."""
+    """When the whole account_view IS a banned span, scrub reverts and one repair fires
+    (v11 cost: for ZH that repair is the small account_view rewrite, not a second full stance)."""
     from tests.test_judgment import VIEW
     from live import registry
     unit = {
@@ -103,14 +104,16 @@ def test_stance_step_retries_when_scrub_reverts():
     def client(stage, messages, max_tokens):
         calls['n'] += 1
         payload = json.loads(messages[-1]['content'])
-        value = clean if payload.get('rewrite_note') else dirty
+        value = {'account_view': clean['account_view']} if payload.get('problems') else dirty
         return {'text': json.dumps(value), 'finish_reason': 'stop'}
 
     persona = registry.persona_for_account('zh_industry')
     result = stance.stance_step(unit, persona, client, sleep=lambda s: None)
     assert '才是关键' not in result['account_view']
     assert calls['n'] == 2
-    assert result.get('stance_scrub_retry', {}).get('attempted') is True
+    assert result['stance_scrub_retry'] == {'attempted': False, 'routed_to': 'zh_view_rewrite',
+                                            'first_hits': ['才是关键']}
+    assert result['stance_zh_retry']['kept'] == 'retry'
 
 
 # --- B. verbatim line1 ----------------------------------------------------------------

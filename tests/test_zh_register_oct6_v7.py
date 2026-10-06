@@ -217,8 +217,9 @@ def test_demo_slot_subcaps(tmp_path, monkeypatch):
     monkeypatch.setattr(demo.compose, 'compose_source', fake_compose)
     results = demo.run(tmp_path, 2.5, live=True, command='t')
     assert calls == list(demo.ACCOUNTS)               # slot 1 refusal did not stop the others
-    assert caps[0] == pytest.approx(2.5 - 3 * demo.SLOT_MIN_USD, abs=0.01)   # later slots keep their floor
-    assert all(c >= demo.SLOT_MIN_USD - 0.01 for c in caps)
+    later = sum(demo.slot_min_usd(a) for a in demo.ACCOUNTS[1:])   # v11 cost: own-language floor per slot
+    assert caps[0] == pytest.approx(2.5 - later, abs=0.01)           # later slots keep their floor
+    assert all(c >= demo.slot_min_usd(a) - 0.01 for a, c in zip(demo.ACCOUNTS, caps))
     assert all(r.get('slot_cap_usd') for r in results)
     assert budget.cap() == 2.5   # v9: base need per slot; $2.0 would fund only 3 slots (fail loud)
 
