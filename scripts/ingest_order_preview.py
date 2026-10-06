@@ -19,7 +19,7 @@ from live.daily_ingest import DEFAULT_EST_USD_PER_DOC, extract_plan, priority  #
 
 
 def preview(summary_path, *, cap=None, per_extract=None, floor=2, flash_budget_usd=1.75, usd_per_flash=None,
-            flash_dry_run=None, max_extract=40, persona_minimum=True):
+            flash_dry_run=None, max_extract=60, persona_minimum=True):
     data = json.loads(Path(summary_path).read_text())
     fresh = data.get('fresh_by_persona_after') or data.get('fresh_by_persona_before') or {}
     cap = float(cap if cap is not None else (data.get('cost_usd') or {}).get('cap', 8.0))
@@ -103,7 +103,7 @@ def main(argv=None):
     ap.add_argument('--flash-dry-run', type=Path, default=None, help='daily_ingest --dry-run summary JSON (flash gather)')
     ap.add_argument('--usd-per-extract', type=float, default=None,
                     help='override $/document extract (default: stage_models.json extract est_usd_per_doc)')
-    ap.add_argument('--max-extract', type=int, default=40)
+    ap.add_argument('--max-extract', type=int, default=60)
     ap.add_argument('--no-persona-minimum', dest='persona_minimum', action='store_false')
     args = ap.parse_args(argv)
     p = preview(args.summary, floor=args.floor, flash_budget_usd=args.flash_budget_usd,

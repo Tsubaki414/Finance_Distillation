@@ -15,7 +15,7 @@ def main():
     parser.add_argument('--inbox',type=Path,default=Path('/workspace/x/ingest_inbox'))
     parser.add_argument('--cost-cap-usd',type=float,default=8.0)
     parser.add_argument('--channel-timeout',type=float,default=90)
-    parser.add_argument('--max-extract',type=int,default=40)
+    parser.add_argument('--max-extract',type=int,default=60,help='paid document extracts per run at most (Oct 6: 60 with Gemini EXTRACT; the --cost-cap-usd ledger stays authoritative)')
     parser.add_argument('--max-source-chars',type=int,default=5000)
     parser.add_argument('--per-channel-max',type=int,default=2)
     parser.add_argument('--fair-share-floor',type=int,default=2,help='paid extracts per persona (fewest fresh first) before the rest')

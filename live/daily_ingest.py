@@ -325,7 +325,7 @@ def extract_flashes(db, selected, *, client, jev, budget, cost_cap_usd, flash_bu
 
 def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_runs',
         inbox='/workspace/x/ingest_inbox', cost_cap_usd=8.0, channel_timeout=90, channel_timeouts=None,
-        max_extract=40, max_source_chars=5000, extract_model=None, allow_nondefault_extract_model=False, per_channel_max=2, no_dashboard=False, dry_run=False, only=None,
+        max_extract=60, max_source_chars=5000, extract_model=None, allow_nondefault_extract_model=False, per_channel_max=2, no_dashboard=False, dry_run=False, only=None,
         fair_share_floor=2, persona_minimum=True, est_usd_per_doc=None,
         flash_budget_usd=FLASH_BUDGET_USD, flash_batch_size=FLASH_BATCH_SIZE, flash_max=FLASH_MAX,
         flash_window_hours=FLASH_WINDOW_HOURS, flash_dedupe_hours=FLASH_DEDUPE_HOURS, flashes=True, news_leads=True,
