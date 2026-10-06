@@ -228,6 +228,17 @@ def skeleton(body, length_range=None):
             'lines': len(lines), 'length': length}
 
 
+_HEDGE_OPENER = re.compile(r"^\s*(?:我(?:个人)?(?:觉得|认为|感觉)|在我看来|个人(?:觉得|认为)|(?:I think|IMO|In my view|My view is|I feel)\b)", re.I)
+
+
+def hedged_opener_findings(body):
+    """SOFT: line 1 softened by an opinion marker (v4 zh_macro 我个人觉得，… / v3 en_industry IMO).
+    Opinion markers are fine later in the body; the opening call is said flat."""
+    first = next((ln for ln in (body or '').splitlines() if ln.strip()), '')
+    m = _HEDGE_OPENER.search(first)
+    return [{'code': 'hedged_opener', 'detail': f'line 1 opens with "{m.group(0).strip()}"'}] if m else []
+
+
 def number_run_findings(body, shape_id=None):
     """SOFT: >=3 consecutive number lines (罗列), or >2 number lines outside data_punch."""
     sk = skeleton(body)

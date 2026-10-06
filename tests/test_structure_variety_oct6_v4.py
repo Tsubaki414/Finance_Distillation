@@ -133,7 +133,7 @@ def test_direction_contradiction_flagged():
 
 
 def test_new_codes_are_soft_with_fixes():
-    for code in ('structure_repeat', 'shape_mismatch', 'number_run', 'internal_contradiction'):
+    for code in ('structure_repeat', 'shape_mismatch', 'number_run', 'internal_contradiction', 'hedged_opener'):
         assert code in qa_levels.SOFT and code in qa_levels.FIXES
 
 
@@ -167,6 +167,9 @@ def test_number_rebinding_uses_full_evidence_text():
     assert compose._number_in_text('72', text) and compose._number_in_text('36', text)
     assert compose._number_in_text('$1.0', text)
     assert not compose._number_in_text('48', text)
+    # v4 zh_macro: reasoning "10月" from an English "October" span is a month, not an unbound metric
+    assert compose._number_in_text('10', 'raise the probability of an October or December move')
+    assert not compose._number_in_text('11', 'raise the probability of an October or December move')
 
 
 # ---------- freshness in selection ----------
@@ -253,3 +256,10 @@ def test_shapes_off_switch(monkeypatch, tmp_path):
     result = compose.compose_source(SOURCE, 'zh_industry', fake, post_type='data_take',
                                     stance_output=dict(STANCE), emotion_contract=False, composition_shapes=False)
     assert 'composition_shape' not in fake.payloads[0] and 'composition_shape' not in result
+
+
+def test_hedged_opener_soft():
+    assert cs.hedged_opener_findings('我个人觉得，别急着给这轮紧缩周期画句号。')[0]['code'] == 'hedged_opener'
+    assert cs.hedged_opener_findings("IMO the dream of multiple suppliers is premature.")
+    assert cs.hedged_opener_findings('别急着画句号。\n我觉得数据还不够。') == []
+    assert 'hedged_opener' in qa_levels.SOFT and 'hedged_opener' in qa_levels.FIXES

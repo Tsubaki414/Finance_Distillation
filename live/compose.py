@@ -910,6 +910,12 @@ def _number_in_text(number, text):
     except Exception:
         pass
     literal = re.sub(r'[^\d.]', '', number.replace(',', '')).strip('.')
+    if literal.isdigit() and 1 <= int(literal) <= 12:
+        # ZH reasoning writes 10月 for an English "October" span (v4 zh_macro): a month, not a metric.
+        import calendar
+        names = (calendar.month_name[int(literal)], calendar.month_abbr[int(literal)] + '.')
+        if any(re.search(r'\b' + re.escape(n.rstrip('.')) + r'\b', text, re.I) for n in names):
+            return True
     return bool(literal) and bool(re.search(r'(?<![\d.])' + re.escape(literal) + r'(?![\d])', text.replace(',', '')))
 
 
@@ -966,6 +972,7 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
     if post_type in JUDGMENT_TYPES or (stance and stance.get('account_view')):
         findings += compose_shapes.number_run_findings(body, (shape or {}).get('id'))
         findings += compose_shapes.shape_findings(body, shape)
+        findings += compose_shapes.hedged_opener_findings(body)
         if recent is None:
             recent = anti_repeat.load_recent(persona.persona_id)
         findings += compose_shapes.history_findings(body, recent, shape=shape)
@@ -1504,6 +1511,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         found = compose_shapes.shape_findings(b, shape_info) if shape_info else []
         if post_type in JUDGMENT_TYPES or thesis_locked:
             found += compose_shapes.number_run_findings(b, (shape_info or {}).get('id'))
+            found += compose_shapes.hedged_opener_findings(b)
         return found + internal_contradiction_findings(b)
 
     first_structure = _structure(body)

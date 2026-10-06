@@ -18,7 +18,7 @@ HARD = frozenset({
 SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_units', 'period_not_in_units', 'number_metric_binding', 'number_words', 'no_judgment', 'data_list', 'no_disagreement', 'view_number_unbound', 'template_phrase', 'length_out_of_range', 'attribution_outside_frame',
                   'trade_reco_soft', 'author_identity', 'code_fence', 'translated_quote', 'exemplar_phrase_copied', 'research_summary', 'certainty_overreach', 'contradicts_prior_view', 'ignores_prior_view', 'view_not_recorded', 'cross_persona_claim_duplicate', 'thesis_grounding', 'emotion_drop', 'emotion_overfire', 'thin_judgment_pack', 'stylistic_repeat', 'judgment_label', 'phrase_ban', 'duplicate_topic', 'verify_source', 'info_dump', 'stance_cadence', 'verbatim_line1',
                   'direction_drift_unmarked', 'generic_credit_in_body',
-                  'structure_repeat', 'shape_mismatch', 'number_run', 'internal_contradiction'})
+                  'structure_repeat', 'shape_mismatch', 'number_run', 'internal_contradiction', 'hedged_opener'})
 FIXES = {
     'stylistic_repeat': 'Vary the repeated stylistic phrase and closing; retain source facts.',
     'judgment_label': 'Drop the 「我的判断：」/「以我个人判断，」/「个人判断：」 label; state the judgment directly as a plain sentence.',
@@ -44,6 +44,8 @@ FIXES = {
                         '(no conditional falsifier ending again); follow composition_shape.',
     'shape_mismatch': 'Follow composition_shape: unconditional line 1, its ending_rule (no if / unless / 只要 / 除非 '
                       'ending unless the shape is falsifier) and its max_number_lines.',
+    'hedged_opener': 'Open with the call said flat - drop 我觉得 / 我个人觉得 / I think / IMO from line 1 '
+                     '(opinion markers are fine later in the body).',
     'number_run': 'At most 2 lines with numbers (unless composition_shape is data_punch); replace the extra number '
                   'line with one mechanism sentence (why / how it works).',
     'internal_contradiction': 'Make every line agree with line 1 (direction, timing and sequence); remove the line '
