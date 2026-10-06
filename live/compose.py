@@ -1829,7 +1829,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     structure_codes = ('shape_mismatch', 'number_run', 'internal_contradiction', 'zh_register', 'market_feeling',
                        'thread_padding', 'filler_closer', 'opener_move', 'length_band', 'zh_sentence_length',
                        'stance_copy', 'ai_template', 'zh_line_breaks', 'missing_why', 'missing_implication',
-                       'zh_awkward_time', 'zh_intensifier')
+                       'zh_awkward_time', 'zh_intensifier', 'structure_repeat')
     recent_bodies = [r['text'] for r in recent_rows if isinstance(r, dict) and r.get('text')]
 
     def _structure(b):
@@ -1853,6 +1853,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             found += zr.line_break_findings(b, persona.lang)   # v8: long ZH as one-clause lines
             found += zr.awkward_time_findings(b, persona.lang)   # v10: 随后就会直接停手 / 走过场
             found += zr.intensifier_findings(b, persona.lang)    # v11: attitude words instead of a reason
+            if post_type in JUDGMENT_TYPES or thesis_locked:     # v11: same stock why/so-what lead-in again
+                found += zr.leadin_repeat_findings(b, recent_bodies)
             if post_type in JUDGMENT_TYPES or thesis_locked:   # v10: 谜语人 - call without why / what it means
                 found += zr.why_implication_findings(b, persona.lang)
         return found + internal_contradiction_findings(b)

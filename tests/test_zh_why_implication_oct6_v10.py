@@ -27,7 +27,8 @@ REJECTED = {
 GOOD = [
     '美联储12月之后大概率先停一停。\n因为9月非农只加了2.9万人，就业撑不住再加息。\n'
     '对债市来说，短端的压力会小一些，接下来要看11月的通胀数据。',
-    '存储涨价这波还没走完。\n背后是几家大厂都在压产能，库存其实已经见底。\n说白了，下游想等降价再补货，估计等不到。',
+    # v11: 说白了 is banned (avoid_patterns) and no longer counts as an implication
+    '存储涨价这波还没走完。\n背后是几家大厂都在压产能，库存其实已经见底。\n所以下游想等降价再补货，估计等不到。',
     'Meta这笔表外租约，信用市场迟早要算进去。\n原因是1.0万亿美元的未生效租约没进资产负债表。\n'
     '换句话说，AI大厂发债的利差会被一直往上推。',
     '油价这轮反弹撑不久。\n主要是需求端没跟上，炼厂开工率还在往下走。\n所以下次会议前，产油国减产的口风才是要盯的。',
@@ -80,7 +81,9 @@ def test_prompt_rules_and_short_shapes_carry_why_and_implication():
     assert '不当谜语人' in zr.SYSTEM_ZH and '随后就会直接停手' in zr.SYSTEM_ZH
     for sid in ('take_short', 'one_number_punch', 'contrarian_question'):
         zh = cs.SHAPES[sid]['zh']
-        assert '为什么' in zh and '影响' in zh and '意味着' not in zh
+        assert '为什么' in zh and '影响' in zh
+        # v11: plain 意味着 allowed; no literal lead-ins as templates (背后是 / 说白了 / 对…来说)
+        assert not any(w in zh for w in ('背后是', '说白了', '对…来说', '接下来要看'))
 
 
 # ---------- compose integration: same single structure regen ----------
@@ -98,7 +101,7 @@ def test_compose_structure_regen_carries_new_codes_and_keeps_fix(monkeypatch, tm
     sr = result['structure_retry']
     first = {f['code'] for f in sr['first_findings']}
     assert {'missing_why', 'missing_implication', 'zh_awkward_time'} <= first
-    assert '[structure_repair]' in sr['rewrite_note'] and '研报腔' in sr['rewrite_note']
+    assert '[structure_repair]' in sr['rewrite_note'] and '一句说清' in sr['rewrite_note']   # v11 FIXES wording
     assert fake.payloads[1].get('rewrite_note') == sr['rewrite_note']
     assert sr['kept'] == 'retry'
     assert not {'missing_why', 'missing_implication', 'zh_awkward_time'} & {f['code'] for f in sr['retry_findings']}

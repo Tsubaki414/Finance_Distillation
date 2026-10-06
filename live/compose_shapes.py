@@ -28,7 +28,7 @@ SHAPES = {
         'line_breaks': 'one block or two lines; do NOT break after every sentence',
         'en': ('Take-only short post: the call plus one sharp supporting thought, no numbers at all. '
                '2-3 sentences, may be a single block. End on a flat, committed verdict line.'),
-        'zh': ('短观点：判断；一句为什么（因为/背后是…）；一句这对市场/读者有什么影响（对…来说、说白了…），全文不出现数字。'
+        'zh': ('短观点：判断；一句说清为什么：哪个事实导致了这个判断；一句说清影响：对市场/读者意味着什么、谁受益谁吃亏，全文不出现数字。'
                '3 句，可以一段写完，不必每句换行。结尾是一句干脆的定论。'),
     },
     'one_number_punch': {
@@ -36,8 +36,8 @@ SHAPES = {
         'line_breaks': 'two or three short lines',
         'en': ('One-number punch: the call, then the single number that carries it, then one line on '
                'what that number means for the call. Exactly one number. Short.'),
-        'zh': ('一个数字定胜负：先判断；再用唯一一个最有分量的数字说清为什么（因为/背后是…）；'
-               '最后一句用大白话说这对市场/读者有什么影响（对…来说/说白了/接下来要看…）。全文只用一个数字，短。'),
+        'zh': ('一个数字定胜负：先判断；再用唯一一个最有分量的数字说清为什么：这个数字怎么导致了这个判断；'
+               '最后一句用大白话说清影响：对市场/读者意味着什么、谁受益谁吃亏、还没被定价的是什么。全文只用一个数字，短。'),
     },
     'contrarian_question': {
         'length': 'short', 'max_numbers': 1, 'max_number_lines': 1, 'ending': QUESTION,
@@ -45,8 +45,8 @@ SHAPES = {
         'en': ('Contrarian question: line 1 states the call against the consensus read; one line of '
                'evidence (at most one number); end on a pointed open question that reframes the debate '
                '(not a conditional).'),
-        'zh': ('反问式：首句给出与主流解读相反的判断；一句为什么（因为/背后是… + 证据，最多一个数字）；'
-               '结尾用一个尖锐的反问收住，反问要点出这对市场有什么影响，不要写成条件句。'),
+        'zh': ('反问式：首句给出与主流解读相反的判断；一句说清为什么：哪个事实撑得住这个判断（最多一个数字）；'
+               '结尾用一个尖锐的反问收住，反问要点出对市场的影响，不要写成条件句。'),
     },
     'thesis_mechanism': {
         'length': 'medium', 'max_numbers': 1, 'max_number_lines': 1, 'ending': IMPLICATION,
@@ -62,7 +62,7 @@ SHAPES = {
         'en': ('Data punch: the call, then two or three numbers that carry it (separate short lines are '
                'fine here), then a blunt verdict line. The only shape that may stack number lines.'),
         'zh': ('数据连击：先判断，再用两三个数字撑住（可以分行），数字前后用一句话说清它们为什么撑得住判断；'
-               '最后一句直接定性，并说这对市场有什么影响。只有这个结构允许连续的数字行。'),
+               '最后一句直接定性，并说清对市场/读者的影响。只有这个结构允许连续的数字行。'),
     },
     'short_thread': {
         'length': 'long', 'max_numbers': 3, 'max_number_lines': 2, 'ending': FALSIFIER,
@@ -436,6 +436,8 @@ def history_findings(body, recent, *, shape=None):
         out.append({'code': 'structure_repeat', 'detail': f'same opener "{key}" as a recent draft of this persona'})
     if shape and prior[-1].get('shape') == shape.get('id'):
         out.append({'code': 'structure_repeat', 'detail': f"same composition shape as previous draft: {shape['id']}"})
+    from live.zh_register import leadin_repeat_findings   # v11: 背后是 / 对市场来说 as a template
+    out += leadin_repeat_findings(body, [r['text'] for r in prior])
     return out
 
 

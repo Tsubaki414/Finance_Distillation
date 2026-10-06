@@ -79,10 +79,12 @@ FIXES = {
     'length_band': ('Match composition_shape.length_target: a long shape gets a second paragraph with new evidence '
                     'or a new mechanism step; an over-long draft gets cut.'),
     'zh_sentence_length': '句子改短：一句一件事，按 zh_register.sentence_length 的中位数（约 18-23 字），最长别超过 35 字。',
-    'missing_why': ('ZH: add one short line giving the reason behind the judgment, grounded in a supplied unit '
-                    '(因为/背后是/靠的是…); keep sentences short.'),
-    'missing_implication': ('ZH: add one short line saying what this means for markets/readers in plain words '
-                            '(对…来说/说白了/换句话说/接下来要看…), not 意味着-style 研报腔.'),
+    'missing_why': ('ZH: add one short sentence saying WHY the call holds - which supplied fact / number / event '
+                    '(a fact or mechanism unit, not somebody\'s statement 表态/表示) causes it - in your own words '
+                    '(一句说清原因：哪个事实/数字导致了这个判断); no stock lead-in; keep sentences short.'),
+    'missing_implication': ('ZH: add one short sentence on what it means for markets/readers - who gains or loses, '
+                            'what is not priced yet (一句说清影响：对市场/读者意味着什么) - in plain words; a plain '
+                            '这意味着 is fine, not a stock lead-in.'),
     'zh_awkward_time': ('ZH: replace the awkward colloquial time / policy-path phrase (随后就会直接停手 / 走过场 / '
                         '直接放话 / 打没了) with plain neutral time words (之后 / 12月之后 / 下次会议前).'),
     'zh_intensifier': ('ZH: 去掉强化词/态度词（直接 / 纯粹 / 根本 / 完全 / 走过场 / 打没了 / 放话 …），情绪靠判断动词带出来；'

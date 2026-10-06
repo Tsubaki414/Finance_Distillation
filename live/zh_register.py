@@ -24,11 +24,14 @@ from hashlib import sha256
 CJK = re.compile(r'[\u4e00-\u9fff]')
 # Research-note register (研报腔). Content nouns that donors also use as plain words (溢价, 驱动 ...)
 # are measured in reports but not flagged here.
-FORMAL = ('意味着', '而非', r'以[^，。；！？\n]{1,8}为主', '基准路径', '基准情形', '结构性', '实质性', '显然', '注定',
+FORMAL = ('而非', r'以[^，。；！？\n]{1,8}为主', '基准路径', '基准情形', '结构性', '实质性', '显然', '注定',
           '生存空间', '从而', '进而', '由此可见', '鉴于', '与此同时', '本质上', '不容忽视', '值得注意的是', '显著',
           '层面', '叠加', '无疑', '势必', '难以为继', '备用选项', '定价(?:显然)?(?:不够|并不)?充分', '充分(?:定价|反映)',
           '削弱', '重构', '版图', '格局', '极端的', '估值溢价', '承压', '演绎', '共振', '核心变量', '关键变量')
 # v7: 核心变量 came from the stance (thesis_lock) into the v6 zh_industry body.
+# v11: 意味着 removed - a plain 这意味着 is how a post says what the call means (root cause #3/#4: banning
+# it with 从而 / 进而 left the model no consequence connector and only attitude words).
+# 从而 / 进而 / 鉴于 stay: research words.
 # v5 live: 极端的 / 重构 / 版图 / 充分定价 slipped through (donor rate <= 0.06 per 1k CJK chars each).
 FORMAL_RX = re.compile('|'.join(FORMAL))
 # AI template phrasing Fiona flags (on top of the generic template_phrase list).
@@ -185,13 +188,17 @@ def anchors(persona, seed='', k=4, posts_dir=None):
     return out
 
 
+BANNED_CONNECTORS = ('说白了', '说到底')
+
+
 def connectors(persona):
     try:
         from live import language_habits
         rates = (language_habits.load_card(persona) or {}).get('connector_rates') or {}
     except Exception:
         rates = {}
-    return [c for c, _ in sorted(rates.items(), key=lambda kv: -kv[1])][:6]
+    # v11: never recommend a connector the compose prompt bans (说白了 is in avoid_patterns).
+    return [c for c, _ in sorted(rates.items(), key=lambda kv: -kv[1]) if c not in BANNED_CONNECTORS][:6]
 
 
 SYSTEM_ZH = """
@@ -200,20 +207,21 @@ SYSTEM_ZH = """
 1. 先想这个人会怎么跟懂行的朋友说这件事，再动笔。thesis_lock 和 units 只给你意思和事实：不要逐句改写它们的句子，用你自己的话重说一遍。thesis_lock 里的书面词（核心变量、叠加、结构性、格局……）不要搬进正文，换成口语。
 2. 英文材料按意思直译成中文，再轻改成口语；不要润色成更书面、更华丽的中文，不要加修辞，不要为了口语硬凑比喻（v6 反例：「企业盈利根本没有托底的资本」——说不通）。每句写完自问：这句话懂行的人听得懂吗？
 3. 句子短。一句只说一件事；按 zh_register.sentence_length 的中位数写（真实账号大约 18-22 个字一句），最长别超过 35 个字，能断就断。例外：第一行的判断句可以带一个短理由，最长约 50 个字（本条优先于上文英文说明里第一行的字数限制）。
-4. 少用研报书面词：意味着、而非、以……为主、基准路径、结构性、实质性、显然、注定、生存空间、从而、进而、鉴于、与此同时、本质上、叠加、核心变量、难以为继、备用选项。要连接就用 zh_register.donor_connectors 里这些账号常用的口语连接词；像锚句那样带一两个口语词（其实、所以、得看、说实话、吧）就够，别堆。
+4. 少用研报书面词：而非、以……为主、基准路径、结构性、实质性、显然、注定、生存空间、从而、进而、鉴于、与此同时、本质上、叠加、核心变量、难以为继、备用选项。平实的因果和后果连接（因为、所以、这意味着、也就是说）可以用。要连接就用 zh_register.donor_connectors 里这些账号常用的口语连接词；像锚句那样带一两个口语词（其实、所以、得看、说实话、吧）就够，别堆。
 5. 不替别人说话：不写「很多人认为」「市场普遍认为」「大家都觉得」「很多人据此认为」这类别人怎么想的句子（除非 units 里有这个证据），直接说自己的判断。
 6. 不用 AI 套话：「不是X，而是Y」及其问句版（「只是…？人家这是…」「你以为…？其实…」）、「与其说X不如说Y」「理由听起来很完美」「看似合理」「归根结底」「不难发现」都不要写；也别堆「死死」「死磕」「狠狠」「拉满」这类夸张词（真实账号很少用）；不用「彻底」「根本」「注定」「必然」「完全」这类绝对化副词，除非 units 原文就这么说；也别拿近义的强化词顶上（直接、纯粹、一点都不、毫无、砸到、放话）。情绪靠判断动词带出来，不靠夸张、反讽或强化词；该解释的地方给理由，不给态度。
 7. zh_register.register_anchors 是这类账号参考的真实中文博主的原句，只用来对齐语气、句子长短和用词习惯。不要照抄其中任何词句，也不要借用里面的内容、数字或观点。
 8. 开头：第一句照样是明确的判断，但用 zh_register.opening_move 指定的开头动作（没指定 question 就不要用反问开头；全文最多一个反问句）。不要用「别…/不要…/别指望/别被」这种祈使句开头（真实账号里不到 1% 这样开头）；情绪靠判断里的词带出来。也不要跟 zh_register.recent_openers 用同一种开头。
 9. 时间：units 的 date_label 是数据所属的时间。标了 historical 的单元说清楚是哪个月/哪天的数据（如「8月的数据」「上周公布的」），但它仍是手上最新的一期，不要写成「回看历史」「当时」。时间和政策路径用平实词（之后、12月之后、下次会议前），不要写「随后就会直接停手」「接下来纯粹是走过场」「直接放话」「打没了」这类别扭说法。
-10. 不当谜语人：判断帖正文必须有三样——判断；一句为什么（用你自己的话说 why_line 或 pack_roles.why 那条单元里的事实/数字/事件：因为/背后是/靠的是 + units 里的事实；某人「表态/表示/放话」不算理由）；一句这意味着什么（用自己的话说 so_what_line 或 pack_roles.so_what 那条单元：对市场/读者，对…来说、说白了、换句话说、接下来要看…；不要用「意味着」这种研报腔）。why_line / so_what_line 只给意思，不要原样照抄。句子照样短，但理由和含义不能省：短稿宁可多写一行，也不要只抛结论和数字。
+10. 不当谜语人：判断帖正文必须有三样——判断；一句说清原因：哪个事实/数字/事件导致了这个判断（用你自己的话说 why_line 或 pack_roles.why 那条单元；某人「表态/表示/放话」不算原因）；一句说清影响：对市场/读者意味着什么、谁受益谁吃亏、还没被定价的是什么（用自己的话说 so_what_line 或 pack_roles.so_what 那条单元）。why_line / so_what_line 只给意思，不要原样照抄；原因句和影响句用自己的话起头，不要每篇套同一个引子。句子照样短，但原因和影响不能省：短稿宁可多写一行，也不要只抛结论和数字。
 """.rstrip()
 
 RULES_ZH = ['用自己的口语重说判断，不逐句改写 thesis_lock / units 原句，不搬 thesis_lock 的书面词',
             '短句；一句一件事（中位数见 sentence_length）', '研报书面词尽量不用（见系统说明第 4 条）',
             '不写别人怎么想（很多人认为 / 市场普遍认为）', '英文材料：直译 + 轻改，不加工成书面语',
             '开头按 opening_move；不用「别…」祈使句开头',
-            '判断 + 一句为什么 + 一句这意味着什么（对市场/读者）；句子短但理由不能省；不要谜语式只抛结论；时间说法用平实词（之后/12月之后/下次会议前）']
+            '判断 + 一句为什么（哪个事实/数字导致了这个判断）+ 一句这意味着什么（对市场/读者：谁受益谁吃亏、还没被定价的是什么）；'
+            '句子短但理由不能省；不要谜语式只抛结论；时间说法用平实词（之后/12月之后/下次会议前）']
 
 # v11: 35 -> 50. At 35 the reason was cut out of the call (v7+ median 23.5 CJK chars, 1 of 6 with a reason;
 # EN account_view median 28 words, 14/17 carry because / but / enough that) and line 1 repeats the call.
@@ -571,12 +579,13 @@ def line_break_findings(body, lang='zh'):
 #   missing_why         - no causal marker anywhere (因为 / 背后 / 靠的是 / 受…拖累 / …导致 …). A number
 #                         line after the call, or 说明 / 可见, is NOT a reason on its own: it must be
 #                         linked by a causal marker.
-#   missing_implication - no consequence marker (对…来说 / 说白了 / 换句话说 / 所以 / 接下来要看 /
-#                         利好 …). 意味着 counts (a single one does not trip zh_register) but the
-#                         repair asks for colloquial forms so the two checks never fight.
+#   missing_implication - no consequence marker (对…来说 / 换句话说 / 所以 / 接下来要看 / 利好 / 意味着 …).
+# v11: these regexes DETECT the function; prompts and repair notes describe the function, never these
+# words (66e7aad's literal 背后是 / 对…来说 / 说白了 became the new template: 背后是 3/3 in the
+# experiment). 说白了 is banned (avoid_patterns) and no longer counts as an implication.
 WHY_RX = re.compile(r'因为|由于|原因|背后|靠的是|靠着|在于|毕竟|主要是|一是|源于|来自|撑着|既然|'
                     r'受[^，。；！？\n]{1,12}(?:拖累|影响|拉动|压制)|导致|带动|拖累|推着|根子')
-IMPLICATION_RX = re.compile(r'对[^，。；！？\n]{1,12}(?:来说|而言)|这对|换句话说|说白了|落到|所以|因此|也就是说|'
+IMPLICATION_RX = re.compile(r'对[^，。；！？\n]{1,12}(?:来说|而言)|这对|换句话说|落到|所以|因此|也就是说|'
                             r'接下来要看|下一步要看|要盯|得盯|得看|利好|利空|压力会|意味着|值得警惕|风险在于|'
                             r'机会在于|受益|吃亏|还没定价|没被定价|这样一来')
 # Awkward colloquial time / policy-path phrases (v9 #1 / #3). Small and explicit on purpose.
@@ -589,10 +598,10 @@ def why_implication_findings(body, lang='zh'):
         return []
     out = []
     if not WHY_RX.search(body):
-        out.append({'code': 'missing_why', 'detail': '只有判断和数字，没有一句说清为什么（因为/背后是/靠的是…）'})
+        out.append({'code': 'missing_why', 'detail': '只有判断和数字，没有一句说清为什么（哪个事实/数字导致了这个判断）'})
     if not IMPLICATION_RX.search(body):
         out.append({'code': 'missing_implication',
-                    'detail': '没说这对市场/读者意味着什么（对…来说/说白了/接下来要看…）'})
+                    'detail': '没说这对市场/读者意味着什么（谁受益谁吃亏、还没被定价的是什么）'})
     return out
 
 
@@ -682,3 +691,42 @@ def numbers_covered(candidate, references):
         for reads in _values(text, words=True):
             ref |= reads
     return all(reads & ref for reads in _values(candidate))
+
+
+# ---------------- why / so-what lead-in repeat (Oct 6 v11) ----------------
+# 66e7aad's literal lead-ins became a template (背后是 3/3, 对市场来说 2/3 in the experiment). Soft
+# structure_repeat when the same stock lead-in opens a sentence in this draft and in at least one of the
+# previous two drafts of the persona (= 2 of the last 3). Plain 因为 / 所以 are not stock lead-ins.
+_LEADIN = re.compile(r'^(?:因为|由于|而)?(背后(?:其实)?是?|靠的是|说白了|说到底|归根到底|换句话说|也就是说|这意味着|'
+                     r'原因(?:是|在于)|对[^，,。！？\n]{1,10}(?:来说|而言)|接下来(?:要|得|就)?看|下一步(?:要|得)?看|这对)')
+
+
+def _leadin_key(match):
+    word = match.group(1)
+    if word.startswith('背后'):
+        return '背后是'
+    if word.startswith('对') and word.endswith(('来说', '而言')):
+        return '对…来说'
+    if word.startswith(('接下来', '下一步')):
+        return '接下来要看'
+    return word
+
+
+def leadins(text):
+    """Stock why / so-what lead-ins that open a sentence or clause of text."""
+    keys = []
+    for part in re.split(r'[。！？!?\n；;]+', str(text or '')):
+        m = _LEADIN.match(part.strip())
+        if m and _leadin_key(m) not in keys:
+            keys.append(_leadin_key(m))
+    return keys
+
+
+def leadin_repeat_findings(body, recent_bodies=()):
+    """SOFT structure_repeat: the same why / so-what lead-in in 2 of the persona's last 3 drafts."""
+    prior = [set(leadins(b)) for b in list(recent_bodies or ())[-2:] if b]
+    hits = [k for k in leadins(body) if any(k in p for p in prior)]
+    if not hits:
+        return []
+    return [{'code': 'structure_repeat',
+             'detail': '原因/影响句又用「' + '」「'.join(hits) + '」起头（最近 3 篇里至少 2 篇）；用自己的话说原因和影响'}]

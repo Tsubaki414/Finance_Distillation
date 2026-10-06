@@ -310,3 +310,69 @@ def test_intensifier_joins_single_structure_regen(monkeypatch, tmp_path):
     sr = result['structure_retry']
     assert 'zh_intensifier' in {f['code'] for f in sr['first_findings']} and sr['kept'] == 'retry'
     assert len([p for p in fake.payloads if str(p.get('rewrite_note', '')).startswith('[structure_repair]')]) == 1
+
+
+# ---------------- fix 4: prompt conflicts (意味着 allowed, no 说白了 / literal lead-ins) ----------------
+
+from live import compose_shapes as cs   # noqa: E402
+
+LITERAL_LEADINS = ('背后是', '靠的是', '对…来说', '接下来要看', '有什么影响')
+
+
+def _prompt_texts():
+    texts = {'SYSTEM_ZH': zr.SYSTEM_ZH, 'RULES_ZH': ' '.join(zr.RULES_ZH),
+             'FIXES.missing_why': qa_levels.FIXES['missing_why'],
+             'FIXES.missing_implication': qa_levels.FIXES['missing_implication']}
+    texts.update({f'shape.{sid}': spec['zh'] for sid, spec in cs.SHAPES.items()})
+    return texts
+
+
+def test_plain_causal_and_implication_connectors_allowed():
+    assert not zr.FORMAL_RX.search('这意味着10月加息基本没戏了')
+    assert zr.register_findings('美联储暂时不加息。\n因为就业太弱。\n这意味着短端利率的压力会小一些，所以债市先松口气。') == []
+    for word in ('从而', '进而', '鉴于'):
+        assert zr.FORMAL_RX.search(word)                          # research words stay
+    rule4 = next(line for line in zr.SYSTEM_ZH.splitlines() if line.startswith('4.'))
+    assert '意味着' not in rule4.split('平实')[0] and '这意味着' in rule4 and '从而' in rule4
+
+
+def test_shuobaile_never_recommended_but_still_banned():
+    for name, text in _prompt_texts().items():
+        assert '说白了' not in text, name
+    assert not zr.IMPLICATION_RX.search('说白了，下游等不到降价。')
+    assert '说白了' in compose.COMPOSE                                       # banned in COMPOSE
+    assert any('说白了' in show for show, _ in compose.template_patterns('zh'))   # and in avoid_patterns
+    persona = registry.persona_for_account('zh_macro')
+    assert '说白了' not in zr.connectors(persona)
+
+
+def test_no_literal_leadins_as_templates_function_described():
+    for name, text in _prompt_texts().items():
+        for word in LITERAL_LEADINS:
+            assert word not in text, (name, word)
+    assert '一句说清原因' in zr.SYSTEM_ZH and '一句说清影响' in zr.SYSTEM_ZH
+    assert '谁受益谁吃亏' in zr.SYSTEM_ZH and '还没被定价' in zr.SYSTEM_ZH
+
+
+def test_not_x_but_y_forms_stay_banned_in_prompt_and_checks():
+    for form in ('不是X，而是Y', '不是X，是Y'):
+        assert form in compose.COMPOSE
+    assert '「不是X，而是Y」及其问句版' in zr.SYSTEM_ZH
+    assert zr.register_findings('这次不是需求问题，而是供给问题。')
+    assert zr.register_findings('Zendesk这次换CFO只是常规的财务招聘？人家这是把财务治理绑在AI产品战略上。')
+    shows = [show for show, rx in compose.template_patterns('zh') if rx.search('降息不是救市，是补课。')]
+    assert '不是X，是Y' in shows
+    assert '「不是X而是Y」句式' in zr.stance_view_findings('这次CFO任命不是常规招聘，而是AI战略布局')
+
+
+def test_leadin_repeat_soft_cross_draft():
+    prev = ['美联储不急。\n背后是就业太弱。\n对市场来说，短端松了。', '油价撑不久。\n背后是需求没跟上。\n所以减产要盯。']
+    body = '存储还会紧。\n背后是厂商不扩产。\n下游得早点补货。'
+    f = zr.leadin_repeat_findings(body, prev)
+    assert f and f[0]['code'] == 'structure_repeat' and '背后是' in f[0]['detail']
+    assert zr.leadin_repeat_findings(body, ['油价撑不久。\n需求没跟上。', '美联储不急。\n因为就业太弱。']) == []
+    assert zr.leadins('对债市来说，短端松了。接下来得看通胀。') == ['对…来说', '接下来要看']
+    assert zr.leadins('因为就业太弱。所以先停。') == []                         # plain connectors are fine
+    rows = [{'text': t} for t in prev]
+    assert any('背后是' in x['detail'] for x in cs.history_findings(body, rows))   # post-level soft check too
+    assert qa_levels.level({'code': 'structure_repeat'}, frame_found=False) == 'soft'
