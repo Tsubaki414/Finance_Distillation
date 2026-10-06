@@ -1603,7 +1603,10 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         findings += qa_levels.classify(ec.overfire_findings(body, emotion_brief, persona.lang), frame_found=True)
     findings += qa_levels.classify(grounding.get('findings') or [], frame_found=True)
     findings += qa_levels.classify(emo_findings or [], frame_found=True)
-    findings += qa_levels.classify(exemplar_store.copied_phrases(body, [e['text'] for e in shown]), frame_found=True)
+    # v4b zh_industry pasted a signature closing quote (坐办公室看数据和跑一趟供应链…): check card quotes too.
+    sig_texts = [str(x) for x in (sig.get('openings') or []) + (sig.get('closings') or [])] if sig else []
+    findings += qa_levels.classify(exemplar_store.copied_phrases(body, [e['text'] for e in shown] + sig_texts),
+                                   frame_found=True)
     if stance and stance.get('stance_findings'):
         findings += qa_levels.classify(stance['stance_findings'], frame_found=True)
     findings += qa_levels.classify(

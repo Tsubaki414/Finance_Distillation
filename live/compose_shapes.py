@@ -268,6 +268,19 @@ def shape_findings(body, shape):
     return out
 
 
+def opener_key(body):
+    """First lexeme of line 1: first 2 CJK chars (ZH) or first two words (EN), lower-cased."""
+    first = next((ln.strip() for ln in (body or '').splitlines() if ln.strip()), '')
+    cjk = re.match(r'[\u4e00-\u9fff]{2}', first)
+    if cjk:
+        return cjk.group(0)
+    words = re.findall(r"[A-Za-z']+", first.lower())[:2]
+    return ' '.join(words) if len(words) == 2 else ''
+
+
+_GENERIC_OPENERS = {'the fed', 'the market', '美联储', '美国', '市场'}
+
+
 def history_findings(body, recent, *, shape=None):
     """SOFT structure_repeat vs this persona's recent drafts (structure, not exact strings)."""
     sk = skeleton(body)
@@ -284,6 +297,9 @@ def history_findings(body, recent, *, shape=None):
         out.append({'code': 'structure_repeat', 'detail': 'conditional-falsifier ending is the majority of recent drafts'})
     if sk['opener'] == 'conditional' and last.get('opener') == 'conditional':
         out.append({'code': 'structure_repeat', 'detail': 'conditional opener again (previous draft too)'})
+    key = opener_key(body)
+    if key and key not in _GENERIC_OPENERS and any(opener_key(r['text']) == key for r in prior):
+        out.append({'code': 'structure_repeat', 'detail': f'same opener "{key}" as a recent draft of this persona'})
     if shape and prior[-1].get('shape') == shape.get('id'):
         out.append({'code': 'structure_repeat', 'detail': f"same composition shape as previous draft: {shape['id']}"})
     return out

@@ -263,3 +263,22 @@ def test_hedged_opener_soft():
     assert cs.hedged_opener_findings("IMO the dream of multiple suppliers is premature.")
     assert cs.hedged_opener_findings('别急着画句号。\n我觉得数据还不够。') == []
     assert 'hedged_opener' in qa_levels.SOFT and 'hedged_opener' in qa_levels.FIXES
+
+
+def test_opener_lexeme_repeat_in_history():
+    recent = [{'text': '我个人觉得，别急着给这轮紧缩画句号。'}, {'text': '别急，若新订单跌破临界点…'}]
+    found = cs.history_findings('别急着押注全面宽松，政策仍以结构性工具为主。', recent)
+    assert any('same opener "别急"' in f['detail'] for f in found)
+    assert cs.history_findings('货币政策仍以结构性工具为主。', recent) == []
+
+
+def test_mid_required_effect_has_no_example_lexemes():
+    from live import emotion_contract as ec
+    assert not any(w in ec.REQUIRED_EFFECT['mid'] for w in ('别急', '怀疑', '警惕', '未必'))
+
+
+def test_signature_quote_copy_is_flagged():
+    from live import exemplars
+    closing = '从个案上升到方法论：「坐办公室看数据和跑一趟供应链看到的东西不一样。」'
+    body = '坐办公室看总量数据和跑一趟供应链看到的东西不一样\n如果溢价守不住，这个周期就难以成立。'
+    assert exemplars.copied_phrases(body, [closing])[0]['code'] == 'exemplar_phrase_copied'

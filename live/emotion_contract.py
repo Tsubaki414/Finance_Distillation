@@ -88,12 +88,14 @@ REQUIRED_EFFECT = {
     'high': ('Line 1 is the thesis_lock call said WITH the dominant emotion (an emotion-bearing verb, '
              'a short punchy framing, irony or a rhetorical jab) — never a neutral restatement of '
              'thesis_lock. The reader must feel the author react in the first two lines.'),
-    'mid': ('Line 1 is the thesis_lock call carrying one clear reaction from the dominant emotion '
-            '(e.g. 怀疑 / 警惕 / 未必 / 别急 / 没想到; doubt / wary / premature / not convinced) — a neutral '
-            'paraphrase of thesis_lock reads as a calm recap.'),
-    'low': ('Restrained: line 1 is a committed call in plain words — a clear stance verb, negation or '
-            'condition (e.g. "does not", "is premature", "only if"; 不会 / 还不足以 / 除非). Conviction, not '
-            'emotion: no hype, no exclamation marks, no rhetorical jabs.'),
+    # v4: no example words here - the v3 list (怀疑 / 警惕 / 别急 ...) became the opener of every
+    # MID draft (zh_macro opened 别急 three drafts in a row). Describe the effect, not the lexeme.
+    'mid': ('Line 1 is the thesis_lock call carrying one clear reaction from the dominant emotion, in '
+            'words of your own that differ from your recent openers - a neutral paraphrase of '
+            'thesis_lock reads as a calm recap.'),
+    # v4: no conditional examples ("only if" / 除非) - they fed the conditional line-1 skeleton.
+    'low': ('Restrained: line 1 is a committed call in plain words - a clear stance verb or negation, '
+            'stated unconditionally. Conviction, not emotion: no hype, no exclamation marks, no rhetorical jabs.'),
 }
 
 
