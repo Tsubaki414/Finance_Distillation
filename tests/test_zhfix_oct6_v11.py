@@ -374,7 +374,7 @@ def test_no_literal_leadins_as_templates_function_described():
         for word in LITERAL_LEADINS:
             assert word not in text, (name, word)
     assert '一句说清原因' in zr.SYSTEM_ZH and '一句说清影响' in zr.SYSTEM_ZH
-    assert '谁受益谁吃亏' in zr.SYSTEM_ZH and '还没被定价' in zr.SYSTEM_ZH
+    assert '谁受益谁吃亏' in zr.SYSTEM_ZH and '接下来该盯什么' in zr.SYSTEM_ZH   # Oct 7: no 还没被定价 ask
 
 
 def test_not_x_but_y_forms_stay_banned_in_prompt_and_checks():

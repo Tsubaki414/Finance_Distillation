@@ -46,6 +46,41 @@ def load_recent(persona_id, limit=30):
     return []
 
 
+def load_same_day(exclude_persona=None, now=None):
+    """Texts every OTHER persona recorded on the same UTC day as `now` (Oct 7 cross-account ending rule)."""
+    if isinstance(now, str):
+        try:
+            now = datetime.fromisoformat(now.replace('Z', '+00:00'))
+        except ValueError:
+            now = None
+    now = now or datetime.now(timezone.utc)
+    day = (now if now.tzinfo else now.replace(tzinfo=timezone.utc)).astimezone(timezone.utc).date().isoformat()
+    for directory in (HISTORY_DIR, FALLBACK_DIR):
+        try:
+            paths = sorted(directory.glob('*.jsonl'))
+        except OSError:
+            continue
+        if not paths:
+            continue
+        out = []
+        for path in paths:
+            if path.stem == exclude_persona:
+                continue
+            try:
+                lines = path.read_text().splitlines()
+            except OSError:
+                continue
+            for line in lines:
+                try:
+                    row = json.loads(line)
+                except ValueError:
+                    continue
+                if isinstance(row, dict) and isinstance(row.get('text'), str) and str(row.get('ts', ''))[:10] == day:
+                    out.append(row['text'])
+        return out
+    return []
+
+
 def topic(body, stance=None):
     stance = stance or {}
     subject = stance.get('subject') or (stance.get('view') or {}).get('subject')

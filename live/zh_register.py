@@ -215,7 +215,7 @@ SYSTEM_ZH = """
 7. zh_register.register_anchors 是这类账号参考的真实中文博主的原句，只用来对齐语气、句子长短和用词习惯。不要照抄其中任何词句，也不要借用里面的内容、数字或观点。
 8. 开头：第一句照样是明确的判断，但用 zh_register.opening_move 指定的开头动作（没指定 question 就不要用反问开头；全文最多一个反问句）。不要用「别…/不要…/别指望/别被」这种祈使句开头（真实账号里不到 1% 这样开头）；情绪靠判断里的词带出来。也不要跟 zh_register.recent_openers 用同一种开头。
 9. 时间：units 的 date_label 是数据所属的时间。标了 historical 的单元说清楚是哪个月/哪天的数据（如「8月的数据」「上周公布的」），但它仍是手上最新的一期，不要写成「回看历史」「当时」。时间和政策路径用平实词（之后、12月之后、下次会议前），不要写「随后就会直接停手」「接下来纯粹是走过场」「直接放话」「打没了」这类别扭说法。
-10. 不当谜语人：判断帖正文必须有三样——判断；一句说清原因：哪个事实/数字/事件导致了这个判断（用你自己的话说 why_line 或 pack_roles.why 那条单元；某人「表态/表示/放话」不算原因）；一句说清影响：对市场/读者有什么后果、谁受益谁吃亏、还没被定价的是什么（用自己的话说 so_what_line 或 pack_roles.so_what 那条单元）。why_line / so_what_line 只给意思，不要原样照抄；原因句和影响句用自己的话起头，不要每篇套同一个引子。句子照样短，但原因和影响不能省：短稿宁可多写一行，也不要只抛结论和数字。
+10. 不当谜语人：判断帖正文必须有三样——判断；一句说清原因：哪个事实/数字/事件导致了这个判断（用你自己的话说 why_line 或 pack_roles.why 那条单元；某人「表态/表示/放话」不算原因）；一句说清影响：对市场/读者有什么后果、谁受益谁吃亏、在什么条件下会变、接下来该盯什么（用自己的话说 so_what_line 或 pack_roles.so_what 那条单元）。不要用「市场还没充分定价」「定价还不够充分」「尚未反映在估值里」「后知后觉的资金」这类话收尾，收在一个具体后果、条件或要盯的东西上。「直接」一篇最多用一次（直接导致 / 直接削弱 / 直接限制……换成说清怎么影响的）。why_line / so_what_line 只给意思，不要原样照抄；原因句和影响句用自己的话起头，不要每篇套同一个引子。句子照样短，但原因和影响不能省：短稿宁可多写一行，也不要只抛结论和数字。
 11. units 里 statement_origin 为 source_zh 的单元：statement 就是中文原文里的句子（statement_en 只是英文提要），意思和说法以它为准，但要用自己的话说，不要整句照抄（连续十几个字照搬就算抄）。带 statement_en、没有这个标记的单元：statement 是从英文材料整理出的中文事实要点，只是事实，不是让你润色的句子，照第 2 条重新说。数字、名字和时间以 numbers / source_spans 为准。
 12. 别人的观点：单元的 speaker 是具体的官员、分析师或机构人士（比如美联储理事鲍曼）时，只有两种写法：用第三人称转述（「鲍曼的意思是…」「她认为…」，可以写这个人的名字，never_name 里的名字除外），或者把观点当成本账号自己的判断，用本账号的口吻说。绝不能用这个人的第一人称写：source_spans 里的 We can see / I think / our 不能写成「我们能看到」「我认为」；本账号自己也从不说「我们」。
 """ + _HEDGE_RULE_ZH + """
@@ -230,7 +230,7 @@ RULES_ZH = ['用自己的口语重说判断，不逐句改写 thesis_lock / unit
             '别人的观点：第三人称转述（鲍曼的意思是…）或当成本账号自己的判断；绝不用对方的第一人称（我们/我认为）',
             '开头按 opening_move；不用「别…」祈使句开头',
             '没有必须用的连接词；同一个连接词/副词一篇最多一次，recent_connectives 里的这篇换说法',
-            '判断 + 一句为什么（哪个事实/数字导致了这个判断）+ 一句影响（对市场/读者的后果：谁受益谁吃亏、还没被定价的是什么），说法每篇不同；'
+            '判断 + 一句为什么（哪个事实/数字导致了这个判断）+ 一句影响（对市场/读者的后果：谁受益谁吃亏、什么条件下会变、接下来盯什么），说法每篇不同；不用「还没充分定价」类收尾；「直接」一篇最多一次；'
             '句子短但理由不能省；不要谜语式只抛结论；时间说法用平实词（之后/12月之后/下次会议前）',
             '只为防质疑的句子删掉（免责、当然也有可能…、盲目追高容易吃亏、除非…否则…依然成立）；只有带具体新数据/新条件、推进论证的才留',
             '照 persona.language_habits 的句长、开头结尾、原因/影响的说法写；口头禅（catchphrase_cap）一篇最多一个，最近用过的不用']
@@ -713,7 +713,7 @@ def why_implication_findings(body, lang='zh', *, units=None, ledger=None, why_li
                                   '理由只引用了观点单元（claim_ledger），没有事实/数字'})
     if not IMPLICATION_RX.search(body):
         out.append({'code': 'missing_implication',
-                    'detail': '没说这对市场/读者意味着什么（谁受益谁吃亏、还没被定价的是什么）'})
+                    'detail': '没说这对市场/读者意味着什么（谁受益谁吃亏、什么条件下会变、接下来盯什么）'})
     return out
 
 
@@ -1023,6 +1023,16 @@ CONNECTIVES = ('其实', '这意味着', '说白了', '本质上', '换句话说
                '显然', '可以说', '某种程度上', '说实话', '老实说', '坦白说', '简单说', '总之', '关键是', '问题是',
                '有意思的是', '不得不说', '值得一提', '更重要的是', '这说明')
 CONNECTIVE_WINDOW = 5   # this draft + the persona's previous 4
+# Oct 7: 直接 (直接导致 / 直接削弱 / 直接嵌进 / 直接限制) in 4 of 4 donor-cluster fill drafts. It is a per-draft tic,
+# not a cross-post template: at most once per draft (twice flags), and the batch check flags it when more than
+# two drafts of one batch use it. Never in the recent-window list. 直接融资 / 直接投资 … are finance terms.
+PER_DRAFT_ONLY = ('直接',)
+_ZHIJIE = re.compile(r'直接(?!融资|投资|税|成本|费用|标价|报价)')
+
+
+def zhijie_count(text):
+    """直接 used as an intensifier (finance compounds like 直接融资 not counted)."""
+    return len(_ZHIJIE.findall(str(text or '')))
 
 
 def _connective_key(word):
@@ -1035,6 +1045,9 @@ def connective_counts(text):
     bare = t.count('意味着') - t.count('这意味着')
     if bare > 0:
         counts['这意味着'] = counts.get('这意味着', 0) + bare
+    n = zhijie_count(t)
+    if n:
+        counts['直接'] = n
     return counts
 
 
@@ -1042,7 +1055,7 @@ def recent_connectives(recent_bodies=(), window=CONNECTIVE_WINDOW):
     seen = []
     for b in list(recent_bodies or ())[-(window - 1):]:
         for w in connective_counts(b):
-            if w not in seen:
+            if w not in seen and w not in PER_DRAFT_ONLY:
                 seen.append(w)
     return seen
 
@@ -1055,7 +1068,7 @@ def connective_repeat_findings(body, recent_bodies=(), lang='zh', window=CONNECT
     counts = connective_counts(body)
     twice = [w for w, n in counts.items() if n > 1]
     prior = set(recent_connectives(recent_bodies, window))
-    again = [w for w in counts if w in prior and w not in twice]
+    again = [w for w in counts if w in prior and w not in twice and w not in PER_DRAFT_ONLY]
     if not twice and not again:
         return []
     parts = []
@@ -1064,3 +1077,74 @@ def connective_repeat_findings(body, recent_bodies=(), lang='zh', window=CONNECT
     if again:
         parts.append(f'最近 {window} 篇里又用: ' + '、'.join(again))
     return [{'code': 'connective_repeat', 'detail': '; '.join(parts)}]
+
+
+# ---------------- template endings (Oct 7) ----------------
+# Fiona / donor_fill_REPORT: 「还没有充分定价」「定价还不够充分」「没有被充分计价」「尚未反映在估值里」「后知后觉的资金」
+# closed 3 of 4 ZH drafts. Cause: the ending rules themselves asked for 「还没被定价的是什么」 / "what is not
+# priced". The rules now ask for a concrete consequence, condition or what to watch; this SOFT check flags a
+# pricing / valuation-gap closer (one regen, never blocks), and says so when the persona's recent window or another
+# account's draft of the same day already ended that way (at most one such ending per window / per day).
+PRICING_GAP = re.compile(
+    r'(?:还|仍|仍然|尚)?(?:没有?|未|尚未)(?:被)?(?:市场|资金|二级市场)?(?:充分|完全|真正|足够)?(?:地)?(?:定价|计价|反映|体现|price ?in)|'
+    r'定价(?:还|仍|仍然|显然|也|明显)?(?:不够|并不|没有|尚未|远未|远远不够)(?:充分|到位)?|'
+    r'(?:定价|计价)(?:不足|不充分|滞后)|充分(?:定价|计价)|'
+    r'(?:反映|体现)(?:在|到)(?:估值|价格|股价|定价)[^，。；！？\n]{0,4}(?:还|仍|尚)?(?:不够|不足|没有|有限)|'
+    r'后知后觉的?资金|预期差|'
+    r'市场(?:还|仍)?(?:没有?|未)(?:意识到|反应过来|看到|注意到)|'
+    r"(?:\bnot\b|n't|\byet to be\b)[^.!?\n]{0,30}\bpric(?:ed|ing)\b(?: in)?|\bunder-?priced\b|\bmispriced\b|"
+    r"\bnot (?:yet )?in the price\b|\b(?:the )?market (?:has(?:n't| not)|is(?:n't| not)) (?:yet )?(?:caught on|noticed|woken up)",
+    re.I)
+TEMPLATE_ENDING_WINDOW = CONNECTIVE_WINDOW   # this draft + the persona's previous 4
+
+
+def _last_sentence_text(body):
+    sents = [s for s in _sentences(str(body or '')) if s.strip()]
+    return sents[-1].strip() if sents else ''
+
+
+def pricing_gap_ending(body):
+    """The last sentence when it closes on 'the market hasn't priced it' (pricing / valuation gap), else ''."""
+    last = _last_sentence_text(body)
+    return last if last and PRICING_GAP.search(last) else ''
+
+
+def template_ending_findings(body, recent_bodies=(), same_day_bodies=(), window=TEMPLATE_ENDING_WINDOW):
+    """SOFT template_ending: the draft ends on a pricing / valuation-gap line. The detail names a repeat when one of
+    the persona's previous window-1 drafts, or any other account's draft of the same day, already ended that way."""
+    last = pricing_gap_ending(body)
+    if not last:
+        return []
+    detail = f'定价缺口式结尾「{last[:40]}」'
+    if any(pricing_gap_ending(b) for b in list(recent_bodies or ())[-(window - 1):] if b):
+        detail += f'；最近 {window} 篇里已有一篇这样收尾'
+    if any(pricing_gap_ending(b) for b in same_day_bodies or () if b):
+        detail += '；今天别的账号已有一篇这样收尾'
+    return [{'code': 'template_ending', 'detail': detail}]
+
+
+ZHIJIE_BATCH_MAX = 2
+
+
+def batch_template_findings(results):
+    """Batch side of the Oct 7 rules, {index: [findings]}: a pricing-gap ending in more than one draft of the batch
+    (the first keeps it, later ones are flagged), 直接 in more than ZHIJIE_BATCH_MAX drafts (drafts after the
+    second are flagged)."""
+    out, gap_seen, zhijie_seen = {}, [], []
+    for i, r in enumerate(results):
+        body = (r or {}).get('body') or ''
+        if not body:
+            continue
+        acct = r.get('account_id')
+        if pricing_gap_ending(body):
+            if gap_seen:
+                out.setdefault(i, []).append({'code': 'template_ending', 'level': 'soft',
+                                              'detail': 'batch: another pricing-gap ending (also ' + ', '.join(gap_seen) + ')'})
+            gap_seen.append(str(acct))
+        if zhijie_count(body):
+            if len(zhijie_seen) >= ZHIJIE_BATCH_MAX:
+                out.setdefault(i, []).append({'code': 'connective_repeat', 'level': 'soft',
+                                              'detail': f'batch: 直接 already used in {len(zhijie_seen)} drafts (' +
+                                                        ', '.join(zhijie_seen) + ')'})
+            zhijie_seen.append(str(acct))
+    return out

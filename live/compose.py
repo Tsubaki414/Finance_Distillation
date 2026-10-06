@@ -108,7 +108,8 @@ contract: hit its target_intensity (0-5), show a real reaction in the first two 
 one dominant emotion from dominant_labels, use allowed_devices, and respect boundary
 (amplify rhetoric, never fact certainty or invented experience). End the way composition_shape.ending_rule says
 (without a composition_shape: a short line that lands - what the call means), using only
-the units. Don't repeat the stance sentence verbatim.
+the units. Do not close on "the market hasn't priced it" (not yet priced in / 还没充分定价 / 尚未反映在估值): close
+on a concrete consequence, a condition, or what to watch. Don't repeat the stance sentence verbatim.
 '''
     + _hedge.RULE_EN + '''
 composition_shape, when supplied, is HARD for this post: follow its structure, length_target, max_numbers,
@@ -1151,6 +1152,10 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
         findings += anti_repeat.theme_findings(stance, recent)
     findings += internal_contradiction_findings(body)
     findings += _hedge.hedge_findings(body, persona.lang)
+    from live import zh_register as _zrt
+    _recent_t = recent if recent is not None else anti_repeat.load_recent(persona.persona_id)
+    findings += _zrt.template_ending_findings(body, [r['text'] for r in _recent_t if isinstance(r, dict) and r.get('text')],
+                                              anti_repeat.load_same_day(persona.persona_id, now))
     if getattr(persona, 'donor_weights', None):
         from live import language_habits as _lhc
         _recent_c = recent if recent is not None else anti_repeat.load_recent(persona.persona_id)
@@ -1883,8 +1888,9 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                        'thread_padding', 'filler_closer', 'opener_move', 'length_band', 'zh_sentence_length',
                        'stance_copy', 'ai_template', 'zh_line_breaks', 'missing_why', 'missing_implication',
                        'zh_awkward_time', 'zh_intensifier', 'structure_repeat', 'zh_translationese',
-                       'speaker_first_person', 'connective_repeat', 'hedge_only', 'catchphrase_repeat')
+                       'speaker_first_person', 'connective_repeat', 'hedge_only', 'catchphrase_repeat', 'template_ending')
     recent_bodies = [r['text'] for r in recent_rows if isinstance(r, dict) and r.get('text')]
+    same_day_bodies = _ar.load_same_day(persona.persona_id, now)
 
     why_kw = {'units': chosen, 'why_line': (stance or {}).get('why_line'),
               'zh_units': (stance or {}).get('zh_units')}   # v11: the why must cite a fact / mechanism unit
@@ -1924,6 +1930,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             if post_type in JUDGMENT_TYPES or thesis_locked:   # v10: 谜语人 - call without why / what it means
                 found += zr.why_implication_findings(b, persona.lang, ledger=ledger, **why_kw)
         found += _hedge.hedge_findings(b, persona.lang)   # Fiona 10/06: hedge-only sentences, both languages
+        found += zr.template_ending_findings(b, recent_bodies, same_day_bodies)   # Oct 7: 还没充分定价 closers
         from live import language_habits as _lhc
         found += _lhc.catchphrase_findings(b, persona, recent_bodies, _signature_lexicon(persona))
         return found + internal_contradiction_findings(b)

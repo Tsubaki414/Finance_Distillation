@@ -6,6 +6,10 @@ a closing conditional that just restates the call in reverse (除非…否则…
 removed. A caveat stays when it carries a concrete new fact or condition: a number (level, date, data print) the
 rest of the post does not use. Disclaimers never stay.
 
+Oct 7 (donor_fill #5): a closing 反过来说… / 换句话说… / in other words… that only restates the call from the other
+side (「…就能稳住；反过来说，现在的平稳完全依赖于这部分敞口」) is the same defensive move: `reverse_restate`, checked on
+the last two sentences, deleted unless it carries a number the body has not used or a new condition (取决于 / 要看).
+
 SOFT `hedge_only`: feeds the one structure regeneration in compose; never blocks.
 """
 from __future__ import annotations
@@ -33,13 +37,28 @@ CONCESSION = re.compile(
     r'^(?:of course|that said|to be fair|granted|admittedly)\b|\bcould (?:also|still) (?:be|turn|go)\b|'
     r'\b(?:i|we) (?:could|might|may) be wrong\b',
     re.I)
+_LEAD_ZH = r'^(?:但是?|不过|可是?|而|反之|相反)?[，,]?\s*'
 FALSIFIER = re.compile(
-    r'^(?:如果|若|一旦|除非|要是|假如|倘若)[^。！？]*(?:就说明|那就说明|说明[^。！？]{0,8}(?:没有|并没有|不是)|否则|才算|'
+    _LEAD_ZH + r'(?:如果|若|一旦|除非|要是|假如|倘若)[^。！？]*(?:就说明|那就说明|说明[^。！？]{0,8}(?:没有|并没有|不是)|否则|才算|'
     r'(?:逻辑|判断|结论)(?:就)?(?:依然|仍然|还是)?(?:成立|有效|错了|不成立)|就错了|就要改)|'
-    r'^(?:除非)[^。！？]*$|'
+    + _LEAD_ZH + r'(?:除非)[^。！？]*$|'
+    r'否则[^。！？]{0,30}(?:依然|仍然|还是|照样|都)(?:成立|有效|站得住)|'
+    r'那就说明[^。！？]{0,30}(?:并)?(?:没有|不是|没)|'
     r'^(?:if|unless|should)\b[^.!?]*(?:i\'m wrong|i am wrong|(?:the )?(?:call|thesis|view) (?:is|was) wrong|thesis breaks|'
     r'would change (?:my|the) (?:mind|view|call)|invalidat|proves? (?:me|it|this|the call) wrong|still holds|holds up)',
     re.I)
+
+
+# Oct 7: reverse / restating lead-ins on a closing sentence (反过来说 / 换句话说 / in other words …).
+RESTATE = re.compile(
+    r'^(?:反过来说|反过来讲|反过来看|反过来|换句话说|换言之|也就是说|说到底|归根到底|总之|总而言之)[，,：:]?|'
+    r'^(?:put (?:it )?differently|in other words|conversely|flip(?:ped)? (?:it )?around|the flip side(?: is)?|'
+    r'said (?:another|differently)|to put it another way)\b',
+    re.I)
+RESTATE_TAIL = 2   # only the last two sentences: an ending move, not every 换句话说 in the middle
+# a restating lead-in that introduces a new condition (取决于 / 要看 / what to watch) is not a restatement
+NEW_CONDITION = re.compile(r'取决于|要看|就看|前提是|关键在于?|盯(?:住|着|紧)?|看(?:的是|点在)|'
+                           r'\bdepends? on\b|\bhinges? on\b|\bwatch\b|\bthe test is\b', re.I)
 
 
 def _sentences(body):
@@ -67,6 +86,9 @@ def hedge_sentences(body):
             out.append((s, 'concession'))
         elif FALSIFIER.search(s) and not _new_fact(s, sents[:i]):
             out.append((s, 'falsifier_restate'))
+        elif (i >= len(sents) - RESTATE_TAIL and RESTATE.search(s) and not _new_fact(s, sents[:i])
+              and not NEW_CONDITION.search(s)):
+            out.append((s, 'reverse_restate'))
     return out
 
 
@@ -83,10 +105,10 @@ RULE_EN = ('No hedge-only sentences. A sentence that exists only to pre-empt cri
            '("not investment advice" / 不构成投资建议 / 仅供参考), generic caveats ("of course it could also…", '
            '"time will tell", "risks remain" / 当然也有可能… / 仍存在不确定性), generic caution advice (盲目追高容易吃亏 / '
            '留足安全边际), and a closing "unless X / if X then it was never real" line that only restates the call in '
-           'reverse. Keep a caveat only when it carries a concrete new fact or condition (a level, date or data print '
+           'reverse (including a closing "put differently / conversely" restatement). Keep a caveat only when it carries a concrete new fact or condition (a level, date or data print '
            'from the units that is not already in the post) that advances the argument.')
 RULE_ZH = ('13. 删掉只为防止被质疑而存在的句子：免责声明（不构成投资建议、仅供参考）、空泛的对冲（当然也有可能…、'
            '也不排除…、仍存在不确定性、还有待观察）、泛泛的劝诫（盲目追高容易吃亏、留足安全边际、注意风险）、'
-           '以及只把判断反过来重说一遍的收尾条件句（除非…否则…依然成立、如果…那就说明并没有真正…）。'
+           '以及只把判断反过来重说一遍的收尾（除非…否则…依然成立、如果…那就说明并没有真正…、反过来说…、换句话说…）。'
            '只有当这句话带出一个具体的新事实或新条件（units 里有、正文还没用过的数据/时间点/价位），而且推进了论证，才保留。'
            '删掉后不要换成另一句对冲，直接用判断或后果收尾。')

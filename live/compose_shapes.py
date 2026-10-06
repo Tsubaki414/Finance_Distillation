@@ -37,7 +37,7 @@ SHAPES = {
         'en': ('One-number punch: the call, then the single number that carries it, then one line on '
                'what that number means for the call. Exactly one number. Short.'),
         'zh': ('一个数字定胜负：先判断；再用唯一一个最有分量的数字说清为什么：这个数字怎么导致了这个判断；'
-               '最后一句用大白话说清影响：对市场/读者有什么后果、谁受益谁吃亏、还没被定价的是什么。全文只用一个数字，短。'),
+               '最后一句用大白话说清影响：对市场/读者有什么具体后果、谁受益谁吃亏、接下来盯什么。全文只用一个数字，短。'),
     },
     'contrarian_question': {
         'length': 'short', 'max_numbers': 1, 'max_number_lines': 1, 'ending': QUESTION,
@@ -52,9 +52,9 @@ SHAPES = {
         'length': 'medium', 'max_numbers': 1, 'max_number_lines': 1, 'ending': IMPLICATION,
         'line_breaks': 'short paragraphs of one or two sentences',
         'en': ('Thesis + mechanism: the call, then WHY it works - one causal mechanism in plain words '
-               '(how A drives B), at most one number. End on what it means (who gains, what is not priced).'),
+               '(how A drives B), at most one number. End on what it means (who gains or loses, what to watch).'),
         'zh': ('判断+机制：先判断，再用大白话讲清一个传导机制（A 怎么推动 B），最多一个数字。'
-               '结尾落在含义上（谁受益、市场还没定价什么）。'),
+               '结尾落在含义上（谁受益、具体后果或接下来盯什么）。'),
     },
     'data_punch': {
         'length': 'medium', 'max_numbers': 3, 'max_number_lines': 3, 'ending': VERDICT,
@@ -286,13 +286,15 @@ def payload_block(shape, lang, length_range):
                     '"unless X reverses" restatement, a "could also..." caveat or a disclaimer.'),
         VERDICT: 'End on a flat committed verdict. NO conditional ending (no if / unless / provided / '
                  'only if / until / flips if / 只要 / 除非 / 若 / 如果 / 一旦 / 否则).',
-        IMPLICATION: 'End on what the call means (who gains, what is not priced, what it implies). '
+        IMPLICATION: 'End on what the call means (a concrete consequence, who gains or loses, what to watch next). '
+                     'Do not close on "the market has not priced it" / "not yet priced in". '
                      'NO conditional ending (no if / unless / provided / until / 只要 / 除非 / 若 / 一旦).',
         QUESTION: 'End on one pointed open question. NO conditional ending.',
     }[spec['ending']]
     if lang == 'zh' and spec['ending'] == IMPLICATION:
         # zh_native: "what the call means" came back as a literal 这意味着 in every ZH draft.
-        ending_rule = ('结尾落在后果上：谁受益谁吃亏、什么还没被定价；说法每篇换，不要固定用「这意味着」起头。'
+        ending_rule = ('结尾落在一个具体后果、条件或接下来要盯的东西上：谁受益谁吃亏、什么条件下会变；'
+                       '不要用「市场还没充分定价 / 定价还不够充分 / 尚未反映在估值」收尾；说法每篇换，不要固定用「这意味着」起头。'
                        '不要用条件句结尾（只要 / 除非 / 若 / 一旦 / if / unless）。')
     key = 'zh' if lang == 'zh' else 'en'
     structure = spec[key]
@@ -515,7 +517,9 @@ def batch_findings(results):
     seen_shapes, seen_skeletons, falsifiers = {}, {}, []
     seen_phrases = {}   # Oct 6 donor clusters: a donor catchphrase at most once per batch
     summary = []
-    for r in results:
+    from live import zh_register   # Oct 7: one pricing-gap ending per batch, 直接 in at most two drafts
+    template_batch = zh_register.batch_template_findings(results)
+    for idx, r in enumerate(results):
         body = r.get('body') or ''
         if not body:
             continue
@@ -542,6 +546,7 @@ def batch_findings(results):
                                     ', '.join(f'{p} ({seen_phrases[p]})' for p in again)})
         for p in phrases:
             seen_phrases.setdefault(p, r.get('account_id'))
+        found += template_batch.get(idx, [])
         if found:
             r['post_checks'] = list(r.get('post_checks') or []) + found
             r['risks'] = list(r.get('risks') or []) + [{**f, 'status': 'warning'} for f in found]

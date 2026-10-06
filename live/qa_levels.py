@@ -24,10 +24,13 @@ SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_u
                   'opener_move', 'length_band', 'zh_sentence_length', 'stance_copy',
                   'ai_template', 'zh_line_breaks', 'missing_why', 'missing_implication', 'zh_awkward_time',
                   'zh_intensifier', 'zh_translationese', 'speaker_first_person', 'connective_repeat',
-                  'hedge_only', 'catchphrase_repeat'})
+                  'hedge_only', 'catchphrase_repeat', 'template_ending'})
 FIXES = {
+    'template_ending': ('Do not close on "the market has not priced it" (市场还没充分定价 / 定价还不够充分 / 没有被充分计价 / '
+                        '尚未反映在估值 / 后知后觉的资金 / not yet priced in). Replace the last line with a concrete consequence, '
+                        'a condition, or what to watch next, from the units (收在具体后果、条件或接下来要盯的东西上).'),
     'hedge_only': ('Delete the hedge-only sentence(s) quoted in the detail - disclaimers, generic caveats, generic caution '
-                   'advice, or a closing condition that only restates the call in reverse (删掉只为防质疑的句子). Do not '
+                   'advice, or a closing condition or 反过来说 / 换句话说 line that only restates the call in reverse (删掉只为防质疑的句子). Do not '
                    'replace them with another hedge; end on the call or its consequence. Keep a caveat only if it states a '
                    'concrete new fact or condition from the units that advances the argument.'),
     'catchphrase_repeat': ('Drop or rephrase the donor catchphrase(s) named in the detail: at most one per post and not one '
@@ -90,7 +93,7 @@ FIXES = {
                     '(a fact or mechanism unit, not somebody\'s statement 表态/表示) causes it - in your own words '
                     '(一句说清原因：哪个事实/数字导致了这个判断); no stock lead-in; keep sentences short.'),
     'missing_implication': ('ZH: add one short sentence on what it means for markets/readers - who gains or loses, '
-                            'what is not priced yet (一句说清影响：对市场/读者有什么后果) - in plain words, phrased '
+                            'what to watch next (一句说清影响：对市场/读者有什么后果) - in plain words, phrased '
                             'differently from recent drafts; no fixed connective (not 这意味着 every time).'),
     'zh_awkward_time': ('ZH: replace the awkward colloquial time / policy-path phrase (随后就会直接停手 / 走过场 / '
                         '直接放话 / 打没了) with plain neutral time words (之后 / 12月之后 / 下次会议前).'),
