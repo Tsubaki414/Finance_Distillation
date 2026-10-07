@@ -79,8 +79,12 @@ def status_of(row):
 def note_of(row):
     """Why a draft is not ready (audit reason / hold reason / hard QA codes); '' for ready drafts."""
     status = status_of(row)
+    triage = row.get('triage') or {}
     if status == 'draft_ready':
-        return ''
+        moved = triage.get('from') if triage.get('action') == 'reassign' else None
+        return f"改派自 {moved.get('name') or moved.get('account_id')}" if moved else ''
+    if triage.get('action') in ('hold', 'reassign'):   # Oct 7 relax re-triage outranks the older audit / holds
+        return row.get('hold_reason') or triage.get('reason') or ''
     audit = row.get('audit') or {}
     if audit.get('verdict') in ('rewrite', 'drop'):
         return f"审稿{'重写' if audit['verdict'] == 'rewrite' else '弃用'}：{audit.get('reason') or ''}"

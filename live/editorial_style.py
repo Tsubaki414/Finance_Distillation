@@ -1,15 +1,14 @@
-"""HARD deterministic editorial-style blocks (Oct 7, fix26; ported from Sirius x-account-operator).
+"""Deterministic editorial-style checks (Oct 7, fix26; ported from Sirius x-account-operator).
 
 Source: Sirius `deterministic_editorial_style_failures()` / `unauthorized_first_person_experience()` (app.py,
-HEAD 7a16acf) plus Fiona's Oct 7 review of the 26 fd20 drafts. Unlike the zh_register checks (SOFT, they feed the
-one structure regen and never block), every code here is HARD: compose gets one targeted rewrite carrying the fix,
-and a draft that still trips a code is HOLD (needs_review), never shown as ready.
+HEAD 7a16acf) plus Fiona's Oct 7 review of the 26 fd20 drafts. Every code rides compose's one targeted rewrite.
+HARD_CODES still HOLD a draft that trips them after the rewrite; SOFT_CODES are warnings only (Oct 7 relax: Fiona
+found the review too strict - mild research tone, the 50-char single-call cap, a question line and mild emphasis
+are style, not a reason to hold; 阿粥 「暴力撸毛这种老叙事早就凉透了…最后还能剩下谁？」 is publishable).
 
-Codes:
+Codes (HARD):
   editorial_cliche       ZH AI-template / translationese openers (本质上 / 值得注意的是 / 其实这就是 / 很显然 /
                          我觉得症结在于 / 不是X而是Y …) and Sirius' empty waiting lines (继续观察 / 有待观察 …)
-  rhetorical_opener      ZH 难道…？ rhetorical question
-  overclaim              absolute certainty the sources cannot carry (基本被锁死 / 板上钉钉 / done deal …)
   fabricated_experience  first-person trading / usage experience the account never had (我买了 / 我的账户 /
                          I bought / my position …)
   en_cliche              EN opener / ending clichés (Here's the thing / Let that sink in / Stay tuned / NFA …)
@@ -17,17 +16,24 @@ Codes:
   jargon_unexplained     first-glance readability (live/draft_qa.readability_findings): legal section numbers
                          (Section 2(c)(2)(D)), statute / rule codes, internal jargon, insider acronyms without a
                          plain-words gloss (Oct 7 polish: Juno / Basil CFTC posts)
+Codes (SOFT, warning only):
+  rhetorical_opener      ZH 难道…？ / a first sentence that is a question
+  overclaim              absolute certainty the sources cannot carry (基本被锁死 / 板上钉钉 / done deal …)
   research_tone          ZH research-note cadence: median sentence > 30 CJK chars (2+ sentences) or one sentence > 50
                          (Arlo). A single-sentence call only trips the 50 cap.
+Misquotes, numbers that do not match the source and cross-account duplicates are judged elsewhere (QA, arbitration,
+the human audit), not here.
 """
 from __future__ import annotations
 
 import re
 
-VERSION = 'editorial-style-v4'   # v2: one-sentence calls only trip the 50-char cap; v3: ZH question opener,
-                                 # ZH trade imperatives, 我一直坚持 track record; v4: jargon_unexplained
-CODES = ('editorial_cliche', 'rhetorical_opener', 'overclaim', 'fabricated_experience', 'en_cliche',
-         'trade_imperative', 'research_tone', 'jargon_unexplained')
+VERSION = 'editorial-style-v5'   # v2: one-sentence calls only trip the 50-char cap; v3: ZH question opener,
+                                 # ZH trade imperatives, 我一直坚持 track record; v4: jargon_unexplained;
+                                 # v5: rhetorical_opener / overclaim / research_tone are SOFT warnings
+HARD_CODES = ('editorial_cliche', 'fabricated_experience', 'en_cliche', 'trade_imperative', 'jargon_unexplained')
+SOFT_CODES = ('rhetorical_opener', 'overclaim', 'research_tone')
+CODES = HARD_CODES + SOFT_CODES
 # ZH sentence caps for research_tone (CJK chars). zh_register.sentence_findings stays the SOFT 28 / 50 nudge.
 ZH_MEDIAN_MAX, ZH_SENTENCE_MAX = 30, 50
 
@@ -91,9 +97,14 @@ def _sentences(body):
     return [s.strip() for s in re.split(r'(?<=[。！？!?\n])', body) if s.strip()]
 
 
+def hard(found):
+    """The findings among `found` that still HOLD a draft (HARD_CODES)."""
+    return [f for f in found if f.get('code') in HARD_CODES]
+
+
 def findings(body, lang, *, first_person_allowed=False, post_format=None):
-    """HARD findings for a draft body. `lang` is the account language ('zh' / 'en'); post_format 'question' may
-    open on its question."""
+    """Style findings (HARD and SOFT codes, see hard()) for a draft body. `lang` is the account language
+    ('zh' / 'en'); post_format 'question' may open on its question."""
     text = str(body or '').strip()
     if not text:
         return []
@@ -167,14 +178,15 @@ FIXES = {
 
 # compose prompt block: the same list the HARD checks enforce, so the first pass avoids most of them
 PROMPT_RULE = (
-    'Editorial style (HARD, checked in code; a draft that still trips one after one rewrite is held): '
-    'ZH posts = the judgment, one line of why, one line of what it means; short sentences (median <= 30 chars, '
-    'none > 50); crypto accounts may sound emotional, macro / industry / long-term accounts stay restrained. '
-    'Never open on a question (难道…？ / …就断了？) unless post_format is question. '
+    'Editorial style (checked in code; the "never" items below hold a draft that still trips one after one rewrite, '
+    'the "prefer" items are warnings): '
+    'ZH posts = the judgment, one line of why, one line of what it means; prefer short sentences (median <= 30 '
+    'chars, none > 50); crypto accounts may sound emotional, macro / industry / long-term accounts stay restrained. '
+    'Prefer opening on the call, not a question (难道…？ / …就断了？). '
     'Never tell the reader to trade (少折腾 / 别追高 / 不如耐住性子 / 赶紧上车) or claim a track record (我一直坚持 / 我早就说). '
     'Never write: ' + ' / '.join(ZH_BOILERPLATE) + ' / 不是X而是Y / 难道…？ / '
-    + ' / '.join(EMPTY_WAITING_PHRASES[:4]) + '. No absolute certainty the units cannot carry (基本被锁死 / 死死压住 / '
-    '板上钉钉 / 注定 / done deal / guaranteed): say the condition or the odds. No first-person experience, holdings, '
+    + ' / '.join(EMPTY_WAITING_PHRASES[:4]) + '. Prefer no absolute certainty the units cannot carry (基本被锁死 / '
+    '死死压住 / 板上钉钉 / 注定 / done deal / guaranteed): say the condition or the odds. No first-person experience, holdings, '
     'trades or usage (我买了 / 我的仓位 / 我们之前就说 / I bought / my position / I told you). EN: no opener or '
     "ending clichés (Here's the thing / Let that sink in / Stay tuned / Time will tell / NFA / Thoughts?), no "
     '"This isn\'t just X. It\'s Y", no imperatives telling the reader to trade (Buy / Sell / Load up / Take profits '

@@ -887,7 +887,7 @@ def _guard_codes(body, chosen, stance, lang):
     for finding in certainty_findings(body, chosen, stance, lang):
         kind, words = finding['detail'].split(' wording not in stance/units: ', 1)
         codes.update(f'{kind}:{word}' for word in words.split(', '))
-    codes.update('style:' + f['code'] for f in _style.findings(body, lang))   # a rewrite may not add a style block
+    codes.update('style:' + f['code'] for f in _style.hard(_style.findings(body, lang)))   # nor a HARD style block
     return codes
 
 
@@ -1187,7 +1187,7 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
             findings += zr.connective_repeat_findings(
                 body, [r['text'] for r in _recent if isinstance(r, dict) and r.get('text')], persona.lang)
     findings += trade_reco_findings(body, persona.lang)
-    findings += _style.findings(body, persona.lang, post_format=(shape or {}).get('post_format'))   # HARD -> HOLD
+    findings += _style.findings(body, persona.lang, post_format=(shape or {}).get('post_format'))   # HARD_CODES -> HOLD, SOFT warn
     from live.draft_qa import stale_time_findings
     findings += stale_time_findings(body, units, now, persona.lang)
     findings += contradiction_findings(body)
@@ -2009,7 +2009,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                                and not any(f['code'] == 'internal_contradiction' for f in after_s))
         style_before = {f['code'] for f in first_structure if f['code'] in _style.CODES}
         style_after = {f['code'] for f in after_s if f['code'] in _style.CODES}
-        style_fixed = bool(style_before) and style_after < style_before   # a HARD style code cleared, none added
+        style_fixed = bool(style_before) and style_after < style_before   # a style code cleared, none added
         keep = bool(body_s and ledger_ok_s and not regression
                     and (len(after_s) < len(first_structure) or contradiction_fixed or style_fixed))
         structure_retry = {'attempted': True, 'kept': 'retry' if keep else 'original',
