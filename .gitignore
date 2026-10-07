@@ -22,3 +22,9 @@ live/donors/posts
 # user-owned book PDFs / extracted text (paraphrase-only sources; never commit)
 live/sources/
 store/view_ledger/
+# Oct 7 (fd20): style cards learned from donor text never go to GitHub. Files already tracked stay tracked;
+# new / regenerated cards for the 20 accounts stay local (scripts/persona_factory.py rebuilds them).
+live/personas/posting_habits/
+live/personas/language_habits/
+live/personas/voice_cards/
+live/personas/signature_cards/

@@ -57,7 +57,8 @@ class RunnerTests(unittest.TestCase):
             tags={}
             clusters=registry.load_donor_roster()['persona_clusters']
             # content tags use the topic cluster an acct_<account> voice cluster replaced
-            tag_names=[c['previous_cluster'] for n,c in clusters.items() if n.startswith('acct_')]
+            # (fd20 accounts share their primary beat's topic cluster: one synthetic unit per topic cluster)
+            tag_names=list(dict.fromkeys(c['previous_cluster'] for n,c in clusters.items() if n.startswith('acct_')))
             for i,name in enumerate(tag_names):
                 row=copy.deepcopy(base); uid=f'synthetic-{i}'
                 row['unit_id']=row['unit']['unit_id']=uid
@@ -72,7 +73,9 @@ class RunnerTests(unittest.TestCase):
             cmd=shlex.join([sys.executable,str(FIX/'fake_judge.py')])
             main(['--accounts','all','--n','2','--store',str(store.root),'--output',str(root/'out'),'--judge-cmd',cmd,'--posts-dir',str(FIX/'posts'),'--tags-dir',str(FIX/'tags')])
             results=json.loads((root/'out/results.json').read_text())
-            self.assertEqual(len(results),10)
+            # one row per cluster persona (10 on Oct 6; the fd20 accounts added theirs on Oct 7)
+            expected=sum(1 for p in registry.load_personas().values() if p.raw.get('donor_cluster'))
+            self.assertEqual(len(results),expected)
             for row in results:
                 self.assertEqual(row['status'],'completed',row)
                 self.assertEqual(len(row['drafts']),1,row)
@@ -88,7 +91,7 @@ class RunnerTests(unittest.TestCase):
         from live.content_store import ContentStore
         with tempfile.TemporaryDirectory() as tmp:
             rows=run(ContentStore(Path(tmp)/'store'),Path(tmp)/'out')
-            self.assertEqual(len(rows),10)
+            self.assertEqual(len(rows),sum(1 for p in registry.load_personas().values() if p.raw.get('donor_cluster')))
             self.assertTrue(all(r['status']=='no_suitable_tagged_units' for r in rows))
         self.assertEqual(judge('nonexistent-voice-test-judge',{})['status'],'unjudged')
 
@@ -108,4 +111,4 @@ class OperationalAccountsTests(unittest.TestCase):
                 shutil.copy(p,tmp)
             personas=registry.load_personas(tmp)
             self.assertTrue(all(p.voice_card=={} for p in personas.values()))
-            self.assertEqual(len(personas),11)
+            self.assertEqual(len(personas),len(list(registry.PERSONAS.glob('*.json'))))

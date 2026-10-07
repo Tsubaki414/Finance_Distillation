@@ -38,6 +38,9 @@ def check(store, runs_dir):
         return {**result, 'status': 'failed', 'reason': 'relay configuration does not resolve'}
     result.update(configuration_source=config['configuration_source'], host=urlsplit(config['base_url']).hostname)
     result.update(extract_route())
+    if result.get('extract_key', 'set') != 'set' and not result.get('extract_fallback'):
+        # Oct 7: no silent fallback - an unusable EXTRACT key fails the run before any spend.
+        return {**result, 'status': 'failed', 'reason': 'EXTRACT key is not usable and there is no fallback'}
     return result
 
 
@@ -55,7 +58,13 @@ def extract_route():
         if route:
             name = route['api_key_env']
             present = bool((os.environ.get(name) or _dotenv().get(name, '')).strip())
-            out['extract_key'] = 'set' if present else f'{name} missing -> every extract on {plan["fallback"]}'
+            if present and stage_models.is_gemini_native(route['base_url']):
+                try:
+                    stage_models.gemini_token(os.environ.get(name) or _dotenv().get(name, ''))
+                except ValueError:
+                    present = False
+            out['extract_key'] = 'set' if present else (
+                f'{name} missing -> every extract on {plan["fallback"]}' if plan['fallback'] else f'{name} missing')
         return out
     except Exception as exc:
         return {'extract_route_error': type(exc).__name__}

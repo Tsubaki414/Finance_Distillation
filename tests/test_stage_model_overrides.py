@@ -1,6 +1,8 @@
 """COMPOSE/STANCE model + relay are configurable without code edits.
 
-Defaults: claude-opus-5 on the configured relay, except COMPOSE (gemini-3.1-pro-preview, see test_compose_default_gemini.py). An override names a model,
+Shipped defaults (stage-models-v3-gemini-official, Oct 7): compose/stance/extract/extract_flash/view_enrich on
+gemini-3-flash-preview via the official Gemini API, no fallback; other stages claude-opus-5 on the configured
+relay. Routing-machinery tests use the frozen v2 (micuapi) table in tests/fixtures. An override names a model,
 optionally an HTTPS base URL and the *name* of the env var holding its key;
 a key name is bound to its relay host (a key is never sent to another host).
 """
@@ -18,22 +20,28 @@ from live.erisedai_distillation_client import ErisedaiClient
 from ml import budget
 
 MICU = 'https://www.micuapi.ai/v1'
+GEMINI = 'https://generativelanguage.googleapis.com/v1beta'
+V2 = Path(__file__).parent / 'fixtures' / 'stage_models_v2_micuapi.json'
+FAKE_GEMINI_ENV = 'prefix-AQ.fakeTOKEN123'
 
 
 class OverrideTableTests(unittest.TestCase):
     def test_no_env_keeps_shipped_defaults(self):
         table = stage_models.from_env(stage_models.load(), {})
-        self.assertEqual(stage_models.for_stage(table, 'stance'), {'model': 'claude-opus-5', 'temperature': 0.0})
-        self.assertIsNone(stage_models.route(table, 'stance'))
-        # EXTRACT default moved to Gemini (2026-10-06 decision; see test_gemini_extract.py).
-        self.assertEqual(stage_models.for_stage(table, 'extract')['model'], 'gemini-3.1-pro-preview')
-        # COMPOSE default moved to Gemini (2026-10-04 decision; see test_compose_default_gemini.py).
-        self.assertEqual(stage_models.for_stage(table, 'compose')['model'], 'gemini-3.1-pro-preview')
+        # Oct 7 (v3): compose / stance / extract on gemini-3-flash-preview, official Gemini API, no fallback.
+        for stage in ('compose', 'stance', 'extract'):
+            # temperature 1.0 + thinking medium: at 0.0 Gemini 3 flash looped in thinking (Oct 7 smoke)
+            self.assertEqual(stage_models.for_stage(table, stage), {'model': 'gemini-3-flash-preview', 'temperature': 1.0})
+            self.assertEqual(stage_models.thinking_level(table, stage, {}), 'medium')
+            self.assertEqual(stage_models.route(table, stage), {'base_url': GEMINI, 'api_key_env': 'GEMINI_API_KEY'})
+            self.assertIsNone(stage_models.fallback(table, stage))
+        self.assertEqual(stage_models.for_stage(table, 'qa'), {'model': 'claude-opus-5', 'temperature': 0.0})
+        self.assertIsNone(stage_models.route(table, 'qa'))
 
     def test_env_overrides_compose_only(self):
         env = {'FD_COMPOSE_MODEL': 'gpt-6.1-sol', 'FD_COMPOSE_BASE_URL': MICU,
                'FD_COMPOSE_API_KEY_ENV': 'GEMINI_RELAY_API_KEY'}
-        table = stage_models.from_env(stage_models.load(), env)
+        table = stage_models.from_env(stage_models.load(V2), env)
         self.assertEqual(stage_models.for_stage(table, 'compose')['model'], 'gpt-6.1-sol')
         self.assertEqual(stage_models.route(table, 'compose'),
                          {'base_url': MICU, 'api_key_env': 'GEMINI_RELAY_API_KEY'})
@@ -113,7 +121,7 @@ class ClientRoutesStageTests(unittest.TestCase):
                               transport=httpx.MockTransport(handle))
 
     def test_compose_goes_to_second_relay_with_its_own_key(self):
-        table = stage_models.override(stage_models.load(), 'compose', 'gpt-6.1-sol', base_url=MICU,
+        table = stage_models.override(stage_models.load(V2), 'compose', 'gpt-6.1-sol', base_url=MICU,
                                       api_key_env='GEMINI_RELAY_API_KEY', rates=(2.0, 8.0))
         with patch.dict(os.environ, {'GEMINI_RELAY_API_KEY': 'second-key'}):
             c = self.client(table)
@@ -129,7 +137,8 @@ class ClientRoutesStageTests(unittest.TestCase):
         self.assertEqual(budget.PRICES['erisedai_relay/gpt-6.1-sol'], (2.0, 8.0))
 
     def test_missing_routed_key_fails_before_any_call(self):
-        table = stage_models.override(stage_models.load(), 'compose', 'gpt-6.1-sol', base_url=MICU,
+        # v2 (micuapi) table; the override replaces compose without a fallback, so a missing key must raise.
+        table = stage_models.override(stage_models.load(V2), 'compose', 'gpt-6.1-sol', base_url=MICU,
                                       api_key_env='GEMINI_RELAY_API_KEY')
         with patch.dict(os.environ, {}, clear=False):
             os.environ.pop('GEMINI_RELAY_API_KEY', None)
@@ -139,16 +148,30 @@ class ClientRoutesStageTests(unittest.TestCase):
         self.assertEqual(self.seen, [])
 
     def test_env_override_applies_when_no_inline_table(self):
-        with patch.dict(os.environ, {'FD_COMPOSE_MODEL': 'claude-opus-5-5'}):
+        # Shipped v3 table + FD_COMPOSE_MODEL=claude-opus-5-5: compose leaves Gemini for the default relay,
+        # stance stays on the official Gemini API.
+        def handle(request):
+            if request.url.host == 'generativelanguage.googleapis.com':
+                self.seen.append(('gemini', request.url.path.rsplit('/', 1)[-1]))
+                return httpx.Response(200, json={'candidates': [{'content': {'parts': [{'text': '{}'}]},
+                                                                 'finishReason': 'STOP'}],
+                                                 'usageMetadata': {'promptTokenCount': 1, 'candidatesTokenCount': 1},
+                                                 'modelVersion': 'gemini-3-flash-preview'})
+            model = json.loads(request.content)['model']
+            self.seen.append((request.url.host, model))
+            return httpx.Response(200, json={'id': 'r', 'model': model,
+                                             'choices': [{'message': {'content': '{}'}, 'finish_reason': 'stop'}],
+                                             'usage': {'prompt_tokens': 1, 'completion_tokens': 1}})
+        env = {'FD_COMPOSE_MODEL': 'claude-opus-5-5', 'GEMINI_API_KEY': FAKE_GEMINI_ENV}
+        with patch.dict(os.environ, env):
+            for k in ('FD_GEMINI_MODEL', 'FD_GEMINI_ONLY', 'FD_STANCE_MODEL', 'FD_EXTRACT_MODEL'):
+                os.environ.pop(k, None)
             c = ErisedaiClient(self.root / 'calls', configuration={k: v for k, v in self.config(None).items() if k != 'stage_models'},
-                               transport=httpx.MockTransport(lambda r: (self.seen.append(json.loads(r.content)['model']), httpx.Response(200, json={
-                                   'id': 'r', 'model': json.loads(r.content)['model'],
-                                   'choices': [{'message': {'content': '{}'}, 'finish_reason': 'stop'}],
-                                   'usage': {'prompt_tokens': 1, 'completion_tokens': 1}}))[1]))
+                               transport=httpx.MockTransport(handle))
             c('compose', [{'role': 'user', 'content': 'x'}], 10)
             c('stance', [{'role': 'user', 'content': 'x'}], 10)
-        self.assertEqual(self.seen, ['claude-opus-5-5', 'claude-opus-5'])
-
+        self.assertEqual(self.seen, [('api.erisedai.com', 'claude-opus-5-5'),
+                                     ('gemini', 'gemini-3-flash-preview:generateContent')])
 
 if __name__ == '__main__':
     unittest.main()

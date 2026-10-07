@@ -164,7 +164,8 @@ def test_failed_extract_is_not_retried_forever(tmp_path):
 
 def test_extract_model_override_needs_explicit_flag(tmp_path, monkeypatch):
     from live import daily_ingest
-    monkeypatch.setenv('GEMINI_RELAY_API_KEY','dummy'); monkeypatch.delenv('FD_EXTRACT_MODEL',raising=False)
+    monkeypatch.setenv('GEMINI_API_KEY','prefix-AQ.fakeTOKEN123')
+    for k in ('FD_EXTRACT_MODEL','FD_COMPOSE_MODEL','FD_GEMINI_MODEL','FD_GEMINI_ONLY'): monkeypatch.delenv(k,raising=False)
     monkeypatch.setattr(daily_ingest, '_relay_config', lambda: {'base_url': 'https://api.erisedai.com/v1', 'api_key': 'k',
                         'model': 'claude-opus-5', 'input_usd_per_million': 15.0, 'output_usd_per_million': 75.0})
     with pytest.raises(ValueError, match='allow'):
@@ -175,7 +176,9 @@ def test_extract_model_override_needs_explicit_flag(tmp_path, monkeypatch):
     # an extract override leaves COMPOSE on its shipped default
     assert stage_models.for_stage(c.stage_models, 'compose') == stage_models.for_stage(stage_models.load(), 'compose')
     default = daily_ingest.extract_client(tmp_path/'d')
-    assert stage_models.for_stage(default.stage_models, 'extract')['model'] == 'gemini-3.1-pro-preview'
+    assert stage_models.for_stage(default.stage_models, 'extract')['model'] == 'gemini-3-flash-preview'
+    assert stage_models.route(default.stage_models, 'extract')['base_url'] == 'https://generativelanguage.googleapis.com/v1beta'
+    assert stage_models.fallback(default.stage_models, 'extract') is None
 
 
 def test_incomplete_output_retries_once_on_a_shorter_source(tmp_path):
@@ -195,6 +198,9 @@ def test_preflight_local_checks_and_safe_relay_output(tmp_path, monkeypatch):
     from scripts import daily_ingest_preflight as preflight
     monkeypatch.setattr(preflight, 'relay_config', lambda: {
         'configuration_source': 'REVIEW', 'base_url': 'https://api.erisedai.com/v1', 'api_key': 'secret'})
+    monkeypatch.setenv('GEMINI_API_KEY', 'prefix-AQ.fakeTOKEN123')
+    for k in ('FD_EXTRACT_MODEL', 'FD_GEMINI_MODEL'): monkeypatch.delenv(k, raising=False)
+    monkeypatch.setattr('live.writer_backend._dotenv', lambda: {})
     result = preflight.check(tmp_path/'store', tmp_path/'runs')
     assert result['status'] == 'ok'
     assert result['configuration_source'] == 'REVIEW'
@@ -205,3 +211,18 @@ def test_preflight_local_checks_and_safe_relay_output(tmp_path, monkeypatch):
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         assert preflight.check(tmp_path/'store', tmp_path/'runs')['status'] == 'failed'
     assert preflight.check(tmp_path/'store', tmp_path/'runs')['status'] == 'ok'
+    assert 'fakeTOKEN' not in json.dumps(result)
+
+
+def test_preflight_fails_without_gemini_key_and_no_fallback(tmp_path, monkeypatch):
+    # Oct 7: EXTRACT runs on the official Gemini API with no fallback, so an unusable key fails before any spend.
+    from scripts import daily_ingest_preflight as preflight
+    monkeypatch.setattr(preflight, 'relay_config', lambda: {
+        'configuration_source': 'REVIEW', 'base_url': 'https://api.erisedai.com/v1', 'api_key': 'secret'})
+    for k in ('FD_EXTRACT_MODEL', 'FD_GEMINI_MODEL'): monkeypatch.delenv(k, raising=False)
+    monkeypatch.setattr('live.writer_backend._dotenv', lambda: {})
+    monkeypatch.delenv('GEMINI_API_KEY', raising=False)
+    result = preflight.check(tmp_path/'store', tmp_path/'runs')
+    assert result['status'] == 'failed' and 'no fallback' in result['reason']
+    monkeypatch.setenv('GEMINI_API_KEY', 'value-without-token')
+    assert preflight.check(tmp_path/'store', tmp_path/'runs')['status'] == 'failed'

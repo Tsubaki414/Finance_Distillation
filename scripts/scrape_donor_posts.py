@@ -117,7 +117,7 @@ def scrape(client, handle, out_dir, target, max_pages):
     user = client.get('/user', username=handle)['result']['data']['user']['result']
     uid = user['rest_id']
     posts, cursor, pages = existing, None, 0
-    while pages < max_pages and sum(not p['rt'] for p in posts) < target:
+    while pages < max_pages and sum(not p.get('rt') for p in posts) < target:
         params = {'user': uid, 'count': 40}
         if cursor:
             params['cursor'] = cursor
@@ -127,14 +127,16 @@ def scrape(client, handle, out_dir, target, max_pages):
         before = len(posts)
         posts = merge(posts, new, uid)
         cursor = bottom_cursor(obj)
-        if not cursor or len(posts) == before:
+        # Oct 7: the newest page is usually already on file (restored corpus); keep paging past known posts and
+        # stop only when the timeline returns nothing or no cursor.
+        if not cursor or not new:
             break
     out_dir.mkdir(parents=True, exist_ok=True)
     path.write_text(''.join(json.dumps(p, ensure_ascii=False) + '\n' for p in posts))
-    originals = [p for p in posts if not p['rt']]
+    originals = [p for p in posts if not p.get('rt')]
     return {'handle': handle, 'pages': pages, 'posts': len(posts), 'non_repost': len(originals),
-            'original_no_reply': sum(not p['reply'] for p in originals),
-            'oldest': min((p['created'] for p in posts), default=None, key=lambda s: time.strptime(s, '%a %b %d %H:%M:%S +0000 %Y')),
+            'original_no_reply': sum(not p.get('reply') for p in originals),
+            'oldest': min((p['created'] for p in posts if p.get('created')), default=None, key=lambda s: time.strptime(s, '%a %b %d %H:%M:%S +0000 %Y')),
             'reached_target': len(originals) >= target}
 
 

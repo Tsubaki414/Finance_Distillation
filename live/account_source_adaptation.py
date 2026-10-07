@@ -228,7 +228,11 @@ class AccountSourcePipeline(Pipeline):
         # Pin identity even on a skipped/held attempt, so the inbox doesn't lose it.
         attempt.update(account_id=account["id"], target_language=account["lang"],
                        account_profile=account, account_profile_version=account["profile_version"])
-        allowed = hygiene.eligible(account, source) and source["source_language"] != account["lang"]
+        # Oct 7 (fd20): same-language material is allowed at route level for accounts that write judgment posts from
+        # units (COMPOSE chain) or opt in (allow_same_language); no attribution line is needed for it. The
+        # translation / localization chain still refuses it (translating into the same language would copy).
+        same_ok = account.get("allow_same_language") is True or _compose_account(account["id"])
+        allowed = hygiene.eligible(account, source) and (source["source_language"] != account["lang"] or same_ok)
         if account["id"] == "en_morris_archive":
             allowed = allowed and source["source_language"] == "zh"
             handle = str(source.get("author_handle") or "").lstrip("@").lower()
@@ -379,6 +383,13 @@ class AccountSourcePipeline(Pipeline):
             attempt["execution_failure"] = execution_failure({"draft_status": "blocked",
                 "execution_failure": failure, "attempt": attempt})
         return super().finish(attempt)
+
+
+def _compose_account(account_id):
+    try:
+        return uses_compose(account_id)
+    except Exception:   # unknown persona: keep the refusal
+        return False
 
 
 def uses_compose(account_id):

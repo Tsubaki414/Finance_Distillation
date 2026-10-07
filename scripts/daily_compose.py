@@ -1,0 +1,426 @@
+#!/usr/bin/env python3
+"""Daily auto-compose for the 20 main accounts -> human review inbox (Oct 7, fd20). Never publishes.
+
+Cron-able: does nothing unless FD_DAILY_COMPOSE=1 (or --force). Chain per day:
+  units already ingested (scripts/daily_ingest.py)  ->  route: each account's retrieval beats
+  (live/fd20_accounts.json; same- and cross-language material both allowed, no attribution line)  ->
+  select up to --per-account packets per account (fresh, unused by that account, angle fit)  ->
+  angle per draft (live/angles.py: the account's own donor lenses; one lens per account per event)  ->
+  post type / length / suggested post time from the account's habit card (posting_habits.choose_format,
+  sample_post_time)  ->  compose_source (stance + compose on the official Gemini API, FD_GEMINI_ONLY=1, no
+  Opus fallback)  ->  cross-account check (claim arbitration + batch shape findings, soft: losers HOLD)  ->
+  review inbox (live/compose_inbox.py) + static page.
+
+Spend: every call reserves against the ml/budget ledger; this run also stops starting drafts once its own
+Gemini spend (call records) would pass --budget-usd.
+
+  FD_DAILY_COMPOSE=1 python scripts/daily_compose.py [--day 2026-10-07] [--accounts a,b] [--per-account 2]
+                                                     [--budget-usd 4] [--workers 4] [--select-only]
+"""
+from __future__ import annotations
+
+import argparse
+import concurrent.futures as cf
+import copy
+import json
+import os
+import re
+import sys
+import threading
+import time
+from datetime import date, datetime, timedelta, timezone
+from pathlib import Path
+from zoneinfo import ZoneInfo
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path[:0] = [str(ROOT / 'scripts'), str(ROOT)]
+
+import demo_matrix_compose as demo  # noqa: E402
+from voice_relay_check import evidence_source  # noqa: E402
+from live import (angles, anti_repeat, compose, compose_inbox, news_hook, posting_habits as ph,  # noqa: E402
+                  registry, source_prescreen as prescreen, stage_models)
+from live.content_store import ContentStore  # noqa: E402
+from live.retrieval import units_for_persona  # noqa: E402
+from live.view_ledger import ViewLedger  # noqa: E402
+from ml import budget  # noqa: E402
+
+LONDON = ZoneInfo('Europe/London')
+CONFIG = ROOT / 'live' / 'fd20_accounts.json'
+UNIVERSES = ROOT / 'live' / 'store' / 'fd20' / 'universes.json'
+POSTS = ROOT / 'live' / 'donors' / 'posts'
+TAGS = ROOT / 'live' / 'donors' / 'tags'
+RUNS = Path(os.environ.get('FD_COMPOSE_RUNS', '/workspace/x/compose_runs'))
+DASHBOARD = Path(os.environ.get('FD_COMPOSE_DASHBOARD', '/workspace/x/dashboard'))
+MAX_PER_ACCOUNT = 3            # Fiona: 3 a day is a ceiling, not a quota
+MAX_ACCOUNTS_PER_EVENT = 2     # one event may be taken by at most 2 accounts, each with its own lens
+STAGE_CALLS = {'stance': 2, 'compose': 3}   # per draft: stance + 1 repair; first pass + 2 rewrites
+EST_PER_DRAFT = 0.12           # reserve kept per draft still to start (flash list prices, conservative)
+QUOTA_RX = re.compile(r'RESOURCE_EXHAUSTED|PerDay|exceeded your current quota', re.I)
+MAX_AGE_DAYS = 10              # selection window; inside it fresher (in-shelf, timely) packets rank first
+
+
+def load_json(path):
+    return json.loads(Path(path).read_text())
+
+
+def write_json(path, value):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value, ensure_ascii=False, indent=2, default=str) + '\n')
+
+
+# ---------------------------------------------------------------- selection
+
+def used_sources(account):
+    used = set()
+    path = anti_repeat.HISTORY_DIR / f'{account}.jsonl'
+    if path.exists():
+        for line in path.read_text().splitlines():
+            try:
+                row = json.loads(line)
+            except ValueError:
+                continue
+            used |= {row.get('source_hash'), row.get('source_title')}
+    return {x for x in used if x}
+
+
+def group_text(group):
+    src = group[0]['source']
+    return ' '.join([str(src.get('title') or '')] + [str(r['unit'].get('statement') or '') for r in group]
+                    + [str((r['unit'].get('view') or {}).get('subject') or '') for r in group])
+
+
+def group_hooks(group):
+    try:
+        return set(news_hook.hooks(group_text(group)))
+    except Exception:   # noqa: BLE001
+        return set()
+
+
+def timely(group, ref):
+    src = group[0]['source']
+    if str(src.get('adapter') or '').startswith('flash') or src.get('source_version') == 'flash-v1':
+        return True
+    try:
+        t = datetime.fromisoformat(str(src.get('published_at') or '').replace('Z', '+00:00'))
+        t = t if t.tzinfo else t.replace(tzinfo=timezone.utc)
+        return ref - t <= timedelta(hours=30)
+    except ValueError:
+        return False
+
+
+def source_lang(group):
+    return 'zh' if demo.zh_native(group) else 'en'
+
+
+def candidates(store, account, beats, lead, ref):
+    used = used_sources(account)
+    recent = anti_repeat.load_recent(account)
+    seen, groups = set(), {}
+    for beat in beats:
+        for record in units_for_persona(store, beat, max_age_days=MAX_AGE_DAYS, as_of=ref):
+            if record.get('licence_tier') not in ('A', 'B') or record['unit_id'] in seen:
+                continue
+            seen.add(record['unit_id'])
+            src = record['source']
+            if {src.get('id'), src.get('title'), src.get('source_hash')} & used:
+                continue
+            groups.setdefault(demo._key(record), []).append(record)
+    options = demo.ranked_balanced(list(groups.values()), now=ref.date().isoformat())
+    top = set(angles.top_angles(lead, 4))
+
+    def key(g):
+        fit = len(top & set(angles.angles_of(group_text(g))))
+        return (not prescreen.prescreen(account, g)['ok'], not demo.in_shelf(g, ref.date().isoformat()),
+                not timely(g, ref), bool(demo.group_hook_repeat(g, recent)), demo.group_theme_repeat(g, recent),
+                -fit, -demo.group_freshness(g, ref.date().isoformat()))
+    return sorted(options, key=key)
+
+
+def select(accounts, universes, day, per_account):
+    store = ContentStore()
+    ref = datetime.combine(day, datetime.min.time(), LONDON).replace(hour=8).astimezone(timezone.utc)
+    pools = {a['id']: candidates(store, a['id'], a['retrieval_beats'], universes[a['id']].get('angle_lead') or {}, ref)
+             for a in accounts}
+    order = sorted(pools, key=lambda a: len(pools[a]))     # scarce accounts pick first in every round
+    event_takers = {}            # event key (source key / hook) -> [(account, angle)]
+    plan = {a: [] for a in pools}
+    for _round in range(per_account):
+        for account in order:
+            lang = next(x['lang'] for x in accounts if x['id'] == account)
+            lead = universes[account].get('angle_lead') or universes[account].get('angle_mix') or {}
+            mine = {tuple(p['source_key']) for p in plan[account]}
+            pick = None
+            for g in pools[account]:
+                skey = demo._key(g[0])
+                if skey in mine:
+                    continue
+                events = {('src',) + tuple(skey)} | {('hook', h) for h in group_hooks(g)}
+                takers = [t for e in events for t in event_takers.get(e, [])]
+                if len({t[0] for t in takers}) >= MAX_ACCOUNTS_PER_EVENT or any(t[0] == account for t in takers):
+                    continue
+                angle, why = angles.assign(lead, group_text(g), taken={t[1] for t in takers})
+                if takers and (why == 'shared' or angle in {t[1] for t in takers}):
+                    continue
+                pick = (g, events, angle, why, sorted({t[0] for t in takers}))
+                break
+            if pick is None:
+                continue
+            g, events, angle, why, shared_with = pick
+            for e in events:
+                event_takers.setdefault(e, []).append((account, angle))
+            src = g[0]['source']
+            plan[account].append({
+                'source_key': list(demo._key(g[0])), 'source_id': src.get('id'), 'title': src.get('title'),
+                'publisher': src.get('publisher') or src.get('author_name'), 'published_at': src.get('published_at'),
+                'url': src.get('url'), 'source_lang': source_lang(g), 'account_lang': lang,
+                'same_language': source_lang(g) == lang, 'unit_ids': [r['unit_id'] for r in g],
+                'in_shelf': demo.in_shelf(g, ref.date().isoformat()), 'timely': timely(g, ref),
+                'hooks': sorted(group_hooks(g)), 'angle': angle, 'angle_why': why, 'shared_event_with': shared_with,
+                'numbers': sum(len(r['unit'].get('numbers') or []) for r in g)})
+    # post type + length (habit card, rotation inside the day) + suggested post time (habit card hours)
+    for account, picks in plan.items():
+        persona = registry.persona_for_account(account)
+        card = ph.load_card(persona)
+        recent = list(anti_repeat.load_recent(account))
+        times = []
+        for p in picks:
+            c = copy.deepcopy(card)
+            if p['numbers'] < 2:
+                c['post_type_mix'] = {k: v for k, v in c['post_type_mix'].items() if k not in ('chart_caption', 'list_dump')}
+            fmt = ph.choose_format(persona, recent=recent, seed=f'{day}|{account}|{p["source_id"]}', card=c)
+            recent.append({'post_format': fmt['type'], 'text': ''})
+            t = ph.sample_post_time(card, day, seed=f'{account}|{p["source_id"]}', taken=times, min_gap_min=90)
+            times.append(t)
+            p['post_format'] = {k: fmt[k] for k in ('type', 'length', 'thread_parts', 'length_target', 'shapes')}
+            p['suggested_post_time_london'] = t.isoformat()
+    return plan, order
+
+
+# ---------------------------------------------------------------- client
+
+class DraftClient:
+    """Per-draft stage caps over the shared Gemini client; refuses non-Gemini responses."""
+
+    def __init__(self, inner, log):
+        self.inner, self.log = inner, log
+        self.stage_models = inner.stage_models
+        self.prompt_context = getattr(inner, 'prompt_context', None)
+        self.left = dict(STAGE_CALLS)
+        self.last_error = ''
+
+    @property
+    def paths(self):
+        return [c['path'] for c in self.inner.calls]
+
+    def __call__(self, stage, messages, max_tokens):
+        if stage not in self.left:
+            raise RuntimeError(f'stage {stage} is not part of daily compose')
+        if self.left[stage] <= 0:
+            if QUOTA_RX.search(self.last_error):   # the cap was used up by quota failures: report the quota
+                raise RuntimeError(self.last_error)
+            self.log.append(f'{stage}: extra call not run (per-draft cap)')
+            raise budget.BudgetExceeded(f'per-draft cap: extra {stage} call not run')
+        self.left[stage] -= 1
+        try:
+            r = self.inner(stage, messages, max_tokens)
+        except Exception as exc:
+            self.last_error = f'{type(exc).__name__}: {exc}'[:400]
+            raise
+        if r.get('model_fallback') or not str(r.get('response_model') or '').startswith('gemini-'):
+            raise RuntimeError(f'non-Gemini response {r.get("response_model")}')
+        return r
+
+
+def make_client(calls_dir):
+    import live.erisedai_distillation_client as ec
+    os.environ['FD_GEMINI_ONLY'] = '1'
+    table = stage_models.from_env(stage_models.load(), os.environ)
+    for stage in ('compose', 'stance'):
+        route = stage_models.route(table, stage)
+        if not route or not stage_models.is_gemini_native(route['base_url']) or stage_models.fallback(table, stage):
+            raise SystemExit(f'{stage} must run on the official Gemini API without fallback')
+    config = {'base_url': 'https://api.erisedai.com/v1', 'api_key': os.environ.get('RELAY_API_KEY') or 'unused-gemini-only',
+              'configuration_source': 'gemini_only_daily_compose', 'model': ec.DEFAULT_MODEL,
+              'input_usd_per_million': 15.0, 'output_usd_per_million': 75.0, 'gemini_only': True,
+              'stage_models': table}
+    ec.ErisedaiClient(calls_dir, configuration=copy.deepcopy(config))   # fail before any draft if a key is unusable
+    # one client per draft: its .calls are that draft's own call records (threads never share them)
+    return (lambda: ec.ErisedaiClient(calls_dir, configuration=copy.deepcopy(config))), table
+
+
+def call_cost(paths):
+    total = 0.0
+    for p in paths:
+        try:
+            total += float(json.loads(Path(p).read_text()).get('estimated_cost_usd') or 0)
+        except (OSError, ValueError):
+            pass
+    return round(total, 6)
+
+
+# ---------------------------------------------------------------- compose
+
+def compose_one(new_client, account, pick, day, store_records, spend, lock):
+    log = []
+    dc = DraftClient(new_client(), log)
+    lang = pick['account_lang']
+    group = [store_records[u] for u in pick['unit_ids'] if u in store_records]
+    source, units = evidence_source(group)
+    post_time = datetime.fromisoformat(pick['suggested_post_time_london'])
+    angle = angles.payload(pick['angle'], lang)
+    started = time.monotonic()
+    try:
+        result = compose.compose_source(
+            source, account, dc, post_type=demo.judgment_type(account), extracted_units=units,
+            exemplar_dir=POSTS, exemplar_tags_dir=TAGS, view_ledger=ViewLedger(account),
+            now=post_time.astimezone(timezone.utc), post_format=dict(pick['post_format']), angle=angle)
+    except budget.BudgetExceeded as exc:
+        result = {'status': 'error', 'error': 'budget: ' + str(exc)[:200]}
+    except Exception as exc:   # noqa: BLE001 - one bad packet must not sink the day
+        result = {'status': 'error', 'error': f'{type(exc).__name__}: {str(exc)[:300]}'}
+    cost = call_cost(dc.paths)
+    with lock:
+        spend['usd'] += cost
+    result = dict(result, account_id=account, source=source, plan=pick, retry_log=log, spend_usd=cost,
+                  call_records=dc.paths, seconds=round(time.monotonic() - started, 1), angle=angle)
+    return result
+
+
+def inbox_row(result, account_cfg, day, run_id):
+    pick = result['plan']
+    src = result.get('source') or {}
+    findings = [{'code': f.get('code'), 'level': f.get('level')} for f in (result.get('post_checks') or [])
+                if isinstance(f, dict)]
+    arb = result.get('arbitration') or {}
+    models = sorted({(r or {}).get('response_model') for r in (result.get('model_responses') or [])
+                     if isinstance(r, dict)} - {None})
+    return {'id': (result.get('id') or f'err-{run_id[:6]}-{account_cfg["id"]}-{pick["source_id"]}').replace('/', '_')[:80],
+            'day': day.isoformat(), 'run_id': run_id, 'account_id': account_cfg['id'], 'no': account_cfg['no'],
+            'name': account_cfg['name'], 'beat': account_cfg['beat'], 'lang': account_cfg['lang'],
+            # same-language material needs no attribution line (Oct 7 rule): the body is the post; cross-language
+            # drafts keep the compose credit frame. The frame is kept on the row for the reviewer either way.
+            'text': (result.get('body') if pick.get('same_language') else result.get('text')) or '',
+            'body': result.get('body') or '', 'attribution_frame': result.get('attribution_frame'),
+            'attribution_line': 'omitted (same-language source)' if pick.get('same_language') else 'kept',
+            'post_type': result.get('post_type'), 'post_format': pick['post_format'],
+            'suggested_post_time_london': pick['suggested_post_time_london'], 'angle': result.get('angle'),
+            'angle_why': pick['angle_why'], 'shared_event_with': pick['shared_event_with'],
+            'draft_status': result.get('draft_status') or ('blocked' if result.get('error') else None),
+            'status': result.get('status'), 'error': result.get('error'), 'why': result.get('why'),
+            'held': bool(arb.get('status') == 'HOLD' or result.get('status') == 'error' or not result.get('text')),
+            'arbitration': arb, 'findings': findings,
+            'stance': {k: (result.get('stance') or {}).get(k) for k in ('decision', 'account_view', 'subject', 'direction')},
+            'source': {'id': src.get('id'), 'source_id': src.get('source_id'), 'publisher': pick.get('publisher'),
+                       'title': pick.get('title'), 'url': pick.get('url'), 'published_at': pick.get('published_at'),
+                       'lang': pick.get('source_lang'), 'same_language': pick.get('same_language')},
+            'models': models, 'spend_usd': result.get('spend_usd'), 'publishable': False}
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument('--day', type=date.fromisoformat, default=datetime.now(LONDON).date())
+    ap.add_argument('--accounts')
+    ap.add_argument('--per-account', type=int, default=2)
+    ap.add_argument('--budget-usd', type=float, default=float(os.environ.get('FD_DAILY_COMPOSE_BUDGET_USD', '4.0')))
+    ap.add_argument('--workers', type=int, default=4)
+    ap.add_argument('--select-only', action='store_true', help='selection + plan only, no model calls')
+    ap.add_argument('--force', action='store_true', help='run even when FD_DAILY_COMPOSE is not 1')
+    args = ap.parse_args()
+    if os.environ.get('FD_DAILY_COMPOSE') != '1' and not args.force and not args.select_only:
+        print('FD_DAILY_COMPOSE is not 1: daily compose is off; nothing done')
+        return 0
+    per_account = max(1, min(MAX_PER_ACCOUNT, args.per_account))
+    accounts = load_json(CONFIG)['accounts']
+    if args.accounts:
+        wanted = set(args.accounts.split(','))
+        accounts = [a for a in accounts if a['id'] in wanted]
+    if not UNIVERSES.exists():
+        raise SystemExit(f'{UNIVERSES} missing: run scripts/persona_factory.py first')
+    universes = load_json(UNIVERSES)
+    run_id = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S')
+    out = RUNS / args.day.isoformat() / run_id
+    plan, order = select(accounts, universes, args.day, per_account)
+    write_json(out / 'plan.json', {'day': args.day.isoformat(), 'pick_order': order, 'per_account': per_account,
+                                   'accounts': plan})
+    for a in accounts:
+        print(a['id'], [f"{p['suggested_post_time_london'][11:16]} {p['post_format']['type']} {p['angle']} "
+                        f"{p['source_lang']}{'=' if p['same_language'] else '>'}{a['lang']} {str(p['title'])[:40]}"
+                        for p in plan[a['id']]], flush=True)
+    if args.select_only:
+        return 0
+    client, table = make_client(out / 'calls')
+    store = ContentStore()
+    records = {}
+    for a in accounts:
+        for beat in a['retrieval_beats']:
+            for r in units_for_persona(store, beat, max_age_days=MAX_AGE_DAYS + 2):
+                records.setdefault(r['unit_id'], r)
+    jobs = [(a, p) for i in range(per_account) for a in accounts if i < len(plan[a['id']]) for p in [plan[a['id']][i]]]
+    spend, lock = {'usd': 0.0}, threading.Lock()
+    results, skipped = [], []
+    by_id = {a['id']: a for a in accounts}
+
+    quota = {}
+
+    def guarded(job):
+        a, p = job
+        with lock:
+            if quota:   # a daily Gemini quota is exhausted: starting more drafts would only fail
+                skipped.append({'account_id': a['id'], 'source_id': p['source_id'], 'reason': quota['reason']})
+                return None
+            if spend['usd'] + EST_PER_DRAFT > args.budget_usd:
+                skipped.append({'account_id': a['id'], 'source_id': p['source_id'],
+                                'reason': f'run budget: ${spend["usd"]:.3f} spent of ${args.budget_usd}'})
+                return None
+        r = compose_one(client, a['id'], p, args.day, records, spend, lock)
+        if QUOTA_RX.search(str(r.get('error') or '')):
+            with lock:
+                quota.setdefault('reason', 'Gemini daily quota exhausted: ' + str(r['error'])[:160])
+        print(f"[{a['id']}] {p['angle']} {r.get('draft_status')} ${r['spend_usd']:.4f} {r['seconds']}s "
+              f"err={r.get('error')} | {(r.get('body') or '')[:90]!r}", flush=True)
+        return r
+
+    with cf.ThreadPoolExecutor(max_workers=max(1, args.workers)) as pool:
+        for r in pool.map(guarded, jobs):
+            if r is not None:
+                results.append(r)
+    # cross-account check on the whole day: shape / skeleton findings + claim arbitration (soft: losers HOLD)
+    from live import compose_shapes
+    ok = [r for r in results if r.get('status') != 'error' and r.get('text')]
+    compose_shapes.batch_findings(ok)
+    arbitrated = {id(r): r for r in compose.arbitrate_batch(ok)} if ok else {}
+    final = []
+    for r in results:
+        match = next((x for x in arbitrated.values() if x.get('id') and x.get('id') == r.get('id')), None)
+        final.append(match or r)
+    rows = []
+    for r in final:
+        row = inbox_row(r, by_id[r['account_id']], args.day, run_id)
+        if row['text']:   # only real drafts enter the review inbox; failures stay in the run summary
+            compose_inbox.add(row)
+        rows.append(row)
+        write_json(out / 'drafts' / f"{row['id']}.json", r)
+    counts = {a['id']: {'drafts': sum(1 for x in rows if x['account_id'] == a['id'] and x['text']),
+                        'held': sum(1 for x in rows if x['account_id'] == a['id'] and x['held']),
+                        'errors': sum(1 for x in rows if x['account_id'] == a['id'] and x['error'])} for a in accounts}
+    summary = {'day': args.day.isoformat(), 'run_id': run_id, 'accounts': len(accounts), 'planned': len(jobs),
+               'blocked': quota.get('reason'),
+               'composed': len(results), 'skipped_budget': skipped, 'drafts_with_text': sum(1 for x in rows if x['text']),
+               'held': sum(1 for x in rows if x['held'] and x['text']), 'spend_usd': round(spend['usd'], 4),
+               'errors': [{'account_id': x['account_id'], 'source': x['source'].get('title'), 'error': x['error']}
+                          for x in rows if x['error']],
+               'budget_usd': args.budget_usd, 'models': sorted({m for x in rows for m in x['models']}),
+               'compose_model': stage_models.for_stage(table, 'compose')['model'], 'per_account': counts,
+               'inbox': str(compose_inbox.root() / args.day.isoformat()), 'publishing_enabled': False}
+    write_json(out / 'summary.json', summary)
+    from backend.compose_inbox import render
+    page = DASHBOARD / f'fd20_review_{args.day.isoformat()}.html'
+    page.parent.mkdir(parents=True, exist_ok=True)
+    page.write_text(render(compose_inbox.rows(args.day.isoformat()), args.day.isoformat(), summary=summary))
+    print(json.dumps({k: v for k, v in summary.items() if k != 'per_account'}, ensure_ascii=False), flush=True)
+    print('review page', page, flush=True)
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

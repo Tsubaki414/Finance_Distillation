@@ -1,5 +1,19 @@
 # Finance Distillation — 工作入口
 
+## 2026-10-07 fd20：20 个主号日更出稿 → 审稿台（覆盖下方"只跑 3 个号"）
+
+- 范围：`FD_accounts_final_v2.xlsx` 的 20 个主号，见 `live/fd20_accounts.json`。备用号不跑。没有自动发布。
+- 模型：EXTRACT、flash 抽取、STANCE、COMPOSE、view_enrich 全部走官方 Gemini API。
+  - 原生 generateContent，用 `x-goog-api-key` 头；token 用 `AQ\.\S+` 从 `GEMINI_API_KEY` 里取，不打印。
+  - 默认模型 `gemini-3-flash-preview`，temperature 1.0，thinking medium。
+  - `FD_GEMINI_MODEL=gemini-3.1-pro-preview` 可切 pro。10-07 实测 pro 返回 429 配额不足。
+  - 去掉了 micuapi 和 Opus 的静默回退：Gemini 失败就直接报错，不换模型。
+- 日更入口：`FD_DAILY_COMPOSE=1 scripts/cron/daily_compose.sh`，已接在 `daily_ingest.sh` 末尾。
+- 人设工厂：`scripts/persona_factory.py` 生成 persona、donor cluster、习惯卡、universe 和角度分布。
+- 审稿台：8684 的 `/compose-inbox`；静态页在 `/workspace/x/dashboard/fd20_review_<day>.html`。
+- 详见 `docs/FD20_DAILY.md`。
+- 风格卡、donor 帖子、universe 都留在本地，不进 git。
+
 ## 2026-10-02 当前状态：累计 cap $100，完整日常链
 
 当前产品与执行优先级以 `docs/CURRENT_DELIVERY_PLAN.md`、`docs/DAILY_PIPELINE.md` 为准。下方各节是历史快照；其中 $50/$60、密钥待提供、默认 Apify、同事件广播、强制重写/禁止直译等旧结论不再适用。目标产品形态按帖型（post_type）成帖：各账号自己的 source universe → 增量跟踪 → 内容单元抽取 → 按帖型和人设成帖（带署名 frame）→ QA → 人工审稿。帖型为 data_take、mechanism_explainer、view_relay、earnings_take、aphorism_translation，定义见 `live/post_types.json`（P0-4b 落地）。“原文选段 → 翻译 → 最小轻编”只是 aphorism_translation（Morris）的实现，不是中文号的产品规格。不以更多稿件数量代替自动化完成。

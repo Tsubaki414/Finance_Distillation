@@ -1,9 +1,11 @@
-"""Oct 6: full-article EXTRACT on gemini-3.1-pro-preview (micuapi) with claude-opus-5 fallback at its full
-12000 max_tokens, placeholder-speaker normalization, persona_minimum slots in the budget window, and the
+"""EXTRACT routing. Shipped (Oct 7, v3): gemini-3-flash-preview on the official Gemini API, no fallback.
+The Oct 6 fallback machinery (gemini-3.1-pro-preview on micuapi -> claude-opus-5 at its full 12000 max_tokens)
+runs against the frozen v2 table in tests/fixtures. Also placeholder-speaker normalization, persona_minimum slots in the budget window, and the
 fit estimate in daily_ingest / ingest_order_preview. No network: MockTransport and injected fakes only."""
 import copy
 import json
 import os
+from pathlib import Path
 from unittest.mock import patch
 
 import httpx
@@ -13,6 +15,9 @@ from live import stage_models
 from ml import budget
 
 MSG = [{'role': 'user', 'content': 'x'}]
+V2 = Path(__file__).parent / 'fixtures' / 'stage_models_v2_micuapi.json'
+GEMINI = 'https://generativelanguage.googleapis.com/v1beta'
+FAKE_GEMINI_ENV = 'prefix-AQ.fakeTOKEN123'
 RELAY = {'base_url': 'https://api.erisedai.com/v1', 'api_key': 'default-key', 'model': 'claude-opus-5',
          'input_usd_per_million': 15.0, 'output_usd_per_million': 75.0}
 
@@ -20,7 +25,9 @@ RELAY = {'base_url': 'https://api.erisedai.com/v1', 'api_key': 'default-key', 'm
 @pytest.fixture(autouse=True)
 def _env(monkeypatch):
     monkeypatch.setenv('GEMINI_RELAY_API_KEY', 'gem-key')
-    for k in [k for k in os.environ if k.startswith('FD_EXTRACT_') or k.startswith('FD_COMPOSE_')]:
+    monkeypatch.setenv('GEMINI_API_KEY', FAKE_GEMINI_ENV)
+    for k in [k for k in os.environ if k.startswith(('FD_EXTRACT_', 'FD_COMPOSE_', 'FD_STANCE_', 'FD_GEMINI_',
+                                                     'FD_VIEW_ENRICH_'))]:
         monkeypatch.delenv(k)
     prices = budget.PRICES.copy()
     yield
@@ -29,8 +36,17 @@ def _env(monkeypatch):
 
 # --- stage_models -----------------------------------------------------------------------------------
 
-def test_extract_stage_loads_with_fallback_max_tokens():
+def test_shipped_extract_is_flash_on_official_gemini_without_fallback():
     table = stage_models.load()
+    assert stage_models.for_stage(table, 'extract')['model'] == 'gemini-3-flash-preview'
+    assert stage_models.route(table, 'extract') == {'base_url': GEMINI, 'api_key_env': 'GEMINI_API_KEY'}
+    assert stage_models.fallback(table, 'extract') is None
+    assert stage_models.fallback(table, 'compose') is None
+    assert stage_models.max_tokens(table, 'extract') == 24000
+
+
+def test_extract_stage_loads_with_fallback_max_tokens():
+    table = stage_models.load(V2)
     assert stage_models.for_stage(table, 'extract')['model'] == 'gemini-3.1-pro-preview'
     assert stage_models.route(table, 'extract')['api_key_env'] == 'GEMINI_RELAY_API_KEY'
     fb = stage_models.fallback(table, 'extract')
@@ -40,7 +56,7 @@ def test_extract_stage_loads_with_fallback_max_tokens():
 
 @pytest.mark.parametrize('bad', [0, -1, True, '5'])
 def test_invalid_fallback_max_tokens_rejected(bad):
-    table = stage_models.load()
+    table = stage_models.load(V2)
     table['stages']['extract']['fallback']['max_tokens'] = bad
     with pytest.raises(ValueError, match='max_tokens'):
         stage_models.validate(table)
@@ -77,7 +93,8 @@ def relay_client(tmp_path, monkeypatch):
             return httpx.Response(503, json={'error': {'message': 'busy'}})
         return _ok(body['model'])
     with patch('live.erisedai_distillation_client._dotenv', return_value={}):
-        client = ErisedaiClient(tmp_path / 'calls', configuration=dict(RELAY), transport=httpx.MockTransport(handle))
+        client = ErisedaiClient(tmp_path / 'calls', configuration=dict(RELAY, stage_models=stage_models.load(V2)),
+                                transport=httpx.MockTransport(handle))
     return client, seen
 
 
@@ -104,9 +121,13 @@ def test_invalid_stage_max_tokens_rejected(bad):
 
 
 def test_stage_max_tokens_only_where_configured():
-    table = stage_models.load()
+    table = stage_models.load(V2)
     assert stage_models.max_tokens(table, 'extract') == 24000
     assert stage_models.max_tokens(table, 'compose') is None and stage_models.max_tokens(table, 'stance') is None
+    shipped = stage_models.load()
+    assert stage_models.max_tokens(shipped, 'extract') == 24000 and stage_models.max_tokens(shipped, 'extract_flash') == 24000
+    assert stage_models.max_tokens(shipped, 'compose') == 16000 and stage_models.max_tokens(shipped, 'stance') == 16000
+    assert stage_models.max_tokens(shipped, 'qa') is None
 
 
 def test_compose_fallback_still_clamped(relay_client):
@@ -122,7 +143,8 @@ def test_extract_client_models(tmp_path, monkeypatch):
     from live import daily_ingest
     monkeypatch.setattr(daily_ingest, '_relay_config', lambda: dict(RELAY))
     c = daily_ingest.extract_client(tmp_path / 'a')
-    assert stage_models.for_stage(c.stage_models, 'extract')['model'] == 'gemini-3.1-pro-preview'
+    assert stage_models.for_stage(c.stage_models, 'extract')['model'] == 'gemini-3-flash-preview'
+    assert stage_models.route(c.stage_models, 'extract')['api_key_env'] == 'GEMINI_API_KEY'
     opus = daily_ingest.extract_client(tmp_path / 'b', model='claude-opus-5')
     assert stage_models.for_stage(opus.stage_models, 'extract')['model'] == 'claude-opus-5'
     assert stage_models.route(opus.stage_models, 'extract') is None
@@ -251,9 +273,9 @@ def test_preview_uses_per_extract_and_max_extract(tmp_path, monkeypatch):
     p = iop.preview(path, per_extract=0.1, max_extract=5)
     assert p['budget_fit'] == 62 and p['extracts_within_cap'] == 5
     assert sum(r['within_cap'] for r in p['plan']) == 5
-    assert p['extract_model'] == 'gemini-3.1-pro-preview' and 'persona_minimum' in p
+    assert p['extract_model'] == 'gemini-3-flash-preview' and 'persona_minimum' in p
     default = iop.preview(path)
-    assert default['usd_per_extract'] == 0.1        # stage_models.json est, not 7.5 / 9
+    assert default['usd_per_extract'] == 0.03       # stage_models.json est, not 7.5 / 9
     assert 'budget fits' in iop.to_md(p)
 
 
@@ -277,16 +299,19 @@ def _fetchers():
 
 
 def test_run_records_fit_estimate(tmp_path):
+    import inspect
     from live.daily_ingest import run, DEFAULT_EST_USD_PER_DOC
+    cap = inspect.signature(run).parameters['cost_cap_usd'].default   # the run() default daily cap
     r = run(**_run_args(tmp_path), fetchers=_fetchers(), extract=_extract, backup=lambda: None, refresh=lambda: None)
     fe = r['ordering']['fit_estimate']
-    assert fe['est_usd_per_doc'] == DEFAULT_EST_USD_PER_DOC and fe['docs_budget_usd'] == round(8.0 - 1.75, 4)
-    assert fe['fit'] == min(40, int((8.0 - 1.75) // DEFAULT_EST_USD_PER_DOC))
+    # flashes keep their ring-fenced $1.75 inside the default cap.
+    assert fe['est_usd_per_doc'] == DEFAULT_EST_USD_PER_DOC and fe['docs_budget_usd'] == round(cap - 1.75, 4)
+    assert fe['fit'] == min(40, int((cap - 1.75) // DEFAULT_EST_USD_PER_DOC))
     assert r['ordering']['persona_minimum'] == []
     r = run(**_run_args(tmp_path / 'b', est_usd_per_doc=0.1, flashes=False, max_extract=30), fetchers=_fetchers(),
             extract=_extract, backup=lambda: None, refresh=lambda: None)
     fe = r['ordering']['fit_estimate']
-    assert fe['docs_budget_usd'] == 8.0 and fe['fit'] == 30
+    assert fe['docs_budget_usd'] == cap and fe['fit'] == 30
 
 
 def test_run_persona_minimum_off(tmp_path):
@@ -304,9 +329,12 @@ def test_cli_flag():
 
 def test_preflight_reports_extract_route(monkeypatch):
     from scripts import daily_ingest_preflight as preflight
-    monkeypatch.setenv('GEMINI_RELAY_API_KEY', 'dummy')
     with patch('live.writer_backend._dotenv', return_value={}):
         out = preflight.extract_route()
-        assert out['extract_model'] == 'gemini-3.1-pro-preview' and out['extract_key'] == 'set'
-        monkeypatch.delenv('GEMINI_RELAY_API_KEY')
+        assert out['extract_model'] == 'gemini-3-flash-preview' and out['extract_key'] == 'set'
+        assert out['extract_fallback'] is None and out['extract_host'] == 'generativelanguage.googleapis.com'
+        assert 'fakeTOKEN' not in json.dumps(out)
+        monkeypatch.setenv('GEMINI_API_KEY', 'no-token-here')     # value without an AQ. token is unusable
         assert 'missing' in preflight.extract_route()['extract_key']
+        monkeypatch.delenv('GEMINI_API_KEY')
+        assert preflight.extract_route()['extract_key'] == 'GEMINI_API_KEY missing'

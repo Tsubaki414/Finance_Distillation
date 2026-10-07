@@ -418,7 +418,7 @@ def zh_account_view_rewrite(client, value, calls, *, sleep=None, banned_spans=No
     return meta
 
 
-def stance_step(view_unit, persona, client, *, calls=None, sleep=None, context_units=None, ledger=None):
+def stance_step(view_unit, persona, client, *, calls=None, sleep=None, context_units=None, ledger=None, angle=None):
     from live.compose import _ask
     raw = persona.raw if hasattr(persona, 'raw') else persona
     spec = raw['stance']
@@ -440,6 +440,8 @@ def stance_step(view_unit, persona, client, *, calls=None, sleep=None, context_u
                 'rationale': 'Incompatible persona horizon.', 'confidence': 1.0}
     calls = [] if calls is None else calls
     payload = {'unit': view_unit, 'persona': raw}
+    if angle:
+        payload['angle'] = dict(angle)
     # zh_native: a ZH persona sees a Chinese source's own sentences (source_zh), so account_view / why_line are
     # written from the Chinese original instead of being translated back from the English unit statement.
     from live.zh_register import zh_original

@@ -88,6 +88,13 @@ class ClientUsesStageTableTests(unittest.TestCase):
 
     def test_config_without_table_uses_shipped_defaults(self):
         self.config.pop('stage_models')
+        # The shipped table routes Gemini stages to the official API; their key is resolved at construction.
+        env = patch.dict('os.environ', {'GEMINI_API_KEY': 'prefix-AQ.fakeTOKEN123'})
+        env.start()
+        self.addCleanup(env.stop)
+        import os
+        for k in ('FD_QA_MODEL', 'FD_GEMINI_ONLY'):
+            os.environ.pop(k, None)
         c = self.client(lambda m: m)
         c('qa', [{'role': 'user', 'content': 'x'}], 10)
         self.assertEqual((self.seen[0]['model'], self.seen[0]['temperature']), ('claude-opus-5', 0.0))

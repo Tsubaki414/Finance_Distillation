@@ -33,7 +33,7 @@ def test_third_party_and_judgments(lang, text):
 
 def test_all_personas_have_clean_qualitative_cards():
     personas = {k: p for k, p in registry.load_personas().items() if k != 'en_morris_archive'}
-    assert len(personas) == 10
+    assert len(personas) >= 10   # the 10 Oct 6 cluster personas + the fd20 accounts (Oct 7)
     for persona in personas.values():
         card = persona.voice_card
         # Oct 6 per-account cluster cards are built offline (--no-llm): deterministic tendencies, no qualitative pass.

@@ -1330,8 +1330,9 @@ def _signature_lexicon(persona):
 def compose_source(source, account_id, client, *, post_type=None, exemplars=None, exemplar_dir=None,
                    exemplar_tags_dir=None, extracted_units=None, stance_output=None, voice_prompt_variant=None, now=None, view_ledger=None,
                    emotion_contract=None, pack_augment=None, shape=None, shape_batch=(), composition_shapes=None,
-                   shape_batch_size=None, zh_register=None, post_format=None):
+                   shape_batch_size=None, zh_register=None, post_format=None, angle=None):
     """Voice cards always use exemplars; other personas honor the retrieval override.
+    angle: optional live/angles.payload() dict - the lens this account takes on the material (fd20 daily runner).
     post_format: None = sample the post type + length from the account's cluster posting habits
     (FD_POST_FORMAT=0 or the emotion_contract payload switch off turns it off), a dict = use that format, False = off."""
     persona = registry.persona_for_account(account_id)
@@ -1396,7 +1397,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     stance = stance_output
     if post_type in JUDGMENT_TYPES:
         from live.stance import stance_step
-        stance = stance or stance_step(primary, persona, client, ledger=view_ledger,
+        stance = stance or stance_step(primary, persona, client, ledger=view_ledger, angle=angle,
                                        context_units=stance_context_units(primary, units, now=now, post_type=post_type,
                                                                           post_types=post_types))
         if stance['decision'] == 'reject' and augment_info.get('augmented') and forced_post_type is None:
@@ -1413,7 +1414,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             primary = eligible(post_type, chosen)[0]
             stance = stance_output
             if post_type in JUDGMENT_TYPES:
-                stance = stance or stance_step(primary, persona, client, ledger=view_ledger,
+                stance = stance or stance_step(primary, persona, client, ledger=view_ledger, angle=angle,
                                                context_units=stance_context_units(
                                                    primary, units, now=now, post_type=post_type, post_types=post_types))
                 if stance['decision'] == 'reject':
@@ -1460,6 +1461,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                           'source_spans': [s['exact_text'] for s in u['source_spans']],
                           'numbers': [{k: n[k] for k in ('text', 'metric', 'period', 'span_ref')} for n in u['numbers']]}
                          for u in chosen]}
+    if angle:
+        payload['angle'] = dict(angle)
     if frame and frame.get('credit_policy') not in (None, 'name') and frame.get('never_name'):
         # Generic credit (sell-side via ReportGem): the bank is named in unit statements/speaker but
         # must never reach the post (hard QA never_name_in_post, Oct 6 zh_macro wrote 摩根大通).

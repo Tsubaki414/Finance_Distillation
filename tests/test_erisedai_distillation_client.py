@@ -32,6 +32,14 @@ class ErisedaiClientTests(unittest.TestCase):
             self.addCleanup(p.stop)
         prices = budget.PRICES.copy()
         self.addCleanup(lambda: (budget.PRICES.clear(), budget.PRICES.update(prices)))
+        # No inline stage table -> shipped v3 table, whose Gemini stages resolve GEMINI_API_KEY at construction.
+        # Use a fake value so these tests never depend on (or touch) a real key.
+        env = patch.dict('os.environ', {'GEMINI_API_KEY': 'prefix-AQ.fakeTOKEN123'})
+        env.start()
+        self.addCleanup(env.stop)
+        import os
+        for k in ('FD_GEMINI_ONLY', 'FD_GEMINI_MODEL'):
+            os.environ.pop(k, None)
 
     def response(self, **overrides):
         return {'id': 'test-response', 'model': 'claude-opus-5',

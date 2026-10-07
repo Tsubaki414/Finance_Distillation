@@ -59,8 +59,17 @@ def _bigrams(text):
 
 def _load_beats():
     rows = json.loads(ACCOUNTS.read_text()).get('accounts') or []
-    return {r['id']: {'beats': list(r.get('beats') or []), 'lanes': list(r.get('lanes') or []),
-                      'lang': r.get('lang') or ''} for r in rows if r.get('id')}
+    out = {r['id']: {'beats': list(r.get('beats') or []), 'lanes': list(r.get('lanes') or []),
+                     'lang': r.get('lang') or ''} for r in rows if r.get('id')}
+    # Oct 7 (fd20): the 20 main accounts not in accounts.json get their beat line from live/fd20_accounts.json.
+    try:
+        extra = json.loads((ACCOUNTS.parent / 'fd20_accounts.json').read_text()).get('accounts') or []
+    except (OSError, ValueError):
+        extra = []
+    for r in extra:
+        if r.get('id') and r['id'] not in out:
+            out[r['id']] = {'beats': [r.get('focus') or r.get('beat') or ''], 'lanes': [], 'lang': r.get('lang') or ''}
+    return out
 
 
 def direction_compatible(left, right):

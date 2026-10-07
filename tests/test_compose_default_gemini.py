@@ -1,7 +1,13 @@
-"""COMPOSE defaults to gemini-3.1-pro-preview on the micuapi relay (key env GEMINI_RELAY_API_KEY),
-with claude-opus-5-5 on the default relay as the documented fallback when Gemini errors,
-times out, has no channel, or its key is not configured. Other stages stay claude-opus-5.
-A response-model mismatch is never a fallback trigger.
+"""COMPOSE model routing.
+
+Shipped (stage-models-v3-gemini-official, Oct 7): compose / stance / extract / extract_flash / view_enrich run on
+gemini-3-flash-preview via the official Gemini API (GEMINI_API_KEY), with NO fallback; other stages stay
+claude-opus-5 on the default relay.
+
+The fallback machinery (Gemini error / timeout / no channel / quota / unset key -> claude-opus-5-5 on the default
+relay, quota breaker, fallback max_tokens clamp) is still a code path; it is exercised against the frozen v2 table
+(tests/fixtures/stage_models_v2_micuapi.json: compose on gemini-3.1-pro-preview via micuapi). A response-model
+mismatch is never a fallback trigger.
 """
 import json
 import os
@@ -17,6 +23,9 @@ from live.erisedai_distillation_client import ErisedaiClient
 from ml import budget
 
 MICU = 'https://www.micuapi.ai/v1'
+GEMINI = 'https://generativelanguage.googleapis.com/v1beta'
+V2 = Path(__file__).parent / 'fixtures' / 'stage_models_v2_micuapi.json'
+GEMINI_STAGES = ('compose', 'stance', 'extract', 'extract_flash', 'view_enrich')
 MSG = [{'role': 'user', 'content': 'x'}]
 
 
@@ -27,26 +36,30 @@ def ok(model):
 
 
 class ShippedTableTests(unittest.TestCase):
-    def test_compose_default_is_gemini_on_micuapi(self):
+    def test_gemini_stages_default_to_flash_on_official_api(self):
         table = stage_models.load()
-        self.assertEqual(stage_models.for_stage(table, 'compose')['model'], 'gemini-3.1-pro-preview')
-        self.assertEqual(stage_models.route(table, 'compose'),
-                         {'base_url': MICU, 'api_key_env': 'GEMINI_RELAY_API_KEY'})
+        self.assertEqual(table['version'], 'stage-models-v3.1-gemini-official')
+        for stage in GEMINI_STAGES:
+            self.assertEqual(stage_models.for_stage(table, stage), {'model': 'gemini-3-flash-preview', 'temperature': 1.0})
+            self.assertEqual(stage_models.thinking_level(table, stage, {}), 'medium')
+            self.assertEqual(stage_models.route(table, stage), {'base_url': GEMINI, 'api_key_env': 'GEMINI_API_KEY'})
+            self.assertTrue(stage_models.is_gemini_native(stage_models.route(table, stage)['base_url']))
+        self.assertIn('gemini-3-flash-preview', stage_models.accepted(table, 'gemini-3-flash-preview'))
         self.assertIn('gemini-3.1-pro-preview', stage_models.accepted(table, 'gemini-3.1-pro-preview'))
+
+    def test_no_stage_has_a_fallback_or_uses_micuapi(self):
+        table = stage_models.load()
+        for stage in (*GEMINI_STAGES, 'translate', 'qa'):
+            self.assertIsNone(stage_models.fallback(table, stage))
+        for entry in table['stages'].values():
+            self.assertNotEqual(entry.get('api_key_env'), 'GEMINI_RELAY_API_KEY')
+            self.assertNotIn('micuapi', entry.get('base_url', ''))
 
     def test_other_stages_unchanged(self):
         table = stage_models.load()
-        for stage in ('stance', 'translate', 'qa'):
+        for stage in ('translate', 'qa', 'routing'):
             self.assertEqual(stage_models.for_stage(table, stage)['model'], 'claude-opus-5')
             self.assertIsNone(stage_models.route(table, stage))
-        # EXTRACT moved to Gemini on 2026-10-06 (tests/test_gemini_extract.py).
-        self.assertEqual(stage_models.for_stage(table, 'extract')['model'], 'gemini-3.1-pro-preview')
-
-    def test_compose_fallback_is_opus_5_5_on_default_relay(self):
-        fb = stage_models.fallback(stage_models.load(), 'compose')
-        self.assertEqual(fb['model'], 'claude-opus-5-5')
-        self.assertIsNone(fb.get('base_url'))
-        self.assertIsNone(stage_models.fallback(stage_models.load(), 'stance'))
 
     def test_env_can_revert_compose_to_opus_5(self):
         table = stage_models.from_env(stage_models.load(), {'FD_COMPOSE_MODEL': 'claude-opus-5'})
@@ -59,6 +72,19 @@ class ShippedTableTests(unittest.TestCase):
         table['stages']['compose']['fallback'] = {'model': 'unknown-model'}
         with self.assertRaises(ValueError):
             stage_models.validate(table)
+
+
+class FrozenV2TableTests(unittest.TestCase):
+    """The frozen v2 table the fallback tests below run on."""
+
+    def test_v2_compose_is_gemini_on_micuapi_with_opus_5_5_fallback(self):
+        table = stage_models.load(V2)
+        self.assertEqual(stage_models.for_stage(table, 'compose')['model'], 'gemini-3.1-pro-preview')
+        self.assertEqual(stage_models.route(table, 'compose'), {'base_url': MICU, 'api_key_env': 'GEMINI_RELAY_API_KEY'})
+        fb = stage_models.fallback(table, 'compose')
+        self.assertEqual(fb['model'], 'claude-opus-5-5')
+        self.assertIsNone(fb.get('base_url'))
+        self.assertIsNone(stage_models.fallback(table, 'stance'))
 
 
 class ClientFallbackTests(unittest.TestCase):
@@ -78,7 +104,8 @@ class ClientFallbackTests(unittest.TestCase):
 
     def client(self, handler, env=None):
         config = {'base_url': 'https://api.erisedai.com/v1', 'api_key': 'default-key', 'model': 'claude-opus-5',
-                  'input_usd_per_million': 15.0, 'output_usd_per_million': 75.0}
+                  'input_usd_per_million': 15.0, 'output_usd_per_million': 75.0,
+                  'stage_models': stage_models.load(V2)}
 
         def handle(request):
             body = json.loads(request.content)
@@ -86,7 +113,7 @@ class ClientFallbackTests(unittest.TestCase):
             return handler(request.url.host, body['model'])
         environ = {'GEMINI_RELAY_API_KEY': 'gem-key'} if env is None else env
         with patch.dict(os.environ, environ):
-            for k in ('FD_COMPOSE_MODEL', 'FD_STANCE_MODEL'):
+            for k in ('FD_COMPOSE_MODEL', 'FD_STANCE_MODEL', 'FD_GEMINI_ONLY', 'FD_GEMINI_MODEL'):
                 os.environ.pop(k, None)
             if 'GEMINI_RELAY_API_KEY' not in environ:
                 os.environ.pop('GEMINI_RELAY_API_KEY', None)

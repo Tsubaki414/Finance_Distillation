@@ -143,6 +143,8 @@ app=FastAPI(title='Content Review Desk')
 app.include_router(router)
 from backend.account_intelligence import router as intelligence_router
 app.include_router(intelligence_router)
+from backend.compose_inbox import router as compose_inbox_router
+app.include_router(compose_inbox_router)
 @app.middleware('http')
 async def local_only(request:Request,call_next):
     host=request.headers.get('host','')

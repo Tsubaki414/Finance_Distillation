@@ -92,15 +92,55 @@ def _safe(value, secret):
     """Redact credentials even when a provider echoes them in a failed response."""
     if isinstance(value, dict):
         return {_safe(key, secret): ('[REDACTED]' if key.lower() in {
-            'authorization', 'api_key', 'apikey', 'access_token', 'api-key'
+            'authorization', 'api_key', 'apikey', 'access_token', 'api-key', 'x-goog-api-key'
         } else _safe(item, secret)) for key, item in value.items()}
     if isinstance(value, list):
         return [_safe(item, secret) for item in value]
     if isinstance(value, str):
         if secret:
             value = value.replace(secret, '[REDACTED]')
+        value = re.sub(r'AQ\.[A-Za-z0-9_\-.]{8,}', '[REDACTED]', value)
         return re.sub(r'(?i)Bearer\s+[^\s"\x27,}]+', 'Bearer [REDACTED]', value)
     return value
+
+
+GEMINI_PROVIDER = 'gemini_official'
+_GEMINI_FINISH = {'STOP': 'stop', 'MAX_TOKENS': 'length', 'SAFETY': 'content_filter', 'RECITATION': 'content_filter',
+                  'PROHIBITED_CONTENT': 'content_filter', 'BLOCKLIST': 'content_filter', 'SPII': 'content_filter'}
+
+
+def gemini_payload(messages, max_tokens, temperature, thinking_level=None):
+    """OpenAI-style messages -> native generateContent body (system -> systemInstruction, assistant -> model)."""
+    system = [m['content'] for m in messages if m.get('role') == 'system' and m.get('content')]
+    contents = [{'role': 'model' if m.get('role') == 'assistant' else 'user', 'parts': [{'text': str(m.get('content') or '')}]}
+                for m in messages if m.get('role') != 'system']
+    body = {'contents': contents,
+            'generationConfig': {'temperature': temperature, 'maxOutputTokens': int(max_tokens),
+                                 'responseMimeType': 'application/json'}}
+    if thinking_level:
+        body['generationConfig']['thinkingConfig'] = {'thinkingLevel': thinking_level}
+    if system:
+        body['systemInstruction'] = {'parts': [{'text': '\n\n'.join(system)}]}
+    return body
+
+
+def gemini_to_chat(data, model):
+    """Native generateContent response -> the chat/completions shape the pipeline validates.
+    Thinking tokens are billed as output, so they count in completion_tokens."""
+    cands = data.get('candidates') or []
+    if not cands:
+        block = (data.get('promptFeedback') or {}).get('blockReason')
+        return {'error': f'Gemini returned no candidates (blockReason={block})'}
+    cand = cands[0]
+    text = ''.join(p.get('text', '') for p in ((cand.get('content') or {}).get('parts') or []) if not p.get('thought'))
+    meta = data.get('usageMetadata') or {}
+    out_tokens = int(meta.get('candidatesTokenCount') or 0) + int(meta.get('thoughtsTokenCount') or 0)
+    return {'id': data.get('responseId'), 'model': data.get('modelVersion') or model,
+            'choices': [{'index': 0, 'finish_reason': _GEMINI_FINISH.get(cand.get('finishReason'), str(cand.get('finishReason')).lower()),
+                         'message': {'role': 'assistant', 'content': text}}],
+            'usage': {'prompt_tokens': int(meta.get('promptTokenCount') or 0), 'completion_tokens': out_tokens,
+                      'total_tokens': int(meta.get('promptTokenCount') or 0) + out_tokens,
+                      'thoughts_tokens': int(meta.get('thoughtsTokenCount') or 0)}}
 
 
 def _fallback_worthy(exc):
@@ -160,6 +200,8 @@ class ErisedaiClient:
             if not value:
                 file_env = _dotenv() if file_env is None else file_env
                 value = file_env.get(name, '')
+            if value.strip() and stage_models.is_gemini_native(routed['base_url']):
+                value = stage_models.gemini_token(value)
             if not value.strip():
                 if stage_models.fallback(self.stage_models, stage) is None:
                     raise ValueError(f'{name} is not set for routed stage {stage}')
@@ -186,6 +228,10 @@ class ErisedaiClient:
             return self._fallback(stage, messages, max_tokens, fb, self._route_missing[stage])
         routed = stage_models.route(self.stage_models, stage)
         selected = stage_models.for_stage(self.stage_models, stage)
+        if (self.config.get('gemini_only') or os.environ.get('FD_GEMINI_ONLY') == '1') and not (
+                routed and stage_models.is_gemini_native(routed['base_url'])):
+            # Oct 7: daily compose runs Gemini-only; a stage that would go to the Opus relay fails loudly.
+            raise RuntimeError(f'stage {stage} is not routed to the official Gemini API (FD_GEMINI_ONLY=1)')
         tripped = QUOTA_TRIPPED.get((stage, selected['model']))
         if fb is not None and tripped:
             return self._fallback(stage, messages, max_tokens, fb, f'quota breaker open: {tripped}'[:300])
@@ -215,13 +261,16 @@ class ErisedaiClient:
         call_id = uuid.uuid4().hex
         path = self.directory / (call_id + '.json')
         budget_model = PROVIDER + '/' + model
-        payload = {'model': model, 'messages': copy.deepcopy(messages),
-                   'max_tokens': max_tokens, 'temperature': temperature,
-                   'response_format': copy.deepcopy(RESPONSE_FORMAT)}
+        native = stage_models.is_gemini_native(base_url)
+        payload = ({'model': model, 'messages': copy.deepcopy(messages),
+                    'max_tokens': max_tokens, 'temperature': temperature,
+                    'response_format': copy.deepcopy(RESPONSE_FORMAT)} if not native
+                   else gemini_payload(messages, max_tokens, temperature,
+                                       stage_models.thinking_level(self.stage_models, stage)))
         record = {'call_id': call_id, 'stage': stage, 'started_at': now(),
                   'messages': messages, 'prompt_hash': digest(messages),
                   'model': model, 'upstream_model': model,
-                  'provider': PROVIDER, 'host': urlsplit(base_url).netloc,
+                  'provider': GEMINI_PROVIDER if native else PROVIDER, 'host': urlsplit(base_url).netloc,
                   'routed_key_env': routed_key_env,
                   'configuration_source': self.config.get('configuration_source', 'explicit_configuration'),
                   'temperature': temperature, 'max_tokens': max_tokens, 'status': 'started',
@@ -245,9 +294,16 @@ class ErisedaiClient:
             with httpx.Client(timeout=TIMEOUT, trust_env=False, follow_redirects=False,
                               transport=self.transport) as client:
                 record['model_call_attempts'] = 1
-                response = client.post(base_url + '/chat/completions',
-                                       headers={'Authorization': 'Bearer ' + secret}, json=payload)
+                if native:
+                    response = client.post(f'{base_url}/models/{model}:generateContent',
+                                           headers={'x-goog-api-key': secret}, json=payload)
+                else:
+                    response = client.post(base_url + '/chat/completions',
+                                           headers={'Authorization': 'Bearer ' + secret}, json=payload)
             record['http_status'] = response.status_code
+            if native and not response.is_success:
+                # Official Gemini API: a rejected request (429 / 5xx / 4xx) is not billed.
+                record['usage'] = {'prompt_tokens': 0, 'completion_tokens': 0, 'basis': 'gemini error response, not billed'}
             try:
                 data = response.json()
             except (json.JSONDecodeError, UnicodeDecodeError):
@@ -257,6 +313,8 @@ class ErisedaiClient:
                     raise cls(f'Relay HTTP {response.status_code}: non-JSON error') from None
                 # Do not attach the potentially credential-bearing raw JSON document.
                 raise json.JSONDecodeError('Relay returned invalid JSON', '', 0) from None
+            if native and response.is_success and isinstance(data, dict) and not data.get('error'):
+                data = gemini_to_chat(data, model)
             record['transport_output'] = _safe(data, secret)
             if not response.is_success or (isinstance(data, dict) and data.get('error')):
                 error = data.get('error', data) if isinstance(data, dict) else data

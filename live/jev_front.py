@@ -35,6 +35,22 @@ ACCOUNT_FOR_PERSONA = {
 PERSONA_FOR_ACCOUNT = {a: p for p, a in ACCOUNT_FOR_PERSONA.items()}
 
 
+def _fd20_beats():
+    """Oct 7 (fd20): the 20 main accounts read units of existing beats (live/fd20_accounts.json retrieval_beats,
+    primary first). Only accounts without their own beat are added; routing still speaks the 10 Jev beats."""
+    import json
+    from pathlib import Path
+    try:
+        rows = json.loads((Path(__file__).with_name('fd20_accounts.json')).read_text())['accounts']
+    except (OSError, ValueError, KeyError):
+        return {}
+    return {r['id']: r['retrieval_beats'][0] for r in rows
+            if r.get('retrieval_beats') and r['id'] not in PERSONA_FOR_ACCOUNT and r['retrieval_beats'][0] in PERSONAS}
+
+
+PERSONA_FOR_ACCOUNT.update(_fd20_beats())
+
+
 def account_for(jev_persona):
     """Account ID for a Jev beat ID ('none' or unknown -> None)."""
     return ACCOUNT_FOR_PERSONA.get(jev_persona)

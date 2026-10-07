@@ -974,6 +974,384 @@
     "jpinsights"
    ],
    "notes": []
+  },
+  "acct_crypto_onchain_zh": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "Murphychen888",
+     "weight": 0.2
+    },
+    {
+     "handle": "highFree2028",
+     "weight": 0.2
+    },
+    {
+     "handle": "blockTVBee",
+     "weight": 0.2
+    },
+    {
+     "handle": "Jiangzhuoer2",
+     "weight": 0.2
+    },
+    {
+     "handle": "CryptoKris666",
+     "weight": 0.2
+    }
+   ],
+   "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
+   "previous_cluster": "crypto_macro_zh"
+  },
+  "acct_crypto_research_zh": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "lanhubiji",
+     "weight": 0.2
+    },
+    {
+     "handle": "xuxiaopengmint",
+     "weight": 0.2
+    },
+    {
+     "handle": "Wuhuoqiu",
+     "weight": 0.2
+    },
+    {
+     "handle": "jason_chen998",
+     "weight": 0.2
+    },
+    {
+     "handle": "0xTodd",
+     "weight": 0.2
+    }
+   ],
+   "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
+   "previous_cluster": "crypto_macro_zh"
+  },
+  "acct_crypto_trader_zh": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "Mr57814170",
+     "weight": 0.2
+    },
+    {
+     "handle": "Alligator199",
+     "weight": 0.2
+    },
+    {
+     "handle": "hibtc37",
+     "weight": 0.2
+    },
+    {
+     "handle": "yijiangren",
+     "weight": 0.2
+    },
+    {
+     "handle": "AlphaguyTrading",
+     "weight": 0.2
+    }
+   ],
+   "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
+   "previous_cluster": "crypto_macro_zh"
+  },
+  "acct_crypto_diary_zh": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "KuiGas",
+     "weight": 0.2
+    },
+    {
+     "handle": "laofeiyyds",
+     "weight": 0.2
+    },
+    {
+     "handle": "Meimeibtcc",
+     "weight": 0.2
+    },
+    {
+     "handle": "0xzhaozhao",
+     "weight": 0.2
+    },
+    {
+     "handle": "leslie_bit",
+     "weight": 0.2
+    }
+   ],
+   "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
+   "previous_cluster": "crypto_macro_zh"
+  },
+  "acct_crypto_altcoin_zh": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "0xSunNFT",
+     "weight": 0.2
+    },
+    {
+     "handle": "DL0868",
+     "weight": 0.2
+    },
+    {
+     "handle": "0xcryptowizard",
+     "weight": 0.2
+    },
+    {
+     "handle": "eyuCrypto",
+     "weight": 0.2
+    },
+    {
+     "handle": "Michael_Liu93",
+     "weight": 0.2
+    }
+   ],
+   "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
+   "previous_cluster": "crypto_macro_zh"
+  },
+  "acct_crypto_btc_cycle_zh": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "cloakmk",
+     "weight": 0.2
+    },
+    {
+     "handle": "Leooo2099",
+     "weight": 0.2
+    },
+    {
+     "handle": "Btcxiaoyuan",
+     "weight": 0.2
+    },
+    {
+     "handle": "bitfish",
+     "weight": 0.2
+    },
+    {
+     "handle": "tychozzz",
+     "weight": 0.2
+    }
+   ],
+   "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
+   "previous_cluster": "crypto_macro_zh"
+  },
+  "acct_zh_us_stocks": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "huahuayjy",
+     "weight": 0.2
+    },
+    {
+     "handle": "wufantouzi",
+     "weight": 0.2
+    },
+    {
+     "handle": "ArtofSpecuycky",
+     "weight": 0.2
+    },
+    {
+     "handle": "SVScholar",
+     "weight": 0.2
+    },
+    {
+     "handle": "xiaomustock",
+     "weight": 0.2
+    }
+   ],
+   "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
+   "previous_cluster": "single_stock_deepdive_en"
+  },
+  "acct_zh_longterm_investing": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "cishanjia",
+     "weight": 0.2
+    },
+    {
+     "handle": "thcaroline2233",
+     "weight": 0.2
+    },
+    {
+     "handle": "fannaoxiaoyang",
+     "weight": 0.2
+    },
+    {
+     "handle": "nbblock",
+     "weight": 0.2
+    },
+    {
+     "handle": "xingpt",
+     "weight": 0.2
+    }
+   ],
+   "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
+   "previous_cluster": "investing_philosophy"
+  },
+  "acct_crypto_onchain_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "JA_Maartun",
+     "weight": 0.2
+    },
+    {
+     "handle": "jjcmoreno",
+     "weight": 0.2
+    },
+    {
+     "handle": "AxelAdlerJr",
+     "weight": 0.2
+    },
+    {
+     "handle": "caprioleio",
+     "weight": 0.2
+    },
+    {
+     "handle": "willywoo",
+     "weight": 0.2
+    }
+   ],
+   "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
+   "previous_cluster": "crypto_macro_en"
+  },
+  "acct_crypto_trader_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "DaanCrypto",
+     "weight": 0.2
+    },
+    {
+     "handle": "Pentosh1",
+     "weight": 0.2
+    },
+    {
+     "handle": "SalsaTekila",
+     "weight": 0.2
+    },
+    {
+     "handle": "gammichan",
+     "weight": 0.2
+    },
+    {
+     "handle": "Truecrypto",
+     "weight": 0.2
+    }
+   ],
+   "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
+   "previous_cluster": "crypto_macro_en"
+  },
+  "acct_defi_narratives_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "DefiIgnas",
+     "weight": 0.2
+    },
+    {
+     "handle": "TheDeFinvestor",
+     "weight": 0.2
+    },
+    {
+     "handle": "ChemistDeFi",
+     "weight": 0.2
+    },
+    {
+     "handle": "TaikiMaeda2",
+     "weight": 0.2
+    },
+    {
+     "handle": "thedefiedge",
+     "weight": 0.2
+    }
+   ],
+   "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
+   "previous_cluster": "crypto_macro_en"
+  },
+  "acct_btc_cycles_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "BobLoukas",
+     "weight": 0.2
+    },
+    {
+     "handle": "nsquaredvalue",
+     "weight": 0.2
+    },
+    {
+     "handle": "decodejar",
+     "weight": 0.2
+    },
+    {
+     "handle": "TedPillows",
+     "weight": 0.2
+    },
+    {
+     "handle": "zackvoell",
+     "weight": 0.2
+    }
+   ],
+   "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
+   "previous_cluster": "crypto_macro_en"
+  },
+  "acct_crypto_thesis_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "cburniske",
+     "weight": 0.2
+    },
+    {
+     "handle": "john_j_brown",
+     "weight": 0.2
+    },
+    {
+     "handle": "DCinvestor",
+     "weight": 0.2
+    },
+    {
+     "handle": "RyanWatkins_",
+     "weight": 0.2
+    },
+    {
+     "handle": "tulipking",
+     "weight": 0.2
+    }
+   ],
+   "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
+   "previous_cluster": "crypto_macro_en"
+  },
+  "acct_crypto_research_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "intangiblecoins",
+     "weight": 0.2
+    },
+    {
+     "handle": "LowBeta",
+     "weight": 0.2
+    },
+    {
+     "handle": "andrewhong5297",
+     "weight": 0.2
+    },
+    {
+     "handle": "matthew_sigel",
+     "weight": 0.2
+    },
+    {
+     "handle": "LexSokolin",
+     "weight": 0.2
+    }
+   ],
+   "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
+   "previous_cluster": "crypto_macro_en"
   }
  },
  "donors": {
