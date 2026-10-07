@@ -184,3 +184,9 @@ These are learned from donor text and are kept out of git (`.gitignore`):
 - **Delphi Digital** (members-only, `inspiration_only`, adapter `browser_digest`): no scraping / cookies / CDP; a
   browser routine writes `live/store/delphi_digest/<day>.json`. Schema, validation and the licence gate:
   `docs/DELPHI_DIGEST.md`.
+
+## 回看 look-back post type (Oct 8 pilot)
+
+- Pilot accounts: `crypto_altcoin_zh`, `crypto_macro_en` and `zh_longterm_investing` (`FD_ARCHIVE`, `live/archive_lookback.json`).
+- When an account is short of fresh ready drafts, it gets one draft that compares a post by its own source from about a year ago (Feb 2025 first) with today's data, plus a then-vs-now chart.
+- See `docs/ARCHIVE_LOOKBACK.md`.

@@ -82,7 +82,8 @@ def render(rows, day, *, live=False, summary=None):
                                   (('approve', '可发'), ('minor_edit', '小改'), ('major_edit', '大改'), ('reject', '拒')))
                         + '<span class="msg"></span></div>')
             cards.append(
-                f'<div class="card{hold}"><div class="meta">{_esc(r.get("suggested_post_time_london", "")[11:16])} 建议发布 · '
+                f'<div class="card{hold}"><div class="meta">{"<b>【回看】</b> " if r.get("post_kind") == "archive_lookback" else ""}'
+                f'{_esc(r.get("suggested_post_time_london", "")[11:16])} 建议发布 · '
                 f'{_esc((r.get("post_format") or {}).get("type"))}/{_esc((r.get("post_format") or {}).get("length"))} · '
                 f'帖型 {_esc(r.get("post_type"))} · 角度 <b>{_esc((r.get("angle") or {}).get("lens"))}</b> · '
                 f'机检 {_esc(r.get("draft_status"))} · 仲裁 {_esc(arb.get("status"))} · <b>{_esc(badge)}</b></div>'

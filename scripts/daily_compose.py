@@ -684,6 +684,15 @@ def main():
                'budget_usd': args.budget_usd, 'models': sorted({m for x in rows for m in x['models']}),
                'compose_model': stage_models.for_stage(table, 'compose')['model'], 'per_account': counts,
                'inbox': str(compose_inbox.root() / args.day.isoformat()), 'publishing_enabled': False}
+    # ---- 回看 hook (live/archive_lookback.py): FD_ARCHIVE (default on for its config's pilot accounts) gives an account
+    # still short of ready drafts one look-back draft; never fatal to the day.
+    if os.environ.get('FD_ARCHIVE', '1') != '0':
+        try:
+            from live import archive_lookback
+            summary['archive'] = archive_lookback.fill_gaps(args.day.isoformat(), accounts=[a['id'] for a in accounts])
+        except Exception as exc:   # noqa: BLE001
+            summary['archive'] = {'error': f'{type(exc).__name__}: {str(exc)[:200]}'}
+    # ---- end 回看 hook
     write_json(out / 'summary.json', summary)
     from backend.compose_inbox import render
     page = DASHBOARD / f'fd20_review_{args.day.isoformat()}.html'

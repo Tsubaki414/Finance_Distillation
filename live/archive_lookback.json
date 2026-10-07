@@ -1,0 +1,45 @@
+{
+  "version": "archive-lookback-v1",
+  "label": "回看",
+  "note": "回看 (look-back) post type: fills an account's day when fresh publishable material is thin. Material is the account's OWN tier-B X sources and donors from about a year ago (Feb 2025 first, then the same calendar window one year before the day), fetched by twitter241 date-bounded search; each draft compares what was said then with today's numbers from live/charts.py fetchers and carries a then-vs-now chart. FD_ARCHIVE unset or 1 = on for enabled_accounts only; FD_ARCHIVE=0 = off. Raw fetched posts stay outside git (FD_ARCHIVE_RAW); the ledger lives in live/store/archive_lookback (ignored).",
+  "enabled_accounts": [
+    "crypto_altcoin_zh",
+    "crypto_macro_en",
+    "zh_longterm_investing"
+  ],
+  "pilot_reason": "Oct 8 pilot: the three accounts with the thinnest fresh material in a simulated 2026-10-08 selection (daily_compose.select over all 20): crypto_altcoin_zh 1 timely of 2 planned (0 fresh on 10-07 morning, 3 of 5 drafts held), crypto_macro_en 0 timely of 2 planned (largest EN crypto gap), zh_longterm_investing 0 fresh packets at all (macro_zh / market_data_charts beats).",
+  "per_day": 1,
+  "event_cooldown_days": 30,
+  "target_ready_per_day": 2,
+  "windows": [
+    {
+      "id": "feb2025",
+      "since": "2025-02-01",
+      "until": "2025-03-01",
+      "rank": 0
+    },
+    {
+      "id": "feb2025_early",
+      "since": "2025-02-01",
+      "until": "2025-02-15",
+      "rank": 0
+    },
+    {
+      "id": "year_ago",
+      "days_before": 365,
+      "half_width_days": 10,
+      "rank": 1
+    }
+  ],
+  "max_handles_per_account": 10,
+  "max_candidates_to_model": 6,
+  "rapid_max_calls": 150,
+  "rapid_usd_per_call_estimate": 0.002,
+  "rapid_budget_usd": 2.0,
+  "compose_budget_usd": 1.5,
+  "compose_reserve_per_draft_usd": 0.3,
+  "min_chars": {
+    "en": 80,
+    "zh": 30
+  }
+}
