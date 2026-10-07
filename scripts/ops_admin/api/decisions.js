@@ -2,28 +2,12 @@
 // GET  /api/decisions?day=YYYY-MM-DD -> {day, decisions: {id: decision}}
 // POST /api/decisions {day, id, account_id, action: approve|hold|rewrite|edit|clear, text?, note?} -> {ok, decision}
 //   text: edited post text ('' or null = keep the draft text); note: HOLD reason / rewrite instruction.
-// Basic auth is enforced by middleware.js; checked again here so the function is never open on its own.
+// No auth: the site is unlisted by choice (noindex on both pages).
 import { get, list, put } from '@vercel/blob';
 
 const DAY = /^\d{4}-\d{2}-\d{2}$/;
 const ID = /^[A-Za-z0-9_.-]{1,100}$/;
 const ACTIONS = new Set(['approve', 'hold', 'rewrite', 'edit', 'clear']);
-
-function authorised(req) {
-  const pw = process.env.ADMIN_PASSWORD || '';
-  const h = req.headers.authorization || '';
-  if (!pw || !h.startsWith('Basic ')) return false;
-  const raw = Buffer.from(h.slice(6), 'base64').toString('utf8');
-  const given = Buffer.from(raw.slice(raw.indexOf(':') + 1));
-  const want = Buffer.from(pw);
-  return given.length === want.length && bytesEqual(given, want);
-}
-
-function bytesEqual(a, b) {
-  let diff = 0;
-  for (let i = 0; i < a.length; i++) diff |= a[i] ^ b[i];
-  return diff === 0;
-}
 
 async function readBlob(pathname) {
   const r = await get(pathname, { access: 'private', useCache: false });
@@ -40,7 +24,6 @@ async function body(req) {
 
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
-  if (!authorised(req)) return res.status(401).json({ error: 'auth' });
   try {
     if (req.method === 'GET') {
       const day = String(req.query.day || '');

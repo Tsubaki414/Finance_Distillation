@@ -2,8 +2,7 @@
 """Pull review-console decisions into the local store (no model calls, no publishing, the inbox is not modified).
 
 Sources (merged, the newer `at` wins per draft):
-  default      GET https://fd-ops-dashboard.vercel.app/api/decisions?day=<day> with basic auth; the password comes
-               from $ADMIN_PASSWORD or --password-file (never printed)
+  default      GET https://fd-ops-dashboard.vercel.app/api/decisions?day=<day> (no auth; the site is unlisted)
   --file F     a "导出决定 JSON" export from /admin (the localStorage fallback); repeatable
   --no-api     skip the API (file only)
 
@@ -14,9 +13,7 @@ live/store/admin_decisions/<day>.rewrite_notes.json ({draft id: note}) for
 `daily_compose.py --fill --rewrite-notes <that file>`.
 """
 import argparse
-import base64
 import json
-import os
 import sys
 import urllib.error
 import urllib.request
@@ -26,14 +23,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 STORE = ROOT / 'live/store/admin_decisions'
 API = 'https://fd-ops-dashboard.vercel.app/api/decisions'
-PW_FILE = Path('/workspace/x/cc_jobs/.admin_pw')
 ACTIONS = {'approve', 'hold', 'rewrite', 'edit', 'clear'}
 
 
-def fetch_api(url, day, password):
-    req = urllib.request.Request(f'{url}?day={day}', headers={
-        'Authorization': 'Basic ' + base64.b64encode(f'fiona:{password}'.encode()).decode(),
-        'Cache-Control': 'no-store'})
+def fetch_api(url, day):
+    req = urllib.request.Request(f'{url}?day={day}', headers={'Cache-Control': 'no-store'})
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.loads(r.read().decode()).get('decisions') or {}
 
@@ -70,7 +64,6 @@ def main():
     ap.add_argument('--file', type=Path, action='append', default=[], help='exported decisions JSON (repeatable)')
     ap.add_argument('--no-api', action='store_true')
     ap.add_argument('--api', default=API)
-    ap.add_argument('--password-file', type=Path, default=PW_FILE)
     ap.add_argument('--store', type=Path, default=STORE)
     args = ap.parse_args()
     exports = [json.loads(f.read_text()) for f in args.file]
@@ -91,17 +84,12 @@ def main():
             continue
         print(f'file: {merge(decisions, e.get("decisions"))} decision(s)')
     if not args.no_api:
-        pw = os.environ.get('ADMIN_PASSWORD') or (args.password_file.read_text().strip()
-                                                  if args.password_file.exists() else '')
-        if not pw:
-            print('no admin password (ADMIN_PASSWORD / --password-file); API skipped', file=sys.stderr)
-        else:
-            try:
-                print(f'api: {merge(decisions, fetch_api(args.api, day, pw))} decision(s)')
-            except (urllib.error.URLError, OSError, ValueError) as exc:
-                print(f'api failed: {exc}', file=sys.stderr)
-                if not exports:
-                    return 1
+        try:
+            print(f'api: {merge(decisions, fetch_api(args.api, day))} decision(s)')
+        except (urllib.error.URLError, OSError, ValueError) as exc:
+            print(f'api failed: {exc}', file=sys.stderr)
+            if not exports:
+                return 1
     if decisions != before or not path.exists():
         write_json(path, {'day': day, 'updated_at': datetime.now(timezone.utc).isoformat(timespec='seconds'),
                           'decisions': decisions})

@@ -74,7 +74,7 @@ def test_build_console(tmp_path, monkeypatch):
     out = tmp_path / 'out'
     admin.build(tmp_path / 'inbox', out)
     page = (out / 'admin/index.html').read_text()
-    for f in ('middleware.js', 'api/decisions.js', 'package.json'):
+    for f in ('api/decisions.js', 'package.json'):
         assert (out / f).exists()
     data = json.loads(page.split('<script id="data" type="application/json">')[1].split('</script>')[0]
                       .replace('<\\/', '</'))
@@ -83,4 +83,12 @@ def test_build_console(tmp_path, monkeypatch):
     assert [f['level'] for f in ds['new']['findings']] == ['hard', 'warn']
     assert any('改派' in h['text'] for h in ds['new']['history'])
     assert data['runs']['2026-10-07'][0]['spend'] == 0.4 and data['target'] == 2
-    assert "matcher: ['/admin', '/admin/:path*', '/api/:path*']" in (out / 'middleware.js').read_text()
+    assert not (out / 'middleware.js').exists() and 'authorization' not in (out / 'api/decisions.js').read_text()
+
+
+def test_shared_nav_marks_current_page():
+    assert ops.nav_html('/') == ('<nav class="topnav" aria-label="页面"><a href="/" aria-current=page>运营看板</a>'
+                                 '<a href="/admin">审稿后台</a></nav>')
+    assert '<a href="/admin" aria-current=page>审稿后台</a>' in ops.nav_html('/admin')
+    for page in (ops.PAGE, admin.PAGE):
+        assert '<meta name="robots" content="noindex">' in page and '__NAV__' in page and '__NAVCSS__' in page

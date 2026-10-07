@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Private review console for the fd20 compose inbox (static HTML + Vercel function; no model calls, no publishing).
 
-Writes <out>/admin/index.html (served at /admin of the fd-ops-dashboard Vercel project, behind basic auth in
-middleware.js) and copies the deploy assets from scripts/ops_admin (middleware.js, api/decisions.js, package.json,
+Writes <out>/admin/index.html (served at /admin of the fd-ops-dashboard Vercel project; no auth, the site is unlisted
+and both pages are noindex) and copies the deploy assets from scripts/ops_admin (api/decisions.js, package.json,
 .vercelignore) into <out>. The public dashboard at / (scripts/build_ops_dashboard.py) is a separate page.
 
 Per draft of the day: account, status (ready / HOLD / replaced / superseded / other), reasons, hard fails and
@@ -208,8 +208,15 @@ def local_decisions(day):
         return {}
 
 
+STALE = ('middleware.js',)   # deploy assets that were removed from scripts/ops_admin
+
+
 def copy_assets(out):
     changed = []
+    for name in STALE:
+        if (out / name).exists():
+            (out / name).unlink()
+            changed.append(f'-{name}')
     for src in sorted(p for p in ASSETS.rglob('*') if p.is_file()):
         dst = out / src.relative_to(ASSETS)
         dst.parent.mkdir(parents=True, exist_ok=True)
@@ -221,7 +228,7 @@ def copy_assets(out):
 PAGE = r'''<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow">
+<meta name="robots" content="noindex">
 <title>星轨 · FD 审稿台</title>
 <style>
 __ROOTVARS__
@@ -296,7 +303,9 @@ summary{cursor:pointer;color:var(--ink2);font-weight:600;font-size:12.5px}
 .empty{text-align:center;color:var(--mute);padding:48px 16px}
 button:focus-visible,select:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media (max-width:900px){.cols{grid-template-columns:1fr}.d{grid-template-columns:1fr}.wrap{padding:16px 12px 40px}.bar{position:static}}
+__NAVCSS__
 </style></head><body><div class="wrap">
+__NAV__
 <header><div class="logo">审</div>
 <div class="ttl"><h1>星轨 · FD 审稿台</h1><p>仅限内部 · 批准 / HOLD / 改稿 / 要求重写；批准后的改稿下次重建时进入公开看板 · <span id="upd"></span></p></div>
 <div class="stats" id="stats"></div></header>
@@ -485,7 +494,8 @@ def build(inbox=ops.INBOX, out=ops.OUT, n_days=3):
     updated = max((d['stored'] for v in days.values() for d in v if d['stored']), default='')
     data = json.dumps({'accounts': accounts, 'days': days, 'runs': runs, 'local': local, 'target': TARGET,
                        'updated': updated}, ensure_ascii=False, sort_keys=True)
-    page = PAGE.replace('__ROOTVARS__', root_vars()).replace('__DATA__', data.replace('</', '<\\/'))
+    page = PAGE.replace('__ROOTVARS__', root_vars()).replace('__NAVCSS__', ops.NAV_CSS)
+    page = page.replace('__NAV__', ops.nav_html('/admin')).replace('__DATA__', data.replace('</', '<\\/'))
     (out / 'admin').mkdir(parents=True, exist_ok=True)
     changed = copy_assets(out)
     if ops.write_if_changed(out / 'admin/index.html', page.encode('utf-8')):

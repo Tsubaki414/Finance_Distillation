@@ -225,9 +225,26 @@ def day_csv(drafts, names):
     return ('﻿' + buf.getvalue()).encode('utf-8')
 
 
+# Shared top nav of the public dashboard (/) and the review console (/admin); build_admin_console.py reuses it.
+NAV_CSS = ('.topnav{display:inline-flex;gap:2px;background:var(--surface);border:1px solid var(--line);border-radius:10px;'
+           'padding:3px;margin-bottom:20px}'
+           '.topnav a{color:var(--mute);text-decoration:none;font-weight:600;font-size:13px;line-height:1.5;'
+           'padding:5px 14px;border-radius:7px;transition:background .15s,color .15s}'
+           '.topnav a:hover{color:var(--ink)}'
+           '.topnav a[aria-current=page]{background:var(--accent-bg);color:var(--accent)}')
+NAV_LINKS = (('/', '运营看板'), ('/admin', '审稿后台'))
+
+
+def nav_html(current):
+    links = ''.join(f'<a href="{href}"{" aria-current=page" if href == current else ""}>{label}</a>'
+                    for href, label in NAV_LINKS)
+    return f'<nav class="topnav" aria-label="页面">{links}</nav>'
+
+
 PAGE = r'''<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
 <title>星轨 · FD 发帖看板</title>
 <style>
 :root{color-scheme:light dark;
@@ -306,7 +323,9 @@ button:focus-visible,select:focus-visible,a:focus-visible,input:focus-visible{ou
  .side .pill{margin-top:8px;justify-self:start;grid-column:2}.side .more{grid-column:2}
  .grid{grid-template-columns:1fr}
 }
+__NAVCSS__
 </style></head><body><div class="wrap">
+__NAV__
 <header><div class="logo">星</div>
 <div class="ttl"><h1>星轨 · FD 发帖看板</h1><p>复制正文，到 X 发布，再勾选已发 · <span id="upd"></span></p></div>
 <div class="stats"><div class="stat"><small>可发</small><b id="nAll">0</b></div><div class="stat s-done"><small>已发</small><b id="nDone">0</b></div><div class="stat s-todo"><small>待发</small><b id="nTodo">0</b></div></div>
@@ -427,7 +446,8 @@ def main():
     # last-updated = newest inbox write (deterministic, so an unchanged inbox leaves index.html untouched)
     updated = max((d['stored'] for v in days.values() for d in v if d['stored']), default='')
     data = json.dumps({'accounts': accounts, 'days': days, 'updated': updated}, ensure_ascii=False, sort_keys=True)
-    page = PAGE.replace('__DATA__', data.replace('</', '<\\/'))
+    page = PAGE.replace('__NAVCSS__', NAV_CSS).replace('__NAV__', nav_html('/'))
+    page = page.replace('__DATA__', data.replace('</', '<\\/'))
     changed = [p.name for p, b in [(args.out / 'index.html', page.encode('utf-8'))] +
                [(args.out / f'{day}.csv', day_csv(dr, names)) for day, dr in days.items()]
                if write_if_changed(p, b)]
