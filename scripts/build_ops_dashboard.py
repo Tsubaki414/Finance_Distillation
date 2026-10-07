@@ -5,6 +5,9 @@ Reads every live/store/compose_inbox/<day>/*.json row plus live/fd20_accounts.js
 assets/persona_avatars (avatars, embedded). Writes a self-contained index.html and one <day>.csv per day
 (account, time, text) to --out. Every time shown (post times, updated stamp, today/tomorrow labels, CSV) is
 China time (Asia/Shanghai, labelled 北京时间); the inbox stores London-time ISO stamps with offsets. The post text is the draft body only: no source/attribution line, no notes.
+Suggested post times are clamped here (display only, the inbox and pipeline are untouched) into 08:00-22:59
+北京时间 on the inbox day: late slots move earlier, early ones later, and each account's distinct slots stay
+at least 30 minutes apart (drafts sharing one original slot - rewrites / alternatives - keep sharing it).
 Idempotent: files are rewritten only when their content changes.
 """
 import argparse
@@ -14,7 +17,7 @@ import io
 import json
 import re
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -24,6 +27,7 @@ ACCOUNTS = ROOT / 'live/fd20_accounts.json'
 AVATARS = ROOT / 'assets/persona_avatars'
 OUT = Path('/workspace/x/dashboard/ops')
 BJT = ZoneInfo('Asia/Shanghai')
+POST_START, POST_END, POST_GAP = (8, 0), (22, 59), timedelta(minutes=30)
 DAY_RE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
 URL_RE = re.compile(r'https?://\S+')
 # twitter-text v3 weighting: these code point ranges weigh 1, everything else (CJK, full-width punctuation, …, emoji)
@@ -124,6 +128,31 @@ def load_day(day_dir):
             'time': to_bjt(row.get('suggested_post_time_london')), 'stored': to_bjt(row.get('stored_at')),
             'status': status_of(row),
             'note': note_of(row)})
+    drafts.sort(key=lambda d: (d['time'], d['id']))
+    return drafts
+
+
+def clamp_times(drafts, day):
+    """Move every account's suggested times into [08:00, 22:59] BJT on `day`, distinct slots >= 30 min apart."""
+    base = datetime.fromisoformat(day).replace(tzinfo=BJT)
+    lo, hi = (base.replace(hour=h, minute=m) for h, m in (POST_START, POST_END))
+    by_acct = {}
+    for d in drafts:
+        if d['time']:
+            by_acct.setdefault(d['account_id'], {}).setdefault(d['time'], []).append(d)
+    for slots in by_acct.values():
+        orig = sorted(slots, key=datetime.fromisoformat)
+        t = [min(max(datetime.fromisoformat(s).replace(second=0, microsecond=0), lo), hi) for s in orig]
+        for i in range(1, len(t)):                 # forward: keep order, open the gaps
+            t[i] = max(t[i], t[i - 1] + POST_GAP)
+        t[-1] = min(t[-1], hi)
+        for i in range(len(t) - 2, -1, -1):        # backward: pull late overflow earlier, gaps kept
+            t[i] = min(t[i], t[i + 1] - POST_GAP)
+        if t[0] < lo:                              # > 30 slots cannot fit; never happens at 2-5 per account
+            raise ValueError(f'{len(t)} slots do not fit 08:00-22:59 at 30-minute spacing')
+        for s, new in zip(orig, t):
+            for d in slots[s]:
+                d['time'] = new.isoformat()
     drafts.sort(key=lambda d: (d['time'], d['id']))
     return drafts
 
@@ -331,7 +360,7 @@ def main():
     days = {}
     if args.inbox.is_dir():
         for d in sorted(p for p in args.inbox.iterdir() if p.is_dir() and DAY_RE.match(p.name)):
-            days[d.name] = load_day(d)
+            days[d.name] = clamp_times(load_day(d), d.name)
     known = {a['id'] for a in accounts}
     for drafts in days.values():   # inbox accounts missing from fd20_accounts.json still get a section
         for d in drafts:
