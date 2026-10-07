@@ -36,13 +36,20 @@ def main():
     parser.add_argument('--x-window-hours',type=float,default=None)
     parser.add_argument('--x-max',type=int,default=None,help='X posts extracted per run at most')
     parser.add_argument('--x-per-source-max',type=int,default=None)
+    parser.add_argument('--x-lang',choices=('en','zh'),default=None,help='fetch only X sources subscribed by at least one account of this language')
     parser.add_argument('--no-dashboard',action='store_true')
     parser.add_argument('--dry-run',action='store_true')
     parser.add_argument('--only',nargs='+')
     args=parser.parse_args()
     if args.cost_cap_usd<0 or args.channel_timeout<=0 or args.max_extract<0:
         parser.error('cap and max-extract must be nonnegative; timeout must be positive')
-    result=run(**vars(args));print(json.dumps(result,ensure_ascii=False,indent=2))
+    kwargs=vars(args)
+    x_lang=kwargs.pop('x_lang')
+    if x_lang:
+        from live import x_daily
+        lang={a['id']:a['lang'] for a in json.loads(x_daily.CONFIG.read_text())['accounts']}
+        kwargs['x_subs']=[s for s in x_daily.subscriptions() if any(lang.get(a)==x_lang for a in s['accounts'])]
+    result=run(**kwargs);print(json.dumps(result,ensure_ascii=False,indent=2))
     return 1 if result['status']=='backup_failed' else 0
 
 

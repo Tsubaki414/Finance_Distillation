@@ -222,3 +222,16 @@ def test_compose_one_survives_bad_packet(monkeypatch):
     inner = type('C', (), {'stage_models': {}, 'calls': []})()
     r = dc.compose_one(lambda: inner, 'crypto_trader_en', pick, None, rec, {'usd': 0.0}, threading.Lock())
     assert r['status'] == 'error' and 'StopIteration' in r['error'] and r['source']['id'] == 's'
+
+
+def test_english_posts_use_word_bigrams_for_same_event():
+    """Oct 7 en_x: char bigrams made unrelated English posts 'the same event' (149 en X posts dropped as seen_earlier)."""
+    from live.adapters.flashes import similar
+    a = ('Bitcoin funding rates flipped negative on Binance while open interest kept climbing, which usually '
+         'means shorts are crowding in.')
+    b = ('The Fed minutes show more officials are worried about sticky services inflation than the market is '
+         'pricing for December.')
+    c = 'Bitcoin funding rates flipped negative on Binance while open interest kept climbing - shorts crowding in again.'
+    assert not similar(a, b)
+    assert similar(a, c)
+    assert similar('美联储9月加息25个基点至3.75%-4.00%', '美联储加息25个基点，目标区间升至3.75%-4.00%')

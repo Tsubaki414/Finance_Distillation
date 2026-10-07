@@ -134,8 +134,17 @@ def fetch(channel_id, *, n=50, since=None, transport=None, now=None):
 _NORM = re.compile(r'[\s\W_]+', re.U)
 
 
+_CJK = re.compile(r'[\u3400-\u9fff]')
+
+
 def _bigrams(text):
-    t = _NORM.sub('', re.sub(r'^【[^】]*】', '', str(text or '')).lower())
+    """Char bigrams for CJK text; word bigrams for text without CJK (Oct 7: English char bigrams overlap so much
+    that unrelated English X posts / headlines matched as the same event)."""
+    raw = re.sub(r'^【[^】]*】', '', str(text or '')).lower()
+    if not _CJK.search(raw):
+        words = [w for w in _NORM.split(raw) if w]
+        return {words[i] + ' ' + words[i + 1] for i in range(len(words) - 1)} or set(words)
+    t = _NORM.sub('', raw)
     return {t[i:i + 2] for i in range(len(t) - 1)}
 
 
