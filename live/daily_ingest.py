@@ -209,7 +209,7 @@ def priority(channel, source):
 
 
 # ---------------- v10 (Oct 6): 7x24 flashes + tier-C headline leads ----------------
-FLASH_BUDGET_USD=1.75     # ring-fenced inside cost_cap_usd (Fiona: $1.5-2 of the $8 daily cap)
+FLASH_BUDGET_USD=1.75     # ring-fenced inside cost_cap_usd (Fiona: $1.5-2 of the $10 daily cap)
 FLASH_BATCH_SIZE=20
 FLASH_MAX=150             # flashes extracted per run at most (~$0.005 each measured; see flash_extract)
 FLASH_WINDOW_HOURS=26
@@ -324,7 +324,7 @@ def extract_flashes(db, selected, *, client, jev, budget, cost_cap_usd, flash_bu
 
 
 def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_runs',
-        inbox='/workspace/x/ingest_inbox', cost_cap_usd=8.0, channel_timeout=90, channel_timeouts=None,
+        inbox='/workspace/x/ingest_inbox', cost_cap_usd=10.0, channel_timeout=90, channel_timeouts=None,
         max_extract=60, max_source_chars=5000, extract_model=None, allow_nondefault_extract_model=False, per_channel_max=2, no_dashboard=False, dry_run=False, only=None,
         fair_share_floor=2, persona_minimum=True, est_usd_per_doc=None,
         flash_budget_usd=FLASH_BUDGET_USD, flash_batch_size=FLASH_BATCH_SIZE, flash_max=FLASH_MAX,
