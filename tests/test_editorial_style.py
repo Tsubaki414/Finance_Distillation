@@ -157,6 +157,33 @@ def test_audit_supersedes_and_fill_counts_ready_only(tmp_path, monkeypatch):
     assert row['superseded'] and row['held'] and row['review_status'] == 'pending'
 
 
+def test_rewrite_targets_carry_audit_reason_and_notes(tmp_path, monkeypatch):
+    import apply_inbox_audit
+    import daily_compose as dc
+    monkeypatch.setenv('FD_COMPOSE_INBOX', str(tmp_path))
+    day = '2026-10-07'
+    base = {'day': day, 'draft_status': 'draft_ready', 'held': False, 'text': 'x', 'body': 'x', 'angle': {'id': 'a'}}
+    compose_inbox.add({**base, 'id': 'd1', 'account_id': 'defi_narratives_en', 'source': {'id': 's1', 'title': 'CFTC'}})
+    compose_inbox.add({**base, 'id': 'd2', 'account_id': 'zh_industry', 'held': True, 'source': {'id': 's2', 'title': 'HBM'}})
+    compose_inbox.add({**base, 'id': 'd3', 'account_id': 'zh_industry', 'held': True, 'source': {'id': 's3', 'title': 'x'}})
+    apply_inbox_audit.apply({'day': day, 'reviewer': 't', 'verdicts': {'d1': ['rewrite', 'misquote']}})
+    d = date.fromisoformat(day)
+    assert dc.rewrite_targets(d) == {'defi_narratives_en': {'s1': {'draft_id': 'd1', 'note': 'misquote'},
+                                                            'CFTC': {'draft_id': 'd1', 'note': 'misquote'}}}
+    out = dc.rewrite_targets(d, {'d1': 'say "an old retail-leverage rule"', 'd2': 'plain words'})
+    assert out['defi_narratives_en']['s1']['note'].startswith('say') and out['zh_industry']['s2']['draft_id'] == 'd2'
+    assert 's3' not in out['zh_industry']
+
+
+def test_x_promo_opener():
+    import daily_compose as dc
+    for t in ('Thank you to the nearly 1,000 people who joined', 'Huge congrats to @a', 'Grateful to welcome Circle',
+              'gm frens'):
+        assert dc.X_PROMO_OPENER.search(t)
+    for t in ('$CLAUS has played out pretty much as I expected', 'The CFTC thanked nobody', 'Bitcoin longs liquidated'):
+        assert not dc.X_PROMO_OPENER.search(t)
+
+
 def test_ops_page_x_weight_and_status():
     import build_ops_dashboard as ops
     assert ops.x_weight('abc') == 3
@@ -199,6 +226,8 @@ def test_readability_blocks_codes_and_unglossed_acronyms():
     assert readability_findings('Lawyers call this reading of Section 2(c)(2)(D) creative.', 'en')
     assert readability_findings('CFTC 用 2(c)(2)(D) 条款管加密', 'zh')
     assert readability_findings('Rule 10b-5 and SAB 121 both apply.', 'en')
+    assert not readability_findings('The CFTC is using an old retail-leverage rule to open a voluntary pathway.', 'en')
+    assert readability_findings('Regulation SHO applies.', 'en')
     assert readability_findings('Tether的T3部门冻结了资金', 'zh')
     assert readability_findings('thesis_lock leaked into the post', 'en')
     assert not readability_findings('BTC ETF inflows hit a record as the SEC and CFTC talk; HBM and L2s too.', 'en')

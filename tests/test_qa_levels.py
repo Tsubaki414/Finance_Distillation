@@ -95,7 +95,9 @@ class ComposeLevelTests(unittest.TestCase):
     def test_number_mismatch_warns(self):
         result, _ = run(Fake(body=GOOD_BODY.replace('69.5%', '72%')), post_type='data_take')
         self.assertEqual(levels(result)['number_not_in_units'], 'soft')
-        self.assertEqual(result['draft_status'], 'draft_ready')
+        # Oct 7 Sirius item 2: the ungrounded number itself is HARD -> needs_review after the one rewrite
+        self.assertEqual(levels(result)['ungrounded_number'], 'hard')
+        self.assertEqual(result['draft_status'], 'needs_review')
 
     def test_period_mismatch_warns(self):
         result, _ = run(Fake(body=GOOD_BODY.replace('这个季度', '第三季度')), post_type='data_take')

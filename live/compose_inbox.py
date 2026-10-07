@@ -86,6 +86,18 @@ def rows(day=None, account=None, base=None):
     return sorted(out, key=lambda r: (r.get('no') or 99, r.get('suggested_post_time_london') or ''))
 
 
+def supersede(draft_id, *, by, reason, base=None):
+    """Soft-replace a draft by a newer one (rerun / rewrite of the same source): the old file stays, marked superseded
+    and held, with superseded_by pointing at the new draft. Never deletes; human-reviewed drafts are left alone."""
+    path = _path(draft_id, base=base)
+    row = json.loads(path.read_text())
+    if row.get('superseded') or row.get('review_status', 'pending') != 'pending':
+        return None
+    row.update(superseded=True, held=True, superseded_by=by, superseded_reason=reason, superseded_at=_now())
+    path.write_text(json.dumps(row, ensure_ascii=False, indent=2, default=str) + '\n')
+    return row
+
+
 def review(draft_id, *, decision, reviewer, reason, text, expected_hash, base=None):
     """Record one human decision. Edits need minor_edit/major_edit; approve/reject keep the text unchanged."""
     if decision not in DECISIONS:

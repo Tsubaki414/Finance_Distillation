@@ -36,6 +36,7 @@ def _isolated(tmp_path, monkeypatch):
     monkeypatch.setenv('GEMINI_API_KEY', FAKE_ENV)
     for name in [k for k in os.environ if k.startswith('FD_')]:
         monkeypatch.delenv(name)
+    monkeypatch.setenv('FD_GEMINI_PROVIDER', 'official')   # these tests cover the official native API
     prices = budget.PRICES.copy()
     yield
     budget.PRICES.clear()
@@ -190,7 +191,7 @@ def test_gemini_token_extraction():
 
 def test_fd_gemini_model_switches_every_gemini_stage_and_keeps_route():
     shipped = stage_models.load()
-    table = stage_models.from_env(shipped, {'FD_GEMINI_MODEL': 'gemini-3.1-pro-preview'})
+    table = stage_models.from_env(shipped, {'FD_GEMINI_MODEL': 'gemini-3.1-pro-preview', 'FD_GEMINI_PROVIDER': 'official'})
     for stage in GEMINI_STAGES:
         assert stage_models.for_stage(table, stage)['model'] == 'gemini-3.1-pro-preview'
         assert stage_models.route(table, stage) == {'base_url': GEMINI, 'api_key_env': 'GEMINI_API_KEY'}
@@ -202,7 +203,7 @@ def test_fd_gemini_model_switches_every_gemini_stage_and_keeps_route():
 
 
 def test_fd_stage_model_switches_one_stage_and_keeps_route():
-    table = stage_models.from_env(stage_models.load(), {'FD_COMPOSE_MODEL': 'gemini-3.1-pro-preview'})
+    table = stage_models.from_env(stage_models.load(), {'FD_COMPOSE_MODEL': 'gemini-3.1-pro-preview', 'FD_GEMINI_PROVIDER': 'official'})
     assert stage_models.for_stage(table, 'compose')['model'] == 'gemini-3.1-pro-preview'
     assert stage_models.route(table, 'compose') == {'base_url': GEMINI, 'api_key_env': 'GEMINI_API_KEY'}
     assert stage_models.max_tokens(table, 'compose') == 16000

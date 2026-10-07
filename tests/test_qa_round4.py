@@ -28,9 +28,13 @@ def test_trusted_compose_skip():
     assert not {'number_not_in_units','period_not_in_units','number_metric_binding','number_words'} & {f['code'] for f in result['post_checks']}
 
 def test_untrusted_numbers_warn():
+    # Oct 7 Sirius item 2: number_not_in_units stays SOFT, but a number no source span holds is HARD
+    # (ungrounded_number): one targeted rewrite, then HOLD.
     result, _ = run(Fake(body=GOOD_BODY.replace('69.5%', '72%')), post_type='data_take')
     assert 'number_not_in_units' in result['qa']['soft']
-    assert result['draft_status'] == 'draft_ready'
+    assert 'ungrounded_number' in result['qa']['hard']
+    assert result['draft_status'] == 'needs_review'
+    assert result['hard_repair']['attempted'] and result['hard_repair']['result'] in ('still_hard', 'rewrite_error')
 
 def test_movement_not_contradiction():
     assert not compose.contradiction_findings('Open interest rose by $2.1B in the 24 hours before the release, then fell by $1.5B after it.')
@@ -58,7 +62,7 @@ def test_stance_number_warning():
 
 def test_requalification():
     from scripts.requalify_drafts import requalify
-    result, _ = run(Fake(body=GOOD_BODY.replace('69.5%', '72%')), post_type='data_take')
+    result, _ = run(Fake(body=GOOD_BODY), post_type='data_take')
     result['post_checks'] = [{'code':'number_not_in_units','level':'hard'}]
     report = requalify([{'account_id':'zh_industry','drafts':[{'compose':result, 'source':SOURCE}, {'reason':'failed'}]}])
     assert report['hard_before'] == 1 and report['hard_after'] == 0

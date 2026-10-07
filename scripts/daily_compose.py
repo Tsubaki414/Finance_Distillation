@@ -7,7 +7,7 @@ Cron-able: does nothing unless FD_DAILY_COMPOSE=1 (or --force). Chain per day:
   select up to --per-account packets per account (fresh, unused by that account, angle fit)  ->
   angle per draft (live/angles.py: the account's own donor lenses; one lens per account per event)  ->
   post type / length / suggested post time from the account's habit card (posting_habits.choose_format,
-  sample_post_time)  ->  compose_source (stance + compose on the official Gemini API, FD_GEMINI_ONLY=1, no
+  sample_post_time)  ->  compose_source (stance + compose on Gemini (FD_GEMINI_PROVIDER relay|official, default relay), FD_GEMINI_ONLY=1, no
   Opus fallback)  ->  cross-account check (claim arbitration + batch shape findings, soft: losers HOLD)  ->
   review inbox (live/compose_inbox.py) + static page.
 
@@ -55,6 +55,9 @@ MAX_PER_ACCOUNT = 3            # Fiona: 3 a day is a ceiling, not a quota
 MAX_ACCOUNTS_PER_EVENT = 2     # one event may be taken by at most 2 accounts per language, each with its own lens
                                # (fix26: per language - 14 crypto accounts share ~12 crypto stories a day)
 STAGE_CALLS = {'stance': 2, 'compose': 3}   # per draft: stance + 1 repair; first pass + 2 rewrites
+# Oct 7 Sirius item 4: the one targeted hard-QA rewrite (compose '[hard_repair]' note) has its own allowance, so
+# polish rewrites cannot use it up; 2 = the rewrite + one transport retry inside compose._ask.
+HARD_REPAIR_CALLS = 2
 EST_PER_DRAFT = 0.12           # reserve kept per draft still to start (flash list prices, conservative)
 EST_PER_DRAFT_PRO = 0.30       # same reserve when compose runs on gemini-3.1-pro-preview (4x flash list prices)
 QUOTA_RX = re.compile(r'RESOURCE_EXHAUSTED|PerDay|exceeded your current quota', re.I)
@@ -129,6 +132,12 @@ def source_lang(group):
     return 'zh' if demo.zh_native(group) else 'en'
 
 
+# Oct 7: X posts that open as a thank-you / congrats / welcome / announcement are promo, not material (an OKX
+# "Thank you to the nearly 1,000 people..." post produced an invented first-person thesis).
+X_PROMO_OPENER = re.compile(r'^\W*(thank(s| you)|huge congrats|congrat|grateful|welcome|excited to|proud to|'
+                            r'thrilled|happy to announce|we(\'re| are) hiring|gm\b)', re.I)
+
+
 def candidates(store, account, beats, lead, ref, x_handles=None, account_cfg=None, reuse=None):
     """x_handles: the account's own X sources. X-post units of other handles are skipped (X sources are
     account-scoped); own X posts rank right after timeliness, then packets on the account's own crypto lanes.
@@ -153,7 +162,7 @@ def candidates(store, account, beats, lead, ref, x_handles=None, account_cfg=Non
             if {src.get('id'), src.get('title'), src.get('source_hash')} & used:
                 continue
             handle = x_handle(src)
-            if handle and handle.lower() not in x_handles:
+            if handle and (handle.lower() not in x_handles or X_PROMO_OPENER.search(str(src.get('title') or ''))):
                 continue
             groups.setdefault(demo._key(record), []).append(record)
     gated = list(groups.values())
@@ -205,15 +214,50 @@ def ready_events(day, accounts):
 
 def superseded_sources(day):
     """{account: source ids/titles of its drafts an audit superseded with verdict rewrite} (--fill reuses them)."""
+    return {a: set(m) for a, m in rewrite_targets(day).items()}
+
+
+def rewrite_targets(day, notes=None):
+    """{account: {source id/title: {'draft_id', 'note'}}} for --fill rewrites.
+
+    Drafts an audit superseded with verdict rewrite carry the audit reason as the editor note. notes ({draft_id:
+    note}, --rewrite-notes) adds held drafts to rewrite and/or replaces the note with targeted wording."""
+    notes = dict(notes or {})
     out = {}
     for r in compose_inbox.rows(day.isoformat()):
-        if r.get('superseded') and (r.get('audit') or {}).get('verdict') == 'rewrite':
-            src = r.get('source') or {}
-            out.setdefault(r['account_id'], set()).update(x for x in (src.get('id'), src.get('title')) if x)
+        audit = r.get('audit') or {}
+        if r['id'] in notes:
+            note = notes[r['id']]
+        elif r.get('superseded') and audit.get('verdict') == 'rewrite':
+            note = audit.get('reason')
+        else:
+            continue
+        src = r.get('source') or {}
+        mine = out.setdefault(r['account_id'], {})
+        for key in (src.get('id'), src.get('title')):
+            if key and (r['id'] in notes or key not in mine):   # an explicit note beats an older audit reason
+                mine[key] = {'draft_id': r['id'], 'note': note}
     return out
 
 
-def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT, seed_events=(), reuse=None):
+def supersede_previous(row, earlier):
+    """Sirius item 4: a rerun / rewrite of the same account + source soft-replaces the earlier draft (marked
+    superseded, superseded_by=row id); nothing is deleted and human-reviewed drafts are untouched."""
+    src = (row.get('source') or {}).get('id')
+    done = []
+    for old in earlier:
+        if old.get('id') == row['id'] or old.get('account_id') != row['account_id'] or old.get('run_id') == row['run_id']:
+            continue
+        rewrite = old.get('id') == row.get('rewrite_of')
+        # a held rerun never replaces a draft that is still ready
+        if rewrite or (src and (old.get('source') or {}).get('id') == src and (not row.get('held') or old.get('held'))):
+            if compose_inbox.supersede(old['id'], by=row['id'], reason='rewrite' if rewrite else 'rerun'):
+                done.append(old['id'])
+    return done
+
+
+def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT, seed_events=(), reuse=None,
+           rewrites=None):
     store = ContentStore()
     ref = datetime.combine(day, datetime.min.time(), LONDON).replace(hour=8).astimezone(timezone.utc)
     now = datetime.now(timezone.utc)
@@ -266,6 +310,10 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                 'in_shelf': demo.in_shelf(g, ref.date().isoformat()), 'timely': timely(g, ref),
                 'hooks': sorted(group_hooks(g)), 'angle': angle, 'angle_why': why, 'shared_event_with': shared_with,
                 'numbers': sum(len(r['unit'].get('numbers') or []) for r in g)})
+            target = next((v for k in (src.get('id'), src.get('title'))
+                           for v in [((rewrites or {}).get(account) or {}).get(k)] if k and v), None)
+            if target:
+                plan[account][-1].update(rewrite_of=target['draft_id'], editor_note=target['note'])
     # post type + length (habit card, rotation inside the day) + suggested post time (habit card hours)
     for account, picks in plan.items():
         persona = registry.persona_for_account(account)
@@ -295,7 +343,22 @@ class DraftClient:
         self.stage_models = inner.stage_models
         self.prompt_context = getattr(inner, 'prompt_context', None)
         self.left = dict(STAGE_CALLS)
+        self.hard_repair_left = HARD_REPAIR_CALLS
         self.last_error = ''
+
+    def _hard_repair(self, stage, messages, max_tokens):
+        if self.hard_repair_left <= 0:
+            self.log.append('compose: hard_repair call not run (per-draft cap)')
+            raise budget.BudgetExceeded('per-draft cap: hard_repair call not run')
+        self.hard_repair_left -= 1
+        try:
+            r = self.inner(stage, messages, max_tokens)
+        except Exception as exc:
+            self.last_error = f'{type(exc).__name__}: {exc}'[:400]
+            raise
+        if r.get('model_fallback') or not str(r.get('response_model') or '').startswith('gemini-'):
+            raise RuntimeError(f'non-Gemini response {r.get("response_model")}')
+        return r
 
     @property
     def paths(self):
@@ -304,6 +367,8 @@ class DraftClient:
     def __call__(self, stage, messages, max_tokens):
         if stage not in self.left:
             raise RuntimeError(f'stage {stage} is not part of daily compose')
+        if stage == 'compose' and '[hard_repair]' in json.dumps(messages[-1:], ensure_ascii=False, default=str):
+            return self._hard_repair(stage, messages, max_tokens)
         if self.left[stage] <= 0:
             if QUOTA_RX.search(self.last_error):   # the cap was used up by quota failures: report the quota
                 raise RuntimeError(self.last_error)
@@ -326,8 +391,8 @@ def make_client(calls_dir):
     table = stage_models.from_env(stage_models.load(), os.environ)
     for stage in ('compose', 'stance'):
         route = stage_models.route(table, stage)
-        if not route or not stage_models.is_gemini_native(route['base_url']) or stage_models.fallback(table, stage):
-            raise SystemExit(f'{stage} must run on the official Gemini API without fallback')
+        if not route or not stage_models.is_gemini_route(route['base_url']) or stage_models.fallback(table, stage):
+            raise SystemExit(f'{stage} must run on Gemini (FD_GEMINI_PROVIDER=relay|official) without fallback')
     config = {'base_url': 'https://api.erisedai.com/v1', 'api_key': os.environ.get('RELAY_API_KEY') or 'unused-gemini-only',
               'configuration_source': 'gemini_only_daily_compose', 'model': ec.DEFAULT_MODEL,
               'input_usd_per_million': 15.0, 'output_usd_per_million': 75.0, 'gemini_only': True,
@@ -364,7 +429,8 @@ def compose_one(new_client, account, pick, day, store_records, spend, lock):
         result = compose.compose_source(
             source, account, dc, post_type=demo.judgment_type(account), extracted_units=units,
             exemplar_dir=POSTS, exemplar_tags_dir=TAGS, view_ledger=ViewLedger(account),
-            now=post_time.astimezone(timezone.utc), post_format=dict(pick['post_format']), angle=angle)
+            now=post_time.astimezone(timezone.utc), post_format=dict(pick['post_format']), angle=angle,
+            editor_note=pick.get('editor_note'))
     except budget.BudgetExceeded as exc:
         result = {'status': 'error', 'error': 'budget: ' + str(exc)[:200]}
     except Exception as exc:   # noqa: BLE001 - one bad packet must not sink the day
@@ -383,6 +449,7 @@ def inbox_row(result, account_cfg, day, run_id):
     findings = [{'code': f.get('code'), 'level': f.get('level')} for f in (result.get('post_checks') or [])
                 if isinstance(f, dict)]
     arb = result.get('arbitration') or {}
+    repair = result.get('hard_repair') or {}
     models = sorted({(r or {}).get('response_model') for r in (result.get('model_responses') or [])
                      if isinstance(r, dict)} - {None})
     return {'id': (result.get('id') or f'err-{run_id[:6]}-{account_cfg["id"]}-{pick["source_id"]}').replace('/', '_')[:80],
@@ -396,14 +463,22 @@ def inbox_row(result, account_cfg, day, run_id):
             'post_type': result.get('post_type'), 'post_format': pick['post_format'],
             'suggested_post_time_london': pick['suggested_post_time_london'], 'angle': result.get('angle'),
             'angle_why': pick['angle_why'], 'shared_event_with': pick['shared_event_with'],
+            **({'rewrite_of': pick['rewrite_of']} if pick.get('rewrite_of') else {}),
             'draft_status': result.get('draft_status') or ('blocked' if result.get('error') else None),
             'status': result.get('status'), 'error': result.get('error'), 'why': result.get('why'),
             # fix26: a HARD finding left after the one targeted rewrite (needs_review) is a HOLD, never ready
             'held': bool(arb.get('status') == 'HOLD' or result.get('status') == 'error' or not result.get('text')
                          or result.get('draft_status') == 'needs_review'),
+            # Sirius item 4: hard after the one targeted rewrite = HOLD; a rewrite the model / API never returned is a
+            # model_error hold (retry path), not a content verdict
             'hold_reason': ('arbitration' if arb.get('status') == 'HOLD' else
-                            'hard: ' + ','.join(sorted({f['code'] for f in findings if f.get('level') == 'hard'}))
+                            ('model_error: ' if repair.get('result') == 'rewrite_error' else 'hard: ')
+                            + ','.join(sorted({f['code'] for f in findings if f.get('level') == 'hard'}))
                             if result.get('draft_status') == 'needs_review' else None),
+            **({'hard_repair': {k: repair.get(k) for k in ('result', 'kept', 'error')}
+                               | {'first_codes': sorted({f['code'] for f in repair.get('first_findings') or []}),
+                                  'retry_codes': sorted({f['code'] for f in repair.get('retry_findings') or []})}}
+               if repair else {}),
             'arbitration': arb, 'findings': findings,
             'stance': {k: (result.get('stance') or {}).get(k) for k in ('decision', 'account_view', 'subject', 'direction')},
             'source': {'id': src.get('id'), 'source_id': src.get('source_id'), 'publisher': pick.get('publisher'),
@@ -423,6 +498,9 @@ def main():
     ap.add_argument('--fill', action='store_true',
                     help='top each account up to --per-account READY drafts for the day (held / superseded drafts do '
                          'not count; sources of drafts an audit superseded for a rewrite may be reused)')
+    ap.add_argument('--rewrite-notes', type=Path,
+                    help='--fill: JSON {draft_id: editor note}; those held drafts are rewritten from the same source '
+                         'with the note (audit-superseded rewrite drafts use their audit reason by default)')
     ap.add_argument('--force', action='store_true', help='run even when FD_DAILY_COMPOSE is not 1')
     args = ap.parse_args()
     if os.environ.get('FD_DAILY_COMPOSE') != '1' and not args.force and not args.select_only:
@@ -440,9 +518,10 @@ def main():
     out = RUNS / args.day.isoformat() / run_id
     if args.fill:
         done = drafted_today(args.day, ready_only=True)
+        rewrites = rewrite_targets(args.day, load_json(args.rewrite_notes) if args.rewrite_notes else None)
         plan, order = select(accounts, universes, args.day, per_account, done=done, cap=per_account,
                              seed_events=ready_events(args.day, load_json(CONFIG)['accounts']),
-                             reuse=superseded_sources(args.day))
+                             reuse={a: set(m) for a, m in rewrites.items()}, rewrites=rewrites)
     else:
         done = drafted_today(args.day)
         plan, order = select(accounts, universes, args.day, per_account, done=done)
@@ -450,7 +529,7 @@ def main():
                                    'fill': args.fill, 'drafted_earlier_today': done,
                                    'accounts': plan})
     for a in accounts:
-        print(a['id'], [f"{p['suggested_post_time_london'][11:16]} {p['post_format']['type']} {p['angle']} "
+        print(a['id'], [f"{'REWRITE ' if p.get('rewrite_of') else ''}{p['suggested_post_time_london'][11:16]} {p['post_format']['type']} {p['angle']} "
                         f"{p['source_lang']}{'=' if p['same_language'] else '>'}{a['lang']} {str(p['title'])[:40]}"
                         for p in plan[a['id']]], flush=True)
     if args.select_only:
@@ -502,10 +581,12 @@ def main():
         match = next((x for x in arbitrated.values() if x.get('id') and x.get('id') == r.get('id')), None)
         final.append(match or r)
     rows = []
+    earlier = compose_inbox.rows(args.day.isoformat())
     for r in final:
         row = inbox_row(r, by_id[r['account_id']], args.day, run_id)
         if row['text']:   # only real drafts enter the review inbox; failures stay in the run summary
             compose_inbox.add(row)
+            supersede_previous(row, earlier)
         rows.append(row)
         write_json(out / 'drafts' / f"{row['id']}.json", r)
     counts = {a['id']: {'drafts': sum(1 for x in rows if x['account_id'] == a['id'] and x['text']),

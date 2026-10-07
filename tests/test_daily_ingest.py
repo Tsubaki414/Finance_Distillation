@@ -166,6 +166,7 @@ def test_extract_model_override_needs_explicit_flag(tmp_path, monkeypatch):
     from live import daily_ingest
     monkeypatch.setenv('GEMINI_API_KEY','prefix-AQ.fakeTOKEN123')
     for k in ('FD_EXTRACT_MODEL','FD_COMPOSE_MODEL','FD_GEMINI_MODEL','FD_GEMINI_ONLY'): monkeypatch.delenv(k,raising=False)
+    monkeypatch.setenv('FD_GEMINI_PROVIDER', 'official')
     monkeypatch.setattr(daily_ingest, '_relay_config', lambda: {'base_url': 'https://api.erisedai.com/v1', 'api_key': 'k',
                         'model': 'claude-opus-5', 'input_usd_per_million': 15.0, 'output_usd_per_million': 75.0})
     with pytest.raises(ValueError, match='allow'):
@@ -220,6 +221,7 @@ def test_preflight_fails_without_gemini_key_and_no_fallback(tmp_path, monkeypatc
     monkeypatch.setattr(preflight, 'relay_config', lambda: {
         'configuration_source': 'REVIEW', 'base_url': 'https://api.erisedai.com/v1', 'api_key': 'secret'})
     for k in ('FD_EXTRACT_MODEL', 'FD_GEMINI_MODEL'): monkeypatch.delenv(k, raising=False)
+    monkeypatch.setenv('FD_GEMINI_PROVIDER', 'official')
     monkeypatch.setattr('live.writer_backend._dotenv', lambda: {})
     monkeypatch.delenv('GEMINI_API_KEY', raising=False)
     result = preflight.check(tmp_path/'store', tmp_path/'runs')

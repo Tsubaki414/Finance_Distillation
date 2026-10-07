@@ -17,8 +17,46 @@ GEMINI_HOST = 'generativelanguage.googleapis.com'
 GEMINI_KEY_PATTERN = r'AQ\.\S+'
 
 
+GEMINI_RELAY_BASE = 'https://www.micuapi.ai/v1'
+GEMINI_RELAY_HOST = 'www.micuapi.ai'
+GEMINI_PROVIDERS = ('relay', 'official')
+# Oct 7 (Fiona): official Gemini credits depleted (402); the micuapi relay serves the same Gemini model names.
+DEFAULT_GEMINI_PROVIDER = 'relay'
+
+
 def is_gemini_native(base_url):
     return bool(base_url) and urlsplit(base_url).hostname == GEMINI_HOST
+
+
+def is_gemini_relay(base_url):
+    return bool(base_url) and urlsplit(base_url).hostname == GEMINI_RELAY_HOST
+
+
+def is_gemini_route(base_url):
+    """A Gemini route on either provider (official native API or the micuapi OpenAI-compatible relay)."""
+    return is_gemini_native(base_url) or is_gemini_relay(base_url)
+
+
+def gemini_provider(environ=None):
+    import os
+    value = ((environ if environ is not None else os.environ).get('FD_GEMINI_PROVIDER') or DEFAULT_GEMINI_PROVIDER).strip()
+    if value not in GEMINI_PROVIDERS:
+        raise ValueError(f'FD_GEMINI_PROVIDER must be one of {GEMINI_PROVIDERS}')
+    return value
+
+
+def apply_gemini_provider(table, environ=None):
+    """Move every Gemini stage to the selected provider (FD_GEMINI_PROVIDER=relay|official, default relay).
+
+    Same model names, rates, max_tokens and thinking level; only base_url + key env change. No fallback is added."""
+    provider = gemini_provider(environ)
+    base_url, key_env = ((GEMINI_RELAY_BASE, 'GEMINI_RELAY_API_KEY') if provider == 'relay'
+                         else ('https://' + GEMINI_HOST + '/v1beta', 'GEMINI_API_KEY'))
+    out = copy.deepcopy(table)
+    for stage, entry in (out.get('stages') or {}).items():
+        if entry.get('base_url') and is_gemini_route(entry['base_url']) and entry['base_url'].rstrip('/') != base_url:
+            entry.update(base_url=base_url, api_key_env=key_env)
+    return validate(out)
 
 
 def gemini_token(raw):
@@ -205,10 +243,10 @@ def from_env(table, environ):
         base_url = environ.get(key + 'BASE_URL') or None
         key_env = environ.get(key + 'API_KEY_ENV') or None
         current = route(out, stage) if stage in (out.get('stages') or {}) else None
-        if model is None and gemini_all and current and is_gemini_native(current['base_url']):
+        if model is None and gemini_all and current and is_gemini_route(current['base_url']):
             model = gemini_all
         if model is not None and base_url is None and key_env is None and current \
-                and is_gemini_native(current['base_url']) and model.startswith('gemini-'):
+                and is_gemini_route(current['base_url']) and model.startswith('gemini-'):
             base_url, key_env = current['base_url'], current['api_key_env']
         if model is None:
             if base_url or key_env:
@@ -220,7 +258,7 @@ def from_env(table, environ):
         if stage_rates is None and model in (out.get('model_rates') or {}):
             stage_rates = tuple(out['model_rates'][model])
         out = override(out, stage, model, base_url=base_url, api_key_env=key_env, accepted=accepted, rates=stage_rates)
-    return out
+    return apply_gemini_provider(out, environ)
 
 
 def copy_of(table):

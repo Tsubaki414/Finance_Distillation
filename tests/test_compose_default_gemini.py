@@ -38,7 +38,7 @@ def ok(model):
 class ShippedTableTests(unittest.TestCase):
     def test_gemini_stages_default_to_flash_on_official_api(self):
         table = stage_models.load()
-        self.assertEqual(table['version'], 'stage-models-v3.1-gemini-official')
+        self.assertEqual(table['version'], 'stage-models-v3.2-gemini-provider')
         for stage in GEMINI_STAGES:
             model = 'gemini-3.1-pro-preview' if stage == 'compose' else 'gemini-3-flash-preview'   # fix26: pro compose
             self.assertEqual(stage_models.for_stage(table, stage), {'model': model, 'temperature': 1.0})

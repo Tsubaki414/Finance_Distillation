@@ -25,7 +25,7 @@ if [[ -r "$KEYS_FILE" ]]; then
         export "$k=$v"
     done < "$KEYS_FILE"
 fi
-for k in RELAY_API_KEY GEMINI_API_KEY; do
+for k in RELAY_API_KEY GEMINI_API_KEY GEMINI_RELAY_API_KEY; do
     if [[ -n "${!k:-}" ]]; then printf 'key %s: set\n' "$k"; else printf 'key %s: missing\n' "$k"; fi
 done
 export ACCOUNT_CONTENT_PROVIDER=erisedai_relay

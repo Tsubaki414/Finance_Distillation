@@ -2,7 +2,8 @@
 no_judgment, data_list, no_disagreement and view_number_unbound are SOFT.
 Trusted sources skip number checks. HARD: position_claim, trade_reco_specific,
 self_contradiction, licence_tier_not_allowed, d_tier_source_leak, quote_not_exact,
-missing_attribution_frame, provenance without a frame and the live/editorial_style.py HARD_CODES. Unknown codes
+missing_attribution_frame, provenance without a frame, the live/editorial_style.py HARD_CODES and the
+live/span_grounding.py HARD_CODES (ungrounded_number / ungrounded_quote). Unknown codes
 fail closed. Style and placement checks (incl. editorial_style.SOFT_CODES) are SOFT.
 """
 from __future__ import annotations
@@ -12,12 +13,15 @@ import re
 
 from live import registry
 from live.editorial_style import HARD_CODES as _STYLE_HARD, SOFT_CODES as _STYLE_SOFT
+from live.span_grounding import HARD_CODES as _GROUND_HARD, SOFT_CODES as _GROUND_SOFT
 
 HARD = frozenset({
                   'licence_tier_not_allowed', 'd_tier_source_leak', 'quote_not_exact',
                   'missing_attribution_frame', 'position_claim', 'trade_reco_specific', 'self_contradiction', 'wrong_date_fact',
                   # fix26 (Oct 7): Sirius editorial-style blocks + Fiona's review; one targeted rewrite, then HOLD
-                  *_STYLE_HARD})
+                  *_STYLE_HARD,
+                  # Oct 7 Sirius borrow item 2: a number / same-language quote no source span holds
+                  *_GROUND_HARD})
 SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_units', 'period_not_in_units', 'number_metric_binding', 'number_words', 'no_judgment', 'data_list', 'no_disagreement', 'view_number_unbound', 'template_phrase', 'length_out_of_range', 'attribution_outside_frame',
                   'trade_reco_soft', 'author_identity', 'code_fence', 'translated_quote', 'exemplar_phrase_copied', 'research_summary', 'certainty_overreach', 'contradicts_prior_view', 'ignores_prior_view', 'view_not_recorded', 'cross_persona_claim_duplicate', 'thesis_grounding', 'emotion_drop', 'emotion_overfire', 'thin_judgment_pack', 'stylistic_repeat', 'judgment_label', 'phrase_ban', 'duplicate_topic', 'verify_source', 'info_dump', 'stance_cadence', 'verbatim_line1',
                   'direction_drift_unmarked', 'generic_credit_in_body',
@@ -28,7 +32,7 @@ SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_u
                   'ai_template', 'zh_line_breaks', 'missing_why', 'missing_implication', 'zh_awkward_time',
                   'zh_intensifier', 'zh_translationese', 'speaker_first_person', 'connective_repeat',
                   'hedge_only', 'catchphrase_repeat', 'template_ending',
-                  *_STYLE_SOFT})   # Oct 7 relax: question opener, emphasis, research cadence warn only
+                  *_STYLE_SOFT, *_GROUND_SOFT})   # Oct 7 relax: question opener, emphasis, research cadence warn only
 FIXES = {
     'template_ending': ('Do not close on "the market has not priced it" (市场还没充分定价 / 定价还不够充分 / 没有被充分计价 / '
                         '尚未反映在估值 / 后知后觉的资金 / not yet priced in). Replace the last line with a concrete consequence, '
@@ -119,6 +123,8 @@ FIXES = {
 }
 from live.editorial_style import FIXES as _STYLE_FIXES  # noqa: E402
 FIXES.update(_STYLE_FIXES)
+from live.span_grounding import FIXES as _GROUND_FIXES  # noqa: E402
+FIXES.update(_GROUND_FIXES)
 # D tier (source_expansion.md §6): never in the publishing chain, never named in a post.
 D_TIER_NAMES = ('ReportGem', '环球报告', '慧博', '发现报告', '洞见研报', '三个皮匠', '进门财经', 'Alpha派', 'Scribd')
 

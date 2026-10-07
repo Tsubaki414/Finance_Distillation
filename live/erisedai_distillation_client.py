@@ -143,6 +143,13 @@ def gemini_to_chat(data, model):
                       'thoughts_tokens': int(meta.get('thoughtsTokenCount') or 0)}}
 
 
+def _relay_reasoning(base_url, level):
+    """Gemini on the micuapi relay: thinking level -> OpenAI-style reasoning_effort (minimal -> low)."""
+    if not level or not stage_models.is_gemini_relay(base_url):
+        return {}
+    return {'reasoning_effort': 'low' if level == 'minimal' else level}
+
+
 def _fallback_worthy(exc):
     """Availability failures of the primary model (transport, timeout, 408/429/5xx, no channel,
     relay quota exhausted, unusable body). Response-model mismatches, refusals and budget errors are not."""
@@ -229,9 +236,9 @@ class ErisedaiClient:
         routed = stage_models.route(self.stage_models, stage)
         selected = stage_models.for_stage(self.stage_models, stage)
         if (self.config.get('gemini_only') or os.environ.get('FD_GEMINI_ONLY') == '1') and not (
-                routed and stage_models.is_gemini_native(routed['base_url'])):
+                routed and stage_models.is_gemini_route(routed['base_url'])):
             # Oct 7: daily compose runs Gemini-only; a stage that would go to the Opus relay fails loudly.
-            raise RuntimeError(f'stage {stage} is not routed to the official Gemini API (FD_GEMINI_ONLY=1)')
+            raise RuntimeError(f'stage {stage} is not routed to Gemini (official or relay; FD_GEMINI_ONLY=1)')
         tripped = QUOTA_TRIPPED.get((stage, selected['model']))
         if fb is not None and tripped:
             return self._fallback(stage, messages, max_tokens, fb, f'quota breaker open: {tripped}'[:300])
@@ -264,7 +271,8 @@ class ErisedaiClient:
         native = stage_models.is_gemini_native(base_url)
         payload = ({'model': model, 'messages': copy.deepcopy(messages),
                     'max_tokens': max_tokens, 'temperature': temperature,
-                    'response_format': copy.deepcopy(RESPONSE_FORMAT)} if not native
+                    'response_format': copy.deepcopy(RESPONSE_FORMAT),
+                    **_relay_reasoning(base_url, stage_models.thinking_level(self.stage_models, stage))} if not native
                    else gemini_payload(messages, max_tokens, temperature,
                                        stage_models.thinking_level(self.stage_models, stage)))
         record = {'call_id': call_id, 'stage': stage, 'started_at': now(),

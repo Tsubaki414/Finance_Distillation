@@ -27,8 +27,9 @@ FAKE_GEMINI_ENV = 'prefix-AQ.fakeTOKEN123'
 
 class OverrideTableTests(unittest.TestCase):
     def test_no_env_keeps_shipped_defaults(self):
-        table = stage_models.from_env(stage_models.load(), {})
+        table = stage_models.from_env(stage_models.load(), {'FD_GEMINI_PROVIDER': 'official'})
         # Oct 7 (v3): compose / stance / extract on the official Gemini API, no fallback; fix26: compose on pro.
+        # (Default FD_GEMINI_PROVIDER is relay since Oct 7 afternoon; see tests/test_gemini_provider.py.)
         for stage in ('compose', 'stance', 'extract'):
             # temperature 1.0 + thinking medium: at 0.0 Gemini 3 flash looped in thinking (Oct 7 smoke)
             model = 'gemini-3.1-pro-preview' if stage == 'compose' else 'gemini-3-flash-preview'
@@ -163,7 +164,7 @@ class ClientRoutesStageTests(unittest.TestCase):
             return httpx.Response(200, json={'id': 'r', 'model': model,
                                              'choices': [{'message': {'content': '{}'}, 'finish_reason': 'stop'}],
                                              'usage': {'prompt_tokens': 1, 'completion_tokens': 1}})
-        env = {'FD_COMPOSE_MODEL': 'claude-opus-5-5', 'GEMINI_API_KEY': FAKE_GEMINI_ENV}
+        env = {'FD_COMPOSE_MODEL': 'claude-opus-5-5', 'GEMINI_API_KEY': FAKE_GEMINI_ENV, 'FD_GEMINI_PROVIDER': 'official'}
         with patch.dict(os.environ, env):
             for k in ('FD_GEMINI_MODEL', 'FD_GEMINI_ONLY', 'FD_STANCE_MODEL', 'FD_EXTRACT_MODEL'):
                 os.environ.pop(k, None)

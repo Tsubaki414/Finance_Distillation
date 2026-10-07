@@ -143,7 +143,8 @@ _LEGAL_SECTION = re.compile(
     r'第\s*\d+[A-Za-z]?(?:\([0-9A-Za-z]{1,4}\))*\s*[条款项节章]', re.I)
 _STATUTE_CODE = re.compile(
     r'\b\d+\s*(?:U\.?S\.?C\.?|C\.?F\.?R\.?)\s*§*\s*\d*|'
-    r'\b(?:Rule|Reg(?:ulation)?\.?)\s+(?:\d+[a-z]?-\d+[a-z]?|[A-Z]{1,4}(?:-[A-Z0-9]+)?|\d{2,4}[a-z]?)\b|'
+    # the letter code is case-sensitive (Oct 7: "an old retail-leverage rule to ..." matched as "rule to")
+    r'\b(?:Rule|Reg(?:ulation)?\.?)\s+(?:\d+[a-z]?-\d+[a-z]?|(?-i:[A-Z]{1,4}(?:-[A-Z0-9]+)?)|\d{2,4}[a-z]?)\b|'
     r'\b(?:SAB|ASC|ASU|IFRS|FAS|SFAS|FASB\s+ASC)\s*\d+(?:-\d+)*\b|'
     r'\bForm\s+(?:\d+-[A-Z]+|[A-Z]-\d+|N-\w+|ADV|13[DFG])\b|'
     r'\b(?:H\.\s?R\.|S\.)\s?\d{2,5}\b|'

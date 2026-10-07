@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Daily auto-compose for the 20 main accounts -> review inbox (no publishing). Off unless FD_DAILY_COMPOSE=1.
-# Schedule after daily_ingest.sh (or let daily_ingest.sh chain it). Model: official Gemini API (GEMINI_API_KEY),
+# Schedule after daily_ingest.sh (or let daily_ingest.sh chain it). Model: Gemini via FD_GEMINI_PROVIDER (relay default, or official),
 # FD_GEMINI_MODEL switches every Gemini stage (default gemini-3-flash-preview). No Opus fallback.
 set -euo pipefail
 cd /workspace/fd_new/Finance_Distillation
@@ -11,7 +11,9 @@ mkdir -p "$(dirname "$LOG")"
 exec >> "$LOG" 2>&1
 printf 'START %s\n' "$(date -Is)"
 trap 'status=$?; printf "END %s exit_code=%s\n" "$(date -Is)" "$status"' EXIT
-if [[ -n "${GEMINI_API_KEY:-}" ]]; then echo "key GEMINI_API_KEY: set"; else echo "key GEMINI_API_KEY: missing"; exit 2; fi
+# FD_GEMINI_PROVIDER=relay (default since Oct 7: micuapi, GEMINI_RELAY_API_KEY) | official (GEMINI_API_KEY).
+GKEY=GEMINI_RELAY_API_KEY; [[ "${FD_GEMINI_PROVIDER:-relay}" == "official" ]] && GKEY=GEMINI_API_KEY
+if [[ -n "${!GKEY:-}" ]]; then echo "key $GKEY: set"; else echo "key $GKEY: missing"; exit 2; fi
 export FD_PACK_AUGMENT=1
 /workspace/fd_venv/bin/python scripts/persona_factory.py >/dev/null   # refresh universes (no model calls)
 /workspace/fd_venv/bin/python scripts/daily_compose.py --per-account "${FD_DAILY_COMPOSE_PER_ACCOUNT:-2}" \

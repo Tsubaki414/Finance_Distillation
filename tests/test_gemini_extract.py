@@ -29,6 +29,7 @@ def _env(monkeypatch):
     for k in [k for k in os.environ if k.startswith(('FD_EXTRACT_', 'FD_COMPOSE_', 'FD_STANCE_', 'FD_GEMINI_',
                                                      'FD_VIEW_ENRICH_'))]:
         monkeypatch.delenv(k)
+    monkeypatch.setenv('FD_GEMINI_PROVIDER', 'official')   # official-route tests; relay switch in test_gemini_provider.py
     prices = budget.PRICES.copy()
     yield
     budget.PRICES.clear(); budget.PRICES.update(prices)

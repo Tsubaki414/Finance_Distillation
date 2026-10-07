@@ -96,6 +96,8 @@ Fiona's review of the 26 flash drafts led to these changes:
   - `scripts/apply_inbox_audit.py <audit.json>` marks rewrite / drop rows `superseded` + `held`. It never touches `review_status`.
   - `daily_compose.py --fill --per-account 2` tops each account up to 2 *ready* drafts. Kept ready drafts seed the event cap, and rewrite rows' sources may be reused.
   - The per-draft reserve is $0.30 on pro.
+  - `--rewrite-notes notes.json` (`{draft_id: note}`, with `--fill`): those held drafts are rewritten from the same source with the note in the compose payload (`editor_note`). Audit-superseded rewrite drafts use their audit reason as the note by default. New rows carry `rewrite_of`. The event cap and own-account duplicate check still apply.
+  - X posts that open as a thank-you / congrats / welcome / announcement are skipped as material (`X_PROMO_OPENER`).
   - `scripts/apply_inbox_audit.py --recheck <day>` re-runs the style codes on stored bodies after a rule change. Newly tripped ready drafts are held; held drafts whose only hard codes no longer fire become ready. Arbitration and audit holds are never released.
 - **Ops page:** `scripts/build_ops_dashboard.py` builds the page. `daily_compose.sh` redeploys it with `vercel deploy --prod --yes` from `/workspace/x/dashboard/ops`; this step is non-fatal, and `FD_OPS_DEPLOY=0` skips it.
 
@@ -106,3 +108,31 @@ These are learned from donor text and are kept out of git (`.gitignore`):
 - Habit, language, voice and signature cards
 - Donor posts
 - `live/store/fd20/universes.json` (sources, angle mix)
+
+## Gemini provider switch (Oct 7 afternoon)
+
+- `FD_GEMINI_PROVIDER=relay|official`, default `relay`. It moves every Gemini stage (compose, stance, extract, extract_flash, view_enrich).
+  - `relay`: micuapi OpenAI-compatible `/v1/chat/completions`, key env `GEMINI_RELAY_API_KEY`. The thinking level goes as `reasoning_effort`.
+  - `official`: native `generateContent` with `GEMINI_API_KEY`. Official prepaid credits ran out (402) at about 11:45 on Oct 7.
+- Model names, rates, max_tokens and thinking level are the same on both. No fallback either way: a failure raises.
+- Spend is a local estimate at Google list prices, not the relay invoice.
+
+## Hard rewrite, span grounding and supersede (Oct 7, Sirius borrow items 2 + 4)
+
+- Span grounding (`live/span_grounding.py`): every factual sentence of the body is mapped to a source span (unit
+  spans first, then the source text). A number no span holds (rounding to the written precision is fine) or a
+  same-language quote that is not verbatim is HARD (`ungrounded_number`, `ungrounded_quote`). An unknown
+  ticker / Latin-script name (`ungrounded_entity`) or a reporting sentence with no matching span
+  (`ungrounded_claim`) is a warning. Dates, years, quarters and bare counts up to 10 are skipped; CJK names are
+  not checked. The per-sentence map is stored on the draft as `span_grounding`.
+- One targeted rewrite: HARD findings on the kept draft (style blocks, grounding, position / trade / quote codes)
+  get exactly one compose rewrite whose note names each failure and its detail (`hard_repair` on the draft). Still
+  hard afterwards = HOLD (`hold_reason: hard: ...`). The frame / licence codes are not rewritten. HARD style codes no
+  longer ride the soft structure regen, so nothing is rewritten twice for the same hard code.
+- Model / API errors stay separate: transport retries live in `compose._ask`; the hard rewrite has its own per-draft
+  allowance in `daily_compose.DraftClient` (2 calls), so polish rewrites cannot use it up. A rewrite that never came back
+  is held as `model_error: ...`, not a content verdict, and a later `--fill` can retry.
+- Supersede: a rerun or rewrite of the same account + source marks the earlier inbox draft `superseded`
+  (`superseded_by`, `superseded_reason` rerun / rewrite). Nothing is deleted. A held rerun never replaces a ready
+  draft, and drafts a human has already reviewed are left alone.
+- Quote-tweets, reposts, replies and images: design only, see `docs/post_types_media.md`.
