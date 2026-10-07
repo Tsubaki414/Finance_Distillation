@@ -5,9 +5,9 @@ Reads every live/store/compose_inbox/<day>/*.json row plus live/fd20_accounts.js
 assets/persona_avatars (avatars, embedded). Writes a self-contained index.html and one <day>.csv per day
 (account, time, text) to --out. Every time shown (post times, updated stamp, today/tomorrow labels, CSV) is
 China time (Asia/Shanghai, labelled 北京时间); the inbox stores London-time ISO stamps with offsets. The post text is the draft body only: no source/attribution line, no notes.
-Suggested post times are clamped here (display only, the inbox and pipeline are untouched) into 08:00-22:59
-北京时间 on the inbox day: late slots move earlier, early ones later, and each account's distinct slots stay
-at least 30 minutes apart (drafts sharing one original slot - rewrites / alternatives - keep sharing it).
+Suggested post times are spread here (display only, the inbox and pipeline are untouched) over 08:00-22:59
+北京时间 on the inbox day: each account's distinct slots keep their order, take one equal segment of the window
+each and stay at least 30 minutes apart (drafts sharing one original slot - rewrites / alternatives - keep sharing it).
 Review-console decisions (/admin, scripts/build_admin_console.py) are overlaid here: the newest days are pulled
 from the console API into live/store/admin_decisions/<day>.json first (scripts/apply_admin_decisions.py; non-fatal,
 FD_ADMIN_PULL=0 or --no-pull skips it), then approve -> ready with the edited text, hold / rewrite -> HOLD,
@@ -17,6 +17,7 @@ Idempotent: files are rewritten only when their content changes.
 import argparse
 import base64
 import csv
+import hashlib
 import io
 import json
 import os
@@ -182,16 +183,27 @@ def pull_decisions(days):
 
 
 def clamp_times(drafts, day):
-    """Move every account's suggested times into [08:00, 22:59] BJT on `day`, distinct slots >= 30 min apart."""
+    """Spread every account's suggested times over [08:00, 22:59] BJT on `day`, distinct slots >= 30 min apart.
+
+    London habit times land in the Beijing night, so clamping them piled each account's last slots at 22:29/22:59.
+    Instead an account's n distinct slots (in original order) get one equal segment of the window each; the spot
+    inside the segment comes from the original time of day plus a stable per-account offset, so accounts differ."""
     base = datetime.fromisoformat(day).replace(tzinfo=BJT)
     lo, hi = (base.replace(hour=h, minute=m) for h, m in (POST_START, POST_END))
+    span = (hi - lo).total_seconds() / 60
     by_acct = {}
     for d in drafts:
         if d['time']:
             by_acct.setdefault(d['account_id'], {}).setdefault(d['time'], []).append(d)
-    for slots in by_acct.values():
+    for acct, slots in by_acct.items():
         orig = sorted(slots, key=datetime.fromisoformat)
-        t = [min(max(datetime.fromisoformat(s).replace(second=0, microsecond=0), lo), hi) for s in orig]
+        seg = span / len(orig)
+        shift = int(hashlib.sha1(str(acct).encode()).hexdigest()[:8], 16) / 16 ** 8
+        t = []
+        for i, s in enumerate(orig):
+            src = datetime.fromisoformat(s)
+            frac = ((src.hour * 60 + src.minute) / 1440 + shift) % 1
+            t.append(lo + timedelta(minutes=int(i * seg + frac * seg)))
         for i in range(1, len(t)):                 # forward: keep order, open the gaps
             t[i] = max(t[i], t[i - 1] + POST_GAP)
         t[-1] = min(t[-1], hi)
