@@ -136,3 +136,19 @@ These are learned from donor text and are kept out of git (`.gitignore`):
   (`superseded_by`, `superseded_reason` rerun / rewrite). Nothing is deleted. A held rerun never replaces a ready
   draft, and drafts a human has already reviewed are left alone.
 - Quote-tweets, reposts, replies and images: design only, see `docs/post_types_media.md`.
+
+## Chart refresh (Oct 7)
+
+- Level lines: `charts.draft_levels` draws a price the draft names (dashed line, small boxed label) only when it has a
+  price cue (`$`, 美元/点/USD after it, or support / resistance / 支撑 / 突破 / 关口 … before it), is not an amount,
+  %, count, duration, date or year (亿, million, 倍, 小时, 枚, 500 BTC …), and sits within the plotted range ±15% and
+  −40% / +60% of the last close.
+- `scripts/refresh_charts.py`: today's + tomorrow's (London inbox days) ready drafts. Candlesticks are refetched
+  every run (cache bypassed); data charts at most every 6 h. An image is replaced only when its `data_sha` (plotted
+  rows + levels, not the fetch stamp) changed; that sets `refreshed_at`, shown on both pages as
+  「图更新于 北京时间 HH:MM」, and the image URL gets `?v=<sha>`. Pages are rebuilt; `vercel deploy --prod --yes` runs
+  only when an image changed (or an earlier change is still `deploy_pending`).
+- Schedule: `scripts/cron/refresh_charts.sh` (log `/workspace/x/chart_refresh/<day>.log`, `flock` on
+  `refresh_charts.lock`), crontab `17 * * * *`; the wrapper exits outside 08:00–23:59 Beijing time.
+  This box had no cron at all before Oct 7 (daily_ingest / daily_compose were never on a crontab here); cron was
+  installed and started for this line only. A container restart needs `sudo service cron start`.

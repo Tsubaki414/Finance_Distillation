@@ -124,8 +124,18 @@ def media_of(row):
     return {'mode': mode, 'target': row.get('quote_target_url') or row.get('reply_to_url') or '',
             'heat_led': bool(row.get('heat_led')),
             'media': [{'path': m['path'], 'alt': m.get('alt') or '',
+                       # ?v=<sha> so a chart refreshed in place (scripts/refresh_charts.py) is not served from cache
+                       'src': m['path'] + (f"?v={m['sha256'][:12]}" if m.get('sha256') else ''),
+                       'updated': chart_time(m),
                        'credit': ', '.join(s.get('name') or '' for s in m.get('data_sources') or [])}
                       for m in row.get('media') or [] if m.get('path')]}
+
+
+def chart_time(m):
+    """'HH:MM' Beijing time the chart image was last re-rendered with new data (refreshed_at, else fetched_at)."""
+    stamp = m.get('refreshed_at') or next((s.get('fetched_at') for s in m.get('data_sources') or []
+                                           if s.get('fetched_at')), '')
+    return to_bjt(stamp)[11:16]
 
 
 def load_day(day_dir):
@@ -403,7 +413,7 @@ function card(d,hidden){
   }else body=`<div class="txt" lang="${lg}">${esc(d.text)}</div><div class="cnt">${cnt(d.text,d.xw,d.lang)}</div>`;
   const ML={quote:'引用',reply:'回复'};
   const mode=(ML[d.mode]||d.heat_led)?`<div class="mode">${ML[d.mode]?`<span class="tg">${ML[d.mode]}</span>`:''}${d.heat_led?'<span class="tg ht">热度</span>':''}${ML[d.mode]&&d.target?`<a href="${esc(d.target)}" target="_blank" rel="noopener noreferrer">打开原帖</a>`:''}</div>`:'';
-  const imgs=(d.media||[]).map(m=>`<figure class="img"><a href="${esc(m.path)}" target="_blank" rel="noopener"><img src="${esc(m.path)}" alt="${esc(m.alt)}" loading="lazy"></a><figcaption><span>${esc(m.credit?'数据：'+m.credit:'')}</span><a class="dl" href="${esc(m.path)}" download="${esc(m.path.split('/').pop())}">下载图片</a></figcaption></figure>`).join('');
+  const imgs=(d.media||[]).map(m=>`<figure class="img"><a href="${esc(m.src||m.path)}" target="_blank" rel="noopener"><img src="${esc(m.src||m.path)}" alt="${esc(m.alt)}" loading="lazy"></a><figcaption><span>${esc([m.credit?'数据：'+m.credit:'',m.updated?'图更新于 北京时间 '+m.updated:''].filter(Boolean).join(' · '))}</span><a class="dl" href="${esc(m.src||m.path)}" download="${esc(m.path.split('/').pop())}">下载图片</a></figcaption></figure>`).join('');
   body=mode+body+imgs;
   return `<div class="post${p?' posted':''}${ready?'':' notready'}${hidden?' hide':''}"><div class="ph"><small>建议发出（北京时间）</small><span class="tm">${when(d.time)}</span>${st}</div>${d.note?`<div class="note${d.note.startsWith('改派自')?' mv':''}">${esc(d.note)}</div>`:''}${body}
 <div class="foot">${ready?`<label class="done-l"><input type="checkbox" data-p="${esc(d.id)}" ${p?'checked':''}> 已发</label>`:'<span class="cnt">不可发：先改稿或等重写</span>'}<button class="cp" data-t="${esc(d.text)}">${COPY_SVG}<span>${d.parts&&d.parts.length>1?'复制全部':'一键复制'}</span></button></div></div>`;

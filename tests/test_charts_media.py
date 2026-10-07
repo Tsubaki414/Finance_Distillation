@@ -68,7 +68,7 @@ def test_no_chart_without_fetched_data(tmp_path, monkeypatch):
 def test_attach_renders_from_fetched_rows(tmp_path, monkeypatch):
     pytest.importorskip('matplotlib')
     monkeypatch.setattr(charts, 'chart_profile', lambda a, h=None: {'candle': True, 'data': False, 'chart_share': 0.3, 'why': 't'})
-    monkeypatch.setattr(charts, 'fetch_crypto', lambda sym, interval='1d', bars=150: {
+    monkeypatch.setattr(charts, 'fetch_crypto', lambda sym, interval='1d', bars=150, ttl=None: {
         'rows': _bars(), 'source': 'Binance spot', 'pair': f'{sym}USDT', 'interval': interval,
         'url': 'https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT', 'fetched_at': '2026-10-07T10:00:00+00:00'})
     row = {'id': 'd2', 'day': '2026-10-07', 'text': 'BTC 守住 80000，上方看 1,000,000'}
@@ -79,9 +79,57 @@ def test_attach_renders_from_fetched_rows(tmp_path, monkeypatch):
     spec = json.loads(png.with_suffix('.json').read_text())
     assert spec['data_source'] == 'Binance spot' and spec['url'].startswith('https://')
     assert 1_000_000.0 not in media['levels']      # outside the fetched range: never drawn
+    assert media['refreshed_at'] and media['data_sha'] and spec['refreshed_at'] == media['refreshed_at']
 
 
 def test_pick_interval_needs_a_chart_word():
     assert charts.pick_interval('4小时内就爆掉了4亿多单') == '1d'
     assert charts.pick_interval('4小时线收在均线下') == '4h'
     assert charts.pick_interval('weekly close above 90k') == '1w'
+
+
+def test_draft_levels_skip_numbers_that_are_not_prices():
+    lv = charts.draft_levels
+    assert lv('$487.2 million in long positions were wiped out', 300, 600) == []
+    assert lv('4小时内就爆掉了4.153亿美元多单', 3, 600) == []
+    assert lv('holds 500 BTC, 600 days, 650 wallets, up 550%', 400, 700) == []
+    assert lv('剩下最后 30 天，份额从 60% 下调到 55%', 20, 70) == []
+    assert lv('10/7 18:30 更新', 1, 40) == []
+    assert lv('BTC 跌破 8.5万 之后，下一个支撑在 8万美元，上方压力 9.2万', 70000, 90000) == [85000.0, 80000.0, 92000.0]
+    assert lv('Bitcoin needs to reclaim 112k; below 105,000 opens 98k', 95000, 115000) == [112000.0, 105000.0, 98000.0]
+    assert lv('NVDA $180 is the line, 175-185 range, P/E 45x', 150, 200) == [180.0, 175.0, 185.0]
+    assert lv('support 2400', 2200, 2700, last=5000) == []       # far from the current price: not drawn
+
+
+def test_refresh_replaces_only_changed_charts(tmp_path, monkeypatch):
+    pytest.importorskip('matplotlib')
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+    import refresh_charts
+    from datetime import datetime, timezone
+    monkeypatch.setattr(charts, 'chart_profile', lambda a, h=None: {'candle': True, 'data': False, 'chart_share': 0.3, 'why': 't'})
+    bars = {'rows': _bars()}
+    calls = []
+
+    def fake(sym, interval='1d', bars_n=150, ttl=None):
+        calls.append(ttl)
+        return {'rows': bars['rows'], 'source': 'Binance spot', 'pair': f'{sym}USDT', 'interval': interval,
+                'url': 'https://x', 'fetched_at': datetime.now(timezone.utc).isoformat(timespec='seconds')}
+    monkeypatch.setattr(charts, 'fetch_crypto', fake)
+    inbox, out = tmp_path / 'inbox', tmp_path / 'out'
+    (inbox / '2026-10-07').mkdir(parents=True)
+    row = {'id': 'd3', 'day': '2026-10-07', 'account_id': 'a', 'draft_status': 'draft_ready',
+           'text': 'BTC 守住 $84,000 支撑'}
+    media, _ = charts.attach(row, {'id': 'a'}, out)
+    row['media'] = [media]
+    f = inbox / '2026-10-07' / 'd3.json'
+    f.write_text(json.dumps(row))
+    accounts = {'a': {'id': 'a'}}
+    s = refresh_charts.refresh_days(['2026-10-07', '2026-10-08'], out, inbox, accounts)
+    assert (s['same'], s['changed']) == (1, 0) and calls[-1] == 0          # refetched, same data: image kept
+    bars['rows'] = _bars(start=81000.0)
+    s = refresh_charts.refresh_days(['2026-10-07'], out, inbox, accounts)
+    assert s['changed'] == 1
+    new = json.loads(f.read_text())
+    assert new['text'] == row['text'] and new['media'][0]['sha256'] != media['sha256']
+    assert new['media'][0]['refreshed_at'] and new['media'][0]['levels'] == [84000.0]
+    assert json.loads((out / media['path']).with_suffix('.json').read_text())['sha256'] == new['media'][0]['sha256']

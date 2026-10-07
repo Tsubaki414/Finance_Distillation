@@ -202,12 +202,13 @@ def _cache_path(provider, series, key):
     return CACHE / provider / safe / f'{key}.json'
 
 
-def _get(url, provider, series, key, parse, method='GET', **kw):
-    """Fetch + parse with a 3h on-disk cache; returns (payload, meta) or (None, error-meta). Never raises."""
+def _get(url, provider, series, key, parse, method='GET', ttl=None, **kw):
+    """Fetch + parse with an on-disk cache (3h, or `ttl` seconds; 0 = always refetch); returns (payload, meta) or
+    (None, error-meta). Never raises."""
     path = _cache_path(provider, series, key)
     try:
         hit = json.loads(path.read_text())
-        if time.time() - hit['fetched_ts'] < CACHE_TTL_S and hit.get('rows'):
+        if time.time() - hit['fetched_ts'] < (CACHE_TTL_S if ttl is None else ttl) and hit.get('rows'):
             return hit['rows'], {'url': hit['url'], 'fetched_at': hit['fetched_at'], 'cached': True}
     except (OSError, ValueError, KeyError):
         pass
@@ -241,14 +242,14 @@ def _ohlc_ok(rows):
 INTERVALS = {'1h': 3600, '4h': 14400, '1d': 86400, '1w': 604800}
 
 
-def fetch_crypto(sym, interval='1d', bars=150):
+def fetch_crypto(sym, interval='1d', bars=150, ttl=None):
     pair = f'{sym}USDT'
     attempts = []
     for host in ('https://data-api.binance.vision', 'https://api.binance.com'):
         url = f'{host}/api/v3/klines?symbol={pair}&interval={interval}&limit={bars}'
         rows, meta = _get(url, 'binance', pair, f'{interval}-{datetime.now(timezone.utc):%Y%m%d%H}',
                           lambda r: _ohlc_ok([(k[0] // 1000, float(k[1]), float(k[2]), float(k[3]), float(k[4]),
-                                               float(k[5])) for k in r.json()]))
+                                               float(k[5])) for k in r.json()]), ttl=ttl)
         attempts.append(meta)
         if rows:
             return {'rows': rows, 'source': 'Binance spot', 'pair': pair, 'interval': interval, **meta}
@@ -257,7 +258,7 @@ def fetch_crypto(sym, interval='1d', bars=150):
         days = 180 if interval in ('1d', '1w') else 30
         url = f'https://api.coingecko.com/api/v3/coins/{cg}/ohlc?vs_currency=usd&days={days}'
         rows, meta = _get(url, 'coingecko', cg, f'{days}d-{datetime.now(timezone.utc):%Y%m%d%H}',
-                          lambda r: _ohlc_ok([(k[0] // 1000, k[1], k[2], k[3], k[4], 0) for k in r.json()]))
+                          lambda r: _ohlc_ok([(k[0] // 1000, k[1], k[2], k[3], k[4], 0) for k in r.json()]), ttl=ttl)
         attempts.append(meta)
         if rows:
             step = rows[1][0] - rows[0][0] if len(rows) > 1 else 0
@@ -267,7 +268,7 @@ def fetch_crypto(sym, interval='1d', bars=150):
     return {'rows': None, 'attempts': attempts}
 
 
-def fetch_stock(ysym, interval='1d', bars=150):
+def fetch_stock(ysym, interval='1d', bars=150, ttl=None):
     rng = {'1d': '1y', '1w': '5y', '1h': '1mo'}.get(interval, '1y')
     url = f'https://query1.finance.yahoo.com/v8/finance/chart/{requests.utils.quote(ysym)}?range={rng}&interval={interval}'
 
@@ -275,7 +276,7 @@ def fetch_stock(ysym, interval='1d', bars=150):
         res = r.json()['chart']['result'][0]
         q = res['indicators']['quote'][0]
         return _ohlc_ok(list(zip(res['timestamp'], q['open'], q['high'], q['low'], q['close'], q['volume'])))
-    rows, meta = _get(url, 'yahoo', ysym, f'{interval}-{datetime.now(timezone.utc):%Y%m%d%H}', parse)
+    rows, meta = _get(url, 'yahoo', ysym, f'{interval}-{datetime.now(timezone.utc):%Y%m%d%H}', parse, ttl=ttl)
     attempts = [meta]
     if rows:
         return {'rows': rows[-bars:], 'source': 'Yahoo Finance', 'pair': ysym.lstrip('^'), 'interval': interval, **meta}
@@ -292,14 +293,14 @@ def fetch_stock(ysym, interval='1d', bars=150):
             except (KeyError, ValueError):
                 continue
         return _ohlc_ok(out)
-    rows, meta = _get(url, 'stooq', stooq, f'{interval}-{datetime.now(timezone.utc):%Y%m%d%H}', parse_csv)
+    rows, meta = _get(url, 'stooq', stooq, f'{interval}-{datetime.now(timezone.utc):%Y%m%d%H}', parse_csv, ttl=ttl)
     attempts.append(meta)
     if rows:
         return {'rows': rows[-bars:], 'source': 'Stooq', 'pair': ysym.lstrip('^'), 'interval': interval, **meta}
     return {'rows': None, 'attempts': attempts}
 
 
-def fetch_series(spec):
+def fetch_series(spec, ttl=None):
     prov, sid = spec['provider'], spec['series']
     key = datetime.now(timezone.utc).strftime('%Y%m%d')
     if prov == 'fred':
@@ -314,19 +315,19 @@ def fetch_series(spec):
                 except (ValueError, IndexError):
                     continue
             return out
-        rows, meta = _get(url, 'fred', sid, key, parse)
+        rows, meta = _get(url, 'fred', sid, key, parse, ttl=ttl)
         source = 'FRED, Federal Reserve Bank of St. Louis'
     elif prov == 'defillama' and sid == 'stablecoins':
         url = 'https://stablecoins.llama.fi/stablecoincharts/all'
         rows, meta = _get(url, 'defillama', sid, key, lambda r: [
             (int(x['date']), float((x.get('totalCirculatingUSD') or {}).get('peggedUSD') or 0)) for x in r.json()
-            if (x.get('totalCirculatingUSD') or {}).get('peggedUSD')])
+            if (x.get('totalCirculatingUSD') or {}).get('peggedUSD')], ttl=ttl)
         source = 'DefiLlama'
     elif prov == 'defillama' and sid.startswith('tvl:'):
         chain = sid.split(':', 1)[1]
         url = 'https://api.llama.fi/v2/historicalChainTvl' + ('' if chain == 'all' else '/' + requests.utils.quote(chain))
         rows, meta = _get(url, 'defillama', sid, key, lambda r: [(int(x['date']), float(x['tvl'])) for x in r.json()
-                                                                 if x.get('tvl')])
+                                                                 if x.get('tvl')], ttl=ttl)
         source = 'DefiLlama'
     else:
         return {'rows': None}
@@ -339,22 +340,66 @@ def fetch_series(spec):
 
 # ------------------------------------------------------------------ levels named in the draft
 
-NUM = re.compile(r'(?<![\w.])(\$)?(\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?)\s*([kK]|千|万|w|W)?(?![\d.,]*\s*(?:%|％|亿|億|bn|[BM]\b|x\b|倍|年|月|日|号|天|周|小时|h\b|个|家|人|次|bps|bp|基点))')
+# A number is a price level only with a price cue next to it ($, 美元/点/USD after it, or a level word such as
+# support / resistance / 支撑 / 突破 / 关口 just before it), a multiplier at most k / 千 / 万, and no unit that makes it
+# an amount, share, count, duration or date (亿, million, %, 倍, 小时, 年, BTC, 枚 ...).
+NUM = re.compile(r'(?<![\w.$])(\$|＄)?\s?(\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?)(?![\d,]*\d)\s*'
+                 r'(k(?![a-z])|K(?![a-z])|千|万|w(?![a-z])|W(?![a-z]))?')
+AMOUNT_AFTER = re.compile(
+    r'\s*(?:%|％|亿|億|兆|万亿|百万|千万|bn\b|b\b|B\b|mn\b|m\b|M\b|million|billion|trillion|thousand|x\b|X\b|倍|'
+    r'年|月|日|号|天|周|小时|分钟|秒|h\b|d\b|个|家|人|次|笔|张|枚|只|股|手|根|条|篇|位(?!置)|名|期|季|轮|'
+    r'bps?\b|基点|shares?|contracts?|coins?|tokens?|days?|hours?|weeks?|months?|years?|times|people|users|'
+    r'wallets?|addresses|[-–~到至]\s*\d+\s*(?:%|％)|(?:BTC|ETH|SOL|枚|个比特币))', re.I)
+PRICE_AFTER = re.compile(r'\s*(?:[-–~到至]\s*\$?\d|美元|美金|刀|USD\b|USDT\b|点|关口|一线|整数关|附近|区域|区间|上方|下方|支撑|压力|阻力|'
+                         r'level|support|resistance|handle|area|zone)', re.I)
+PRICE_BEFORE = re.compile(
+    r'(?:support|resistance|level|target|opens?|tp|sl|stop|invalidation|break(?:s|ing)?|broke|reclaim(?:s|ed|ing)?|'
+    r'hold(?:s|ing)?|lose|lost|loses|retest(?:s|ed)?|above|below|under|over|toward|towards|near|around|at|to|from|'
+    r'between|and|or|top|bottom|ceiling|floor|high|low|close[ds]?|price|trades?|trading|sits?|tagged|hit|'
+    r'支撑|压力|阻力|目标|突破|跌破|站上|站稳|站回|回踩|守住|失守|守|收复|关口|点位|价位|位置|区间|上方|下方|附近|'
+    r'到|至|回到|摸到|涨到|跌到|冲到|拉到|砸到|在|于|上破|下破|破|收在|收于|高点|低点|前高|前低|和|或|、|~|-|–)'
+    r'\s*(?:the\s+)?(?:\$|＄)?\s?$', re.I)
+DATE_SPAN = re.compile(r'\d{4}[-/.]\d{1,2}(?:[-/.]\d{1,2})?|(?<!\d)\d{1,2}[/-]\d{1,2}(?![\d,.]|\s*[kK万])|\d{1,2}:\d{2}|'
+                       r'\d{1,2}月\d{1,2}[日号]?|[QH][1-4]\b|第\s*\d+|#\d+|\d+(?:st|nd|rd|th)\b')
+MULT = {'k': 1e3, 'K': 1e3, '千': 1e3, '万': 1e4, 'w': 1e4, 'W': 1e4}
 
 
-def draft_levels(text, lo, hi, limit=4):
-    """Price levels the draft names that lie within [0.85 lo, 1.15 hi] of the plotted range (deduped, max `limit`)."""
+def _price_numbers(text):
+    """(value, start) for every number in the text that reads as a price level (cue present, not an amount)."""
+    text = text or ''
+    dates = [m.span() for m in DATE_SPAN.finditer(text)]
     out = []
-    for m in NUM.finditer(text or ''):
+    for m in NUM.finditer(text):
         dollar, raw, suf = m.groups()
+        start = m.start(2)
+        if any(a <= start < b for a, b in dates):
+            continue
+        if AMOUNT_AFTER.match(text, m.end()):
+            continue
         try:
-            v = float(raw.replace(',', ''))
+            v = float(raw.replace(',', '')) * MULT.get(suf or '', 1)
         except ValueError:
             continue
-        v *= {'k': 1e3, 'K': 1e3, '千': 1e3, '万': 1e4, 'w': 1e4, 'W': 1e4}.get(suf or '', 1)
         if not dollar and not suf and raw.isdigit() and 1990 <= v <= 2035:   # years, not prices
             continue
-        if lo * 0.85 <= v <= hi * 1.15 and all(abs(v - x) / v > 0.004 for x in out):
+        cue = bool(dollar) or bool(PRICE_AFTER.match(text, m.end())) or \
+            bool(PRICE_BEFORE.search(text[max(0, m.start() - 14):m.start()]))
+        if cue and v > 0:
+            out.append((v, start))
+    return out
+
+
+def draft_levels(text, lo, hi, last=None, limit=4):
+    """Price levels the draft names near the plotted price: inside [0.85 lo, 1.15 hi] and, when the last close is
+    given, within -40% / +60% of it. Numbers that are not price levels (amounts, %, counts, dates, durations, years)
+    are skipped. Deduped (0.4%), in text order, at most `limit`."""
+    out = []
+    for v, _start in _price_numbers(text):
+        if not lo * 0.85 <= v <= hi * 1.15:
+            continue
+        if last and not last * 0.6 <= v <= last * 1.6:
+            continue
+        if all(abs(v - x) / v > 0.004 for x in out):
             out.append(v)
         if len(out) >= limit:
             break
@@ -413,7 +458,7 @@ def render_candles(data, title, levels_text='', path=None, show=110):
     ma20, ma50 = _ma(closes, 20), _ma(closes, 50)
     rows, ma20, ma50 = rows[-show:], ma20[-show:], ma50[-show:]
     lo, hi = min(r[3] for r in rows), max(r[2] for r in rows)
-    levels = draft_levels(levels_text, lo, hi)
+    levels = draft_levels(levels_text, lo, hi, last=rows[-1][4])
     fig = plt.figure(figsize=(8, 4.5), dpi=200, facecolor=TV['bg'])
     ax = fig.add_axes([0.02, 0.24, 0.89, 0.68], facecolor=TV['bg'])
     axv = fig.add_axes([0.02, 0.08, 0.89, 0.15], facecolor=TV['bg'], sharex=ax)
@@ -430,7 +475,9 @@ def render_candles(data, title, levels_text='', path=None, show=110):
             ax.plot([p[0] for p in pts], [p[1] for p in pts], color=col, linewidth=1.0)
     for lv in levels:
         ax.axhline(lv, color=TV['level'], linewidth=0.7, linestyle=(0, (4, 3)), alpha=0.75)
-        ax.text(0.5, lv, _fmt_price(lv), color=TV['level'], fontsize=6.5, va='bottom', ha='left', alpha=0.9)
+        ax.text(0.5, lv, _fmt_price(lv), color=TV['level'], fontsize=6, va='center', ha='left',
+                bbox={'boxstyle': 'round,pad=0.2', 'facecolor': TV['bg'], 'edgecolor': TV['level'], 'linewidth': 0.4,
+                      'alpha': 0.9})
     last = rows[-1]
     ax.axhline(last[4], color=TV['up'] if last[4] >= last[1] else TV['down'], linewidth=0.5, linestyle=':', alpha=0.9)
     pad = (hi - lo) * 0.06
@@ -525,9 +572,10 @@ def plan_chart(row, account):
     return None
 
 
-def attach(row, account, out_dir, rel_prefix='media'):
+def attach(row, account, out_dir, rel_prefix='media', ttl=None):
     """Render the chart for one draft into out_dir/<rel_prefix>/<day>/<id>.png (+ .json spec).
 
+    `ttl` is the data-cache age limit in seconds (None = 3h; scripts/refresh_charts.py passes 0 to refetch).
     Returns (media dict, plan) - media None when the draft is not eligible or no provider returned data."""
     plan = plan_chart(row, account)
     if not plan:
@@ -535,11 +583,12 @@ def attach(row, account, out_dir, rel_prefix='media'):
     text = row.get('text') or row.get('body') or ''
     if plan['kind'] == 'candle':
         crypto = plan['asset'] == 'crypto'
-        data = fetch_crypto(plan['symbol'], plan['interval']) if crypto else fetch_stock(plan['symbol'], plan['interval'])
+        data = (fetch_crypto(plan['symbol'], plan['interval'], ttl=ttl) if crypto
+                else fetch_stock(plan['symbol'], plan['interval'], ttl=ttl))
         if not data.get('rows') or len(data['rows']) < 25:
             return None, {**plan, 'failed': data.get('attempts')}
     else:
-        data = fetch_series(plan)
+        data = fetch_series(plan, ttl=ttl)
         if not data.get('rows'):
             return None, {**plan, 'failed': data.get('attempts')}
     day = row.get('day') or datetime.now(timezone.utc).date().isoformat()
@@ -554,12 +603,16 @@ def attach(row, account, out_dir, rel_prefix='media'):
         info = render_series(data, plan, path=path)
         alt = f"{plan['title']} ({data['source']})"
     sha = hashlib.sha256(path.read_bytes()).hexdigest()
+    # What the picture shows, without the fetch stamp: same data_sha = same chart (refresh_charts.py keeps the old one).
+    data_sha = hashlib.sha256(json.dumps([plan['kind'], alt, data['rows'], info.get('levels') or []],
+                                         default=str).encode()).hexdigest()
+    rendered = datetime.now(timezone.utc).isoformat(timespec='seconds')
     spec = {'draft_id': row['id'], 'kind': plan['kind'], 'subject': {k: plan.get(k) for k in
             ('asset', 'symbol', 'display', 'interval', 'provider', 'series', 'title', 'unit') if plan.get(k)},
             'data_source': data['source'], 'url': data['url'], 'fetched_at': data['fetched_at'],
-            'render': info, 'account_profile': plan['profile'], 'sha256': sha}
+            'render': info, 'account_profile': plan['profile'], 'sha256': sha, 'data_sha': data_sha, 'refreshed_at': rendered}
     path.with_suffix('.json').write_text(json.dumps(spec, ensure_ascii=False, indent=1))
     media = {'kind': 'chart', 'chart_type': plan['kind'], 'path': rel.as_posix(), 'alt': alt,
              'data_sources': [{'name': data['source'], 'url': data['url'], 'fetched_at': data['fetched_at']}],
-             'levels': info.get('levels') or [], 'sha256': sha}
+             'levels': info.get('levels') or [], 'sha256': sha, 'data_sha': data_sha, 'refreshed_at': rendered}
     return media, plan
