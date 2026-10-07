@@ -5,7 +5,7 @@ The 20 main accounts are rows 1–20 of `FD_accounts_final_v2.xlsx` (主号). Th
 
 ## The chain
 
-1. **Ingest:** `scripts/cron/daily_ingest.sh`. EXTRACT and the flash extract run on the official Gemini API.
+1. **Ingest:** `scripts/cron/daily_ingest.sh`. EXTRACT, the flash extract and the X-post extract run on the official Gemini API.
 2. **Route:** each account reads tagged units from its `retrieval_beats`.
    - Both same-language and cross-language material are allowed.
    - Same-language drafts carry no attribution line.
@@ -59,7 +59,25 @@ Gemini stages run at temperature 1.0 with thinking set to medium. At temperature
   - Mega accounts (VitalikButerin, saylor, mert, zachxbt, star_okx) are sources only.
 - `persona_factory.py` merges them: the base donors keep 50% of the weight (relative weights unchanged) and the adopted donors split the other 50%. It mirrors the result into `live/accounts.json` and rebuilds the merged clusters' cards. Re-runs are idempotent.
 - `x_sources` gives each account its own X sources: CORE from the Mango proposals, SECONDARY meme/perp/DeFi/on-chain/chart sources. They are registered in `live/source_registry.json` as account-scoped (`enabled: false` for global intake, `fd20_accounts` lists the users). Individual analysts are licence tier B; media and project accounts are tier C. The fd20 universe lists them as enabled.
-- Not wired yet: no daily X intake reads `x_sources`, so routing still goes by `retrieval_beats`.
+- seeds2 pass (same rules): 6 weak donors replaced (single_stock_deepdive_en, zh_us_stocks, zh_longterm_investing), 6 short donors topped up to ≥150 posts instead, logged under `replaced` / `seeds2_note`; up to 6 more X sources per account.
+
+## X daily intake and crypto lanes (Oct 7)
+
+- `live/x_daily.py`, step `x_gather` / `x_extract` of `daily_ingest` (`--only x` runs just this; `--no-x` turns it off).
+  - Reads every enabled `x_sources` entry of the fd20 universe. Only tier B handles are fetched; tier C is never fetched.
+  - Fetch: RapidAPI twitter241 (`RAPID_X_API_KEY`, uid cached in ingest state, ≤300 requests a run). Handles that fail or come back empty go to one Apify `apidojo~tweet-scraper` run (`APIFY_TOKEN`, ≤300 items, ≤$0.50).
+  - Keeps last-24h originals only: no reposts, replies or thread parts; quotes only when ≥140 chars. Drops promo and short posts. At most 4 per handle and 200 a run. Dedupes by post id against state and store, and drops near-duplicates across handles.
+  - Extraction uses the cheap batched flash path: ~20 posts per Gemini flash call, X prompt `x_units.EXTRACT`, its own $1.00 ring fence inside the daily cap. No Jev calls.
+  - Units keep the handle: `author_name` `@handle`, `source_id` `x_<handle>`, `adapter` `x:<handle>`.
+- Beats: `live/jev_front.SUB_BEATS` adds `crypto_meme`, `crypto_perp`, `crypto_defi`, `crypto_airdrop` and `crypto_onchain`. Jev still routes and tags only the 10 `JEV_BEATS`.
+  - Sub-beats are keyword tags from `live/beat_rules.py` and need a crypto word.
+  - X units get keyword beats, plus the subscribing account's first beat when none of its beats matched.
+  - Step `crypto_subbeats` adds sub-beats to any unit tagged `crypto_macro_*`.
+- Crypto accounts list their own lanes first in `retrieval_beats` (e.g. `defi_narratives_en`: defi, meme, airdrop, then macro). The universe records them as `lanes`.
+- Compose (`candidates`):
+  - X units reach only the accounts that subscribe to that handle.
+  - Ranking puts own X posts right after timeliness, then packets on the account's own lanes.
+  - A same-day re-run counts drafts already in the inbox toward the ceiling of 3.
 
 ## What stays local
 

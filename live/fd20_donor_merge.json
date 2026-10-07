@@ -1,5 +1,5 @@
 {
- "version": "mango-merge-2026-10-07",
+ "version": "mango-merge-2026-10-07+seeds2",
  "note": "Adopted donors merged into the fd20 acct_<id> clusters by scripts/persona_factory.py (base donors keep 50% of the weight, adopted donors split 50%). Handles and aggregate metadata only; donor posts stay in the ignored live/donors/posts/. x_sources are account-scoped X sources for the fd20 universes (CORE from the Mango proposals, SECONDARY meme/perp/DeFi/onchain/chart sources); mega accounts (VitalikButerin, saylor, mert, zachxbt, star_okx) are sources only, never donors.",
  "rules": {
   "same_language": true,
@@ -31,11 +31,13 @@
   "Andre_Dragosch": "59 originals (repost-heavy)"
  },
  "sources_only": [
-  "VitalikButerin",
-  "saylor",
+  "EleanorTerrett",
   "mert",
-  "zachxbt",
-  "star_okx"
+  "novogratz",
+  "saylor",
+  "star_okx",
+  "VitalikButerin",
+  "zachxbt"
  ],
  "donors": {
   "0xLuo": {
@@ -613,6 +615,60 @@
    "posts": 169,
    "origin": "gap fill 2026-10-07: 1-hop following of existing en donors Pentosh1",
    "verify_note": "deep scrape 169 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.083 = max(LLM per-post read 0.083, regex 0.000); Singapore-based crypto/equities investor: token picks (ENA, BP, CARDS), AI/semis trade, K-shaped economy, Singapore life"
+  },
+  "ParadisLabs": {
+   "lang": "en",
+   "category": "single_stock",
+   "followers": 79742,
+   "promo_share": 0.029,
+   "posts": 204,
+   "origin": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
+   "verify_note": "deep scrape 204 originals (RapidAPI twitter241); promo_share 0.029 = max(LLM per-post read 0.005, regex 0.029); US AI/semis single-name earnings recaps and call notes (MU, NBIS, LITE, AAOI), prime-broker positioning data"
+  },
+  "FredaDuan": {
+   "lang": "en",
+   "category": "single_stock",
+   "followers": 39451,
+   "promo_share": 0.14,
+   "posts": 200,
+   "origin": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
+   "verify_note": "deep scrape 200 originals (RapidAPI twitter241); promo_share 0.140 = max(LLM per-post read 0.000, regex 0.140); long sell-side-style notes on US tech/fintech: HOOD, COIN, PYPL, GOOGL, META, AI agent economics, capex/FCF"
+  },
+  "YaelC_03": {
+   "lang": "zh",
+   "category": "us_stocks",
+   "followers": 6685,
+   "promo_share": 0.037,
+   "posts": 215,
+   "origin": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
+   "verify_note": "deep scrape 215 originals (RapidAPI twitter241); promo_share 0.037 = max(LLM per-post read 0.037, regex 0.005); US-equity swing trades in AI/semis/memory with levels, earnings implied-move setups, stop discipline; some BTC trading and referral posts"
+  },
+  "darrencao2024": {
+   "lang": "zh",
+   "category": "us_stocks",
+   "followers": 27672,
+   "promo_share": 0.13,
+   "posts": 166,
+   "origin": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
+   "verify_note": "deep scrape 166 originals (RapidAPI twitter241); promo_share 0.130 = max(LLM per-post read 0.130, regex 0.000); Chinese US-stock investor: AI semis, forward PE/PEG valuation, add/trim levels, position sizing; member-channel CTAs counted as promo"
+  },
+  "erchenlu1": {
+   "lang": "zh",
+   "category": "investing",
+   "followers": 52191,
+   "promo_share": 0.019,
+   "posts": 215,
+   "origin": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
+   "verify_note": "deep scrape 215 originals (RapidAPI twitter241); promo_share 0.019 = max(LLM per-post read 0.019, regex 0.000); Chinese long-termist: ownership, compounding, index investing, Buy-Hold-Borrow, bubbles; ~60% off-topic life/essays (filter by topic)"
+  },
+  "tengyanAI": {
+   "lang": "en",
+   "category": "single_stock",
+   "followers": 51082,
+   "promo_share": 0.074,
+   "posts": 216,
+   "origin": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
+   "verify_note": "deep scrape 216 originals (RapidAPI twitter241); promo_share 0.074 = max(LLM per-post read 0.074, regex 0.014); AI hardware supply chain (memory/HBM, packaging, optics, power) with earnings pre/post-call single-name reads; soft promo of own research workspace"
   }
  },
  "accounts": {
@@ -631,12 +687,18 @@
      "BensonTWN",
      "TechFlowPost",
      "Foresight_News",
-     "Sea_Bitcoin"
+     "Sea_Bitcoin",
+     "Jackyi_ld"
     ],
     "SECONDARY": [
      "lianyanshe",
      "CryptoWesearch",
-     "saylor"
+     "saylor",
+     "Btc_kking",
+     "off_thetarget",
+     "shanshan521",
+     "akitabtc",
+     "LumaoDoggie"
     ]
    }
   },
@@ -655,12 +717,18 @@
      "BTC__options",
      "sss_crypto",
      "YourAirdropETH",
-     "HyperEVM_CN"
+     "HyperEVM_CN",
+     "Jackyi_ld"
     ],
     "SECONDARY": [
      "PANewsCN",
      "bubblemaps",
-     "Dune"
+     "Dune",
+     "youzi_chigua",
+     "ShawnThread",
+     "Miles082510",
+     "JeffLia12309881",
+     "alexlizeros"
     ]
    }
   },
@@ -679,13 +747,19 @@
      "Foresight_News",
      "Sea_Bitcoin",
      "chenmo",
-     "cryptobraveHQ"
+     "cryptobraveHQ",
+     "Jackyi_ld",
+     "block_dam"
     ],
     "SECONDARY": [
      "NintendoDoomed",
      "TokenMore",
      "DeFiTeddy2020",
-     "OdailyChina"
+     "OdailyChina",
+     "DRbitcoin36",
+     "yummyuyu_",
+     "akitabtc",
+     "0xphilo"
     ]
    }
   },
@@ -704,13 +778,19 @@
      "silverfang88",
      "james_x",
      "YourAirdropETH",
-     "GuHype"
+     "GuHype",
+     "Jackyi_ld",
+     "Guilin_Chen_",
+     "YaelC_03"
     ],
     "SECONDARY": [
      "yourQuantGuy",
      "EleveResearch",
      "bc1qDave",
-     "HyperliquidX"
+     "HyperliquidX",
+     "Btc_kking",
+     "yummyuyu_",
+     "JeffLia12309881"
     ]
    }
   },
@@ -729,12 +809,18 @@
      "silverfang88",
      "lanaaielsa",
      "softlipa1018",
-     "0xAllen"
+     "0xAllen",
+     "Guilin_Chen_",
+     "YaelC_03"
     ],
     "SECONDARY": [
      "lin_btc",
      "EinsteinYipie",
-     "0xmasiwei"
+     "0xmasiwei",
+     "DRbitcoin36",
+     "Btc_kking",
+     "yummyuyu_",
+     "0xcrypto_max"
     ]
    }
   },
@@ -761,7 +847,13 @@
      "GuHype",
      "HyperEVM_CN",
      "0xYond",
-     "ChaseWang"
+     "ChaseWang",
+     "DRbitcoin36",
+     "yummyuyu_",
+     "AntCaveClub",
+     "rich_adul",
+     "alexlizeros",
+     "0xphilo"
     ]
    }
   },
@@ -780,11 +872,17 @@
      "TechFlowPost",
      "Foresight_News",
      "BTC__options",
-     "sss_crypto"
+     "sss_crypto",
+     "Jackyi_ld"
     ],
     "SECONDARY": [
      "saylor",
-     "lianyanshe"
+     "lianyanshe",
+     "Btc_kking",
+     "shanshan521",
+     "mrzhaoeth",
+     "off_thetarget",
+     "ShawnThread"
     ]
    }
   },
@@ -803,18 +901,25 @@
      "LeotheHorseman",
      "mrblock",
      "roger9949",
-     "MMMusol"
+     "MMMusol",
+     "Guilin_Chen_",
+     "YaelC_03"
     ],
-    "SECONDARY": []
+    "SECONDARY": [
+     "off_thetarget",
+     "akitabtc",
+     "willwangtf",
+     "billqian_hk"
+    ]
    }
   },
   "zh_us_stocks": {
    "donors": [
     "silverfang88",
     "shirleyusy",
-    "KevinZbtc",
+    "YaelC_03",
     "woody168888",
-    "sjbtc9"
+    "darrencao2024"
    ],
    "x_sources": {
     "CORE": [
@@ -823,10 +928,16 @@
      "LeotheHorseman",
      "mrblock",
      "yuyue_chris",
-     "sjbtc9"
+     "sjbtc9",
+     "Guilin_Chen_",
+     "YaelC_03",
+     "web3annie"
     ],
     "SECONDARY": [
-     "rayrayweb5"
+     "rayrayweb5",
+     "off_thetarget",
+     "0xphilo",
+     "billqian_hk"
     ]
    }
   },
@@ -836,7 +947,7 @@
     "starzq",
     "woody168888",
     "shirleyusy",
-    "Sea_Bitcoin"
+    "erchenlu1"
    ],
    "x_sources": {
     "CORE": [
@@ -845,9 +956,16 @@
      "yuyue_chris",
      "starzq",
      "woody168888",
-     "sjbtc9"
+     "sjbtc9",
+     "Guilin_Chen_",
+     "YaelC_03"
     ],
-    "SECONDARY": []
+    "SECONDARY": [
+     "0xphilo",
+     "off_thetarget",
+     "billqian_hk",
+     "shanshan521"
+    ]
    }
   },
   "crypto_macro_en": {
@@ -865,11 +983,16 @@
      "SoSoValueCrypto",
      "Cointelegraph",
      "Delphi_Digital",
-     "DoveyWan"
+     "DoveyWan",
+     "Decentralisedco",
+     "sui414",
+     "zoomerfied"
     ],
     "SECONDARY": [
      "saylor",
-     "BinanceResearch"
+     "BinanceResearch",
+     "EleanorTerrett",
+     "followin_io"
     ]
    }
   },
@@ -888,13 +1011,19 @@
      "WatcherGuru",
      "Alvin0617",
      "DeFiMinty",
-     "BinanceResearch"
+     "BinanceResearch",
+     "sui414",
+     "zoomerfied"
     ],
     "SECONDARY": [
      "bubblemaps",
      "Dune",
      "DefiLlama",
-     "therationalroot"
+     "therationalroot",
+     "SolanaFloor",
+     "izebel_eth",
+     "HyperliquidR",
+     "MoneyPrinter0x"
     ]
    }
   },
@@ -911,13 +1040,19 @@
      "SoSoValueCrypto",
      "DoveyWan",
      "WhiteWhaleLabs",
-     "CryptoPainter"
+     "CryptoPainter",
+     "labubu_trader"
     ],
     "SECONDARY": [
      "HyperliquidX",
      "blknoiz06",
      "notthreadguy",
-     "koolkrypto223"
+     "koolkrypto223",
+     "ThinkingUSD",
+     "joemccann",
+     "izebel_eth",
+     "HyperliquidR",
+     "followin_io"
     ]
    }
   },
@@ -936,14 +1071,19 @@
      "Cointelegraph",
      "mert",
      "Delphi_Digital",
-     "AndreCronjeTech"
+     "AndreCronjeTech",
+     "Decentralisedco"
     ],
     "SECONDARY": [
      "DefiLlama",
      "HyperliquidX",
      "Blockworks",
      "blknoiz06",
-     "bubblemaps"
+     "bubblemaps",
+     "SolanaFloor",
+     "EleanorTerrett",
+     "0xSammy",
+     "Eli5defi"
     ]
    }
   },
@@ -966,7 +1106,13 @@
     ],
     "SECONDARY": [
      "saylor",
-     "therationalroot"
+     "therationalroot",
+     "EleanorTerrett",
+     "novogratz",
+     "followin_io",
+     "ThinkingUSD",
+     "BlockFlow_News",
+     "joemccann"
     ]
    }
   },
@@ -985,11 +1131,16 @@
      "Cointelegraph",
      "Delphi_Digital",
      "mert",
-     "DoveyWan"
+     "DoveyWan",
+     "Decentralisedco",
+     "sui414",
+     "zoomerfied"
     ],
     "SECONDARY": [
      "a16zcrypto",
-     "notthreadguy"
+     "notthreadguy",
+     "EleanorTerrett",
+     "SolanaFloor"
     ]
    }
   },
@@ -1008,13 +1159,18 @@
      "Cointelegraph",
      "Delphi_Digital",
      "mert",
-     "stacy_muur"
+     "stacy_muur",
+     "Decentralisedco",
+     "sui414",
+     "zoomerfied"
     ],
     "SECONDARY": [
      "OKX_Ventures",
      "Dune",
      "Blockworks",
-     "a16zcrypto"
+     "a16zcrypto",
+     "EleanorTerrett",
+     "SolanaFloor"
     ]
    }
   },
@@ -1033,19 +1189,25 @@
      "Shaughnessy119",
      "DoveyWan",
      "blknoiz06",
-     "sjdedic"
+     "sjdedic",
+     "Decentralisedco"
     ],
     "SECONDARY": [
      "ThierryBorgeat",
-     "WillieDelwiche"
+     "WillieDelwiche",
+     "patfscott",
+     "izebel_eth",
+     "OuroborosCap8",
+     "dunleavy89",
+     "RvCrypto"
     ]
    }
   },
   "single_stock_deepdive_en": {
    "donors": [
     "zephyr_z9",
-    "mrjasonchoi",
-    "Rewkang",
+    "ParadisLabs",
+    "FredaDuan",
     "DeFiMinty",
     "Shaughnessy119"
    ],
@@ -1056,10 +1218,15 @@
      "Rewkang",
      "stocktalkweekly",
      "DeFiMinty",
-     "Shaughnessy119"
+     "Shaughnessy119",
+     "tengyanAI",
+     "labubu_trader",
+     "ParadisLabs",
+     "PhotonCap"
     ],
     "SECONDARY": [
-     "zephyr_z9"
+     "zephyr_z9",
+     "followin_io"
     ]
    }
   },
@@ -1078,14 +1245,83 @@
      "WatcherGuru",
      "Alvin0617",
      "DeFiMinty",
-     "stocktalkweekly"
+     "stocktalkweekly",
+     "sui414",
+     "zoomerfied",
+     "DamiDefi"
     ],
     "SECONDARY": [
      "McClellanOsc",
      "WalterDeemer",
-     "TimmerFidelity"
+     "TimmerFidelity",
+     "SolanaFloor",
+     "CryptoDiffer",
+     "BlockFlow_News"
     ]
    }
   }
- }
+ },
+ "replaced": [
+  {
+   "account": "single_stock_deepdive_en",
+   "old": "mrjasonchoi",
+   "new": "ParadisLabs",
+   "kind": "merged",
+   "reason": "crypto/AI-VC thesis voice, weak single-stock fit",
+   "old_posts": 166,
+   "new_posts": 204,
+   "new_promo_share": 0.029
+  },
+  {
+   "account": "single_stock_deepdive_en",
+   "old": "Rewkang",
+   "new": "FredaDuan",
+   "kind": "merged",
+   "reason": "crypto thesis voice, weak single-stock fit",
+   "old_posts": 184,
+   "new_posts": 200,
+   "new_promo_share": 0.14
+  },
+  {
+   "account": "zh_us_stocks",
+   "old": "KevinZbtc",
+   "new": "YaelC_03",
+   "kind": "merged",
+   "reason": "crypto trader, weak US-stock fit (also at 3-account cap)",
+   "old_posts": 207,
+   "new_posts": 215,
+   "new_promo_share": 0.037
+  },
+  {
+   "account": "zh_us_stocks",
+   "old": "sjbtc9",
+   "new": "darrencao2024",
+   "kind": "merged",
+   "reason": "crypto research voice, weak US-stock fit",
+   "old_posts": 193,
+   "new_posts": 166,
+   "new_promo_share": 0.13
+  },
+  {
+   "account": "zh_longterm_investing",
+   "old": "Sea_Bitcoin",
+   "new": "erchenlu1",
+   "kind": "merged",
+   "reason": "crypto macro voice, weak long-term investing fit (also at 3-account cap)",
+   "old_posts": 159,
+   "new_posts": 215,
+   "new_promo_share": 0.019
+  },
+  {
+   "account": "single_stock_deepdive_en",
+   "old": "MarkNewtonCMT",
+   "new": "tengyanAI",
+   "kind": "base (roster acct_single_stock_deepdive_en edited, weight kept)",
+   "reason": "technicals voice with weak single-stock fit; MarkNewtonCMT sat in 4 acct_ clusters (cap 3)",
+   "old_posts": 187,
+   "new_posts": 216,
+   "new_promo_share": 0.074
+  }
+ ],
+ "seeds2_note": "2026-10-07 seeds2 pass: weak donors (<150 originals or weak beat fit) replaced only when a seeds2 candidate was clearly better; willywoo/cburniske/Truecrypto/RyanWatkins_/LowBeta/MarkNewtonCMT topped up to >=150 via Apify instead of replaced; EleanorTerrett/novogratz kept as SECONDARY sources only; sources skipped: {\"0xc06\": \"LLM read promo 0.40\", \"0xjeff\": \"LLM read promo 0.29\", \"qingyue820\": \"sponsored invite codes + explicit off-topic content\"}"
 }

@@ -330,6 +330,8 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
         flash_budget_usd=FLASH_BUDGET_USD, flash_batch_size=FLASH_BATCH_SIZE, flash_max=FLASH_MAX,
         flash_window_hours=FLASH_WINDOW_HOURS, flash_dedupe_hours=FLASH_DEDUPE_HOURS, flashes=True, news_leads=True,
         flash_fetch=None, flash_extract_batch=None, flash_llm=None, news_collect=None,
+        x=True, x_budget_usd=None, x_window_hours=None, x_max=None, x_per_source_max=None, x_batch_size=None,
+        x_rapid=None, x_apify=None, x_subs=None, x_extract_batch=None, x_llm=None,
         fetchers=None, extract=None, jev=None, backup=None, refresh=None, state_path=None):
     from ml import budget
     from live import content_store, jev_front, registry
@@ -445,7 +447,31 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
                                                   original_outlet=x.get('original_outlet'),echo=len(x.get('also_reported_by') or []),
                                                   lead_hook=x.get('lead_hook',False),text=x['original_text'][:60])
                                              for x in flash_plan['selected'][:15]])
+        # Oct 7 (fd20): account-scoped X sources, last 24h originals (RapidAPI, Apify fallback; no LLM here).
+        from live import x_daily
+        x_budget=x_daily.X_BUDGET_USD if x_budget_usd is None else float(x_budget_usd)
+        x_plan=None
+        if x and (not only or 'x' in only) and (fetchers is None or x_rapid is not None or x_apify is not None):
+            def gather_x():
+                nonlocal x_plan
+                known=known_urls(store,state) if (store/'units.jsonl').exists() else None
+                x_plan=x_daily.gather(state,now=started,known=known,subs=x_subs,rapid=x_rapid,apify=x_apify,
+                                      window_hours=x_window_hours or x_daily.X_WINDOW_HOURS,
+                                      per_source_max=x_per_source_max or x_daily.X_PER_SOURCE_MAX,
+                                      x_max=x_daily.X_MAX if x_max is None else x_max)
+                summary['x']=dict(budget_usd=x_budget,sources=len(x_plan['sources']),
+                                  fetched_sources=sum(1 for r in x_plan['sources'] if r['provider']),
+                                  by_provider=dict(Counter(r['provider'] for r in x_plan['sources'] if r['provider'])),
+                                  skipped_tier_c=sum(1 for r in x_plan['sources'] if str(r['status']).startswith('skipped_tier')),
+                                  failed=[dict(handle=r['handle'],error=r['error']) for r in x_plan['sources'] if r['status']=='failed'],
+                                  posts_fetched=sum(r['fetched'] for r in x_plan['sources']),
+                                  selected=len(x_plan['selected']),overflow=len(x_plan['overflow']),filtered=x_plan['filtered'],
+                                  rapid_requests=x_plan['requests'],apify=x_plan['apify'],
+                                  per_handle=[{k:r[k] for k in ('handle','provider','status','fetched','kept','new')} for r in x_plan['sources']
+                                              if r['provider'] or r['status']=='failed'])
+            step('x_gather',gather_x)
         summary['ordering']['budget_split']=dict(cap_usd=cost_cap_usd,flash_ring_fence_usd=float(flash_budget_usd) if flash_plan else 0.0,
+                                                 x_ring_fence_usd=x_budget if x_plan else 0.0,
                                                  order=['flashes (ring-fenced)','pre_extracted','timely (prior-deferred first)',
                                                         'fair_share_floor','rest','transcripts_last'],
                                                  note='unused flash budget rolls over to documents')
@@ -490,6 +516,15 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
             step('flashes',run_flashes)
         elif flash_plan is not None:
             state.setdefault('flashes',{})['pending']=[x for x in flash_plan['overflow']][:400]
+        if x_plan and x_plan['selected'] and x_budget>0:
+            def run_x():
+                xclient=x_llm or flash_client(budget.STORE.parent/'x_calls')
+                stats,pending=x_daily.extract(db,x_plan['selected'],client=xclient,budget=budget,cost_cap_usd=cost_cap_usd,
+                                              x_budget_usd=x_budget,batch_size=x_batch_size or x_daily.X_BATCH_SIZE,
+                                              state=state,now=started,extract_batch=x_extract_batch,subs=x_subs)
+                summary['x'].update(stats)
+                summary['x']['deferred']=len(pending)+len(x_plan['overflow'])
+            step('x_extract',run_x)
         capped=False; extracted=0
         for ch,s,units,adapter,keys,rank in tasks:   # v8: ingest_priority order (fair-share floor)
             t=time.monotonic()
@@ -540,6 +575,13 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
         from scripts.dedup_store import dedup_store
         from scripts.backfill_freshness import backfill
         step('dedup',lambda:dedup_store(store))
+        def crypto_subbeats():
+            from live import beat_rules
+            db2=content_store.ContentStore(store)
+            tags=beat_rules.crypto_subbeat_tags(db2.units())
+            db2.set_persona_tags(tags,.7)
+            summary['crypto_subbeats']=dict(units_tagged=len(tags))
+        step('crypto_subbeats',crypto_subbeats)
         step('freshness',lambda:backfill(store,write=True))
         rows=content_store.ContentStore(store).units()
         summary['new_units_by_persona']=dict(Counter(p for r in rows if r['unit_id'] not in before for p in (r.get('tag_personas') or r['personas'])))

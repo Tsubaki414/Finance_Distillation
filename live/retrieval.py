@@ -41,7 +41,7 @@ def units_for_persona(store, persona, *, limit=None, as_of=None, max_age_days=No
         raise ValueError('max_age_days must be nonnegative')
     if mode not in ('tags', 'legacy'):
         raise ValueError('mode must be tags or legacy')
-    words = set(KEYWORDS.get(persona, ())) | set(THEMES[persona][2])
+    words = set(KEYWORDS.get(persona, ())) | set(THEMES[persona][2] if persona in THEMES else ())
     words.update(KEYWORDS.get(_ZH_EQUIVALENTS.get(persona), ()))
     cutoff = _date(as_of) if as_of is not None else datetime.now(timezone.utc)
     earliest = cutoff - timedelta(days=max_age_days) if max_age_days is not None else None

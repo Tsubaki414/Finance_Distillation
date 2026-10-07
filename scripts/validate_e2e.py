@@ -13,7 +13,7 @@ if __package__ in (None, ''):
 
 from live import content_units
 from live.content_store import ContentStore, ROOT
-from live.jev_front import PERSONAS
+from live.jev_front import JEV_BEATS as PERSONAS   # the 10 Jev beats (crypto sub-beats are keyword-tagged)
 from live.reportgem_daily import RATING
 from live.retrieval import judge_relevance, units_for_persona, counts as retrieval_counts
 

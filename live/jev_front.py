@@ -23,6 +23,19 @@ PERSONAS = {
     'single_stock_deepdive_en': 'English single-company earnings and filings first takes',
     'crypto_macro_en': 'English crypto with a macro angle: bitcoin, stablecoins, regulation, on-chain data',
 }
+# Jev routes and tags units over these ten beats only (question count per unit is the Jev cost driver).
+JEV_BEATS = dict(PERSONAS)
+# Oct 7 (fd20): crypto sub-beats so the 14 crypto accounts read their own lanes instead of all sharing
+# crypto_macro_*. Language-neutral (topic only). Tagged deterministically (live/beat_rules.py: keywords, plus
+# the subscribing accounts' beat for account-scoped X posts); never sent to Jev.
+SUB_BEATS = {
+    'crypto_meme': 'Memecoins and launchpads: pump.fun, meme rotations, degen flows, new token launches',
+    'crypto_perp': 'Crypto derivatives: perps, funding, open interest, liquidations, leverage, perp DEXs',
+    'crypto_defi': 'DeFi: lending, DEXs, yields, TVL, restaking, stablecoin protocols, tokenomics',
+    'crypto_airdrop': 'Airdrops and points programs: TGEs, farming, snapshots, claims, testnets',
+    'crypto_onchain': 'On-chain data: whale and wallet flows, exchange flows, holder cohorts, MVRV/SOPR, ETF flows',
+}
+PERSONAS.update(SUB_BEATS)
 # Jev beat IDs -> account IDs (live/accounts.json). Routing/prescreen speak Jev IDs; everything
 # downstream (compose, view ledger, queues) speaks account IDs.
 ACCOUNT_FOR_PERSONA = {
@@ -44,8 +57,13 @@ def _fd20_beats():
         rows = json.loads((Path(__file__).with_name('fd20_accounts.json')).read_text())['accounts']
     except (OSError, ValueError, KeyError):
         return {}
-    return {r['id']: r['retrieval_beats'][0] for r in rows
-            if r.get('retrieval_beats') and r['id'] not in PERSONA_FOR_ACCOUNT and r['retrieval_beats'][0] in PERSONAS}
+    # an account whose first beat is a crypto sub-beat maps to its first Jev beat (sub-beats are not Jev beats)
+    out = {}
+    for r in rows:
+        jev = [b for b in r.get('retrieval_beats') or [] if b in JEV_BEATS]
+        if jev and r['id'] not in PERSONA_FOR_ACCOUNT:
+            out[r['id']] = jev[0]
+    return out
 
 
 PERSONA_FOR_ACCOUNT.update(_fd20_beats())
@@ -72,7 +90,7 @@ KEYWORDS = {
     'market_data_charts': ('breadth', 'sentiment', 'chart', 'record', 'since'),
     'investing_philosophy': ('investor', 'patience', 'risk', 'compounding', 'letter'),
 }
-ROUTE_CRITERIA = {**{p: f'Best fit: {d}.' for p, d in PERSONAS.items()},
+ROUTE_CRITERIA = {**{p: f'Best fit: {d}.' for p, d in JEV_BEATS.items()},
                   'none': 'Fits no persona beat, or is housekeeping / promotion / off-topic.'}
 UNIT_CRITERIA = {'keep': 'Concrete, self-contained, on this beat, worth using as a fact or view in a post.',
                  'weak': 'On the beat but vague, generic, or needs other context to be useful.',

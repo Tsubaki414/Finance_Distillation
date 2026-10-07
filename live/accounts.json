@@ -422,31 +422,31 @@
             "handle": "LeotheHorseman",
             "weight": 0.1,
             "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "roger9949",
             "weight": 0.1,
             "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "MMMusol",
             "weight": 0.1,
             "why": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "silverfang88",
             "weight": 0.1,
             "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "starzq",
             "weight": 0.1,
             "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           }
         ],
         "notes": [
@@ -454,7 +454,7 @@
         ],
         "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者",
         "merge": {
-          "version": "mango-merge-2026-10-07",
+          "version": "mango-merge-2026-10-07+seeds2",
           "base_share": 0.5,
           "added": [
             "LeotheHorseman",
@@ -663,31 +663,31 @@
             "handle": "BensonTWN",
             "weight": 0.1,
             "why": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "thankUcrypto",
             "weight": 0.1,
             "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "timotimo007",
             "weight": 0.1,
             "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "Sea_Bitcoin",
             "weight": 0.1,
             "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "dapangdun",
             "weight": 0.1,
             "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           }
         ],
         "notes": [
@@ -695,7 +695,7 @@
         ],
         "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者",
         "merge": {
-          "version": "mango-merge-2026-10-07",
+          "version": "mango-merge-2026-10-07+seeds2",
           "base_share": 0.5,
           "added": [
             "BensonTWN",
@@ -826,31 +826,31 @@
             "handle": "McClellanOsc",
             "weight": 0.1,
             "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "WalterDeemer",
             "weight": 0.1,
             "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "the_chart_life",
             "weight": 0.1,
             "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "DKellerCMT",
             "weight": 0.1,
             "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "TimmerFidelity",
             "weight": 0.1,
             "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           }
         ],
         "notes": [
@@ -858,7 +858,7 @@
         ],
         "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者",
         "merge": {
-          "version": "mango-merge-2026-10-07",
+          "version": "mango-merge-2026-10-07+seeds2",
           "base_share": 0.5,
           "added": [
             "McClellanOsc",
@@ -928,31 +928,31 @@
             "handle": "ThierryBorgeat",
             "weight": 0.1,
             "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "Shaughnessy119",
             "weight": 0.1,
             "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "DoveyWan",
             "weight": 0.1,
             "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "lazyvillager1",
             "weight": 0.1,
             "why": "gap fill 2026-10-07: 1-hop following of existing en donors DaanCrypto/Pentosh1/SalsaTekila/gammichan",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "WillieDelwiche",
             "weight": 0.1,
             "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           }
         ],
         "notes": [
@@ -960,7 +960,7 @@
         ],
         "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者",
         "merge": {
-          "version": "mango-merge-2026-10-07",
+          "version": "mango-merge-2026-10-07+seeds2",
           "base_share": 0.5,
           "added": [
             "ThierryBorgeat",
@@ -1022,50 +1022,50 @@
             "why": "beat 72% of 127 originals, crypto 18%, voice distinct 0.45"
           },
           {
-            "handle": "MarkNewtonCMT",
+            "handle": "tengyanAI",
             "weight": 0.077,
-            "why": "beat 68% of 111 originals, crypto 9%, voice distinct 0.54"
+            "why": "seeds2 2026-10-07 base swap for MarkNewtonCMT (technicals voice; was in 4 acct_ clusters > cap 3): AI-semis single-name earnings and supply-chain deep dives"
           },
           {
             "handle": "zephyr_z9",
             "weight": 0.1,
             "why": "gap fill 2026-10-07: 1-hop following of existing en donors DaanCrypto/Pentosh1/SalsaTekila/gammichan",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
-            "handle": "mrjasonchoi",
+            "handle": "ParadisLabs",
             "weight": 0.1,
-            "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07"
+            "why": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
-            "handle": "Rewkang",
+            "handle": "FredaDuan",
             "weight": 0.1,
-            "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07"
+            "why": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "DeFiMinty",
             "weight": 0.1,
             "why": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "Shaughnessy119",
             "weight": 0.1,
             "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           }
         ],
         "notes": [],
         "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者",
         "merge": {
-          "version": "mango-merge-2026-10-07",
+          "version": "mango-merge-2026-10-07+seeds2",
           "base_share": 0.5,
           "added": [
             "zephyr_z9",
-            "mrjasonchoi",
-            "Rewkang",
+            "ParadisLabs",
+            "FredaDuan",
             "DeFiMinty",
             "Shaughnessy119"
           ]
@@ -1130,37 +1130,37 @@
             "handle": "sjdedic",
             "weight": 0.1,
             "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "amandacassatt",
             "weight": 0.1,
             "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "DoveyWan",
             "weight": 0.1,
             "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "econoar",
             "weight": 0.1,
             "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "lazyvillager1",
             "weight": 0.1,
             "why": "gap fill 2026-10-07: 1-hop following of existing en donors DaanCrypto/Pentosh1/SalsaTekila/gammichan",
-            "merged": "mango-merge-2026-10-07"
+            "merged": "mango-merge-2026-10-07+seeds2"
           }
         ],
         "notes": [],
         "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者",
         "merge": {
-          "version": "mango-merge-2026-10-07",
+          "version": "mango-merge-2026-10-07+seeds2",
           "base_share": 0.5,
           "added": [
             "sjdedic",

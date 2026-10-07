@@ -4440,6 +4440,905 @@
       "fd20_accounts": [
         "market_data_charts"
       ]
+    },
+    {
+      "id": "x_Jackyi_ld",
+      "name": "Jackyi_ld",
+      "type": "x",
+      "handle": "Jackyi_ld",
+      "lang": "zh",
+      "beat": "Fund founder writing BTC pullback views, VC market critique, US stock research.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_btc_cycle_zh",
+        "crypto_macro_zh",
+        "crypto_onchain_zh",
+        "crypto_research_zh",
+        "crypto_trader_zh"
+      ]
+    },
+    {
+      "id": "x_Btc_kking",
+      "name": "Btc_kking",
+      "type": "x",
+      "handle": "Btc_kking",
+      "lang": "zh",
+      "beat": "Veteran trader's short BTC and altcoin market musings and trading mindset.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_btc_cycle_zh",
+        "crypto_diary_zh",
+        "crypto_macro_zh",
+        "crypto_trader_zh"
+      ]
+    },
+    {
+      "id": "x_off_thetarget",
+      "name": "off_thetarget",
+      "type": "x",
+      "handle": "off_thetarget",
+      "lang": "zh",
+      "beat": "Chinese trader on US stocks, rates, HK liquidity, with crude jokes.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_btc_cycle_zh",
+        "crypto_macro_zh",
+        "zh_industry",
+        "zh_longterm_investing",
+        "zh_us_stocks"
+      ]
+    },
+    {
+      "id": "x_shanshan521",
+      "name": "shanshan521",
+      "type": "x",
+      "handle": "shanshan521",
+      "lang": "zh",
+      "beat": "VC founder writing long opinions on BTC, exchanges, VC, and AI.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_btc_cycle_zh",
+        "crypto_macro_zh",
+        "zh_longterm_investing"
+      ]
+    },
+    {
+      "id": "x_akitabtc",
+      "name": "akitabtc",
+      "type": "x",
+      "handle": "akitabtc",
+      "lang": "zh",
+      "beat": "Bitcoin MEV searcher on Polymarket, AI tools, UAE licensing.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_macro_zh",
+        "crypto_research_zh",
+        "zh_industry"
+      ]
+    },
+    {
+      "id": "x_LumaoDoggie",
+      "name": "LumaoDoggie",
+      "type": "x",
+      "handle": "LumaoDoggie",
+      "lang": "zh",
+      "beat": "Ex-engineer long takes on VC unlocks, fiat off-ramps, A-share valuation.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_macro_zh"
+      ]
+    },
+    {
+      "id": "x_youzi_chigua",
+      "name": "youzi_chigua",
+      "type": "x",
+      "handle": "youzi_chigua",
+      "lang": "zh",
+      "beat": "Daily Chinese crypto news roundup covering hacks, listings, exchange events.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_onchain_zh"
+      ]
+    },
+    {
+      "id": "x_ShawnThread",
+      "name": "ShawnThread",
+      "type": "x",
+      "handle": "ShawnThread",
+      "lang": "zh",
+      "beat": "Alpha hunter tracing scam bridge addresses and new chain incidents.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_btc_cycle_zh",
+        "crypto_onchain_zh"
+      ]
+    },
+    {
+      "id": "x_Miles082510",
+      "name": "Miles082510",
+      "type": "x",
+      "handle": "Miles082510",
+      "lang": "zh",
+      "beat": "Posts daily CEX withdrawal and deposit flow reports as images.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_onchain_zh"
+      ]
+    },
+    {
+      "id": "x_JeffLia12309881",
+      "name": "JeffLia12309881",
+      "type": "x",
+      "handle": "JeffLia12309881",
+      "lang": "zh",
+      "beat": "BTC/ETH options selling strategies with backtests combined with moving averages.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_onchain_zh",
+        "crypto_trader_zh"
+      ]
+    },
+    {
+      "id": "x_alexlizeros",
+      "name": "alexlizeros",
+      "type": "x",
+      "handle": "alexlizeros",
+      "lang": "zh",
+      "beat": "POW coin mining tools and hashrate and yield updates.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_altcoin_zh",
+        "crypto_onchain_zh"
+      ]
+    },
+    {
+      "id": "x_block_dam",
+      "name": "block_dam",
+      "type": "x",
+      "handle": "block_dam",
+      "lang": "zh",
+      "beat": "Researcher analyzing RWA market making, Sui DeFi, Hyperliquid frontends.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_research_zh"
+      ]
+    },
+    {
+      "id": "x_DRbitcoin36",
+      "name": "DRbitcoin36",
+      "type": "x",
+      "handle": "DRbitcoin36",
+      "lang": "zh",
+      "beat": "Young creator's crypto diary with event hopping, exchange token and project notes.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_altcoin_zh",
+        "crypto_diary_zh",
+        "crypto_research_zh"
+      ]
+    },
+    {
+      "id": "x_yummyuyu_",
+      "name": "yummyuyu_",
+      "type": "x",
+      "handle": "yummyuyu_",
+      "lang": "zh",
+      "beat": "Trader on BSC and Solana tokens, prediction markets, Polymarket token speculation.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_altcoin_zh",
+        "crypto_diary_zh",
+        "crypto_research_zh",
+        "crypto_trader_zh"
+      ]
+    },
+    {
+      "id": "x_0xphilo",
+      "name": "0xphilo",
+      "type": "x",
+      "handle": "0xphilo",
+      "lang": "zh",
+      "beat": "Young trader journaling portfolio, Circle thesis, crypto token PE comparisons.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_altcoin_zh",
+        "crypto_research_zh",
+        "zh_longterm_investing",
+        "zh_us_stocks"
+      ]
+    },
+    {
+      "id": "x_Guilin_Chen_",
+      "name": "Guilin_Chen_",
+      "type": "x",
+      "handle": "Guilin_Chen_",
+      "lang": "zh",
+      "beat": "Wave-based analysis of BTC range, US tech stocks, oil and rates.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_diary_zh",
+        "crypto_trader_zh",
+        "zh_industry",
+        "zh_longterm_investing",
+        "zh_us_stocks"
+      ]
+    },
+    {
+      "id": "x_YaelC_03",
+      "name": "YaelC_03",
+      "type": "x",
+      "handle": "YaelC_03",
+      "lang": "zh",
+      "beat": "Trader with data-backed strategy backtests, US stock swing trades, review.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_diary_zh",
+        "crypto_trader_zh",
+        "zh_industry",
+        "zh_longterm_investing",
+        "zh_us_stocks"
+      ]
+    },
+    {
+      "id": "x_0xcrypto_max",
+      "name": "0xcrypto_max",
+      "type": "x",
+      "handle": "0xcrypto_max",
+      "lang": "zh",
+      "beat": "Trader's bull-market positioning thoughts on CRCL, RWA, new coins.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_diary_zh"
+      ]
+    },
+    {
+      "id": "x_AntCaveClub",
+      "name": "AntCaveClub",
+      "type": "x",
+      "handle": "AntCaveClub",
+      "lang": "zh",
+      "beat": "Chinese news digests, airdrop and memecoin leads, plus project promos.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_altcoin_zh"
+      ]
+    },
+    {
+      "id": "x_rich_adul",
+      "name": "rich_adul",
+      "type": "x",
+      "handle": "rich_adul",
+      "lang": "zh",
+      "beat": "Solana on-chain trader sharing trade results and conference takeaways.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_altcoin_zh"
+      ]
+    },
+    {
+      "id": "x_mrzhaoeth",
+      "name": "mrzhaoeth",
+      "type": "x",
+      "handle": "mrzhaoeth",
+      "lang": "zh",
+      "beat": "Cycle-based market views on BTC, SOXX trend stages, avoiding memes.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_btc_cycle_zh"
+      ]
+    },
+    {
+      "id": "x_willwangtf",
+      "name": "willwangtf",
+      "type": "x",
+      "handle": "willwangtf",
+      "lang": "zh",
+      "beat": "Fund manager's analysis of AI personal agent industry; mostly reposts.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "zh_industry"
+      ]
+    },
+    {
+      "id": "x_billqian_hk",
+      "name": "billqian_hk",
+      "type": "x",
+      "handle": "billqian_hk",
+      "lang": "zh",
+      "beat": "Investor discussing ETH/SOL valuation, AI, gold, and asset allocation.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "zh_industry",
+        "zh_longterm_investing",
+        "zh_us_stocks"
+      ]
+    },
+    {
+      "id": "x_web3annie",
+      "name": "web3annie",
+      "type": "x",
+      "handle": "web3annie",
+      "lang": "zh",
+      "beat": "Daily Chinese US stock and AI market digests with levels, plus project explainers.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "zh_us_stocks"
+      ]
+    },
+    {
+      "id": "x_Decentralisedco",
+      "name": "Decentralisedco",
+      "type": "x",
+      "handle": "Decentralisedco",
+      "lang": "en",
+      "beat": "Research and investing firm on institutional flows, tokenization, venture trends.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_macro_en",
+        "crypto_research_en",
+        "crypto_thesis_en",
+        "defi_narratives_en",
+        "investing_philosophy"
+      ]
+    },
+    {
+      "id": "x_sui414",
+      "name": "sui414",
+      "type": "x",
+      "handle": "sui414",
+      "lang": "en",
+      "beat": "Pantera research director sharing tokenization reports and prediction market volume data.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_macro_en",
+        "crypto_onchain_en",
+        "crypto_research_en",
+        "crypto_thesis_en",
+        "market_data_charts"
+      ]
+    },
+    {
+      "id": "x_zoomerfied",
+      "name": "zoomerfied",
+      "type": "x",
+      "handle": "zoomerfied",
+      "lang": "en",
+      "beat": "Headline-style crypto and market news flashes from filings and reports.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_macro_en",
+        "crypto_onchain_en",
+        "crypto_research_en",
+        "crypto_thesis_en",
+        "market_data_charts"
+      ]
+    },
+    {
+      "id": "x_EleanorTerrett",
+      "name": "EleanorTerrett",
+      "type": "x",
+      "handle": "EleanorTerrett",
+      "lang": "en",
+      "beat": "Crypto policy journalist covering SEC, CFTC proposals and conference reporting.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "btc_cycles_en",
+        "crypto_macro_en",
+        "crypto_research_en",
+        "crypto_thesis_en",
+        "defi_narratives_en"
+      ]
+    },
+    {
+      "id": "x_followin_io",
+      "name": "followin_io",
+      "type": "x",
+      "handle": "followin_io",
+      "lang": "en",
+      "beat": "Market news analysis on Fed rates, AI stocks, BNB and crypto policy.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "btc_cycles_en",
+        "crypto_macro_en",
+        "crypto_trader_en",
+        "single_stock_deepdive_en"
+      ]
+    },
+    {
+      "id": "x_SolanaFloor",
+      "name": "SolanaFloor",
+      "type": "x",
+      "handle": "SolanaFloor",
+      "lang": "en",
+      "beat": "Solana news outlet with breaking ecosystem headlines and liquidation alerts.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_onchain_en",
+        "crypto_research_en",
+        "crypto_thesis_en",
+        "defi_narratives_en",
+        "market_data_charts"
+      ]
+    },
+    {
+      "id": "x_izebel_eth",
+      "name": "izebel_eth",
+      "type": "x",
+      "handle": "izebel_eth",
+      "lang": "en",
+      "beat": "Crypto Twitter culture and perps takes, mostly short remarks.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_onchain_en",
+        "crypto_trader_en",
+        "investing_philosophy"
+      ]
+    },
+    {
+      "id": "x_HyperliquidR",
+      "name": "HyperliquidR",
+      "type": "x",
+      "handle": "HyperliquidR",
+      "lang": "en",
+      "beat": "Research collective on Hyperliquid financials, regulation, and dashboards.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_onchain_en",
+        "crypto_trader_en"
+      ]
+    },
+    {
+      "id": "x_MoneyPrinter0x",
+      "name": "MoneyPrinter0x",
+      "type": "x",
+      "handle": "MoneyPrinter0x",
+      "lang": "en",
+      "beat": "Equity perps builder with options hedging and leverage discipline remarks.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_onchain_en"
+      ]
+    },
+    {
+      "id": "x_labubu_trader",
+      "name": "labubu_trader",
+      "type": "x",
+      "handle": "labubu_trader",
+      "lang": "en",
+      "beat": "Options and US equities trader on AI, hedge fund flows and positioning.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "crypto_trader_en",
+        "single_stock_deepdive_en"
+      ]
+    },
+    {
+      "id": "x_ThinkingUSD",
+      "name": "ThinkingUSD",
+      "type": "x",
+      "handle": "ThinkingUSD",
+      "lang": "en",
+      "beat": "Trader's short market takes, rates comments and finance mindset musings.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "btc_cycles_en",
+        "crypto_trader_en"
+      ]
+    },
+    {
+      "id": "x_joemccann",
+      "name": "joemccann",
+      "type": "x",
+      "handle": "joemccann",
+      "lang": "en",
+      "beat": "Trader quick takes on macro, tech stocks and AI, mostly one-liners.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "btc_cycles_en",
+        "crypto_trader_en"
+      ]
+    },
+    {
+      "id": "x_0xSammy",
+      "name": "0xSammy",
+      "type": "x",
+      "handle": "0xSammy",
+      "lang": "en",
+      "beat": "Uniswap v4 hooks newsletter and token launch platform commentary.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "defi_narratives_en"
+      ]
+    },
+    {
+      "id": "x_Eli5defi",
+      "name": "Eli5defi",
+      "type": "x",
+      "handle": "Eli5defi",
+      "lang": "en",
+      "beat": "Explains new protocols, Polymarket V2 and RWA projects, partly promotional.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "defi_narratives_en"
+      ]
+    },
+    {
+      "id": "x_novogratz",
+      "name": "novogratz",
+      "type": "x",
+      "handle": "novogratz",
+      "lang": "en",
+      "beat": "Galaxy CEO on Clarity Act, crypto regulation, tokenization, AI data centers.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "btc_cycles_en"
+      ]
+    },
+    {
+      "id": "x_BlockFlow_News",
+      "name": "BlockFlow_News",
+      "type": "x",
+      "handle": "BlockFlow_News",
+      "lang": "en",
+      "beat": "Data-driven notes on yields, ETF flows, BTC implied vol, perps.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "btc_cycles_en",
+        "market_data_charts"
+      ]
+    },
+    {
+      "id": "x_patfscott",
+      "name": "patfscott",
+      "type": "x",
+      "handle": "patfscott",
+      "lang": "en",
+      "beat": "DefiLlama exec posting nuclear stock data tools and DeFi product thoughts.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "investing_philosophy"
+      ]
+    },
+    {
+      "id": "x_OuroborosCap8",
+      "name": "OuroborosCap8",
+      "type": "x",
+      "handle": "OuroborosCap8",
+      "lang": "en",
+      "beat": "Ex-bank trader; TLT, refiners views, DeFi yield fund building.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "investing_philosophy"
+      ]
+    },
+    {
+      "id": "x_dunleavy89",
+      "name": "dunleavy89",
+      "type": "x",
+      "handle": "dunleavy89",
+      "lang": "en",
+      "beat": "Alts investor sharing market stats, seasonality charts, and quips.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "investing_philosophy"
+      ]
+    },
+    {
+      "id": "x_RvCrypto",
+      "name": "RvCrypto",
+      "type": "x",
+      "handle": "RvCrypto",
+      "lang": "en",
+      "beat": "Bittensor TAO ecosystem bull commentary, subnet revenue and risk-market opinions.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "investing_philosophy"
+      ]
+    },
+    {
+      "id": "x_tengyanAI",
+      "name": "tengyanAI",
+      "type": "x",
+      "handle": "tengyanAI",
+      "lang": "en",
+      "beat": "AI hardware supply chain investment research on memory, GPUs, Micron.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "single_stock_deepdive_en"
+      ]
+    },
+    {
+      "id": "x_ParadisLabs",
+      "name": "ParadisLabs",
+      "type": "x",
+      "handle": "ParadisLabs",
+      "lang": "en",
+      "beat": "Hedge fund positioning and AI stock market commentary from prime broker data.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "single_stock_deepdive_en"
+      ]
+    },
+    {
+      "id": "x_PhotonCap",
+      "name": "PhotonCap",
+      "type": "x",
+      "handle": "PhotonCap",
+      "lang": "en",
+      "beat": "Photonics and semiconductor research, optical supply chain watchlists, AI infrastructure s",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "single_stock_deepdive_en"
+      ]
+    },
+    {
+      "id": "x_DamiDefi",
+      "name": "DamiDefi",
+      "type": "x",
+      "handle": "DamiDefi",
+      "lang": "en",
+      "beat": "Token performance rankings, RWA chain data and AI tool guides.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "market_data_charts"
+      ]
+    },
+    {
+      "id": "x_CryptoDiffer",
+      "name": "CryptoDiffer",
+      "type": "x",
+      "handle": "CryptoDiffer",
+      "lang": "en",
+      "beat": "Crypto news digests, token and L2 data snapshots, sale tracking.",
+      "adapter": "x",
+      "enabled": false,
+      "account_scoped": true,
+      "qa": null,
+      "audit_ref": "live/fd20_donor_merge.json",
+      "enabled_note": "Global intake off; enabled per account in the fd20 universe (fd20_donor_merge.json x_sources)",
+      "fd20_accounts": [
+        "market_data_charts"
+      ]
     }
   ],
   "reference_pool_zh": {

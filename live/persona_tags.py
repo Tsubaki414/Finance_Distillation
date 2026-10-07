@@ -1,7 +1,7 @@
 """Semantic persona tags. Failed reviews never establish relevance."""
 import math
 import json
-from live.jev_front import PERSONAS
+from live.jev_front import JEV_BEATS, PERSONAS
 from live.retrieval import RELEVANCE_CRITERIA, _review_relevance
 
 
@@ -22,7 +22,7 @@ def tag_units(records, *, jev, personas=None, threshold=0.7, max_calls=None, sta
         raise ValueError('threshold must be between zero and one')
     if max_calls is not None and (type(max_calls) is not int or max_calls < 0):
         raise ValueError('max_calls must be a nonnegative integer')
-    beats = list(PERSONAS if personas is None else personas)
+    beats = list(JEV_BEATS if personas is None else personas)
     if len(beats) != len(set(beats)) or any(p not in PERSONAS for p in beats):
         raise ValueError('personas must be unique known personas')
     stats = stats if stats is not None else {}

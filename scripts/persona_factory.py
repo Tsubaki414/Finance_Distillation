@@ -8,7 +8,8 @@ For every account it makes sure the compose chain has what it needs, with no mod
   3. emotion tier   live/emotion_tiers.json personas[<id>] (crypto may be emotional, zh restrained = low)
   4. habit card     live/personas/posting_habits/<id>.json (post-type mix, length per type, topics, posting
                     hours) + language habits card (aggregates only; built from the local donor corpus)
-  5. universe       live/store/fd20/universes.json: retrieval beats, the A/B sources that actually feed them
+  5. universe       live/store/fd20/universes.json: retrieval beats (crypto accounts: own lanes crypto_meme / perp /
+                    defi / airdrop / onchain first, Oct 7), the A/B sources that actually feed them
                     (unit counts, last 45 days), the account-scoped X sources, donor post counts and the account's
                     angle mix (live/angles.py)
 
@@ -37,6 +38,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from live import angles, registry  # noqa: E402
+from live.jev_front import SUB_BEATS  # noqa: E402
 
 CONFIG = ROOT / 'live' / 'fd20_accounts.json'
 PLAN = Path('/workspace/x/bios/plan_crypto.json')
@@ -76,7 +78,7 @@ def post_count(handle):
     if not path.exists():
         return 0
     n = 0
-    for line in path.read_text().splitlines():
+    for line in path.read_text().split('\n'):
         try:
             p = json.loads(line)
         except ValueError:
@@ -288,7 +290,10 @@ def main():
             'account_id': aid, 'no': account['no'], 'lang': account['lang'], 'name': account['name'],
             'beat': account['beat'], 'kind': account['kind'], 'emotion_tier': account['emotion_tier'],
             'retrieval_beats': account['retrieval_beats'], 'same_language_allowed': True,
-            'x_sources': [{'handle': h, 'source_id': 'x_' + h, 'enabled': True, 'role': role}
+            'lanes': [b for b in account['retrieval_beats'] if b in SUB_BEATS],
+            # tier B handles are fetched daily into units (live/x_daily.py); C = topic lead only; None = unregistered
+            'x_sources': [{'handle': h, 'source_id': 'x_' + h, 'enabled': True, 'role': role,
+                           'tier': registry.source_licence_tier('x_' + h)}
                           for role in ('CORE', 'SECONDARY')
                           for h in ((merge.get('accounts') or {}).get(aid, {}).get('x_sources') or {}).get(role, [])],
             'attribution_line': False, **uni,
@@ -297,6 +302,7 @@ def main():
             'topic_mix': card.get('topic_mix'), 'card_posts': card.get('posts'),
             'built_at': datetime.now(timezone.utc).isoformat(timespec='seconds')}
         row['sources'] = len(uni['sources'])
+        row['x_sources_unregistered'] = [x['handle'] for x in universes[aid]['x_sources'] if x['tier'] is None]
         row['units_45d'] = uni['units_45d']
         row['card_posts'] = card.get('posts')
     lead = angles.distinctive({a: u['angle_mix'] for a, u in universes.items() if u.get('angle_mix')})

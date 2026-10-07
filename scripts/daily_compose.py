@@ -112,7 +112,13 @@ def source_lang(group):
     return 'zh' if demo.zh_native(group) else 'en'
 
 
-def candidates(store, account, beats, lead, ref):
+def candidates(store, account, beats, lead, ref, x_handles=None):
+    """x_handles: the account's own X sources. X-post units of other handles are skipped (X sources are
+    account-scoped); own X posts rank right after timeliness, then packets on the account's own crypto lanes."""
+    from live.jev_front import SUB_BEATS
+    from live.x_daily import x_handle
+    x_handles = {h.lower() for h in x_handles or ()}
+    lane = {b for b in beats if b in SUB_BEATS}   # the account's own crypto lanes (meme / perp / defi / ...)
     used = used_sources(account)
     recent = anti_repeat.load_recent(account)
     seen, groups = set(), {}
@@ -124,6 +130,9 @@ def candidates(store, account, beats, lead, ref):
             src = record['source']
             if {src.get('id'), src.get('title'), src.get('source_hash')} & used:
                 continue
+            handle = x_handle(src)
+            if handle and handle.lower() not in x_handles:
+                continue
             groups.setdefault(demo._key(record), []).append(record)
     options = demo.ranked_balanced(list(groups.values()), now=ref.date().isoformat())
     top = set(angles.top_angles(lead, 4))
@@ -131,21 +140,39 @@ def candidates(store, account, beats, lead, ref):
     def key(g):
         fit = len(top & set(angles.angles_of(group_text(g))))
         return (not prescreen.prescreen(account, g)['ok'], not demo.in_shelf(g, ref.date().isoformat()),
-                not timely(g, ref), bool(demo.group_hook_repeat(g, recent)), demo.group_theme_repeat(g, recent),
+                not timely(g, ref), not x_handle(g[0]['source']),
+                bool(lane) and not any(lane & set(r.get('tag_personas') or []) for r in g), bool(demo.group_hook_repeat(g, recent)), demo.group_theme_repeat(g, recent),
                 -fit, -demo.group_freshness(g, ref.date().isoformat()))
     return sorted(options, key=key)
 
 
-def select(accounts, universes, day, per_account):
+def drafted_today(day):
+    """{account: drafts with text already in the inbox for `day`} (an earlier run the same day counts toward the
+    3-a-day ceiling)."""
+    out = {}
+    for r in compose_inbox.rows(day.isoformat()):
+        if (r.get('text') or '').strip() and r.get('day') == day.isoformat():
+            out[r['account_id']] = out.get(r['account_id'], 0) + 1
+    return out
+
+
+def select(accounts, universes, day, per_account, done=None):
     store = ContentStore()
     ref = datetime.combine(day, datetime.min.time(), LONDON).replace(hour=8).astimezone(timezone.utc)
-    pools = {a['id']: candidates(store, a['id'], a['retrieval_beats'], universes[a['id']].get('angle_lead') or {}, ref)
+    now = datetime.now(timezone.utc)
+    if now.astimezone(LONDON).date() == day and now > ref:   # a same-day run later than 08:00 sees posts up to now (X)
+        ref = now
+    pools = {a['id']: candidates(store, a['id'], a['retrieval_beats'], universes[a['id']].get('angle_lead') or {}, ref,
+                                 x_handles=[x['handle'] for x in universes[a['id']].get('x_sources') or [] if x.get('enabled', True)])
              for a in accounts}
     order = sorted(pools, key=lambda a: len(pools[a]))     # scarce accounts pick first in every round
     event_takers = {}            # event key (source key / hook) -> [(account, angle)]
     plan = {a: [] for a in pools}
+    done = done or {}
     for _round in range(per_account):
         for account in order:
+            if len(plan[account]) + done.get(account, 0) >= MAX_PER_ACCOUNT:
+                continue
             lang = next(x['lang'] for x in accounts if x['id'] == account)
             lead = universes[account].get('angle_lead') or universes[account].get('angle_mix') or {}
             mine = {tuple(p['source_key']) for p in plan[account]}
@@ -265,11 +292,13 @@ def compose_one(new_client, account, pick, day, store_records, spend, lock):
     dc = DraftClient(new_client(), log)
     lang = pick['account_lang']
     group = [store_records[u] for u in pick['unit_ids'] if u in store_records]
-    source, units = evidence_source(group)
+    source = dict(group[0]['source']) if group else {}
     post_time = datetime.fromisoformat(pick['suggested_post_time_london'])
     angle = angles.payload(pick['angle'], lang)
     started = time.monotonic()
     try:
+        # inside the guard: a span that no rebuilt paragraph contains (StopIteration) sank the whole Oct 7 run
+        source, units = evidence_source(group)
         result = compose.compose_source(
             source, account, dc, post_type=demo.judgment_type(account), extracted_units=units,
             exemplar_dir=POSTS, exemplar_tags_dir=TAGS, view_ledger=ViewLedger(account),
@@ -339,8 +368,9 @@ def main():
     universes = load_json(UNIVERSES)
     run_id = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S')
     out = RUNS / args.day.isoformat() / run_id
-    plan, order = select(accounts, universes, args.day, per_account)
-    write_json(out / 'plan.json', {'day': args.day.isoformat(), 'pick_order': order, 'per_account': per_account,
+    done = drafted_today(args.day)
+    plan, order = select(accounts, universes, args.day, per_account, done=done)
+    write_json(out / 'plan.json', {'day': args.day.isoformat(), 'pick_order': order, 'per_account': per_account, 'drafted_earlier_today': done,
                                    'accounts': plan})
     for a in accounts:
         print(a['id'], [f"{p['suggested_post_time_london'][11:16]} {p['post_format']['type']} {p['angle']} "

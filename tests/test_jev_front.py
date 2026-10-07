@@ -31,7 +31,7 @@ class RoutingTests(unittest.TestCase):
         self.assertEqual(out['s0']['persona'], 'macro_rates_en')
         self.assertFalse(out['s0']['jev_fallback'])
         labels = set(next(iter(jev.calls[0][1].values()))['criteria'])
-        self.assertEqual(labels, set(jf.PERSONAS) | {'none'})
+        self.assertEqual(labels, set(jf.JEV_BEATS) | {'none'})   # sub-beats never go to Jev routing
 
     def test_route_falls_back_to_keywords_and_flags_it(self):
         out = jf.route_sources(ITEMS, jev=FakeJev(None, status='failed'))

@@ -2,7 +2,7 @@ from live import jev_front as jf, registry
 
 
 def test_every_jev_persona_maps_to_a_real_account():
-    assert set(jf.ACCOUNT_FOR_PERSONA) == set(jf.PERSONAS)
+    assert set(jf.ACCOUNT_FOR_PERSONA) == set(jf.JEV_BEATS)   # crypto sub-beats (Oct 7) are not Jev beats
     for jev_id, account in jf.ACCOUNT_FOR_PERSONA.items():
         assert registry.persona_for_account(account) is not None, (jev_id, account)
     assert jf.account_for('none') is None

@@ -682,31 +682,31 @@
     {
      "handle": "LeotheHorseman",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "roger9949",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "MMMusol",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "silverfang88",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "starzq",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     }
    ],
@@ -717,7 +717,7 @@
     "current donor Michael_QQQ2025 kept below the bar (fit 0.043, distinct 0.281) at the weight floor"
    ],
    "merge": {
-    "version": "mango-merge-2026-10-07",
+    "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
      "LeotheHorseman",
@@ -806,31 +806,31 @@
     {
      "handle": "BensonTWN",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "thankUcrypto",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "timotimo007",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "Sea_Bitcoin",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "dapangdun",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     }
    ],
@@ -845,7 +845,7 @@
     "current donor Bitwux kept below the bar (fit 0.411, distinct 0.22) at the weight floor"
    ],
    "merge": {
-    "version": "mango-merge-2026-10-07",
+    "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
      "BensonTWN",
@@ -931,31 +931,31 @@
     {
      "handle": "McClellanOsc",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT"
     },
     {
      "handle": "WalterDeemer",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT"
     },
     {
      "handle": "the_chart_life",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT"
     },
     {
      "handle": "DKellerCMT",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT"
     },
     {
      "handle": "TimmerFidelity",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT"
     }
    ],
@@ -969,7 +969,7 @@
     "current donor Mr_Derivatives kept below the bar (fit 0.077, distinct 0.241) at the weight floor"
    ],
    "merge": {
-    "version": "mango-merge-2026-10-07",
+    "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
      "McClellanOsc",
@@ -1015,31 +1015,31 @@
     {
      "handle": "ThierryBorgeat",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT"
     },
     {
      "handle": "Shaughnessy119",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "DoveyWan",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "lazyvillager1",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors DaanCrypto/Pentosh1/SalsaTekila/gammichan"
     },
     {
      "handle": "WillieDelwiche",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT"
     }
    ],
@@ -1050,7 +1050,7 @@
     "current donor MebFaber kept below the bar (fit 0.467, distinct 0.074) at the weight floor"
    ],
    "merge": {
-    "version": "mango-merge-2026-10-07",
+    "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
      "ThierryBorgeat",
@@ -1089,38 +1089,39 @@
      "why": "beat 72% of 127 originals, crypto 18%, voice distinct 0.45"
     },
     {
-     "handle": "MarkNewtonCMT",
+     "handle": "tengyanAI",
      "weight": 0.077,
-     "why": "beat 68% of 111 originals, crypto 9%, voice distinct 0.54"
+     "why": "seeds2 2026-10-07 base swap for MarkNewtonCMT (technicals voice; was in 4 acct_ clusters > cap 3): AI-semis single-name earnings and supply-chain deep dives",
+     "replaced": "MarkNewtonCMT"
     },
     {
      "handle": "zephyr_z9",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors DaanCrypto/Pentosh1/SalsaTekila/gammichan"
     },
     {
-     "handle": "mrjasonchoi",
+     "handle": "ParadisLabs",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
-     "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
+     "merged": "mango-merge-2026-10-07+seeds2",
+     "why": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)"
     },
     {
-     "handle": "Rewkang",
+     "handle": "FredaDuan",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
-     "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
+     "merged": "mango-merge-2026-10-07+seeds2",
+     "why": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)"
     },
     {
      "handle": "DeFiMinty",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "Shaughnessy119",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     }
    ],
@@ -1130,12 +1131,12 @@
    ],
    "notes": [],
    "merge": {
-    "version": "mango-merge-2026-10-07",
+    "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
      "zephyr_z9",
-     "mrjasonchoi",
-     "Rewkang",
+     "ParadisLabs",
+     "FredaDuan",
      "DeFiMinty",
      "Shaughnessy119"
     ]
@@ -1176,31 +1177,31 @@
     {
      "handle": "sjdedic",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "amandacassatt",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "DoveyWan",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "econoar",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "lazyvillager1",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors DaanCrypto/Pentosh1/SalsaTekila/gammichan"
     }
    ],
@@ -1210,7 +1211,7 @@
    ],
    "notes": [],
    "merge": {
-    "version": "mango-merge-2026-10-07",
+    "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
      "sjdedic",
@@ -1247,38 +1248,38 @@
     {
      "handle": "CryptoPainter",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "sss_crypto",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "litangsongyx",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "BensonTWN",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "YourAirdropETH",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     }
    ],
    "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
    "previous_cluster": "crypto_macro_zh",
    "merge": {
-    "version": "mango-merge-2026-10-07",
+    "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
      "CryptoPainter",
@@ -1315,38 +1316,38 @@
     {
      "handle": "Sea_Bitcoin",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "anymose",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "chenmo",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "sjbtc9",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "DujunX",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     }
    ],
    "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
    "previous_cluster": "crypto_macro_zh",
    "merge": {
-    "version": "mango-merge-2026-10-07",
+    "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
      "Sea_Bitcoin",
@@ -1383,38 +1384,38 @@
     {
      "handle": "CryptoPainter",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "thankUcrypto",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "yourQuantGuy",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "KevinZbtc",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "GuHype",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     }
    ],
    "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
    "previous_cluster": "crypto_macro_zh",
    "merge": {
-    "version": "mango-merge-2026-10-07",
+    "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
      "CryptoPainter",
@@ -1451,38 +1452,38 @@
     {
      "handle": "siriusxyzzz",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/mangolabs_/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "connectfarm1",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "YourAirdropETH",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "sanyi_eth_",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "lanaaielsa",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     }
    ],
    "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
    "previous_cluster": "crypto_macro_zh",
    "merge": {
-    "version": "mango-merge-2026-10-07",
+    "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
      "siriusxyzzz",
@@ -1519,38 +1520,38 @@
     {
      "handle": "lanaaielsa",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "softlipa1018",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "sanyuanVC",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "kiki520_eth",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "chenmo",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     }
    ],
    "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
    "previous_cluster": "crypto_macro_zh",
    "merge": {
-    "version": "mango-merge-2026-10-07",
+    "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
      "lanaaielsa",
@@ -1587,38 +1588,38 @@
     {
      "handle": "thankUcrypto",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "BensonTWN",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "dapangdun",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "timotimo007",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "KevinZbtc",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     }
    ],
    "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
    "previous_cluster": "crypto_macro_zh",
    "merge": {
-    "version": "mango-merge-2026-10-07",
+    "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
      "thankUcrypto",
@@ -1655,45 +1656,45 @@
     {
      "handle": "silverfang88",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "shirleyusy",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
-     "handle": "KevinZbtc",
+     "handle": "YaelC_03",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
-     "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
+     "merged": "mango-merge-2026-10-07+seeds2",
+     "why": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)"
     },
     {
      "handle": "woody168888",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
-     "handle": "sjbtc9",
+     "handle": "darrencao2024",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
-     "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
+     "merged": "mango-merge-2026-10-07+seeds2",
+     "why": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)"
     }
    ],
    "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
    "previous_cluster": "single_stock_deepdive_en",
    "merge": {
-    "version": "mango-merge-2026-10-07",
+    "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
      "silverfang88",
      "shirleyusy",
-     "KevinZbtc",
+     "YaelC_03",
      "woody168888",
-     "sjbtc9"
+     "darrencao2024"
     ]
    }
   },
@@ -1723,45 +1724,45 @@
     {
      "handle": "yuyue_chris",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "starzq",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "woody168888",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "shirleyusy",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
-     "handle": "Sea_Bitcoin",
+     "handle": "erchenlu1",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
-     "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
+     "merged": "mango-merge-2026-10-07+seeds2",
+     "why": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)"
     }
    ],
    "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
    "previous_cluster": "investing_philosophy",
    "merge": {
-    "version": "mango-merge-2026-10-07",
+    "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
      "yuyue_chris",
      "starzq",
      "woody168888",
      "shirleyusy",
-     "Sea_Bitcoin"
+     "erchenlu1"
     ]
    }
   },
@@ -1791,38 +1792,38 @@
     {
      "handle": "therationalroot",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors BobLoukas/nsquaredvalue/TedPillows/zackvoell"
     },
     {
      "handle": "TXMCtrades",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors JA_Maartun/jjcmoreno/AxelAdlerJr/caprioleio"
     },
     {
      "handle": "Darkfost_Coc",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors AxelAdlerJr"
     },
     {
      "handle": "Jamie1Coutts",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors AxelAdlerJr"
     },
     {
      "handle": "zeroxkyle",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors Pentosh1"
     }
    ],
    "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
    "previous_cluster": "crypto_macro_en",
    "merge": {
-    "version": "mango-merge-2026-10-07",
+    "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
      "therationalroot",
@@ -1859,38 +1860,38 @@
     {
      "handle": "TheFlowHorse",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors BobLoukas/nsquaredvalue/TedPillows/zackvoell"
     },
     {
      "handle": "pierre_crypt0",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors BobLoukas/nsquaredvalue/TedPillows/zackvoell"
     },
     {
      "handle": "koolkrypto223",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors DaanCrypto/Pentosh1/SalsaTekila/gammichan"
     },
     {
      "handle": "Pivot922",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors DaanCrypto/Pentosh1/SalsaTekila/gammichan"
     },
     {
      "handle": "WhiteWhaleLabs",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     }
    ],
    "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
    "previous_cluster": "crypto_macro_en",
    "merge": {
-    "version": "mango-merge-2026-10-07",
+    "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
      "TheFlowHorse",
@@ -1927,38 +1928,38 @@
     {
      "handle": "ahboyash",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "econoar",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "WhiteWhaleLabs",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "0xLuo",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "stitchdegen",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     }
    ],
    "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
    "previous_cluster": "crypto_macro_en",
    "merge": {
-    "version": "mango-merge-2026-10-07",
+    "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
      "ahboyash",
@@ -1995,38 +1996,38 @@
     {
      "handle": "therationalroot",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors BobLoukas/nsquaredvalue/TedPillows/zackvoell"
     },
     {
      "handle": "TonySeverinoCMT",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors BobLoukas/nsquaredvalue/TedPillows/zackvoell"
     },
     {
      "handle": "BitQua",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors BobLoukas/nsquaredvalue/TedPillows/zackvoell"
     },
     {
      "handle": "CJ900X",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors BobLoukas/nsquaredvalue/TedPillows/zackvoell"
     },
     {
      "handle": "TXMCtrades",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors JA_Maartun/jjcmoreno/AxelAdlerJr/caprioleio"
     }
    ],
    "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
    "previous_cluster": "crypto_macro_en",
    "merge": {
-    "version": "mango-merge-2026-10-07",
+    "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
      "therationalroot",
@@ -2063,38 +2064,38 @@
     {
      "handle": "mrjasonchoi",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "Rewkang",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "stitchdegen",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "sjdedic",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "DoveyWan",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     }
    ],
    "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
    "previous_cluster": "crypto_macro_en",
    "merge": {
-    "version": "mango-merge-2026-10-07",
+    "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
      "mrjasonchoi",
@@ -2131,38 +2132,38 @@
     {
      "handle": "amandacassatt",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "sjdedic",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "0xLuo",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "ahboyash",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "econoar",
      "weight": 0.1,
-     "merged": "mango-merge-2026-10-07",
+     "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     }
    ],
    "origin": "fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)",
    "previous_cluster": "crypto_macro_en",
    "merge": {
-    "version": "mango-merge-2026-10-07",
+    "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
      "amandacassatt",
@@ -11394,6 +11395,90 @@
    "origin": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
    "verify_note": "deep scrape 193 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.000 = max(LLM per-post read 0.000, regex 0.000); Macro and cross-asset strategy: rates, earnings, AI/semis, gold, Bitcoin, 60/20/20 allocation",
    "persona_cluster": "acct_market_data_charts"
+  },
+  "tengyanai": {
+   "handle": "tengyanAI",
+   "added": "mango-merge-2026-10-07+seeds2",
+   "lang": "en",
+   "category": "single_stock",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 51082,
+   "promo_share": 0.074,
+   "origin": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
+   "verify_note": "deep scrape 216 originals (RapidAPI twitter241); promo_share 0.074 = max(LLM per-post read 0.074, regex 0.014); AI hardware supply chain (memory/HBM, packaging, optics, power) with earnings pre/post-call single-name reads; soft promo of own research workspace",
+   "persona_cluster": "acct_single_stock_deepdive_en"
+  },
+  "yaelc_03": {
+   "handle": "YaelC_03",
+   "added": "mango-merge-2026-10-07+seeds2",
+   "lang": "zh",
+   "category": "us_stocks",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 6685,
+   "promo_share": 0.037,
+   "origin": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
+   "verify_note": "deep scrape 215 originals (RapidAPI twitter241); promo_share 0.037 = max(LLM per-post read 0.037, regex 0.005); US-equity swing trades in AI/semis/memory with levels, earnings implied-move setups, stop discipline; some BTC trading and referral posts",
+   "persona_cluster": "acct_zh_us_stocks"
+  },
+  "darrencao2024": {
+   "handle": "darrencao2024",
+   "added": "mango-merge-2026-10-07+seeds2",
+   "lang": "zh",
+   "category": "us_stocks",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 27672,
+   "promo_share": 0.13,
+   "origin": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
+   "verify_note": "deep scrape 166 originals (RapidAPI twitter241); promo_share 0.130 = max(LLM per-post read 0.130, regex 0.000); Chinese US-stock investor: AI semis, forward PE/PEG valuation, add/trim levels, position sizing; member-channel CTAs counted as promo",
+   "persona_cluster": "acct_zh_us_stocks"
+  },
+  "erchenlu1": {
+   "handle": "erchenlu1",
+   "added": "mango-merge-2026-10-07+seeds2",
+   "lang": "zh",
+   "category": "investing",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 52191,
+   "promo_share": 0.019,
+   "origin": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
+   "verify_note": "deep scrape 215 originals (RapidAPI twitter241); promo_share 0.019 = max(LLM per-post read 0.019, regex 0.000); Chinese long-termist: ownership, compounding, index investing, Buy-Hold-Borrow, bubbles; ~60% off-topic life/essays (filter by topic)",
+   "persona_cluster": "acct_zh_longterm_investing"
+  },
+  "paradislabs": {
+   "handle": "ParadisLabs",
+   "added": "mango-merge-2026-10-07+seeds2",
+   "lang": "en",
+   "category": "single_stock",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 79742,
+   "promo_share": 0.029,
+   "origin": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
+   "verify_note": "deep scrape 204 originals (RapidAPI twitter241); promo_share 0.029 = max(LLM per-post read 0.005, regex 0.029); US AI/semis single-name earnings recaps and call notes (MU, NBIS, LITE, AAOI), prime-broker positioning data",
+   "persona_cluster": "acct_single_stock_deepdive_en"
+  },
+  "fredaduan": {
+   "handle": "FredaDuan",
+   "added": "mango-merge-2026-10-07+seeds2",
+   "lang": "en",
+   "category": "single_stock",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 39451,
+   "promo_share": 0.14,
+   "origin": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
+   "verify_note": "deep scrape 200 originals (RapidAPI twitter241); promo_share 0.140 = max(LLM per-post read 0.000, regex 0.140); long sell-side-style notes on US tech/fintech: HOOD, COIN, PYPL, GOOGL, META, AI agent economics, capex/FCF",
+   "persona_cluster": "acct_single_stock_deepdive_en"
   }
  }
 }

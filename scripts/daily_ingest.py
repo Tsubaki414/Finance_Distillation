@@ -30,6 +30,12 @@ def main():
     parser.add_argument('--flash-dedupe-hours',type=float,default=6,help='same event across outlets within N hours = one flash')
     parser.add_argument('--no-flashes',dest='flashes',action='store_false')
     parser.add_argument('--no-news-leads',dest='news_leads',action='store_false')
+    # Oct 7 (fd20): account-scoped X sources (live/x_daily.py); `--only x` runs just this step.
+    parser.add_argument('--no-x',dest='x',action='store_false')
+    parser.add_argument('--x-budget-usd',type=float,default=None,help='ring-fenced X extraction budget inside the cap (default live/x_daily.X_BUDGET_USD)')
+    parser.add_argument('--x-window-hours',type=float,default=None)
+    parser.add_argument('--x-max',type=int,default=None,help='X posts extracted per run at most')
+    parser.add_argument('--x-per-source-max',type=int,default=None)
     parser.add_argument('--no-dashboard',action='store_true')
     parser.add_argument('--dry-run',action='store_true')
     parser.add_argument('--only',nargs='+')

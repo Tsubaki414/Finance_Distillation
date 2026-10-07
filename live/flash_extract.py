@@ -52,19 +52,20 @@ def _payload(batch):
                         for i, s in enumerate(batch)]}
 
 
-def _finish(source, units, licence_tier):
+def _finish(source, units, licence_tier, version_tag='flash-batch-v1'):
     from live.licence_rules import apply_no_reproduction
     for u in units:
-        u['extract_version'] = VERSION + '+flash-batch-v1'
+        u['extract_version'] = VERSION + '+' + version_tag
         u['adapter'] = source.get('adapter')
     if licence_tier == 'B':
         apply_no_reproduction(units)
     return units
 
 
-def extract_batch(batch, client, *, licence_tier='B', depth=0, stats=None):
+def extract_batch(batch, client, *, licence_tier='B', depth=0, stats=None, prompt=None, version_tag='flash-batch-v1'):
     """{source id: units} for a list of flash sources (one relay call per batch, bisect on failure).
-    stats (optional dict) collects calls / usage / dropped units / failures."""
+    stats (optional dict) collects calls / usage / dropped units / failures. prompt / version_tag: a registered
+    variant of FLASH_EXTRACT with the same schema (live/x_daily.py uses one for X posts)."""
     if licence_tier not in USAGE or licence_tier == 'C':
         raise LicenceRefused(f'licence tier {licence_tier!r} does not allow flash units')
     stats = stats if stats is not None else {}
@@ -72,7 +73,7 @@ def extract_batch(batch, client, *, licence_tier='B', depth=0, stats=None):
     stats.setdefault('prompt_tokens', 0); stats.setdefault('completion_tokens', 0)
     if not batch:
         return {}
-    messages, _ = prompt_assembly.assemble(STAGE, FLASH_EXTRACT, _payload(batch))
+    messages, _ = prompt_assembly.assemble(STAGE, prompt or FLASH_EXTRACT, _payload(batch))
     max_tokens = min(MAX_TOKENS, PER_FLASH_TOKENS * len(batch) + 600)
     try:
         stats['calls'] += 1
@@ -90,8 +91,9 @@ def extract_batch(batch, client, *, licence_tier='B', depth=0, stats=None):
     except ContractError:
         if len(batch) > 1 and depth < 2:
             mid = len(batch) // 2
-            out = extract_batch(batch[:mid], client, licence_tier=licence_tier, depth=depth + 1, stats=stats)
-            out.update(extract_batch(batch[mid:], client, licence_tier=licence_tier, depth=depth + 1, stats=stats))
+            kw = dict(licence_tier=licence_tier, depth=depth + 1, stats=stats, prompt=prompt, version_tag=version_tag)
+            out = extract_batch(batch[:mid], client, **kw)
+            out.update(extract_batch(batch[mid:], client, **kw))
             return out
         stats['failed_flashes'] += [s['id'] for s in batch]
         return {s['id']: [] for s in batch}
@@ -107,7 +109,7 @@ def extract_batch(batch, client, *, licence_tier='B', depth=0, stats=None):
         except ContractError:
             units, dropped = [], raw
         stats['dropped_units'] += len(dropped)
-        out[source['id']] = _finish(source, units, licence_tier)
+        out[source['id']] = _finish(source, units, licence_tier, version_tag)
     return out
 
 
