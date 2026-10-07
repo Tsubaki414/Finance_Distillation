@@ -53,6 +53,42 @@
       "platform": "unbound",
       "enabled": false,
       "treatment": "composed_post"
+    },
+    {
+      "id": "zh_airdrop_diary",
+      "name": "中文 · 撸毛日记（试点）",
+      "language": "zh",
+      "mandate": "记录普通人参与测试网、积分季、TGE 与额度查询的过程和结果；素材来自订阅的项目/空投/交易所公告。不得编造账号本人的收益、额度、持仓或交互经历；没有真实记录时只写项目事实与时间线。",
+      "research_inputs": [],
+      "platform": "unbound",
+      "enabled": true,
+      "treatment": "composed_post",
+      "pilot": "p0_crypto_pilot_2026-10-06",
+      "allow_same_language": true
+    },
+    {
+      "id": "zh_airdrop_tutorial",
+      "name": "中文 · 空投教程（试点）",
+      "language": "zh",
+      "mandate": "先讲项目融资与 TGE/积分时间线，再给可核对的参与步骤；步骤只来自项目或公告原文，不确定的不写。合作内容须标注，不自动发布。",
+      "research_inputs": [],
+      "platform": "unbound",
+      "enabled": true,
+      "treatment": "composed_post",
+      "pilot": "p0_crypto_pilot_2026-10-06",
+      "allow_same_language": true
+    },
+    {
+      "id": "en_airdrop_farmer",
+      "name": "EN · Airdrop Farmer (pilot)",
+      "language": "en",
+      "mandate": "Testnets, points seasons, TGE dates and allocation outcomes for English readers, sourced from subscribed project, aggregator and exchange material. Never invent the account's own allocations, returns or farming history.",
+      "research_inputs": [],
+      "platform": "unbound",
+      "enabled": true,
+      "treatment": "composed_post",
+      "pilot": "p0_crypto_pilot_2026-10-06",
+      "allow_same_language": true
     }
   ],
   "shared": {

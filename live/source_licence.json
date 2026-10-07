@@ -1792,6 +1792,231 @@
       "attribution_required": true,
       "usage": "topic_only",
       "topic_lead_only": true
+    },
+    "crypto_airdrops_io": {
+      "tier": "B",
+      "basis": "Public crypto media RSS (P0 crypto pilot); paraphrase facts only with attribution, no quotes or reproduction",
+      "aliases": [
+        "Airdrops.io"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "crypto_theblock_news": {
+      "tier": "B",
+      "basis": "Public crypto media RSS (P0 crypto pilot); paraphrase facts only with attribution, no quotes or reproduction",
+      "aliases": [
+        "The Block"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "crypto_cointelegraph": {
+      "tier": "B",
+      "basis": "Public crypto media RSS (P0 crypto pilot); paraphrase facts only with attribution, no quotes or reproduction",
+      "aliases": [
+        "Cointelegraph"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "crypto_thedefiant": {
+      "tier": "B",
+      "basis": "Public crypto media RSS (P0 crypto pilot); paraphrase facts only with attribution, no quotes or reproduction",
+      "aliases": [
+        "The Defiant"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "crypto_decrypt": {
+      "tier": "B",
+      "basis": "Public crypto media RSS (P0 crypto pilot); paraphrase facts only with attribution, no quotes or reproduction",
+      "aliases": [
+        "Decrypt"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "crypto_odaily_post": {
+      "tier": "B",
+      "basis": "Public crypto media RSS (P0 crypto pilot); paraphrase facts only with attribution, no quotes or reproduction",
+      "aliases": [
+        "Odaily 星球日报"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "crypto_odaily_flash": {
+      "tier": "B",
+      "basis": "Public crypto media RSS (P0 crypto pilot); paraphrase facts only with attribution, no quotes or reproduction",
+      "aliases": [
+        "Odaily 星球日报快讯"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "crypto_chaincatcher": {
+      "tier": "B",
+      "basis": "Public crypto media RSS (P0 crypto pilot); paraphrase facts only with attribution, no quotes or reproduction",
+      "aliases": [
+        "ChainCatcher 链捕手"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "crypto_binance_listings": {
+      "tier": "B",
+      "basis": "Public exchange announcement list (P0 crypto pilot); facts only with attribution; listing/campaign notices are not endorsements",
+      "aliases": [
+        "Binance 公告：新币上线"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "crypto_binance_activities": {
+      "tier": "B",
+      "basis": "Public exchange announcement list (P0 crypto pilot); facts only with attribution; listing/campaign notices are not endorsements",
+      "aliases": [
+        "Binance 公告：最新活动"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "crypto_okx_listings": {
+      "tier": "B",
+      "basis": "Public exchange announcement list (P0 crypto pilot); facts only with attribution; listing/campaign notices are not endorsements",
+      "aliases": [
+        "OKX 公告：新币上线"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "x_binancezh": {
+      "tier": "C",
+      "basis": "P0 crypto pilot X watchlist: topic lead only, never a body source",
+      "aliases": [
+        "binancezh"
+      ]
+    },
+    "x_BinanceWallet": {
+      "tier": "C",
+      "basis": "P0 crypto pilot X watchlist: topic lead only, never a body source",
+      "aliases": [
+        "BinanceWallet"
+      ]
+    },
+    "x_Galxe": {
+      "tier": "C",
+      "basis": "P0 crypto pilot X watchlist: topic lead only, never a body source",
+      "aliases": [
+        "Galxe"
+      ]
+    },
+    "x_layer3xyz": {
+      "tier": "C",
+      "basis": "P0 crypto pilot X watchlist: topic lead only, never a body source",
+      "aliases": [
+        "layer3xyz"
+      ]
+    },
+    "x_OdailyChina": {
+      "tier": "C",
+      "basis": "P0 crypto pilot X watchlist: topic lead only, never a body source",
+      "aliases": [
+        "OdailyChina"
+      ]
+    },
+    "x_ChainCatcher_": {
+      "tier": "C",
+      "basis": "P0 crypto pilot X watchlist: topic lead only, never a body source",
+      "aliases": [
+        "ChainCatcher_"
+      ]
+    },
+    "x_BlockBeatsAsia": {
+      "tier": "C",
+      "basis": "P0 crypto pilot X watchlist: topic lead only, never a body source",
+      "aliases": [
+        "BlockBeatsAsia"
+      ]
+    },
+    "x_PANewsCN": {
+      "tier": "C",
+      "basis": "P0 crypto pilot X watchlist: topic lead only, never a body source",
+      "aliases": [
+        "PANewsCN"
+      ]
+    },
+    "x_WuBlockchain": {
+      "tier": "C",
+      "basis": "P0 crypto pilot X watchlist: topic lead only, never a body source",
+      "aliases": [
+        "WuBlockchain"
+      ]
+    },
+    "x_lookonchain": {
+      "tier": "C",
+      "basis": "P0 crypto pilot X watchlist: topic lead only, never a body source",
+      "aliases": [
+        "lookonchain"
+      ]
+    },
+    "x_CryptoRank_io": {
+      "tier": "C",
+      "basis": "P0 crypto pilot X watchlist: topic lead only, never a body source",
+      "aliases": [
+        "CryptoRank_io"
+      ]
+    },
+    "x_DefiLlama": {
+      "tier": "C",
+      "basis": "P0 crypto pilot X watchlist: topic lead only, never a body source",
+      "aliases": [
+        "DefiLlama"
+      ]
+    },
+    "x_TheBlockCo": {
+      "tier": "C",
+      "basis": "P0 crypto pilot X watchlist: topic lead only, never a body source",
+      "aliases": [
+        "TheBlockCo"
+      ]
+    },
+    "x_Dropstab_com": {
+      "tier": "C",
+      "basis": "P0 crypto pilot X watchlist: topic lead only, never a body source",
+      "aliases": [
+        "Dropstab_com"
+      ]
+    },
+    "x_airdrops_io": {
+      "tier": "C",
+      "basis": "P0 crypto pilot X watchlist: topic lead only, never a body source",
+      "aliases": [
+        "airdrops_io"
+      ]
+    },
+    "crypto_wscn_blockchain": {
+      "tier": "B",
+      "basis": "Public 7x24 flash JSON, same publisher/basis as ch141_wscn_flash (P0 crypto pilot); paraphrase facts only, no quotes or reproduction",
+      "aliases": [
+        "华尔街见闻"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
     }
   }
 }

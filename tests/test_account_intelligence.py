@@ -79,8 +79,10 @@ class IntelligenceCases(unittest.TestCase):
             'TEST ONLY approval', {k: 'pass' for k in ('native_language', 'useful_examples', 'rhythm_reasoning', 'account_fit', 'angle_value')})
 
     def test_five_charters_languages_and_original_owned_identity(self):
-        self.assertEqual(len(accounts()), 5)
-        self.assertEqual([a['language'] for a in accounts()], ['en', 'zh', 'en', 'zh', 'en'])
+        # P0 crypto pilots (marked 'pilot') are appended after the five original charters.
+        charters = [a for a in accounts() if not a.get('pilot')]
+        self.assertEqual(len(charters), 5)
+        self.assertEqual([a['language'] for a in charters], ['en', 'zh', 'en', 'zh', 'en'])
         self.assertTrue(all(a['platform'] == 'unbound' for a in accounts()))
 
     def test_source_immutable_provenance_annotations(self):
@@ -380,7 +382,7 @@ class IntelligenceCases(unittest.TestCase):
         with patch.object(api, 'STORE', self.store):
             client = TestClient(app)
             view = client.get('/api/account-intelligence/overview')
-            self.assertEqual(view.status_code, 200); self.assertEqual(len(view.json()['accounts']), 5)
+            self.assertEqual(view.status_code, 200); self.assertEqual(len([a for a in view.json()['accounts'] if not a.get('pilot')]), 5)
             detail = client.get('/api/account-intelligence/runs/' + run['id']).json()
             self.assertEqual(detail['candidates'][0]['text_version'], digest(run['candidates'][0]['text']))
             self.assertEqual(self.store.rows('reviews'), [])

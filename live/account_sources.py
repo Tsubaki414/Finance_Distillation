@@ -36,6 +36,11 @@ def registry():
     return {r['id']: r for r in json.loads((ROOT / 'live/source_registry.json').read_text())['sources']}
 
 
+def _feed_hosts(r):
+    """Feed host plus explicitly listed article hosts (e.g. rss.odaily.news links to www.odaily.news)."""
+    return {urlparse(r['feed_url']).hostname, *(r.get('link_hosts') or [])}
+
+
 def source_key(source):
     """Canonical publisher identity; an arbitrary source_id cannot impersonate Morris."""
     claimed = source.get('source_id')
@@ -57,14 +62,13 @@ def source_key(source):
         if r.get('handle'):
             require(handle == r['handle'].lower() and host in ('x.com', 'twitter.com', 'www.x.com'), 'X author/source_id mismatch')
         elif r.get('feed_url'):
-            feedhost = urlparse(r['feed_url']).hostname
-            require(host == feedhost, 'Publisher/source_id mismatch')
+            require(host in _feed_hosts(r), 'Publisher/source_id mismatch')
         return claimed
     # Existing captures may predate source_id. Domain/handle joins are exact.
     for sid, r in sources.items():
         if r.get('handle') and handle == r['handle'].lower() and host in ('x.com', 'twitter.com'):
             return sid
-        if r.get('feed_url') and host == urlparse(r['feed_url']).hostname:
+        if r.get('feed_url') and host in _feed_hosts(r):
             return sid
     return None
 
@@ -81,9 +85,11 @@ def admission(account_id, source):
         return {'admitted': False, 'reason': 'Official context does not create content candidates', 'source_id': sid}
     if sub['role'] in ('RESEARCH_ONLY', 'WATCHLIST', 'REJECT'):
         return {'admitted': False, 'reason': 'Source role does not create content candidates', 'source_id': sid}
-    if source.get('source_language') == account(account_id)['language']:
+    charter = account(account_id)
+    if source.get('source_language') == charter['language'] and charter.get('allow_same_language') is not True:
         # P0-1: same-language material never enters the translate/edit chain. It may
         # return only as an attributed view_relay post type (master plan 4.3).
+        # Accounts with allow_same_language (crypto pilots, decision 2026-10-07) take it unattributed.
         return {'admitted': False, 'code': 'same_language', 'source_id': sid,
                 'reason': 'Same-language source is isolated until the attributed view_relay post type exists'}
     text = (source.get('title') or '') + '\n' + source.get('original_text', source.get('text', ''))
@@ -234,6 +240,30 @@ def _primary_document(spec, directory):
                 'verification_status': 'not_independently_fact_checked', 'raw_import_ref': str(path)}]}
 
 
+def fetch_flash_json(config, limit, transport=None):
+    """Account-scoped 7x24 flash list (WSCN JSON parser); global flashes.OUTLETS untouched."""
+    from live.adapters import common, flashes
+    from live.analysis_corpus import _row
+    require(config.get('parser') == 'wscn', 'Unsupported flash_json parser')
+    status, body = common.http_get(config['feed_url'], transport=transport)
+    if status != 200:
+        return [], f'http_{status}'
+    rows = []
+    for flash in flashes._parse_wscn(body):
+        text = flash['text']
+        if len(text) < flashes.MIN_CHARS or flashes._PROMO.search(text) or flash['published'] is None:
+            continue
+        title = flash.get('title') or (re.match(r'^【([^】]{4,80})】', text) or [None, text[:40]])[1]
+        row = _row(config['id'], config['name'], flash['published'].isoformat(), title, text, flash['url'],
+                   'crypto_flash', content_complete=True, extraction_status='flash_json',
+                   author_name=config['name'], publisher_name=config['name'], no_reproduction=True)
+        if row:
+            rows.append(row)
+        if len(rows) >= limit:
+            break
+    return rows, None
+
+
 def refresh(store, account_id, limit=3, *, source_ids=None, include_x=False, since=None, until=None,
             primary_documents=None, max_sources=3):
     """Bounded, explicitly invoked intake for one account's subscriptions. No fan-out,
@@ -275,6 +305,11 @@ def refresh(store, account_id, limit=3, *, source_ids=None, include_x=False, sin
             if config.get('adapter') == 'feed':
                 fetches += 1
                 rows, error = fetch_feed({'id': sid, 'author': config.get('name'), 'url': config['feed_url']}, limit=limit)
+                if error:
+                    notes.append({'source_id': sid, 'status': error})
+            elif config.get('adapter') == 'flash_json':
+                fetches += 1
+                rows, error = fetch_flash_json({**config, 'id': sid}, limit)
                 if error:
                     notes.append({'source_id': sid, 'status': error})
             elif config.get('handle') and include_x:

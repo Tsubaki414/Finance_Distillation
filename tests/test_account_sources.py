@@ -96,7 +96,7 @@ class Cases(unittest.TestCase):
         self.assertEqual(self.calls,[])
 
     def test_three_active_universes_and_inactive_account_rejected(self):
-        self.assertEqual({u['account_id'] for u in universes()}, {'en_morris_archive','zh_macro','zh_industry'})
+        self.assertEqual({u['account_id'] for u in universes() if not u.get('pilot')}, {'en_morris_archive','zh_macro','zh_industry'})
         with self.assertRaisesRegex(ValueError, 'inactive'):
             admission('en_industry', self.semi)
 

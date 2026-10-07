@@ -409,7 +409,7 @@ class MonitorTests(unittest.TestCase):
         self.root = Path(self.temporary.name)
         self.store = Store(self.root / 'store')
         self.config = {**configuration(), 'allow_paid_x': False}
-        self.worlds = copy.deepcopy(universes())
+        self.worlds = [w for w in copy.deepcopy(universes()) if w['account_id'] in SOURCE_IDS]
         for world in self.worlds:
             world['subscriptions'] = [s for s in world['subscriptions']
                                       if s['source_id'] == SOURCE_IDS[world['account_id']]]

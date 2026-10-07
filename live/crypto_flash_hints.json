@@ -1,0 +1,44 @@
+{
+  "version": "crypto-flash-hints-v0",
+  "created": "2026-10-06",
+  "status": "hints only; not wired into live/adapters/flashes.py TOPIC (macro flash ordering unchanged)",
+  "use": "Beat filter for airdrop/TGE/points/testnet accounts (zh_airdrop_diary, zh_airdrop_tutorial, en_airdrop_farmer): flash or feed item is a pilot lead only if it matches include and not exclude",
+  "include": {
+    "zh": "空投|撸毛|积分|测试网|TGE|白名单|白单|额度|快照|申领|领取|发币|代币发行|代币生成|预售|公售|Launchpool|HODLer|Alpha|交互|等待列表|waitlist|融资|种子轮|主网上线|赛季|Season",
+    "en": "airdrop|\\bTGE\\b|token generation|\\bpoints?\\b|testnet|mainnet|snapshot|\\bclaim|allocation|eligib|whitelist|waitlist|season \\d|launchpool|HODLer|\\bICO\\b|token sale|presale|raises?\\b|funding round|seed round|series [AB]|incentiv|quest"
+  },
+  "exclude": {
+    "zh": "下载APP|扫码|邀请码|返佣|开户|直播间|广告|付费|会员",
+    "en": "referral code|sign up bonus|sponsored|giveaway(?! .*official)"
+  },
+  "noisy_terms": [
+    "融资 / raises (matches macro and corporate financing)",
+    "Alpha (matches fund names)",
+    "points (matches basis points)",
+    "交互 (generic)",
+    "funding (perp funding rate)"
+  ],
+  "proposed_flash_outlets": [
+    {
+      "id": "wscn_blockchain_flash",
+      "url": "https://api-one-wscn.awtmt.com/apiv1/content/lives?channel=blockchain-channel&limit={n}",
+      "publisher": "华尔街见闻7x24 区块链",
+      "status": "fetch ok 2026-10-06 (20/20 items)",
+      "licence": "same publisher/basis as ch141_wscn_flash (B) - needs Fiona approval before adding to OUTLETS"
+    }
+  ],
+  "observed_hit_rates_2026-10-06": {
+    "odaily_flash": "1/10",
+    "odaily_post": "1/10",
+    "chaincatcher": "54/488",
+    "cointelegraph": "5/30",
+    "decrypt": "2/37",
+    "theblock": "3/19",
+    "coindesk": "1/25",
+    "thedefiant": "21/100",
+    "airdrops_io": "10/10",
+    "airdropalert": "3/10",
+    "wscn_blockchain": "4/100"
+  },
+  "evidence": "runs/p0_crypto_pilot_20261006/keyword_hits.json"
+}

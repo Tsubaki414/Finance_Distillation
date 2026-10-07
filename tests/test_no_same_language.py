@@ -45,6 +45,14 @@ class SameLanguageIsolation(unittest.TestCase):
     def test_cross_language_still_admitted(self):
         self.assertTrue(admission('zh_macro', self.en_on_zh)['admitted'])
 
+    def test_flag_is_opt_in_per_account(self):
+        # Decision 2026-10-07: only accounts with allow_same_language take same-language material.
+        for aid in ('zh_macro', 'zh_industry', 'en_morris_archive'):
+            self.assertNotIn('allow_same_language', account(aid))
+        flagged = {a['id'] for a in json.loads((ROOT / 'live/owned_accounts.json').read_text())['accounts']
+                   if a.get('allow_same_language')}
+        self.assertEqual(flagged, {'zh_airdrop_diary', 'zh_airdrop_tutorial', 'en_airdrop_farmer'})
+
     def test_morris_cross_language_unchanged(self):
         morris = {**self.zh_on_zh, 'source_id': 'x_Morris_LT', 'author_handle': 'Morris_LT',
                   'author_name': 'Morris_LT', 'url': 'https://x.com/Morris_LT/status/123',

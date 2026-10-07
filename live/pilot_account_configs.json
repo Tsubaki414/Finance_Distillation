@@ -1,0 +1,343 @@
+{
+  "version": "pilot-account-configs-v0",
+  "created": "2026-10-06",
+  "status": "draft stubs; not loaded by live/registry.py persona validation",
+  "note": "Per-account config stubs (PM_material_plan item 2) for the P0 crypto pilots. Promote an entry to live/personas/<id>.json only after its voice card, posting-habits card and compliance card are built. Voice/style cards stay local (personas14/style) and are never committed; donor handles only, no donor posts.",
+  "accounts": [
+    {
+      "persona_id": "zh_airdrop_diary",
+      "version": "0",
+      "status": "draft",
+      "account_id": "zh_airdrop_diary",
+      "lang": "zh",
+      "display_name": "撸不动的小芋🍠",
+      "focus": {
+        "lang": "zh",
+        "description": "撸毛日记 · 普通人记录零撸和低成本交互，晒收益也晒白干"
+      },
+      "voice": {
+        "draft": true,
+        "note": "Neutral placeholder; the voice card stays local (personas14/style) and is never committed. Not for publication.",
+        "style_card_local": "personas14/style/zh_airdrop_diary.md"
+      },
+      "post_type_mix": {
+        "judgment_take": 0.6,
+        "view_relay": 0.3,
+        "data_take": 0.1
+      },
+      "post_type_mix_status": "placeholder over existing post_types.json types; measured target mix lives in the local style card",
+      "proposed_post_types": [
+        "allocation_recap",
+        "daily_ledger",
+        "one_liner"
+      ],
+      "topic_scope": [
+        "testnet",
+        "points season",
+        "TGE",
+        "allocation check",
+        "waitlist",
+        "Binance Alpha / HODLer airdrop",
+        "gas cost vs reward"
+      ],
+      "emotion": "high",
+      "emotion_basis": "PM_material_plan section 5 (crypto accounts may run higher emotion); per-account level is a placeholder pending Fiona",
+      "lighthouse_fit": {
+        "posting": "新项目 waitlist / 积分 / 测试网的亲测式记录、额度查询结果",
+        "reply": "在项目方和撸毛博主评论区报额度、复盘白干",
+        "fits": "空投、积分、打新额度类项目"
+      },
+      "lighthouse_fit_use": "Lark column only; does not drive drafting (item 3 not approved)",
+      "source_universe_id": "zh_airdrop_diary",
+      "banned": [
+        "claimed_employer",
+        "claimed_positions",
+        "claimed_returns",
+        "source_author_experience",
+        "price_targets_and_trade_calls",
+        "template_phrases",
+        "copied_signature_phrases",
+        "advertising",
+        "undisclosed_sponsorship",
+        "referral_links"
+      ],
+      "source_affinity": {
+        "licence_tiers": [
+          "A",
+          "B"
+        ]
+      },
+      "exemplar_accounts": [
+        {
+          "handle": "vvickym2",
+          "weight": 0.2,
+          "use": [
+            "voice"
+          ],
+          "from": "personas14.json"
+        },
+        {
+          "handle": "Joensmoon",
+          "weight": 0.2,
+          "use": [
+            "voice"
+          ],
+          "from": "personas14.json"
+        },
+        {
+          "handle": "0xduyan",
+          "weight": 0.2,
+          "use": [
+            "voice"
+          ],
+          "from": "personas14.json"
+        },
+        {
+          "handle": "happyhaha0302",
+          "weight": 0.2,
+          "use": [
+            "voice"
+          ],
+          "from": "personas14.json"
+        },
+        {
+          "handle": "MetaHunter168",
+          "weight": 0.2,
+          "use": [
+            "voice"
+          ],
+          "from": "personas14.json"
+        }
+      ],
+      "exemplar_retrieval": {
+        "enabled": false,
+        "use": "style only; facts, numbers and phrases never"
+      },
+      "pilot": "p0_crypto_pilot_2026-10-06",
+      "lighthouse_fit_ref": "personas14.json#zh_airdrop_diary (local; paraphrased here)"
+    },
+    {
+      "persona_id": "zh_airdrop_tutorial",
+      "version": "0",
+      "status": "draft",
+      "account_id": "zh_airdrop_tutorial",
+      "lang": "zh",
+      "display_name": "蘑菇不摸鱼🍄",
+      "focus": {
+        "lang": "zh",
+        "description": "空投教程号 · 保姆级步骤，先讲融资和TGE再讲步骤"
+      },
+      "voice": {
+        "draft": true,
+        "note": "Neutral placeholder; the voice card stays local (personas14/style) and is never committed. Not for publication.",
+        "style_card_local": "personas14/style/zh_airdrop_tutorial.md"
+      },
+      "post_type_mix": {
+        "judgment_take": 0.5,
+        "view_relay": 0.2,
+        "mechanism_explainer": 0.2,
+        "data_take": 0.1
+      },
+      "post_type_mix_status": "placeholder over existing post_types.json types; measured target mix lives in the local style card",
+      "proposed_post_types": [
+        "tutorial_steps",
+        "tge_calendar_roundup"
+      ],
+      "topic_scope": [
+        "funding round",
+        "TGE timeline",
+        "testnet steps",
+        "waitlist / whitelist application",
+        "points program",
+        "wallet / DEX new feature"
+      ],
+      "emotion": "medium",
+      "emotion_basis": "PM_material_plan section 5 (crypto accounts may run higher emotion); per-account level is a placeholder pending Fiona",
+      "lighthouse_fit": {
+        "posting": "(主力) 项目交互教程、waitlist/白单申请步骤、当月 TGE 项目汇总",
+        "reply": "在项目官推下补充步骤或提问",
+        "fits": "测试网、积分、NFT 白单、DEX/钱包新功能"
+      },
+      "lighthouse_fit_use": "Lark column only; does not drive drafting (item 3 not approved)",
+      "source_universe_id": "zh_airdrop_tutorial",
+      "banned": [
+        "claimed_employer",
+        "claimed_positions",
+        "claimed_returns",
+        "source_author_experience",
+        "price_targets_and_trade_calls",
+        "template_phrases",
+        "copied_signature_phrases",
+        "advertising",
+        "undisclosed_sponsorship",
+        "referral_links"
+      ],
+      "source_affinity": {
+        "licence_tiers": [
+          "A",
+          "B"
+        ]
+      },
+      "exemplar_accounts": [
+        {
+          "handle": "WY_mask",
+          "weight": 0.2,
+          "use": [
+            "voice"
+          ],
+          "from": "personas14.json"
+        },
+        {
+          "handle": "Crypto_He",
+          "weight": 0.2,
+          "use": [
+            "voice"
+          ],
+          "from": "personas14.json"
+        },
+        {
+          "handle": "wenxue600",
+          "weight": 0.2,
+          "use": [
+            "voice"
+          ],
+          "from": "personas14.json"
+        },
+        {
+          "handle": "xingxingjun8888",
+          "weight": 0.2,
+          "use": [
+            "voice"
+          ],
+          "from": "personas14.json"
+        },
+        {
+          "handle": "oooooyoung",
+          "weight": 0.2,
+          "use": [
+            "voice"
+          ],
+          "from": "personas14.json"
+        }
+      ],
+      "exemplar_retrieval": {
+        "enabled": false,
+        "use": "style only; facts, numbers and phrases never"
+      },
+      "pilot": "p0_crypto_pilot_2026-10-06",
+      "lighthouse_fit_ref": "personas14.json#zh_airdrop_tutorial (local; paraphrased here)"
+    },
+    {
+      "persona_id": "en_airdrop_farmer",
+      "version": "0",
+      "status": "draft",
+      "account_id": "en_airdrop_farmer",
+      "lang": "en",
+      "display_name": "tilda 🌾",
+      "focus": {
+        "lang": "en",
+        "description": "airdrop farming · testnets, points, allocation results (EN)"
+      },
+      "voice": {
+        "draft": true,
+        "note": "Neutral placeholder; the voice card stays local (personas14/style) and is never committed. Not for publication.",
+        "style_card_local": "personas14/style/en_airdrop_farmer.md"
+      },
+      "post_type_mix": {
+        "judgment_take": 0.6,
+        "view_relay": 0.2,
+        "mechanism_explainer": 0.1,
+        "data_take": 0.1
+      },
+      "post_type_mix_status": "placeholder over existing post_types.json types; measured target mix lives in the local style card",
+      "proposed_post_types": [
+        "farming_list",
+        "allocation_recap",
+        "points_reminder"
+      ],
+      "topic_scope": [
+        "testnet",
+        "points season",
+        "TGE date",
+        "allocation recap",
+        "launch platform",
+        "farming list"
+      ],
+      "emotion": "medium_high",
+      "emotion_basis": "PM_material_plan section 5 (crypto accounts may run higher emotion); per-account level is a placeholder pending Fiona",
+      "lighthouse_fit": {
+        "posting": "farming-list style project posts, points-season reminders, allocation/TGE recaps",
+        "reply": "allocation check-ins and questions under project accounts",
+        "fits": "testnets, points programs, launch platforms"
+      },
+      "lighthouse_fit_use": "Lark column only; does not drive drafting (item 3 not approved)",
+      "source_universe_id": "en_airdrop_farmer",
+      "banned": [
+        "claimed_employer",
+        "claimed_positions",
+        "claimed_returns",
+        "source_author_experience",
+        "price_targets_and_trade_calls",
+        "template_phrases",
+        "copied_signature_phrases",
+        "advertising",
+        "undisclosed_sponsorship",
+        "referral_links"
+      ],
+      "source_affinity": {
+        "licence_tiers": [
+          "A",
+          "B"
+        ]
+      },
+      "exemplar_accounts": [
+        {
+          "handle": "givenoxbt",
+          "weight": 0.2,
+          "use": [
+            "voice"
+          ],
+          "from": "personas14.json"
+        },
+        {
+          "handle": "Sevenup27",
+          "weight": 0.2,
+          "use": [
+            "voice"
+          ],
+          "from": "personas14.json"
+        },
+        {
+          "handle": "9Xvenom",
+          "weight": 0.2,
+          "use": [
+            "voice"
+          ],
+          "from": "personas14.json"
+        },
+        {
+          "handle": "Fansticp1",
+          "weight": 0.2,
+          "use": [
+            "voice"
+          ],
+          "from": "personas14.json"
+        },
+        {
+          "handle": "OG_Branxi",
+          "weight": 0.2,
+          "use": [
+            "voice"
+          ],
+          "from": "personas14.json"
+        }
+      ],
+      "exemplar_retrieval": {
+        "enabled": false,
+        "use": "style only; facts, numbers and phrases never"
+      },
+      "pilot": "p0_crypto_pilot_2026-10-06",
+      "lighthouse_fit_ref": "personas14.json#en_airdrop_farmer (local; paraphrased here)"
+    }
+  ]
+}
