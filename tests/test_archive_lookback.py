@@ -224,3 +224,10 @@ def test_recheck_releases_and_holds(tmp_path, monkeypatch):
     stored = compose_inbox.get(row['id'], base=base)
     assert stored['draft_status'] == 'draft_ready' and not stored['held'] and stored['text'] == GOOD
     assert stored['rechecks'][0]['before'] == [True, 'hard: ungrounded_number']
+
+
+def test_draft_media_leaves_archive_chart_alone(tmp_path):
+    from live import draft_media
+    row = {'id': 'arc-x', 'day': '2026-10-08', 'post_kind': 'archive_lookback', 'text': GOOD,
+           'media': [{'kind': 'archive_chart', 'path': 'media/2026-10-08/arc-x.png'}]}
+    assert draft_media.annotate(dict(row), ZH, tmp_path)['media'] == row['media']

@@ -28,6 +28,8 @@ def is_ready(row):
 
 
 def annotate(row, account, out_dir=None, replies_given=0, own_handles=(), charts_on=True):
+    if row.get('post_kind') == 'archive_lookback':   # 回看 keeps its own fixed then-vs-now chart (live/archive_lookback.py)
+        return row
     out_dir = Path(out_dir or MEDIA_OUT)
     row.update({k: None for k in ('quote_target_url', 'reply_to_url')})
     row.update(post_mode.decide(row, replies_given=replies_given, own_handles=own_handles))
