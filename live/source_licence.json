@@ -2017,6 +2017,587 @@
       "no_reproduction": true,
       "quote_allowed": false,
       "attribution_required": true
+    },
+    "x_star_okx": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "star_okx"
+      ]
+    },
+    "x_thankUcrypto": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "thankUcrypto"
+      ]
+    },
+    "x_BensonTWN": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "BensonTWN"
+      ]
+    },
+    "x_TechFlowPost": {
+      "tier": "C",
+      "basis": "fd20 X watchlist (media/project account): topic lead only, never a body source",
+      "aliases": [
+        "TechFlowPost"
+      ]
+    },
+    "x_Foresight_News": {
+      "tier": "C",
+      "basis": "fd20 X watchlist (media/project account): topic lead only, never a body source",
+      "aliases": [
+        "Foresight_News"
+      ]
+    },
+    "x_Sea_Bitcoin": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "Sea_Bitcoin"
+      ]
+    },
+    "x_lianyanshe": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "lianyanshe"
+      ]
+    },
+    "x_CryptoWesearch": {
+      "tier": "C",
+      "basis": "fd20 X watchlist (media/project account): topic lead only, never a body source",
+      "aliases": [
+        "CryptoWesearch"
+      ]
+    },
+    "x_saylor": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "saylor"
+      ]
+    },
+    "x_CryptoPainter": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "CryptoPainter"
+      ]
+    },
+    "x_BTC__options": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "BTC__options"
+      ]
+    },
+    "x_sss_crypto": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "sss_crypto"
+      ]
+    },
+    "x_YourAirdropETH": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "YourAirdropETH"
+      ]
+    },
+    "x_HyperEVM_CN": {
+      "tier": "C",
+      "basis": "fd20 X watchlist (media/project account): topic lead only, never a body source",
+      "aliases": [
+        "HyperEVM_CN"
+      ]
+    },
+    "x_bubblemaps": {
+      "tier": "C",
+      "basis": "fd20 X watchlist (media/project account): topic lead only, never a body source",
+      "aliases": [
+        "bubblemaps"
+      ]
+    },
+    "x_Dune": {
+      "tier": "C",
+      "basis": "fd20 X watchlist (media/project account): topic lead only, never a body source",
+      "aliases": [
+        "Dune"
+      ]
+    },
+    "x_james_x": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "james_x"
+      ]
+    },
+    "x_chenmo": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "chenmo"
+      ]
+    },
+    "x_cryptobraveHQ": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "cryptobraveHQ"
+      ]
+    },
+    "x_NintendoDoomed": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "NintendoDoomed"
+      ]
+    },
+    "x_TokenMore": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "TokenMore"
+      ]
+    },
+    "x_DeFiTeddy2020": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "DeFiTeddy2020"
+      ]
+    },
+    "x_silverfang88": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "silverfang88"
+      ]
+    },
+    "x_GuHype": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "GuHype"
+      ]
+    },
+    "x_yourQuantGuy": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "yourQuantGuy"
+      ]
+    },
+    "x_EleveResearch": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "EleveResearch"
+      ]
+    },
+    "x_bc1qDave": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "bc1qDave"
+      ]
+    },
+    "x_HyperliquidX": {
+      "tier": "C",
+      "basis": "fd20 X watchlist (media/project account): topic lead only, never a body source",
+      "aliases": [
+        "HyperliquidX"
+      ]
+    },
+    "x_lanaaielsa": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "lanaaielsa"
+      ]
+    },
+    "x_softlipa1018": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "softlipa1018"
+      ]
+    },
+    "x_0xAllen": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "0xAllen"
+      ]
+    },
+    "x_lin_btc": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "lin_btc"
+      ]
+    },
+    "x_EinsteinYipie": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "EinsteinYipie"
+      ]
+    },
+    "x_0xmasiwei": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "0xmasiwei"
+      ]
+    },
+    "x_sanyuanVC": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "sanyuanVC"
+      ]
+    },
+    "x_sanyi_eth_": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "sanyi_eth_"
+      ]
+    },
+    "x_MetaHunter168": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "MetaHunter168"
+      ]
+    },
+    "x_cryp_orange": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "cryp_orange"
+      ]
+    },
+    "x_0xYond": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "0xYond"
+      ]
+    },
+    "x_ChaseWang": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "ChaseWang"
+      ]
+    },
+    "x_LeotheHorseman": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "LeotheHorseman"
+      ]
+    },
+    "x_mrblock": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "mrblock"
+      ]
+    },
+    "x_roger9949": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "roger9949"
+      ]
+    },
+    "x_MMMusol": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "MMMusol"
+      ]
+    },
+    "x_yuyue_chris": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "yuyue_chris"
+      ]
+    },
+    "x_sjbtc9": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "sjbtc9"
+      ]
+    },
+    "x_rayrayweb5": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "rayrayweb5"
+      ]
+    },
+    "x_starzq": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "starzq"
+      ]
+    },
+    "x_woody168888": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "woody168888"
+      ]
+    },
+    "x_VitalikButerin": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "VitalikButerin"
+      ]
+    },
+    "x_SoSoValueCrypto": {
+      "tier": "C",
+      "basis": "fd20 X watchlist (media/project account): topic lead only, never a body source",
+      "aliases": [
+        "SoSoValueCrypto"
+      ]
+    },
+    "x_Cointelegraph": {
+      "tier": "C",
+      "basis": "fd20 X watchlist (media/project account): topic lead only, never a body source",
+      "aliases": [
+        "Cointelegraph"
+      ]
+    },
+    "x_Delphi_Digital": {
+      "tier": "C",
+      "basis": "fd20 X watchlist (media/project account): topic lead only, never a body source",
+      "aliases": [
+        "Delphi_Digital"
+      ]
+    },
+    "x_DoveyWan": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "DoveyWan"
+      ]
+    },
+    "x_BinanceResearch": {
+      "tier": "C",
+      "basis": "fd20 X watchlist (media/project account): topic lead only, never a body source",
+      "aliases": [
+        "BinanceResearch"
+      ]
+    },
+    "x_zachxbt": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "zachxbt"
+      ]
+    },
+    "x_WatcherGuru": {
+      "tier": "C",
+      "basis": "fd20 X watchlist (media/project account): topic lead only, never a body source",
+      "aliases": [
+        "WatcherGuru"
+      ]
+    },
+    "x_Alvin0617": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "Alvin0617"
+      ]
+    },
+    "x_DeFiMinty": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "DeFiMinty"
+      ]
+    },
+    "x_therationalroot": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "therationalroot"
+      ]
+    },
+    "x_WhiteWhaleLabs": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "WhiteWhaleLabs"
+      ]
+    },
+    "x_blknoiz06": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "blknoiz06"
+      ]
+    },
+    "x_notthreadguy": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "notthreadguy"
+      ]
+    },
+    "x_koolkrypto223": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "koolkrypto223"
+      ]
+    },
+    "x_mert": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "mert"
+      ]
+    },
+    "x_AndreCronjeTech": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "AndreCronjeTech"
+      ]
+    },
+    "x_Blockworks": {
+      "tier": "C",
+      "basis": "fd20 X watchlist (media/project account): topic lead only, never a body source",
+      "aliases": [
+        "Blockworks"
+      ]
+    },
+    "x_BitcoinMagazine": {
+      "tier": "C",
+      "basis": "fd20 X watchlist (media/project account): topic lead only, never a body source",
+      "aliases": [
+        "BitcoinMagazine"
+      ]
+    },
+    "x_a16zcrypto": {
+      "tier": "C",
+      "basis": "fd20 X watchlist (media/project account): topic lead only, never a body source",
+      "aliases": [
+        "a16zcrypto"
+      ]
+    },
+    "x_stacy_muur": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "stacy_muur"
+      ]
+    },
+    "x_OKX_Ventures": {
+      "tier": "C",
+      "basis": "fd20 X watchlist (media/project account): topic lead only, never a body source",
+      "aliases": [
+        "OKX_Ventures"
+      ]
+    },
+    "x_econoar": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "econoar"
+      ]
+    },
+    "x_Shaughnessy119": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "Shaughnessy119"
+      ]
+    },
+    "x_sjdedic": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "sjdedic"
+      ]
+    },
+    "x_ThierryBorgeat": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "ThierryBorgeat"
+      ]
+    },
+    "x_WillieDelwiche": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "WillieDelwiche"
+      ]
+    },
+    "x_mrjasonchoi": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "mrjasonchoi"
+      ]
+    },
+    "x_Rewkang": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "Rewkang"
+      ]
+    },
+    "x_stocktalkweekly": {
+      "tier": "C",
+      "basis": "fd20 X watchlist (media/project account): topic lead only, never a body source",
+      "aliases": [
+        "stocktalkweekly"
+      ]
+    },
+    "x_zephyr_z9": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "zephyr_z9"
+      ]
+    },
+    "x_McClellanOsc": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "McClellanOsc"
+      ]
+    },
+    "x_WalterDeemer": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "WalterDeemer"
+      ]
+    },
+    "x_TimmerFidelity": {
+      "tier": "B",
+      "basis": "X analyst posts (fd20 account-scoped source, 2026-10-07)",
+      "aliases": [
+        "TimmerFidelity"
+      ]
     }
   }
 }

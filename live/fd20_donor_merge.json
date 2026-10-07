@@ -1,0 +1,1091 @@
+{
+ "version": "mango-merge-2026-10-07",
+ "note": "Adopted donors merged into the fd20 acct_<id> clusters by scripts/persona_factory.py (base donors keep 50% of the weight, adopted donors split 50%). Handles and aggregate metadata only; donor posts stay in the ignored live/donors/posts/. x_sources are account-scoped X sources for the fd20 universes (CORE from the Mango proposals, SECONDARY meme/perp/DeFi/onchain/chart sources); mega accounts (VitalikButerin, saylor, mert, zachxbt, star_okx) are sources only, never donors.",
+ "rules": {
+  "same_language": true,
+  "max_accounts_per_donor": 3,
+  "min_posts": 150,
+  "max_promo_share": 0.25,
+  "individual_writers_only": true
+ },
+ "dropped": {
+  "Chris_Defi": "metaphysics/astrology market timing (user decision 2026-10-07)",
+  "dotkrueger": "automated daily summaries",
+  "0xTykoo": "mixed language",
+  "DarcyAsks": "mixed zh/en timeline",
+  "Yes_Johnny910": "107 originals in the whole timeline (<150)",
+  "0xAllen": "promo_share 0.27 > 0.25 (deep-scrape read of 190 posts)",
+  "BTC__options": "promo_share 0.26 > 0.25 (deep-scrape read of 198 posts)",
+  "Leoninweb3": "promo_share 0.28 > 0.25 (deep-scrape read of 150 posts)",
+  "btcergou": "promo_share 0.28 > 0.25 (deep-scrape read of 180 posts)",
+  "gizmothegizzer": "promo_share 0.30 > 0.25 (deep-scrape read of 179 posts)",
+  "IT_Tech_PL": "promo_share 0.36 > 0.25 (deep-scrape read of 192 posts)",
+  "stacy_muur": "promo_share 0.26 > 0.25 (deep-scrape read of 197 posts)",
+  "thecryptoskanda": "promo_share 0.38 > 0.25 (deep-scrape read of 209 posts)",
+  "mrblock": "not an individual voice (deep-scrape read of 187 posts)",
+  "CW8900": "not an individual voice (deep-scrape read of 163 posts)",
+  "OnChainMind": "not an individual voice (deep-scrape read of 185 posts)",
+  "burak_tamac": "promo_share 0.28 > 0.25 (deep-scrape read of 187 posts)",
+  "MattCrosbyPro": "mostly employer-article teaser links",
+  "eyeonchains": "doxxing-style accusation posts",
+  "Andre_Dragosch": "59 originals (repost-heavy)"
+ },
+ "sources_only": [
+  "VitalikButerin",
+  "saylor",
+  "mert",
+  "zachxbt",
+  "star_okx"
+ ],
+ "donors": {
+  "0xLuo": {
+   "lang": "en",
+   "category": "crypto_defi",
+   "followers": 8736,
+   "promo_share": 0.03,
+   "posts": 167,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 167 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.030 = max(LLM per-post read 0.012, regex 0.030); Base/Farcaster/Zora ecosystem, agent tokens, SocialFi, tokenized stocks"
+  },
+  "ahboyash": {
+   "lang": "en",
+   "category": "crypto_defi",
+   "followers": 33114,
+   "promo_share": 0.116,
+   "posts": 190,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 190 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.116 = max(LLM per-post read 0.116, regex 0.032); Singapore-based crypto/DeFi research analyst: token launch stats, RWA/stock tokenization, privacy, AI x crypto, CT cultu"
+  },
+  "amandacassatt": {
+   "lang": "en",
+   "category": "crypto_macro",
+   "followers": 25997,
+   "promo_share": 0.092,
+   "posts": 185,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 185 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.092 = max(LLM per-post read 0.092, regex 0.009); Crypto/Ethereum ecosystem, AI-vs-open-source politics, podcast host (Endgame), founder of Serotonin"
+  },
+  "anymose": {
+   "lang": "zh",
+   "category": "crypto_research",
+   "followers": 31729,
+   "promo_share": 0.217,
+   "posts": 184,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 184 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.217 = max(LLM per-post read 0.217, regex 0.062); Chinese crypto KOL: exchange/launchpad drama, token analysis, memes, Robinhood chain, HK/Asia industry gossip"
+  },
+  "BensonTWN": {
+   "lang": "zh",
+   "category": "crypto_macro",
+   "followers": 76448,
+   "promo_share": 0.046,
+   "posts": 151,
+   "origin": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 151 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.046 = max(LLM per-post read 0.046, regex 0.000); BTC macro and on-chain flow analysis (Binance flows, BTC-gold correlation, Bitfinex lending), AI agents/OpenClaw tooling"
+  },
+  "BitQua": {
+   "lang": "en",
+   "category": "crypto_btc_cycle",
+   "followers": 101304,
+   "promo_share": 0.005,
+   "posts": 185,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors BobLoukas/nsquaredvalue/TedPillows/zackvoell",
+   "verify_note": "deep scrape 185 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.005 = max(LLM per-post read 0.005, regex 0.000); Bitcoin cycle/on-chain bottom calls, gold, CLARITY Act, Strategy/Saylor"
+  },
+  "chenmo": {
+   "lang": "zh",
+   "category": "crypto_research",
+   "followers": 55278,
+   "promo_share": 0.005,
+   "posts": 197,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 197 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.005 = max(LLM per-post read 0.005, regex 0.005); DeFi/crypto fundamentals: Uniswap, Aave, Morpho, Ethena, Robinhood Chain, MSTR/STRC, tokenized stocks"
+  },
+  "CJ900X": {
+   "lang": "en",
+   "category": "crypto_btc_cycle",
+   "followers": 100364,
+   "promo_share": 0.005,
+   "posts": 187,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors BobLoukas/nsquaredvalue/TedPillows/zackvoell",
+   "verify_note": "deep scrape 187 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.005 = max(LLM per-post read 0.000, regex 0.005); Crypto technical trading (BTC/ETH/alts), price-action levels and trade updates"
+  },
+  "connectfarm1": {
+   "lang": "zh",
+   "category": "crypto_diary",
+   "followers": 135484,
+   "promo_share": 0.104,
+   "posts": 193,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 193 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.104 = max(LLM per-post read 0.104, regex 0.005); Shenzhen-based on-chain trader/KOL: BNB Chain and Robinhood-chain memecoin trades, daily diving diary, market structure,"
+  },
+  "CryptoPainter": {
+   "lang": "zh",
+   "category": "crypto_onchain",
+   "followers": 94054,
+   "promo_share": 0.03,
+   "posts": 201,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 201 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.030 = max(LLM per-post read 0.030, regex 0.020); BTC spot-premium/ETF flow and rates (US10Y) macro reads, algo-strategy and LLM-agent trading experiments, AI industry co"
+  },
+  "dapangdun": {
+   "lang": "zh",
+   "category": "crypto_macro",
+   "followers": 30237,
+   "promo_share": 0.023,
+   "posts": 171,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 171 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.023 = max(LLM per-post read 0.023, regex 0.000); Bitcoin ecosystem research: RGB protocol, Lightning/Ark, quantum-resistance BIPs, BTC-standard payments, privacy airdrop"
+  },
+  "Darkfost_Coc": {
+   "lang": "en",
+   "category": "crypto_onchain",
+   "followers": 11397,
+   "promo_share": 0.031,
+   "posts": 159,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors AxelAdlerJr",
+   "verify_note": "deep scrape 159 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.031 = max(LLM per-post read 0.031, regex 0.000); On-chain Bitcoin/crypto analyst (CryptoQuant contributor): STH/LTH cost basis, ETF and exchange flows, demand, Strategy "
+  },
+  "DeFiMinty": {
+   "lang": "en",
+   "category": "single_stock",
+   "followers": 81190,
+   "promo_share": 0.108,
+   "posts": 186,
+   "origin": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 186 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.108 = max(LLM per-post read 0.108, regex 0.000); Trader and AI-tools enthusiast: BTC/gold/equities macro positioning, Hyperliquid skew and funding, Claude/Codex/open-wei"
+  },
+  "DKellerCMT": {
+   "lang": "en",
+   "category": "market_data_charts",
+   "followers": 52923,
+   "promo_share": 0.052,
+   "posts": 192,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
+   "verify_note": "deep scrape 192 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.052 = max(LLM per-post read 0.052, regex 0.000); US equity technical analysis: breadth, S&P levels, sentiment surveys, individual stock charts; podcast host"
+  },
+  "DoveyWan": {
+   "lang": "en",
+   "category": "crypto_macro",
+   "followers": 138876,
+   "promo_share": 0.005,
+   "posts": 200,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 200 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.005 = max(LLM per-post read 0.005, regex 0.005); Crypto/AI/VC macro: AI infra debt, China-US, HK/Asia markets, DeFi hacks, agents, geopolitics, parenting and culture"
+  },
+  "DujunX": {
+   "lang": "zh",
+   "category": "crypto_research",
+   "followers": 231945,
+   "promo_share": 0.168,
+   "posts": 197,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 197 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.168 = max(LLM per-post read 0.168, regex 0.025); Crypto VC/founder (ABCDE, Vernal, WIDTH compliance), startup and investing opinions, ETH conviction, domains, life in SG"
+  },
+  "econoar": {
+   "lang": "en",
+   "category": "crypto_macro",
+   "followers": 205265,
+   "promo_share": 0.049,
+   "posts": 185,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 185 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.049 = max(LLM per-post read 0.049, regex 0.000); Robinhood chain memestocks (BONER/HIMS), LONG ecosystem, $LIT/Lighter and $HYPE perps, Kalshi bashing"
+  },
+  "GuHype": {
+   "lang": "zh",
+   "category": "crypto_trader",
+   "followers": 40177,
+   "promo_share": 0.207,
+   "posts": 193,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 193 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.207 = max(LLM per-post read 0.207, regex 0.041); Hyperliquid/HyperEVM ecosystem, airdrop farming, perp DEX and onchain finance, AI bots"
+  },
+  "Jamie1Coutts": {
+   "lang": "en",
+   "category": "crypto_onchain",
+   "followers": 50883,
+   "promo_share": 0.066,
+   "posts": 181,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors AxelAdlerJr",
+   "verify_note": "deep scrape 181 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.066 = max(LLM per-post read 0.066, regex 0.000); Crypto/macro strategist (Real Vision): liquidity cycle, BTC/ETH technicals, tokenisation, L1 valuation, plus Australian "
+  },
+  "KevinZbtc": {
+   "lang": "zh",
+   "category": "crypto_trader",
+   "followers": 15401,
+   "promo_share": 0.159,
+   "posts": 208,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 208 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.159 = max(LLM per-post read 0.159, regex 0.029); BTC/gold/US equities volume-price (Wyckoff) analysis, MSTR/STRC, Robinhood Chain, prediction markets, AI agents"
+  },
+  "kiki520_eth": {
+   "lang": "zh",
+   "category": "crypto_altcoin",
+   "followers": 75576,
+   "promo_share": 0.153,
+   "posts": 196,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 196 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.153 = max(LLM per-post read 0.153, regex 0.020); Chinese crypto KOL: perp DEXs and airdrop farming (Hyperliquid, edgex, Lighter, Aster), USD1/WLFI, RWA, cycle and bear-m"
+  },
+  "koolkrypto223": {
+   "lang": "en",
+   "category": "crypto_trader",
+   "followers": 12790,
+   "promo_share": 0.011,
+   "posts": 174,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors DaanCrypto/Pentosh1/SalsaTekila/gammichan",
+   "verify_note": "deep scrape 174 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.011 = max(LLM per-post read 0.000, regex 0.011); Onchain options and HYPE/HyperEVM altcoin trading (Derive, Kinetiq, Lighter), large disclosed positions"
+  },
+  "lanaaielsa": {
+   "lang": "zh",
+   "category": "crypto_diary",
+   "followers": 42678,
+   "promo_share": 0.089,
+   "posts": 191,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 191 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.089 = max(LLM per-post read 0.089, regex 0.010); On-chain meme trading (Solana/BSC/Robinhood chain), FOMO app, crypto-stock concepts, World Cup betting on Polymarket, ow"
+  },
+  "lazyvillager1": {
+   "lang": "en",
+   "category": "crypto_macro",
+   "followers": 42941,
+   "promo_share": 0.0,
+   "posts": 174,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors DaanCrypto/Pentosh1/SalsaTekila/gammichan",
+   "verify_note": "deep scrape 174 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.000 = max(LLM per-post read 0.000, regex 0.000); Macro/BTC trading (Fed, FOMC, Warsh/Bessent policy), TINA thesis, ZEC, crypto timeline satire"
+  },
+  "LeotheHorseman": {
+   "lang": "zh",
+   "category": "ai_industry",
+   "followers": 16517,
+   "promo_share": 0.01,
+   "posts": 205,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 205 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.010 = max(LLM per-post read 0.005, regex 0.010); Crypto/AI VC-insider commentary: prediction markets, AI labs and neo-labs, crypto VC and token market structure, Hong Ko"
+  },
+  "litangsongyx": {
+   "lang": "zh",
+   "category": "crypto_onchain",
+   "followers": 12261,
+   "promo_share": 0.141,
+   "posts": 191,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 191 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.141 = max(LLM per-post read 0.141, regex 0.052); Onchain analytics/MEV, X Layer and BNB ecosystem, quant dev, AI coding, exchange campaigns"
+  },
+  "McClellanOsc": {
+   "lang": "en",
+   "category": "market_data_charts",
+   "followers": 152691,
+   "promo_share": 0.062,
+   "posts": 176,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
+   "verify_note": "deep scrape 176 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.062 = max(LLM per-post read 0.062, regex 0.000); Market breadth (McClellan oscillator), COT data, cycles, yield/gold/sunspot relationships, plus climate skepticism and t"
+  },
+  "MMMusol": {
+   "lang": "zh",
+   "category": "ai_industry",
+   "followers": 17467,
+   "promo_share": 0.084,
+   "posts": 166,
+   "origin": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 166 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.084 = max(LLM per-post read 0.084, regex 0.042); US equities AI supply-chain and macro, trading reviews, OKX/Hyperliquid community events, AI agent tools, reflections"
+  },
+  "mrjasonchoi": {
+   "lang": "en",
+   "category": "crypto_thesis",
+   "followers": 183204,
+   "promo_share": 0.006,
+   "posts": 166,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 166 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.006 = max(LLM per-post read 0.006, regex 0.000); Crypto investor turned AI-focused investor: frontier labs, AI tools/agents, market cycles, crypto structure, fund/PM psy"
+  },
+  "pierre_crypt0": {
+   "lang": "en",
+   "category": "crypto_trader",
+   "followers": 205677,
+   "promo_share": 0.032,
+   "posts": 185,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors BobLoukas/nsquaredvalue/TedPillows/zackvoell",
+   "verify_note": "deep scrape 185 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.032 = max(LLM per-post read 0.032, regex 0.000); BTC technical analysis on EMA/MA compression across H4/D1/W1, altcoins (VVV, PUMP, ZEC), Monero advocacy, gaming and ski"
+  },
+  "Pivot922": {
+   "lang": "en",
+   "category": "crypto_trader",
+   "followers": 6521,
+   "promo_share": 0.0,
+   "posts": 171,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors DaanCrypto/Pentosh1/SalsaTekila/gammichan",
+   "verify_note": "deep scrape 171 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.000 = max(LLM per-post read 0.000, regex 0.000); Intraday crypto and equity trading: BTC/NEAR/HYPE/ETH levels, GOOGL, orderflow and options positioning, politics rants"
+  },
+  "Rewkang": {
+   "lang": "en",
+   "category": "crypto_thesis",
+   "followers": 423174,
+   "promo_share": 0.114,
+   "posts": 184,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 184 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.114 = max(LLM per-post read 0.114, regex 0.000); Humanoid robotics/physical AI investing (CEO of RoboStrategy), earlier crypto trading calls (TRUMP, AIXBT, ETH)"
+  },
+  "roger9949": {
+   "lang": "zh",
+   "category": "ai_industry",
+   "followers": 32132,
+   "promo_share": 0.138,
+   "posts": 188,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 188 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.138 = max(LLM per-post read 0.138, regex 0.016); Chinese-speaking trader: BNB/Robinhood-chain memecoins and stock tokens, AI+Bio equities, crypto and US/HK/A-share rotat"
+  },
+  "sanyi_eth_": {
+   "lang": "zh",
+   "category": "crypto_diary",
+   "followers": 270427,
+   "promo_share": 0.166,
+   "posts": 199,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 199 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.166 = max(LLM per-post read 0.166, regex 0.050); Airdrop farming, meme trading on RH chain/BSC, HK/A-share IPO subscriptions, early project alpha"
+  },
+  "sanyuanVC": {
+   "lang": "zh",
+   "category": "crypto_altcoin",
+   "followers": 38853,
+   "promo_share": 0.062,
+   "posts": 192,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 192 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.062 = max(LLM per-post read 0.062, regex 0.026); Daily crypto and US-stock explainers: tokenized stocks, Robinhood chain, HYPE, NEAR/UNI, Circle, SpaceX, AI hardware, IP"
+  },
+  "Sea_Bitcoin": {
+   "lang": "zh",
+   "category": "crypto_macro",
+   "followers": 53036,
+   "promo_share": 0.113,
+   "posts": 160,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 160 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.113 = max(LLM per-post read 0.113, regex 0.031); Crypto industry news and commentary: exchanges (Binance/OKX/Bitget), Robinhood Chain, stocks tokenization, hacks, BTC lo"
+  },
+  "Shaughnessy119": {
+   "lang": "en",
+   "category": "investing",
+   "followers": 70133,
+   "promo_share": 0.187,
+   "posts": 187,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 187 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.187 = max(LLM per-post read 0.187, regex 0.000); Open-source/sovereign AI, AI-vs-regulation politics, crypto VC (Delphi Ventures), Nous Hermes agents, podcast host"
+  },
+  "shirleyusy": {
+   "lang": "zh",
+   "category": "us_stocks",
+   "followers": 81704,
+   "promo_share": 0.072,
+   "posts": 181,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 181 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.072 = max(LLM per-post read 0.072, regex 0.017); Chinese-speaking US/Korea memory-chip and AI-bio stock trader who also trades crypto memecoins (BSC/Robinhood chain); pa"
+  },
+  "silverfang88": {
+   "lang": "zh",
+   "category": "ai_industry",
+   "followers": 100628,
+   "promo_share": 0.05,
+   "posts": 200,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 200 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.050 = max(LLM per-post read 0.050, regex 0.020); US stocks/macro, BSC/Robinhood-chain memes, options selling, crypto industry feuds"
+  },
+  "siriusxyzzz": {
+   "lang": "zh",
+   "category": "crypto_diary",
+   "followers": 1202,
+   "promo_share": 0.02,
+   "posts": 196,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/mangolabs_/snowmaker_cj (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 196 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.020 = max(LLM per-post read 0.020, regex 0.015); Crypto DeFi/perp-DEX points farming, Robinhood/Arc chains, plus AI agent workflows and Claude Code tooling, team collabo"
+  },
+  "sjbtc9": {
+   "lang": "zh",
+   "category": "crypto_research",
+   "followers": 11005,
+   "promo_share": 0.036,
+   "posts": 193,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 193 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.036 = max(LLM per-post read 0.036, regex 0.031); Web3 data research and US equity earnings (MU, NVDA, INTC), Robinhood Chain, stablecoin and perp business models"
+  },
+  "sjdedic": {
+   "lang": "en",
+   "category": "crypto_macro",
+   "followers": 50823,
+   "promo_share": 0.221,
+   "posts": 208,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 208 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.221 = max(LLM per-post read 0.221, regex 0.005); Crypto investing: onchain businesses with revenue, onchain TCG (Collector Crypt), peaq/DePIN, tokenized equities, regula"
+  },
+  "softlipa1018": {
+   "lang": "zh",
+   "category": "crypto_altcoin",
+   "followers": 29237,
+   "promo_share": 0.202,
+   "posts": 188,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 188 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.202 = max(LLM per-post read 0.202, regex 0.059); Chinese-language daily on-chain memecoin and tokenized-stock commentary (Robinhood chain, BSC, Solana), US stock and mac"
+  },
+  "sss_crypto": {
+   "lang": "zh",
+   "category": "crypto_onchain",
+   "followers": 13833,
+   "promo_share": 0.02,
+   "posts": 198,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 198 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.020 = max(LLM per-post read 0.020, regex 0.000); Onchain whale/alt token flow monitoring, exchange withdrawals, listings, unlock events"
+  },
+  "starzq": {
+   "lang": "zh",
+   "category": "ai_industry",
+   "followers": 52113,
+   "promo_share": 0.155,
+   "posts": 193,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 193 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.155 = max(LLM per-post read 0.155, regex 0.057); AI, US stocks and crypto investing (Day1Global podcast), Robinhood Chain, agents, Meta/SpaceX"
+  },
+  "stitchdegen": {
+   "lang": "en",
+   "category": "crypto_defi",
+   "followers": 29476,
+   "promo_share": 0.031,
+   "posts": 194,
+   "origin": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 194 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.031 = max(LLM per-post read 0.031, regex 0.015); Memecoin research and recaps on Solana, Robinhood Chain, Arc, HyperEVM; narrative and on-chain wallet analysis"
+  },
+  "thankUcrypto": {
+   "lang": "zh",
+   "category": "crypto_macro",
+   "followers": 178439,
+   "promo_share": 0.071,
+   "posts": 156,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 156 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.071 = max(LLM per-post read 0.071, regex 0.013); Chinese-language crypto/derivatives trader and copy-trade leader (BTC, ETH, ZEC, BSC memes, Korea/US memory stocks)"
+  },
+  "the_chart_life": {
+   "lang": "en",
+   "category": "market_data_charts",
+   "followers": 131726,
+   "promo_share": 0.0,
+   "posts": 161,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
+   "verify_note": "deep scrape 161 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.000 = max(LLM per-post read 0.000, regex 0.000); US ETF/sector technical analysis, relative strength charts, market breadth; podcast host"
+  },
+  "TheFlowHorse": {
+   "lang": "en",
+   "category": "crypto_trader",
+   "followers": 286504,
+   "promo_share": 0.032,
+   "posts": 190,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors BobLoukas/nsquaredvalue/TedPillows/zackvoell",
+   "verify_note": "deep scrape 190 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.032 = max(LLM per-post read 0.032, regex 0.000); Macro and crypto trader: BTC, SPX, FOMC, memory/software rotation, TLT, onchain meme mania"
+  },
+  "therationalroot": {
+   "lang": "en",
+   "category": "crypto_onchain",
+   "followers": 212439,
+   "promo_share": 0.227,
+   "posts": 154,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors BobLoukas/nsquaredvalue/TedPillows/zackvoell",
+   "verify_note": "deep scrape 154 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.227 = max(LLM per-post read 0.227, regex 0.006); Bitcoin on-chain cycle analysis (STH cost basis, spiral chart, 13F institutional adoption), self-custody incidents"
+  },
+  "ThierryBorgeat": {
+   "lang": "en",
+   "category": "investing",
+   "followers": 46328,
+   "promo_share": 0.2,
+   "posts": 195,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
+   "verify_note": "deep scrape 195 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.200 = max(LLM per-post read 0.200, regex 0.000); Swiss investor and founder of arvy Research: long-term market cycles, lost decades, compounders, monopoly/oligopoly stru"
+  },
+  "TimmerFidelity": {
+   "lang": "en",
+   "category": "market_data_charts",
+   "followers": 227912,
+   "promo_share": 0.0,
+   "posts": 193,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
+   "verify_note": "deep scrape 193 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.000 = max(LLM per-post read 0.000, regex 0.000); Macro and cross-asset strategy: rates, earnings, AI/semis, gold, Bitcoin, 60/20/20 allocation"
+  },
+  "timotimo007": {
+   "lang": "zh",
+   "category": "crypto_macro",
+   "followers": 52751,
+   "promo_share": 0.024,
+   "posts": 207,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 207 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.024 = max(LLM per-post read 0.024, regex 0.019); Crypto memes/launchpads (PONS, BSC), plus US/HK stock and Korean memory picks, event trades with position sizes, macro/F"
+  },
+  "TonySeverinoCMT": {
+   "lang": "en",
+   "category": "crypto_btc_cycle",
+   "followers": 48551,
+   "promo_share": 0.072,
+   "posts": 180,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors BobLoukas/nsquaredvalue/TedPillows/zackvoell",
+   "verify_note": "deep scrape 180 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.072 = max(LLM per-post read 0.072, regex 0.006); Elliott Wave/cycle technical analysis, secular bear thesis on BTC, DXY, TLT, stock market top calls"
+  },
+  "TXMCtrades": {
+   "lang": "en",
+   "category": "crypto_onchain",
+   "followers": 94544,
+   "promo_share": 0.017,
+   "posts": 180,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors JA_Maartun/jjcmoreno/AxelAdlerJr/caprioleio",
+   "verify_note": "deep scrape 180 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.017 = max(LLM per-post read 0.017, regex 0.006); Macro and rates (Treasury issuance, fiscal dominance, financial repression), geopolitics, Bitcoin on-chain, plus sports/"
+  },
+  "WalterDeemer": {
+   "lang": "en",
+   "category": "market_data_charts",
+   "followers": 124766,
+   "promo_share": 0.005,
+   "posts": 186,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
+   "verify_note": "deep scrape 186 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.005 = max(LLM per-post read 0.005, regex 0.000); Veteran technical analyst (breadth, gaps, upside/downside days, Lowry-style volume, market history) with daily SPY/QQQ g"
+  },
+  "WhiteWhaleLabs": {
+   "lang": "en",
+   "category": "crypto_trader",
+   "followers": 104656,
+   "promo_share": 0.21,
+   "posts": 176,
+   "origin": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 176 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.210 = max(LLM per-post read 0.210, regex 0.034); Solana trading, meme and market-structure commentary, exchange skepticism, Solana governance advocacy"
+  },
+  "WillieDelwiche": {
+   "lang": "en",
+   "category": "investing",
+   "followers": 25997,
+   "promo_share": 0.032,
+   "posts": 156,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
+   "verify_note": "deep scrape 156 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.032 = max(LLM per-post read 0.032, regex 0.000); US equity market breadth, sentiment surveys, inflation, global markets vs US, plus family/books/Wisconsin life"
+  },
+  "woody168888": {
+   "lang": "zh",
+   "category": "us_stocks",
+   "followers": 64633,
+   "promo_share": 0.005,
+   "posts": 194,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 194 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.005 = max(LLM per-post read 0.005, regex 0.000); Taiwan/Korea/US equities (memory, optical, glass substrates), crypto-to-stock migrants, market psychology, life"
+  },
+  "YourAirdropETH": {
+   "lang": "zh",
+   "category": "crypto_onchain",
+   "followers": 75818,
+   "promo_share": 0.081,
+   "posts": 209,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 209 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.081 = max(LLM per-post read 0.081, regex 0.014); Airdrop farming (Lighter, Opinion, Backpack, Genius), Polymarket copy-trading and bots, vibe coding with Claude/Codex, O"
+  },
+  "yourQuantGuy": {
+   "lang": "zh",
+   "category": "crypto_trader",
+   "followers": 19961,
+   "promo_share": 0.142,
+   "posts": 190,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 190 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.142 = max(LLM per-post read 0.142, regex 0.084); Paris-based ex-hedge-fund quant doing crypto and TradFi arbitrage: funding-rate and spread arb (Boros, Hyperliquid, Ligh"
+  },
+  "yuyue_chris": {
+   "lang": "zh",
+   "category": "investing",
+   "followers": 104546,
+   "promo_share": 0.108,
+   "posts": 166,
+   "origin": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+   "verify_note": "deep scrape 166 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.108 = max(LLM per-post read 0.108, regex 0.021); US stocks (AI/memory/semis), crypto trading rhythm, Robinhood-chain memes, macro/rate-hike expectations"
+  },
+  "zephyr_z9": {
+   "lang": "en",
+   "category": "single_stock",
+   "followers": 173325,
+   "promo_share": 0.0,
+   "posts": 164,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors DaanCrypto/Pentosh1/SalsaTekila/gammichan",
+   "verify_note": "deep scrape 164 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.000 = max(LLM per-post read 0.000, regex 0.000); Semiconductor and AI infrastructure supply chain: HBM, advanced packaging, CPUs, optical, Chinese AI labs, CXMT, frontie"
+  },
+  "zeroxkyle": {
+   "lang": "en",
+   "category": "crypto_onchain",
+   "followers": 61595,
+   "promo_share": 0.083,
+   "posts": 169,
+   "origin": "gap fill 2026-10-07: 1-hop following of existing en donors Pentosh1",
+   "verify_note": "deep scrape 169 originals (RapidAPI twitter241, Apify tweet-scraper top-up where short); promo_share 0.083 = max(LLM per-post read 0.083, regex 0.000); Singapore-based crypto/equities investor: token picks (ENA, BP, CARDS), AI/semis trade, K-shaped economy, Singapore life"
+  }
+ },
+ "accounts": {
+  "crypto_macro_zh": {
+   "donors": [
+    "BensonTWN",
+    "thankUcrypto",
+    "timotimo007",
+    "Sea_Bitcoin",
+    "dapangdun"
+   ],
+   "x_sources": {
+    "CORE": [
+     "star_okx",
+     "thankUcrypto",
+     "BensonTWN",
+     "TechFlowPost",
+     "Foresight_News",
+     "Sea_Bitcoin"
+    ],
+    "SECONDARY": [
+     "lianyanshe",
+     "CryptoWesearch",
+     "saylor"
+    ]
+   }
+  },
+  "crypto_onchain_zh": {
+   "donors": [
+    "CryptoPainter",
+    "sss_crypto",
+    "litangsongyx",
+    "BensonTWN",
+    "YourAirdropETH"
+   ],
+   "x_sources": {
+    "CORE": [
+     "CryptoPainter",
+     "BensonTWN",
+     "BTC__options",
+     "sss_crypto",
+     "YourAirdropETH",
+     "HyperEVM_CN"
+    ],
+    "SECONDARY": [
+     "PANewsCN",
+     "bubblemaps",
+     "Dune"
+    ]
+   }
+  },
+  "crypto_research_zh": {
+   "donors": [
+    "Sea_Bitcoin",
+    "anymose",
+    "chenmo",
+    "sjbtc9",
+    "DujunX"
+   ],
+   "x_sources": {
+    "CORE": [
+     "james_x",
+     "TechFlowPost",
+     "Foresight_News",
+     "Sea_Bitcoin",
+     "chenmo",
+     "cryptobraveHQ"
+    ],
+    "SECONDARY": [
+     "NintendoDoomed",
+     "TokenMore",
+     "DeFiTeddy2020",
+     "OdailyChina"
+    ]
+   }
+  },
+  "crypto_trader_zh": {
+   "donors": [
+    "CryptoPainter",
+    "thankUcrypto",
+    "yourQuantGuy",
+    "KevinZbtc",
+    "GuHype"
+   ],
+   "x_sources": {
+    "CORE": [
+     "CryptoPainter",
+     "thankUcrypto",
+     "silverfang88",
+     "james_x",
+     "YourAirdropETH",
+     "GuHype"
+    ],
+    "SECONDARY": [
+     "yourQuantGuy",
+     "EleveResearch",
+     "bc1qDave",
+     "HyperliquidX"
+    ]
+   }
+  },
+  "crypto_diary_zh": {
+   "donors": [
+    "siriusxyzzz",
+    "connectfarm1",
+    "YourAirdropETH",
+    "sanyi_eth_",
+    "lanaaielsa"
+   ],
+   "x_sources": {
+    "CORE": [
+     "CryptoPainter",
+     "thankUcrypto",
+     "silverfang88",
+     "lanaaielsa",
+     "softlipa1018",
+     "0xAllen"
+    ],
+    "SECONDARY": [
+     "lin_btc",
+     "EinsteinYipie",
+     "0xmasiwei"
+    ]
+   }
+  },
+  "crypto_altcoin_zh": {
+   "donors": [
+    "lanaaielsa",
+    "softlipa1018",
+    "sanyuanVC",
+    "kiki520_eth",
+    "chenmo"
+   ],
+   "x_sources": {
+    "CORE": [
+     "lanaaielsa",
+     "softlipa1018",
+     "james_x",
+     "chenmo",
+     "sanyuanVC",
+     "sanyi_eth_"
+    ],
+    "SECONDARY": [
+     "MetaHunter168",
+     "cryp_orange",
+     "GuHype",
+     "HyperEVM_CN",
+     "0xYond",
+     "ChaseWang"
+    ]
+   }
+  },
+  "crypto_btc_cycle_zh": {
+   "donors": [
+    "thankUcrypto",
+    "BensonTWN",
+    "dapangdun",
+    "timotimo007",
+    "KevinZbtc"
+   ],
+   "x_sources": {
+    "CORE": [
+     "thankUcrypto",
+     "BensonTWN",
+     "TechFlowPost",
+     "Foresight_News",
+     "BTC__options",
+     "sss_crypto"
+    ],
+    "SECONDARY": [
+     "saylor",
+     "lianyanshe"
+    ]
+   }
+  },
+  "zh_industry": {
+   "donors": [
+    "LeotheHorseman",
+    "roger9949",
+    "MMMusol",
+    "silverfang88",
+    "starzq"
+   ],
+   "x_sources": {
+    "CORE": [
+     "0xAllen",
+     "silverfang88",
+     "LeotheHorseman",
+     "mrblock",
+     "roger9949",
+     "MMMusol"
+    ],
+    "SECONDARY": []
+   }
+  },
+  "zh_us_stocks": {
+   "donors": [
+    "silverfang88",
+    "shirleyusy",
+    "KevinZbtc",
+    "woody168888",
+    "sjbtc9"
+   ],
+   "x_sources": {
+    "CORE": [
+     "0xAllen",
+     "silverfang88",
+     "LeotheHorseman",
+     "mrblock",
+     "yuyue_chris",
+     "sjbtc9"
+    ],
+    "SECONDARY": [
+     "rayrayweb5"
+    ]
+   }
+  },
+  "zh_longterm_investing": {
+   "donors": [
+    "yuyue_chris",
+    "starzq",
+    "woody168888",
+    "shirleyusy",
+    "Sea_Bitcoin"
+   ],
+   "x_sources": {
+    "CORE": [
+     "0xAllen",
+     "silverfang88",
+     "yuyue_chris",
+     "starzq",
+     "woody168888",
+     "sjbtc9"
+    ],
+    "SECONDARY": []
+   }
+  },
+  "crypto_macro_en": {
+   "donors": [
+    "sjdedic",
+    "amandacassatt",
+    "DoveyWan",
+    "econoar",
+    "lazyvillager1"
+   ],
+   "x_sources": {
+    "CORE": [
+     "VitalikButerin",
+     "star_okx",
+     "SoSoValueCrypto",
+     "Cointelegraph",
+     "Delphi_Digital",
+     "DoveyWan"
+    ],
+    "SECONDARY": [
+     "saylor",
+     "BinanceResearch"
+    ]
+   }
+  },
+  "crypto_onchain_en": {
+   "donors": [
+    "therationalroot",
+    "TXMCtrades",
+    "Darkfost_Coc",
+    "Jamie1Coutts",
+    "zeroxkyle"
+   ],
+   "x_sources": {
+    "CORE": [
+     "zachxbt",
+     "SoSoValueCrypto",
+     "WatcherGuru",
+     "Alvin0617",
+     "DeFiMinty",
+     "BinanceResearch"
+    ],
+    "SECONDARY": [
+     "bubblemaps",
+     "Dune",
+     "DefiLlama",
+     "therationalroot"
+    ]
+   }
+  },
+  "crypto_trader_en": {
+   "donors": [
+    "TheFlowHorse",
+    "pierre_crypt0",
+    "koolkrypto223",
+    "Pivot922",
+    "WhiteWhaleLabs"
+   ],
+   "x_sources": {
+    "CORE": [
+     "SoSoValueCrypto",
+     "DoveyWan",
+     "WhiteWhaleLabs",
+     "CryptoPainter"
+    ],
+    "SECONDARY": [
+     "HyperliquidX",
+     "blknoiz06",
+     "notthreadguy",
+     "koolkrypto223"
+    ]
+   }
+  },
+  "defi_narratives_en": {
+   "donors": [
+    "ahboyash",
+    "econoar",
+    "WhiteWhaleLabs",
+    "0xLuo",
+    "stitchdegen"
+   ],
+   "x_sources": {
+    "CORE": [
+     "VitalikButerin",
+     "star_okx",
+     "Cointelegraph",
+     "mert",
+     "Delphi_Digital",
+     "AndreCronjeTech"
+    ],
+    "SECONDARY": [
+     "DefiLlama",
+     "HyperliquidX",
+     "Blockworks",
+     "blknoiz06",
+     "bubblemaps"
+    ]
+   }
+  },
+  "btc_cycles_en": {
+   "donors": [
+    "therationalroot",
+    "TonySeverinoCMT",
+    "BitQua",
+    "CJ900X",
+    "TXMCtrades"
+   ],
+   "x_sources": {
+    "CORE": [
+     "SoSoValueCrypto",
+     "Cointelegraph",
+     "zachxbt",
+     "DoveyWan",
+     "WatcherGuru",
+     "BitcoinMagazine"
+    ],
+    "SECONDARY": [
+     "saylor",
+     "therationalroot"
+    ]
+   }
+  },
+  "crypto_thesis_en": {
+   "donors": [
+    "mrjasonchoi",
+    "Rewkang",
+    "stitchdegen",
+    "sjdedic",
+    "DoveyWan"
+   ],
+   "x_sources": {
+    "CORE": [
+     "VitalikButerin",
+     "star_okx",
+     "Cointelegraph",
+     "Delphi_Digital",
+     "mert",
+     "DoveyWan"
+    ],
+    "SECONDARY": [
+     "a16zcrypto",
+     "notthreadguy"
+    ]
+   }
+  },
+  "crypto_research_en": {
+   "donors": [
+    "amandacassatt",
+    "sjdedic",
+    "0xLuo",
+    "ahboyash",
+    "econoar"
+   ],
+   "x_sources": {
+    "CORE": [
+     "VitalikButerin",
+     "star_okx",
+     "Cointelegraph",
+     "Delphi_Digital",
+     "mert",
+     "stacy_muur"
+    ],
+    "SECONDARY": [
+     "OKX_Ventures",
+     "Dune",
+     "Blockworks",
+     "a16zcrypto"
+    ]
+   }
+  },
+  "investing_philosophy": {
+   "donors": [
+    "ThierryBorgeat",
+    "Shaughnessy119",
+    "DoveyWan",
+    "lazyvillager1",
+    "WillieDelwiche"
+   ],
+   "x_sources": {
+    "CORE": [
+     "mert",
+     "econoar",
+     "Shaughnessy119",
+     "DoveyWan",
+     "blknoiz06",
+     "sjdedic"
+    ],
+    "SECONDARY": [
+     "ThierryBorgeat",
+     "WillieDelwiche"
+    ]
+   }
+  },
+  "single_stock_deepdive_en": {
+   "donors": [
+    "zephyr_z9",
+    "mrjasonchoi",
+    "Rewkang",
+    "DeFiMinty",
+    "Shaughnessy119"
+   ],
+   "x_sources": {
+    "CORE": [
+     "Delphi_Digital",
+     "mrjasonchoi",
+     "Rewkang",
+     "stocktalkweekly",
+     "DeFiMinty",
+     "Shaughnessy119"
+    ],
+    "SECONDARY": [
+     "zephyr_z9"
+    ]
+   }
+  },
+  "market_data_charts": {
+   "donors": [
+    "McClellanOsc",
+    "WalterDeemer",
+    "the_chart_life",
+    "DKellerCMT",
+    "TimmerFidelity"
+   ],
+   "x_sources": {
+    "CORE": [
+     "SoSoValueCrypto",
+     "zachxbt",
+     "WatcherGuru",
+     "Alvin0617",
+     "DeFiMinty",
+     "stocktalkweekly"
+    ],
+    "SECONDARY": [
+     "McClellanOsc",
+     "WalterDeemer",
+     "TimmerFidelity"
+    ]
+   }
+  }
+ }
+}

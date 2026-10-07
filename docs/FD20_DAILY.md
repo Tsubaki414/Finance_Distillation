@@ -51,6 +51,16 @@ Gemini stages run at temperature 1.0 with thinking set to medium. At temperature
 - `--budget-usd` (default $4) stops the run from starting new drafts. It counts this run's Gemini spend from the call records.
 - `ml/budget` still reserves every call.
 
+## Donor merge and X sources (Oct 7)
+
+- `live/fd20_donor_merge.json` adds 5 adopted donors per account to its `acct_<id>` cluster.
+  - Sources: the Mango Labs team following graph (1 hop), plus a 1-hop gap fill from the followings of strong existing en donors (on-chain, trader, BTC cycle and chart beats).
+  - Rules: same language, real individual writers, ≥150 deep-scraped originals, promo_share ≤ 0.25 (LLM per-post read; regex as a floor), at most 3 accounts per donor.
+  - Mega accounts (VitalikButerin, saylor, mert, zachxbt, star_okx) are sources only.
+- `persona_factory.py` merges them: the base donors keep 50% of the weight (relative weights unchanged) and the adopted donors split the other 50%. It mirrors the result into `live/accounts.json` and rebuilds the merged clusters' cards. Re-runs are idempotent.
+- `x_sources` gives each account its own X sources: CORE from the Mango proposals, SECONDARY meme/perp/DeFi/on-chain/chart sources. They are registered in `live/source_registry.json` as account-scoped (`enabled: false` for global intake, `fd20_accounts` lists the users). Individual analysts are licence tier B; media and project accounts are tier C. The fd20 universe lists them as enabled.
+- Not wired yet: no daily X intake reads `x_sources`, so routing still goes by `retrieval_beats`.
+
 ## What stays local
 
 These are learned from donor text and are kept out of git (`.gitignore`):

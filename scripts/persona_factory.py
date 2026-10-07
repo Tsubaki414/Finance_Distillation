@@ -9,7 +9,14 @@ For every account it makes sure the compose chain has what it needs, with no mod
   4. habit card     live/personas/posting_habits/<id>.json (post-type mix, length per type, topics, posting
                     hours) + language habits card (aggregates only; built from the local donor corpus)
   5. universe       live/store/fd20/universes.json: retrieval beats, the A/B sources that actually feed them
-                    (unit counts, last 45 days), donor post counts and the account's angle mix (live/angles.py)
+                    (unit counts, last 45 days), the account-scoped X sources, donor post counts and the account's
+                    angle mix (live/angles.py)
+
+Donor merge (Oct 7): live/fd20_donor_merge.json adds adopted donors (Mango Labs following graph + 1-hop gap
+fill) to each acct_<id> cluster and lists the account's X sources. Merged donors must be same-language, have
+>= MERGE_MIN_POSTS deep-scraped originals, promo_share <= MERGE_MAX_PROMO, and sit in at most
+MERGE_MAX_ACCOUNTS clusters. The cluster's base donors keep their relative weights inside BASE_SHARE; merged
+donors split the rest equally. Re-running is idempotent (merged entries carry 'merged': <version>).
 
 Cards and the universe file are aggregates, but they are learned from donor text: they stay out of git
 (.gitignore). Re-run after a donor backfill to rebuild cards (--rebuild-cards also rebuilds existing accounts'
@@ -36,8 +43,11 @@ PLAN = Path('/workspace/x/bios/plan_crypto.json')
 ROSTER = ROOT / 'live' / 'donors' / 'roster.json'
 PERSONAS = ROOT / 'live' / 'personas'
 EMOTION = ROOT / 'live' / 'emotion_tiers.json'
+ACCOUNTS = ROOT / 'live' / 'accounts.json'
 UNIVERSES = ROOT / 'live' / 'store' / 'fd20' / 'universes.json'
 POSTS = ROOT / 'live' / 'donors' / 'posts'
+MERGE = ROOT / 'live' / 'fd20_donor_merge.json'
+MERGE_MIN_POSTS, MERGE_MAX_PROMO, MERGE_MAX_ACCOUNTS, BASE_SHARE = 150, 0.25, 3, 0.5
 MIN_DONORS = 3
 POST_TYPE_MIX = {'judgment_take': 0.4, 'contrarian_take': 0.2, 'data_take': 0.1, 'mechanism_explainer': 0.15,
                  'view_relay': 0.15}
@@ -96,6 +106,63 @@ def ensure_cluster(roster, account, donors):
     return name, True
 
 
+def merge_cluster(roster, account, merge):
+    """Add the merge file's adopted donors to acct_<id>; True when the cluster changed."""
+    adds = (merge.get('accounts') or {}).get(account['id'], {}).get('donors') or []
+    cluster = roster['persona_clusters'].get('acct_' + account['id'])
+    if cluster is None:
+        return False
+    base = [d for d in cluster['donors'] if not d.get('merged')]
+    usage = collections.Counter(d['handle'].lower() for name, c in roster['persona_clusters'].items()
+                                if name.startswith('acct_') and name != 'acct_' + account['id']
+                                for d in c['donors'])
+    have = {d['handle'].lower() for d in base}
+    new = []
+    for h in adds:
+        meta = merge['donors'][h]
+        if meta['lang'] != account['lang']:
+            raise SystemExit(f'{account["id"]}: merged donor {h} is {meta["lang"]}, account is {account["lang"]}')
+        if meta['promo_share'] > MERGE_MAX_PROMO:
+            raise SystemExit(f'{account["id"]}: merged donor {h} promo_share {meta["promo_share"]} > {MERGE_MAX_PROMO}')
+        if post_count(h) < MERGE_MIN_POSTS:
+            raise SystemExit(f'{account["id"]}: merged donor {h} has {post_count(h)} originals < {MERGE_MIN_POSTS}')
+        if usage[h.lower()] + 1 > MERGE_MAX_ACCOUNTS:
+            raise SystemExit(f'{account["id"]}: merged donor {h} would sit in more than {MERGE_MAX_ACCOUNTS} accounts')
+        if h.lower() in have:
+            continue
+        info = roster['donors'].setdefault(h.lower(), {'handle': h, 'added': merge['version']})
+        info.update({'lang': meta['lang'], 'category': meta['category'], 'verified': True, 'donor_fit': 'voice',
+                     'promo_heavy': False, 'followers': meta.get('followers'), 'promo_share': meta['promo_share'],
+                     'origin': meta['origin'], 'verify_note': meta.get('verify_note')})
+        info.setdefault('persona_cluster', 'acct_' + account['id'])
+        new.append(h)
+    total = sum(d['weight'] for d in base) or 1.0
+    share = BASE_SHARE if new else 1.0
+    donors = [{**d, 'weight': round(d['weight'] / total * share, 4)} for d in base]
+    donors += [{'handle': h, 'weight': round((1 - BASE_SHARE) / len(new), 4), 'merged': merge['version'],
+                'why': merge['donors'][h]['origin']} for h in new]
+    if donors == cluster['donors']:
+        return False
+    cluster['donors'] = donors
+    cluster['merge'] = {'version': merge['version'], 'base_share': share, 'added': new}
+    return True
+
+
+def sync_accounts(roster, merged):
+    """live/accounts.json mirrors the donor list of the legacy accounts' clusters; keep it equal after a merge."""
+    raw = load_json(ACCOUNTS)
+    changed = False
+    for acc in raw['accounts']:
+        dc = acc.get('donor_cluster') or {}
+        if dc.get('cluster') in merged:
+            cluster = roster['persona_clusters'][dc['cluster']]
+            dc['donors'] = [{k: d[k] for k in ('handle', 'weight', 'why', 'merged') if k in d} for d in cluster['donors']]
+            dc['merge'] = cluster['merge']
+            changed = True
+    if changed:
+        write_json(ACCOUNTS, raw)
+
+
 def persona_raw(account, cluster):
     return {
         'persona_id': account['id'], 'version': '1', 'status': 'draft', 'account_id': account['id'],
@@ -142,6 +209,8 @@ def main():
     plan = {a['id']: a for a in load_json(PLAN)['main']}
     only = set(args.accounts.split(',')) if args.accounts else None
     roster = load_json(ROSTER)
+    merge = load_json(MERGE) if MERGE.exists() else {}
+    merged = set()
     emotion = load_json(EMOTION)
     report = {}
     changed_roster = changed_emotion = False
@@ -166,6 +235,10 @@ def main():
                 row['persona'] = 'kept'
         else:
             row['persona'] = 'existing'
+        if merge and merge_cluster(roster, account, merge):
+            changed_roster = True
+            merged.add('acct_' + aid)
+            row['merged'] = merge['accounts'][aid]['donors']
         if emotion['personas'].get(aid) != account['emotion_tier']:
             if aid not in emotion['personas']:   # never retune an existing account's tier here
                 emotion['personas'][aid] = account['emotion_tier']
@@ -176,9 +249,10 @@ def main():
             ROSTER.write_text(json.dumps(roster, ensure_ascii=False, indent=1) + "\n")   # roster layout: indent 1
         if changed_emotion:
             write_json(EMOTION, emotion)
+        sync_accounts(roster, merged)
     # offline (deterministic, no LLM) voice cards for clusters that have none yet
     missing = [c for c in {'acct_' + a['id'] for a in config if a['id'] in report}
-               if not (PERSONAS / 'voice_cards' / f'{c}.json').exists() and c in roster['persona_clusters']]
+               if c in roster['persona_clusters'] and (c in merged or not (PERSONAS / 'voice_cards' / f'{c}.json').exists())]
     if missing and not args.dry_run:
         from scripts.build_voice_cards import main as build_voice_cards
         build_voice_cards(['--posts-dir', str(POSTS), '--tags-dir', str(ROOT / 'live' / 'donors' / 'tags'),
@@ -199,7 +273,7 @@ def main():
         row['donors'] = {h: post_count(h) for h in weights}
         row['donors_ge_150'] = sum(n >= 150 for n in row['donors'].values())
         card_path = ph.CARDS_DIR / f'{aid}.json'
-        if args.rebuild_cards or not account.get('existing') or not card_path.exists():
+        if args.rebuild_cards or not account.get('existing') or not card_path.exists() or 'acct_' + aid in merged:
             if not args.dry_run:
                 card = ph.write_card(persona, POSTS)
                 lh.write_card(persona, POSTS)
@@ -214,6 +288,9 @@ def main():
             'account_id': aid, 'no': account['no'], 'lang': account['lang'], 'name': account['name'],
             'beat': account['beat'], 'kind': account['kind'], 'emotion_tier': account['emotion_tier'],
             'retrieval_beats': account['retrieval_beats'], 'same_language_allowed': True,
+            'x_sources': [{'handle': h, 'source_id': 'x_' + h, 'enabled': True, 'role': role}
+                          for role in ('CORE', 'SECONDARY')
+                          for h in ((merge.get('accounts') or {}).get(aid, {}).get('x_sources') or {}).get(role, [])],
             'attribution_line': False, **uni,
             'angle_mix': mix, 'top_angles': angles.top_angles(mix), 'angle_basis_posts': used,
             'post_type_mix': card.get('post_type_mix'), 'posting_hours_london': card.get('posting_hours_london'),
