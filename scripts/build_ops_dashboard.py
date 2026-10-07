@@ -3,7 +3,8 @@
 
 Reads every live/store/compose_inbox/<day>/*.json row plus live/fd20_accounts.json (names) and
 assets/persona_avatars (avatars, embedded). Writes a self-contained index.html and one <day>.csv per day
-(account, time, text) to --out. The post text is the draft body only: no source/attribution line, no notes.
+(account, time, text) to --out. Every time shown (post times, updated stamp, today/tomorrow labels, CSV) is
+China time (Asia/Shanghai, labelled 北京时间); the inbox stores London-time ISO stamps with offsets. The post text is the draft body only: no source/attribution line, no notes.
 Idempotent: files are rewritten only when their content changes.
 """
 import argparse
@@ -13,13 +14,16 @@ import io
 import json
 import re
 import sys
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 INBOX = ROOT / 'live/store/compose_inbox'
 ACCOUNTS = ROOT / 'live/fd20_accounts.json'
 AVATARS = ROOT / 'assets/persona_avatars'
 OUT = Path('/workspace/x/dashboard/ops')
+BJT = ZoneInfo('Asia/Shanghai')
 DAY_RE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
 URL_RE = re.compile(r'https?://\S+')
 # twitter-text v3 weighting: these code point ranges weigh 1, everything else (CJK, full-width punctuation, …, emoji)
@@ -33,6 +37,14 @@ def x_weight(text):
     urls = URL_RE.findall(text)
     rest = URL_RE.sub('', text)
     return 23 * len(urls) + sum(1 if any(lo <= ord(c) <= hi for lo, hi in X_LIGHT) else 2 for c in rest)
+
+
+def to_bjt(stamp):
+    """ISO stamp with offset (London post time / UTC stored_at) -> China-time ISO string; '' when missing/bad."""
+    try:
+        return datetime.fromisoformat(stamp).astimezone(BJT).isoformat() if stamp else ''
+    except (TypeError, ValueError):
+        return ''
 
 
 def avatar_uri(path, size=96):
@@ -109,7 +121,8 @@ def load_day(day_dir):
             'lang': row.get('lang'), 'text': body, 'parts': parts,
             'parts_w': [x_weight(p) for p in parts] if parts else None,
             'chars': len(body), 'xw': x_weight(body),
-            'time': row.get('suggested_post_time_london') or '', 'status': status_of(row),
+            'time': to_bjt(row.get('suggested_post_time_london')), 'stored': to_bjt(row.get('stored_at')),
+            'status': status_of(row),
             'note': note_of(row)})
     drafts.sort(key=lambda d: (d['time'], d['id']))
     return drafts
@@ -127,10 +140,10 @@ def write_if_changed(path, data):
 def day_csv(drafts, names):
     buf = io.StringIO()
     w = csv.writer(buf, lineterminator='\n')
-    w.writerow(['account', 'time', 'text'])
+    w.writerow(['account', 'time (北京时间)', 'text'])
     for d in drafts:
         if d['status'] == 'draft_ready' and d['text']:
-            w.writerow([names.get(d['account_id'], d['account_id']), d['time'][11:16], d['text']])
+            w.writerow([names.get(d['account_id'], d['account_id']), d['time'][:16].replace('T', ' '), d['text']])
     return ('﻿' + buf.getvalue()).encode('utf-8')
 
 
@@ -217,7 +230,7 @@ button:focus-visible,select:focus-visible,a:focus-visible,input:focus-visible{ou
 }
 </style></head><body><div class="wrap">
 <header><div class="logo">星</div>
-<div class="ttl"><h1>星轨 · FD 发帖看板</h1><p>复制正文，到 X 发布，再勾选已发</p></div>
+<div class="ttl"><h1>星轨 · FD 发帖看板</h1><p>复制正文，到 X 发布，再勾选已发 · <span id="upd"></span></p></div>
 <div class="stats"><div class="stat"><small>可发</small><b id="nAll">0</b></div><div class="stat s-done"><small>已发</small><b id="nDone">0</b></div><div class="stat s-todo"><small>待发</small><b id="nTodo">0</b></div></div>
 </header>
 <div class="bar"><label>日期 <select id="day"></select></label>
@@ -240,10 +253,10 @@ const daySel=$('#day');daySel.innerHTML=days.map(d=>`<option>${d}</option>`).joi
 const want=location.hash.slice(1);if(days.includes(want))daySel.value=want;
 $('#hidePosted').checked=localStorage.getItem('fdops:hidePosted')==='1';
 const COPY_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
-const londonDay=d=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
+const bjtDay=d=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
 function when(t){
   if(!t)return '-';const day=t.slice(0,10),hm=t.slice(11,16);
-  const today=londonDay(new Date()),diff=Math.round((Date.parse(day)-Date.parse(today))/864e5);
+  const today=bjtDay(new Date()),diff=Math.round((Date.parse(day)-Date.parse(today))/864e5);
   const lbl={'-2':'前天','-1':'昨天','0':'今天','1':'明天','2':'后天'}[diff]||day.slice(5);
   return `${lbl} ${hm}`;
 }
@@ -261,7 +274,7 @@ function card(d,hidden){
   if(d.parts&&d.parts.length>1){
     body=d.parts.map((t,i)=>`<div class="part"><div class="pr"><span>${i+1}/${d.parts.length}</span><button class="cp1" data-t="${esc(t)}">复制</button></div><div class="txt" lang="${lg}">${esc(t)}</div><div class="cnt">${cnt(t,d.parts_w[i],d.lang)}</div></div>`).join('');
   }else body=`<div class="txt" lang="${lg}">${esc(d.text)}</div><div class="cnt">${cnt(d.text,d.xw,d.lang)}</div>`;
-  return `<div class="post${p?' posted':''}${ready?'':' notready'}${hidden?' hide':''}"><div class="ph"><small>建议发出</small><span class="tm">${when(d.time)}</span>${st}</div>${d.note?`<div class="note${d.note.startsWith('改派自')?' mv':''}">${esc(d.note)}</div>`:''}${body}
+  return `<div class="post${p?' posted':''}${ready?'':' notready'}${hidden?' hide':''}"><div class="ph"><small>建议发出（北京时间）</small><span class="tm">${when(d.time)}</span>${st}</div>${d.note?`<div class="note${d.note.startsWith('改派自')?' mv':''}">${esc(d.note)}</div>`:''}${body}
 <div class="foot">${ready?`<label class="done-l"><input type="checkbox" data-p="${esc(d.id)}" ${p?'checked':''}> 已发</label>`:'<span class="cnt">不可发：先改稿或等重写</span>'}<button class="cp" data-t="${esc(d.text)}">${COPY_SVG}<span>${d.parts&&d.parts.length>1?'复制全部':'一键复制'}</span></button></div></div>`;
 }
 function render(){
@@ -302,6 +315,7 @@ document.addEventListener('change',e=>{
   else if(el.id==='hidePosted')localStorage.setItem('fdops:hidePosted',el.checked?'1':'0');
   render();
 });
+$('#upd').textContent=D.updated?`数据更新于 北京时间 ${D.updated.slice(5,10)} ${D.updated.slice(11,16)}`:'';
 daySel.onchange=render;render();
 </script></body></html>
 '''
@@ -326,7 +340,9 @@ def main():
                 accounts.append({'id': d['account_id'], 'no': '', 'name': d['name'] or d['account_id'],
                                  'lang': d['lang'], 'beat': '', 'handle': '', 'avatar': ''})
     args.out.mkdir(parents=True, exist_ok=True)
-    data = json.dumps({'accounts': accounts, 'days': days}, ensure_ascii=False, sort_keys=True)
+    # last-updated = newest inbox write (deterministic, so an unchanged inbox leaves index.html untouched)
+    updated = max((d['stored'] for v in days.values() for d in v if d['stored']), default='')
+    data = json.dumps({'accounts': accounts, 'days': days, 'updated': updated}, ensure_ascii=False, sort_keys=True)
     page = PAGE.replace('__DATA__', data.replace('</', '<\\/'))
     changed = [p.name for p, b in [(args.out / 'index.html', page.encode('utf-8'))] +
                [(args.out / f'{day}.csv', day_csv(dr, names)) for day, dr in days.items()]
