@@ -1,8 +1,8 @@
 """COMPOSE model routing.
 
 Shipped (stage-models-v3-gemini-official, Oct 7): compose / stance / extract / extract_flash / view_enrich run on
-gemini-3-flash-preview via the official Gemini API (GEMINI_API_KEY), with NO fallback; other stages stay
-claude-opus-5 on the default relay.
+the official Gemini API (GEMINI_API_KEY), with NO fallback - compose on gemini-3.1-pro-preview (fix26), the rest on
+gemini-3-flash-preview; other stages stay claude-opus-5 on the default relay.
 
 The fallback machinery (Gemini error / timeout / no channel / quota / unset key -> claude-opus-5-5 on the default
 relay, quota breaker, fallback max_tokens clamp) is still a code path; it is exercised against the frozen v2 table
@@ -40,10 +40,12 @@ class ShippedTableTests(unittest.TestCase):
         table = stage_models.load()
         self.assertEqual(table['version'], 'stage-models-v3.1-gemini-official')
         for stage in GEMINI_STAGES:
-            self.assertEqual(stage_models.for_stage(table, stage), {'model': 'gemini-3-flash-preview', 'temperature': 1.0})
+            model = 'gemini-3.1-pro-preview' if stage == 'compose' else 'gemini-3-flash-preview'   # fix26: pro compose
+            self.assertEqual(stage_models.for_stage(table, stage), {'model': model, 'temperature': 1.0})
             self.assertEqual(stage_models.thinking_level(table, stage, {}), 'medium')
             self.assertEqual(stage_models.route(table, stage), {'base_url': GEMINI, 'api_key_env': 'GEMINI_API_KEY'})
             self.assertTrue(stage_models.is_gemini_native(stage_models.route(table, stage)['base_url']))
+        self.assertEqual(table['stages']['compose']['rates'], [2.0, 12.0])
         self.assertIn('gemini-3-flash-preview', stage_models.accepted(table, 'gemini-3-flash-preview'))
         self.assertIn('gemini-3.1-pro-preview', stage_models.accepted(table, 'gemini-3.1-pro-preview'))
 

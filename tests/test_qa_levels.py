@@ -70,9 +70,15 @@ class ComposeLevelTests(unittest.TestCase):
         self.assertIn('length_out_of_range', result['qa']['soft'])
 
     def test_template_phrase_is_a_warning(self):
-        result, _ = run(Fake(body='值得注意的是，' + GOOD_BODY), post_type='data_take')
+        result, _ = run(Fake(body='不得不说，' + GOOD_BODY), post_type='data_take')
         self.assertEqual(levels(result)['template_phrase'], 'soft')
         self.assertEqual(result['draft_status'], 'draft_ready')
+
+    def test_editorial_cliche_is_hard(self):
+        # fix26 (Fiona Oct 7): 值得注意的是 moved from SOFT template_phrase to the HARD Sirius editorial-style block
+        result, _ = run(Fake(body='值得注意的是，' + GOOD_BODY), post_type='data_take')
+        self.assertEqual(levels(result)['editorial_cliche'], 'hard')
+        self.assertEqual(result['draft_status'], 'needs_review')
 
     def test_source_name_in_body_with_frame_is_a_warning(self):
         result, _ = run(Fake(body=GOOD_BODY + 'The Next Platform 的判断也是如此。'), post_type='data_take')

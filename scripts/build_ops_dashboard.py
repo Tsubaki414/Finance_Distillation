@@ -21,15 +21,18 @@ ACCOUNTS = ROOT / 'live/fd20_accounts.json'
 AVATARS = ROOT / 'assets/persona_avatars'
 OUT = Path('/workspace/x/dashboard/ops')
 DAY_RE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
-CJK_RE = re.compile(r'[ᄀ-ᇿ⺀-꓏가-힣豈-﫿︰-﹏＀-￯\U00020000-\U0003ffff]')
 URL_RE = re.compile(r'https?://\S+')
+# twitter-text v3 weighting: these code point ranges weigh 1, everything else (CJK, full-width punctuation, …, emoji)
+# weighs 2; a URL weighs 23.
+X_LIGHT = ((0, 4351), (8192, 8205), (8208, 8223), (8242, 8247))
 
 
 def x_weight(text):
-    """Approximate X weighted length: CJK/full-width chars count 2, URLs count 23."""
+    """X weighted length (limit 280): twitter-text v3 ranges, URLs 23. Emoji count 2 per code point (X counts a
+    ZWJ sequence once, so multi-part emoji read slightly high - the safe side)."""
     urls = URL_RE.findall(text)
     rest = URL_RE.sub('', text)
-    return 23 * len(urls) + len(rest) + len(CJK_RE.findall(rest))
+    return 23 * len(urls) + sum(1 if any(lo <= ord(c) <= hi for lo, hi in X_LIGHT) else 2 for c in rest)
 
 
 def avatar_uri(path, size=96):
@@ -66,9 +69,25 @@ def parts_of(row, body):
 
 
 def status_of(row):
+    if row.get('superseded'):
+        return 'superseded'
     if row.get('held') or (row.get('arbitration') or {}).get('status') == 'HOLD':
         return 'HOLD'
     return row.get('draft_status') or row.get('status') or 'unknown'
+
+
+def note_of(row):
+    """Why a draft is not ready (audit reason / hold reason / hard QA codes); '' for ready drafts."""
+    status = status_of(row)
+    if status == 'draft_ready':
+        return ''
+    audit = row.get('audit') or {}
+    if audit.get('verdict') in ('rewrite', 'drop'):
+        return f"审稿{'重写' if audit['verdict'] == 'rewrite' else '弃用'}：{audit.get('reason') or ''}"
+    if (row.get('arbitration') or {}).get('status') == 'HOLD':
+        return '跨号仲裁暂缓：同一观点已给其他账号'
+    hard = sorted({f.get('code') for f in row.get('findings') or [] if f.get('level') == 'hard'} - {None})
+    return row.get('hold_reason') or ('硬性检查未过：' + ', '.join(hard) if hard else '')
 
 
 def load_day(day_dir):
@@ -87,7 +106,8 @@ def load_day(day_dir):
             'parts_w': [x_weight(p) for p in parts] if parts else None,
             'chars': len(body), 'xw': x_weight(body),
             'time': row.get('suggested_post_time_london') or '', 'post_type': row.get('post_type') or '',
-            'format': (row.get('post_format') or {}).get('type') or '', 'status': status_of(row)})
+            'format': (row.get('post_format') or {}).get('type') or '', 'status': status_of(row),
+            'note': note_of(row)})
     drafts.sort(key=lambda d: (d['time'], d['id']))
     return drafts
 
@@ -141,12 +161,15 @@ header{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:10p
 .grid{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:16px;align-content:start;min-width:0}
 .grid .none{color:var(--mute);font-size:13px;padding:10px}
 .post{background:var(--card);border-radius:20px;padding:16px 18px;display:flex;flex-direction:column;box-shadow:0 1px 4px rgba(40,60,140,.05);min-width:0}
-.post.posted{opacity:.55}.post.hide{display:none}
+.post.posted{opacity:.55}.post.hide{display:none}.post.notready{background:#fbfbfd;border:1px dashed #e3c9c9}
+.post.notready .cp{background:#fff;color:#454a5e;border:1px solid var(--line)}
 .ph{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}.ph small{font-size:12px;color:var(--mute)}
 .ph .tm{color:var(--blue);font-weight:700;font-size:19px}.ph .st{margin-left:auto;font-size:12px;font-weight:600;border-radius:8px;padding:1px 9px;background:var(--warnbg);color:var(--warn);align-self:center}
 .ph .st.ok{background:var(--okbg);color:var(--ok)}.ph .st.hold{background:#fde8e8;color:#c53030}
 .meta{font-size:11.5px;color:#a0a5b8;margin-bottom:6px}
 .txt{white-space:pre-wrap;word-break:break-word;font-size:15px;line-height:1.7;flex:1}
+.txt:lang(en){font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif}
+.note{font-size:12px;color:#9a3412;background:#fff4ed;border-radius:8px;padding:4px 8px;margin-bottom:8px}
 .part{border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}.part:first-of-type{border-top:0;margin-top:0;padding-top:0}
 .part .pr{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--mute)}
 .cnt{font-size:11.5px;color:#a8adbf;margin-top:6px}.over{color:#d64545;font-weight:600}
@@ -169,7 +192,7 @@ header{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:10p
 </style></head><body><div class="wrap">
 <header><div class="logo">星</div>
 <div class="ttl"><h1>星轨 · FD 发帖看板</h1><p>内容已备好 · 复制 → 粘贴 → 发布 → 勾选已发</p></div>
-<div class="stats"><div class="stat"><small>全部</small><b id="nAll">0</b></div><div class="stat s-done"><small>已发</small><b id="nDone">0</b></div><div class="stat s-todo"><small>待发</small><b id="nTodo">0</b></div></div>
+<div class="stats"><div class="stat"><small>可发</small><b id="nAll">0</b></div><div class="stat s-done"><small>已发</small><b id="nDone">0</b></div><div class="stat s-todo"><small>待发</small><b id="nTodo">0</b></div></div>
 </header>
 <div class="bar"><label>日期 <select id="day"></select></label>
 <span id="flt"></span>
@@ -180,7 +203,7 @@ header{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:10p
 <script id="data" type="application/json">__DATA__</script>
 <script>
 const D=JSON.parse(document.getElementById('data').textContent);
-const ST_LABEL={draft_ready:'可发',HOLD:'HOLD（仲裁暂缓）',needs_review:'待复核',blocked:'失败',skipped:'跳过'};
+const ST_LABEL={draft_ready:'可发',HOLD:'HOLD（暂缓）',superseded:'已替换（审稿退回）',needs_review:'待复核',blocked:'失败',skipped:'跳过'};
 const COLORS=['#6c5ce7','#e17055','#00a085','#2d7be0','#a68a00','#d63384','#0984e3','#e84393','#16a085','#8e44ad'];
 const $=s=>document.querySelector(s);const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const LS='fdops:posted:';const isPosted=id=>localStorage.getItem(LS+id)==='1';
@@ -198,7 +221,7 @@ function when(t){
   const lbl={'-2':'前天','-1':'昨天','0':'今天','1':'明天','2':'后天'}[diff]||day.slice(5);
   return `${lbl} ${hm}`;
 }
-function cnt(t,w){return `${t.length} 字 · X计 ${w}${w>280?' <span class="over">超 280</span>':''}`}
+function cnt(t,w,lang){const n=[...t].length;return `${n} ${lang==='en'?'字符':'字'} · X计 ${w}${w>280?' <span class="over">超 280</span>':''}`}
 function hue(id){let h=0;for(const c of String(id))h=(h*31+c.charCodeAt(0))>>>0;return COLORS[h%COLORS.length]}
 function avatar(a){
   if(a.avatar)return `<img class="av" src="${a.avatar}" alt="">`;
@@ -206,18 +229,20 @@ function avatar(a){
   return `<div class="av" style="background:linear-gradient(135deg,${hue(a.id)},${hue(a.id+'x')})">${esc(ch.toUpperCase())}</div>`;
 }
 function card(d,hidden){
-  const p=isPosted(d.id),hold=d.status==='HOLD';
-  const st=p?'<span class="st ok">已发</span>':hold?'<span class="st hold">HOLD</span>':d.status==='draft_ready'?'<span class="st">待发出</span>':`<span class="st">${esc(ST_LABEL[d.status]||d.status)}</span>`;
+  const ready=d.status==='draft_ready',p=ready&&isPosted(d.id),hold=d.status==='HOLD'||d.status==='superseded',lg=d.lang==='en'?'en':'zh-CN';
+  const st=p?'<span class="st ok">已发</span>':hold?`<span class="st hold">${d.status==='HOLD'?'HOLD':'已替换'}</span>`:d.status==='draft_ready'?'<span class="st">待发出</span>':`<span class="st">${esc(ST_LABEL[d.status]||d.status)}</span>`;
   let body;
   if(d.parts&&d.parts.length>1){
-    body=d.parts.map((t,i)=>`<div class="part"><div class="pr"><span>${i+1}/${d.parts.length}</span><button class="cp1" data-t="${esc(t)}">复制</button></div><div class="txt">${esc(t)}</div><div class="cnt">${cnt(t,d.parts_w[i])}</div></div>`).join('');
-  }else body=`<div class="txt">${esc(d.text)}</div><div class="cnt">${cnt(d.text,d.xw)}</div>`;
+    body=d.parts.map((t,i)=>`<div class="part"><div class="pr"><span>${i+1}/${d.parts.length}</span><button class="cp1" data-t="${esc(t)}">复制</button></div><div class="txt" lang="${lg}">${esc(t)}</div><div class="cnt">${cnt(t,d.parts_w[i],d.lang)}</div></div>`).join('');
+  }else body=`<div class="txt" lang="${lg}">${esc(d.text)}</div><div class="cnt">${cnt(d.text,d.xw,d.lang)}</div>`;
   const meta=[d.post_type,d.format].filter(Boolean).map(esc).join(' · ');
-  return `<div class="post${p?' posted':''}${hidden?' hide':''}"><div class="ph"><small>建议发出</small><span class="tm">${when(d.time)}</span>${st}</div>${meta?`<div class="meta">${meta}</div>`:''}${body}
-<div class="foot"><label class="done-l"><input type="checkbox" data-p="${esc(d.id)}" ${p?'checked':''}> 已发</label><button class="cp" data-t="${esc(d.text)}">${COPY_SVG}<span>一键复制</span></button></div></div>`;
+  return `<div class="post${p?' posted':''}${ready?'':' notready'}${hidden?' hide':''}"><div class="ph"><small>建议发出</small><span class="tm">${when(d.time)}</span>${st}</div>${meta?`<div class="meta">${meta}</div>`:''}${d.note?`<div class="note">${esc(d.note)}</div>`:''}${body}
+<div class="foot">${ready?`<label class="done-l"><input type="checkbox" data-p="${esc(d.id)}" ${p?'checked':''}> 已发</label>`:'<span class="cnt">不可发：先改稿或等重写</span>'}<button class="cp" data-t="${esc(d.text)}">${COPY_SVG}<span>${d.parts&&d.parts.length>1?'复制全部':'一键复制'}</span></button></div></div>`;
 }
 function render(){
-  const day=daySel.value;location.hash=day;const drafts=D.days[day]||[];
+  const day=daySel.value;
+  if(!day){$('#main').innerHTML='<p class="empty">还没有任何稿件</p>';$('#csv').style.display='none';return}
+  location.hash=day;const drafts=D.days[day]||[];
   $('#csv').href=day+'.csv';$('#csv').setAttribute('download','fd_'+day+'.csv');
   const sts=[...new Set(drafts.map(d=>d.status))].sort();
   $('#flt').innerHTML='状态 '+sts.map(s=>`<label><input type="checkbox" data-s="${esc(s)}" ${shown.has(s)?'checked':''}> ${esc(ST_LABEL[s]||s)} (${drafts.filter(d=>d.status===s).length})</label>`).join(' ');
@@ -225,15 +250,16 @@ function render(){
   let all=0,done=0;const out=[];
   for(const a of D.accounts){
     const mine=drafts.filter(d=>d.account_id===a.id&&shown.has(d.status));
-    const nDone=mine.filter(d=>isPosted(d.id)).length;all+=mine.length;done+=nDone;
+    const rd=drafts.filter(d=>d.account_id===a.id&&d.status==='draft_ready');   // counts: ready drafts only
+    const nDone=rd.filter(d=>isPosted(d.id)).length;all+=rd.length;done+=nDone;
     const cards=mine.filter(d=>!(hideP&&isPosted(d.id)));
     if(!cards.length&&hideE)continue;
     const open=expanded.has(a.id),lim=2;
     const more=cards.length>lim?`<button class="more" data-x="${esc(a.id)}">${open?'收起 ︿':`展开全部 ${cards.length} 条 ﹀`}</button>`:'';
-    out.push(`<section class="acct"><div class="side">${avatar(a)}<h2>${esc(a.name)}</h2><div class="pf">X${a.lang?` · ${a.lang==='zh'?'中文':'English'}`:''}</div><div class="hd">${esc(a.handle?(a.handle.startsWith('@')?a.handle:'@'+a.handle):'@待填')}</div>${a.beat?`<div class="bt">${esc(a.beat)}</div>`:''}<span class="pill">待发 ${mine.length-nDone}/${mine.length}</span>${more}</div>
+    out.push(`<section class="acct"><div class="side">${avatar(a)}<h2>${esc(a.name)}</h2><div class="pf">X${a.lang?` · ${a.lang==='zh'?'中文':'English'}`:''}</div><div class="hd">${esc(a.handle?(a.handle.startsWith('@')?a.handle:'@'+a.handle):'@待填')}</div>${a.beat?`<div class="bt">${esc(a.beat)}</div>`:''}<span class="pill">待发 ${rd.length-nDone}/${rd.length}</span>${more}</div>
 <div class="grid">${cards.length?cards.map((d,i)=>card(d,!open&&i>=lim)).join(''):'<div class="none">今日无可显示稿件</div>'}</div></section>`);
   }
-  $('#main').innerHTML=out.join('')||'<p class="empty">无稿件</p>';
+  $('#main').innerHTML=out.join('')||(drafts.length?`<p class="empty">当前筛选下没有稿件（共 ${drafts.length} 篇，可在「状态」里勾选其他状态）</p>`:'<p class="empty">这一天没有稿件</p>');
   $('#nAll').textContent=all;$('#nDone').textContent=done;$('#nTodo').textContent=all-done;
 }
 async function copy(t){try{await navigator.clipboard.writeText(t)}catch(_){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}}

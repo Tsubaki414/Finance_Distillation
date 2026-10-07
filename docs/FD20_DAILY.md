@@ -40,7 +40,7 @@ python scripts/persona_factory.py [--rebuild-cards]         # persona + cluster 
 
 | Setting | Effect |
 |---|---|
-| `FD_GEMINI_MODEL=gemini-3.1-pro-preview` | Switches every Gemini stage. The default is `gemini-3-flash-preview`. |
+| `FD_GEMINI_MODEL=gemini-3.1-pro-preview` | Switches every Gemini stage. Compose defaults to `gemini-3.1-pro-preview` (fix26, Oct 7); the other stages default to `gemini-3-flash-preview`. |
 | `FD_<STAGE>_MODEL` | Switches a single stage. |
 | `FD_GEMINI_THINKING=low\|medium\|high` | Sets the thinking level. |
 
@@ -78,6 +78,26 @@ Gemini stages run at temperature 1.0 with thinking set to medium. At temperature
   - X units reach only the accounts that subscribe to that handle.
   - Ranking puts own X posts right after timeliness, then packets on the account's own lanes.
   - A same-day re-run counts drafts already in the inbox toward the ceiling of 3.
+
+## Editorial gate and fill (fix26, Oct 7)
+
+Fiona's review of the 26 flash drafts led to these changes:
+
+- **Beat gate** (`live/editorial_style.beat_gate`, applied in `daily_compose.candidates`):
+  - Non-crypto accounts never get a packet with 2+ crypto terms (Momo 美股札记 wrote GenLayer).
+  - Crypto accounts never get a packet with no crypto content. The exception is the macro crypto accounts (crypto_macro_zh/en, crypto_btc_cycle_zh, btc_cycles_en), which may also take rates / liquidity packets.
+  - Generic words (token, wallet) do not count as crypto terms.
+- **HARD editorial style** (`live/editorial_style.py`, ported from Sirius `deterministic_editorial_style_failures` + `unauthorized_first_person_experience`). The codes are `editorial_cliche`, `rhetorical_opener`, `overclaim`, `fabricated_experience`, `en_cliche`, `trade_imperative` and `research_tone`.
+  - The rule list is in the compose prompt.
+  - The codes ride the one structure rewrite. A rewrite may not add a code.
+  - A draft that still trips a code is `needs_review` and the inbox row is `held` with `hold_reason`.
+- **Event cap:** at most 2 accounts per language per event. Events are matched by source, news hook, or headline lead word plus numbers.
+- **Audit + fill:**
+  - `scripts/apply_inbox_audit.py <audit.json>` marks rewrite / drop rows `superseded` + `held`. It never touches `review_status`.
+  - `daily_compose.py --fill --per-account 2` tops each account up to 2 *ready* drafts. Kept ready drafts seed the event cap, and rewrite rows' sources may be reused.
+  - The per-draft reserve is $0.30 on pro.
+  - `scripts/apply_inbox_audit.py --recheck <day>` re-runs the style codes on stored bodies after a rule change. Newly tripped ready drafts are held; held drafts whose only hard codes no longer fire become ready. Arbitration and audit holds are never released.
+- **Ops page:** `scripts/build_ops_dashboard.py` builds the page. `daily_compose.sh` redeploys it with `vercel deploy --prod --yes` from `/workspace/x/dashboard/ops`; this step is non-fatal, and `FD_OPS_DEPLOY=0` skips it.
 
 ## What stays local
 

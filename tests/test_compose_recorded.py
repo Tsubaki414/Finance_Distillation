@@ -42,7 +42,10 @@ class RecordedComposeTests(unittest.TestCase):
             result = compose.compose_source(data['source'], data['account_id'], historical_client, exemplars=False, post_type='data_take', emotion_contract=False)
         self.assertEqual(client.used, ['extract', 'compose'])
         self.assertEqual(result['post_type'], 'data_take')
-        self.assertEqual(result['post_checks'], [])
+        # fix26 (Oct 7): this recorded zh_macro body runs 55-char median sentences - the research-note cadence Fiona
+        # rejected - so the HARD research_tone block now holds it; nothing else fires.
+        self.assertEqual([f['code'] for f in result['post_checks']], ['research_tone'])
+        self.assertEqual(result['draft_status'], 'needs_review')
         self.assertTrue(result['text'].startswith('Liberty Street Economics：'))
         self.assertTrue(150 <= result['length'] <= 400)
         self.assertEqual(result['persona'], {'persona_id': 'zh_macro', 'version': '1'})

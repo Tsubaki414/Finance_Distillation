@@ -28,10 +28,11 @@ FAKE_GEMINI_ENV = 'prefix-AQ.fakeTOKEN123'
 class OverrideTableTests(unittest.TestCase):
     def test_no_env_keeps_shipped_defaults(self):
         table = stage_models.from_env(stage_models.load(), {})
-        # Oct 7 (v3): compose / stance / extract on gemini-3-flash-preview, official Gemini API, no fallback.
+        # Oct 7 (v3): compose / stance / extract on the official Gemini API, no fallback; fix26: compose on pro.
         for stage in ('compose', 'stance', 'extract'):
             # temperature 1.0 + thinking medium: at 0.0 Gemini 3 flash looped in thinking (Oct 7 smoke)
-            self.assertEqual(stage_models.for_stage(table, stage), {'model': 'gemini-3-flash-preview', 'temperature': 1.0})
+            model = 'gemini-3.1-pro-preview' if stage == 'compose' else 'gemini-3-flash-preview'
+            self.assertEqual(stage_models.for_stage(table, stage), {'model': model, 'temperature': 1.0})
             self.assertEqual(stage_models.thinking_level(table, stage, {}), 'medium')
             self.assertEqual(stage_models.route(table, stage), {'base_url': GEMINI, 'api_key_env': 'GEMINI_API_KEY'})
             self.assertIsNone(stage_models.fallback(table, stage))

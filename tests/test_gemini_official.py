@@ -69,7 +69,7 @@ def records(tmp_path):
 
 def test_native_request_shape_and_headers(tmp_path):
     seen = []
-    out = make_client(tmp_path, lambda r: gemini_ok(), seen)('compose', MSGS, 500)
+    out = make_client(tmp_path, lambda r: gemini_ok(), seen)('stance', MSGS, 500)   # flash stage (compose is pro)
     assert len(seen) == 1
     req = seen[0]
     assert str(req.url) == GEMINI + '/models/gemini-3-flash-preview:generateContent'
@@ -98,7 +98,7 @@ def test_response_mapping_excludes_thoughts_and_counts_thought_tokens(tmp_path):
 
 
 def test_max_tokens_finish_maps_to_length(tmp_path):
-    out = make_client(tmp_path, lambda r: gemini_ok(finish='MAX_TOKENS'), [])('compose', MSGS, 500)
+    out = make_client(tmp_path, lambda r: gemini_ok(finish='MAX_TOKENS'), [])('stance', MSGS, 500)
     assert out['finish_reason'] == 'length'
 
 
@@ -120,7 +120,7 @@ def test_call_record_never_contains_the_token(tmp_path):
         # Even a provider echoing the key must not leak it into saved records.
         return httpx.Response(400, json={'error': {'message': f'API key {TOKEN} not valid',
                                                    'details': {'x-goog-api-key': TOKEN}}})
-    client = make_client(tmp_path, lambda r: gemini_ok(), [])
+    client = make_client(tmp_path, lambda r: gemini_ok('gemini-3.1-pro-preview'), [])
     client('compose', MSGS, 500)
     with pytest.raises(Exception) as err:
         make_client(tmp_path, echo_token, [])('compose', MSGS, 500)
@@ -224,7 +224,7 @@ def test_fd_gemini_model_reaches_the_request_url(tmp_path, monkeypatch):
 def test_gemini_only_rejects_stage_not_routed_to_gemini(tmp_path, monkeypatch):
     monkeypatch.setenv('FD_GEMINI_ONLY', '1')
     seen = []
-    client = make_client(tmp_path, lambda r: gemini_ok(), seen)
+    client = make_client(tmp_path, lambda r: gemini_ok('gemini-3.1-pro-preview'), seen)
     with pytest.raises(RuntimeError, match='FD_GEMINI_ONLY'):
         client('qa', MSGS, 500)
     assert seen == []

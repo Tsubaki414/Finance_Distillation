@@ -5,8 +5,9 @@
 - 范围：`FD_accounts_final_v2.xlsx` 的 20 个主号，见 `live/fd20_accounts.json`。备用号不跑。没有自动发布。
 - 模型：EXTRACT、flash 抽取、STANCE、COMPOSE、view_enrich 全部走官方 Gemini API。
   - 原生 generateContent，用 `x-goog-api-key` 头；token 用 `AQ\.\S+` 从 `GEMINI_API_KEY` 里取，不打印。
-  - 默认模型 `gemini-3-flash-preview`，temperature 1.0，thinking medium。
-  - `FD_GEMINI_MODEL=gemini-3.1-pro-preview` 可切 pro。10-07 实测 pro 返回 429 配额不足。
+  - 默认模型 `gemini-3-flash-preview`；COMPOSE 自 10-07 fix26 起默认 `gemini-3.1-pro-preview`（约 $0.20/篇）。temperature 1.0，thinking medium。
+  - `FD_GEMINI_MODEL=gemini-3.1-pro-preview` 可把所有阶段切到 pro。10-07 上午 pro 返回过 429，11:15 起可用；约 11:45 Gemini 返回 402「prepayment credits depleted」，需要在 AI Studio 充值后才能继续出稿。
+- 10-07 fix26：beat gate（非加密号不接加密包，反之亦然）；Sirius 文风硬拦（套话/难道/过度断言/编造亲历/EN 套话/喊单/研报腔），给一次定向重写，仍未过就 HOLD；`--fill` 补齐每号 2 篇可发稿。详见 `docs/FD20_DAILY.md`。
   - 去掉了 micuapi 和 Opus 的静默回退：Gemini 失败就直接报错，不换模型。
 - 日更入口：`FD_DAILY_COMPOSE=1 scripts/cron/daily_compose.sh`，已接在 `daily_ingest.sh` 末尾。
 - 人设工厂：`scripts/persona_factory.py` 生成 persona、donor cluster、习惯卡、universe 和角度分布。

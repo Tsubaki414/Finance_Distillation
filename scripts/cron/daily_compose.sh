@@ -18,3 +18,14 @@ export FD_PACK_AUGMENT=1
     --budget-usd "${FD_DAILY_COMPOSE_BUDGET_USD:-4}" "$@"
 # Rebuild the operator copy-paste dashboard (static HTML + per-day CSV); system python3 has PIL for avatar thumbnails.
 python3 scripts/build_ops_dashboard.py || echo "ops dashboard rebuild failed (compose result unaffected)"
+# Redeploy the static ops page to Vercel (project fd-ops-dashboard, linked in the ops dir). Non-fatal; skip with
+# FD_OPS_DEPLOY=0. The ops dir only holds index.html + per-day CSVs (no keys, no donor text).
+if [[ "${FD_OPS_DEPLOY:-1}" == "1" ]]; then
+    OPS=${FD_OPS_DIR:-/workspace/x/dashboard/ops}
+    VERCEL=$(command -v vercel || echo /home/box/.local/bin/vercel)
+    if [[ -x "$VERCEL" && -d "$OPS/.vercel" ]]; then
+        (cd "$OPS" && timeout 300 "$VERCEL" deploy --prod --yes) || echo "ops dashboard redeploy failed (compose result unaffected)"
+    else
+        echo "ops dashboard redeploy skipped: vercel CLI or $OPS/.vercel missing"
+    fi
+fi

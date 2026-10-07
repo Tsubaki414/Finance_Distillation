@@ -15,7 +15,7 @@ Spend: every call reserves against the ml/budget ledger; this run also stops sta
 Gemini spend (call records) would pass --budget-usd.
 
   FD_DAILY_COMPOSE=1 python scripts/daily_compose.py [--day 2026-10-07] [--accounts a,b] [--per-account 2]
-                                                     [--budget-usd 4] [--workers 4] [--select-only]
+                                                     [--budget-usd 4] [--workers 4] [--select-only] [--fill]
 """
 from __future__ import annotations
 
@@ -37,8 +37,8 @@ sys.path[:0] = [str(ROOT / 'scripts'), str(ROOT)]
 
 import demo_matrix_compose as demo  # noqa: E402
 from voice_relay_check import evidence_source  # noqa: E402
-from live import (angles, anti_repeat, compose, compose_inbox, news_hook, posting_habits as ph,  # noqa: E402
-                  registry, source_prescreen as prescreen, stage_models)
+from live import (angles, anti_repeat, compose, compose_inbox, editorial_style, news_hook,  # noqa: E402
+                  posting_habits as ph, registry, source_prescreen as prescreen, stage_models)
 from live.content_store import ContentStore  # noqa: E402
 from live.retrieval import units_for_persona  # noqa: E402
 from live.view_ledger import ViewLedger  # noqa: E402
@@ -52,9 +52,11 @@ TAGS = ROOT / 'live' / 'donors' / 'tags'
 RUNS = Path(os.environ.get('FD_COMPOSE_RUNS', '/workspace/x/compose_runs'))
 DASHBOARD = Path(os.environ.get('FD_COMPOSE_DASHBOARD', '/workspace/x/dashboard'))
 MAX_PER_ACCOUNT = 3            # Fiona: 3 a day is a ceiling, not a quota
-MAX_ACCOUNTS_PER_EVENT = 2     # one event may be taken by at most 2 accounts, each with its own lens
+MAX_ACCOUNTS_PER_EVENT = 2     # one event may be taken by at most 2 accounts per language, each with its own lens
+                               # (fix26: per language - 14 crypto accounts share ~12 crypto stories a day)
 STAGE_CALLS = {'stance': 2, 'compose': 3}   # per draft: stance + 1 repair; first pass + 2 rewrites
 EST_PER_DRAFT = 0.12           # reserve kept per draft still to start (flash list prices, conservative)
+EST_PER_DRAFT_PRO = 0.30       # same reserve when compose runs on gemini-3.1-pro-preview (4x flash list prices)
 QUOTA_RX = re.compile(r'RESOURCE_EXHAUSTED|PerDay|exceeded your current quota', re.I)
 MAX_AGE_DAYS = 10              # selection window; inside it fresher (in-shelf, timely) packets rank first
 
@@ -89,6 +91,21 @@ def group_text(group):
                     + [str((r['unit'].get('view') or {}).get('subject') or '') for r in group])
 
 
+_TITLE_STOP = set('a an the of to in on for and or as at by with from is are its worth says after over new'.split())
+
+
+def title_event(title):
+    """('title', lead word, numbers) - two outlets' headlines on one story ("Robinhood adds $25 million worth of
+    bitcoin to balance sheet as it deepens crypto push" / "Robinhood adds bitcoin worth $25 million to its balance
+    sheet") share it. Headlines without a number key on their first three words; None for short titles."""
+    toks = re.findall(r'[a-z0-9$.,]+|[\u4e00-\u9fff]{2,}', re.sub(r'\(part \d+/\d+\)', '', str(title or '').lower()))
+    toks = [t.strip('.,') for t in toks if t.strip('.,') and t.strip('.,') not in _TITLE_STOP]
+    if len(toks) < 3:
+        return None
+    nums = sorted({t for t in toks if re.search(r'\d', t)})
+    return ('title', toks[0], *nums) if nums else ('title', *toks[:3])
+
+
 def group_hooks(group):
     try:
         return set(news_hook.hooks(group_text(group)))
@@ -112,14 +129,19 @@ def source_lang(group):
     return 'zh' if demo.zh_native(group) else 'en'
 
 
-def candidates(store, account, beats, lead, ref, x_handles=None):
+def candidates(store, account, beats, lead, ref, x_handles=None, account_cfg=None, reuse=None):
     """x_handles: the account's own X sources. X-post units of other handles are skipped (X sources are
-    account-scoped); own X posts rank right after timeliness, then packets on the account's own crypto lanes."""
+    account-scoped); own X posts rank right after timeliness, then packets on the account's own crypto lanes.
+    account_cfg (fd20_accounts.json row): beat gate - a non-crypto account never gets a crypto packet and a crypto
+    account never gets a packet without crypto content (Oct 7: Momo 美股札记 wrote GenLayer).
+    reuse: source ids / titles / hashes this account may use again (its own drafts superseded for a rewrite); they
+    rank first."""
     from live.jev_front import SUB_BEATS
     from live.x_daily import x_handle
     x_handles = {h.lower() for h in x_handles or ()}
     lane = {b for b in beats if b in SUB_BEATS}   # the account's own crypto lanes (meme / perp / defi / ...)
-    used = used_sources(account)
+    reuse = set(reuse or ())
+    used = used_sources(account) - reuse
     recent = anti_repeat.load_recent(account)
     seen, groups = set(), {}
     for beat in beats:
@@ -134,44 +156,82 @@ def candidates(store, account, beats, lead, ref, x_handles=None):
             if handle and handle.lower() not in x_handles:
                 continue
             groups.setdefault(demo._key(record), []).append(record)
-    options = demo.ranked_balanced(list(groups.values()), now=ref.date().isoformat())
+    gated = list(groups.values())
+    if account_cfg:
+        gated = [g for g in gated if editorial_style.beat_gate(account_cfg, group_text(g))[0]]
+    options = demo.ranked_balanced(gated, now=ref.date().isoformat())
     top = set(angles.top_angles(lead, 4))
 
     def key(g):
         fit = len(top & set(angles.angles_of(group_text(g))))
-        return (not prescreen.prescreen(account, g)['ok'], not demo.in_shelf(g, ref.date().isoformat()),
+        src = g[0]['source']
+        return (not ({src.get('id'), src.get('title'), src.get('source_hash')} & reuse),
+                not prescreen.prescreen(account, g)['ok'], not demo.in_shelf(g, ref.date().isoformat()),
                 not timely(g, ref), not x_handle(g[0]['source']),
                 bool(lane) and not any(lane & set(r.get('tag_personas') or []) for r in g), bool(demo.group_hook_repeat(g, recent)), demo.group_theme_repeat(g, recent),
                 -fit, -demo.group_freshness(g, ref.date().isoformat()))
     return sorted(options, key=key)
 
 
-def drafted_today(day):
+def drafted_today(day, ready_only=False):
     """{account: drafts with text already in the inbox for `day`} (an earlier run the same day counts toward the
-    3-a-day ceiling)."""
+    3-a-day ceiling). ready_only (--fill): only drafts still ready - not held, not superseded by an audit."""
     out = {}
     for r in compose_inbox.rows(day.isoformat()):
         if (r.get('text') or '').strip() and r.get('day') == day.isoformat():
+            if ready_only and (r.get('held') or r.get('superseded') or r.get('draft_status') != 'draft_ready'):
+                continue
             out[r['account_id']] = out.get(r['account_id'], 0) + 1
     return out
 
 
-def select(accounts, universes, day, per_account, done=None):
+def ready_events(day, accounts):
+    """(event, account, angle, lang) for today's ready drafts, so a fill run respects the per-event cap."""
+    lang = {a['id']: a['lang'] for a in accounts}
+    out = []
+    for r in compose_inbox.rows(day.isoformat()):
+        if r.get('held') or r.get('superseded') or r.get('draft_status') != 'draft_ready' or not r.get('text'):
+            continue
+        src = r.get('source') or {}
+        angle = (r.get('angle') or {}).get('id') if isinstance(r.get('angle'), dict) else r.get('angle')
+        events = ({('srcid', src.get('id'))} if src.get('id') else set()) | ({title_event(src.get('title'))} - {None})
+        try:
+            events |= {('hook', h) for h in news_hook.hooks(' '.join([str(src.get('title') or ''), r.get('body') or '']))}
+        except Exception:   # noqa: BLE001
+            pass
+        out += [(e, r['account_id'], angle, lang.get(r['account_id'])) for e in events]
+    return out
+
+
+def superseded_sources(day):
+    """{account: source ids/titles of its drafts an audit superseded with verdict rewrite} (--fill reuses them)."""
+    out = {}
+    for r in compose_inbox.rows(day.isoformat()):
+        if r.get('superseded') and (r.get('audit') or {}).get('verdict') == 'rewrite':
+            src = r.get('source') or {}
+            out.setdefault(r['account_id'], set()).update(x for x in (src.get('id'), src.get('title')) if x)
+    return out
+
+
+def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT, seed_events=(), reuse=None):
     store = ContentStore()
     ref = datetime.combine(day, datetime.min.time(), LONDON).replace(hour=8).astimezone(timezone.utc)
     now = datetime.now(timezone.utc)
     if now.astimezone(LONDON).date() == day and now > ref:   # a same-day run later than 08:00 sees posts up to now (X)
         ref = now
     pools = {a['id']: candidates(store, a['id'], a['retrieval_beats'], universes[a['id']].get('angle_lead') or {}, ref,
-                                 x_handles=[x['handle'] for x in universes[a['id']].get('x_sources') or [] if x.get('enabled', True)])
+                                 x_handles=[x['handle'] for x in universes[a['id']].get('x_sources') or [] if x.get('enabled', True)],
+                                 account_cfg=a, reuse=(reuse or {}).get(a['id']))
              for a in accounts}
     order = sorted(pools, key=lambda a: len(pools[a]))     # scarce accounts pick first in every round
-    event_takers = {}            # event key (source key / hook) -> [(account, angle)]
+    event_takers = {}            # event key (source key / hook) -> [(account, angle, lang)]
+    for e, acc, ang, lg in seed_events:
+        event_takers.setdefault(e, []).append((acc, ang, lg))
     plan = {a: [] for a in pools}
     done = done or {}
     for _round in range(per_account):
         for account in order:
-            if len(plan[account]) + done.get(account, 0) >= MAX_PER_ACCOUNT:
+            if len(plan[account]) + done.get(account, 0) >= cap:
                 continue
             lang = next(x['lang'] for x in accounts if x['id'] == account)
             lead = universes[account].get('angle_lead') or universes[account].get('angle_mix') or {}
@@ -181,8 +241,10 @@ def select(accounts, universes, day, per_account, done=None):
                 skey = demo._key(g[0])
                 if skey in mine:
                     continue
-                events = {('src',) + tuple(skey)} | {('hook', h) for h in group_hooks(g)}
-                takers = [t for e in events for t in event_takers.get(e, [])]
+                events = ({('src',) + tuple(skey)} | {('hook', h) for h in group_hooks(g)}
+                          | ({('srcid', g[0]['source']['id'])} if g[0]['source'].get('id') else set())
+                          | ({title_event(g[0]['source'].get('title'))} - {None}))
+                takers = [t for e in events for t in event_takers.get(e, []) if t[2] == lang]
                 if len({t[0] for t in takers}) >= MAX_ACCOUNTS_PER_EVENT or any(t[0] == account for t in takers):
                     continue
                 angle, why = angles.assign(lead, group_text(g), taken={t[1] for t in takers})
@@ -194,7 +256,7 @@ def select(accounts, universes, day, per_account, done=None):
                 continue
             g, events, angle, why, shared_with = pick
             for e in events:
-                event_takers.setdefault(e, []).append((account, angle))
+                event_takers.setdefault(e, []).append((account, angle, lang))
             src = g[0]['source']
             plan[account].append({
                 'source_key': list(demo._key(g[0])), 'source_id': src.get('id'), 'title': src.get('title'),
@@ -336,7 +398,12 @@ def inbox_row(result, account_cfg, day, run_id):
             'angle_why': pick['angle_why'], 'shared_event_with': pick['shared_event_with'],
             'draft_status': result.get('draft_status') or ('blocked' if result.get('error') else None),
             'status': result.get('status'), 'error': result.get('error'), 'why': result.get('why'),
-            'held': bool(arb.get('status') == 'HOLD' or result.get('status') == 'error' or not result.get('text')),
+            # fix26: a HARD finding left after the one targeted rewrite (needs_review) is a HOLD, never ready
+            'held': bool(arb.get('status') == 'HOLD' or result.get('status') == 'error' or not result.get('text')
+                         or result.get('draft_status') == 'needs_review'),
+            'hold_reason': ('arbitration' if arb.get('status') == 'HOLD' else
+                            'hard: ' + ','.join(sorted({f['code'] for f in findings if f.get('level') == 'hard'}))
+                            if result.get('draft_status') == 'needs_review' else None),
             'arbitration': arb, 'findings': findings,
             'stance': {k: (result.get('stance') or {}).get(k) for k in ('decision', 'account_view', 'subject', 'direction')},
             'source': {'id': src.get('id'), 'source_id': src.get('source_id'), 'publisher': pick.get('publisher'),
@@ -353,6 +420,9 @@ def main():
     ap.add_argument('--budget-usd', type=float, default=float(os.environ.get('FD_DAILY_COMPOSE_BUDGET_USD', '4.0')))
     ap.add_argument('--workers', type=int, default=4)
     ap.add_argument('--select-only', action='store_true', help='selection + plan only, no model calls')
+    ap.add_argument('--fill', action='store_true',
+                    help='top each account up to --per-account READY drafts for the day (held / superseded drafts do '
+                         'not count; sources of drafts an audit superseded for a rewrite may be reused)')
     ap.add_argument('--force', action='store_true', help='run even when FD_DAILY_COMPOSE is not 1')
     args = ap.parse_args()
     if os.environ.get('FD_DAILY_COMPOSE') != '1' and not args.force and not args.select_only:
@@ -368,9 +438,16 @@ def main():
     universes = load_json(UNIVERSES)
     run_id = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S')
     out = RUNS / args.day.isoformat() / run_id
-    done = drafted_today(args.day)
-    plan, order = select(accounts, universes, args.day, per_account, done=done)
-    write_json(out / 'plan.json', {'day': args.day.isoformat(), 'pick_order': order, 'per_account': per_account, 'drafted_earlier_today': done,
+    if args.fill:
+        done = drafted_today(args.day, ready_only=True)
+        plan, order = select(accounts, universes, args.day, per_account, done=done, cap=per_account,
+                             seed_events=ready_events(args.day, load_json(CONFIG)['accounts']),
+                             reuse=superseded_sources(args.day))
+    else:
+        done = drafted_today(args.day)
+        plan, order = select(accounts, universes, args.day, per_account, done=done)
+    write_json(out / 'plan.json', {'day': args.day.isoformat(), 'pick_order': order, 'per_account': per_account,
+                                   'fill': args.fill, 'drafted_earlier_today': done,
                                    'accounts': plan})
     for a in accounts:
         print(a['id'], [f"{p['suggested_post_time_london'][11:16]} {p['post_format']['type']} {p['angle']} "
@@ -387,6 +464,7 @@ def main():
                 records.setdefault(r['unit_id'], r)
     jobs = [(a, p) for i in range(per_account) for a in accounts if i < len(plan[a['id']]) for p in [plan[a['id']][i]]]
     spend, lock = {'usd': 0.0}, threading.Lock()
+    est = EST_PER_DRAFT_PRO if 'pro' in stage_models.for_stage(table, 'compose')['model'] else EST_PER_DRAFT
     results, skipped = [], []
     by_id = {a['id']: a for a in accounts}
 
@@ -398,7 +476,7 @@ def main():
             if quota:   # a daily Gemini quota is exhausted: starting more drafts would only fail
                 skipped.append({'account_id': a['id'], 'source_id': p['source_id'], 'reason': quota['reason']})
                 return None
-            if spend['usd'] + EST_PER_DRAFT > args.budget_usd:
+            if spend['usd'] + est > args.budget_usd:
                 skipped.append({'account_id': a['id'], 'source_id': p['source_id'],
                                 'reason': f'run budget: ${spend["usd"]:.3f} spent of ${args.budget_usd}'})
                 return None
