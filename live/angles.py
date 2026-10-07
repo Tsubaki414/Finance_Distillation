@@ -115,10 +115,15 @@ def top_angles(mix, n=TOP_N):
     return [a for a, _ in sorted((mix or {}).items(), key=lambda kv: -kv[1])[:n]]
 
 
-def assign(account_mix, source_text, taken=()):
+def assign(account_mix, source_text, taken=(), boost=None):
     """The account's angle for one source: its most-used lens the source supports and nobody else took on this
-    event; if the source supports none of its top lenses, its most-used lens not yet taken (a framing, not facts)."""
+    event; if the source supports none of its top lenses, its most-used lens not yet taken (a framing, not facts).
+    boost {angle: multiplier} (FD_HOTSPOT soft priors: viral structure priors x review feedback) re-ranks the same
+    top lenses by share x multiplier; it never adds a lens. None = the plain share order."""
     ranked = top_angles(account_mix)
+    if boost:
+        mix = account_mix or {}
+        ranked = sorted(ranked, key=lambda a: (-(mix.get(a, 0) * boost.get(a, 1.0)), ranked.index(a)))
     fits = set(angles_of(source_text))
     for a in ranked:
         if a in fits and a not in taken:

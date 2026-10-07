@@ -18,6 +18,11 @@ GKEY=GEMINI_RELAY_API_KEY; [[ "${FD_GEMINI_PROVIDER:-relay}" == "official" ]] &&
 if [[ -n "${!GKEY:-}" ]]; then echo "key $GKEY: set"; else echo "key $GKEY: missing"; exit 2; fi
 export FD_PACK_AUGMENT=1
 /workspace/fd_venv/bin/python scripts/persona_factory.py >/dev/null   # refresh universes (no model calls)
+# FD_HOTSPOT (default 1): /admin decisions of the last days -> per-account approve rates by angle / 母题 type + edit
+# diffs (live/store/feedback, local), read next day as a soft prior. No model calls; never fatal.
+if [[ "${FD_HOTSPOT:-1}" != "0" ]]; then
+    /workspace/fd_venv/bin/python scripts/feedback_priors.py --pull || echo "feedback priors failed (compose unaffected)"
+fi
 /workspace/fd_venv/bin/python scripts/daily_compose.py --per-account "${FD_DAILY_COMPOSE_PER_ACCOUNT:-2}" \
     --budget-usd "${FD_DAILY_COMPOSE_BUDGET_USD:-4}" "$@"
 # Rebuild the operator copy-paste dashboard (static HTML + per-day CSV); system python3 has PIL for avatar thumbnails.

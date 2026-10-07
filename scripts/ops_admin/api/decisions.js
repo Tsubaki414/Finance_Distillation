@@ -1,13 +1,13 @@
 // Review-console decisions, one private Vercel Blob per draft: decisions/<day>/<draft id>.json.
 // GET  /api/decisions?day=YYYY-MM-DD -> {day, decisions: {id: decision}}
-// POST /api/decisions {day, id, account_id, action: approve|hold|rewrite|edit|clear, text?, note?} -> {ok, decision}
+// POST /api/decisions {day, id, account_id, action: approve|published|hold|rewrite|edit|clear, text?, note?} -> {ok, decision}
 //   text: edited post text ('' or null = keep the draft text); note: HOLD reason / rewrite instruction.
 // No auth: the site is unlisted by choice (noindex on both pages).
 import { get, list, put } from '@vercel/blob';
 
 const DAY = /^\d{4}-\d{2}-\d{2}$/;
 const ID = /^[A-Za-z0-9_.-]{1,100}$/;
-const ACTIONS = new Set(['approve', 'hold', 'rewrite', 'edit', 'clear']);
+const ACTIONS = new Set(['approve', 'published', 'hold', 'rewrite', 'edit', 'clear']);   // published: marked after a human posted it
 
 async function readBlob(pathname) {
   const r = await get(pathname, { access: 'private', useCache: false });
