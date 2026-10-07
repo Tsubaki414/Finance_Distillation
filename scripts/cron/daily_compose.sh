@@ -5,6 +5,8 @@
 set -euo pipefail
 cd /workspace/fd_new/Finance_Distillation
 if [[ "${FD_DAILY_COMPOSE:-0}" != "1" ]]; then echo "FD_DAILY_COMPOSE is not 1: compose off"; exit 0; fi
+# Log name only: London date of the run. The drafting day (inbox / CSV / media / dashboard) is the Beijing date,
+# computed in daily_compose.py: the 23:13 London run on 10-07 logs to 2026-10-07.cron.log and drafts 2026-10-08.
 DAY=$(TZ=Europe/London date +%F)
 LOG=/workspace/x/compose_runs/$DAY.cron.log
 mkdir -p "$(dirname "$LOG")"

@@ -161,7 +161,9 @@ def ask(messages, model=JUDGE, temperature=0.0, seed=7, max_tokens=1600,
         env['base'].rstrip('/') + '/chat/completions',
         data=json.dumps(payload).encode('utf-8'),
         headers={'Authorization': 'Bearer ' + env['key'],
-                 'Content-Type': 'application/json'})
+                 'Content-Type': 'application/json',
+                 # not urllib's default Python-urllib/x: Cloudflare-fronted relays (micuapi) answer 1010 to it
+                 'User-Agent': 'Mozilla/5.0 (compatible; fd-distillation/1.0)'})
     t0 = time.time()
     # The relay answered 43 consecutive calls and then failed 22 of the next 40 with
     # 503 "No available channel for model" — it runs out of upstream capacity and says so. That

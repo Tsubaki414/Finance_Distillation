@@ -41,8 +41,11 @@ rejected with one message per problem (`tests/test_research_sources.py`).
 `citable: false`.
 
 - Units never enter the content store (it takes tier A/B only) and are never put in any model prompt.
-- Topic steer: `scripts/daily_compose.candidates()` breaks ties toward packs that name a digest ticker from the
-  last 7 days (`delphi_digest.steer_tickers`). Pack content always comes from public units.
+- Topic steer: `scripts/daily_compose.candidates()` breaks ties toward packs that name a ticker of the newest
+  digest written within the last 36h (`delphi_digest.latest`; age from 00:00 London of the file's date, no exact
+  day match, so the 04:46 London file steers the 23:13 London run for the next Beijing day; a file dated one day
+  ahead also counts). Pack content always comes from public units. The draft gate below still checks the last
+  7 days of digests (`delphi_digest.recent`).
 - Stance steer: `delphi_digest.stance_hints()` returns only our `thesis_summary` lines for given tickers (never
   numbers or titles). It is not wired into the STANCE prompt yet.
 - Draft gate, `live/licence_rules.inspiration_findings`, run in `compose.post_checks` (all HARD -> one targeted

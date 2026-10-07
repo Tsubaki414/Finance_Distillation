@@ -63,6 +63,7 @@ def test_relay_request_shape_and_no_key_in_record(tmp_path):
     def handler(request):
         seen['url'] = str(request.url)
         seen['auth'] = request.headers.get('authorization')
+        seen['ua'] = request.headers.get('user-agent')
         seen['body'] = json.loads(request.content)
         return httpx.Response(200, json={'id': 'x', 'model': 'gemini-3.1-pro-preview',
                                          'choices': [{'message': {'content': '{"ok":1}'}, 'finish_reason': 'stop'}],
@@ -73,6 +74,8 @@ def test_relay_request_shape_and_no_key_in_record(tmp_path):
     assert out['response_model'] == 'gemini-3.1-pro-preview'
     assert seen['url'] == 'https://www.micuapi.ai/v1/chat/completions'
     assert seen['auth'] == 'Bearer ' + FAKE_KEY
+    # Cloudflare in front of micuapi blocks library default agents (error 1010)
+    assert seen['ua'] == relay.USER_AGENT and not seen['ua'].lower().startswith(('python', 'httpx'))
     assert seen['body']['model'] == 'gemini-3.1-pro-preview' and seen['body']['reasoning_effort'] == 'medium'
     for p in tmp_path.glob('*.json'):
         assert FAKE_KEY not in p.read_text()

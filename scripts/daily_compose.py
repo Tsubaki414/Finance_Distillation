@@ -16,6 +16,11 @@ Gemini spend (call records) would pass --budget-usd.
 
   FD_DAILY_COMPOSE=1 python scripts/daily_compose.py [--day 2026-10-07] [--accounts a,b] [--per-account 2]
                                                      [--budget-usd 4] [--workers 4] [--select-only] [--fill]
+                                                     [--now 2026-10-07T23:13+01:00]
+
+The drafting day is the Beijing (Asia/Shanghai) calendar date: the inbox day, run dir, review page and the ops
+dashboard's 08:00-22:59 北京时间 slots all use it. The cron run at 23:13 London (06:13 Beijing in BST, 07:13 in GMT)
+drafts for that Beijing morning's date; selection then sees material up to the run time.
 """
 from __future__ import annotations
 
@@ -45,7 +50,7 @@ from live.retrieval import units_for_persona  # noqa: E402
 from live.view_ledger import ViewLedger  # noqa: E402
 from ml import budget  # noqa: E402
 
-LONDON = ZoneInfo('Europe/London')
+BJT = ZoneInfo('Asia/Shanghai')   # drafting day = Beijing calendar date (Oct 7)
 CONFIG = ROOT / 'live' / 'fd20_accounts.json'
 UNIVERSES = ROOT / 'live' / 'store' / 'fd20' / 'universes.json'
 POSTS = ROOT / 'live' / 'donors' / 'posts'
@@ -182,7 +187,8 @@ def candidates(store, account, beats, lead, ref, x_handles=None, account_cfg=Non
     options = demo.ranked_balanced(gated, now=ref.date().isoformat())
     top = set(angles.top_angles(lead, 4))
     # Delphi digest (inspiration_only): its tickers only break ties toward the same topic; nothing of it is passed on.
-    steer = set(delphi_digest.steer_tickers(delphi_digest.recent(now=ref)))
+    # The newest digest written within 36h (not an exact day match: it is London-dated, the drafting day is Beijing's).
+    steer = set(delphi_digest.steer_tickers(delphi_digest.latest(now=ref)['units']))
 
     def key(g):
         fit = len(top & set(angles.angles_of(group_text(g))))
@@ -298,13 +304,26 @@ def apply_heat(pools, day, ref, reuse=None):
     return out
 
 
+def drafting_day(now=None):
+    """The Beijing calendar date a run at `now` drafts for (23:13 London on Oct 7 -> 2026-10-08)."""
+    return (now or datetime.now(timezone.utc)).astimezone(BJT).date()
+
+
+def selection_ref(day, now=None):
+    """As-of time for selection. 08:00 Beijing on `day` for a backfill of an older day; a run on the day itself (any
+    hour) or in the 24h before its 08:00 sees material up to `now` - never a future reference that would shift the
+    freshness date or the 30h timely window past what has been published."""
+    now = now or datetime.now(timezone.utc)
+    ref = datetime.combine(day, datetime.min.time(), BJT).replace(hour=8).astimezone(timezone.utc)
+    if now.astimezone(BJT).date() == day or ref - timedelta(hours=24) <= now < ref:
+        return now.astimezone(timezone.utc)
+    return ref
+
+
 def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT, seed_events=(), reuse=None,
-           rewrites=None):
+           rewrites=None, now=None):
     store = ContentStore()
-    ref = datetime.combine(day, datetime.min.time(), LONDON).replace(hour=8).astimezone(timezone.utc)
-    now = datetime.now(timezone.utc)
-    if now.astimezone(LONDON).date() == day and now > ref:   # a same-day run later than 08:00 sees posts up to now (X)
-        ref = now
+    ref = selection_ref(day, now)
     pools = {a['id']: candidates(store, a['id'], a['retrieval_beats'], universes[a['id']].get('angle_lead') or {}, ref,
                                  x_handles=[x['handle'] for x in universes[a['id']].get('x_sources') or [] if x.get('enabled', True)],
                                  account_cfg=a, reuse=(reuse or {}).get(a['id']))
@@ -535,7 +554,11 @@ def inbox_row(result, account_cfg, day, run_id):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument('--day', type=date.fromisoformat, default=datetime.now(LONDON).date())
+    ap.add_argument('--day', type=date.fromisoformat, default=None,
+                    help='drafting day (default: Beijing calendar date of --now / the current time)')
+    ap.add_argument('--now', type=lambda s: datetime.fromisoformat(s.replace('Z', '+00:00')), default=None,
+                    help='simulated clock for the day default and selection reference (ISO with offset; '
+                         'use with --select-only to check a schedule without model calls)')
     ap.add_argument('--accounts')
     ap.add_argument('--per-account', type=int, default=2)
     ap.add_argument('--budget-usd', type=float, default=float(os.environ.get('FD_DAILY_COMPOSE_BUDGET_USD', '4.0')))
@@ -549,6 +572,9 @@ def main():
                          'with the note (audit-superseded rewrite drafts use their audit reason by default)')
     ap.add_argument('--force', action='store_true', help='run even when FD_DAILY_COMPOSE is not 1')
     args = ap.parse_args()
+    if args.now and args.now.tzinfo is None:
+        ap.error('--now needs a UTC offset, e.g. 2026-10-07T23:13+01:00')
+    args.day = args.day or drafting_day(args.now)
     if os.environ.get('FD_DAILY_COMPOSE') != '1' and not args.force and not args.select_only:
         print('FD_DAILY_COMPOSE is not 1: daily compose is off; nothing done')
         return 0
@@ -567,11 +593,12 @@ def main():
         rewrites = rewrite_targets(args.day, load_json(args.rewrite_notes) if args.rewrite_notes else None)
         plan, order = select(accounts, universes, args.day, per_account, done=done, cap=per_account,
                              seed_events=ready_events(args.day, load_json(CONFIG)['accounts']),
-                             reuse={a: set(m) for a, m in rewrites.items()}, rewrites=rewrites)
+                             reuse={a: set(m) for a, m in rewrites.items()}, rewrites=rewrites, now=args.now)
     else:
         done = drafted_today(args.day)
-        plan, order = select(accounts, universes, args.day, per_account, done=done)
-    write_json(out / 'plan.json', {'day': args.day.isoformat(), 'pick_order': order, 'per_account': per_account,
+        plan, order = select(accounts, universes, args.day, per_account, done=done, now=args.now)
+    write_json(out / 'plan.json', {'day': args.day.isoformat(), 'day_basis': 'Asia/Shanghai calendar date',
+                                   'selection_ref': selection_ref(args.day, args.now).isoformat(), 'pick_order': order, 'per_account': per_account,
                                    'fill': args.fill, 'drafted_earlier_today': done,
                                    'accounts': plan})
     for a in accounts:

@@ -20,6 +20,7 @@ import json
 import re
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[2]
 DIGEST_DIR = ROOT / 'live' / 'store' / 'delphi_digest'
@@ -30,6 +31,8 @@ KINDS = ('report', 'alpha_insight')
 LICENCE = 'inspiration_only'
 FIELDS = ('title', 'url', 'date', 'kind', 'tickers', 'thesis_summary', 'key_numbers')
 STEER_DAYS = 7
+LATEST_MAX_AGE_H = 36   # topic steer: the newest digest only, if written within 36h (Oct 7)
+LONDON = ZoneInfo('Europe/London')   # the browser routine runs 04:46 London and names files by that date
 _DAY = re.compile(r'^\d{4}-\d{2}-\d{2}$')
 _TICKER = re.compile(r'^\$?[A-Z0-9][A-Z0-9.\-]{0,14}$')
 _QUOTED = re.compile(r'“[^”]{12,}”|"[^"\n]{12,}"|「[^」]{6,}」')
@@ -139,6 +142,33 @@ def recent(*, now=None, days=STEER_DAYS, directory=None):
         for u in load_day(today - timedelta(days=k), directory)['units']:
             out.setdefault(u['unit_id'], u)
     return list(out.values())
+
+
+def _as_datetime(now):
+    now = now or datetime.now(timezone.utc)
+    if isinstance(now, str):
+        now = datetime.fromisoformat(now.replace('Z', '+00:00')) if 'T' in now else date.fromisoformat(now[:10])
+    if not isinstance(now, datetime):   # a bare date: end of that London day
+        now = datetime.combine(now, datetime.max.time(), LONDON)
+    return now if now.tzinfo else now.replace(tzinfo=timezone.utc)
+
+
+def latest(*, now=None, max_age_hours=LATEST_MAX_AGE_H, directory=None):
+    """The newest digest file with valid units whose day began (00:00 London, the routine's own date) at most
+    `max_age_hours` before `now`: {'day', 'status', 'units', 'errors', 'age_h'}; status 'missing' + no units when
+    none qualifies. No exact-day match: the 04:46 London file still steers the 23:13 London run (06:13 / 07:13
+    Beijing next morning), a day-old one does not. A file dated up to one day ahead (Beijing-dated) also counts."""
+    now = _as_datetime(now)
+    base = now.astimezone(LONDON).date()
+    for k in range(-1, int(max_age_hours // 24) + 2):
+        day = base - timedelta(days=k)
+        age_h = (now - datetime.combine(day, datetime.min.time(), LONDON)).total_seconds() / 3600
+        if age_h > max_age_hours:
+            break
+        got = load_day(day, directory)
+        if got['units']:
+            return dict(got, age_h=round(age_h, 1))
+    return {'day': None, 'status': 'missing', 'units': [], 'errors': [], 'age_h': None}
 
 
 def steer_tickers(units):

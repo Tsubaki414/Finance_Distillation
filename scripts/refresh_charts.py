@@ -7,7 +7,7 @@ shows as 「图更新于 北京时间 HH:MM」. Every checked chart gets checked
 
 Both pages (/ and /admin) are rebuilt when any chart was checked; `vercel deploy --prod --yes` runs only when at
 least one image changed (or an earlier change was never deployed: the deploy_pending marker in the state dir).
-Days are inbox days (London date, like the cron wrappers): today and tomorrow.
+Days are inbox days (Beijing calendar date, the drafting day since Oct 7): today and tomorrow in 北京时间.
 
   python3 scripts/refresh_charts.py [--day 2026-10-07 ...] [--no-build] [--no-deploy] [--force-data]
 Scheduled hourly by scripts/cron/refresh_charts.sh (lockfile, log, 08:00-23:59 Beijing time).
@@ -29,14 +29,14 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from live import charts, compose_inbox, draft_media  # noqa: E402
 
-LONDON = ZoneInfo('Europe/London')
+BJT = ZoneInfo('Asia/Shanghai')
 DATA_EVERY_H = 6
 # Written when images changed but were not deployed (--no-deploy, deploy failure); the next run deploys then.
 PENDING = Path(os.environ.get('FD_CHART_STATE', '/workspace/x/chart_refresh')) / 'deploy_pending'
 
 
 def default_days(now=None):
-    today = (now or datetime.now(timezone.utc)).astimezone(LONDON).date()
+    today = (now or datetime.now(timezone.utc)).astimezone(BJT).date()
     return [today.isoformat(), (today + timedelta(days=1)).isoformat()]
 
 
@@ -132,7 +132,7 @@ def deploy(out_dir):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument('--day', action='append', help='inbox day (repeatable); default London today + tomorrow')
+    ap.add_argument('--day', action='append', help='inbox day (repeatable); default Beijing today + tomorrow')
     ap.add_argument('--out', type=Path, default=draft_media.MEDIA_OUT)
     ap.add_argument('--data-every-h', type=float, default=DATA_EVERY_H)
     ap.add_argument('--force-data', action='store_true', help='refresh data charts regardless of age')

@@ -18,6 +18,7 @@ import json
 import os
 import re
 from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -60,7 +61,8 @@ def _fresh(source, day):
         return False
     if pub.tzinfo is None:
         pub = pub.replace(tzinfo=timezone.utc)
-    end = datetime.fromisoformat(day).replace(tzinfo=timezone.utc) + timedelta(days=1) if day else datetime.now(timezone.utc)
+    # end of the inbox day (a Beijing calendar date since Oct 7) = when its last slot (22:59 北京时间) is gone
+    end = datetime.fromisoformat(day).replace(tzinfo=ZoneInfo('Asia/Shanghai')) + timedelta(days=1) if day else datetime.now(timezone.utc)
     return end - pub <= timedelta(hours=QUOTE_MAX_AGE_H)
 
 

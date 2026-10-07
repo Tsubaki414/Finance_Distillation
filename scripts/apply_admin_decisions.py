@@ -18,6 +18,7 @@ import sys
 import urllib.error
 import urllib.request
 from datetime import date, datetime, timezone
+from zoneinfo import ZoneInfo
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -71,7 +72,7 @@ def main():
     if not day:
         inbox = ROOT / 'live/store/compose_inbox'
         days = sorted(p.name for p in inbox.iterdir() if p.is_dir()) if inbox.is_dir() else []
-        day = days[-1] if days else date.today().isoformat()
+        day = days[-1] if days else datetime.now(ZoneInfo('Asia/Shanghai')).date().isoformat()   # inbox day = Beijing date
     path = args.store / f'{day}.json'
     try:
         decisions = json.loads(path.read_text()).get('decisions') or {}

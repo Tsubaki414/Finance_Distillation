@@ -4,7 +4,9 @@
 Reads every live/store/compose_inbox/<day>/*.json row plus live/fd20_accounts.json (names) and
 assets/persona_avatars (avatars, embedded). Writes a self-contained index.html and one <day>.csv per day
 (account, time, text) to --out. Every time shown (post times, updated stamp, today/tomorrow labels, CSV) is
-China time (Asia/Shanghai, labelled 北京时间); the inbox stores London-time ISO stamps with offsets. The post text is the draft body only: no source/attribution line, no notes.
+China time (Asia/Shanghai, labelled 北京时间); the inbox stores London-time ISO stamps with offsets. Inbox days
+(<day> dirs, CSV names, the date selector) are Beijing calendar dates since Oct 7 (earlier days were London dates
+of a 05:13 London run, which is the same calendar date in Beijing). The post text is the draft body only: no source/attribution line, no notes.
 Suggested post times are spread here (display only, the inbox and pipeline are untouched) over 08:00-22:59
 北京时间 on the inbox day: each account's distinct slots keep their order, take one equal segment of the window
 each and stay at least 30 minutes apart (drafts sharing one original slot - rewrites / alternatives - keep sharing it).

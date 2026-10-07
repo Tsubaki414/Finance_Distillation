@@ -30,6 +30,9 @@ PROVIDER = 'erisedai_relay'
 DEFAULT_MODEL = 'claude-opus-5'
 RESPONSE_FORMAT = {'type': 'json_object'}
 TIMEOUT = httpx.Timeout(180.0, connect=15.0, write=30.0, pool=15.0)
+# Explicit, non-library User-Agent on every relay / Gemini call: Cloudflare in front of www.micuapi.ai answers
+# error 1010 to library default agents (Python-urllib; Oct 7).
+USER_AGENT = 'Mozilla/5.0 (compatible; fd-distillation/1.0)'
 # Oct 6 v9 reliability: once a stage's primary model answers "quota/balance exhausted" the rest of the process
 # goes straight to the documented fallback (v9a: two 403s each kept a conservative reservation, then the slot
 # could not afford the fallback). Keyed by (stage, primary model); reset_quota_breaker() clears it.
@@ -304,10 +307,11 @@ class ErisedaiClient:
                 record['model_call_attempts'] = 1
                 if native:
                     response = client.post(f'{base_url}/models/{model}:generateContent',
-                                           headers={'x-goog-api-key': secret}, json=payload)
+                                           headers={'x-goog-api-key': secret, 'User-Agent': USER_AGENT}, json=payload)
                 else:
                     response = client.post(base_url + '/chat/completions',
-                                           headers={'Authorization': 'Bearer ' + secret}, json=payload)
+                                           headers={'Authorization': 'Bearer ' + secret, 'User-Agent': USER_AGENT},
+                                           json=payload)
             record['http_status'] = response.status_code
             if native and not response.is_success:
                 # Official Gemini API: a rejected request (429 / 5xx / 4xx) is not billed.

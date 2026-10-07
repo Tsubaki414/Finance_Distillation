@@ -26,6 +26,7 @@ import os
 import re
 import time
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 from pathlib import Path
 
 import requests
@@ -591,7 +592,7 @@ def attach(row, account, out_dir, rel_prefix='media', ttl=None):
         data = fetch_series(plan, ttl=ttl)
         if not data.get('rows'):
             return None, {**plan, 'failed': data.get('attempts')}
-    day = row.get('day') or datetime.now(timezone.utc).date().isoformat()
+    day = row.get('day') or datetime.now(ZoneInfo('Asia/Shanghai')).date().isoformat()   # inbox day = Beijing date
     rel = Path(rel_prefix) / day / f"{row['id']}.png"
     path = Path(out_dir) / rel
     path.parent.mkdir(parents=True, exist_ok=True)

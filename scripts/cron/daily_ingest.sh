@@ -5,6 +5,9 @@ cd /workspace/fd_new/Finance_Distillation
 # `--preflight`: local checks only (relay config, EXTRACT route + key presence), printed to stdout; no ingest, no spend.
 PREFLIGHT_ONLY=0
 if [[ "${1:-}" == "--preflight" ]]; then PREFLIGHT_ONLY=1; shift; fi
+# Schedule: 23:13 Europe/London (06:13 Beijing in BST, 07:13 after the clocks go back) so drafts for that Beijing
+# day are on the dashboard before its 08:00 slots. DAY names logs only (London date of the run); the ingest summary
+# <YYYYMMDD>.json and the drafting day are Beijing dates. Ingest windows are now-relative (X 24h, flashes 26h).
 DAY=$(TZ=Europe/London date +%F)
 RUN=/workspace/x/ingest_runs
 mkdir -p "$RUN"

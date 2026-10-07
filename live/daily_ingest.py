@@ -10,6 +10,7 @@ import time
 import uuid
 from collections import Counter
 from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -220,6 +221,12 @@ FLASH_WINDOW_HOURS=26
 FLASH_DEDUPE_HOURS=6
 FLASH_FETCH_N=100
 FLASH_RECENT_KEEP=800
+
+
+def bjt_stamp(started):
+    """YYYYMMDD of the Beijing drafting day the run feeds (Oct 7: the run moved to 23:13 London = 06:13/07:13 Beijing
+    the next day; a UTC stamp would overwrite that morning's 04:13 London summary). Windows stay now-relative."""
+    return started.astimezone(ZoneInfo('Asia/Shanghai')).strftime('%Y%m%d')
 
 
 def _parse_ts(value):
@@ -480,7 +487,7 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
                                                         'fair_share_floor','rest','transcripts_last'],
                                                  note='unused flash budget rolls over to documents')
         if dry_run: summary['status']='dry_run'; return summary
-        budget.STORE=runs_dir/(started.strftime('%Y%m%d')+'-'+uuid.uuid4().hex)/'ledger'
+        budget.STORE=runs_dir/(bjt_stamp(started)+'-'+uuid.uuid4().hex)/'ledger'
         budget.LEDGER=budget.STORE/'spend.json';ledger=budget.LEDGER
         budget.DISTILLATION_RUNS=budget.STORE/'distillation_spend.jsonl'
         atomic_json(ledger,dict(cap_usd=cost_cap_usd,spent_usd=0,calls=0,reservations={}))
@@ -612,5 +619,5 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
             summary['cost_usd'].update(total=total,jev=jev_cost,relay=total-jev_cost)
         budget.STORE,budget.LEDGER,budget.DISTILLATION_RUNS=old_budget
         summary.update(finished_at=datetime.now(timezone.utc).isoformat(),runtime_s=time.monotonic()-clock)
-        atomic_json(runs_dir/(started.strftime('%Y%m%d')+'.json'),summary)
+        atomic_json(runs_dir/(bjt_stamp(started)+'.json'),summary)
         fcntl.flock(lock,fcntl.LOCK_UN);lock.close()

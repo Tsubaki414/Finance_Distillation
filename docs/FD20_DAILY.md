@@ -33,8 +33,23 @@ The 20 main accounts are rows 1–20 of `FD_accounts_final_v2.xlsx` (主号). Th
 ```
 FD_DAILY_COMPOSE=1 bash scripts/cron/daily_compose.sh      # also chained at the end of daily_ingest.sh
 python scripts/daily_compose.py --select-only               # plan only, no model calls
+FD_HEAT=0 python scripts/daily_compose.py --select-only --now 2026-10-07T23:13+01:00   # simulated clock -> day 2026-10-08
 python scripts/persona_factory.py [--rebuild-cards]         # persona + cluster + habit card + universe
 ```
+
+### Schedule and drafting day (Oct 7)
+
+- The drafting day is the **Beijing calendar date** (Asia/Shanghai): inbox `<day>` dirs, run dirs, CSVs, `media/<day>`,
+  review page, the dashboard date selector and its 08:00–22:59 北京时间 slots. `daily_compose.py --day` defaults to it.
+- Trigger `daily_ingest.sh` at **23:13 Europe/London**: 06:13 Beijing in BST, 07:13 after 25 Oct 2026. Drafts for
+  Beijing day D are up before D's 08:00 slots. Cron logs keep the London run date (`<London date>.cron.log`).
+- Ingest windows are now-relative (X 24h, flashes 26h), so the 23:13 London run covers the whole US session of that
+  London day. The ingest summary `/workspace/x/ingest_runs/<YYYYMMDD>.json` is named by the Beijing date too.
+- Selection reference = the run time for a run on or just before the drafting day (no future as-of); 08:00 Beijing
+  of `--day` for a backfill of an older day. `--now <ISO+offset>` simulates the clock (use with `--select-only`;
+  `FD_HEAT=0` keeps it free of the heat fetch).
+- Days before 2026-10-08 were London dates of the 05:13 London run, which is the same calendar date in Beijing, so
+  2026-10-07 and older data read unchanged.
 
 ### Model settings
 
@@ -143,7 +158,7 @@ These are learned from donor text and are kept out of git (`.gitignore`):
   price cue (`$`, 美元/点/USD after it, or support / resistance / 支撑 / 突破 / 关口 … before it), is not an amount,
   %, count, duration, date or year (亿, million, 倍, 小时, 枚, 500 BTC …), and sits within the plotted range ±15% and
   −40% / +60% of the last close.
-- `scripts/refresh_charts.py`: today's + tomorrow's (London inbox days) ready drafts. Candlesticks are refetched
+- `scripts/refresh_charts.py`: today's + tomorrow's (Beijing inbox days) ready drafts. Candlesticks are refetched
   every run (cache bypassed); data charts at most every 6 h. An image is replaced only when its `data_sha` (plotted
   rows + levels, not the fetch stamp) changed; that sets `refreshed_at`, shown on both pages as
   「图更新于 北京时间 HH:MM」, and the image URL gets `?v=<sha>`. Pages are rebuilt; `vercel deploy --prod --yes` runs
