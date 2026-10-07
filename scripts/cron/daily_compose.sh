@@ -16,3 +16,5 @@ export FD_PACK_AUGMENT=1
 /workspace/fd_venv/bin/python scripts/persona_factory.py >/dev/null   # refresh universes (no model calls)
 /workspace/fd_venv/bin/python scripts/daily_compose.py --per-account "${FD_DAILY_COMPOSE_PER_ACCOUNT:-2}" \
     --budget-usd "${FD_DAILY_COMPOSE_BUDGET_USD:-4}" "$@"
+# Rebuild the operator copy-paste dashboard (static HTML + per-day CSV); system python3 has PIL for avatar thumbnails.
+python3 scripts/build_ops_dashboard.py || echo "ops dashboard rebuild failed (compose result unaffected)"
