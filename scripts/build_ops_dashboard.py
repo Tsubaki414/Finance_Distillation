@@ -8,6 +8,10 @@ China time (Asia/Shanghai, labelled 北京时间); the inbox stores London-time 
 Suggested post times are clamped here (display only, the inbox and pipeline are untouched) into 08:00-22:59
 北京时间 on the inbox day: late slots move earlier, early ones later, and each account's distinct slots stay
 at least 30 minutes apart (drafts sharing one original slot - rewrites / alternatives - keep sharing it).
+Review-console decisions (/admin, scripts/build_admin_console.py) are overlaid here: the newest days are pulled
+from the console API into live/store/admin_decisions/<day>.json first (scripts/apply_admin_decisions.py; non-fatal,
+FD_ADMIN_PULL=0 or --no-pull skips it), then approve -> ready with the edited text, hold / rewrite -> HOLD,
+edit -> edited text. The admin console is rebuilt alongside (--no-admin skips it).
 Idempotent: files are rewritten only when their content changes.
 """
 import argparse
@@ -15,6 +19,7 @@ import base64
 import csv
 import io
 import json
+import os
 import re
 import sys
 from datetime import datetime, timedelta
@@ -25,6 +30,8 @@ ROOT = Path(__file__).resolve().parents[1]
 INBOX = ROOT / 'live/store/compose_inbox'
 ACCOUNTS = ROOT / 'live/fd20_accounts.json'
 AVATARS = ROOT / 'assets/persona_avatars'
+DECISIONS = ROOT / 'live/store/admin_decisions'
+PULL_DAYS = 3
 OUT = Path('/workspace/x/dashboard/ops')
 BJT = ZoneInfo('Asia/Shanghai')
 POST_START, POST_END, POST_GAP = (8, 0), (22, 59), timedelta(minutes=30)
@@ -130,6 +137,48 @@ def load_day(day_dir):
             'note': note_of(row)})
     drafts.sort(key=lambda d: (d['time'], d['id']))
     return drafts
+
+
+def load_decisions(day, store=None):
+    try:
+        return json.loads(((store or DECISIONS) / f'{day}.json').read_text()).get('decisions') or {}
+    except (OSError, ValueError):
+        return {}
+
+
+def apply_decisions(drafts, decisions):
+    """Overlay Fiona's /admin decisions: approve -> ready (+ edited text), hold / rewrite -> HOLD, edit -> text."""
+    for d in drafts:
+        x = decisions.get(d['id']) or {}
+        act, text = x.get('action'), x.get('text')
+        if act not in ('approve', 'hold', 'rewrite', 'edit'):
+            continue
+        if text and text.strip() != d['text']:
+            d['text'] = text.strip()
+            if d['parts']:
+                d['parts'] = [p.strip() for p in re.split(r'\n\s*\n', d['text']) if p.strip()]
+                d['parts_w'] = [x_weight(p) for p in d['parts']]
+            d['chars'], d['xw'] = len(d['text']), x_weight(d['text'])
+        if act == 'approve':
+            d['status'], d['note'] = 'draft_ready', ''
+        elif act in ('hold', 'rewrite'):
+            label = 'HOLD' if act == 'hold' else '要求重写'
+            d['status'], d['note'] = 'HOLD', f"Fiona {label}{'：' + x['note'] if x.get('note') else ''}"
+    return drafts
+
+
+def pull_decisions(days):
+    """Fetch the newest days' decisions from the console API (apply_admin_decisions.py); never fatal."""
+    import subprocess
+    for day in days:
+        try:
+            r = subprocess.run([sys.executable, str(ROOT / 'scripts/apply_admin_decisions.py'), '--day', day],
+                               capture_output=True, text=True, timeout=90)
+            print((r.stdout.strip().splitlines() or [f'decisions {day}: exit {r.returncode}'])[-1]
+                  if r.returncode == 0 else f'decisions pull {day} failed (dashboard uses local copy): '
+                  f'{(r.stderr.strip().splitlines() or ["?"])[-1]}')
+        except (OSError, subprocess.SubprocessError) as exc:
+            print(f'decisions pull {day} failed (dashboard uses local copy): {exc}')
 
 
 def clamp_times(drafts, day):
@@ -354,13 +403,19 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--inbox', type=Path, default=INBOX)
     ap.add_argument('--out', type=Path, default=OUT)
+    ap.add_argument('--no-pull', action='store_true', help='do not pull /admin decisions from the API first')
+    ap.add_argument('--no-admin', action='store_true', help='do not rebuild the /admin review console')
     args = ap.parse_args()
+    day_names = sorted(p.name for p in args.inbox.iterdir() if p.is_dir() and DAY_RE.match(p.name)) \
+        if args.inbox.is_dir() else []
+    if not args.no_pull and os.environ.get('FD_ADMIN_PULL', '1') != '0':
+        pull_decisions(day_names[-PULL_DAYS:])
     accounts = load_accounts()
     names = {a['id']: a['name'] for a in accounts}
     days = {}
     if args.inbox.is_dir():
         for d in sorted(p for p in args.inbox.iterdir() if p.is_dir() and DAY_RE.match(p.name)):
-            days[d.name] = clamp_times(load_day(d), d.name)
+            days[d.name] = clamp_times(apply_decisions(load_day(d), load_decisions(d.name)), d.name)
     known = {a['id'] for a in accounts}
     for drafts in days.values():   # inbox accounts missing from fd20_accounts.json still get a section
         for d in drafts:
@@ -378,6 +433,9 @@ def main():
                if write_if_changed(p, b)]
     total = sum(len(v) for v in days.values())
     print(f'ops dashboard: {len(days)} day(s), {total} draft(s) -> {args.out} (changed: {", ".join(changed) or "none"})')
+    if not args.no_admin:
+        import build_admin_console
+        build_admin_console.build(args.inbox, args.out)
     return 0
 
 
