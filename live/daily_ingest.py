@@ -182,6 +182,10 @@ def default_fetchers(state, store=ROOT/'live/store/content_units'):
         if registry.source_licence_tier(feed['id']) in ('A','B'):
             prefix='rss_fulltext' if feed['id'] in adapters.RSS_FULLTEXT else 'newsletters'
             fetchers[prefix+':'+feed['id']] = lambda feed=feed:feeds.fetch_newsletter(feed,limit=2)
+    # Oct 7 (fd20): Four Pillars research articles (public newsletter feed; account-scoped via source_routes).
+    from live.adapters import fourpillars
+    if registry.source_licence_tier(fourpillars.SOURCE_ID) in ('A','B'):
+        fetchers['research:'+fourpillars.SOURCE_ID] = lambda:fourpillars.fetch()
     from live.adapters import podcast_local
     known=known_urls(store,state)
     for ch in channels.load_channels(ROOT/'live/channels.json'):
@@ -540,8 +544,14 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
                         # Output hit the token ceiling: one retry on half the text (EXTRACT output scales with input).
                         if 'finish_reason' not in str(exc) or len(s.get('original_text') or '')<1200: raise
                         s=trim_source(s,len(s['original_text'])//2); units=extract(s)
-                routing=jev_front.route_sources([dict(id=s['id'],title=s.get('title') or '',publisher=s.get('publisher'),snippet=s.get('original_text','')[:400])],jev=jev)
-                result=ingest_batches(db,[(s,units,adapter)],routing,jev=jev)
+                from live import source_routes
+                if source_routes.route(s.get('source_id')):
+                    # account-scoped research source: route beats as tags, no Jev routing / targeting
+                    result=ingest_batches(db,[(s,units,adapter)],{},jev=None)
+                    db.set_persona_tags(source_routes.tags_for(units,s['source_id']),.7)
+                else:
+                    routing=jev_front.route_sources([dict(id=s['id'],title=s.get('title') or '',publisher=s.get('publisher'),snippet=s.get('original_text','')[:400])],jev=jev)
+                    result=ingest_batches(db,[(s,units,adapter)],routing,jev=jev)
                 ch['units']+=result['added']
                 entry=state['channels'].setdefault(ch['id'],{'seen':[]})
                 entry['seen']=list(set(entry['seen'])|set(keys))

@@ -3116,6 +3116,40 @@
       "aliases": [
         "DKellerCMT"
       ]
+    },
+    "x_FourPillarsFP": {
+      "tier": "B",
+      "basis": "research firm X account; reference and paraphrase allowed, short quotes with attribution, no full-text republishing",
+      "aliases": [
+        "Four Pillars",
+        "FourPillarsFP",
+        "@FourPillarsFP"
+      ]
+    },
+    "fourpillars_research": {
+      "tier": "B",
+      "basis": "public crypto research (Four Pillars); reference and paraphrase allowed, short quotes with attribution, no full-text republishing",
+      "licence": "reference_paraphrase",
+      "quote_allowed": "short_with_attribution",
+      "full_text_republish": false,
+      "aliases": [
+        "Four Pillars",
+        "4Pillars",
+        "Four Pillars Research"
+      ]
+    },
+    "delphi_digital": {
+      "tier": "C",
+      "basis": "members-only research read by a person in their own browser; inspiration only",
+      "licence": "inspiration_only",
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "numbers_allowed": "only when the same number also comes from a public source",
+      "citable": false,
+      "aliases": [
+        "Delphi Digital",
+        "Delphi"
+      ]
     }
   }
 }

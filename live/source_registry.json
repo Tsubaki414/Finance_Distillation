@@ -5339,6 +5339,59 @@
       "fd20_accounts": [
         "market_data_charts"
       ]
+    },
+    {
+      "id": "x_FourPillarsFP",
+      "name": "Four Pillars",
+      "type": "x",
+      "handle": "FourPillarsFP",
+      "lang": "en",
+      "beat": "crypto research firm (Seoul) · DeFi · tokenization · policy",
+      "already_collected": false,
+      "qa": null,
+      "enabled": true,
+      "adapter": "x",
+      "route_note": "daily X intake via live/x_daily.py (twitter241); subscribed in live/fd20_donor_merge.json x_sources SECONDARY of crypto_research_en, crypto_research_zh, defi_narratives_en, crypto_thesis_en",
+      "added": "2026-10-07"
+    },
+    {
+      "id": "fourpillars_research",
+      "name": "Four Pillars",
+      "type": "research",
+      "enabled": true,
+      "adapter": "fourpillars",
+      "source_language": "en",
+      "site_url": "https://4pillars.io",
+      "research_url": "https://research.4pillars.io/en/research",
+      "feed_url": "https://fourpillarsfp.substack.com/feed",
+      "access": "research.4pillars.io answers non-browser clients with a Vercel security checkpoint (HTTP 429, 2026-10-07) and is not worked around; the official Four Pillars Newsletter RSS lists every research article (title, link, bullet key claims) in its weekly 'Four Pillars Weekly' section",
+      "units": "one dated source per research article (title, URL, summary, key claims); full articles are not fetched or republished",
+      "route_accounts": [
+        "crypto_research_en",
+        "crypto_research_zh",
+        "defi_narratives_en",
+        "crypto_thesis_en"
+      ],
+      "route_beats": [
+        "crypto_defi"
+      ],
+      "persona_hints": [
+        "crypto_defi"
+      ],
+      "added": "2026-10-07"
+    },
+    {
+      "id": "delphi_digital",
+      "name": "Delphi Digital",
+      "type": "research",
+      "enabled": true,
+      "adapter": "browser_digest",
+      "source_language": "en",
+      "site_url": "https://members.delphidigital.io",
+      "access": "members-only; NO automated access (no scraping, no cookies, no CDP). A separate browser routine writes live/store/delphi_digest/<day>.json (schema docs/DELPHI_DIGEST.md)",
+      "digest_path": "live/store/delphi_digest/<day>.json",
+      "units": "inspiration_only: steer topic selection and stance only; never in the content store, never in writer prompts, never cited or quoted; key numbers only usable when a public source gives the same number",
+      "added": "2026-10-07"
     }
   ],
   "reference_pool_zh": {

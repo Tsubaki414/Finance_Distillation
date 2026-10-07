@@ -21,7 +21,9 @@ HARD = frozenset({
                   # fix26 (Oct 7): Sirius editorial-style blocks + Fiona's review; one targeted rewrite, then HOLD
                   *_STYLE_HARD,
                   # Oct 7 Sirius borrow item 2: a number / same-language quote no source span holds
-                  *_GROUND_HARD})
+                  *_GROUND_HARD,
+                  # Oct 7: inspiration_only sources (Delphi digest) are never cited, quoted or counted
+                  'inspiration_only_number', 'inspiration_only_text', 'inspiration_only_cited'})
 SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_units', 'period_not_in_units', 'number_metric_binding', 'number_words', 'no_judgment', 'data_list', 'no_disagreement', 'view_number_unbound', 'template_phrase', 'length_out_of_range', 'attribution_outside_frame',
                   'trade_reco_soft', 'author_identity', 'code_fence', 'translated_quote', 'exemplar_phrase_copied', 'research_summary', 'certainty_overreach', 'contradicts_prior_view', 'ignores_prior_view', 'view_not_recorded', 'cross_persona_claim_duplicate', 'thesis_grounding', 'emotion_drop', 'emotion_overfire', 'thin_judgment_pack', 'stylistic_repeat', 'judgment_label', 'phrase_ban', 'duplicate_topic', 'verify_source', 'info_dump', 'stance_cadence', 'verbatim_line1',
                   'direction_drift_unmarked', 'generic_credit_in_body',

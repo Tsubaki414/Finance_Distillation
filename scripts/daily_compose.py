@@ -38,7 +38,8 @@ sys.path[:0] = [str(ROOT / 'scripts'), str(ROOT)]
 import demo_matrix_compose as demo  # noqa: E402
 from voice_relay_check import evidence_source  # noqa: E402
 from live import (angles, anti_repeat, compose, compose_inbox, editorial_style, news_hook,  # noqa: E402
-                  posting_habits as ph, registry, source_prescreen as prescreen, stage_models)
+                  posting_habits as ph, registry, source_prescreen as prescreen, source_routes, stage_models)
+from live.adapters import delphi_digest  # noqa: E402
 from live.content_store import ContentStore  # noqa: E402
 from live.retrieval import units_for_persona  # noqa: E402
 from live.view_ledger import ViewLedger  # noqa: E402
@@ -138,6 +139,14 @@ X_PROMO_OPENER = re.compile(r'^\W*(thank(s| you)|huge congrats|congrat|grateful|
                             r'thrilled|happy to announce|we(\'re| are) hiring|gm\b)', re.I)
 
 
+def steered(group, tickers):
+    """True when a pack names one of the inspiration-only digest tickers ($ETH / ETH as a whole word)."""
+    if not tickers:
+        return False
+    text = group_text(group)
+    return any(re.search(r'(?<![A-Za-z0-9])\$?' + re.escape(t) + r'(?![A-Za-z0-9])', text) for t in tickers)
+
+
 def candidates(store, account, beats, lead, ref, x_handles=None, account_cfg=None, reuse=None):
     """x_handles: the account's own X sources. X-post units of other handles are skipped (X sources are
     account-scoped); own X posts rank right after timeliness, then packets on the account's own crypto lanes.
@@ -164,12 +173,16 @@ def candidates(store, account, beats, lead, ref, x_handles=None, account_cfg=Non
             handle = x_handle(src)
             if handle and (handle.lower() not in x_handles or X_PROMO_OPENER.search(str(src.get('title') or ''))):
                 continue
+            if not source_routes.allowed(src, account):   # account-scoped research sources (Four Pillars)
+                continue
             groups.setdefault(demo._key(record), []).append(record)
     gated = list(groups.values())
     if account_cfg:
         gated = [g for g in gated if editorial_style.beat_gate(account_cfg, group_text(g))[0]]
     options = demo.ranked_balanced(gated, now=ref.date().isoformat())
     top = set(angles.top_angles(lead, 4))
+    # Delphi digest (inspiration_only): its tickers only break ties toward the same topic; nothing of it is passed on.
+    steer = set(delphi_digest.steer_tickers(delphi_digest.recent(now=ref)))
 
     def key(g):
         fit = len(top & set(angles.angles_of(group_text(g))))
@@ -178,7 +191,7 @@ def candidates(store, account, beats, lead, ref, x_handles=None, account_cfg=Non
                 not prescreen.prescreen(account, g)['ok'], not demo.in_shelf(g, ref.date().isoformat()),
                 not timely(g, ref), not x_handle(g[0]['source']),
                 bool(lane) and not any(lane & set(r.get('tag_personas') or []) for r in g), bool(demo.group_hook_repeat(g, recent)), demo.group_theme_repeat(g, recent),
-                -fit, -demo.group_freshness(g, ref.date().isoformat()))
+                -fit, not steered(g, steer), -demo.group_freshness(g, ref.date().isoformat()))
     return sorted(options, key=key)
 
 

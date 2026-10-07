@@ -32,6 +32,7 @@
  },
  "sources_only": [
   "EleanorTerrett",
+  "FourPillarsFP",
   "mert",
   "novogratz",
   "saylor",
@@ -759,7 +760,8 @@
      "DRbitcoin36",
      "yummyuyu_",
      "akitabtc",
-     "0xphilo"
+     "0xphilo",
+     "FourPillarsFP"
     ]
    }
   },
@@ -1083,7 +1085,8 @@
      "SolanaFloor",
      "EleanorTerrett",
      "0xSammy",
-     "Eli5defi"
+     "Eli5defi",
+     "FourPillarsFP"
     ]
    }
   },
@@ -1140,7 +1143,8 @@
      "a16zcrypto",
      "notthreadguy",
      "EleanorTerrett",
-     "SolanaFloor"
+     "SolanaFloor",
+     "FourPillarsFP"
     ]
    }
   },
@@ -1170,7 +1174,8 @@
      "Blockworks",
      "a16zcrypto",
      "EleanorTerrett",
-     "SolanaFloor"
+     "SolanaFloor",
+     "FourPillarsFP"
     ]
    }
   },

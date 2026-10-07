@@ -152,3 +152,20 @@ These are learned from donor text and are kept out of git (`.gitignore`):
   `refresh_charts.lock`), crontab `17 * * * *`; the wrapper exits outside 08:00–23:59 Beijing time.
   This box had no cron at all before Oct 7 (daily_ingest / daily_compose were never on a crontab here); cron was
   installed and started for this line only. A container restart needs `sudo service cron start`.
+
+## 2026-10-07: research sources Four Pillars + Delphi Digital
+
+- **Four Pillars** (tier B: reference and paraphrase, short quotes with attribution, no full-text republishing).
+  - X `@FourPillarsFP`: `x_sources` SECONDARY of crypto_research_en / crypto_research_zh / defi_narratives_en /
+    crypto_thesis_en in `live/fd20_donor_merge.json` (and the local universes), fetched daily by `live/x_daily.py`
+    (twitter241), licence `x_FourPillarsFP`.
+  - Articles: `live/adapters/fourpillars.py`, daily_ingest channel `research:fourpillars_research`.
+    research.4pillars.io answers non-browser clients with a Vercel checkpoint (429) that we do not work around;
+    the official newsletter RSS (`fourpillarsfp.substack.com/feed`) lists each research article (title, link,
+    bullet key claims) in its "Four Pillars Weekly" section. One dated source per article (title, URL, summary,
+    key claims), last 30 days, articles with no bullets (chart-only data posts) skipped.
+  - Routing: registry `route_accounts` / `route_beats` (`live/source_routes.py`): units are tagged `crypto_defi`
+    without Jev routing, and `daily_compose.candidates()` offers them only to the four accounts above.
+- **Delphi Digital** (members-only, `inspiration_only`, adapter `browser_digest`): no scraping / cookies / CDP; a
+  browser routine writes `live/store/delphi_digest/<day>.json`. Schema, validation and the licence gate:
+  `docs/DELPHI_DIGEST.md`.

@@ -1,0 +1,25 @@
+[
+  {
+    "title": "SAMPLE ONLY - Perp DEX market share check-in",
+    "url": "https://members.delphidigital.io/reports/sample-perp-dex-market-share",
+    "date": "2026-10-07",
+    "kind": "report",
+    "tickers": ["HYPE", "ASTER"],
+    "thesis_summary": "Our read: on-chain perp venues keep taking volume from centralised exchanges, but the share is concentrated in one venue and fee discounts drive part of the switch, so the lead is less durable than the headline share suggests.",
+    "key_numbers": [
+      {"value": "62%", "context": "share of on-chain perp volume held by the largest venue in September (sample figure)"},
+      {"value": "$1.9 billion", "context": "daily average perp volume across tracked on-chain venues (sample figure)"}
+    ]
+  },
+  {
+    "title": "SAMPLE ONLY - Stablecoin yield spreads",
+    "url": "https://members.delphidigital.io/alpha/sample-stablecoin-yield-spreads",
+    "date": "2026-10-06",
+    "kind": "alpha_insight",
+    "tickers": ["ENA", "USDE"],
+    "thesis_summary": "Our read: the gap between synthetic-dollar yields and T-bill yields has narrowed, which weakens the main reason holders rotated into synthetic dollars this year.",
+    "key_numbers": [
+      {"value": "1.4 percentage points", "context": "spread of the synthetic-dollar yield over 3-month T-bills (sample figure)"}
+    ]
+  }
+]
