@@ -42,7 +42,7 @@ def test_research_tone_and_short_posts():
     assert 'research_tone' in codes(long, 'zh')
     assert codes('L2 估值在往下掉。\n钱都去了 AI。\n没有退出通道的板块会先被抛。', 'zh') == set()
     # fill run 20261007T102226: a 34-char one-liner with commas is a call, not a research note
-    assert codes('纯讲故事的空叙事终于开始退潮，Abstract 关门就是信号，没有 PMF 的公链会先被出清。', 'zh') == set()
+    assert codes('纯讲故事的空叙事终于开始退潮，Abstract 关门就是信号，没有真实用户的公链会先被出清。', 'zh') == set()
     two = '萨尔瓦多为配合IMF取消了比特币强制支付这件事本身说明政府在压力下愿意让步。用加密钱包走的汇款占比只有百分之一点七五这个数字太小了根本撑不起流动性。'
     assert 'research_tone' in codes(two, 'zh')
 
@@ -145,3 +145,18 @@ def test_recheck_holds_and_requalifies(tmp_path, monkeypatch):
     changed = {c[1]: c[2] for c in apply_inbox_audit.recheck(day)}
     assert changed == {'r1': 'needs_review', 'r2': 'draft_ready'}   # arbitration hold r3 untouched
     assert compose_inbox.get('r1')['held'] and not compose_inbox.get('r2')['held']
+
+
+def test_readability_blocks_codes_and_unglossed_acronyms():
+    from live.draft_qa import readability_findings
+    assert readability_findings('Lawyers call this reading of Section 2(c)(2)(D) creative.', 'en')
+    assert readability_findings('CFTC 用 2(c)(2)(D) 条款管加密', 'zh')
+    assert readability_findings('Rule 10b-5 and SAB 121 both apply.', 'en')
+    assert readability_findings('Tether的T3部门冻结了资金', 'zh')
+    assert readability_findings('thesis_lock leaked into the post', 'en')
+    assert not readability_findings('BTC ETF inflows hit a record as the SEC and CFTC talk; HBM and L2s too.', 'en')
+    assert not readability_findings('Digital Asset Treasury (DAT) buying slowed; SLR (a bank capital rule) relief.', 'en')
+    assert not readability_findings('CFTC 拿一条管散户杠杆交易的老规定来管加密', 'zh')
+    from live import editorial_style
+    assert 'jargon_unexplained' in editorial_style.CODES
+    assert readability_findings('没有 PMF 的公链会先被出清', 'zh')

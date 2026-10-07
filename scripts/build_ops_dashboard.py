@@ -105,8 +105,7 @@ def load_day(day_dir):
             'lang': row.get('lang'), 'text': body, 'parts': parts,
             'parts_w': [x_weight(p) for p in parts] if parts else None,
             'chars': len(body), 'xw': x_weight(body),
-            'time': row.get('suggested_post_time_london') or '', 'post_type': row.get('post_type') or '',
-            'format': (row.get('post_format') or {}).get('type') or '', 'status': status_of(row),
+            'time': row.get('suggested_post_time_london') or '', 'status': status_of(row),
             'note': note_of(row)})
     drafts.sort(key=lambda d: (d['time'], d['id']))
     return drafts
@@ -166,13 +165,12 @@ header{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:10p
 .ph{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}.ph small{font-size:12px;color:var(--mute)}
 .ph .tm{color:var(--blue);font-weight:700;font-size:19px}.ph .st{margin-left:auto;font-size:12px;font-weight:600;border-radius:8px;padding:1px 9px;background:var(--warnbg);color:var(--warn);align-self:center}
 .ph .st.ok{background:var(--okbg);color:var(--ok)}.ph .st.hold{background:#fde8e8;color:#c53030}
-.meta{font-size:11.5px;color:#a0a5b8;margin-bottom:6px}
 .txt{white-space:pre-wrap;word-break:break-word;font-size:15px;line-height:1.7;flex:1}
 .txt:lang(en){font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif}
 .note{font-size:12px;color:#9a3412;background:#fff4ed;border-radius:8px;padding:4px 8px;margin-bottom:8px}
 .part{border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}.part:first-of-type{border-top:0;margin-top:0;padding-top:0}
 .part .pr{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--mute)}
-.cnt{font-size:11.5px;color:#a8adbf;margin-top:6px}.over{color:#d64545;font-weight:600}
+.cnt{font-size:11.5px;color:#a8adbf;margin-top:6px}
 .cp1{background:none;border:1px solid var(--line);border-radius:999px;font:inherit;font-size:12px;padding:1px 10px;cursor:pointer;color:#454a5e}.cp1.done{color:var(--ok);border-color:var(--ok)}
 .foot{display:flex;align-items:center;justify-content:space-between;margin-top:14px;gap:10px}
 .done-l{display:inline-flex;align-items:center;gap:8px;background:var(--okbg);color:var(--ok);font-weight:600;border-radius:999px;padding:6px 16px;cursor:pointer;font-size:14px;user-select:none}
@@ -221,7 +219,7 @@ function when(t){
   const lbl={'-2':'前天','-1':'昨天','0':'今天','1':'明天','2':'后天'}[diff]||day.slice(5);
   return `${lbl} ${hm}`;
 }
-function cnt(t,w,lang){const n=[...t].length;return `${n} ${lang==='en'?'字符':'字'} · X计 ${w}${w>280?' <span class="over">超 280</span>':''}`}
+function cnt(t,w,lang){const n=[...t].length;return `${n} ${lang==='en'?'字符':'字'} · X计 ${w}`}   // all accounts have X Premium: no 280 warning
 function hue(id){let h=0;for(const c of String(id))h=(h*31+c.charCodeAt(0))>>>0;return COLORS[h%COLORS.length]}
 function avatar(a){
   if(a.avatar)return `<img class="av" src="${a.avatar}" alt="">`;
@@ -235,8 +233,7 @@ function card(d,hidden){
   if(d.parts&&d.parts.length>1){
     body=d.parts.map((t,i)=>`<div class="part"><div class="pr"><span>${i+1}/${d.parts.length}</span><button class="cp1" data-t="${esc(t)}">复制</button></div><div class="txt" lang="${lg}">${esc(t)}</div><div class="cnt">${cnt(t,d.parts_w[i],d.lang)}</div></div>`).join('');
   }else body=`<div class="txt" lang="${lg}">${esc(d.text)}</div><div class="cnt">${cnt(d.text,d.xw,d.lang)}</div>`;
-  const meta=[d.post_type,d.format].filter(Boolean).map(esc).join(' · ');
-  return `<div class="post${p?' posted':''}${ready?'':' notready'}${hidden?' hide':''}"><div class="ph"><small>建议发出</small><span class="tm">${when(d.time)}</span>${st}</div>${meta?`<div class="meta">${meta}</div>`:''}${d.note?`<div class="note">${esc(d.note)}</div>`:''}${body}
+  return `<div class="post${p?' posted':''}${ready?'':' notready'}${hidden?' hide':''}"><div class="ph"><small>建议发出</small><span class="tm">${when(d.time)}</span>${st}</div>${d.note?`<div class="note">${esc(d.note)}</div>`:''}${body}
 <div class="foot">${ready?`<label class="done-l"><input type="checkbox" data-p="${esc(d.id)}" ${p?'checked':''}> 已发</label>`:'<span class="cnt">不可发：先改稿或等重写</span>'}<button class="cp" data-t="${esc(d.text)}">${COPY_SVG}<span>${d.parts&&d.parts.length>1?'复制全部':'一键复制'}</span></button></div></div>`;
 }
 function render(){

@@ -130,3 +130,70 @@ def stale_time_findings(body, units, now=None, lang=None):
             if comparisons and not any(comparisons):
                 findings.append({'code':'wrong_date_fact','detail':clause.strip()})
     return findings
+
+
+# ---------------------------------------------------------------- first-glance readability (Oct 7, polish)
+# A general crypto / finance X reader must get the post on first read: no statute sections, rule codes, internal
+# pipeline jargon or insider acronyms unless the same post says what they mean in plain words.
+
+_LEGAL_SECTION = re.compile(
+    r'\b(?:Section|Sec\.|Article|Art\.|Title|Rule|Regulation|Reg\.?)\s*\d+[A-Za-z]?(?:[-.]\d+[A-Za-z]?)*(?:\([0-9A-Za-z]{1,4}\))+|'
+    r'§+\s*\d[\w.\-()]*|'
+    r'(?<![\w(])\d+[A-Za-z]?(?:\([0-9A-Za-z]{1,4}\)){2,}|'          # bare 2(c)(2)(D)
+    r'第\s*\d+[A-Za-z]?(?:\([0-9A-Za-z]{1,4}\))*\s*[条款项节章]', re.I)
+_STATUTE_CODE = re.compile(
+    r'\b\d+\s*(?:U\.?S\.?C\.?|C\.?F\.?R\.?)\s*§*\s*\d*|'
+    r'\b(?:Rule|Reg(?:ulation)?\.?)\s+(?:\d+[a-z]?-\d+[a-z]?|[A-Z]{1,4}(?:-[A-Z0-9]+)?|\d{2,4}[a-z]?)\b|'
+    r'\b(?:SAB|ASC|ASU|IFRS|FAS|SFAS|FASB\s+ASC)\s*\d+(?:-\d+)*\b|'
+    r'\bForm\s+(?:\d+-[A-Z]+|[A-Z]-\d+|N-\w+|ADV|13[DFG])\b|'
+    r'\b(?:H\.\s?R\.|S\.)\s?\d{2,5}\b|'
+    r'\bMiCA\s+Art(?:icle|\.)?\s*\d+|'
+    r'\b(?:Basel\s+)?SCO\s?\d+\b', re.I)
+# snake_case / pipeline vocabulary that must never reach a public post
+_INTERNAL_JARGON = re.compile(
+    r'\b[a-z]+(?:_[a-z0-9]+)+\b|'
+    r'\b(?:thesis[ _]lock|post[ _]type|claim ledger|span[ _]ref|judgment[ _]take|quote[ _]comment|donor|'
+    r'content unit|stance card|beat gate)\b|'
+    r'论点锁|判断卡|素材单元|稿型', re.I)
+# Acronyms a general crypto / finance X reader knows (plus common tickers / chains / venues). Anything else in caps
+# needs a plain-words gloss in the same post.
+KNOWN_ACRONYMS = frozenset('''
+AI API APY APR ATH ATL AUM BTC ETH SOL XRP BNB USD USDT USDC DAI EUR GBP JPY CNY RMB HKD
+ETF ETFs SEC CFTC FED FOMC CPI PPI PCE GDP PMI ISM NFP IPO IPOs CEO CFO CTO COO EPS PE ROE ROI YOY YoY QOQ
+US USA UK EU UN IMF ECB BOJ BOE PBOC PBoC OPEC G7 G20 NYSE NASDAQ S&P SPX SPY QQQ DXY VIX OTC KYC AML
+DEFI DeFi NFT NFTs DEX CEX DAO TVL L1 L2 L1s L2s EVM ZK DAT DATs RWA RWAs MEV LP LPs OI PnL P&L
+FX QE QT HBM DRAM NAND GPU GPUs CPU CPUs TPU ASIC AWS TSMC NVDA AAPL MSFT TSLA AMZN META GOOGL AMD INTC AVGO MU
+CN HK JP TW SG FTX OKX MSTR COIN IBIT GBTC LLM LLMs ARR SaaS M&A IRS DOJ FDIC OCC FBI GPT AGI EV EVs
+AI PC Q1 Q2 Q3 Q4 H1 H2 FY OK CEOs VC VCs ATM YTD MTD WTI LNG CPI PCE OPEX CAPEX CapEx FCF EBITDA
+TradFi CeFi BTCFi DeFi APAC EMEA PM PMs IR X TGE ICO ICOs IDO AMA FUD FOMO HODL DCA ETH2
+H100 H200 B200 GB200 5G 3D
+'''.split())
+_ACRONYM = re.compile(r'(?<![A-Za-z0-9_$#@.])(?:[A-Z][A-Z0-9]{1,5}s?|[A-Z][a-z]?[A-Z]{1,4})(?![A-Za-z0-9_])')   # ASCII edges: 的T3部门
+_GLOSS_AFTER = re.compile(r'\s*[（(][^)）]{2,}[)）]|\s*(?:—|-|,|，|：|:)?\s*(?:i\.e\.|meaning|which is|也就是|即|就是)')
+
+
+def readability_findings(body, lang=None):
+    """HARD first-glance readability: legal section numbers, statute / rule codes, internal jargon and insider
+    acronyms without a plain-words gloss in the same post. One finding per kind, detail lists the hits."""
+    text = str(body or '')
+    hits = []
+    hits += [m.group(0).strip() for m in _LEGAL_SECTION.finditer(text)]
+    hits += [m.group(0).strip() for m in _STATUTE_CODE.finditer(text)]
+    hits += [m.group(0).strip() for m in _INTERNAL_JARGON.finditer(text)]
+    for m in _ACRONYM.finditer(text):
+        word = m.group(0)
+        if (not re.search(r'[A-Z].*[A-Z]|[A-Z]\d', word) or word in KNOWN_ACRONYMS
+                or word.upper() in KNOWN_ACRONYMS or word.rstrip('s') in KNOWN_ACRONYMS):
+            continue
+        if any(word in h for h in hits):          # already reported inside a rule / statute code
+            continue
+        if _GLOSS_AFTER.match(text, m.end()):
+            continue
+        if not text[:m.start()].strip() and text[m.end():m.end() + 1] == ':':   # 'RPM: ...' stock headline ticker
+            continue
+        before = text[max(0, m.start() - 2):m.start()]
+        if before.endswith(('(', '（')):        # "Digital Asset Treasury (DAT)": the full name precedes it
+            continue
+        hits.append(word)
+    hits = list(dict.fromkeys(h for h in hits if h))
+    return [{'code': 'jargon_unexplained', 'detail': ' | '.join(hits)}] if hits else []

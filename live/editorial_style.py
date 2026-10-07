@@ -14,6 +14,9 @@ Codes:
                          I bought / my position …)
   en_cliche              EN opener / ending clichés (Here's the thing / Let that sink in / Stay tuned / NFA …)
   trade_imperative       EN imperative telling the reader to trade (Buy the dip / Load up / Take profits …)
+  jargon_unexplained     first-glance readability (live/draft_qa.readability_findings): legal section numbers
+                         (Section 2(c)(2)(D)), statute / rule codes, internal jargon, insider acronyms without a
+                         plain-words gloss (Oct 7 polish: Juno / Basil CFTC posts)
   research_tone          ZH research-note cadence: median sentence > 30 CJK chars (2+ sentences) or one sentence > 50
                          (Arlo). A single-sentence call only trips the 50 cap.
 """
@@ -21,10 +24,10 @@ from __future__ import annotations
 
 import re
 
-VERSION = 'editorial-style-v3'   # v2: one-sentence calls only trip the 50-char cap; v3: ZH question opener,
-                                 # ZH trade imperatives, 我一直坚持 track record
+VERSION = 'editorial-style-v4'   # v2: one-sentence calls only trip the 50-char cap; v3: ZH question opener,
+                                 # ZH trade imperatives, 我一直坚持 track record; v4: jargon_unexplained
 CODES = ('editorial_cliche', 'rhetorical_opener', 'overclaim', 'fabricated_experience', 'en_cliche',
-         'trade_imperative', 'research_tone')
+         'trade_imperative', 'research_tone', 'jargon_unexplained')
 # ZH sentence caps for research_tone (CJK chars). zh_register.sentence_findings stays the SOFT 28 / 50 nudge.
 ZH_MEDIAN_MAX, ZH_SENTENCE_MAX = 30, 50
 
@@ -136,6 +139,8 @@ def findings(body, lang, *, first_person_allowed=False, post_format=None):
         m = ZH_FIRST_PERSON_EXPERIENCE.search(remaining) or EN_FIRST_PERSON_EXPERIENCE.search(remaining)
         if m:
             out.append({'code': 'fabricated_experience', 'detail': m.group(0)})
+    from live.draft_qa import readability_findings
+    out += readability_findings(text, lang)
     return out
 
 
@@ -151,6 +156,10 @@ FIXES = {
                   'NFA …): open on the call, end on a concrete consequence.'),
     'research_tone': ('研报腔太重：拆成短句，每句一个意思（中位数 ≤30 字，单句 ≤50 字）；判断一句 + 一句为什么 + 一句意味着什么，'
                       '删掉铺垫和第二层论证。'),
+    'jargon_unexplained': ('First-glance readability: replace the codes / jargon in the detail with what they mean in plain '
+                           'words a general crypto / finance reader gets at once (Section 2(c)(2)(D) -> "an old '
+                           'retail-leverage rule"; Tether 的 T3 部门 -> Tether 的冻结执法团队). No statute or rule numbers; '
+                           'an uncommon acronym only with a short gloss. 用大白话说清楚是什么，不写法条编号和圈内缩写。'),
     'trade_imperative': ('No trading imperatives to the reader (Buy / Sell / Load up / Take profits / Don\'t chase / '
                          '少折腾 / 别追高 / 赶紧上车 …): state the view and what it implies, not an order.'),
 }
@@ -169,7 +178,9 @@ PROMPT_RULE = (
     'trades or usage (我买了 / 我的仓位 / 我们之前就说 / I bought / my position / I told you). EN: no opener or '
     "ending clichés (Here's the thing / Let that sink in / Stay tuned / Time will tell / NFA / Thoughts?), no "
     '"This isn\'t just X. It\'s Y", no imperatives telling the reader to trade (Buy / Sell / Load up / Take profits '
-    "/ Don't chase).")
+    "/ Don't chase). First-glance readability: no legal section numbers (Section 2(c)(2)(D)), statute or rule codes "
+    '(Rule 10b-5 / SAB 121), internal jargon or insider acronyms (T3, PMF) unless glossed in plain words; say what the '
+    'rule does ("an old retail-leverage rule" / 一条管散户杠杆交易的老规定).')
 
 
 # ---------------------------------------------------------------- beat gate (account <-> crypto content)
