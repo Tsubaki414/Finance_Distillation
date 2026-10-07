@@ -161,6 +161,7 @@ def load_day(day_dir, names):
             'claims': [{'claim': c.get('claim'), 'unit': c.get('unit_id')} for c in rec.get('claim_ledger') or []][:12],
             'history': history_of(row, rb, names),
             'models': row.get('models') or [], 'spend': round(float(row.get('spend_usd') or 0), 4),
+            **ops.media_of(row), 'mode_why': row.get('post_mode_why') or '',
         })
     drafts.sort(key=lambda d: (d['account_id'] or '', d['time'], d['id']))
     return drafts
@@ -292,6 +293,11 @@ textarea.note{min-height:64px;font-size:13.5px;border-color:var(--line)}
 .fd.hard .c{background:var(--holdbg);color:var(--hold)}.fd.warn .c{background:var(--warnbg);color:var(--warn)}.fd span.dt{color:var(--ink2)}
 .src a{color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
 .src .sm{color:var(--mute);font-size:12px}
+.tag.mode{background:var(--infobg);color:var(--info)}
+.mtgt{font-size:12.5px;margin-top:8px}.mtgt a{color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
+.img{margin:10px 0 0;max-width:560px}.img img{display:block;width:100%;height:auto;border-radius:8px;border:1px solid var(--line2);background:#131722}
+.img figcaption{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px;font-size:11.5px;color:var(--faint)}
+.img .dl{color:var(--ink);text-decoration:none;font-weight:600;font-size:12.5px;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:2px 10px;white-space:nowrap}
 details{border-top:1px solid var(--line2);padding-top:6px}
 summary{cursor:pointer;color:var(--ink2);font-weight:600;font-size:12.5px}
 .u{margin:8px 0}.u .st{color:var(--ink2)}.u .k{font:11px var(--mono);color:var(--faint);margin-right:6px}
@@ -427,8 +433,10 @@ ${d.claims.length?`<details><summary>论断 → 单元（${d.claims.length}）</
     ...((x&&x.history)||[]).map(h=>`<div class="hi"><span class="mono">${esc(new Date(h.at).toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false}).slice(5,16))}</span> Fiona：${esc(DEC[h.action]||(h.action==='clear'?'撤销':h.action))}${h.note?' · '+esc(h.note):''}${h.text?' · 改稿':''}</div>`)];
   const histB=hist.length?`<div class="blk"><h3>改派 / 重写 / 决定记录</h3>${hist.join('')}</div>`:'';
   return `<article class="d" id="d-${esc(d.id)}" data-id="${esc(d.id)}">
-<div class="dh"><b>${esc(d.name)}</b><span class="tag ${esc(d.status)}">${esc(ST[d.status]||d.status)}</span>${act?`<span class="tag dec ${act==='approve'?'ready':act==='edit'?'':'HOLD'}">${esc(DEC[act])}</span>`:''}<span>${esc(d.lang==='en'?'English':'中文')} · ${esc(d.format||d.post_type)}${d.angle?' · '+esc(d.angle):''}</span><span class="meta">${esc(d.time.slice(11,16))} 北京 · ${esc(d.run)} · ${esc(d.models.join(', ')||'-')} · $${d.spend.toFixed(3)} · ${esc(d.id)}</span></div>
+<div class="dh"><b>${esc(d.name)}</b><span class="tag ${esc(d.status)}">${esc(ST[d.status]||d.status)}</span>${{quote:'<span class="tag mode">引用</span>',reply:'<span class="tag mode">回复</span>'}[d.mode]||''}${d.heat_led?'<span class="tag mode">热度</span>':''}${act?`<span class="tag dec ${act==='approve'?'ready':act==='edit'?'':'HOLD'}">${esc(DEC[act])}</span>`:''}<span>${esc(d.lang==='en'?'English':'中文')} · ${esc(d.format||d.post_type)}${d.angle?' · '+esc(d.angle):''}</span><span class="meta">${esc(d.time.slice(11,16))} 北京 · ${esc(d.run)} · ${esc(d.models.join(', ')||'-')} · $${d.spend.toFixed(3)} · ${esc(d.id)}</span></div>
 <div><div class="txt${x&&x.text?' edited':''}" lang="${lg}">${esc(text)}</div><div class="cnt">${n} ${d.lang==='en'?'字符':'字'}${x&&x.text?' · 已改稿（原稿 '+[...d.text].length+'）':''}${d.view?' · 观点：'+esc(d.view):''}</div>
+${d.target&&d.mode!=='original'?`<div class="mtgt">${d.mode==='reply'?'回复':'引用'}：<a href="${esc(d.target)}" target="_blank" rel="noopener noreferrer">打开原帖</a>${d.mode_why?` <span class="sm">· ${esc(d.mode_why)}</span>`:''}</div>`:''}
+${(d.media||[]).map(m=>`<figure class="img"><a href="/${esc(m.path)}" target="_blank" rel="noopener"><img src="/${esc(m.path)}" alt="${esc(m.alt)}" loading="lazy"></a><figcaption><span>${esc(m.credit?'数据：'+m.credit:'')}</span><a class="dl" href="/${esc(m.path)}" download="${esc(m.path.split('/').pop())}">下载图片</a></figcaption></figure>`).join('')}
 <div class="acts"><button class="btn ok${act==='approve'?' on':''}" data-a="approve">批准</button><button class="btn hd${act==='hold'?' on':''}" data-a="hold">HOLD</button><button class="btn" data-a="edit">改稿</button><button class="btn${act==='rewrite'?' on rw':''}" data-a="rewrite">要求重写</button>${act||x&&x.text?'<button class="btn" data-a="clear">撤销决定</button>':''}</div>
 <div class="edit" data-panel="edit"><textarea data-f="text" lang="${lg}">${esc(text)}</textarea><div class="acts"><button class="btn pri" data-a="save-approve">保存并批准</button><button class="btn" data-a="save">只保存改稿</button>${x&&x.text?'<button class="btn" data-a="revert">恢复原稿</button>':''}<button class="btn" data-a="cancel">取消</button></div></div>
 <div class="edit" data-panel="note"><textarea class="note" data-f="note" placeholder="HOLD 原因 / 给重写的具体意见"></textarea><div class="acts"><button class="btn pri" data-a="note-ok">提交</button><button class="btn" data-a="cancel">取消</button></div></div></div>

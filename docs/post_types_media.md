@@ -1,6 +1,6 @@
 # Post types beyond the plain post: quotes, reposts, replies, images (design only)
 
-Status: design, 2026-10-07. No code yet. Scope: the 20 fd20 main accounts. Publishing stays manual: FD
+Status: 2026-10-07 implemented: quote/reply post_mode (`live/post_mode.py`), fetched-data charts (`live/charts.py`, dark candles + FRED/DefiLlama lines), `live/draft_media.py` + `scripts/apply_media.py`, public-heat re-rank (`live/heat.py`, FD_HEAT=1, $0.20/day cap). Screenshots and replies (phase 2) not yet. Scope: the 20 fd20 main accounts. Publishing stays manual: FD
 produces drafts and assets for the review inbox; a human posts by hand. Nothing here adds a publish call,
 a scheduler that posts, or X API write access.
 

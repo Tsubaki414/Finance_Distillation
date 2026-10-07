@@ -256,6 +256,35 @@ def supersede_previous(row, earlier):
     return done
 
 
+def heat_led_today(day):
+    return {r['account_id'] for r in compose_inbox.rows(day.isoformat()) if r.get('heat_led')}
+
+
+def apply_heat(pools, day, ref, reuse=None):
+    """Public heat (live/heat.py, FD_HEAT=1 default): move the hottest prescreen-ok, timely candidate of each account's
+    own pool to the front. Never adds a candidate; skipped for an account that already has a heat-led draft today or
+    has rewrite targets to reuse. Returns {account: (source key, heat info)} for the promoted candidates."""
+    from live import heat
+    if not heat.enabled():
+        return {}
+    try:
+        signals = heat.signals_for(day.isoformat())
+        led = heat_led_today(day)
+    except Exception as exc:   # noqa: BLE001 - heat is advisory; selection runs on without it
+        print(f'heat: skipped ({type(exc).__name__}: {exc})', flush=True)
+        return {}
+    out = {}
+    for account, pool in pools.items():
+        if (reuse or {}).get(account):
+            continue
+        pools[account], info = heat.promote(
+            pool, group_text, signals, already_led=account in led,
+            ok=lambda g, a=account: prescreen.prescreen(a, g)['ok'] and timely(g, ref))
+        if info:
+            out[account] = (tuple(demo._key(pools[account][0])), info)
+    return out
+
+
 def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT, seed_events=(), reuse=None,
            rewrites=None):
     store = ContentStore()
@@ -267,6 +296,7 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                                  x_handles=[x['handle'] for x in universes[a['id']].get('x_sources') or [] if x.get('enabled', True)],
                                  account_cfg=a, reuse=(reuse or {}).get(a['id']))
              for a in accounts}
+    heat_keys = apply_heat(pools, day, ref, reuse)
     order = sorted(pools, key=lambda a: len(pools[a]))     # scarce accounts pick first in every round
     event_takers = {}            # event key (source key / hook) -> [(account, angle, lang)]
     for e, acc, ang, lg in seed_events:
@@ -310,6 +340,8 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                 'in_shelf': demo.in_shelf(g, ref.date().isoformat()), 'timely': timely(g, ref),
                 'hooks': sorted(group_hooks(g)), 'angle': angle, 'angle_why': why, 'shared_event_with': shared_with,
                 'numbers': sum(len(r['unit'].get('numbers') or []) for r in g)})
+            if account in heat_keys and heat_keys[account][0] == tuple(demo._key(g[0])):
+                plan[account][-1].update(heat_led=True, heat=heat_keys.pop(account)[1])
             target = next((v for k in (src.get('id'), src.get('title'))
                            for v in [((rewrites or {}).get(account) or {}).get(k)] if k and v), None)
             if target:
@@ -464,6 +496,7 @@ def inbox_row(result, account_cfg, day, run_id):
             'suggested_post_time_london': pick['suggested_post_time_london'], 'angle': result.get('angle'),
             'angle_why': pick['angle_why'], 'shared_event_with': pick['shared_event_with'],
             **({'rewrite_of': pick['rewrite_of']} if pick.get('rewrite_of') else {}),
+            **({'heat_led': True, 'heat': pick.get('heat')} if pick.get('heat_led') else {}),
             'draft_status': result.get('draft_status') or ('blocked' if result.get('error') else None),
             'status': result.get('status'), 'error': result.get('error'), 'why': result.get('why'),
             # fix26: a HARD finding left after the one targeted rewrite (needs_review) is a HOLD, never ready
@@ -582,8 +615,18 @@ def main():
         final.append(match or r)
     rows = []
     earlier = compose_inbox.rows(args.day.isoformat())
+    replies = {}
+    for old in earlier:
+        if old.get('post_mode') == 'reply' and not old.get('superseded'):
+            replies[old['account_id']] = replies.get(old['account_id'], 0) + 1
     for r in final:
         row = inbox_row(r, by_id[r['account_id']], args.day, run_id)
+        if row['text'] and os.environ.get('FD_DRAFT_MEDIA', '1') != '0':
+            from live import draft_media
+            draft_media.annotate(row, by_id[r['account_id']], charts_on=not row['held'],
+                                 replies_given=replies.get(row['account_id'], 0),
+                                 own_handles=[a.get('handle') for a in accounts])
+            replies[row['account_id']] = replies.get(row['account_id'], 0) + (row.get('post_mode') == 'reply')
         if row['text']:   # only real drafts enter the review inbox; failures stay in the run summary
             compose_inbox.add(row)
             supersede_previous(row, earlier)

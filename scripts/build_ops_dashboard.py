@@ -118,6 +118,16 @@ def note_of(row):
     return row.get('hold_reason') or ('硬性检查未过：' + ', '.join(hard) if hard else '')
 
 
+def media_of(row):
+    """post_mode / target and chart images set by live/draft_media.py (absent = plain original post, no image)."""
+    mode = row.get('post_mode') or 'original'
+    return {'mode': mode, 'target': row.get('quote_target_url') or row.get('reply_to_url') or '',
+            'heat_led': bool(row.get('heat_led')),
+            'media': [{'path': m['path'], 'alt': m.get('alt') or '',
+                       'credit': ', '.join(s.get('name') or '' for s in m.get('data_sources') or [])}
+                      for m in row.get('media') or [] if m.get('path')]}
+
+
 def load_day(day_dir):
     drafts = []
     for f in sorted(day_dir.glob('*.json')):
@@ -135,7 +145,7 @@ def load_day(day_dir):
             'chars': len(body), 'xw': x_weight(body),
             'time': to_bjt(row.get('suggested_post_time_london')), 'stored': to_bjt(row.get('stored_at')),
             'status': status_of(row),
-            'note': note_of(row)})
+            'note': note_of(row), **media_of(row)})
     drafts.sort(key=lambda d: (d['time'], d['id']))
     return drafts
 
@@ -324,6 +334,14 @@ input[type=checkbox]{accent-color:var(--accent)}
 .post.notready .foot .cnt{margin:0}
 button:focus-visible,select:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .empty{text-align:center;color:var(--mute);padding:48px 16px}
+.mode{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;font-size:12.5px}
+.mode .tg{font-weight:600;border-radius:999px;padding:1px 9px;background:var(--infobg);color:var(--info)}
+.mode .tg.ht{background:var(--warnbg);color:var(--warn)}
+.mode a{color:var(--ink2);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
+.img{margin:12px 0 0}.img img{display:block;width:100%;height:auto;border-radius:8px;border:1px solid var(--line2);background:#131722}
+.img figcaption{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px;font-size:11.5px;color:var(--faint)}
+.img .dl{color:var(--ink);text-decoration:none;font-weight:600;font-size:12.5px;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:2px 10px;white-space:nowrap}
+.img .dl:hover{border-color:var(--faint)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 @media (max-width:820px){
  .wrap{padding:16px 12px 40px}.ttl h1{font-size:18px}
@@ -383,6 +401,10 @@ function card(d,hidden){
   if(d.parts&&d.parts.length>1){
     body=d.parts.map((t,i)=>`<div class="part"><div class="pr"><span>${i+1}/${d.parts.length}</span><button class="cp1" data-t="${esc(t)}">复制</button></div><div class="txt" lang="${lg}">${esc(t)}</div><div class="cnt">${cnt(t,d.parts_w[i],d.lang)}</div></div>`).join('');
   }else body=`<div class="txt" lang="${lg}">${esc(d.text)}</div><div class="cnt">${cnt(d.text,d.xw,d.lang)}</div>`;
+  const ML={quote:'引用',reply:'回复'};
+  const mode=(ML[d.mode]||d.heat_led)?`<div class="mode">${ML[d.mode]?`<span class="tg">${ML[d.mode]}</span>`:''}${d.heat_led?'<span class="tg ht">热度</span>':''}${ML[d.mode]&&d.target?`<a href="${esc(d.target)}" target="_blank" rel="noopener noreferrer">打开原帖</a>`:''}</div>`:'';
+  const imgs=(d.media||[]).map(m=>`<figure class="img"><a href="${esc(m.path)}" target="_blank" rel="noopener"><img src="${esc(m.path)}" alt="${esc(m.alt)}" loading="lazy"></a><figcaption><span>${esc(m.credit?'数据：'+m.credit:'')}</span><a class="dl" href="${esc(m.path)}" download="${esc(m.path.split('/').pop())}">下载图片</a></figcaption></figure>`).join('');
+  body=mode+body+imgs;
   return `<div class="post${p?' posted':''}${ready?'':' notready'}${hidden?' hide':''}"><div class="ph"><small>建议发出（北京时间）</small><span class="tm">${when(d.time)}</span>${st}</div>${d.note?`<div class="note${d.note.startsWith('改派自')?' mv':''}">${esc(d.note)}</div>`:''}${body}
 <div class="foot">${ready?`<label class="done-l"><input type="checkbox" data-p="${esc(d.id)}" ${p?'checked':''}> 已发</label>`:'<span class="cnt">不可发：先改稿或等重写</span>'}<button class="cp" data-t="${esc(d.text)}">${COPY_SVG}<span>${d.parts&&d.parts.length>1?'复制全部':'一键复制'}</span></button></div></div>`;
 }
