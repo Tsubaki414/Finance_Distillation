@@ -156,6 +156,7 @@ These are learned from donor text and are kept out of git (`.gitignore`):
 
 ## Chart refresh (Oct 7)
 
+- Since 2026-10-08 the image path is `live/media_real.py` (per-account donor-like styles, donor image rate, public-page captures with rendered fallback); see `docs/MEDIA_REAL.md`. `FD_MEDIA_V2=0` restores the Oct 7 charts below.
 - Level lines: `charts.draft_levels` draws a price the draft names (dashed line, small boxed label) only when it has a
   price cue (`$`, 美元/点/USD after it, or support / resistance / 支撑 / 突破 / 关口 … before it), is not an amount,
   %, count, duration, date or year (亿, million, 倍, 小时, 枚, 500 BTC …), and sits within the plotted range ±15% and

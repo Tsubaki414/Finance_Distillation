@@ -44,11 +44,16 @@ def annotate(row, account, out_dir=None, replies_given=0, own_handles=(), charts
         media, plan = None, {'failed': f'{type(exc).__name__}: {str(exc)[:160]}'}
     if media:
         row['media'] = [media]
-        row['media_plan'] = {'wanted': plan['kind'], 'status': 'made', 'why': plan['profile']['why']}
+        row['media_plan'] = {'wanted': plan['kind'], 'status': 'made', 'why': plan['profile']['why'],
+                             **({'style': media['style']} if media.get('style') else {})}
     else:
         row.pop('media', None)
-        row['media_plan'] = ({'wanted': plan.get('kind'), 'status': 'no_data', 'detail': plan.get('failed')}
-                             if plan else {'wanted': None, 'status': 'not_eligible'})
+        if plan and plan.get('want') is False:   # media_real: no image by donor rate / no subject / quote post
+            row['media_plan'] = {'wanted': None, 'status': 'no_image', 'why': plan.get('why'),
+                                 'p_image': plan.get('p_image')}
+        else:
+            row['media_plan'] = ({'wanted': plan.get('kind'), 'status': 'no_data', 'detail': plan.get('failed')}
+                                 if plan else {'wanted': None, 'status': 'not_eligible'})
     return row
 
 

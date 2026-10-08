@@ -63,6 +63,10 @@ CRYPTO = {
     'APT': ([r'aptos'], [], 'aptos'),
     'ARB': ([r'arbitrum'], [], 'arbitrum'),
     'PEPE': ([], [], 'pepe'),
+    'ZEC': ([r'zcash'], ['大零币'], 'zcash'),
+    'ONDO': ([r'ondo finance'], [], 'ondo-finance'),
+    'TAO': ([r'bittensor'], [], 'bittensor'),
+    'WLD': ([r'worldcoin'], [], 'worldcoin-wld'),
 }
 # Yahoo symbol -> (display, EN patterns, ZH literals)
 STOCKS = {
@@ -135,6 +139,7 @@ FRED = {
     'UNRATE': ([r'unemployment', r'jobless rate', r'payrolls', r'\bnfp\b'], ['失业率', '非农'], 'US unemployment rate', '%', 1825),
     'M2SL': ([r'\bm2\b', r'money supply'], ['M2', '货币供应'], 'US M2 money stock', 'bn USD', 1825),
     'WALCL': ([r'balance sheet', r'\bqt\b', r'\bqe\b'], ['缩表', '扩表', '资产负债表'], 'Fed total assets', 'mn USD', 1095),
+    'DFII10': ([r'real yields?', r'\btips\b'], ['实际利率', '实际收益率'], 'US 10Y real yield (TIPS)', '%', 730),
     'DTWEXBGS': ([r'\bdxy\b', r'dollar index', r'broad dollar'], ['美元指数'], 'Broad US dollar index', 'index', 730),
 }
 LLAMA_CHAINS = {'Ethereum': ['ethereum', '以太坊'], 'Solana': ['solana', '索拉纳'], 'Base': ['base chain', 'on base'],
@@ -148,6 +153,8 @@ def pick_series(text):
     best = None
     for sid, (en, zh, title, unit, start) in FRED.items():
         n = sum(len(re.findall(p, text, re.I)) for p in en) + sum(text.count(z) for z in zh)
+        if sid == 'DFII10' and n:
+            n += 10   # "real yield" / TIPS is the specific series; "10y yield" alone also hits DGS10
         if n and (best is None or n > best[0]):
             best = (n, {'provider': 'fred', 'series': sid, 'title': title, 'unit': unit, 'days': start})
     low = text.lower()
@@ -248,7 +255,8 @@ def fetch_crypto(sym, interval='1d', bars=150, ttl=None):
     attempts = []
     for host in ('https://data-api.binance.vision', 'https://api.binance.com'):
         url = f'{host}/api/v3/klines?symbol={pair}&interval={interval}&limit={bars}'
-        rows, meta = _get(url, 'binance', pair, f'{interval}-{datetime.now(timezone.utc):%Y%m%d%H}',
+        # bars in the key: a 150-bar entry must not answer a 1000-bar request made in the same hour
+        rows, meta = _get(url, 'binance', pair, f'{interval}-{bars}-{datetime.now(timezone.utc):%Y%m%d%H}',
                           lambda r: _ohlc_ok([(k[0] // 1000, float(k[1]), float(k[2]), float(k[3]), float(k[4]),
                                                float(k[5])) for k in r.json()]), ttl=ttl)
         attempts.append(meta)
@@ -574,6 +582,16 @@ def plan_chart(row, account):
 
 
 def attach(row, account, out_dir, rel_prefix='media', ttl=None):
+    """One draft's image. Since Oct 8 live/media_real.py (per-account donor-like media: TradingView-style shots,
+    phone app screens, data panels, funding tables, public-page captures, donor image rate); FD_MEDIA_V2=0 is the
+    rollback to attach_v1 below, the Oct 7 dark matplotlib chart, unchanged."""
+    from live import media_real
+    if media_real.enabled():
+        return media_real.attach(row, account, out_dir, rel_prefix=rel_prefix, ttl=ttl)
+    return attach_v1(row, account, out_dir, rel_prefix=rel_prefix, ttl=ttl)
+
+
+def attach_v1(row, account, out_dir, rel_prefix='media', ttl=None):
     """Render the chart for one draft into out_dir/<rel_prefix>/<day>/<id>.png (+ .json spec).
 
     `ttl` is the data-cache age limit in seconds (None = 3h; scripts/refresh_charts.py passes 0 to refetch).
