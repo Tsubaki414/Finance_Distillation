@@ -17,6 +17,8 @@ edit -> edited text. The page also overlays the live decisions itself (GET /api/
 「刷新」), so /admin changes show without a rebuild; 「已发」 is the shared published flag (POST published / unpublish /
 clear), not localStorage. It opens on the newest day with drafts and re-reads its own data block every 5 min / on 刷新.
 The admin console is rebuilt alongside (--no-admin skips it).
+Look (Oct 8, Fiona's Lovable design): one bordered table, account column + 帖子 1 / 帖子 2 columns (stacked on
+narrow screens), post text clamped to 3 lines with 展开正文, image attachments as thumbnail rows; inline CSS / SVG only.
 Idempotent: files are rewritten only when their content changes.
 """
 import argparse
@@ -300,12 +302,60 @@ def day_csv(drafts, names):
     return ('﻿' + buf.getvalue()).encode('utf-8')
 
 
-# Shared top nav of the public dashboard (/) and the review console (/admin); build_admin_console.py reuses it.
+# Shared look of the public dashboard (/) and the review console (/admin); build_admin_console.py reuses all of it:
+# the palette (ROOT_CSS; light only, as in the Lovable design), the component styles (BASE_CSS: header, stat chips, filter bar, checkboxes,
+# selects, buttons, tags) and the top nav. Light, shadcn-like: white cards, light grey borders, dark green primary.
+ROOT_CSS = r''':root{color-scheme:light;
+ --bg:#f1f1f3;--surface:#fcfcfc;--sunk:#f6f6f8;--ink:#131315;--ink2:#3f3f46;--mute:#6b6b75;--faint:#9a9aa3;--line:#dddde1;--line2:#ececee;
+ --accent:#12645b;--accent-bg:#dfeeeb;--accent-line:#b5d6cf;--warn:#764802;--warnbg:#f5ebd3;--hold:#9f2f2d;--holdbg:#fbeaea;--info:#3f4f6b;--infobg:#eceff5;
+ --btn:#131315;--btn-ink:#fafafa;--pri:#12645b;--pri-hover:#0e5149;--pri-ink:#ffffff;--shadow:0 1px 2px rgba(16,24,40,.06);
+ --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI","PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Microsoft YaHei",system-ui,sans-serif;
+ --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}'''
+CHECK_SVG = ("url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' "
+             "stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E\")")
+CHEVRON_SVG = ("url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' "
+               "stroke='%236b6b75' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E\")")
+BASE_CSS = r'''*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;font:14px/1.6 var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1320px;margin:0 auto;padding:24px 24px 64px}
+header{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+.logo{width:44px;height:44px;border-radius:10px;background:var(--btn);color:var(--btn-ink);display:flex;align-items:center;justify-content:center;font:700 16px/1 var(--sans);letter-spacing:.03em;flex:none}
+.ttl{flex:1;min-width:220px}.ttl h1{margin:0;font-size:21px;font-weight:700;letter-spacing:-.01em;line-height:1.3}
+.ttl p{margin:3px 0 0;color:var(--mute);font-size:12.5px}
+.stats{display:flex;gap:10px;flex-wrap:wrap}
+.stat{display:inline-flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:7px 16px;box-shadow:var(--shadow)}
+.stat small{font-size:12.5px;color:var(--mute);white-space:nowrap}.stat b{font:700 16px/1.2 var(--mono);font-variant-numeric:tabular-nums;color:var(--ink)}
+.stat.s-done b,.stat.ok b{color:var(--accent)}.stat.s-todo b,.stat.wn b{color:var(--warn)}.stat.hd b{color:var(--hold)}
+.bar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;font-size:13px;color:var(--ink2);padding:0 0 16px;margin:0 0 18px;border-bottom:1px solid var(--line)}
+.bar .lbl,.bar label>.lbl{color:var(--mute)}
+.bar label{white-space:nowrap;cursor:pointer;display:inline-flex;align-items:center;gap:7px}.bar .sp{flex:1}
+.bar .n{color:var(--mute);font-variant-numeric:tabular-nums}
+#flt{display:inline-flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
+.bx{display:inline-flex;gap:10px;align-items:center}
+select{appearance:none;-webkit-appearance:none;font:inherit;font-size:13px;color:var(--ink);padding:6px 30px 6px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface) __CHEVRON__ right 9px center/14px no-repeat;box-shadow:var(--shadow);cursor:pointer;max-width:100%}
+input[type=search]{font:inherit;font-size:13px;color:var(--ink);padding:6px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);box-shadow:var(--shadow)}
+input[type=checkbox]{appearance:none;-webkit-appearance:none;width:16px;height:16px;margin:0;border:1.5px solid var(--accent);border-radius:4px;background:var(--surface);cursor:pointer;flex:none;transition:background-color .15s,border-color .15s}
+input[type=checkbox]:checked{background:var(--accent) __CHECK__ center/11px no-repeat;border-color:var(--accent)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 14px;font:inherit;font-size:13px;font-weight:600;line-height:1.5;cursor:pointer;white-space:nowrap;text-decoration:none;box-shadow:var(--shadow);transition:background-color .15s,border-color .15s,color .15s}
+.btn:hover{background:var(--sunk);border-color:var(--faint)}.btn:active{transform:translateY(1px)}.btn:disabled{color:var(--faint);cursor:default}
+.btn.pri{background:var(--pri);color:var(--pri-ink);border-color:var(--pri)}.btn.pri:hover{background:var(--pri-hover);border-color:var(--pri-hover)}
+.ic{width:15px;height:15px;flex:none}
+.tg{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;line-height:1.5;border-radius:6px;padding:0 7px;background:var(--infobg);color:var(--info);border:1px solid transparent;white-space:nowrap}
+.tg .ic{width:12px;height:12px}
+.tg.q{background:var(--accent-bg);color:var(--accent);border-color:var(--accent-line)}
+.tg.ht{background:var(--warnbg);color:var(--warn)}.tg.ok{background:var(--accent-bg);color:var(--accent)}
+.ext{display:inline-flex;align-items:center;gap:4px;color:var(--accent);font-weight:600;text-decoration:none}.ext:hover{text-decoration:underline;text-underline-offset:3px}
+.ext .ic{width:13px;height:13px}
+button:focus-visible,select:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:820px){.wrap{padding:14px 12px 40px}.ttl h1{font-size:18px}.stats{width:100%}.stat{flex:1 1 auto;justify-content:center;padding:6px 10px}
+ .bar{gap:10px 14px}.bar .sp{display:none}.bx{width:100%}.bx>.btn{flex:1}}'''.replace('__CHECK__', CHECK_SVG).replace('__CHEVRON__', CHEVRON_SVG)
 NAV_CSS = ('.topnav{display:inline-flex;gap:2px;background:var(--surface);border:1px solid var(--line);border-radius:10px;'
-           'padding:3px;margin-bottom:20px}'
-           '.topnav a{color:var(--mute);text-decoration:none;font-weight:600;font-size:13px;line-height:1.5;'
-           'padding:5px 14px;border-radius:7px;transition:background .15s,color .15s}'
-           '.topnav a:hover{color:var(--ink)}'
+           'padding:4px;margin-bottom:22px;box-shadow:var(--shadow)}'
+           '.topnav a{color:var(--ink);text-decoration:none;font-weight:600;font-size:13px;line-height:1.5;'
+           'padding:6px 14px;border-radius:7px;transition:background-color .15s,color .15s}'
+           '.topnav a:hover{background:var(--sunk)}'
            '.topnav a[aria-current=page]{background:var(--accent-bg);color:var(--accent)}')
 NAV_LINKS = (('/', '运营看板'), ('/admin', '审稿后台'))
 
@@ -316,111 +366,107 @@ def nav_html(current):
     return f'<nav class="topnav" aria-label="页面">{links}</nav>'
 
 
+ICON = {   # inline SVG paths (lucide-style, 24x24 stroke icons) - no icon font / CDN at runtime
+    'refresh': '<path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M8 16H3v5"/>',
+    'download': '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/>',
+}
+
+
+def icon(name):
+    return (f'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+            f'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{ICON[name]}</svg>')
+
+
 PAGE = r'''<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
-<title>星轨 · FD 发帖看板</title>
+<title>FD 发帖看板</title>
 <style>
-:root{color-scheme:light dark;
- --bg:#f4f4f5;--surface:#fdfdfd;--sunk:#f8f8f9;--ink:#18181b;--ink2:#3f3f46;--mute:#6b6b75;--faint:#9a9aa3;--line:#e4e4e7;--line2:#ececef;
- --accent:#0f766e;--accent-bg:#e5f1ef;--warn:#8a5a00;--warnbg:#f7efdb;--hold:#9f2f2d;--holdbg:#fbeaea;--info:#3f4f6b;--infobg:#eceff5;
- --btn:#18181b;--btn-ink:#fafafa;
- --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI","PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Microsoft YaHei",system-ui,sans-serif;
- --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
-@media (prefers-color-scheme:dark){:root{
- --bg:#111113;--surface:#18181b;--sunk:#1d1d21;--ink:#ececee;--ink2:#c8c8ce;--mute:#9a9aa3;--faint:#71717a;--line:#2c2c31;--line2:#25252a;
- --accent:#5fb5aa;--accent-bg:#15302c;--warn:#e0b45c;--warnbg:#2c2414;--hold:#f0a09d;--holdbg:#341d1d;--info:#b7c2d8;--infobg:#20252f;
- --btn:#ececee;--btn-ink:#18181b}}
-/* shape rule: containers 14px, posts 10px, controls 8px, status tags full pill */
-*{box-sizing:border-box}
-html{background:var(--bg)}
-body{margin:0;font:15px/1.6 var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
-.wrap{max-width:1240px;margin:0 auto;padding:32px 24px 64px}
-header{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:20px}
-.logo{width:40px;height:40px;border-radius:10px;background:var(--btn);color:var(--btn-ink);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;flex:none}
-.ttl{flex:1;min-width:220px}.ttl h1{margin:0;font-size:20px;font-weight:650;letter-spacing:-.01em;line-height:1.3}.ttl p{margin:2px 0 0;color:var(--mute);font-size:13px}
-.stats{display:flex;gap:8px}
-.stat{display:inline-flex;align-items:baseline;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 14px}
-.stat small{font-size:12px;color:var(--mute)}.stat b{font:600 17px/1.2 var(--mono);font-variant-numeric:tabular-nums}
-.stat.s-done b{color:var(--accent)}.stat.s-todo b{color:var(--warn)}
-.bar{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;font-size:13px;color:var(--mute);padding:0 0 14px;margin:0 0 24px;border-bottom:1px solid var(--line)}
-.bar select{font:inherit;color:var(--ink);padding:4px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
-.bar label{white-space:nowrap;cursor:pointer;display:inline-flex;align-items:center;gap:5px}.bar .sp{flex:1}
-#flt{display:inline-flex;flex-wrap:wrap;gap:4px 14px;align-items:center}
-input[type=checkbox]{accent-color:var(--accent)}
-.bar a{color:var(--ink);text-decoration:none;font-weight:600;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:4px 12px}
-.bar a:hover,.bar .rf:hover{border-color:var(--faint)}
-.bar .rf{font:inherit;font-size:13px;color:var(--ink);font-weight:600;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:4px 12px;cursor:pointer}
-.bar .rf:disabled{color:var(--faint);cursor:default}.bar .sy{font-size:12px}.bar .sy.bad{color:var(--hold)}
-.acct{display:grid;grid-template-columns:196px minmax(0,1fr);gap:24px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
-.av{width:48px;height:48px;border-radius:50%;object-fit:cover;display:flex;align-items:center;justify-content:center;color:#fafafa;font-size:20px;font-weight:600;margin-bottom:12px}
-.side h2{margin:0;font-size:16px;font-weight:620;line-height:1.35;letter-spacing:-.005em}
-.side .pf{font-size:12.5px;color:var(--mute);margin-top:4px}.side .hd{font:12.5px/1.5 var(--mono);color:var(--ink2)}
-.side .bt{font-size:12px;color:var(--faint);margin-top:6px;line-height:1.5}
-.side .st{font:600 11px/1.6 var(--mono);color:var(--ink2)}
-.pill{display:inline-block;margin-top:14px;background:var(--sunk);border:1px solid var(--line);color:var(--ink2);font:600 12px/1.6 var(--mono);font-variant-numeric:tabular-nums;border-radius:999px;padding:1px 10px}
-.more{display:block;margin-top:12px;background:none;border:0;padding:0;font:inherit;font-size:13px;color:var(--mute);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
-.more:hover{color:var(--ink)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-content:start;min-width:0}
-.grid .none{color:var(--faint);font-size:13px;padding:10px 0}
-.post{background:var(--sunk);border:1px solid var(--line2);border-radius:10px;padding:16px;display:flex;flex-direction:column;min-width:0;transition:opacity .15s}
-.post.posted{opacity:.5}.post.hide{display:none}.post.notready{background:transparent;border:1px dashed var(--line)}
-.ph{display:flex;align-items:baseline;gap:8px;margin-bottom:10px}.ph small{font-size:12px;color:var(--mute)}
-.ph .tm{color:var(--ink);font:600 15px/1.3 var(--mono);font-variant-numeric:tabular-nums}
-.ph .st{margin-left:auto;font-size:11.5px;font-weight:600;border-radius:999px;padding:1px 9px;background:var(--warnbg);color:var(--warn);align-self:center;white-space:nowrap}
+__ROOTVARS__
+__BASECSS__
+/* account x posts table: account column + two post columns, one row per account */
+.tbl{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+.thead,.row{display:grid;grid-template-columns:232px minmax(0,1fr)}
+.thead{background:var(--sunk);border-bottom:1px solid var(--line);font-size:12px;color:var(--mute)}
+.thead>div,.thead .ph2>div{padding:11px 18px}.thead b{color:var(--ink);font-weight:650;margin-right:8px}
+.thead .ph2{display:grid;grid-template-columns:1fr 1fr;padding:0}.thead .ph2>div+div{border-left:1px solid var(--line)}
+.thead>div:first-child{border-right:1px solid var(--line)}
+.row+.row{border-top:1px solid var(--line)}
+.side{padding:20px 18px;border-right:1px solid var(--line);min-width:0}
+.who{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.av{width:40px;height:40px;border-radius:50%;object-fit:cover;display:flex;align-items:center;justify-content:center;color:#fafafa;font-size:17px;font-weight:600;flex:none}
+.side h2{margin:0;font-size:15px;font-weight:650;line-height:1.35;letter-spacing:-.005em;word-break:break-word}
+.side .pf{font-size:12px;color:var(--mute);margin-top:1px}
+.side .hd{font-size:12px;color:var(--mute);line-height:1.6}
+.side .bt{font-size:12px;color:var(--mute);line-height:1.55;margin-top:2px}
+.side .st{display:inline-block;font-size:11px;font-weight:600;color:var(--info);background:var(--infobg);border-radius:999px;padding:0 8px;margin-top:6px}
+.pill{display:inline-block;margin-top:10px;background:var(--sunk);border:1px solid var(--line);color:var(--ink2);font:500 12px/1.6 var(--sans);font-variant-numeric:tabular-nums;border-radius:999px;padding:1px 10px}
+.pill b{font:500 12px var(--mono)}
+.more{display:block;margin-top:12px;background:none;border:0;padding:0;font:inherit;font-size:12.5px;color:var(--accent);font-weight:600;cursor:pointer}
+.more:hover{text-decoration:underline;text-underline-offset:3px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line2);min-width:0}
+.blank{background:var(--sunk);display:flex;align-items:center;justify-content:center;color:var(--faint);min-height:96px}
+.post{background:var(--surface);padding:18px 18px 14px;display:flex;flex-direction:column;min-width:0}
+.post.posted>:not(.foot){opacity:.5}.post.posted .foot .cp{opacity:.6}
+.ph{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.ph .tm{color:var(--ink);font:700 15px/1.3 var(--mono);font-variant-numeric:tabular-nums;letter-spacing:.01em;white-space:pre}
+.ph .pl{display:none;font-size:11.5px;color:var(--faint)}
+.ph .st{margin-left:auto;font-size:11.5px;font-weight:600;border-radius:999px;padding:1px 9px;background:var(--warnbg);color:var(--warn);white-space:nowrap}
 .ph .st.ok{background:var(--accent-bg);color:var(--accent)}.ph .st.hold{background:var(--holdbg);color:var(--hold)}
-.txt{white-space:pre-wrap;word-break:break-word;font-size:15px;line-height:1.75;flex:1;color:var(--ink)}
-.txt:lang(en){font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;line-height:1.65}
+.mode{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;font-size:12.5px;color:var(--ink2)}
 .note{font-size:12.5px;line-height:1.5;color:var(--warn);background:var(--warnbg);border-radius:8px;padding:6px 10px;margin-bottom:10px}
 .note.mv{color:var(--info);background:var(--infobg);align-self:flex-start}
-.part{border-top:1px dashed var(--line);padding-top:10px;margin-top:10px}.part:first-of-type{border-top:0;margin-top:0;padding-top:0}
-.part .pr{display:flex;align-items:center;justify-content:space-between;font:12px var(--mono);color:var(--mute);margin-bottom:2px}
-.cnt{font:11.5px/1.5 var(--mono);color:var(--faint);margin-top:8px;font-variant-numeric:tabular-nums}
-.cp1{background:var(--surface);border:1px solid var(--line);border-radius:8px;font:inherit;font-family:var(--sans);font-size:12px;padding:1px 10px;cursor:pointer;color:var(--ink2)}
+.txt{white-space:pre-wrap;word-break:break-word;font-size:14.5px;line-height:1.75;color:var(--ink)}
+.txt:lang(en){font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;line-height:1.7}
+.post:not(.open) .clamp{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
+.post:not(.open) .part+.part{display:none}.post:not(.open) .part .pr{display:none}
+.xp{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;margin-top:6px;background:none;border:0;padding:2px 0;font:inherit;font-size:12.5px;color:var(--ink2);cursor:pointer}
+.xp:hover{color:var(--ink)}.xp .ic{width:14px;height:14px;transition:transform .15s}.post.open .xp .ic{transform:rotate(180deg)}.xp[hidden]{display:none}
+.part{border-top:1px dashed var(--line);padding-top:10px;margin-top:10px}.part:first-child{border-top:0;margin-top:0;padding-top:0}
+.part .pr{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--mute);margin-bottom:2px}
+.part .cnt{margin-top:4px}
+.cp1{display:inline-flex;align-items:center;gap:5px;background:var(--surface);border:1px solid var(--line);border-radius:6px;font:inherit;font-size:12px;font-weight:600;padding:1px 9px;cursor:pointer;color:var(--ink2)}
 .cp1:hover{border-color:var(--faint)}.cp1.done{color:var(--accent);border-color:var(--accent)}
-.foot{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px solid var(--line2);gap:10px}
-.done-l{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);color:var(--ink2);font-weight:600;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:13px;user-select:none;transition:background .15s,color .15s,border-color .15s}
-.done-l:has(input:checked){background:var(--accent-bg);color:var(--accent);border-color:transparent}
-.done-l input{width:16px;height:16px;margin:0}
-.cp{display:inline-flex;align-items:center;gap:6px;background:var(--btn);color:var(--btn-ink);border:1px solid var(--btn);border-radius:8px;padding:7px 14px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .15s,transform .1s}
-.cp:hover{opacity:.88}.cp:active,.cp1:active,.done-l:active{transform:translateY(1px)}
-.cp.done{background:var(--accent);border-color:var(--accent);color:#fafafa}.cp svg{width:15px;height:15px}
-.post.notready .cp{background:var(--surface);color:var(--ink2);border-color:var(--line)}
+.att{display:flex;align-items:center;gap:12px;margin-top:12px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--sunk)}
+.att .th{display:block;width:56px;height:42px;border-radius:6px;border:2px solid var(--accent-line);overflow:hidden;flex:none;background:#131722}
+.att .th img{width:100%;height:100%;object-fit:cover;display:block}
+.att .lb{display:flex;flex-direction:column;min-width:0;flex:1}
+.att .lb b{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:650;color:var(--ink)}.att .lb b .ic{color:var(--accent);width:15px;height:15px}
+.att .lb small{font-size:11px;color:var(--faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.att .dl{display:inline-flex;color:var(--ink2);padding:7px;border-radius:8px;flex:none}.att .dl:hover{background:var(--line2);color:var(--ink)}.att .dl .ic{width:17px;height:17px}
+.fill{flex:1;min-height:6px}
+.cnt{font-size:11.5px;line-height:1.5;color:var(--faint);margin-top:10px;font-variant-numeric:tabular-nums}
+.foot{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:12px;border-top:1px solid var(--line);gap:10px}
+.done-l{display:inline-flex;align-items:center;gap:9px;color:var(--ink2);font-size:13px;cursor:pointer;user-select:none}
+.done-l input{width:18px;height:18px;border-radius:5px}.done-l:has(input:checked){color:var(--accent);font-weight:600}
+.cp{display:inline-flex;align-items:center;gap:8px;background:var(--pri);color:var(--pri-ink);border:1px solid var(--pri);border-radius:8px;padding:7px 14px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;box-shadow:0 1px 2px rgba(16,24,40,.12);transition:background-color .15s,transform .1s}
+.cp:hover{background:var(--pri-hover)}.cp:active,.cp1:active{transform:translateY(1px)}
+.cp.done{background:var(--accent-bg);border-color:var(--accent-line);color:var(--accent)}.cp .ic{width:15px;height:15px}
+.post.notready .cp{background:var(--surface);color:var(--ink2);border-color:var(--line);box-shadow:var(--shadow)}
 .post.notready .foot .cnt{margin:0}
-button:focus-visible,select:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.empty{text-align:center;color:var(--mute);padding:48px 16px}
-.mode{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;font-size:12.5px}
-.mode .tg{font-weight:600;border-radius:999px;padding:1px 9px;background:var(--infobg);color:var(--info)}
-.mode .tg.ht{background:var(--warnbg);color:var(--warn)}.mode .tg.ok{background:var(--accent-bg);color:var(--accent)}
-.mode a{color:var(--ink2);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
-.img{margin:12px 0 0}.img img{display:block;width:auto;max-width:100%;max-height:560px;height:auto;border-radius:8px;border:1px solid var(--line2);background:#131722}
-.img figcaption{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px;font-size:11.5px;color:var(--faint)}
-.img .dl{color:var(--ink);text-decoration:none;font-weight:600;font-size:12.5px;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:2px 10px;white-space:nowrap}
-.img .dl:hover{border-color:var(--faint)}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.empty{text-align:center;color:var(--mute);padding:48px 16px;background:var(--surface);border:1px solid var(--line);border-radius:12px;margin:0}
+.ttl p .sy.bad{color:var(--hold)}
 @media (max-width:820px){
- .wrap{padding:16px 12px 40px}.ttl h1{font-size:18px}
- .stats{width:100%}.stat{flex:1;justify-content:center;padding:5px 8px}
- .bar{gap:8px 14px}
- .acct{grid-template-columns:1fr;padding:14px;gap:14px}
- .side{border-bottom:1px solid var(--line2);padding:0 0 12px;display:grid;grid-template-columns:auto 1fr;column-gap:12px}
- .side .av{width:44px;height:44px;font-size:18px;margin:0;grid-row:span 4}
- .side .pill{margin-top:8px;justify-self:start;grid-column:2}.side .more{grid-column:2}.side .st{grid-column:2}
- .grid{grid-template-columns:1fr}
+ .thead{display:none}
+ .row{grid-template-columns:1fr}
+ .side{border-right:0;border-bottom:1px solid var(--line2);padding:14px 14px 12px}
+ .who{margin-bottom:6px}.pill{margin-top:8px}
+ .grid{grid-template-columns:1fr}.blank{display:none}
+ .post{padding:14px}.ph .pl{display:inline}
 }
 __NAVCSS__
 </style></head><body><div class="wrap">
 __NAV__
-<header><div class="logo">星</div>
-<div class="ttl"><h1>星轨 · FD 发帖看板</h1><p>复制正文，到 X 发布，再勾选已发（所有人同步可见） · <span id="upd"></span></p></div>
+<header><div class="logo">FD</div>
+<div class="ttl"><h1>FD 发帖看板</h1><p><span id="upd"></span> · <span title="复制正文，到 X 发布，再勾选已发（所有人同步可见）">已发状态：所有人同步</span> · <span class="sy" id="sync"></span></p></div>
 <div class="stats"><div class="stat"><small>可发</small><b id="nAll">0</b></div><div class="stat s-done"><small>已发</small><b id="nDone">0</b></div><div class="stat s-todo"><small>待发</small><b id="nTodo">0</b></div></div>
 </header>
-<div class="bar"><label>日期 <select id="day"></select></label>
+<div class="bar"><label><span class="lbl">日期</span><select id="day"></select></label>
 <span id="flt"></span>
 <label><input type="checkbox" id="hidePosted"> 隐藏已发</label>
 <label><input type="checkbox" id="hideEmpty" checked> 隐藏无稿账号</label>
-<span class="sp"></span><span class="sy" id="sync"></span><button class="rf" id="refresh" title="重新读取最新稿件和审稿决定">刷新</button><a id="csv" href="#" download>下载 CSV</a></div>
+<span class="sp"></span><span class="bx"><button class="btn rf" id="refresh" title="重新读取最新稿件和审稿决定">__I_REFRESH__<span>刷新</span></button><a class="btn" id="csv" href="#" download>__I_DOWNLOAD__<span>下载 CSV</span></a></span></div>
 <main id="main"></main></div>
 <script id="data" type="application/json">__DATA__</script>
 <script>
@@ -443,7 +489,14 @@ function fillDays(keep){days=Object.keys(D.days).sort().reverse();daySel.innerHT
 const want=location.hash.slice(1);fillDays(want);
 let follow=daySel.value===latest();   // follow the newest day until someone picks another one
 $('#hidePosted').checked=localStorage.getItem('fdops:hidePosted')==='1';
-const COPY_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
+const ic=p=>`<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+const COPY_SVG=ic('<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>');
+const I={ext:ic('<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>'),
+  down:ic('<path d="m6 9 6 6 6-6"/>'),dl:ic('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/>'),
+  img:ic('<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/>'),
+  quote:ic('<path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/>'),
+  reply:ic('<path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>')};
+const opened=new Set();   // posts whose full text is shown (展开正文)
 const bjtDay=d=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
 const bjtTime=d=>d.toLocaleTimeString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false});
 function when(t){
@@ -474,21 +527,32 @@ function avatar(a){
   const ch=[...String(a.name||a.id).replace(/^[^\p{L}\p{N}]+/u,'')][0]||'?';
   return `<div class="av" style="background:${hue(a.id)}">${esc(ch.toUpperCase())}</div>`;
 }
-function card(d,hidden,posted){
+function card(d,posted,slot){
   const ready=d.status==='draft_ready',p=ready&&posted,hold=d.status==='HOLD'||d.status==='superseded',lg=d.lang==='en'?'en':'zh-CN';
   const st=p?'<span class="st ok">已发</span>':hold?`<span class="st hold">${d.status==='HOLD'?'HOLD':'已替换'}</span>`:d.status==='draft_ready'?'<span class="st">待发出</span>':`<span class="st">${esc(ST_LABEL[d.status]||d.status)}</span>`;
+  const multi=d.parts&&d.parts.length>1;
   let body;
-  if(d.parts&&d.parts.length>1){
-    body=d.parts.map((t,i)=>`<div class="part"><div class="pr"><span>${i+1}/${d.parts.length}</span><button class="cp1" data-t="${esc(t)}">复制</button></div><div class="txt" lang="${lg}">${esc(t)}</div><div class="cnt">${cnt(t,d.parts_w[i],d.lang)}</div></div>`).join('');
-  }else body=`<div class="txt" lang="${lg}">${esc(d.text)}</div><div class="cnt">${cnt(d.text,d.xw,d.lang)}</div>`;
+  if(multi){
+    body=`<div class="parts">${d.parts.map((t,i)=>`<div class="part"><div class="pr"><span>${i+1}/${d.parts.length}</span><button class="cp1" data-t="${esc(t)}">复制</button></div><div class="txt${i?'':' clamp'}" lang="${lg}">${esc(t)}</div><div class="cnt">${cnt(t,d.parts_w[i],d.lang)}</div></div>`).join('')}</div>`;
+  }else body=`<div class="txt clamp" lang="${lg}">${esc(d.text)}</div>`;
+  const xp=`<button class="xp" data-o="${esc(d.id)}" aria-expanded="${opened.has(d.id)}"><span>${opened.has(d.id)?'收起正文':multi?`展开全部 ${d.parts.length} 段`:'展开正文'}</span>${I.down}</button>`;
   const ML={quote:'引用',reply:'回复'};
   const rv=(d.decision==='approve'||d.decision==='published'?'<span class="tg ok">审稿已批准</span>':'')+(d.edited?'<span class="tg ok">审稿已改稿</span>':'');
-  const mode=(ML[d.mode]||d.heat_led||d.archive||d.hotspot||rv)?`<div class="mode">${rv}${d.hotspot?`<span class="tg ht">热点</span><span>${esc(d.hotspot)}</span>`:''}${d.archive?`<span class="tg">${d.archive_variant==='evergreen'?'常青':'回看'}</span>`:''}${ML[d.mode]?`<span class="tg">${ML[d.mode]}</span>`:''}${d.heat_led?'<span class="tg ht">热度</span>':''}${ML[d.mode]&&d.target?`<a href="${esc(d.target)}" target="_blank" rel="noopener noreferrer">打开原帖</a>`:''}${d.archive&&d.archive_url?`<a href="${esc(d.archive_url)}" target="_blank" rel="noopener noreferrer">${d.archive_variant==='evergreen'?'常青原帖':'回看原帖'}</a>`:''}</div>`:'';
-  const imgs=(d.media||[]).map(m=>`<figure class="img"><a href="${esc(m.src||m.path)}" target="_blank" rel="noopener"><img src="${esc(m.src||m.path)}" alt="${esc(m.alt)}" loading="lazy"></a><figcaption><span>${esc([m.credit?'数据：'+m.credit:'',m.updated?'图更新于 北京时间 '+m.updated:''].filter(Boolean).join(' · '))}</span><a class="dl" href="${esc(m.src||m.path)}" download="${esc(m.path.split('/').pop())}">下载图片</a></figcaption></figure>`).join('');
-  body=mode+body+imgs;
-  return `<div class="post${p?' posted':''}${ready?'':' notready'}${hidden?' hide':''}" data-id="${esc(d.id)}"><div class="ph"><small>建议发出（北京时间）</small><span class="tm">${when(d.time)}</span>${st}</div>${d.note?`<div class="note${d.note.startsWith('改派自')?' mv':''}">${esc(d.note)}</div>`:''}${body}
-<div class="foot">${ready?`<label class="done-l"><input type="checkbox" data-p="${esc(d.id)}" ${p?'checked':''}> 已发</label>`:'<span class="cnt">不可发：先改稿或等重写</span>'}<button class="cp" data-t="${esc(d.text)}">${COPY_SVG}<span>${d.parts&&d.parts.length>1?'复制全部':'一键复制'}</span></button></div></div>`;
+  const mode=(ML[d.mode]||d.heat_led||d.archive||d.hotspot||rv)?`<div class="mode">${rv}${d.hotspot?`<span class="tg ht">热点</span><span>${esc(d.hotspot)}</span>`:''}${d.archive?`<span class="tg">${d.archive_variant==='evergreen'?'常青':'回看'}</span>`:''}${ML[d.mode]?`<span class="tg q">${d.mode==='reply'?I.reply:I.quote}${ML[d.mode]}</span>`:''}${d.heat_led?'<span class="tg ht">热度</span>':''}${ML[d.mode]&&d.target?`<a class="ext" href="${esc(d.target)}" target="_blank" rel="noopener noreferrer">打开原帖${I.ext}</a>`:''}${d.archive&&d.archive_url?`<a class="ext" href="${esc(d.archive_url)}" target="_blank" rel="noopener noreferrer">${d.archive_variant==='evergreen'?'常青原帖':'回看原帖'}${I.ext}</a>`:''}</div>`:'';
+  const imgs=(d.media||[]).map((m,i)=>{const u=esc(m.src||m.path),info=[m.credit?'数据：'+m.credit:'',m.updated?'图更新于 北京时间 '+m.updated:''].filter(Boolean).join(' · ');
+    return `<div class="att"><a class="th" href="${u}" target="_blank" rel="noopener" title="打开大图"><img src="${u}" alt="${esc(m.alt)}" loading="lazy"></a><div class="lb"><b>${I.img}配图 ${i+1}</b>${info?`<small title="${esc(info)}">${esc(info)}</small>`:''}</div><a class="dl" href="${u}" download="${esc(m.path.split('/').pop())}" title="下载图片" aria-label="下载图片">${I.dl}</a></div>`}).join('');
+  const total=multi?`共 ${d.parts.length} 段 · ${cnt(d.text,d.xw,d.lang)}`:cnt(d.text,d.xw,d.lang);
+  return `<div class="post${p?' posted':''}${ready?'':' notready'}${opened.has(d.id)?' open':''}" data-id="${esc(d.id)}"><div class="ph"><span class="pl">帖子 ${slot} ·</span><span class="tm" title="建议发出（北京时间）">${when(d.time)}</span>${st}</div>${d.note?`<div class="note${d.note.startsWith('改派自')?' mv':''}">${esc(d.note)}</div>`:''}${mode}${body}${xp}${imgs}<div class="fill"></div><div class="cnt">${total}</div>
+<div class="foot">${ready?`<label class="done-l"><input type="checkbox" data-p="${esc(d.id)}" ${p?'checked':''}> 已发</label>`:'<span class="cnt">不可发：先改稿或等重写</span>'}<button class="cp" data-t="${esc(d.text)}">${COPY_SVG}<span>${multi?'复制全部':'一键复制'}</span></button></div></div>`;
 }
+// 展开正文 only where the text is cut (3 lines) or a thread has more parts
+function fitClamp(){
+  for(const p of document.querySelectorAll('.post')){
+    const b=p.querySelector('.xp');if(!b||p.classList.contains('open'))continue;
+    const t=p.querySelector('.clamp');b.hidden=!(p.querySelector('.part+.part')||(t&&t.scrollHeight>t.clientHeight+2));
+  }
+}
+let fitT=0;addEventListener('resize',()=>{clearTimeout(fitT);fitT=setTimeout(fitClamp,150)});
 let syncAt=null,syncErr='';
 function syncLine(){
   const n=Object.keys(pend(daySel.value)).length,s=$('#sync');
@@ -504,7 +568,7 @@ function render(){
   $('#csv').style.display='';$('#csv').href=day+'.csv';$('#csv').setAttribute('download','fd_'+day+'.csv');
   const drafts=(D.days[day]||[]).map(d=>eff(d,day)),pp=pend(day),isPosted=d=>d.id in pp?!!pp[d.id]:!!d.published;
   const sts=[...new Set(drafts.map(d=>d.status))].sort();
-  $('#flt').innerHTML='状态 '+sts.map(s=>`<label><input type="checkbox" data-s="${esc(s)}" ${shown.has(s)?'checked':''}> ${esc(ST_LABEL[s]||s)} (${drafts.filter(d=>d.status===s).length})</label>`).join(' ');
+  $('#flt').innerHTML='<span class="lbl">状态</span>'+sts.map(s=>`<label><input type="checkbox" data-s="${esc(s)}" ${shown.has(s)?'checked':''}> ${esc(ST_LABEL[s]||s)} <span class="n">(${drafts.filter(d=>d.status===s).length})</span></label>`).join('');
   const hideP=$('#hidePosted').checked,hideE=$('#hideEmpty').checked;
   let all=0,done=0;const out=[];
   for(const a of D.accounts){
@@ -513,12 +577,15 @@ function render(){
     const nDone=rd.filter(isPosted).length;all+=rd.length;done+=nDone;
     const cards=mine.filter(d=>!(hideP&&d.status==='draft_ready'&&isPosted(d)));
     if(!cards.length&&hideE)continue;
-    const open=expanded.has(a.id),lim=2;
+    const open=expanded.has(a.id),lim=2,vis=open?cards:cards.slice(0,lim);
     const more=cards.length>lim?`<button class="more" data-x="${esc(a.id)}">${open?'收起':`展开全部 ${cards.length} 条`}</button>`:'';
-    out.push(`<section class="acct"><div class="side">${avatar(a)}<h2>${esc(a.name)}</h2><div class="pf">X${a.lang?` · ${a.lang==='zh'?'中文':'English'}`:''}</div><div class="hd">${esc(a.handle?(a.handle.startsWith('@')?a.handle:'@'+a.handle):'@待填')}</div>${a.beat?`<div class="bt">${esc(a.beat)}</div>`:''}${{new:'<div class="st">新号</div>',spare_active:'<div class="st">备用号启用</div>'}[a.status]||''}<span class="pill">待发 ${rd.length-nDone}/${rd.length}</span>${more}</div>
-<div class="grid">${cards.length?cards.map((d,i)=>card(d,!open&&i>=lim,isPosted(d))).join(''):'<div class="none">今日无可显示稿件</div>'}</div></section>`);
+    const cells=vis.map((d,i)=>card(d,isPosted(d),i+1)).join('')+'<div class="blank" aria-hidden="true">—</div>'.repeat(vis.length?vis.length%2:2);
+    out.push(`<section class="row"><div class="side"><div class="who">${avatar(a)}<div><h2>${esc(a.name)}</h2><div class="pf">X${a.lang?` · ${a.lang==='zh'?'中文':'English'}`:''}</div></div></div><div class="hd">${esc(a.handle?(a.handle.startsWith('@')?a.handle:'@'+a.handle):'@待填')}</div>${a.beat?`<div class="bt">${esc(a.beat)}</div>`:''}${{new:'<div class="st">新号</div>',spare_active:'<div class="st">备用号启用</div>'}[a.status]||''}<span class="pill">待发 <b>${rd.length-nDone}/${rd.length}</b></span>${more}</div>
+<div class="grid">${cells}</div></section>`);
   }
-  $('#main').innerHTML=out.join('')||(drafts.length?`<p class="empty">当前筛选下没有稿件（共 ${drafts.length} 篇，可在「状态」里勾选其他状态）</p>`:'<p class="empty">这一天没有稿件</p>');
+  const TH='<div class="thead"><div><b>账号</b></div><div class="ph2"><div><b>帖子 1</b>建议发出 · 北京时间</div><div><b>帖子 2</b>建议发出 · 北京时间</div></div></div>';
+  $('#main').innerHTML=out.length?`<div class="tbl">${TH}${out.join('')}</div>`:(drafts.length?`<p class="empty">当前筛选下没有稿件（共 ${drafts.length} 篇，可在「状态」里勾选其他状态）</p>`:'<p class="empty">这一天没有稿件</p>');
+  fitClamp();
   $('#nAll').textContent=all;$('#nDone').textContent=done;$('#nTodo').textContent=all-done;
 }
 async function pushPosted(day,d,on){
@@ -565,6 +632,8 @@ async function refreshData(cache){
 async function copy(t){try{await navigator.clipboard.writeText(t)}catch(_){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}}
 document.addEventListener('click',async e=>{
   const x=e.target.closest('.more');if(x){expanded.has(x.dataset.x)?expanded.delete(x.dataset.x):expanded.add(x.dataset.x);render();return}
+  const o=e.target.closest('.xp');if(o){const p=o.closest('.post'),on=!opened.has(o.dataset.o);on?opened.add(o.dataset.o):opened.delete(o.dataset.o);
+    p.classList.toggle('open',on);o.setAttribute('aria-expanded',on);o.querySelector('span').textContent=on?'收起正文':p.querySelector('.part+.part')?`展开全部 ${p.querySelectorAll('.part').length} 段`:'展开正文';return}
   const b=e.target.closest('.cp,.cp1');if(!b)return;
   await copy(b.dataset.t);
   const lab=b.querySelector('span')||b,old=lab.textContent;
@@ -589,8 +658,8 @@ $('#csv').addEventListener('click',e=>{
 function upd(){$('#upd').textContent=D.updated?`数据更新于 北京时间 ${D.updated.slice(5,10)} ${D.updated.slice(11,16)}`:''}
 daySel.onchange=()=>{follow=daySel.value===latest();render();syncDecisions()};
 $('#refresh').onclick=async()=>{
-  const b=$('#refresh');b.disabled=true;b.textContent='刷新中…';
-  await refreshData('no-store');await syncDecisions();b.disabled=false;b.textContent='刷新';
+  const b=$('#refresh'),l=b.querySelector('span');b.disabled=true;l.textContent='刷新中…';
+  await refreshData('no-store');await syncDecisions();b.disabled=false;l.textContent='刷新';
 };
 let tick=0;   // decisions every 60 s; the page data (new days / rebuilt drafts) every 5 min
 setInterval(async()=>{if(document.hidden)return;if(++tick%5===0)await refreshData('no-cache');syncDecisions()},60000);
@@ -628,7 +697,9 @@ def main():
     # last-updated = newest inbox write (deterministic, so an unchanged inbox leaves index.html untouched)
     updated = max((d['stored'] for v in days.values() for d in v if d['stored']), default='')
     data = json.dumps({'accounts': accounts, 'days': days, 'updated': updated}, ensure_ascii=False, sort_keys=True)
-    page = PAGE.replace('__NAVCSS__', NAV_CSS).replace('__NAV__', nav_html('/')).replace('__SHARED__', shared_js())
+    page = (PAGE.replace('__ROOTVARS__', ROOT_CSS).replace('__BASECSS__', BASE_CSS).replace('__NAVCSS__', NAV_CSS)
+            .replace('__I_REFRESH__', icon('refresh')).replace('__I_DOWNLOAD__', icon('download'))
+            .replace('__NAV__', nav_html('/')).replace('__SHARED__', shared_js()))
     page = page.replace('__DATA__', data.replace('</', '<\\/'))
     changed = [p.name for p, b in [(args.out / 'index.html', page.encode('utf-8'))] +
                [(args.out / f'{day}.csv', day_csv(dr, names)) for day, dr in days.items()]

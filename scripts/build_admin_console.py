@@ -19,7 +19,6 @@ Idempotent: files are rewritten only when their content changes.
 """
 import argparse
 import json
-import re
 import shutil
 import sys
 from pathlib import Path
@@ -245,74 +244,61 @@ PAGE = r'''<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
-<title>星轨 · FD 审稿台</title>
+<title>FD 审稿后台</title>
 <style>
 __ROOTVARS__
-*{box-sizing:border-box}
-html{background:var(--bg)}
-body{margin:0;font:14.5px/1.6 var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
-.wrap{max-width:1320px;margin:0 auto;padding:28px 24px 64px}
-header{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}
-.logo{width:40px;height:40px;border-radius:10px;background:var(--btn);color:var(--btn-ink);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;flex:none}
-.ttl{flex:1;min-width:220px}.ttl h1{margin:0;font-size:20px;font-weight:650;letter-spacing:-.01em;line-height:1.3}.ttl p{margin:2px 0 0;color:var(--mute);font-size:13px}
-.stats{display:flex;gap:8px;flex-wrap:wrap}
-.stat{display:inline-flex;align-items:baseline;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 14px}
-.stat small{font-size:12px;color:var(--mute)}.stat b{font:600 16px/1.2 var(--mono);font-variant-numeric:tabular-nums}
-.stat.ok b{color:var(--accent)}.stat.hd b{color:var(--hold)}.stat.wn b{color:var(--warn)}
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:16px}
-.panel h2{margin:0 0 10px;font-size:14px;font-weight:620;color:var(--ink2)}
+__BASECSS__
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:0 0 10px;margin-bottom:16px;box-shadow:var(--shadow);overflow-x:auto}
+.panel h2{margin:0 0 4px;padding:11px 16px;font-size:12.5px;font-weight:650;color:var(--ink);background:var(--sunk);border-bottom:1px solid var(--line)}
+.panel>.sync,.panel>.ctl,.panel>.hi{padding:0 16px}.panel>.sync{padding-top:6px}
 .cols{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px}
 table{width:100%;border-collapse:collapse;font-size:13px}
-th{text-align:left;font-weight:600;color:var(--mute);font-size:12px;border-bottom:1px solid var(--line);padding:4px 8px 6px}
-td{border-bottom:1px solid var(--line2);padding:5px 8px;vertical-align:top}
+th{text-align:left;font-weight:600;color:var(--mute);font-size:12px;border-bottom:1px solid var(--line);padding:6px 10px 7px}
+td{border-bottom:1px solid var(--line2);padding:6px 10px;vertical-align:top}
+th:first-child,td:first-child{padding-left:16px}th:last-child,td:last-child{padding-right:16px}
+tr:last-child td{border-bottom:0}
 td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
 tr.short td.n.r{color:var(--warn);font-weight:600}tr.met td.n.r{color:var(--accent);font-weight:600}
 tr.clk{cursor:pointer}tr.clk:hover td{background:var(--sunk)}
 .mono{font-family:var(--mono);font-size:12px}
 #runs td.mono{white-space:nowrap;font-size:11.5px}
-.panel{overflow-x:auto}
-.bar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:13px;color:var(--mute);padding:12px 0 14px;margin:0 0 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
-.bar select,.bar input[type=search]{font:inherit;color:var(--ink);padding:4px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
-.bar input[type=search]{min-width:180px}
-.bar label{white-space:nowrap;cursor:pointer;display:inline-flex;align-items:center;gap:5px}.bar .sp{flex:1}
-input[type=checkbox]{accent-color:var(--accent)}
-.btn{display:inline-flex;align-items:center;gap:6px;background:var(--surface);color:var(--ink2);border:1px solid var(--line);border-radius:8px;padding:5px 12px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
-.btn:hover{border-color:var(--faint)}.btn:active{transform:translateY(1px)}.btn:disabled{color:var(--faint);cursor:default}
-.btn.pri{background:var(--btn);color:var(--btn-ink);border-color:var(--btn)}.btn.pri:hover{opacity:.88}
+.bar{padding:12px 0 14px;margin:0 0 16px;position:sticky;top:0;background:var(--bg);z-index:5}
+.bar input[type=search]{min-width:200px}
 .btn.ok{color:var(--accent)}.btn.hd{color:var(--hold)}
-.btn.on.ok{background:var(--accent);border-color:var(--accent);color:#fafafa}.btn.on.hd{background:var(--hold);border-color:var(--hold);color:#fafafa}.btn.on.rw{background:var(--info);border-color:var(--info);color:#fafafa}
+.btn.on.ok{background:var(--pri);border-color:var(--pri);color:var(--pri-ink)}.btn.on.hd{background:var(--hold);border-color:var(--hold);color:#fafafa}.btn.on.rw{background:var(--info);border-color:var(--info);color:#fafafa}
 .sync{font-size:12px;color:var(--mute)}.sync.bad{color:var(--hold)}
-.list{display:grid;gap:12px}
-.d{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.95fr);gap:18px}
+.list{display:grid;gap:14px}
+.d{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:0 18px 18px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.95fr);gap:16px 22px;box-shadow:var(--shadow);overflow:hidden}
 .d.hide{display:none}
-.dh{grid-column:1/-1;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;color:var(--mute)}
-.dh b{color:var(--ink);font-size:15px;font-weight:620}
-.tag{display:inline-block;font-size:11.5px;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;background:var(--sunk);color:var(--ink2);border:1px solid var(--line2)}
+.dh{grid-column:1/-1;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px;color:var(--mute);margin:0 -18px;padding:11px 18px;background:var(--sunk);border-bottom:1px solid var(--line)}
+.dh b{color:var(--ink);font-size:15px;font-weight:650}
+.tag{display:inline-flex;align-items:center;font-size:11.5px;font-weight:600;line-height:1.6;border-radius:999px;padding:0 9px;white-space:nowrap;background:var(--surface);color:var(--ink2);border:1px solid var(--line)}
 .tag.ready{background:var(--accent-bg);color:var(--accent);border-color:transparent}.tag.HOLD{background:var(--holdbg);color:var(--hold);border-color:transparent}
 .tag.replaced,.tag.superseded{background:var(--infobg);color:var(--info);border-color:transparent}
-.tag.dec{border-style:dashed}
-.meta{margin-left:auto;font:12px var(--mono);color:var(--faint);font-variant-numeric:tabular-nums}
-.txt{white-space:pre-wrap;word-break:break-word;font-size:15px;line-height:1.72;color:var(--ink);background:var(--sunk);border:1px solid var(--line2);border-radius:10px;padding:14px}
-.txt:lang(en){font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;line-height:1.62}
-.txt.edited{border-color:var(--accent)}
-textarea{width:100%;font:15px/1.65 var(--sans);color:var(--ink);background:var(--surface);border:1px solid var(--accent);border-radius:10px;padding:12px;resize:vertical;min-height:150px}
+.tag.dec{border-style:dashed}.tag.dec.ready{border-color:var(--accent-line)}
+.meta{margin-left:auto;font:11.5px var(--mono);color:var(--faint);font-variant-numeric:tabular-nums}
+.txt{white-space:pre-wrap;word-break:break-word;font-size:14.5px;line-height:1.75;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.txt:lang(en){font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;line-height:1.68}
+.txt.edited{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+textarea{width:100%;font:14.5px/1.65 var(--sans);color:var(--ink);background:var(--surface);border:1px solid var(--accent);border-radius:10px;padding:12px;resize:vertical;min-height:150px}
 textarea.note{min-height:64px;font-size:13.5px;border-color:var(--line)}
-.cnt{font:11.5px/1.5 var(--mono);color:var(--faint);margin-top:6px}
+.cnt{font-size:11.5px;line-height:1.5;color:var(--faint);margin-top:8px;font-variant-numeric:tabular-nums}
 .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center}
 .edit{margin-top:10px;display:none}.edit.open{display:block}.edit .acts{margin-top:8px}
-.side{display:grid;gap:10px;align-content:start;min-width:0;font-size:13px}
-.blk h3{margin:0 0 4px;font-size:12px;font-weight:600;color:var(--mute)}
+.side{display:grid;gap:12px;align-content:start;min-width:0;font-size:13px;padding-top:2px}
+.blk h3{margin:0 0 5px;font-size:12px;font-weight:650;color:var(--mute)}
 .why{color:var(--warn);background:var(--warnbg);border-radius:8px;padding:6px 10px;font-size:12.5px;line-height:1.5;margin-bottom:4px}
 .why.dec{color:var(--info);background:var(--infobg)}
 .fd{display:flex;gap:6px;align-items:baseline;font-size:12.5px;line-height:1.5}.fd .c{font:600 11.5px var(--mono);border-radius:999px;padding:0 8px;white-space:nowrap}
 .fd.hard .c{background:var(--holdbg);color:var(--hold)}.fd.warn .c{background:var(--warnbg);color:var(--warn)}.fd span.dt{color:var(--ink2)}
-.src a{color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
-.src .sm{color:var(--mute);font-size:12px}
-.tag.mode{background:var(--infobg);color:var(--info)}.tag.mode.hot{background:var(--holdbg);color:var(--hold)}
-.mtgt{font-size:12.5px;margin-top:8px}.mtgt a{color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
-.img{margin:10px 0 0;max-width:560px}.img img{display:block;width:100%;height:auto;border-radius:8px;border:1px solid var(--line2);background:#131722}
-.img figcaption{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px;font-size:11.5px;color:var(--faint)}
-.img .dl{color:var(--ink);text-decoration:none;font-weight:600;font-size:12.5px;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:2px 10px;white-space:nowrap}
+.src a{color:var(--accent);font-weight:600;text-decoration:none}.src a:hover{text-decoration:underline;text-underline-offset:3px}
+.src .sm,.mtgt .sm{color:var(--mute);font-size:12px}
+.tag.mode{background:var(--accent-bg);color:var(--accent);border-color:var(--accent-line);border-radius:6px}.tag.mode.hot{background:var(--warnbg);color:var(--warn);border-color:transparent}
+.mtgt{font-size:12.5px;margin-top:8px;color:var(--ink2)}.mtgt a{color:var(--accent);font-weight:600;text-decoration:none}.mtgt a:hover{text-decoration:underline;text-underline-offset:3px}
+.img{margin:12px 0 0;max-width:560px;border:1px solid var(--line);border-radius:10px;background:var(--sunk);padding:8px}.img img{display:block;width:100%;height:auto;border-radius:6px;background:#131722}
+.img figcaption{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;font-size:11.5px;color:var(--faint)}
+.img .dl{display:inline-flex;align-items:center;gap:6px;color:var(--ink);text-decoration:none;font-weight:600;font-size:12px;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:3px 10px;white-space:nowrap}
+.img .dl:hover{border-color:var(--faint)}
 details{border-top:1px solid var(--line2);padding-top:6px}
 summary{cursor:pointer;color:var(--ink2);font-weight:600;font-size:12.5px}
 .u{margin:8px 0}.u .st{color:var(--ink2)}.u .k{font:11px var(--mono);color:var(--faint);margin-right:6px}
@@ -321,14 +307,13 @@ summary{cursor:pointer;color:var(--ink2);font-weight:600;font-size:12.5px}
 .cl{margin:4px 0;font-size:12.5px;color:var(--ink2)}.cl .mono{color:var(--faint)}
 .hi{font-size:12.5px;color:var(--ink2);line-height:1.5;margin:3px 0}.hi .mono{color:var(--faint)}
 .hi a{color:var(--ink2)}
-.empty{text-align:center;color:var(--mute);padding:48px 16px}
-button:focus-visible,select:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-@media (max-width:900px){.cols{grid-template-columns:1fr}.d{grid-template-columns:1fr}.wrap{padding:16px 12px 40px}.bar{position:static}}
+.empty{text-align:center;color:var(--mute);padding:48px 16px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+@media (max-width:900px){.cols{grid-template-columns:1fr}.d{grid-template-columns:1fr;padding:0 14px 14px}.dh{margin:0 -14px;padding:10px 14px}.meta{margin-left:0;width:100%}.bar{position:static}.bar input[type=search]{min-width:0;flex:1}}
 __NAVCSS__
 </style></head><body><div class="wrap">
 __NAV__
-<header><div class="logo">审</div>
-<div class="ttl"><h1>星轨 · FD 审稿台</h1><p>仅限内部 · 批准 / HOLD / 改稿 / 要求重写 / 已发布；决定实时同步到运营看板（每 60 秒刷新） · <span id="upd"></span></p></div>
+<header><div class="logo">FD</div>
+<div class="ttl"><h1>FD 审稿后台</h1><p>仅限内部 · 批准 / HOLD / 改稿 / 要求重写 / 已发布；决定实时同步到运营看板（每 60 秒刷新） · <span id="upd"></span></p></div>
 <div class="stats" id="stats"></div></header>
 <div class="cols">
 <section class="panel"><h2>各账号 vs 目标（每号 <span id="tgt"></span> 篇可发）</h2><table id="accts"></table></section>
@@ -338,17 +323,17 @@ __NAV__
 <table id="fbD"></table><div id="fbH" class="hi" style="margin-top:10px"></div></section>
 </div>
 <div class="bar">
-<label>日期 <select id="day"></select></label>
-<label>账号 <select id="fAcct"></select></label>
-<label>状态 <select id="fSt"></select></label>
-<label>语言 <select id="fLang"><option value="">全部</option><option value="zh">中文</option><option value="en">English</option></select></label>
-<label>运行 <select id="fRun"></select></label>
-<label>决定 <select id="fDec"><option value="">全部</option><option value="none">未处理</option><option value="approve">已批准</option><option value="published">已发布</option><option value="hold">已 HOLD</option><option value="rewrite">待重写</option><option value="edit">仅改稿</option><option value="edited">有改稿</option></select></label>
+<label><span class="lbl">日期</span><select id="day"></select></label>
+<label><span class="lbl">账号</span><select id="fAcct"></select></label>
+<label><span class="lbl">状态</span><select id="fSt"></select></label>
+<label><span class="lbl">语言</span><select id="fLang"><option value="">全部</option><option value="zh">中文</option><option value="en">English</option></select></label>
+<label><span class="lbl">运行</span><select id="fRun"></select></label>
+<label><span class="lbl">决定</span><select id="fDec"><option value="">全部</option><option value="none">未处理</option><option value="approve">已批准</option><option value="published">已发布</option><option value="hold">已 HOLD</option><option value="rewrite">待重写</option><option value="edit">仅改稿</option><option value="edited">有改稿</option></select></label>
 <label><input type="checkbox" id="fHard"> 有硬伤</label>
 <label><input type="checkbox" id="fWarn"> 有警告</label>
 <input type="search" id="fQ" placeholder="搜索正文 / 来源 / ID">
 <span class="sp"></span><span class="sync" id="sync"></span>
-<button class="btn" id="rf" title="重新读取最新稿件和所有人的决定">刷新</button><button class="btn" id="exp">导出决定 JSON</button>
+<span class="bx"><button class="btn" id="rf" title="重新读取最新稿件和所有人的决定">__I_REFRESH__<span>刷新</span></button><button class="btn" id="exp">__I_DOWNLOAD__<span>导出决定 JSON</span></button></span>
 </div>
 <div id="shown" class="sync" style="margin:-6px 0 10px"></div>
 <main class="list" id="list"></main></div>
@@ -475,7 +460,7 @@ ${d.claims.length?`<details><summary>论断 → 单元（${d.claims.length}）</
 <div class="dh"><b>${esc(d.name)}</b><span class="tag ${esc(d.status)}">${esc(ST[d.status]||d.status)}</span>${{quote:'<span class="tag mode">引用</span>',reply:'<span class="tag mode">回复</span>'}[d.mode]||''}${d.heat_led?'<span class="tag mode">热度</span>':''}${d.archive?`<span class="tag mode">${d.archive_variant==='evergreen'?'常青':'回看'}</span>`:''}${d.hotspot?'<span class="tag mode hot">热点</span>':''}${act&&act!=='published'?`<span class="tag dec ${act==='approve'?'ready':act==='edit'?'':'HOLD'}">${esc(DEC[act])}</span>`:''}${pub?'<span class="tag dec ready">已发布</span>':''}<span>${esc(d.lang==='en'?'English':'中文')} · ${esc(d.format||d.post_type)}${d.angle?' · '+esc(d.angle):''}</span><span class="meta">${esc(d.time.slice(11,16))} 北京 · ${esc(d.run)} · ${esc(d.models.join(', ')||'-')} · $${d.spend.toFixed(3)} · ${esc(d.id)}</span></div>
 <div><div class="txt${x&&x.text?' edited':''}" lang="${lg}">${esc(text)}</div><div class="cnt">${n} ${d.lang==='en'?'字符':'字'}${x&&x.text?' · 已改稿（原稿 '+[...d.text].length+'）':''}${d.view?' · 观点：'+esc(d.view):''}</div>
 ${d.hotspot?`<div class="mtgt">热点母题：${esc(d.hotspot)}${d.hotspot_meta?` <span class="sm">· ${esc(d.hotspot_meta)}</span>`:''}</div>`:''}${d.archive&&d.archive_url?`<div class="mtgt">${d.archive_variant==='evergreen'?'常青原帖':'回看原帖'}：<a href="${esc(d.archive_url)}" target="_blank" rel="noopener noreferrer">打开原帖</a></div>`:''}${d.target&&d.mode!=='original'?`<div class="mtgt">${d.mode==='reply'?'回复':'引用'}：<a href="${esc(d.target)}" target="_blank" rel="noopener noreferrer">打开原帖</a>${d.mode_why?` <span class="sm">· ${esc(d.mode_why)}</span>`:''}</div>`:''}
-${(d.media||[]).map(m=>`<figure class="img"><a href="/${esc(m.src||m.path)}" target="_blank" rel="noopener"><img src="/${esc(m.src||m.path)}" alt="${esc(m.alt)}" loading="lazy"></a><figcaption><span>${esc([m.credit?'数据：'+m.credit:'',m.updated?'图更新于 北京时间 '+m.updated:''].filter(Boolean).join(' · '))}</span><a class="dl" href="/${esc(m.src||m.path)}" download="${esc(m.path.split('/').pop())}">下载图片</a></figcaption></figure>`).join('')}
+${(d.media||[]).map(m=>`<figure class="img"><a href="/${esc(m.src||m.path)}" target="_blank" rel="noopener"><img src="/${esc(m.src||m.path)}" alt="${esc(m.alt)}" loading="lazy"></a><figcaption><span>${esc([m.credit?'数据：'+m.credit:'',m.updated?'图更新于 北京时间 '+m.updated:''].filter(Boolean).join(' · '))}</span><a class="dl" href="/${esc(m.src||m.path)}" download="${esc(m.path.split('/').pop())}"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>下载图片</a></figcaption></figure>`).join('')}
 <div class="acts"><button class="btn ok${act==='approve'?' on':''}" data-a="approve">批准</button><button class="btn hd${act==='hold'?' on':''}" data-a="hold">HOLD</button><button class="btn" data-a="edit">改稿</button><button class="btn${pub?' on ok':''}" data-a="published" title="人工发出后标记（不会自动发帖）；再点一次撤销">已发布</button><button class="btn${act==='rewrite'?' on rw':''}" data-a="rewrite">要求重写</button>${act||pub||x&&x.text?'<button class="btn" data-a="clear">撤销决定</button>':''}</div>
 <div class="edit" data-panel="edit"><textarea data-f="text" lang="${lg}">${esc(text)}</textarea><div class="acts"><button class="btn pri" data-a="save-approve">保存并批准</button><button class="btn" data-a="save">只保存改稿</button>${x&&x.text?'<button class="btn" data-a="revert">恢复原稿</button>':''}<button class="btn" data-a="cancel">取消</button></div></div>
 <div class="edit" data-panel="note"><textarea class="note" data-f="note" placeholder="HOLD 原因 / 给重写的具体意见"></textarea><div class="acts"><button class="btn pri" data-a="note-ok">提交</button><button class="btn" data-a="cancel">取消</button></div></div></div>
@@ -537,7 +522,7 @@ function fbPanel(){
   $('#fbH').innerHTML=hr("审稿 HOLD / 要求重写",(F.hold_reasons||{}).review)+hr("流水线 HOLD（运营没看到的稿）",(F.hold_reasons||{}).pipeline)+`<div style="color:var(--faint)">原样发 1.0 · 改后发 0.85 · 批准未发 0.6 · 没选（同号当天发了别的稿）0.35 · HOLD 0.1 · 拒绝 0；改稿 diff 只存本地，不在此页。</div>`;
 }
 $('#fbDim').onchange=fbPanel;
-$('#rf').onclick=async()=>{const b=$('#rf');b.disabled=true;b.textContent='刷新中…';await refreshData('no-store');await load();b.disabled=false;b.textContent='刷新'};
+$('#rf').onclick=async()=>{const b=$('#rf'),l=b.querySelector('span');b.disabled=true;l.textContent='刷新中…';await refreshData('no-store');await load();b.disabled=false;l.textContent='刷新'};
 let tick=0;   // decisions every 60 s; the page data (new days / rebuilt drafts) every 5 min
 setInterval(async()=>{if(document.hidden)return;if(++tick%5===0)await refreshData('no-cache');load()},60000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});
@@ -547,9 +532,8 @@ upd();render();load();
 
 
 def root_vars():
-    """The public dashboard's palette (light + dark :root blocks), so both pages share one taste-skill style."""
-    m = re.search(r':root\{.*?\}\}', ops.PAGE, re.S)
-    return m.group(0) if m else ''
+    """The public dashboard's palette (:root block), so both pages share one style."""
+    return ops.ROOT_CSS
 
 
 def build(inbox=ops.INBOX, out=ops.OUT, n_days=3):
@@ -565,7 +549,9 @@ def build(inbox=ops.INBOX, out=ops.OUT, n_days=3):
     updated = max((d['stored'] for v in days.values() for d in v if d['stored']), default='')
     data = json.dumps({'accounts': accounts, 'days': days, 'runs': runs, 'local': local, 'target': TARGET,
                        'updated': updated, 'feedback': feedback_stats()}, ensure_ascii=False, sort_keys=True)
-    page = PAGE.replace('__ROOTVARS__', root_vars()).replace('__NAVCSS__', ops.NAV_CSS).replace('__SHARED__', ops.shared_js())
+    page = (PAGE.replace('__ROOTVARS__', root_vars()).replace('__BASECSS__', ops.BASE_CSS).replace('__NAVCSS__', ops.NAV_CSS)
+            .replace('__I_REFRESH__', ops.icon('refresh')).replace('__I_DOWNLOAD__', ops.icon('download'))
+            .replace('__SHARED__', ops.shared_js()))
     page = page.replace('__NAV__', ops.nav_html('/admin')).replace('__DATA__', data.replace('</', '<\\/'))
     (out / 'admin').mkdir(parents=True, exist_ok=True)
     changed = copy_assets(out)
