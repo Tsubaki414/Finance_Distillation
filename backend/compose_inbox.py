@@ -57,6 +57,19 @@ def _findings(row):
     return '<ul class="f">' + ''.join(out[:12]) + '</ul>' if out else ''
 
 
+def _manual_sources(r):
+    """Oct 8 (media v3): manual_sources from the draft's media_plan — pages operators must screenshot by hand."""
+    srcs = (r.get('media_plan') or {}).get('manual_sources') or []
+    if not srcs:
+        return ''
+    items = ''.join(
+        f'<li><a href="{_esc(s.get("url",""))}" target="_blank" rel="noopener">'
+        f'{_esc(s.get("source",""))}</a> — {_esc(s.get("why",""))}</li>'
+        for s in srcs
+    )
+    return f'<div class="src manual-src">📷 需人工截图：<ul>{items}</ul></div>'
+
+
 def _support(r):
     """Oct 8 (live/x_support.py): the cited support fact of an own-X view packet, with its own source."""
     sup = r.get('support') or {}
@@ -102,6 +115,7 @@ def render(rows, day, *, live=False, summary=None):
                 f'<pre class="body">{_esc(text)}</pre>'
                 f'<div class="src">来源：{_esc(src.get("publisher"))} — {_esc(src.get("title"))} '
                 f'({_esc(str(src.get("published_at") or "")[:10])}) {_esc(src.get("lang"))}</div>'
+                f'{_manual_sources(r)}'
                 f'{_support(r)}'
                 f'<div class="view">立场：{_esc((r.get("stance") or {}).get("account_view"))}</div>'
                 f'{_findings(r)}{form}</div>')
@@ -117,6 +131,8 @@ CSS = '''body{font-family:-apple-system,"PingFang SC",sans-serif;margin:20px;max
 h2{margin-top:28px;border-bottom:1px solid #ddd} h2 small{color:#536471;font-weight:400;font-size:13px}
 .card{border:1px solid #e1e8ed;border-radius:10px;padding:10px 14px;margin:10px 0} .card.hold{background:#fff8e6}
 .meta,.src,.view{color:#536471;font-size:12px;margin:4px 0} .body{white-space:pre-wrap;font-family:inherit;font-size:15px}
+.manual-src{color:#7a4f00;background:#fff9e6;border-radius:4px;padding:3px 6px}
+.manual-src ul{margin:2px 0;padding-left:18px} .manual-src a{color:#7a4f00}
 .f{font-size:12px;color:#8a6d3b;margin:4px 0} .f .hard{color:#c0392b} textarea{width:100%;height:140px}
 .form input{margin:4px 4px 4px 0} .msg{margin-left:8px;color:#1d9bf0} .summary{font-size:11px;background:#f7f9f9;padding:8px}'''
 JS = '''document.querySelectorAll('.form button').forEach(b=>b.onclick=async()=>{const f=b.closest('.form');
