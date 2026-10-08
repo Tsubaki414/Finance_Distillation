@@ -187,10 +187,21 @@ These are learned from donor text and are kept out of git (`.gitignore`):
   browser routine writes `live/store/delphi_digest/<day>.json`. Schema, validation and the licence gate:
   `docs/DELPHI_DIGEST.md`.
 
-## 回看 look-back post type (Oct 8 pilot)
+## Archive drafts: 回看 then-vs-now and 常青 evergreen (Oct 8, all 20 accounts)
 
-- Pilot accounts: `crypto_altcoin_zh`, `crypto_macro_en` and `zh_longterm_investing` (`FD_ARCHIVE`, `live/archive_lookback.json`).
-- When an account is short of fresh ready drafts, it gets one draft that compares a post by its own source from about a year ago (Feb 2025 first) with today's data, plus a then-vs-now chart.
+- `FD_ARCHIVE` (default on) runs for all 20 accounts (`live/archive_lookback.json` `enabled_accounts: "all"`).
+  At most 1 archive draft per account per day: to fill an account with < 2 ready drafts, or as the 2nd post on a slow
+  day (fewer than 2 ready drafts from a source of the last 48 hours).
+- Two variants, alternating by day and account, the other one as fallback:
+  - 回看: a post by the account's own source from about a year ago next to today's data, with a then-vs-now chart.
+    A flash claim card (who, when, claim type) must show the data tests the claim, and a flash fidelity judge
+    holds any misrepresentation.
+  - 常青: a high-engagement, still-true idea (framework / checklist / lesson / explainer) from last year's same-language
+    posts of the account's sources, re-told in the persona's voice with no copying and no stale numbers.
+- Caps: <= 40 twitter241 calls a day (one Top search per handle and month, cached forever, shared across accounts),
+  <= $1 Gemini a day for this path.
+- Rollback: `FD_ARCHIVE=0` (off), `FD_ARCHIVE_ACCOUNTS=<ids>` (narrow, e.g. the 3 pilot ids),
+  `FD_ARCHIVE_EVERGREEN=0` / `FD_ARCHIVE_THEN_NOW=0` (one variant off).
 - See `docs/ARCHIVE_LOOKBACK.md`.
 
 ## Hotspots (Oct 8, Sirius borrow; `FD_HOTSPOT`, default 1)

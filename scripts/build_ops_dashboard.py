@@ -136,6 +136,7 @@ def media_of(row):
             # 回看 (live/archive_lookback.py): label + the old post it looks back at
             'archive': row.get('post_kind') == 'archive_lookback',
             'archive_url': (row.get('archive') or {}).get('original_url') or '',
+            'archive_variant': (row.get('archive') or {}).get('variant') or 'then_vs_now',   # evergreen = 常青
             'media': [{'path': m['path'], 'alt': m.get('alt') or '',
                        # ?v=<sha> so a chart refreshed in place (scripts/refresh_charts.py) is not served from cache
                        'src': m['path'] + (f"?v={m['sha256'][:12]}" if m.get('sha256') else ''),
@@ -478,7 +479,7 @@ function card(d,hidden,posted){
   }else body=`<div class="txt" lang="${lg}">${esc(d.text)}</div><div class="cnt">${cnt(d.text,d.xw,d.lang)}</div>`;
   const ML={quote:'引用',reply:'回复'};
   const rv=(d.decision==='approve'||d.decision==='published'?'<span class="tg ok">审稿已批准</span>':'')+(d.edited?'<span class="tg ok">审稿已改稿</span>':'');
-  const mode=(ML[d.mode]||d.heat_led||d.archive||d.hotspot||rv)?`<div class="mode">${rv}${d.hotspot?`<span class="tg ht">热点</span><span>${esc(d.hotspot)}</span>`:''}${d.archive?'<span class="tg">回看</span>':''}${ML[d.mode]?`<span class="tg">${ML[d.mode]}</span>`:''}${d.heat_led?'<span class="tg ht">热度</span>':''}${ML[d.mode]&&d.target?`<a href="${esc(d.target)}" target="_blank" rel="noopener noreferrer">打开原帖</a>`:''}${d.archive&&d.archive_url?`<a href="${esc(d.archive_url)}" target="_blank" rel="noopener noreferrer">回看原帖</a>`:''}</div>`:'';
+  const mode=(ML[d.mode]||d.heat_led||d.archive||d.hotspot||rv)?`<div class="mode">${rv}${d.hotspot?`<span class="tg ht">热点</span><span>${esc(d.hotspot)}</span>`:''}${d.archive?`<span class="tg">${d.archive_variant==='evergreen'?'常青':'回看'}</span>`:''}${ML[d.mode]?`<span class="tg">${ML[d.mode]}</span>`:''}${d.heat_led?'<span class="tg ht">热度</span>':''}${ML[d.mode]&&d.target?`<a href="${esc(d.target)}" target="_blank" rel="noopener noreferrer">打开原帖</a>`:''}${d.archive&&d.archive_url?`<a href="${esc(d.archive_url)}" target="_blank" rel="noopener noreferrer">${d.archive_variant==='evergreen'?'常青原帖':'回看原帖'}</a>`:''}</div>`:'';
   const imgs=(d.media||[]).map(m=>`<figure class="img"><a href="${esc(m.src||m.path)}" target="_blank" rel="noopener"><img src="${esc(m.src||m.path)}" alt="${esc(m.alt)}" loading="lazy"></a><figcaption><span>${esc([m.credit?'数据：'+m.credit:'',m.updated?'图更新于 北京时间 '+m.updated:''].filter(Boolean).join(' · '))}</span><a class="dl" href="${esc(m.src||m.path)}" download="${esc(m.path.split('/').pop())}">下载图片</a></figcaption></figure>`).join('');
   body=mode+body+imgs;
   return `<div class="post${p?' posted':''}${ready?'':' notready'}${hidden?' hide':''}" data-id="${esc(d.id)}"><div class="ph"><small>建议发出（北京时间）</small><span class="tm">${when(d.time)}</span>${st}</div>${d.note?`<div class="note${d.note.startsWith('改派自')?' mv':''}">${esc(d.note)}</div>`:''}${body}
