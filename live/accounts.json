@@ -926,31 +926,13 @@
           },
           {
             "handle": "ThierryBorgeat",
-            "weight": 0.1,
+            "weight": 0.25,
             "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
             "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
-            "handle": "Shaughnessy119",
-            "weight": 0.1,
-            "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "DoveyWan",
-            "weight": 0.1,
-            "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "lazyvillager1",
-            "weight": 0.1,
-            "why": "gap fill 2026-10-07: 1-hop following of existing en donors DaanCrypto/Pentosh1/SalsaTekila/gammichan",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
             "handle": "WillieDelwiche",
-            "weight": 0.1,
+            "weight": 0.25,
             "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
             "merged": "mango-merge-2026-10-07+seeds2"
           }
@@ -964,9 +946,6 @@
           "base_share": 0.5,
           "added": [
             "ThierryBorgeat",
-            "Shaughnessy119",
-            "DoveyWan",
-            "lazyvillager1",
             "WillieDelwiche"
           ]
         }
@@ -1028,32 +1007,20 @@
           },
           {
             "handle": "zephyr_z9",
-            "weight": 0.1,
+            "weight": 0.1667,
             "why": "gap fill 2026-10-07: 1-hop following of existing en donors DaanCrypto/Pentosh1/SalsaTekila/gammichan",
             "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "ParadisLabs",
-            "weight": 0.1,
+            "weight": 0.1667,
             "why": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
             "merged": "mango-merge-2026-10-07+seeds2"
           },
           {
             "handle": "FredaDuan",
-            "weight": 0.1,
+            "weight": 0.1667,
             "why": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "DeFiMinty",
-            "weight": 0.1,
-            "why": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "Shaughnessy119",
-            "weight": 0.1,
-            "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
             "merged": "mango-merge-2026-10-07+seeds2"
           }
         ],
@@ -1065,9 +1032,7 @@
           "added": [
             "zephyr_z9",
             "ParadisLabs",
-            "FredaDuan",
-            "DeFiMinty",
-            "Shaughnessy119"
+            "FredaDuan"
           ]
         }
       }

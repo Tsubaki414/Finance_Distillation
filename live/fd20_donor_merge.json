@@ -917,7 +917,6 @@
   },
   "zh_us_stocks": {
    "donors": [
-    "silverfang88",
     "shirleyusy",
     "YaelC_03",
     "woody168888",
@@ -945,7 +944,6 @@
   },
   "zh_longterm_investing": {
    "donors": [
-    "yuyue_chris",
     "starzq",
     "woody168888",
     "shirleyusy",
@@ -1182,9 +1180,6 @@
   "investing_philosophy": {
    "donors": [
     "ThierryBorgeat",
-    "Shaughnessy119",
-    "DoveyWan",
-    "lazyvillager1",
     "WillieDelwiche"
    ],
    "x_sources": {
@@ -1212,9 +1207,7 @@
    "donors": [
     "zephyr_z9",
     "ParadisLabs",
-    "FredaDuan",
-    "DeFiMinty",
-    "Shaughnessy119"
+    "FredaDuan"
    ],
    "x_sources": {
     "CORE": [
@@ -1328,5 +1321,71 @@
    "new_promo_share": 0.074
   }
  ],
- "seeds2_note": "2026-10-07 seeds2 pass: weak donors (<150 originals or weak beat fit) replaced only when a seeds2 candidate was clearly better; willywoo/cburniske/Truecrypto/RyanWatkins_/LowBeta/MarkNewtonCMT topped up to >=150 via Apify instead of replaced; EleanorTerrett/novogratz kept as SECONDARY sources only; sources skipped: {\"0xc06\": \"LLM read promo 0.40\", \"0xjeff\": \"LLM read promo 0.29\", \"qingyue820\": \"sponsored invite codes + explicit off-topic content\"}"
+ "seeds2_note": "2026-10-07 seeds2 pass: weak donors (<150 originals or weak beat fit) replaced only when a seeds2 candidate was clearly better; willywoo/cburniske/Truecrypto/RyanWatkins_/LowBeta/MarkNewtonCMT topped up to >=150 via Apify instead of replaced; EleanorTerrett/novogratz kept as SECONDARY sources only; sources skipped: {\"0xc06\": \"LLM read promo 0.40\", \"0xjeff\": \"LLM read promo 0.29\", \"qingyue820\": \"sponsored invite codes + explicit off-topic content\"}",
+ "removed": [
+  {
+   "account": "zh_us_stocks",
+   "handle": "silverfang88",
+   "kind": "merged",
+   "reason": "crypto altcoin / BSC trading and explicit sexual jokes in the last 60 days; little US single-stock analysis",
+   "at": "2026-10-08 pm-voice donor review"
+  },
+  {
+   "account": "investing_philosophy",
+   "handle": "DoveyWan",
+   "kind": "merged",
+   "reason": "crypto / China / AI commentary (category crypto_macro); no investing-principles writing",
+   "at": "2026-10-08 pm-voice donor review"
+  },
+  {
+   "account": "investing_philosophy",
+   "handle": "lazyvillager1",
+   "kind": "merged",
+   "reason": "crypto-macro stream of consciousness (category crypto_macro); off the risk / behaviour / long-term beat",
+   "at": "2026-10-08 pm-voice donor review"
+  },
+  {
+   "account": "investing_philosophy",
+   "handle": "Shaughnessy119",
+   "kind": "merged",
+   "reason": "angel-investment congratulations, AI / gaming launches and personal notes; not investing philosophy",
+   "at": "2026-10-08 pm-voice donor review"
+  },
+  {
+   "account": "single_stock_deepdive_en",
+   "handle": "Shaughnessy119",
+   "kind": "merged",
+   "reason": "angel-investment congratulations and AI / gaming launches; no single-company earnings or filings takes",
+   "at": "2026-10-08 pm-voice donor review"
+  },
+  {
+   "account": "single_stock_deepdive_en",
+   "handle": "DeFiMinty",
+   "kind": "merged",
+   "reason": "last 60 days are AI model / tool reviews (subscriptions, Claude, Jev); no single-company earnings or filings",
+   "at": "2026-10-08 pm-voice donor review"
+  },
+  {
+   "account": "zh_longterm_investing",
+   "handle": "yuyue_chris",
+   "kind": "merged",
+   "reason": "OKX earn / airdrop promotions and crypto event notes; not index funds or portfolio discipline",
+   "at": "2026-10-08 pm-voice donor review"
+  },
+  {
+   "account": "zh_us_stocks",
+   "handle": "huahuayjy",
+   "kind": "base",
+   "reason": "crypto meme calls and leveraged US-stock bets (梭哈 2x long), vulgar hype; 0.12 originals/day, none in the 7 days before 10-08",
+   "at": "2026-10-08 pm-voice donor review"
+  },
+  {
+   "account": "zh_longterm_investing",
+   "handle": "nbblock",
+   "kind": "base",
+   "reason": "crypto alt-coin calls with paid-channel promotion (频道里 0.5 让大家上车); off the long-term investing beat",
+   "at": "2026-10-08 pm-voice donor review"
+  }
+ ],
+ "removed_note": "2026-10-08 pm-voice donor review: off-topic donors removed (evidence: last-60-day theme mix + read of recent originals); replacements are proposals for the PM, not applied."
 }

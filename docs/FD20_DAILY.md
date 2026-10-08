@@ -224,6 +224,13 @@ These are learned from donor text and are kept out of git (`.gitignore`):
 - 70 tier-B X sources from the Sirius list, mapped to accounts by donor theme mix + donor mentions
   (`live/x_breadth.json`), fetched by batched search, <= 20 twitter241 calls a day (`FD_X_BREADTH=0` turns it off).
 - Daily compose budget default $8. See `docs/TOPIC_DIVERSITY.md`.
+- Oct 8 pm-voice: the Sirius list had 0 handles for market_data_charts, so its 12 breadth handles come from its own
+  donors' @-mentions (`scripts/x_breadth.py mentions --account market_data_charts`, then `evaluate --lookup
+  --candidates ...` and `assign --accounts market_data_charts --merge`, which adds picks and keeps every other
+  handle). Same `usable` / org / score rules; `live/x_breadth.json` "merged" records the addition.
+- Oct 8 donor review (zh_us_stocks, single_stock_deepdive_en, investing_philosophy, zh_longterm_investing): off-topic
+  donors removed from `live/donors/roster.json` + `live/fd20_donor_merge.json` ("removed" lists handle, account and
+  reason); weights re-derived by `scripts/persona_factory.py`. Voice / signature cards stay local (not in git).
 
 ## Quality / reliability (Oct 8 PM P1, `fd-pm-quality`)
 

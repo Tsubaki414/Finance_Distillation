@@ -1014,31 +1014,13 @@
     },
     {
      "handle": "ThierryBorgeat",
-     "weight": 0.1,
+     "weight": 0.25,
      "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT"
     },
     {
-     "handle": "Shaughnessy119",
-     "weight": 0.1,
-     "merged": "mango-merge-2026-10-07+seeds2",
-     "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
-    },
-    {
-     "handle": "DoveyWan",
-     "weight": 0.1,
-     "merged": "mango-merge-2026-10-07+seeds2",
-     "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
-    },
-    {
-     "handle": "lazyvillager1",
-     "weight": 0.1,
-     "merged": "mango-merge-2026-10-07+seeds2",
-     "why": "gap fill 2026-10-07: 1-hop following of existing en donors DaanCrypto/Pentosh1/SalsaTekila/gammichan"
-    },
-    {
      "handle": "WillieDelwiche",
-     "weight": 0.1,
+     "weight": 0.25,
      "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT"
     }
@@ -1054,11 +1036,18 @@
     "base_share": 0.5,
     "added": [
      "ThierryBorgeat",
-     "Shaughnessy119",
-     "DoveyWan",
-     "lazyvillager1",
      "WillieDelwiche"
     ]
+   },
+   "review": {
+    "at": "2026-10-08",
+    "by": "pm-voice donor review",
+    "removed": [
+     "DoveyWan",
+     "Shaughnessy119",
+     "lazyvillager1"
+    ],
+    "note": "off-topic donors removed, remaining weights renormalised; see live/fd20_donor_merge.json \"removed\""
    }
   },
   "acct_single_stock_deepdive_en": {
@@ -1096,33 +1085,21 @@
     },
     {
      "handle": "zephyr_z9",
-     "weight": 0.1,
+     "weight": 0.1667,
      "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors DaanCrypto/Pentosh1/SalsaTekila/gammichan"
     },
     {
      "handle": "ParadisLabs",
-     "weight": 0.1,
+     "weight": 0.1667,
      "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)"
     },
     {
      "handle": "FredaDuan",
-     "weight": 0.1,
+     "weight": 0.1667,
      "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)"
-    },
-    {
-     "handle": "DeFiMinty",
-     "weight": 0.1,
-     "merged": "mango-merge-2026-10-07+seeds2",
-     "why": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
-    },
-    {
-     "handle": "Shaughnessy119",
-     "weight": 0.1,
-     "merged": "mango-merge-2026-10-07+seeds2",
-     "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     }
    ],
    "bench": [
@@ -1136,10 +1113,17 @@
     "added": [
      "zephyr_z9",
      "ParadisLabs",
-     "FredaDuan",
+     "FredaDuan"
+    ]
+   },
+   "review": {
+    "at": "2026-10-08",
+    "by": "pm-voice donor review",
+    "removed": [
      "DeFiMinty",
      "Shaughnessy119"
-    ]
+    ],
+    "note": "off-topic donors removed, remaining weights renormalised; see live/fd20_donor_merge.json \"removed\""
    }
   },
   "acct_crypto_macro_en": {
@@ -1634,52 +1618,42 @@
    "lang": "zh",
    "donors": [
     {
-     "handle": "huahuayjy",
-     "weight": 0.1
-    },
-    {
      "handle": "wufantouzi",
-     "weight": 0.1
+     "weight": 0.125
     },
     {
      "handle": "ArtofSpecuycky",
-     "weight": 0.1
+     "weight": 0.125
     },
     {
      "handle": "SVScholar",
-     "weight": 0.1
+     "weight": 0.125
     },
     {
      "handle": "xiaomustock",
-     "weight": 0.1
-    },
-    {
-     "handle": "silverfang88",
-     "weight": 0.1,
-     "merged": "mango-merge-2026-10-07+seeds2",
-     "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
+     "weight": 0.125
     },
     {
      "handle": "shirleyusy",
-     "weight": 0.1,
+     "weight": 0.125,
      "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "YaelC_03",
-     "weight": 0.1,
+     "weight": 0.125,
      "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)"
     },
     {
      "handle": "woody168888",
-     "weight": 0.1,
+     "weight": 0.125,
      "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "darrencao2024",
-     "weight": 0.1,
+     "weight": 0.125,
      "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)"
     }
@@ -1690,12 +1664,20 @@
     "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
-     "silverfang88",
      "shirleyusy",
      "YaelC_03",
      "woody168888",
      "darrencao2024"
     ]
+   },
+   "review": {
+    "at": "2026-10-08",
+    "by": "pm-voice donor review",
+    "removed": [
+     "huahuayjy",
+     "silverfang88"
+    ],
+    "note": "off-topic donors removed, remaining weights renormalised; see live/fd20_donor_merge.json \"removed\""
    }
   },
   "acct_zh_longterm_investing": {
@@ -1703,51 +1685,41 @@
    "donors": [
     {
      "handle": "cishanjia",
-     "weight": 0.1
+     "weight": 0.125
     },
     {
      "handle": "thcaroline2233",
-     "weight": 0.1
+     "weight": 0.125
     },
     {
      "handle": "fannaoxiaoyang",
-     "weight": 0.1
-    },
-    {
-     "handle": "nbblock",
-     "weight": 0.1
+     "weight": 0.125
     },
     {
      "handle": "xingpt",
-     "weight": 0.1
-    },
-    {
-     "handle": "yuyue_chris",
-     "weight": 0.1,
-     "merged": "mango-merge-2026-10-07+seeds2",
-     "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
+     "weight": 0.125
     },
     {
      "handle": "starzq",
-     "weight": 0.1,
+     "weight": 0.125,
      "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "woody168888",
-     "weight": 0.1,
+     "weight": 0.125,
      "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "shirleyusy",
-     "weight": 0.1,
+     "weight": 0.125,
      "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "erchenlu1",
-     "weight": 0.1,
+     "weight": 0.125,
      "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)"
     }
@@ -1758,12 +1730,20 @@
     "version": "mango-merge-2026-10-07+seeds2",
     "base_share": 0.5,
     "added": [
-     "yuyue_chris",
      "starzq",
      "woody168888",
      "shirleyusy",
      "erchenlu1"
     ]
+   },
+   "review": {
+    "at": "2026-10-08",
+    "by": "pm-voice donor review",
+    "removed": [
+     "nbblock",
+     "yuyue_chris"
+    ],
+    "note": "off-topic donors removed, remaining weights renormalised; see live/fd20_donor_merge.json \"removed\""
    }
   },
   "acct_crypto_onchain_en": {

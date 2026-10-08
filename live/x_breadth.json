@@ -6,6 +6,28 @@
  "pages_per_batch": 4,
  "per_account": 8,
  "built_at": "2026-10-08T07:00:49+00:00",
+ "merged": [
+  {
+   "at": "2026-10-08T09:03:32+00:00",
+   "accounts": [
+    "market_data_charts"
+   ],
+   "added": [
+    "Callum_Thomas",
+    "LizAnnSonders",
+    "RyanDetrick",
+    "WarrenPies",
+    "alfcharts",
+    "charliebilello",
+    "frankcappelleri",
+    "ginamartinadams",
+    "jaykaeppel",
+    "jaywoods3",
+    "jc_paretsx",
+    "scottcharts"
+   ]
+  }
+ ],
  "exclude": {
   "Pumpfun": "project account (manual)",
   "RobinhoodCrypto": "company account (manual)"
@@ -205,6 +227,16 @@
    },
    "originals_per_day": 2.92
   },
+  "alfcharts": {
+   "lang": "en",
+   "accounts": [
+    "market_data_charts"
+   ],
+   "scores": {
+    "market_data_charts": 0.7295
+   },
+   "originals_per_day": 0.54
+  },
   "AndrewCurran_": {
    "lang": "en",
    "accounts": [
@@ -297,6 +329,16 @@
    },
    "originals_per_day": 2.51
   },
+  "Callum_Thomas": {
+   "lang": "en",
+   "accounts": [
+    "market_data_charts"
+   ],
+   "scores": {
+    "market_data_charts": 0.6731
+   },
+   "originals_per_day": 2.92
+  },
   "Cato_KT": {
    "lang": "zh",
    "accounts": [
@@ -308,6 +350,16 @@
     "crypto_onchain_zh": 0.7331
    },
    "originals_per_day": 4.62
+  },
+  "charliebilello": {
+   "lang": "en",
+   "accounts": [
+    "market_data_charts"
+   ],
+   "scores": {
+    "market_data_charts": 0.6299
+   },
+   "originals_per_day": 4.29
   },
   "cremieuxrecueil": {
    "lang": "en",
@@ -352,6 +404,26 @@
     "defi_narratives_en": 0.7421
    },
    "originals_per_day": 3.76
+  },
+  "frankcappelleri": {
+   "lang": "en",
+   "accounts": [
+    "market_data_charts"
+   ],
+   "scores": {
+    "market_data_charts": 0.7656
+   },
+   "originals_per_day": 0.82
+  },
+  "ginamartinadams": {
+   "lang": "en",
+   "accounts": [
+    "market_data_charts"
+   ],
+   "scores": {
+    "market_data_charts": 0.7261
+   },
+   "originals_per_day": 0.48
   },
   "Goupenguin": {
    "lang": "zh",
@@ -412,6 +484,36 @@
     "crypto_thesis_en": 0.7741
    },
    "originals_per_day": 0.94
+  },
+  "jaykaeppel": {
+   "lang": "en",
+   "accounts": [
+    "market_data_charts"
+   ],
+   "scores": {
+    "market_data_charts": 0.7136
+   },
+   "originals_per_day": 0.94
+  },
+  "jaywoods3": {
+   "lang": "en",
+   "accounts": [
+    "market_data_charts"
+   ],
+   "scores": {
+    "market_data_charts": 0.7841
+   },
+   "originals_per_day": 1.2
+  },
+  "jc_paretsx": {
+   "lang": "en",
+   "accounts": [
+    "market_data_charts"
+   ],
+   "scores": {
+    "market_data_charts": 0.8322
+   },
+   "originals_per_day": 7.9
   },
   "jennyukim_bnb": {
    "lang": "en",
@@ -480,6 +582,16 @@
     "zh_us_stocks": 0.8184
    },
    "originals_per_day": 1.13
+  },
+  "LizAnnSonders": {
+   "lang": "en",
+   "accounts": [
+    "market_data_charts"
+   ],
+   "scores": {
+    "market_data_charts": 0.7022
+   },
+   "originals_per_day": 16.0
   },
   "mackpeterm88538": {
    "lang": "zh",
@@ -629,6 +741,16 @@
    },
    "originals_per_day": 0.79
   },
+  "RyanDetrick": {
+   "lang": "en",
+   "accounts": [
+    "market_data_charts"
+   ],
+   "scores": {
+    "market_data_charts": 0.7095
+   },
+   "originals_per_day": 9.0
+  },
   "Saccc_c": {
    "lang": "zh",
    "accounts": [
@@ -650,6 +772,16 @@
     "single_stock_deepdive_en": 0.5027
    },
    "originals_per_day": 0.74
+  },
+  "scottcharts": {
+   "lang": "en",
+   "accounts": [
+    "market_data_charts"
+   ],
+   "scores": {
+    "market_data_charts": 0.8006
+   },
+   "originals_per_day": 0.64
   },
   "sunlc_crypto": {
    "lang": "zh",
@@ -746,6 +878,16 @@
     "crypto_macro_en": 0.6574
    },
    "originals_per_day": 0.77
+  },
+  "WarrenPies": {
+   "lang": "en",
+   "accounts": [
+    "market_data_charts"
+   ],
+   "scores": {
+    "market_data_charts": 0.7086
+   },
+   "originals_per_day": 0.68
   },
   "WOLF_Bitcoin_": {
    "lang": "en",

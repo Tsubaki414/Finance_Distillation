@@ -80,6 +80,40 @@ def candidates(sirius, exclude, mentions):
     return sorted(out, key=lambda r: (-r[2], r[0].lower()))
 
 
+def mention_candidates(by_donor, exclude, uids=None, min_donors=2, extra=()):
+    """Oct 8 (market_data_charts had 0 Sirius handles): [(handle, user_id, mention total, {donor: n})] from one
+    account's donor @-mention graph. A handle needs >= min_donors distinct donors citing it; `extra` (e.g. unused
+    verified roster donors of the account's category) needs one. Existing sources / donors and org-looking
+    handles are left out, like candidates()."""
+    uids = {k.lower(): v for k, v in (uids or {}).items()}
+    extra = {h.lower() for h in extra}
+    out = []
+    for h, donors in by_donor.items():
+        hl = h.lower()
+        if hl in exclude or ORG_HANDLE.search(h) or len(donors) < (0 if hl in extra and not donors else 1 if hl in extra else min_donors):
+            continue
+        out.append((h, str(uids.get(hl) or ''), sum(donors.values()), dict(donors)))
+    return sorted(out, key=lambda r: (-len(r[3]), -r[2], r[0].lower()))
+
+
+def merge_assigned(handles, picked, evals, accounts):
+    """Config `handles` with the picks for `accounts` added (other handles and accounts untouched)."""
+    out = {h: dict(v, accounts=list(v.get('accounts') or []), scores=dict(v.get('scores') or {}))
+           for h, v in (handles or {}).items()}
+    low = {h.lower(): h for h in out}
+    for aid in accounts:
+        for h, score, _why in picked.get(aid) or []:
+            key = low.get(h.lower(), h)
+            e = evals[h.lower()]
+            row = out.setdefault(key, {'lang': e['lang'], 'accounts': [], 'scores': {},
+                                       'originals_per_day': e['originals_per_day']})
+            low[h.lower()] = key
+            if aid not in row['accounts']:
+                row['accounts'].append(aid)
+            row['scores'][aid] = score
+    return dict(sorted(out.items(), key=lambda kv: kv[0].lower()))
+
+
 def user_of(page, uid):
     """The timeline owner's profile fields (legacy + verified flags) from a /user-tweets page."""
     found = {}
