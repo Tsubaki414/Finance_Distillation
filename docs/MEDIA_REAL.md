@@ -94,3 +94,7 @@ shown on a public site, add the TradingView attribution notice there.
 - `FD_MEDIA_V2=0`: rollback to the Oct 7 path (`charts.attach_v1`, unchanged).
 - `FD_MEDIA_CAPTURE=0`: no public-page captures; everything is rendered locally.
 - `FD_CAPTURE_PYTHON`, `FD_CHROME`: override the capture interpreter or browser.
+
+## Media v3 (same day)
+
+The donors' images were traced to their sources and v3 takes images from those sources where their terms allow: X post embeds, Farside / SoSoValue ETF flow tables, Polymarket embeds. See `docs/MEDIA_SOURCES.md`. `FD_MEDIA_SOURCES=0` restores this v2 behaviour exactly.

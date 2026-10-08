@@ -18,6 +18,15 @@ images of the family, because 6 images per account is thin.
 
   python3 scripts/build_media_profiles.py --classes /workspace/x/charts_real/classes.json \
       --meta /workspace/x/charts_real/donor_meta.json
+
+Media v3 (Oct 8, --attribution): every sampled donor image traced to its source (site / app / page, see
+docs/MEDIA_SOURCES.md), one record per image: {accounts, style, theme, tall}. style is the media style that source
+maps to (TradingView -> tv_drawn / tv_widget, exchange / broker apps -> mobile, data sites / research / own charts ->
+panel, tables -> table, X post screenshots -> x_post, news / flash screenshots -> article, ETF flow dashboards ->
+etf_flows, Polymarket -> polymarket) or null (photos, memes, promos, chats: nothing we post). The account's current
+numbers are kept under "v2" so FD_MEDIA_SOURCES=0 restores them exactly.
+
+  python3 scripts/build_media_profiles.py --attribution /workspace/x/media_sources/attribution.json
 """
 from __future__ import annotations
 
@@ -39,6 +48,10 @@ STYLE_OF = {'tradingview_chart': 'tv', 'exchange_app_screenshot': 'mobile', 'ter
             'table_or_data_screenshot': 'table', 'onchain_analytics_panel': 'panel',
             'research_report_chart': 'panel', 'macro_data_chart': 'panel'}
 STYLES = ('tv_drawn', 'tv_widget', 'mobile', 'table', 'panel')
+STYLES_V3 = STYLES + ('x_post', 'article', 'etf_flows', 'polymarket')
+# styles that count towards p_image: article screenshots mostly come from sites we may not load (manual only), so
+# they get a weight (used when the draft's source is an allow-listed site) but do not raise how often we post images
+PRODUCIBLE = set(STYLES_V3) - {'article'}
 
 
 def family(acct):
@@ -95,15 +108,91 @@ def blend(own, fam):
             'tall_share': mix(own['tall_share'], fam['tall_share'])}
 
 
+def tally_v3(records):
+    c = collections.Counter()
+    for r in records:
+        c['images'] += 1
+        st = r.get('style')
+        if not st:
+            continue
+        c['styled'] += 1
+        c['style:' + st] += 1
+        if st in PRODUCIBLE:
+            c['producible'] += 1
+            c['light' if r.get('theme') == 'light' else 'dark'] += 1
+            c['tall' if r.get('tall') else 'wide'] += 1
+    return c
+
+
+def shares_v3(c):
+    styled = max(c['styled'], 1)
+    return {'chart_share': c['producible'] / max(c['images'], 1),
+            'styles': {s: c['style:' + s] / styled for s in STYLES_V3},
+            'light_share': c['light'] / max(c['light'] + c['dark'], 1),
+            'tall_share': c['tall'] / max(c['tall'] + c['wide'], 1), 'n': c['images']}
+
+
+def blend_v3(own, fam):
+    w = own['n'] / (own['n'] + PRIOR_N)
+    mix = lambda a, b: round(w * a + (1 - w) * b, 3)   # noqa: E731
+    return {'chart_share': mix(own['chart_share'], fam['chart_share']),
+            'styles': {s: mix(own['styles'][s], fam['styles'][s]) for s in STYLES_V3},
+            'light_share': mix(own['light_share'], fam['light_share']),
+            'tall_share': mix(own['tall_share'], fam['tall_share'])}
+
+
+def main_v3(args):
+    recs = json.loads(args.attribution.read_text())
+    roster = json.loads(args.roster.read_text())
+    accounts = json.loads(args.accounts.read_text())['accounts']
+    fam_of = {a['id']: family(a) for a in accounts}
+    old = json.loads(args.out.read_text()) if args.out.exists() else {'accounts': {}}
+    by_acct, by_fam = collections.defaultdict(list), collections.defaultdict(list)
+    for r in recs:
+        for a in r['accounts']:
+            by_acct[a].append(r)
+        by_fam[fam_of[r['accounts'][0]]].append(r)
+    fam_shares = {f: shares_v3(tally_v3(r)) for f, r in by_fam.items()}
+    rnd = lambda d: {k: (round(v, 3) if isinstance(v, float) else {s: round(x, 3) for s, x in v.items()}   # noqa: E731
+                         if isinstance(v, dict) else v) for k, v in d.items()}
+    out = {'version': 3, 'built': date.today().isoformat(),
+           'method': ('media v3: image_rate = photo share of the donors\' 40 most recent original posts; styles = the '
+                      'attributed source mix of a sample of recent donor images (each image traced to the site / app / '
+                      f'page it came from), blended with the account family at {PRIOR_N} pseudo images. '
+                      'p_image = image_rate x share of donor images in a source we can produce (non-charts and '
+                      'article screenshots excluded). v2 = the Oct 8 numbers (FD_MEDIA_SOURCES=0). Aggregates only.'),
+           'families': {f: rnd(s) for f, s in sorted(fam_shares.items())},
+           'families_v2': old.get('families_v2') or old.get('families') or {}, 'accounts': {}}
+    for a in accounts:
+        prev = old['accounts'].get(a['id']) or {}
+        v2 = prev.get('v2') or {k: prev[k] for k in ('p_image', 'chart_share', 'styles', 'light_share', 'tall_share')
+                                if k in prev}
+        rate, n_posts = image_rate(a['id'], roster, args.posts)
+        b = blend_v3(shares_v3(tally_v3(by_acct[a['id']])), fam_shares[fam_of[a['id']]])
+        out['accounts'][a['id']] = {'family': fam_of[a['id']], 'image_rate': round(rate, 3), 'posts_seen': n_posts,
+                                    'sampled_images': len(by_acct[a['id']]), **b,
+                                    'p_image': round(rate * b['chart_share'], 3), 'v2': v2}
+    args.out.write_text(json.dumps(out, indent=1, ensure_ascii=False) + '\n')
+    for k, v in out['accounts'].items():
+        top = sorted(v['styles'].items(), key=lambda x: -x[1])[:5]
+        print(f"{k:26} rate {v['image_rate']:.2f} producible {v['chart_share']:.2f} p {v['p_image']:.2f} "
+              f"(v2 {v['v2'].get('p_image')}) light {v['light_share']:.2f} {top}")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument('--classes', type=Path, required=True)
-    ap.add_argument('--meta', type=Path, required=True)
+    ap.add_argument('--attribution', type=Path, help='media v3: per-image source attribution records')
+    ap.add_argument('--classes', type=Path)
+    ap.add_argument('--meta', type=Path)
     ap.add_argument('--posts', type=Path, default=ROOT / 'live/donors/posts')
     ap.add_argument('--roster', type=Path, default=ROOT / 'live/donors/roster.json')
     ap.add_argument('--accounts', type=Path, default=ROOT / 'live/fd20_accounts.json')
     ap.add_argument('--out', type=Path, default=OUT)
     args = ap.parse_args()
+    if args.attribution:
+        return main_v3(args)
+    if not (args.classes and args.meta):
+        ap.error('--classes and --meta (v2) or --attribution (v3)')
     classes = json.loads(args.classes.read_text())
     meta = json.loads(args.meta.read_text())['images']
     roster = json.loads(args.roster.read_text())

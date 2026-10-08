@@ -6,7 +6,11 @@ offline (every non-file request is aborted). Public pages: one page load, no cli
 
 job: {"url": "https://..." | "html": "/abs/file.html", "out": "/abs/out.png", "viewport": [w, h], "dpr": 2,
       "selector": optional CSS selector to screenshot, "clip": optional [x, y, w, h], "wait_ms": 2500,
-      "wait_for": optional selector, "timeout_ms": 45000, "ready_flag": optional JS expression that must be true}
+      "wait_for": optional selector, "timeout_ms": 45000, "ready_flag": optional JS expression that must be true,
+      "hide": optional CSS selectors hidden before the shot (cookie / consent / geo banners: hidden, never clicked),
+      "clip_js": optional JS expression returning [x, y, w, h] (page CSS px) to crop to, null -> fail,
+      "text_probe": true -> result info.text = the page's visible text (first 2000 chars), for blank / wall checks,
+      "color_scheme": "light" | "dark"}
 
 Chromium: playwright's bundled build when installed, else FD_CHROME (default /usr/bin/google-chrome) headless.
 """
@@ -30,7 +34,8 @@ def run(job):
         try:
             ctx = browser.new_context(viewport={'width': vw, 'height': vh}, device_scale_factor=job.get('dpr', 2),
                                       locale=job.get('locale', 'en-US'), storage_state=None,
-                                      user_agent=None, java_script_enabled=True, accept_downloads=False)
+                                      user_agent=None, java_script_enabled=True, accept_downloads=False,
+                                      color_scheme=job.get('color_scheme') or 'light')
             page = ctx.new_page()
             timeout = job.get('timeout_ms', 45000)
             if job.get('html'):
@@ -43,9 +48,18 @@ def run(job):
             if job.get('ready_flag'):
                 page.wait_for_function(job['ready_flag'], timeout=timeout)
             page.wait_for_timeout(job.get('wait_ms', 1500))
+            if job.get('hide'):
+                page.add_style_tag(content=', '.join(job['hide']) + ' { display: none !important; }')
+                page.wait_for_timeout(200)
             out = Path(job['out'])
             out.parent.mkdir(parents=True, exist_ok=True)
-            if job.get('selector'):
+            clip = page.evaluate(job['clip_js']) if job.get('clip_js') else None
+            if job.get('clip_js') and not clip:
+                raise RuntimeError('clip_js found nothing to crop')
+            if clip:
+                x, y, w, h = [float(v) for v in clip]
+                page.screenshot(path=str(out), clip={'x': x, 'y': y, 'width': w, 'height': h}, full_page=True)
+            elif job.get('selector'):
                 page.locator(job['selector']).first.screenshot(path=str(out))
             elif job.get('clip'):
                 x, y, w, h = job['clip']
@@ -53,6 +67,8 @@ def run(job):
             else:
                 page.screenshot(path=str(out))
             info = page.evaluate('() => window.__chartInfo || null') if job.get('html') else None
+            if job.get('text_probe'):
+                info = {**(info or {}), 'text': page.evaluate('() => (document.body && document.body.innerText || "").slice(0, 2000)')}
             ctx.close()
         finally:
             browser.close()
