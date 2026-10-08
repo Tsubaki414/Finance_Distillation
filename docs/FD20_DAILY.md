@@ -317,8 +317,8 @@ meme and airdrop accounts first. Nothing publishes automatically.
   - referral or invite codes.
 - **No 31 replaced (Oct 8 b, Fiona)**: 打新阿梨 (zh_hk_ipo) is dropped together with the `ipo` lane, the Nasdaq IPO
   calendar adapter, its persona / cluster / roster donors / licence entries / media profile. In its place
-  `sol_base_alpha_en` (Rowan Tessier, en, mid): Solana / Base ecosystem launches, app usage, chain metrics, builder
-  and funding news, Solana vs Base flows; memes and points only as ecosystem context (Tully Marsh and Pip Calder own
+  `sol_base_alpha_en` (Dax 🧃, en, mid): Solana / Base ecosystem launches, app usage, chain metrics, builder
+  and funding news, Solana vs Base flows; memes and points only as ecosystem context (tully and tilda own
   those). Donors SolanaSensei, SolanaHub_, Tanaka_L2, BaseHubHB, baseposting (CORE, tier B); @solana / @base /
   @buildonbase / @SolanaFloor are SECONDARY but tier C (project / media accounts are topic leads only, as in fd20).
   No structured chain-metrics source: DefiLlama's terms forbid commercial exploitation / republishing without

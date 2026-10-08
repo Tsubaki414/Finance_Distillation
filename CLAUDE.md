@@ -3,7 +3,7 @@
 ## 2026-10-08 36 个号：6 个备用号启用 + 10 个新号（覆盖下方「备用号不跑」）
 
 - 名单统一从 `live/fd_accounts.py` 读：20 个主号在 `live/fd20_accounts.json`（文件保持兼容）。6 个备用号在 `live/fd_accounts_extra.json`，状态 `spare_active`，开关 `FD_ACCOUNTS_EXTRA`。10 个新号在 `live/fd_accounts_new.json`，状态 `new`，开关 `FD_ACCOUNTS_NEW`。两个开关默认都是 1，设成 0 时，选题、出稿、X 抓取、人设工厂、看板、回看会一起去掉这一组。没有自动发布。
-- 新号是 meme、空投、预测市场、稳定币理财、Solana / Base 生态、永续 DEX（4 中 6 英）。10-08 Fiona 定：31 号打新阿梨（zh_hk_ipo）去掉，换成英文 Solana / Base 生态号 `sol_base_alpha_en`（Rowan Tessier）。方案和 donor 证据见 `/workspace/x/accounts36/new10_slate.md`。
+- 新号是 meme、空投、预测市场、稳定币理财、Solana / Base 生态、永续 DEX（4 中 6 英）。10-08 Fiona 定：31 号打新阿梨（zh_hk_ipo）去掉，换成英文 Solana / Base 生态号 `sol_base_alpha_en`（Dax 🧃）。方案和 donor 证据见 `/workspace/x/accounts36/new10_slate.md`。
 - 新增三条线：`crypto_prediction`、`crypto_stable_yield`、`crypto_ecosystem_sol_base`（必须点名 Solana / Base），由 `live/beat_rules.lane_tags` 打标签，每次 ingest 跑一遍。`ipo` 线随 31 号一起去掉。
 - 新增两个公开结构化源，只路由给对应新号：Polymarket、DefiLlama yields（Nasdaq IPO 日历已去掉）。DefiLlama 条款禁止未经书面同意商用、转载其数据，yields 源和链 TVL 都需要 Fiona 定（链 TVL 没接）。
 - 风险硬拦：`live/risk_rules.py`，对所有号生效。合约地址、保证收益、诱导参与预售/授权、邀请码，命中就 HOLD。
