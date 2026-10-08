@@ -95,7 +95,8 @@ def triage(plan, base=None):
     The previous state is kept under triage.old; review_status is never touched and nothing is deleted."""
     day = plan['day']
     at = datetime.now(timezone.utc).isoformat(timespec='seconds')
-    accounts = {a['id']: a for a in json.loads(ACCOUNTS.read_text())['accounts']}
+    from live import fd_accounts
+    accounts = {a['id']: a for a in fd_accounts.rows(ACCOUNTS)}
     counts = dict.fromkeys(TRIAGE_ACTIONS, 0)
     for draft_id, item in plan['items'].items():
         action = item['action']

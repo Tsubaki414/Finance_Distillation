@@ -187,6 +187,14 @@ def default_fetchers(state, store=ROOT/'live/store/content_units'):
     from live.adapters import fourpillars
     if registry.source_licence_tier(fourpillars.SOURCE_ID) in ('A','B'):
         fetchers['research:'+fourpillars.SOURCE_ID] = lambda:fourpillars.fetch()
+    # Oct 8 (36 accounts): structured public data for the new lanes (no key / login; one GET each; deterministic units,
+    # account-scoped via source_registry route_accounts). Off with FD_ACCOUNTS_NEW=0.
+    from live import fd_accounts
+    if 'new' in fd_accounts.enabled_groups():
+        from live.adapters import defillama_yields, polymarket
+        for sid, mod in (('polymarket_markets', polymarket), ('defillama_yields', defillama_yields)):
+            if registry.source_licence_tier(sid) in ('A','B'):
+                fetchers['lanes:'+sid] = lambda mod=mod: mod.fetch()
     from live.adapters import podcast_local
     known=known_urls(store,state)
     for ch in channels.load_channels(ROOT/'live/channels.json'):
@@ -598,7 +606,10 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
             db2=content_store.ContentStore(store)
             tags=beat_rules.crypto_subbeat_tags(db2.units())
             db2.set_persona_tags(tags,.7)
-            summary['crypto_subbeats']=dict(units_tagged=len(tags))
+            # Oct 8 (36 accounts): prediction / stablecoin-yield / Solana-Base lanes on any unit, older units included
+            lanes=beat_rules.lane_tags(db2.units())
+            db2.set_persona_tags(lanes,.7)
+            summary['crypto_subbeats']=dict(units_tagged=len(tags),lane_units_tagged=len(lanes))
         step('crypto_subbeats',crypto_subbeats)
         step('freshness',lambda:backfill(store,write=True))
         rows=content_store.ContentStore(store).units()

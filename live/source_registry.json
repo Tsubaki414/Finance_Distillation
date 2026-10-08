@@ -5392,6 +5392,40 @@
       "digest_path": "live/store/delphi_digest/<day>.json",
       "units": "inspiration_only: steer topic selection and stance only; never in the content store, never in writer prompts, never cited or quoted; key numbers only usable when a public source gives the same number",
       "added": "2026-10-07"
+    },
+    {
+      "id": "polymarket_markets",
+      "name": "Polymarket (public Gamma API)",
+      "type": "research",
+      "enabled": true,
+      "adapter": "polymarket",
+      "api_url": "https://gamma-api.polymarket.com/events",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_prediction_zh",
+        "crypto_prediction_en"
+      ],
+      "route_beats": [
+        "crypto_prediction"
+      ],
+      "note": "Oct 8 (36 accounts): structured odds + 24h volume of the most-traded open markets, sports / tweet-count events excluded; read-only, no key, one GET per ingest; FD_ACCOUNTS_NEW=0 stops the fetch"
+    },
+    {
+      "id": "defillama_yields",
+      "name": "DefiLlama yields (stablecoin pools)",
+      "type": "research",
+      "enabled": true,
+      "adapter": "defillama_yields",
+      "api_url": "https://yields.llama.fi/pools",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_stable_yield_zh",
+        "crypto_stable_yield_en"
+      ],
+      "route_beats": [
+        "crypto_stable_yield"
+      ],
+      "note": "Oct 8 (36 accounts): TVL-weighted APY and the largest single-asset stablecoin pools (> $100m TVL); free API, one GET per ingest"
     }
   ],
   "reference_pool_zh": {

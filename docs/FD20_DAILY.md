@@ -260,3 +260,69 @@ These are learned from donor text and are kept out of git (`.gitignore`):
   (TRON, STG, HYPE ...) are not `jargon_unexplained`.
 - **Hotspots**: a lane account also takes a 母题 outside its lanes when its type has topic share >= 0.2; a 母题 made
   only of X posts needs >= 3 distinct authors for the hotspot pool.
+
+## 36 accounts: 6 spares + 10 new (Oct 8)
+
+Yams: Mango has 36 accounts. The 6 spare accounts are now in use, and 10 new accounts were added; Fiona asked for
+meme and airdrop accounts first. Nothing publishes automatically.
+
+- **Roster**: `live/fd_accounts.py` is the only reader.
+  - `live/fd20_accounts.json`: the 20 mains (file unchanged).
+  - `live/fd_accounts_extra.json`: the 6 spares, nos. 21–26, status `spare_active`, gated by `FD_ACCOUNTS_EXTRA`.
+  - `live/fd_accounts_new.json`: the 10 new accounts, nos. 27–36, status `new`, gated by `FD_ACCOUNTS_NEW`.
+  - Both gates default to 1. Setting one to 0 removes that group from daily_compose, archive look-back, the X intake
+    (`live/x_daily.subscriptions` skips universes tagged with that group), persona_factory, the ops page and /admin,
+    and claim arbitration. A caller that passes its own accounts file still gets exactly that file.
+- **Rows**: same fields as fd20 rows, plus:
+  - `donors` and `x_sources` (CORE = the donors; tier B registered in `live/source_licence.json` by persona_factory).
+  - New rows only: `positioning`, `does_not_write`, `risk_rules`, `donor_evidence` (twitter241 check on 10-08:
+    followers, last post, originals scraped, promo share; aggregates only), `source_needs` (wired / not wired), and
+    `lane_first`.
+- **persona_factory**:
+  - Builds clusters from row donors.
+  - Adds new-account donors to the roster as voice donors; existing roster verdicts are kept, which is why @0xdahua
+    (promo_heavy) and @0xScottBTC (radar) were dropped as donors.
+  - Writes persona files, emotion tiers, `--no-llm` voice cards, habit / language cards and universes (with
+    group / status).
+- **Donor post tags** for the 55 new donors use the deterministic rule fallback of `jev_front.tag_posts`
+  (`jev_fallback: true`). Retag with `scripts/donor_style_stats.py --jev --only-fallback live/donors/tags` once
+  TypeSafe is in budget; then rebuild cards with `persona_factory.py --rebuild-cards --accounts ...`.
+- **Media**: `scripts/build_media_profiles.py --only-missing` added the 16 accounts and left the 20 untouched.
+  - image_rate comes from the account's own donors.
+  - chart share and styles are the family's, because there is no classified image sample of the new donors yet.
+- **New lanes**:
+  - `crypto_prediction` (needs Polymarket / Kalshi / 预测市场).
+  - `crypto_stable_yield` (needs a stablecoin word and a yield word).
+  - `crypto_ecosystem_sol_base` (Oct 8 b; an ecosystem word plus Solana / Base by name: `solana`, `$SOL`, `@base`,
+    `on Base`, `Base app / chain / TVL ...`; "base" alone does not count).
+  - Tagging: `live/beat_rules.lane_tags` runs on every unit in the `crypto_subbeats` ingest step, so older units are
+    included. `topic_div` gained the theme `c_prediction`.
+  - The `ipo` keyword lane and topic theme were removed with zh_hk_ipo (Oct 8 b); `KEYWORD_LANES` stays as an empty
+    mechanism.
+- **Structured lane sources**: public, no key / login, one GET per ingest, deterministic units.
+  - `polymarket_markets` (Gamma API; sports and tweet-count markets left out).
+  - `defillama_yields` (single-asset stablecoin pools > $100m TVL).
+  - All are tier B and routed (`route_accounts`) only to the matching new accounts. They are wired in
+    `live/daily_ingest.default_fetchers`, which skips them when `FD_ACCOUNTS_NEW=0`.
+- **Selection**:
+  - `lane_first` accounts move own-X / own-lane packets ahead of general news (`FD_LANE_FIRST=0` turns it off).
+  - Fact-only packets of a source routed to the account become data_take packets (`FD_LANE_DATA=0` turns it off).
+  - `editorial_style.beat_gate`: Polymarket / Kalshi / 预测市场 count as crypto content, and a row with
+    `ai_crossover` (Tango 探戈) also takes AI packets.
+- **Risk rules** (`live/risk_rules.py`): HARD in qa_levels, run in compose and both archive variants, for all
+  accounts. They HOLD on:
+  - contract addresses (EVM / base58 / `CA:`);
+  - guaranteed-return wording (稳赚 / 保本 / 必涨 / guaranteed / risk-free / next 100x; negated mentions pass);
+  - a call to act next to presale / whitelist / wallet-approval / send-funds wording;
+  - referral or invite codes.
+- **No 31 replaced (Oct 8 b, Fiona)**: 打新阿梨 (zh_hk_ipo) is dropped together with the `ipo` lane, the Nasdaq IPO
+  calendar adapter, its persona / cluster / roster donors / licence entries / media profile. In its place
+  `sol_base_alpha_en` (Rowan Tessier, en, mid): Solana / Base ecosystem launches, app usage, chain metrics, builder
+  and funding news, Solana vs Base flows; memes and points only as ecosystem context (Tully Marsh and Pip Calder own
+  those). Donors SolanaSensei, SolanaHub_, Tanaka_L2, BaseHubHB, baseposting (CORE, tier B); @solana / @base /
+  @buildonbase / @SolanaFloor are SECONDARY but tier C (project / media accounts are topic leads only, as in fd20).
+  No structured chain-metrics source: DefiLlama's terms forbid commercial exploitation / republishing without
+  written consent, Token Terminal / Artemis / Dune need keys.
+- **Check**: `python scripts/check_fd_accounts.py [--accounts a,b] [--day D] [--json out]`, offline, no model calls.
+  It reports config, donor topic spread, per-lane units, the post-gate packet pool, and one select over the whole
+  roster with ops-page post times.

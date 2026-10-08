@@ -3,7 +3,7 @@ no_judgment, data_list, no_disagreement and view_number_unbound are SOFT.
 Trusted sources skip number checks. HARD: position_claim, trade_reco_specific,
 self_contradiction, licence_tier_not_allowed, d_tier_source_leak, quote_not_exact,
 missing_attribution_frame, provenance without a frame, the live/editorial_style.py HARD_CODES and the
-live/span_grounding.py HARD_CODES (ungrounded_number / ungrounded_quote). Unknown codes
+live/span_grounding.py HARD_CODES (ungrounded_number / ungrounded_quote), the live/risk_rules.py HARD_CODES. Unknown codes
 fail closed. Style and placement checks (incl. editorial_style.SOFT_CODES) are SOFT.
 """
 from __future__ import annotations
@@ -14,6 +14,7 @@ import re
 from live import registry
 from live.editorial_style import HARD_CODES as _STYLE_HARD, SOFT_CODES as _STYLE_SOFT
 from live.span_grounding import HARD_CODES as _GROUND_HARD, SOFT_CODES as _GROUND_SOFT
+from live.risk_rules import HARD_CODES as _RISK_HARD
 
 HARD = frozenset({
                   'licence_tier_not_allowed', 'd_tier_source_leak', 'quote_not_exact',
@@ -22,6 +23,8 @@ HARD = frozenset({
                   *_STYLE_HARD,
                   # Oct 7 Sirius borrow item 2: a number / same-language quote no source span holds
                   *_GROUND_HARD,
+                  # Oct 8 (36 accounts): contract addresses, guaranteed returns, scam-shaped calls, referral codes
+                  *_RISK_HARD,
                   # Oct 7: inspiration_only sources (Delphi digest) are never cited, quoted or counted
                   'inspiration_only_number', 'inspiration_only_text', 'inspiration_only_cited'})
 SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_units', 'period_not_in_units', 'number_metric_binding', 'number_words', 'no_judgment', 'data_list', 'no_disagreement', 'view_number_unbound', 'template_phrase', 'length_out_of_range', 'attribution_outside_frame',
@@ -127,6 +130,8 @@ from live.editorial_style import FIXES as _STYLE_FIXES  # noqa: E402
 FIXES.update(_STYLE_FIXES)
 from live.span_grounding import FIXES as _GROUND_FIXES  # noqa: E402
 FIXES.update(_GROUND_FIXES)
+from live.risk_rules import FIXES as _RISK_FIXES  # noqa: E402
+FIXES.update(_RISK_FIXES)
 # D tier (source_expansion.md §6): never in the publishing chain, never named in a post.
 D_TIER_NAMES = ('ReportGem', '环球报告', '慧博', '发现报告', '洞见研报', '三个皮匠', '进门财经', 'Alpha派', 'Scribd')
 

@@ -27,6 +27,11 @@ etf_flows, Polymarket -> polymarket) or null (photos, memes, promos, chats: noth
 numbers are kept under "v2" so FD_MEDIA_SOURCES=0 restores them exactly.
 
   python3 scripts/build_media_profiles.py --attribution /workspace/x/media_sources/attribution.json
+
+--only-missing (Oct 8, 36 accounts): keep every account (and family) already in the output file and add only the
+roster accounts it lacks. A new account has no classified image sample yet (n = 0), so its chart share / styles are
+its family's; image_rate is measured from its own donors as usual. Re-run without the flag after classifying a
+sample of the new donors' images to give them their own shares.
 """
 from __future__ import annotations
 
@@ -188,6 +193,7 @@ def main():
     ap.add_argument('--roster', type=Path, default=ROOT / 'live/donors/roster.json')
     ap.add_argument('--accounts', type=Path, default=ROOT / 'live/fd20_accounts.json')
     ap.add_argument('--out', type=Path, default=OUT)
+    ap.add_argument('--only-missing', action='store_true', help='add accounts missing from --out, keep the rest')
     args = ap.parse_args()
     if args.attribution:
         return main_v3(args)
@@ -196,7 +202,8 @@ def main():
     classes = json.loads(args.classes.read_text())
     meta = json.loads(args.meta.read_text())['images']
     roster = json.loads(args.roster.read_text())
-    accounts = json.loads(args.accounts.read_text())['accounts']
+    from live import fd_accounts
+    accounts = fd_accounts.rows(args.accounts)
     by_acct, by_fam = collections.defaultdict(list), collections.defaultdict(list)
     fam_of = {a['id']: family(a) for a in accounts}
     for img_id, m in meta.items():
@@ -216,13 +223,26 @@ def main():
                                  {s: round(x, 3) for s, x in v.items()} if isinstance(v, dict) else v)
                              for k, v in s.items()} for f, s in sorted(fam_shares.items())},
            'accounts': {}}
+    keep = json.loads(args.out.read_text()) if args.only_missing and args.out.exists() else None
+    if keep:
+        out['families'] = keep['families']
+        fam_shares = {f: {**v, 'styles': dict(v['styles'])} for f, v in keep['families'].items()}
+        out['accounts'] = dict(keep['accounts'])
+        out['built'] = keep.get('built')
+        today = date.today().isoformat()   # a second run on the same day appends (Oct 8 b)
+        out['added'] = {**(keep.get('added') or {}), today: ((keep.get('added') or {}).get(today) or []) +
+                        [a['id'] for a in accounts if a['id'] not in keep['accounts']]}
     for a in accounts:
+        if keep and a['id'] in keep['accounts']:
+            continue
         rate, n_posts = image_rate(a['id'], roster, args.posts)
         b = blend(shares(tally(by_acct[a['id']])), fam_shares[fam_of[a['id']]])
         out['accounts'][a['id']] = {'family': fam_of[a['id']], 'image_rate': round(rate, 3), 'posts_seen': n_posts,
                                     **b, 'p_image': round(rate * b['chart_share'], 3)}
     args.out.write_text(json.dumps(out, indent=1) + '\n')
     for k, v in out['accounts'].items():
+        if keep and k in keep['accounts']:
+            continue
         print(f"{k:26} rate {v['image_rate']:.2f} chart {v['chart_share']:.2f} p {v['p_image']:.2f} "
               f"light {v['light_share']:.2f} tall {v['tall_share']:.2f} {v['styles']}")
 

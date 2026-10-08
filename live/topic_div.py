@@ -65,9 +65,11 @@ CRYPTO_THEMES = (
     ('c_onchain', r'链上|on-?chain|巨鲸|whales?|glassnode|地址|holders?|筹码|\bLTH\b|\bSTH\b|MVRV|inflows?|outflows?|'
                   r'cohort|realized'),
     ('c_cycle_mood', r'牛市|熊市|周期|cycle|山寨季|altseason|情绪|sentiment|恐慌|贪婪|fomo|行情|大饼|比特币|bitcoin|\bBTC\b|rally|回调'),
+    # Oct 8 (36 accounts): prediction-market lane (appended: earlier themes keep winning ties)
+    ('c_prediction', r'polymarket|kalshi|预测市场|prediction markets?|盘口|赔率|\bodds\b'),
 )
 CRYPTO_MARK = re.compile(r'比特币|\bBTC\b|\bETH\b|以太坊|币圈|链上|稳定币|山寨|bitcoin|crypto|ethereum|stablecoin|altcoin|'
-                         r'on-?chain|token|代币|加密|defi|空投|airdrop|memecoin|solana|\$[A-Z]{2,6}\b|web3', _C)
+                         r'on-?chain|token|代币|加密|defi|空投|airdrop|memecoin|solana|\$[A-Z]{2,6}\b|web3|polymarket|预测市场', _C)
 MARKET_THEMES = (
     ('rates_fed', r'美联储|联储|降息|加息|利率|点阵图|FOMC|鲍威尔|\bfed\b|rate cuts?|rate hikes?|powell|treasur|yields?|'
                   r'bonds?|美债|国债|收益率'),

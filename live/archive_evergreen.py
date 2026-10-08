@@ -303,6 +303,8 @@ def check(body, cand, account_cfg, *, past=(), config=None):
                       'detail': f'similarity {sims[0]} to a draft of the last 30 days'})
     for f in editorial_style.findings(body, lang):
         found.append({**f, 'level': 'hard' if f['code'] in editorial_style.HARD_CODES else 'soft'})
+    from live import risk_rules   # Oct 8: contract address / guaranteed return / scam call / referral
+    found += [{**f, 'level': 'hard'} for f in risk_rules.findings(body, lang)]
     return found
 
 

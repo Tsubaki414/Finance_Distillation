@@ -28,3 +28,6 @@ live/personas/posting_habits/
 live/personas/language_habits/
 live/personas/voice_cards/
 live/personas/signature_cards/
+
+# Oct 8: Mango following-graph donor candidates (handles + scraped aggregates) stay local
+live/donors/mango_candidates.json

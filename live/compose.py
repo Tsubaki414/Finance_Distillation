@@ -1208,6 +1208,8 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
                 body, [r['text'] for r in _recent if isinstance(r, dict) and r.get('text')], persona.lang)
     findings += trade_reco_findings(body, persona.lang)
     findings += _style.findings(body, persona.lang, post_format=(shape or {}).get('post_format'))   # HARD_CODES -> HOLD, SOFT warn
+    from live import risk_rules   # Oct 8: contract address / guaranteed return / scam call / referral -> HOLD
+    findings += risk_rules.findings(body, persona.lang)
     from live.draft_qa import stale_time_findings
     findings += stale_time_findings(body, units, now, persona.lang)
     findings += contradiction_findings(body)

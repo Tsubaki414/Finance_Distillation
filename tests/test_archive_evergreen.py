@@ -125,11 +125,16 @@ def test_recheck_without_model_keeps_the_stored_judge_verdict(tmp_path, monkeypa
 
 # ---------------------------------------------------------------- rollout flags, gate, caps
 
-def test_enabled_all_and_narrowing_flags():
+def test_enabled_all_and_narrowing_flags(monkeypatch):
     shipped = al.load_config()
     assert shipped['enabled_accounts'] == 'all' and shipped['per_day'] == 1
-    ids = al.enabled_accounts(shipped, {})
-    assert len(ids) == 20 and 'single_stock_deepdive_en' in ids
+    monkeypatch.delenv('FD_ACCOUNTS_EXTRA', raising=False)
+    monkeypatch.delenv('FD_ACCOUNTS_NEW', raising=False)
+    ids = al.enabled_accounts(shipped, {})   # Oct 8: 20 mains + 6 spares + 10 new (live/fd_accounts.py)
+    assert len(ids) == 36 and 'single_stock_deepdive_en' in ids and 'crypto_meme_zh' in ids
+    monkeypatch.setenv('FD_ACCOUNTS_EXTRA', '0')
+    monkeypatch.setenv('FD_ACCOUNTS_NEW', '0')
+    assert len(al.enabled_accounts(shipped, {})) == 20
     assert al.enabled_accounts(shipped, {'FD_ARCHIVE': '0'}) == []
     assert al.enabled_accounts(shipped, {'FD_ARCHIVE_ACCOUNTS': 'crypto_macro_en,zh_us_stocks'}) == \
         ['zh_us_stocks', 'crypto_macro_en']

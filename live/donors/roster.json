@@ -2153,6 +2153,427 @@
      "econoar"
     ]
    }
+  },
+  "acct_crypto_ai_crossover_zh": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "tradergoku",
+     "weight": 0.2
+    },
+    {
+     "handle": "TJ_Research",
+     "weight": 0.2
+    },
+    {
+     "handle": "rickawsb",
+     "weight": 0.2
+    },
+    {
+     "handle": "alacheng",
+     "weight": 0.2
+    },
+    {
+     "handle": "williamlab",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the spare account row donors (equal weights)",
+   "previous_cluster": "crypto_macro_zh"
+  },
+  "acct_crypto_newbie_zh": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "CryptoKris666",
+     "weight": 0.2
+    },
+    {
+     "handle": "eyuCrypto",
+     "weight": 0.2
+    },
+    {
+     "handle": "jason_chen998",
+     "weight": 0.2
+    },
+    {
+     "handle": "Meimeibtcc",
+     "weight": 0.2
+    },
+    {
+     "handle": "williamlab",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the spare account row donors (equal weights)",
+   "previous_cluster": "crypto_macro_zh"
+  },
+  "acct_crypto_alt_trader_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "thedefivillain",
+     "weight": 0.2
+    },
+    {
+     "handle": "CryptoMichNL",
+     "weight": 0.2
+    },
+    {
+     "handle": "IT_Tech_PL",
+     "weight": 0.2
+    },
+    {
+     "handle": "Truecrypto",
+     "weight": 0.2
+    },
+    {
+     "handle": "TedPillows",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the spare account row donors (equal weights)",
+   "previous_cluster": "crypto_perp"
+  },
+  "acct_longterm_investing_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "morganhousel",
+     "weight": 0.2
+    },
+    {
+     "handle": "dollarsanddata",
+     "weight": 0.2
+    },
+    {
+     "handle": "awealthofcs",
+     "weight": 0.2
+    },
+    {
+     "handle": "BrianFeroldi",
+     "weight": 0.2
+    },
+    {
+     "handle": "iancassel",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the spare account row donors (equal weights)",
+   "previous_cluster": "investing_philosophy"
+  },
+  "acct_crypto_etf_flows_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "NateGeraci",
+     "weight": 0.2
+    },
+    {
+     "handle": "JSeyff",
+     "weight": 0.2
+    },
+    {
+     "handle": "EricBalchunas",
+     "weight": 0.2
+    },
+    {
+     "handle": "jameslavish",
+     "weight": 0.2
+    },
+    {
+     "handle": "Jamie1Coutts",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the spare account row donors (equal weights)",
+   "previous_cluster": "crypto_onchain"
+  },
+  "acct_crypto_meme_zh": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "EinsteinYipie",
+     "weight": 0.1667
+    },
+    {
+     "handle": "0xmasiwei",
+     "weight": 0.1667
+    },
+    {
+     "handle": "MetaHunter168",
+     "weight": 0.1667
+    },
+    {
+     "handle": "cryp_orange",
+     "weight": 0.1667
+    },
+    {
+     "handle": "lin_btc",
+     "weight": 0.1667
+    },
+    {
+     "handle": "scriptdotmoney",
+     "weight": 0.1667
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
+   "previous_cluster": "crypto_meme"
+  },
+  "acct_crypto_airdrop_zh": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "VIP8888883",
+     "weight": 0.1667
+    },
+    {
+     "handle": "wenxue600",
+     "weight": 0.1667
+    },
+    {
+     "handle": "duola_eth",
+     "weight": 0.1667
+    },
+    {
+     "handle": "AirdropAlchemis",
+     "weight": 0.1667
+    },
+    {
+     "handle": "iamyourchaos",
+     "weight": 0.1667
+    },
+    {
+     "handle": "shawnchen_eth",
+     "weight": 0.1667
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
+   "previous_cluster": "crypto_airdrop"
+  },
+  "acct_crypto_prediction_zh": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "MrRyanChi",
+     "weight": 0.2
+    },
+    {
+     "handle": "akitabtc",
+     "weight": 0.2
+    },
+    {
+     "handle": "yummyuyu_",
+     "weight": 0.2
+    },
+    {
+     "handle": "Mumu_yay",
+     "weight": 0.2
+    },
+    {
+     "handle": "0xchubai",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
+   "previous_cluster": "crypto_prediction"
+  },
+  "acct_crypto_stable_yield_zh": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "chenmo",
+     "weight": 0.2
+    },
+    {
+     "handle": "yuyue_chris",
+     "weight": 0.2
+    },
+    {
+     "handle": "ChaseWang",
+     "weight": 0.2
+    },
+    {
+     "handle": "MengLayer",
+     "weight": 0.2
+    },
+    {
+     "handle": "0xAllen",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
+   "previous_cluster": "crypto_stable_yield"
+  },
+  "acct_crypto_meme_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "Overdose_AI",
+     "weight": 0.2
+    },
+    {
+     "handle": "the_smart_ape",
+     "weight": 0.2
+    },
+    {
+     "handle": "sibeleth",
+     "weight": 0.2
+    },
+    {
+     "handle": "notthreadguy",
+     "weight": 0.2
+    },
+    {
+     "handle": "LouisCooper_",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
+   "previous_cluster": "crypto_meme"
+  },
+  "acct_crypto_airdrop_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "enesonchain",
+     "weight": 0.1667
+    },
+    {
+     "handle": "Gyokeres_eth",
+     "weight": 0.1667
+    },
+    {
+     "handle": "KittaKitka",
+     "weight": 0.1667
+    },
+    {
+     "handle": "pointfarmcap",
+     "weight": 0.1667
+    },
+    {
+     "handle": "Omaofweb3",
+     "weight": 0.1667
+    },
+    {
+     "handle": "0xbeiu",
+     "weight": 0.1667
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
+   "previous_cluster": "crypto_airdrop"
+  },
+  "acct_crypto_prediction_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "Atlantislq",
+     "weight": 0.2
+    },
+    {
+     "handle": "polysuccubus",
+     "weight": 0.2
+    },
+    {
+     "handle": "izebel_eth",
+     "weight": 0.2
+    },
+    {
+     "handle": "hosseeb",
+     "weight": 0.2
+    },
+    {
+     "handle": "cxo_no",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
+   "previous_cluster": "crypto_prediction"
+  },
+  "acct_crypto_perp_dex_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "Defi_Warhol",
+     "weight": 0.1667
+    },
+    {
+     "handle": "HYPEconomist",
+     "weight": 0.1667
+    },
+    {
+     "handle": "Henrik_on_HL",
+     "weight": 0.1667
+    },
+    {
+     "handle": "zerokn0wledge_",
+     "weight": 0.1667
+    },
+    {
+     "handle": "crypto_notte",
+     "weight": 0.1667
+    },
+    {
+     "handle": "MoneyPrinter0x",
+     "weight": 0.1667
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
+   "previous_cluster": "crypto_perp"
+  },
+  "acct_crypto_stable_yield_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "phtevenstrong",
+     "weight": 0.2
+    },
+    {
+     "handle": "0xc06",
+     "weight": 0.2
+    },
+    {
+     "handle": "Mars_DeFi",
+     "weight": 0.2
+    },
+    {
+     "handle": "Zun2025",
+     "weight": 0.2
+    },
+    {
+     "handle": "Route2FI",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
+   "previous_cluster": "crypto_stable_yield"
+  },
+  "acct_sol_base_alpha_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "SolanaSensei",
+     "weight": 0.2
+    },
+    {
+     "handle": "SolanaHub_",
+     "weight": 0.2
+    },
+    {
+     "handle": "Tanaka_L2",
+     "weight": 0.2
+    },
+    {
+     "handle": "BaseHubHB",
+     "weight": 0.2
+    },
+    {
+     "handle": "baseposting",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
+   "previous_cluster": "crypto_ecosystem_sol_base"
   }
  },
  "donors": {
@@ -11459,6 +11880,838 @@
    "origin": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
    "verify_note": "deep scrape 200 originals (RapidAPI twitter241); promo_share 0.140 = max(LLM per-post read 0.000, regex 0.140); long sell-side-style notes on US tech/fintech: HOOD, COIN, PYPL, GOOGL, META, AI agent economics, capex/FCF",
    "persona_cluster": "acct_single_stock_deepdive_en"
+  },
+  "einsteinyipie": {
+   "handle": "EinsteinYipie",
+   "lang": "zh",
+   "category": "crypto_meme",
+   "persona_cluster": "acct_crypto_meme_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 58756,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 2.7,
+   "promo_share": 0.025,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_meme_zh donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 132 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "0xmasiwei": {
+   "handle": "0xmasiwei",
+   "lang": "zh",
+   "category": "crypto_meme",
+   "persona_cluster": "acct_crypto_meme_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 34516,
+   "latest_post": "2026-10-07",
+   "posts_per_day": 3.0,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_meme_zh donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 139 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "metahunter168": {
+   "handle": "MetaHunter168",
+   "lang": "zh",
+   "category": "crypto_meme",
+   "persona_cluster": "acct_crypto_meme_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 44273,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 0.57,
+   "promo_share": 0.05,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_meme_zh donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 145 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "cryp_orange": {
+   "handle": "cryp_orange",
+   "lang": "zh",
+   "category": "crypto_meme",
+   "persona_cluster": "acct_crypto_meme_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 23434,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 2.13,
+   "promo_share": 0.05,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_meme_zh donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 139 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "lin_btc": {
+   "handle": "lin_btc",
+   "lang": "zh",
+   "category": "crypto_meme",
+   "persona_cluster": "acct_crypto_meme_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 20891,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 3.67,
+   "promo_share": 0.025,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_meme_zh donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 153 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "scriptdotmoney": {
+   "handle": "scriptdotmoney",
+   "lang": "zh",
+   "category": "crypto_meme",
+   "persona_cluster": "acct_crypto_meme_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 21488,
+   "latest_post": "2026-09-26",
+   "posts_per_day": 0.6,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_meme_zh donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 140 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "vip8888883": {
+   "handle": "VIP8888883",
+   "lang": "zh",
+   "category": "crypto_airdrop",
+   "persona_cluster": "acct_crypto_airdrop_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 91830,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 5.33,
+   "promo_share": 0.125,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_airdrop_zh donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 161 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "wenxue600": {
+   "handle": "wenxue600",
+   "lang": "zh",
+   "category": "crypto_airdrop",
+   "persona_cluster": "acct_crypto_airdrop_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 114118,
+   "latest_post": "2026-10-07",
+   "posts_per_day": 4.23,
+   "promo_share": 0.05,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_airdrop_zh donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 157 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "duola_eth": {
+   "handle": "duola_eth",
+   "lang": "zh",
+   "category": "crypto_airdrop",
+   "persona_cluster": "acct_crypto_airdrop_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 62246,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 1.7,
+   "promo_share": 0.075,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_airdrop_zh donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 150 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "airdropalchemis": {
+   "handle": "AirdropAlchemis",
+   "lang": "zh",
+   "category": "crypto_airdrop",
+   "persona_cluster": "acct_crypto_airdrop_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 72779,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 5.33,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_airdrop_zh donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 160 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "iamyourchaos": {
+   "handle": "iamyourchaos",
+   "lang": "zh",
+   "category": "crypto_airdrop",
+   "persona_cluster": "acct_crypto_airdrop_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 90606,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 2.2,
+   "promo_share": 0.075,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_airdrop_zh donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 146 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "shawnchen_eth": {
+   "handle": "shawnchen_eth",
+   "lang": "zh",
+   "category": "crypto_airdrop",
+   "persona_cluster": "acct_crypto_airdrop_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 22840,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 2.87,
+   "promo_share": 0.025,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_airdrop_zh donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 156 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "mrryanchi": {
+   "handle": "MrRyanChi",
+   "lang": "zh",
+   "category": "crypto_prediction",
+   "persona_cluster": "acct_crypto_prediction_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 16889,
+   "latest_post": "2026-10-07",
+   "posts_per_day": 1.6,
+   "promo_share": 0.1,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_prediction_zh donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 146 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "akitabtc": {
+   "handle": "akitabtc",
+   "lang": "zh",
+   "category": "crypto_prediction",
+   "persona_cluster": "acct_crypto_prediction_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 11431,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 0.97,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_prediction_zh donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 147 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "yummyuyu_": {
+   "handle": "yummyuyu_",
+   "lang": "zh",
+   "category": "crypto_prediction",
+   "persona_cluster": "acct_crypto_prediction_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 13860,
+   "latest_post": "2026-10-07",
+   "posts_per_day": 1.73,
+   "promo_share": 0.025,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_prediction_zh donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 135 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "mumu_yay": {
+   "handle": "Mumu_yay",
+   "lang": "zh",
+   "category": "crypto_prediction",
+   "persona_cluster": "acct_crypto_prediction_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 27157,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 1.33,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_prediction_zh donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 155 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "0xchubai": {
+   "handle": "0xchubai",
+   "lang": "zh",
+   "category": "crypto_prediction",
+   "persona_cluster": "acct_crypto_prediction_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 13049,
+   "latest_post": "2026-10-07",
+   "posts_per_day": 1.77,
+   "promo_share": 0.075,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_prediction_zh donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 169 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "chasewang": {
+   "handle": "ChaseWang",
+   "lang": "zh",
+   "category": "crypto_stable_yield",
+   "persona_cluster": "acct_crypto_stable_yield_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 8190,
+   "latest_post": "2026-10-07",
+   "posts_per_day": 0.73,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_stable_yield_zh donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 131 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "menglayer": {
+   "handle": "MengLayer",
+   "lang": "zh",
+   "category": "crypto_stable_yield",
+   "persona_cluster": "acct_crypto_stable_yield_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 22618,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 2.4,
+   "promo_share": 0.025,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_stable_yield_zh donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 157 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "0xallen": {
+   "handle": "0xAllen",
+   "lang": "zh",
+   "category": "crypto_stable_yield",
+   "persona_cluster": "acct_crypto_stable_yield_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": null,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 2.83,
+   "promo_share": 0.075,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_stable_yield_zh donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 192 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "overdose_ai": {
+   "handle": "Overdose_AI",
+   "lang": "en",
+   "category": "crypto_meme",
+   "persona_cluster": "acct_crypto_meme_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 165507,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 3.47,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_meme_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 145 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "the_smart_ape": {
+   "handle": "the_smart_ape",
+   "lang": "en",
+   "category": "crypto_meme",
+   "persona_cluster": "acct_crypto_meme_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 73711,
+   "latest_post": "2026-10-07",
+   "posts_per_day": 2.57,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_meme_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 139 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "sibeleth": {
+   "handle": "sibeleth",
+   "lang": "en",
+   "category": "crypto_meme",
+   "persona_cluster": "acct_crypto_meme_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 175736,
+   "latest_post": "2026-10-04",
+   "posts_per_day": 0.23,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_meme_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 155 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "notthreadguy": {
+   "handle": "notthreadguy",
+   "lang": "en",
+   "category": "crypto_meme",
+   "persona_cluster": "acct_crypto_meme_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 416538,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 2.53,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_meme_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 76 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "louiscooper_": {
+   "handle": "LouisCooper_",
+   "lang": "en",
+   "category": "crypto_meme",
+   "persona_cluster": "acct_crypto_meme_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 83009,
+   "latest_post": "2026-09-25",
+   "posts_per_day": 0.53,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_meme_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 115 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "enesonchain": {
+   "handle": "enesonchain",
+   "lang": "en",
+   "category": "crypto_airdrop",
+   "persona_cluster": "acct_crypto_airdrop_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 69483,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 1.5,
+   "promo_share": 0.025,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_airdrop_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 151 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "gyokeres_eth": {
+   "handle": "Gyokeres_eth",
+   "lang": "en",
+   "category": "crypto_airdrop",
+   "persona_cluster": "acct_crypto_airdrop_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 31336,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 2.57,
+   "promo_share": 0.025,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_airdrop_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 77 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "kittakitka": {
+   "handle": "KittaKitka",
+   "lang": "en",
+   "category": "crypto_airdrop",
+   "persona_cluster": "acct_crypto_airdrop_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 20463,
+   "latest_post": "2026-10-07",
+   "posts_per_day": 0.9,
+   "promo_share": 0.05,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_airdrop_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 119 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "pointfarmcap": {
+   "handle": "pointfarmcap",
+   "lang": "en",
+   "category": "crypto_airdrop",
+   "persona_cluster": "acct_crypto_airdrop_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 40342,
+   "latest_post": "2026-10-07",
+   "posts_per_day": 4.1,
+   "promo_share": 0.025,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_airdrop_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 123 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "omaofweb3": {
+   "handle": "Omaofweb3",
+   "lang": "en",
+   "category": "crypto_airdrop",
+   "persona_cluster": "acct_crypto_airdrop_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 9265,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 4.53,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_airdrop_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 147 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "0xbeiu": {
+   "handle": "0xbeiu",
+   "lang": "en",
+   "category": "crypto_airdrop",
+   "persona_cluster": "acct_crypto_airdrop_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 3048,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 3.03,
+   "promo_share": 0.075,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_airdrop_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 116 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "atlantislq": {
+   "handle": "Atlantislq",
+   "lang": "en",
+   "category": "crypto_prediction",
+   "persona_cluster": "acct_crypto_prediction_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 13640,
+   "latest_post": "2026-10-07",
+   "posts_per_day": 1.57,
+   "promo_share": 0.075,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_prediction_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 127 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "polysuccubus": {
+   "handle": "polysuccubus",
+   "lang": "en",
+   "category": "crypto_prediction",
+   "persona_cluster": "acct_crypto_prediction_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 3576,
+   "latest_post": "2026-10-07",
+   "posts_per_day": 2.9,
+   "promo_share": 0.05,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_prediction_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 134 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "izebel_eth": {
+   "handle": "izebel_eth",
+   "lang": "en",
+   "category": "crypto_prediction",
+   "persona_cluster": "acct_crypto_prediction_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 64838,
+   "latest_post": "2026-10-07",
+   "posts_per_day": 1.7,
+   "promo_share": 0.025,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_prediction_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 130 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "hosseeb": {
+   "handle": "hosseeb",
+   "lang": "en",
+   "category": "crypto_prediction",
+   "persona_cluster": "acct_crypto_prediction_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 149431,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 2.37,
+   "promo_share": 0.025,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_prediction_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 81 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "cxo_no": {
+   "handle": "cxo_no",
+   "lang": "en",
+   "category": "crypto_prediction",
+   "persona_cluster": "acct_crypto_prediction_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 23987,
+   "latest_post": "2026-10-07",
+   "posts_per_day": 0.5,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_prediction_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 66 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "defi_warhol": {
+   "handle": "Defi_Warhol",
+   "lang": "en",
+   "category": "crypto_perp",
+   "persona_cluster": "acct_crypto_perp_dex_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 45232,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 4.7,
+   "promo_share": 0.025,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_perp_dex_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 148 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "hypeconomist": {
+   "handle": "HYPEconomist",
+   "lang": "en",
+   "category": "crypto_perp",
+   "persona_cluster": "acct_crypto_perp_dex_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 21135,
+   "latest_post": "2026-10-07",
+   "posts_per_day": 4.8,
+   "promo_share": 0.05,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_perp_dex_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 145 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "henrik_on_hl": {
+   "handle": "Henrik_on_HL",
+   "lang": "en",
+   "category": "crypto_perp",
+   "persona_cluster": "acct_crypto_perp_dex_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 12744,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 3.57,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_perp_dex_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 143 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "zerokn0wledge_": {
+   "handle": "zerokn0wledge_",
+   "lang": "en",
+   "category": "crypto_perp",
+   "persona_cluster": "acct_crypto_perp_dex_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 27048,
+   "latest_post": "2026-10-05",
+   "posts_per_day": 3.43,
+   "promo_share": 0.05,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_perp_dex_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 129 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "crypto_notte": {
+   "handle": "crypto_notte",
+   "lang": "en",
+   "category": "crypto_perp",
+   "persona_cluster": "acct_crypto_perp_dex_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 7267,
+   "latest_post": "2026-10-06",
+   "posts_per_day": 0.27,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_perp_dex_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 150 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "moneyprinter0x": {
+   "handle": "MoneyPrinter0x",
+   "lang": "en",
+   "category": "crypto_perp",
+   "persona_cluster": "acct_crypto_perp_dex_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 31193,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 1.67,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_perp_dex_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 85 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "phtevenstrong": {
+   "handle": "phtevenstrong",
+   "lang": "en",
+   "category": "crypto_stable_yield",
+   "persona_cluster": "acct_crypto_stable_yield_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 117075,
+   "latest_post": "2026-10-07",
+   "posts_per_day": 1.03,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_stable_yield_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 95 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "0xc06": {
+   "handle": "0xc06",
+   "lang": "en",
+   "category": "crypto_stable_yield",
+   "persona_cluster": "acct_crypto_stable_yield_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 113059,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 1.57,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_stable_yield_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 209 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "mars_defi": {
+   "handle": "Mars_DeFi",
+   "lang": "en",
+   "category": "crypto_stable_yield",
+   "persona_cluster": "acct_crypto_stable_yield_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 27564,
+   "latest_post": "2026-10-07",
+   "posts_per_day": 2.0,
+   "promo_share": 0.1,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_stable_yield_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 131 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "zun2025": {
+   "handle": "Zun2025",
+   "lang": "en",
+   "category": "crypto_stable_yield",
+   "persona_cluster": "acct_crypto_stable_yield_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 42739,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 0.4,
+   "promo_share": 0.025,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_stable_yield_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 108 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "route2fi": {
+   "handle": "Route2FI",
+   "lang": "en",
+   "category": "crypto_stable_yield",
+   "persona_cluster": "acct_crypto_stable_yield_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 301209,
+   "latest_post": "2026-10-07",
+   "posts_per_day": 3.33,
+   "promo_share": 0.075,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_stable_yield_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 145 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "solanasensei": {
+   "handle": "SolanaSensei",
+   "lang": "en",
+   "category": "crypto_ecosystem_sol_base",
+   "persona_cluster": "acct_sol_base_alpha_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 256810,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 5.2,
+   "promo_share": 0.025,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: sol_base_alpha_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 157 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "solanahub_": {
+   "handle": "SolanaHub_",
+   "lang": "en",
+   "category": "crypto_ecosystem_sol_base",
+   "persona_cluster": "acct_sol_base_alpha_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 25584,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 5.3,
+   "promo_share": 0.05,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: sol_base_alpha_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 160 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "tanaka_l2": {
+   "handle": "Tanaka_L2",
+   "lang": "en",
+   "category": "crypto_ecosystem_sol_base",
+   "persona_cluster": "acct_sol_base_alpha_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 43563,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 2.67,
+   "promo_share": 0.05,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: sol_base_alpha_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 116 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "basehubhb": {
+   "handle": "BaseHubHB",
+   "lang": "en",
+   "category": "crypto_ecosystem_sol_base",
+   "persona_cluster": "acct_sol_base_alpha_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 57893,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 5.2,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: sol_base_alpha_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 157 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "baseposting": {
+   "handle": "baseposting",
+   "lang": "en",
+   "category": "crypto_ecosystem_sol_base",
+   "persona_cluster": "acct_sol_base_alpha_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 43913,
+   "latest_post": "2026-10-08",
+   "posts_per_day": 5.37,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: sol_base_alpha_en donor",
+   "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 161 originals scraped; promo_share = regex share of the 40 newest originals"
   }
  }
 }

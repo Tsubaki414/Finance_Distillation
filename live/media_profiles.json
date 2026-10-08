@@ -806,6 +806,554 @@
     "light_share": 0.879,
     "tall_share": 0.0
    }
+  },
+  "zh_macro": {
+   "family": "stocks_zh",
+   "image_rate": 0.215,
+   "posts_seen": 200,
+   "chart_share": 0.5,
+   "styles": {
+    "tv_drawn": 0.333,
+    "tv_widget": 0.111,
+    "mobile": 0.333,
+    "table": 0.0,
+    "panel": 0.222,
+    "x_post": 0.0,
+    "article": 0.0,
+    "etf_flows": 0.0,
+    "polymarket": 0.0
+   },
+   "light_share": 0.778,
+   "tall_share": 0.333,
+   "p_image": 0.107,
+   "v2": {
+    "p_image": 0.107,
+    "chart_share": 0.5,
+    "styles": {
+     "tv_drawn": 0.333,
+     "tv_widget": 0.111,
+     "mobile": 0.333,
+     "table": 0.0,
+     "panel": 0.222
+    },
+    "light_share": 0.778,
+    "tall_share": 0.333
+   }
+  },
+  "crypto_ai_crossover_zh": {
+   "family": "crypto_zh",
+   "image_rate": 0.215,
+   "posts_seen": 200,
+   "chart_share": 0.55,
+   "styles": {
+    "tv_drawn": 0.136,
+    "tv_widget": 0.091,
+    "mobile": 0.227,
+    "table": 0.182,
+    "panel": 0.364,
+    "x_post": 0.0,
+    "article": 0.0,
+    "etf_flows": 0.0,
+    "polymarket": 0.0
+   },
+   "light_share": 0.636,
+   "tall_share": 0.182,
+   "p_image": 0.118,
+   "v2": {
+    "p_image": 0.118,
+    "chart_share": 0.55,
+    "styles": {
+     "tv_drawn": 0.136,
+     "tv_widget": 0.091,
+     "mobile": 0.227,
+     "table": 0.182,
+     "panel": 0.364
+    },
+    "light_share": 0.636,
+    "tall_share": 0.182
+   }
+  },
+  "crypto_newbie_zh": {
+   "family": "crypto_zh",
+   "image_rate": 0.565,
+   "posts_seen": 200,
+   "chart_share": 0.55,
+   "styles": {
+    "tv_drawn": 0.136,
+    "tv_widget": 0.091,
+    "mobile": 0.227,
+    "table": 0.182,
+    "panel": 0.364,
+    "x_post": 0.0,
+    "article": 0.0,
+    "etf_flows": 0.0,
+    "polymarket": 0.0
+   },
+   "light_share": 0.636,
+   "tall_share": 0.182,
+   "p_image": 0.311,
+   "v2": {
+    "p_image": 0.311,
+    "chart_share": 0.55,
+    "styles": {
+     "tv_drawn": 0.136,
+     "tv_widget": 0.091,
+     "mobile": 0.227,
+     "table": 0.182,
+     "panel": 0.364
+    },
+    "light_share": 0.636,
+    "tall_share": 0.182
+   }
+  },
+  "crypto_alt_trader_en": {
+   "family": "crypto_en",
+   "image_rate": 0.48,
+   "posts_seen": 200,
+   "chart_share": 0.585,
+   "styles": {
+    "tv_drawn": 0.292,
+    "tv_widget": 0.125,
+    "mobile": 0.042,
+    "table": 0.083,
+    "panel": 0.458,
+    "x_post": 0.0,
+    "article": 0.0,
+    "etf_flows": 0.0,
+    "polymarket": 0.0
+   },
+   "light_share": 0.458,
+   "tall_share": 0.083,
+   "p_image": 0.281,
+   "v2": {
+    "p_image": 0.281,
+    "chart_share": 0.585,
+    "styles": {
+     "tv_drawn": 0.292,
+     "tv_widget": 0.125,
+     "mobile": 0.042,
+     "table": 0.083,
+     "panel": 0.458
+    },
+    "light_share": 0.458,
+    "tall_share": 0.083
+   }
+  },
+  "longterm_investing_en": {
+   "family": "stocks_en",
+   "image_rate": 0.145,
+   "posts_seen": 200,
+   "chart_share": 0.688,
+   "styles": {
+    "tv_drawn": 0.364,
+    "tv_widget": 0.0,
+    "mobile": 0.091,
+    "table": 0.0,
+    "panel": 0.545,
+    "x_post": 0.0,
+    "article": 0.0,
+    "etf_flows": 0.0,
+    "polymarket": 0.0
+   },
+   "light_share": 0.818,
+   "tall_share": 0.0,
+   "p_image": 0.1,
+   "v2": {
+    "p_image": 0.1,
+    "chart_share": 0.688,
+    "styles": {
+     "tv_drawn": 0.364,
+     "tv_widget": 0.0,
+     "mobile": 0.091,
+     "table": 0.0,
+     "panel": 0.545
+    },
+    "light_share": 0.818,
+    "tall_share": 0.0
+   }
+  },
+  "crypto_etf_flows_en": {
+   "family": "crypto_en",
+   "image_rate": 0.325,
+   "posts_seen": 200,
+   "chart_share": 0.585,
+   "styles": {
+    "tv_drawn": 0.292,
+    "tv_widget": 0.125,
+    "mobile": 0.042,
+    "table": 0.083,
+    "panel": 0.458,
+    "x_post": 0.0,
+    "article": 0.0,
+    "etf_flows": 0.0,
+    "polymarket": 0.0
+   },
+   "light_share": 0.458,
+   "tall_share": 0.083,
+   "p_image": 0.19,
+   "v2": {
+    "p_image": 0.19,
+    "chart_share": 0.585,
+    "styles": {
+     "tv_drawn": 0.292,
+     "tv_widget": 0.125,
+     "mobile": 0.042,
+     "table": 0.083,
+     "panel": 0.458
+    },
+    "light_share": 0.458,
+    "tall_share": 0.083
+   }
+  },
+  "crypto_meme_zh": {
+   "family": "crypto_zh",
+   "image_rate": 0.308,
+   "posts_seen": 240,
+   "chart_share": 0.55,
+   "styles": {
+    "tv_drawn": 0.136,
+    "tv_widget": 0.091,
+    "mobile": 0.227,
+    "table": 0.182,
+    "panel": 0.364,
+    "x_post": 0.0,
+    "article": 0.0,
+    "etf_flows": 0.0,
+    "polymarket": 0.0
+   },
+   "light_share": 0.636,
+   "tall_share": 0.182,
+   "p_image": 0.17,
+   "v2": {
+    "p_image": 0.17,
+    "chart_share": 0.55,
+    "styles": {
+     "tv_drawn": 0.136,
+     "tv_widget": 0.091,
+     "mobile": 0.227,
+     "table": 0.182,
+     "panel": 0.364
+    },
+    "light_share": 0.636,
+    "tall_share": 0.182
+   }
+  },
+  "crypto_airdrop_zh": {
+   "family": "crypto_zh",
+   "image_rate": 0.621,
+   "posts_seen": 240,
+   "chart_share": 0.55,
+   "styles": {
+    "tv_drawn": 0.136,
+    "tv_widget": 0.091,
+    "mobile": 0.227,
+    "table": 0.182,
+    "panel": 0.364,
+    "x_post": 0.0,
+    "article": 0.0,
+    "etf_flows": 0.0,
+    "polymarket": 0.0
+   },
+   "light_share": 0.636,
+   "tall_share": 0.182,
+   "p_image": 0.341,
+   "v2": {
+    "p_image": 0.341,
+    "chart_share": 0.55,
+    "styles": {
+     "tv_drawn": 0.136,
+     "tv_widget": 0.091,
+     "mobile": 0.227,
+     "table": 0.182,
+     "panel": 0.364
+    },
+    "light_share": 0.636,
+    "tall_share": 0.182
+   }
+  },
+  "crypto_prediction_zh": {
+   "family": "crypto_zh",
+   "image_rate": 0.385,
+   "posts_seen": 200,
+   "chart_share": 0.55,
+   "styles": {
+    "tv_drawn": 0.136,
+    "tv_widget": 0.091,
+    "mobile": 0.227,
+    "table": 0.182,
+    "panel": 0.364,
+    "x_post": 0.0,
+    "article": 0.0,
+    "etf_flows": 0.0,
+    "polymarket": 0.0
+   },
+   "light_share": 0.636,
+   "tall_share": 0.182,
+   "p_image": 0.212,
+   "v2": {
+    "p_image": 0.212,
+    "chart_share": 0.55,
+    "styles": {
+     "tv_drawn": 0.136,
+     "tv_widget": 0.091,
+     "mobile": 0.227,
+     "table": 0.182,
+     "panel": 0.364
+    },
+    "light_share": 0.636,
+    "tall_share": 0.182
+   }
+  },
+  "crypto_stable_yield_zh": {
+   "family": "crypto_zh",
+   "image_rate": 0.36,
+   "posts_seen": 200,
+   "chart_share": 0.55,
+   "styles": {
+    "tv_drawn": 0.136,
+    "tv_widget": 0.091,
+    "mobile": 0.227,
+    "table": 0.182,
+    "panel": 0.364,
+    "x_post": 0.0,
+    "article": 0.0,
+    "etf_flows": 0.0,
+    "polymarket": 0.0
+   },
+   "light_share": 0.636,
+   "tall_share": 0.182,
+   "p_image": 0.198,
+   "v2": {
+    "p_image": 0.198,
+    "chart_share": 0.55,
+    "styles": {
+     "tv_drawn": 0.136,
+     "tv_widget": 0.091,
+     "mobile": 0.227,
+     "table": 0.182,
+     "panel": 0.364
+    },
+    "light_share": 0.636,
+    "tall_share": 0.182
+   }
+  },
+  "crypto_meme_en": {
+   "family": "crypto_en",
+   "image_rate": 0.205,
+   "posts_seen": 200,
+   "chart_share": 0.585,
+   "styles": {
+    "tv_drawn": 0.292,
+    "tv_widget": 0.125,
+    "mobile": 0.042,
+    "table": 0.083,
+    "panel": 0.458,
+    "x_post": 0.0,
+    "article": 0.0,
+    "etf_flows": 0.0,
+    "polymarket": 0.0
+   },
+   "light_share": 0.458,
+   "tall_share": 0.083,
+   "p_image": 0.12,
+   "v2": {
+    "p_image": 0.12,
+    "chart_share": 0.585,
+    "styles": {
+     "tv_drawn": 0.292,
+     "tv_widget": 0.125,
+     "mobile": 0.042,
+     "table": 0.083,
+     "panel": 0.458
+    },
+    "light_share": 0.458,
+    "tall_share": 0.083
+   }
+  },
+  "crypto_airdrop_en": {
+   "family": "crypto_en",
+   "image_rate": 0.471,
+   "posts_seen": 240,
+   "chart_share": 0.585,
+   "styles": {
+    "tv_drawn": 0.292,
+    "tv_widget": 0.125,
+    "mobile": 0.042,
+    "table": 0.083,
+    "panel": 0.458,
+    "x_post": 0.0,
+    "article": 0.0,
+    "etf_flows": 0.0,
+    "polymarket": 0.0
+   },
+   "light_share": 0.458,
+   "tall_share": 0.083,
+   "p_image": 0.275,
+   "v2": {
+    "p_image": 0.275,
+    "chart_share": 0.585,
+    "styles": {
+     "tv_drawn": 0.292,
+     "tv_widget": 0.125,
+     "mobile": 0.042,
+     "table": 0.083,
+     "panel": 0.458
+    },
+    "light_share": 0.458,
+    "tall_share": 0.083
+   }
+  },
+  "crypto_prediction_en": {
+   "family": "crypto_en",
+   "image_rate": 0.445,
+   "posts_seen": 200,
+   "chart_share": 0.585,
+   "styles": {
+    "tv_drawn": 0.292,
+    "tv_widget": 0.125,
+    "mobile": 0.042,
+    "table": 0.083,
+    "panel": 0.458,
+    "x_post": 0.0,
+    "article": 0.0,
+    "etf_flows": 0.0,
+    "polymarket": 0.0
+   },
+   "light_share": 0.458,
+   "tall_share": 0.083,
+   "p_image": 0.26,
+   "v2": {
+    "p_image": 0.26,
+    "chart_share": 0.585,
+    "styles": {
+     "tv_drawn": 0.292,
+     "tv_widget": 0.125,
+     "mobile": 0.042,
+     "table": 0.083,
+     "panel": 0.458
+    },
+    "light_share": 0.458,
+    "tall_share": 0.083
+   }
+  },
+  "crypto_perp_dex_en": {
+   "family": "crypto_en",
+   "image_rate": 0.383,
+   "posts_seen": 240,
+   "chart_share": 0.585,
+   "styles": {
+    "tv_drawn": 0.292,
+    "tv_widget": 0.125,
+    "mobile": 0.042,
+    "table": 0.083,
+    "panel": 0.458,
+    "x_post": 0.0,
+    "article": 0.0,
+    "etf_flows": 0.0,
+    "polymarket": 0.0
+   },
+   "light_share": 0.458,
+   "tall_share": 0.083,
+   "p_image": 0.224,
+   "v2": {
+    "p_image": 0.224,
+    "chart_share": 0.585,
+    "styles": {
+     "tv_drawn": 0.292,
+     "tv_widget": 0.125,
+     "mobile": 0.042,
+     "table": 0.083,
+     "panel": 0.458
+    },
+    "light_share": 0.458,
+    "tall_share": 0.083
+   }
+  },
+  "crypto_stable_yield_en": {
+   "family": "crypto_en",
+   "image_rate": 0.57,
+   "posts_seen": 200,
+   "chart_share": 0.585,
+   "styles": {
+    "tv_drawn": 0.292,
+    "tv_widget": 0.125,
+    "mobile": 0.042,
+    "table": 0.083,
+    "panel": 0.458,
+    "x_post": 0.0,
+    "article": 0.0,
+    "etf_flows": 0.0,
+    "polymarket": 0.0
+   },
+   "light_share": 0.458,
+   "tall_share": 0.083,
+   "p_image": 0.333,
+   "v2": {
+    "p_image": 0.333,
+    "chart_share": 0.585,
+    "styles": {
+     "tv_drawn": 0.292,
+     "tv_widget": 0.125,
+     "mobile": 0.042,
+     "table": 0.083,
+     "panel": 0.458
+    },
+    "light_share": 0.458,
+    "tall_share": 0.083
+   }
+  },
+  "sol_base_alpha_en": {
+   "family": "crypto_en",
+   "image_rate": 0.65,
+   "posts_seen": 200,
+   "chart_share": 0.585,
+   "styles": {
+    "tv_drawn": 0.292,
+    "tv_widget": 0.125,
+    "mobile": 0.042,
+    "table": 0.083,
+    "panel": 0.458,
+    "x_post": 0.0,
+    "article": 0.0,
+    "etf_flows": 0.0,
+    "polymarket": 0.0
+   },
+   "light_share": 0.458,
+   "tall_share": 0.083,
+   "p_image": 0.38,
+   "v2": {
+    "p_image": 0.38,
+    "chart_share": 0.585,
+    "styles": {
+     "tv_drawn": 0.292,
+     "tv_widget": 0.125,
+     "mobile": 0.042,
+     "table": 0.083,
+     "panel": 0.458
+    },
+    "light_share": 0.458,
+    "tall_share": 0.083
+   }
   }
+ },
+ "added": {
+  "2026-10-08": [
+   "zh_macro",
+   "crypto_ai_crossover_zh",
+   "crypto_newbie_zh",
+   "crypto_alt_trader_en",
+   "longterm_investing_en",
+   "crypto_etf_flows_en",
+   "crypto_meme_zh",
+   "crypto_airdrop_zh",
+   "crypto_prediction_zh",
+   "crypto_stable_yield_zh",
+   "sol_base_alpha_en",
+   "crypto_meme_en",
+   "crypto_airdrop_en",
+   "crypto_prediction_en",
+   "crypto_perp_dex_en",
+   "crypto_stable_yield_en"
+  ]
  }
 }
