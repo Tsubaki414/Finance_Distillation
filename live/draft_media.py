@@ -54,6 +54,8 @@ def annotate(row, account, out_dir=None, replies_given=0, own_handles=(), charts
         else:
             row['media_plan'] = ({'wanted': plan.get('kind'), 'status': 'no_data', 'detail': plan.get('failed')}
                                  if plan else {'wanted': None, 'status': 'not_eligible'})
+    if plan and plan.get('manual_sources'):   # media v3: pages donors would screenshot that we may not load (terms)
+        row['media_plan']['manual_sources'] = plan['manual_sources']
     return row
 
 

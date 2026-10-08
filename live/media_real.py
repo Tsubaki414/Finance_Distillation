@@ -48,7 +48,7 @@ from zoneinfo import ZoneInfo
 
 import requests
 
-from live import charts
+from live import charts, media_sources
 
 ROOT = Path(__file__).resolve().parents[1]
 PROFILES = ROOT / 'live/media_profiles.json'
@@ -60,6 +60,25 @@ LWC_URLS = (f'https://unpkg.com/lightweight-charts@{LWC_VERSION}/dist/lightweigh
             f'https://cdn.jsdelivr.net/npm/lightweight-charts@{LWC_VERSION}/dist/lightweight-charts.standalone.production.js')
 CAPTURE_TIMEOUT_S = 90
 STYLES = ('tv_drawn', 'tv_widget', 'mobile', 'table', 'panel')
+# media v3 (live/media_sources.py): when a draft's subject matches one of these sources, that source gets this share
+# of the style draw and the v2 styles share the rest by profile weight: ETF flow talk -> the flow table 75%, odds
+# talk naming a prediction market / odds -> Polymarket 75% (35% when only the topic matches), built on an X post ->
+# that post 50%, an allow-listed article source -> the article 50%. (Donors post these rarely overall, but when the
+# post is about exactly that, the source is what they screenshot.)
+SOURCE_SHARE = {'x_post': 0.5, 'etf_flows': 0.75, 'polymarket': 0.75, 'polymarket_topic': 0.35, 'article': 0.5}
+
+
+def style_weights(old, src, prof):
+    """Draw weights for the v2 styles (profile) plus the matched source styles (SOURCE_SHARE of the draw)."""
+    w_old = [max(prof['styles'].get(s, 0), 0.02) for s in old]
+    shares = [SOURCE_SHARE['polymarket_topic' if s == 'polymarket' and not src[s].get('explicit') else s] for s in src]
+    if not old:
+        return w_old + shares
+    tot = sum(shares)
+    if tot >= 0.95:
+        shares, tot = [x * 0.95 / tot for x in shares], 0.95
+    k = sum(w_old) / (1 - tot)
+    return w_old + [x * k for x in shares]
 DEFAULT_PROFILE = {'p_image': 0.2, 'chart_share': 0.55, 'light_share': 0.55, 'tall_share': 0.1,
                    'styles': {'tv_drawn': 0.3, 'tv_widget': 0.1, 'mobile': 0.15, 'table': 0.05, 'panel': 0.4}}
 PRICE_TALK = re.compile(
@@ -120,6 +139,8 @@ def profile_for(account_id, profiles=None):
     prof = (profiles or load_profiles()).get('accounts', {}).get(account_id)
     if not prof:
         return dict(DEFAULT_PROFILE, source='default')
+    if not media_sources.enabled() and prof.get('v2'):   # FD_MEDIA_SOURCES=0: the Oct 8 (v2) numbers exactly
+        prof = {**prof, **prof['v2']}
     return {**DEFAULT_PROFILE, **prof, 'styles': {**DEFAULT_PROFILE['styles'], **(prof.get('styles') or {})},
             'source': 'profile'}
 
@@ -171,26 +192,35 @@ def decide(row, account, profiles=None, force=False):
     forced = ptype == 'chart_caption'
     if not (forced or force) and roll >= prof['p_image']:
         return {**base, 'why': f'no image by donor rate (roll {roll:.2f} >= p {prof["p_image"]:.2f})', 'roll': round(roll, 3)}
+    src = media_sources.candidates(row, account, text)
     subj = charts.pick_subject(text)
     if subj and subj['asset'] == 'crypto' and account.get('kind') != 'crypto':
         subj = None   # beat gate: no crypto price charts on stock / investing accounts
     series = charts.pick_series(text)
     if subj and not (forced or PRICE_TALK.search(text) or subject_mentions(text, subj) >= 2):
         subj = None   # the ticker is named in passing; a price chart of it would be off-topic
-    if not subj and not series:
-        return {**base, 'why': 'no chartable subject in the text', 'roll': round(roll, 3)}
+    manual = media_sources.manual_sources(row, text, subj) if media_sources.enabled() else []
+    if not subj and not series and not src:
+        return {**base, 'why': 'no chartable subject in the text', 'roll': round(roll, 3),
+                **({'manual_sources': manual} if manual else {})}
     if subj and series and not PRICE_TALK.search(text):
         subj = None   # the draft is about the data series, not the price
     interval = charts.pick_interval(text)
     levels_named = bool(subj) and bool(charts._price_numbers(text))
-    styles = feasible_styles(subj, series, levels_named, account, derivs=bool(DERIV_TALK.search(text)))
-    weights = [max(prof['styles'].get(s, 0), 0.02) for s in styles]
+    old = feasible_styles(subj, series, levels_named, account, derivs=bool(DERIV_TALK.search(text)))
+    styles = old + list(src)
+    weights = style_weights(old, src, prof)
     style = rng.choices(styles, weights)[0]
     theme = 'light' if rng.random() < prof['light_share'] else 'dark'
+    # the v2 style this draft falls back to when the source capture fails (same draw among the v2 styles only)
+    # (drawn only when a source matched, so drafts without one keep their v2 seed and image exactly)
+    fallback = (rng.choices(old, [max(prof['styles'].get(s, 0), 0.02) for s in old])[0] if src and old else None)
     return {**base, 'want': True, 'why': ('chart_caption' if forced else 'forced (sample)' if roll >= prof['p_image']
                                           else f'donor rate (roll {roll:.2f} < p {prof["p_image"]:.2f})'),
             'style': style, 'theme': theme, 'subject': subj, 'series': series if not subj or style == 'panel' else None,
-            'interval': interval, 'candidates': styles, 'seed': rng.randrange(1 << 30)}
+            'interval': interval, 'candidates': styles, 'seed': rng.randrange(1 << 30),
+            **({'sources': src, 'fallback_style': fallback} if src else {}),
+            **({'manual_sources': manual} if manual else {})}
 
 
 # ------------------------------------------------------------------ capture plumbing
@@ -594,16 +624,31 @@ def attach(row, account, out_dir, rel_prefix='media', ttl=None, profiles=None, f
     path = Path(out_dir) / rel
     path.parent.mkdir(parents=True, exist_ok=True)
     tried = []
-    chain = [plan['style']]
-    if plan['style'] == 'tv_widget':
-        chain.append('tv_drawn')
-    if plan['style'] == 'table':
-        chain.append('tv_drawn')
-    if plan['style'] == 'panel' and plan.get('subject'):
-        chain.append('tv_drawn')
+    first = plan['style']
+    chain = []
+    if first in media_sources.NEW_STYLES:   # source capture first, then the v2 style this draft would have had
+        chain.append(first)
+        first = plan.get('fallback_style')
+    if first:
+        chain.append(first)
+        if first in ('tv_widget', 'table') or (first == 'panel' and plan.get('subject')):
+            chain.append('tv_drawn')
     made = None
     for style in chain:
         try:
+            if style in media_sources.NEW_STYLES:
+                if not captures_enabled():
+                    tried.append({'style': style, 'error': 'captures disabled'})
+                    continue
+                ok, info = media_sources.CAPTURERS[style](plan['sources'][style], plan['theme'], lang, path, _capture)
+                if ok and _png_ok(path):
+                    made = {'style': style, 'capture': True, 'page': info.get('page'), 'source_info': info,
+                            'data': {'source': info.get('source_name'), 'url': info.get('page'),
+                                     'fetched_at': info.get('captured_at'), 'rows': info.get('text_sha')},
+                            'extra': {}}
+                    break
+                tried.append({'style': style, 'error': info.get('error') or 'blank capture'})
+                continue
             fred = style == 'panel' and (plan.get('series') or {}).get('provider') == 'fred'
             if style == 'tv_widget' or (fred and captures_enabled()):
                 if not captures_enabled():
@@ -641,26 +686,39 @@ def attach(row, account, out_dir, rel_prefix='media', ttl=None, profiles=None, f
         return None, {**plan, 'kind': None, 'failed': tried}
     data = made['data']
     subj, series = plan.get('subject'), plan.get('series')
-    kind = 'data' if made['style'] == 'panel' and series else 'candle'
+    # source captures are data images: the hourly refresh rechecks them at most every 6 h (scripts/refresh_charts.py)
+    kind = 'data' if (made['style'] == 'panel' and series) or made['style'] in media_sources.NEW_STYLES else 'candle'
     label = (subj or {}).get('display') or (series or {}).get('title')
+    info = made.get('source_info') or {}
+    src = plan.get('sources') or {}
     alt = {'tv_widget': f'{label} {INTERVAL_LABEL.get(plan["interval"], "")} chart (TradingView widget)',
            'tv_drawn': f'{label} {INTERVAL_LABEL.get(plan["interval"], "")} candlestick chart',
-           'mobile': f'{label} price screen', 'panel': f'{label} chart', 'table': 'Perp funding / open interest table'}[made['style']]
+           'mobile': f'{label} price screen', 'panel': f'{label} chart', 'table': 'Perp funding / open interest table',
+           'x_post': f"Screenshot of the source post by @{src.get('x_post', {}).get('handle')}",
+           'etf_flows': f"{src.get('etf_flows', {}).get('asset')} spot ETF daily flows ({info.get('source_name')})",
+           'polymarket': f"Polymarket: {(info.get('market') or {}).get('question')}",
+           'article': f"Screenshot of the source article ({info.get('source_name')})"}[made['style']]
     levels = made['extra'].get('levels') or []
     sha = hashlib.sha256(path.read_bytes()).hexdigest()
     data_sha = hashlib.sha256(json.dumps([made['style'], alt, data.get('rows'), levels], default=str).encode()).hexdigest()
     rendered = datetime.now(timezone.utc).isoformat(timespec='seconds')
     sources = [{'name': data.get('source'), 'url': data.get('url'), 'fetched_at': data.get('fetched_at')}]
-    if made.get('page'):
+    if made['style'] in media_sources.NEW_STYLES:
+        sources = [{'name': info.get('source_name'), 'url': made['page'], 'fetched_at': info.get('captured_at') or rendered}]
+    elif made.get('page'):
         sources.insert(0, {'name': 'TradingView widget' if made['style'] == 'tv_widget' else 'FRED graph page',
                            'url': made['page'], 'fetched_at': rendered})
     spec = {'draft_id': row['id'], 'kind': kind, 'style': made['style'], 'capture': made['capture'],
             'theme': plan['theme'], 'subject': subj, 'series': series, 'interval': plan['interval'],
-            'decision': {k: plan.get(k) for k in ('why', 'p_image', 'post_type', 'candidates', 'profile_source')},
+            'decision': {k: plan.get(k) for k in ('why', 'p_image', 'post_type', 'candidates', 'profile_source',
+                                                  'sources', 'fallback_style')},
             'tried': tried, 'data_sources': sources, 'levels': levels, 'sha256': sha, 'data_sha': data_sha,
-            'refreshed_at': rendered, 'version': 'media-v2'}
+            'refreshed_at': rendered, 'version': 'media-v3' if made['style'] in media_sources.NEW_STYLES else 'media-v2',
+            **({'manual_sources': plan['manual_sources']} if plan.get('manual_sources') else {})}
     path.with_suffix('.json').write_text(json.dumps(spec, ensure_ascii=False, indent=1, default=str))
     media = {'kind': 'chart', 'chart_type': kind, 'style': made['style'], 'capture': made['capture'],
              'path': rel.as_posix(), 'alt': alt, 'data_sources': sources, 'levels': levels, 'sha256': sha,
              'data_sha': data_sha, 'refreshed_at': rendered}
+    if made['style'] == 'x_post':   # a screenshot of someone's post: credit them wherever the image is shown
+        media['credit'] = '@' + src['x_post']['handle'] + ' on X'
     return media, {**plan, 'kind': kind, 'profile': {'why': plan['why']}, 'tried': tried}
