@@ -210,6 +210,20 @@ def local_decisions(day):
         return {}
 
 
+def feedback_stats():
+    """The nightly 反馈闭环 stats (live/feedback.py stats.json): counts, rates, hold-reason categories and the prior
+    keys past the minimum sample; no draft or edit text. None when absent (FD_FEEDBACK_V2=0 / not built yet)."""
+    if str(ROOT) not in sys.path:
+        sys.path.append(str(ROOT))
+    from live import feedback
+    st = feedback.load_stats()
+    if not isinstance(st, dict) or not st.get('built_at'):
+        return None
+    keep = ('built_at', 'days', 'totals', 'accounts', 'by', 'hold_reasons', 'active_multipliers')
+    return {**{k: st.get(k) for k in keep}, 'min_account': feedback.MIN_ACCOUNT_N, 'min_key': feedback.MIN_N,
+            'max_shift': feedback.MAX_SHIFT}
+
+
 STALE = ('middleware.js',)   # deploy assets that were removed from scripts/ops_admin
 
 
@@ -319,6 +333,9 @@ __NAV__
 <div class="cols">
 <section class="panel"><h2>各账号 vs 目标（每号 <span id="tgt"></span> 篇可发）</h2><table id="accts"></table></section>
 <section class="panel"><h2>运行记录：花费与模型</h2><table id="runs"></table></section>
+<section class="panel" id="fbp"><h2>反馈闭环：已发 / 改稿 / HOLD（夜间统计）</h2><div class="sync" id="fbm"></div>
+<table id="fbA"></table><div class="ctl" style="margin:12px 0 6px"><label>分组 <select id="fbDim"><option value="angle">角度</option><option value="motif">母题类型</option><option value="post_kind">帖型</option><option value="format">格式</option><option value="media">配图</option></select></label></div>
+<table id="fbD"></table><div id="fbH" class="hi" style="margin-top:10px"></div></section>
 </div>
 <div class="bar">
 <label>日期 <select id="day"></select></label>
@@ -501,7 +518,25 @@ $('#exp').onclick=()=>{
 };
 for(const s of ['#fAcct','#fSt','#fLang','#fRun','#fDec','#fHard','#fWarn'])$(s).onchange=render;
 $('#fQ').oninput=render;$('#day').onchange=()=>{follow=$('#day').value===latest();load()};
-function upd(){$('#upd').textContent=D.updated?`数据更新于 北京时间 ${D.updated.slice(5,10)} ${D.updated.slice(11,16)}`:''}
+function upd(){$('#upd').textContent=D.updated?`数据更新于 北京时间 ${D.updated.slice(5,10)} ${D.updated.slice(11,16)}`:'';fbPanel()}
+// 反馈闭环 panel: live/store/feedback/stats.json from the nightly scripts/feedback_priors.py (counts only, no text)
+const pct=v=>v==null?'-':Math.round(v*100)+'%';
+function fbRow(label,v,m){return `<tr><td>${label}</td><td class="n">${v.ready}</td><td class="n">${v.published_asis||0}</td><td class="n">${v.published_edited||0}</td><td class="n">${v.approved||0}</td><td class="n">${v.unpicked||0}</td><td class="n">${v.held||0}</td><td class="n">${v.rejected||0}</td><td class="n r">${pct(v.publish_rate)}</td><td class="n">${pct(v.edit_rate)}</td><td class="n">${pct(v.hold_rate)}</td><td class="n">${v.n}</td><td class="n">${m??''}</td></tr>`}
+const FBH='<tr><th></th><th class="n">可发</th><th class="n">原样发</th><th class="n">改后发</th><th class="n">批准未发</th><th class="n">没选</th><th class="n">HOLD/重写</th><th class="n">拒绝</th><th class="n">发布率</th><th class="n">改稿率</th><th class="n">HOLD 率</th><th class="n">样本</th><th class="n">先验</th></tr>';
+function fbPanel(){
+  const F=D.feedback;$('#fbp').style.display=F?'':'none';if(!F)return;
+  const names=Object.fromEntries(D.accounts.map(a=>[a.id,a.name])),mult=F.active_multipliers||{},dim=$('#fbDim').value;
+  const days=Object.entries(F.days||{}).map(([d,v])=>`${d.slice(5)} 已发 ${v.published}/${v.ready}`).join(' · ');
+  $('#fbm').textContent=`统计于 北京时间 ${new Date(F.built_at).toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false})} · 有决定的日期：${days||'无'} · 先验：每号 ≥${F.min_account} 篇、每项 ≥${F.min_key} 篇才生效，幅度 ±${Math.round(F.max_shift*100)}%（只重排，不加题）`;
+  const accts=Object.entries(F.accounts||{}).filter(([a,v])=>v.ready||v.n).sort((x,y)=>(y[1].published-x[1].published)||(y[1].ready-x[1].ready));
+  $('#fbA').innerHTML=FBH.replace('<th></th>','<th>账号</th>')+fbRow('<b>合计</b>',F.totals,'')+accts.map(([a,v])=>fbRow(esc(names[a]||a),v,Object.values(mult[a]||{}).reduce((s,m)=>s+Object.keys(m).length,0)||'')).join('');
+  const by=Object.entries((F.by||{})[dim]||{}).sort((x,y)=>y[1].ready-x[1].ready);
+  const moved=k=>Object.entries(mult).filter(([a,m])=>(m[dim]||{})[k]).map(([a,m])=>`${names[a]||a} ×${m[dim][k]}`).join(', ');
+  $('#fbD').innerHTML=FBH.replace('<th></th>',`<th>${esc($('#fbDim').selectedOptions[0].textContent)}</th>`)+by.map(([k,v])=>fbRow(`<span class="mono">${esc(k)}</span>`,v,esc(moved(k)))).join('');
+  const hr=(t,l)=>l&&l.length?`<div><b>${t}</b>：${l.map(([k,n])=>`${esc(k)} ×${n}`).join('；')}</div>`:'';
+  $('#fbH').innerHTML=hr("审稿 HOLD / 要求重写",(F.hold_reasons||{}).review)+hr("流水线 HOLD（运营没看到的稿）",(F.hold_reasons||{}).pipeline)+`<div style="color:var(--faint)">原样发 1.0 · 改后发 0.85 · 批准未发 0.6 · 没选（同号当天发了别的稿）0.35 · HOLD 0.1 · 拒绝 0；改稿 diff 只存本地，不在此页。</div>`;
+}
+$('#fbDim').onchange=fbPanel;
 $('#rf').onclick=async()=>{const b=$('#rf');b.disabled=true;b.textContent='刷新中…';await refreshData('no-store');await load();b.disabled=false;b.textContent='刷新'};
 let tick=0;   // decisions every 60 s; the page data (new days / rebuilt drafts) every 5 min
 setInterval(async()=>{if(document.hidden)return;if(++tick%5===0)await refreshData('no-cache');load()},60000);
@@ -529,7 +564,7 @@ def build(inbox=ops.INBOX, out=ops.OUT, n_days=3):
         local[d.name] = local_decisions(d.name)
     updated = max((d['stored'] for v in days.values() for d in v if d['stored']), default='')
     data = json.dumps({'accounts': accounts, 'days': days, 'runs': runs, 'local': local, 'target': TARGET,
-                       'updated': updated}, ensure_ascii=False, sort_keys=True)
+                       'updated': updated, 'feedback': feedback_stats()}, ensure_ascii=False, sort_keys=True)
     page = PAGE.replace('__ROOTVARS__', root_vars()).replace('__NAVCSS__', ops.NAV_CSS).replace('__SHARED__', ops.shared_js())
     page = page.replace('__NAV__', ops.nav_html('/admin')).replace('__DATA__', data.replace('</', '<\\/'))
     (out / 'admin').mkdir(parents=True, exist_ok=True)
