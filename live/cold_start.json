@@ -1,0 +1,11 @@
+{
+  "version": "cold-start-v1",
+  "note": "First FD posting day per account (Beijing date). Accounts 1-26 started posting FD content on 2026-10-08 (views diagnosis); accounts 27-36 have not started (null = still cold). An account is in cold start for window_days from its first day.",
+  "window_days": 14,
+  "default_first_day": "2026-10-08",
+  "first_day": {
+    "crypto_meme_zh": null, "crypto_airdrop_zh": null, "crypto_prediction_zh": null, "crypto_stable_yield_zh": null,
+    "sol_base_alpha_en": null, "crypto_meme_en": null, "crypto_airdrop_en": null, "crypto_prediction_en": null,
+    "crypto_perp_dex_en": null, "crypto_stable_yield_en": null
+  }
+}

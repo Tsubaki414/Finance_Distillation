@@ -28,7 +28,8 @@ def test_stale_and_own_targets_stay_original(tmp_path):
     assert post_mode.decide(_row('quote_comment'), tmp_path, own_handles=['@Someone'])['post_mode'] == 'original'
 
 
-def test_quote_share_from_donor_mix_capped(tmp_path):
+def test_quote_share_from_donor_mix_capped(tmp_path, monkeypatch):
+    monkeypatch.setenv('FD_COLD_START', '0')   # the cold-start quote floor has its own test (test_fd_quality_oct8_eve)
     (tmp_path / 'a.json').write_text(json.dumps({'post_type_mix': {'quote_comment': 0.9}}))
     assert post_mode.quote_share('a', tmp_path) == post_mode.QUOTE_CAP
     modes = [post_mode.decide(_row(rid=f'r{i}'), tmp_path)['post_mode'] for i in range(400)]

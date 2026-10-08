@@ -181,6 +181,8 @@ def decide(row, account, profiles=None, force=False):
     (sample sheets); every other rule still applies."""
     text = (row.get('text') or row.get('body') or '').strip()
     prof = profile_for(account['id'], profiles)
+    from live import cold_start   # Oct 8 evening: image-heavy donors -> p_image raised toward their image rate
+    prof = {**prof, 'p_image': cold_start.boosted_p_image(account['id'], prof['p_image'])}
     ptype = _post_type(row)
     base = {'want': False, 'post_type': ptype, 'p_image': prof['p_image'], 'profile_source': prof['source']}
     if not text:

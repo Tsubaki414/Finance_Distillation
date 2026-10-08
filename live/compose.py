@@ -1212,6 +1212,8 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
     findings += risk_rules.findings(body, persona.lang)
     from live.draft_qa import stale_time_findings
     findings += stale_time_findings(body, units, now, persona.lang)
+    from live import hook_voice   # Oct 8 evening: weak hook (soft, rewrite trigger), source forecast as own call, stale high
+    findings += hook_voice.findings(body, units, source, now, persona.lang)
     findings += contradiction_findings(body)
     findings += qa_levels.d_tier_findings(body)
     if frame and frame.get('never_name'):
@@ -1514,6 +1516,9 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                          for u in chosen]}
     if angle:
         payload['angle'] = dict(angle)
+    from live import hook_voice as _hv
+    if _hv.enabled():   # Oct 8 evening: concrete line 1, bookkeeping first person, credit forecasts, no stale highs
+        payload['hook_voice'] = _hv.PROMPT_RULE
     if base.get('reality', {}).get('lines'):
         payload['reality'] = {'as_of': base['reality']['as_of'], 'lines': base['reality']['lines'],
                               'rule': _hotspot.REALITY_RULE}
@@ -2166,6 +2171,11 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     # as rewrite_error (hold reason model_error) so a later --fill run can try again.
     hard_repair = None
     first_hard = [f for f in findings if f['level'] == 'hard' and f['code'] not in NOT_REWRITABLE]
+    # Oct 8 evening (live/hook_voice.py): a weak line-1 hook is soft (never a HOLD) but gets this same one rewrite
+    from live import hook_voice as _hv
+    trigger = _hv.REPAIR_TRIGGER if _hv.enabled() else frozenset()
+    first_soft = [f for f in findings if f['level'] != 'hard' and f['code'] in trigger]
+    first_hard = first_hard + first_soft
     if first_hard:
         parts = [(qa_levels.FIXES.get(f['code']) or HARD_FIXES.get(f['code'])
                   or f"Fix the hard QA failure {f['code']}.") + ' (' + str(f.get('detail'))[:300] + ')' for f in first_hard]
@@ -2185,10 +2195,15 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                                    reject_reason='empty_body' if not body_h else 'invalid_ledger')
             else:
                 text_h, findings_h, grounding_h, emo_h = _final_qa(body_h, value_h['claim_ledger'], label_h)
-                after = [f for f in findings_h if f['level'] == 'hard']
+                after_hard = [f for f in findings_h if f['level'] == 'hard']
+                after_soft = [f for f in findings_h if f['level'] != 'hard' and f['code'] in trigger]
+                after = after_hard + after_soft
                 hard_repair.update(retry_findings=[{'code': f['code'], 'detail': f.get('detail')} for f in after],
                                    result='still_hard' if after else 'cleared')
-                if len(after) <= len(first_hard):   # keep the rewrite unless it made hard QA worse
+                n_first_hard = len(first_hard) - len(first_soft)
+                keep = (len(after_hard) <= n_first_hard if not first_soft else
+                        (len(after_hard), len(after_soft)) <= (n_first_hard, len(first_soft)))
+                if keep:   # keep the rewrite unless it made hard QA worse (hook trigger: no new hard, hook not worse)
                     hard_repair['kept'] = 'retry'
                     body, value, response, label_stripped = body_h, value_h, response_h, label_h
                     ledger = value['claim_ledger']
@@ -2294,7 +2309,7 @@ def arbitration_mode(mode=None):
     return value
 
 
-def arbitrate_batch(results, *, mode=None, same_language=False):
+def arbitrate_batch(results, *, mode=None, same_language=False, same_conclusion=False, locked=()):
     """Post-stance / post-compose cross-persona claim arbitration, SOFT by default.
 
     Same-day same-conclusion claims keep the best-fit persona; others HOLD
@@ -2306,4 +2321,5 @@ def arbitrate_batch(results, *, mode=None, same_language=False):
     if resolved == 'off':
         return [dict(r, arbitration={'status': 'OFF', 'mode': 'off'}) for r in results]
     from live.claim_arbitration import apply_to_results
-    return apply_to_results(results, mode=resolved, same_language=same_language)
+    return apply_to_results(results, mode=resolved, same_language=same_language, same_conclusion=same_conclusion,
+                            locked=locked)

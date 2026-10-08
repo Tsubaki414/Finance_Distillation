@@ -124,7 +124,7 @@ def test_decision_respects_beat_spread_lanes_and_caps():
     assert row['defi_narratives_en']['decision'] != 'IGNORE'
     en = [a for a in ('crypto_macro_en', 'btc_cycles_en', 'crypto_research_en', 'defi_narratives_en')
           if row[a]['decision'] == 'WRITE']
-    assert len(en) == 2                                                        # 2 per language per 母题
+    assert len(en) == 1                                     # Oct 8 evening: 1 per language per 母题 (was 2)
     assert [a for a in ('crypto_macro_en', 'btc_cycles_en', 'crypto_research_en', 'defi_narratives_en')
             if row[a]['decision'] == 'HOLD' and 'cap' in row[a]['reason']]
     assert row['crypto_macro_zh']['decision'] == 'WRITE'

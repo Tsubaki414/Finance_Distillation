@@ -84,8 +84,25 @@ def decide(row, habits_dir=None, replies_given=0, env=None, own_handles=()):
     if fmt == 'quote_comment':
         return {'post_mode': 'quote', 'quote_target_url': url, 'post_mode_why': 'written as quote_comment'}
     share = quote_share(acct, habits_dir)
+    cold = _cold_hot(row, src, own_handles)
+    if cold:   # live/cold_start.py: first 14 days, fresh hot X target -> quote floor
+        share = max(share, cold)
     draw = _draw(f"{row.get('id')}|quote")
     if draw < share:
         return {'post_mode': 'quote', 'quote_target_url': url,
-                'post_mode_why': f'donor quote share {share:.2f} (draw {draw:.2f})'}
+                'post_mode_why': f'{"cold-start " if cold else ""}donor quote share {share:.2f} (draw {draw:.2f})'}
     return {'post_mode': 'original', 'post_mode_why': f'donor quote share {share:.2f} (draw {draw:.2f})'}
+
+
+def _cold_hot(row, src, own_handles=()):
+    """Cold-start quote floor (live/cold_start.COLD_QUOTE_SHARE) for a fresh hot X target, else 0.0."""
+    from live import cold_start
+    acct, day = row.get('account_id') or '', row.get('day')
+    if not acct or not day or not cold_start.is_cold(acct, day):
+        return 0.0
+    try:
+        ref = datetime.fromisoformat(str(row.get('suggested_post_time_london')))
+        ref = ref if ref.tzinfo else ref.replace(tzinfo=timezone.utc)
+    except (TypeError, ValueError):
+        ref = datetime.fromisoformat(day).replace(tzinfo=ZoneInfo('Asia/Shanghai')) + timedelta(hours=12)
+    return cold_start.COLD_QUOTE_SHARE if cold_start.hot_quote_target(src, ref, own_handles) else 0.0

@@ -680,16 +680,18 @@ class EnFake(JudgmentFake):
         return out
 
 
-def _compose_en(fake, account):
+def _compose_en(fake, account, **kw):
     return compose.compose_source(SOURCE, account, fake, post_type='judgment_take',
                                   extracted_units=[dict(u) for u in POOL], exemplars=False, emotion_contract=False,
-                                  now=NOW)
+                                  now=NOW, **kw)
 
 
 def test_crypto_en_said_reason_soft_finding_and_single_regen(monkeypatch, tmp_path):
     _iso(monkeypatch, tmp_path)
     fake = EnFake([EN_SAID, EN_FACT])
-    result = _compose_en(fake, 'crypto_macro_en')
+    # Oct 8 eve: pin a shape that allows the fact version's two number lines (the drawn shape follows the live
+    # persona cards; after the Oct 8 card refresh it drew take_short, max 0 number lines -> shape_mismatch swap)
+    result = _compose_en(fake, 'crypto_macro_en', shape='thesis_mechanism')
     sr = result['structure_retry']
     assert 'missing_why' in {f['code'] for f in sr['first_findings']} and sr['kept'] == 'retry'
     assert result['body'] == EN_FACT and not [f for f in result['post_checks'] if f['code'] == 'missing_why']

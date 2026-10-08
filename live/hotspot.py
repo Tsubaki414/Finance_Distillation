@@ -38,7 +38,7 @@ WINDOW_H = 36
 RECENT_H = 24
 TOP_N = 12
 FIT_MIN = 0.05            # topic share in the account's own donor topic mix below which a 母题 is off its spread
-MAX_PER_LANG = 2          # same as daily_compose.MAX_ACCOUNTS_PER_EVENT
+MAX_PER_LANG = max(1, int(os.environ.get('FD_EVENT_PER_LANG', '1')))   # = daily_compose.MAX_ACCOUNTS_PER_EVENT (Oct 8 eve: 2 -> 1)
 PER_ACCOUNT = 1           # hotspot posts per account per day
 MERGE_CAP_USD = 0.30
 HUB_DEGREE = 6            # a material linked to this many others is a recap: it may join, not bridge

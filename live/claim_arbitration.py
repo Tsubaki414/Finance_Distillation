@@ -102,7 +102,69 @@ def view_overlap(left, right):
     return _overlap(_bigrams(left), _bigrams(right))
 
 
-def claims_collide(a, b, *, subject_floor=0.5, view_floor=0.55, same_language=False):
+# Oct 8 evening (views diagnosis: 13 of 22 published posts sat in 6 same-news-same-conclusion groups across accounts):
+# same_conclusion=True (daily compose, FD_ARB_CONCLUSION default 1) also collides two same-language drafts of one day
+# that reach the same conclusion from DIFFERENT sources / events. Calibrated on the 10-07 / 10-08 inbox (2,722
+# same-language pairs): content-word overlap of account_view >= 0.14 was a duplicate in every pair checked; 0.10-0.14
+# needs a shared distinctive name or number; a shared distinctive number + name (or two names) is the same story.
+CONCLUSION_VIEW_FLOOR = 0.14
+CONCLUSION_VIEW_WEAK = 0.10
+_CONCLUSION_STOP = frozenset(
+    'the a an of to in on for and or as at by with from is are its this that will be into while than more most which '
+    'their it they has have can could would should not but over under amid bitcoin btc crypto market markets'.split())
+_COMMON_STARTERS = frozenset(
+    'major watch connecting integrating unlocking hard greedy everyone whales so thank what it this that these those '
+    'there here why how when where while after before despite because although if unless once now today yesterday '
+    'still even just only also again finally maybe perhaps clearly frankly honestly basically meanwhile instead '
+    'transitioning pivoting maintaining broad sovereign upside downside risk risks bullish bearish options traders '
+    'investors analysts banks lenders regulators retail institutions funds money capital liquidity volatility '
+    'stablecoins altcoins prices price markets equities stocks bonds yields rates inflation growth demand supply '
+    'centralized decentralized long short big small new old high low real true false good bad best worst first last '
+    'next every each many most more less few some any all no not none one two three ten hundreds thousands millions '
+    'billions is are was were be been being do does did have has had will would could should can may might must'.split())
+_GENERIC_NAMES = frozenset({'btc', 'bitcoin', 'eth', 'ethereum', 'crypto', 'us', 'the', 'fed', 'etf', 'etfs', 'ai'})
+
+
+def _content_tokens(text):
+    return {w.lower() for w in re.findall(r"[A-Za-z][A-Za-z0-9'’$-]+|\d[\d.,]*", text or '')
+            if w.lower() not in _CONCLUSION_STOP and len(w) > 2}
+
+
+def conclusion_overlap(left, right):
+    """Content-word Jaccard of two account_views (CJK: character bigrams without 比特)."""
+    cjk = lambda t: {s[i:i + 2] for s in [''.join(re.findall(r'[\u4e00-\u9fff]', t or ''))] for i in range(len(s) - 1)} - {'比特'}
+    a, b = cjk(left), cjk(right)
+    if len(a) >= 4 and len(b) >= 4:
+        return _overlap(a, b)
+    return _overlap(_content_tokens(left), _content_tokens(right))
+
+
+def distinctive(text):
+    """(names, numbers) of a draft: hotspot entities minus generic coins, and significant numbers."""
+    from live import hotspot
+    t = str(text or '')
+    starters = {m.group(2).lower() for m in re.finditer(r'(^|[.!?。！？\n]\s*)([A-Z][a-z]+)', t)}
+    mid = {w.lower() for w in re.findall(r'(?<=[a-z,;:] )([A-Z][A-Za-z0-9&.\-]{2,})', t)}
+    # a sentence-initial word counts as a name only if it is not a common word (or it is capitalised mid-sentence too)
+    names = {n for n in hotspot.entities(t) if n not in starters or n in mid or n not in _COMMON_STARTERS}
+    return (names - _GENERIC_NAMES, hotspot.numbers(t))
+
+
+def conclusion_collide(a, b):
+    """Same conclusion / same story in different words (same language, compatible direction checked by caller)."""
+    va, vb = a.get('account_view') or '', b.get('account_view') or ''
+    views = conclusion_overlap(va, vb) if va and vb else 0.0
+    if views >= CONCLUSION_VIEW_FLOOR:
+        return True
+    na, ua = distinctive(f"{va} {a.get('body') or ''}")
+    nb, ub = distinctive(f"{vb} {b.get('body') or ''}")
+    names, nums = na & nb, ua & ub
+    if views >= CONCLUSION_VIEW_WEAK and (names or nums):
+        return True
+    return bool((nums and names) or len(names) >= 2)
+
+
+def claims_collide(a, b, *, subject_floor=0.5, view_floor=0.55, same_language=False, same_conclusion=False):
     """Same conclusion rephrase? Opposite directions never collide.
     same_language=True (fd20 daily, FD_ARB_SAME_LANG): a zh and an en account post to different readers and never
     duplicate each other; selection already allows one story per language (10-08: 6 of 12 holds were zh drafts held
@@ -130,6 +192,10 @@ def claims_collide(a, b, *, subject_floor=0.5, view_floor=0.55, same_language=Fa
     # directions are not opposite (covers missing subject labels and cross-script paraphrases).
     if same_event and compat is not False and (views >= 0.25 or subj >= 0.3 or not (a.get('subject') and b.get('subject'))):
         return True
+    if same_conclusion and compat is not False:
+        la, lb = a.get('account_lang'), b.get('account_lang')
+        if (not la or not lb or la == lb) and conclusion_collide(a, b):
+            return True
     return False
 
 
@@ -195,7 +261,7 @@ def _components(items, collide):
     return groups
 
 
-def arbitrate(candidates, *, mode='soft', beats=None, same_language=False):
+def arbitrate(candidates, *, mode='soft', beats=None, same_language=False, same_conclusion=False):
     """Assign WRITE / HOLD across a batch of stance claims.
 
     Soft mode: losers keep their draft payload; they are flagged HOLD with
@@ -212,13 +278,18 @@ def arbitrate(candidates, *, mode='soft', beats=None, same_language=False):
                                       c.get('account_view') or '', beats=beats,
                                       source_lang=c.get('source_lang'))
     decisions = []
-    for gi, group in enumerate(_components(items, lambda a, b: claims_collide(a, b, same_language=same_language))):
+    def collide(a, b):
+        if a.get('locked') and b.get('locked'):
+            return False   # two drafts already in the inbox: neither is re-judged here
+        return claims_collide(a, b, same_language=same_language, same_conclusion=same_conclusion)
+    for gi, group in enumerate(_components(items, collide)):
         members = [items[i] for i in group]
         if len(members) == 1:
             m = members[0]
             decisions.append(_decision(m, WRITE, None, None, gi, mode))
             continue
-        members.sort(key=lambda m: (-m['_lane_score'], m.get('account_id') or ''))
+        # a locked member (a ready draft from an earlier run of the day) always keeps the lane
+        members.sort(key=lambda m: (not m.get('locked'), -m['_lane_score'], m.get('account_id') or ''))
         keeper = members[0]
         decisions.append(_decision(keeper, WRITE, None, None, gi, mode))
         for loser in members[1:]:
@@ -251,7 +322,7 @@ def _decision(claim, status, reason_code, keeper, group_id, mode):
     }
 
 
-def candidate_from_stance(account_id, stance, *, key=None, source=None, unit_ids=None, day=None):
+def candidate_from_stance(account_id, stance, *, key=None, source=None, unit_ids=None, day=None, body=None):
     """Build an arbitration candidate from a stance_step / compose result."""
     stance = stance or {}
     view = stance.get('view') or {}
@@ -268,10 +339,21 @@ def candidate_from_stance(account_id, stance, *, key=None, source=None, unit_ids
         'unit_ids': list(unit_ids or stance.get('supporting_unit_ids') or []),
         'event_key': source.get('url') or source.get('title') or source.get('id'),
         'day': day or (source.get('published_at') or '')[:10] or None,
+        'body': body or '',
     }
 
 
-def apply_to_results(results, *, mode='soft', same_language=False):
+def locked_candidate(row):
+    """Arbitration candidate from a ready inbox row of an earlier run the same day (it keeps its lane)."""
+    st, src = row.get('stance') or {}, row.get('source') or {}
+    return {'key': 'locked:' + str(row.get('id')), 'account_id': row.get('account_id'), 'locked': True,
+            'subject': st.get('subject') or '', 'direction': st.get('direction'),
+            'account_view': st.get('account_view') or '', 'source_id': src.get('id'), 'source_lang': src.get('lang'),
+            'account_lang': row.get('lang'), 'unit_ids': [], 'event_key': src.get('url') or src.get('title') or src.get('id'),
+            'day': row.get('day'), 'body': row.get('body') or row.get('text') or ''}
+
+
+def apply_to_results(results, *, mode='soft', same_language=False, same_conclusion=False, locked=()):
     """Post-stance / post-compose soft arbitration over a batch of draft dicts.
 
     Each result must carry account_id and stance (or top-level subject/direction/
@@ -294,9 +376,13 @@ def apply_to_results(results, *, mode='soft', same_language=False):
             key=r.get('key') or r.get('id') or f'{r.get("account_id")}#{i}',
             source=r.get('source') or {},
             unit_ids=[u.get('unit_id') for u in (r.get('units') or []) if isinstance(u, dict)],
-            day=r.get('day')))
+            day=r.get('day'), body=r.get('body')))
+        if r.get('account_lang'):
+            cands[-1]['account_lang'] = r['account_lang']
         index.append(i)
-    decisions = arbitrate(cands, mode=mode, same_language=same_language)
+    extra = [locked_candidate(x) for x in locked or () if x.get('account_id')]
+    decisions = arbitrate(cands + extra, mode=mode, same_language=same_language,
+                          same_conclusion=same_conclusion)[:len(cands)]
     out = [dict(r) for r in results]
     for i, dec in zip(index, decisions):
         row = out[i]

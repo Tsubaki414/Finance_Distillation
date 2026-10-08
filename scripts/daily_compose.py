@@ -60,8 +60,10 @@ TAGS = ROOT / 'live' / 'donors' / 'tags'
 RUNS = Path(os.environ.get('FD_COMPOSE_RUNS', '/workspace/x/compose_runs'))
 DASHBOARD = Path(os.environ.get('FD_COMPOSE_DASHBOARD', '/workspace/x/dashboard'))
 MAX_PER_ACCOUNT = 3            # Fiona: 3 a day is a ceiling, not a quota
-MAX_ACCOUNTS_PER_EVENT = 2     # one event may be taken by at most 2 accounts per language, each with its own lens
-                               # (fix26: per language - 14 crypto accounts share ~12 crypto stories a day)
+# one event / 母题 may be taken by at most this many accounts per language per Beijing day (fix26: per language).
+# Oct 8 evening: 2 -> 1 (views diagnosis: 13 of 22 published posts were same-news-same-conclusion across accounts);
+# FD_EVENT_PER_LANG=2 restores the old cap.
+MAX_ACCOUNTS_PER_EVENT = max(1, int(os.environ.get('FD_EVENT_PER_LANG', '1')))
 STAGE_CALLS = {'stance': 2, 'compose': 3}   # per draft: stance + 1 repair; first pass + 2 rewrites
 # Oct 7 Sirius item 4: the one targeted hard-QA rewrite (compose '[hard_repair]' note) has its own allowance, so
 # polish rewrites cannot use it up; 2 = the rewrite + one transport retry inside compose._ask.
@@ -352,6 +354,8 @@ def ready_events(day, accounts):
         src = r.get('source') or {}
         angle = (r.get('angle') or {}).get('id') if isinstance(r.get('angle'), dict) else r.get('angle')
         events = ({('srcid', src.get('id'))} if src.get('id') else set()) | ({title_event(src.get('title'))} - {None})
+        if (r.get('hotspot') or {}).get('motif_id'):   # a 母题 taken earlier today counts against the cap too
+            events.add(('motif', r['hotspot']['motif_id']))
         try:
             events |= {('hook', h) for h in news_hook.hooks(' '.join([str(src.get('title') or ''), r.get('body') or '']))}
         except Exception:   # noqa: BLE001
@@ -538,9 +542,13 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             pools[aid] = kept
         if info is not None:
             info['skipped_tried'] = skipped_tried
+    lane_gate(pools, accounts, x_of, info)   # Oct 8 evening: niche accounts take on-lane packets only (FD_LANE_FIT)
     if info is not None:
         info['pool_sizes'] = {aid: len(p) for aid, p in pools.items()}
     div = diversity_prepare(pools, accounts, x_of, day, ref, reuse) if topic_div.enabled() else None
+    own_handles = [r.get('handle') for r in fd_accounts.rows(CONFIG) if r.get('handle')]
+    if div is not None:   # Oct 8 evening: cold-start quote targets / chartable packets first among equals
+        div['prefs'] = {a['id']: pick_prefs(a['id'], day, ref, own_handles) for a in accounts}
     hot = hotspot_plan(store, pools, accounts, universes, day, ref, reuse=reuse, allow_model=allow_model)
     if div is not None and hot is not None:
         diversity_gate_hotspot(hot, div)
@@ -619,6 +627,7 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                 **({'post_type': 'data_take'} if packet_kind(g) == 'data' else {}),
                 **({'support': x_support_summary(sup), 'support_records': sup['records']} if sup else {}),
                 'in_shelf': demo.in_shelf(g, ref.date().isoformat()), 'timely': timely(g, ref),
+                **({'x_metrics': src['x_metrics']} if src.get('x_metrics') else {}),
                 'hooks': sorted(group_hooks(g)), 'angle': angle, 'angle_why': why, 'shared_event_with': shared_with,
                 'numbers': sum(len(r['unit'].get('numbers') or []) for r in g)})
             if div is not None:
@@ -642,7 +651,16 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             c = copy.deepcopy(card)
             if p['numbers'] < 2:
                 c['post_type_mix'] = {k: v for k, v in c['post_type_mix'].items() if k not in ('chart_caption', 'list_dump')}
-            fmt = ph.choose_format(persona, recent=recent, seed=f'{day}|{account}|{p["source_id"]}', card=c)
+            from live import cold_start
+            quote = (cold_start.force_quote(account, day, {'url': p.get('url'), 'published_at': p.get('published_at'),
+                                                           'x_metrics': p.get('x_metrics')},
+                                            ref, key=p['source_id'], own_handles=own_handles)
+                     and 'quote_comment' in (c.get('post_type_mix') or {}))
+            # Oct 8 evening: cold-start accounts quote fresh hot X posts more often (COLD_QUOTE_SHARE)
+            fmt = ph.choose_format(persona, recent=recent, seed=f'{day}|{account}|{p["source_id"]}', card=c,
+                                   force_type='quote_comment' if quote else None)
+            if quote:
+                p['cold_start_quote'] = True
             recent.append({'post_format': fmt['type'], 'text': ''})
             t = ph.sample_post_time(card, day, seed=f'{account}|{p["source_id"]}', taken=times, min_gap_min=90)
             times.append(t)
@@ -723,6 +741,56 @@ def diversity_prepare(pools, accounts, x_of, day, ref, reuse=None):
     return {'meta': meta, 'profiles': profs, 'info': info, 'summary': summary}
 
 
+def pick_prefs(account, day, ref, own_handles=()):
+    """Soft per-packet preferences (lower sorts first): (cold-start: not a fresh hot X quote target,
+    image-heavy donors: no real chart / screenshot possible). live/cold_start.py; both 0 when off."""
+    from live import cold_start
+    cold = cold_start.is_cold(account, day)
+    heavy = cold_start.image_heavy(account)
+
+    memo = {}
+
+    def k(g):
+        if id(g) not in memo:
+            src = g[0]['source']
+            memo[id(g)] = (bool(cold) and not cold_start.hot_quote_target(src, ref, own_handles),
+                           bool(heavy) and not cold_start.chartable(
+                               group_text(g), sum(len(r['unit'].get('numbers') or []) for r in g)))
+        return memo[id(g)]
+    return k
+
+
+def lane_gate(pools, accounts, x_of, info=None):
+    """FD_LANE_FIT (live/lane_fit.py): a niche account keeps only packets on its own lane (or own X posts that are not
+    broad macro / BTC / ETF news). Off-lane rejects are counted per account in info['off_lane_rejects'] (plan.json)
+    and printed; fewer on-lane drafts beat off-lane fill."""
+    from live import lane_fit
+    from live.x_daily import x_handle
+    if not lane_fit.enabled():
+        return {}
+    rejects = {}
+    for a in accounts:
+        aid = a['id']
+        if aid not in pools or not lane_fit.is_niche(a):
+            continue
+        own = {h.lower() for h in x_of.get(aid) or ()}
+        kept, gone = [], []
+        for g in pools[aid]:
+            h = x_handle(g[0]['source'])
+            chk = lane_fit.packet_check(a, group_text(g), own_x=bool(h and h.lower() in own))
+            (kept if chk['ok'] else gone).append(g)
+        pools[aid] = kept
+        if gone:
+            rejects[aid] = {'lane': lane_fit.primary_lane(a), 'rejected': len(gone), 'kept': len(kept),
+                            'samples': [str(g[0]['source'].get('title') or '')[:80] for g in gone[:5]]}
+    if rejects:
+        print('lane_fit off-lane rejects', json.dumps({k: (v['rejected'], v['kept']) for k, v in rejects.items()}),
+              flush=True)
+    if info is not None:
+        info['off_lane_rejects'] = rejects
+    return rejects
+
+
 def diversity_order(account, groups, picked, event_takers, div):
     """Pick-time order for one account (FD_TOPIC_DIV): (reuse, prescreen, timely) as before, then own X sources, then a
     theme this account has not used today, then the remaining source tiers, then stories no account took yet, then
@@ -738,9 +806,10 @@ def diversity_order(account, groups, picked, event_takers, div):
         src = g[0]['source']
         evs = {('src',) + tuple(demo._key(g[0]))} | ({('srcid', src['id'])} if src.get('id') else set()) \
             | ({title_event(src.get('title'))} - {None})
-        return (*m['base'], m['tier'] != 0, packet_kind(g) != 'balanced',
+        return (*m['base'], *prefs(g)[:1], m['tier'] != 0, packet_kind(g) != 'balanced',
                 m['theme'] in used_themes and m['theme'] != 'other', m['tier'],
-                bool(evs & taken), m['off_spread'], i)
+                bool(evs & taken), *prefs(g)[1:], m['off_spread'], i)
+    prefs = div.get('prefs', {}).get(account) or (lambda g: (False, False))
     return [g for _, g in sorted(enumerate(groups), key=k)]
 
 
@@ -913,10 +982,12 @@ def inbox_row(result, account_cfg, day, run_id):
             'status': result.get('status'), 'error': result.get('error'), 'why': result.get('why'),
             # fix26: a HARD finding left after the one targeted rewrite (needs_review) is a HOLD, never ready
             'held': bool(arb.get('status') == 'HOLD' or result.get('status') == 'error' or not result.get('text')
-                         or result.get('draft_status') == 'needs_review'),
+                         or result.get('draft_status') == 'needs_review' or result.get('lane_fit')),
             # Sirius item 4: hard after the one targeted rewrite = HOLD; a rewrite the model / API never returned is a
             # model_error hold (retry path), not a content verdict
-            'hold_reason': ('arbitration' if arb.get('status') == 'HOLD' else
+            'hold_reason': ('off_lane: ' + str((result.get('lane_fit') or {}).get('detail') or '')
+                            if result.get('lane_fit') and result.get('draft_status') != 'needs_review' else
+                            'arbitration' if arb.get('status') == 'HOLD' else
                             ('model_error: ' if repair.get('result') == 'rewrite_error' else 'hard: ')
                             + ','.join(sorted({f['code'] for f in findings if f.get('level') == 'hard'}))
                             if result.get('draft_status') == 'needs_review' else None),
@@ -924,6 +995,8 @@ def inbox_row(result, account_cfg, day, run_id):
                                | {'first_codes': sorted({f['code'] for f in repair.get('first_findings') or []}),
                                   'retry_codes': sorted({f['code'] for f in repair.get('retry_findings') or []})}}
                if repair else {}),
+            **({'lane_fit': result['lane_fit']} if result.get('lane_fit') else {}),
+            **({'cold_start_quote': True} if pick.get('cold_start_quote') else {}),
             'arbitration': arb, 'findings': findings,
             'stance': {k: (result.get('stance') or {}).get(k) for k in ('decision', 'account_view', 'subject', 'direction')},
             'source': {'id': src.get('id'), 'source_id': src.get('source_id'), 'publisher': pick.get('publisher'),
@@ -958,6 +1031,8 @@ def main():
     if args.now and args.now.tzinfo is None:
         ap.error('--now needs a UTC offset, e.g. 2026-10-07T23:13+01:00')
     args.day = args.day or drafting_day(args.now)
+    # Oct 8 evening (live/hook_voice.py): a "new high" claim is checked against the latest price in real runs
+    os.environ.setdefault('FD_STALE_PRICE', '1')
     if os.environ.get('FD_DAILY_COMPOSE') != '1' and not args.force and not args.select_only:
         print('FD_DAILY_COMPOSE is not 1: daily compose is off; nothing done')
         return 0
@@ -1071,7 +1146,9 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
                              allow_model=not args.select_only or args.hotspot_merge, info=info, skip_sources=skip)
     else:
         done = drafted_today(args.day)
+        # Oct 8 evening: a first run on a day that already has drafts respects their events too (per-language cap)
         plan, order = select(accts, universes, args.day, per_account, done=done, now=args.now,
+                             seed_events=ready_events(args.day, fd_accounts.rows(CONFIG)),
                              allow_model=not args.select_only or args.hotspot_merge, info=info)
     write_json(out / 'plan.json', {'day': args.day.isoformat(), 'day_basis': 'Asia/Shanghai calendar date',
                                    'selection_ref': selection_ref(args.day, args.now).isoformat(), 'pick_order': order, 'per_account': per_account,
@@ -1126,15 +1203,27 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
             if r is not None:
                 results.append(r)
     # cross-account check on the whole day: shape / skeleton findings + claim arbitration (soft: losers HOLD)
-    from live import compose_shapes
+    from live import compose_shapes, lane_fit
     ok = [r for r in results if r.get('status') != 'error' and r.get('text')]
     compose_shapes.batch_findings(ok)
+    for r in ok:   # arbitration compares drafts of this Beijing day (not the sources' own dates) in one language
+        r['day'], r['account_lang'] = args.day.isoformat(), r['plan']['account_lang']
+        # Oct 8 evening (FD_LANE_FIT): a niche draft on broad news without a lane tie-in is held off_lane
+        lf = lane_fit.draft_check(by_id[r['account_id']], r.get('body') or '')
+        if not lf['ok']:
+            r['lane_fit'] = lf
     # Oct 8: only drafts that can ship take part in arbitration - a needs_review draft (hard finding after its rewrite)
     # won the lane on 10-08 (crypto_onchain_en) and its duplicate was held too, so neither was publishable
-    eligible = [r for r in ok if r.get('draft_status') != 'needs_review']
-    # FD_ARB_SAME_LANG (default 1): only accounts of one language can duplicate each other (0 = cross-language too)
+    eligible = [r for r in ok if r.get('draft_status') != 'needs_review' and not r.get('lane_fit')]
+    # FD_ARB_SAME_LANG (default 1): only accounts of one language can duplicate each other (0 = cross-language too).
+    # Oct 8 evening: FD_ARB_CONCLUSION (default 1) also holds a same-conclusion draft from a different source, and
+    # today's ready drafts from earlier runs take part as fixed keepers (a fill round cannot repeat them).
+    locked = [x for x in compose_inbox.rows(args.day.isoformat())
+              if x.get('text') and not x.get('held') and not x.get('superseded')
+              and x.get('draft_status') == 'draft_ready' and x.get('run_id') != run_id]
     arbitrated = ({id(r): r for r in compose.arbitrate_batch(
-        eligible, same_language=os.environ.get('FD_ARB_SAME_LANG', '1') != '0')} if eligible else {})
+        eligible, same_language=os.environ.get('FD_ARB_SAME_LANG', '1') != '0',
+        same_conclusion=os.environ.get('FD_ARB_CONCLUSION', '1') != '0', locked=locked)} if eligible else {})
     final = []
     for r in results:
         match = next((x for x in arbitrated.values() if x.get('id') and x.get('id') == r.get('id')), None)

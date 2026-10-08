@@ -66,8 +66,10 @@ def _group(i, title, handle=None, hours_ago=3):
              'unit': {'kind': 'view', 'statement': title, 'numbers': []}}]
 
 
-def _select(monkeypatch, pools, accounts, div=True):
+def _select(monkeypatch, pools, accounts, div=True, per_lang=None):
     dc = _script('daily_compose')
+    if per_lang is not None:
+        monkeypatch.setattr(dc, 'MAX_ACCOUNTS_PER_EVENT', per_lang)
     monkeypatch.setenv('FD_TOPIC_DIV', '1' if div else '0')
     monkeypatch.setenv('FD_HOTSPOT', '0')
     monkeypatch.setenv('FD_HEAT', '0')
@@ -99,12 +101,15 @@ def test_same_story_cap_binds_two_per_language_three_in_all(monkeypatch):
                [{'id': f'z{i}', 'lang': 'zh', 'retrieval_beats': []} for i in range(2)]
     shared = _group(1, POLY)
     pools = {a['id']: [shared] for a in accounts}
-    before = _select(monkeypatch, pools, accounts, div=False)
-    after = _select(monkeypatch, pools, accounts, div=True)
+    before = _select(monkeypatch, pools, accounts, div=False, per_lang=2)
+    after = _select(monkeypatch, pools, accounts, div=True, per_lang=2)
     took = lambda plan: sorted(a for a, ps in plan.items() if ps)   # noqa: E731
     assert len(took(before)) == 4                      # the 10-08 shape: 2 en + 2 zh on one story
     assert len(took(after)) == 3                       # 2 per language still, 3 accounts in all
     assert sum(1 for a in took(after) if a.startswith('e')) == 2
+    # Oct 8 evening default (FD_EVENT_PER_LANG=1): one account per language per story
+    now = _select(monkeypatch, pools, accounts, div=True)
+    assert sorted(a[0] for a in took(now)) == ['e', 'z']
 
 
 def test_own_sources_come_first_and_two_picks_differ_in_theme(monkeypatch):
@@ -152,9 +157,9 @@ def test_flag_off_is_inert(monkeypatch):
     assert hotspot.reach_weight() == 0.0
 
 
-def test_daily_budget_default_is_8_usd():
+def test_daily_budget_default_is_25_usd():   # Fiona, Oct 8: $25/day for 36 accounts (was 8)
     text = (ROOT / 'scripts' / 'cron' / 'daily_compose.sh').read_text()
-    assert 'FD_DAILY_COMPOSE_BUDGET_USD:-8' in text
+    assert 'FD_DAILY_COMPOSE_BUDGET_USD:-25' in text
 
 
 # ------------------------------------------------------------------ breadth
