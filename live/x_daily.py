@@ -97,10 +97,12 @@ def _parse_created(value):
 
 # ---------------------------------------------------------------- source list
 
-def subscriptions(universes=None, config=None, breadth=None):
+def subscriptions(universes=None, config=None, breadth=None, engage=None):
     """[{handle, source_id, accounts, roles, tier, beats}] for every enabled account-scoped X source, then the
-    breadth sources (role BREADTH, `breadth` True; FD_X_BREADTH=0 or breadth=[] leaves them out)."""
+    breadth sources (role BREADTH, `breadth` True; FD_X_BREADTH=0 or breadth=[] leaves them out), then the ENGAGE
+    targets (live/engagement.py; `engage` True; only with the live universes file, FD_ENGAGE_FETCH=0 / engage=[] off)."""
     from live import registry
+    live_files = universes is None and config is None
     universes = universes if universes is not None else json.loads(UNIVERSES.read_text())
     from live import fd_accounts
     config = config if config is not None else fd_accounts.rows(CONFIG)
@@ -129,6 +131,16 @@ def subscriptions(universes=None, config=None, breadth=None):
             continue
         row = dict(row, beats=[beats.get(a) or [] for a in row['accounts']])
         out.append(row)
+    if engage is None:
+        from live import engagement
+        engage = (engagement.subscriptions([a for a in config if a['id'] in beats],
+                                           exclude=set(by) | {r['handle'].lower() for r in out})
+                  if engagement.fetch_enabled() and live_files else [])
+    have = {r['handle'].lower() for r in out}
+    for row in engage:   # Oct 8 (live/engagement.py): big same-language donors as quote / reply targets
+        if row['handle'].lower() in have:
+            continue
+        out.append(dict(row, beats=[beats.get(a) or [] for a in row['accounts']]))
     return out
 
 
@@ -177,7 +189,8 @@ def _apify_post(item):
             'reply': bool(item.get('isReply')) and item.get('inReplyToUsername', '').lower() != str(a.get('userName', '')).lower(),
             'self_thread': bool(item.get('isReply')) and item.get('inReplyToUsername', '').lower() == str(a.get('userName', '')).lower(),
             'handle': a.get('userName'), 'url': item.get('url') or item.get('twitterUrl'),
-            'likes': item.get('likeCount'), 'views': item.get('viewCount')}
+            'likes': item.get('likeCount'), 'views': item.get('viewCount'), 'reposts': item.get('retweetCount'),
+            'replies': item.get('replyCount'), 'followers': a.get('followers')}
 
 
 def apify_posts(handles, since, *, max_items=APIFY_MAX_ITEMS, max_usd=APIFY_MAX_USD):
@@ -249,12 +262,15 @@ def to_source(post, sub):
             'published_at': published.isoformat() if published else None, 'source_language': lang_of(text, post.get('lang')),
             'source_version': 'x-v1', 'adapter': 'x:' + handle, 'truncated': False, 'no_reproduction': True,
             'also_reported_by': [], 'x_accounts': list(sub['accounts']),
-            'x_metrics': {k: post.get(k) for k in ('likes', 'views') if post.get(k) is not None}}
+            # Oct 8 (live/engagement.py): metrics at capture (stored on the source since content_store keeps x_metrics)
+            'x_metrics': {**{k: post.get(k) for k in ('likes', 'views', 'reposts', 'replies', 'followers')
+                             if post.get(k) is not None},
+                          **({'at': post['fetched_at']} if post.get('fetched_at') else {})}}
 
 
 def gather(state, *, now, known=None, subs=None, rapid=None, apify=None, window_hours=X_WINDOW_HOURS,
            per_source_max=X_PER_SOURCE_MAX, x_max=X_MAX, rapid_max_requests=RAPID_MAX_REQUESTS,
-           apify_max_items=APIFY_MAX_ITEMS, apify_max_usd=APIFY_MAX_USD, workers=6, breadth=None):
+           apify_max_items=APIFY_MAX_ITEMS, apify_max_usd=APIFY_MAX_USD, workers=6, breadth=None, engage=None):
     """No LLM. -> dict(selected, overflow, dropped, sources (per-handle rows), requests, apify).
 
     rapid(handle, uids) -> posts, apify(handles, since) -> ({handle: posts}, info) and breadth(subs) ->
@@ -316,7 +332,29 @@ def gather(state, *, now, known=None, subs=None, rapid=None, apify=None, window_
                         raw[sub['handle'].lower()] = ('apify', [], (prev[2] if prev else None) or 'no_posts')
             except Exception as exc:   # noqa: BLE001
                 apify_info = {'error': f'{type(exc).__name__}: {str(exc)[:160]}'}
-    breadth_info = None
+    breadth_info = engage_info = None
+    engage_subs = [(s, r) for s, r in wide if s.get('engage')]
+    wide = [(s, r) for s, r in wide if not s.get('engage')]
+    if engage_subs:   # Oct 8 (live/engagement.py): ENGAGE targets, same batched search, own call cap + log
+        egot = {}
+        if engage is None and os.environ.get('RAPID_X_API_KEY'):
+            from live import engagement, x_breadth
+            ecfg = engagement.config()
+            engage = lambda esubs: x_breadth.fetch(  # noqa: E731
+                esubs, now=now, day=now.date().isoformat(), window_hours=min(window_hours, ecfg['quote_max_age_h']),
+                config={'daily_call_cap': ecfg['engage_daily_call_cap'], 'batch_size': 20,
+                        'pages_per_batch': ecfg['engage_pages_per_batch']}, log_name='engage')
+        if engage is not None:
+            try:
+                egot, engage_info = engage([s for s, _ in engage_subs])
+            except Exception as exc:   # noqa: BLE001 - engagement targets are additive
+                engage_info = {'error': f'{type(exc).__name__}: {str(exc)[:160]}'}
+        eran = set((engage_info or {}).get('run_handles') or [])
+        for sub, _row in engage_subs:
+            posts = egot.get(sub['handle'].lower())
+            raw[sub['handle'].lower()] = ('rapid_search', posts or [], None) if posts or sub['handle'].lower() in eran \
+                else ('rapid_search', None, 'not_in_rotation')
+        fetchable = fetchable + engage_subs
     if wide:
         if breadth is None and os.environ.get('RAPID_X_API_KEY'):
             from live import x_breadth
@@ -350,15 +388,26 @@ def gather(state, *, now, known=None, subs=None, rapid=None, apify=None, window_
             if not ok:
                 reasons[why] += 1
                 continue
+            p.setdefault('fetched_at', now.isoformat())   # metrics capture time (engagement velocity)
+            if sub.get('engage'):   # only posts that already pass the target scoring go on to extraction
+                from live import engagement
+                eok, ewhy = engagement.prefilter(dict(p, handle=sub['handle']), now)
+                if not eok:
+                    reasons['engage_' + str(ewhy)] += 1
+                    continue
             row['kept'] += 1
             sid = f"x-{p['id']}"
             if sid in seen or (known and known(sid)):
                 reasons['seen'] += 1
                 continue
             keep.append(to_source(p, sub))
-        row['new'] = len(keep[:per_source_max])
-        reasons['per_source_cap'] += max(0, len(keep) - per_source_max)
-        gathered += keep[:per_source_max]
+        cap_n = per_source_max
+        if sub.get('engage'):
+            from live import engagement
+            cap_n = min(per_source_max, int(engagement.config()['engage_posts_per_handle']))
+        row['new'] = len(keep[:cap_n])
+        reasons['per_source_cap'] += max(0, len(keep) - cap_n)
+        gathered += keep[:cap_n]
         if not posts and err:
             row['status'] = 'no_posts'
     recent = [r for r in xs.get('recent') or [] if (_parse_created(r.get('published_at')) or now) >= since - timedelta(hours=24)]
@@ -367,12 +416,12 @@ def gather(state, *, now, known=None, subs=None, rapid=None, apify=None, window_
     for d in dups:
         reasons[d['reason']] += 1
     # CORE subscriptions first, then the more widely subscribed handles, newest first inside
-    weight = {s['source_id']: (s['core'], len(s['accounts'])) for s in subs}
+    weight = {s['source_id']: (s['core'] or bool(s.get('engage')), len(s['accounts'])) for s in subs}   # ENGAGE ~ CORE
     kept.sort(key=lambda s: (not weight.get(s['source_id'], (False, 0))[0], -weight.get(s['source_id'], (False, 0))[1],
                              -(_parse_created(s['published_at']) or now).timestamp()))
     cap = max(0, int(x_max))
     return dict(selected=kept[:cap], overflow=kept[cap:], dropped=dropped, sources=rows, filtered=dict(reasons),
-                requests=client.made if client else None, apify=apify_info, breadth=breadth_info)
+                requests=client.made if client else None, apify=apify_info, breadth=breadth_info, engage=engage_info)
 
 
 # ---------------------------------------------------------------- extract + store

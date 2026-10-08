@@ -131,7 +131,11 @@ def note_of(row):
 def media_of(row):
     """post_mode / target and chart images set by live/draft_media.py (absent = plain original post, no image)."""
     mode = row.get('post_mode') or 'original'
+    eng = row.get('engagement') if isinstance(row.get('engagement'), dict) else {}
+    engaged = mode in ('quote', 'reply') and eng.get('mode') == mode
     return {'mode': mode, 'target': row.get('quote_target_url') or row.get('reply_to_url') or '',
+            # live/engagement.py (FD_ENGAGE): the target's numbers at selection; its slot is pinned in clamp_times
+            'engage_meta': engage_meta(eng) if engaged else '', 'pinned': engaged,
             'heat_led': bool(row.get('heat_led')),
             # FD_HOTSPOT (live/hotspot.py): 「热点」 tag + the 母题 title
             'hotspot': (row.get('hotspot') or {}).get('title') or '',
@@ -148,6 +152,32 @@ def media_of(row):
                        'updated': chart_time(m),
                        'credit': ', '.join(s.get('name') or '' for s in m.get('data_sources') or [])}
                       for m in row.get('media') or [] if m.get('path')]}
+
+
+def _wan(n):
+    return '' if n is None else f'{n / 10000:.1f}万' if n >= 10000 else str(n)
+
+
+def engage_meta(e):
+    """'@PhyrexNi · 40.8万粉 · 选中时 43赞 · 1.1万阅 · 发帖后 2.2h 发出' (live/engagement.py pick_record)."""
+    bits = [f"@{e['author']}" if e.get('author') else '',
+            f"{_wan(e.get('followers'))}粉" if e.get('followers') is not None else '',
+            f"选中时 {e.get('likes')}赞" if e.get('likes') is not None else '',
+            f"{_wan(e.get('views'))}阅" if e.get('views') is not None else '',
+            f"发帖后 {e.get('age_h')}h 发出" if e.get('age_h') is not None else '']
+    return ' · '.join(b for b in bits if b)
+
+
+def load_targets(day, base=None):
+    """The day's engagement targets log (live/engagement.py write_log; live/store is not in git)."""
+    d = Path(base or os.environ.get('FD_ENGAGE_LOG') or ROOT / 'live' / 'store' / 'engagement')
+    try:
+        rows = json.loads((d / f'{day}.json').read_text()).get('targets') or []
+    except (OSError, ValueError):
+        return []
+    keep = ('account', 'mode', 'target_url', 'author', 'author_followers', 'likes_at_selection', 'views_at_selection',
+            'age_h_at_post', 'slot_bjt', 'why', 'passed_over')
+    return [{k: r.get(k) for k in keep} for r in rows]
 
 
 def chart_time(m):
@@ -261,6 +291,17 @@ def clamp_times(drafts, day):
         if d['time']:
             by_acct.setdefault(d['account_id'], {}).setdefault(d['time'], []).append(d)
     for acct, slots in by_acct.items():
+        # engagement replies / quotes (live/engagement.py) keep their slot: it was timed to the target's hot window
+        pins = sorted({max(lo, min(hi, datetime.fromisoformat(s).astimezone(BJT))) for s, ds in slots.items()
+                       if any(d.get('pinned') for d in ds)})
+        for s, ds in list(slots.items()):
+            if any(d.get('pinned') for d in ds):
+                new = max(lo, min(hi, datetime.fromisoformat(s).astimezone(BJT)))
+                for d in ds:
+                    d['time'] = new.isoformat()
+                del slots[s]
+        if not slots:
+            continue
         orig = sorted(slots, key=datetime.fromisoformat)
         seg = span / len(orig)
         shift = int(hashlib.sha1(str(acct).encode()).hexdigest()[:8], 16) / 16 ** 8
@@ -276,11 +317,32 @@ def clamp_times(drafts, day):
             t[i] = min(t[i], t[i + 1] - POST_GAP)
         if t[0] < lo:                              # > 30 slots cannot fit; never happens at 2-5 per account
             raise ValueError(f'{len(t)} slots do not fit 08:00-22:59 at 30-minute spacing')
+        if pins:
+            t = avoid_pins(t, pins, lo, hi)
         for s, new in zip(orig, t):
             for d in slots[s]:
                 d['time'] = new.isoformat()
     drafts.sort(key=lambda d: (d['time'], d['id']))
     return drafts
+
+
+def avoid_pins(t, pins, lo, hi):
+    """Move each spread slot to the nearest 5-minute spot in [lo, hi] that is >= POST_GAP from the pinned engagement
+    slots and from the slots already placed (order kept where possible)."""
+    placed, out = list(pins), []
+    for x in t:
+        best = None
+        for k in range(0, int((hi - lo).total_seconds() // 300) + 1):
+            for c in ((x + timedelta(minutes=5 * k)), (x - timedelta(minutes=5 * k))):
+                if lo <= c <= hi and all(abs(c - p) >= POST_GAP for p in placed):
+                    best = c
+                    break
+            if best:
+                break
+        best = best or x
+        placed.append(best)
+        out.append(best)
+    return out
 
 
 def write_if_changed(path, data):
@@ -414,6 +476,9 @@ __BASECSS__
 .ph .pl{display:none;font-size:11.5px;color:var(--faint)}
 .ph .st{margin-left:auto;font-size:11.5px;font-weight:600;border-radius:999px;padding:1px 9px;background:var(--warnbg);color:var(--warn);white-space:nowrap}
 .ph .st.ok{background:var(--accent-bg);color:var(--accent)}.ph .st.hold{background:var(--holdbg);color:var(--hold)}
+.em{color:var(--ink2);font-size:12px}
+.tgt{margin:0 0 14px;font-size:13px;color:var(--ink2)}.tgt summary{cursor:pointer;font-weight:600}
+.tgt table{border-collapse:collapse;margin-top:8px;width:100%}.tgt th,.tgt td{text-align:left;padding:4px 8px;border-bottom:1px solid var(--line,#e5e5e5);white-space:nowrap}
 .mode{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;font-size:12.5px;color:var(--ink2)}
 .note{font-size:12.5px;line-height:1.5;color:var(--warn);background:var(--warnbg);border-radius:8px;padding:6px 10px;margin-bottom:10px}
 .note.mv{color:var(--info);background:var(--infobg);align-self:flex-start}
@@ -538,7 +603,7 @@ function card(d,posted,slot){
   const xp=`<button class="xp" data-o="${esc(d.id)}" aria-expanded="${opened.has(d.id)}"><span>${opened.has(d.id)?'收起正文':multi?`展开全部 ${d.parts.length} 段`:'展开正文'}</span>${I.down}</button>`;
   const ML={quote:'引用',reply:'回复'};
   const rv=(d.decision==='approve'||d.decision==='published'?'<span class="tg ok">审稿已批准</span>':'')+(d.edited?'<span class="tg ok">审稿已改稿</span>':'');
-  const mode=(ML[d.mode]||d.heat_led||d.archive||d.hotspot||rv)?`<div class="mode">${rv}${d.hotspot?`<span class="tg ht">热点</span><span>${esc(d.hotspot)}</span>`:''}${d.archive?`<span class="tg">${d.archive_variant==='evergreen'?'常青':'回看'}</span>`:''}${ML[d.mode]?`<span class="tg q">${d.mode==='reply'?I.reply:I.quote}${ML[d.mode]}</span>`:''}${d.heat_led?'<span class="tg ht">热度</span>':''}${ML[d.mode]&&d.target?`<a class="ext" href="${esc(d.target)}" target="_blank" rel="noopener noreferrer">打开原帖${I.ext}</a>`:''}${d.archive&&d.archive_url?`<a class="ext" href="${esc(d.archive_url)}" target="_blank" rel="noopener noreferrer">${d.archive_variant==='evergreen'?'常青原帖':'回看原帖'}${I.ext}</a>`:''}</div>`:'';
+  const mode=(ML[d.mode]||d.heat_led||d.archive||d.hotspot||rv)?`<div class="mode">${rv}${d.hotspot?`<span class="tg ht">热点</span><span>${esc(d.hotspot)}</span>`:''}${d.archive?`<span class="tg">${d.archive_variant==='evergreen'?'常青':'回看'}</span>`:''}${ML[d.mode]?`<span class="tg q">${d.mode==='reply'?I.reply:I.quote}${ML[d.mode]}</span>${d.engage_meta?`<span class="em">${esc(d.engage_meta)}</span>`:''}`:''}${d.heat_led?'<span class="tg ht">热度</span>':''}${ML[d.mode]&&d.target?`<a class="ext" href="${esc(d.target)}" target="_blank" rel="noopener noreferrer">打开原帖${I.ext}</a>`:''}${d.archive&&d.archive_url?`<a class="ext" href="${esc(d.archive_url)}" target="_blank" rel="noopener noreferrer">${d.archive_variant==='evergreen'?'常青原帖':'回看原帖'}${I.ext}</a>`:''}</div>`:'';
   const imgs=(d.media||[]).map((m,i)=>{const u=esc(m.src||m.path),info=[m.credit?'数据：'+m.credit:'',m.updated?'图更新于 北京时间 '+m.updated:''].filter(Boolean).join(' · ');
     return `<div class="att"><a class="th" href="${u}" target="_blank" rel="noopener" title="打开大图"><img src="${u}" alt="${esc(m.alt)}" loading="lazy"></a><div class="lb"><b>${I.img}配图 ${i+1}</b>${info?`<small title="${esc(info)}">${esc(info)}</small>`:''}</div><a class="dl" href="${u}" download="${esc(m.path.split('/').pop())}" title="下载图片" aria-label="下载图片">${I.dl}</a></div>`}).join('');
   const total=multi?`共 ${d.parts.length} 段 · ${cnt(d.text,d.xw,d.lang)}`:cnt(d.text,d.xw,d.lang);
@@ -584,7 +649,9 @@ function render(){
 <div class="grid">${cells}</div></section>`);
   }
   const TH='<div class="thead"><div><b>账号</b></div><div class="ph2"><div><b>帖子 1</b>建议发出 · 北京时间</div><div><b>帖子 2</b>建议发出 · 北京时间</div></div></div>';
-  $('#main').innerHTML=out.length?`<div class="tbl">${TH}${out.join('')}</div>`:(drafts.length?`<p class="empty">当前筛选下没有稿件（共 ${drafts.length} 篇，可在「状态」里勾选其他状态）</p>`:'<p class="empty">这一天没有稿件</p>');
+  const tg=(D.targets||{})[day]||[],nm=Object.fromEntries(D.accounts.map(a=>[a.id,a.name]));
+  const TG=tg.length?`<details class="tgt"><summary>今日蹭流量目标 ${tg.length} 个（引用 / 回复大号新帖）</summary><table><tr><th>账号</th><th>方式</th><th>目标</th><th>粉丝</th><th>选中时赞 / 阅</th><th>发出时帖龄</th><th>建议发出</th><th>其他号的池里也有</th></tr>${tg.map(t=>`<tr><td>${esc(nm[t.account]||t.account)}</td><td>${t.mode==='reply'?'回复':'引用'}</td><td><a href="${esc(t.target_url||'')}" target="_blank" rel="noopener noreferrer">@${esc(t.author||'')}</a></td><td>${t.author_followers==null?'-':(t.author_followers/10000).toFixed(1)+'万'}</td><td>${t.likes_at_selection??'-'} / ${t.views_at_selection??'-'}</td><td>${t.age_h_at_post??'-'}h</td><td>${esc((t.slot_bjt||'').slice(11,16))}</td><td>${esc((t.passed_over||[]).map(x=>nm[x]||x).join('、')||'—')}</td></tr>`).join('')}</table></details>`:'';
+  $('#main').innerHTML=out.length?`${TG}<div class="tbl">${TH}${out.join('')}</div>`:(drafts.length?`<p class="empty">当前筛选下没有稿件（共 ${drafts.length} 篇，可在「状态」里勾选其他状态）</p>`:'<p class="empty">这一天没有稿件</p>');
   fitClamp();
   $('#nAll').textContent=all;$('#nDone').textContent=done;$('#nTodo').textContent=all-done;
 }
@@ -696,7 +763,9 @@ def main():
     args.out.mkdir(parents=True, exist_ok=True)
     # last-updated = newest inbox write (deterministic, so an unchanged inbox leaves index.html untouched)
     updated = max((d['stored'] for v in days.values() for d in v if d['stored']), default='')
-    data = json.dumps({'accounts': accounts, 'days': days, 'updated': updated}, ensure_ascii=False, sort_keys=True)
+    targets = {day: t for day in days if (t := load_targets(day))}
+    data = json.dumps({'accounts': accounts, 'days': days, 'updated': updated, 'targets': targets},
+                      ensure_ascii=False, sort_keys=True)
     page = (PAGE.replace('__ROOTVARS__', ROOT_CSS).replace('__BASECSS__', BASE_CSS).replace('__NAVCSS__', NAV_CSS)
             .replace('__I_REFRESH__', icon('refresh')).replace('__I_DOWNLOAD__', icon('download'))
             .replace('__NAV__', nav_html('/')).replace('__SHARED__', shared_js()))

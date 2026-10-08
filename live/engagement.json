@@ -1,0 +1,27 @@
+{
+ "_note": "Oct 8 (Fiona): growth-stage accounts ride big accounts' traffic. live/engagement.py reads this; missing keys fall back to engagement.DEFAULTS. FD_ENGAGE=0 turns the layer off (legacy cold_start quote floor); FD_ENGAGE_FETCH=0 stops the ENGAGE discovery fetch only.",
+ "min_followers": 50000,
+ "huge_followers": 300000,
+ "min_likes": 100,
+ "velocity_window_h": 3,
+ "velocity_likes_per_h": 40,
+ "velocity_views_per_h": 8000,
+ "reply_max_age_h": 6,
+ "quote_max_age_h": 12,
+ "cold_days": 30,
+ "quotes_per_day": 1,
+ "replies_per_day": 1,
+ "max_replies_per_day": 2,
+ "window_bjt": [
+  "08:00",
+  "22:59"
+ ],
+ "min_gap_min": 30,
+ "lead_min": 10,
+ "other_language_penalty": 1.5,
+ "lane_bonus": 0.5,
+ "targets_per_account": 8,
+ "engage_daily_call_cap": 16,
+ "engage_pages_per_batch": 1,
+ "engage_posts_per_handle": 2
+}

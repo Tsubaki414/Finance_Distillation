@@ -317,7 +317,7 @@ def rotation(n_batches, day, calls_left, pages=PAGES):
     return [(start + i) % n_batches for i in range(k)]
 
 
-def fetch(subs, *, now, day, window_hours, key=None, config=None, client=None, search=None, pages=None):
+def fetch(subs, *, now, day, window_hours, key=None, config=None, client=None, search=None, pages=None, log_name=None):
     """{handle_lower: [normalised posts]} for today's batches + info. search(query, cursor) -> page is injectable."""
     import sys
     sys.path.insert(0, str(ROOT / 'scripts'))
@@ -326,7 +326,7 @@ def fetch(subs, *, now, day, window_hours, key=None, config=None, client=None, s
     cfg = config if config is not None else load_config()
     cap = int(cfg.get('daily_call_cap', DAILY_CALL_CAP))
     pages = int(pages or cfg.get('pages_per_batch', PAGES))
-    log = store_dir() / f'{day}.calls.jsonl'
+    log = store_dir() / (f'{day}.{log_name}.calls.jsonl' if log_name else f'{day}.calls.jsonl')   # engage: own cap
     left = cap - calls_made(log)
     if search is None:
         key = key or os.environ.get('RAPID_X_API_KEY')

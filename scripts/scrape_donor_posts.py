@@ -47,7 +47,20 @@ def normalise(t, pinned=False):
             'reply': bool(reply_to) and legacy.get('in_reply_to_user_id_str') != legacy.get('user_id_str'),
             'self_thread': bool(reply_to) and legacy.get('in_reply_to_user_id_str') == legacy.get('user_id_str'),
             'pinned': pinned, 'media': [m.get('type') for m in media],
-            'likes': legacy.get('favorite_count', 0), 'views': int((t.get('views') or {}).get('count') or 0)}
+            'likes': legacy.get('favorite_count', 0), 'views': int((t.get('views') or {}).get('count') or 0),
+            # Oct 8 (live/engagement.py): target scoring needs reposts / replies and the author's follower count
+            'reposts': legacy.get('retweet_count'), 'replies': legacy.get('reply_count'), 'followers': _followers(t)}
+
+
+def _followers(t):
+    user = (((t.get('core') or {}).get('user_results') or {}).get('result') or {})
+    n = (user.get('legacy') or {}).get('followers_count')
+    if n is None:
+        n = (user.get('relationship_counts') or {}).get('followers')
+    try:
+        return int(n) if n is not None else None
+    except (TypeError, ValueError):
+        return None
 
 
 def timeline_posts(obj):

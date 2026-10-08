@@ -79,6 +79,16 @@ def decide(row, habits_dir=None, replies_given=0, env=None, own_handles=()):
         return {'post_mode': 'original', 'post_mode_why': f'X source older than {QUOTE_MAX_AGE_H}h'}
     fmt = (row.get('post_format') or {}).get('type')
     acct = row.get('account_id') or ''
+    from live import engagement
+    eng = row.get('engagement')
+    if engagement.enabled(env) and isinstance(eng, dict):   # live/engagement.py chose (or refused) this target
+        mode = eng.get('mode')
+        if mode == 'reply':
+            return {'post_mode': 'reply', 'reply_to_url': url, 'post_mode_why': 'engagement: ' + str(eng.get('why'))}
+        if mode == 'quote':
+            return {'post_mode': 'quote', 'quote_target_url': url, 'post_mode_why': 'engagement: ' + str(eng.get('why'))}
+        return {'post_mode': 'original',
+                'post_mode_why': 'engagement: not a quote / reply target (' + str(eng.get('reject') or 'not picked') + ')'}
     if acct in reply_accounts(env) and fmt in REPLY_FORMATS and replies_given < 1:
         return {'post_mode': 'reply', 'reply_to_url': url, 'post_mode_why': f'reply opt-in account, {fmt} draft'}
     if fmt == 'quote_comment':
@@ -96,7 +106,9 @@ def decide(row, habits_dir=None, replies_given=0, env=None, own_handles=()):
 
 def _cold_hot(row, src, own_handles=()):
     """Cold-start quote floor (live/cold_start.COLD_QUOTE_SHARE) for a fresh hot X target, else 0.0."""
-    from live import cold_start
+    from live import cold_start, engagement
+    if engagement.enabled():   # live/engagement.py owns the cold-start quote / reply choice
+        return 0.0
     acct, day = row.get('account_id') or '', row.get('day')
     if not acct or not day or not cold_start.is_cold(acct, day):
         return 0.0

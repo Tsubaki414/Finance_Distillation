@@ -234,6 +234,7 @@ def test_hot_quote_target():
 
 
 def test_cold_start_quote_floor_in_post_mode(monkeypatch, tmp_path):
+    monkeypatch.setenv('FD_ENGAGE', '0')   # the legacy 60% floor; live/engagement.py replaces it (test_engagement_oct8)
     src = {'url': 'https://x.com/donor/status/1', 'published_at': (REF - timedelta(hours=2)).isoformat()}
     rows = [{'id': f'd{i}', 'account_id': 'crypto_meme_en', 'day': '2026-10-09', 'source': src,
              'suggested_post_time_london': REF.isoformat(), 'post_format': {'type': 'quick_take'}} for i in range(200)]
@@ -243,7 +244,8 @@ def test_cold_start_quote_floor_in_post_mode(monkeypatch, tmp_path):
     assert sum(post_mode.decide(r, habits_dir=tmp_path)['post_mode'] == 'quote' for r in rows) == 0
 
 
-def test_force_quote_is_deterministic_and_about_the_share():
+def test_force_quote_is_deterministic_and_about_the_share(monkeypatch):
+    monkeypatch.setenv('FD_ENGAGE', '0')   # legacy path; with FD_ENGAGE on live/engagement.py decides (always False here)
     src = {'url': 'https://x.com/donor/status/1', 'published_at': (REF - timedelta(hours=2)).isoformat()}
     picks = [cold_start.force_quote('crypto_meme_en', date(2026, 10, 9), src, REF, key=f's{i}') for i in range(300)]
     assert picks == [cold_start.force_quote('crypto_meme_en', date(2026, 10, 9), src, REF, key=f's{i}') for i in range(300)]

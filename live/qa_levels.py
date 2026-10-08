@@ -16,6 +16,7 @@ from live.editorial_style import HARD_CODES as _STYLE_HARD, SOFT_CODES as _STYLE
 from live.span_grounding import HARD_CODES as _GROUND_HARD, SOFT_CODES as _GROUND_SOFT
 from live.risk_rules import HARD_CODES as _RISK_HARD
 from live.hook_voice import HARD_CODES as _HOOK_HARD, SOFT_CODES as _HOOK_SOFT, FIXES as _HOOK_FIXES
+from live.engagement import HARD_CODES as _ENG_HARD, SOFT_CODES as _ENG_SOFT, FIXES as _ENG_FIXES
 
 HARD = frozenset({
                   'licence_tier_not_allowed', 'd_tier_source_leak', 'quote_not_exact',
@@ -28,6 +29,8 @@ HARD = frozenset({
                   *_RISK_HARD,
                   # Oct 8 evening (live/hook_voice.py): source forecast as own call, stale 'new high'
                   *_HOOK_HARD,
+                  # Oct 8 (live/engagement.py): reply / quote drafts - generic praise, reply > 2 sentences, > 1 @mention
+                  *_ENG_HARD,
                   # Oct 7: inspiration_only sources (Delphi digest) are never cited, quoted or counted
                   'inspiration_only_number', 'inspiration_only_text', 'inspiration_only_cited'})
 SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_units', 'period_not_in_units', 'number_metric_binding', 'number_words', 'no_judgment', 'data_list', 'no_disagreement', 'view_number_unbound', 'template_phrase', 'length_out_of_range', 'attribution_outside_frame',
@@ -40,7 +43,7 @@ SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_u
                   'ai_template', 'zh_line_breaks', 'missing_why', 'missing_implication', 'zh_awkward_time',
                   'zh_intensifier', 'zh_translationese', 'speaker_first_person', 'connective_repeat',
                   'hedge_only', 'catchphrase_repeat', 'template_ending',
-                  *_STYLE_SOFT, *_GROUND_SOFT, *_HOOK_SOFT})   # Oct 7 relax: question opener, emphasis, research cadence warn only
+                  *_STYLE_SOFT, *_GROUND_SOFT, *_HOOK_SOFT, *_ENG_SOFT})   # Oct 7 relax: question opener, emphasis, research cadence warn only
 FIXES = {
     'template_ending': ('Do not close on "the market has not priced it" (市场还没充分定价 / 定价还不够充分 / 没有被充分计价 / '
                         '尚未反映在估值 / 后知后觉的资金 / not yet priced in). Replace the last line with a concrete consequence, '
@@ -130,6 +133,7 @@ FIXES = {
     'exemplar_phrase_copied': 'Rephrase: style exemplars are for voice only, never for wording.',
 }
 FIXES.update(_HOOK_FIXES)   # live/hook_voice.py
+FIXES.update(_ENG_FIXES)    # live/engagement.py
 from live.editorial_style import FIXES as _STYLE_FIXES  # noqa: E402
 FIXES.update(_STYLE_FIXES)
 from live.span_grounding import FIXES as _GROUND_FIXES  # noqa: E402

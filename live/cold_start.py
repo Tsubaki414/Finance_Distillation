@@ -1,8 +1,11 @@
 """Cold-start format bias and media priority (Oct 8 evening, views diagnosis: 22 FD posts, median 4 / 113 views,
 0 images, 0 replies; donors that post images get 19-71% follower reach).
 
+- Oct 8 later: with FD_ENGAGE on (default) live/engagement.py owns quote / reply choice (big-account / velocity
+  scoring, 6h reply / 12h quote windows at the post time, 1 quote + 1 reply a day); force_quote and post_mode's
+  cold floor are then off, and HOT_MAX_AGE_H follows the 12h quote window. FD_ENGAGE=0 restores the 60% path.
 - cold start (FD_COLD_START, default 1): an account in its first `window_days` (live/cold_start.json; null first day =
-  not posting yet = cold) prefers fresh hot X posts it can quote (own / breadth X sources, <= 24h, not our own
+  not posting yet = cold) prefers fresh hot X posts it can quote (own / breadth X sources, <= 12h, not our own
   handles; when the post carries x_metrics it also needs likes >= 20 or views >= 3000) and writes those as
   quote_comment drafts with probability COLD_QUOTE_SHARE (deterministic per draft), and post_mode's donor quote share
   gets the same floor for such drafts.
@@ -22,7 +25,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / 'live' / 'cold_start.json'
 COLD_QUOTE_SHARE = 0.6
-HOT_MAX_AGE_H = 24
+HOT_MAX_AGE_H = 12          # Oct 8 (live/engagement.py): reconciled with the engagement quote window (was 24h)
 HOT_MIN_LIKES = 20
 HOT_MIN_VIEWS = 3000
 IMAGE_HEAVY = 0.4          # donor image_rate at or above this = "the persona's donors use images"
@@ -95,7 +98,11 @@ def draw(key):
 
 
 def force_quote(account_id, day, source, ref, key, own_handles=()):
-    """quote_comment for this pick? (cold account, hot fresh X target, deterministic draw < COLD_QUOTE_SHARE)."""
+    """quote_comment for this pick? (cold account, hot fresh X target, deterministic draw < COLD_QUOTE_SHARE).
+    With FD_ENGAGE on (default) live/engagement.py decides quote / reply instead, so this is always False."""
+    from live import engagement
+    if engagement.enabled():
+        return False
     return (is_cold(account_id, day) and hot_quote_target(source, ref, own_handles)
             and draw(f'{account_id}|{key}') < COLD_QUOTE_SHARE)
 

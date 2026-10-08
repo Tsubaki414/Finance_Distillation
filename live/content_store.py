@@ -20,7 +20,8 @@ ROOT = Path(__file__).resolve().parent / 'store' / 'content_units'
 WRITABLE = ('A', 'B')
 SOURCE_KEYS = ('id', 'source_id', 'publisher', 'author_name', 'title', 'url', 'published_at', 'source_hash',
                'adapter', 'truncated', 'source_language')
-OPTIONAL_SOURCE_KEYS = ('original_outlet', 'also_reported_by')   # v10 flashes; stored only when present
+OPTIONAL_SOURCE_KEYS = ('original_outlet', 'also_reported_by',   # v10 flashes; stored only when present
+                        'x_metrics')   # Oct 8 (live/engagement.py): likes / views / followers at capture, X sources only
 
 
 def attribution(source, unit):

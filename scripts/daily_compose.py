@@ -35,6 +35,7 @@ import threading
 import time
 from collections import Counter
 from datetime import date, datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -524,6 +525,15 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             for aid in row['accounts']:
                 if aid in x_of and row['handle'] not in x_of[aid]:
                     x_of[aid].append(row['handle'])
+    from live import engagement
+    if engagement.fetch_enabled():   # Oct 8 (live/engagement.py): big-account ENGAGE targets mapped to this account
+        try:
+            for row in engagement.subscriptions(fd_accounts.rows(CONFIG)):
+                for aid in row['accounts']:
+                    if aid in x_of and row['handle'] not in x_of[aid]:
+                        x_of[aid].append(row['handle'])
+        except Exception as exc:   # noqa: BLE001 - targets are additive
+            print(f'engagement targets skipped ({type(exc).__name__}: {exc})', flush=True)
     support = support_index(store, ref)
     diag = {a['id']: {} for a in accounts}
     pools = {a['id']: candidates(store, a['id'], a['retrieval_beats'], universes[a['id']].get('angle_lead') or {}, ref,
@@ -548,7 +558,8 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
     div = diversity_prepare(pools, accounts, x_of, day, ref, reuse) if topic_div.enabled() else None
     own_handles = [r.get('handle') for r in fd_accounts.rows(CONFIG) if r.get('handle')]
     if div is not None:   # Oct 8 evening: cold-start quote targets / chartable packets first among equals
-        div['prefs'] = {a['id']: pick_prefs(a['id'], day, ref, own_handles) for a in accounts}
+        div['prefs'] = {a['id']: pick_prefs(a['id'], day, ref, own_handles, account_lang=a.get('lang'))
+                        for a in accounts}
     hot = hotspot_plan(store, pools, accounts, universes, day, ref, reuse=reuse, allow_model=allow_model)
     if div is not None and hot is not None:
         diversity_gate_hotspot(hot, div)
@@ -641,30 +652,52 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                            for v in [((rewrites or {}).get(account) or {}).get(k)] if k and v), None)
             if target:
                 plan[account][-1].update(rewrite_of=target['draft_id'], editor_note=target['note'])
+    # Oct 8 (live/engagement.py, FD_ENGAGE): cold accounts reply to / quote the best big-account targets among their
+    # picks (1 reply + 1 quote, or 2 replies, a day), timed while the target is hot; other picks stay standalone and
+    # never quote a target that fails the scoring.
+    eng = engagement_plan(plan, accounts, pools, day, ref, now, own_handles, info) if engagement.enabled() else None
     # post type + length (habit card, rotation inside the day) + suggested post time (habit card hours)
     for account, picks in plan.items():
         persona = registry.persona_for_account(account)
         card = ph.load_card(persona)
         recent = list(anti_repeat.load_recent(account))
-        times = []
+        times = [d['slot'] for d in ((eng or {}).get(account) or {}).values() if d.get('mode') and d.get('slot')]
         for p in picks:
             c = copy.deepcopy(card)
             if p['numbers'] < 2:
                 c['post_type_mix'] = {k: v for k, v in c['post_type_mix'].items() if k not in ('chart_caption', 'list_dump')}
-            from live import cold_start
-            quote = (cold_start.force_quote(account, day, {'url': p.get('url'), 'published_at': p.get('published_at'),
-                                                           'x_metrics': p.get('x_metrics')},
-                                            ref, key=p['source_id'], own_handles=own_handles)
-                     and 'quote_comment' in (c.get('post_type_mix') or {}))
-            # Oct 8 evening: cold-start accounts quote fresh hot X posts more often (COLD_QUOTE_SHARE)
+            d = ((eng or {}).get(account) or {}).get(p['source_id']) if eng is not None else None
+            force = None
+            if eng is not None:
+                force = {'quote': 'quote_comment', 'reply': 'one_liner'}.get((d or {}).get('mode'))
+                if not force:   # standalone: no quote card on a post that is not a scored target
+                    c['post_type_mix'] = {k: v for k, v in c['post_type_mix'].items() if k != 'quote_comment'} \
+                        or c['post_type_mix']
+                quote = False
+            else:
+                from live import cold_start
+                quote = (cold_start.force_quote(account, day, {'url': p.get('url'), 'published_at': p.get('published_at'),
+                                                               'x_metrics': p.get('x_metrics')},
+                                                ref, key=p['source_id'], own_handles=own_handles)
+                         and 'quote_comment' in (c.get('post_type_mix') or {}))
+                # Oct 8 evening: cold-start accounts quote fresh hot X posts more often (COLD_QUOTE_SHARE)
+                force = 'quote_comment' if quote else None
             fmt = ph.choose_format(persona, recent=recent, seed=f'{day}|{account}|{p["source_id"]}', card=c,
-                                   force_type='quote_comment' if quote else None)
+                                   force_type=force)
             if quote:
                 p['cold_start_quote'] = True
             recent.append({'post_format': fmt['type'], 'text': ''})
-            t = ph.sample_post_time(card, day, seed=f'{account}|{p["source_id"]}', taken=times, min_gap_min=90)
-            times.append(t)
+            if d and d.get('mode') and d.get('slot'):
+                t = d['slot'].astimezone(ZoneInfo(ph.TZ))   # engagement: earliest slot while the target is hot
+            else:
+                t = ph.sample_post_time(card, day, seed=f'{account}|{p["source_id"]}', taken=times, min_gap_min=90)
+                times.append(t)
             p['post_format'] = {k: fmt[k] for k in ('type', 'length', 'thread_parts', 'length_target', 'shapes')}
+            if d is not None and (d.get('mode') or (d.get('assess') or {}).get('url')):
+                from live import engagement as _eng
+                p['engagement'] = _eng.pick_record(d)
+                if d.get('mode'):
+                    p['post_format'].update(engage=d['mode'], engage_author=(d.get('assess') or {}).get('handle'))
             p['suggested_post_time_london'] = t.isoformat()
     if div is not None and info is not None:
         info['topic_div'] = div['summary']
@@ -741,23 +774,84 @@ def diversity_prepare(pools, accounts, x_of, day, ref, reuse=None):
     return {'meta': meta, 'profiles': profs, 'info': info, 'summary': summary}
 
 
-def pick_prefs(account, day, ref, own_handles=()):
+def pick_prefs(account, day, ref, own_handles=(), account_lang=None):
     """Soft per-packet preferences (lower sorts first): (cold-start: not a fresh hot X quote target,
-    image-heavy donors: no real chart / screenshot possible). live/cold_start.py; both 0 when off."""
-    from live import cold_start
+    image-heavy donors: no real chart / screenshot possible). live/cold_start.py; both 0 when off.
+    Oct 8 (live/engagement.py, FD_ENGAGE): in the engagement window the first key is (0, -score) for a scored
+    big-account / velocity target at the account's first slot, (1, 0) for a fresh X post the scoring cannot judge
+    (no metrics), (2, 0) otherwise - so the best quote / reply targets reach the picks."""
+    from live import cold_start, engagement
     cold = cold_start.is_cold(account, day)
     heavy = cold_start.image_heavy(account)
+    eng = engagement.enabled() and engagement.is_cold(account, day)
+    slot = (engagement.next_slot(day, ref) or ref) if eng else None
 
     memo = {}
+
+    def first(src):
+        if not eng:
+            return bool(cold) and not cold_start.hot_quote_target(src, ref, own_handles)
+        a = engagement.assess(src, slot, account_lang=account_lang, own_handles=own_handles)
+        if a['quote_ok']:
+            return (0, -a['score'])
+        return (1, 0.0) if cold and a['reject'] == 'no_metrics' and cold_start.hot_quote_target(src, ref, own_handles) \
+            else (2, 0.0)
 
     def k(g):
         if id(g) not in memo:
             src = g[0]['source']
-            memo[id(g)] = (bool(cold) and not cold_start.hot_quote_target(src, ref, own_handles),
+            memo[id(g)] = (first(src),
                            bool(heavy) and not cold_start.chartable(
                                group_text(g), sum(len(r['unit'].get('numbers') or []) for r in g)))
         return memo[id(g)]
     return k
+
+
+def engagement_plan(plan, accounts, pools, day, ref, now, own_handles, info=None):
+    """live/engagement.plan_day over the day's picks -> {account: {source_id: decision}}; the targets log goes into
+    info['engagement'] (run_round writes it to live/store/engagement/<day>.json). Earlier inbox rows of the day count
+    against the per-account quota, the one-target-one-account rule and the 30-minute spacing."""
+    from live import engagement
+    from live.post_mode import x_target
+    day_s = day.isoformat() if hasattr(day, 'isoformat') else str(day)
+    try:
+        earlier = [r for r in compose_inbox.rows(day_s) if not r.get('superseded')]
+    except Exception:   # noqa: BLE001
+        earlier = []
+    state = engagement.DayState.from_rows(earlier)
+    taken = {}
+    for r in earlier:
+        t = r.get('suggested_post_time_london')
+        if t and r.get('account_id') in plan:
+            taken.setdefault(r['account_id'], []).append(t)
+    langs = {a['id']: a.get('lang') for a in accounts}
+    cands = {aid: [{'key': p['source_id'], 'on_lane': True,
+                    'source': {'url': p.get('url'), 'published_at': p.get('published_at'),
+                               'x_metrics': p.get('x_metrics'), 'source_language': p.get('source_lang')}}
+                   for p in picks if p.get('source_id')]
+             for aid, picks in plan.items()}
+    sel_ref = max([x for x in (ref, now) if x is not None])
+    decisions, log = engagement.plan_day(cands, day=day_s, ref=sel_ref, state=state, taken=taken,
+                                         own_handles=own_handles, langs=langs)
+    holders = {}
+    for aid, groups in (pools or {}).items():   # accounts whose pool held the target (they passed it over)
+        for g in groups:
+            t = x_target(g[0]['source'])
+            if t:
+                holders.setdefault(t[0], set()).add(aid)
+    for e in log:
+        e['passed_over'] = sorted((set(e.get('passed_over') or ()) | holders.get(e.get('target_url'), set()))
+                                  - {e['account']})
+    cold = [a for a in cands if engagement.is_cold(a, day_s)]
+    summary = {'targets': log, 'cold_accounts': len(cold),
+               'accounts_with_engagement': sorted({e['account'] for e in log}),
+               'fallback_standalone': sorted(a for a in cold if not any(d.get('mode') for d in decisions[a].values()))}
+    if info is not None:
+        info['engagement'] = summary
+    if log:
+        print('engagement targets', json.dumps([(e['account'], e['mode'], e['author'], e['likes_at_selection'],
+                                                 e['age_h_at_post']) for e in log], ensure_ascii=False), flush=True)
+    return decisions
 
 
 def lane_gate(pools, accounts, x_of, info=None):
@@ -997,6 +1091,8 @@ def inbox_row(result, account_cfg, day, run_id):
                if repair else {}),
             **({'lane_fit': result['lane_fit']} if result.get('lane_fit') else {}),
             **({'cold_start_quote': True} if pick.get('cold_start_quote') else {}),
+            # Oct 8 (live/engagement.py): quote / reply target chosen (or refused) by the engagement scoring
+            **({'engagement': pick['engagement']} if pick.get('engagement') else {}),
             'arbitration': arb, 'findings': findings,
             'stance': {k: (result.get('stance') or {}).get(k) for k in ('decision', 'account_view', 'subject', 'direction')},
             'source': {'id': src.get('id'), 'source_id': src.get('source_id'), 'publisher': pick.get('publisher'),
@@ -1154,6 +1250,9 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
                                    'selection_ref': selection_ref(args.day, args.now).isoformat(), 'pick_order': order, 'per_account': per_account,
                                    'fill': fill, 'round': rnd, 'drafted_earlier_today': done,
                                    **info, 'accounts': plan})
+    if (info.get('engagement') or {}).get('targets') and not args.select_only:   # live/engagement.py daily log
+        from live import engagement
+        engagement.write_log(args.day.isoformat(), info['engagement']['targets'], run_id=run_id)
     for a in accts:
         print(a['id'], [f"{'REWRITE ' if p.get('rewrite_of') else ''}{'HOT ' if p.get('hotspot') else ''}{p['suggested_post_time_london'][11:16]} {p['post_format']['type']} {p['angle']} "
                         f"{p['source_lang']}{'=' if p['same_language'] else '>'}{a['lang']} {str(p['title'])[:40]}"

@@ -1214,6 +1214,9 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
     findings += stale_time_findings(body, units, now, persona.lang)
     from live import hook_voice   # Oct 8 evening: weak hook (soft, rewrite trigger), source forecast as own call, stale high
     findings += hook_voice.findings(body, units, source, now, persona.lang)
+    if (shape or {}).get('engage'):   # Oct 8 (live/engagement.py): reply / quote draft under a big account
+        from live import engagement as _eng
+        findings += _eng.findings(body, shape['engage'], persona.lang)
     findings += contradiction_findings(body)
     findings += qa_levels.d_tier_findings(body)
     if frame and frame.get('never_name'):
@@ -1583,6 +1586,9 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                 payload['post_type_rules']['body_length'],
                 note='post_format.length_target wins over min/max here (this post is a ' + fmt_info['type'] + ').')
             fmt_info['anchor_handles'] = [a['handle'] for a in payload['post_format']['anchor_posts']]
+            if fmt_info.get('engage'):   # Oct 8 (live/engagement.py): reply / quote under a big account's post
+                from live import engagement as _eng
+                payload['post_format']['engage_rule'] = _eng.prompt_rule(fmt_info['engage'], fmt_info.get('engage_author'))
         payload['composition_shape'] = shape_block
         if shape_block.get('length') == 'long' and not fmt_info:
             # v7: v5zh data_punch long came back at 114 chars vs target 277-399 - body_length.note said
@@ -2115,8 +2121,11 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     body, label_stripped = anti_repeat.strip_judgment_label(body)
     sig_texts = [str(x) for x in (sig.get('openings') or []) + (sig.get('closings') or [])] if sig else []
     qa_shape = ({**shape_info, 'length_target': shape_block['length_target'],
-                 **({'post_format': fmt_info['type'], 'length': shape_block['length']} if fmt_info else {})}
+                 **({'post_format': fmt_info['type'], 'length': shape_block['length']} if fmt_info else {}),
+                 **({'engage': fmt_info['engage']} if fmt_info and fmt_info.get('engage') else {})}
                 if shape_info and shape_block else shape_info)
+    if fmt_info and fmt_info.get('engage') and not (qa_shape or {}).get('engage'):
+        qa_shape = {**(qa_shape or {}), 'engage': fmt_info['engage']}
 
     def _ledger_ok(ledger):
         by_id = {u['unit_id']: u for u in chosen}
@@ -2174,6 +2183,9 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     # Oct 8 evening (live/hook_voice.py): a weak line-1 hook is soft (never a HOLD) but gets this same one rewrite
     from live import hook_voice as _hv
     trigger = _hv.REPAIR_TRIGGER if _hv.enabled() else frozenset()
+    from live import engagement as _eng   # Oct 8: an engagement draft with no number / counter-point gets the rewrite
+    if _eng.enabled() and (fmt_info or {}).get('engage'):
+        trigger = trigger | _eng.REPAIR_TRIGGER
     first_soft = [f for f in findings if f['level'] != 'hard' and f['code'] in trigger]
     first_hard = first_hard + first_soft
     if first_hard:
