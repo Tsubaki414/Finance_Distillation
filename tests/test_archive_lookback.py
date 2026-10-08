@@ -51,7 +51,7 @@ def test_enabled_accounts_flag():
     assert al.enabled_accounts(CFG, {'FD_ARCHIVE': '1'}) == CFG['enabled_accounts']
     assert al.enabled_accounts(CFG, {'FD_ARCHIVE': '0'}) == []
     shipped = al.load_config()
-    assert len(shipped['enabled_accounts']) == 3 and shipped['per_day'] == 1 and shipped['event_cooldown_days'] == 30
+    assert shipped['enabled_accounts'] == 'all' and len(shipped['pilot_accounts']) == 3 and shipped['per_day'] == 1 and shipped['event_cooldown_days'] == 30
 
 
 def test_windows_feb_first_then_year_ago():

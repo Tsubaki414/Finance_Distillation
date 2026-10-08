@@ -1,13 +1,8 @@
 {
-  "version": "archive-lookback-v1",
+  "version": "archive-lookback-v2",
   "label": "回看",
-  "note": "回看 (look-back) post type: fills an account's day when fresh publishable material is thin. Material is the account's OWN tier-B X sources and donors from about a year ago (Feb 2025 first, then the same calendar window one year before the day), fetched by twitter241 date-bounded search; each draft compares what was said then with today's numbers from live/charts.py fetchers and carries a then-vs-now chart. FD_ARCHIVE unset or 1 = on for enabled_accounts only; FD_ARCHIVE=0 = off. Raw fetched posts stay outside git (FD_ARCHIVE_RAW); the ledger lives in live/store/archive_lookback (ignored).",
-  "enabled_accounts": [
-    "crypto_altcoin_zh",
-    "crypto_macro_en",
-    "zh_longterm_investing"
-  ],
-  "pilot_reason": "Oct 8 pilot: the three accounts with the thinnest fresh material in a simulated 2026-10-08 selection (daily_compose.select over all 20): crypto_altcoin_zh 1 timely of 2 planned (0 fresh on 10-07 morning, 3 of 5 drafts held), crypto_macro_en 0 timely of 2 planned (largest EN crypto gap), zh_longterm_investing 0 fresh packets at all (macro_zh / market_data_charts beats).",
+  "note": "Archive post type: 回看 (then_vs_now) and 常青 (evergreen) drafts from the account's OWN donors and tier-B X sources, about a year ago (Feb 2025, Sep-Nov 2025, the year-ago month). FD_ARCHIVE unset or 1 = on for enabled_accounts ('all' = the 20 fd20 accounts), FD_ARCHIVE=0 = off, FD_ARCHIVE_ACCOUNTS=a,b narrows the list, FD_ARCHIVE_EVERGREEN=0 / FD_ARCHIVE_THEN_NOW=0 drop a variant. At most per_day archive draft per account per day: to fill (< target_ready_per_day ready) or as the 2nd post on a slow day (fewer than slow_day_fresh_min ready drafts from a source of the last 48 h). twitter241: one Top search per handle and month, cached forever outside git (FD_ARCHIVE_RAW) and shared across accounts; local donor timelines first (no call). Caps: rapid_max_calls_per_day (all runs of the drafting day, fetch_log.jsonl), rapid_max_calls_per_account_day, model_usd_per_day (all runs of the day, spend.jsonl). Ledger / logs in live/store/archive_lookback (ignored).",
+  "enabled_accounts": "all",
   "per_day": 1,
   "event_cooldown_days": 30,
   "target_ready_per_day": 2,
@@ -32,14 +27,50 @@
     }
   ],
   "max_handles_per_account": 10,
-  "max_candidates_to_model": 6,
-  "rapid_max_calls": 150,
+  "max_candidates_to_model": 4,
+  "rapid_max_calls": 40,
   "rapid_usd_per_call_estimate": 0.002,
   "rapid_budget_usd": 2.0,
-  "compose_budget_usd": 1.5,
-  "compose_reserve_per_draft_usd": 0.3,
+  "compose_budget_usd": 1.0,
+  "compose_reserve_per_draft_usd": 0.15,
   "min_chars": {
     "en": 80,
     "zh": 30
+  },
+  "pilot_accounts": [
+    "crypto_altcoin_zh",
+    "crypto_macro_en",
+    "zh_longterm_investing"
+  ],
+  "variants": [
+    "then_vs_now",
+    "evergreen"
+  ],
+  "months": [
+    "2025-02",
+    "2025-09",
+    "2025-10",
+    "2025-11"
+  ],
+  "slow_day_fresh_min": 2,
+  "rapid_max_calls_per_day": 40,
+  "rapid_max_calls_per_account_day": 4,
+  "local_month_enough": 15,
+  "model_usd_per_day": 1.0,
+  "claim_cards_per_account": 6,
+  "judge_stage": "stance",
+  "evergreen": {
+    "min_chars": {
+      "zh": 120,
+      "en": 280
+    },
+    "min_rule_score": 1.0,
+    "per_handle": 2,
+    "classify_top_k": 10,
+    "max_candidates_to_model": 3,
+    "dup_similarity": 0.3,
+    "verbatim_zh_chars": 10,
+    "verbatim_en_words": 7,
+    "cross_language": false
   }
 }
