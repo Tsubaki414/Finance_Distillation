@@ -149,7 +149,8 @@ def blend_v3(own, fam):
 def main_v3(args):
     recs = json.loads(args.attribution.read_text())
     roster = json.loads(args.roster.read_text())
-    accounts = json.loads(args.accounts.read_text())['accounts']
+    from live import fd_accounts
+    accounts = fd_accounts.rows(args.accounts)   # the gated 36-account roster (Oct 8: v3 used to read fd20 only)
     fam_of = {a['id']: family(a) for a in accounts}
     old = json.loads(args.out.read_text()) if args.out.exists() else {'accounts': {}}
     by_acct, by_fam = collections.defaultdict(list), collections.defaultdict(list)
