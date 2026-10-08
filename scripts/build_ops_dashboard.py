@@ -78,6 +78,8 @@ def avatar_uri(path, size=96):
 
 
 def load_accounts():
+    if str(ROOT) not in sys.path:
+        sys.path.insert(0, str(ROOT))
     from live import fd_accounts   # Oct 8: main + spares (FD_ACCOUNTS_EXTRA) + new (FD_ACCOUNTS_NEW)
     accounts = fd_accounts.rows(ACCOUNTS) if ACCOUNTS.exists() else []
     out = []
