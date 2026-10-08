@@ -57,6 +57,18 @@ def _findings(row):
     return '<ul class="f">' + ''.join(out[:12]) + '</ul>' if out else ''
 
 
+def _support(r):
+    """Oct 8 (live/x_support.py): the cited support fact of an own-X view packet, with its own source."""
+    sup = r.get('support') or {}
+    if not sup:
+        return ''
+    s = sup.get('source') or {}
+    kind = {'public_fact': '同事件公开来源', 'reality_price': '实时价格'}.get(sup.get('kind'), sup.get('kind'))
+    used = '，正文引用了' if r.get('support_citations') else '，正文未引用'
+    return (f'<div class="src">补充事实（{_esc(kind)}{used}）：{_esc(s.get("publisher"))} — {_esc(s.get("title"))} '
+            f'({_esc(str(s.get("published_at") or "")[:16])}) {_esc(s.get("url") or "")}</div>')
+
+
 def render(rows, day, *, live=False, summary=None):
     """Self-contained HTML. live=True adds the review form (POST to this server); static exports are read-only."""
     by_acct = {}
@@ -90,6 +102,7 @@ def render(rows, day, *, live=False, summary=None):
                 f'<pre class="body">{_esc(text)}</pre>'
                 f'<div class="src">来源：{_esc(src.get("publisher"))} — {_esc(src.get("title"))} '
                 f'({_esc(str(src.get("published_at") or "")[:10])}) {_esc(src.get("lang"))}</div>'
+                f'{_support(r)}'
                 f'<div class="view">立场：{_esc((r.get("stance") or {}).get("account_view"))}</div>'
                 f'{_findings(r)}{form}</div>')
     js = '<script src="/compose-inbox.js"></script>' if live else ''

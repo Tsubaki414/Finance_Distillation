@@ -367,7 +367,9 @@ def pick_units(post_type, units, now=None, post_types=None, account_id=None):
     primary_kind, n, support_kinds, m = RECIPES[post_type]
     candidates = eligible(post_type, units)
     if post_type in JUDGMENT_TYPES and account_id and candidates:
-        compat = [u for u in candidates if _horizon_compatible(u, account_id)]
+        # Oct 8: a legacy view (no structured `view`) counted as compatible and became the primary over a structured
+        # view of another horizon -> 'Legacy view lacks structured judgment'. Structured + compatible first.
+        compat = [u for u in candidates if isinstance(u.get('view'), dict) and _horizon_compatible(u, account_id)]
         if compat:
             rest = [u for u in candidates if u not in compat]
             candidates = compat + rest
@@ -1223,6 +1225,10 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
     return qa_levels.classify(findings, frame_found=frame_found)
 
 
+TRANSPORT_ATTEMPTS = 2       # relay transport failures (ReadTimeout ...): first call + one retry
+TRANSPORT_BACKOFF_S = 5.0
+
+
 def _ask(client, stage, system, payload, max_tokens, calls, *, sleep=None):
     import time
     sleep = time.sleep if sleep is None else sleep
@@ -1242,9 +1248,17 @@ def _ask(client, stage, system, payload, max_tokens, calls, *, sleep=None):
         except (OSError, TimeoutError) as exc:
             error = ContractError(f'{stage}: transient client error: {exc}')
         except RuntimeError as exc:
-            if not re.search(r'HTTP (?:429|5\d\d)', str(exc)):
+            transport = str(exc).startswith('Relay transport failed')   # ReadTimeout / ConnectError ... (no body)
+            if not (transport or re.search(r'HTTP (?:429|5\d\d)', str(exc))):
                 raise
             error = exc
+            if transport:
+                # Oct 8: one relay ReadTimeout lost crypto_research_en's draft; 2 attempts with a backoff, then report
+                record.setdefault('transport_retries', []).append(type(exc).__name__ + ': ' + str(exc)[:80])
+                if attempt >= TRANSPORT_ATTEMPTS:
+                    raise
+                sleep(TRANSPORT_BACKOFF_S * attempt)
+                continue
             if attempt < 3:
                 sleep(3.0 * 2 ** (attempt - 1))   # rate limit / queue: longer backoff
                 continue
@@ -2278,7 +2292,7 @@ def arbitration_mode(mode=None):
     return value
 
 
-def arbitrate_batch(results, *, mode=None):
+def arbitrate_batch(results, *, mode=None, same_language=False):
     """Post-stance / post-compose cross-persona claim arbitration, SOFT by default.
 
     Same-day same-conclusion claims keep the best-fit persona; others HOLD
@@ -2290,4 +2304,4 @@ def arbitrate_batch(results, *, mode=None):
     if resolved == 'off':
         return [dict(r, arbitration={'status': 'OFF', 'mode': 'off'}) for r in results]
     from live.claim_arbitration import apply_to_results
-    return apply_to_results(results, mode=resolved)
+    return apply_to_results(results, mode=resolved, same_language=same_language)

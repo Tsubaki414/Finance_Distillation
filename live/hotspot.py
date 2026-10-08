@@ -44,7 +44,9 @@ MERGE_CAP_USD = 0.30
 HUB_DEGREE = 6            # a material linked to this many others is a recap: it may join, not bridge
 MERGE_MAX = 80            # clusters sent to the merge call
 X_CAP = 40                # twitter241 calls per day for the X pulse
-VERSION = 'hotspot-v1'
+LANE_FIT_OVERRIDE = 0.2   # a 母题 outside a lane account's lanes still counts when its type has this topic share
+X_ONLY_MIN_PUBLISHERS = 3  # distinct authors an X-only 母题 needs to enter the hotspot pool
+VERSION = 'hotspot-v2'
 
 STOP = set('''the a an and or of to in on for with from by at as is are was were be been it its this that these those
 we our you your they their he she his her i my me us not no yes but if so do does did can will would should could
@@ -427,6 +429,14 @@ def reach_weight():
     return 0.0 if topic_div.enabled() else 0.7
 
 
+def hot_pool(ms, pubs, public_heat, accts):
+    """Hotspot pool: >= 2 publishers (or public heat with an account source). A 母题 made only of X posts needs
+    X_ONLY_MIN_PUBLISHERS distinct authors (Oct 8: $CLAUS = one author + one echo got a WRITE)."""
+    if all(str(m.get('adapter') or '').startswith('x:') for m in ms):
+        return len(pubs) >= X_ONLY_MIN_PUBLISHERS
+    return len(pubs) >= 2 or (public_heat >= 1.0 and bool(accts))
+
+
 def build_motifs(mats, groups_idx, ref, titles=None, day=None):
     signals, heat = _heat_signals(day or ref.date().isoformat())
     out = []
@@ -456,7 +466,7 @@ def build_motifs(mats, groups_idx, ref, titles=None, day=None):
             'accounts': accts, 'type': topics[0], 'topics': topics,
             'heat': {'score': score, 'breadth': round(breadth, 3), 'public_heat': round(h_in, 3),
                      'public_terms': terms[:6], 'recency': round(recency, 3)},
-            'pool': 'hotspot' if len(pubs) >= 2 or (h_in >= 1.0 and accts) else 'discovery',
+            'pool': 'hotspot' if hot_pool(ms, pubs, h_in, accts) else 'discovery',
             'members': [{k: m[k] for k in ('key', 'title', 'publisher', 'url', 'published_at', 'adapter', 'lang',
                                            'tier', 'accounts', 'n_numbers', 'tags')} for m in ms]})
     out.sort(key=lambda m: (m['pool'] != 'hotspot', -m['heat']['score'], m['id']))
@@ -495,10 +505,13 @@ def decide(motifs, accounts, universes, pool_keys, ok, led=(), priors=None, top=
                             'fit': fit}
                 continue
             lanes = set((universes.get(aid) or {}).get('lanes') or [])
-            if lanes and not any(lanes & set(x.get('tags') or []) for x in m['members'] if tuple(x['key']) in mine):
-                # crypto accounts with own lanes (meme / defi / perp / on-chain ...): a 母题 outside them is off beat
-                row[aid] = {'decision': 'IGNORE', 'reason': 'outside its own lanes (' + ', '.join(sorted(lanes)) + ')',
-                            'fit': fit}
+            if (lanes and fit < LANE_FIT_OVERRIDE
+                    and not any(lanes & set(x.get('tags') or []) for x in m['members'] if tuple(x['key']) in mine)):
+                # crypto accounts with own lanes (meme / defi / perp / on-chain ...): a 母题 outside them is off beat,
+                # unless its type is a big part of the account's own topic mix (Oct 8: lane OR share >= 0.2 - Robinhood
+                # in 14 pools got no WRITE)
+                row[aid] = {'decision': 'IGNORE', 'reason': 'outside its own lanes (' + ', '.join(sorted(lanes)) + ')'
+                            + f' and topic share {fit:.2f} < {LANE_FIT_OVERRIDE}', 'fit': fit}
                 continue
             from live import angles
             lead = angles.top_angles((universes.get(aid) or {}).get('angle_lead') or {}, 4)

@@ -120,12 +120,39 @@ def test_decision_respects_beat_spread_lanes_and_caps():
     table, assign = H.decide([m1], ACCTS, UNIV, pools, ok=lambda a, k: True)
     row = table['m1']
     assert row['market_data_charts']['decision'] == 'IGNORE' and 'topic spread' in row['market_data_charts']['reason']
-    assert row['defi_narratives_en']['decision'] == 'IGNORE' and 'lanes' in row['defi_narratives_en']['reason']
-    en = [a for a in ('crypto_macro_en', 'btc_cycles_en', 'crypto_research_en') if row[a]['decision'] == 'WRITE']
+    # Oct 8: outside its lanes but crypto is 0.33 of its topic mix (>= 0.2) -> on beat, competes for the en slots
+    assert row['defi_narratives_en']['decision'] != 'IGNORE'
+    en = [a for a in ('crypto_macro_en', 'btc_cycles_en', 'crypto_research_en', 'defi_narratives_en')
+          if row[a]['decision'] == 'WRITE']
     assert len(en) == 2                                                        # 2 per language per 母题
-    assert [a for a in ('crypto_macro_en', 'btc_cycles_en', 'crypto_research_en')
+    assert [a for a in ('crypto_macro_en', 'btc_cycles_en', 'crypto_research_en', 'defi_narratives_en')
             if row[a]['decision'] == 'HOLD' and 'cap' in row[a]['reason']]
     assert row['crypto_macro_zh']['decision'] == 'WRITE'
+
+
+def test_lane_rule_is_lane_or_topic_share():
+    m1 = motif('m1')                                                           # tags crypto_onchain, type crypto
+    pools = {'defi_narratives_en': [('h1', 's1')]}
+    accts = [{'id': 'defi_narratives_en', 'lang': 'en'}]
+    low = {'defi_narratives_en': {'topic_mix': {'crypto': 0.15}, 'lanes': ['crypto_defi']}}
+    row = H.decide([m1], accts, low, pools, ok=lambda a, k: True)[0]['m1']['defi_narratives_en']
+    assert row['decision'] == 'IGNORE' and 'lanes' in row['reason'] and '0.15 < 0.2' in row['reason']
+    high = {'defi_narratives_en': {'topic_mix': {'crypto': 0.2}, 'lanes': ['crypto_defi']}}
+    assert H.decide([m1], accts, high, pools, ok=lambda a, k: True)[0]['m1']['defi_narratives_en']['decision'] == 'WRITE'
+    inlane = {'defi_narratives_en': {'topic_mix': {'crypto': 0.1}, 'lanes': ['crypto_onchain']}}
+    assert H.decide([m1], accts, inlane, pools, ok=lambda a, k: True)[0]['m1']['defi_narratives_en']['decision'] == 'WRITE'
+
+
+def test_x_only_motif_needs_three_publishers():
+    def m(adapter, pub):
+        return {'adapter': adapter, 'publisher': pub}
+    two_x = [m('x:a', '@a'), m('x:b', '@b')]
+    assert not H.hot_pool(two_x, {'@a', '@b'}, 0.0, ['acct'])
+    assert not H.hot_pool(two_x, {'@a', '@b'}, 2.0, ['acct'])                # public heat does not lift an X-only pair
+    three_x = two_x + [m('x:c', '@c')]
+    assert H.hot_pool(three_x, {'@a', '@b', '@c'}, 0.0, [])
+    mixed = [m('x:a', '@a'), m('rss', 'CoinDesk')]
+    assert H.hot_pool(mixed, {'@a', 'CoinDesk'}, 0.0, [])                    # any public source: 2 publishers as before
 
 
 def test_no_member_in_own_pool_is_ignore_and_one_hotspot_per_account():

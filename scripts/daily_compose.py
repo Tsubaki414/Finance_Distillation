@@ -68,7 +68,10 @@ STAGE_CALLS = {'stance': 2, 'compose': 3}   # per draft: stance + 1 repair; firs
 HARD_REPAIR_CALLS = 2
 EST_PER_DRAFT = 0.12           # reserve kept per draft still to start (flash list prices, conservative)
 EST_PER_DRAFT_PRO = 0.30       # same reserve when compose runs on gemini-3.1-pro-preview (4x flash list prices)
-QUOTA_RX = re.compile(r'RESOURCE_EXHAUSTED|PerDay|exceeded your current quota', re.I)
+# Oct 8: the relay's own balance error ('用户额度不足' / insufficient_user_quota, ProviderQuotaError) and the official
+# API's 402 prepayment error also stop new drafts (the relay error let a sample start all 8 drafts into the same wall)
+QUOTA_RX = re.compile(r'RESOURCE_EXHAUSTED|PerDay|exceeded your current quota|ProviderQuotaError|额度不足|'
+                      r'insufficient_user_quota|insufficient[_ ]quota|prepayment credits', re.I)
 MAX_AGE_DAYS = 10              # selection window; inside it fresher (in-shelf, timely) packets rank first
 
 
@@ -154,13 +157,18 @@ def steered(group, tickers):
     return any(re.search(r'(?<![A-Za-z0-9])\$?' + re.escape(t) + r'(?![A-Za-z0-9])', text) for t in tickers)
 
 
-def candidates(store, account, beats, lead, ref, x_handles=None, account_cfg=None, reuse=None):
+def candidates(store, account, beats, lead, ref, x_handles=None, account_cfg=None, reuse=None, support=None,
+               diag=None):
     """x_handles: the account's own X sources. X-post units of other handles are skipped (X sources are
     account-scoped); own X posts rank right after timeliness, then packets on the account's own crypto lanes.
     account_cfg (fd20_accounts.json row): beat gate - a non-crypto account never gets a crypto packet and a crypto
     account never gets a packet without crypto content (Oct 7: Momo 美股札记 wrote GenLayer).
     reuse: source ids / titles / hashes this account may use again (its own drafts superseded for a rewrite); they
-    rank first."""
+    rank first.
+    support (live/x_support.Index, FD_X_SUPPORT / FD_X_DATA): an own X post with a view but no fact gets a real
+    support fact (same-story public source or the latest price of the ticker its view names) appended to its packet;
+    an own X post with only numbered facts enters as a data packet (data_take). Both rank after the balanced own X
+    posts."""
     from live.jev_front import SUB_BEATS
     from live.x_daily import x_handle
     x_handles = {h.lower() for h in x_handles or ()}
@@ -186,7 +194,12 @@ def candidates(store, account, beats, lead, ref, x_handles=None, account_cfg=Non
     gated = list(groups.values())
     if account_cfg:
         gated = [g for g in gated if editorial_style.beat_gate(account_cfg, group_text(g))[0]]
+    extra = own_x_packets(gated, support) if support is not None else []
     options = demo.ranked_balanced(gated, now=ref.date().isoformat())
+    options += demo.ranked_balanced([g for g in extra if demo.balanced(g)], now=ref.date().isoformat())
+    options += sorted([g for g in extra if not demo.balanced(g)], key=lambda g: -demo.group_freshness(g, ref.date().isoformat()))
+    if os.environ.get('FD_PRECHECK', '1') != '0':
+        options = precheck(account, options, diag)
     top = set(angles.top_angles(lead, 4))
     # Delphi digest (inspiration_only): its tickers only break ties toward the same topic; nothing of it is passed on.
     # The newest digest written within 36h (not an exact day match: it is London-dated, the drafting day is Beijing's).
@@ -197,10 +210,104 @@ def candidates(store, account, beats, lead, ref, x_handles=None, account_cfg=Non
         src = g[0]['source']
         return (not ({src.get('id'), src.get('title'), src.get('source_hash')} & reuse),
                 not prescreen.prescreen(account, g)['ok'], not demo.in_shelf(g, ref.date().isoformat()),
-                not timely(g, ref), not x_handle(g[0]['source']),
+                not timely(g, ref), not x_handle(g[0]['source']), packet_kind(g) != 'balanced',
                 bool(lane) and not any(lane & set(r.get('tag_personas') or []) for r in g), bool(demo.group_hook_repeat(g, recent)), demo.group_theme_repeat(g, recent),
                 -fit, not steered(g, steer), -demo.group_freshness(g, ref.date().isoformat()))
     return sorted(options, key=key)
+
+
+def stance_ready(account, group):
+    """A judgment packet the stance step can take for this account: a structured, valid view whose horizon fits the
+    persona (stance_step rejects the rest before any model call - 'Legacy view lacks structured judgment' /
+    'Incompatible persona horizon': 43 not_suitable plans on 10-08, Robinhood alone for 6 accounts)."""
+    from voice_relay_check import has_valid_view
+    return any(r['unit'].get('kind') == 'view' and has_valid_view(r['unit'])
+               and compose._horizon_compatible(r['unit'], account) for r in group if not r.get('support'))
+
+
+_GATE = {}
+
+
+def source_gate_ok(account, group):
+    """compose_source's front gate (source_display: the source must have a creditable name in the account's
+    language), checked at selection. 10-08: a zh 华尔街见闻 flash was planned for investing_philosophy in 7 runs and
+    each time came back not_suitable 'no English name for ch142_wscn_global'."""
+    from live import attribution_frame, source_display
+    src = group[0]['source']
+    lang = registry.persona_for_account(account).lang
+    key = (src.get('source_id'), src.get('publisher'), lang)
+    if key not in _GATE:
+        try:
+            tier = registry.source_licence_tier(src.get('source_id'))
+            publisher = attribution_frame.publisher_name(src.get('source_id'))
+            _GATE[key] = bool(source_display.display(src, lang, tier=tier, raw_name=publisher or src.get('publisher'),
+                                                     check_licence=False)['ok'])
+        except Exception:   # noqa: BLE001 - unknown: let compose decide as before
+            _GATE[key] = True
+    return _GATE[key]
+
+
+def precheck(account, options, diag=None):
+    """FD_PRECHECK (default 1): drop packets compose would refuse before any model call (source gate; judgment
+    packets without a stance-ready view). diag (dict) gets the drop counts."""
+    kept = []
+    for g in options:
+        if not source_gate_ok(account, g):
+            why = 'source_gate'
+        elif packet_kind(g) != 'data' and not stance_ready(account, g):
+            why = 'no_stance_ready_view'
+        else:
+            kept.append(g)
+            continue
+        if diag is not None:
+            diag[why] = diag.get(why, 0) + 1
+    return kept
+
+
+def own_x_packets(groups, support):
+    """Own-X packets that are not balanced, made usable (live/x_support.py): view-only + a support fact
+    (FD_X_SUPPORT), fact-only with numbers as a data packet (FD_X_DATA). Others stay out, as before."""
+    from live import x_support
+    from live.x_daily import x_handle
+    from voice_relay_check import has_valid_view
+    out = []
+    for g in groups:
+        if demo.balanced(g) or not x_handle(g[0]['source']):
+            continue
+        if x_support.enabled() and x_support.view_only(g, has_valid_view):
+            hit = support.support(g)
+            if hit:
+                out.append(list(g) + hit['records'])
+        elif x_support.data_enabled() and x_support.data_only(g, has_valid_view):
+            out.append(list(g))
+    return out
+
+
+def packet_kind(group):
+    """'balanced' (own view + fact), 'supported' (own view + an attached support fact), 'data' (no grounded view,
+    money / percent facts) or 'other'."""
+    from live import x_support
+    from voice_relay_check import has_valid_view
+    if any(x_support.is_support(r) for r in group):
+        return 'supported'
+    if demo.balanced(group):
+        return 'balanced'
+    return 'data' if x_support.data_only(group, has_valid_view) else 'other'
+
+
+def support_of(group):
+    """The support attached to a packet ({'kind', 'link', 'source', 'records'}) or None."""
+    recs = [r for r in group if r.get('support')]
+    if not recs:
+        return None
+    first = recs[0]['support']
+    return {'version': 'x-support-v1', 'kind': first['kind'], 'link': first['link'], 'source': first['source'],
+            'records': recs}
+
+
+def x_support_summary(sup):
+    from live import x_support
+    return x_support.summary(sup)
 
 
 def drafted_today(day, ready_only=False):
@@ -367,9 +474,22 @@ def selection_ref(day, now=None):
     return ref
 
 
+def support_index(store, ref):
+    """live/x_support.Index for own-X view-only packets (None when FD_X_SUPPORT=0 and FD_X_DATA=0). Never fatal."""
+    from live import x_support
+    if not (x_support.enabled() or x_support.data_enabled()):
+        return None
+    try:
+        return x_support.Index(store, ref, group_text)
+    except Exception as exc:   # noqa: BLE001 - support is additive; selection runs on without it
+        print(f'x_support: skipped ({type(exc).__name__}: {exc})', flush=True)
+        return None
+
+
 def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT, seed_events=(), reuse=None,
-           rewrites=None, now=None, allow_model=False, info=None):
-    """info: optional dict, filled with the FD_HOTSPOT day summary ('hotspot') for plan.json."""
+           rewrites=None, now=None, allow_model=False, info=None, skip_sources=None):
+    """info: optional dict, filled with the FD_HOTSPOT day summary ('hotspot') for plan.json.
+    skip_sources: {account: source ids / titles / hashes} this account already tried today and must not retry."""
     store = ContentStore()
     ref = selection_ref(day, now)
     x_of = {a['id']: [x['handle'] for x in universes[a['id']].get('x_sources') or [] if x.get('enabled', True)]
@@ -380,9 +500,26 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             for aid in row['accounts']:
                 if aid in x_of and row['handle'] not in x_of[aid]:
                     x_of[aid].append(row['handle'])
+    support = support_index(store, ref)
+    diag = {a['id']: {} for a in accounts}
     pools = {a['id']: candidates(store, a['id'], a['retrieval_beats'], universes[a['id']].get('angle_lead') or {}, ref,
-                                 x_handles=x_of[a['id']], account_cfg=a, reuse=(reuse or {}).get(a['id']))
+                                 x_handles=x_of[a['id']], account_cfg=a, reuse=(reuse or {}).get(a['id']),
+                                 support=support, diag=diag[a['id']])
              for a in accounts}
+    if info is not None:
+        info['precheck_dropped'] = {a: d for a, d in diag.items() if d}
+    if skip_sources:   # --fill: sources this account already tried today (not_suitable / held / error) are not retried
+        skipped_tried = {}
+        for aid in pools:
+            gone = skip_sources.get(aid) or set()
+            kept = [g for g in pools[aid] if not ({g[0]['source'].get('id'), g[0]['source'].get('title'),
+                                                   g[0]['source'].get('source_hash')} & gone)]
+            skipped_tried[aid] = len(pools[aid]) - len(kept)
+            pools[aid] = kept
+        if info is not None:
+            info['skipped_tried'] = skipped_tried
+    if info is not None:
+        info['pool_sizes'] = {aid: len(p) for aid, p in pools.items()}
     div = diversity_prepare(pools, accounts, x_of, day, ref, reuse) if topic_div.enabled() else None
     hot = hotspot_plan(store, pools, accounts, universes, day, ref, reuse=reuse, allow_model=allow_model)
     if div is not None and hot is not None:
@@ -451,11 +588,15 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             for e in events:
                 event_takers.setdefault(e, []).append((account, angle, lang))
             src = g[0]['source']
+            sup = support_of(g)
             plan[account].append({
                 'source_key': list(demo._key(g[0])), 'source_id': src.get('id'), 'title': src.get('title'),
                 'publisher': src.get('publisher') or src.get('author_name'), 'published_at': src.get('published_at'),
                 'url': src.get('url'), 'source_lang': source_lang(g), 'account_lang': lang,
-                'same_language': source_lang(g) == lang, 'unit_ids': [r['unit_id'] for r in g],
+                'same_language': source_lang(g) == lang, 'unit_ids': [r['unit_id'] for r in g if not r.get('support')],
+                'packet': packet_kind(g),
+                **({'post_type': 'data_take'} if packet_kind(g) == 'data' else {}),
+                **({'support': x_support_summary(sup), 'support_records': sup['records']} if sup else {}),
                 'in_shelf': demo.in_shelf(g, ref.date().isoformat()), 'timely': timely(g, ref),
                 'hooks': sorted(group_hooks(g)), 'angle': angle, 'angle_why': why, 'shared_event_with': shared_with,
                 'numbers': sum(len(r['unit'].get('numbers') or []) for r in g)})
@@ -559,7 +700,8 @@ def diversity_order(account, groups, picked, event_takers, div):
         src = g[0]['source']
         evs = {('src',) + tuple(demo._key(g[0]))} | ({('srcid', src['id'])} if src.get('id') else set()) \
             | ({title_event(src.get('title'))} - {None})
-        return (*m['base'], m['tier'] != 0, m['theme'] in used_themes and m['theme'] != 'other', m['tier'],
+        return (*m['base'], m['tier'] != 0, packet_kind(g) != 'balanced',
+                m['theme'] in used_themes and m['theme'] != 'other', m['tier'],
                 bool(evs & taken), m['off_spread'], i)
     return [g for _, g in sorted(enumerate(groups), key=k)]
 
@@ -674,6 +816,7 @@ def compose_one(new_client, account, pick, day, store_records, spend, lock):
     dc = DraftClient(new_client(), log)
     lang = pick['account_lang']
     group = [store_records[u] for u in pick['unit_ids'] if u in store_records]
+    group += [r for r in pick.get('support_records') or [] if group]   # live/x_support: cited support facts
     source = dict(group[0]['source']) if group else {}
     post_time = datetime.fromisoformat(pick['suggested_post_time_london'])
     angle = angles.payload(pick['angle'], lang)
@@ -682,7 +825,7 @@ def compose_one(new_client, account, pick, day, store_records, spend, lock):
         # inside the guard: a span that no rebuilt paragraph contains (StopIteration) sank the whole Oct 7 run
         source, units = evidence_source(group)
         result = compose.compose_source(
-            source, account, dc, post_type=demo.judgment_type(account), extracted_units=units,
+            source, account, dc, post_type=pick.get('post_type') or demo.judgment_type(account), extracted_units=units,
             exemplar_dir=POSTS, exemplar_tags_dir=TAGS, view_ledger=ViewLedger(account),
             now=post_time.astimezone(timezone.utc), post_format=dict(pick['post_format']), angle=angle,
             editor_note=pick.get('editor_note'), reality=pick.get('reality'))
@@ -695,6 +838,9 @@ def compose_one(new_client, account, pick, day, store_records, spend, lock):
         spend['usd'] += cost
     result = dict(result, account_id=account, source=source, plan=pick, retry_log=log, spend_usd=cost,
                   call_records=dc.paths, seconds=round(time.monotonic() - started, 1), angle=angle)
+    if pick.get('support'):
+        from live import x_support
+        result['support_citations'] = x_support.citations(result, {'records': pick.get('support_records') or []})
     return result
 
 
@@ -721,6 +867,10 @@ def inbox_row(result, account_cfg, day, run_id):
             **({'rewrite_of': pick['rewrite_of']} if pick.get('rewrite_of') else {}),
             **({'heat_led': True, 'heat': pick.get('heat')} if pick.get('heat_led') else {}),
             **({'hotspot': pick['hotspot'], 'reality': pick.get('reality')} if pick.get('hotspot') else {}),
+            # live/x_support: the support fact attached to an own-X view (its own source) and the ledger rows citing it
+            **({'support': pick['support'], 'support_citations': result.get('support_citations') or []}
+               if pick.get('support') else {}),
+            **({'packet': pick['packet']} if pick.get('packet') and pick['packet'] != 'balanced' else {}),
             'draft_status': result.get('draft_status') or ('blocked' if result.get('error') else None),
             'status': result.get('status'), 'error': result.get('error'), 'why': result.get('why'),
             # fix26: a HARD finding left after the one targeted rewrite (needs_review) is a HOLD, never ready
@@ -781,44 +931,139 @@ def main():
     if not UNIVERSES.exists():
         raise SystemExit(f'{UNIVERSES} missing: run scripts/persona_factory.py first')
     universes = load_json(UNIVERSES)
+    # Oct 8: a run keeps topping accounts up - after the first pass, fill rounds (FD_FILL_ROUNDS, default 3; --fill runs
+    # are fill rounds from the start) pick the next untried candidate of every account still short of --per-account
+    # ready drafts, until all have them or candidates / budget / quota run out. fill_status.json says why each stopped.
+    extra = max(0, int(os.environ.get('FD_FILL_ROUNDS', '3')))
+    rounds = 1 if args.select_only else 1 + extra
+    state = {'spend': {'usd': 0.0}, 'lock': threading.Lock(), 'quota': {}, 'client': None, 'records': None,
+             'run_ids': [], 'tally': {a['id']: Counter() for a in accounts}, 'last': {}}
+    summary = out = None
+    for rnd in range(rounds):
+        fill = args.fill or rnd > 0
+        accts = accounts
+        if fill and rnd > 0:
+            ready = drafted_today(args.day, ready_only=True)
+            accts = [a for a in accounts if ready.get(a['id'], 0) < per_account]
+            if not accts:
+                break
+        res = run_round(args, accts, accounts, universes, per_account, fill, rnd, state)
+        if res is None:   # --select-only
+            return 0
+        out, summary, planned = res
+        if state['quota'] or not planned or summary.get('budget_exhausted'):
+            break
+    if summary is None:
+        return 0
+    status = fill_status(args.day, accounts, per_account, state, rounds)
+    summary['fill_status'] = status
+    write_json(out / 'fill_status.json', status)
+    print('fill status', json.dumps({a: v['stopped'] for a, v in status['accounts'].items()}, ensure_ascii=False),
+          flush=True)
+    # ---- 回看 hook (live/archive_lookback.py): FD_ARCHIVE (default on for its config's pilot accounts) gives an account
+    # still short of ready drafts one look-back draft; never fatal to the day.
+    if os.environ.get('FD_ARCHIVE', '1') != '0':
+        try:
+            from live import archive_lookback
+            summary['archive'] = archive_lookback.fill_gaps(args.day.isoformat(), accounts=[a['id'] for a in accounts])
+        except Exception as exc:   # noqa: BLE001
+            summary['archive'] = {'error': f'{type(exc).__name__}: {str(exc)[:200]}'}
+    # ---- end 回看 hook
+    write_json(out / 'summary.json', summary)
+    from backend.compose_inbox import render
+    page = DASHBOARD / f'fd20_review_{args.day.isoformat()}.html'
+    page.parent.mkdir(parents=True, exist_ok=True)
+    page.write_text(render(compose_inbox.rows(args.day.isoformat()), args.day.isoformat(), summary=summary))
+    print(json.dumps({k: v for k, v in summary.items() if k not in ('per_account', 'fill_status')}, ensure_ascii=False),
+          flush=True)
+    print('review page', page, flush=True)
+    return 0
+
+
+NOT_TRIED = re.compile(r'configured spending cap|run budget|RESOURCE_EXHAUSTED|PerDay|quota|prepayment|\b402\b', re.I)
+
+
+def tried_sources(day, keep=None):
+    """{account: source ids / titles / hashes} this account already composed today (any outcome but a budget / quota
+    stop that never reached the model), from the day's run dirs and inbox. keep: {account: keys} not to list (rewrite
+    targets). --fill rounds skip them, so a not_suitable / held / failed source is not drafted again (10-08: three
+    fill runs re-planned the same not_suitable packets)."""
+    entries = []
+
+    def add(account, *keys):
+        entries.append((account, {k for k in keys if k}))
+    for path in sorted((RUNS / day.isoformat()).glob('*/drafts/*.json')):
+        try:
+            r = json.loads(path.read_text())
+        except (OSError, ValueError):
+            continue
+        if NOT_TRIED.search(str(r.get('error') or '')):
+            continue
+        p, src = r.get('plan') or {}, r.get('source') or {}
+        add(r.get('account_id'), p.get('source_id'), p.get('title'), (p.get('source_key') or [None])[0],
+            src.get('id'), src.get('original_source_hash'))
+    for r in compose_inbox.rows(day.isoformat()):
+        src = r.get('source') or {}
+        add(r.get('account_id'), src.get('id'), src.get('title'))
+    out = {}
+    for account, keys in entries:
+        if keys & set((keep or {}).get(account) or ()):
+            continue   # a rewrite target: every key of that source stays usable
+        out.setdefault(account, set()).update(keys)
+    return out
+
+
+def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, state):
+    """One select -> compose -> arbitrate -> inbox pass. Returns (run dir, summary, planned jobs) or None (select-only)."""
     run_id = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S')
+    if run_id in state['run_ids'] or (RUNS / args.day.isoformat() / run_id).exists():
+        run_id += f'-r{rnd}'
+    state['run_ids'].append(run_id)
     out = RUNS / args.day.isoformat() / run_id
     info = {}
-    if args.fill:
+    if fill:
         done = drafted_today(args.day, ready_only=True)
-        rewrites = rewrite_targets(args.day, load_json(args.rewrite_notes) if args.rewrite_notes else None)
-        plan, order = select(accounts, universes, args.day, per_account, done=done, cap=per_account,
+        rewrites = (rewrite_targets(args.day, load_json(args.rewrite_notes) if args.rewrite_notes else None)
+                    if rnd == 0 else {})   # a rewrite gets one attempt per run
+        reuse = {a: set(m) for a, m in rewrites.items()}
+        skip = tried_sources(args.day, keep=reuse) if os.environ.get('FD_FILL_SKIP_TRIED', '1') != '0' else None
+        plan, order = select(accts, universes, args.day, per_account, done=done, cap=per_account,
                              seed_events=ready_events(args.day, load_json(CONFIG)['accounts']),
-                             reuse={a: set(m) for a, m in rewrites.items()}, rewrites=rewrites, now=args.now,
-                             allow_model=not args.select_only or args.hotspot_merge, info=info)
+                             reuse=reuse, rewrites=rewrites, now=args.now,
+                             allow_model=not args.select_only or args.hotspot_merge, info=info, skip_sources=skip)
     else:
         done = drafted_today(args.day)
-        plan, order = select(accounts, universes, args.day, per_account, done=done, now=args.now,
+        plan, order = select(accts, universes, args.day, per_account, done=done, now=args.now,
                              allow_model=not args.select_only or args.hotspot_merge, info=info)
     write_json(out / 'plan.json', {'day': args.day.isoformat(), 'day_basis': 'Asia/Shanghai calendar date',
                                    'selection_ref': selection_ref(args.day, args.now).isoformat(), 'pick_order': order, 'per_account': per_account,
-                                   'fill': args.fill, 'drafted_earlier_today': done,
+                                   'fill': fill, 'round': rnd, 'drafted_earlier_today': done,
                                    **info, 'accounts': plan})
-    for a in accounts:
+    for a in accts:
         print(a['id'], [f"{'REWRITE ' if p.get('rewrite_of') else ''}{'HOT ' if p.get('hotspot') else ''}{p['suggested_post_time_london'][11:16]} {p['post_format']['type']} {p['angle']} "
                         f"{p['source_lang']}{'=' if p['same_language'] else '>'}{a['lang']} {str(p['title'])[:40]}"
                         for p in plan[a['id']]], flush=True)
+    for a in accts:
+        state['last'][a['id']] = {'round': rnd, 'picks': len(plan[a['id']]), 'pool': (info.get('pool_sizes') or {}).get(a['id']),
+                                  'skipped_tried': (info.get('skipped_tried') or {}).get(a['id'], 0)}
     if args.select_only:
-        return 0
-    client, table = make_client(out / 'calls')
-    store = ContentStore()
-    records = {}
-    for a in accounts:
-        for beat in a['retrieval_beats']:
-            for r in units_for_persona(store, beat, max_age_days=MAX_AGE_DAYS + 2):
-                records.setdefault(r['unit_id'], r)
-    jobs = [(a, p) for i in range(per_account) for a in accounts if i < len(plan[a['id']]) for p in [plan[a['id']][i]]]
-    spend, lock = {'usd': 0.0}, threading.Lock()
+        return None
+    if state['client'] is None:
+        state['client'], state['table'] = make_client(out / 'calls')
+        store = ContentStore()
+        records = {}
+        for a in all_accounts:
+            for beat in a['retrieval_beats']:
+                for r in units_for_persona(store, beat, max_age_days=MAX_AGE_DAYS + 2):
+                    records.setdefault(r['unit_id'], r)
+        state['records'] = records
+    client, table, records = state['client'], state['table'], state['records']
+    jobs = [(a, p) for i in range(per_account) for a in accts if i < len(plan[a['id']]) for p in [plan[a['id']][i]]]
+    spend, lock, quota = state['spend'], state['lock'], state['quota']
     est = EST_PER_DRAFT_PRO if 'pro' in stage_models.for_stage(table, 'compose')['model'] else EST_PER_DRAFT
     results, skipped = [], []
-    by_id = {a['id']: a for a in accounts}
-
-    quota = {}
+    by_id = {a['id']: a for a in all_accounts}
+    spent_before = spend['usd']
 
     def guarded(job):
         a, p = job
@@ -833,9 +1078,9 @@ def main():
         r = compose_one(client, a['id'], p, args.day, records, spend, lock)
         if QUOTA_RX.search(str(r.get('error') or '')):
             with lock:
-                quota.setdefault('reason', 'Gemini daily quota exhausted: ' + str(r['error'])[:160])
-        print(f"[{a['id']}] {p['angle']} {r.get('draft_status')} ${r['spend_usd']:.4f} {r['seconds']}s "
-              f"err={r.get('error')} | {(r.get('body') or '')[:90]!r}", flush=True)
+                quota.setdefault('reason', 'Gemini quota / balance exhausted: ' + str(r['error'])[:160])
+        print(f"[r{rnd} {a['id']}] {p['angle']} {p.get('packet', 'balanced')} {r.get('draft_status')} "
+              f"${r['spend_usd']:.4f} {r['seconds']}s err={r.get('error')} | {(r.get('body') or '')[:90]!r}", flush=True)
         return r
 
     with cf.ThreadPoolExecutor(max_workers=max(1, args.workers)) as pool:
@@ -846,7 +1091,12 @@ def main():
     from live import compose_shapes
     ok = [r for r in results if r.get('status') != 'error' and r.get('text')]
     compose_shapes.batch_findings(ok)
-    arbitrated = {id(r): r for r in compose.arbitrate_batch(ok)} if ok else {}
+    # Oct 8: only drafts that can ship take part in arbitration - a needs_review draft (hard finding after its rewrite)
+    # won the lane on 10-08 (crypto_onchain_en) and its duplicate was held too, so neither was publishable
+    eligible = [r for r in ok if r.get('draft_status') != 'needs_review']
+    # FD_ARB_SAME_LANG (default 1): only accounts of one language can duplicate each other (0 = cross-language too)
+    arbitrated = ({id(r): r for r in compose.arbitrate_batch(
+        eligible, same_language=os.environ.get('FD_ARB_SAME_LANG', '1') != '0')} if eligible else {})
     final = []
     for r in results:
         match = next((x for x in arbitrated.values() if x.get('id') and x.get('id') == r.get('id')), None)
@@ -863,42 +1113,64 @@ def main():
             from live import draft_media
             draft_media.annotate(row, by_id[r['account_id']], charts_on=not row['held'],
                                  replies_given=replies.get(row['account_id'], 0),
-                                 own_handles=[a.get('handle') for a in accounts])
+                                 own_handles=[a.get('handle') for a in all_accounts])
             replies[row['account_id']] = replies.get(row['account_id'], 0) + (row.get('post_mode') == 'reply')
         if row['text']:   # only real drafts enter the review inbox; failures stay in the run summary
             compose_inbox.add(row)
             supersede_previous(row, earlier)
         rows.append(row)
         write_json(out / 'drafts' / f"{row['id']}.json", r)
+        t = state['tally'][row['account_id']]
+        t['attempts'] += 1
+        t['ready' if row['text'] and not row['held'] else
+          'held:' + (row.get('hold_reason') or 'held') if row['text'] else
+          'not_suitable' if r.get('draft_status') == 'not_suitable' else 'error'] += 1
+    for x in skipped:
+        state['tally'][x['account_id']]['skipped:' + ('quota' if 'quota' in x['reason'] else 'budget')] += 1
     counts = {a['id']: {'drafts': sum(1 for x in rows if x['account_id'] == a['id'] and x['text']),
                         'held': sum(1 for x in rows if x['account_id'] == a['id'] and x['held']),
-                        'errors': sum(1 for x in rows if x['account_id'] == a['id'] and x['error'])} for a in accounts}
-    summary = {'day': args.day.isoformat(), 'run_id': run_id, 'accounts': len(accounts), 'planned': len(jobs),
-               'blocked': quota.get('reason'),
+                        'errors': sum(1 for x in rows if x['account_id'] == a['id'] and x['error'])} for a in accts}
+    summary = {'day': args.day.isoformat(), 'run_id': run_id, 'round': rnd, 'fill': fill, 'accounts': len(accts),
+               'planned': len(jobs), 'blocked': quota.get('reason'),
                'composed': len(results), 'skipped_budget': skipped, 'drafts_with_text': sum(1 for x in rows if x['text']),
-               'held': sum(1 for x in rows if x['held'] and x['text']), 'spend_usd': round(spend['usd'], 4),
+               'held': sum(1 for x in rows if x['held'] and x['text']), 'spend_usd': round(spend['usd'] - spent_before, 4),
+               'spend_usd_run_total': round(spend['usd'], 4),
                'errors': [{'account_id': x['account_id'], 'source': x['source'].get('title'), 'error': x['error']}
                           for x in rows if x['error']],
-               'budget_usd': args.budget_usd, 'models': sorted({m for x in rows for m in x['models']}),
+               'budget_usd': args.budget_usd, 'budget_exhausted': bool(skipped) or spend['usd'] + est > args.budget_usd,
+               'models': sorted({m for x in rows for m in x['models']}),
                'compose_model': stage_models.for_stage(table, 'compose')['model'], 'per_account': counts,
                'inbox': str(compose_inbox.root() / args.day.isoformat()), 'publishing_enabled': False}
-    # ---- 回看 hook (live/archive_lookback.py): FD_ARCHIVE (default on for its config's pilot accounts) gives an account
-    # still short of ready drafts one look-back draft; never fatal to the day.
-    if os.environ.get('FD_ARCHIVE', '1') != '0':
-        try:
-            from live import archive_lookback
-            summary['archive'] = archive_lookback.fill_gaps(args.day.isoformat(), accounts=[a['id'] for a in accounts])
-        except Exception as exc:   # noqa: BLE001
-            summary['archive'] = {'error': f'{type(exc).__name__}: {str(exc)[:200]}'}
-    # ---- end 回看 hook
     write_json(out / 'summary.json', summary)
-    from backend.compose_inbox import render
-    page = DASHBOARD / f'fd20_review_{args.day.isoformat()}.html'
-    page.parent.mkdir(parents=True, exist_ok=True)
-    page.write_text(render(compose_inbox.rows(args.day.isoformat()), args.day.isoformat(), summary=summary))
-    print(json.dumps({k: v for k, v in summary.items() if k != 'per_account'}, ensure_ascii=False), flush=True)
-    print('review page', page, flush=True)
-    return 0
+    print(f'round {rnd}: planned {len(jobs)}, composed {len(results)}, with text {summary["drafts_with_text"]}, '
+          f'held {summary["held"]}, spend ${summary["spend_usd"]:.3f} (run ${spend["usd"]:.3f})', flush=True)
+    return out, summary, len(jobs)
+
+
+def fill_status(day, accounts, per_account, state, rounds):
+    """Per account: ready drafts at the end, what each round tried, and why the run stopped topping it up."""
+    ready = drafted_today(day, ready_only=True)
+    out = {}
+    for a in accounts:
+        aid = a['id']
+        last, t = state['last'].get(aid) or {}, state['tally'][aid]
+        if ready.get(aid, 0) >= per_account:
+            why = 'reached'
+        elif state['quota']:
+            why = 'quota: ' + state['quota']['reason'][:160]
+        elif t.get('skipped:budget'):
+            why = 'budget'
+        elif last.get('picks') == 0:
+            why = (f"no_candidates (pool {last.get('pool')} after skipping {last.get('skipped_tried', 0)} sources "
+                   f"tried today; event caps / used sources take the rest)")
+        elif last.get('round', 0) >= rounds - 1:
+            why = 'max_rounds'
+        else:
+            why = 'stopped_with_run'   # another account's quota / the run budget ended the loop
+        out[aid] = {'ready': ready.get(aid, 0), 'target': per_account, 'stopped': why, 'tried': dict(t)}
+    return {'day': day.isoformat(), 'rounds_run': len(state['run_ids']), 'run_ids': state['run_ids'],
+            'spend_usd': round(state['spend']['usd'], 4),
+            'short': sorted(a for a, v in out.items() if v['ready'] < per_account), 'accounts': out}
 
 
 if __name__ == '__main__':

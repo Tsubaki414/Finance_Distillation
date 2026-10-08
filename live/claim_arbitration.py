@@ -102,9 +102,14 @@ def view_overlap(left, right):
     return _overlap(_bigrams(left), _bigrams(right))
 
 
-def claims_collide(a, b, *, subject_floor=0.5, view_floor=0.55):
-    """Same conclusion rephrase? Opposite directions never collide."""
+def claims_collide(a, b, *, subject_floor=0.5, view_floor=0.55, same_language=False):
+    """Same conclusion rephrase? Opposite directions never collide.
+    same_language=True (fd20 daily, FD_ARB_SAME_LANG): a zh and an en account post to different readers and never
+    duplicate each other; selection already allows one story per language (10-08: 6 of 12 holds were zh drafts held
+    for an en keeper). The legacy 4-account matrix keeps cross-language arbitration (Oct 6 v2)."""
     if a.get('account_id') == b.get('account_id'):
+        return False
+    if same_language and a.get('account_lang') and b.get('account_lang') and a['account_lang'] != b['account_lang']:
         return False
     day_a, day_b = a.get('day'), b.get('day')
     if day_a and day_b and day_a != day_b:
@@ -190,7 +195,7 @@ def _components(items, collide):
     return groups
 
 
-def arbitrate(candidates, *, mode='soft', beats=None):
+def arbitrate(candidates, *, mode='soft', beats=None, same_language=False):
     """Assign WRITE / HOLD across a batch of stance claims.
 
     Soft mode: losers keep their draft payload; they are flagged HOLD with
@@ -202,11 +207,12 @@ def arbitrate(candidates, *, mode='soft', beats=None):
     beats = beats or _load_beats()
     items = [dict(c) for c in candidates]
     for c in items:
+        c.setdefault('account_lang', (beats.get(c.get('account_id')) or {}).get('lang') or None)
         c['_lane_score'] = lane_score(c.get('account_id'), c.get('subject') or '',
                                       c.get('account_view') or '', beats=beats,
                                       source_lang=c.get('source_lang'))
     decisions = []
-    for gi, group in enumerate(_components(items, claims_collide)):
+    for gi, group in enumerate(_components(items, lambda a, b: claims_collide(a, b, same_language=same_language))):
         members = [items[i] for i in group]
         if len(members) == 1:
             m = members[0]
@@ -265,7 +271,7 @@ def candidate_from_stance(account_id, stance, *, key=None, source=None, unit_ids
     }
 
 
-def apply_to_results(results, *, mode='soft'):
+def apply_to_results(results, *, mode='soft', same_language=False):
     """Post-stance / post-compose soft arbitration over a batch of draft dicts.
 
     Each result must carry account_id and stance (or top-level subject/direction/
@@ -290,7 +296,7 @@ def apply_to_results(results, *, mode='soft'):
             unit_ids=[u.get('unit_id') for u in (r.get('units') or []) if isinstance(u, dict)],
             day=r.get('day')))
         index.append(i)
-    decisions = arbitrate(cands, mode=mode)
+    decisions = arbitrate(cands, mode=mode, same_language=same_language)
     out = [dict(r) for r in results]
     for i, dec in zip(index, decisions):
         row = out[i]

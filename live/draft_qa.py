@@ -169,6 +169,30 @@ AI PC Q1 Q2 Q3 Q4 H1 H2 FY OK CEOs VC VCs ATM YTD MTD WTI LNG CPI PCE OPEX CAPEX
 TradFi CeFi BTCFi DeFi APAC EMEA PM PMs IR X TGE ICO ICOs IDO AMA FUD FOMO HODL DCA ETH2
 H100 H200 B200 GB200 5G 3D
 '''.split())
+# Oct 8: chain / token / company names written in capitals are names, not insider acronyms ("TRON" held 4 crypto drafts
+# on 10-08 and 9 hard-repair rounds that week; STG, HYPE too). Coins / stocks of live/charts.py plus widely traded
+# tickers; a ticker outside this list still needs a gloss.
+KNOWN_NAMES = frozenset('''
+TRON TRX SUI APT TON HYPE ARB OP AVAX LINK DOT ADA ATOM NEAR TIA PEPE WIF BONK PUMP ENA ONDO JUP STX KAS FIL LTC BCH
+ETC UNI AAVE MKR LDO CRV PENDLE EIGEN ZRO STG SEI INJ RUNE WLD TAO RNDR RENDER FET GRT IMX MATIC POL SHIB DOGE USDE
+FDUSD PYUSD RLUSD BUIDL HBAR XLM ALGO ICP OKB BGB GMX DYDX SNX ETHFI MORPHO SKY BERA MNT BASE
+'''.split())
+
+
+def _known_name(word):
+    w = word.rstrip('s') if word.endswith('s') and len(word) > 3 else word
+    if w.upper() in KNOWN_NAMES:
+        return True
+    try:
+        from live import charts
+    except Exception:   # noqa: BLE001
+        return False
+    names = {k.upper() for k in charts.CRYPTO} | {n.upper() for v in charts.CRYPTO.values() for n in v[0]}
+    names |= {k.upper() for k in charts.STOCKS} | {v[0].upper() for v in charts.STOCKS.values()}
+    names |= {n.upper() for v in charts.STOCKS.values() for n in v[1]}
+    return w.upper() in names
+
+
 _ACRONYM = re.compile(r'(?<![A-Za-z0-9_$#@.])(?:[A-Z][A-Z0-9]{1,5}s?|[A-Z][a-z]?[A-Z]{1,4})(?![A-Za-z0-9_])')   # ASCII edges: 的T3部门
 _GLOSS_AFTER = re.compile(r'\s*[（(][^)）]{2,}[)）]|\s*(?:—|-|,|，|：|:)?\s*(?:i\.e\.|meaning|which is|也就是|即|就是)')
 
@@ -184,7 +208,7 @@ def readability_findings(body, lang=None):
     for m in _ACRONYM.finditer(text):
         word = m.group(0)
         if (not re.search(r'[A-Z].*[A-Z]|[A-Z]\d', word) or word in KNOWN_ACRONYMS
-                or word.upper() in KNOWN_ACRONYMS or word.rstrip('s') in KNOWN_ACRONYMS):
+                or word.upper() in KNOWN_ACRONYMS or word.rstrip('s') in KNOWN_ACRONYMS or _known_name(word)):
             continue
         if any(word in h for h in hits):          # already reported inside a rule / statute code
             continue

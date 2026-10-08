@@ -177,6 +177,7 @@ def test_compose_candidates_scope_x_units_to_subscribers(tmp_path, monkeypatch):
                         ('group_theme_repeat', False)):
         monkeypatch.setattr(dc.demo, name, lambda *a, value=value, **k: value)
     monkeypatch.setattr(dc.prescreen, 'prescreen', lambda account, g: {'ok': True})
+    monkeypatch.setenv('FD_PRECHECK', '0')        # stub units carry no view / source gate data (Oct 8 prechecks)
     out = dc.candidates(None, 'crypto_trader_en', ['crypto_perp', 'crypto_macro_en'], {}, NOW, x_handles=['Alice'])
     ids = [g[0]['unit_id'] for g in out]
     assert 'x-other' not in ids and set(ids) == {'x-own', 'doc'}

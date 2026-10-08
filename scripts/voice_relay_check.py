@@ -7,6 +7,7 @@ relay; EXTRACT replays selected, validated store units. No publishing or QA gate
 import argparse
 import copy
 import json
+import re
 from pathlib import Path
 import shlex
 import subprocess
@@ -81,7 +82,10 @@ def evidence_source(records):
     Remap paragraph IDs for replay while preserving the original units in the report.
     """
     source=dict(records[0]['source'])
-    snippets=list(dict.fromkeys(s['exact_text'] for r in records for s in r['unit']['source_spans']))
+    # Oct 8: a stored span may end in a space or hold a blank line; paragraphs() strips / splits at those, so the span
+    # matched no paragraph and next() raised a bare StopIteration (crypto_thesis_en, Robinhood, 10-08). Each snippet
+    # is now one clean paragraph and the unit's span text is the same clean string (its words are unchanged).
+    snippets=list(dict.fromkeys(t for r in records for s in r['unit']['source_spans'] for t in [_snippet(s['exact_text'])] if t))
     text='\n\n'.join(snippets)
     source.update(original_text=text, original_source_hash=source.get('source_hash'),source_hash=digest(text),
                   evidence_packet=True,content_complete=False,source_version='voice-check-span-packet-v1',
@@ -93,9 +97,18 @@ def evidence_source(records):
     for record in records:
         unit=copy.deepcopy(record['unit'])
         for span in unit['source_spans']:
-            span['paragraph_id']=next(p['paragraph_id'] for p in ps if span['exact_text'] in p['exact_text'])
+            span['exact_text']=_snippet(span['exact_text'])
+            hit=next((p['paragraph_id'] for p in ps if span['exact_text'] and span['exact_text'] in p['exact_text']),None)
+            if hit is None:
+                raise ValueError(f"evidence span not in packet text: {record.get('unit_id')} {span['exact_text'][:60]!r}")
+            span['paragraph_id']=hit
         units.append(unit)
     return source, units
+
+
+def _snippet(text):
+    """A span as one paragraph of the evidence packet: outer whitespace stripped, blank lines folded to one newline."""
+    return re.sub(r'\n[ \t]*\n\s*','\n',str(text or '')).strip()
 
 
 def rank_evidence_groups(groups):

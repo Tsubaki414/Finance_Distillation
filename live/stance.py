@@ -418,6 +418,12 @@ def zh_account_view_rewrite(client, value, calls, *, sleep=None, banned_spans=No
     return meta
 
 
+# Oct 8: shape errors of the account_view / its supporting ids get one targeted retry; other content contract errors
+# (bad confidence, invalid revised view ...) fail as before
+RETRYABLE_STANCE = re.compile(r'one judgment sentence required|account_view required|supporting view required|'
+                              r'reject must have no account_view|supporting IDs not supplied')
+
+
 def stance_step(view_unit, persona, client, *, calls=None, sleep=None, context_units=None, ledger=None, angle=None):
     from live.compose import _ask
     raw = persona.raw if hasattr(persona, 'raw') else persona
@@ -472,10 +478,27 @@ def stance_step(view_unit, persona, client, *, calls=None, sleep=None, context_u
     max_tokens = 3000 if payload.get('zh_units_rule') else 2000
     value, _ = _ask(client, 'stance', STANCE, payload, max_tokens, calls, sleep=sleep)
     allowed = {view_unit['unit_id'], *(u['unit_id'] for u in context)}
-    value = _validate_stance_value(value, view_unit, view, prior, allowed)
-    validate_pack_ids(value, context)
-    validate_support_lines(value, [view_unit, *context])
-    validate_zh_units(value, [view_unit, *context])
+
+    def validated(v):
+        v = _validate_stance_value(v, view_unit, view, prior, allowed)
+        validate_pack_ids(v, context)
+        validate_support_lines(v, [view_unit, *context])
+        validate_zh_units(v, [view_unit, *context])
+        return v
+    try:
+        value = validated(value)
+    except ContractError as exc:
+        if not RETRYABLE_STANCE.search(str(exc)):
+            raise
+        # Oct 8: 'stance: one judgment sentence required' lost crypto_onchain_en's slot. One targeted retry that names
+        # the broken rule; a second failure is reported as before.
+        note = (f'[stance_contract] Your previous answer broke this rule: {str(exc)[:200]}. Return the whole JSON '
+                f'object again and fix only that: account_view is exactly ONE sentence (no second sentence, no '
+                f'sentence-ending punctuation inside it); supporting_unit_ids lists {view_unit["unit_id"]} and only '
+                f'unit ids that were supplied; a reject has an empty account_view.')
+        value, _ = _ask(client, 'stance', STANCE, dict(payload, rewrite_note=note), max_tokens, calls, sleep=sleep)
+        value = validated(value)
+        value['stance_contract_retry'] = {'first_error': str(exc)[:200]}
 
     scrub_retry = None
     if value['decision'] != 'reject':

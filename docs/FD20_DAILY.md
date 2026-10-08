@@ -212,3 +212,28 @@ These are learned from donor text and are kept out of git (`.gitignore`):
 - 70 tier-B X sources from the Sirius list, mapped to accounts by donor theme mix + donor mentions
   (`live/x_breadth.json`), fetched by batched search, <= 20 twitter241 calls a day (`FD_X_BREADTH=0` turns it off).
 - Daily compose budget default $8. See `docs/TOPIC_DIVERSITY.md`.
+
+## Quality / reliability (Oct 8 PM P1, `fd-pm-quality`)
+
+- **Own X posts with half a pack** (`live/x_support.py`). A view-only own X post gets a real support fact attached:
+  a same-story public source (deterministic 母题 links, or a known coin / stock / $CASHTAG the view's own subject
+  names and the fact states) within 48h, else the latest price of the ticker the view names (free chart fetchers,
+  known symbols only). The fact keeps its own source; its span joins the evidence packet (grounding), the inbox row
+  carries `support` + `support_citations`, the review page shows 「补充事实」. A fact-only own X post with a money /
+  percent / multiple number becomes a `data_take` packet. Both rank after balanced own X posts.
+  `FD_X_SUPPORT=0` / `FD_X_DATA=0` / `FD_X_SUPPORT_PRICE=0` turn them off.
+- **Selection prechecks** (`FD_PRECHECK`, default 1): packets compose would refuse before any model call are not
+  planned - a source without a creditable name in the account's language, and judgment packets without a structured
+  view whose horizon fits the persona (10-08: 39 of 40 not_suitable plans were these).
+- **Fill rounds** (`FD_FILL_ROUNDS`, default 3): after the first pass, accounts short of `--per-account` ready drafts
+  get the next untried candidates until they have them or candidates / budget / quota run out. Sources an account
+  already composed today (not_suitable, held, error - not budget / quota stops) are skipped
+  (`FD_FILL_SKIP_TRIED=0` turns that off). `fill_status.json` in the last run dir says why each account stopped.
+- **Errors**: evidence spans with outer whitespace / blank lines no longer raise StopIteration; a stance contract
+  error gets one targeted retry; a relay transport failure (ReadTimeout ...) is retried once after 5 s; the relay's
+  balance error (用户额度不足) and the official 402 stop new drafts like a quota error.
+- **Holds**: arbitration only compares accounts of one language (`FD_ARB_SAME_LANG=0` = cross-language as before) and
+  only drafts that can ship (a needs_review draft no longer takes the lane). Chain / token names in capitals
+  (TRON, STG, HYPE ...) are not `jargon_unexplained`.
+- **Hotspots**: a lane account also takes a 母题 outside its lanes when its type has topic share >= 0.2; a 母题 made
+  only of X posts needs >= 3 distinct authors for the hotspot pool.
