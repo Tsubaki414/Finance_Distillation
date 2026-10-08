@@ -7,7 +7,7 @@ Cron-able: does nothing unless FD_DAILY_COMPOSE=1 (or --force). Chain per day:
   select up to --per-account packets per account (fresh, unused by that account, angle fit)  ->
   angle per draft (live/angles.py: the account's own donor lenses; one lens per account per event)  ->
   post type / length / suggested post time from the account's habit card (posting_habits.choose_format,
-  sample_post_time)  ->  compose_source (stance + compose on Gemini (FD_GEMINI_PROVIDER relay|official, default relay), FD_GEMINI_ONLY=1, no
+  sample_post_time)  ->  compose_source (stance + compose on Gemini (FD_GEMINI_PROVIDER subrouter|relay|official; subrouter + micuapi fallback when SUBROUTER_API_KEY is set), FD_GEMINI_ONLY=1, no
   Opus fallback)  ->  cross-account check (claim arbitration + batch shape findings, soft: losers HOLD)  ->
   review inbox (live/compose_inbox.py) + static page.
 
@@ -989,8 +989,8 @@ def make_client(calls_dir):
     table = stage_models.from_env(stage_models.load(), os.environ)
     for stage in ('compose', 'stance'):
         route = stage_models.route(table, stage)
-        if not route or not stage_models.is_gemini_route(route['base_url']) or stage_models.fallback(table, stage):
-            raise SystemExit(f'{stage} must run on Gemini (FD_GEMINI_PROVIDER=relay|official) without fallback')
+        if not route or not stage_models.is_gemini_route(route['base_url']) or stage_models.model_fallback(table, stage):
+            raise SystemExit(f'{stage} must run on Gemini (FD_GEMINI_PROVIDER=subrouter|relay|official) without a model fallback')
     config = {'base_url': 'https://api.erisedai.com/v1', 'api_key': os.environ.get('RELAY_API_KEY') or 'unused-gemini-only',
               'configuration_source': 'gemini_only_daily_compose', 'model': ec.DEFAULT_MODEL,
               'input_usd_per_million': 15.0, 'output_usd_per_million': 75.0, 'gemini_only': True,
@@ -998,6 +998,11 @@ def make_client(calls_dir):
     ec.ErisedaiClient(calls_dir, configuration=copy.deepcopy(config))   # fail before any draft if a key is unusable
     # one client per draft: its .calls are that draft's own call records (threads never share them)
     return (lambda: ec.ErisedaiClient(calls_dir, configuration=copy.deepcopy(config))), table
+
+
+def _ec_fails():
+    import live.erisedai_distillation_client as ec
+    return bool(ec.PROVIDER_FAILS)
 
 
 def call_cost(paths):
@@ -1275,6 +1280,10 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
     jobs = [(a, p) for i in range(per_account) for a in accts if i < len(plan[a['id']]) for p in [plan[a['id']][i]]]
     spend, lock, quota = state['spend'], state['lock'], state['quota']
     est = EST_PER_DRAFT_PRO if 'pro' in stage_models.for_stage(table, 'compose')['model'] else EST_PER_DRAFT
+    # Oct 8: compose on flat-rate subrouter costs the run budget nothing (calls ledgered at nominal cost, 0 toward the
+    # cap), so no per-draft reserve is held while it serves; while its provider breaker counts failures (calls are
+    # going to the micuapi fallback, which is paid) the normal reserve applies again.
+    flat_primary = stage_models.is_flat_rate((stage_models.route(table, 'compose') or {}).get('base_url'))
     results, skipped = [], []
     by_id = {a['id']: a for a in all_accounts}
     spent_before = spend['usd']
@@ -1285,7 +1294,8 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
             if quota:   # a daily Gemini quota is exhausted: starting more drafts would only fail
                 skipped.append({'account_id': a['id'], 'source_id': p['source_id'], 'reason': quota['reason']})
                 return None
-            if spend['usd'] + est > args.budget_usd:
+            est_now = 0.0 if flat_primary and not _ec_fails() else est
+            if spend['usd'] + est_now > args.budget_usd:
                 skipped.append({'account_id': a['id'], 'source_id': p['source_id'],
                                 'reason': f'run budget: ${spend["usd"]:.3f} spent of ${args.budget_usd}'})
                 return None
@@ -1363,7 +1373,7 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
                'spend_usd_run_total': round(spend['usd'], 4),
                'errors': [{'account_id': x['account_id'], 'source': x['source'].get('title'), 'error': x['error']}
                           for x in rows if x['error']],
-               'budget_usd': args.budget_usd, 'budget_exhausted': bool(skipped) or spend['usd'] + est > args.budget_usd,
+               'budget_usd': args.budget_usd, 'budget_exhausted': bool(skipped) or spend['usd'] + (0.0 if flat_primary and not _ec_fails() else est) > args.budget_usd,
                'models': sorted({m for x in rows for m in x['models']}),
                'compose_model': stage_models.for_stage(table, 'compose')['model'], 'per_account': counts,
                'inbox': str(compose_inbox.root() / args.day.isoformat()), 'publishing_enabled': False}

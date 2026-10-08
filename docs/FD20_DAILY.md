@@ -134,6 +134,29 @@ These are learned from donor text and are kept out of git (`.gitignore`):
 - Model names, rates, max_tokens and thinking level are the same on both. No fallback either way: a failure raises.
 - Spend is a local estimate at Google list prices, not the relay invoice.
 
+## subrouter primary + micuapi fallback (Oct 8 evening)
+
+- `FD_GEMINI_PROVIDER=subrouter|relay|official`. The default is `subrouter` when `SUBROUTER_API_KEY` is set (the cron
+  scripts source the private `~/.secrets/subrouter.env` when present; the key is never printed, logged or committed), else `relay`.
+- `subrouter`: every Gemini stage runs on `https://subrouter.ai/v1` (OpenAI-compatible, flat-rate). Same models:
+  `gemini-3.1-pro-preview` (compose) is listed as-is; `gemini-3-flash-preview` is not on subrouter, so stance / extract /
+  extract_flash / view_enrich use its GA id `gemini-3-flash` there. Each stage gets a **provider fallback**
+  (`provider_fallback: true`) to the same model on micuapi: any primary failure (transport, 4xx/429/5xx, quota, bad
+  body, wrong response model) except a budget refusal moves the call to micuapi. A wrong response model (subrouter sometimes
+  answers from a `gemini-pro-agent` channel) gets one free retry on subrouter first. After 3 consecutive subrouter failures a stage
+  goes straight to micuapi for 10 minutes (`FD_PROVIDER_BREAKER_FAILS` / `FD_PROVIDER_BREAKER_SECONDS`). This is not
+  a model fallback (`model_fallback` stays false), so Gemini-only guards accept it. A model fallback is still refused.
+- `FD_SUBROUTER_STAGES=stance,extract,...` limits subrouter to those stages; the rest run on micuapi alone.
+  `FD_GEMINI_PROVIDER=relay` turns subrouter off.
+- Ledger: subrouter calls are still recorded (`ml/store/spend.json` reservations + `distillation_spend.jsonl`, tokens and
+  nominal list-price cost, `provider: subrouter`, `counts_toward_cap: false`; totals in `flat_rate_nominal_usd` /
+  `by_provider`). They add nothing to `spent_usd` (the cumulative cap) or to a run's `--budget-usd` (call record
+  `estimated_cost_usd` = 0, `nominal_cost_usd` = list price). micuapi fallback calls count as before. While subrouter
+  serves compose, daily_compose holds no per-draft reserve; the reserve comes back while the provider breaker counts failures.
+- Oct 8 probe: subrouter serves `gemini-3.1-pro-preview` through Google Antigravity channels. That adds a ~200–250
+  token coding-assistant developer prompt; compose prompt_tokens were +193 / +204 compared with micuapi. The flash
+  ids showed no injected prompt.
+
 ## Hard rewrite, span grounding and supersede (Oct 7, Sirius borrow items 2 + 4)
 
 - Span grounding (`live/span_grounding.py`): every factual sentence of the body is mapped to a source span (unit

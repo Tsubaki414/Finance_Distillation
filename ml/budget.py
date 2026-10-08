@@ -248,11 +248,20 @@ def _usage_cost(reservation, usage):
     return reservation.get('model_estimate', reservation['estimate'])
 
 
-def reserve(model, messages, max_tokens, call_id, *, overhead_usd=0):
+def flat_rate_spent():
+    """Nominal USD of calls served by flat-rate providers (subrouter): recorded, never counted toward the cap."""
+    return float(_load().get('flat_rate_nominal_usd') or 0.0)
+
+
+def reserve(model, messages, max_tokens, call_id, *, overhead_usd=0, counts_toward_cap=True, provider=None):
     """Reserve model estimate plus optional compute overhead before sending.
 
     Defaults preserve the legacy reservation schema and calculation. A provider's
     compute overhead is separate from token/rate estimates, not a model invoice.
+
+    counts_toward_cap=False (Oct 8: flat-rate subrouter): no cap check and nothing added to spent_usd; the call is
+    still ledgered (reservation + distillation_spend.jsonl line, tokens and nominal list-price cost, provider tag)
+    and its settled nominal cost accumulates in flat_rate_nominal_usd / by_provider.
     """
     _nonnegative_finite(max_tokens, 'max_tokens')
     _nonnegative_finite(overhead_usd, 'overhead_usd')
@@ -264,10 +273,19 @@ def reserve(model, messages, max_tokens, call_id, *, overhead_usd=0):
         pt = len(json.dumps(messages, ensure_ascii=False).encode('utf-8')) + 256
         model_estimate = cost_of(model, pt, max_tokens)
         estimate = _nonnegative_finite(model_estimate + overhead_usd, 'reservation estimate')
+        if not counts_toward_cap:
+            reservation = {'model': model, 'estimate': estimate, 'settled': False,
+                           'counts_toward_cap': False, 'provider': provider or 'flat_rate'}
+            d.setdefault('reservations', {})[call_id] = reservation
+            d['calls'] = int(d.get('calls', 0)) + 1
+            _save_atomic(d)
+            return estimate
         if estimate > float(d.get('cap_usd', DEFAULT_CAP_USD)) - float(d.get('spent_usd', 0)) - _hold_now():
             raise BudgetExceeded('distillation call would exceed configured spending cap'
                                  + (' (coherence reserve held)' if _hold_now() else ''))
         reservation = {'model': model, 'estimate': estimate, 'settled': False}
+        if provider:
+            reservation['provider'] = provider
         if overhead_usd:
             reservation.update(model_estimate=model_estimate, overhead_estimate=overhead_usd)
         d.setdefault('reservations', {})[call_id] = reservation
@@ -291,7 +309,18 @@ def settle(call_id, usage, *, overhead_actual_usd=None):
         overhead_cost = (r.get('overhead_estimate', 0) if overhead_actual_usd is None
                          else overhead_actual_usd)
         cost = _nonnegative_finite(model_cost + overhead_cost, 'settlement cost')
-        d['spent_usd'] = round(float(d['spent_usd']) - r['estimate'] + cost, 6)
+        if r.get('counts_toward_cap', True):
+            d['spent_usd'] = round(float(d['spent_usd']) - r['estimate'] + cost, 6)
+        else:
+            d['flat_rate_nominal_usd'] = round(float(d.get('flat_rate_nominal_usd') or 0) + cost, 6)
+            bp = d.setdefault('by_provider', {}).setdefault(r.get('provider') or 'flat_rate',
+                                                            {'calls': 0, 'nominal_usd': 0.0, 'prompt_tokens': 0,
+                                                             'completion_tokens': 0, 'counts_toward_cap': False})
+            u = usage or {}
+            bp['calls'] += 1
+            bp['nominal_usd'] = round(bp['nominal_usd'] + cost, 6)
+            bp['prompt_tokens'] += int(u.get('prompt_tokens') or 0)
+            bp['completion_tokens'] += int(u.get('completion_tokens') or 0)
         r.update(settled=True, cost=cost, usage=usage)
         if has_overhead:
             r.update(model_estimate=r.get('model_estimate', r['estimate']),
@@ -302,8 +331,12 @@ def settle(call_id, usage, *, overhead_actual_usd=None):
                                      if overhead_actual_usd is None else 'provider reported compute usage'))
         basis = ('token/rate estimate plus separate compute usage/reserve; not invoice'
                  if has_overhead else 'token/rate estimate; not invoice')
+        if not r.get('counts_toward_cap', True):
+            basis = 'nominal list-price estimate; flat-rate provider, not counted toward the cap'
         d['last'] = {'at': datetime.datetime.now(datetime.timezone.utc).isoformat(),
-                     'model': r['model'], 'usd': cost, 'basis': basis}
+                     'model': r['model'], 'usd': cost, 'basis': basis,
+                     **({'provider': r['provider']} if r.get('provider') else {}),
+                     **({'counts_toward_cap': False} if not r.get('counts_toward_cap', True) else {})}
         _save_atomic(d)
         DISTILLATION_RUNS.parent.mkdir(parents=True, exist_ok=True)
         with DISTILLATION_RUNS.open('a') as stream:
@@ -330,7 +363,11 @@ def recost():
         b['usd'] = round(b['usd'] + c, 6)
     d = _load()
     # New reserved calls are in the ledger, not the legacy review-only journal.
+    flat = 0.0
     for r in d.get('reservations', {}).values():
+        if not r.get('counts_toward_cap', True):   # flat-rate (subrouter): nominal only, never toward the cap
+            flat += _usage_cost(r, r.get('usage'))
+            continue
         c = _usage_cost(r, r.get('usage'))
         # Never erase separately reserved/reported compute charges when repricing tokens.
         overhead = r.get('overhead_actual_usd')
@@ -339,6 +376,8 @@ def recost():
         c += _nonnegative_finite(overhead, 'overhead cost')
         total += c
         n += 1
+    if flat:
+        d['flat_rate_nominal_usd'] = round(flat, 6)
     d.update(spent_usd=round(total, 6), calls=n, by_model=by,
              recost_at=datetime.datetime.now(datetime.timezone.utc).isoformat())
     STORE.mkdir(parents=True, exist_ok=True)

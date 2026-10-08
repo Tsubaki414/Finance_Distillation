@@ -42,8 +42,17 @@ QUOTA_TRIPPED = {}
 FALLBACK_MAX_TOKENS = int(os.environ.get('FD_FALLBACK_MAX_TOKENS', '4000'))
 
 
+# Oct 8 (subrouter primary): consecutive provider failures of a stage's primary in this process. After
+# PROVIDER_BREAKER_FAILS in a row the stage goes straight to its provider fallback (micuapi, same model) for
+# PROVIDER_BREAKER_SECONDS, so a subrouter outage does not cost every call a timeout first.
+PROVIDER_FAILS = {}
+PROVIDER_BREAKER_FAILS = int(os.environ.get('FD_PROVIDER_BREAKER_FAILS', '3'))
+PROVIDER_BREAKER_SECONDS = float(os.environ.get('FD_PROVIDER_BREAKER_SECONDS', '600'))
+
+
 def reset_quota_breaker():
     QUOTA_TRIPPED.clear()
+    PROVIDER_FAILS.clear()
 
 
 def quota_tripped():
@@ -229,6 +238,8 @@ class ErisedaiClient:
                 name = fb['api_key_env']
                 value = os.environ.get(name) or (file_env if file_env is not None else _dotenv()).get(name, '')
                 if not value.strip():
+                    if fb['provider_fallback'] and stage not in self._route_missing:
+                        continue   # provider fallback (micuapi) unavailable: the primary (subrouter) runs alone
                     raise ValueError(f'{name} is not set for the {stage} fallback')
                 self._fallback_keys[stage] = value.strip()
 
@@ -242,18 +253,43 @@ class ErisedaiClient:
                 routed and stage_models.is_gemini_route(routed['base_url'])):
             # Oct 7: daily compose runs Gemini-only; a stage that would go to the Opus relay fails loudly.
             raise RuntimeError(f'stage {stage} is not routed to Gemini (official or relay; FD_GEMINI_ONLY=1)')
+        provider_fb = bool(fb and fb['provider_fallback'] and (stage in self._fallback_keys or not fb['base_url']))
+        if fb is not None and fb['provider_fallback'] and not provider_fb:
+            fb = None   # provider fallback configured but its key is missing: primary only
         tripped = QUOTA_TRIPPED.get((stage, selected['model']))
         if fb is not None and tripped:
             return self._fallback(stage, messages, max_tokens, fb, f'quota breaker open: {tripped}'[:300])
+        key = (stage, selected['model'], routed['base_url'] if routed else None)
+        fails = PROVIDER_FAILS.get(key)
+        if provider_fb and fails and fails[0] >= PROVIDER_BREAKER_FAILS and time.monotonic() - fails[1] < PROVIDER_BREAKER_SECONDS:
+            return self._fallback(stage, messages, max_tokens, fb,
+                                  f'provider breaker open: {fails[0]} consecutive {selected["model"]} failures: {fails[2]}'[:300])
+        args = (stage, messages, stage_models.max_tokens(self.stage_models, stage) or max_tokens,
+                selected['model'], selected['temperature'],
+                routed['base_url'] if routed else self.config['base_url'],
+                self._route_keys[stage] if routed else self.config['api_key'],
+                routed['api_key_env'] if routed else None)
         try:
-            return self._call(stage, messages, stage_models.max_tokens(self.stage_models, stage) or max_tokens,
-                              selected['model'], selected['temperature'],
-                              routed['base_url'] if routed else self.config['base_url'],
-                              self._route_keys[stage] if routed else self.config['api_key'],
-                              routed['api_key_env'] if routed else None)
+            try:
+                out = self._call(*args)
+            except ValueError as exc:
+                # Oct 8 smoke: subrouter occasionally answers a gemini-3.1-pro-preview request from another channel
+                # ("gemini-pro-agent"). Never accepted; on the flat-rate primary one free retry on the same provider
+                # comes first (it usually lands on the right channel), then the paid micuapi fallback.
+                if not (provider_fb and stage_models.is_flat_rate(args[5]) and 'Unexpected relay response model' in str(exc)):
+                    raise
+                out = self._call(*args)
+            PROVIDER_FAILS.pop(key, None)
+            return out
         except Exception as exc:
-            if fb is None or not _fallback_worthy(exc):
+            # A provider fallback keeps the same Gemini model, so any primary failure except a budget refusal
+            # (errors, 4xx/429/5xx, quota, transport, bad body, unexpected response model) moves to it.
+            worthy = (not isinstance(exc, budget.BudgetExceeded)) if provider_fb else _fallback_worthy(exc)
+            if fb is None or not worthy:
                 raise
+            if provider_fb:
+                n = (fails[0] if fails else 0) + 1
+                PROVIDER_FAILS[key] = (n, time.monotonic(), str(exc)[:120])
             if isinstance(exc, ProviderQuotaError):
                 QUOTA_TRIPPED[(stage, selected['model'])] = f'{selected["model"]}: {exc}'[:200]
             return self._fallback(stage, messages, max_tokens, fb, f'{selected["model"]}: {exc}'[:300])
@@ -263,15 +299,25 @@ class ErisedaiClient:
             base_url, secret, key_env = fb['base_url'], self._fallback_keys[stage], fb['api_key_env']
         else:
             base_url, secret, key_env = self.config['base_url'], self.config['api_key'], None
-        return self._call(stage, messages, min(int(max_tokens), fb.get('max_tokens') or FALLBACK_MAX_TOKENS), fb['model'], fb['temperature'],
-                          base_url, secret, key_env, fallback_reason=reason)
+        if fb.get('provider_fallback'):
+            # Same model on another provider: the stage's own output ceiling (Gemini thinking counts toward it).
+            limit = fb.get('max_tokens') or stage_models.max_tokens(self.stage_models, stage) or int(max_tokens)
+        else:
+            limit = min(int(max_tokens), fb.get('max_tokens') or FALLBACK_MAX_TOKENS)
+        return self._call(stage, messages, limit, fb['model'], fb['temperature'],
+                          base_url, secret, key_env, fallback_reason=reason,
+                          provider_fallback=bool(fb.get('provider_fallback')))
 
     def _call(self, stage, messages, max_tokens, model, temperature, base_url, secret, routed_key_env,
-              fallback_reason=None):
+              fallback_reason=None, provider_fallback=False):
         call_id = uuid.uuid4().hex
         path = self.directory / (call_id + '.json')
         budget_model = PROVIDER + '/' + model
         native = stage_models.is_gemini_native(base_url)
+        # Flat-rate provider (subrouter): ledgered at a nominal list-price cost, never counted toward a cap.
+        flat = stage_models.is_flat_rate(base_url)
+        serving = stage_models.provider_name(base_url)
+        model_fb = fallback_reason is not None and not provider_fallback
         payload = ({'model': model, 'messages': copy.deepcopy(messages),
                     'max_tokens': max_tokens, 'temperature': temperature,
                     'response_format': copy.deepcopy(RESPONSE_FORMAT),
@@ -281,13 +327,15 @@ class ErisedaiClient:
         record = {'call_id': call_id, 'stage': stage, 'started_at': now(),
                   'messages': messages, 'prompt_hash': digest(messages),
                   'model': model, 'upstream_model': model,
-                  'provider': GEMINI_PROVIDER if native else PROVIDER, 'host': urlsplit(base_url).netloc,
-                  'routed_key_env': routed_key_env,
+                  'provider': GEMINI_PROVIDER if native else (serving if flat else PROVIDER),
+                  'serving_provider': serving, 'host': urlsplit(base_url).netloc,
+                  'routed_key_env': routed_key_env, 'cost_counts_toward_cap': not flat,
                   'configuration_source': self.config.get('configuration_source', 'explicit_configuration'),
                   'temperature': temperature, 'max_tokens': max_tokens, 'status': 'started',
                   'stage_model_table': self.stage_models.get('version', 'inline'),
                   'response_format': copy.deepcopy(RESPONSE_FORMAT),
-                  'model_fallback': fallback_reason is not None, 'model_call_attempts': 0,
+                  'model_fallback': model_fb, 'provider_fallback': bool(provider_fallback and fallback_reason),
+                  'model_call_attempts': 0,
                   **({'fallback_reason': _safe(fallback_reason, secret)} if fallback_reason else {}),
                   'cost_basis': 'configured conservative token/rate estimate; not invoice',
                   'rates_usd_per_million': {
@@ -301,7 +349,8 @@ class ErisedaiClient:
 
         save()
         try:
-            reservation = budget.reserve(budget_model, messages, max_tokens, call_id)
+            reservation = budget.reserve(budget_model, messages, max_tokens, call_id,
+                                         counts_toward_cap=not flat, provider=serving)
             with httpx.Client(timeout=TIMEOUT, trust_env=False, follow_redirects=False,
                               transport=self.transport) as client:
                 record['model_call_attempts'] = 1
@@ -345,10 +394,10 @@ class ErisedaiClient:
                 raise ValueError('Relay response content must be text')
             # Existing pipeline validates finish_reason/refusal before parsing or drafting.
             result = {'text': (content or '').strip(), 'model': model,
-                      'provider': PROVIDER, 'usage': data.get('usage'),
+                      'provider': PROVIDER, 'serving_provider': serving, 'usage': data.get('usage'),
                       'response_id': data.get('id'), 'response_model': data.get('model'),
                       'finish_reason': choice.get('finish_reason'), 'refusal': message.get('refusal'),
-                      'model_fallback': fallback_reason is not None,
+                      'model_fallback': model_fb, 'provider_fallback': bool(provider_fallback and fallback_reason),
                       **({'fallback_reason': fallback_reason} if fallback_reason else {})}
             result = _safe(result, secret)
             record.update(response=result, status='completed')
@@ -364,7 +413,12 @@ class ErisedaiClient:
         finally:
             try:
                 if reservation is not None:
-                    record['estimated_cost_usd'] = budget.settle(call_id, record.get('usage'))
+                    cost = budget.settle(call_id, record.get('usage'))
+                    # estimated_cost_usd is what run budgets sum (daily cap); a flat-rate call adds 0 there and
+                    # keeps its list-price figure as nominal_cost_usd.
+                    record['estimated_cost_usd'] = 0.0 if flat else cost
+                    if flat:
+                        record['nominal_cost_usd'] = cost
             except Exception as exc:
                 # A malformed usage object must not erase the request evidence.
                 # The existing reservation remains charged until it can settle.

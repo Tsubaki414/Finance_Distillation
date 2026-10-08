@@ -398,8 +398,8 @@ def merge_client(calls_dir):
     os.environ['FD_GEMINI_ONLY'] = '1'
     table = stage_models.from_env(stage_models.load(), os.environ)
     route = stage_models.route(table, 'extract_flash')
-    if not route or not stage_models.is_gemini_route(route['base_url']) or stage_models.fallback(table, 'extract_flash'):
-        raise RuntimeError('extract_flash must run on Gemini without fallback')
+    if not route or not stage_models.is_gemini_route(route['base_url']) or stage_models.model_fallback(table, 'extract_flash'):
+        raise RuntimeError('extract_flash must run on Gemini without a model fallback')
     config = {'base_url': 'https://api.erisedai.com/v1', 'api_key': 'unused-gemini-only',
               'configuration_source': 'gemini_only_hotspot_merge', 'model': ec.DEFAULT_MODEL,
               'input_usd_per_million': 15.0, 'output_usd_per_million': 75.0, 'gemini_only': True,

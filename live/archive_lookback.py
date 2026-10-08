@@ -1030,8 +1030,8 @@ def make_client(calls_dir):
     os.environ['FD_GEMINI_ONLY'] = '1'
     table = stage_models.from_env(stage_models.load(), os.environ)
     route = stage_models.route(table, 'compose')
-    if not route or not stage_models.is_gemini_route(route['base_url']) or stage_models.fallback(table, 'compose'):
-        raise SystemExit('compose must run on Gemini (FD_GEMINI_PROVIDER=relay|official) without fallback')
+    if not route or not stage_models.is_gemini_route(route['base_url']) or stage_models.model_fallback(table, 'compose'):
+        raise SystemExit('compose must run on Gemini (FD_GEMINI_PROVIDER=subrouter|relay|official) without a model fallback')
     config = {'base_url': 'https://api.erisedai.com/v1', 'api_key': 'unused-gemini-only',
               'configuration_source': 'gemini_only_archive_lookback', 'model': ec.DEFAULT_MODEL,
               'input_usd_per_million': 15.0, 'output_usd_per_million': 75.0, 'gemini_only': True,

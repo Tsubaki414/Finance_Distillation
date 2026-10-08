@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Daily auto-compose for the 20 main accounts -> review inbox (no publishing). Off unless FD_DAILY_COMPOSE=1.
-# Schedule after daily_ingest.sh (or let daily_ingest.sh chain it). Model: Gemini via FD_GEMINI_PROVIDER (relay default, or official),
+# Schedule after daily_ingest.sh (or let daily_ingest.sh chain it). Model: Gemini via FD_GEMINI_PROVIDER (subrouter + micuapi fallback, relay, or official),
 # FD_GEMINI_MODEL switches every Gemini stage (default gemini-3-flash-preview). No Opus fallback.
 set -euo pipefail
 cd /workspace/fd_new/Finance_Distillation
@@ -13,9 +13,24 @@ mkdir -p "$(dirname "$LOG")"
 exec >> "$LOG" 2>&1
 printf 'START %s\n' "$(date -Is)"
 trap 'status=$?; printf "END %s exit_code=%s\n" "$(date -Is)" "$status"' EXIT
-# FD_GEMINI_PROVIDER=relay (default since Oct 7: micuapi, GEMINI_RELAY_API_KEY) | official (GEMINI_API_KEY).
-GKEY=GEMINI_RELAY_API_KEY; [[ "${FD_GEMINI_PROVIDER:-relay}" == "official" ]] && GKEY=GEMINI_API_KEY
-if [[ -n "${!GKEY:-}" ]]; then echo "key $GKEY: set"; else echo "key $GKEY: missing"; exit 2; fi
+# Oct 8: subrouter (flat-rate Gemini relay) is the PRIMARY Gemini provider whenever SUBROUTER_API_KEY is set; micuapi
+# (GEMINI_RELAY_API_KEY) is the automatic same-model fallback. The key file is private (chmod 600, outside the repo,
+# never committed, printed or logged; only key NAMES are logged). FD_GEMINI_PROVIDER=relay forces micuapi only.
+SUBROUTER_ENV="${FD_SUBROUTER_ENV:-$HOME/.secrets/subrouter.env}"
+if [[ -z "${SUBROUTER_API_KEY:-}" && -r "$SUBROUTER_ENV" ]]; then set -a; . "$SUBROUTER_ENV"; set +a; fi
+# FD_GEMINI_PROVIDER=subrouter (default when SUBROUTER_API_KEY is set; micuapi fallback) | relay (micuapi,
+# GEMINI_RELAY_API_KEY; default without the subrouter key) | official (GEMINI_API_KEY).
+if [[ -n "${SUBROUTER_API_KEY:-}" ]]; then DEFPROV=subrouter; else DEFPROV=relay; fi
+PROV="${FD_GEMINI_PROVIDER:-$DEFPROV}"
+echo "gemini provider: $PROV"
+if [[ "$PROV" == "subrouter" ]]; then
+    if [[ -n "${SUBROUTER_API_KEY:-}" ]]; then echo "key SUBROUTER_API_KEY: set"; else echo "key SUBROUTER_API_KEY: missing (every call on the micuapi fallback)"; fi
+    if [[ -n "${GEMINI_RELAY_API_KEY:-}" ]]; then echo "key GEMINI_RELAY_API_KEY (fallback): set"; else echo "key GEMINI_RELAY_API_KEY (fallback): missing (no fallback)"; fi
+    if [[ -z "${SUBROUTER_API_KEY:-}" && -z "${GEMINI_RELAY_API_KEY:-}" ]]; then exit 2; fi
+else
+    GKEY=GEMINI_RELAY_API_KEY; [[ "$PROV" == "official" ]] && GKEY=GEMINI_API_KEY
+    if [[ -n "${!GKEY:-}" ]]; then echo "key $GKEY: set"; else echo "key $GKEY: missing"; exit 2; fi
+fi
 export FD_PACK_AUGMENT=1
 /workspace/fd_venv/bin/python scripts/persona_factory.py >/dev/null   # refresh universes (no model calls)
 # Feedback loop (FD_FEEDBACK, default 1): /admin decisions of the last days (已发 flag included) -> per-account soft
@@ -43,6 +58,8 @@ print(f'{max(0.5, min(budget, total - spent)):.2f}')
 PY
 )
 echo "compose budget \$${BUDGET} (day total cap \$${FD_DAILY_TOTAL_USD:-25} minus tonight's ingest spend)"
+# Calls served by subrouter are ledgered (provider=subrouter, tokens + nominal cost) but add $0 to the run budget and to
+# the cumulative cap; only paid micuapi fallback calls (and ingest) count.
 # The ml/budget ledger is a cumulative lifetime safety cap; give tonight's run headroom = its own budget + $1 reserve,
 # so the per-run --budget-usd is the real daily limit (10-08: ledger at $99.86/$100 silently blocked every draft).
 /workspace/fd_venv/bin/python -c "import sys; from ml import budget; d=budget._load(); s=float(d.get('spent_usd') or 0); c=float(d.get('cap_usd') or 0); n=s+float(sys.argv[1])+1.0; budget.set_cap(n) if n>c else None; print(f'ledger cap {c:.2f} -> {max(n,c):.2f} (spent {s:.2f})')" "$BUDGET"

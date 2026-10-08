@@ -28,7 +28,12 @@ if [[ -r "$KEYS_FILE" ]]; then
         export "$k=$v"
     done < "$KEYS_FILE"
 fi
-for k in RELAY_API_KEY GEMINI_API_KEY GEMINI_RELAY_API_KEY; do
+# Oct 8: subrouter (flat-rate Gemini relay) is the PRIMARY Gemini provider whenever SUBROUTER_API_KEY is set; micuapi
+# (GEMINI_RELAY_API_KEY) is the automatic same-model fallback. The key file is private (chmod 600, outside the repo,
+# never committed, printed or logged; only key NAMES are logged). FD_GEMINI_PROVIDER=relay forces micuapi only.
+SUBROUTER_ENV="${FD_SUBROUTER_ENV:-$HOME/.secrets/subrouter.env}"
+if [[ -z "${SUBROUTER_API_KEY:-}" && -r "$SUBROUTER_ENV" ]]; then set -a; . "$SUBROUTER_ENV"; set +a; fi
+for k in RELAY_API_KEY GEMINI_API_KEY GEMINI_RELAY_API_KEY SUBROUTER_API_KEY; do
     if [[ -n "${!k:-}" ]]; then printf 'key %s: set\n' "$k"; else printf 'key %s: missing\n' "$k"; fi
 done
 export ACCOUNT_CONTENT_PROVIDER=erisedai_relay
