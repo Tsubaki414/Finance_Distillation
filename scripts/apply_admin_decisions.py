@@ -38,9 +38,21 @@ def clean(d):
     if not isinstance(d, dict) or not d.get('id') or d.get('action') not in ACTIONS:
         return None
     text = d.get('text')
+    # published (bool, the shared 已发 flag) and before_publish (the verdict under it) are kept: an approve / edit
+    # after 已发 keeps the flag, so `action` alone under-counts what was posted (live/feedback.py reads both).
+    # Older blobs have no flag: None, and action 'published' alone then means posted (decisions.js isPublished).
+    pub = d.get('published')
+    before = d.get('before_publish')
     return {'id': str(d['id']), 'account_id': d.get('account_id') or '', 'action': d['action'],
             'text': text.strip() if isinstance(text, str) and text.strip() else None,
-            'note': d.get('note') or '', 'at': d.get('at') or '', 'history': d.get('history') or []}
+            'note': d.get('note') or '', 'at': d.get('at') or '', 'history': d.get('history') or [],
+            'published': pub if isinstance(pub, bool) else None,
+            'before_publish': before if before in ACTIONS - {'published', 'clear'} else None}
+
+
+def is_published(d):
+    """decisions.js isPublished: the flag on newer blobs, action 'published' on blobs written before it."""
+    return bool(d) and (d.get('published') is True or (d.get('published') is not False and d.get('action') == 'published'))
 
 
 def merge(into, decisions):
@@ -102,8 +114,8 @@ def main():
     elif notes_path.exists():
         notes_path.unlink()
     count = {a: sum(d['action'] == a for d in decisions.values()) for a in sorted(ACTIONS)}
-    print(f'{day}: {len(decisions)} decision(s) {count}, edited text {sum(bool(d["text"]) for d in decisions.values())}'
-          f' -> {path}')
+    print(f'{day}: {len(decisions)} decision(s) {count}, published flag {sum(is_published(d) for d in decisions.values())},'
+          f' edited text {sum(bool(d["text"]) for d in decisions.values())} -> {path}')
     if notes:
         print(f'rewrite requests: {len(notes)} -> FD_DAILY_COMPOSE=1 python3 scripts/daily_compose.py --day {day} '
               f'--fill --rewrite-notes {notes_path}')

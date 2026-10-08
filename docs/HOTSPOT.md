@@ -80,6 +80,34 @@ the account's own angle mix. It never adds a lens or a fact.
   (before, after, unified diff). Local only (`live/store` is gitignored); not fed to any prompt yet.
 - Next day: `angle_multiplier` / `motif_multiplier` = 1 + (rate - account rate), clipped to +-15%, only when n >= 3.
 
+### v2 (Oct 8, PM item 5): what ops actually publish
+
+`FD_FEEDBACK_V2=1` (default; `0` = the v1 rule above, and stats.json is removed). `FD_FEEDBACK=0` skips the step
+(the cron no longer gates it on `FD_HOTSPOT`; priors are still only read while hotspots are on).
+
+- Data path: `/api/decisions` blob (`action`, `published` flag, `before_publish`, `text`, `note`) ->
+  `apply_admin_decisions.clean()` (now keeps `published` / `before_publish`; before Oct 8 it dropped them, so an
+  approve or edit after 已发 looked unpublished) -> `live/store/admin_decisions/<day>.json` -> `live/feedback.py`
+  joined with the inbox rows (and their compose-inbox `review_status` / `reviewed_text`: approve / minor_edit /
+  major_edit / reject). A re-pull refreshes copies written by the old `clean()` (same `at` -> the API copy wins).
+- One outcome per draft offered on a day with decisions (superseded drafts without a decision are skipped):
+  published_asis 1.0, published_edited 0.85, approved (not posted) 0.6, unpicked 0.35 (ready, no decision, the day
+  is closed in Beijing time and ops posted another draft of the same account that day), held (hold / 要求重写) 0.1,
+  rejected (inbox reject) 0. edit_only / none are not scored. The /admin decision wins over the inbox review; the
+  已发 flag wins over the verdict under it.
+- priors.json (`feedback-v2`): per account, overall and per angle / 母题 type / post_kind (post_type) / format
+  (post_format.type) / media style (media_plan.style, `chart:<type>`, `quote`, `none`): outcome counts, rates and
+  the Beta(1,1)-smoothed mean score with n. A key moves selection only when the account has >= 6 scored drafts
+  (`MIN_ACCOUNT_N`) and the key >= 3 (`MIN_N`); multiplier = 1 + (key score - account score) clipped to +-15%.
+  Selection still reads only angle and 母题 type (as v1); post_kind / format / media are stats for now.
+- stats.json: per day, totals, per account, per dimension (ready, outcome counts, publish rate = posted / ready,
+  edit rate = posted after edit / posted, hold rate = held+rejected / verdicts), hold-reason categories (review
+  notes and pipeline hold reasons cut to their category, never a quote of the draft) and the prior keys past the
+  minimum sample. No draft or edit text; diffs stay in `style_examples/` (with the outcome).
+- /admin 「反馈闭环」 panel renders stats.json (embedded at build; nightly cron: feedback_priors.py before compose,
+  build_ops_dashboard.py after it).
+- Backfill: `python3 scripts/feedback_priors.py --pull --pull-days 2`.
+
 ## Dashboards
 
 `hotspot` on the inbox row (`motif_id`, `title`, zh / en titles, `type`, `heat`, counts, `event_time`) plus

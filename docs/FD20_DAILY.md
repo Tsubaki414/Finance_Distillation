@@ -214,6 +214,10 @@ These are learned from donor text and are kept out of git (`.gitignore`):
   lens per account. WRITE picks carry a reality payload (latest price + newest same-story sources) into compose.
 - Soft priors: viral structure priors from our donor data and the /admin review feedback (incl. the new 「已发布」
   action) re-rank lenses / 母题 by at most +-15%. 「热点」 tag on the ops page, /admin and the review inbox.
+- Feedback v2 (PM item 5): the 已发 flag survives the pull; outcomes published as-is / after edit / approved not
+  posted / unpicked / held / rejected; priors need >= 6 scored drafts per account and >= 3 per key; stats.json +
+  the /admin 「反馈闭环」 panel (publish / edit / hold rates per account, angle, 母题 type, post_kind, format, media).
+  `FD_FEEDBACK_V2=0` restores v1. See `docs/HOTSPOT.md`.
 - `FD_HOTSPOT=0` restores the old selection exactly. See `docs/HOTSPOT.md`.
 
 ## Topic diversity and X breadth (Oct 8)
