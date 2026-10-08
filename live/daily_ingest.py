@@ -478,6 +478,7 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
                                   posts_fetched=sum(r['fetched'] for r in x_plan['sources']),
                                   selected=len(x_plan['selected']),overflow=len(x_plan['overflow']),filtered=x_plan['filtered'],
                                   rapid_requests=x_plan['requests'],apify=x_plan['apify'],
+                                  breadth={k:v for k,v in (x_plan.get('breadth') or {}).items() if k!='run_handles'} or None,
                                   per_handle=[{k:r[k] for k in ('handle','provider','status','fetched','kept','new')} for r in x_plan['sources']
                                               if r['provider'] or r['status']=='failed'])
             step('x_gather',gather_x)

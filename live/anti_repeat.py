@@ -1,10 +1,11 @@
 """Advisory style/history checks. History is local data, never publishing authority."""
 from datetime import datetime, timedelta, timezone
 import json
+import os
 from pathlib import Path
 import re
 
-HISTORY_DIR = Path('/workspace/x/fd_draft_history')
+HISTORY_DIR = Path(os.environ.get('FD_DRAFT_HISTORY') or '/workspace/x/fd_draft_history')
 FALLBACK_DIR = Path(__file__).resolve().parent / 'store' / 'recent_drafts'
 ZH = ('还早着呢', '还要再看', '才是关键', '才值得看', '真正的核心', '真正的问题是', '这才是……的地方',
       '现在下结论还太早', '能不能守住', '链路往下推', '每一环的议价权', '这才是要分开看的地方')

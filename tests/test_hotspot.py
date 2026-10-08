@@ -339,3 +339,16 @@ def test_hotspot_plan_failure_is_not_fatal(monkeypatch):
     monkeypatch.setattr(H, 'plan_day', lambda *a, **k: (_ for _ in ()).throw(RuntimeError('boom')))
     monkeypatch.setattr(dc.compose_inbox, 'rows', lambda day: [])
     assert dc.hotspot_plan(None, {}, [], {}, __import__('datetime').date(2026, 10, 8), REF) is None
+
+
+def test_cached_merge_is_remapped_through_member_keys():
+    a, b, c = mat(1, 'Abstract L2 shuts down'), mat(2, 'Abstract wallet funds withdrawn'), mat(3, 'Gold swings')
+    first = [('c0', [0]), ('c1', [1]), ('c2', [2])]
+    members = H._members(first, [a, b, c])
+    merge = {'groups': [{'ids': ['c0', 'c1'], 'title_en': 'Abstract shuts down'}]}
+    # a later run the same day: one new material in front shifts every positional id
+    later_mats = [c, mat(4, 'New item'), a, b]
+    later = [('c0', [0]), ('c1', [1]), ('c2', [2]), ('c3', [3])]
+    got = H.remap_merge(merge, members, later, later_mats)
+    assert got['groups'][0]['ids'] == ['c2', 'c3']
+    assert H.remap_merge(merge, None, later, later_mats) is None

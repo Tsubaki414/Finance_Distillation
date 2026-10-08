@@ -33,6 +33,7 @@ import re
 import sys
 import threading
 import time
+from collections import Counter
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -43,7 +44,8 @@ sys.path[:0] = [str(ROOT / 'scripts'), str(ROOT)]
 import demo_matrix_compose as demo  # noqa: E402
 from voice_relay_check import evidence_source  # noqa: E402
 from live import (angles, anti_repeat, compose, compose_inbox, editorial_style, news_hook,  # noqa: E402
-                  posting_habits as ph, registry, source_prescreen as prescreen, source_routes, stage_models)
+                  posting_habits as ph, registry, source_prescreen as prescreen, source_routes, stage_models,
+                  topic_div)
 from live.adapters import delphi_digest  # noqa: E402
 from live.content_store import ContentStore  # noqa: E402
 from live.retrieval import units_for_persona  # noqa: E402
@@ -372,10 +374,19 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
     ref = selection_ref(day, now)
     x_of = {a['id']: [x['handle'] for x in universes[a['id']].get('x_sources') or [] if x.get('enabled', True)]
             for a in accounts}
+    from live import x_breadth
+    if x_breadth.enabled():   # Oct 8: Sirius-list breadth sources mapped to this account (live/x_breadth.json)
+        for row in x_breadth.subscriptions():
+            for aid in row['accounts']:
+                if aid in x_of and row['handle'] not in x_of[aid]:
+                    x_of[aid].append(row['handle'])
     pools = {a['id']: candidates(store, a['id'], a['retrieval_beats'], universes[a['id']].get('angle_lead') or {}, ref,
                                  x_handles=x_of[a['id']], account_cfg=a, reuse=(reuse or {}).get(a['id']))
              for a in accounts}
+    div = diversity_prepare(pools, accounts, x_of, day, ref, reuse) if topic_div.enabled() else None
     hot = hotspot_plan(store, pools, accounts, universes, day, ref, reuse=reuse, allow_model=allow_model)
+    if div is not None and hot is not None:
+        diversity_gate_hotspot(hot, div)
     heat_keys = apply_heat(pools, day, ref, reuse, skip=set(hot.assign) if hot else ())
     order = sorted(pools, key=lambda a: len(pools[a]))     # scarce accounts pick first in every round
     event_takers = {}            # event key (source key / hook / 母题) -> [(account, angle, lang)]
@@ -398,6 +409,8 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             takers = [t for e in events for t in event_takers.get(e, []) if t[2] == lang]
             if len({t[0] for t in takers}) >= MAX_ACCOUNTS_PER_EVENT or any(t[0] == account for t in takers):
                 continue
+            if div is not None and len({t[0] for e in events for t in event_takers.get(e, [])}) >= topic_div.MAX_TOTAL_PER_EVENT:
+                continue   # FD_TOPIC_DIV: one story at most 3 accounts across both languages (Polygon/TRON had 4)
             # one 母题 = a different lens per account in either language (FD_HOTSPOT); other events: per language
             lenses = {t[1] for t in takers} | {t[1] for e in events if e[0] == 'motif' for t in event_takers.get(e, [])}
             angle, why = angles.assign(lead, group_text(g), taken=lenses, boost=angle_boost(hot, account, lang, g))
@@ -420,7 +433,10 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             lead = universes[account].get('angle_lead') or universes[account].get('angle_mix') or {}
             motif = None
             if _round is None:
-                pick = try_pick(account, lang, lead, pools[account])
+                groups = pools[account]
+                if div is not None:   # own sources first, a theme not yet used today, a story nobody took yet
+                    groups = diversity_order(account, groups, plan[account], event_takers, div)
+                pick = try_pick(account, lang, lead, groups)
             else:
                 motif, key = hot.assign[account]
                 group = next((g for g in pools[account] if tuple(demo._key(g[0])) == tuple(key)), None)
@@ -443,6 +459,8 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                 'in_shelf': demo.in_shelf(g, ref.date().isoformat()), 'timely': timely(g, ref),
                 'hooks': sorted(group_hooks(g)), 'angle': angle, 'angle_why': why, 'shared_event_with': shared_with,
                 'numbers': sum(len(r['unit'].get('numbers') or []) for r in g)})
+            if div is not None:
+                plan[account][-1]['topic_div'] = div['info'](account, g)
             if account in heat_keys and heat_keys[account][0] == tuple(demo._key(g[0])):
                 plan[account][-1].update(heat_led=True, heat=heat_keys.pop(account)[1])
             if motif:
@@ -468,12 +486,93 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             times.append(t)
             p['post_format'] = {k: fmt[k] for k in ('type', 'length', 'thread_parts', 'length_target', 'shapes')}
             p['suggested_post_time_london'] = t.isoformat()
+    if div is not None and info is not None:
+        info['topic_div'] = div['summary']
     if hot is not None:
         hot.meta.pop('_feedback', None)
         hot.save()
         if info is not None:
             info['hotspot'] = hot.summary()
     return plan, order
+
+
+def diversity_prepare(pools, accounts, x_of, day, ref, reuse=None):
+    """FD_TOPIC_DIV (default 1): donor topic profiles (live/topic_div.py) + per-account source tiers, and the pools
+    re-sorted so that, after reuse / prescreen / timeliness, own X sources come first, then donor-adjacent packets,
+    then other packets, then shared news that sits in >= 4 accounts' pools. Stable sort: the old order holds inside
+    each tier. Returns the context diversity_order / the hotspot gate use."""
+    profs = topic_div.profiles([a['id'] for a in accounts], ref, day.isoformat())
+    common = topic_div.common_entities(profs)
+    shared = {}
+    for pool in pools.values():
+        for g in pool:
+            shared[tuple(demo._key(g[0]))] = shared.get(tuple(demo._key(g[0])), 0) + 1
+    from live.x_daily import x_handle
+    meta = {}
+    for a in accounts:
+        aid, own = a['id'], {h.lower() for h in x_of.get(a['id']) or ()}
+        crypto_acct = editorial_style.is_crypto_account(a)
+        mine = set((reuse or {}).get(aid) or ())
+        for g in pools[aid]:
+            key = tuple(demo._key(g[0]))
+            text = group_text(g)
+            handle = x_handle(g[0]['source'])
+            adj = topic_div.adjacency(text, profs.get(aid), common)
+            themes = topic_div.themes_of(text)
+            tier = topic_div.source_tier(bool(handle and handle.lower() in own), shared[key], adj)
+            if tier == 0 and not crypto_acct and (themes[0].startswith('c_') or topic_div.CRYPTO_MARK.search(text)):
+                tier = 2   # a non-crypto account's own X source posting on crypto is not its own lane ($HYPE)
+            meta[(aid, key)] = {'tier': tier, 'theme': themes[0], 'shared_pools': shared[key],
+                                'adjacent': adj[0][:5], 'theme_share': round(adj[1], 4),
+                                'off_spread': topic_div.off_spread(themes[0], profs.get(aid)),
+                                'base': (not ({g[0]['source'].get('id'), g[0]['source'].get('title'),
+                                               g[0]['source'].get('source_hash')} & mine),
+                                         not prescreen.prescreen(aid, g)['ok'], not timely(g, ref))}
+        pools[aid] = sorted(pools[aid], key=lambda g, aid=aid: (*meta[(aid, tuple(demo._key(g[0])))]['base'],
+                                                               meta[(aid, tuple(demo._key(g[0])))]['tier']))
+
+    def info(aid, g):
+        m = meta.get((aid, tuple(demo._key(g[0])))) or {}
+        return {k: m.get(k) for k in ('tier', 'theme', 'shared_pools', 'adjacent', 'theme_share', 'off_spread')}
+
+    tiers = {}
+    for (aid, _), m in meta.items():
+        tiers.setdefault(aid, Counter())[m['tier']] += 1
+    summary = {'version': topic_div.VERSION, 'tiers': {a: dict(sorted(c.items())) for a, c in tiers.items()},
+               'donor_profiles': {a: {k: p[k] for k in ('posts', 'posts_per_day', 'distinct_themes', 'stories')}
+                                  | {'top_themes': dict(list(p['themes'].items())[:6])} for a, p in profs.items()}}
+    return {'meta': meta, 'profiles': profs, 'info': info, 'summary': summary}
+
+
+def diversity_order(account, groups, picked, event_takers, div):
+    """Pick-time order for one account (FD_TOPIC_DIV): (reuse, prescreen, timely) as before, then own X sources, then a
+    theme this account has not used today, then the remaining source tiers, then stories no account took yet, then
+    themes inside the donors' spread; the pool order breaks ties. Hard gates and caps are unchanged (try_pick)."""
+    meta = div['meta']
+    used_themes = {p.get('topic_div', {}).get('theme') for p in picked}
+    taken = {e for e, ts in event_takers.items() if any(t[0] != account for t in ts)}
+
+    def k(item):
+        i, g = item
+        m = meta.get((account, tuple(demo._key(g[0])))) or {'base': (True, True, True), 'tier': 2, 'theme': 'other',
+                                                              'off_spread': False}
+        src = g[0]['source']
+        evs = {('src',) + tuple(demo._key(g[0]))} | ({('srcid', src['id'])} if src.get('id') else set()) \
+            | ({title_event(src.get('title'))} - {None})
+        return (*m['base'], m['tier'] != 0, m['theme'] in used_themes and m['theme'] != 'other', m['tier'],
+                bool(evs & taken), m['off_spread'], i)
+    return [g for _, g in sorted(enumerate(groups), key=k)]
+
+
+def diversity_gate_hotspot(hot, div):
+    """FD_TOPIC_DIV: a hotspot WRITE stands only when the 母题 member the account would write from is its own source
+    or donor-adjacent (tier 0/1) - shared news alone does not pull an account onto a trend (recorded as HOLD)."""
+    for account, (motif, key) in list(hot.assign.items()):
+        m = div['meta'].get((account, tuple(key)))
+        if m is None or m['tier'] > 1:
+            hot.assign.pop(account)
+            hot.record(account, motif, decision='HOLD',
+                       reason=f"topic_div: member is not an own / donor-adjacent source (tier {m and m['tier']})")
 
 
 def hotspot_reality(hot, motif, account, ref, x_handles, allow_model=False):
@@ -654,7 +753,7 @@ def main():
                          'use with --select-only to check a schedule without model calls)')
     ap.add_argument('--accounts')
     ap.add_argument('--per-account', type=int, default=2)
-    ap.add_argument('--budget-usd', type=float, default=float(os.environ.get('FD_DAILY_COMPOSE_BUDGET_USD', '4.0')))
+    ap.add_argument('--budget-usd', type=float, default=float(os.environ.get('FD_DAILY_COMPOSE_BUDGET_USD', '8.0')))
     ap.add_argument('--workers', type=int, default=4)
     ap.add_argument('--select-only', action='store_true', help='selection + plan only, no model calls')
     ap.add_argument('--fill', action='store_true',

@@ -40,7 +40,7 @@ APIFY_ACTOR = 'apidojo~tweet-scraper'
 X_BUDGET_USD = 1.0          # ring fence for X extraction inside the daily cap
 X_WINDOW_HOURS = 24
 X_PER_SOURCE_MAX = 4        # newest originals per handle per run
-X_MAX = 200                 # posts extracted per run at most
+X_MAX = 300                 # posts extracted per run at most (Oct 8: +Sirius-list breadth sources)
 X_BATCH_SIZE = 20
 RAPID_MAX_REQUESTS = 300    # per run
 APIFY_MAX_ITEMS = 300
@@ -97,8 +97,9 @@ def _parse_created(value):
 
 # ---------------------------------------------------------------- source list
 
-def subscriptions(universes=None, config=None):
-    """[{handle, source_id, accounts, roles, tier, beats}] for every enabled account-scoped X source."""
+def subscriptions(universes=None, config=None, breadth=None):
+    """[{handle, source_id, accounts, roles, tier, beats}] for every enabled account-scoped X source, then the
+    breadth sources (role BREADTH, `breadth` True; FD_X_BREADTH=0 or breadth=[] leaves them out)."""
     from live import registry
     universes = universes if universes is not None else json.loads(UNIVERSES.read_text())
     config = config if config is not None else json.loads(CONFIG.read_text())['accounts']
@@ -116,7 +117,16 @@ def subscriptions(universes=None, config=None):
         row['tier'] = registry.source_licence_tier(row['source_id'])
         row['beats'] = [beats.get(a) or [] for a in row['accounts']]
         row['core'] = 'CORE' in row['roles']
-    return sorted(by.values(), key=lambda r: (not r['core'], r['handle'].lower()))
+    out = sorted(by.values(), key=lambda r: (not r['core'], r['handle'].lower()))
+    if breadth is None:
+        from live import x_breadth
+        breadth = x_breadth.subscriptions() if x_breadth.enabled() else []
+    for row in breadth:   # Oct 8: Sirius-list breadth sources (live/x_breadth.json), fetched by batched search
+        if row['handle'].lower() in by:
+            continue
+        row = dict(row, beats=[beats.get(a) or [] for a in row['accounts']])
+        out.append(row)
+    return out
 
 
 # ---------------------------------------------------------------- fetch
@@ -241,10 +251,11 @@ def to_source(post, sub):
 
 def gather(state, *, now, known=None, subs=None, rapid=None, apify=None, window_hours=X_WINDOW_HOURS,
            per_source_max=X_PER_SOURCE_MAX, x_max=X_MAX, rapid_max_requests=RAPID_MAX_REQUESTS,
-           apify_max_items=APIFY_MAX_ITEMS, apify_max_usd=APIFY_MAX_USD, workers=6):
+           apify_max_items=APIFY_MAX_ITEMS, apify_max_usd=APIFY_MAX_USD, workers=6, breadth=None):
     """No LLM. -> dict(selected, overflow, dropped, sources (per-handle rows), requests, apify).
 
-    rapid(handle, uids) -> posts and apify(handles, since) -> ({handle: posts}, info) are injectable for tests;
+    rapid(handle, uids) -> posts, apify(handles, since) -> ({handle: posts}, info) and breadth(subs) ->
+    ({handle_lower: posts}, info) (live/x_breadth.fetch: batched search, day call cap) are injectable for tests;
     by default RapidAPI needs RAPID_X_API_KEY and Apify needs APIFY_TOKEN (missing key -> provider skipped)."""
     from live.adapters import flashes
     xs = state.setdefault('x', {})
@@ -254,6 +265,7 @@ def gather(state, *, now, known=None, subs=None, rapid=None, apify=None, window_
     subs = subscriptions() if subs is None else subs
     rows = []
     fetchable = []
+    wide = []                       # breadth sources: one batched search for many handles, not a timeline each
     for sub in subs:
         row = {'handle': sub['handle'], 'tier': sub['tier'], 'accounts': sub['accounts'], 'provider': None,
                'status': 'ok', 'fetched': 0, 'kept': 0, 'new': 0, 'error': None}
@@ -261,7 +273,7 @@ def gather(state, *, now, known=None, subs=None, rapid=None, apify=None, window_
         if sub['tier'] != 'B':
             row['status'] = 'skipped_tier_' + str(sub['tier'])
             continue
-        fetchable.append((sub, row))
+        (wide if sub.get('breadth') else fetchable).append((sub, row))
     client = None
     if rapid is None:
         key = os.environ.get('RAPID_X_API_KEY')
@@ -301,13 +313,32 @@ def gather(state, *, now, known=None, subs=None, rapid=None, apify=None, window_
                         raw[sub['handle'].lower()] = ('apify', [], (prev[2] if prev else None) or 'no_posts')
             except Exception as exc:   # noqa: BLE001
                 apify_info = {'error': f'{type(exc).__name__}: {str(exc)[:160]}'}
+    breadth_info = None
+    if wide:
+        if breadth is None and os.environ.get('RAPID_X_API_KEY'):
+            from live import x_breadth
+            breadth = lambda bsubs: x_breadth.fetch(bsubs, now=now, day=now.date().isoformat(),  # noqa: E731
+                                                     window_hours=window_hours)
+        got = {}
+        if breadth is not None:
+            try:
+                got, breadth_info = breadth([s for s, _ in wide])
+            except Exception as exc:   # noqa: BLE001 - breadth is additive; core sources stand alone
+                breadth_info = {'error': f'{type(exc).__name__}: {str(exc)[:160]}'}
+        ran = set((breadth_info or {}).get('run_handles') or [])
+        for sub, _row in wide:
+            posts = got.get(sub['handle'].lower())
+            # a handle in today's rotation with no post in the window is fine (empty list), else not fetched today
+            raw[sub['handle'].lower()] = ('rapid_search', posts or [], None) if posts or sub['handle'].lower() in ran \
+                else ('rapid_search', None, 'not_in_rotation')
+        fetchable = fetchable + wide
     gathered, dropped = [], []
     reasons = Counter()
     for sub, row in fetchable:
         provider, posts, err = raw.get(sub['handle'].lower(), (None, None, 'no_provider'))
         row['provider'] = provider
         if posts is None:
-            row.update(status='failed', error=err)
+            row.update(status='not_in_rotation' if err == 'not_in_rotation' else 'failed', error=err)
             continue
         row['fetched'] = len(posts)
         keep = []
@@ -338,7 +369,7 @@ def gather(state, *, now, known=None, subs=None, rapid=None, apify=None, window_
                              -(_parse_created(s['published_at']) or now).timestamp()))
     cap = max(0, int(x_max))
     return dict(selected=kept[:cap], overflow=kept[cap:], dropped=dropped, sources=rows, filtered=dict(reasons),
-                requests=client.made if client else None, apify=apify_info)
+                requests=client.made if client else None, apify=apify_info, breadth=breadth_info)
 
 
 # ---------------------------------------------------------------- extract + store

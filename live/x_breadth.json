@@ -1,0 +1,823 @@
+{
+ "version": "x-breadth-v1",
+ "note": "Tier-B X sources curated from the Sirius X source list (handles only) and mapped to fd20 accounts by donor theme mix + donor @-mentions (scripts/x_breadth.py). No tweet text here.",
+ "daily_call_cap": 20,
+ "batch_size": 20,
+ "pages_per_batch": 4,
+ "per_account": 8,
+ "built_at": "2026-10-08T07:00:49+00:00",
+ "exclude": {
+  "Pumpfun": "project account (manual)",
+  "RobinhoodCrypto": "company account (manual)"
+ },
+ "handles": {
+  "0x0funky": {
+   "lang": "zh",
+   "accounts": [
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "scores": {
+    "zh_longterm_investing": 0.8447,
+    "zh_us_stocks": 0.717
+   },
+   "originals_per_day": 0.37
+  },
+  "0xAstra": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_trader_zh"
+   ],
+   "scores": {
+    "crypto_trader_zh": 0.4416
+   },
+   "originals_per_day": 4.35
+  },
+  "0xbfun": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_btc_cycle_zh",
+    "crypto_macro_zh"
+   ],
+   "scores": {
+    "crypto_btc_cycle_zh": 0.8008,
+    "crypto_macro_zh": 0.7906
+   },
+   "originals_per_day": 1.0
+  },
+  "0xcherry": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_onchain_zh",
+    "crypto_diary_zh"
+   ],
+   "scores": {
+    "crypto_onchain_zh": 0.7186,
+    "crypto_diary_zh": 0.5631
+   },
+   "originals_per_day": 0.7
+  },
+  "0xG00gly": {
+   "lang": "en",
+   "accounts": [
+    "crypto_research_en",
+    "crypto_macro_en"
+   ],
+   "scores": {
+    "crypto_research_en": 0.6509,
+    "crypto_macro_en": 0.6483
+   },
+   "originals_per_day": 0.29
+  },
+  "0xJason": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_diary_zh"
+   ],
+   "scores": {
+    "crypto_diary_zh": 0.6934
+   },
+   "originals_per_day": 2.97
+  },
+  "0xLoki_Zeng": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_research_zh",
+    "crypto_onchain_zh"
+   ],
+   "scores": {
+    "crypto_research_zh": 0.7065,
+    "crypto_onchain_zh": 0.353
+   },
+   "originals_per_day": 4.53
+  },
+  "0xNairolf": {
+   "lang": "en",
+   "accounts": [
+    "crypto_research_en",
+    "defi_narratives_en"
+   ],
+   "scores": {
+    "crypto_research_en": 0.6662,
+    "defi_narratives_en": 0.7328
+   },
+   "originals_per_day": 9.01
+  },
+  "0xOmnia": {
+   "lang": "en",
+   "accounts": [
+    "crypto_trader_en"
+   ],
+   "scores": {
+    "crypto_trader_en": 0.7606
+   },
+   "originals_per_day": 1.55
+  },
+  "0xsexybanana": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_research_zh",
+    "zh_us_stocks"
+   ],
+   "scores": {
+    "crypto_research_zh": 0.7519,
+    "zh_us_stocks": 0.431
+   },
+   "originals_per_day": 3.87
+  },
+  "0xSweep": {
+   "lang": "en",
+   "accounts": [
+    "defi_narratives_en",
+    "crypto_thesis_en"
+   ],
+   "scores": {
+    "defi_narratives_en": 0.7045,
+    "crypto_thesis_en": 0.7232
+   },
+   "originals_per_day": 2.48
+  },
+  "0xZergs": {
+   "lang": "en",
+   "accounts": [
+    "investing_philosophy",
+    "crypto_thesis_en"
+   ],
+   "scores": {
+    "investing_philosophy": 0.7505,
+    "crypto_thesis_en": 0.7569
+   },
+   "originals_per_day": 1.26
+  },
+  "798_eth": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_research_zh",
+    "crypto_macro_zh"
+   ],
+   "scores": {
+    "crypto_research_zh": 0.6321,
+    "crypto_macro_zh": 0.7021
+   },
+   "originals_per_day": 0.69
+  },
+  "_0xKenny": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_onchain_zh",
+    "crypto_diary_zh"
+   ],
+   "scores": {
+    "crypto_onchain_zh": 0.6358,
+    "crypto_diary_zh": 0.7183
+   },
+   "originals_per_day": 3.08
+  },
+  "Adam_Tehc": {
+   "lang": "en",
+   "accounts": [
+    "defi_narratives_en"
+   ],
+   "scores": {
+    "defi_narratives_en": 0.7852
+   },
+   "originals_per_day": 0.42
+  },
+  "aeonframework": {
+   "lang": "en",
+   "accounts": [
+    "single_stock_deepdive_en"
+   ],
+   "scores": {
+    "single_stock_deepdive_en": 0.5027
+   },
+   "originals_per_day": 1.0
+  },
+  "agintender": {
+   "lang": "zh",
+   "accounts": [
+    "zh_industry",
+    "crypto_altcoin_zh"
+   ],
+   "scores": {
+    "zh_industry": 0.645,
+    "crypto_altcoin_zh": 0.6995
+   },
+   "originals_per_day": 2.92
+  },
+  "AndrewCurran_": {
+   "lang": "en",
+   "accounts": [
+    "crypto_onchain_en"
+   ],
+   "scores": {
+    "crypto_onchain_en": 0.5765
+   },
+   "originals_per_day": 7.0
+  },
+  "andyyy": {
+   "lang": "en",
+   "accounts": [
+    "crypto_research_en",
+    "crypto_macro_en"
+   ],
+   "scores": {
+    "crypto_research_en": 0.7801,
+    "crypto_macro_en": 0.7172
+   },
+   "originals_per_day": 14.7
+  },
+  "arthur0x": {
+   "lang": "en",
+   "accounts": [
+    "crypto_onchain_en",
+    "btc_cycles_en"
+   ],
+   "scores": {
+    "crypto_onchain_en": 0.8084,
+    "btc_cycles_en": 0.4682
+   },
+   "originals_per_day": 0.72
+  },
+  "astros_ag": {
+   "lang": "en",
+   "accounts": [
+    "crypto_trader_en"
+   ],
+   "scores": {
+    "crypto_trader_en": 0.3878
+   },
+   "originals_per_day": 0.93
+  },
+  "based16z": {
+   "lang": "en",
+   "accounts": [
+    "crypto_trader_en",
+    "btc_cycles_en"
+   ],
+   "scores": {
+    "crypto_trader_en": 0.725,
+    "btc_cycles_en": 0.5951
+   },
+   "originals_per_day": 3.87
+  },
+  "bonnazhu": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_research_zh",
+    "crypto_altcoin_zh"
+   ],
+   "scores": {
+    "crypto_research_zh": 0.8068,
+    "crypto_altcoin_zh": 0.7611
+   },
+   "originals_per_day": 0.7
+  },
+  "brc20niubi": {
+   "lang": "zh",
+   "accounts": [
+    "zh_us_stocks",
+    "crypto_altcoin_zh"
+   ],
+   "scores": {
+    "zh_us_stocks": 0.6353,
+    "crypto_altcoin_zh": 0.6502
+   },
+   "originals_per_day": 0.55
+  },
+  "BTCdayu": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_research_zh",
+    "crypto_btc_cycle_zh"
+   ],
+   "scores": {
+    "crypto_research_zh": 0.6194,
+    "crypto_btc_cycle_zh": 0.41
+   },
+   "originals_per_day": 2.51
+  },
+  "Cato_KT": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_onchain_zh"
+   ],
+   "scores": {
+    "crypto_macro_zh": 0.7689,
+    "crypto_onchain_zh": 0.7331
+   },
+   "originals_per_day": 4.62
+  },
+  "cremieuxrecueil": {
+   "lang": "en",
+   "accounts": [
+    "crypto_macro_en"
+   ],
+   "scores": {
+    "crypto_macro_en": 0.647
+   },
+   "originals_per_day": 12.0
+  },
+  "CryptoSociety42": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_research_zh",
+    "crypto_macro_zh"
+   ],
+   "scores": {
+    "crypto_research_zh": 0.669,
+    "crypto_macro_zh": 0.7114
+   },
+   "originals_per_day": 3.06
+  },
+  "dongdongRobin": {
+   "lang": "zh",
+   "accounts": [
+    "zh_industry",
+    "crypto_trader_zh"
+   ],
+   "scores": {
+    "zh_industry": 0.5597,
+    "crypto_trader_zh": 0.4923
+   },
+   "originals_per_day": 5.2
+  },
+  "Flowslikeosmo": {
+   "lang": "en",
+   "accounts": [
+    "defi_narratives_en"
+   ],
+   "scores": {
+    "defi_narratives_en": 0.7421
+   },
+   "originals_per_day": 3.76
+  },
+  "Goupenguin": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_onchain_zh"
+   ],
+   "scores": {
+    "crypto_macro_zh": 0.663,
+    "crypto_onchain_zh": 0.6127
+   },
+   "originals_per_day": 4.58
+  },
+  "hebi555": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_onchain_zh",
+    "crypto_diary_zh"
+   ],
+   "scores": {
+    "crypto_onchain_zh": 0.4146,
+    "crypto_diary_zh": 0.7106
+   },
+   "originals_per_day": 1.64
+  },
+  "hosseeb": {
+   "lang": "en",
+   "accounts": [
+    "crypto_macro_en",
+    "crypto_thesis_en"
+   ],
+   "scores": {
+    "crypto_macro_en": 0.6564,
+    "crypto_thesis_en": 0.7212
+   },
+   "originals_per_day": 4.27
+  },
+  "iamyourchaos": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_altcoin_zh",
+    "crypto_onchain_zh"
+   ],
+   "scores": {
+    "crypto_altcoin_zh": 0.6996,
+    "crypto_onchain_zh": 0.6247
+   },
+   "originals_per_day": 2.34
+  },
+  "icobeast": {
+   "lang": "en",
+   "accounts": [
+    "crypto_macro_en",
+    "crypto_thesis_en"
+   ],
+   "scores": {
+    "crypto_macro_en": 0.7279,
+    "crypto_thesis_en": 0.7741
+   },
+   "originals_per_day": 0.94
+  },
+  "jennyukim_bnb": {
+   "lang": "en",
+   "accounts": [
+    "crypto_macro_en"
+   ],
+   "scores": {
+    "crypto_macro_en": 0.6545
+   },
+   "originals_per_day": 1.05
+  },
+  "kelxyz_": {
+   "lang": "en",
+   "accounts": [
+    "crypto_onchain_en",
+    "defi_narratives_en"
+   ],
+   "scores": {
+    "crypto_onchain_en": 0.6985,
+    "defi_narratives_en": 0.4892
+   },
+   "originals_per_day": 2.13
+  },
+  "KookCapitalLLC": {
+   "lang": "en",
+   "accounts": [
+    "crypto_research_en",
+    "crypto_macro_en"
+   ],
+   "scores": {
+    "crypto_research_en": 0.7053,
+    "crypto_macro_en": 0.733
+   },
+   "originals_per_day": 8.33
+  },
+  "KSimback": {
+   "lang": "en",
+   "accounts": [
+    "single_stock_deepdive_en",
+    "investing_philosophy"
+   ],
+   "scores": {
+    "single_stock_deepdive_en": 0.7306,
+    "investing_philosophy": 0.4202
+   },
+   "originals_per_day": 2.69
+  },
+  "KyleSamani": {
+   "lang": "en",
+   "accounts": [
+    "crypto_thesis_en"
+   ],
+   "scores": {
+    "crypto_thesis_en": 0.6709
+   },
+   "originals_per_day": 0.94
+  },
+  "LinQingV": {
+   "lang": "zh",
+   "accounts": [
+    "zh_industry",
+    "zh_us_stocks"
+   ],
+   "scores": {
+    "zh_industry": 0.8015,
+    "zh_us_stocks": 0.8184
+   },
+   "originals_per_day": 1.13
+  },
+  "mackpeterm88538": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_trader_zh"
+   ],
+   "scores": {
+    "crypto_trader_zh": 0.5261
+   },
+   "originals_per_day": 4.88
+  },
+  "MaraCakeHotSale": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_btc_cycle_zh",
+    "crypto_diary_zh"
+   ],
+   "scores": {
+    "crypto_btc_cycle_zh": 0.4371,
+    "crypto_diary_zh": 0.6471
+   },
+   "originals_per_day": 5.1
+  },
+  "market_beggar": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_btc_cycle_zh",
+    "crypto_trader_zh"
+   ],
+   "scores": {
+    "crypto_btc_cycle_zh": 0.3984,
+    "crypto_trader_zh": 0.395
+   },
+   "originals_per_day": 0.9
+  },
+  "MengLayer": {
+   "lang": "zh",
+   "accounts": [
+    "zh_industry"
+   ],
+   "scores": {
+    "zh_industry": 0.6449
+   },
+   "originals_per_day": 2.07
+  },
+  "Mercy_okx": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_altcoin_zh"
+   ],
+   "scores": {
+    "crypto_macro_zh": 0.7244,
+    "crypto_altcoin_zh": 0.7316
+   },
+   "originals_per_day": 1.01
+  },
+  "mscryptojiayi": {
+   "lang": "zh",
+   "accounts": [
+    "zh_industry",
+    "crypto_diary_zh"
+   ],
+   "scores": {
+    "zh_industry": 0.6707,
+    "crypto_diary_zh": 0.6528
+   },
+   "originals_per_day": 1.18
+  },
+  "nickforster": {
+   "lang": "en",
+   "accounts": [
+    "crypto_trader_en"
+   ],
+   "scores": {
+    "crypto_trader_en": 0.7782
+   },
+   "originals_per_day": 0.65
+  },
+  "nikitabier": {
+   "lang": "en",
+   "accounts": [
+    "single_stock_deepdive_en",
+    "crypto_onchain_en"
+   ],
+   "scores": {
+    "single_stock_deepdive_en": 0.788,
+    "crypto_onchain_en": 0.4698
+   },
+   "originals_per_day": 1.05
+  },
+  "pearbinance": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_diary_zh"
+   ],
+   "scores": {
+    "crypto_macro_zh": 0.6891,
+    "crypto_diary_zh": 0.6225
+   },
+   "originals_per_day": 0.59
+  },
+  "peng_hellen": {
+   "lang": "zh",
+   "accounts": [
+    "zh_longterm_investing",
+    "zh_industry"
+   ],
+   "scores": {
+    "zh_longterm_investing": 0.5763,
+    "zh_industry": 0.5312
+   },
+   "originals_per_day": 0.87
+  },
+  "QwQiao": {
+   "lang": "en",
+   "accounts": [
+    "single_stock_deepdive_en",
+    "crypto_thesis_en"
+   ],
+   "scores": {
+    "single_stock_deepdive_en": 0.5027,
+    "crypto_thesis_en": 0.7015
+   },
+   "originals_per_day": 0.44
+  },
+  "Rav_Hedda": {
+   "lang": "zh",
+   "accounts": [
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "scores": {
+    "zh_longterm_investing": 0.8335,
+    "zh_us_stocks": 0.8197
+   },
+   "originals_per_day": 3.49
+  },
+  "Rubywang": {
+   "lang": "zh",
+   "accounts": [
+    "zh_industry"
+   ],
+   "scores": {
+    "zh_industry": 0.6705
+   },
+   "originals_per_day": 0.79
+  },
+  "Saccc_c": {
+   "lang": "zh",
+   "accounts": [
+    "zh_longterm_investing",
+    "zh_industry"
+   ],
+   "scores": {
+    "zh_longterm_investing": 0.3818,
+    "zh_industry": 0.7637
+   },
+   "originals_per_day": 1.49
+  },
+  "santiagoroel": {
+   "lang": "en",
+   "accounts": [
+    "single_stock_deepdive_en"
+   ],
+   "scores": {
+    "single_stock_deepdive_en": 0.5027
+   },
+   "originals_per_day": 0.74
+  },
+  "sunlc_crypto": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_onchain_zh",
+    "crypto_diary_zh"
+   ],
+   "scores": {
+    "crypto_onchain_zh": 0.5517,
+    "crypto_diary_zh": 0.6376
+   },
+   "originals_per_day": 0.47
+  },
+  "tarunchitra": {
+   "lang": "en",
+   "accounts": [
+    "single_stock_deepdive_en",
+    "investing_philosophy"
+   ],
+   "scores": {
+    "single_stock_deepdive_en": 0.9027,
+    "investing_philosophy": 0.7426
+   },
+   "originals_per_day": 2.0
+  },
+  "Teknium": {
+   "lang": "en",
+   "accounts": [
+    "single_stock_deepdive_en",
+    "investing_philosophy"
+   ],
+   "scores": {
+    "single_stock_deepdive_en": 0.6956,
+    "investing_philosophy": 0.7132
+   },
+   "originals_per_day": 4.14
+  },
+  "theunipcs": {
+   "lang": "en",
+   "accounts": [
+    "defi_narratives_en",
+    "crypto_thesis_en"
+   ],
+   "scores": {
+    "defi_narratives_en": 0.7533,
+    "crypto_thesis_en": 0.6927
+   },
+   "originals_per_day": 4.55
+  },
+  "tmel0211": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_research_zh",
+    "crypto_altcoin_zh"
+   ],
+   "scores": {
+    "crypto_research_zh": 0.8364,
+    "crypto_altcoin_zh": 0.6069
+   },
+   "originals_per_day": 2.13
+  },
+  "toly": {
+   "lang": "en",
+   "accounts": [
+    "single_stock_deepdive_en",
+    "crypto_thesis_en"
+   ],
+   "scores": {
+    "single_stock_deepdive_en": 0.5027,
+    "crypto_thesis_en": 0.7015
+   },
+   "originals_per_day": 7.44
+  },
+  "Vegahao": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_btc_cycle_zh",
+    "crypto_altcoin_zh"
+   ],
+   "scores": {
+    "crypto_btc_cycle_zh": 0.3801,
+    "crypto_altcoin_zh": 0.7829
+   },
+   "originals_per_day": 4.52
+  },
+  "vladtenev": {
+   "lang": "en",
+   "accounts": [
+    "crypto_research_en",
+    "crypto_macro_en"
+   ],
+   "scores": {
+    "crypto_research_en": 0.6652,
+    "crypto_macro_en": 0.6574
+   },
+   "originals_per_day": 0.77
+  },
+  "WOLF_Bitcoin_": {
+   "lang": "en",
+   "accounts": [
+    "investing_philosophy",
+    "crypto_research_en"
+   ],
+   "scores": {
+    "investing_philosophy": 0.7942,
+    "crypto_research_en": 0.7205
+   },
+   "originals_per_day": 18.0
+  },
+  "xiejiayinBitget": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_altcoin_zh",
+    "crypto_trader_zh"
+   ],
+   "scores": {
+    "crypto_altcoin_zh": 0.5479,
+    "crypto_trader_zh": 0.5353
+   },
+   "originals_per_day": 2.5
+  },
+  "yueya_eth": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_research_zh",
+    "crypto_trader_zh"
+   ],
+   "scores": {
+    "crypto_research_zh": 0.6543,
+    "crypto_trader_zh": 0.7606
+   },
+   "originals_per_day": 2.63
+  },
+  "z0r0zzz": {
+   "lang": "en",
+   "accounts": [
+    "crypto_research_en",
+    "defi_narratives_en"
+   ],
+   "scores": {
+    "crypto_research_en": 0.693,
+    "defi_narratives_en": 0.7137
+   },
+   "originals_per_day": 1.97
+  },
+  "zijing": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_btc_cycle_zh",
+    "crypto_macro_zh"
+   ],
+   "scores": {
+    "crypto_btc_cycle_zh": 0.5802,
+    "crypto_macro_zh": 0.6494
+   },
+   "originals_per_day": 0.4
+  },
+  "zkayAPE": {
+   "lang": "en",
+   "accounts": [
+    "crypto_research_en",
+    "defi_narratives_en"
+   ],
+   "scores": {
+    "crypto_research_en": 0.6813,
+    "defi_narratives_en": 0.7471
+   },
+   "originals_per_day": 1.03
+  }
+ }
+}

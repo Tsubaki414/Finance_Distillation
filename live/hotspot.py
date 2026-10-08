@@ -319,7 +319,9 @@ def run_merge(clusters, mats, day, client=None, cap_usd=MERGE_CAP_USD, store=Non
     try:
         cached = json.loads(path.read_text())
         if cached.get('merge') is not None:
-            return cached['merge']
+            # cluster ids are positional (c0, c1 ...): a later run the same day (--fill after a new ingest) has other
+            # materials, so cached ids are mapped back through their member keys; a cache without them is not reused
+            return remap_merge(cached['merge'], cached.get('members'), clusters, mats)
     except (OSError, ValueError):
         pass
     if client is None:
@@ -346,8 +348,33 @@ def run_merge(clusters, mats, day, client=None, cap_usd=MERGE_CAP_USD, store=Non
         except (OSError, ValueError, KeyError, TypeError):
             pass
     _write(path, {'day': day, 'merge': merge, 'model': r.get('response_model'), 'cost_usd': round(cost, 6),
-                  'at': datetime.now(timezone.utc).isoformat(timespec='seconds'), 'n_clusters': len(clusters)})
+                  'at': datetime.now(timezone.utc).isoformat(timespec='seconds'), 'n_clusters': len(clusters),
+                  'members': _members(clusters, mats)})
     return merge
+
+
+def _members(clusters, mats):
+    return {cid: [json.dumps(mats[i]['key']) for i in idx] for cid, idx in clusters}
+
+
+def remap_merge(merge, members, clusters, mats):
+    """A cached merge in terms of the current cluster ids (via member keys); None when the cache has no members."""
+    if not members:
+        return None
+    now = {}
+    for cid, keys in _members(clusters, mats).items():
+        for k in keys:
+            now.setdefault(k, cid)
+    groups = []
+    for g in (merge or {}).get('groups') or []:
+        ids = []
+        for old in g.get('ids') or []:
+            cur = next((now[k] for k in members.get(old) or [] if k in now), None)
+            if cur and cur not in ids:
+                ids.append(cur)
+        if ids:
+            groups.append(dict(g, ids=ids))
+    return {'groups': groups}
 
 
 def merge_client(calls_dir):
@@ -393,6 +420,13 @@ def motif_topics(titles, crypto_flags=()):
     return sorted((k for k, n in counts.items() if n and n * 2 >= best), key=lambda k: (-counts[k], order.index(k)))
 
 
+def reach_weight():
+    """Weight of 'accounts whose pool holds a member' in breadth. FD_TOPIC_DIV (default on) sets it to 0: that count
+    measured how many accounts share one news feed (10 crypto pools held the same ~15 items on 10-08), not heat."""
+    from live import topic_div
+    return 0.0 if topic_div.enabled() else 0.7
+
+
 def build_motifs(mats, groups_idx, ref, titles=None, day=None):
     signals, heat = _heat_signals(day or ref.date().isoformat())
     out = []
@@ -404,7 +438,7 @@ def build_motifs(mats, groups_idx, ref, titles=None, day=None):
         latest = max(m['_t'] for m in ms)
         h_in, terms = heat.score(text, signals) if signals else (0.0, [])
         h_in = min(3.0, h_in)
-        breadth = math.log2(1 + len(pubs)) + 0.5 * math.log2(1 + len(ms)) + 0.7 * math.log2(1 + len(accts))
+        breadth = math.log2(1 + len(pubs)) + 0.5 * math.log2(1 + len(ms)) + reach_weight() * math.log2(1 + len(accts))
         recency = math.exp(-max(0.0, (ref - latest).total_seconds()) / 3600 / 12)
         score = round(breadth + 0.5 * h_in + recency, 3)
         t = (titles or {}).get(cid) or {}

@@ -24,7 +24,7 @@ if [[ "${FD_HOTSPOT:-1}" != "0" ]]; then
     /workspace/fd_venv/bin/python scripts/feedback_priors.py --pull || echo "feedback priors failed (compose unaffected)"
 fi
 /workspace/fd_venv/bin/python scripts/daily_compose.py --per-account "${FD_DAILY_COMPOSE_PER_ACCOUNT:-2}" \
-    --budget-usd "${FD_DAILY_COMPOSE_BUDGET_USD:-4}" "$@"
+    --budget-usd "${FD_DAILY_COMPOSE_BUDGET_USD:-8}" "$@"
 # Rebuild the operator copy-paste dashboard (static HTML + per-day CSV); system python3 has PIL for avatar thumbnails.
 python3 scripts/build_ops_dashboard.py || echo "ops dashboard rebuild failed (compose result unaffected)"
 # Redeploy the static ops page to Vercel (project fd-ops-dashboard, linked in the ops dir). Non-fatal; skip with

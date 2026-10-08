@@ -63,7 +63,7 @@ Gemini stages run at temperature 1.0 with thinking set to medium. At temperature
 
 ### Budget
 
-- `--budget-usd` (default $4) stops the run from starting new drafts. It counts this run's Gemini spend from the call records.
+- `--budget-usd` (default $8 since Oct 8; was $4) stops the run from starting new drafts. It counts this run's Gemini spend from the call records.
 - `ml/budget` still reserves every call.
 
 ## Donor merge and X sources (Oct 7)
@@ -201,3 +201,12 @@ These are learned from donor text and are kept out of git (`.gitignore`):
 - Soft priors: viral structure priors from our donor data and the /admin review feedback (incl. the new 「已发布」
   action) re-rank lenses / 母题 by at most +-15%. 「热点」 tag on the ops page, /admin and the review inbox.
 - `FD_HOTSPOT=0` restores the old selection exactly. See `docs/HOTSPOT.md`.
+
+## Topic diversity and X breadth (Oct 8)
+
+- Each account's picks come from its own X sources first, then donor-adjacent packets, then shared news; the two picks
+  of a day take different themes when the pool allows; one story goes to at most 2 accounts per language and 3 in all.
+  Hotspot WRITE needs an own / donor-adjacent member. `FD_TOPIC_DIV=0` restores the previous selection exactly.
+- 70 tier-B X sources from the Sirius list, mapped to accounts by donor theme mix + donor mentions
+  (`live/x_breadth.json`), fetched by batched search, <= 20 twitter241 calls a day (`FD_X_BREADTH=0` turns it off).
+- Daily compose budget default $8. See `docs/TOPIC_DIVERSITY.md`.
