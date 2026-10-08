@@ -195,6 +195,15 @@ def _sig(n):
     return len(mant.rstrip('0')) if '%' not in n else len(mant)
 
 
+SNAPSHOT_SOURCES = ('polymarket_markets', 'defillama_yields')
+
+
+def is_snapshot(m):
+    """Structured lane snapshot material (live/adapters/lane_data, polymarket, defillama_yields): links by URL /
+    headline / hook only."""
+    return str(m.get('adapter') or '').startswith('lane_data:') or m.get('source_id') in SNAPSHOT_SOURCES
+
+
 def link_reason(a, b, df, rare, loose=None):
     """Why two materials are the same story (deterministic), or None. rare: df ceiling for entity-only links;
     loose: df ceiling for an entity backing a round (1 significant digit) number."""
@@ -205,6 +214,9 @@ def link_reason(a, b, df, rare, loose=None):
         return 'headline'
     if a['_hooks'] & b['_hooks']:
         return 'hook'
+    if is_snapshot(a) or is_snapshot(b):
+        return None   # a daily data table (DefiLlama / Polymarket / Hyperliquid snapshot) is not a story: a shared
+        #               'DefiLlama' + a coincidental 7.5% chained every niche-lane table into one 母题 (Oct 8)
     ents = a['_ents'] & b['_ents']
     nums = a['_nums'] & b['_nums']
     if ents and any(_sig(n) >= 2 for n in nums):

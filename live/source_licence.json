@@ -3657,6 +3657,224 @@
       "aliases": [
         "buildonbase"
       ]
+    },
+    "defillama_yield_movers": {
+      "tier": "B",
+      "basis": "public DeFi aggregates from the free open DefiLlama API (no key; pro endpoints not used); structured numbers, dated, cited as DefiLlama, 2026-10-08",
+      "aliases": [
+        "DefiLlama"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "defillama_pendle_stable": {
+      "tier": "B",
+      "basis": "public DeFi aggregates from the free open DefiLlama API (no key; pro endpoints not used); structured numbers, dated, cited as DefiLlama, 2026-10-08",
+      "aliases": [
+        "DefiLlama"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "defillama_perp_oi": {
+      "tier": "B",
+      "basis": "public DeFi aggregates from the free open DefiLlama API (no key; pro endpoints not used); structured numbers, dated, cited as DefiLlama, 2026-10-08",
+      "aliases": [
+        "DefiLlama"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "hyperliquid_perps": {
+      "tier": "B",
+      "basis": "public Hyperliquid info API market data (documented, no key); structured numbers, dated, cited as Hyperliquid, 2026-10-08",
+      "aliases": [
+        "Hyperliquid"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "hyperliquid_meme_perps": {
+      "tier": "B",
+      "basis": "public Hyperliquid info API market data (documented, no key); structured numbers, dated, cited as Hyperliquid, 2026-10-08",
+      "aliases": [
+        "Hyperliquid"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "defillama_launchpads": {
+      "tier": "B",
+      "basis": "public DeFi aggregates from the free open DefiLlama API (no key; pro endpoints not used); structured numbers, dated, cited as DefiLlama, 2026-10-08",
+      "aliases": [
+        "DefiLlama"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "coingecko_meme_sectors": {
+      "tier": "B",
+      "basis": "public CoinGecko API categories (no key, attribution to CoinGecko required); structured numbers, dated, cited as CoinGecko, 2026-10-08",
+      "aliases": [
+        "CoinGecko"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "polymarket_movers": {
+      "tier": "B",
+      "basis": "public Polymarket Gamma API market prices / volumes (documented read API, no key); structured numbers, dated, cited as Polymarket, 2026-10-08",
+      "aliases": [
+        "Polymarket"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "polymarket_crypto": {
+      "tier": "B",
+      "basis": "public Polymarket Gamma API market prices / volumes (documented read API, no key); structured numbers, dated, cited as Polymarket, 2026-10-08",
+      "aliases": [
+        "Polymarket"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "polymarket_tge": {
+      "tier": "B",
+      "basis": "public Polymarket Gamma API market prices / volumes (documented read API, no key); structured numbers, dated, cited as Polymarket, 2026-10-08",
+      "aliases": [
+        "Polymarket"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "defillama_prediction_oi": {
+      "tier": "B",
+      "basis": "public DeFi aggregates from the free open DefiLlama API (no key; pro endpoints not used); structured numbers, dated, cited as DefiLlama, 2026-10-08",
+      "aliases": [
+        "DefiLlama"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "defillama_solana": {
+      "tier": "B",
+      "basis": "public DeFi aggregates from the free open DefiLlama API (no key; pro endpoints not used); structured numbers, dated, cited as DefiLlama, 2026-10-08",
+      "aliases": [
+        "DefiLlama"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "defillama_base": {
+      "tier": "B",
+      "basis": "public DeFi aggregates from the free open DefiLlama API (no key; pro endpoints not used); structured numbers, dated, cited as DefiLlama, 2026-10-08",
+      "aliases": [
+        "DefiLlama"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "defillama_sol_base_movers": {
+      "tier": "B",
+      "basis": "public DeFi aggregates from the free open DefiLlama API (no key; pro endpoints not used); structured numbers, dated, cited as DefiLlama, 2026-10-08",
+      "aliases": [
+        "DefiLlama"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "defillama_tokenless": {
+      "tier": "B",
+      "basis": "public DeFi aggregates from the free open DefiLlama API (no key; pro endpoints not used); structured numbers, dated, cited as DefiLlama, 2026-10-08",
+      "aliases": [
+        "DefiLlama"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "defillama_tokenless_activity": {
+      "tier": "B",
+      "basis": "public DeFi aggregates from the free open DefiLlama API (no key; pro endpoints not used); structured numbers, dated, cited as DefiLlama, 2026-10-08",
+      "aliases": [
+        "DefiLlama"
+      ],
+      "no_reproduction": false,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "lane_flash_meme": {
+      "tier": "B",
+      "basis": "Public crypto flash RSS (Odaily / PANews / ChainCatcher / TechFlow / The Block / Decrypt), lane-filtered; paraphrase facts only with attribution to the outlet, no quotes or reproduction, 2026-10-08",
+      "aliases": [],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "lane_flash_airdrop": {
+      "tier": "B",
+      "basis": "Public crypto flash RSS (Odaily / PANews / ChainCatcher / TechFlow / The Block / Decrypt), lane-filtered; paraphrase facts only with attribution to the outlet, no quotes or reproduction, 2026-10-08",
+      "aliases": [],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "lane_flash_prediction": {
+      "tier": "B",
+      "basis": "Public crypto flash RSS (Odaily / PANews / ChainCatcher / TechFlow / The Block / Decrypt), lane-filtered; paraphrase facts only with attribution to the outlet, no quotes or reproduction, 2026-10-08",
+      "aliases": [],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "lane_flash_stable_yield": {
+      "tier": "B",
+      "basis": "Public crypto flash RSS (Odaily / PANews / ChainCatcher / TechFlow / The Block / Decrypt), lane-filtered; paraphrase facts only with attribution to the outlet, no quotes or reproduction, 2026-10-08",
+      "aliases": [],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "lane_flash_perp": {
+      "tier": "B",
+      "basis": "Public crypto flash RSS (Odaily / PANews / ChainCatcher / TechFlow / The Block / Decrypt), lane-filtered; paraphrase facts only with attribution to the outlet, no quotes or reproduction, 2026-10-08",
+      "aliases": [],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "lane_flash_sol_base": {
+      "tier": "B",
+      "basis": "Public crypto flash RSS (Odaily / PANews / ChainCatcher / TechFlow / The Block / Decrypt), lane-filtered; paraphrase facts only with attribution to the outlet, no quotes or reproduction, 2026-10-08",
+      "aliases": [],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
+    },
+    "crypto_panews_flash": {
+      "tier": "B",
+      "basis": "Public PANews RSS (newsflash items); paraphrase facts only with attribution, no quotes or reproduction, 2026-10-08",
+      "aliases": [
+        "PANews"
+      ],
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true
     }
   }
 }

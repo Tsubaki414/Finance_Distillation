@@ -70,5 +70,5 @@ def fetch(*, limit=8, transport=None, now=None):
         if len(rows) >= limit:
             break
     return common.structured_result(rows, id=f'{SOURCE_ID}-{period}', source_id=SOURCE_ID, publisher='Polymarket',
-                                    title='Polymarket: most-traded open markets (24h volume)', url=API,
+                                    title='Polymarket: most-traded open markets (24h volume)', url=f'{API}#{period}',
                                     published_at=period, adapter='polymarket')

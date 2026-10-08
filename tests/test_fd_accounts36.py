@@ -210,7 +210,7 @@ def test_lane_sources_are_routed_and_licensed():
 def test_daily_ingest_lane_fetchers_gated(monkeypatch):
     from live import daily_ingest
     keys = [k for k in daily_ingest.default_fetchers({'channels': {}}) if k.startswith('lanes:')]
-    assert keys == ['lanes:polymarket_markets', 'lanes:defillama_yields']
+    assert keys[:2] == ['lanes:polymarket_markets', 'lanes:defillama_yields']   # + live/adapters/lane_data (Oct 8 eve)
     monkeypatch.setenv('FD_ACCOUNTS_NEW', '0')
     assert not [k for k in daily_ingest.default_fetchers({'channels': {}}) if k.startswith('lanes:')]
 

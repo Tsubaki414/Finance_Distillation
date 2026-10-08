@@ -5426,6 +5426,431 @@
         "crypto_stable_yield"
       ],
       "note": "Oct 8 (36 accounts): TVL-weighted APY and the largest single-asset stablecoin pools (> $100m TVL); free API, one GET per ingest"
+    },
+    {
+      "id": "defillama_yield_movers",
+      "name": "DefiLlama",
+      "type": "research",
+      "enabled": true,
+      "adapter": "lane_data",
+      "api_url": "https://yields.llama.fi/pools",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_stable_yield_zh",
+        "crypto_stable_yield_en"
+      ],
+      "route_beats": [
+        "crypto_stable_yield"
+      ],
+      "note": "Oct 8 evening (PM_PLAN item 4): stablecoin pools (TVL >= $50m) with the biggest 7-day APY change, up and down; new pools without history skipped; structured, no model call, cached; FD_LANE_DATA_SOURCES=0 / FD_ACCOUNTS_NEW=0 stop the fetch",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "defillama_pendle_stable",
+      "name": "DefiLlama",
+      "type": "research",
+      "enabled": true,
+      "adapter": "lane_data",
+      "api_url": "https://yields.llama.fi/pools",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_stable_yield_zh",
+        "crypto_stable_yield_en"
+      ],
+      "route_beats": [
+        "crypto_stable_yield"
+      ],
+      "note": "Oct 8 evening (PM_PLAN item 4): Pendle fixed-rate PT stablecoin APYs, yield-bearing stablecoins (sUSDS / sUSDe / Maple) and tokenized-treasury funds (USYC / USDY / BUIDL); same cached yields body; structured, no model call, cached; FD_LANE_DATA_SOURCES=0 / FD_ACCOUNTS_NEW=0 stop the fetch",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "defillama_perp_oi",
+      "name": "DefiLlama",
+      "type": "research",
+      "enabled": true,
+      "adapter": "lane_data",
+      "api_url": "https://api.llama.fi/overview/open-interest",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_perp_dex_en"
+      ],
+      "route_beats": [
+        "crypto_perp"
+      ],
+      "note": "Oct 8 evening (PM_PLAN item 4): perp DEX open interest by venue (category Derivatives), 1d / 7d change, share; /overview/derivatives is pro-only (402) and not used; structured, no model call, cached; FD_LANE_DATA_SOURCES=0 / FD_ACCOUNTS_NEW=0 stop the fetch",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "hyperliquid_perps",
+      "name": "Hyperliquid",
+      "type": "research",
+      "enabled": true,
+      "adapter": "lane_data",
+      "api_url": "https://api.hyperliquid.xyz/info",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_perp_dex_en"
+      ],
+      "route_beats": [
+        "crypto_perp"
+      ],
+      "note": "Oct 8 evening (PM_PLAN item 4): public info API metaAndAssetCtxs (one POST, documented, no key): total OI / volume, top OI, funding extremes (annualised), 24h movers; structured, no model call, cached; FD_LANE_DATA_SOURCES=0 / FD_ACCOUNTS_NEW=0 stop the fetch",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "hyperliquid_meme_perps",
+      "name": "Hyperliquid",
+      "type": "research",
+      "enabled": true,
+      "adapter": "lane_data",
+      "api_url": "https://api.hyperliquid.xyz/info",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_meme_zh",
+        "crypto_meme_en"
+      ],
+      "route_beats": [
+        "crypto_meme"
+      ],
+      "note": "Oct 8 evening (PM_PLAN item 4): memecoin perps on Hyperliquid (DOGE / kPEPE / FARTCOIN / PUMP ...): OI, 24h move, funding; same cached body as hyperliquid_perps; structured, no model call, cached; FD_LANE_DATA_SOURCES=0 / FD_ACCOUNTS_NEW=0 stop the fetch",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "defillama_launchpads",
+      "name": "DefiLlama",
+      "type": "research",
+      "enabled": true,
+      "adapter": "lane_data",
+      "api_url": "https://api.llama.fi/overview/fees",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_meme_zh",
+        "crypto_meme_en"
+      ],
+      "route_beats": [
+        "crypto_meme"
+      ],
+      "note": "Oct 8 evening (PM_PLAN item 4): memecoin launchpads (fees overview, category Launchpad: pump.fun, letsbonk, Flap ...) 24h fees, 1d / 7d change, leader share; structured, no model call, cached; FD_LANE_DATA_SOURCES=0 / FD_ACCOUNTS_NEW=0 stop the fetch",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "coingecko_meme_sectors",
+      "name": "CoinGecko",
+      "type": "research",
+      "enabled": true,
+      "adapter": "lane_data",
+      "api_url": "https://api.coingecko.com/api/v3/coins/categories",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_meme_zh",
+        "crypto_meme_en"
+      ],
+      "route_beats": [
+        "crypto_meme"
+      ],
+      "note": "Oct 8 evening (PM_PLAN item 4): CoinGecko public categories endpoint (no key; attribution CoinGecko): Meme / Solana Meme / Pump.fun / Base Meme / Four.meme sector market caps; structured, no model call, cached; FD_LANE_DATA_SOURCES=0 / FD_ACCOUNTS_NEW=0 stop the fetch",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "polymarket_movers",
+      "name": "Polymarket",
+      "type": "research",
+      "enabled": true,
+      "adapter": "lane_data",
+      "api_url": "https://gamma-api.polymarket.com/markets",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_prediction_zh",
+        "crypto_prediction_en"
+      ],
+      "route_beats": [
+        "crypto_prediction"
+      ],
+      "note": "Oct 8 evening (PM_PLAN item 4): Yes/No markets with the biggest 24h odds move (oneDayPriceChange), 24h volume >= $25k; sports / tweet-count / up-or-down markets excluded; structured, no model call, cached; FD_LANE_DATA_SOURCES=0 / FD_ACCOUNTS_NEW=0 stop the fetch",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "polymarket_crypto",
+      "name": "Polymarket",
+      "type": "research",
+      "enabled": true,
+      "adapter": "lane_data",
+      "api_url": "https://gamma-api.polymarket.com/events?tag_slug=crypto",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_prediction_zh",
+        "crypto_prediction_en"
+      ],
+      "route_beats": [
+        "crypto_prediction"
+      ],
+      "note": "Oct 8 evening (PM_PLAN item 4): crypto-tagged events by 24h volume, leading outcome 3-97% (settled rungs skipped); structured, no model call, cached; FD_LANE_DATA_SOURCES=0 / FD_ACCOUNTS_NEW=0 stop the fetch",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "polymarket_tge",
+      "name": "Polymarket",
+      "type": "research",
+      "enabled": true,
+      "adapter": "lane_data",
+      "api_url": "https://gamma-api.polymarket.com/events?tag_slug=crypto",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_airdrop_zh",
+        "crypto_airdrop_en"
+      ],
+      "route_beats": [
+        "crypto_airdrop"
+      ],
+      "note": "Oct 8 evening (PM_PLAN item 4): Polymarket token-launch markets (X FDV above ___ after launch, will X launch a token by ___, X airdrop by ___) by 24h volume = market odds on upcoming TGEs / airdrops; structured, no model call, cached; FD_LANE_DATA_SOURCES=0 / FD_ACCOUNTS_NEW=0 stop the fetch",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "defillama_prediction_oi",
+      "name": "DefiLlama",
+      "type": "research",
+      "enabled": true,
+      "adapter": "lane_data",
+      "api_url": "https://api.llama.fi/overview/open-interest",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_prediction_zh",
+        "crypto_prediction_en"
+      ],
+      "route_beats": [
+        "crypto_prediction"
+      ],
+      "note": "Oct 8 evening (PM_PLAN item 4): prediction-market venues (Kalshi / Polymarket ...) open interest, 1d / 7d change; structured, no model call, cached; FD_LANE_DATA_SOURCES=0 / FD_ACCOUNTS_NEW=0 stop the fetch",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "defillama_solana",
+      "name": "DefiLlama",
+      "type": "research",
+      "enabled": true,
+      "adapter": "lane_data",
+      "api_url": "https://api.llama.fi/v2/historicalChainTvl",
+      "source_language": "en",
+      "route_accounts": [
+        "sol_base_alpha_en"
+      ],
+      "route_beats": [
+        "crypto_ecosystem_sol_base"
+      ],
+      "note": "Oct 8 evening (PM_PLAN item 4): Solana chain snapshot - DeFi TVL 1d / 7d, stablecoin supply, DEX volume 24h and top 3 DEXs; structured, no model call, cached; FD_LANE_DATA_SOURCES=0 / FD_ACCOUNTS_NEW=0 stop the fetch",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "defillama_base",
+      "name": "DefiLlama",
+      "type": "research",
+      "enabled": true,
+      "adapter": "lane_data",
+      "api_url": "https://api.llama.fi/overview/dexs",
+      "source_language": "en",
+      "route_accounts": [
+        "sol_base_alpha_en"
+      ],
+      "route_beats": [
+        "crypto_ecosystem_sol_base"
+      ],
+      "note": "Oct 8 evening (PM_PLAN item 4): Base chain snapshot - DeFi TVL 1d / 7d, stablecoin supply, DEX volume 24h and top 3 DEXs; structured, no model call, cached; FD_LANE_DATA_SOURCES=0 / FD_ACCOUNTS_NEW=0 stop the fetch",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "defillama_sol_base_movers",
+      "name": "DefiLlama",
+      "type": "research",
+      "enabled": true,
+      "adapter": "lane_data",
+      "api_url": "https://api.llama.fi/protocols",
+      "source_language": "en",
+      "route_accounts": [
+        "sol_base_alpha_en"
+      ],
+      "route_beats": [
+        "crypto_ecosystem_sol_base"
+      ],
+      "note": "Oct 8 evening (PM_PLAN item 4): Solana / Base protocols (chain TVL >= $20m) with the biggest 7-day TVL change; structured, no model call, cached; FD_LANE_DATA_SOURCES=0 / FD_ACCOUNTS_NEW=0 stop the fetch",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "defillama_tokenless",
+      "name": "DefiLlama",
+      "type": "research",
+      "enabled": true,
+      "adapter": "lane_data",
+      "api_url": "https://api.llama.fi/protocols",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_airdrop_zh",
+        "crypto_airdrop_en"
+      ],
+      "route_beats": [
+        "crypto_airdrop"
+      ],
+      "note": "Oct 8 evening (PM_PLAN item 4): tokenless DeFi protocols (no token on DefiLlama, TVL >= $50m, farmable categories; exchanges excluded) = airdrop / points watchlist; structured, no model call, cached; FD_LANE_DATA_SOURCES=0 / FD_ACCOUNTS_NEW=0 stop the fetch",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "defillama_tokenless_activity",
+      "name": "DefiLlama",
+      "type": "research",
+      "enabled": true,
+      "adapter": "lane_data",
+      "api_url": "https://api.llama.fi/overview/open-interest",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_airdrop_zh",
+        "crypto_airdrop_en"
+      ],
+      "route_beats": [
+        "crypto_airdrop"
+      ],
+      "note": "Oct 8 evening (PM_PLAN item 4): tokenless perp / prediction venues by open interest (OI overview joined to /protocols; exchanges excluded); structured, no model call, cached; FD_LANE_DATA_SOURCES=0 / FD_ACCOUNTS_NEW=0 stop the fetch",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "lane_flash_meme",
+      "label": "Crypto flash desks, crypto_meme lane (no name key: the credit is the outlet in source.publisher)",
+      "type": "crypto_flash",
+      "enabled": true,
+      "adapter": "lane_flashes",
+      "outlets": [
+        "crypto_odaily_flash",
+        "crypto_panews_flash",
+        "crypto_chaincatcher",
+        "ch123_www_techflowpost_com",
+        "crypto_theblock_news",
+        "crypto_decrypt"
+      ],
+      "route_accounts": [
+        "crypto_meme_zh",
+        "crypto_meme_en"
+      ],
+      "route_beats": [
+        "crypto_meme"
+      ],
+      "note": "Oct 8 evening: public RSS of crypto flash desks, items with a lane word only; cheap batched flash EXTRACT in its own ring fence (FD_LANE_FLASH_BUDGET_USD, default $0.25/run); FD_LANE_FLASHES=0 stops it",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "lane_flash_airdrop",
+      "label": "Crypto flash desks, crypto_airdrop lane (no name key: the credit is the outlet in source.publisher)",
+      "type": "crypto_flash",
+      "enabled": true,
+      "adapter": "lane_flashes",
+      "outlets": [
+        "crypto_odaily_flash",
+        "crypto_panews_flash",
+        "crypto_chaincatcher",
+        "ch123_www_techflowpost_com",
+        "crypto_theblock_news",
+        "crypto_decrypt"
+      ],
+      "route_accounts": [
+        "crypto_airdrop_zh",
+        "crypto_airdrop_en"
+      ],
+      "route_beats": [
+        "crypto_airdrop"
+      ],
+      "note": "Oct 8 evening: public RSS of crypto flash desks, items with a lane word only; cheap batched flash EXTRACT in its own ring fence (FD_LANE_FLASH_BUDGET_USD, default $0.25/run); FD_LANE_FLASHES=0 stops it",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "lane_flash_prediction",
+      "label": "Crypto flash desks, crypto_prediction lane (no name key: the credit is the outlet in source.publisher)",
+      "type": "crypto_flash",
+      "enabled": true,
+      "adapter": "lane_flashes",
+      "outlets": [
+        "crypto_odaily_flash",
+        "crypto_panews_flash",
+        "crypto_chaincatcher",
+        "ch123_www_techflowpost_com",
+        "crypto_theblock_news",
+        "crypto_decrypt"
+      ],
+      "route_accounts": [
+        "crypto_prediction_zh",
+        "crypto_prediction_en"
+      ],
+      "route_beats": [
+        "crypto_prediction"
+      ],
+      "note": "Oct 8 evening: public RSS of crypto flash desks, items with a lane word only; cheap batched flash EXTRACT in its own ring fence (FD_LANE_FLASH_BUDGET_USD, default $0.25/run); FD_LANE_FLASHES=0 stops it",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "lane_flash_stable_yield",
+      "label": "Crypto flash desks, crypto_stable_yield lane (no name key: the credit is the outlet in source.publisher)",
+      "type": "crypto_flash",
+      "enabled": true,
+      "adapter": "lane_flashes",
+      "outlets": [
+        "crypto_odaily_flash",
+        "crypto_panews_flash",
+        "crypto_chaincatcher",
+        "ch123_www_techflowpost_com",
+        "crypto_theblock_news",
+        "crypto_decrypt"
+      ],
+      "route_accounts": [
+        "crypto_stable_yield_zh",
+        "crypto_stable_yield_en"
+      ],
+      "route_beats": [
+        "crypto_stable_yield"
+      ],
+      "note": "Oct 8 evening: public RSS of crypto flash desks, items with a lane word only; cheap batched flash EXTRACT in its own ring fence (FD_LANE_FLASH_BUDGET_USD, default $0.25/run); FD_LANE_FLASHES=0 stops it",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "lane_flash_perp",
+      "label": "Crypto flash desks, crypto_perp lane (no name key: the credit is the outlet in source.publisher)",
+      "type": "crypto_flash",
+      "enabled": true,
+      "adapter": "lane_flashes",
+      "outlets": [
+        "crypto_odaily_flash",
+        "crypto_panews_flash",
+        "crypto_chaincatcher",
+        "ch123_www_techflowpost_com",
+        "crypto_theblock_news",
+        "crypto_decrypt"
+      ],
+      "route_accounts": [
+        "crypto_perp_dex_en"
+      ],
+      "route_beats": [
+        "crypto_perp"
+      ],
+      "note": "Oct 8 evening: public RSS of crypto flash desks, items with a lane word only; cheap batched flash EXTRACT in its own ring fence (FD_LANE_FLASH_BUDGET_USD, default $0.25/run); FD_LANE_FLASHES=0 stops it",
+      "added": "2026-10-08"
+    },
+    {
+      "id": "lane_flash_sol_base",
+      "label": "Crypto flash desks, crypto_ecosystem_sol_base lane (no name key: the credit is the outlet in source.publisher)",
+      "type": "crypto_flash",
+      "enabled": true,
+      "adapter": "lane_flashes",
+      "outlets": [
+        "crypto_odaily_flash",
+        "crypto_panews_flash",
+        "crypto_chaincatcher",
+        "ch123_www_techflowpost_com",
+        "crypto_theblock_news",
+        "crypto_decrypt"
+      ],
+      "route_accounts": [
+        "sol_base_alpha_en"
+      ],
+      "route_beats": [
+        "crypto_ecosystem_sol_base"
+      ],
+      "note": "Oct 8 evening: public RSS of crypto flash desks, items with a lane word only; cheap batched flash EXTRACT in its own ring fence (FD_LANE_FLASH_BUDGET_USD, default $0.25/run); FD_LANE_FLASHES=0 stops it",
+      "added": "2026-10-08"
     }
   ],
   "reference_pool_zh": {

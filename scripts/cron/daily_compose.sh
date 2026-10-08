@@ -26,6 +26,23 @@ if [[ "${FD_FEEDBACK:-1}" != "0" ]]; then
     /workspace/fd_venv/bin/python scripts/feedback_priors.py --pull || echo "feedback priors failed (compose unaffected)"
 fi
 BUDGET="${FD_DAILY_COMPOSE_BUDGET_USD:-25}"
+# Oct 8 evening: whole-day ring fence (Fiona: total daily <= $25). Tonight's ingest spend (flashes, lane flashes, X,
+# EXTRACT; summary /workspace/x/ingest_runs/<Beijing day>.json, written minutes ago by daily_ingest.sh) comes off the
+# compose budget so ingest + compose stay <= FD_DAILY_TOTAL_USD. Missing / stale (> 3h) summary: no reduction.
+BUDGET=$(/workspace/fd_venv/bin/python - "$BUDGET" "${FD_DAILY_TOTAL_USD:-25}" <<'PY' || echo "$BUDGET"
+import json, sys, time
+from datetime import datetime
+from pathlib import Path
+from zoneinfo import ZoneInfo
+budget, total = float(sys.argv[1]), float(sys.argv[2])
+p = Path('/workspace/x/ingest_runs') / (datetime.now(ZoneInfo('Asia/Shanghai')).strftime('%Y%m%d') + '.json')
+spent = 0.0
+if p.exists() and time.time() - p.stat().st_mtime < 3 * 3600:
+    spent = float((json.loads(p.read_text()).get('cost_usd') or {}).get('total') or 0)
+print(f'{max(0.5, min(budget, total - spent)):.2f}')
+PY
+)
+echo "compose budget \$${BUDGET} (day total cap \$${FD_DAILY_TOTAL_USD:-25} minus tonight's ingest spend)"
 # The ml/budget ledger is a cumulative lifetime safety cap; give tonight's run headroom = its own budget + $1 reserve,
 # so the per-run --budget-usd is the real daily limit (10-08: ledger at $99.86/$100 silently blocked every draft).
 /workspace/fd_venv/bin/python -c "import sys; from ml import budget; d=budget._load(); s=float(d.get('spent_usd') or 0); c=float(d.get('cap_usd') or 0); n=s+float(sys.argv[1])+1.0; budget.set_cap(n) if n>c else None; print(f'ledger cap {c:.2f} -> {max(n,c):.2f} (spent {s:.2f})')" "$BUDGET"

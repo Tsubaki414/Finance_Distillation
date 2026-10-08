@@ -50,5 +50,5 @@ def fetch(*, top=8, transport=None, now=None):
                          'span_ref': 0})
         rows.append({'line': line + '.', 'metric': nums[0]['metric'], 'period': period, 'number': apy, 'numbers': nums})
     return common.structured_result(rows, id=f'{SOURCE_ID}-{period}', source_id=SOURCE_ID, publisher='DefiLlama',
-                                    title='Stablecoin pool yields (largest pools)', url=API, published_at=period,
+                                    title='Stablecoin pool yields (largest pools)', url=f'{API}#{period}', published_at=period,
                                     adapter='defillama_yields')
