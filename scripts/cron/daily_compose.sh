@@ -18,10 +18,14 @@ GKEY=GEMINI_RELAY_API_KEY; [[ "${FD_GEMINI_PROVIDER:-relay}" == "official" ]] &&
 if [[ -n "${!GKEY:-}" ]]; then echo "key $GKEY: set"; else echo "key $GKEY: missing"; exit 2; fi
 export FD_PACK_AUGMENT=1
 /workspace/fd_venv/bin/python scripts/persona_factory.py >/dev/null   # refresh universes (no model calls)
+BUDGET="${FD_DAILY_COMPOSE_BUDGET_USD:-8}"
+# The ml/budget ledger is a cumulative lifetime safety cap; give tonight's run headroom = its own budget + $1 reserve,
+# so the per-run --budget-usd is the real daily limit (10-08: ledger at $99.86/$100 silently blocked every draft).
+/workspace/fd_venv/bin/python -c "import sys; from ml import budget; d=budget._load(); s=float(d.get('spent_usd') or 0); c=float(d.get('cap_usd') or 0); n=s+float(sys.argv[1])+1.0; budget.set_cap(n) if n>c else None; print(f'ledger cap {c:.2f} -> {max(n,c):.2f} (spent {s:.2f})')" "$BUDGET"
 /workspace/fd_venv/bin/python scripts/daily_compose.py --per-account "${FD_DAILY_COMPOSE_PER_ACCOUNT:-2}" \
-    --budget-usd "${FD_DAILY_COMPOSE_BUDGET_USD:-4}" "$@"
+    --budget-usd "$BUDGET" "$@"
 # Rebuild the operator copy-paste dashboard (static HTML + per-day CSV); system python3 has PIL for avatar thumbnails.
-python3 scripts/build_ops_dashboard.py || echo "ops dashboard rebuild failed (compose result unaffected)"
+/workspace/fd_venv/bin/python scripts/build_ops_dashboard.py || echo "ops dashboard rebuild failed (compose result unaffected)"
 # Redeploy the static ops page to Vercel (project fd-ops-dashboard, linked in the ops dir). Non-fatal; skip with
 # FD_OPS_DEPLOY=0. The ops dir only holds index.html + per-day CSVs (no keys, no donor text).
 if [[ "${FD_OPS_DEPLOY:-1}" == "1" ]]; then
