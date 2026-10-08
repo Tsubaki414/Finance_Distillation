@@ -25,7 +25,7 @@ export FD_PACK_AUGMENT=1
 if [[ "${FD_FEEDBACK:-1}" != "0" ]]; then
     /workspace/fd_venv/bin/python scripts/feedback_priors.py --pull || echo "feedback priors failed (compose unaffected)"
 fi
-BUDGET="${FD_DAILY_COMPOSE_BUDGET_USD:-8}"
+BUDGET="${FD_DAILY_COMPOSE_BUDGET_USD:-25}"
 # The ml/budget ledger is a cumulative lifetime safety cap; give tonight's run headroom = its own budget + $1 reserve,
 # so the per-run --budget-usd is the real daily limit (10-08: ledger at $99.86/$100 silently blocked every draft).
 /workspace/fd_venv/bin/python -c "import sys; from ml import budget; d=budget._load(); s=float(d.get('spent_usd') or 0); c=float(d.get('cap_usd') or 0); n=s+float(sys.argv[1])+1.0; budget.set_cap(n) if n>c else None; print(f'ledger cap {c:.2f} -> {max(n,c):.2f} (spent {s:.2f})')" "$BUDGET"
