@@ -10,8 +10,9 @@ warnings (with detail from the run record), source link, the source spans of the
 claim ledger, reassignment / rewrite history, run id, model and spend. Plus per-run spend and model, per-account
 ready counts against the target, and filters.
 
-Actions (approve, HOLD, edit text, rewrite with note) are POSTed to /api/decisions, stored one private Vercel Blob
-per draft. If the API is unreachable the page keeps them in localStorage; "导出决定 JSON" downloads every decision
+Actions (approve, HOLD, edit text, rewrite with note, 已发布 on / off) are POSTed to /api/decisions, stored one private
+Vercel Blob per draft. The page polls the API every 60 s and after each action (another admin's changes, the ops
+page's 已发 ticks), shows the last sync time, and never re-renders under an open edit / note panel. If the API is unreachable the page keeps them in localStorage; "导出决定 JSON" downloads every decision
 of the day either way. scripts/apply_admin_decisions.py pulls them (API or exported file) into
 live/store/admin_decisions/<day>.json, which build_ops_dashboard.py overlays on the next rebuild.
 Idempotent: files are rewritten only when their content changes.
@@ -262,7 +263,7 @@ tr.clk{cursor:pointer}tr.clk:hover td{background:var(--sunk)}
 .bar label{white-space:nowrap;cursor:pointer;display:inline-flex;align-items:center;gap:5px}.bar .sp{flex:1}
 input[type=checkbox]{accent-color:var(--accent)}
 .btn{display:inline-flex;align-items:center;gap:6px;background:var(--surface);color:var(--ink2);border:1px solid var(--line);border-radius:8px;padding:5px 12px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
-.btn:hover{border-color:var(--faint)}.btn:active{transform:translateY(1px)}
+.btn:hover{border-color:var(--faint)}.btn:active{transform:translateY(1px)}.btn:disabled{color:var(--faint);cursor:default}
 .btn.pri{background:var(--btn);color:var(--btn-ink);border-color:var(--btn)}.btn.pri:hover{opacity:.88}
 .btn.ok{color:var(--accent)}.btn.hd{color:var(--hold)}
 .btn.on.ok{background:var(--accent);border-color:var(--accent);color:#fafafa}.btn.on.hd{background:var(--hold);border-color:var(--hold);color:#fafafa}.btn.on.rw{background:var(--info);border-color:var(--info);color:#fafafa}
@@ -313,7 +314,7 @@ __NAVCSS__
 </style></head><body><div class="wrap">
 __NAV__
 <header><div class="logo">审</div>
-<div class="ttl"><h1>星轨 · FD 审稿台</h1><p>仅限内部 · 批准 / HOLD / 改稿 / 要求重写；批准后的改稿下次重建时进入公开看板 · <span id="upd"></span></p></div>
+<div class="ttl"><h1>星轨 · FD 审稿台</h1><p>仅限内部 · 批准 / HOLD / 改稿 / 要求重写 / 已发布；决定实时同步到运营看板（每 60 秒刷新） · <span id="upd"></span></p></div>
 <div class="stats" id="stats"></div></header>
 <div class="cols">
 <section class="panel"><h2>各账号 vs 目标（每号 <span id="tgt"></span> 篇可发）</h2><table id="accts"></table></section>
@@ -330,54 +331,75 @@ __NAV__
 <label><input type="checkbox" id="fWarn"> 有警告</label>
 <input type="search" id="fQ" placeholder="搜索正文 / 来源 / ID">
 <span class="sp"></span><span class="sync" id="sync"></span>
-<button class="btn" id="exp">导出决定 JSON</button>
+<button class="btn" id="rf" title="重新读取最新稿件和所有人的决定">刷新</button><button class="btn" id="exp">导出决定 JSON</button>
 </div>
 <div id="shown" class="sync" style="margin:-6px 0 10px"></div>
 <main class="list" id="list"></main></div>
 <script id="data" type="application/json">__DATA__</script>
 <script>
-const D=JSON.parse(document.getElementById('data').textContent);
+let D=JSON.parse(document.getElementById('data').textContent),RAW=document.getElementById('data').textContent;
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const ST={ready:'可发',HOLD:'HOLD',replaced:'已替换',superseded:'已作废',needs_review:'待复核',blocked:'失败',skipped:'跳过'};
-const DEC={approve:'已批准',published:'已发布',hold:'已 HOLD',rewrite:'待重写',edit:'改稿'};
-const days=Object.keys(D.days).sort().reverse();
-$('#day').innerHTML=days.map(d=>`<option>${d}</option>`).join('');
-const want=location.hash.slice(1);if(days.includes(want))$('#day').value=want;
+const DEC={approve:'已批准',published:'已发布',unpublish:'撤销已发布',hold:'已 HOLD',rewrite:'待重写',edit:'改稿'};
+__SHARED__
+let days=[];
+const latest=()=>days.find(d=>(D.days[d]||[]).length)||days[0]||'';   // newest day with drafts (Beijing dates)
+function fillDays(keep){days=Object.keys(D.days).sort().reverse();$('#day').innerHTML=days.map(d=>`<option>${d}</option>`).join('');$('#day').value=days.includes(keep)?keep:latest()}
+fillDays(location.hash.slice(1));
+let follow=$('#day').value===latest();   // follow the newest day until someone picks another one
 $('#tgt').textContent=D.target;
-let dec={};                // id -> decision (server, then local pending on top)
+const bjtTime=d=>d.toLocaleTimeString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false});
+let dec={},syncAt=null,dirty=false;   // dec: id -> decision (server, then local pending on top)
 const pendKey=day=>'fdadmin:pending:'+day;
 const pending=day=>JSON.parse(localStorage.getItem(pendKey(day))||'{}');
 function setPending(day,p){Object.keys(p).length?localStorage.setItem(pendKey(day),JSON.stringify(p)):localStorage.removeItem(pendKey(day))}
 function sync(msg,bad){const s=$('#sync');s.textContent=msg;s.classList.toggle('bad',!!bad)}
+// another admin's changes arrive by polling (every 60 s, after each action, on 刷新); an open edit / note panel is
+// never re-rendered under the typist: the refresh waits until it closes
+const editing=()=>!!document.querySelector('.edit.open');
 async function load(){
-  const day=$('#day').value;dec=Object.assign({},D.local[day]||{});
+  const day=$('#day').value,next=Object.assign({},D.local[day]||{});
   try{
-    const r=await fetch('/api/decisions?day='+day,{credentials:'same-origin',cache:'no-store'});
+    const r=await fetch('/api/decisions?day='+encodeURIComponent(day),{credentials:'same-origin',cache:'no-store'});
     if(!r.ok)throw new Error(r.status);
-    Object.assign(dec,(await r.json()).decisions||{});
-    const p=pending(day),ids=Object.keys(p);
-    for(const id of ids){if(await post(p[id],true))delete p[id]}
-    setPending(day,p);
-    sync(Object.keys(p).length?`${Object.keys(p).length} 条决定未同步（已存本机）`:'已同步到云端',Object.keys(p).length>0);
-  }catch(e){sync('云端不可用，决定存本机，记得导出 JSON',true)}
-  Object.assign(dec,pending(day));render();
+    Object.assign(next,(await r.json()).decisions||{});
+    const p=pending(day);
+    for(const id of Object.keys(p)){const j=await post(p[id]);if(j){next[id]=j;delete p[id]}}
+    setPending(day,p);syncAt=new Date();
+    const n=Object.keys(p).length;
+    sync(n?`${n} 条决定未同步（已存本机）`:`已同步到云端 · 最后更新 北京时间 ${bjtTime(syncAt)}`,n>0);
+  }catch(e){sync('云端不可用，决定存本机，记得导出 JSON'+(syncAt?` · 上次同步 ${bjtTime(syncAt)}`:''),true)}
+  if(day!==$('#day').value)return;
+  dec=Object.assign(next,pending(day));
+  if(editing())dirty=true;else render();
 }
-async function post(d,quiet){
+async function post(d){
   try{
-    const r=await fetch('/api/decisions',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
+    const r=await fetch('/api/decisions',{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
     if(!r.ok)throw new Error(r.status);
-    const j=await r.json();dec[d.id]=j.decision;return true;
-  }catch(e){if(!quiet)sync('保存失败，已存本机（可导出 JSON）',true);return false}
+    return (await r.json()).decision||null;
+  }catch(e){return null}
 }
 async function decide(d,action,extra){
-  const day=$('#day').value,prev=dec[d.id]||{};
-  const body={day,id:d.id,account_id:d.account_id,action,text:extra&&'text' in extra?extra.text:(prev.text||null),note:extra&&'note' in extra?extra.note:(prev.note||'')};
-  const local={...body,at:new Date().toISOString(),history:[...(prev.history||[]),{action,text:body.text,note:body.note,at:new Date().toISOString()}]};
+  const day=$('#day').value,prev=dec[d.id]||null,flag=action==='published'||action==='unpublish';
+  const body={day,id:d.id,account_id:d.account_id,action};
+  // published / unpublish leave text and note to the server (kept); other actions carry the current ones
+  if(extra&&'text' in extra)body.text=extra.text;else if(!flag)body.text=(prev&&prev.text)||null;
+  if(extra&&'note' in extra)body.note=extra.note;else if(!flag)body.note=(prev&&prev.note)||'';
+  const local=nextDecision(prev,body,new Date().toISOString());   // the server's own rule (api/decisions.js)
   dec[d.id]=local;render();
-  if(await post(body)){const p=pending(day);delete p[d.id];setPending(day,p);sync('已保存 '+new Date().toLocaleTimeString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false}))}
-  else{const p=pending(day);p[d.id]=local;setPending(day,p)}
-  render();
+  const j=await post(body);
+  if(j){dec[d.id]=j;const p=pending(day);delete p[d.id];setPending(day,p);sync('已保存 北京时间 '+bjtTime(new Date()));render();load()}
+  else{const p=pending(day);p[d.id]=local;setPending(day,p);sync('保存失败，已存本机（可导出 JSON）',true);render()}
+}
+async function refreshData(cache){   // new days / rebuilt drafts: re-read this page's own data block
+  try{
+    const r=await fetch(location.pathname,{cache});if(!r.ok)throw new Error(r.status);
+    const m=(await r.text()).match(/<script id="data" type="application\/json">([\s\S]*?)<\/script>/);
+    if(!m||m[1]===RAW)return;
+    D=JSON.parse(m[1]);RAW=m[1];fillDays(follow?'':$('#day').value);follow=$('#day').value===latest();upd();
+  }catch(e){sync('页面数据刷新失败',true)}
 }
 function effStatus(d){const x=dec[d.id];if(!x||x.action==='clear'||x.action==='edit')return d.status;return x.action==='approve'||x.action==='published'?'ready':'HOLD'}
 function counts(day){
@@ -413,7 +435,7 @@ function match(d){
   if($('#fSt').value&&d.status!==$('#fSt').value)return false;
   if($('#fLang').value&&d.lang!==$('#fLang').value)return false;
   if($('#fRun').value&&d.run!==$('#fRun').value)return false;
-  const fd=$('#fDec').value;if(fd&&(fd==='edited'?!(x&&x.text):a!==fd))return false;
+  const fd=$('#fDec').value;if(fd&&(fd==='edited'?!(x&&x.text):fd==='published'?!isPublished(x):a!==fd))return false;
   if($('#fHard').checked&&!d.findings.some(f=>f.level==='hard'))return false;
   if($('#fWarn').checked&&!d.findings.some(f=>f.level==='warn'))return false;
   const q=$('#fQ').value.trim().toLowerCase();
@@ -421,10 +443,10 @@ function match(d){
   return true;
 }
 function card(d){
-  const x=dec[d.id],act=x&&x.action!=='clear'?x.action:'',text=x&&x.text?x.text:d.text,lg=d.lang==='en'?'en':'zh-CN';
+  const x=dec[d.id],act=x&&x.action!=='clear'?x.action:'',pub=isPublished(x),text=x&&x.text?x.text:d.text,lg=d.lang==='en'?'en':'zh-CN';
   const n=[...text].length;
   const fnd=d.findings.length?`<div class="blk"><h3>硬伤 / 警告</h3>${d.findings.map(f=>`<div class="fd ${f.level}"><span class="c">${f.level==='hard'?'硬':'警'} ${esc(f.code)}</span>${f.detail?`<span class="dt">${esc(f.detail)}</span>`:''}</div>`).join('')}</div>`:'';
-  const why=(d.reasons.length||act)?`<div class="blk"><h3>原因</h3>${d.reasons.map(r=>`<div class="why">${esc(r)}</div>`).join('')}${act?`<div class="why dec">Fiona：${esc(DEC[act]||act)}${x.note?' · '+esc(x.note):''}${x.text?' · 已改稿':''}</div>`:''}</div>`:'';
+  const why=(d.reasons.length||act)?`<div class="blk"><h3>原因</h3>${d.reasons.map(r=>`<div class="why">${esc(r)}</div>`).join('')}${act?`<div class="why dec">Fiona：${esc(DEC[act]||act)}${pub&&act!=='published'?' · 已发布':''}${x.note?' · '+esc(x.note):''}${x.text?' · 已改稿':''}</div>`:''}</div>`:'';
   const s=d.source;
   const src=`<div class="blk src"><h3>来源</h3>${s.url?`<a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title||s.url)}</a>`:esc(s.title||'-')}<div class="sm">${esc(s.publisher||'')}${s.published_at?' · '+esc(s.published_at.slice(0,16).replace('T',' '))+' UTC':''}${s.lang?' · '+esc(s.lang):''}${d.attribution?' · 署名：'+esc(d.attribution):''}</div>
 ${d.spans.length?`<details><summary>原文片段（${d.spans.length} 个内容单元）</summary>${d.spans.map(u=>`<div class="u"><span class="k">${esc(u.kind||'')}</span><span class="st">${esc(u.statement||'')}</span>${u.spans.map(p=>`<blockquote><span class="pos">${esc(p.p||'')} [${p.start??''}–${p.end??''}]</span>${esc(p.text)}</blockquote>`).join('')}</div>`).join('')}</details>`:'<div class="sm">无片段记录</div>'}
@@ -433,17 +455,18 @@ ${d.claims.length?`<details><summary>论断 → 单元（${d.claims.length}）</
     ...((x&&x.history)||[]).map(h=>`<div class="hi"><span class="mono">${esc(new Date(h.at).toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false}).slice(5,16))}</span> Fiona：${esc(DEC[h.action]||(h.action==='clear'?'撤销':h.action))}${h.note?' · '+esc(h.note):''}${h.text?' · 改稿':''}</div>`)];
   const histB=hist.length?`<div class="blk"><h3>改派 / 重写 / 决定记录</h3>${hist.join('')}</div>`:'';
   return `<article class="d" id="d-${esc(d.id)}" data-id="${esc(d.id)}">
-<div class="dh"><b>${esc(d.name)}</b><span class="tag ${esc(d.status)}">${esc(ST[d.status]||d.status)}</span>${{quote:'<span class="tag mode">引用</span>',reply:'<span class="tag mode">回复</span>'}[d.mode]||''}${d.heat_led?'<span class="tag mode">热度</span>':''}${d.archive?'<span class="tag mode">回看</span>':''}${d.hotspot?'<span class="tag mode hot">热点</span>':''}${act?`<span class="tag dec ${act==='approve'||act==='published'?'ready':act==='edit'?'':'HOLD'}">${esc(DEC[act])}</span>`:''}<span>${esc(d.lang==='en'?'English':'中文')} · ${esc(d.format||d.post_type)}${d.angle?' · '+esc(d.angle):''}</span><span class="meta">${esc(d.time.slice(11,16))} 北京 · ${esc(d.run)} · ${esc(d.models.join(', ')||'-')} · $${d.spend.toFixed(3)} · ${esc(d.id)}</span></div>
+<div class="dh"><b>${esc(d.name)}</b><span class="tag ${esc(d.status)}">${esc(ST[d.status]||d.status)}</span>${{quote:'<span class="tag mode">引用</span>',reply:'<span class="tag mode">回复</span>'}[d.mode]||''}${d.heat_led?'<span class="tag mode">热度</span>':''}${d.archive?'<span class="tag mode">回看</span>':''}${d.hotspot?'<span class="tag mode hot">热点</span>':''}${act&&act!=='published'?`<span class="tag dec ${act==='approve'?'ready':act==='edit'?'':'HOLD'}">${esc(DEC[act])}</span>`:''}${pub?'<span class="tag dec ready">已发布</span>':''}<span>${esc(d.lang==='en'?'English':'中文')} · ${esc(d.format||d.post_type)}${d.angle?' · '+esc(d.angle):''}</span><span class="meta">${esc(d.time.slice(11,16))} 北京 · ${esc(d.run)} · ${esc(d.models.join(', ')||'-')} · $${d.spend.toFixed(3)} · ${esc(d.id)}</span></div>
 <div><div class="txt${x&&x.text?' edited':''}" lang="${lg}">${esc(text)}</div><div class="cnt">${n} ${d.lang==='en'?'字符':'字'}${x&&x.text?' · 已改稿（原稿 '+[...d.text].length+'）':''}${d.view?' · 观点：'+esc(d.view):''}</div>
 ${d.hotspot?`<div class="mtgt">热点母题：${esc(d.hotspot)}${d.hotspot_meta?` <span class="sm">· ${esc(d.hotspot_meta)}</span>`:''}</div>`:''}${d.archive&&d.archive_url?`<div class="mtgt">回看原帖：<a href="${esc(d.archive_url)}" target="_blank" rel="noopener noreferrer">打开原帖</a></div>`:''}${d.target&&d.mode!=='original'?`<div class="mtgt">${d.mode==='reply'?'回复':'引用'}：<a href="${esc(d.target)}" target="_blank" rel="noopener noreferrer">打开原帖</a>${d.mode_why?` <span class="sm">· ${esc(d.mode_why)}</span>`:''}</div>`:''}
 ${(d.media||[]).map(m=>`<figure class="img"><a href="/${esc(m.src||m.path)}" target="_blank" rel="noopener"><img src="/${esc(m.src||m.path)}" alt="${esc(m.alt)}" loading="lazy"></a><figcaption><span>${esc([m.credit?'数据：'+m.credit:'',m.updated?'图更新于 北京时间 '+m.updated:''].filter(Boolean).join(' · '))}</span><a class="dl" href="/${esc(m.src||m.path)}" download="${esc(m.path.split('/').pop())}">下载图片</a></figcaption></figure>`).join('')}
-<div class="acts"><button class="btn ok${act==='approve'?' on':''}" data-a="approve">批准</button><button class="btn hd${act==='hold'?' on':''}" data-a="hold">HOLD</button><button class="btn" data-a="edit">改稿</button><button class="btn${act==='published'?' on':''}" data-a="published" title="人工发出后标记（不会自动发帖）">已发布</button><button class="btn${act==='rewrite'?' on rw':''}" data-a="rewrite">要求重写</button>${act||x&&x.text?'<button class="btn" data-a="clear">撤销决定</button>':''}</div>
+<div class="acts"><button class="btn ok${act==='approve'?' on':''}" data-a="approve">批准</button><button class="btn hd${act==='hold'?' on':''}" data-a="hold">HOLD</button><button class="btn" data-a="edit">改稿</button><button class="btn${pub?' on ok':''}" data-a="published" title="人工发出后标记（不会自动发帖）；再点一次撤销">已发布</button><button class="btn${act==='rewrite'?' on rw':''}" data-a="rewrite">要求重写</button>${act||pub||x&&x.text?'<button class="btn" data-a="clear">撤销决定</button>':''}</div>
 <div class="edit" data-panel="edit"><textarea data-f="text" lang="${lg}">${esc(text)}</textarea><div class="acts"><button class="btn pri" data-a="save-approve">保存并批准</button><button class="btn" data-a="save">只保存改稿</button>${x&&x.text?'<button class="btn" data-a="revert">恢复原稿</button>':''}<button class="btn" data-a="cancel">取消</button></div></div>
 <div class="edit" data-panel="note"><textarea class="note" data-f="note" placeholder="HOLD 原因 / 给重写的具体意见"></textarea><div class="acts"><button class="btn pri" data-a="note-ok">提交</button><button class="btn" data-a="cancel">取消</button></div></div></div>
 <div class="side">${why}${fnd}${src}${histB}</div></article>`;
 }
 function render(){
-  const day=$('#day').value;location.hash=day;
+  const day=$('#day').value;dirty=false;
+  history.replaceState(null,'',location.pathname+location.search+(follow||!day?'':'#'+day));
   filters(day);tables(day);
   const ds=(D.days[day]||[]),vis=ds.filter(match);
   $('#list').innerHTML=vis.map(card).join('')||'<p class="empty">当前筛选下没有稿件</p>';
@@ -458,11 +481,11 @@ document.addEventListener('click',async e=>{
   const panel=n=>card.querySelector(`[data-panel="${n}"]`);
   const close=()=>card.querySelectorAll('.edit').forEach(p=>p.classList.remove('open'));
   if(a==='approve')return decide(d,'approve');
-  if(a==='published')return decide(d,'published',{text:(dec[d.id]&&dec[d.id].text)||null,note:(dec[d.id]&&dec[d.id].note)||''});
+  if(a==='published')return decide(d,isPublished(dec[d.id])?'unpublish':'published');
   if(a==='clear')return decide(d,'clear',{text:null,note:''});
   if(a==='edit'){close();panel('edit').classList.add('open');panel('edit').querySelector('textarea').focus();return}
   if(a==='hold'||a==='rewrite'){close();noteFor=a;const p=panel('note');p.classList.add('open');const t=p.querySelector('textarea');t.placeholder=a==='hold'?'HOLD 原因（可空）':'给重写的具体意见：哪里错、要怎么改';t.value=(dec[d.id]&&dec[d.id].note)||'';t.focus();return}
-  if(a==='cancel')return close();
+  if(a==='cancel'){close();if(dirty)render();return}
   if(a==='note-ok'){const note=panel('note').querySelector('textarea').value.trim();if(noteFor==='rewrite'&&!note){panel('note').querySelector('textarea').focus();return}return decide(d,noteFor,{note})}
   const t=panel('edit').querySelector('textarea').value.trim();
   const edited=t&&t!==d.text?t:null;
@@ -477,9 +500,13 @@ $('#exp').onclick=()=>{
   a.download=`fd_admin_decisions_${day}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);
 };
 for(const s of ['#fAcct','#fSt','#fLang','#fRun','#fDec','#fHard','#fWarn'])$(s).onchange=render;
-$('#fQ').oninput=render;$('#day').onchange=load;
-$('#upd').textContent=D.updated?`数据更新于 北京时间 ${D.updated.slice(5,10)} ${D.updated.slice(11,16)}`:'';
-render();load();
+$('#fQ').oninput=render;$('#day').onchange=()=>{follow=$('#day').value===latest();load()};
+function upd(){$('#upd').textContent=D.updated?`数据更新于 北京时间 ${D.updated.slice(5,10)} ${D.updated.slice(11,16)}`:''}
+$('#rf').onclick=async()=>{const b=$('#rf');b.disabled=true;b.textContent='刷新中…';await refreshData('no-store');await load();b.disabled=false;b.textContent='刷新'};
+let tick=0;   // decisions every 60 s; the page data (new days / rebuilt drafts) every 5 min
+setInterval(async()=>{if(document.hidden)return;if(++tick%5===0)await refreshData('no-cache');load()},60000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});
+upd();render();load();
 </script></body></html>
 '''
 
@@ -503,7 +530,7 @@ def build(inbox=ops.INBOX, out=ops.OUT, n_days=3):
     updated = max((d['stored'] for v in days.values() for d in v if d['stored']), default='')
     data = json.dumps({'accounts': accounts, 'days': days, 'runs': runs, 'local': local, 'target': TARGET,
                        'updated': updated}, ensure_ascii=False, sort_keys=True)
-    page = PAGE.replace('__ROOTVARS__', root_vars()).replace('__NAVCSS__', ops.NAV_CSS)
+    page = PAGE.replace('__ROOTVARS__', root_vars()).replace('__NAVCSS__', ops.NAV_CSS).replace('__SHARED__', ops.shared_js())
     page = page.replace('__NAV__', ops.nav_html('/admin')).replace('__DATA__', data.replace('</', '<\\/'))
     (out / 'admin').mkdir(parents=True, exist_ok=True)
     changed = copy_assets(out)
