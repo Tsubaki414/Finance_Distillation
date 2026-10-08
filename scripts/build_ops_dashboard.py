@@ -13,7 +13,10 @@ each and stay at least 30 minutes apart (drafts sharing one original slot - rewr
 Review-console decisions (/admin, scripts/build_admin_console.py) are overlaid here: the newest days are pulled
 from the console API into live/store/admin_decisions/<day>.json first (scripts/apply_admin_decisions.py; non-fatal,
 FD_ADMIN_PULL=0 or --no-pull skips it), then approve -> ready with the edited text, hold / rewrite -> HOLD,
-edit -> edited text. The admin console is rebuilt alongside (--no-admin skips it).
+edit -> edited text. The page also overlays the live decisions itself (GET /api/decisions on load, every 60 s, on
+「刷新」), so /admin changes show without a rebuild; 「已发」 is the shared published flag (POST published / unpublish /
+clear), not localStorage. It opens on the newest day with drafts and re-reads its own data block every 5 min / on 刷新.
+The admin console is rebuilt alongside (--no-admin skips it).
 Idempotent: files are rewritten only when their content changes.
 """
 import argparse
@@ -177,25 +180,51 @@ def load_decisions(day, store=None):
         return {}
 
 
+BASE_KEYS = ('text', 'parts', 'parts_w', 'chars', 'xw', 'status', 'note')
+
+
+def is_published(x):
+    """The 已发 flag of a decision (scripts/ops_admin/api/decisions.js isPublished): `published` (bool) on newer blobs,
+    action 'published' on blobs written before the flag existed."""
+    return bool(x) and (x.get('published') is True or (x.get('published') is not False and x.get('action') == 'published'))
+
+
 def apply_decisions(drafts, decisions):
-    """Overlay Fiona's /admin decisions: approve -> ready (+ edited text), hold / rewrite -> HOLD, edit -> text."""
+    """Overlay Fiona's /admin decisions: approve -> ready (+ edited text), hold / rewrite -> HOLD, edit -> text.
+
+    A draft with a decision keeps its pre-decision fields in d['base'] so the page can re-apply live decisions
+    from /api/decisions (a later 撤销 must restore the original text); d['published'] is the shared 已发 flag."""
     for d in drafts:
         x = decisions.get(d['id']) or {}
         act, text = x.get('action'), x.get('text')
+        d['published'] = is_published(x)
         if act not in ('approve', 'published', 'hold', 'rewrite', 'edit'):
             continue
+        d['base'] = {k: d.get(k) for k in BASE_KEYS}
+        d['decision'] = act
         if text and text.strip() != d['text']:
             d['text'] = text.strip()
             if d['parts']:
                 d['parts'] = [p.strip() for p in re.split(r'\n\s*\n', d['text']) if p.strip()]
                 d['parts_w'] = [x_weight(p) for p in d['parts']]
             d['chars'], d['xw'] = len(d['text']), x_weight(d['text'])
+            d['edited'] = True
         if act in ('approve', 'published'):   # published: marked after a human posted it (no auto-publishing)
             d['status'], d['note'] = 'draft_ready', ''
         elif act in ('hold', 'rewrite'):
             label = 'HOLD' if act == 'hold' else '要求重写'
             d['status'], d['note'] = 'HOLD', f"Fiona {label}{'：' + x['note'] if x.get('note') else ''}"
     return drafts
+
+
+SHARED_JS = Path(__file__).resolve().parent / 'ops_admin/api/decisions.js'
+
+
+def shared_js():
+    """The <shared> block of api/decisions.js (decision rule: isPublished / nextDecision), inlined into both pages so
+    the optimistic local update is the server's own rule."""
+    src = SHARED_JS.read_text()
+    return src[src.index('// <shared>'):src.index('// </shared>')].replace('</', '<\\/')
 
 
 def pull_decisions(days):
@@ -317,7 +346,9 @@ header{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:20p
 #flt{display:inline-flex;flex-wrap:wrap;gap:4px 14px;align-items:center}
 input[type=checkbox]{accent-color:var(--accent)}
 .bar a{color:var(--ink);text-decoration:none;font-weight:600;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:4px 12px}
-.bar a:hover{border-color:var(--faint)}
+.bar a:hover,.bar .rf:hover{border-color:var(--faint)}
+.bar .rf{font:inherit;font-size:13px;color:var(--ink);font-weight:600;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:4px 12px;cursor:pointer}
+.bar .rf:disabled{color:var(--faint);cursor:default}.bar .sy{font-size:12px}.bar .sy.bad{color:var(--hold)}
 .acct{display:grid;grid-template-columns:196px minmax(0,1fr);gap:24px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
 .av{width:48px;height:48px;border-radius:50%;object-fit:cover;display:flex;align-items:center;justify-content:center;color:#fafafa;font-size:20px;font-weight:600;margin-bottom:12px}
 .side h2{margin:0;font-size:16px;font-weight:620;line-height:1.35;letter-spacing:-.005em}
@@ -356,7 +387,7 @@ button:focus-visible,select:focus-visible,a:focus-visible,input:focus-visible{ou
 .empty{text-align:center;color:var(--mute);padding:48px 16px}
 .mode{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;font-size:12.5px}
 .mode .tg{font-weight:600;border-radius:999px;padding:1px 9px;background:var(--infobg);color:var(--info)}
-.mode .tg.ht{background:var(--warnbg);color:var(--warn)}
+.mode .tg.ht{background:var(--warnbg);color:var(--warn)}.mode .tg.ok{background:var(--accent-bg);color:var(--accent)}
 .mode a{color:var(--ink2);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
 .img{margin:12px 0 0}.img img{display:block;width:100%;height:auto;border-radius:8px;border:1px solid var(--line2);background:#131722}
 .img figcaption{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px;font-size:11.5px;color:var(--faint)}
@@ -377,35 +408,59 @@ __NAVCSS__
 </style></head><body><div class="wrap">
 __NAV__
 <header><div class="logo">星</div>
-<div class="ttl"><h1>星轨 · FD 发帖看板</h1><p>复制正文，到 X 发布，再勾选已发 · <span id="upd"></span></p></div>
+<div class="ttl"><h1>星轨 · FD 发帖看板</h1><p>复制正文，到 X 发布，再勾选已发（所有人同步可见） · <span id="upd"></span></p></div>
 <div class="stats"><div class="stat"><small>可发</small><b id="nAll">0</b></div><div class="stat s-done"><small>已发</small><b id="nDone">0</b></div><div class="stat s-todo"><small>待发</small><b id="nTodo">0</b></div></div>
 </header>
 <div class="bar"><label>日期 <select id="day"></select></label>
 <span id="flt"></span>
 <label><input type="checkbox" id="hidePosted"> 隐藏已发</label>
 <label><input type="checkbox" id="hideEmpty" checked> 隐藏无稿账号</label>
-<span class="sp"></span><a id="csv" href="#" download>下载 CSV</a></div>
+<span class="sp"></span><span class="sy" id="sync"></span><button class="rf" id="refresh" title="重新读取最新稿件和审稿决定">刷新</button><a id="csv" href="#" download>下载 CSV</a></div>
 <main id="main"></main></div>
 <script id="data" type="application/json">__DATA__</script>
 <script>
-const D=JSON.parse(document.getElementById('data').textContent);
+let D=JSON.parse(document.getElementById('data').textContent),RAW=document.getElementById('data').textContent;
 const ST_LABEL={draft_ready:'可发',HOLD:'HOLD（暂缓）',superseded:'已替换（审稿退回）',needs_review:'待复核',blocked:'失败',skipped:'跳过'};
 const COLORS=['#5b6475','#7a6a58','#4f6f68','#5f6b85','#76705a','#7a5c66','#556b7d','#6b5f7a','#5d7462','#735d55'];
 const $=s=>document.querySelector(s);const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const LS='fdops:posted:';const isPosted=id=>localStorage.getItem(LS+id)==='1';
+__SHARED__
+// 已发 is shared: /api/decisions (action published / unpublish / clear). Ticks not saved yet wait in localStorage
+// (fdops:pending:<day>); the old per-browser ticks (fdops:posted:<id>) are pushed to the shared flag once.
+const live={};   // day -> {id: decision} from /api/decisions; absent = not loaded, the build-time overlay stands
+const PEND='fdops:pending:',LEGACY='fdops:posted:';
+const pend=day=>{try{return JSON.parse(localStorage.getItem(PEND+day)||'{}')}catch(_){return {}}};
+function setPend(day,p){Object.keys(p).length?localStorage.setItem(PEND+day,JSON.stringify(p)):localStorage.removeItem(PEND+day)}
 const shown=new Set(JSON.parse(localStorage.getItem('fdops:statuses')||'["draft_ready"]'));
 const expanded=new Set();
-const days=Object.keys(D.days).sort().reverse();
-const daySel=$('#day');daySel.innerHTML=days.map(d=>`<option>${d}</option>`).join('');
-const want=location.hash.slice(1);if(days.includes(want))daySel.value=want;
+const daySel=$('#day');let days=[];
+const latest=()=>days.find(d=>(D.days[d]||[]).length)||days[0]||'';   // newest day with drafts (Beijing dates)
+function fillDays(keep){days=Object.keys(D.days).sort().reverse();daySel.innerHTML=days.map(d=>`<option>${d}</option>`).join('');daySel.value=days.includes(keep)?keep:latest()}
+const want=location.hash.slice(1);fillDays(want);
+let follow=daySel.value===latest();   // follow the newest day until someone picks another one
 $('#hidePosted').checked=localStorage.getItem('fdops:hidePosted')==='1';
 const COPY_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
 const bjtDay=d=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
+const bjtTime=d=>d.toLocaleTimeString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false});
 function when(t){
   if(!t)return '-';const day=t.slice(0,10),hm=t.slice(11,16);
   const today=bjtDay(new Date()),diff=Math.round((Date.parse(day)-Date.parse(today))/864e5);
   const lbl={'-2':'前天','-1':'昨天','0':'今天','1':'明天','2':'后天'}[diff]||day.slice(5);
   return `${lbl} ${hm}`;
+}
+const X_LIGHT=[[0,4351],[8192,8205],[8208,8223],[8242,8247]],URL_RE=/https?:\/\/\S+/g;
+function xw(t){return 23*(t.match(URL_RE)||[]).length+[...t.replace(URL_RE,'')].reduce((n,c)=>{const o=c.codePointAt(0);return n+(X_LIGHT.some(([lo,hi])=>o>=lo&&o<=hi)?1:2)},0)}
+// live decision overlay = build_ops_dashboard.apply_decisions, on the pre-decision fields (d.base)
+function eff(d,day){
+  const L=live[day];if(!L)return d;
+  const b=d.base||d,x=L[d.id]||null,act=x&&x.action;
+  const e={...d,...b,base:undefined,published:isPublished(x),decision:'',edited:false};
+  if(!['approve','published','hold','rewrite','edit'].includes(act))return e;
+  e.decision=act;const t=String(x.text||'').trim();
+  if(t&&t!==b.text){e.text=t;e.edited=true;e.chars=[...t].length;e.xw=xw(t);
+    if(e.parts){e.parts=t.split(/\n\s*\n/).map(p=>p.trim()).filter(Boolean);e.parts_w=e.parts.map(xw)}}
+  if(act==='approve'||act==='published'){e.status='draft_ready';e.note=''}
+  else if(act==='hold'||act==='rewrite'){e.status='HOLD';e.note=`Fiona ${act==='hold'?'HOLD':'要求重写'}${x.note?'：'+x.note:''}`}
+  return e;
 }
 function cnt(t,w,lang){const n=[...t].length;return `${n} ${lang==='en'?'字符':'字'} · X计 ${w}`}   // all accounts have X Premium: no 280 warning
 function hue(id){let h=0;for(const c of String(id))h=(h*31+c.charCodeAt(0))>>>0;return COLORS[h%COLORS.length]}
@@ -414,25 +469,35 @@ function avatar(a){
   const ch=[...String(a.name||a.id).replace(/^[^\p{L}\p{N}]+/u,'')][0]||'?';
   return `<div class="av" style="background:${hue(a.id)}">${esc(ch.toUpperCase())}</div>`;
 }
-function card(d,hidden){
-  const ready=d.status==='draft_ready',p=ready&&isPosted(d.id),hold=d.status==='HOLD'||d.status==='superseded',lg=d.lang==='en'?'en':'zh-CN';
+function card(d,hidden,posted){
+  const ready=d.status==='draft_ready',p=ready&&posted,hold=d.status==='HOLD'||d.status==='superseded',lg=d.lang==='en'?'en':'zh-CN';
   const st=p?'<span class="st ok">已发</span>':hold?`<span class="st hold">${d.status==='HOLD'?'HOLD':'已替换'}</span>`:d.status==='draft_ready'?'<span class="st">待发出</span>':`<span class="st">${esc(ST_LABEL[d.status]||d.status)}</span>`;
   let body;
   if(d.parts&&d.parts.length>1){
     body=d.parts.map((t,i)=>`<div class="part"><div class="pr"><span>${i+1}/${d.parts.length}</span><button class="cp1" data-t="${esc(t)}">复制</button></div><div class="txt" lang="${lg}">${esc(t)}</div><div class="cnt">${cnt(t,d.parts_w[i],d.lang)}</div></div>`).join('');
   }else body=`<div class="txt" lang="${lg}">${esc(d.text)}</div><div class="cnt">${cnt(d.text,d.xw,d.lang)}</div>`;
   const ML={quote:'引用',reply:'回复'};
-  const mode=(ML[d.mode]||d.heat_led||d.archive||d.hotspot)?`<div class="mode">${d.hotspot?`<span class="tg ht">热点</span><span>${esc(d.hotspot)}</span>`:''}${d.archive?'<span class="tg">回看</span>':''}${ML[d.mode]?`<span class="tg">${ML[d.mode]}</span>`:''}${d.heat_led?'<span class="tg ht">热度</span>':''}${ML[d.mode]&&d.target?`<a href="${esc(d.target)}" target="_blank" rel="noopener noreferrer">打开原帖</a>`:''}${d.archive&&d.archive_url?`<a href="${esc(d.archive_url)}" target="_blank" rel="noopener noreferrer">回看原帖</a>`:''}</div>`:'';
+  const rv=(d.decision==='approve'||d.decision==='published'?'<span class="tg ok">审稿已批准</span>':'')+(d.edited?'<span class="tg ok">审稿已改稿</span>':'');
+  const mode=(ML[d.mode]||d.heat_led||d.archive||d.hotspot||rv)?`<div class="mode">${rv}${d.hotspot?`<span class="tg ht">热点</span><span>${esc(d.hotspot)}</span>`:''}${d.archive?'<span class="tg">回看</span>':''}${ML[d.mode]?`<span class="tg">${ML[d.mode]}</span>`:''}${d.heat_led?'<span class="tg ht">热度</span>':''}${ML[d.mode]&&d.target?`<a href="${esc(d.target)}" target="_blank" rel="noopener noreferrer">打开原帖</a>`:''}${d.archive&&d.archive_url?`<a href="${esc(d.archive_url)}" target="_blank" rel="noopener noreferrer">回看原帖</a>`:''}</div>`:'';
   const imgs=(d.media||[]).map(m=>`<figure class="img"><a href="${esc(m.src||m.path)}" target="_blank" rel="noopener"><img src="${esc(m.src||m.path)}" alt="${esc(m.alt)}" loading="lazy"></a><figcaption><span>${esc([m.credit?'数据：'+m.credit:'',m.updated?'图更新于 北京时间 '+m.updated:''].filter(Boolean).join(' · '))}</span><a class="dl" href="${esc(m.src||m.path)}" download="${esc(m.path.split('/').pop())}">下载图片</a></figcaption></figure>`).join('');
   body=mode+body+imgs;
-  return `<div class="post${p?' posted':''}${ready?'':' notready'}${hidden?' hide':''}"><div class="ph"><small>建议发出（北京时间）</small><span class="tm">${when(d.time)}</span>${st}</div>${d.note?`<div class="note${d.note.startsWith('改派自')?' mv':''}">${esc(d.note)}</div>`:''}${body}
+  return `<div class="post${p?' posted':''}${ready?'':' notready'}${hidden?' hide':''}" data-id="${esc(d.id)}"><div class="ph"><small>建议发出（北京时间）</small><span class="tm">${when(d.time)}</span>${st}</div>${d.note?`<div class="note${d.note.startsWith('改派自')?' mv':''}">${esc(d.note)}</div>`:''}${body}
 <div class="foot">${ready?`<label class="done-l"><input type="checkbox" data-p="${esc(d.id)}" ${p?'checked':''}> 已发</label>`:'<span class="cnt">不可发：先改稿或等重写</span>'}<button class="cp" data-t="${esc(d.text)}">${COPY_SVG}<span>${d.parts&&d.parts.length>1?'复制全部':'一键复制'}</span></button></div></div>`;
+}
+let syncAt=null,syncErr='';
+function syncLine(){
+  const n=Object.keys(pend(daySel.value)).length,s=$('#sync');
+  s.textContent=syncErr?`审稿同步失败（${syncErr}），显示的是上次构建的数据`+(n?` · ${n} 条已发未同步（已存本机）`:''):
+    (syncAt?`审稿同步于 ${bjtTime(syncAt)}`:'审稿同步中…')+(n?` · ${n} 条已发未同步（已存本机）`:'');
+  s.classList.toggle('bad',!!syncErr||n>0);
 }
 function render(){
   const day=daySel.value;
+  history.replaceState(null,'',location.pathname+location.search+(follow||!day?'':'#'+day));
+  syncLine();
   if(!day){$('#main').innerHTML='<p class="empty">还没有任何稿件</p>';$('#csv').style.display='none';return}
-  location.hash=day;const drafts=D.days[day]||[];
-  $('#csv').href=day+'.csv';$('#csv').setAttribute('download','fd_'+day+'.csv');
+  $('#csv').style.display='';$('#csv').href=day+'.csv';$('#csv').setAttribute('download','fd_'+day+'.csv');
+  const drafts=(D.days[day]||[]).map(d=>eff(d,day)),pp=pend(day),isPosted=d=>d.id in pp?!!pp[d.id]:!!d.published;
   const sts=[...new Set(drafts.map(d=>d.status))].sort();
   $('#flt').innerHTML='状态 '+sts.map(s=>`<label><input type="checkbox" data-s="${esc(s)}" ${shown.has(s)?'checked':''}> ${esc(ST_LABEL[s]||s)} (${drafts.filter(d=>d.status===s).length})</label>`).join(' ');
   const hideP=$('#hidePosted').checked,hideE=$('#hideEmpty').checked;
@@ -440,16 +505,57 @@ function render(){
   for(const a of D.accounts){
     const mine=drafts.filter(d=>d.account_id===a.id&&shown.has(d.status));
     const rd=drafts.filter(d=>d.account_id===a.id&&d.status==='draft_ready');   // counts: ready drafts only
-    const nDone=rd.filter(d=>isPosted(d.id)).length;all+=rd.length;done+=nDone;
-    const cards=mine.filter(d=>!(hideP&&isPosted(d.id)));
+    const nDone=rd.filter(isPosted).length;all+=rd.length;done+=nDone;
+    const cards=mine.filter(d=>!(hideP&&d.status==='draft_ready'&&isPosted(d)));
     if(!cards.length&&hideE)continue;
     const open=expanded.has(a.id),lim=2;
     const more=cards.length>lim?`<button class="more" data-x="${esc(a.id)}">${open?'收起':`展开全部 ${cards.length} 条`}</button>`:'';
     out.push(`<section class="acct"><div class="side">${avatar(a)}<h2>${esc(a.name)}</h2><div class="pf">X${a.lang?` · ${a.lang==='zh'?'中文':'English'}`:''}</div><div class="hd">${esc(a.handle?(a.handle.startsWith('@')?a.handle:'@'+a.handle):'@待填')}</div>${a.beat?`<div class="bt">${esc(a.beat)}</div>`:''}<span class="pill">待发 ${rd.length-nDone}/${rd.length}</span>${more}</div>
-<div class="grid">${cards.length?cards.map((d,i)=>card(d,!open&&i>=lim)).join(''):'<div class="none">今日无可显示稿件</div>'}</div></section>`);
+<div class="grid">${cards.length?cards.map((d,i)=>card(d,!open&&i>=lim,isPosted(d))).join(''):'<div class="none">今日无可显示稿件</div>'}</div></section>`);
   }
   $('#main').innerHTML=out.join('')||(drafts.length?`<p class="empty">当前筛选下没有稿件（共 ${drafts.length} 篇，可在「状态」里勾选其他状态）</p>`:'<p class="empty">这一天没有稿件</p>');
   $('#nAll').textContent=all;$('#nDone').textContent=done;$('#nTodo').textContent=all-done;
+}
+async function pushPosted(day,d,on){
+  const L=live[day],x=L?L[d.id]||null:null;
+  if(!on&&L&&!isPublished(x))return true;   // nothing shared to undo
+  // unticking a decision that is only 已发 clears it; anything else (an admin's edit / approve) keeps it: unpublish
+  const action=on?'published':x&&x.action==='published'&&!x.text&&!x.before_publish?'clear':'unpublish';
+  try{
+    const r=await fetch('/api/decisions',{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify({day,id:d.id,account_id:d.account_id,action})});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const j=await r.json();if(live[day])live[day][d.id]=j.decision;return true;
+  }catch(e){syncErr=String(e.message||e);return false}
+}
+async function setPosted(id,on){
+  const day=daySel.value,d=(D.days[day]||[]).find(x=>x.id===id);if(!d)return;
+  const p=pend(day);p[id]=on;setPend(day,p);render();
+  if(await pushPosted(day,d,on)){const q=pend(day);if(q[id]===on)delete q[id];setPend(day,q);if(!live[day])await syncDecisions()}
+  render();
+}
+async function syncDecisions(){
+  const day=daySel.value;if(!day)return;
+  try{
+    const r=await fetch('/api/decisions?day='+encodeURIComponent(day),{cache:'no-store'});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    live[day]=(await r.json()).decisions||{};syncErr='';syncAt=new Date();
+    const p=pend(day);
+    for(const id of Object.keys(p)){const d=(D.days[day]||[]).find(x=>x.id===id);if(!d||await pushPosted(day,d,p[id])){const q=pend(day);delete q[id];setPend(day,q)}}
+    for(const d of D.days[day]||[]){
+      if(localStorage.getItem(LEGACY+d.id)!=='1')continue;
+      const e=eff(d,day);if(e.published||e.status!=='draft_ready'||await pushPosted(day,d,true))localStorage.removeItem(LEGACY+d.id);
+    }
+  }catch(e){syncErr=String(e.message||e)}
+  render();
+}
+// new drafts arrive with the nightly rebuild: re-read this page's own data block (cache: no-store on 刷新)
+async function refreshData(cache){
+  try{
+    const r=await fetch(location.pathname,{cache});if(!r.ok)throw new Error('HTTP '+r.status);
+    const m=(await r.text()).match(/<script id="data" type="application\/json">([\s\S]*?)<\/script>/);
+    if(!m||m[1]===RAW)return;
+    D=JSON.parse(m[1]);RAW=m[1];fillDays(follow?'':daySel.value);follow=daySel.value===latest();upd();
+  }catch(e){syncErr='页面数据刷新失败 '+String(e.message||e)}
 }
 async function copy(t){try{await navigator.clipboard.writeText(t)}catch(_){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}}
 document.addEventListener('click',async e=>{
@@ -461,13 +567,30 @@ document.addEventListener('click',async e=>{
 });
 document.addEventListener('change',e=>{
   const el=e.target;
-  if(el.dataset.p){el.checked?localStorage.setItem(LS+el.dataset.p,'1'):localStorage.removeItem(LS+el.dataset.p)}
-  else if(el.dataset.s){el.checked?shown.add(el.dataset.s):shown.delete(el.dataset.s);localStorage.setItem('fdops:statuses',JSON.stringify([...shown]))}
+  if(el.dataset.p)return setPosted(el.dataset.p,el.checked);
+  if(el.dataset.s){el.checked?shown.add(el.dataset.s):shown.delete(el.dataset.s);localStorage.setItem('fdops:statuses',JSON.stringify([...shown]))}
   else if(el.id==='hidePosted')localStorage.setItem('fdops:hidePosted',el.checked?'1':'0');
   render();
 });
-$('#upd').textContent=D.updated?`数据更新于 北京时间 ${D.updated.slice(5,10)} ${D.updated.slice(11,16)}`:'';
-daySel.onchange=render;render();
+// CSV of the shown day with the live decisions (the static <day>.csv is the build-time copy)
+$('#csv').addEventListener('click',e=>{
+  const day=daySel.value;if(!live[day])return;
+  e.preventDefault();
+  const names=Object.fromEntries(D.accounts.map(a=>[a.id,a.name])),q=v=>/[",\r\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;
+  const rows=[['account','time (北京时间)','text'],...(D.days[day]||[]).map(d=>eff(d,day)).filter(d=>d.status==='draft_ready'&&d.text).map(d=>[names[d.account_id]??d.account_id,d.time.slice(0,16).replace('T',' '),d.text])];
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+rows.map(r=>r.map(v=>q(String(v??''))).join(',')).join('\n')+'\n'],{type:'text/csv'}));
+  a.download='fd_'+day+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+});
+function upd(){$('#upd').textContent=D.updated?`数据更新于 北京时间 ${D.updated.slice(5,10)} ${D.updated.slice(11,16)}`:''}
+daySel.onchange=()=>{follow=daySel.value===latest();render();syncDecisions()};
+$('#refresh').onclick=async()=>{
+  const b=$('#refresh');b.disabled=true;b.textContent='刷新中…';
+  await refreshData('no-store');await syncDecisions();b.disabled=false;b.textContent='刷新';
+};
+let tick=0;   // decisions every 60 s; the page data (new days / rebuilt drafts) every 5 min
+setInterval(async()=>{if(document.hidden)return;if(++tick%5===0)await refreshData('no-cache');syncDecisions()},60000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncDecisions()});
+upd();render();syncDecisions();
 </script></body></html>
 '''
 
@@ -500,7 +623,7 @@ def main():
     # last-updated = newest inbox write (deterministic, so an unchanged inbox leaves index.html untouched)
     updated = max((d['stored'] for v in days.values() for d in v if d['stored']), default='')
     data = json.dumps({'accounts': accounts, 'days': days, 'updated': updated}, ensure_ascii=False, sort_keys=True)
-    page = PAGE.replace('__NAVCSS__', NAV_CSS).replace('__NAV__', nav_html('/'))
+    page = PAGE.replace('__NAVCSS__', NAV_CSS).replace('__NAV__', nav_html('/')).replace('__SHARED__', shared_js())
     page = page.replace('__DATA__', data.replace('</', '<\\/'))
     changed = [p.name for p, b in [(args.out / 'index.html', page.encode('utf-8'))] +
                [(args.out / f'{day}.csv', day_csv(dr, names)) for day, dr in days.items()]
