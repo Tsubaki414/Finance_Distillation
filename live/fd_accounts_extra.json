@@ -8,6 +8,7 @@
    "id": "zh_macro",
    "lang": "zh",
    "name": "流动性旅人",
+   "handle": "eytmuhsinarslan",
    "beat": "宏观 × 美股/加密（宏观为少数）",
    "kind": "investing",
    "existing": true,
@@ -41,6 +42,7 @@
    "id": "crypto_ai_crossover_zh",
    "lang": "zh",
    "name": "Tango 探戈",
+   "handle": "BulentSoyuer",
    "beat": "AI × Crypto × 美股 交叉视角",
    "kind": "crypto",
    "retrieval_beats": [
@@ -88,6 +90,7 @@
    "id": "crypto_newbie_zh",
    "lang": "zh",
    "name": "小鱼说币",
+   "handle": "mhmtaltnsoy",
    "beat": "新手友好 · 币圈科普与避坑",
    "kind": "crypto",
    "retrieval_beats": [
@@ -135,6 +138,7 @@
    "id": "crypto_alt_trader_en",
    "lang": "en",
    "name": "SOREN",
+   "handle": "fionassay",
    "beat": "Altcoin charts · narrative trading",
    "kind": "crypto",
    "retrieval_beats": [
@@ -182,6 +186,7 @@
    "id": "longterm_investing_en",
    "lang": "en",
    "name": "Hannah Brooke",
+   "handle": "Hazal_kraa",
    "beat": "Long-term investing · personal finance",
    "kind": "investing",
    "retrieval_beats": [
@@ -227,6 +232,7 @@
    "id": "crypto_etf_flows_en",
    "lang": "en",
    "name": "Grant Whitaker",
+   "handle": "IntMig_Journal",
    "beat": "Crypto ETFs · institutional flows",
    "kind": "crypto",
    "retrieval_beats": [
