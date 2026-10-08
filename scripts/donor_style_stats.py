@@ -5,6 +5,7 @@ numbers) and build per-persona style stats -> live/donors/style_stats.json.
 Tags are cached per donor in live/donors/tags/<handle>.json (untracked).
 Use --only-fallback live/donors/tags to retry only previously failed posts.
 Use --questions-per-call 8 to ask post_type and hook separately.
+Use --flash to answer with the extract_flash Gemini stage (subrouter) instead of TypeSafe Jev.
 """
 from __future__ import annotations
 
@@ -78,6 +79,11 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--run', type=Path, required=True)
     ap.add_argument('--jev', action='store_true')
+    ap.add_argument('--flash', action='store_true',
+                    help='answer the Jev choice questions with the extract_flash Gemini stage (subrouter first, '
+                         'live/jev_flash.py) instead of TypeSafe Jev; implies --jev')
+    ap.add_argument('--cap-usd', type=float, default=None,
+                    help='spend cap of this run ledger (paid relay fallback only; subrouter calls are flat-rate)')
     ap.add_argument('--cap', type=int, default=250, help='max original posts tagged per donor')
     ap.add_argument('--workers', type=int, default=6)
     ap.add_argument('--only-fallback', type=Path, metavar='PREV_TAGS',
@@ -87,6 +93,8 @@ def main():
     ap.add_argument('--posts-dir', type=Path, default=POSTS)
     ap.add_argument('--tags-dir', type=Path, default=TAGS)
     args = ap.parse_args()
+    if args.flash:
+        args.jev = True
     if args.only_fallback is not None and not args.only_fallback.exists():
         ap.error('--only-fallback must name an existing tag JSON or directory')
     if args.only_fallback is not None and not args.jev:
@@ -97,12 +105,17 @@ def main():
     spend.STORE = args.run / 'ledger'
     spend.LEDGER = spend.STORE / 'spend.json'
     spend.DISTILLATION_RUNS = spend.STORE / 'distillation_spend.jsonl'
+    if args.cap_usd is not None:
+        spend.set_cap(args.cap_usd)
     jev = None
-    if args.jev:
+    if args.flash:
+        from live.jev_flash import FlashJev
+        jev = FlashJev(args.run / 'flash_calls')
+    elif args.jev:
         from live.jev_review_client import JevReviewClient
         jev = JevReviewClient(args.run / 'jev_calls')
     handles = sorted({d['handle'] for c in roster['persona_clusters'].values() for d in c['donors']} |
-                     {h for c in roster['persona_clusters'].values() for h in c['bench']})
+                     {h for c in roster['persona_clusters'].values() for h in c.get('bench', [])})
     handles = [h for h in handles if (POSTS / f'{h.lower()}.jsonl').exists()]
     def tag_handle(handle):
         stats = {}
@@ -122,8 +135,8 @@ def main():
         core = {h: per_donor[h] for h in weights if h in per_donor}
         clusters[name] = {'lang': c['lang'], 'core_with_posts': len(core), 'core': len(weights),
                           'core_stats': donor_style.cluster(core, weights),
-                          'all_stats': donor_style.cluster({h: per_donor[h] for h in list(weights) + c['bench'] if h in per_donor},
-                                                           {h: weights.get(h, min(weights.values()) / 2) for h in list(weights) + c['bench']})}
+                          'all_stats': donor_style.cluster({h: per_donor[h] for h in list(weights) + c.get('bench', []) if h in per_donor},
+                                                           {h: weights.get(h, min(weights.values()) / 2) for h in list(weights) + c.get('bench', [])})}
     out = {'version': '1', 'method': 'originals (no RT / replies to others / pinned) from live/donors/posts; post_type + hook by '
                                       'TypeSafe Jev choice questions (rule fallback flagged); structure + numbers deterministic',
            'use': 'voice and structure only; never facts or numbers', 'donors_tagged': len(per_donor),
