@@ -1,5 +1,7 @@
 """Oct 8: 36 accounts (20 mains + 6 spares + 10 new) - roster gates, lanes, risk rules, structured lane sources,
-lane-first selection, dashboard status, persona-factory helpers, media profiles --only-missing."""
+lane-first selection, dashboard status, persona-factory helpers, media profiles --only-missing.
+Oct 8 b: no 31 zh_hk_ipo dropped (Fiona) and replaced by sol_base_alpha_en; the ipo lane and Nasdaq IPO source went
+with it."""
 import json
 import sys
 from pathlib import Path
@@ -30,7 +32,8 @@ def test_roster_groups_and_gates():
     assert len(fd_accounts.load({'FD_ACCOUNTS_EXTRA': '0'})) == 30
     assert [r['id'] for r in fd_accounts.load({'FD_ACCOUNTS_EXTRA': '0', 'FD_ACCOUNTS_NEW': '0'})] == \
         [r['id'] for r in json.loads(fd_accounts.MAIN.read_text())['accounts']]
-    assert sum(r['lang'] == 'zh' for r in rows[26:]) == 5   # 5 zh / 5 en new accounts
+    assert sum(r['lang'] == 'zh' for r in rows[26:]) == 4   # 4 zh / 6 en new accounts since Oct 8 b
+    assert rows[30]['id'] == 'sol_base_alpha_en' and 'zh_hk_ipo' not in {r['id'] for r in rows}
 
 
 def test_rows_default_path_is_roster_other_path_is_that_file(tmp_path, monkeypatch):
@@ -55,8 +58,10 @@ def test_extra_and_new_rows_are_complete():
         assert (ROOT / 'live/personas' / f"{a['id']}.json").exists(), a['id']
         cluster = roster['persona_clusters']['acct_' + a['id']]
         assert {d['handle'] for d in cluster['donors']} == set(a['donors']), a['id']
-        for h in a['x_sources']['CORE'] + a['x_sources']['SECONDARY']:
+        for h in a['x_sources']['CORE']:
             assert licence['x_' + h]['tier'] == 'B', h
+        for h in a['x_sources']['SECONDARY']:   # project / media accounts stay topic leads (C)
+            assert licence['x_' + h]['tier'] in ('B', 'C'), h
         if a['group'] == 'new':
             assert a['lane_first'] and a['risk_rules'] and a['does_not_write'] and a['positioning']
             assert set(a['donor_evidence']) == set(a['donors'])
@@ -82,14 +87,18 @@ def test_new_lane_keywords():
     assert 'crypto_stable_yield' in kb('Ethena USDe yield fell to 5% APY')            # USDe is crypto enough
     assert 'crypto_stable_yield' in kb('稳定币理财年化 8% 的产品要看收益从哪来')
     assert 'crypto_stable_yield' not in kb('Aave lending yield on ETH')               # no stablecoin word
-    assert 'ipo' in kb('某公司港股招股，认购倍数 300 倍，暗盘涨 20%')
-    assert 'ipo' in kb('Stripe is going public via an IPO') and 'ipo' not in kb('the debut album sold well')
+    assert 'ipo' not in kb('某公司港股招股，认购倍数 300 倍，暗盘涨 20%')               # lane dropped (Oct 8 b)
+    sb = 'crypto_ecosystem_sol_base'
+    assert sb in kb('Jupiter launches lending on Solana') and sb in kb('Base app revenue hit $2m as Aerodrome grew')
+    assert sb in kb("Coinbase's L2 Base saw 1.2m daily active addresses")
+    assert sb not in kb('the base case is that revenue grows')                         # 'base' alone is no chain
+    assert sb not in kb('Ethereum L2 fees fell after the upgrade')                     # needs Solana / Base by name
 
 
 def test_lane_tags_adds_only_missing_new_lanes():
     rows = [{'unit_id': 'a', 'unit': {'statement': 'Polymarket gives a 70% chance of a cut'}, 'persona_tags': {}},
-            {'unit_id': 'b', 'unit': {'statement': 'Stripe files for an IPO'},
-             'persona_tags': {'ipo': {'verdict': 'relevant', 'confidence': 0.9}}},
+            {'unit_id': 'b', 'unit': {'statement': 'Solana DEX volume led all chains'},
+             'persona_tags': {'crypto_ecosystem_sol_base': {'verdict': 'relevant', 'confidence': 0.9}}},
             {'unit_id': 'c', 'unit': {'statement': 'Nothing here'}, 'persona_tags': {}}]
     out = beat_rules.lane_tags(rows)
     assert set(out) == {'a'} and out['a']['crypto_prediction']['rule'].endswith(':lane')
@@ -97,27 +106,28 @@ def test_lane_tags_adds_only_missing_new_lanes():
 
 def test_jev_front_lanes_and_account_mapping():
     from live.jev_front import KEYWORD_LANES, LANE_BEATS, PERSONA_FOR_ACCOUNT, PERSONAS, SUB_BEATS
-    assert {'crypto_prediction', 'crypto_stable_yield'} <= set(SUB_BEATS) and 'ipo' in KEYWORD_LANES
+    assert {'crypto_prediction', 'crypto_stable_yield', 'crypto_ecosystem_sol_base'} <= set(SUB_BEATS)
+    assert 'ipo' not in KEYWORD_LANES and 'ipo' not in LANE_BEATS
     assert set(LANE_BEATS) <= set(PERSONAS)
-    assert PERSONA_FOR_ACCOUNT['zh_hk_ipo'] == 'zh_us_stock_commentary'
+    assert 'zh_hk_ipo' not in PERSONA_FOR_ACCOUNT and PERSONA_FOR_ACCOUNT['sol_base_alpha_en'] == 'crypto_macro_en'
     assert PERSONA_FOR_ACCOUNT['crypto_meme_en'] == 'crypto_macro_en'
 
 
 def test_topic_div_new_themes():
-    assert topic_div.themes_of('港股打新 认购 300 倍 暗盘')[0] == 'ipo'
+    assert 'ipo' not in topic_div.THEMES
     assert topic_div.themes_of('Polymarket odds jumped')[0] == 'c_prediction'
     assert topic_div.THEMES[-1] == 'other'
 
 
 # ---------------------------------------------------------------- beat gate
 
-def test_beat_gate_prediction_crossover_and_ipo():
+def test_beat_gate_prediction_crossover_and_sol_base():
     rows = fd_accounts.by_id()
     assert editorial_style.beat_gate(rows['crypto_prediction_en'], 'Kalshi and Polymarket disagree on the Fed')[0]
     assert editorial_style.beat_gate(rows['crypto_ai_crossover_zh'], '英伟达数据中心收入创新高')[0]
     assert not editorial_style.beat_gate(rows['crypto_newbie_zh'], '英伟达数据中心收入创新高')[0]
-    assert not editorial_style.beat_gate(rows['zh_hk_ipo'], '比特币 ETF 流入，以太坊质押')[0]
-    assert editorial_style.beat_gate(rows['zh_hk_ipo'], '港股打新：认购 300 倍')[0]
+    assert editorial_style.beat_gate(rows['sol_base_alpha_en'], 'Solana DEX volume led all chains again')[0]
+    assert not editorial_style.beat_gate(rows['sol_base_alpha_en'], 'Nvidia data-centre revenue hit a record')[0]
 
 
 # ---------------------------------------------------------------- risk rules
@@ -187,35 +197,20 @@ def test_defillama_yields_adapter():
     assert len(texts) == 2 and '3.80%' in texts[0] and 'sky-lending SUSDS' in texts[1] and 'tiny' not in ' '.join(texts)
 
 
-def test_nasdaq_ipo_adapter_and_timeout():
-    from datetime import datetime, timezone
-    from live.adapters import nasdaq_ipo
-    body = {'data': {'priced': {'rows': [{'companyName': 'Pine Tree Acquisition Corp.', 'proposedTickerSymbol': 'PAXGU',
-                                          'proposedExchange': 'NASDAQ Global', 'proposedSharePrice': '10.00',
-                                          'pricedDate': '10/06/2026', 'dollarValueOfSharesOffered': '$100,000,000'}]},
-                     'upcoming': {'upcomingTable': {'rows': []}}}}
-    out = nasdaq_ipo.fetch(transport=_fake(body), now=datetime(2026, 10, 8, tzinfo=timezone.utc))
-    assert len(out['units']) == 1 and 'Pine Tree' in out['units'][0]['statement']
-
-    def boom(url, headers):
-        raise TimeoutError('read timeout')
-    assert nasdaq_ipo.fetch(transport=boom)['status'].startswith('error')
-
-
 def test_lane_sources_are_routed_and_licensed():
     from live import source_routes
     for sid, accounts, beat in (('polymarket_markets', {'crypto_prediction_zh', 'crypto_prediction_en'}, 'crypto_prediction'),
-                                ('defillama_yields', {'crypto_stable_yield_zh', 'crypto_stable_yield_en'}, 'crypto_stable_yield'),
-                                ('nasdaq_ipo_calendar', {'zh_hk_ipo'}, 'ipo')):
+                                ('defillama_yields', {'crypto_stable_yield_zh', 'crypto_stable_yield_en'}, 'crypto_stable_yield')):
         r = source_routes.route(sid)
         assert set(r['accounts']) == accounts and r['beats'] == (beat,)
         assert registry.source_licence_tier(sid) == 'B'
+    assert registry.source_licence_tier('nasdaq_ipo_calendar') not in ('A', 'B')   # removed with zh_hk_ipo (Oct 8 b)
 
 
 def test_daily_ingest_lane_fetchers_gated(monkeypatch):
     from live import daily_ingest
     keys = [k for k in daily_ingest.default_fetchers({'channels': {}}) if k.startswith('lanes:')]
-    assert keys == ['lanes:polymarket_markets', 'lanes:defillama_yields', 'lanes:nasdaq_ipo_calendar']
+    assert keys == ['lanes:polymarket_markets', 'lanes:defillama_yields']
     monkeypatch.setenv('FD_ACCOUNTS_NEW', '0')
     assert not [k for k in daily_ingest.default_fetchers({'channels': {}}) if k.startswith('lanes:')]
 
@@ -330,3 +325,24 @@ def test_media_profiles_only_missing_keeps_existing(tmp_path, monkeypatch):
     assert res['accounts']['crypto_macro_en'] == {'p_image': 0.123}
     assert res['accounts']['crypto_meme_en']['p_image'] == round(0.4 * 0.5, 3)
     assert res['families'] == keep['families'] and list(res['added'].values()) == [['crypto_meme_en']]
+
+
+def test_media_profiles_only_missing_same_day_appends(tmp_path, monkeypatch):
+    import build_media_profiles as bmp
+    from datetime import date
+    out = tmp_path / 'media.json'
+    fam = {'chart_share': 0.5, 'styles': {s: 0.2 for s in bmp.STYLES}, 'light_share': 0.5, 'tall_share': 0.1, 'n': 10}
+    today = date.today().isoformat()
+    out.write_text(json.dumps({'version': 1, 'built': today, 'added': {today: ['crypto_macro_en']},
+                               'families': {f: fam for f in ('crypto_en', 'crypto_zh', 'stocks_en', 'stocks_zh')},
+                               'accounts': {'crypto_macro_en': {'p_image': 0.1}}}))
+    (tmp_path / 'classes.json').write_text('{}')
+    (tmp_path / 'meta.json').write_text(json.dumps({'images': {}}))
+    accts = tmp_path / 'accts.json'
+    accts.write_text(json.dumps({'accounts': [{'id': 'crypto_macro_en', 'kind': 'crypto', 'lang': 'en'},
+                                              {'id': 'sol_base_alpha_en', 'kind': 'crypto', 'lang': 'en'}]}))
+    monkeypatch.setattr(bmp, 'image_rate', lambda aid, roster, posts: (0.4, 200))
+    monkeypatch.setattr(sys, 'argv', ['x', '--classes', str(tmp_path / 'classes.json'), '--meta', str(tmp_path / 'meta.json'),
+                                      '--accounts', str(accts), '--out', str(out), '--only-missing'])
+    bmp.main()
+    assert json.loads(out.read_text())['added'][today] == ['crypto_macro_en', 'sol_base_alpha_en']

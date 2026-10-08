@@ -282,13 +282,15 @@ meme and airdrop accounts first. Nothing publishes automatically.
 - **New lanes**:
   - `crypto_prediction` (needs Polymarket / Kalshi / 预测市场).
   - `crypto_stable_yield` (needs a stablecoin word and a yield word).
-  - `ipo` (non-crypto; needs IPO / 打新 / 招股 / 新股 / S-1 ...).
+  - `crypto_ecosystem_sol_base` (Oct 8 b; an ecosystem word plus Solana / Base by name: `solana`, `$SOL`, `@base`,
+    `on Base`, `Base app / chain / TVL ...`; "base" alone does not count).
   - Tagging: `live/beat_rules.lane_tags` runs on every unit in the `crypto_subbeats` ingest step, so older units are
-    included. `topic_div` gained the themes `c_prediction` and `ipo`.
+    included. `topic_div` gained the theme `c_prediction`.
+  - The `ipo` keyword lane and topic theme were removed with zh_hk_ipo (Oct 8 b); `KEYWORD_LANES` stays as an empty
+    mechanism.
 - **Structured lane sources**: public, no key / login, one GET per ingest, deterministic units.
   - `polymarket_markets` (Gamma API; sports and tweet-count markets left out).
   - `defillama_yields` (single-asset stablecoin pools > $100m TVL).
-  - `nasdaq_ipo_calendar`.
   - All are tier B and routed (`route_accounts`) only to the matching new accounts. They are wired in
     `live/daily_ingest.default_fetchers`, which skips them when `FD_ACCOUNTS_NEW=0`.
 - **Selection**:
@@ -302,6 +304,14 @@ meme and airdrop accounts first. Nothing publishes automatically.
   - guaranteed-return wording (稳赚 / 保本 / 必涨 / guaranteed / risk-free / next 100x; negated mentions pass);
   - a call to act next to presale / whitelist / wallet-approval / send-funds wording;
   - referral or invite codes.
+- **No 31 replaced (Oct 8 b, Fiona)**: 打新阿梨 (zh_hk_ipo) is dropped together with the `ipo` lane, the Nasdaq IPO
+  calendar adapter, its persona / cluster / roster donors / licence entries / media profile. In its place
+  `sol_base_alpha_en` (Rowan Tessier, en, mid): Solana / Base ecosystem launches, app usage, chain metrics, builder
+  and funding news, Solana vs Base flows; memes and points only as ecosystem context (Tully Marsh and Pip Calder own
+  those). Donors SolanaSensei, SolanaHub_, Tanaka_L2, BaseHubHB, baseposting (CORE, tier B); @solana / @base /
+  @buildonbase / @SolanaFloor are SECONDARY but tier C (project / media accounts are topic leads only, as in fd20).
+  No structured chain-metrics source: DefiLlama's terms forbid commercial exploitation / republishing without
+  written consent, Token Terminal / Artemis / Dune need keys.
 - **Check**: `python scripts/check_fd_accounts.py [--accounts a,b] [--day D] [--json out]`, offline, no model calls.
   It reports config, donor topic spread, per-lane units, the post-gate packet pool, and one select over the whole
   roster with ops-page post times.

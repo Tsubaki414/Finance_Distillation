@@ -537,22 +537,6 @@
    "tall_share": 0.182,
    "p_image": 0.198
   },
-  "zh_hk_ipo": {
-   "family": "stocks_zh",
-   "image_rate": 0.71,
-   "posts_seen": 200,
-   "chart_share": 0.5,
-   "styles": {
-    "tv_drawn": 0.333,
-    "tv_widget": 0.111,
-    "mobile": 0.333,
-    "table": 0.0,
-    "panel": 0.222
-   },
-   "light_share": 0.778,
-   "tall_share": 0.333,
-   "p_image": 0.355
-  },
   "crypto_meme_en": {
    "family": "crypto_en",
    "image_rate": 0.205,
@@ -632,6 +616,22 @@
    "light_share": 0.458,
    "tall_share": 0.083,
    "p_image": 0.333
+  },
+  "sol_base_alpha_en": {
+   "family": "crypto_en",
+   "image_rate": 0.65,
+   "posts_seen": 200,
+   "chart_share": 0.585,
+   "styles": {
+    "tv_drawn": 0.292,
+    "tv_widget": 0.125,
+    "mobile": 0.042,
+    "table": 0.083,
+    "panel": 0.458
+   },
+   "light_share": 0.458,
+   "tall_share": 0.083,
+   "p_image": 0.38
   }
  },
  "added": {
@@ -646,7 +646,7 @@
    "crypto_airdrop_zh",
    "crypto_prediction_zh",
    "crypto_stable_yield_zh",
-   "zh_hk_ipo",
+   "sol_base_alpha_en",
    "crypto_meme_en",
    "crypto_airdrop_en",
    "crypto_prediction_en",

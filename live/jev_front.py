@@ -37,11 +37,13 @@ SUB_BEATS = {
     # Oct 8 (36 accounts): lanes of the new prediction-market and stablecoin-yield accounts
     'crypto_prediction': 'Prediction markets: Polymarket / Kalshi odds, volume, market structure and regulation',
     'crypto_stable_yield': 'Stablecoin yield: yield-bearing stablecoins, lending / vault / earn rates, depeg and counterparty risk',
+    # Oct 8 (b): lane of the Solana / Base ecosystem account (replaces the dropped IPO account)
+    'crypto_ecosystem_sol_base': 'Solana / Base ecosystems: launches, app and protocol usage, chain metrics, builder and '
+                                 'funding news, Solana vs Base flows',
 }
 # Oct 8: non-crypto keyword lanes (live/beat_rules.py tags them on any unit, no crypto word needed); never sent to Jev.
-KEYWORD_LANES = {
-    'ipo': 'IPOs: Hong Kong and US new listings, subscriptions, pricing, cornerstone investors, first-day trading',
-}
+# (the 'ipo' lane went with the dropped zh_hk_ipo account, Oct 8 b; none left)
+KEYWORD_LANES = {}
 # every deterministic lane an account can read as its own (daily_compose lane ranking, persona_factory universe)
 LANE_BEATS = {**SUB_BEATS, **KEYWORD_LANES}
 PERSONAS.update(SUB_BEATS)

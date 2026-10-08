@@ -3431,41 +3431,6 @@
         "MengLayer"
       ]
     },
-    "x_jeonleetogether": {
-      "tier": "B",
-      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
-      "aliases": [
-        "jeonleetogether"
-      ]
-    },
-    "x_PWenzhen76938": {
-      "tier": "B",
-      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
-      "aliases": [
-        "PWenzhen76938"
-      ]
-    },
-    "x_Zh_Crypto517": {
-      "tier": "B",
-      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
-      "aliases": [
-        "Zh_Crypto517"
-      ]
-    },
-    "x_0xtonixie": {
-      "tier": "B",
-      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
-      "aliases": [
-        "0xtonixie"
-      ]
-    },
-    "x_guyiguyi_": {
-      "tier": "B",
-      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
-      "aliases": [
-        "guyiguyi_"
-      ]
-    },
     "x_the_smart_ape": {
       "tier": "B",
       "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
@@ -3637,10 +3602,61 @@
       "basis": "public DeFi pool APY / TVL aggregates (structured numbers, cited as DefiLlama), 2026-10-08",
       "aliases": []
     },
-    "nasdaq_ipo_calendar": {
+    "x_SolanaSensei": {
       "tier": "B",
-      "basis": "public IPO calendar facts (company, date, price, deal size; cited as Nasdaq), 2026-10-08",
-      "aliases": []
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "SolanaSensei"
+      ]
+    },
+    "x_SolanaHub_": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "SolanaHub_"
+      ]
+    },
+    "x_Tanaka_L2": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "Tanaka_L2"
+      ]
+    },
+    "x_BaseHubHB": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "BaseHubHB"
+      ]
+    },
+    "x_baseposting": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "baseposting"
+      ]
+    },
+    "x_solana": {
+      "tier": "C",
+      "basis": "official project account (sol_base_alpha_en SECONDARY, 2026-10-08): topic lead only, never a body source (same rule as the fd20 media/project watchlist)",
+      "aliases": [
+        "solana"
+      ]
+    },
+    "x_base": {
+      "tier": "C",
+      "basis": "official project account (sol_base_alpha_en SECONDARY, 2026-10-08): topic lead only, never a body source (same rule as the fd20 media/project watchlist)",
+      "aliases": [
+        "base"
+      ]
+    },
+    "x_buildonbase": {
+      "tier": "C",
+      "basis": "official project account (sol_base_alpha_en SECONDARY, 2026-10-08): topic lead only, never a body source (same rule as the fd20 media/project watchlist)",
+      "aliases": [
+        "buildonbase"
+      ]
     }
   }
 }

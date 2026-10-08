@@ -49,22 +49,32 @@ SUB_BEAT_KEYWORDS = {
                             'pendle', 'ethena', 'usde', 'susde', 'sdai', 'susds', 'usdy', 'depeg', 'de-peg',
                             'money market', 'tokenized treasur', 'lending rate', 'borrow rate',
                             '理财', '年化', '活期', '定期', '生息', '收益率', '收益', '脱锚', '赚币', '利率'),
+    # Oct 8 (b): Solana / Base ecosystem lane (sol_base_alpha_en); also needs a Solana / Base name (LANE_REQUIRES)
+    'crypto_ecosystem_sol_base': ('ecosystem', 'launch', 'launches', 'launched', 'mainnet', 'upgrade', 'builders',
+                                  'hackathon', 'grant', 'grants', 'raises', 'raised', 'funding', 'seed round', 'series a',
+                                  'tvl', 'dex volume', 'app revenue', 'revenue', 'fees', 'active addresses',
+                                  'daily active', 'users', 'transactions', 'stablecoin supply', 'validators',
+                                  'firedancer', 'alpenglow', 'jupiter', 'jito', 'raydium', 'kamino', 'drift', 'meteora',
+                                  'helius', 'phantom', 'pump.fun', 'aerodrome', 'morpho', 'zora', 'farcaster',
+                                  'base app', 'base batches', 'smart wallet', 'x402', 'tokenized stocks',
+                                  '生态', '上线', '主网', '融资', '开发者', '活跃地址', '交易量', '手续费', '收入'),
 }
-# Oct 8: non-crypto keyword lanes (jev_front.KEYWORD_LANES); tagged on any unit by lane_tags
-KEYWORD_LANE_WORDS = {
-    'ipo': ('ipo', 'ipos', 'initial public offering', 's-1', 'f-1', 'oversubscribed', 'cornerstone', 'hkex',
-            'listing debut', 'priced its ipo', 'prices ipo', 'go public', 'goes public', 'going public',
-            '招股', '打新', '新股', '认购', '超购', '孖展', '中签', '暗盘', '基石投资', '上市首日', '港交所', '发行价', '递表'),
-}
+# Oct 8: non-crypto keyword lanes (jev_front.KEYWORD_LANES); tagged on any unit by lane_tags. The 'ipo' lane went with
+# the dropped zh_hk_ipo account (Oct 8 b); the mechanism stays for the next one.
+KEYWORD_LANE_WORDS = {}
 # a lane whose own requirement word is crypto enough (Polymarket, USDe) and is always required ('odds' alone is not a
 # prediction-market post, 'yield' alone is not a stablecoin-yield post)
 LANE_REQUIRES = {
     'crypto_prediction': re.compile(r'polymarket|kalshi|prediction markets?|预测市场', re.I),
     'crypto_stable_yield': re.compile(r'stablecoins?|\busd[tce]\b|\busde\b|\bsusde\b|\bdai\b|\busds\b|\bpyusd\b|'
                                       r'\busd1\b|稳定币|U本位', re.I),
-    'ipo': re.compile(r'\bipos?\b|initial public offering|\b[SF]-1\b|打新|招股|新股|递表|go(?:es|ing)? public', re.I),
+    # Solana / Base by name ('base' alone is an ordinary word: @base, Base + chain noun, "on Base", Coinbase's L2)
+    'crypto_ecosystem_sol_base': re.compile(
+        r'\bsolana\b|@solana\b|\$SOL\b|@base\b|@buildonbase\b|\bbase (?:chain|network|app|ecosystem|l2|mainnet|tvl|'
+        r'builders?|batches|dex|defi|users|volume|revenue)\b|\bon base\b|\bbase vs\.? solana\b|'
+        r"coinbase'?s? (?:l2|layer[- ]?2|chain)|base链|base 链|solana生态|solana 生态|索拉纳", re.I),
 }
-LANE_SELF = {b: LANE_REQUIRES[b] for b in ('crypto_prediction', 'crypto_stable_yield')}
+LANE_SELF = {b: LANE_REQUIRES[b] for b in ('crypto_prediction', 'crypto_stable_yield', 'crypto_ecosystem_sol_base')}
 CRYPTO_WORDS = re.compile(r'bitcoin|\bbtc\b|ethereum|\beth\b|crypto|stablecoin|\bsol\b|solana|altcoin|memecoin|'
                           r'blockchain|\bdefi\b|airdrop|on-?chain|\bperps?\b|hyperliquid|pump\.fun|\btvl\b|\bdex\b|'
                           r'比特币|以太坊|加密|稳定币|代币|币圈|币价|山寨|主流币|公链|链上|空投|土狗|meme币', re.I)
@@ -165,8 +175,9 @@ def crypto_subbeat_tags(rows):
 
 
 # Oct 8 (36 accounts): the lanes added after units were tagged; crypto_subbeat_tags skips rows that already carry a
-# sub-beat, so these are re-checked on every unit (any beat) until a rule tags them.
-NEW_LANES = ('crypto_prediction', 'crypto_stable_yield', 'ipo')
+# sub-beat, so these are re-checked on every unit (any beat) until a rule tags them. (Oct 8 b: ipo replaced by
+# crypto_ecosystem_sol_base.)
+NEW_LANES = ('crypto_prediction', 'crypto_stable_yield', 'crypto_ecosystem_sol_base')
 
 
 def lane_tags(rows, lanes=NEW_LANES):

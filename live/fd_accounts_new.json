@@ -1,7 +1,7 @@
 {
  "version": "fd-new10-v1",
  "source": "slate /workspace/x/accounts36/new10_slate.md (2026-10-08), pending Fiona's review",
- "note": "10 new accounts (Fiona 10-08: meme / airdrop accounts first). Donors verified active within 30 days via twitter241 on 2026-10-08 (donor_evidence: aggregates only). risk_rules are enforced by live/risk_rules.py (HARD) on every draft plus the stance rejects. Loaded by live/fd_accounts.py; FD_ACCOUNTS_NEW=0 turns the group off everywhere.",
+ "note": "10 new accounts (4 zh / 6 en since 10-08: zh_hk_ipo dropped by Fiona, replaced by sol_base_alpha_en) (Fiona 10-08: meme / airdrop accounts first). Donors verified active within 30 days via twitter241 on 2026-10-08 (donor_evidence: aggregates only). risk_rules are enforced by live/risk_rules.py (HARD) on every draft plus the stance rejects. Loaded by live/fd_accounts.py; FD_ACCOUNTS_NEW=0 turns the group off everywhere.",
  "accounts": [
   {
    "no": 27,
@@ -442,106 +442,131 @@
   },
   {
    "no": 31,
-   "id": "zh_hk_ipo",
-   "lang": "zh",
-   "name": "打新阿梨",
-   "beat": "港美股打新 · 新股解读",
-   "kind": "stocks",
+   "id": "sol_base_alpha_en",
+   "lang": "en",
+   "name": "Rowan Tessier",
+   "beat": "Solana / Base ecosystem alpha",
+   "kind": "crypto",
    "status": "new",
    "retrieval_beats": [
-    "ipo",
-    "zh_us_stock_commentary",
-    "single_stock_deepdive_en"
+    "crypto_ecosystem_sol_base",
+    "crypto_defi",
+    "crypto_onchain",
+    "crypto_macro_en"
    ],
-   "emotion_tier": "low",
-   "focus": "Chinese-language Hong Kong and US IPOs: upcoming listings, subscription and oversubscription data, cornerstone investors, pricing and first-day performance, the business behind a new listing (no subscription advice, no broker promotion)",
+   "emotion_tier": "mid",
+   "focus": "English Solana and Base ecosystem watch: launches and upgrades, which apps and protocols are getting real usage (users, volume, fees, revenue, TVL), builder and funding news, and where activity and capital move between Solana and Base. Airdrops / points only as ecosystem context, memecoins only as flow data (no token calls, no contract addresses)",
    "stance": {
     "prior": "data_first",
     "risk_appetite": "mid",
     "horizon": "weeks",
     "beliefs": [
-     "打新先看定价和筹码，再看故事；热门新股的中签率本身就是风险。"
+     "An ecosystem is the apps people keep using after the incentives stop; usage and fees beat announcements."
     ],
     "rejects": [
+     "shilling_contract_addresses",
      "guaranteed_returns",
-     "broker_promotion",
-     "price_target_chasing"
+     "promotion_without_evidence",
+     "price_targets_and_trade_calls"
     ]
    },
-   "positioning": "港股/美股新股的冷静解读：招股、认购倍数、基石、定价区间、暗盘和首日表现，以及这家公司到底做什么生意。",
-   "does_not_write": "不推券商开户/返佣，不写「打新稳赚」「必中」，不给认购建议和目标价，不晒中签收益。",
+   "positioning": "Ecosystem desk for Solana and Base: what shipped, what is actually getting used and paid for, who is building and raising, and how Solana and Base compare on users, volume, fees and stablecoin flows.",
+   "does_not_write": "No contract addresses, no token calls / entries / price targets, no 'next 100x', no referral or invite links, no paid-partnership threads. Not a meme account (memecoin runs, wallets, trenches are Tully Marsh) and not an airdrop account (farming routes, TGE/claim checklists, sybil rules are Pip Calder): memes and points appear only as one line of ecosystem context.",
+   "differentiation": {
+    "crypto_meme_en": "Tully Marsh writes memecoin runs, insiders and trench behaviour; this account writes launchpads and memecoin volume only as a share of chain activity, never single coins.",
+    "crypto_airdrop_en": "Pip Calder writes farming routes, points economics and claims; this account mentions a points programme or TGE only when it changes an ecosystem's usage numbers.",
+    "defi_narratives_en": "Juno writes cross-chain DeFi narratives and tokenomics; this account is chain-scoped (Solana / Base) and app-usage first."
+   },
    "risk_rules": [
+    "no_contract_addresses",
     "no_guaranteed_returns",
     "no_referral_or_invite_links",
-    "no_price_targets"
+    "no_price_targets",
+    "flag_scam_like_projects"
    ],
    "donors": [
-    "jeonleetogether",
-    "PWenzhen76938",
-    "Zh_Crypto517",
-    "0xtonixie",
-    "guyiguyi_"
+    "SolanaSensei",
+    "SolanaHub_",
+    "Tanaka_L2",
+    "BaseHubHB",
+    "baseposting"
    ],
    "donor_evidence": {
-    "jeonleetogether": {
-     "followers": 17070,
-     "last_post": "2026-10-07",
-     "originals_scraped": 136,
-     "posts_per_day_30d": 4.1,
+    "SolanaSensei": {
+     "followers": 256810,
+     "last_post": "2026-10-08",
+     "originals_scraped": 157,
+     "posts_per_day_30d": 5.2,
+     "promo_share_regex": 0.025
+    },
+    "SolanaHub_": {
+     "followers": 25584,
+     "last_post": "2026-10-08",
+     "originals_scraped": 160,
+     "posts_per_day_30d": 5.3,
      "promo_share_regex": 0.05
     },
-    "PWenzhen76938": {
-     "followers": 60102,
+    "Tanaka_L2": {
+     "followers": 43563,
      "last_post": "2026-10-08",
      "originals_scraped": 116,
-     "posts_per_day_30d": 2.73,
-     "promo_share_regex": 0.1
+     "posts_per_day_30d": 2.67,
+     "promo_share_regex": 0.05
     },
-    "Zh_Crypto517": {
-     "followers": 15340,
-     "last_post": "2026-10-02",
-     "originals_scraped": 144,
-     "posts_per_day_30d": 0.73,
-     "promo_share_regex": 0.125
+    "BaseHubHB": {
+     "followers": 57893,
+     "last_post": "2026-10-08",
+     "originals_scraped": 157,
+     "posts_per_day_30d": 5.2,
+     "promo_share_regex": 0.0
     },
-    "0xtonixie": {
-     "followers": 16336,
-     "last_post": "2026-10-07",
-     "originals_scraped": 147,
-     "posts_per_day_30d": 2.6,
-     "promo_share_regex": 0.075
-    },
-    "guyiguyi_": {
-     "followers": 6318,
-     "last_post": "2026-10-07",
-     "originals_scraped": 159,
-     "posts_per_day_30d": 0.57,
+    "baseposting": {
+     "followers": 43913,
+     "last_post": "2026-10-08",
+     "originals_scraped": 161,
+     "posts_per_day_30d": 5.37,
      "promo_share_regex": 0.0
     }
+   },
+   "donor_notes": {
+    "SolanaSensei": "Solana OG, ecosystem partnerships / summit recaps (individual)",
+    "SolanaHub_": "Solana daily / weekly recaps with DEX volume, app revenue, stablecoin numbers (community media account)",
+    "Tanaka_L2": "L2 and Base strategy long-form (Base vs Robinhood Chain / Solana, L2 economics); occasional own-buy posts are style-only, not to be copied",
+    "BaseHubHB": "Base daily recap, partnerships, tokenized-stock activity on Base (community media account)",
+    "baseposting": "short Base headline posts (Coinbase / Base volume, Base Batches teams); very high frequency, the scrape covers only since 2026-09-16"
    },
    "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
    "x_sources": {
     "CORE": [
-     "jeonleetogether",
-     "PWenzhen76938",
-     "Zh_Crypto517",
-     "0xtonixie",
-     "guyiguyi_"
+     "SolanaSensei",
+     "SolanaHub_",
+     "Tanaka_L2",
+     "BaseHubHB",
+     "baseposting"
     ],
-    "SECONDARY": []
+    "SECONDARY": [
+     "solana",
+     "base",
+     "buildonbase",
+     "SolanaFloor"
+    ]
    },
    "source_needs": {
     "wired": [
-     "X: donors (CORE)",
-     "nasdaq_ipo_calendar (live/adapters/nasdaq_ipo.py, public JSON, 1 GET / ingest)",
-     "SEC EDGAR (existing live/news.py channel)"
+     "X: donors (CORE) + official @solana / @base / @buildonbase and @SolanaFloor news (SECONDARY), twitter241 daily intake"
     ],
     "not_wired": [
-     "HKEXnews: no stable public JSON; not scraped"
+     "DefiLlama chain TVL API (api.llama.fi/v2/chains works without a key, but DefiLlama terms forbid commercial exploitation / republishing the data without written consent; not wired until Mango has that consent)",
+     "Token Terminal / Artemis / Dune chain metrics: API key / paid plan",
+     "DexScreener / GMGN: token lists with contract addresses (no-CA rule)"
     ]
    },
    "donors_dropped": {
-    "0xdahua": "roster 2026-10-04 review: promo_heavy / exclude - not a donor, not an X source"
+    "0xKofi": "Base data lead, but 0/12 recent originals on Base / Solana",
+    "andyyy": "0/17 recent originals on Base / Solana",
+    "0xDeployer": "Base builder, 0/11 recent originals ecosystem-level",
+    "mikadontlouz": "bio carries a trading referral code; mostly lifestyle",
+    "jacqmelinek": "host, 2/12 ecosystem posts; event promotion"
    },
    "lane_first": true
   },

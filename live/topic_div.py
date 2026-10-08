@@ -90,8 +90,6 @@ MARKET_THEMES = (
     ('biotech_health', r'医药|制药|生物|biotech|pharma|drug|临床|trial|FDA|健康|health'),
     ('investing_principles', r'长期|复利|纪律|心态|风险管理|分散|耐心|投资者|交易系统|止损|复盘|long[- ]term|compounding|'
                              r'discipline|behavio|diversif|patience|investors? should|lesson|mistake|risk management'),
-    # Oct 8 (36 accounts): IPO lane (appended)
-    ('ipo', r'\bIPOs?\b|打新|招股|新股|认购|中签|暗盘|孖展|基石|递表|上市首日|港交所|HKEX|S-1|F-1|go(?:es|ing)? public'),
 )
 _CRYPTO_RX = [(k, re.compile(v, _C)) for k, v in CRYPTO_THEMES]
 _MARKET_RX = [(k, re.compile(v, _C)) for k, v in MARKET_THEMES]

@@ -140,8 +140,9 @@ def main():
         fam_shares = {f: {**v, 'styles': dict(v['styles'])} for f, v in keep['families'].items()}
         out['accounts'] = dict(keep['accounts'])
         out['built'] = keep.get('built')
-        out['added'] = {**(keep.get('added') or {}), date.today().isoformat(): [a['id'] for a in accounts
-                                                                                if a['id'] not in keep['accounts']]}
+        today = date.today().isoformat()   # a second run on the same day appends (Oct 8 b)
+        out['added'] = {**(keep.get('added') or {}), today: ((keep.get('added') or {}).get(today) or []) +
+                        [a['id'] for a in accounts if a['id'] not in keep['accounts']]}
     for a in accounts:
         if keep and a['id'] in keep['accounts']:
             continue

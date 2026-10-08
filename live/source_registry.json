@@ -5426,22 +5426,6 @@
         "crypto_stable_yield"
       ],
       "note": "Oct 8 (36 accounts): TVL-weighted APY and the largest single-asset stablecoin pools (> $100m TVL); free API, one GET per ingest"
-    },
-    {
-      "id": "nasdaq_ipo_calendar",
-      "name": "Nasdaq IPO calendar",
-      "type": "research",
-      "enabled": true,
-      "adapter": "nasdaq_ipo",
-      "api_url": "https://api.nasdaq.com/api/ipo/calendar",
-      "source_language": "en",
-      "route_accounts": [
-        "zh_hk_ipo"
-      ],
-      "route_beats": [
-        "ipo"
-      ],
-      "note": "Oct 8 (36 accounts): this month's priced / upcoming US IPOs; public JSON, one GET per ingest"
     }
   ],
   "reference_pool_zh": {
