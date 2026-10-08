@@ -38,6 +38,8 @@ import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
+from live import fd_accounts  # Oct 8: the 36-account roster (live/fd_accounts.py)
+
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / 'live' / 'archive_lookback.json'
 ACCOUNTS = ROOT / 'live' / 'fd20_accounts.json'
@@ -74,7 +76,7 @@ def enabled_accounts(config=None, environ=None):
         return []
     ids = (config or load_config()).get('enabled_accounts') or []
     if ids == 'all':
-        ids = [a['id'] for a in json.loads(ACCOUNTS.read_text())['accounts']]
+        ids = [a['id'] for a in fd_accounts.rows(ACCOUNTS)]
     only = [a.strip() for a in str(env.get('FD_ARCHIVE_ACCOUNTS') or '').split(',') if a.strip()]
     return [a for a in ids if a in only] if only else list(ids)
 
@@ -840,6 +842,8 @@ def check(body, cand, account_cfg):
             if not f:
                 continue
         found.append({**f, 'level': 'hard' if f['code'] in editorial_style.HARD_CODES else 'soft'})
+    from live import risk_rules   # Oct 8: contract address / guaranteed return / scam call / referral
+    found += [{**f, 'level': 'hard'} for f in risk_rules.findings(body, lang)]
     return found, rows
 
 
@@ -1253,7 +1257,7 @@ def run(account_ids, day, *, timely_planned=None, force=False, config=None, writ
     from live import archive_evergreen as ae, compose_inbox, posting_habits as ph, registry
     config = config or load_config()
     day = date.fromisoformat(str(day))
-    accounts = {a['id']: a for a in json.loads(ACCOUNTS.read_text())['accounts']}
+    accounts = {a['id']: a for a in fd_accounts.rows(ACCOUNTS)}
     run_id = 'arc' + _now().strftime('%Y%m%dT%H%M%S')
     out_dir = Path(runs_dir or raw_dir() / 'runs') / day.isoformat() / run_id
     summary = {'day': day.isoformat(), 'run_id': run_id, 'accounts': {}, 'rapid_calls': 0, 'model_usd': 0.0,
@@ -1419,7 +1423,7 @@ def recheck(day, *, base=None, accounts_path=None, log=print, ask=None):
     Held drafts whose hard codes no longer fire become ready; ready drafts that now trip a hard code are held.
     Human-reviewed and superseded drafts are left alone."""
     from live import compose_inbox
-    accounts = {a['id']: a for a in json.loads(Path(accounts_path or ACCOUNTS).read_text())['accounts']}
+    accounts = {a['id']: a for a in fd_accounts.rows(accounts_path or ACCOUNTS)}
     out = []
     for row in archive_rows(day, base=base):
         if row.get('review_status', 'pending') != 'pending' or str(row.get('hold_reason') or '').startswith('model_error'):
@@ -1458,7 +1462,7 @@ def timely_planned_for(day, accounts=None):
     import sys
     sys.path[:0] = [str(ROOT / 'scripts'), str(ROOT)]
     import daily_compose as dc
-    all_accounts = json.loads(ACCOUNTS.read_text())['accounts']
+    all_accounts = fd_accounts.rows(ACCOUNTS)
     plan, _order = dc.select(all_accounts, json.loads(UNIVERSES.read_text()), date.fromisoformat(str(day)), 2)
     return {a: sum(1 for p in picks if p.get('timely')) for a, picks in plan.items()
             if accounts is None or a in accounts}

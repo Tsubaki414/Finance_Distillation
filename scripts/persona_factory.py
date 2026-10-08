@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-"""Persona factory for the 20 main accounts (live/fd20_accounts.json; Oct 7).
+"""Persona factory for the daily-drafting accounts (Oct 7: the 20 mains; Oct 8: + 6 spares + 10 new = 36, the gated
+roster of live/fd_accounts.py - FD_ACCOUNTS_EXTRA=0 / FD_ACCOUNTS_NEW=0 leave a group out).
 
 For every account it makes sure the compose chain has what it needs, with no model calls:
-  1. donor cluster  roster.persona_clusters['acct_<id>'] from /workspace/x/bios/plan_crypto.json (5 donors,
-                    equal weight; every donor must be a verified voice donor of the account language)
+  1. donor cluster  roster.persona_clusters['acct_<id>'] from the row's donors (spares / new, Oct 8) or
+                    /workspace/x/bios/plan_crypto.json main (5 donors, equal weight; every donor must be a verified
+                    voice donor of the account language). New-account donors (rows with donor_evidence: verified
+                    active on twitter241, aggregates only) are added to the roster first.
   2. persona file   live/personas/<id>.json (new accounts only; existing personas are never rewritten)
   3. emotion tier   live/emotion_tiers.json personas[<id>] (crypto may be emotional, zh restrained = low)
   4. habit card     live/personas/posting_habits/<id>.json (post-type mix, length per type, topics, posting
@@ -18,6 +21,9 @@ fill) to each acct_<id> cluster and lists the account's X sources. Merged donors
 >= MERGE_MIN_POSTS deep-scraped originals, promo_share <= MERGE_MAX_PROMO, and sit in at most
 MERGE_MAX_ACCOUNTS clusters. The cluster's base donors keep their relative weights inside BASE_SHARE; merged
 donors split the rest equally. Re-running is idempotent (merged entries carry 'merged': <version>).
+
+X sources of spare / new rows come from the row's x_sources (CORE = its donors) and are registered tier B in
+live/source_licence.json (individual analysts, paraphrase only) when missing.
 
 Cards and the universe file are aggregates, but they are learned from donor text: they stay out of git
 (.gitignore). Re-run after a donor backfill to rebuild cards (--rebuild-cards also rebuilds existing accounts'
@@ -37,10 +43,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from live import angles, registry  # noqa: E402
-from live.jev_front import SUB_BEATS  # noqa: E402
+from live import angles, fd_accounts, registry  # noqa: E402
+from live.jev_front import LANE_BEATS  # noqa: E402
 
-CONFIG = ROOT / 'live' / 'fd20_accounts.json'
+CONFIG = ROOT / 'live' / 'fd20_accounts.json'   # read through live/fd_accounts.rows (36-account roster)
+LICENCE = ROOT / 'live' / 'source_licence.json'
 PLAN = Path('/workspace/x/bios/plan_crypto.json')
 ROSTER = ROOT / 'live' / 'donors' / 'roster.json'
 PERSONAS = ROOT / 'live' / 'personas'
@@ -102,10 +109,56 @@ def ensure_cluster(roster, account, donors):
     w = round(1.0 / len(ok), 4)
     roster['persona_clusters'][name] = {
         'lang': account['lang'], 'donors': [{'handle': h, 'weight': w} for h in ok],
-        'origin': 'fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)',
+        'origin': ('fd20 persona_factory 2026-10-07 from plan_crypto.json main (equal weights)' if account.get('group', 'main') == 'main'
+                   else f"persona_factory 2026-10-08 from the {account['group']} account row donors (equal weights)"),
         # the topic cluster whose content tags feed this account (its primary retrieval beat)
         'previous_cluster': account['retrieval_beats'][0]}
     return name, True
+
+
+def ensure_roster_donors(roster, account):
+    """Oct 8: a new account's donors (row donor_evidence: twitter241-verified, active in the last 30 days) become
+    roster voice donors of the account language. Existing roster entries are left as they are. True when changed."""
+    changed = False
+    for h, ev in (account.get('donor_evidence') or {}).items():
+        if h.lower() in roster['donors']:
+            continue
+        roster['donors'][h.lower()] = {
+            'handle': h, 'lang': account['lang'], 'category': (account.get('retrieval_beats') or ['?'])[0],
+            'persona_cluster': 'acct_' + account['id'], 'verified': True, 'donor_fit': 'voice', 'promo_heavy': False,
+            'followers': ev.get('followers'), 'latest_post': ev.get('last_post'),
+            'posts_per_day': ev.get('posts_per_day_30d'), 'promo_share': ev.get('promo_share_regex'),
+            'added': '2026-10-08', 'origin': f"accounts36 slate: {account['id']} donor",
+            'verify_note': (f"{account.get('donors_checked') or 'twitter241'}; {ev.get('originals_scraped')} originals "
+                            f"scraped; promo_share = regex share of the 40 newest originals")}
+        changed = True
+    return changed
+
+
+def register_x_sources(accounts):
+    """Oct 8: the spare / new rows' X sources (row x_sources) get a tier B licence entry when they have none
+    (individual analysts: paraphrase with attribution, same basis as the fd20 account-scoped sources). Returns the
+    handles added."""
+    raw = load_json(LICENCE)
+    added = []
+    for a in accounts:
+        for role in ('CORE', 'SECONDARY'):
+            for h in (a.get('x_sources') or {}).get(role) or []:
+                sid = 'x_' + h
+                if sid in raw['tiers']:
+                    continue
+                raw['tiers'][sid] = {'tier': 'B', 'basis': f"X analyst posts ({a['group']} account-scoped source, 2026-10-08)",
+                                     'aliases': [h]}
+                added.append(h)
+    if added:
+        LICENCE.write_text(json.dumps(raw, ensure_ascii=False, indent=2) + '\n')
+    return added
+
+
+def x_sources_of(account, merge):
+    """{'CORE': [...], 'SECONDARY': [...]}: the merge file's (main accounts) or the row's own (spare / new)."""
+    merged = ((merge.get('accounts') or {}).get(account['id']) or {}).get('x_sources')
+    return merged or account.get('x_sources') or {}
 
 
 def merge_cluster(roster, account, merge):
@@ -178,8 +231,11 @@ def persona_raw(account, cluster):
         'exemplar_retrieval': {'enabled': True, 'k': 4, 'use': 'style only; facts, numbers and phrases never'},
         'banned': list(BANNED),
         'display': {'name': account['name'], 'beat': account['beat']},
-        'lineage': {'created_by': 'scripts/persona_factory.py', 'created': '2026-10-07',
-                    'from': 'FD_accounts_final_v2.xlsx main row %d; plan_crypto.json donors' % account['no']},
+        'lineage': ({'created_by': 'scripts/persona_factory.py', 'created': '2026-10-07',
+                     'from': 'FD_accounts_final_v2.xlsx main row %d; plan_crypto.json donors' % account['no']}
+                    if account.get('group', 'main') == 'main' else
+                    {'created_by': 'scripts/persona_factory.py', 'created': '2026-10-08', 'status': account.get('status'),
+                     'from': f"account no {account['no']} ({account['group']}): live/fd_accounts_{'extra' if account['group'] == 'spare' else 'new'}.json donors"}),
     }
 
 
@@ -207,8 +263,8 @@ def main():
     ap.add_argument('--rebuild-cards', action='store_true')
     ap.add_argument('--dry-run', action='store_true')
     args = ap.parse_args()
-    config = load_json(CONFIG)['accounts']
-    plan = {a['id']: a for a in load_json(PLAN)['main']}
+    config = fd_accounts.rows(CONFIG)
+    plan = {a['id']: a for a in load_json(PLAN)['main']} if PLAN.exists() else {}
     only = set(args.accounts.split(',')) if args.accounts else None
     roster = load_json(ROSTER)
     merge = load_json(MERGE) if MERGE.exists() else {}
@@ -221,8 +277,10 @@ def main():
             continue
         aid = account['id']
         row = {'existing': bool(account.get('existing'))}
-        donors = (plan.get(aid) or {}).get('donors') or []
+        donors = account.get('donors') or (plan.get(aid) or {}).get('donors') or []
         persona_path = PERSONAS / f'{aid}.json'
+        if account.get('donor_evidence'):
+            changed_roster |= ensure_roster_donors(roster, account)
         if not account.get('existing'):
             cluster, made = ensure_cluster(roster, account, donors)
             changed_roster |= made
@@ -247,6 +305,9 @@ def main():
                 changed_emotion = True
         report[aid] = row
     if not args.dry_run:
+        added = register_x_sources([a for a in config if a['id'] in report and a.get('group', 'main') != 'main'])
+        if added:
+            print('x sources registered tier B:', ', '.join(added))
         if changed_roster:
             ROSTER.write_text(json.dumps(roster, ensure_ascii=False, indent=1) + "\n")   # roster layout: indent 1
         if changed_emotion:
@@ -288,14 +349,15 @@ def main():
         uni = source_universe(store, account['retrieval_beats'])
         universes[aid] = {
             'account_id': aid, 'no': account['no'], 'lang': account['lang'], 'name': account['name'],
+            'group': account.get('group', 'main'), 'status': account.get('status', 'main'),
             'beat': account['beat'], 'kind': account['kind'], 'emotion_tier': account['emotion_tier'],
             'retrieval_beats': account['retrieval_beats'], 'same_language_allowed': True,
-            'lanes': [b for b in account['retrieval_beats'] if b in SUB_BEATS],
+            'lanes': [b for b in account['retrieval_beats'] if b in LANE_BEATS],
             # tier B handles are fetched daily into units (live/x_daily.py); C = topic lead only; None = unregistered
             'x_sources': [{'handle': h, 'source_id': 'x_' + h, 'enabled': True, 'role': role,
                            'tier': registry.source_licence_tier('x_' + h)}
                           for role in ('CORE', 'SECONDARY')
-                          for h in ((merge.get('accounts') or {}).get(aid, {}).get('x_sources') or {}).get(role, [])],
+                          for h in x_sources_of(account, merge).get(role, [])],
             'attribution_line': False, **uni,
             'angle_mix': mix, 'top_angles': angles.top_angles(mix), 'angle_basis_posts': used,
             'post_type_mix': card.get('post_type_mix'), 'posting_hours_london': card.get('posting_hours_london'),

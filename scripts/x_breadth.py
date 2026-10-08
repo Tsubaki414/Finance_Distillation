@@ -32,7 +32,8 @@ UNIVERSES = ROOT / 'live' / 'store' / 'fd20' / 'universes.json'
 
 
 def _accounts():
-    return json.loads(ACCOUNTS.read_text())['accounts']
+    from live import fd_accounts
+    return fd_accounts.rows(ACCOUNTS)
 
 
 def mentions(accounts):

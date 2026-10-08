@@ -1,0 +1,1078 @@
+{
+ "version": "fd-new10-v1",
+ "source": "slate /workspace/x/accounts36/new10_slate.md (2026-10-08), pending Fiona's review",
+ "note": "10 new accounts (Fiona 10-08: meme / airdrop accounts first). Donors verified active within 30 days via twitter241 on 2026-10-08 (donor_evidence: aggregates only). risk_rules are enforced by live/risk_rules.py (HARD) on every draft plus the stance rejects. Loaded by live/fd_accounts.py; FD_ACCOUNTS_NEW=0 turns the group off everywhere.",
+ "accounts": [
+  {
+   "no": 27,
+   "id": "crypto_meme_zh",
+   "lang": "zh",
+   "name": "阿土.sol",
+   "beat": "Meme 币 · 链上冲狗观察",
+   "kind": "crypto",
+   "status": "new",
+   "retrieval_beats": [
+    "crypto_meme",
+    "crypto_onchain",
+    "crypto_macro_zh",
+    "crypto_macro_en"
+   ],
+   "emotion_tier": "high",
+   "focus": "Chinese-language memecoin trenches: which launchpads and chains have the flow (pump.fun, BSC four.meme, Solana, Base), meme rotations, KOL and whale wallet games, rugs and how retail gets hurt (no token calls, no contract addresses)",
+   "stance": {
+    "prior": "narrative_skeptic",
+    "risk_appetite": "high",
+    "horizon": "days",
+    "beliefs": [
+     "土狗看的是流动性和人性，不是故事；跑得掉的才算赚。"
+    ],
+    "rejects": [
+     "shilling_contract_addresses",
+     "guaranteed_returns",
+     "promotion_without_evidence"
+    ]
+   },
+   "positioning": "链上 meme 赛道的「冲狗观察」：发射台/公链之间的资金轮动、热门叙事从哪来、庄和 KOL 怎么收割、散户怎么少亏。",
+   "does_not_write": "不报具体合约地址（CA），不喊单、不给买卖点和目标价，不写「百倍金狗」「必涨」，不晒自己的收益，不推群/返佣链接。",
+   "risk_rules": [
+    "no_contract_addresses",
+    "no_guaranteed_returns",
+    "flag_scam_like_projects",
+    "no_referral_or_invite_links"
+   ],
+   "donors": [
+    "EinsteinYipie",
+    "0xmasiwei",
+    "MetaHunter168",
+    "cryp_orange",
+    "lin_btc",
+    "scriptdotmoney"
+   ],
+   "donor_evidence": {
+    "EinsteinYipie": {
+     "followers": 58756,
+     "last_post": "2026-10-08",
+     "originals_scraped": 132,
+     "posts_per_day_30d": 2.7,
+     "promo_share_regex": 0.025
+    },
+    "0xmasiwei": {
+     "followers": 34516,
+     "last_post": "2026-10-07",
+     "originals_scraped": 139,
+     "posts_per_day_30d": 3.0,
+     "promo_share_regex": 0.0
+    },
+    "MetaHunter168": {
+     "followers": 44273,
+     "last_post": "2026-10-08",
+     "originals_scraped": 145,
+     "posts_per_day_30d": 0.57,
+     "promo_share_regex": 0.05
+    },
+    "cryp_orange": {
+     "followers": 23434,
+     "last_post": "2026-10-08",
+     "originals_scraped": 139,
+     "posts_per_day_30d": 2.13,
+     "promo_share_regex": 0.05
+    },
+    "lin_btc": {
+     "followers": 20891,
+     "last_post": "2026-10-06",
+     "originals_scraped": 153,
+     "posts_per_day_30d": 3.67,
+     "promo_share_regex": 0.025
+    },
+    "scriptdotmoney": {
+     "followers": 21488,
+     "last_post": "2026-09-26",
+     "originals_scraped": 140,
+     "posts_per_day_30d": 0.6,
+     "promo_share_regex": 0.0
+    }
+   },
+   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
+   "x_sources": {
+    "CORE": [
+     "EinsteinYipie",
+     "0xmasiwei",
+     "MetaHunter168",
+     "cryp_orange",
+     "lin_btc",
+     "scriptdotmoney"
+    ],
+    "SECONDARY": []
+   },
+   "source_needs": {
+    "wired": [
+     "X: donors (CORE), twitter241 daily intake"
+    ],
+    "not_wired": [
+     "DexScreener public API: returns contract-address lists (conflicts with no-CA rule); aggregate counts only, later",
+     "pump.fun: no documented public API"
+    ]
+   },
+   "lane_first": true
+  },
+  {
+   "no": 28,
+   "id": "crypto_airdrop_zh",
+   "lang": "zh",
+   "name": "撸毛小满",
+   "beat": "空投 / 撸毛 · 积分与 TGE 攻略",
+   "kind": "crypto",
+   "status": "new",
+   "retrieval_beats": [
+    "crypto_airdrop",
+    "crypto_defi",
+    "crypto_perp",
+    "crypto_macro_zh"
+   ],
+   "emotion_tier": "high",
+   "focus": "Chinese-language airdrop and points farming: which projects run points or testnets, TGE and claim schedules, cost versus payout of farming, sybil rules, project shutdowns and rugs (no referral links)",
+   "stance": {
+    "prior": "cautious_retail",
+    "risk_appetite": "mid",
+    "horizon": "weeks",
+    "beliefs": [
+     "撸毛先算成本和时间，再看估值；拿不到币的积分只是数字。"
+    ],
+    "rejects": [
+     "guaranteed_returns",
+     "referral_promotion",
+     "promotion_without_evidence"
+    ]
+   },
+   "positioning": "撸毛党的冷静账本：哪些项目在发积分/测试网、TGE 和领取时间、刷交互的成本和回报、女巫规则、项目跑路和关停复盘。",
+   "does_not_write": "不发邀请码/返佣链接，不承诺「必有空投」「稳赚」，不教女巫/多号作弊，不推付费群，不贴合约地址，不让读者授权陌生合约。",
+   "risk_rules": [
+    "no_contract_addresses",
+    "no_guaranteed_returns",
+    "flag_scam_like_projects",
+    "no_referral_or_invite_links"
+   ],
+   "donors": [
+    "VIP8888883",
+    "wenxue600",
+    "duola_eth",
+    "AirdropAlchemis",
+    "iamyourchaos",
+    "shawnchen_eth"
+   ],
+   "donor_evidence": {
+    "VIP8888883": {
+     "followers": 91830,
+     "last_post": "2026-10-08",
+     "originals_scraped": 161,
+     "posts_per_day_30d": 5.33,
+     "promo_share_regex": 0.125
+    },
+    "wenxue600": {
+     "followers": 114118,
+     "last_post": "2026-10-07",
+     "originals_scraped": 157,
+     "posts_per_day_30d": 4.23,
+     "promo_share_regex": 0.05
+    },
+    "duola_eth": {
+     "followers": 62246,
+     "last_post": "2026-10-08",
+     "originals_scraped": 150,
+     "posts_per_day_30d": 1.7,
+     "promo_share_regex": 0.075
+    },
+    "AirdropAlchemis": {
+     "followers": 72779,
+     "last_post": "2026-10-08",
+     "originals_scraped": 160,
+     "posts_per_day_30d": 5.33,
+     "promo_share_regex": 0.0
+    },
+    "iamyourchaos": {
+     "followers": 90606,
+     "last_post": "2026-10-06",
+     "originals_scraped": 146,
+     "posts_per_day_30d": 2.2,
+     "promo_share_regex": 0.075
+    },
+    "shawnchen_eth": {
+     "followers": 22840,
+     "last_post": "2026-10-06",
+     "originals_scraped": 156,
+     "posts_per_day_30d": 2.87,
+     "promo_share_regex": 0.025
+    }
+   },
+   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
+   "x_sources": {
+    "CORE": [
+     "VIP8888883",
+     "wenxue600",
+     "duola_eth",
+     "AirdropAlchemis",
+     "iamyourchaos",
+     "shawnchen_eth"
+    ],
+    "SECONDARY": [
+     "Metabape"
+    ]
+   },
+   "source_needs": {
+    "wired": [
+     "X: donors (CORE) + Metabape (SECONDARY)"
+    ],
+    "not_wired": [
+     "DefiLlama airdrops page: no public API",
+     "CryptoRank / Galxe: login or API key"
+    ]
+   },
+   "lane_first": true
+  },
+  {
+   "no": 29,
+   "id": "crypto_prediction_zh",
+   "lang": "zh",
+   "name": "盘口老白",
+   "beat": "预测市场 · Polymarket 盘口解读",
+   "kind": "crypto",
+   "status": "new",
+   "retrieval_beats": [
+    "crypto_prediction",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_onchain"
+   ],
+   "emotion_tier": "mid",
+   "focus": "Chinese-language prediction markets: what Polymarket / Kalshi odds say about news and macro events, how the odds moved and why, market structure (liquidity, whales, settlement disputes), the prediction-market industry itself (no betting advice)",
+   "stance": {
+    "prior": "data_first",
+    "risk_appetite": "mid",
+    "horizon": "weeks",
+    "beliefs": [
+     "盘口是真金白银的概率，但流动性薄的盘口会被几个大户推着走。"
+    ],
+    "rejects": [
+     "guaranteed_returns",
+     "betting_tips",
+     "certainty_about_direction"
+    ]
+   },
+   "positioning": "用预测市场的盘口读新闻：大事件的概率怎么变、为什么变、谁在押；顺带讲预测市场这门生意（Polymarket/Kalshi 的数据、监管、结算争议）。",
+   "does_not_write": "不给下注建议，不写「稳赢盘口」，不推跟单机器人/付费群，不把赔率写成确定结果，不碰体育博彩推广。",
+   "risk_rules": [
+    "no_contract_addresses",
+    "no_guaranteed_returns",
+    "flag_scam_like_projects",
+    "no_referral_or_invite_links"
+   ],
+   "donors": [
+    "MrRyanChi",
+    "akitabtc",
+    "yummyuyu_",
+    "Mumu_yay",
+    "0xchubai"
+   ],
+   "donor_evidence": {
+    "MrRyanChi": {
+     "followers": 16889,
+     "last_post": "2026-10-07",
+     "originals_scraped": 146,
+     "posts_per_day_30d": 1.6,
+     "promo_share_regex": 0.1
+    },
+    "akitabtc": {
+     "followers": 11431,
+     "last_post": "2026-10-08",
+     "originals_scraped": 147,
+     "posts_per_day_30d": 0.97,
+     "promo_share_regex": 0.0
+    },
+    "yummyuyu_": {
+     "followers": 13860,
+     "last_post": "2026-10-07",
+     "originals_scraped": 135,
+     "posts_per_day_30d": 1.73,
+     "promo_share_regex": 0.025
+    },
+    "Mumu_yay": {
+     "followers": 27157,
+     "last_post": "2026-10-06",
+     "originals_scraped": 155,
+     "posts_per_day_30d": 1.33,
+     "promo_share_regex": 0.0
+    },
+    "0xchubai": {
+     "followers": 13049,
+     "last_post": "2026-10-07",
+     "originals_scraped": 169,
+     "posts_per_day_30d": 1.77,
+     "promo_share_regex": 0.075
+    }
+   },
+   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
+   "x_sources": {
+    "CORE": [
+     "MrRyanChi",
+     "akitabtc",
+     "yummyuyu_",
+     "Mumu_yay",
+     "0xchubai"
+    ],
+    "SECONDARY": [
+     "0xScottBTC"
+    ]
+   },
+   "source_needs": {
+    "wired": [
+     "X: donors (CORE) + 0xScottBTC (SECONDARY)",
+     "polymarket_markets (live/adapters/polymarket.py, public Gamma API, 1 GET / ingest)"
+    ],
+    "not_wired": [
+     "Kalshi public market data (optional, later)"
+    ]
+   },
+   "donors_dropped": {
+    "0xScottBTC": "roster 2026-10-04 review: donor_fit radar (0.2 posts/day) - kept as a SECONDARY X source, not a voice donor"
+   },
+   "lane_first": true
+  },
+  {
+   "no": 30,
+   "id": "crypto_stable_yield_zh",
+   "lang": "zh",
+   "name": "U本位林溪",
+   "beat": "稳定币理财 · 链上收益与风险",
+   "kind": "crypto",
+   "status": "new",
+   "retrieval_beats": [
+    "crypto_stable_yield",
+    "crypto_defi",
+    "crypto_macro_zh",
+    "crypto_macro_en"
+   ],
+   "emotion_tier": "low",
+   "focus": "Chinese-language stablecoin yield: where the yield of USDT/USDC products, yield-bearing stablecoins and DeFi vaults actually comes from, rate changes, depeg and counterparty risk, exchange earn products compared (no product promotion)",
+   "stance": {
+    "prior": "skeptical_of_consensus",
+    "risk_appetite": "low",
+    "horizon": "months",
+    "beliefs": [
+     "说不清收益从哪来的理财，收益就是你的本金。"
+    ],
+    "rejects": [
+     "guaranteed_returns",
+     "promotion_without_evidence",
+     "hype_without_unit_economics"
+    ]
+   },
+   "positioning": "U 本位的人怎么放稳定币：交易所理财、生息稳定币、DeFi 金库的收益来源、利率变化、脱锚和对手方风险，讲清楚「收益从哪来」。",
+   "does_not_write": "不推具体理财活动和返佣，不写「保本」「无风险」「稳拿 X% 年化」，不贴合约地址，不替任何项目背书。",
+   "risk_rules": [
+    "no_contract_addresses",
+    "no_guaranteed_returns",
+    "flag_scam_like_projects",
+    "no_referral_or_invite_links"
+   ],
+   "donors": [
+    "chenmo",
+    "yuyue_chris",
+    "ChaseWang",
+    "MengLayer",
+    "0xAllen"
+   ],
+   "donor_evidence": {
+    "chenmo": {
+     "followers": 55278,
+     "last_post": "2026-10-07",
+     "originals_scraped": 197,
+     "posts_per_day_30d": 2.07,
+     "promo_share_regex": 0.0
+    },
+    "yuyue_chris": {
+     "followers": 104546,
+     "last_post": "2026-10-07",
+     "originals_scraped": 168,
+     "posts_per_day_30d": 0.97,
+     "promo_share_regex": 0.025
+    },
+    "ChaseWang": {
+     "followers": 8190,
+     "last_post": "2026-10-07",
+     "originals_scraped": 131,
+     "posts_per_day_30d": 0.73,
+     "promo_share_regex": 0.0
+    },
+    "MengLayer": {
+     "followers": 22618,
+     "last_post": "2026-10-08",
+     "originals_scraped": 157,
+     "posts_per_day_30d": 2.4,
+     "promo_share_regex": 0.025
+    },
+    "0xAllen": {
+     "followers": 40596,
+     "last_post": "2026-10-08",
+     "originals_scraped": 192,
+     "posts_per_day_30d": 2.83,
+     "promo_share_regex": 0.075,
+     "followers_source": "Mango following-graph screen 2026-10-07 (not re-checked on twitter241)"
+    }
+   },
+   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
+   "x_sources": {
+    "CORE": [
+     "chenmo",
+     "yuyue_chris",
+     "ChaseWang",
+     "MengLayer",
+     "0xAllen"
+    ],
+    "SECONDARY": []
+   },
+   "source_needs": {
+    "wired": [
+     "X: donors (CORE)",
+     "defillama_yields (live/adapters/defillama_yields.py, free API, 1 GET / ingest)",
+     "defillama_stablecoins (existing supply adapter, crypto_macro beats)"
+    ],
+    "not_wired": []
+   },
+   "lane_first": true
+  },
+  {
+   "no": 31,
+   "id": "zh_hk_ipo",
+   "lang": "zh",
+   "name": "打新阿梨",
+   "beat": "港美股打新 · 新股解读",
+   "kind": "stocks",
+   "status": "new",
+   "retrieval_beats": [
+    "ipo",
+    "zh_us_stock_commentary",
+    "single_stock_deepdive_en"
+   ],
+   "emotion_tier": "low",
+   "focus": "Chinese-language Hong Kong and US IPOs: upcoming listings, subscription and oversubscription data, cornerstone investors, pricing and first-day performance, the business behind a new listing (no subscription advice, no broker promotion)",
+   "stance": {
+    "prior": "data_first",
+    "risk_appetite": "mid",
+    "horizon": "weeks",
+    "beliefs": [
+     "打新先看定价和筹码，再看故事；热门新股的中签率本身就是风险。"
+    ],
+    "rejects": [
+     "guaranteed_returns",
+     "broker_promotion",
+     "price_target_chasing"
+    ]
+   },
+   "positioning": "港股/美股新股的冷静解读：招股、认购倍数、基石、定价区间、暗盘和首日表现，以及这家公司到底做什么生意。",
+   "does_not_write": "不推券商开户/返佣，不写「打新稳赚」「必中」，不给认购建议和目标价，不晒中签收益。",
+   "risk_rules": [
+    "no_guaranteed_returns",
+    "no_referral_or_invite_links",
+    "no_price_targets"
+   ],
+   "donors": [
+    "jeonleetogether",
+    "PWenzhen76938",
+    "Zh_Crypto517",
+    "0xtonixie",
+    "guyiguyi_"
+   ],
+   "donor_evidence": {
+    "jeonleetogether": {
+     "followers": 17070,
+     "last_post": "2026-10-07",
+     "originals_scraped": 136,
+     "posts_per_day_30d": 4.1,
+     "promo_share_regex": 0.05
+    },
+    "PWenzhen76938": {
+     "followers": 60102,
+     "last_post": "2026-10-08",
+     "originals_scraped": 116,
+     "posts_per_day_30d": 2.73,
+     "promo_share_regex": 0.1
+    },
+    "Zh_Crypto517": {
+     "followers": 15340,
+     "last_post": "2026-10-02",
+     "originals_scraped": 144,
+     "posts_per_day_30d": 0.73,
+     "promo_share_regex": 0.125
+    },
+    "0xtonixie": {
+     "followers": 16336,
+     "last_post": "2026-10-07",
+     "originals_scraped": 147,
+     "posts_per_day_30d": 2.6,
+     "promo_share_regex": 0.075
+    },
+    "guyiguyi_": {
+     "followers": 6318,
+     "last_post": "2026-10-07",
+     "originals_scraped": 159,
+     "posts_per_day_30d": 0.57,
+     "promo_share_regex": 0.0
+    }
+   },
+   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
+   "x_sources": {
+    "CORE": [
+     "jeonleetogether",
+     "PWenzhen76938",
+     "Zh_Crypto517",
+     "0xtonixie",
+     "guyiguyi_"
+    ],
+    "SECONDARY": []
+   },
+   "source_needs": {
+    "wired": [
+     "X: donors (CORE)",
+     "nasdaq_ipo_calendar (live/adapters/nasdaq_ipo.py, public JSON, 1 GET / ingest)",
+     "SEC EDGAR (existing live/news.py channel)"
+    ],
+    "not_wired": [
+     "HKEXnews: no stable public JSON; not scraped"
+    ]
+   },
+   "donors_dropped": {
+    "0xdahua": "roster 2026-10-04 review: promo_heavy / exclude - not a donor, not an X source"
+   },
+   "lane_first": true
+  },
+  {
+   "no": 32,
+   "id": "crypto_meme_en",
+   "lang": "en",
+   "name": "Tully Marsh",
+   "beat": "Memecoins · trenches and launchpads",
+   "kind": "crypto",
+   "status": "new",
+   "retrieval_beats": [
+    "crypto_meme",
+    "crypto_onchain",
+    "crypto_macro_en",
+    "crypto_macro_zh"
+   ],
+   "emotion_tier": "high",
+   "focus": "English memecoin trenches: launchpad and chain rotation (pump.fun, Solana, Base, BSC), what drives a meme run and how it ends, insider and KOL wallet behaviour, rugs (no token calls, no contract addresses)",
+   "stance": {
+    "prior": "narrative_skeptic",
+    "risk_appetite": "high",
+    "horizon": "days",
+    "beliefs": [
+     "In the trenches attention is the asset and exit liquidity is the product; know which side you are on."
+    ],
+    "rejects": [
+     "shilling_contract_addresses",
+     "guaranteed_returns",
+     "promotion_without_evidence"
+    ]
+   },
+   "positioning": "Trench notes from a sceptic: where meme flow is rotating, what the wallet data says about insiders and bundles, why most runs end the way they do.",
+   "does_not_write": "No contract addresses, no 'next 100x', no entries/targets, no own-PnL posts, no Telegram or referral links, no shilling.",
+   "risk_rules": [
+    "no_contract_addresses",
+    "no_guaranteed_returns",
+    "flag_scam_like_projects",
+    "no_referral_or_invite_links"
+   ],
+   "donors": [
+    "Overdose_AI",
+    "the_smart_ape",
+    "sibeleth",
+    "notthreadguy",
+    "LouisCooper_"
+   ],
+   "donor_evidence": {
+    "Overdose_AI": {
+     "followers": 165507,
+     "last_post": "2026-10-08",
+     "originals_scraped": 145,
+     "posts_per_day_30d": 3.47,
+     "promo_share_regex": 0.0
+    },
+    "the_smart_ape": {
+     "followers": 73711,
+     "last_post": "2026-10-07",
+     "originals_scraped": 139,
+     "posts_per_day_30d": 2.57,
+     "promo_share_regex": 0.0
+    },
+    "sibeleth": {
+     "followers": 175736,
+     "last_post": "2026-10-04",
+     "originals_scraped": 155,
+     "posts_per_day_30d": 0.23,
+     "promo_share_regex": 0.0
+    },
+    "notthreadguy": {
+     "followers": 416538,
+     "last_post": "2026-10-08",
+     "originals_scraped": 76,
+     "posts_per_day_30d": 2.53,
+     "promo_share_regex": 0.0
+    },
+    "LouisCooper_": {
+     "followers": 83009,
+     "last_post": "2026-09-25",
+     "originals_scraped": 115,
+     "posts_per_day_30d": 0.53,
+     "promo_share_regex": 0.0
+    }
+   },
+   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
+   "x_sources": {
+    "CORE": [
+     "Overdose_AI",
+     "the_smart_ape",
+     "sibeleth",
+     "notthreadguy",
+     "LouisCooper_"
+    ],
+    "SECONDARY": []
+   },
+   "source_needs": {
+    "wired": [
+     "X: donors (CORE), twitter241 daily intake"
+    ],
+    "not_wired": [
+     "DexScreener public API (same reason as crypto_meme_zh)"
+    ]
+   },
+   "lane_first": true
+  },
+  {
+   "no": 33,
+   "id": "crypto_airdrop_en",
+   "lang": "en",
+   "name": "Pip Calder",
+   "beat": "Airdrops · points farming",
+   "kind": "crypto",
+   "status": "new",
+   "retrieval_beats": [
+    "crypto_airdrop",
+    "crypto_defi",
+    "crypto_perp",
+    "crypto_macro_en"
+   ],
+   "emotion_tier": "high",
+   "focus": "English airdrop and points farming: live points programs and testnets, TGE and claim calendars, what farming really costs versus what it paid, sybil filters, allocation controversies (no referral links)",
+   "stance": {
+    "prior": "cautious_retail",
+    "risk_appetite": "mid",
+    "horizon": "weeks",
+    "beliefs": [
+     "Points are a promise, not a token; price your time and capital before you farm."
+    ],
+    "rejects": [
+     "guaranteed_returns",
+     "referral_promotion",
+     "promotion_without_evidence"
+    ]
+   },
+   "positioning": "A farmer's ledger: which programs are worth the capital, TGE and claim dates, allocation post-mortems, sybil rules, shutdowns.",
+   "does_not_write": "No referral or invite links, no 'guaranteed airdrop', no sybil tricks, no wallet-approval instructions for unknown contracts, no contract addresses.",
+   "risk_rules": [
+    "no_contract_addresses",
+    "no_guaranteed_returns",
+    "flag_scam_like_projects",
+    "no_referral_or_invite_links"
+   ],
+   "donors": [
+    "enesonchain",
+    "Gyokeres_eth",
+    "KittaKitka",
+    "pointfarmcap",
+    "Omaofweb3",
+    "0xbeiu"
+   ],
+   "donor_evidence": {
+    "enesonchain": {
+     "followers": 69483,
+     "last_post": "2026-10-08",
+     "originals_scraped": 151,
+     "posts_per_day_30d": 1.5,
+     "promo_share_regex": 0.025
+    },
+    "Gyokeres_eth": {
+     "followers": 31336,
+     "last_post": "2026-10-08",
+     "originals_scraped": 77,
+     "posts_per_day_30d": 2.57,
+     "promo_share_regex": 0.025
+    },
+    "KittaKitka": {
+     "followers": 20463,
+     "last_post": "2026-10-07",
+     "originals_scraped": 119,
+     "posts_per_day_30d": 0.9,
+     "promo_share_regex": 0.05
+    },
+    "pointfarmcap": {
+     "followers": 40342,
+     "last_post": "2026-10-07",
+     "originals_scraped": 123,
+     "posts_per_day_30d": 4.1,
+     "promo_share_regex": 0.025
+    },
+    "Omaofweb3": {
+     "followers": 9265,
+     "last_post": "2026-10-08",
+     "originals_scraped": 147,
+     "posts_per_day_30d": 4.53,
+     "promo_share_regex": 0.0
+    },
+    "0xbeiu": {
+     "followers": 3048,
+     "last_post": "2026-10-08",
+     "originals_scraped": 116,
+     "posts_per_day_30d": 3.03,
+     "promo_share_regex": 0.075
+    }
+   },
+   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
+   "x_sources": {
+    "CORE": [
+     "enesonchain",
+     "Gyokeres_eth",
+     "KittaKitka",
+     "pointfarmcap",
+     "Omaofweb3",
+     "0xbeiu"
+    ],
+    "SECONDARY": []
+   },
+   "source_needs": {
+    "wired": [
+     "X: donors (CORE)"
+    ],
+    "not_wired": [
+     "CryptoRank / Galxe: login or API key"
+    ]
+   },
+   "lane_first": true
+  },
+  {
+   "no": 34,
+   "id": "crypto_prediction_en",
+   "lang": "en",
+   "name": "Odessa Quill",
+   "beat": "Prediction markets · reading the odds",
+   "kind": "crypto",
+   "status": "new",
+   "retrieval_beats": [
+    "crypto_prediction",
+    "crypto_macro_en",
+    "crypto_onchain",
+    "crypto_macro_zh"
+   ],
+   "emotion_tier": "mid",
+   "focus": "English prediction markets: what Polymarket and Kalshi odds imply about elections, macro and crypto events, how odds moved and who moved them, market structure and the industry (volume, regulation, settlement disputes); no betting tips",
+   "stance": {
+    "prior": "data_first",
+    "risk_appetite": "mid",
+    "horizon": "weeks",
+    "beliefs": [
+     "Odds are a price, not a forecast; thin markets get pushed around by a few wallets."
+    ],
+    "rejects": [
+     "guaranteed_returns",
+     "betting_tips",
+     "certainty_about_direction"
+    ]
+   },
+   "positioning": "Reads the news through prediction-market prices and covers the prediction-market business itself (Polymarket vs Kalshi, volume, regulation).",
+   "does_not_write": "No bets or picks, no 'free money' markets, no copy-trading bot promotion, no sports-betting promos, no claims that odds are certainties.",
+   "risk_rules": [
+    "no_contract_addresses",
+    "no_guaranteed_returns",
+    "flag_scam_like_projects",
+    "no_referral_or_invite_links"
+   ],
+   "donors": [
+    "Atlantislq",
+    "polysuccubus",
+    "izebel_eth",
+    "hosseeb",
+    "cxo_no"
+   ],
+   "donor_evidence": {
+    "Atlantislq": {
+     "followers": 13640,
+     "last_post": "2026-10-07",
+     "originals_scraped": 127,
+     "posts_per_day_30d": 1.57,
+     "promo_share_regex": 0.075
+    },
+    "polysuccubus": {
+     "followers": 3576,
+     "last_post": "2026-10-07",
+     "originals_scraped": 134,
+     "posts_per_day_30d": 2.9,
+     "promo_share_regex": 0.05
+    },
+    "izebel_eth": {
+     "followers": 64838,
+     "last_post": "2026-10-07",
+     "originals_scraped": 130,
+     "posts_per_day_30d": 1.7,
+     "promo_share_regex": 0.025
+    },
+    "hosseeb": {
+     "followers": 149431,
+     "last_post": "2026-10-08",
+     "originals_scraped": 81,
+     "posts_per_day_30d": 2.37,
+     "promo_share_regex": 0.025
+    },
+    "cxo_no": {
+     "followers": 23987,
+     "last_post": "2026-10-07",
+     "originals_scraped": 66,
+     "posts_per_day_30d": 0.5,
+     "promo_share_regex": 0.0
+    }
+   },
+   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
+   "x_sources": {
+    "CORE": [
+     "Atlantislq",
+     "polysuccubus",
+     "izebel_eth",
+     "hosseeb",
+     "cxo_no"
+    ],
+    "SECONDARY": []
+   },
+   "source_needs": {
+    "wired": [
+     "X: donors (CORE)",
+     "polymarket_markets (live/adapters/polymarket.py)"
+    ],
+    "not_wired": [
+     "Kalshi public market data (optional, later)"
+    ]
+   },
+   "lane_first": true
+  },
+  {
+   "no": 35,
+   "id": "crypto_perp_dex_en",
+   "lang": "en",
+   "name": "Wren Halloway",
+   "beat": "Perp DEXs · Hyperliquid ecosystem",
+   "kind": "crypto",
+   "status": "new",
+   "retrieval_beats": [
+    "crypto_perp",
+    "crypto_defi",
+    "crypto_macro_en",
+    "crypto_onchain"
+   ],
+   "emotion_tier": "high",
+   "focus": "English perp DEX coverage: Hyperliquid and its competitors (Aster, Lighter, others), volume and open-interest share, fees and buybacks, HIP-3 and equity/commodity perps, liquidations and venue risk (no trade calls)",
+   "stance": {
+    "prior": "data_first",
+    "risk_appetite": "high",
+    "horizon": "weeks",
+    "beliefs": [
+     "Perp DEXs win on liquidity and fees; incentives rent volume, they do not keep it."
+    ],
+    "rejects": [
+     "moon_maths",
+     "promotion_without_evidence",
+     "certainty_about_direction"
+    ]
+   },
+   "positioning": "The business of on-chain perps: market share, fees and buybacks, new markets (HIP-3, equity perps), what liquidations and outages say about venue risk.",
+   "does_not_write": "No entries/targets or leverage advice, no referral codes, no farming shills, no contract addresses.",
+   "risk_rules": [
+    "no_contract_addresses",
+    "no_guaranteed_returns",
+    "flag_scam_like_projects",
+    "no_referral_or_invite_links"
+   ],
+   "donors": [
+    "Defi_Warhol",
+    "HYPEconomist",
+    "Henrik_on_HL",
+    "zerokn0wledge_",
+    "crypto_notte",
+    "MoneyPrinter0x"
+   ],
+   "donor_evidence": {
+    "Defi_Warhol": {
+     "followers": 45232,
+     "last_post": "2026-10-08",
+     "originals_scraped": 148,
+     "posts_per_day_30d": 4.7,
+     "promo_share_regex": 0.025
+    },
+    "HYPEconomist": {
+     "followers": 21135,
+     "last_post": "2026-10-07",
+     "originals_scraped": 145,
+     "posts_per_day_30d": 4.8,
+     "promo_share_regex": 0.05
+    },
+    "Henrik_on_HL": {
+     "followers": 12744,
+     "last_post": "2026-10-08",
+     "originals_scraped": 143,
+     "posts_per_day_30d": 3.57,
+     "promo_share_regex": 0.0
+    },
+    "zerokn0wledge_": {
+     "followers": 27048,
+     "last_post": "2026-10-05",
+     "originals_scraped": 129,
+     "posts_per_day_30d": 3.43,
+     "promo_share_regex": 0.05
+    },
+    "crypto_notte": {
+     "followers": 7267,
+     "last_post": "2026-10-06",
+     "originals_scraped": 150,
+     "posts_per_day_30d": 0.27,
+     "promo_share_regex": 0.0
+    },
+    "MoneyPrinter0x": {
+     "followers": 31193,
+     "last_post": "2026-10-08",
+     "originals_scraped": 85,
+     "posts_per_day_30d": 1.67,
+     "promo_share_regex": 0.0
+    }
+   },
+   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
+   "x_sources": {
+    "CORE": [
+     "Defi_Warhol",
+     "HYPEconomist",
+     "Henrik_on_HL",
+     "zerokn0wledge_",
+     "crypto_notte",
+     "MoneyPrinter0x"
+    ],
+    "SECONDARY": []
+   },
+   "source_needs": {
+    "wired": [
+     "X: donors (CORE)"
+    ],
+    "not_wired": [
+     "Hyperliquid public info API as units (already used by media tables only)",
+     "DefiLlama perps volume / fees (later)"
+    ]
+   },
+   "lane_first": true
+  },
+  {
+   "no": 36,
+   "id": "crypto_stable_yield_en",
+   "lang": "en",
+   "name": "Isolde Fenn",
+   "beat": "Stablecoin yield · where the yield comes from",
+   "kind": "crypto",
+   "status": "new",
+   "retrieval_beats": [
+    "crypto_stable_yield",
+    "crypto_defi",
+    "crypto_macro_en",
+    "crypto_macro_zh"
+   ],
+   "emotion_tier": "mid",
+   "focus": "English stablecoin yield: yield-bearing stablecoins, lending and vault rates, fixed-rate markets (Pendle), how each yield is produced, depeg and counterparty risk, rate moves after Fed decisions (no product promotion)",
+   "stance": {
+    "prior": "skeptical_of_consensus",
+    "risk_appetite": "low",
+    "horizon": "months",
+    "beliefs": [
+     "Every stablecoin yield is someone else's funding cost; find who pays it before you take it."
+    ],
+    "rejects": [
+     "guaranteed_returns",
+     "promotion_without_evidence",
+     "hype_without_unit_economics"
+    ]
+   },
+   "positioning": "A yield desk for stablecoin holders: where today's rates come from, what changed, which risks sit underneath, compared across products.",
+   "does_not_write": "No 'risk-free' or 'guaranteed' yields, no referral links, no single-product shilling, no contract addresses.",
+   "risk_rules": [
+    "no_contract_addresses",
+    "no_guaranteed_returns",
+    "flag_scam_like_projects",
+    "no_referral_or_invite_links"
+   ],
+   "donors": [
+    "phtevenstrong",
+    "0xc06",
+    "Mars_DeFi",
+    "Zun2025",
+    "Route2FI"
+   ],
+   "donor_evidence": {
+    "phtevenstrong": {
+     "followers": 117075,
+     "last_post": "2026-10-07",
+     "originals_scraped": 95,
+     "posts_per_day_30d": 1.03,
+     "promo_share_regex": 0.0
+    },
+    "0xc06": {
+     "followers": 113059,
+     "last_post": "2026-10-08",
+     "originals_scraped": 209,
+     "posts_per_day_30d": 1.57,
+     "promo_share_regex": 0.0
+    },
+    "Mars_DeFi": {
+     "followers": 27564,
+     "last_post": "2026-10-07",
+     "originals_scraped": 131,
+     "posts_per_day_30d": 2.0,
+     "promo_share_regex": 0.1
+    },
+    "Zun2025": {
+     "followers": 42739,
+     "last_post": "2026-10-08",
+     "originals_scraped": 108,
+     "posts_per_day_30d": 0.4,
+     "promo_share_regex": 0.025
+    },
+    "Route2FI": {
+     "followers": 301209,
+     "last_post": "2026-10-07",
+     "originals_scraped": 145,
+     "posts_per_day_30d": 3.33,
+     "promo_share_regex": 0.075
+    }
+   },
+   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
+   "x_sources": {
+    "CORE": [
+     "phtevenstrong",
+     "0xc06",
+     "Mars_DeFi",
+     "Zun2025",
+     "Route2FI"
+    ],
+    "SECONDARY": []
+   },
+   "source_needs": {
+    "wired": [
+     "X: donors (CORE)",
+     "defillama_yields (live/adapters/defillama_yields.py)"
+    ],
+    "not_wired": []
+   },
+   "lane_first": true
+  }
+ ]
+}

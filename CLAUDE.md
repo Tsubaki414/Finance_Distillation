@@ -1,8 +1,18 @@
 # Finance Distillation — 工作入口
 
+## 2026-10-08 36 个号：6 个备用号启用 + 10 个新号（覆盖下方「备用号不跑」）
+
+- 名单统一从 `live/fd_accounts.py` 读：20 个主号在 `live/fd20_accounts.json`（文件保持兼容）。6 个备用号在 `live/fd_accounts_extra.json`，状态 `spare_active`，开关 `FD_ACCOUNTS_EXTRA`。10 个新号在 `live/fd_accounts_new.json`，状态 `new`，开关 `FD_ACCOUNTS_NEW`。两个开关默认都是 1，设成 0 时，选题、出稿、X 抓取、人设工厂、看板、回看会一起去掉这一组。没有自动发布。
+- 新号是 meme、空投、预测市场、稳定币理财、港美股打新、永续 DEX（5 中 5 英）。方案和 donor 证据见 `/workspace/x/accounts36/new10_slate.md`（等 Fiona 审）。
+- 新增三条线：`crypto_prediction`、`crypto_stable_yield`、`ipo`，由 `live/beat_rules.lane_tags` 打标签，每次 ingest 跑一遍。
+- 新增三个公开结构化源，只路由给对应新号：Polymarket、DefiLlama yields、Nasdaq IPO。
+- 风险硬拦：`live/risk_rules.py`，对所有号生效。合约地址、保证收益、诱导参与预售/授权、邀请码，命中就 HOLD。
+- 新号带 `lane_first` 标记，优先用自己的 X 源和自己的线（`FD_LANE_FIRST=0` 关掉）；路由给它的结构化数据作为 data_take 包进入候选（`FD_LANE_DATA=0` 关掉）。
+- 离线检查：`scripts/check_fd_accounts.py`。
+
 ## 2026-10-07 fd20：20 个主号日更出稿 → 审稿台（覆盖下方"只跑 3 个号"）
 
-- 范围：`FD_accounts_final_v2.xlsx` 的 20 个主号，见 `live/fd20_accounts.json`。备用号不跑。没有自动发布。
+- 范围：`FD_accounts_final_v2.xlsx` 的 20 个主号，见 `live/fd20_accounts.json`。（10-08 起备用号也跑，见上一节。）没有自动发布。
 - 模型：EXTRACT、flash 抽取、STANCE、COMPOSE、view_enrich 全部走官方 Gemini API。
   - 原生 generateContent，用 `x-goog-api-key` 头；token 用 `AQ\.\S+` 从 `GEMINI_API_KEY` 里取，不打印。
   - 默认模型 `gemini-3-flash-preview`；COMPOSE 自 10-07 fix26 起默认 `gemini-3.1-pro-preview`（约 $0.20/篇）。temperature 1.0，thinking medium。

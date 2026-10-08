@@ -78,12 +78,13 @@ def avatar_uri(path, size=96):
 
 
 def load_accounts():
-    accounts = json.loads(ACCOUNTS.read_text())['accounts'] if ACCOUNTS.exists() else []
+    from live import fd_accounts   # Oct 8: main + spares (FD_ACCOUNTS_EXTRA) + new (FD_ACCOUNTS_NEW)
+    accounts = fd_accounts.rows(ACCOUNTS) if ACCOUNTS.exists() else []
     out = []
     for a in accounts:
         found = sorted(AVATARS.glob(f"*_{a['id']}.png")) if AVATARS.is_dir() else []
         out.append({'id': a['id'], 'no': a.get('no'), 'name': a.get('name') or a['id'], 'lang': a.get('lang'),
-                    'beat': a.get('beat'), 'handle': a.get('handle') or '',
+                    'beat': a.get('beat'), 'handle': a.get('handle') or '', 'status': a.get('status') or 'main',
                     'avatar': avatar_uri(found[0]) if found else ''})
     return out
 
@@ -355,6 +356,7 @@ input[type=checkbox]{accent-color:var(--accent)}
 .side h2{margin:0;font-size:16px;font-weight:620;line-height:1.35;letter-spacing:-.005em}
 .side .pf{font-size:12.5px;color:var(--mute);margin-top:4px}.side .hd{font:12.5px/1.5 var(--mono);color:var(--ink2)}
 .side .bt{font-size:12px;color:var(--faint);margin-top:6px;line-height:1.5}
+.side .st{font:600 11px/1.6 var(--mono);color:var(--ink2)}
 .pill{display:inline-block;margin-top:14px;background:var(--sunk);border:1px solid var(--line);color:var(--ink2);font:600 12px/1.6 var(--mono);font-variant-numeric:tabular-nums;border-radius:999px;padding:1px 10px}
 .more{display:block;margin-top:12px;background:none;border:0;padding:0;font:inherit;font-size:13px;color:var(--mute);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
 .more:hover{color:var(--ink)}
@@ -402,7 +404,7 @@ button:focus-visible,select:focus-visible,a:focus-visible,input:focus-visible{ou
  .acct{grid-template-columns:1fr;padding:14px;gap:14px}
  .side{border-bottom:1px solid var(--line2);padding:0 0 12px;display:grid;grid-template-columns:auto 1fr;column-gap:12px}
  .side .av{width:44px;height:44px;font-size:18px;margin:0;grid-row:span 4}
- .side .pill{margin-top:8px;justify-self:start;grid-column:2}.side .more{grid-column:2}
+ .side .pill{margin-top:8px;justify-self:start;grid-column:2}.side .more{grid-column:2}.side .st{grid-column:2}
  .grid{grid-template-columns:1fr}
 }
 __NAVCSS__
@@ -511,7 +513,7 @@ function render(){
     if(!cards.length&&hideE)continue;
     const open=expanded.has(a.id),lim=2;
     const more=cards.length>lim?`<button class="more" data-x="${esc(a.id)}">${open?'收起':`展开全部 ${cards.length} 条`}</button>`:'';
-    out.push(`<section class="acct"><div class="side">${avatar(a)}<h2>${esc(a.name)}</h2><div class="pf">X${a.lang?` · ${a.lang==='zh'?'中文':'English'}`:''}</div><div class="hd">${esc(a.handle?(a.handle.startsWith('@')?a.handle:'@'+a.handle):'@待填')}</div>${a.beat?`<div class="bt">${esc(a.beat)}</div>`:''}<span class="pill">待发 ${rd.length-nDone}/${rd.length}</span>${more}</div>
+    out.push(`<section class="acct"><div class="side">${avatar(a)}<h2>${esc(a.name)}</h2><div class="pf">X${a.lang?` · ${a.lang==='zh'?'中文':'English'}`:''}</div><div class="hd">${esc(a.handle?(a.handle.startsWith('@')?a.handle:'@'+a.handle):'@待填')}</div>${a.beat?`<div class="bt">${esc(a.beat)}</div>`:''}${{new:'<div class="st">新号</div>',spare_active:'<div class="st">备用号启用</div>'}[a.status]||''}<span class="pill">待发 ${rd.length-nDone}/${rd.length}</span>${more}</div>
 <div class="grid">${cards.length?cards.map((d,i)=>card(d,!open&&i>=lim,isPosted(d))).join(''):'<div class="none">今日无可显示稿件</div>'}</div></section>`);
   }
   $('#main').innerHTML=out.join('')||(drafts.length?`<p class="empty">当前筛选下没有稿件（共 ${drafts.length} 篇，可在「状态」里勾选其他状态）</p>`:'<p class="empty">这一天没有稿件</p>');
@@ -619,7 +621,7 @@ def main():
             if d['account_id'] not in known:
                 known.add(d['account_id'])
                 accounts.append({'id': d['account_id'], 'no': '', 'name': d['name'] or d['account_id'],
-                                 'lang': d['lang'], 'beat': '', 'handle': '', 'avatar': ''})
+                                 'lang': d['lang'], 'beat': '', 'handle': '', 'status': '', 'avatar': ''})
     args.out.mkdir(parents=True, exist_ok=True)
     # last-updated = newest inbox write (deterministic, so an unchanged inbox leaves index.html untouched)
     updated = max((d['stored'] for v in days.values() for d in v if d['stored']), default='')

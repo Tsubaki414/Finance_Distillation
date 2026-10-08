@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import re
 
-from live.jev_front import JEV_BEATS, KEYWORDS, SUB_BEATS
+from live.jev_front import JEV_BEATS, KEYWORD_LANES, KEYWORDS, SUB_BEATS
 
 VERSION = 'beat-rules-v1'
 KEYWORD_CONFIDENCE = 0.75
@@ -41,7 +41,30 @@ SUB_BEAT_KEYWORDS = {
                        'glassnode', 'cryptoquant', 'arkham', 'nansen', 'dune', 'reserve',
                        '链上', '巨鲸', '鲸鱼', '地址', '转入', '转出', '流入', '流出', '筹码', '长期持有者', '短期持有者',
                        '已实现价格', '交易所余额', '净流'),
+    # Oct 8 (36 accounts). crypto_prediction: Polymarket / Kalshi count as the crypto word (LANE_SELF);
+    # crypto_stable_yield also needs a stablecoin word (LANE_REQUIRES).
+    'crypto_prediction': ('polymarket', 'kalshi', 'prediction market', 'prediction markets', 'implied probability',
+                          'odds', 'limitless', 'myriad', '预测市场', '盘口', '赔率', '押注', '概率盘'),
+    'crypto_stable_yield': ('yield', 'yield-bearing', 'apy', 'apr', 'savings rate', 'earn', 'vault', 'fixed rate',
+                            'pendle', 'ethena', 'usde', 'susde', 'sdai', 'susds', 'usdy', 'depeg', 'de-peg',
+                            'money market', 'tokenized treasur', 'lending rate', 'borrow rate',
+                            '理财', '年化', '活期', '定期', '生息', '收益率', '收益', '脱锚', '赚币', '利率'),
 }
+# Oct 8: non-crypto keyword lanes (jev_front.KEYWORD_LANES); tagged on any unit by lane_tags
+KEYWORD_LANE_WORDS = {
+    'ipo': ('ipo', 'ipos', 'initial public offering', 's-1', 'f-1', 'oversubscribed', 'cornerstone', 'hkex',
+            'listing debut', 'priced its ipo', 'prices ipo', 'go public', 'goes public', 'going public',
+            '招股', '打新', '新股', '认购', '超购', '孖展', '中签', '暗盘', '基石投资', '上市首日', '港交所', '发行价', '递表'),
+}
+# a lane whose own requirement word is crypto enough (Polymarket, USDe) and is always required ('odds' alone is not a
+# prediction-market post, 'yield' alone is not a stablecoin-yield post)
+LANE_REQUIRES = {
+    'crypto_prediction': re.compile(r'polymarket|kalshi|prediction markets?|预测市场', re.I),
+    'crypto_stable_yield': re.compile(r'stablecoins?|\busd[tce]\b|\busde\b|\bsusde\b|\bdai\b|\busds\b|\bpyusd\b|'
+                                      r'\busd1\b|稳定币|U本位', re.I),
+    'ipo': re.compile(r'\bipos?\b|initial public offering|\b[SF]-1\b|打新|招股|新股|递表|go(?:es|ing)? public', re.I),
+}
+LANE_SELF = {b: LANE_REQUIRES[b] for b in ('crypto_prediction', 'crypto_stable_yield')}
 CRYPTO_WORDS = re.compile(r'bitcoin|\bbtc\b|ethereum|\beth\b|crypto|stablecoin|\bsol\b|solana|altcoin|memecoin|'
                           r'blockchain|\bdefi\b|airdrop|on-?chain|\bperps?\b|hyperliquid|pump\.fun|\btvl\b|\bdex\b|'
                           r'比特币|以太坊|加密|稳定币|代币|币圈|币价|山寨|主流币|公链|链上|空投|土狗|meme币', re.I)
@@ -66,6 +89,7 @@ def _beat_words():
         words = set(KEYWORDS.get(beat, ())) | set(THEMES[beat][2] if beat in THEMES else ())
         out[beat] = words
     out.update({b: set(w) for b, w in SUB_BEAT_KEYWORDS.items()})
+    out.update({b: set(w) for b, w in KEYWORD_LANE_WORDS.items()})
     return out
 
 
@@ -97,7 +121,9 @@ def keyword_beats(text, beats=None):
     for beat, rx in patterns().items():
         if beats is not None and beat not in beats or rx is None:
             continue
-        if beat in SUB_BEATS and not crypto:
+        if beat in SUB_BEATS and not crypto and not (beat in LANE_SELF and LANE_SELF[beat].search(text or '')):
+            continue
+        if beat in LANE_REQUIRES and not LANE_REQUIRES[beat].search(text or ''):
             continue
         hits = {m.group(0).lower() for m in rx.finditer(text or '')}
         if hits:
@@ -136,3 +162,25 @@ def crypto_subbeat_tags(rows):
         if hits:
             out[row['unit_id']] = {**tags, **{b: _tag(KEYWORD_CONFIDENCE, 'crypto_subbeat') for b in hits}}
     return out
+
+
+# Oct 8 (36 accounts): the lanes added after units were tagged; crypto_subbeat_tags skips rows that already carry a
+# sub-beat, so these are re-checked on every unit (any beat) until a rule tags them.
+NEW_LANES = ('crypto_prediction', 'crypto_stable_yield', 'ipo')
+
+
+def lane_tags(rows, lanes=NEW_LANES):
+    """{unit_id: merged tags} adding the `lanes` (keyword hit, with each lane's crypto / requirement rule) to any row
+    that does not carry them yet. Rules only add; rows without a hit are left out."""
+    out = {}
+    for row in rows:
+        tags = row.get('persona_tags') or {}
+        todo = [b for b in lanes if b not in tags]
+        if not todo:
+            continue
+        hits = keyword_beats(unit_text(row.get('unit') or {}, row.get('source')), beats=todo)
+        hits = {b: n for b, n in hits.items() if b in todo}
+        if hits:
+            out[row['unit_id']] = {**tags, **{b: _tag(KEYWORD_CONFIDENCE, 'lane') for b in hits}}
+    return out
+

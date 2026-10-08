@@ -65,9 +65,11 @@ CRYPTO_THEMES = (
     ('c_onchain', r'链上|on-?chain|巨鲸|whales?|glassnode|地址|holders?|筹码|\bLTH\b|\bSTH\b|MVRV|inflows?|outflows?|'
                   r'cohort|realized'),
     ('c_cycle_mood', r'牛市|熊市|周期|cycle|山寨季|altseason|情绪|sentiment|恐慌|贪婪|fomo|行情|大饼|比特币|bitcoin|\bBTC\b|rally|回调'),
+    # Oct 8 (36 accounts): prediction-market lane (appended: earlier themes keep winning ties)
+    ('c_prediction', r'polymarket|kalshi|预测市场|prediction markets?|盘口|赔率|\bodds\b'),
 )
 CRYPTO_MARK = re.compile(r'比特币|\bBTC\b|\bETH\b|以太坊|币圈|链上|稳定币|山寨|bitcoin|crypto|ethereum|stablecoin|altcoin|'
-                         r'on-?chain|token|代币|加密|defi|空投|airdrop|memecoin|solana|\$[A-Z]{2,6}\b|web3', _C)
+                         r'on-?chain|token|代币|加密|defi|空投|airdrop|memecoin|solana|\$[A-Z]{2,6}\b|web3|polymarket|预测市场', _C)
 MARKET_THEMES = (
     ('rates_fed', r'美联储|联储|降息|加息|利率|点阵图|FOMC|鲍威尔|\bfed\b|rate cuts?|rate hikes?|powell|treasur|yields?|'
                   r'bonds?|美债|国债|收益率'),
@@ -88,6 +90,8 @@ MARKET_THEMES = (
     ('biotech_health', r'医药|制药|生物|biotech|pharma|drug|临床|trial|FDA|健康|health'),
     ('investing_principles', r'长期|复利|纪律|心态|风险管理|分散|耐心|投资者|交易系统|止损|复盘|long[- ]term|compounding|'
                              r'discipline|behavio|diversif|patience|investors? should|lesson|mistake|risk management'),
+    # Oct 8 (36 accounts): IPO lane (appended)
+    ('ipo', r'\bIPOs?\b|打新|招股|新股|认购|中签|暗盘|孖展|基石|递表|上市首日|港交所|HKEX|S-1|F-1|go(?:es|ing)? public'),
 )
 _CRYPTO_RX = [(k, re.compile(v, _C)) for k, v in CRYPTO_THEMES]
 _MARKET_RX = [(k, re.compile(v, _C)) for k, v in MARKET_THEMES]

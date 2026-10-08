@@ -380,6 +380,7 @@ def test_main_loops_fill_rounds_until_targets_or_no_candidates(dc, monkeypatch, 
     monkeypatch.setenv('FD_FILL_ROUNDS', '3')
     accts = [{'id': 'a', 'lang': 'en'}, {'id': 'b', 'lang': 'en'}]
     monkeypatch.setattr(dc, 'load_json', lambda p: {'accounts': accts} if 'fd20' in str(p) else {'a': {}, 'b': {}})
+    monkeypatch.setattr(dc.fd_accounts, 'rows', lambda path=None, env=None: list(accts))   # Oct 8: roster reader
     monkeypatch.setattr(dc, 'UNIVERSES', tmp_path / 'u.json')
     (tmp_path / 'u.json').write_text('{}')
     ready = {'a': 0, 'b': 0}

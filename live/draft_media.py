@@ -19,7 +19,8 @@ MEDIA_OUT = Path(os.environ.get('FD_MEDIA_OUT', '/workspace/x/dashboard/ops'))
 
 
 def load_accounts(path=None):
-    return {a['id']: a for a in json.loads(Path(path or ACCOUNTS).read_text())['accounts']}
+    from live import fd_accounts
+    return {a['id']: a for a in fd_accounts.rows(path or ACCOUNTS)}
 
 
 def is_ready(row):

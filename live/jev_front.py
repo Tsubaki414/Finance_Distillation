@@ -34,8 +34,18 @@ SUB_BEATS = {
     'crypto_defi': 'DeFi: lending, DEXs, yields, TVL, restaking, stablecoin protocols, tokenomics',
     'crypto_airdrop': 'Airdrops and points programs: TGEs, farming, snapshots, claims, testnets',
     'crypto_onchain': 'On-chain data: whale and wallet flows, exchange flows, holder cohorts, MVRV/SOPR, ETF flows',
+    # Oct 8 (36 accounts): lanes of the new prediction-market and stablecoin-yield accounts
+    'crypto_prediction': 'Prediction markets: Polymarket / Kalshi odds, volume, market structure and regulation',
+    'crypto_stable_yield': 'Stablecoin yield: yield-bearing stablecoins, lending / vault / earn rates, depeg and counterparty risk',
 }
+# Oct 8: non-crypto keyword lanes (live/beat_rules.py tags them on any unit, no crypto word needed); never sent to Jev.
+KEYWORD_LANES = {
+    'ipo': 'IPOs: Hong Kong and US new listings, subscriptions, pricing, cornerstone investors, first-day trading',
+}
+# every deterministic lane an account can read as its own (daily_compose lane ranking, persona_factory universe)
+LANE_BEATS = {**SUB_BEATS, **KEYWORD_LANES}
 PERSONAS.update(SUB_BEATS)
+PERSONAS.update(KEYWORD_LANES)
 # Jev beat IDs -> account IDs (live/accounts.json). Routing/prescreen speak Jev IDs; everything
 # downstream (compose, view ledger, queues) speaks account IDs.
 ACCOUNT_FOR_PERSONA = {
@@ -49,12 +59,11 @@ PERSONA_FOR_ACCOUNT = {a: p for p, a in ACCOUNT_FOR_PERSONA.items()}
 
 
 def _fd20_beats():
-    """Oct 7 (fd20): the 20 main accounts read units of existing beats (live/fd20_accounts.json retrieval_beats,
+    """Oct 7 (fd20): the main accounts read units of existing beats (live/fd_accounts.py roster retrieval_beats,
     primary first). Only accounts without their own beat are added; routing still speaks the 10 Jev beats."""
-    import json
-    from pathlib import Path
     try:
-        rows = json.loads((Path(__file__).with_name('fd20_accounts.json')).read_text())['accounts']
+        from live import fd_accounts   # Oct 8: all 36 roster rows (a mapping only; the groups are gated elsewhere)
+        rows = fd_accounts.load(groups=('main', 'spare', 'new'))
     except (OSError, ValueError, KeyError):
         return {}
     # an account whose first beat is a crypto sub-beat maps to its first Jev beat (sub-beats are not Jev beats)

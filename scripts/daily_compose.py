@@ -43,7 +43,7 @@ sys.path[:0] = [str(ROOT / 'scripts'), str(ROOT)]
 
 import demo_matrix_compose as demo  # noqa: E402
 from voice_relay_check import evidence_source  # noqa: E402
-from live import (angles, anti_repeat, compose, compose_inbox, editorial_style, news_hook,  # noqa: E402
+from live import (angles, anti_repeat, compose, compose_inbox, editorial_style, fd_accounts, news_hook,  # noqa: E402
                   posting_habits as ph, registry, source_prescreen as prescreen, source_routes, stage_models,
                   topic_div)
 from live.adapters import delphi_digest  # noqa: E402
@@ -169,10 +169,10 @@ def candidates(store, account, beats, lead, ref, x_handles=None, account_cfg=Non
     support fact (same-story public source or the latest price of the ticker its view names) appended to its packet;
     an own X post with only numbered facts enters as a data packet (data_take). Both rank after the balanced own X
     posts."""
-    from live.jev_front import SUB_BEATS
+    from live.jev_front import LANE_BEATS
     from live.x_daily import x_handle
     x_handles = {h.lower() for h in x_handles or ()}
-    lane = {b for b in beats if b in SUB_BEATS}   # the account's own crypto lanes (meme / perp / defi / ...)
+    lane = {b for b in beats if b in LANE_BEATS}   # the account's own lanes (meme / perp / defi / prediction / ipo ...)
     reuse = set(reuse or ())
     used = used_sources(account) - reuse
     recent = anti_repeat.load_recent(account)
@@ -195,6 +195,7 @@ def candidates(store, account, beats, lead, ref, x_handles=None, account_cfg=Non
     if account_cfg:
         gated = [g for g in gated if editorial_style.beat_gate(account_cfg, group_text(g))[0]]
     extra = own_x_packets(gated, support) if support is not None else []
+    extra += routed_data_packets(gated, account, account_cfg)
     options = demo.ranked_balanced(gated, now=ref.date().isoformat())
     options += demo.ranked_balanced([g for g in extra if demo.balanced(g)], now=ref.date().isoformat())
     options += sorted([g for g in extra if not demo.balanced(g)], key=lambda g: -demo.group_freshness(g, ref.date().isoformat()))
@@ -279,6 +280,25 @@ def own_x_packets(groups, support):
             if hit:
                 out.append(list(g) + hit['records'])
         elif x_support.data_enabled() and x_support.data_only(g, has_valid_view):
+            out.append(list(g))
+    return out
+
+
+def routed_data_packets(groups, account, account_cfg):
+    """Oct 8 (36 accounts): fact-only packets of a structured source routed to this account (source_registry
+    route_accounts: Polymarket odds, DefiLlama stablecoin yields, Nasdaq IPO calendar) enter as data packets
+    (data_take), like own X fact-only posts (FD_X_DATA). Only for lane_first accounts; FD_LANE_DATA=0 turns it off."""
+    from live import x_support
+    from live.x_daily import x_handle
+    from voice_relay_check import has_valid_view
+    if not (account_cfg or {}).get('lane_first') or os.environ.get('FD_LANE_DATA', '1') == '0':
+        return []
+    out = []
+    for g in groups:
+        src = g[0]['source']
+        r = source_routes.route(src.get('source_id'))
+        if (r and account in r['accounts'] and not x_handle(src) and not demo.balanced(g)
+                and x_support.data_only(g, has_valid_view)):
             out.append(list(g))
     return out
 
@@ -573,6 +593,7 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                 groups = pools[account]
                 if div is not None:   # own sources first, a theme not yet used today, a story nobody took yet
                     groups = diversity_order(account, groups, plan[account], event_takers, div)
+                groups = lane_first(next(x for x in accounts if x['id'] == account), groups, x_of[account])
                 pick = try_pick(account, lang, lead, groups)
             else:
                 motif, key = hot.assign[account]
@@ -635,6 +656,23 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
         if info is not None:
             info['hotspot'] = hot.summary()
     return plan, order
+
+
+def lane_first(account_cfg, groups, x_handles):
+    """Oct 8 (36 accounts): a narrow-lane account (row lane_first, the 10 new accounts: meme / airdrop / prediction /
+    stablecoin yield / IPO / perp DEX) takes packets of its own X sources or its own lanes before general crypto /
+    market news; stable, so the earlier order holds inside both halves. FD_LANE_FIRST=0 turns it off."""
+    from live.jev_front import LANE_BEATS
+    from live.x_daily import x_handle
+    if not account_cfg.get('lane_first') or os.environ.get('FD_LANE_FIRST', '1') == '0':
+        return groups
+    lanes = {b for b in account_cfg.get('retrieval_beats') or () if b in LANE_BEATS}
+    own = {h.lower() for h in x_handles or ()}
+
+    def on_lane(g):
+        h = x_handle(g[0]['source'])
+        return bool(h and h.lower() in own) or any(lanes & set(r.get('tag_personas') or []) for r in g)
+    return sorted(groups, key=lambda g: not on_lane(g))
 
 
 def diversity_prepare(pools, accounts, x_of, day, ref, reuse=None):
@@ -924,7 +962,7 @@ def main():
         print('FD_DAILY_COMPOSE is not 1: daily compose is off; nothing done')
         return 0
     per_account = max(1, min(MAX_PER_ACCOUNT, args.per_account))
-    accounts = load_json(CONFIG)['accounts']
+    accounts = fd_accounts.rows(CONFIG)   # Oct 8: 36-account roster, FD_ACCOUNTS_EXTRA / FD_ACCOUNTS_NEW gates
     if args.accounts:
         wanted = set(args.accounts.split(','))
         accounts = [a for a in accounts if a['id'] in wanted]
@@ -1028,7 +1066,7 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
         reuse = {a: set(m) for a, m in rewrites.items()}
         skip = tried_sources(args.day, keep=reuse) if os.environ.get('FD_FILL_SKIP_TRIED', '1') != '0' else None
         plan, order = select(accts, universes, args.day, per_account, done=done, cap=per_account,
-                             seed_events=ready_events(args.day, load_json(CONFIG)['accounts']),
+                             seed_events=ready_events(args.day, fd_accounts.rows(CONFIG)),
                              reuse=reuse, rewrites=rewrites, now=args.now,
                              allow_model=not args.select_only or args.hotspot_merge, info=info, skip_sources=skip)
     else:

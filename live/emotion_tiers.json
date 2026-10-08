@@ -58,6 +58,21 @@
     "defi_narratives_en": "high",
     "btc_cycles_en": "mid",
     "crypto_thesis_en": "high",
-    "crypto_research_en": "mid"
+    "crypto_research_en": "mid",
+    "crypto_ai_crossover_zh": "mid",
+    "crypto_newbie_zh": "mid",
+    "crypto_alt_trader_en": "high",
+    "longterm_investing_en": "low",
+    "crypto_etf_flows_en": "mid",
+    "crypto_meme_zh": "high",
+    "crypto_airdrop_zh": "high",
+    "crypto_prediction_zh": "mid",
+    "crypto_stable_yield_zh": "low",
+    "zh_hk_ipo": "low",
+    "crypto_meme_en": "high",
+    "crypto_airdrop_en": "high",
+    "crypto_prediction_en": "mid",
+    "crypto_perp_dex_en": "high",
+    "crypto_stable_yield_en": "mid"
   }
 }

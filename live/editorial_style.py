@@ -203,13 +203,18 @@ CRYPTO_CONTENT = re.compile(
     r'airdrop|on-?chain|\bperps?\b|hyperliquid|pump\.fun|\btvl\b|\bdex\b|web3|\bl[12]s?\b|layer[- ]?2|rollup|'
     r'staking|\blido\b|tether|\busdt\b|\busdc\b|\bnfts?\b|\btge\b|tokenomics|token (?:unlock|launch|sale)|\bdao\b|'
     r'比特币|以太坊|加密|稳定币|代币|币圈|币价|山寨|主流币|公链|链上|空投|土狗|meme币|质押|撸毛|上币|'
-    r'二层|L2|铭文|合约地址|币安|OKX|欧易', re.I)
+    r'二层|L2|铭文|合约地址|币安|OKX|欧易|'
+    # Oct 8: prediction-market accounts (Polymarket settles on-chain in USDC; Kalshi is their direct comparison)
+    r'polymarket|kalshi|预测市场', re.I)
 # crypto content routed from a source that is mainly about something else (a bank note that mentions bitcoin once)
 CRYPTO_ONLY_MIN_HITS = 2
 MACRO_CONTENT = re.compile(r'\bfed\b|fomc|yield|treasur|rates?\b|inflation|cpi|payroll|liquidity|dollar|\bdxy\b|'
                            r'美联储|美债|收益率|利率|通胀|非农|流动性|美元|降息|加息', re.I)
 # crypto accounts that also cover macro (rates / liquidity) without a crypto keyword in the packet
 CRYPTO_MACRO_OK = frozenset({'crypto_macro_zh', 'crypto_macro_en', 'crypto_btc_cycle_zh', 'btc_cycles_en'})
+# Oct 8: crypto accounts whose row says ai_crossover (Tango 探戈: AI x crypto x US stocks) also get AI packets
+AI_CONTENT = re.compile(r'\bAI\b|人工智能|大模型|算力|\bLLMs?\b|openai|anthropic|nvidia|英伟达|\bGPUs?\b|data ?cent(?:er|re)|'
+                        r'数据中心|ai agents?|智能体', re.I)
 
 
 def is_crypto_account(account):
@@ -231,6 +236,8 @@ def beat_gate(account, text):
             return True, 'crypto'
         if account['id'] in CRYPTO_MACRO_OK and MACRO_CONTENT.search(str(text or '')):
             return True, 'macro_for_crypto_macro'
+        if account.get('ai_crossover') and AI_CONTENT.search(str(text or '')):
+            return True, 'ai_for_crossover'
         return False, 'off_beat: crypto account, packet has no crypto content'
     if hits >= CRYPTO_ONLY_MIN_HITS:
         return False, f'off_beat: non-crypto account, crypto packet ({hits} crypto terms)'

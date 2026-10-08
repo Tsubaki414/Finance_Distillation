@@ -102,10 +102,13 @@ def subscriptions(universes=None, config=None, breadth=None):
     breadth sources (role BREADTH, `breadth` True; FD_X_BREADTH=0 or breadth=[] leaves them out)."""
     from live import registry
     universes = universes if universes is not None else json.loads(UNIVERSES.read_text())
-    config = config if config is not None else json.loads(CONFIG.read_text())['accounts']
+    from live import fd_accounts
+    config = config if config is not None else fd_accounts.rows(CONFIG)
     beats = {a['id']: list(a.get('retrieval_beats') or []) for a in config}
     by = {}
     for aid, uni in universes.items():
+        if aid not in beats and uni.get('group') in ('spare', 'new'):
+            continue   # Oct 8: a spare / new account switched off (FD_ACCOUNTS_EXTRA=0 / FD_ACCOUNTS_NEW=0) is not fetched
         for x in uni.get('x_sources') or []:
             if not x.get('enabled', True):
                 continue
