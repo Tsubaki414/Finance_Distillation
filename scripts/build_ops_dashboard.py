@@ -389,7 +389,7 @@ button:focus-visible,select:focus-visible,a:focus-visible,input:focus-visible{ou
 .mode .tg{font-weight:600;border-radius:999px;padding:1px 9px;background:var(--infobg);color:var(--info)}
 .mode .tg.ht{background:var(--warnbg);color:var(--warn)}.mode .tg.ok{background:var(--accent-bg);color:var(--accent)}
 .mode a{color:var(--ink2);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
-.img{margin:12px 0 0}.img img{display:block;width:100%;height:auto;border-radius:8px;border:1px solid var(--line2);background:#131722}
+.img{margin:12px 0 0}.img img{display:block;width:auto;max-width:100%;max-height:560px;height:auto;border-radius:8px;border:1px solid var(--line2);background:#131722}
 .img figcaption{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px;font-size:11.5px;color:var(--faint)}
 .img .dl{color:var(--ink);text-decoration:none;font-weight:600;font-size:12.5px;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:2px 10px;white-space:nowrap}
 .img .dl:hover{border-color:var(--faint)}

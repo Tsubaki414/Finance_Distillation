@@ -10,6 +10,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from live import charts  # noqa: E402
 
 
+@pytest.fixture(autouse=True)
+def _v1_path(monkeypatch):
+    """These tests pin the Oct 7 matplotlib path (FD_MEDIA_V2=0); tests/test_media_real.py covers the default."""
+    monkeypatch.setenv('FD_MEDIA_V2', '0')
+
+
 def _bars(n=120, start=80000.0):
     rows, p = [], start
     for i in range(n):
