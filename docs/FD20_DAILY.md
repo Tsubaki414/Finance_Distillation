@@ -63,7 +63,7 @@ Gemini stages run at temperature 1.0 with thinking set to medium. At temperature
 
 ### Budget
 
-- `--budget-usd` (default $4) stops the run from starting new drafts. It counts this run's Gemini spend from the call records.
+- `--budget-usd` (default $8 since Oct 8; was $4) stops the run from starting new drafts. It counts this run's Gemini spend from the call records.
 - `ml/budget` still reserves every call.
 
 ## Donor merge and X sources (Oct 7)
@@ -190,3 +190,23 @@ These are learned from donor text and are kept out of git (`.gitignore`):
 - Pilot accounts: `crypto_altcoin_zh`, `crypto_macro_en` and `zh_longterm_investing` (`FD_ARCHIVE`, `live/archive_lookback.json`).
 - When an account is short of fresh ready drafts, it gets one draft that compares a post by its own source from about a year ago (Feb 2025 first) with today's data, plus a then-vs-now chart.
 - See `docs/ARCHIVE_LOOKBACK.md`.
+
+## Hotspots (Oct 8, Sirius borrow; `FD_HOTSPOT`, default 1)
+
+- After the candidate pools are built, the day's materials across all accounts' sources are clustered into 母题
+  (deterministic links + one cached flash merge call a day, <= $0.30), scored by cross-source breadth, public heat and
+  recency, and each account marks the top 母题 WRITE / HOLD / IGNORE by its own beat, topic spread and lanes.
+- Max 1 hotspot draft per account per day (inside its usual slots), 2 accounts per language per 母题, a different
+  lens per account. WRITE picks carry a reality payload (latest price + newest same-story sources) into compose.
+- Soft priors: viral structure priors from our donor data and the /admin review feedback (incl. the new 「已发布」
+  action) re-rank lenses / 母题 by at most +-15%. 「热点」 tag on the ops page, /admin and the review inbox.
+- `FD_HOTSPOT=0` restores the old selection exactly. See `docs/HOTSPOT.md`.
+
+## Topic diversity and X breadth (Oct 8)
+
+- Each account's picks come from its own X sources first, then donor-adjacent packets, then shared news; the two picks
+  of a day take different themes when the pool allows; one story goes to at most 2 accounts per language and 3 in all.
+  Hotspot WRITE needs an own / donor-adjacent member. `FD_TOPIC_DIV=0` restores the previous selection exactly.
+- 70 tier-B X sources from the Sirius list, mapped to accounts by donor theme mix + donor mentions
+  (`live/x_breadth.json`), fetched by batched search, <= 20 twitter241 calls a day (`FD_X_BREADTH=0` turns it off).
+- Daily compose budget default $8. See `docs/TOPIC_DIVERSITY.md`.

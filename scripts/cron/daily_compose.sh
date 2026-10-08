@@ -18,6 +18,11 @@ GKEY=GEMINI_RELAY_API_KEY; [[ "${FD_GEMINI_PROVIDER:-relay}" == "official" ]] &&
 if [[ -n "${!GKEY:-}" ]]; then echo "key $GKEY: set"; else echo "key $GKEY: missing"; exit 2; fi
 export FD_PACK_AUGMENT=1
 /workspace/fd_venv/bin/python scripts/persona_factory.py >/dev/null   # refresh universes (no model calls)
+# FD_HOTSPOT (default 1): /admin decisions of the last days -> per-account approve rates by angle / 母题 type + edit
+# diffs (live/store/feedback, local), read next day as a soft prior. No model calls; never fatal.
+if [[ "${FD_HOTSPOT:-1}" != "0" ]]; then
+    /workspace/fd_venv/bin/python scripts/feedback_priors.py --pull || echo "feedback priors failed (compose unaffected)"
+fi
 BUDGET="${FD_DAILY_COMPOSE_BUDGET_USD:-8}"
 # The ml/budget ledger is a cumulative lifetime safety cap; give tonight's run headroom = its own budget + $1 reserve,
 # so the per-run --budget-usd is the real daily limit (10-08: ledger at $99.86/$100 silently blocked every draft).

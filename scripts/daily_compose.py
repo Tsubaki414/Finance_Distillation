@@ -33,6 +33,7 @@ import re
 import sys
 import threading
 import time
+from collections import Counter
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -43,7 +44,8 @@ sys.path[:0] = [str(ROOT / 'scripts'), str(ROOT)]
 import demo_matrix_compose as demo  # noqa: E402
 from voice_relay_check import evidence_source  # noqa: E402
 from live import (angles, anti_repeat, compose, compose_inbox, editorial_style, news_hook,  # noqa: E402
-                  posting_habits as ph, registry, source_prescreen as prescreen, source_routes, stage_models)
+                  posting_habits as ph, registry, source_prescreen as prescreen, source_routes, stage_models,
+                  topic_div)
 from live.adapters import delphi_digest  # noqa: E402
 from live.content_store import ContentStore  # noqa: E402
 from live.retrieval import units_for_persona  # noqa: E402
@@ -279,10 +281,11 @@ def heat_led_today(day):
     return {r['account_id'] for r in compose_inbox.rows(day.isoformat()) if r.get('heat_led')}
 
 
-def apply_heat(pools, day, ref, reuse=None):
+def apply_heat(pools, day, ref, reuse=None, skip=()):
     """Public heat (live/heat.py, FD_HEAT=1 default): move the hottest prescreen-ok, timely candidate of each account's
-    own pool to the front. Never adds a candidate; skipped for an account that already has a heat-led draft today or
-    has rewrite targets to reuse. Returns {account: (source key, heat info)} for the promoted candidates."""
+    own pool to the front. Never adds a candidate; skipped for an account that already has a heat-led draft today,
+    has rewrite targets to reuse, or (FD_HOTSPOT) has a hotspot WRITE today (`skip`: its heat is in the 母题 score).
+    Returns {account: (source key, heat info)} for the promoted candidates."""
     from live import heat
     if not heat.enabled():
         return {}
@@ -294,7 +297,7 @@ def apply_heat(pools, day, ref, reuse=None):
         return {}
     out = {}
     for account, pool in pools.items():
-        if (reuse or {}).get(account):
+        if (reuse or {}).get(account) or account in skip:
             continue
         pools[account], info = heat.promote(
             pool, group_text, signals, already_led=account in led,
@@ -302,6 +305,50 @@ def apply_heat(pools, day, ref, reuse=None):
         if info:
             out[account] = (tuple(demo._key(pools[account][0])), info)
     return out
+
+
+def hotspot_plan(store, pools, accounts, universes, day, ref, reuse=None, allow_model=False):
+    """FD_HOTSPOT (default 1): the day's 母题 pool + per-account WRITE / HOLD / IGNORE (live/hotspot.py). Accounts
+    with rewrite targets (--fill) or a hotspot draft already in today's inbox get no new hotspot. allow_model: the one
+    flash merge call of the day may run (never in --select-only; a cached merge is reused either way). Never fatal."""
+    from live import feedback, hotspot
+    if not hotspot.enabled():
+        return None
+    try:
+        rows = compose_inbox.rows(day.isoformat())
+        led = hotspot.hotspot_led(rows) | {a for a, m in (reuse or {}).items() if m}
+        lang = {a['id']: a['lang'] for a in accounts}
+        seed = {}
+        for r in rows:
+            mid = (r.get('hotspot') or {}).get('motif_id')
+            if mid and not r.get('superseded') and not r.get('held'):
+                seed.setdefault(mid, []).append((r['account_id'], lang.get(r['account_id'])))
+        factory = (lambda: hotspot.merge_client(RUNS / day.isoformat() / 'hotspot_calls')) if allow_model else None
+        return hotspot.plan_day(store, pools, accounts, universes, day.isoformat(), ref, text_of=group_text,
+                                key_of=lambda g: demo._key(g[0]), promo=X_PROMO_OPENER, led=led,
+                                ok=lambda a, g: prescreen.prescreen(a, g)['ok'] and timely(g, ref),
+                                merge_client_factory=factory, priors=feedback.load(), seed_takers=seed)
+    except Exception as exc:   # noqa: BLE001 - hotspots are advisory; selection runs on without them
+        print(f'hotspot: skipped ({type(exc).__name__}: {exc})', flush=True)
+        return None
+
+
+def angle_boost(hot, account, lang, group):
+    """FD_HOTSPOT soft angle priors for one candidate: viral structure priors (live/viral_priors.json) x the
+    account's review approve rate by angle (live/feedback.py). None when hotspots are off."""
+    if hot is None:
+        return None
+    from live import feedback, viral_priors
+    text = group_text(group)
+    boost = viral_priors.angle_boost(lang, text, n_numbers=sum(len(r['unit'].get('numbers') or []) for r in group))
+    priors = hot.meta.get('_feedback')
+    if priors is None:
+        priors = hot.meta['_feedback'] = feedback.load()
+    for a in angles.ANGLES:
+        m = feedback.angle_multiplier(priors, account, a)
+        if m != 1.0:
+            boost[a] = round(boost.get(a, 1.0) * m, 4)
+    return boost or None
 
 
 def drafting_day(now=None):
@@ -321,43 +368,83 @@ def selection_ref(day, now=None):
 
 
 def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT, seed_events=(), reuse=None,
-           rewrites=None, now=None):
+           rewrites=None, now=None, allow_model=False, info=None):
+    """info: optional dict, filled with the FD_HOTSPOT day summary ('hotspot') for plan.json."""
     store = ContentStore()
     ref = selection_ref(day, now)
+    x_of = {a['id']: [x['handle'] for x in universes[a['id']].get('x_sources') or [] if x.get('enabled', True)]
+            for a in accounts}
+    from live import x_breadth
+    if x_breadth.enabled():   # Oct 8: Sirius-list breadth sources mapped to this account (live/x_breadth.json)
+        for row in x_breadth.subscriptions():
+            for aid in row['accounts']:
+                if aid in x_of and row['handle'] not in x_of[aid]:
+                    x_of[aid].append(row['handle'])
     pools = {a['id']: candidates(store, a['id'], a['retrieval_beats'], universes[a['id']].get('angle_lead') or {}, ref,
-                                 x_handles=[x['handle'] for x in universes[a['id']].get('x_sources') or [] if x.get('enabled', True)],
-                                 account_cfg=a, reuse=(reuse or {}).get(a['id']))
+                                 x_handles=x_of[a['id']], account_cfg=a, reuse=(reuse or {}).get(a['id']))
              for a in accounts}
-    heat_keys = apply_heat(pools, day, ref, reuse)
+    div = diversity_prepare(pools, accounts, x_of, day, ref, reuse) if topic_div.enabled() else None
+    hot = hotspot_plan(store, pools, accounts, universes, day, ref, reuse=reuse, allow_model=allow_model)
+    if div is not None and hot is not None:
+        diversity_gate_hotspot(hot, div)
+    heat_keys = apply_heat(pools, day, ref, reuse, skip=set(hot.assign) if hot else ())
     order = sorted(pools, key=lambda a: len(pools[a]))     # scarce accounts pick first in every round
-    event_takers = {}            # event key (source key / hook) -> [(account, angle, lang)]
+    event_takers = {}            # event key (source key / hook / 母题) -> [(account, angle, lang)]
     for e, acc, ang, lg in seed_events:
         event_takers.setdefault(e, []).append((acc, ang, lg))
     plan = {a: [] for a in pools}
     done = done or {}
-    for _round in range(per_account):
-        for account in order:
-            if len(plan[account]) + done.get(account, 0) >= cap:
+
+    def try_pick(account, lang, lead, groups):
+        mine = {tuple(p['source_key']) for p in plan[account]}
+        for g in groups:
+            skey = demo._key(g[0])
+            if skey in mine:
+                continue
+            events = ({('src',) + tuple(skey)} | {('hook', h) for h in group_hooks(g)}
+                      | ({('srcid', g[0]['source']['id'])} if g[0]['source'].get('id') else set())
+                      | ({title_event(g[0]['source'].get('title'))} - {None}))
+            if hot is not None and hot.motif_of(skey):   # FD_HOTSPOT: every source of one 母题 is one event
+                events.add(('motif', hot.motif_of(skey)))
+            takers = [t for e in events for t in event_takers.get(e, []) if t[2] == lang]
+            if len({t[0] for t in takers}) >= MAX_ACCOUNTS_PER_EVENT or any(t[0] == account for t in takers):
+                continue
+            if div is not None and len({t[0] for e in events for t in event_takers.get(e, [])}) >= topic_div.MAX_TOTAL_PER_EVENT:
+                continue   # FD_TOPIC_DIV: one story at most 3 accounts across both languages (Polygon/TRON had 4)
+            # one 母题 = a different lens per account in either language (FD_HOTSPOT); other events: per language
+            lenses = {t[1] for t in takers} | {t[1] for e in events if e[0] == 'motif' for t in event_takers.get(e, [])}
+            angle, why = angles.assign(lead, group_text(g), taken=lenses, boost=angle_boost(hot, account, lang, g))
+            if lenses and (why == 'shared' or angle in lenses):
+                continue
+            return (g, events, angle, why, sorted({t[0] for t in takers}))
+        return None
+
+    # FD_HOTSPOT: WRITE picks go first (one per account, inside its usual per-run slots), so a 母题's per-language
+    # slots go to the accounts the decision chose, each with its own lens; a pick that no longer fits (event cap / no
+    # free lens / ceiling) is recorded as HOLD. Without hotspots the first round is empty.
+    hot_round = [a for a in order if hot is not None and a in hot.assign]
+    for _round in [hot_round] + [None] * per_account:
+        for account in (order if _round is None else _round):
+            if len(plan[account]) + done.get(account, 0) >= cap or len(plan[account]) >= per_account:
+                if _round is not None:
+                    hot.record(account, hot.assign[account][0], decision='HOLD', reason='daily ceiling already reached')
                 continue
             lang = next(x['lang'] for x in accounts if x['id'] == account)
             lead = universes[account].get('angle_lead') or universes[account].get('angle_mix') or {}
-            mine = {tuple(p['source_key']) for p in plan[account]}
-            pick = None
-            for g in pools[account]:
-                skey = demo._key(g[0])
-                if skey in mine:
+            motif = None
+            if _round is None:
+                groups = pools[account]
+                if div is not None:   # own sources first, a theme not yet used today, a story nobody took yet
+                    groups = diversity_order(account, groups, plan[account], event_takers, div)
+                pick = try_pick(account, lang, lead, groups)
+            else:
+                motif, key = hot.assign[account]
+                group = next((g for g in pools[account] if tuple(demo._key(g[0])) == tuple(key)), None)
+                pick = try_pick(account, lang, lead, [group] if group else [])
+                if pick is None:
+                    hot.record(account, motif, decision='HOLD', reason='event cap / no free lens at pick time')
                     continue
-                events = ({('src',) + tuple(skey)} | {('hook', h) for h in group_hooks(g)}
-                          | ({('srcid', g[0]['source']['id'])} if g[0]['source'].get('id') else set())
-                          | ({title_event(g[0]['source'].get('title'))} - {None}))
-                takers = [t for e in events for t in event_takers.get(e, []) if t[2] == lang]
-                if len({t[0] for t in takers}) >= MAX_ACCOUNTS_PER_EVENT or any(t[0] == account for t in takers):
-                    continue
-                angle, why = angles.assign(lead, group_text(g), taken={t[1] for t in takers})
-                if takers and (why == 'shared' or angle in {t[1] for t in takers}):
-                    continue
-                pick = (g, events, angle, why, sorted({t[0] for t in takers}))
-                break
+                hot.record(account, motif, angle=pick[2])
             if pick is None:
                 continue
             g, events, angle, why, shared_with = pick
@@ -372,8 +459,13 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                 'in_shelf': demo.in_shelf(g, ref.date().isoformat()), 'timely': timely(g, ref),
                 'hooks': sorted(group_hooks(g)), 'angle': angle, 'angle_why': why, 'shared_event_with': shared_with,
                 'numbers': sum(len(r['unit'].get('numbers') or []) for r in g)})
+            if div is not None:
+                plan[account][-1]['topic_div'] = div['info'](account, g)
             if account in heat_keys and heat_keys[account][0] == tuple(demo._key(g[0])):
                 plan[account][-1].update(heat_led=True, heat=heat_keys.pop(account)[1])
+            if motif:
+                plan[account][-1].update(hotspot=hot.tag(motif), reality=hotspot_reality(
+                    hot, motif, account, ref, x_of[account], allow_model=allow_model))
             target = next((v for k in (src.get('id'), src.get('title'))
                            for v in [((rewrites or {}).get(account) or {}).get(k)] if k and v), None)
             if target:
@@ -394,7 +486,106 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             times.append(t)
             p['post_format'] = {k: fmt[k] for k in ('type', 'length', 'thread_parts', 'length_target', 'shapes')}
             p['suggested_post_time_london'] = t.isoformat()
+    if div is not None and info is not None:
+        info['topic_div'] = div['summary']
+    if hot is not None:
+        hot.meta.pop('_feedback', None)
+        hot.save()
+        if info is not None:
+            info['hotspot'] = hot.summary()
     return plan, order
+
+
+def diversity_prepare(pools, accounts, x_of, day, ref, reuse=None):
+    """FD_TOPIC_DIV (default 1): donor topic profiles (live/topic_div.py) + per-account source tiers, and the pools
+    re-sorted so that, after reuse / prescreen / timeliness, own X sources come first, then donor-adjacent packets,
+    then other packets, then shared news that sits in >= 4 accounts' pools. Stable sort: the old order holds inside
+    each tier. Returns the context diversity_order / the hotspot gate use."""
+    profs = topic_div.profiles([a['id'] for a in accounts], ref, day.isoformat())
+    common = topic_div.common_entities(profs)
+    shared = {}
+    for pool in pools.values():
+        for g in pool:
+            shared[tuple(demo._key(g[0]))] = shared.get(tuple(demo._key(g[0])), 0) + 1
+    from live.x_daily import x_handle
+    meta = {}
+    for a in accounts:
+        aid, own = a['id'], {h.lower() for h in x_of.get(a['id']) or ()}
+        crypto_acct = editorial_style.is_crypto_account(a)
+        mine = set((reuse or {}).get(aid) or ())
+        for g in pools[aid]:
+            key = tuple(demo._key(g[0]))
+            text = group_text(g)
+            handle = x_handle(g[0]['source'])
+            adj = topic_div.adjacency(text, profs.get(aid), common)
+            themes = topic_div.themes_of(text)
+            tier = topic_div.source_tier(bool(handle and handle.lower() in own), shared[key], adj)
+            if tier == 0 and not crypto_acct and (themes[0].startswith('c_') or topic_div.CRYPTO_MARK.search(text)):
+                tier = 2   # a non-crypto account's own X source posting on crypto is not its own lane ($HYPE)
+            meta[(aid, key)] = {'tier': tier, 'theme': themes[0], 'shared_pools': shared[key],
+                                'adjacent': adj[0][:5], 'theme_share': round(adj[1], 4),
+                                'off_spread': topic_div.off_spread(themes[0], profs.get(aid)),
+                                'base': (not ({g[0]['source'].get('id'), g[0]['source'].get('title'),
+                                               g[0]['source'].get('source_hash')} & mine),
+                                         not prescreen.prescreen(aid, g)['ok'], not timely(g, ref))}
+        pools[aid] = sorted(pools[aid], key=lambda g, aid=aid: (*meta[(aid, tuple(demo._key(g[0])))]['base'],
+                                                               meta[(aid, tuple(demo._key(g[0])))]['tier']))
+
+    def info(aid, g):
+        m = meta.get((aid, tuple(demo._key(g[0])))) or {}
+        return {k: m.get(k) for k in ('tier', 'theme', 'shared_pools', 'adjacent', 'theme_share', 'off_spread')}
+
+    tiers = {}
+    for (aid, _), m in meta.items():
+        tiers.setdefault(aid, Counter())[m['tier']] += 1
+    summary = {'version': topic_div.VERSION, 'tiers': {a: dict(sorted(c.items())) for a, c in tiers.items()},
+               'donor_profiles': {a: {k: p[k] for k in ('posts', 'posts_per_day', 'distinct_themes', 'stories')}
+                                  | {'top_themes': dict(list(p['themes'].items())[:6])} for a, p in profs.items()}}
+    return {'meta': meta, 'profiles': profs, 'info': info, 'summary': summary}
+
+
+def diversity_order(account, groups, picked, event_takers, div):
+    """Pick-time order for one account (FD_TOPIC_DIV): (reuse, prescreen, timely) as before, then own X sources, then a
+    theme this account has not used today, then the remaining source tiers, then stories no account took yet, then
+    themes inside the donors' spread; the pool order breaks ties. Hard gates and caps are unchanged (try_pick)."""
+    meta = div['meta']
+    used_themes = {p.get('topic_div', {}).get('theme') for p in picked}
+    taken = {e for e, ts in event_takers.items() if any(t[0] != account for t in ts)}
+
+    def k(item):
+        i, g = item
+        m = meta.get((account, tuple(demo._key(g[0])))) or {'base': (True, True, True), 'tier': 2, 'theme': 'other',
+                                                              'off_spread': False}
+        src = g[0]['source']
+        evs = {('src',) + tuple(demo._key(g[0]))} | ({('srcid', src['id'])} if src.get('id') else set()) \
+            | ({title_event(src.get('title'))} - {None})
+        return (*m['base'], m['tier'] != 0, m['theme'] in used_themes and m['theme'] != 'other', m['tier'],
+                bool(evs & taken), m['off_spread'], i)
+    return [g for _, g in sorted(enumerate(groups), key=k)]
+
+
+def diversity_gate_hotspot(hot, div):
+    """FD_TOPIC_DIV: a hotspot WRITE stands only when the 母题 member the account would write from is its own source
+    or donor-adjacent (tier 0/1) - shared news alone does not pull an account onto a trend (recorded as HOLD)."""
+    for account, (motif, key) in list(hot.assign.items()):
+        m = div['meta'].get((account, tuple(key)))
+        if m is None or m['tier'] > 1:
+            hot.assign.pop(account)
+            hot.record(account, motif, decision='HOLD',
+                       reason=f"topic_div: member is not an own / donor-adjacent source (tier {m and m['tier']})")
+
+
+def hotspot_reality(hot, motif, account, ref, x_handles, allow_model=False):
+    """Reality payload of one hotspot pick (live/hotspot.reality): latest price + newest member sources (<= 24h);
+    the optional twitter241 X pulse (FD_HOTSPOT_X=1, <= 40 calls/day) runs only in a real compose run."""
+    from live import hotspot
+    pulse = None
+    if allow_model and os.environ.get('FD_HOTSPOT_X') == '1':
+        pulse = hotspot.x_pulse_factory(hot.day)
+    try:
+        return hotspot.reality(hot, motif, account, ref, x_handles=x_handles, x_pulse=pulse)
+    except Exception as exc:   # noqa: BLE001
+        return {'error': f'{type(exc).__name__}: {str(exc)[:160]}'}
 
 
 # ---------------------------------------------------------------- client
@@ -494,7 +685,7 @@ def compose_one(new_client, account, pick, day, store_records, spend, lock):
             source, account, dc, post_type=demo.judgment_type(account), extracted_units=units,
             exemplar_dir=POSTS, exemplar_tags_dir=TAGS, view_ledger=ViewLedger(account),
             now=post_time.astimezone(timezone.utc), post_format=dict(pick['post_format']), angle=angle,
-            editor_note=pick.get('editor_note'))
+            editor_note=pick.get('editor_note'), reality=pick.get('reality'))
     except budget.BudgetExceeded as exc:
         result = {'status': 'error', 'error': 'budget: ' + str(exc)[:200]}
     except Exception as exc:   # noqa: BLE001 - one bad packet must not sink the day
@@ -529,6 +720,7 @@ def inbox_row(result, account_cfg, day, run_id):
             'angle_why': pick['angle_why'], 'shared_event_with': pick['shared_event_with'],
             **({'rewrite_of': pick['rewrite_of']} if pick.get('rewrite_of') else {}),
             **({'heat_led': True, 'heat': pick.get('heat')} if pick.get('heat_led') else {}),
+            **({'hotspot': pick['hotspot'], 'reality': pick.get('reality')} if pick.get('hotspot') else {}),
             'draft_status': result.get('draft_status') or ('blocked' if result.get('error') else None),
             'status': result.get('status'), 'error': result.get('error'), 'why': result.get('why'),
             # fix26: a HARD finding left after the one targeted rewrite (needs_review) is a HOLD, never ready
@@ -561,7 +753,7 @@ def main():
                          'use with --select-only to check a schedule without model calls)')
     ap.add_argument('--accounts')
     ap.add_argument('--per-account', type=int, default=2)
-    ap.add_argument('--budget-usd', type=float, default=float(os.environ.get('FD_DAILY_COMPOSE_BUDGET_USD', '4.0')))
+    ap.add_argument('--budget-usd', type=float, default=float(os.environ.get('FD_DAILY_COMPOSE_BUDGET_USD', '8.0')))
     ap.add_argument('--workers', type=int, default=4)
     ap.add_argument('--select-only', action='store_true', help='selection + plan only, no model calls')
     ap.add_argument('--fill', action='store_true',
@@ -570,6 +762,9 @@ def main():
     ap.add_argument('--rewrite-notes', type=Path,
                     help='--fill: JSON {draft_id: editor note}; those held drafts are rewritten from the same source '
                          'with the note (audit-superseded rewrite drafts use their audit reason by default)')
+    ap.add_argument('--hotspot-merge', action='store_true',
+                    help='with --select-only: still run (or reuse) the day\'s one flash 母题 merge call (FD_HOTSPOT, '
+                         'relay, <= $0.30); without it a select-only plan uses a cached merge or deterministic clusters')
     ap.add_argument('--force', action='store_true', help='run even when FD_DAILY_COMPOSE is not 1')
     args = ap.parse_args()
     if args.now and args.now.tzinfo is None:
@@ -588,21 +783,24 @@ def main():
     universes = load_json(UNIVERSES)
     run_id = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S')
     out = RUNS / args.day.isoformat() / run_id
+    info = {}
     if args.fill:
         done = drafted_today(args.day, ready_only=True)
         rewrites = rewrite_targets(args.day, load_json(args.rewrite_notes) if args.rewrite_notes else None)
         plan, order = select(accounts, universes, args.day, per_account, done=done, cap=per_account,
                              seed_events=ready_events(args.day, load_json(CONFIG)['accounts']),
-                             reuse={a: set(m) for a, m in rewrites.items()}, rewrites=rewrites, now=args.now)
+                             reuse={a: set(m) for a, m in rewrites.items()}, rewrites=rewrites, now=args.now,
+                             allow_model=not args.select_only or args.hotspot_merge, info=info)
     else:
         done = drafted_today(args.day)
-        plan, order = select(accounts, universes, args.day, per_account, done=done, now=args.now)
+        plan, order = select(accounts, universes, args.day, per_account, done=done, now=args.now,
+                             allow_model=not args.select_only or args.hotspot_merge, info=info)
     write_json(out / 'plan.json', {'day': args.day.isoformat(), 'day_basis': 'Asia/Shanghai calendar date',
                                    'selection_ref': selection_ref(args.day, args.now).isoformat(), 'pick_order': order, 'per_account': per_account,
                                    'fill': args.fill, 'drafted_earlier_today': done,
-                                   'accounts': plan})
+                                   **info, 'accounts': plan})
     for a in accounts:
-        print(a['id'], [f"{'REWRITE ' if p.get('rewrite_of') else ''}{p['suggested_post_time_london'][11:16]} {p['post_format']['type']} {p['angle']} "
+        print(a['id'], [f"{'REWRITE ' if p.get('rewrite_of') else ''}{'HOT ' if p.get('hotspot') else ''}{p['suggested_post_time_london'][11:16]} {p['post_format']['type']} {p['angle']} "
                         f"{p['source_lang']}{'=' if p['same_language'] else '>'}{a['lang']} {str(p['title'])[:40]}"
                         for p in plan[a['id']]], flush=True)
     if args.select_only:

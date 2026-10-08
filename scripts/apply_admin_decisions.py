@@ -8,7 +8,8 @@ Sources (merged, the newer `at` wins per draft):
 
 Writes live/store/admin_decisions/<day>.json ({day, updated_at, decisions: {draft id: decision}}), which
 scripts/build_ops_dashboard.py overlays on the next rebuild: approve -> ready (with the edited text if any),
-hold / rewrite -> HOLD, edit -> edited text only. Rewrite requests also go to
+hold / rewrite -> HOLD, edit -> edited text only, published (marked
+after a human posted it) -> ready. scripts/feedback_priors.py turns the decisions into next-day soft priors. Rewrite requests also go to
 live/store/admin_decisions/<day>.rewrite_notes.json ({draft id: note}) for
 `daily_compose.py --fill --rewrite-notes <that file>`.
 """
@@ -24,7 +25,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 STORE = ROOT / 'live/store/admin_decisions'
 API = 'https://fd-ops-dashboard.vercel.app/api/decisions'
-ACTIONS = {'approve', 'hold', 'rewrite', 'edit', 'clear'}
+ACTIONS = {'approve', 'published', 'hold', 'rewrite', 'edit', 'clear'}   # published: a human posted it
 
 
 def fetch_api(url, day):

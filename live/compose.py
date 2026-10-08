@@ -1355,9 +1355,12 @@ def _signature_lexicon(persona):
 def compose_source(source, account_id, client, *, post_type=None, exemplars=None, exemplar_dir=None,
                    exemplar_tags_dir=None, extracted_units=None, stance_output=None, voice_prompt_variant=None, now=None, view_ledger=None,
                    emotion_contract=None, pack_augment=None, shape=None, shape_batch=(), composition_shapes=None,
-                   shape_batch_size=None, zh_register=None, post_format=None, angle=None, editor_note=None):
+                   shape_batch_size=None, zh_register=None, post_format=None, angle=None, editor_note=None,
+                   reality=None):
     """Voice cards always use exemplars; other personas honor the retrieval override.
     angle: optional live/angles.payload() dict - the lens this account takes on the material (fd20 daily runner).
+    reality: optional live/hotspot.reality() payload (FD_HOTSPOT pick): latest price + newest same-story reports, so
+    the draft does not state a stale fact; its lines also join the source text the grounding checks read.
     editor_note: optional reviewer note on an earlier draft from this source that was held for a rewrite (fd20 --fill).
     post_format: None = sample the post type + length from the account's cluster posting habits
     (FD_POST_FORMAT=0 or the emotion_contract payload switch off turns it off), a dict = use that format, False = off."""
@@ -1378,6 +1381,12 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             'persona': {'persona_id': persona.persona_id, 'version': persona.version},
             'publishable': False, 'prompt_assembly': assembly, 'created_at': timestamp_now(),
             'source_gate': {k: gate[k] for k in ('ok', 'name', 'policy', 'reason')}}
+    if reality and not reality.get('error'):
+        from live import hotspot as _hotspot
+        lines = _hotspot.reality_lines(reality)
+        if lines:   # grounding (span_grounding reads original_text) may hold a number taken from the reality lines
+            source = dict(source, original_text='\n\n'.join([str(source.get('original_text') or ''), *lines]).strip())
+        base['reality'] = {'lines': lines, 'as_of': reality.get('as_of')}
     if not gate['ok']:   # front-end gate: never spend extraction/compose calls on an uncreditable source
         return {**base, 'units': [], 'post_type': post_type, 'draft_status': 'not_suitable', 'status': 'skipped',
                 'text': '', 'post_checks': [], 'claim_ledger': [], 'risks': [],
@@ -1489,6 +1498,9 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                          for u in chosen]}
     if angle:
         payload['angle'] = dict(angle)
+    if base.get('reality', {}).get('lines'):
+        payload['reality'] = {'as_of': base['reality']['as_of'], 'lines': base['reality']['lines'],
+                              'rule': _hotspot.REALITY_RULE}
     if editor_note:
         payload['editor_note'] = {
             'note': str(editor_note)[:800],

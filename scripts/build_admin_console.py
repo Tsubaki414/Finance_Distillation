@@ -293,7 +293,7 @@ textarea.note{min-height:64px;font-size:13.5px;border-color:var(--line)}
 .fd.hard .c{background:var(--holdbg);color:var(--hold)}.fd.warn .c{background:var(--warnbg);color:var(--warn)}.fd span.dt{color:var(--ink2)}
 .src a{color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
 .src .sm{color:var(--mute);font-size:12px}
-.tag.mode{background:var(--infobg);color:var(--info)}
+.tag.mode{background:var(--infobg);color:var(--info)}.tag.mode.hot{background:var(--holdbg);color:var(--hold)}
 .mtgt{font-size:12.5px;margin-top:8px}.mtgt a{color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
 .img{margin:10px 0 0;max-width:560px}.img img{display:block;width:100%;height:auto;border-radius:8px;border:1px solid var(--line2);background:#131722}
 .img figcaption{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px;font-size:11.5px;color:var(--faint)}
@@ -325,7 +325,7 @@ __NAV__
 <label>状态 <select id="fSt"></select></label>
 <label>语言 <select id="fLang"><option value="">全部</option><option value="zh">中文</option><option value="en">English</option></select></label>
 <label>运行 <select id="fRun"></select></label>
-<label>决定 <select id="fDec"><option value="">全部</option><option value="none">未处理</option><option value="approve">已批准</option><option value="hold">已 HOLD</option><option value="rewrite">待重写</option><option value="edit">仅改稿</option><option value="edited">有改稿</option></select></label>
+<label>决定 <select id="fDec"><option value="">全部</option><option value="none">未处理</option><option value="approve">已批准</option><option value="published">已发布</option><option value="hold">已 HOLD</option><option value="rewrite">待重写</option><option value="edit">仅改稿</option><option value="edited">有改稿</option></select></label>
 <label><input type="checkbox" id="fHard"> 有硬伤</label>
 <label><input type="checkbox" id="fWarn"> 有警告</label>
 <input type="search" id="fQ" placeholder="搜索正文 / 来源 / ID">
@@ -340,7 +340,7 @@ const D=JSON.parse(document.getElementById('data').textContent);
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const ST={ready:'可发',HOLD:'HOLD',replaced:'已替换',superseded:'已作废',needs_review:'待复核',blocked:'失败',skipped:'跳过'};
-const DEC={approve:'已批准',hold:'已 HOLD',rewrite:'待重写',edit:'改稿'};
+const DEC={approve:'已批准',published:'已发布',hold:'已 HOLD',rewrite:'待重写',edit:'改稿'};
 const days=Object.keys(D.days).sort().reverse();
 $('#day').innerHTML=days.map(d=>`<option>${d}</option>`).join('');
 const want=location.hash.slice(1);if(days.includes(want))$('#day').value=want;
@@ -379,7 +379,7 @@ async function decide(d,action,extra){
   else{const p=pending(day);p[d.id]=local;setPending(day,p)}
   render();
 }
-function effStatus(d){const x=dec[d.id];if(!x||x.action==='clear'||x.action==='edit')return d.status;return x.action==='approve'?'ready':'HOLD'}
+function effStatus(d){const x=dec[d.id];if(!x||x.action==='clear'||x.action==='edit')return d.status;return x.action==='approve'||x.action==='published'?'ready':'HOLD'}
 function counts(day){
   const ds=D.days[day]||[],acc={};
   for(const a of D.accounts)acc[a.id]={a,ready:0,eff:0,hold:0,total:0,dec:0};
@@ -433,11 +433,11 @@ ${d.claims.length?`<details><summary>论断 → 单元（${d.claims.length}）</
     ...((x&&x.history)||[]).map(h=>`<div class="hi"><span class="mono">${esc(new Date(h.at).toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false}).slice(5,16))}</span> Fiona：${esc(DEC[h.action]||(h.action==='clear'?'撤销':h.action))}${h.note?' · '+esc(h.note):''}${h.text?' · 改稿':''}</div>`)];
   const histB=hist.length?`<div class="blk"><h3>改派 / 重写 / 决定记录</h3>${hist.join('')}</div>`:'';
   return `<article class="d" id="d-${esc(d.id)}" data-id="${esc(d.id)}">
-<div class="dh"><b>${esc(d.name)}</b><span class="tag ${esc(d.status)}">${esc(ST[d.status]||d.status)}</span>${{quote:'<span class="tag mode">引用</span>',reply:'<span class="tag mode">回复</span>'}[d.mode]||''}${d.heat_led?'<span class="tag mode">热度</span>':''}${d.archive?'<span class="tag mode">回看</span>':''}${act?`<span class="tag dec ${act==='approve'?'ready':act==='edit'?'':'HOLD'}">${esc(DEC[act])}</span>`:''}<span>${esc(d.lang==='en'?'English':'中文')} · ${esc(d.format||d.post_type)}${d.angle?' · '+esc(d.angle):''}</span><span class="meta">${esc(d.time.slice(11,16))} 北京 · ${esc(d.run)} · ${esc(d.models.join(', ')||'-')} · $${d.spend.toFixed(3)} · ${esc(d.id)}</span></div>
+<div class="dh"><b>${esc(d.name)}</b><span class="tag ${esc(d.status)}">${esc(ST[d.status]||d.status)}</span>${{quote:'<span class="tag mode">引用</span>',reply:'<span class="tag mode">回复</span>'}[d.mode]||''}${d.heat_led?'<span class="tag mode">热度</span>':''}${d.archive?'<span class="tag mode">回看</span>':''}${d.hotspot?'<span class="tag mode hot">热点</span>':''}${act?`<span class="tag dec ${act==='approve'||act==='published'?'ready':act==='edit'?'':'HOLD'}">${esc(DEC[act])}</span>`:''}<span>${esc(d.lang==='en'?'English':'中文')} · ${esc(d.format||d.post_type)}${d.angle?' · '+esc(d.angle):''}</span><span class="meta">${esc(d.time.slice(11,16))} 北京 · ${esc(d.run)} · ${esc(d.models.join(', ')||'-')} · $${d.spend.toFixed(3)} · ${esc(d.id)}</span></div>
 <div><div class="txt${x&&x.text?' edited':''}" lang="${lg}">${esc(text)}</div><div class="cnt">${n} ${d.lang==='en'?'字符':'字'}${x&&x.text?' · 已改稿（原稿 '+[...d.text].length+'）':''}${d.view?' · 观点：'+esc(d.view):''}</div>
-${d.archive&&d.archive_url?`<div class="mtgt">回看原帖：<a href="${esc(d.archive_url)}" target="_blank" rel="noopener noreferrer">打开原帖</a></div>`:''}${d.target&&d.mode!=='original'?`<div class="mtgt">${d.mode==='reply'?'回复':'引用'}：<a href="${esc(d.target)}" target="_blank" rel="noopener noreferrer">打开原帖</a>${d.mode_why?` <span class="sm">· ${esc(d.mode_why)}</span>`:''}</div>`:''}
+${d.hotspot?`<div class="mtgt">热点母题：${esc(d.hotspot)}${d.hotspot_meta?` <span class="sm">· ${esc(d.hotspot_meta)}</span>`:''}</div>`:''}${d.archive&&d.archive_url?`<div class="mtgt">回看原帖：<a href="${esc(d.archive_url)}" target="_blank" rel="noopener noreferrer">打开原帖</a></div>`:''}${d.target&&d.mode!=='original'?`<div class="mtgt">${d.mode==='reply'?'回复':'引用'}：<a href="${esc(d.target)}" target="_blank" rel="noopener noreferrer">打开原帖</a>${d.mode_why?` <span class="sm">· ${esc(d.mode_why)}</span>`:''}</div>`:''}
 ${(d.media||[]).map(m=>`<figure class="img"><a href="/${esc(m.src||m.path)}" target="_blank" rel="noopener"><img src="/${esc(m.src||m.path)}" alt="${esc(m.alt)}" loading="lazy"></a><figcaption><span>${esc([m.credit?'数据：'+m.credit:'',m.updated?'图更新于 北京时间 '+m.updated:''].filter(Boolean).join(' · '))}</span><a class="dl" href="/${esc(m.src||m.path)}" download="${esc(m.path.split('/').pop())}">下载图片</a></figcaption></figure>`).join('')}
-<div class="acts"><button class="btn ok${act==='approve'?' on':''}" data-a="approve">批准</button><button class="btn hd${act==='hold'?' on':''}" data-a="hold">HOLD</button><button class="btn" data-a="edit">改稿</button><button class="btn${act==='rewrite'?' on rw':''}" data-a="rewrite">要求重写</button>${act||x&&x.text?'<button class="btn" data-a="clear">撤销决定</button>':''}</div>
+<div class="acts"><button class="btn ok${act==='approve'?' on':''}" data-a="approve">批准</button><button class="btn hd${act==='hold'?' on':''}" data-a="hold">HOLD</button><button class="btn" data-a="edit">改稿</button><button class="btn${act==='published'?' on':''}" data-a="published" title="人工发出后标记（不会自动发帖）">已发布</button><button class="btn${act==='rewrite'?' on rw':''}" data-a="rewrite">要求重写</button>${act||x&&x.text?'<button class="btn" data-a="clear">撤销决定</button>':''}</div>
 <div class="edit" data-panel="edit"><textarea data-f="text" lang="${lg}">${esc(text)}</textarea><div class="acts"><button class="btn pri" data-a="save-approve">保存并批准</button><button class="btn" data-a="save">只保存改稿</button>${x&&x.text?'<button class="btn" data-a="revert">恢复原稿</button>':''}<button class="btn" data-a="cancel">取消</button></div></div>
 <div class="edit" data-panel="note"><textarea class="note" data-f="note" placeholder="HOLD 原因 / 给重写的具体意见"></textarea><div class="acts"><button class="btn pri" data-a="note-ok">提交</button><button class="btn" data-a="cancel">取消</button></div></div></div>
 <div class="side">${why}${fnd}${src}${histB}</div></article>`;
@@ -458,6 +458,7 @@ document.addEventListener('click',async e=>{
   const panel=n=>card.querySelector(`[data-panel="${n}"]`);
   const close=()=>card.querySelectorAll('.edit').forEach(p=>p.classList.remove('open'));
   if(a==='approve')return decide(d,'approve');
+  if(a==='published')return decide(d,'published',{text:(dec[d.id]&&dec[d.id].text)||null,note:(dec[d.id]&&dec[d.id].note)||''});
   if(a==='clear')return decide(d,'clear',{text:null,note:''});
   if(a==='edit'){close();panel('edit').classList.add('open');panel('edit').querySelector('textarea').focus();return}
   if(a==='hold'||a==='rewrite'){close();noteFor=a;const p=panel('note');p.classList.add('open');const t=p.querySelector('textarea');t.placeholder=a==='hold'?'HOLD 原因（可空）':'给重写的具体意见：哪里错、要怎么改';t.value=(dec[d.id]&&dec[d.id].note)||'';t.focus();return}

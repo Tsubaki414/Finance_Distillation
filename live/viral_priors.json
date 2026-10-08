@@ -1,0 +1,102 @@
+{
+  "version": "viral-priors-v1",
+  "built_at": "2026-10-07T23:14:43+00:00",
+  "method": "engagement = views (likes if no views) / the donor's own median; lift = median over donors of median(engagement | structure) / median(engagement | not structure); originals only; donors with >= 40 posts in the language and >= 8 posts on each side. Association in donor data, not a causal effect. Used only as a soft angle-ranking signal (+-15% max).",
+  "donors_read": 332,
+  "priors": {
+    "en": {
+      "lead_number": {
+        "lift": 1.099,
+        "n_donors": 94,
+        "n_posts_with": 2797,
+        "iqr": [
+          0.959,
+          1.236
+        ]
+      },
+      "list_format": {
+        "lift": 1.201,
+        "n_donors": 32,
+        "n_posts_with": 985,
+        "iqr": [
+          1.027,
+          1.665
+        ]
+      },
+      "named_counterparty": {
+        "lift": 1.151,
+        "n_donors": 64,
+        "n_posts_with": 1585,
+        "iqr": [
+          0.989,
+          1.369
+        ]
+      },
+      "question_lead": {
+        "lift": 1.038,
+        "n_donors": 26,
+        "n_posts_with": 302,
+        "iqr": [
+          0.839,
+          1.289
+        ]
+      },
+      "then_vs_now": {
+        "lift": 1.25,
+        "n_donors": 34,
+        "n_posts_with": 635,
+        "iqr": [
+          0.991,
+          1.405
+        ]
+      }
+    },
+    "zh": {
+      "lead_number": {
+        "lift": 1.087,
+        "n_donors": 79,
+        "n_posts_with": 2411,
+        "iqr": [
+          0.898,
+          1.346
+        ]
+      },
+      "list_format": {
+        "lift": 1.334,
+        "n_donors": 41,
+        "n_posts_with": 733,
+        "iqr": [
+          1.025,
+          1.777
+        ]
+      },
+      "named_counterparty": {
+        "lift": 1.158,
+        "n_donors": 74,
+        "n_posts_with": 2846,
+        "iqr": [
+          0.943,
+          1.449
+        ]
+      },
+      "question_lead": {
+        "lift": 1.145,
+        "n_donors": 41,
+        "n_posts_with": 595,
+        "iqr": [
+          0.898,
+          1.387
+        ]
+      },
+      "then_vs_now": {
+        "lift": 1.152,
+        "n_donors": 43,
+        "n_posts_with": 725,
+        "iqr": [
+          1.013,
+          1.525
+        ]
+      }
+    }
+  }
+}
