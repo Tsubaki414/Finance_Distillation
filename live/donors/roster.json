@@ -582,34 +582,30 @@
    "donors": [
     {
      "handle": "TraderS18",
-     "weight": 0.312,
-     "why": "beat 61% of 202 originals, crypto 10%, voice distinct 0.67"
+     "weight": 0.2
     },
     {
      "handle": "MacroMargin",
-     "weight": 0.21,
-     "why": "beat 45% of 177 originals, voice distinct 0.55"
+     "weight": 0.2
     },
     {
      "handle": "qinbafrank",
-     "weight": 0.199,
-     "why": "beat 44% of 195 originals, crypto 17%, voice distinct 0.47 (current donor)"
+     "weight": 0.2
     },
     {
      "handle": "LabSpeculation",
-     "weight": 0.15,
-     "why": "beat 30% of 119 originals, crypto 15%, voice distinct 0.78"
+     "weight": 0.2
     },
     {
      "handle": "fannaoxiaoyang",
-     "weight": 0.129,
-     "why": "beat 30% of 87 originals, crypto 28%, voice distinct 0.67"
+     "weight": 0.2
     }
    ],
    "bench": [
     "TJ_Research"
    ],
-   "notes": []
+   "notes": [],
+   "updated": "2026-10-08-pm-donors"
   },
   "acct_en_macro": {
    "lang": "en",
@@ -1551,51 +1547,49 @@
    "donors": [
     {
      "handle": "cloakmk",
-     "weight": 0.1
+     "weight": 0.0833
     },
     {
      "handle": "Leooo2099",
-     "weight": 0.1
+     "weight": 0.0833
     },
     {
      "handle": "Btcxiaoyuan",
-     "weight": 0.1
+     "weight": 0.0833
     },
     {
      "handle": "bitfish",
-     "weight": 0.1
+     "weight": 0.0833
     },
     {
      "handle": "tychozzz",
-     "weight": 0.1
+     "weight": 0.0833
+    },
+    {
+     "handle": "KevinZbtc",
+     "weight": 0.0833
     },
     {
      "handle": "thankUcrypto",
-     "weight": 0.1,
+     "weight": 0.125,
      "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "BensonTWN",
-     "weight": 0.1,
+     "weight": 0.125,
      "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)"
     },
     {
      "handle": "dapangdun",
-     "weight": 0.1,
+     "weight": 0.125,
      "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     },
     {
      "handle": "timotimo007",
-     "weight": 0.1,
-     "merged": "mango-merge-2026-10-07+seeds2",
-     "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
-    },
-    {
-     "handle": "KevinZbtc",
-     "weight": 0.1,
+     "weight": 0.125,
      "merged": "mango-merge-2026-10-07+seeds2",
      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)"
     }
@@ -1609,10 +1603,10 @@
      "thankUcrypto",
      "BensonTWN",
      "dapangdun",
-     "timotimo007",
-     "KevinZbtc"
+     "timotimo007"
     ]
-   }
+   },
+   "updated": "2026-10-08-pm-donors"
   },
   "acct_zh_us_stocks": {
    "lang": "zh",
@@ -2091,23 +2085,43 @@
    "donors": [
     {
      "handle": "intangiblecoins",
-     "weight": 0.1
+     "weight": 0.05
     },
     {
      "handle": "LowBeta",
-     "weight": 0.1
+     "weight": 0.05
     },
     {
      "handle": "andrewhong5297",
-     "weight": 0.1
+     "weight": 0.05
     },
     {
      "handle": "matthew_sigel",
-     "weight": 0.1
+     "weight": 0.05
     },
     {
      "handle": "LexSokolin",
-     "weight": 0.1
+     "weight": 0.05
+    },
+    {
+     "handle": "Invesquotes",
+     "weight": 0.05
+    },
+    {
+     "handle": "JaradCapital",
+     "weight": 0.05
+    },
+    {
+     "handle": "Brad_Setser",
+     "weight": 0.05
+    },
+    {
+     "handle": "spotgamma",
+     "weight": 0.05
+    },
+    {
+     "handle": "borrowed_ideas",
+     "weight": 0.05
     },
     {
      "handle": "amandacassatt",
@@ -2152,7 +2166,8 @@
      "ahboyash",
      "econoar"
     ]
-   }
+   },
+   "updated": "2026-10-08-pm-donors"
   },
   "acct_crypto_ai_crossover_zh": {
    "lang": "zh",
@@ -2179,7 +2194,8 @@
     }
    ],
    "origin": "persona_factory 2026-10-08 from the spare account row donors (equal weights)",
-   "previous_cluster": "crypto_macro_zh"
+   "previous_cluster": "crypto_macro_zh",
+   "updated": "2026-10-08-pm-donors"
   },
   "acct_crypto_newbie_zh": {
    "lang": "zh",
@@ -2201,182 +2217,293 @@
      "weight": 0.2
     },
     {
-     "handle": "williamlab",
+     "handle": "laofeiyyds",
      "weight": 0.2
     }
    ],
    "origin": "persona_factory 2026-10-08 from the spare account row donors (equal weights)",
-   "previous_cluster": "crypto_macro_zh"
+   "previous_cluster": "crypto_macro_zh",
+   "updated": "2026-10-08-pm-donors"
   },
   "acct_crypto_alt_trader_en": {
    "lang": "en",
    "donors": [
     {
      "handle": "thedefivillain",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "CryptoMichNL",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "IT_Tech_PL",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "Truecrypto",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "TedPillows",
-     "weight": 0.2
+     "weight": 0.1
+    },
+    {
+     "handle": "CathieDWood",
+     "weight": 0.1
+    },
+    {
+     "handle": "chamath",
+     "weight": 0.1
+    },
+    {
+     "handle": "PeterLBrandt",
+     "weight": 0.1
+    },
+    {
+     "handle": "LynAldenContact",
+     "weight": 0.1
+    },
+    {
+     "handle": "charliebilello",
+     "weight": 0.1
     }
    ],
    "origin": "persona_factory 2026-10-08 from the spare account row donors (equal weights)",
-   "previous_cluster": "crypto_perp"
+   "previous_cluster": "crypto_perp",
+   "updated": "2026-10-08-pm-donors"
   },
   "acct_longterm_investing_en": {
    "lang": "en",
    "donors": [
     {
      "handle": "morganhousel",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "dollarsanddata",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "awealthofcs",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "BrianFeroldi",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "iancassel",
-     "weight": 0.2
+     "weight": 0.1
+    },
+    {
+     "handle": "howardlindzon",
+     "weight": 0.1
+    },
+    {
+     "handle": "GrahamStephan",
+     "weight": 0.1
+    },
+    {
+     "handle": "choffstein",
+     "weight": 0.1
+    },
+    {
+     "handle": "ByrneHobart",
+     "weight": 0.1
+    },
+    {
+     "handle": "BullandBaird",
+     "weight": 0.1
     }
    ],
    "origin": "persona_factory 2026-10-08 from the spare account row donors (equal weights)",
-   "previous_cluster": "investing_philosophy"
+   "previous_cluster": "investing_philosophy",
+   "updated": "2026-10-08-pm-donors"
   },
   "acct_crypto_etf_flows_en": {
    "lang": "en",
    "donors": [
     {
      "handle": "NateGeraci",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "JSeyff",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "EricBalchunas",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "jameslavish",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "Jamie1Coutts",
-     "weight": 0.2
+     "weight": 0.1
+    },
+    {
+     "handle": "LizAnnSonders",
+     "weight": 0.1
+    },
+    {
+     "handle": "biancoresearch",
+     "weight": 0.1
+    },
+    {
+     "handle": "fundstrat",
+     "weight": 0.1
+    },
+    {
+     "handle": "LukeGromen",
+     "weight": 0.1
+    },
+    {
+     "handle": "dampedspring",
+     "weight": 0.1
     }
    ],
    "origin": "persona_factory 2026-10-08 from the spare account row donors (equal weights)",
-   "previous_cluster": "crypto_onchain"
+   "previous_cluster": "crypto_onchain",
+   "updated": "2026-10-08-pm-donors"
   },
   "acct_crypto_meme_zh": {
    "lang": "zh",
    "donors": [
     {
      "handle": "EinsteinYipie",
-     "weight": 0.1667
+     "weight": 0.1
     },
     {
      "handle": "0xmasiwei",
-     "weight": 0.1667
+     "weight": 0.1
     },
     {
      "handle": "MetaHunter168",
-     "weight": 0.1667
+     "weight": 0.1
     },
     {
      "handle": "cryp_orange",
-     "weight": 0.1667
+     "weight": 0.1
     },
     {
      "handle": "lin_btc",
-     "weight": 0.1667
+     "weight": 0.1
     },
     {
      "handle": "scriptdotmoney",
-     "weight": 0.1667
+     "weight": 0.1
+    },
+    {
+     "handle": "Jason60704294",
+     "weight": 0.1
+    },
+    {
+     "handle": "nbblock",
+     "weight": 0.1
+    },
+    {
+     "handle": "huahuayjy",
+     "weight": 0.1
+    },
+    {
+     "handle": "bboczeng",
+     "weight": 0.1
     }
    ],
    "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
-   "previous_cluster": "crypto_meme"
+   "previous_cluster": "crypto_meme",
+   "updated": "2026-10-08-pm-donors"
   },
   "acct_crypto_airdrop_zh": {
    "lang": "zh",
    "donors": [
     {
      "handle": "VIP8888883",
-     "weight": 0.1667
+     "weight": 0.1
     },
     {
      "handle": "wenxue600",
-     "weight": 0.1667
+     "weight": 0.1
     },
     {
      "handle": "duola_eth",
-     "weight": 0.1667
+     "weight": 0.1
     },
     {
      "handle": "AirdropAlchemis",
-     "weight": 0.1667
+     "weight": 0.1
     },
     {
      "handle": "iamyourchaos",
-     "weight": 0.1667
+     "weight": 0.1
     },
     {
      "handle": "shawnchen_eth",
-     "weight": 0.1667
+     "weight": 0.1
+    },
+    {
+     "handle": "Svwang1",
+     "weight": 0.1
+    },
+    {
+     "handle": "ChinaMacroFacts",
+     "weight": 0.1
+    },
+    {
+     "handle": "LinQingV",
+     "weight": 0.1
+    },
+    {
+     "handle": "techeconomyana",
+     "weight": 0.1
     }
    ],
    "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
-   "previous_cluster": "crypto_airdrop"
+   "previous_cluster": "crypto_airdrop",
+   "updated": "2026-10-08-pm-donors"
   },
   "acct_crypto_prediction_zh": {
    "lang": "zh",
    "donors": [
     {
      "handle": "MrRyanChi",
-     "weight": 0.2
+     "weight": 0.125
     },
     {
      "handle": "akitabtc",
-     "weight": 0.2
+     "weight": 0.125
     },
     {
      "handle": "yummyuyu_",
-     "weight": 0.2
+     "weight": 0.125
     },
     {
      "handle": "Mumu_yay",
-     "weight": 0.2
+     "weight": 0.125
     },
     {
      "handle": "0xchubai",
-     "weight": 0.2
+     "weight": 0.125
+    },
+    {
+     "handle": "maojietrading",
+     "weight": 0.125
+    },
+    {
+     "handle": "Unclestocknotes",
+     "weight": 0.125
+    },
+    {
+     "handle": "memekiller365",
+     "weight": 0.125
     }
    ],
    "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
-   "previous_cluster": "crypto_prediction"
+   "previous_cluster": "crypto_prediction",
+   "updated": "2026-10-08-pm-donors"
   },
   "acct_crypto_stable_yield_zh": {
    "lang": "zh",
@@ -2403,177 +2530,296 @@
     }
    ],
    "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
-   "previous_cluster": "crypto_stable_yield"
+   "previous_cluster": "crypto_stable_yield",
+   "updated": "2026-10-08-pm-donors"
   },
   "acct_crypto_meme_en": {
    "lang": "en",
    "donors": [
     {
      "handle": "Overdose_AI",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "the_smart_ape",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "sibeleth",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "notthreadguy",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
-     "handle": "LouisCooper_",
-     "weight": 0.2
+     "handle": "alphatrends",
+     "weight": 0.1
+    },
+    {
+     "handle": "caolei1",
+     "weight": 0.1
+    },
+    {
+     "handle": "JavierBlas",
+     "weight": 0.1
+    },
+    {
+     "handle": "HAOHONG_CFA",
+     "weight": 0.1
+    },
+    {
+     "handle": "GeorgeGammon",
+     "weight": 0.1
+    },
+    {
+     "handle": "TaviCosta",
+     "weight": 0.1
     }
    ],
    "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
-   "previous_cluster": "crypto_meme"
+   "previous_cluster": "crypto_meme",
+   "updated": "2026-10-08-pm-donors"
   },
   "acct_crypto_airdrop_en": {
    "lang": "en",
    "donors": [
     {
      "handle": "enesonchain",
-     "weight": 0.1667
+     "weight": 0.1
     },
     {
      "handle": "Gyokeres_eth",
-     "weight": 0.1667
+     "weight": 0.1
     },
     {
      "handle": "KittaKitka",
-     "weight": 0.1667
+     "weight": 0.1
     },
     {
      "handle": "pointfarmcap",
-     "weight": 0.1667
+     "weight": 0.1
     },
     {
      "handle": "Omaofweb3",
-     "weight": 0.1667
+     "weight": 0.1
     },
     {
      "handle": "0xbeiu",
-     "weight": 0.1667
+     "weight": 0.1
+    },
+    {
+     "handle": "BobEUnlimited",
+     "weight": 0.1
+    },
+    {
+     "handle": "AndreasSteno",
+     "weight": 0.1
+    },
+    {
+     "handle": "citrini",
+     "weight": 0.1
+    },
+    {
+     "handle": "bespokeinvest",
+     "weight": 0.1
     }
    ],
    "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
-   "previous_cluster": "crypto_airdrop"
+   "previous_cluster": "crypto_airdrop",
+   "updated": "2026-10-08-pm-donors"
   },
   "acct_crypto_prediction_en": {
    "lang": "en",
    "donors": [
     {
      "handle": "Atlantislq",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "polysuccubus",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "izebel_eth",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "hosseeb",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "cxo_no",
-     "weight": 0.2
+     "weight": 0.1
+    },
+    {
+     "handle": "mingchikuo",
+     "weight": 0.1
+    },
+    {
+     "handle": "profplum99",
+     "weight": 0.1
+    },
+    {
+     "handle": "AnnaEconomist",
+     "weight": 0.1
+    },
+    {
+     "handle": "RyanDetrick",
+     "weight": 0.1
+    },
+    {
+     "handle": "jukan05",
+     "weight": 0.1
     }
    ],
    "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
-   "previous_cluster": "crypto_prediction"
+   "previous_cluster": "crypto_prediction",
+   "updated": "2026-10-08-pm-donors"
   },
   "acct_crypto_perp_dex_en": {
    "lang": "en",
    "donors": [
     {
      "handle": "Defi_Warhol",
-     "weight": 0.1667
+     "weight": 0.1
     },
     {
      "handle": "HYPEconomist",
-     "weight": 0.1667
+     "weight": 0.1
     },
     {
      "handle": "Henrik_on_HL",
-     "weight": 0.1667
+     "weight": 0.1
     },
     {
      "handle": "zerokn0wledge_",
-     "weight": 0.1667
+     "weight": 0.1
     },
     {
      "handle": "crypto_notte",
-     "weight": 0.1667
+     "weight": 0.1
     },
     {
      "handle": "MoneyPrinter0x",
-     "weight": 0.1667
+     "weight": 0.1
+    },
+    {
+     "handle": "josephwang",
+     "weight": 0.1
+    },
+    {
+     "handle": "michaelbatnick",
+     "weight": 0.1
+    },
+    {
+     "handle": "StockMarketNerd",
+     "weight": 0.1
+    },
+    {
+     "handle": "INArteCarloDoss",
+     "weight": 0.1
     }
    ],
    "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
-   "previous_cluster": "crypto_perp"
+   "previous_cluster": "crypto_perp",
+   "updated": "2026-10-08-pm-donors"
   },
   "acct_crypto_stable_yield_en": {
    "lang": "en",
    "donors": [
     {
      "handle": "phtevenstrong",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "0xc06",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "Mars_DeFi",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "Zun2025",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "Route2FI",
-     "weight": 0.2
+     "weight": 0.1
+    },
+    {
+     "handle": "MacroCharts",
+     "weight": 0.1
+    },
+    {
+     "handle": "michaelxpettis",
+     "weight": 0.1
+    },
+    {
+     "handle": "SoberLook",
+     "weight": 0.1
+    },
+    {
+     "handle": "SemiAnalysis_",
+     "weight": 0.1
+    },
+    {
+     "handle": "dylan522p",
+     "weight": 0.1
     }
    ],
    "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
-   "previous_cluster": "crypto_stable_yield"
+   "previous_cluster": "crypto_stable_yield",
+   "updated": "2026-10-08-pm-donors"
   },
   "acct_sol_base_alpha_en": {
    "lang": "en",
    "donors": [
     {
      "handle": "SolanaSensei",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "SolanaHub_",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "Tanaka_L2",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "BaseHubHB",
-     "weight": 0.2
+     "weight": 0.1
     },
     {
      "handle": "baseposting",
-     "weight": 0.2
+     "weight": 0.1
+    },
+    {
+     "handle": "leadlagreport",
+     "weight": 0.1
+    },
+    {
+     "handle": "markminervini",
+     "weight": 0.1
+    },
+    {
+     "handle": "NickTimiraos",
+     "weight": 0.1
+    },
+    {
+     "handle": "TheStalwart",
+     "weight": 0.1
+    },
+    {
+     "handle": "lisaabramowicz1",
+     "weight": 0.1
     }
    ],
    "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
-   "previous_cluster": "crypto_ecosystem_sol_base"
+   "previous_cluster": "crypto_ecosystem_sol_base",
+   "updated": "2026-10-08-pm-donors"
   }
  },
  "donors": {

@@ -3875,6 +3875,384 @@
       "no_reproduction": true,
       "quote_allowed": false,
       "attribution_required": true
+    },
+    "x_CathieDWood": {
+      "tier": "B",
+      "basis": "X analyst posts (spare account-scoped source, 2026-10-08)",
+      "aliases": [
+        "CathieDWood"
+      ]
+    },
+    "x_chamath": {
+      "tier": "B",
+      "basis": "X analyst posts (spare account-scoped source, 2026-10-08)",
+      "aliases": [
+        "chamath"
+      ]
+    },
+    "x_PeterLBrandt": {
+      "tier": "B",
+      "basis": "X analyst posts (spare account-scoped source, 2026-10-08)",
+      "aliases": [
+        "PeterLBrandt"
+      ]
+    },
+    "x_LynAldenContact": {
+      "tier": "B",
+      "basis": "X analyst posts (spare account-scoped source, 2026-10-08)",
+      "aliases": [
+        "LynAldenContact"
+      ]
+    },
+    "x_charliebilello": {
+      "tier": "B",
+      "basis": "X analyst posts (spare account-scoped source, 2026-10-08)",
+      "aliases": [
+        "charliebilello"
+      ]
+    },
+    "x_howardlindzon": {
+      "tier": "B",
+      "basis": "X analyst posts (spare account-scoped source, 2026-10-08)",
+      "aliases": [
+        "howardlindzon"
+      ]
+    },
+    "x_GrahamStephan": {
+      "tier": "B",
+      "basis": "X analyst posts (spare account-scoped source, 2026-10-08)",
+      "aliases": [
+        "GrahamStephan"
+      ]
+    },
+    "x_choffstein": {
+      "tier": "B",
+      "basis": "X analyst posts (spare account-scoped source, 2026-10-08)",
+      "aliases": [
+        "choffstein"
+      ]
+    },
+    "x_ByrneHobart": {
+      "tier": "B",
+      "basis": "X analyst posts (spare account-scoped source, 2026-10-08)",
+      "aliases": [
+        "ByrneHobart"
+      ]
+    },
+    "x_BullandBaird": {
+      "tier": "B",
+      "basis": "X analyst posts (spare account-scoped source, 2026-10-08)",
+      "aliases": [
+        "BullandBaird"
+      ]
+    },
+    "x_LizAnnSonders": {
+      "tier": "B",
+      "basis": "X analyst posts (spare account-scoped source, 2026-10-08)",
+      "aliases": [
+        "LizAnnSonders"
+      ]
+    },
+    "x_biancoresearch": {
+      "tier": "B",
+      "basis": "X analyst posts (spare account-scoped source, 2026-10-08)",
+      "aliases": [
+        "biancoresearch"
+      ]
+    },
+    "x_fundstrat": {
+      "tier": "B",
+      "basis": "X analyst posts (spare account-scoped source, 2026-10-08)",
+      "aliases": [
+        "fundstrat"
+      ]
+    },
+    "x_LukeGromen": {
+      "tier": "B",
+      "basis": "X analyst posts (spare account-scoped source, 2026-10-08)",
+      "aliases": [
+        "LukeGromen"
+      ]
+    },
+    "x_dampedspring": {
+      "tier": "B",
+      "basis": "X analyst posts (spare account-scoped source, 2026-10-08)",
+      "aliases": [
+        "dampedspring"
+      ]
+    },
+    "x_Jason60704294": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "Jason60704294"
+      ]
+    },
+    "x_nbblock": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "nbblock"
+      ]
+    },
+    "x_huahuayjy": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "huahuayjy"
+      ]
+    },
+    "x_bboczeng": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "bboczeng"
+      ]
+    },
+    "x_Svwang1": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "Svwang1"
+      ]
+    },
+    "x_ChinaMacroFacts": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "ChinaMacroFacts"
+      ]
+    },
+    "x_LinQingV": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "LinQingV"
+      ]
+    },
+    "x_techeconomyana": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "techeconomyana"
+      ]
+    },
+    "x_maojietrading": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "maojietrading"
+      ]
+    },
+    "x_Unclestocknotes": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "Unclestocknotes"
+      ]
+    },
+    "x_memekiller365": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "memekiller365"
+      ]
+    },
+    "x_leadlagreport": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "leadlagreport"
+      ]
+    },
+    "x_markminervini": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "markminervini"
+      ]
+    },
+    "x_NickTimiraos": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "NickTimiraos"
+      ]
+    },
+    "x_TheStalwart": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "TheStalwart"
+      ]
+    },
+    "x_lisaabramowicz1": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "lisaabramowicz1"
+      ]
+    },
+    "x_alphatrends": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "alphatrends"
+      ]
+    },
+    "x_caolei1": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "caolei1"
+      ]
+    },
+    "x_JavierBlas": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "JavierBlas"
+      ]
+    },
+    "x_GeorgeGammon": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "GeorgeGammon"
+      ]
+    },
+    "x_TaviCosta": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "TaviCosta"
+      ]
+    },
+    "x_BobEUnlimited": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "BobEUnlimited"
+      ]
+    },
+    "x_AndreasSteno": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "AndreasSteno"
+      ]
+    },
+    "x_citrini": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "citrini"
+      ]
+    },
+    "x_bespokeinvest": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "bespokeinvest"
+      ]
+    },
+    "x_mingchikuo": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "mingchikuo"
+      ]
+    },
+    "x_profplum99": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "profplum99"
+      ]
+    },
+    "x_AnnaEconomist": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "AnnaEconomist"
+      ]
+    },
+    "x_RyanDetrick": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "RyanDetrick"
+      ]
+    },
+    "x_jukan05": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "jukan05"
+      ]
+    },
+    "x_josephwang": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "josephwang"
+      ]
+    },
+    "x_michaelbatnick": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "michaelbatnick"
+      ]
+    },
+    "x_StockMarketNerd": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "StockMarketNerd"
+      ]
+    },
+    "x_INArteCarloDoss": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "INArteCarloDoss"
+      ]
+    },
+    "x_MacroCharts": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "MacroCharts"
+      ]
+    },
+    "x_michaelxpettis": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "michaelxpettis"
+      ]
+    },
+    "x_SoberLook": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "SoberLook"
+      ]
+    },
+    "x_SemiAnalysis_": {
+      "tier": "B",
+      "basis": "X analyst posts (new account-scoped source, 2026-10-08)",
+      "aliases": [
+        "SemiAnalysis_"
+      ]
+    },
+    "x_laofeiyyds": {
+      "tier": "B",
+      "basis": "X analyst posts (spare account-scoped source, 2026-10-08)",
+      "aliases": [
+        "laofeiyyds"
+      ]
     }
   }
 }

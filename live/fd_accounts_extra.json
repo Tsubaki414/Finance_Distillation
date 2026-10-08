@@ -119,7 +119,7 @@
     "eyuCrypto",
     "jason_chen998",
     "Meimeibtcc",
-    "williamlab"
+    "laofeiyyds"
    ],
    "x_sources": {
     "CORE": [
@@ -127,11 +127,21 @@
      "eyuCrypto",
      "jason_chen998",
      "Meimeibtcc",
-     "williamlab"
+     "laofeiyyds"
     ],
     "SECONDARY": []
    },
-   "status": "spare_active"
+   "status": "spare_active",
+   "donor_evidence": {
+    "laofeiyyds": {
+     "followers": 270620,
+     "category": "crypto_macro",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-06"
+    }
+   }
   },
   {
    "no": 24,
@@ -167,7 +177,12 @@
     "CryptoMichNL",
     "IT_Tech_PL",
     "Truecrypto",
-    "TedPillows"
+    "TedPillows",
+    "CathieDWood",
+    "chamath",
+    "PeterLBrandt",
+    "LynAldenContact",
+    "charliebilello"
    ],
    "x_sources": {
     "CORE": [
@@ -175,11 +190,58 @@
      "CryptoMichNL",
      "IT_Tech_PL",
      "Truecrypto",
-     "TedPillows"
+     "TedPillows",
+     "CathieDWood",
+     "chamath",
+     "PeterLBrandt",
+     "LynAldenContact",
+     "charliebilello"
     ],
     "SECONDARY": []
    },
-   "status": "spare_active"
+   "status": "spare_active",
+   "donor_evidence": {
+    "CathieDWood": {
+     "followers": 2967741,
+     "category": "investing_general",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    },
+    "chamath": {
+     "followers": 2446075,
+     "category": "investing_general",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-04"
+    },
+    "PeterLBrandt": {
+     "followers": 1330191,
+     "category": "trading_technicals",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-04"
+    },
+    "LynAldenContact": {
+     "followers": 1140966,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-04"
+    },
+    "charliebilello": {
+     "followers": 870140,
+     "category": "market_data_charts",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    }
+   }
   },
   {
    "no": 25,
@@ -213,7 +275,12 @@
     "dollarsanddata",
     "awealthofcs",
     "BrianFeroldi",
-    "iancassel"
+    "iancassel",
+    "howardlindzon",
+    "GrahamStephan",
+    "choffstein",
+    "ByrneHobart",
+    "BullandBaird"
    ],
    "x_sources": {
     "CORE": [
@@ -221,11 +288,58 @@
      "dollarsanddata",
      "awealthofcs",
      "BrianFeroldi",
-     "iancassel"
+     "iancassel",
+     "howardlindzon",
+     "GrahamStephan",
+     "choffstein",
+     "ByrneHobart",
+     "BullandBaird"
     ],
     "SECONDARY": []
    },
-   "status": "spare_active"
+   "status": "spare_active",
+   "donor_evidence": {
+    "howardlindzon": {
+     "followers": 278550,
+     "category": "investing_general",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-04"
+    },
+    "GrahamStephan": {
+     "followers": 216039,
+     "category": "investing_general",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    },
+    "choffstein": {
+     "followers": 86245,
+     "category": "investing_general",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-02"
+    },
+    "ByrneHobart": {
+     "followers": 61845,
+     "category": "investing_general",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    },
+    "BullandBaird": {
+     "followers": 40692,
+     "category": "investing_general",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-02"
+    }
+   }
   },
   {
    "no": 26,
@@ -260,7 +374,12 @@
     "JSeyff",
     "EricBalchunas",
     "jameslavish",
-    "Jamie1Coutts"
+    "Jamie1Coutts",
+    "LizAnnSonders",
+    "biancoresearch",
+    "fundstrat",
+    "LukeGromen",
+    "dampedspring"
    ],
    "x_sources": {
     "CORE": [
@@ -268,12 +387,59 @@
      "JSeyff",
      "EricBalchunas",
      "jameslavish",
-     "Jamie1Coutts"
+     "Jamie1Coutts",
+     "LizAnnSonders",
+     "biancoresearch",
+     "fundstrat",
+     "LukeGromen",
+     "dampedspring"
     ],
     "SECONDARY": []
    },
    "status": "spare_active",
-   "adjusted": "plan_crypto.json spare lists 4 donors; the persona registry needs 5 exemplar donors -> + Jamie1Coutts (roster voice donor, crypto flows/ETF, in one other account)"
+   "adjusted": "plan_crypto.json spare lists 4 donors; the persona registry needs 5 exemplar donors -> + Jamie1Coutts (roster voice donor, crypto flows/ETF, in one other account)",
+   "donor_evidence": {
+    "LizAnnSonders": {
+     "followers": 824206,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-02"
+    },
+    "biancoresearch": {
+     "followers": 786395,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    },
+    "fundstrat": {
+     "followers": 674950,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    },
+    "LukeGromen": {
+     "followers": 635454,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    },
+    "dampedspring": {
+     "followers": 574346,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    }
+   }
   }
  ]
 }

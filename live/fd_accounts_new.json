@@ -46,7 +46,11 @@
     "MetaHunter168",
     "cryp_orange",
     "lin_btc",
-    "scriptdotmoney"
+    "scriptdotmoney",
+    "Jason60704294",
+    "nbblock",
+    "huahuayjy",
+    "bboczeng"
    ],
    "donor_evidence": {
     "EinsteinYipie": {
@@ -90,6 +94,38 @@
      "originals_scraped": 140,
      "posts_per_day_30d": 0.6,
      "promo_share_regex": 0.0
+    },
+    "Jason60704294": {
+     "followers": 121775,
+     "category": "crypto_macro",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-09-24"
+    },
+    "nbblock": {
+     "followers": 15059,
+     "category": "crypto_macro",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-09-28"
+    },
+    "huahuayjy": {
+     "followers": 307081,
+     "category": "single_stock",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-09-28"
+    },
+    "bboczeng": {
+     "followers": 224744,
+     "category": "investing_general",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-04"
     }
    },
    "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
@@ -100,7 +136,11 @@
      "MetaHunter168",
      "cryp_orange",
      "lin_btc",
-     "scriptdotmoney"
+     "scriptdotmoney",
+     "Jason60704294",
+     "nbblock",
+     "huahuayjy",
+     "bboczeng"
     ],
     "SECONDARY": []
    },
@@ -158,7 +198,11 @@
     "duola_eth",
     "AirdropAlchemis",
     "iamyourchaos",
-    "shawnchen_eth"
+    "shawnchen_eth",
+    "Svwang1",
+    "ChinaMacroFacts",
+    "LinQingV",
+    "techeconomyana"
    ],
    "donor_evidence": {
     "VIP8888883": {
@@ -202,6 +246,38 @@
      "originals_scraped": 156,
      "posts_per_day_30d": 2.87,
      "promo_share_regex": 0.025
+    },
+    "Svwang1": {
+     "followers": 187828,
+     "category": "investing_general",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    },
+    "ChinaMacroFacts": {
+     "followers": 95265,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-02"
+    },
+    "LinQingV": {
+     "followers": 55401,
+     "category": "sector_industry",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    },
+    "techeconomyana": {
+     "followers": 45185,
+     "category": "macro",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-09-29"
     }
    },
    "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
@@ -212,7 +288,11 @@
      "duola_eth",
      "AirdropAlchemis",
      "iamyourchaos",
-     "shawnchen_eth"
+     "shawnchen_eth",
+     "Svwang1",
+     "ChinaMacroFacts",
+     "LinQingV",
+     "techeconomyana"
     ],
     "SECONDARY": [
      "Metabape"
@@ -271,7 +351,10 @@
     "akitabtc",
     "yummyuyu_",
     "Mumu_yay",
-    "0xchubai"
+    "0xchubai",
+    "maojietrading",
+    "Unclestocknotes",
+    "memekiller365"
    ],
    "donor_evidence": {
     "MrRyanChi": {
@@ -308,6 +391,30 @@
      "originals_scraped": 169,
      "posts_per_day_30d": 1.77,
      "promo_share_regex": 0.075
+    },
+    "maojietrading": {
+     "followers": 44974,
+     "category": "trading_technicals",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-04"
+    },
+    "Unclestocknotes": {
+     "followers": 29761,
+     "category": "single_stock",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-04"
+    },
+    "memekiller365": {
+     "followers": 26680,
+     "category": "investing_general",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-01"
     }
    },
    "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
@@ -317,7 +424,10 @@
      "akitabtc",
      "yummyuyu_",
      "Mumu_yay",
-     "0xchubai"
+     "0xchubai",
+     "maojietrading",
+     "Unclestocknotes",
+     "memekiller365"
     ],
     "SECONDARY": [
      "0xScottBTC"
@@ -489,7 +599,12 @@
     "SolanaHub_",
     "Tanaka_L2",
     "BaseHubHB",
-    "baseposting"
+    "baseposting",
+    "leadlagreport",
+    "markminervini",
+    "NickTimiraos",
+    "TheStalwart",
+    "lisaabramowicz1"
    ],
    "donor_evidence": {
     "SolanaSensei": {
@@ -526,6 +641,46 @@
      "originals_scraped": 161,
      "posts_per_day_30d": 5.37,
      "promo_share_regex": 0.0
+    },
+    "leadlagreport": {
+     "followers": 772128,
+     "category": "earnings_filings",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    },
+    "markminervini": {
+     "followers": 765783,
+     "category": "trading_technicals",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-02"
+    },
+    "NickTimiraos": {
+     "followers": 492579,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    },
+    "TheStalwart": {
+     "followers": 450534,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    },
+    "lisaabramowicz1": {
+     "followers": 444180,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-01"
     }
    },
    "donor_notes": {
@@ -542,7 +697,12 @@
      "SolanaHub_",
      "Tanaka_L2",
      "BaseHubHB",
-     "baseposting"
+     "baseposting",
+     "leadlagreport",
+     "markminervini",
+     "NickTimiraos",
+     "TheStalwart",
+     "lisaabramowicz1"
     ],
     "SECONDARY": [
      "solana",
@@ -612,7 +772,12 @@
     "the_smart_ape",
     "sibeleth",
     "notthreadguy",
-    "LouisCooper_"
+    "alphatrends",
+    "caolei1",
+    "JavierBlas",
+    "HAOHONG_CFA",
+    "GeorgeGammon",
+    "TaviCosta"
    ],
    "donor_evidence": {
     "Overdose_AI": {
@@ -643,12 +808,53 @@
      "posts_per_day_30d": 2.53,
      "promo_share_regex": 0.0
     },
-    "LouisCooper_": {
-     "followers": 83009,
-     "last_post": "2026-09-25",
-     "originals_scraped": 115,
-     "posts_per_day_30d": 0.53,
-     "promo_share_regex": 0.0
+    "alphatrends": {
+     "followers": 430516,
+     "category": "trading_technicals",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    },
+    "caolei1": {
+     "followers": 404382,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-09-29"
+    },
+    "JavierBlas": {
+     "followers": 403079,
+     "category": "sector_industry",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    },
+    "HAOHONG_CFA": {
+     "followers": 355859,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-01"
+    },
+    "GeorgeGammon": {
+     "followers": 333386,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-02"
+    },
+    "TaviCosta": {
+     "followers": 324771,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-02"
     }
    },
    "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
@@ -658,7 +864,12 @@
      "the_smart_ape",
      "sibeleth",
      "notthreadguy",
-     "LouisCooper_"
+     "alphatrends",
+     "caolei1",
+     "JavierBlas",
+     "HAOHONG_CFA",
+     "GeorgeGammon",
+     "TaviCosta"
     ],
     "SECONDARY": []
    },
@@ -715,7 +926,11 @@
     "KittaKitka",
     "pointfarmcap",
     "Omaofweb3",
-    "0xbeiu"
+    "0xbeiu",
+    "BobEUnlimited",
+    "AndreasSteno",
+    "citrini",
+    "bespokeinvest"
    ],
    "donor_evidence": {
     "enesonchain": {
@@ -759,6 +974,38 @@
      "originals_scraped": 116,
      "posts_per_day_30d": 3.03,
      "promo_share_regex": 0.075
+    },
+    "BobEUnlimited": {
+     "followers": 305895,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    },
+    "AndreasSteno": {
+     "followers": 298101,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    },
+    "citrini": {
+     "followers": 291131,
+     "category": "sector_industry",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-02"
+    },
+    "bespokeinvest": {
+     "followers": 267527,
+     "category": "market_data_charts",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
     }
    },
    "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
@@ -769,7 +1016,11 @@
      "KittaKitka",
      "pointfarmcap",
      "Omaofweb3",
-     "0xbeiu"
+     "0xbeiu",
+     "BobEUnlimited",
+     "AndreasSteno",
+     "citrini",
+     "bespokeinvest"
     ],
     "SECONDARY": []
    },
@@ -825,7 +1076,12 @@
     "polysuccubus",
     "izebel_eth",
     "hosseeb",
-    "cxo_no"
+    "cxo_no",
+    "mingchikuo",
+    "profplum99",
+    "AnnaEconomist",
+    "RyanDetrick",
+    "jukan05"
    ],
    "donor_evidence": {
     "Atlantislq": {
@@ -862,6 +1118,46 @@
      "originals_scraped": 66,
      "posts_per_day_30d": 0.5,
      "promo_share_regex": 0.0
+    },
+    "mingchikuo": {
+     "followers": 251823,
+     "category": "sector_industry",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-09-30"
+    },
+    "profplum99": {
+     "followers": 244929,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-02"
+    },
+    "AnnaEconomist": {
+     "followers": 240572,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    },
+    "RyanDetrick": {
+     "followers": 224935,
+     "category": "market_data_charts",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-04"
+    },
+    "jukan05": {
+     "followers": 214861,
+     "category": "sector_industry",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-04"
     }
    },
    "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
@@ -871,7 +1167,12 @@
      "polysuccubus",
      "izebel_eth",
      "hosseeb",
-     "cxo_no"
+     "cxo_no",
+     "mingchikuo",
+     "profplum99",
+     "AnnaEconomist",
+     "RyanDetrick",
+     "jukan05"
     ],
     "SECONDARY": []
    },
@@ -929,7 +1230,11 @@
     "Henrik_on_HL",
     "zerokn0wledge_",
     "crypto_notte",
-    "MoneyPrinter0x"
+    "MoneyPrinter0x",
+    "josephwang",
+    "michaelbatnick",
+    "StockMarketNerd",
+    "INArteCarloDoss"
    ],
    "donor_evidence": {
     "Defi_Warhol": {
@@ -973,6 +1278,38 @@
      "originals_scraped": 85,
      "posts_per_day_30d": 1.67,
      "promo_share_regex": 0.0
+    },
+    "josephwang": {
+     "followers": 212139,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    },
+    "michaelbatnick": {
+     "followers": 207729,
+     "category": "market_data_charts",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-09-22"
+    },
+    "StockMarketNerd": {
+     "followers": 200332,
+     "category": "earnings_filings",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    },
+    "INArteCarloDoss": {
+     "followers": 199200,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
     }
    },
    "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
@@ -983,7 +1320,11 @@
      "Henrik_on_HL",
      "zerokn0wledge_",
      "crypto_notte",
-     "MoneyPrinter0x"
+     "MoneyPrinter0x",
+     "josephwang",
+     "michaelbatnick",
+     "StockMarketNerd",
+     "INArteCarloDoss"
     ],
     "SECONDARY": []
    },
@@ -1040,7 +1381,12 @@
     "0xc06",
     "Mars_DeFi",
     "Zun2025",
-    "Route2FI"
+    "Route2FI",
+    "MacroCharts",
+    "michaelxpettis",
+    "SoberLook",
+    "SemiAnalysis_",
+    "dylan522p"
    ],
    "donor_evidence": {
     "phtevenstrong": {
@@ -1077,6 +1423,46 @@
      "originals_scraped": 145,
      "posts_per_day_30d": 3.33,
      "promo_share_regex": 0.075
+    },
+    "MacroCharts": {
+     "followers": 198373,
+     "category": "market_data_charts",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-09-26"
+    },
+    "michaelxpettis": {
+     "followers": 195497,
+     "category": "macro_rates",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-03"
+    },
+    "SoberLook": {
+     "followers": 170724,
+     "category": "market_data_charts",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-09-30"
+    },
+    "SemiAnalysis_": {
+     "followers": 169586,
+     "category": "sector_industry",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-04"
+    },
+    "dylan522p": {
+     "followers": 164983,
+     "category": "sector_industry",
+     "promo_heavy": false,
+     "has_local_posts": true,
+     "verified_via": "roster_metadata",
+     "last_post": "2026-10-02"
     }
    },
    "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
@@ -1086,7 +1472,12 @@
      "0xc06",
      "Mars_DeFi",
      "Zun2025",
-     "Route2FI"
+     "Route2FI",
+     "MacroCharts",
+     "michaelxpettis",
+     "SoberLook",
+     "SemiAnalysis_",
+     "dylan522p"
     ],
     "SECONDARY": []
    },
