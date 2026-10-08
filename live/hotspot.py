@@ -498,7 +498,7 @@ def decide(motifs, accounts, universes, pool_keys, ok, led=(), priors=None, top=
 
     pool_keys {account: [source key tuples in pool order]}; ok(account, key) -> timely + prescreen ok;
     led: accounts that already have a hotspot draft today; seed_takers {motif id: [(account, lang)]} (fill runs)."""
-    from live import feedback
+    from live import feedback, twins
     lang = {a['id']: a['lang'] for a in accounts}
     table, assign = {}, {}
     taken = {a for a in led}
@@ -542,6 +542,10 @@ def decide(motifs, accounts, universes, pool_keys, ok, led=(), priors=None, top=
             if sum(1 for _a, lg in takers if lg == lang[aid]) >= per_lang:
                 row[aid] = {'decision': 'HOLD', 'reason': f'cap: {per_lang} {lang[aid]} accounts already on this 母题',
                             'fit': fit}
+                continue
+            twin = twins.twin_of(aid) if twins.enabled() else None
+            if twin and any(a == twin for a, _lg in takers):   # FD_TWIN_RULE: zh/en twins never share a 母题 in a day
+                row[aid] = {'decision': 'HOLD', 'reason': f'twin rule: {twin} already on this 母题', 'fit': fit}
                 continue
             row[aid] = {'decision': 'WRITE', 'reason': 'on beat, in its topic spread', 'fit': fit, 'key': list(key)}
             takers.append((aid, lang[aid]))

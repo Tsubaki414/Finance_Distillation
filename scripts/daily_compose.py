@@ -46,7 +46,7 @@ import demo_matrix_compose as demo  # noqa: E402
 from voice_relay_check import evidence_source  # noqa: E402
 from live import (angles, anti_repeat, compose, compose_inbox, editorial_style, fd_accounts, news_hook,  # noqa: E402
                   posting_habits as ph, registry, source_prescreen as prescreen, source_routes, stage_models,
-                  topic_div)
+                  topic_div, twins)
 from live.adapters import delphi_digest  # noqa: E402
 from live.content_store import ContentStore  # noqa: E402
 from live.retrieval import units_for_persona  # noqa: E402
@@ -121,6 +121,14 @@ def title_event(title):
         return None
     nums = sorted({t for t in toks if re.search(r'\d', t)})
     return ('title', toks[0], *nums) if nums else ('title', *toks[:3])
+
+
+def packet_entities(group):
+    """Named entities of a packet for the cross-language twin rule (live/twins.py)."""
+    try:
+        return twins.entities(group[0]['source'].get('title'), group_text(group))
+    except Exception:   # noqa: BLE001
+        return set()
 
 
 def group_hooks(group):
@@ -362,6 +370,9 @@ def ready_events(day, accounts):
         except Exception:   # noqa: BLE001
             pass
         out += [(e, r['account_id'], angle, lang.get(r['account_id'])) for e in events]
+        if twins.twin_of(r['account_id']):   # twin rule: what this account wrote about today (names, not keys)
+            out += [(('ent', x), r['account_id'], angle, lang.get(r['account_id']))
+                    for x in twins.entities(src.get('title'), r.get('body') or r.get('text'))]
     return out
 
 
@@ -566,8 +577,12 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
     heat_keys = apply_heat(pools, day, ref, reuse, skip=set(hot.assign) if hot else ())
     order = sorted(pools, key=lambda a: len(pools[a]))     # scarce accounts pick first in every round
     event_takers = {}            # event key (source key / hook / 母题) -> [(account, angle, lang)]
+    ent_takers = {}              # twin rule: account -> named entities of its picks today (FD_TWIN_RULE)
     for e, acc, ang, lg in seed_events:
-        event_takers.setdefault(e, []).append((acc, ang, lg))
+        if e[0] == 'ent':
+            ent_takers.setdefault(acc, set()).add(e[1])
+        else:
+            event_takers.setdefault(e, []).append((acc, ang, lg))
     plan = {a: [] for a in pools}
     done = done or {}
 
@@ -582,6 +597,8 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                       | ({title_event(g[0]['source'].get('title'))} - {None}))
             if hot is not None and hot.motif_of(skey):   # FD_HOTSPOT: every source of one 母题 is one event
                 events.add(('motif', hot.motif_of(skey)))
+            if twins.twin_of(account) and twins.clash(account, events, packet_entities(g), event_takers, ent_takers):
+                continue   # FD_TWIN_RULE: zh/en twins (27/32, 28/33, 29/34, 30/36) never take one event on one day
             takers = [t for e in events for t in event_takers.get(e, []) if t[2] == lang]
             if len({t[0] for t in takers}) >= MAX_ACCOUNTS_PER_EVENT or any(t[0] == account for t in takers):
                 continue
@@ -627,6 +644,8 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             g, events, angle, why, shared_with = pick
             for e in events:
                 event_takers.setdefault(e, []).append((account, angle, lang))
+            if twins.twin_of(account):
+                ent_takers.setdefault(account, set()).update(packet_entities(g))
             src = g[0]['source']
             sup = support_of(g)
             plan[account].append({
