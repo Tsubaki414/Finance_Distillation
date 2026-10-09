@@ -37,6 +37,7 @@ def main():
     parser.add_argument('--x-max',type=int,default=None,help='X posts extracted per run at most')
     parser.add_argument('--x-per-source-max',type=int,default=None)
     parser.add_argument('--x-lang',choices=('en','zh'),default=None,help='fetch only X sources subscribed by at least one account of this language')
+    parser.add_argument('--x-engage-only',action='store_true',help='Oct 9: fetch only the ENGAGE watchlist (big same-lane accounts, batched search) - the 11:00 / 16:00 Beijing engagement pulls')
     parser.add_argument('--no-dashboard',action='store_true')
     parser.add_argument('--dry-run',action='store_true')
     parser.add_argument('--only',nargs='+')
@@ -45,6 +46,9 @@ def main():
         parser.error('cap and max-extract must be nonnegative; timeout must be positive')
     kwargs=vars(args)
     x_lang=kwargs.pop('x_lang')
+    if kwargs.pop('x_engage_only'):
+        from live import x_daily
+        kwargs['x_subs']=x_daily.engage_subscriptions()
     if x_lang:
         from live import x_daily
         lang={a['id']:a['lang'] for a in json.loads(x_daily.CONFIG.read_text())['accounts']}

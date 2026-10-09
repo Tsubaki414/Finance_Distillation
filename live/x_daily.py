@@ -144,6 +144,15 @@ def subscriptions(universes=None, config=None, breadth=None, engage=None):
     return out
 
 
+def engage_subscriptions(config=None):
+    """Oct 9: the ENGAGE watchlist alone (live/engagement.subscriptions, no exclusion of handles that are also account
+    X sources) for the daytime engagement pulls (scripts/cron/engage_pull.sh -> daily_ingest.py --x-engage-only)."""
+    from live import engagement, fd_accounts
+    config = config if config is not None else fd_accounts.rows(CONFIG)
+    beats = {a['id']: list(a.get('retrieval_beats') or []) for a in config}
+    return [dict(r, beats=[beats.get(a) or [] for a in r['accounts']]) for r in engagement.subscriptions(config)]
+
+
 # ---------------------------------------------------------------- fetch
 
 class RapidClient:
@@ -343,7 +352,9 @@ def gather(state, *, now, known=None, subs=None, rapid=None, apify=None, window_
             engage = lambda esubs: x_breadth.fetch(  # noqa: E731
                 esubs, now=now, day=now.date().isoformat(), window_hours=min(window_hours, ecfg['quote_max_age_h']),
                 config={'daily_call_cap': ecfg['engage_daily_call_cap'], 'batch_size': 20,
-                        'pages_per_batch': ecfg['engage_pages_per_batch']}, log_name='engage')
+                        'pages_per_batch': ecfg['engage_pages_per_batch'],
+                        'query_suffix': f"min_faves:{int(ecfg['search_min_faves'])}" if ecfg.get('search_min_faves') else ''},
+                log_name='engage')
         if engage is not None:
             try:
                 egot, engage_info = engage([s for s, _ in engage_subs])

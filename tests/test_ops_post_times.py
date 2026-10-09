@@ -70,3 +70,32 @@ def test_build_time_floor_only_when_now_given():
     assert min(d['time'][11:16] for d in out) >= '19:30'
     early = ops.clamp_times(_stored('a', stamps, '2026-10-08T23:00:00+01:00'), '2026-10-09')
     assert min(d['time'][11:16] for d in early) < '17:55'
+
+
+def test_strongest_draft_takes_the_first_slot(monkeypatch):
+    # Oct 9 perf review: first post of the day ~10x the views of the second -> hottest draft goes first
+    stamps = ['2026-10-07T03:00:00+01:00', '2026-10-07T08:00:00+01:00', '2026-10-07T12:00:00+01:00']
+    ds = _drafts('a', stamps)
+    ds[0]['lead'], ds[1]['lead'], ds[2]['lead'] = -1.0, 0.0, 5.2   # 回看, standalone, hot 母题
+    out = sorted(ops.clamp_times(ds, '2026-10-07'), key=lambda d: d['time'])
+    assert [d['id'] for d in out] == ['a-2', 'a-1', 'a-0']
+    monkeypatch.setenv('FD_LEAD_SLOT', '0')
+    ds = _drafts('a', stamps)
+    ds[2]['lead'] = 5.2
+    out = sorted(ops.clamp_times(ds, '2026-10-07'), key=lambda d: d['time'])
+    assert [d['id'] for d in out] == ['a-0', 'a-1', 'a-2']
+
+
+def test_lead_never_moves_a_draft_before_it_exists():
+    # the hot draft was stored late: it cannot take a slot before its own stored_at + 30 min
+    stamps = ['2026-10-09T03:00:00+01:00', '2026-10-09T09:00:00+01:00']
+    early = _stored('a', stamps[:1], '2026-10-09T01:00:00+01:00')
+    late = [dict(d, id='a-hot', lead=5.0) for d in _stored('a', stamps[1:], '2026-10-09T12:00:00+01:00')]
+    out = {d['id']: datetime.fromisoformat(d['time']) for d in ops.clamp_times(early + late, '2026-10-09')}
+    assert out['a-0'] < out['a-hot']
+    assert out['a-hot'].strftime('%H:%M') >= '19:30'
+
+
+def test_lead_score_order():
+    assert ops.lead_score({'hotspot': {'heat': 3.1}}) > ops.lead_score({'heat_led': True}) > ops.lead_score({}) \
+        > ops.lead_score({'post_kind': 'archive_lookback'})

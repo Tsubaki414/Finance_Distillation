@@ -346,6 +346,8 @@ def fetch(subs, *, now, day, window_hours, key=None, config=None, client=None, s
     for bi in todo:
         names = [s['handle'] for s in groups[bi]]
         query = '(' + ' OR '.join('from:' + h for h in names) + ') -filter:replies -filter:retweets'
+        if cfg.get('query_suffix'):   # Oct 9 (engage): e.g. min_faves:30 - only posts that already have traction
+            query += ' ' + str(cfg['query_suffix'])
         cursor = None
         for _ in range(pages):
             try:

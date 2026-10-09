@@ -58,6 +58,10 @@ DEFAULTS = {
     'other_language_penalty': 1.5, 'lane_bonus': 0.5,
     'targets_per_account': 8, 'engage_daily_call_cap': 16, 'engage_pages_per_batch': 1,
     'engage_posts_per_handle': 2,
+    # Oct 9 (perf / pool review): a huge author still needs some traction (10-09: @fxtrader 406k, 7 likes was picked);
+    # the watchlist ranks donors by their typical likes (local donor posts) and drops known low-traffic ones; the
+    # batched search only returns posts that already have search_min_faves likes (0 = no filter).
+    'huge_min_likes': 20, 'min_median_likes': 20, 'search_min_faves': 30,
 }
 HARD_CODES = frozenset({'engage_generic', 'engage_too_long', 'engage_mentions'})
 SOFT_CODES = frozenset({'engage_no_payload'})
@@ -191,6 +195,8 @@ def assess(source, at, *, account_lang=None, on_lane=False, own_handles=(), cfg=
     elif not (big or hot):
         reject = 'small_author'
     elif have and (likes or 0) < cfg['min_likes'] and not huge:   # velocity waives the follower floor, not this
+        reject = 'low_engagement'
+    elif have and huge and likes is not None and likes < cfg['huge_min_likes']:   # Oct 9: 7-like posts are pointless
         reject = 'low_engagement'
     score = (math.log10(max(followers or 1, 1)) + 1.5 * math.log10(1 + (likes or 0)) + 0.5 * math.log10(1 + (views or 0))
              + 0.5 * math.log10(1 + (m['reposts'] or 0) + (m['replies'] or 0)) + (1.0 if hot else 0.0)
@@ -430,10 +436,48 @@ def _clusters(account):
     return {'acct_' + account['id'], account['id'], *beats}
 
 
-def subscriptions(accounts=None, cfg=None, exclude=()):
+_TRAFFIC = None
+
+
+def donor_traffic(base=None):
+    """{handle_lower: median likes} of each donor's newest (<= 60) original posts in live/donors/posts (local, not in
+    git; counts only). Donors with < 5 originals there are unknown (absent)."""
+    global _TRAFFIC
+    if _TRAFFIC is not None and base is None:
+        return _TRAFFIC
+    out = {}
+    d = Path(base or ROOT / 'live' / 'donors' / 'posts')
+    for f in sorted(d.glob('*.jsonl')) if d.exists() else []:
+        likes = []
+        try:
+            with open(f) as fh:
+                for line in fh:
+                    if len(likes) >= 60:
+                        break
+                    try:
+                        p = json.loads(line)
+                    except ValueError:
+                        continue
+                    if p.get('rt') or p.get('reply'):
+                        continue
+                    likes.append(_int(p.get('likes')) or 0)
+        except OSError:
+            continue
+        if len(likes) >= 5:
+            likes.sort()
+            n = len(likes)
+            out[f.stem.lower()] = likes[n // 2] if n % 2 else (likes[n // 2 - 1] + likes[n // 2]) / 2
+    if base is None:
+        _TRAFFIC = out
+    return out
+
+
+def subscriptions(accounts=None, cfg=None, exclude=(), traffic=None):
     """x_daily-shaped ENGAGE rows: per account the top targets_per_account same-language donors of its clusters with
     >= min_followers (live/donors/roster.json; handles and follower counts only), not promo-heavy, active in the last
-    10 days. Handles in `exclude` (already fetched as X sources) are left out."""
+    10 days. Handles in `exclude` (already fetched as X sources) are left out.
+    Oct 9: high-traffic first - donors whose typical post (median likes, `donor_traffic`) is below min_median_likes
+    are dropped; the rest rank by median likes, donors with no local posts after them by followers."""
     cfg = cfg or config()
     if accounts is None:
         from live import fd_accounts
@@ -443,19 +487,24 @@ def subscriptions(accounts=None, cfg=None, exclude=()):
     except (OSError, ValueError, AttributeError):
         return []
     skip = {str(h).lower() for h in exclude}
+    traffic = donor_traffic() if traffic is None else traffic
+    floor = float(cfg.get('min_median_likes') or 0)
     by = {}
     for a in accounts:
         cl = _clusters(a)
         pool = [d for d in donors if d.get('persona_cluster') in cl and d.get('lang') == a.get('lang')
                 and (d.get('followers') or 0) >= cfg['min_followers'] and not d.get('promo_heavy')
                 and str(d.get('handle') or '').lower() not in skip
-                and (not d.get('latest_post') or str(d['latest_post']) >= '2026-09-28')]
-        pool.sort(key=lambda d: -(d.get('followers') or 0))
+                and (not d.get('latest_post') or str(d['latest_post']) >= '2026-09-28')
+                and traffic.get(str(d.get('handle') or '').lower(), floor) >= floor]
+        pool.sort(key=lambda d: (str(d.get('handle') or '').lower() not in traffic,
+                                 -(traffic.get(str(d.get('handle') or '').lower()) or 0), -(d.get('followers') or 0)))
         for d in pool[:int(cfg['targets_per_account'])]:
             row = by.setdefault(d['handle'].lower(), {'handle': d['handle'], 'source_id': 'x_' + d['handle'],
                                                       'accounts': [], 'roles': ['ENGAGE'], 'tier': 'B',
                                                       'core': False, 'breadth': True, 'engage': True,
-                                                      'followers': d.get('followers')})
+                                                      'followers': d.get('followers'),
+                                                      'median_likes': traffic.get(d['handle'].lower())})
             row['accounts'].append(a['id'])
     return sorted(by.values(), key=lambda r: r['handle'].lower())
 

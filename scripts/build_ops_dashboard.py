@@ -142,6 +142,7 @@ def media_of(row):
             # live/engagement.py (FD_ENGAGE): the target's numbers at selection; its slot is pinned in clamp_times
             'engage_meta': engage_meta(eng) if engaged else '', 'pinned': engaged,
             'heat_led': bool(row.get('heat_led')),
+            'lead': lead_score(row),
             # FD_HOTSPOT (live/hotspot.py): 「热点」 tag + the 母题 title
             'hotspot': (row.get('hotspot') or {}).get('title') or '',
             'hotspot_meta': (f"{(row.get('hotspot') or {}).get('publisher_count')} 家来源 · "
@@ -157,6 +158,40 @@ def media_of(row):
                        'updated': chart_time(m),
                        'credit': ', '.join(s.get('name') or '' for s in m.get('data_sources') or [])}
                       for m in row.get('media') or [] if m.get('path')]}
+
+
+def lead_score(row):
+    """Oct 9 perf review (/workspace/x/cc_jobs/perf_1008_REPORT.md): an account's first post of the day got ~10x the
+    views of its second (10-08: median 127 vs 5), and zh posts on hot 母题 (heat >= 2.5) beat cold ones. clamp_times
+    gives the account's first free slot to its strongest draft: hotspot 母题 (2 + heat) > heat-led > fresh standalone
+    (0) > 回看 / 常青 (-1)."""
+    hot = row.get('hotspot') or {}
+    if hot.get('heat') is not None:
+        try:
+            return 2.0 + float(hot['heat'])
+        except (TypeError, ValueError):
+            return 2.0
+    if row.get('heat_led'):
+        return 2.0
+    if row.get('post_kind') == 'archive_lookback':
+        return -1.0
+    return 0.0
+
+
+def lead_first(orig, nb, t, lead):
+    """Reassign the spread times `t` (ascending) to the slots `orig` (with not-before `nb`, same order): each time
+    goes to the highest-`lead` slot whose not-before allows it (ties keep the original order). Feasible whenever the
+    original order is (slots sorted by not-before), so it never strands a slot. FD_LEAD_SLOT=0 keeps the old order."""
+    if os.environ.get('FD_LEAD_SLOT', '1') == '0' or len(orig) < 2:
+        return orig, nb
+    left = list(range(len(orig)))
+    order = []
+    for ti in t:
+        ok = [i for i in left if nb[i] <= ti] or left[:1]
+        best = max(ok, key=lambda i: (lead.get(orig[i], 0.0), -i))
+        order.append(best)
+        left.remove(best)
+    return [orig[i] for i in order], [nb[i] for i in order]
 
 
 def _wan(n):
@@ -335,6 +370,7 @@ def clamp_times(drafts, day, now=None):
             t[i] = min(t[i], t[i + 1] - POST_GAP)
         if t[0] < lo:                              # > 30 slots cannot fit; never happens at 2-5 per account
             raise ValueError(f'{len(t)} slots do not fit 08:00-22:59 at 30-minute spacing')
+        orig, nb = lead_first(orig, nb, t, {s: max(float(d.get('lead') or 0) for d in slots[s]) for s in orig})
         if pins:
             t = avoid_pins(t, pins, a_lo, hi)
         for s, new in zip(orig, t):
