@@ -251,6 +251,8 @@ def source_gate_ok(account, group):
     if key not in _GATE:
         try:
             tier = registry.source_licence_tier(src.get('source_id'))
+            if tier is None and engage_candidate(src):
+                tier = registry.ENGAGE_TIER   # kept for the engagement plan; dropped below unless it becomes a target
             if tier not in registry.WRITABLE_TIERS:
                 # Oct 9: X breadth / engagement posts (source_id x-<status id>) carry a B unit tier but have no
                 # source_licence.json entry, so compose_source refused them ('post_type not allowed for licence
@@ -263,6 +265,12 @@ def source_gate_ok(account, group):
         except Exception:   # noqa: BLE001 - unknown: let compose decide as before
             _GATE[key] = True
     return _GATE[key]
+
+
+def engage_candidate(src):
+    """A big-account X post (x-<status id>) that FD_ENGAGE may pick as a reply / quote target."""
+    from live import engagement
+    return engagement.enabled() and bool(registry.ENGAGE_SOURCE.match(str(src.get('source_id') or '')))
 
 
 def precheck(account, options, diag=None):
@@ -724,6 +732,14 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                 if d.get('mode'):
                     p['post_format'].update(engage=d['mode'], engage_author=(d.get('assess') or {}).get('handle'))
             p['suggested_post_time_london'] = t.isoformat()
+    # Oct 9: an x-<status id> post is licensed only as a reply / quote target; a pick of one that did not become an
+    # engagement draft is dropped (never a standalone body source). FD_ENGAGE_ONLY=1 (engagement fill): only the
+    # reply / quote picks are composed.
+    engage_only = os.environ.get('FD_ENGAGE_ONLY') == '1'
+    for account in list(plan):
+        plan[account] = [p for p in plan[account]
+                         if (p.get('post_format') or {}).get('engage') in ('reply', 'quote')
+                         or (not engage_only and not registry.ENGAGE_SOURCE.match(str(p.get('source_id') or '')))]
     if div is not None and info is not None:
         info['topic_div'] = div['summary']
     if hot is not None:

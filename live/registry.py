@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 import json
+import re
 import math
 from pathlib import Path
 
@@ -223,6 +224,22 @@ def source_licence_tier(source_id):
     entry = _licence().get(source_id)
     tier = entry and entry.get('tier')
     return tier if tier in LICENCE_TIERS else None
+
+
+ENGAGE_SOURCE = re.compile(r'^x-\d+$')
+ENGAGE_TIER = 'B'   # Oct 9 (PM / Fiona): a reply / quote target may carry short original commentary only
+
+
+def engagement_licence_tier(source_id, post_format=None):
+    """Oct 9: the tier of a big-account X post used as a FD_ENGAGE reply / quote target (source_id x-<status id>,
+    which has no source_licence.json entry). Only when the draft IS the reply / quote (post_format engage set): B with
+    no_reproduction - our own short comment, the original is linked / natively quoted, never re-posted as body text.
+    The same post as a standalone body source stays unlicensed (None)."""
+    if not (isinstance(source_id, str) and ENGAGE_SOURCE.match(source_id)):
+        return None
+    if not (isinstance(post_format, dict) and post_format.get('engage') in ('reply', 'quote')):
+        return None
+    return ENGAGE_TIER
 
 
 def post_types_for_tier(tier, post_types=None):

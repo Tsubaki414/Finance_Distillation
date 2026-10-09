@@ -282,7 +282,7 @@ def pull_decisions(days):
             print(f'decisions pull {day} failed (dashboard uses local copy): {exc}')
 
 
-def clamp_times(drafts, day):
+def clamp_times(drafts, day, now=None):
     """Spread every account's suggested times over [08:00, 22:59] BJT on `day`, distinct slots >= 30 min apart.
 
     London habit times land in the Beijing night, so clamping them piled each account's last slots at 22:29/22:59.
@@ -291,8 +291,8 @@ def clamp_times(drafts, day):
     base = datetime.fromisoformat(day).replace(tzinfo=BJT)
     lo, hi = (base.replace(hour=h, minute=m) for h, m in (POST_START, POST_END))
     late = day >= POST_NOT_BEFORE_FROM and os.environ.get('FD_POST_NOT_BEFORE', '1') != '0'
-    if late:   # today: nothing still to post is slotted before build time + POST_LEAD (published rows keep theirs)
-        now = datetime.now(BJT) + POST_LEAD
+    if late and now is not None:   # build time (main): nothing unposted is slotted before now + POST_LEAD
+        now = now.astimezone(BJT) + POST_LEAD
         now = now.replace(second=0, microsecond=0) + timedelta(minutes=(-now.minute) % 5)
         if lo < now <= hi:
             lo = now
@@ -782,7 +782,8 @@ def main():
     days = {}
     if args.inbox.is_dir():
         for d in sorted(p for p in args.inbox.iterdir() if p.is_dir() and DAY_RE.match(p.name)):
-            days[d.name] = clamp_times(apply_decisions(load_day(d), load_decisions(d.name)), d.name)
+            days[d.name] = clamp_times(apply_decisions(load_day(d), load_decisions(d.name)), d.name,
+                                       now=datetime.now(BJT))
     known = {a['id'] for a in accounts}
     for drafts in days.values():   # inbox accounts missing from fd20_accounts.json still get a section
         for d in drafts:

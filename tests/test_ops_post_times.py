@@ -59,3 +59,14 @@ def test_not_before_rule_skips_older_days_and_can_be_turned_off(monkeypatch):
     out = ops.clamp_times(_stored('a', [s.replace('10-08', '10-09') for s in stamps], '2026-10-09T14:00:00+01:00'),
                           '2026-10-09')
     assert min(d['time'][11:16] for d in out) < '21:00'
+
+
+def test_build_time_floor_only_when_now_given():
+    stamps = ['2026-10-09T03:00:00+01:00', '2026-10-09T09:00:00+01:00']
+    now = datetime.fromisoformat('2026-10-09T17:23:00+08:00')
+    out = ops.clamp_times(_stored('a', stamps, '2026-10-09T07:45:00+01:00'), '2026-10-09', now=now)
+    assert min(d['time'][11:16] for d in out) >= '17:55'
+    out = ops.clamp_times(_stored('a', stamps, '2026-10-09T12:00:00+01:00'), '2026-10-09')   # no now: no floor
+    assert min(d['time'][11:16] for d in out) >= '19:30'
+    early = ops.clamp_times(_stored('a', stamps, '2026-10-08T23:00:00+01:00'), '2026-10-09')
+    assert min(d['time'][11:16] for d in early) < '17:55'

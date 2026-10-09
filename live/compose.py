@@ -1390,6 +1390,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         raise ValueError('aphorism_translation accounts use the translation chain, not COMPOSE')
     post_types = registry.load_post_types()
     tier = registry.source_licence_tier(source.get('source_id'))
+    engage_tier = None if tier else registry.engagement_licence_tier(source.get('source_id'), post_format)
+    tier = tier or engage_tier
     publisher = attribution_frame.publisher_name(source.get('source_id'))
     assembly = []
     budget_skips = []   # v7: advisory retries refused by the slot sub-cap
@@ -1414,6 +1416,9 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                 'why': f'Source gate: {gate["reason"]}'}
     extracted = (content_units.extract(source, client, licence_tier=tier, publisher=publisher)
                  if extracted_units is None else {'units': extracted_units, 'response': {}, 'prompt_assembly': {}})
+    if engage_tier:   # Oct 9: reply / quote target - paraphrase-level use only, nothing reproduced
+        for u in extracted['units']:
+            u['no_reproduction'] = True
     if tier == 'A' and any(u.get('no_reproduction') for u in extracted['units']):
         tier = 'B'
         base['licence_tier'] = tier
