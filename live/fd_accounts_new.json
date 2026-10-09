@@ -46,7 +46,9 @@
     "MetaHunter168",
     "cryp_orange",
     "lin_btc",
-    "scriptdotmoney"
+    "EliseFolso71390",
+    "xiaofeilong99",
+    "bi_9527zx"
    ],
    "donor_evidence": {
     "EinsteinYipie": {
@@ -84,23 +86,36 @@
      "posts_per_day_30d": 3.67,
      "promo_share_regex": 0.025
     },
-    "scriptdotmoney": {
-     "followers": 21488,
-     "last_post": "2026-09-26",
-     "originals_scraped": 140,
-     "posts_per_day_30d": 0.6,
-     "promo_share_regex": 0.0
+    "EliseFolso71390": {
+     "followers": 11307,
+     "last_post": "2026-10-08",
+     "originals_scraped": 151,
+     "posts_per_day_30d": 2.43,
+     "promo_share_regex": 0.025
+    },
+    "xiaofeilong99": {
+     "followers": 17730,
+     "last_post": "2026-10-09",
+     "originals_scraped": 156,
+     "posts_per_day_30d": 4.93,
+     "promo_share_regex": 0.025
+    },
+    "bi_9527zx": {
+     "followers": 60594,
+     "last_post": "2026-10-09",
+     "originals_scraped": 144,
+     "posts_per_day_30d": 4.79,
+     "promo_share_regex": 0.05
     }
    },
-   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
+   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen",
    "x_sources": {
     "CORE": [
      "EinsteinYipie",
      "0xmasiwei",
      "MetaHunter168",
      "cryp_orange",
-     "lin_btc",
-     "scriptdotmoney"
+     "lin_btc"
     ],
     "SECONDARY": []
    },
@@ -113,7 +128,10 @@
      "pump.fun: no documented public API"
     ]
    },
-   "lane_first": true
+   "lane_first": true,
+   "donors_removed": {
+    "scriptdotmoney": "last_original 2026-09-26 — outside 7-day meme lane activity window at time of review"
+   }
   },
   {
    "no": 28,
@@ -158,7 +176,10 @@
     "duola_eth",
     "AirdropAlchemis",
     "iamyourchaos",
-    "shawnchen_eth"
+    "shawnchen_eth",
+    "Airdrop_Guard",
+    "LumaoDoggie",
+    "Benjieming1Q84"
    ],
    "donor_evidence": {
     "VIP8888883": {
@@ -202,9 +223,30 @@
      "originals_scraped": 156,
      "posts_per_day_30d": 2.87,
      "promo_share_regex": 0.025
+    },
+    "Airdrop_Guard": {
+     "followers": 52760,
+     "last_post": "2026-10-09",
+     "originals_scraped": 155,
+     "posts_per_day_30d": 1.43,
+     "promo_share_regex": 0.2
+    },
+    "LumaoDoggie": {
+     "followers": 18681,
+     "last_post": "2026-10-06",
+     "originals_scraped": 144,
+     "posts_per_day_30d": 1.5,
+     "promo_share_regex": 0.075
+    },
+    "Benjieming1Q84": {
+     "followers": 61978,
+     "last_post": "2026-10-09",
+     "originals_scraped": 138,
+     "posts_per_day_30d": 7.36,
+     "promo_share_regex": 0.05
     }
    },
-   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
+   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen",
    "x_sources": {
     "CORE": [
      "VIP8888883",
@@ -227,7 +269,8 @@
      "CryptoRank / Galxe: login or API key"
     ]
    },
-   "lane_first": true
+   "lane_first": true,
+   "donors_removed": {}
   },
   {
    "no": 29,
@@ -271,7 +314,9 @@
     "akitabtc",
     "yummyuyu_",
     "Mumu_yay",
-    "0xchubai"
+    "0xchubai",
+    "Boywus",
+    "ec_unoxx"
    ],
    "donor_evidence": {
     "MrRyanChi": {
@@ -308,9 +353,23 @@
      "originals_scraped": 169,
      "posts_per_day_30d": 1.77,
      "promo_share_regex": 0.075
+    },
+    "Boywus": {
+     "followers": 12473,
+     "last_post": "2026-10-09",
+     "originals_scraped": 157,
+     "posts_per_day_30d": 1.64,
+     "promo_share_regex": 0.05
+    },
+    "ec_unoxx": {
+     "followers": 10391,
+     "last_post": "2026-10-09",
+     "originals_scraped": 141,
+     "posts_per_day_30d": 1.07,
+     "promo_share_regex": 0.05
     }
    },
-   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
+   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen",
    "x_sources": {
     "CORE": [
      "MrRyanChi",
@@ -335,7 +394,8 @@
    "donors_dropped": {
     "0xScottBTC": "roster 2026-10-04 review: donor_fit radar (0.2 posts/day) - kept as a SECONDARY X source, not a voice donor"
    },
-   "lane_first": true
+   "lane_first": true,
+   "donors_removed": {}
   },
   {
    "no": 30,
@@ -375,20 +435,13 @@
     "no_referral_or_invite_links"
    ],
    "donors": [
-    "chenmo",
     "yuyue_chris",
     "ChaseWang",
     "MengLayer",
-    "0xAllen"
+    "0xLoki_Zeng",
+    "LumaoDoggie"
    ],
    "donor_evidence": {
-    "chenmo": {
-     "followers": 55278,
-     "last_post": "2026-10-07",
-     "originals_scraped": 197,
-     "posts_per_day_30d": 2.07,
-     "promo_share_regex": 0.0
-    },
     "yuyue_chris": {
      "followers": 104546,
      "last_post": "2026-10-07",
@@ -410,23 +463,28 @@
      "posts_per_day_30d": 2.4,
      "promo_share_regex": 0.025
     },
-    "0xAllen": {
-     "followers": 40596,
-     "last_post": "2026-10-08",
-     "originals_scraped": 192,
-     "posts_per_day_30d": 2.83,
+    "0xLoki_Zeng": {
+     "followers": 21243,
+     "last_post": "2026-10-09",
+     "originals_scraped": 151,
+     "posts_per_day_30d": 3.64,
+     "promo_share_regex": 0.025
+    },
+    "LumaoDoggie": {
+     "followers": 18681,
+     "last_post": "2026-10-06",
+     "originals_scraped": 144,
+     "posts_per_day_30d": 1.14,
      "promo_share_regex": 0.075,
-     "followers_source": "Mango following-graph screen 2026-10-07 (not re-checked on twitter241)"
+     "note": "ex-dev, conservative DeFi yield strategy (Ethena USDe/Pendle/USD0++ in bio), zh"
     }
    },
-   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
+   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen",
    "x_sources": {
     "CORE": [
-     "chenmo",
      "yuyue_chris",
      "ChaseWang",
-     "MengLayer",
-     "0xAllen"
+     "MengLayer"
     ],
     "SECONDARY": []
    },
@@ -438,7 +496,11 @@
     ],
     "not_wired": []
    },
-   "lane_first": true
+   "lane_first": true,
+   "donors_removed": {
+    "chenmo": "in 3 accounts (crypto_research_zh + crypto_altcoin_zh + #30) — exceeds 2-account max; removed from #30",
+    "0xAllen": "promo_share 0.27 > 0.25 (confirmed in fd20_donor_merge.json dropped list)"
+   }
   },
   {
    "no": 31,
@@ -489,7 +551,9 @@
     "SolanaHub_",
     "Tanaka_L2",
     "BaseHubHB",
-    "baseposting"
+    "baseposting",
+    "akshaybd",
+    "gumsays"
    ],
    "donor_evidence": {
     "SolanaSensei": {
@@ -526,6 +590,20 @@
      "originals_scraped": 161,
      "posts_per_day_30d": 5.37,
      "promo_share_regex": 0.0
+    },
+    "akshaybd": {
+     "followers": 54847,
+     "last_post": "2026-10-06",
+     "originals_scraped": 120,
+     "posts_per_day_30d": 1.5,
+     "promo_share_regex": 0.0
+    },
+    "gumsays": {
+     "followers": 67409,
+     "last_post": "2026-10-09",
+     "originals_scraped": 143,
+     "posts_per_day_30d": 4.57,
+     "promo_share_regex": 0.0
     }
    },
    "donor_notes": {
@@ -535,7 +613,7 @@
     "BaseHubHB": "Base daily recap, partnerships, tokenized-stock activity on Base (community media account)",
     "baseposting": "short Base headline posts (Coinbase / Base volume, Base Batches teams); very high frequency, the scrape covers only since 2026-09-16"
    },
-   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
+   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen",
    "x_sources": {
     "CORE": [
      "SolanaSensei",
@@ -568,7 +646,8 @@
     "mikadontlouz": "bio carries a trading referral code; mostly lifestyle",
     "jacqmelinek": "host, 2/12 ecosystem posts; event promotion"
    },
-   "lane_first": true
+   "lane_first": true,
+   "donors_removed": {}
   },
   {
    "no": 32,
@@ -612,7 +691,8 @@
     "the_smart_ape",
     "sibeleth",
     "notthreadguy",
-    "LouisCooper_"
+    "Ga__ke",
+    "tropoFarmer"
    ],
    "donor_evidence": {
     "Overdose_AI": {
@@ -643,22 +723,28 @@
      "posts_per_day_30d": 2.53,
      "promo_share_regex": 0.0
     },
-    "LouisCooper_": {
-     "followers": 83009,
-     "last_post": "2026-09-25",
-     "originals_scraped": 115,
-     "posts_per_day_30d": 0.53,
+    "Ga__ke": {
+     "followers": 188073,
+     "last_post": "2026-10-07",
+     "originals_scraped": 129,
+     "posts_per_day_30d": 1.5,
+     "promo_share_regex": 0.025
+    },
+    "tropoFarmer": {
+     "followers": 174163,
+     "last_post": "2026-10-05",
+     "originals_scraped": 127,
+     "posts_per_day_30d": 1.5,
      "promo_share_regex": 0.0
     }
    },
-   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
+   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen",
    "x_sources": {
     "CORE": [
      "Overdose_AI",
      "the_smart_ape",
      "sibeleth",
-     "notthreadguy",
-     "LouisCooper_"
+     "notthreadguy"
     ],
     "SECONDARY": []
    },
@@ -670,7 +756,10 @@
      "DexScreener public API (same reason as crypto_meme_zh)"
     ]
    },
-   "lane_first": true
+   "lane_first": true,
+   "donors_removed": {
+    "LouisCooper_": "last_original 2026-09-25, only 3 posts top_14d — outside 7-day meme lane window"
+   }
   },
   {
    "no": 33,
@@ -715,7 +804,8 @@
     "KittaKitka",
     "pointfarmcap",
     "Omaofweb3",
-    "0xbeiu"
+    "0xbeiu",
+    "tropoFarmer"
    ],
    "donor_evidence": {
     "enesonchain": {
@@ -759,9 +849,16 @@
      "originals_scraped": 116,
      "posts_per_day_30d": 3.03,
      "promo_share_regex": 0.075
+    },
+    "tropoFarmer": {
+     "followers": 174163,
+     "last_post": "2026-10-05",
+     "originals_scraped": 127,
+     "posts_per_day_30d": 1.5,
+     "promo_share_regex": 0.0
     }
    },
-   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
+   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen",
    "x_sources": {
     "CORE": [
      "enesonchain",
@@ -781,7 +878,8 @@
      "CryptoRank / Galxe: login or API key"
     ]
    },
-   "lane_first": true
+   "lane_first": true,
+   "donors_removed": {}
   },
   {
    "no": 34,
@@ -825,7 +923,9 @@
     "polysuccubus",
     "izebel_eth",
     "hosseeb",
-    "cxo_no"
+    "cxo_no",
+    "M_McDonough",
+    "NateSilver538"
    ],
    "donor_evidence": {
     "Atlantislq": {
@@ -862,9 +962,23 @@
      "originals_scraped": 66,
      "posts_per_day_30d": 0.5,
      "promo_share_regex": 0.0
+    },
+    "M_McDonough": {
+     "followers": 59307,
+     "last_post": "2026-10-09",
+     "originals_scraped": 138,
+     "posts_per_day_30d": 0.64,
+     "promo_share_regex": 0.0
+    },
+    "NateSilver538": {
+     "followers": 3042080,
+     "last_post": "2026-10-08",
+     "originals_scraped": 151,
+     "posts_per_day_30d": 4.36,
+     "promo_share_regex": 0.0
     }
    },
-   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
+   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen",
    "x_sources": {
     "CORE": [
      "Atlantislq",
@@ -884,7 +998,8 @@
      "Kalshi public market data (optional, later)"
     ]
    },
-   "lane_first": true
+   "lane_first": true,
+   "donors_removed": {}
   },
   {
    "no": 35,
@@ -929,7 +1044,9 @@
     "Henrik_on_HL",
     "zerokn0wledge_",
     "crypto_notte",
-    "MoneyPrinter0x"
+    "MoneyPrinter0x",
+    "shaundadevens",
+    "CL207"
    ],
    "donor_evidence": {
     "Defi_Warhol": {
@@ -973,9 +1090,23 @@
      "originals_scraped": 85,
      "posts_per_day_30d": 1.67,
      "promo_share_regex": 0.0
+    },
+    "shaundadevens": {
+     "followers": 13230,
+     "last_post": "2026-10-09",
+     "originals_scraped": 143,
+     "posts_per_day_30d": 1.0,
+     "promo_share_regex": 0.025
+    },
+    "CL207": {
+     "followers": 281743,
+     "last_post": "2026-10-09",
+     "originals_scraped": 153,
+     "posts_per_day_30d": 0.57,
+     "promo_share_regex": 0.025
     }
    },
-   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
+   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen",
    "x_sources": {
     "CORE": [
      "Defi_Warhol",
@@ -996,7 +1127,8 @@
      "DefiLlama perps volume / fees (later)"
     ]
    },
-   "lane_first": true
+   "lane_first": true,
+   "donors_removed": {}
   },
   {
    "no": 36,
