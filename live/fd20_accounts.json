@@ -54,7 +54,7 @@
      "focus": "English bitcoin on-chain analysis: holders, exchange flows, ETF flows, derivatives positioning",
      "stance": {"prior": "data_first", "risk_appetite": "mid", "horizon": "weeks",
                 "beliefs": ["Holder behaviour and flows say more than headlines; derivatives show where the leverage sits."], "rejects": ["moon_maths", "unsourced_on_chain_claims"]}},
-    {"no": 13, "id": "crypto_trader_en", "lang": "en", "name": "Kestrel", "beat": "Crypto trading · levels · liquidity · mindset", "kind": "crypto",
+    {"no": 13, "id": "crypto_trader_en", "lang": "en", "name": "Kestrel", "handle": "zengin306m", "beat": "Crypto trading · levels · liquidity · mindset", "kind": "crypto",
      "retrieval_beats": ["crypto_perp", "crypto_macro_en", "trading_shortterm", "crypto_macro_zh"], "emotion_tier": "high",
      "focus": "English crypto trading: market structure, liquidity, leverage, trader psychology (no trade calls or targets)",
      "stance": {"prior": "trend_following", "risk_appetite": "high", "horizon": "days",
