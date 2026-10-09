@@ -594,13 +594,20 @@ def pack_balance(units):
             'pure_data': non_fact == 0 and c.get('fact', 0) > 0}
 
 
+_STANCE_CACHE = {}
+
+
 def _horizon_compatible(unit, account_id):
     """Skip view units whose horizon is too far from the persona stance (hard reject)."""
     try:
         from live import registry
         from live.content_units import HORIZONS
-        persona = registry.persona_for_account(account_id)
-        spec = (persona.raw or {}).get('stance') or {}
+        # Oct 10: was a full persona-dir reload per unit x account (select ~6 min); keyed so a patched loader / dir
+        # (tests) is not served a stale entry
+        ck = (account_id, registry.persona_for_account, str(getattr(registry, 'PERSONAS', '')))
+        if ck not in _STANCE_CACHE:
+            _STANCE_CACHE[ck] = (registry.persona_for_account(account_id).raw or {}).get('stance') or {}
+        spec = _STANCE_CACHE[ck]
     except Exception:
         return True
     view = unit.get('view') if isinstance(unit.get('view'), dict) else None

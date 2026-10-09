@@ -76,7 +76,11 @@ class ComposeLevelTests(unittest.TestCase):
 
     def test_editorial_cliche_is_hard(self):
         # fix26 (Fiona Oct 7): 值得注意的是 moved from SOFT template_phrase to the HARD Sirius editorial-style block
-        result, _ = run(Fake(body='值得注意的是，' + GOOD_BODY), post_type='data_take')
+        # Oct 9 night: a cliché-only HARD is autofixed by default; this pins the un-fixed check
+        import os
+        from unittest import mock
+        with mock.patch.dict(os.environ, {'FD_STYLE_AUTOFIX': '0'}):
+            result, _ = run(Fake(body='值得注意的是，' + GOOD_BODY), post_type='data_take')
         self.assertEqual(levels(result)['editorial_cliche'], 'hard')
         self.assertEqual(result['draft_status'], 'needs_review')
 

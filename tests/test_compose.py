@@ -93,7 +93,11 @@ class ComposeTests(unittest.TestCase):
         self.assertEqual(result['draft_status'], 'draft_ready')
 
     def test_blacklist_hit(self):
-        result, _ = run(Fake(body='值得注意的是，' + GOOD_BODY), post_type='data_take')
+        # Oct 9 night: a cliché-only HARD is autofixed by default; this pins the un-fixed check
+        import os
+        from unittest import mock
+        with mock.patch.dict(os.environ, {'FD_STYLE_AUTOFIX': '0'}):
+            result, _ = run(Fake(body='值得注意的是，' + GOOD_BODY), post_type='data_take')
         self.assertIn('template_phrase', codes(result))
 
     def test_number_not_in_units(self):
