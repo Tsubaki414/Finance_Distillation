@@ -23,7 +23,11 @@
     "MacroMargin",
     "qinbafrank",
     "LabSpeculation",
-    "fannaoxiaoyang"
+    "fannaoxiaoyang",
+    "Time_HorizonX",
+    "wangwatchworld",
+    "viviennaBTC",
+    "yuyy614893671"
    ],
    "x_sources": {
     "CORE": [
@@ -35,7 +39,39 @@
     ],
     "SECONDARY": []
    },
-   "status": "spare_active"
+   "status": "spare_active",
+   "donor_evidence": {
+    "Time_HorizonX": {
+     "followers": 136816,
+     "last_post": "2026-10-09",
+     "originals_scraped": 144,
+     "posts_per_day_30d": 2.07,
+     "promo_share_regex": 0.0
+    },
+    "wangwatchworld": {
+     "followers": 252105,
+     "last_post": "2026-10-09",
+     "originals_scraped": 121,
+     "posts_per_day_30d": 8.64,
+     "promo_share_regex": 0.0
+    },
+    "viviennaBTC": {
+     "followers": 29573,
+     "last_post": "2026-10-07",
+     "originals_scraped": 143,
+     "posts_per_day_30d": 0.57,
+     "promo_share_regex": 0.025
+    },
+    "yuyy614893671": {
+     "followers": 71606,
+     "last_post": "2026-10-09",
+     "originals_scraped": 146,
+     "posts_per_day_30d": 9.07,
+     "promo_share_regex": 0.0
+    }
+   },
+   "donors_removed": {},
+   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen"
   },
   {
    "no": 22,
@@ -71,19 +107,55 @@
     "TJ_Research",
     "rickawsb",
     "alacheng",
-    "williamlab"
+    "tmel0211",
+    "oragnes",
+    "DrcDAO",
+    "billtheinvestor"
    ],
    "x_sources": {
     "CORE": [
      "tradergoku",
      "TJ_Research",
      "rickawsb",
-     "alacheng",
-     "williamlab"
+     "alacheng"
     ],
     "SECONDARY": []
    },
-   "status": "spare_active"
+   "status": "spare_active",
+   "donor_evidence": {
+    "tmel0211": {
+     "followers": 51240,
+     "last_post": "2026-10-09",
+     "originals_scraped": 147,
+     "posts_per_day_30d": 2.36,
+     "promo_share_regex": 0.0
+    },
+    "oragnes": {
+     "followers": 76661,
+     "last_post": "2026-10-09",
+     "originals_scraped": 158,
+     "posts_per_day_30d": 7.86,
+     "promo_share_regex": 0.05
+    },
+    "DrcDAO": {
+     "followers": 97997,
+     "last_post": "2026-10-08",
+     "originals_scraped": 146,
+     "posts_per_day_30d": 3.29,
+     "promo_share_regex": 0.025
+    },
+    "billtheinvestor": {
+     "followers": 118614,
+     "last_post": "2026-10-09",
+     "originals_scraped": 144,
+     "posts_per_day_30d": 5.86,
+     "promo_share_regex": 0.025
+    }
+   },
+   "donors_removed": {
+    "williamlab": "in 3 accounts (macro_zh + #22 + #23) — exceeds max 2-account rule; kept in #23 only as better newbie lane fit"
+   },
+   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen"
   },
   {
    "no": 23,
@@ -119,19 +191,55 @@
     "eyuCrypto",
     "jason_chen998",
     "Meimeibtcc",
-    "williamlab"
+    "BTClaoying",
+    "KICKDENIM",
+    "NFTfafafa",
+    "EvanCrypto17"
    ],
    "x_sources": {
     "CORE": [
      "CryptoKris666",
      "eyuCrypto",
      "jason_chen998",
-     "Meimeibtcc",
-     "williamlab"
+     "Meimeibtcc"
     ],
     "SECONDARY": []
    },
-   "status": "spare_active"
+   "status": "spare_active",
+   "donor_evidence": {
+    "BTClaoying": {
+     "followers": 73534,
+     "last_post": "2026-10-09",
+     "originals_scraped": 158,
+     "posts_per_day_30d": 0.93,
+     "promo_share_regex": 0.0
+    },
+    "KICKDENIM": {
+     "followers": 75187,
+     "last_post": "2026-10-09",
+     "originals_scraped": 154,
+     "posts_per_day_30d": 3.79,
+     "promo_share_regex": 0.025
+    },
+    "NFTfafafa": {
+     "followers": 116209,
+     "last_post": "2026-10-09",
+     "originals_scraped": 147,
+     "posts_per_day_30d": 1.5,
+     "promo_share_regex": 0.025
+    },
+    "EvanCrypto17": {
+     "followers": 8142,
+     "last_post": "2026-10-09",
+     "originals_scraped": 140,
+     "posts_per_day_30d": 0.79,
+     "promo_share_regex": 0.025
+    }
+   },
+   "donors_removed": {
+    "williamlab": "in 3 accounts (macro_zh + #22 + #23) — exceeds max 2-account rule; kept in #23 only as better newbie lane fit"
+   },
+   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen"
   },
   {
    "no": 24,
@@ -165,21 +273,65 @@
    "donors": [
     "thedefivillain",
     "CryptoMichNL",
-    "IT_Tech_PL",
     "Truecrypto",
-    "TedPillows"
+    "TedPillows",
+    "AltcoinSherpa",
+    "MatthewHyland_",
+    "damskotrades",
+    "inmortalcrypto",
+    "Skylinee"
    ],
    "x_sources": {
     "CORE": [
      "thedefivillain",
      "CryptoMichNL",
-     "IT_Tech_PL",
      "Truecrypto",
      "TedPillows"
     ],
     "SECONDARY": []
    },
-   "status": "spare_active"
+   "status": "spare_active",
+   "donor_evidence": {
+    "AltcoinSherpa": {
+     "followers": 263737,
+     "last_post": "2026-10-09",
+     "originals_scraped": 140,
+     "posts_per_day_30d": 10.0,
+     "promo_share_regex": 0.0
+    },
+    "MatthewHyland_": {
+     "followers": 172784,
+     "last_post": "2026-10-09",
+     "originals_scraped": 107,
+     "posts_per_day_30d": 7.64,
+     "promo_share_regex": 0.0
+    },
+    "damskotrades": {
+     "followers": 139345,
+     "last_post": "2026-10-09",
+     "originals_scraped": 88,
+     "posts_per_day_30d": 6.29,
+     "promo_share_regex": 0.05
+    },
+    "inmortalcrypto": {
+     "followers": 232560,
+     "last_post": "2026-10-08",
+     "originals_scraped": 143,
+     "posts_per_day_30d": 2.14,
+     "promo_share_regex": 0.0
+    },
+    "Skylinee": {
+     "followers": 131439,
+     "last_post": "2026-10-09",
+     "originals_scraped": 136,
+     "posts_per_day_30d": 2.79,
+     "promo_share_regex": 0.025
+    }
+   },
+   "donors_removed": {
+    "IT_Tech_PL": "promo_share 0.36 > 0.25 (confirmed in fd20_donor_merge.json dropped list)"
+   },
+   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen"
   },
   {
    "no": 25,
@@ -213,7 +365,11 @@
     "dollarsanddata",
     "awealthofcs",
     "BrianFeroldi",
-    "iancassel"
+    "iancassel",
+    "michaelbatnick",
+    "jasonzweigwsj",
+    "JLCollinsNH",
+    "baldguymoney"
    ],
    "x_sources": {
     "CORE": [
@@ -225,7 +381,39 @@
     ],
     "SECONDARY": []
    },
-   "status": "spare_active"
+   "status": "spare_active",
+   "donor_evidence": {
+    "michaelbatnick": {
+     "followers": 207715,
+     "last_post": "2026-10-08",
+     "originals_scraped": 46,
+     "posts_per_day_30d": 0.14,
+     "promo_share_regex": 0.0
+    },
+    "jasonzweigwsj": {
+     "followers": 235460,
+     "last_post": "2026-10-07",
+     "originals_scraped": 123,
+     "posts_per_day_30d": 1.0,
+     "promo_share_regex": 0.0
+    },
+    "JLCollinsNH": {
+     "followers": 31208,
+     "last_post": "2026-10-08",
+     "originals_scraped": 75,
+     "posts_per_day_30d": 0.29,
+     "promo_share_regex": 0.025
+    },
+    "baldguymoney": {
+     "followers": 28874,
+     "last_post": "2026-10-09",
+     "originals_scraped": 111,
+     "posts_per_day_30d": 2.36,
+     "promo_share_regex": 0.0
+    }
+   },
+   "donors_removed": {},
+   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen"
   },
   {
    "no": 26,
@@ -260,7 +448,8 @@
     "JSeyff",
     "EricBalchunas",
     "jameslavish",
-    "Jamie1Coutts"
+    "Jamie1Coutts",
+    "Matt_Hougan"
    ],
    "x_sources": {
     "CORE": [
@@ -273,7 +462,18 @@
     "SECONDARY": []
    },
    "status": "spare_active",
-   "adjusted": "plan_crypto.json spare lists 4 donors; the persona registry needs 5 exemplar donors -> + Jamie1Coutts (roster voice donor, crypto flows/ETF, in one other account)"
+   "adjusted": "plan_crypto.json spare lists 4 donors; the persona registry needs 5 exemplar donors -> + Jamie1Coutts (roster voice donor, crypto flows/ETF, in one other account)",
+   "donor_evidence": {
+    "Matt_Hougan": {
+     "followers": 101789,
+     "last_post": "2026-10-08",
+     "originals_scraped": 91,
+     "posts_per_day_30d": 1.21,
+     "promo_share_regex": 0.0
+    }
+   },
+   "donors_removed": {},
+   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen"
   }
  ]
 }

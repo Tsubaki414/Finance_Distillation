@@ -1,1163 +1,1183 @@
 {
-  "note": "Eleven logical accounts: ten cluster personas plus the separate Morris source-voice archive. New cluster accounts are disabled; no platform bindings.",
-  "publishing": "Human review only. No real platform accounts have been created or bound; no automatic publishing.",
-  "daily_target": {
-    "min": 1,
-    "max": 2,
-    "per": "account",
-    "may_publish_nothing": true,
-    "why": "an account with nothing worth saying should say nothing"
+ "note": "Eleven logical accounts: ten cluster personas plus the separate Morris source-voice archive. New cluster accounts are disabled; no platform bindings.",
+ "publishing": "Human review only. No real platform accounts have been created or bound; no automatic publishing.",
+ "daily_target": {
+  "min": 1,
+  "max": 2,
+  "per": "account",
+  "may_publish_nothing": true,
+  "why": "an account with nothing worth saying should say nothing"
+ },
+ "accounts": [
+  {
+   "id": "en_morris_archive",
+   "name": "EN · Morris 历史精选",
+   "lang": "en",
+   "enabled": true,
+   "persona_id": "source_led",
+   "persona_description": "An English-language selection of valuable historical Chinese ideas sourced from Morris_LT. Not Morris, not a summary of his persona, and not an endorsement by him.",
+   "platform": "unbound",
+   "handle": null,
+   "binding_status": "logical_account_only",
+   "domain": "finance",
+   "fidelity_policy": "finance",
+   "audience": "English readers who can benefit from the original Chinese material: retain the author’s useful logic, examples, human texture and strength of judgment.",
+   "beats": [
+    "markets",
+    "trading_reasoning",
+    "decision_making",
+    "historical_ideas"
+   ],
+   "selection_scope": "Only historical Chinese originals by Morris_LT. Select genuinely useful content, not a summary of Morris or a personality imitation. Exclude empty promotion, isolated updates and passages that cannot be understood without missing context. Historical time and personal experience retain their true ownership.",
+   "source_preferences": {
+    "only_handles": [
+     "Morris_LT"
+    ],
+    "languages": [
+     "zh"
+    ],
+    "exclusive_source": true,
+    "historical_content_allowed": true
+   },
+   "editorial_preferences": {
+    "source_first": true,
+    "preserve_order_examples_rhythm": true,
+    "no_mandatory_template": true,
+    "no_default_author_prefix": true,
+    "no_ownership_transfer": true
+   },
+   "localization_preferences": {
+    "tone": "Faithful natural English. Leave effective order, examples and rhythm intact. No default Morris said wrapper; use local attribution only when personal identity or quoted speech needs it."
+   },
+   "source_hygiene": {
+    "enabled": true
+   },
+   "glossary": {},
+   "formats": [
+    "post",
+    "long_post"
+   ],
+   "lanes": [
+    "historical_cross_language"
+   ]
   },
-  "accounts": [
+  {
+   "id": "zh_macro",
+   "name": "中文 Macro / Data Flow",
+   "lang": "zh",
+   "persona_id": "macro",
+   "beats": [
+    "fed_policy",
+    "inflation",
+    "jobs",
+    "yen_fx",
+    "tariffs",
+    "china_policy",
+    "oil"
+   ],
+   "lanes": [
+    "hot_signal",
+    "scheduled_catalyst",
+    "cross_language_gap",
+    "prediction_ledger",
+    "deep_research"
+   ],
+   "formats": [
+    "post",
+    "long_post"
+   ],
+   "audience": "把英文宏观数据、政策机制和资金流观察带给中文读者，保留原文解释、例子及判断力度。",
+   "language_donor": {
+    "handle": "qinbafrank",
+    "why": "宏观与资金流同题材，中文语料最深的宏观作者",
+    "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
+    "active_in_localization": false
+   },
+   "enabled": true,
+   "selection_scope": "Monetary policy, inflation, jobs, rates, FX, liquidity and cross-asset flows. Incidental finance keywords in unrelated essays do not qualify.",
+   "glossary": {},
+   "localization_preferences": {
+    "tone": "Preserve source stance and strength; natural target-language syntax; no mandatory structure."
+   },
+   "domain": "finance",
+   "fidelity_policy": "finance",
+   "platform": "unbound",
+   "handle": null,
+   "binding_status": "logical_account_only",
+   "source_hygiene": {
+    "enabled": true
+   },
+   "persona_description": "把英文宏观数据、政策机制和资金流观察带给中文读者，保留原文解释、例子及判断力度。",
+   "editorial_preferences": {
+    "source_first": true,
+    "preserve_order_examples_rhythm": true,
+    "no_mandatory_template": true,
+    "no_default_author_prefix": true,
+    "no_ownership_transfer": true
+   },
+   "source_preferences": {
+    "languages": [
+     "en"
+    ],
+    "prefer": [
+     "original explanations",
+     "concrete examples",
+     "useful observations"
+    ],
+    "historical_content_allowed": true
+   },
+   "donor_cluster": {
+    "cluster": "acct_zh_macro",
+    "min_donors": 3,
+    "decided": "Fiona 2026-10-06 13:21",
+    "donors": [
+     {
+      "handle": "TraderS18",
+      "weight": 0.111,
+      "why": "TraderS18 verified voice donor"
+     },
+     {
+      "handle": "MacroMargin",
+      "weight": 0.111,
+      "why": "MacroMargin verified voice donor"
+     },
+     {
+      "handle": "qinbafrank",
+      "weight": 0.111,
+      "why": "qinbafrank verified voice donor"
+     },
+     {
+      "handle": "LabSpeculation",
+      "weight": 0.111,
+      "why": "LabSpeculation verified voice donor"
+     },
+     {
+      "handle": "fannaoxiaoyang",
+      "weight": 0.111,
+      "why": "fannaoxiaoyang verified voice donor"
+     },
+     {
+      "handle": "Time_HorizonX",
+      "weight": 0.111,
+      "why": "data-driven global macro observer, zh; 136k followers, zero promo"
+     },
+     {
+      "handle": "wangwatchworld",
+      "weight": 0.111,
+      "why": "macro economics and commodities commentary, YouTube/WeChat presence zh"
+     },
+     {
+      "handle": "viviennaBTC",
+      "weight": 0.111,
+      "why": "macro/AI/bitcoin since 2017, single-mom candor, strong zh voice"
+     },
+     {
+      "handle": "yuyy614893671",
+      "weight": 0.112,
+      "why": "15yr buyside macro/sector research, deep analysis zh"
+     }
+    ],
+    "notes": [],
+    "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者"
+   },
+   "language_donor_history": [
     {
-      "id": "en_morris_archive",
-      "name": "EN · Morris 历史精选",
-      "lang": "en",
-      "enabled": true,
-      "persona_id": "source_led",
-      "persona_description": "An English-language selection of valuable historical Chinese ideas sourced from Morris_LT. Not Morris, not a summary of his persona, and not an endorsement by him.",
-      "platform": "unbound",
-      "handle": null,
-      "binding_status": "logical_account_only",
-      "domain": "finance",
-      "fidelity_policy": "finance",
-      "audience": "English readers who can benefit from the original Chinese material: retain the author’s useful logic, examples, human texture and strength of judgment.",
-      "beats": [
-        "markets",
-        "trading_reasoning",
-        "decision_making",
-        "historical_ideas"
-      ],
-      "selection_scope": "Only historical Chinese originals by Morris_LT. Select genuinely useful content, not a summary of Morris or a personality imitation. Exclude empty promotion, isolated updates and passages that cannot be understood without missing context. Historical time and personal experience retain their true ownership.",
-      "source_preferences": {
-        "only_handles": [
-          "Morris_LT"
-        ],
-        "languages": [
-          "zh"
-        ],
-        "exclusive_source": true,
-        "historical_content_allowed": true
-      },
-      "editorial_preferences": {
-        "source_first": true,
-        "preserve_order_examples_rhythm": true,
-        "no_mandatory_template": true,
-        "no_default_author_prefix": true,
-        "no_ownership_transfer": true
-      },
-      "localization_preferences": {
-        "tone": "Faithful natural English. Leave effective order, examples and rhythm intact. No default Morris said wrapper; use local attribution only when personal identity or quoted speech needs it."
-      },
-      "source_hygiene": {
-        "enabled": true
-      },
-      "glossary": {},
-      "formats": [
-        "post",
-        "long_post"
-      ],
-      "lanes": [
-        "historical_cross_language"
-      ]
-    },
-    {
-      "id": "zh_macro",
-      "name": "中文 Macro / Data Flow",
-      "lang": "zh",
-      "persona_id": "macro",
-      "beats": [
-        "fed_policy",
-        "inflation",
-        "jobs",
-        "yen_fx",
-        "tariffs",
-        "china_policy",
-        "oil"
-      ],
-      "lanes": [
-        "hot_signal",
-        "scheduled_catalyst",
-        "cross_language_gap",
-        "prediction_ledger",
-        "deep_research"
-      ],
-      "formats": [
-        "post",
-        "long_post"
-      ],
-      "audience": "把英文宏观数据、政策机制和资金流观察带给中文读者，保留原文解释、例子及判断力度。",
-      "language_donor": {
-        "handle": "qinbafrank",
-        "why": "宏观与资金流同题材，中文语料最深的宏观作者",
-        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
-        "active_in_localization": false
-      },
-      "enabled": true,
-      "selection_scope": "Monetary policy, inflation, jobs, rates, FX, liquidity and cross-asset flows. Incidental finance keywords in unrelated essays do not qualify.",
-      "glossary": {},
-      "localization_preferences": {
-        "tone": "Preserve source stance and strength; natural target-language syntax; no mandatory structure."
-      },
-      "domain": "finance",
-      "fidelity_policy": "finance",
-      "platform": "unbound",
-      "handle": null,
-      "binding_status": "logical_account_only",
-      "source_hygiene": {
-        "enabled": true
-      },
-      "persona_description": "把英文宏观数据、政策机制和资金流观察带给中文读者，保留原文解释、例子及判断力度。",
-      "editorial_preferences": {
-        "source_first": true,
-        "preserve_order_examples_rhythm": true,
-        "no_mandatory_template": true,
-        "no_default_author_prefix": true,
-        "no_ownership_transfer": true
-      },
-      "source_preferences": {
-        "languages": [
-          "en"
-        ],
-        "prefer": [
-          "original explanations",
-          "concrete examples",
-          "useful observations"
-        ],
-        "historical_content_allowed": true
-      },
-      "donor_cluster": {
-        "cluster": "acct_zh_macro",
-        "min_donors": 3,
-        "decided": "Fiona 2026-10-06 13:21",
-        "donors": [
-          {
-            "handle": "TraderS18",
-            "weight": 0.312,
-            "why": "beat 61% of 202 originals, crypto 10%, voice distinct 0.67"
-          },
-          {
-            "handle": "MacroMargin",
-            "weight": 0.21,
-            "why": "beat 45% of 177 originals, voice distinct 0.55"
-          },
-          {
-            "handle": "qinbafrank",
-            "weight": 0.199,
-            "why": "beat 44% of 195 originals, crypto 17%, voice distinct 0.47 (current donor)"
-          },
-          {
-            "handle": "LabSpeculation",
-            "weight": 0.15,
-            "why": "beat 30% of 119 originals, crypto 15%, voice distinct 0.78"
-          },
-          {
-            "handle": "fannaoxiaoyang",
-            "weight": 0.129,
-            "why": "beat 30% of 87 originals, crypto 28%, voice distinct 0.67"
-          }
-        ],
-        "notes": [],
-        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者"
-      },
-      "language_donor_history": [
-        {
-          "handle": "qinbafrank",
-          "why": "宏观与资金流同题材，中文语料最深的宏观作者",
-          "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
-          "active_in_localization": false,
-          "replaced": "2026-10-06 by donor_cluster acct_zh_macro (kept as a member)"
-        }
-      ]
-    },
-    {
-      "id": "en_macro",
-      "name": "EN Macro / Data Flow",
-      "lang": "en",
-      "persona_id": "macro",
-      "beats": [
-        "fed_policy",
-        "inflation",
-        "jobs",
-        "yen_fx",
-        "tariffs",
-        "oil"
-      ],
-      "lanes": [
-        "hot_signal",
-        "scheduled_catalyst",
-        "cross_language_gap",
-        "deep_research"
-      ],
-      "formats": [
-        "post",
-        "long_post"
-      ],
-      "audience": "Bring valuable Chinese macro, policy, data and flow observations into natural English, preserving the original reasoning and force.",
-      "language_donor": {
-        "handle": "globalmktobserv",
-        "why": "英文宏观，语料量刚够建立区间",
-        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
-        "beat_fit": {
-          "macro_score": 1.51,
-          "industry_score": 0.95,
-          "n": 77,
-          "rank_among_english_candidates": 1
-        },
-        "selected_from": "21 位有足够语料的英文 donor（英文 KOL 表导入后），按其历史帖中该题材词频与样本量选出，不是「谁语料够多用谁」",
-        "active_in_localization": false
-      },
-      "enabled": true,
-      "selection_scope": "Monetary policy, inflation, jobs, rates, FX, liquidity and cross-asset flows. Incidental finance keywords in unrelated essays do not qualify.",
-      "glossary": {},
-      "localization_preferences": {
-        "tone": "Preserve source stance and strength; natural target-language syntax; no mandatory structure."
-      },
-      "domain": "finance",
-      "fidelity_policy": "finance",
-      "platform": "unbound",
-      "handle": null,
-      "binding_status": "logical_account_only",
-      "source_hygiene": {
-        "enabled": true
-      },
-      "persona_description": "Bring valuable Chinese macro, policy, data and flow observations into natural English, preserving the original reasoning and force.",
-      "editorial_preferences": {
-        "source_first": true,
-        "preserve_order_examples_rhythm": true,
-        "no_mandatory_template": true,
-        "no_default_author_prefix": true,
-        "no_ownership_transfer": true
-      },
-      "source_preferences": {
-        "languages": [
-          "zh"
-        ],
-        "prefer": [
-          "original explanations",
-          "concrete examples",
-          "useful observations"
-        ],
-        "historical_content_allowed": true
-      },
-      "donor_cluster": {
-        "cluster": "acct_en_macro",
-        "min_donors": 3,
-        "decided": "Fiona 2026-10-06 13:21",
-        "donors": [
-          {
-            "handle": "robin_j_brooks",
-            "weight": 0.242,
-            "why": "beat 73% of 75 originals, voice distinct 0.54"
-          },
-          {
-            "handle": "elerianm",
-            "weight": 0.238,
-            "why": "beat 62% of 206 originals, crypto 7%, voice distinct 0.47"
-          },
-          {
-            "handle": "GlobalMktObserv",
-            "weight": 0.21,
-            "why": "beat 58% of 144 originals, crypto 6%, voice distinct 0.47 (current donor)"
-          },
-          {
-            "handle": "KobeissiLetter",
-            "weight": 0.177,
-            "why": "beat 49% of 199 originals, crypto 8%, voice distinct 0.38"
-          },
-          {
-            "handle": "JeffSnider_EDU",
-            "weight": 0.133,
-            "why": "beat 34% of 140 originals, crypto 14%, voice distinct 0.59"
-          }
-        ],
-        "notes": [],
-        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者"
-      },
-      "language_donor_history": [
-        {
-          "handle": "globalmktobserv",
-          "why": "英文宏观，语料量刚够建立区间",
-          "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
-          "beat_fit": {
-            "macro_score": 1.51,
-            "industry_score": 0.95,
-            "n": 77,
-            "rank_among_english_candidates": 1
-          },
-          "selected_from": "21 位有足够语料的英文 donor（英文 KOL 表导入后），按其历史帖中该题材词频与样本量选出，不是「谁语料够多用谁」",
-          "active_in_localization": false,
-          "replaced": "2026-10-06 by donor_cluster acct_en_macro (kept as a member)"
-        }
-      ]
-    },
-    {
-      "id": "zh_industry",
-      "name": "中文 Stocks / Industry",
-      "lang": "zh",
-      "persona_id": "industry",
-      "beats": [
-        "ai_capex",
-        "earnings",
-        "china_policy"
-      ],
-      "lanes": [
-        "hot_signal",
-        "scheduled_catalyst",
-        "cross_language_gap",
-        "deep_research"
-      ],
-      "formats": [
-        "post",
-        "long_post"
-      ],
-      "audience": "把英文个股、产业机制、财报与供应链内容带给中文读者，保留技术逻辑、条件和有用细节。",
-      "language_donor": {
-        "handle": "michael_qqq2025",
-        "why": "产业链与宏观兼具（光通信供应链、磷化铟涨价、FOMC），中文；替换 xingpt——合并语料下 xingpt recall 0.290，与 michael_qqq2025/qinbafrank 混淆，无法承载可区分的声音",
-        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
-        "evidence": {
-          "authorship_recall": 0.8108,
-          "authorship_test_n": 74,
-          "corpus": "ml_experiments/authorship_merged.json（归档+实时清洗后 4,480 行，14 位可评估作者）",
-          "note": "归档单独评估时只有 6 位作者达到支持度门槛，合并语料后才看得出谁真的可分辨——换人依据的是后者"
-        },
-        "assigned_at": "2026-09-22",
-        "active_in_localization": false
-      },
-      "language_donor_history": [
-        {
-          "handle": "xingpt",
-          "until": "2026-09-22",
-          "replaced_because": "替换 xingpt——合并语料下 xingpt recall 0.290，与 michael_qqq2025/qinbafrank 混淆，无法承载可区分的声音",
-          "evidence": {
-            "test_n": 31,
-            "recall": 0.2903
-          },
-          "previous_record": {
-            "handle": "xingpt",
-            "why": "半导体与产业链同题材，中文",
-            "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者"
-          }
-        },
-        {
-          "handle": "michael_qqq2025",
-          "why": "产业链与宏观兼具（光通信供应链、磷化铟涨价、FOMC），中文；替换 xingpt——合并语料下 xingpt recall 0.290，与 michael_qqq2025/qinbafrank 混淆，无法承载可区分的声音",
-          "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
-          "evidence": {
-            "authorship_recall": 0.8108,
-            "authorship_test_n": 74,
-            "corpus": "ml_experiments/authorship_merged.json（归档+实时清洗后 4,480 行，14 位可评估作者）",
-            "note": "归档单独评估时只有 6 位作者达到支持度门槛，合并语料后才看得出谁真的可分辨——换人依据的是后者"
-          },
-          "assigned_at": "2026-09-22",
-          "active_in_localization": false,
-          "replaced": "2026-10-06 by donor_cluster acct_zh_industry (kept as a member)"
-        }
-      ],
-      "enabled": true,
-      "selection_scope": "Company fundamentals, earnings, products, business economics, technology and supply chains.",
-      "glossary": {},
-      "localization_preferences": {
-        "tone": "Preserve source stance and strength; natural target-language syntax; no mandatory structure."
-      },
-      "domain": "finance",
-      "fidelity_policy": "finance",
-      "platform": "unbound",
-      "handle": null,
-      "binding_status": "logical_account_only",
-      "source_hygiene": {
-        "enabled": true
-      },
-      "persona_description": "把英文个股、产业机制、财报与供应链内容带给中文读者，保留技术逻辑、条件和有用细节。",
-      "editorial_preferences": {
-        "source_first": true,
-        "preserve_order_examples_rhythm": true,
-        "no_mandatory_template": true,
-        "no_default_author_prefix": true,
-        "no_ownership_transfer": true
-      },
-      "source_preferences": {
-        "languages": [
-          "en"
-        ],
-        "prefer": [
-          "original explanations",
-          "concrete examples",
-          "useful observations"
-        ],
-        "historical_content_allowed": true
-      },
-      "donor_cluster": {
-        "cluster": "acct_zh_industry",
-        "min_donors": 3,
-        "decided": "Fiona 2026-10-06 13:21",
-        "donors": [
-          {
-            "handle": "shufen46250836",
-            "weight": 0.1555,
-            "why": "beat 65% of 185 originals, voice distinct 0.89"
-          },
-          {
-            "handle": "BroBean88",
-            "weight": 0.139,
-            "why": "beat 60% of 208 originals, crypto 21%, voice distinct 0.80"
-          },
-          {
-            "handle": "_wmoon",
-            "weight": 0.1,
-            "why": "beat 54% of 169 originals, crypto 6%, voice distinct 0.48"
-          },
-          {
-            "handle": "fi56622380",
-            "weight": 0.0655,
-            "why": "beat 37% of 194 originals, crypto 11%, voice distinct 0.40"
-          },
-          {
-            "handle": "Michael_QQQ2025",
-            "weight": 0.04,
-            "why": "beat 4% of 163 originals, crypto 23%, voice distinct 0.28 (current donor) [below bar]"
-          },
-          {
-            "handle": "LeotheHorseman",
-            "weight": 0.1,
-            "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "roger9949",
-            "weight": 0.1,
-            "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "MMMusol",
-            "weight": 0.1,
-            "why": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "silverfang88",
-            "weight": 0.1,
-            "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "starzq",
-            "weight": 0.1,
-            "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          }
-        ],
-        "notes": [
-          "current donor Michael_QQQ2025 kept below the bar (fit 0.043, distinct 0.281) at the weight floor"
-        ],
-        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者",
-        "merge": {
-          "version": "mango-merge-2026-10-07+seeds2",
-          "base_share": 0.5,
-          "added": [
-            "LeotheHorseman",
-            "roger9949",
-            "MMMusol",
-            "silverfang88",
-            "starzq"
-          ]
-        }
-      }
-    },
-    {
-      "id": "en_industry",
-      "name": "EN Stocks / Industry",
-      "lang": "en",
-      "persona_id": "industry",
-      "beats": [
-        "ai_capex",
-        "earnings"
-      ],
-      "lanes": [
-        "hot_signal",
-        "cross_language_gap",
-        "deep_research"
-      ],
-      "formats": [
-        "post",
-        "long_post"
-      ],
-      "audience": "Bring Chinese company, earnings, industry and supply-chain material into natural English, preserving useful detail, examples and source judgments.",
-      "language_donor": {
-        "handle": "aleabitoreddit",
-        "why": "英文个股与供应链（$SIVE 激光产能、光模块、代工），语料最深的英文作者；替换 beth_kindig——她可分辨（recall 0.929）但可测句长帖仅 10 篇，撑不起风格区间",
-        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
-        "evidence": {
-          "authorship_recall": 0.8962,
-          "authorship_test_n": 106,
-          "corpus": "ml_experiments/authorship_merged.json（归档+实时清洗后 4,480 行，14 位可评估作者）",
-          "note": "归档单独评估时只有 6 位作者达到支持度门槛，合并语料后才看得出谁真的可分辨——换人依据的是后者"
-        },
-        "assigned_at": "2026-09-22",
-        "active_in_localization": false
-      },
-      "language_donor_history": [
-        {
-          "handle": "beth_kindig",
-          "until": "2026-09-22",
-          "replaced_because": "替换 beth_kindig——她可分辨（recall 0.929）但可测句长帖仅 10 篇，撑不起风格区间",
-          "evidence": {
-            "test_n": 28,
-            "recall": 0.9286
-          },
-          "previous_record": {
-            "handle": "beth_kindig",
-            "why": "英文科技个股，语料量最深的英文作者",
-            "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
-            "beat_fit": {
-              "macro_score": 0.18,
-              "industry_score": 1.59,
-              "n": 111,
-              "rank_among_english_candidates": 1
-            },
-            "selected_from": "21 位有足够语料的英文 donor（英文 KOL 表导入后），按其历史帖中该题材词频与样本量选出，不是「谁语料够多用谁」"
-          }
-        },
-        {
-          "handle": "aleabitoreddit",
-          "why": "英文个股与供应链（$SIVE 激光产能、光模块、代工），语料最深的英文作者；替换 beth_kindig——她可分辨（recall 0.929）但可测句长帖仅 10 篇，撑不起风格区间",
-          "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
-          "evidence": {
-            "authorship_recall": 0.8962,
-            "authorship_test_n": 106,
-            "corpus": "ml_experiments/authorship_merged.json（归档+实时清洗后 4,480 行，14 位可评估作者）",
-            "note": "归档单独评估时只有 6 位作者达到支持度门槛，合并语料后才看得出谁真的可分辨——换人依据的是后者"
-          },
-          "assigned_at": "2026-09-22",
-          "active_in_localization": false,
-          "replaced": "2026-10-06 by donor_cluster acct_en_industry (kept as a member)"
-        }
-      ],
-      "enabled": true,
-      "selection_scope": "Company fundamentals, earnings, products, business economics, technology and supply chains.",
-      "glossary": {},
-      "localization_preferences": {
-        "tone": "Preserve source stance and strength; natural target-language syntax; no mandatory structure."
-      },
-      "domain": "finance",
-      "fidelity_policy": "finance",
-      "platform": "unbound",
-      "handle": null,
-      "binding_status": "logical_account_only",
-      "source_hygiene": {
-        "enabled": true
-      },
-      "persona_description": "Bring Chinese company, earnings, industry and supply-chain material into natural English, preserving useful detail, examples and source judgments.",
-      "editorial_preferences": {
-        "source_first": true,
-        "preserve_order_examples_rhythm": true,
-        "no_mandatory_template": true,
-        "no_default_author_prefix": true,
-        "no_ownership_transfer": true
-      },
-      "source_preferences": {
-        "languages": [
-          "zh"
-        ],
-        "prefer": [
-          "original explanations",
-          "concrete examples",
-          "useful observations"
-        ],
-        "historical_content_allowed": true
-      },
-      "donor_cluster": {
-        "cluster": "acct_en_industry",
-        "min_donors": 3,
-        "decided": "Fiona 2026-10-06 13:21",
-        "donors": [
-          {
-            "handle": "SKundojjala",
-            "weight": 0.269,
-            "why": "beat 92% of 155 originals, voice distinct 0.65"
-          },
-          {
-            "handle": "Beth_Kindig",
-            "weight": 0.259,
-            "why": "beat 78% of 209 originals, crypto 10%, voice distinct 0.74"
-          },
-          {
-            "handle": "EconomyApp",
-            "weight": 0.2,
-            "why": "beat 68% of 186 originals, voice distinct 0.59"
-          },
-          {
-            "handle": "aleabitoreddit",
-            "weight": 0.151,
-            "why": "beat 63% of 198 originals, crypto 11%, voice distinct 0.28 (current donor) [below bar]"
-          },
-          {
-            "handle": "jpinsights",
-            "weight": 0.121,
-            "why": "beat 49% of 86 originals, crypto 23%, voice distinct 0.56"
-          }
-        ],
-        "notes": [
-          "current donor aleabitoreddit kept below the bar (fit 0.631, distinct 0.278) at the weight floor"
-        ],
-        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者"
-      }
-    },
-    {
-      "id": "crypto_macro_zh",
-      "name": "crypto_macro_zh",
-      "lang": "zh",
-      "persona_id": "crypto_macro_zh",
-      "persona_description": "Chinese-language crypto with a macro angle: bitcoin, stablecoins, regulation",
-      "beats": [
-        "Chinese-language crypto with a macro angle: bitcoin, stablecoins, regulation"
-      ],
-      "enabled": false,
-      "publishing_enabled": false,
-      "platform": "unbound",
-      "handle": null,
-      "binding_status": "logical_account_only",
-      "domain": "finance",
-      "fidelity_policy": "finance",
-      "formats": [
-        "post",
-        "long_post"
-      ],
-      "lanes": [
-        "deep_research"
-      ],
-      "selection_scope": "Chinese-language crypto with a macro angle: bitcoin, stablecoins, regulation",
-      "donor_cluster": {
-        "cluster": "acct_crypto_macro_zh",
-        "min_donors": 3,
-        "decided": "Fiona 2026-10-06 13:21",
-        "donors": [
-          {
-            "handle": "buereth",
-            "weight": 0.124,
-            "why": "beat 74% of 211 originals, voice distinct 0.45"
-          },
-          {
-            "handle": "PhyrexNi",
-            "weight": 0.1135,
-            "why": "beat 57% of 198 originals, voice distinct 0.74"
-          },
-          {
-            "handle": "mindaoyang",
-            "weight": 0.11,
-            "why": "beat 80% of 82 originals, voice distinct 0.44"
-          },
-          {
-            "handle": "0xBeyondLee",
-            "weight": 0.096,
-            "why": "beat 56% of 177 originals, voice distinct 0.54"
-          },
-          {
-            "handle": "Bitwux",
-            "weight": 0.0565,
-            "why": "beat 41% of 185 originals, voice distinct 0.22 (current donor) [below bar]"
-          },
-          {
-            "handle": "BensonTWN",
-            "weight": 0.1,
-            "why": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "thankUcrypto",
-            "weight": 0.1,
-            "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "timotimo007",
-            "weight": 0.1,
-            "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "Sea_Bitcoin",
-            "weight": 0.1,
-            "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "dapangdun",
-            "weight": 0.1,
-            "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          }
-        ],
-        "notes": [
-          "current donor Bitwux kept below the bar (fit 0.411, distinct 0.22) at the weight floor"
-        ],
-        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者",
-        "merge": {
-          "version": "mango-merge-2026-10-07+seeds2",
-          "base_share": 0.5,
-          "added": [
-            "BensonTWN",
-            "thankUcrypto",
-            "timotimo007",
-            "Sea_Bitcoin",
-            "dapangdun"
-          ]
-        }
-      }
-    },
-    {
-      "id": "trading_shortterm",
-      "name": "trading_shortterm",
-      "lang": "en",
-      "persona_id": "trading_shortterm",
-      "persona_description": "English short-term market structure: options positioning, dealer hedging, flows, technicals",
-      "beats": [
-        "English short-term market structure: options positioning, dealer hedging, flows, technicals"
-      ],
-      "enabled": false,
-      "publishing_enabled": false,
-      "platform": "unbound",
-      "handle": null,
-      "binding_status": "logical_account_only",
-      "domain": "finance",
-      "fidelity_policy": "finance",
-      "formats": [
-        "post",
-        "long_post"
-      ],
-      "lanes": [
-        "deep_research"
-      ],
-      "selection_scope": "English short-term market structure: options positioning, dealer hedging, flows, technicals",
-      "donor_cluster": {
-        "cluster": "acct_trading_shortterm",
-        "min_donors": 3,
-        "decided": "Fiona 2026-10-06 13:21",
-        "donors": [
-          {
-            "handle": "OptionsHawk",
-            "weight": 0.258,
-            "why": "beat 67% of 61 originals, voice distinct 0.50"
-          },
-          {
-            "handle": "SPXVIX",
-            "weight": 0.216,
-            "why": "beat 67% of 79 originals, crypto 13%, voice distinct 0.19 (current donor) [below bar]"
-          },
-          {
-            "handle": "MarkNewtonCMT",
-            "weight": 0.214,
-            "why": "beat 48% of 111 originals, crypto 9%, voice distinct 0.54"
-          },
-          {
-            "handle": "TheChartReport",
-            "weight": 0.184,
-            "why": "beat 47% of 72 originals, voice distinct 0.47"
-          },
-          {
-            "handle": "jasongoepfert",
-            "weight": 0.128,
-            "why": "beat 29% of 177 originals, voice distinct 0.39"
-          }
-        ],
-        "notes": [
-          "current donor SPXVIX kept below the bar (fit 0.671, distinct 0.188) at the weight floor"
-        ],
-        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者"
-      }
-    },
-    {
-      "id": "market_data_charts",
-      "name": "market_data_charts",
-      "lang": "en",
-      "persona_id": "market_data_charts",
-      "persona_description": "English market data: breadth, sentiment, flows, historical comparisons",
-      "beats": [
-        "English market data: breadth, sentiment, flows, historical comparisons"
-      ],
-      "enabled": false,
-      "publishing_enabled": false,
-      "platform": "unbound",
-      "handle": null,
-      "binding_status": "logical_account_only",
-      "domain": "finance",
-      "fidelity_policy": "finance",
-      "formats": [
-        "post",
-        "long_post"
-      ],
-      "lanes": [
-        "deep_research"
-      ],
-      "selection_scope": "English market data: breadth, sentiment, flows, historical comparisons",
-      "donor_cluster": {
-        "cluster": "acct_market_data_charts",
-        "min_donors": 3,
-        "decided": "Fiona 2026-10-06 13:21",
-        "donors": [
-          {
-            "handle": "GlobalMktObserv",
-            "weight": 0.1545,
-            "why": "beat 78% of 144 originals, crypto 6%, voice distinct 0.47"
-          },
-          {
-            "handle": "TheChartReport",
-            "weight": 0.1145,
-            "why": "beat 67% of 72 originals, voice distinct 0.47"
-          },
-          {
-            "handle": "KobeissiLetter",
-            "weight": 0.1095,
-            "why": "beat 55% of 199 originals, crypto 8%, voice distinct 0.38"
-          },
-          {
-            "handle": "MarkNewtonCMT",
-            "weight": 0.0815,
-            "why": "beat 41% of 111 originals, crypto 9%, voice distinct 0.54"
-          },
-          {
-            "handle": "Mr_Derivatives",
-            "weight": 0.04,
-            "why": "beat 8% of 142 originals, crypto 11%, voice distinct 0.24 (current donor) [below bar]"
-          },
-          {
-            "handle": "McClellanOsc",
-            "weight": 0.1,
-            "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "WalterDeemer",
-            "weight": 0.1,
-            "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "the_chart_life",
-            "weight": 0.1,
-            "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "DKellerCMT",
-            "weight": 0.1,
-            "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "TimmerFidelity",
-            "weight": 0.1,
-            "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          }
-        ],
-        "notes": [
-          "current donor Mr_Derivatives kept below the bar (fit 0.077, distinct 0.241) at the weight floor"
-        ],
-        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者",
-        "merge": {
-          "version": "mango-merge-2026-10-07+seeds2",
-          "base_share": 0.5,
-          "added": [
-            "McClellanOsc",
-            "WalterDeemer",
-            "the_chart_life",
-            "DKellerCMT",
-            "TimmerFidelity"
-          ]
-        }
-      }
-    },
-    {
-      "id": "investing_philosophy",
-      "name": "investing_philosophy",
-      "lang": "en",
-      "persona_id": "investing_philosophy",
-      "persona_description": "English investing philosophy: risk, behaviour, long-term principles",
-      "beats": [
-        "English investing philosophy: risk, behaviour, long-term principles"
-      ],
-      "enabled": false,
-      "publishing_enabled": false,
-      "platform": "unbound",
-      "handle": null,
-      "binding_status": "logical_account_only",
-      "domain": "finance",
-      "fidelity_policy": "finance",
-      "formats": [
-        "post",
-        "long_post"
-      ],
-      "lanes": [
-        "deep_research"
-      ],
-      "selection_scope": "English investing philosophy: risk, behaviour, long-term principles",
-      "donor_cluster": {
-        "cluster": "acct_investing_philosophy",
-        "min_donors": 3,
-        "decided": "Fiona 2026-10-06 13:21",
-        "donors": [
-          {
-            "handle": "MarkNewtonCMT",
-            "weight": 0.1475,
-            "why": "beat 50% of 111 originals, crypto 9%, voice distinct 0.54"
-          },
-          {
-            "handle": "MebFaber",
-            "weight": 0.0995,
-            "why": "beat 47% of 135 originals, crypto 11%, voice distinct 0.07 (current donor) [below bar]"
-          },
-          {
-            "handle": "GlobalMktObserv",
-            "weight": 0.09,
-            "why": "beat 31% of 144 originals, crypto 6%, voice distinct 0.47"
-          },
-          {
-            "handle": "saxena_puru",
-            "weight": 0.0845,
-            "why": "beat 29% of 180 originals, voice distinct 0.37"
-          },
-          {
-            "handle": "SJosephBurns",
-            "weight": 0.0785,
-            "why": "beat 29% of 136 originals, crypto 6%, voice distinct 0.39"
-          },
-          {
-            "handle": "ThierryBorgeat",
-            "weight": 0.25,
-            "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "WillieDelwiche",
-            "weight": 0.25,
-            "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          }
-        ],
-        "notes": [
-          "current donor MebFaber kept below the bar (fit 0.467, distinct 0.074) at the weight floor"
-        ],
-        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者",
-        "merge": {
-          "version": "mango-merge-2026-10-07+seeds2",
-          "base_share": 0.5,
-          "added": [
-            "ThierryBorgeat",
-            "WillieDelwiche"
-          ]
-        }
-      }
-    },
-    {
-      "id": "single_stock_deepdive_en",
-      "name": "single_stock_deepdive_en",
-      "lang": "en",
-      "persona_id": "single_stock_deepdive_en",
-      "persona_description": "English single-company earnings and filings first takes",
-      "beats": [
-        "English single-company earnings and filings first takes"
-      ],
-      "enabled": false,
-      "publishing_enabled": false,
-      "platform": "unbound",
-      "handle": null,
-      "binding_status": "logical_account_only",
-      "domain": "finance",
-      "fidelity_policy": "finance",
-      "formats": [
-        "post",
-        "long_post"
-      ],
-      "lanes": [
-        "deep_research"
-      ],
-      "selection_scope": "English single-company earnings and filings first takes",
-      "donor_cluster": {
-        "cluster": "acct_single_stock_deepdive_en",
-        "min_donors": 3,
-        "decided": "Fiona 2026-10-06 13:21",
-        "donors": [
-          {
-            "handle": "Beth_Kindig",
-            "weight": 0.1255,
-            "why": "beat 88% of 209 originals, crypto 10%, voice distinct 0.74"
-          },
-          {
-            "handle": "EconomyApp",
-            "weight": 0.1145,
-            "why": "beat 89% of 186 originals, voice distinct 0.59 (current donor)"
-          },
-          {
-            "handle": "SKundojjala",
-            "weight": 0.104,
-            "why": "beat 81% of 155 originals, voice distinct 0.65"
-          },
-          {
-            "handle": "garyblack00",
-            "weight": 0.079,
-            "why": "beat 72% of 127 originals, crypto 18%, voice distinct 0.45"
-          },
-          {
-            "handle": "tengyanAI",
-            "weight": 0.077,
-            "why": "seeds2 2026-10-07 base swap for MarkNewtonCMT (technicals voice; was in 4 acct_ clusters > cap 3): AI-semis single-name earnings and supply-chain deep dives"
-          },
-          {
-            "handle": "zephyr_z9",
-            "weight": 0.1667,
-            "why": "gap fill 2026-10-07: 1-hop following of existing en donors DaanCrypto/Pentosh1/SalsaTekila/gammichan",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "ParadisLabs",
-            "weight": 0.1667,
-            "why": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "FredaDuan",
-            "weight": 0.1667,
-            "why": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          }
-        ],
-        "notes": [],
-        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者",
-        "merge": {
-          "version": "mango-merge-2026-10-07+seeds2",
-          "base_share": 0.5,
-          "added": [
-            "zephyr_z9",
-            "ParadisLabs",
-            "FredaDuan"
-          ]
-        }
-      }
-    },
-    {
-      "id": "crypto_macro_en",
-      "name": "crypto_macro_en",
-      "lang": "en",
-      "persona_id": "crypto_macro_en",
-      "persona_description": "English crypto with a macro angle: bitcoin, stablecoins, regulation, on-chain data",
-      "beats": [
-        "English crypto with a macro angle: bitcoin, stablecoins, regulation, on-chain data"
-      ],
-      "enabled": false,
-      "publishing_enabled": false,
-      "platform": "unbound",
-      "handle": null,
-      "binding_status": "logical_account_only",
-      "domain": "finance",
-      "fidelity_policy": "finance",
-      "formats": [
-        "post",
-        "long_post"
-      ],
-      "lanes": [
-        "deep_research"
-      ],
-      "selection_scope": "English crypto with a macro angle: bitcoin, stablecoins, regulation, on-chain data",
-      "donor_cluster": {
-        "cluster": "acct_crypto_macro_en",
-        "min_donors": 3,
-        "decided": "Fiona 2026-10-06 13:21",
-        "donors": [
-          {
-            "handle": "glassnode",
-            "weight": 0.126,
-            "why": "beat 86% of 171 originals, voice distinct 0.36"
-          },
-          {
-            "handle": "DTAPCAP",
-            "weight": 0.1245,
-            "why": "beat 69% of 176 originals, voice distinct 0.67"
-          },
-          {
-            "handle": "ki_young_ju",
-            "weight": 0.1005,
-            "why": "beat 73% of 112 originals, voice distinct 0.40"
-          },
-          {
-            "handle": "NateGeraci",
-            "weight": 0.0985,
-            "why": "beat 66% of 154 originals, voice distinct 0.44 (current donor)"
-          },
-          {
-            "handle": "RaoulGMI",
-            "weight": 0.0505,
-            "why": "beat 33% of 180 originals, voice distinct 0.40"
-          },
-          {
-            "handle": "sjdedic",
-            "weight": 0.1,
-            "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "amandacassatt",
-            "weight": 0.1,
-            "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "DoveyWan",
-            "weight": 0.1,
-            "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "econoar",
-            "weight": 0.1,
-            "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          },
-          {
-            "handle": "lazyvillager1",
-            "weight": 0.1,
-            "why": "gap fill 2026-10-07: 1-hop following of existing en donors DaanCrypto/Pentosh1/SalsaTekila/gammichan",
-            "merged": "mango-merge-2026-10-07+seeds2"
-          }
-        ],
-        "notes": [],
-        "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者",
-        "merge": {
-          "version": "mango-merge-2026-10-07+seeds2",
-          "base_share": 0.5,
-          "added": [
-            "sjdedic",
-            "amandacassatt",
-            "DoveyWan",
-            "econoar",
-            "lazyvillager1"
-          ]
-        }
-      }
+     "handle": "qinbafrank",
+     "why": "宏观与资金流同题材，中文语料最深的宏观作者",
+     "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
+     "active_in_localization": false,
+     "replaced": "2026-10-06 by donor_cluster acct_zh_macro (kept as a member)"
     }
-  ],
-  "unassigned_personas": [
+   ]
+  },
+  {
+   "id": "en_macro",
+   "name": "EN Macro / Data Flow",
+   "lang": "en",
+   "persona_id": "macro",
+   "beats": [
+    "fed_policy",
+    "inflation",
+    "jobs",
+    "yen_fx",
+    "tariffs",
+    "oil"
+   ],
+   "lanes": [
+    "hot_signal",
+    "scheduled_catalyst",
+    "cross_language_gap",
+    "deep_research"
+   ],
+   "formats": [
+    "post",
+    "long_post"
+   ],
+   "audience": "Bring valuable Chinese macro, policy, data and flow observations into natural English, preserving the original reasoning and force.",
+   "language_donor": {
+    "handle": "globalmktobserv",
+    "why": "英文宏观，语料量刚够建立区间",
+    "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
+    "beat_fit": {
+     "macro_score": 1.51,
+     "industry_score": 0.95,
+     "n": 77,
+     "rank_among_english_candidates": 1
+    },
+    "selected_from": "21 位有足够语料的英文 donor（英文 KOL 表导入后），按其历史帖中该题材词频与样本量选出，不是「谁语料够多用谁」",
+    "active_in_localization": false
+   },
+   "enabled": true,
+   "selection_scope": "Monetary policy, inflation, jobs, rates, FX, liquidity and cross-asset flows. Incidental finance keywords in unrelated essays do not qualify.",
+   "glossary": {},
+   "localization_preferences": {
+    "tone": "Preserve source stance and strength; natural target-language syntax; no mandatory structure."
+   },
+   "domain": "finance",
+   "fidelity_policy": "finance",
+   "platform": "unbound",
+   "handle": null,
+   "binding_status": "logical_account_only",
+   "source_hygiene": {
+    "enabled": true
+   },
+   "persona_description": "Bring valuable Chinese macro, policy, data and flow observations into natural English, preserving the original reasoning and force.",
+   "editorial_preferences": {
+    "source_first": true,
+    "preserve_order_examples_rhythm": true,
+    "no_mandatory_template": true,
+    "no_default_author_prefix": true,
+    "no_ownership_transfer": true
+   },
+   "source_preferences": {
+    "languages": [
+     "zh"
+    ],
+    "prefer": [
+     "original explanations",
+     "concrete examples",
+     "useful observations"
+    ],
+    "historical_content_allowed": true
+   },
+   "donor_cluster": {
+    "cluster": "acct_en_macro",
+    "min_donors": 3,
+    "decided": "Fiona 2026-10-06 13:21",
+    "donors": [
+     {
+      "handle": "robin_j_brooks",
+      "weight": 0.242,
+      "why": "beat 73% of 75 originals, voice distinct 0.54"
+     },
+     {
+      "handle": "elerianm",
+      "weight": 0.238,
+      "why": "beat 62% of 206 originals, crypto 7%, voice distinct 0.47"
+     },
+     {
+      "handle": "GlobalMktObserv",
+      "weight": 0.21,
+      "why": "beat 58% of 144 originals, crypto 6%, voice distinct 0.47 (current donor)"
+     },
+     {
+      "handle": "KobeissiLetter",
+      "weight": 0.177,
+      "why": "beat 49% of 199 originals, crypto 8%, voice distinct 0.38"
+     },
+     {
+      "handle": "JeffSnider_EDU",
+      "weight": 0.133,
+      "why": "beat 34% of 140 originals, crypto 14%, voice distinct 0.59"
+     }
+    ],
+    "notes": [],
+    "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者"
+   },
+   "language_donor_history": [
     {
-      "persona_id": "trading",
-      "why": "no account was requested for it; it still serves the Evergreen trading-principle line and event reactivation"
+     "handle": "globalmktobserv",
+     "why": "英文宏观，语料量刚够建立区间",
+     "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
+     "beat_fit": {
+      "macro_score": 1.51,
+      "industry_score": 0.95,
+      "n": 77,
+      "rank_among_english_candidates": 1
+     },
+     "selected_from": "21 位有足够语料的英文 donor（英文 KOL 表导入后），按其历史帖中该题材词频与样本量选出，不是「谁语料够多用谁」",
+     "active_in_localization": false,
+     "replaced": "2026-10-06 by donor_cluster acct_en_macro (kept as a member)"
     }
-  ],
-  "distinctness": {
-    "rule": "no two accounts may ship pieces that share both the same primary event and the same lead claim on the same day",
-    "checked_by": "live/opportunities.py assign() and a similarity gate before the queue"
+   ]
   },
-  "lane_note": "All five accounts route by source fit and target language. Historical source timestamps remain visible in review.",
-  "language_distillation": {
-    "targets": "live/store/style_targets.json，由 live/style.py 从该作者真实帖子实测",
-    "enforced": "legacy generation only; localization_v1 does not enforce donor length or style ranges",
-    "measured_by": "ml/style_eval.py"
+  {
+   "id": "zh_industry",
+   "name": "中文 Stocks / Industry",
+   "lang": "zh",
+   "persona_id": "industry",
+   "beats": [
+    "ai_capex",
+    "earnings",
+    "china_policy"
+   ],
+   "lanes": [
+    "hot_signal",
+    "scheduled_catalyst",
+    "cross_language_gap",
+    "deep_research"
+   ],
+   "formats": [
+    "post",
+    "long_post"
+   ],
+   "audience": "把英文个股、产业机制、财报与供应链内容带给中文读者，保留技术逻辑、条件和有用细节。",
+   "language_donor": {
+    "handle": "michael_qqq2025",
+    "why": "产业链与宏观兼具（光通信供应链、磷化铟涨价、FOMC），中文；替换 xingpt——合并语料下 xingpt recall 0.290，与 michael_qqq2025/qinbafrank 混淆，无法承载可区分的声音",
+    "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
+    "evidence": {
+     "authorship_recall": 0.8108,
+     "authorship_test_n": 74,
+     "corpus": "ml_experiments/authorship_merged.json（归档+实时清洗后 4,480 行，14 位可评估作者）",
+     "note": "归档单独评估时只有 6 位作者达到支持度门槛，合并语料后才看得出谁真的可分辨——换人依据的是后者"
+    },
+    "assigned_at": "2026-09-22",
+    "active_in_localization": false
+   },
+   "language_donor_history": [
+    {
+     "handle": "xingpt",
+     "until": "2026-09-22",
+     "replaced_because": "替换 xingpt——合并语料下 xingpt recall 0.290，与 michael_qqq2025/qinbafrank 混淆，无法承载可区分的声音",
+     "evidence": {
+      "test_n": 31,
+      "recall": 0.2903
+     },
+     "previous_record": {
+      "handle": "xingpt",
+      "why": "半导体与产业链同题材，中文",
+      "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者"
+     }
+    },
+    {
+     "handle": "michael_qqq2025",
+     "why": "产业链与宏观兼具（光通信供应链、磷化铟涨价、FOMC），中文；替换 xingpt——合并语料下 xingpt recall 0.290，与 michael_qqq2025/qinbafrank 混淆，无法承载可区分的声音",
+     "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
+     "evidence": {
+      "authorship_recall": 0.8108,
+      "authorship_test_n": 74,
+      "corpus": "ml_experiments/authorship_merged.json（归档+实时清洗后 4,480 行，14 位可评估作者）",
+      "note": "归档单独评估时只有 6 位作者达到支持度门槛，合并语料后才看得出谁真的可分辨——换人依据的是后者"
+     },
+     "assigned_at": "2026-09-22",
+     "active_in_localization": false,
+     "replaced": "2026-10-06 by donor_cluster acct_zh_industry (kept as a member)"
+    }
+   ],
+   "enabled": true,
+   "selection_scope": "Company fundamentals, earnings, products, business economics, technology and supply chains.",
+   "glossary": {},
+   "localization_preferences": {
+    "tone": "Preserve source stance and strength; natural target-language syntax; no mandatory structure."
+   },
+   "domain": "finance",
+   "fidelity_policy": "finance",
+   "platform": "unbound",
+   "handle": null,
+   "binding_status": "logical_account_only",
+   "source_hygiene": {
+    "enabled": true
+   },
+   "persona_description": "把英文个股、产业机制、财报与供应链内容带给中文读者，保留技术逻辑、条件和有用细节。",
+   "editorial_preferences": {
+    "source_first": true,
+    "preserve_order_examples_rhythm": true,
+    "no_mandatory_template": true,
+    "no_default_author_prefix": true,
+    "no_ownership_transfer": true
+   },
+   "source_preferences": {
+    "languages": [
+     "en"
+    ],
+    "prefer": [
+     "original explanations",
+     "concrete examples",
+     "useful observations"
+    ],
+    "historical_content_allowed": true
+   },
+   "donor_cluster": {
+    "cluster": "acct_zh_industry",
+    "min_donors": 3,
+    "decided": "Fiona 2026-10-06 13:21",
+    "donors": [
+     {
+      "handle": "shufen46250836",
+      "weight": 0.1555,
+      "why": "beat 65% of 185 originals, voice distinct 0.89"
+     },
+     {
+      "handle": "BroBean88",
+      "weight": 0.139,
+      "why": "beat 60% of 208 originals, crypto 21%, voice distinct 0.80"
+     },
+     {
+      "handle": "_wmoon",
+      "weight": 0.1,
+      "why": "beat 54% of 169 originals, crypto 6%, voice distinct 0.48"
+     },
+     {
+      "handle": "fi56622380",
+      "weight": 0.0655,
+      "why": "beat 37% of 194 originals, crypto 11%, voice distinct 0.40"
+     },
+     {
+      "handle": "Michael_QQQ2025",
+      "weight": 0.04,
+      "why": "beat 4% of 163 originals, crypto 23%, voice distinct 0.28 (current donor) [below bar]"
+     },
+     {
+      "handle": "LeotheHorseman",
+      "weight": 0.1,
+      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     },
+     {
+      "handle": "roger9949",
+      "weight": 0.1,
+      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     },
+     {
+      "handle": "MMMusol",
+      "weight": 0.1,
+      "why": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     },
+     {
+      "handle": "silverfang88",
+      "weight": 0.1,
+      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     },
+     {
+      "handle": "starzq",
+      "weight": 0.1,
+      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     }
+    ],
+    "notes": [
+     "current donor Michael_QQQ2025 kept below the bar (fit 0.043, distinct 0.281) at the weight floor"
+    ],
+    "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者",
+    "merge": {
+     "version": "mango-merge-2026-10-07+seeds2",
+     "base_share": 0.5,
+     "added": [
+      "LeotheHorseman",
+      "roger9949",
+      "MMMusol",
+      "silverfang88",
+      "starzq"
+     ]
+    }
+   }
   },
-  "localization_policy": {
-    "mode": "localization_v1",
-    "cross_language_only": true,
-    "body_attribution": "only necessary in-source attribution / identity context; no default footer",
-    "external_background_additions": false
+  {
+   "id": "en_industry",
+   "name": "EN Stocks / Industry",
+   "lang": "en",
+   "persona_id": "industry",
+   "beats": [
+    "ai_capex",
+    "earnings"
+   ],
+   "lanes": [
+    "hot_signal",
+    "cross_language_gap",
+    "deep_research"
+   ],
+   "formats": [
+    "post",
+    "long_post"
+   ],
+   "audience": "Bring Chinese company, earnings, industry and supply-chain material into natural English, preserving useful detail, examples and source judgments.",
+   "language_donor": {
+    "handle": "aleabitoreddit",
+    "why": "英文个股与供应链（$SIVE 激光产能、光模块、代工），语料最深的英文作者；替换 beth_kindig——她可分辨（recall 0.929）但可测句长帖仅 10 篇，撑不起风格区间",
+    "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
+    "evidence": {
+     "authorship_recall": 0.8962,
+     "authorship_test_n": 106,
+     "corpus": "ml_experiments/authorship_merged.json（归档+实时清洗后 4,480 行，14 位可评估作者）",
+     "note": "归档单独评估时只有 6 位作者达到支持度门槛，合并语料后才看得出谁真的可分辨——换人依据的是后者"
+    },
+    "assigned_at": "2026-09-22",
+    "active_in_localization": false
+   },
+   "language_donor_history": [
+    {
+     "handle": "beth_kindig",
+     "until": "2026-09-22",
+     "replaced_because": "替换 beth_kindig——她可分辨（recall 0.929）但可测句长帖仅 10 篇，撑不起风格区间",
+     "evidence": {
+      "test_n": 28,
+      "recall": 0.9286
+     },
+     "previous_record": {
+      "handle": "beth_kindig",
+      "why": "英文科技个股，语料量最深的英文作者",
+      "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
+      "beat_fit": {
+       "macro_score": 0.18,
+       "industry_score": 1.59,
+       "n": 111,
+       "rank_among_english_candidates": 1
+      },
+      "selected_from": "21 位有足够语料的英文 donor（英文 KOL 表导入后），按其历史帖中该题材词频与样本量选出，不是「谁语料够多用谁」"
+     }
+    },
+    {
+     "handle": "aleabitoreddit",
+     "why": "英文个股与供应链（$SIVE 激光产能、光模块、代工），语料最深的英文作者；替换 beth_kindig——她可分辨（recall 0.929）但可测句长帖仅 10 篇，撑不起风格区间",
+     "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这位作者",
+     "evidence": {
+      "authorship_recall": 0.8962,
+      "authorship_test_n": 106,
+      "corpus": "ml_experiments/authorship_merged.json（归档+实时清洗后 4,480 行，14 位可评估作者）",
+      "note": "归档单独评估时只有 6 位作者达到支持度门槛，合并语料后才看得出谁真的可分辨——换人依据的是后者"
+     },
+     "assigned_at": "2026-09-22",
+     "active_in_localization": false,
+     "replaced": "2026-10-06 by donor_cluster acct_en_industry (kept as a member)"
+    }
+   ],
+   "enabled": true,
+   "selection_scope": "Company fundamentals, earnings, products, business economics, technology and supply chains.",
+   "glossary": {},
+   "localization_preferences": {
+    "tone": "Preserve source stance and strength; natural target-language syntax; no mandatory structure."
+   },
+   "domain": "finance",
+   "fidelity_policy": "finance",
+   "platform": "unbound",
+   "handle": null,
+   "binding_status": "logical_account_only",
+   "source_hygiene": {
+    "enabled": true
+   },
+   "persona_description": "Bring Chinese company, earnings, industry and supply-chain material into natural English, preserving useful detail, examples and source judgments.",
+   "editorial_preferences": {
+    "source_first": true,
+    "preserve_order_examples_rhythm": true,
+    "no_mandatory_template": true,
+    "no_default_author_prefix": true,
+    "no_ownership_transfer": true
+   },
+   "source_preferences": {
+    "languages": [
+     "zh"
+    ],
+    "prefer": [
+     "original explanations",
+     "concrete examples",
+     "useful observations"
+    ],
+    "historical_content_allowed": true
+   },
+   "donor_cluster": {
+    "cluster": "acct_en_industry",
+    "min_donors": 3,
+    "decided": "Fiona 2026-10-06 13:21",
+    "donors": [
+     {
+      "handle": "SKundojjala",
+      "weight": 0.269,
+      "why": "beat 92% of 155 originals, voice distinct 0.65"
+     },
+     {
+      "handle": "Beth_Kindig",
+      "weight": 0.259,
+      "why": "beat 78% of 209 originals, crypto 10%, voice distinct 0.74"
+     },
+     {
+      "handle": "EconomyApp",
+      "weight": 0.2,
+      "why": "beat 68% of 186 originals, voice distinct 0.59"
+     },
+     {
+      "handle": "aleabitoreddit",
+      "weight": 0.151,
+      "why": "beat 63% of 198 originals, crypto 11%, voice distinct 0.28 (current donor) [below bar]"
+     },
+     {
+      "handle": "jpinsights",
+      "weight": 0.121,
+      "why": "beat 49% of 86 originals, crypto 23%, voice distinct 0.56"
+     }
+    ],
+    "notes": [
+     "current donor aleabitoreddit kept below the bar (fit 0.631, distinct 0.278) at the weight floor"
+    ],
+    "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者"
+   }
+  },
+  {
+   "id": "crypto_macro_zh",
+   "name": "crypto_macro_zh",
+   "lang": "zh",
+   "persona_id": "crypto_macro_zh",
+   "persona_description": "Chinese-language crypto with a macro angle: bitcoin, stablecoins, regulation",
+   "beats": [
+    "Chinese-language crypto with a macro angle: bitcoin, stablecoins, regulation"
+   ],
+   "enabled": false,
+   "publishing_enabled": false,
+   "platform": "unbound",
+   "handle": null,
+   "binding_status": "logical_account_only",
+   "domain": "finance",
+   "fidelity_policy": "finance",
+   "formats": [
+    "post",
+    "long_post"
+   ],
+   "lanes": [
+    "deep_research"
+   ],
+   "selection_scope": "Chinese-language crypto with a macro angle: bitcoin, stablecoins, regulation",
+   "donor_cluster": {
+    "cluster": "acct_crypto_macro_zh",
+    "min_donors": 3,
+    "decided": "Fiona 2026-10-06 13:21",
+    "donors": [
+     {
+      "handle": "buereth",
+      "weight": 0.124,
+      "why": "beat 74% of 211 originals, voice distinct 0.45"
+     },
+     {
+      "handle": "PhyrexNi",
+      "weight": 0.1135,
+      "why": "beat 57% of 198 originals, voice distinct 0.74"
+     },
+     {
+      "handle": "mindaoyang",
+      "weight": 0.11,
+      "why": "beat 80% of 82 originals, voice distinct 0.44"
+     },
+     {
+      "handle": "0xBeyondLee",
+      "weight": 0.096,
+      "why": "beat 56% of 177 originals, voice distinct 0.54"
+     },
+     {
+      "handle": "Bitwux",
+      "weight": 0.0565,
+      "why": "beat 41% of 185 originals, voice distinct 0.22 (current donor) [below bar]"
+     },
+     {
+      "handle": "BensonTWN",
+      "weight": 0.1,
+      "why": "mango_follow 2026-10-07: followed by joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     },
+     {
+      "handle": "thankUcrypto",
+      "weight": 0.1,
+      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats/snowmaker_cj (Mango Labs team, 1 hop)",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     },
+     {
+      "handle": "timotimo007",
+      "weight": 0.1,
+      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     },
+     {
+      "handle": "Sea_Bitcoin",
+      "weight": 0.1,
+      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     },
+     {
+      "handle": "dapangdun",
+      "weight": 0.1,
+      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     }
+    ],
+    "notes": [
+     "current donor Bitwux kept below the bar (fit 0.411, distinct 0.22) at the weight floor"
+    ],
+    "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者",
+    "merge": {
+     "version": "mango-merge-2026-10-07+seeds2",
+     "base_share": 0.5,
+     "added": [
+      "BensonTWN",
+      "thankUcrypto",
+      "timotimo007",
+      "Sea_Bitcoin",
+      "dapangdun"
+     ]
+    }
+   }
+  },
+  {
+   "id": "trading_shortterm",
+   "name": "trading_shortterm",
+   "lang": "en",
+   "persona_id": "trading_shortterm",
+   "persona_description": "English short-term market structure: options positioning, dealer hedging, flows, technicals",
+   "beats": [
+    "English short-term market structure: options positioning, dealer hedging, flows, technicals"
+   ],
+   "enabled": false,
+   "publishing_enabled": false,
+   "platform": "unbound",
+   "handle": null,
+   "binding_status": "logical_account_only",
+   "domain": "finance",
+   "fidelity_policy": "finance",
+   "formats": [
+    "post",
+    "long_post"
+   ],
+   "lanes": [
+    "deep_research"
+   ],
+   "selection_scope": "English short-term market structure: options positioning, dealer hedging, flows, technicals",
+   "donor_cluster": {
+    "cluster": "acct_trading_shortterm",
+    "min_donors": 3,
+    "decided": "Fiona 2026-10-06 13:21",
+    "donors": [
+     {
+      "handle": "OptionsHawk",
+      "weight": 0.258,
+      "why": "beat 67% of 61 originals, voice distinct 0.50"
+     },
+     {
+      "handle": "SPXVIX",
+      "weight": 0.216,
+      "why": "beat 67% of 79 originals, crypto 13%, voice distinct 0.19 (current donor) [below bar]"
+     },
+     {
+      "handle": "MarkNewtonCMT",
+      "weight": 0.214,
+      "why": "beat 48% of 111 originals, crypto 9%, voice distinct 0.54"
+     },
+     {
+      "handle": "TheChartReport",
+      "weight": 0.184,
+      "why": "beat 47% of 72 originals, voice distinct 0.47"
+     },
+     {
+      "handle": "jasongoepfert",
+      "weight": 0.128,
+      "why": "beat 29% of 177 originals, voice distinct 0.39"
+     }
+    ],
+    "notes": [
+     "current donor SPXVIX kept below the bar (fit 0.671, distinct 0.188) at the weight floor"
+    ],
+    "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者"
+   }
+  },
+  {
+   "id": "market_data_charts",
+   "name": "market_data_charts",
+   "lang": "en",
+   "persona_id": "market_data_charts",
+   "persona_description": "English market data: breadth, sentiment, flows, historical comparisons",
+   "beats": [
+    "English market data: breadth, sentiment, flows, historical comparisons"
+   ],
+   "enabled": false,
+   "publishing_enabled": false,
+   "platform": "unbound",
+   "handle": null,
+   "binding_status": "logical_account_only",
+   "domain": "finance",
+   "fidelity_policy": "finance",
+   "formats": [
+    "post",
+    "long_post"
+   ],
+   "lanes": [
+    "deep_research"
+   ],
+   "selection_scope": "English market data: breadth, sentiment, flows, historical comparisons",
+   "donor_cluster": {
+    "cluster": "acct_market_data_charts",
+    "min_donors": 3,
+    "decided": "Fiona 2026-10-06 13:21",
+    "donors": [
+     {
+      "handle": "GlobalMktObserv",
+      "weight": 0.1545,
+      "why": "beat 78% of 144 originals, crypto 6%, voice distinct 0.47"
+     },
+     {
+      "handle": "TheChartReport",
+      "weight": 0.1145,
+      "why": "beat 67% of 72 originals, voice distinct 0.47"
+     },
+     {
+      "handle": "KobeissiLetter",
+      "weight": 0.1095,
+      "why": "beat 55% of 199 originals, crypto 8%, voice distinct 0.38"
+     },
+     {
+      "handle": "MarkNewtonCMT",
+      "weight": 0.0815,
+      "why": "beat 41% of 111 originals, crypto 9%, voice distinct 0.54"
+     },
+     {
+      "handle": "Mr_Derivatives",
+      "weight": 0.04,
+      "why": "beat 8% of 142 originals, crypto 11%, voice distinct 0.24 (current donor) [below bar]"
+     },
+     {
+      "handle": "McClellanOsc",
+      "weight": 0.1,
+      "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     },
+     {
+      "handle": "WalterDeemer",
+      "weight": 0.1,
+      "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     },
+     {
+      "handle": "the_chart_life",
+      "weight": 0.1,
+      "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     },
+     {
+      "handle": "DKellerCMT",
+      "weight": 0.1,
+      "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     },
+     {
+      "handle": "TimmerFidelity",
+      "weight": 0.1,
+      "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     }
+    ],
+    "notes": [
+     "current donor Mr_Derivatives kept below the bar (fit 0.077, distinct 0.241) at the weight floor"
+    ],
+    "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者",
+    "merge": {
+     "version": "mango-merge-2026-10-07+seeds2",
+     "base_share": 0.5,
+     "added": [
+      "McClellanOsc",
+      "WalterDeemer",
+      "the_chart_life",
+      "DKellerCMT",
+      "TimmerFidelity"
+     ]
+    }
+   }
+  },
+  {
+   "id": "investing_philosophy",
+   "name": "investing_philosophy",
+   "lang": "en",
+   "persona_id": "investing_philosophy",
+   "persona_description": "English investing philosophy: risk, behaviour, long-term principles",
+   "beats": [
+    "English investing philosophy: risk, behaviour, long-term principles"
+   ],
+   "enabled": false,
+   "publishing_enabled": false,
+   "platform": "unbound",
+   "handle": null,
+   "binding_status": "logical_account_only",
+   "domain": "finance",
+   "fidelity_policy": "finance",
+   "formats": [
+    "post",
+    "long_post"
+   ],
+   "lanes": [
+    "deep_research"
+   ],
+   "selection_scope": "English investing philosophy: risk, behaviour, long-term principles",
+   "donor_cluster": {
+    "cluster": "acct_investing_philosophy",
+    "min_donors": 3,
+    "decided": "Fiona 2026-10-06 13:21",
+    "donors": [
+     {
+      "handle": "MarkNewtonCMT",
+      "weight": 0.1475,
+      "why": "beat 50% of 111 originals, crypto 9%, voice distinct 0.54"
+     },
+     {
+      "handle": "MebFaber",
+      "weight": 0.0995,
+      "why": "beat 47% of 135 originals, crypto 11%, voice distinct 0.07 (current donor) [below bar]"
+     },
+     {
+      "handle": "GlobalMktObserv",
+      "weight": 0.09,
+      "why": "beat 31% of 144 originals, crypto 6%, voice distinct 0.47"
+     },
+     {
+      "handle": "saxena_puru",
+      "weight": 0.0845,
+      "why": "beat 29% of 180 originals, voice distinct 0.37"
+     },
+     {
+      "handle": "SJosephBurns",
+      "weight": 0.0785,
+      "why": "beat 29% of 136 originals, crypto 6%, voice distinct 0.39"
+     },
+     {
+      "handle": "ThierryBorgeat",
+      "weight": 0.25,
+      "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     },
+     {
+      "handle": "WillieDelwiche",
+      "weight": 0.25,
+      "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     }
+    ],
+    "notes": [
+     "current donor MebFaber kept below the bar (fit 0.467, distinct 0.074) at the weight floor"
+    ],
+    "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者",
+    "merge": {
+     "version": "mango-merge-2026-10-07+seeds2",
+     "base_share": 0.5,
+     "added": [
+      "ThierryBorgeat",
+      "WillieDelwiche"
+     ]
+    }
+   }
+  },
+  {
+   "id": "single_stock_deepdive_en",
+   "name": "single_stock_deepdive_en",
+   "lang": "en",
+   "persona_id": "single_stock_deepdive_en",
+   "persona_description": "English single-company earnings and filings first takes",
+   "beats": [
+    "English single-company earnings and filings first takes"
+   ],
+   "enabled": false,
+   "publishing_enabled": false,
+   "platform": "unbound",
+   "handle": null,
+   "binding_status": "logical_account_only",
+   "domain": "finance",
+   "fidelity_policy": "finance",
+   "formats": [
+    "post",
+    "long_post"
+   ],
+   "lanes": [
+    "deep_research"
+   ],
+   "selection_scope": "English single-company earnings and filings first takes",
+   "donor_cluster": {
+    "cluster": "acct_single_stock_deepdive_en",
+    "min_donors": 3,
+    "decided": "Fiona 2026-10-06 13:21",
+    "donors": [
+     {
+      "handle": "Beth_Kindig",
+      "weight": 0.1255,
+      "why": "beat 88% of 209 originals, crypto 10%, voice distinct 0.74"
+     },
+     {
+      "handle": "EconomyApp",
+      "weight": 0.1145,
+      "why": "beat 89% of 186 originals, voice distinct 0.59 (current donor)"
+     },
+     {
+      "handle": "SKundojjala",
+      "weight": 0.104,
+      "why": "beat 81% of 155 originals, voice distinct 0.65"
+     },
+     {
+      "handle": "garyblack00",
+      "weight": 0.079,
+      "why": "beat 72% of 127 originals, crypto 18%, voice distinct 0.45"
+     },
+     {
+      "handle": "tengyanAI",
+      "weight": 0.077,
+      "why": "seeds2 2026-10-07 base swap for MarkNewtonCMT (technicals voice; was in 4 acct_ clusters > cap 3): AI-semis single-name earnings and supply-chain deep dives"
+     },
+     {
+      "handle": "zephyr_z9",
+      "weight": 0.1667,
+      "why": "gap fill 2026-10-07: 1-hop following of existing en donors DaanCrypto/Pentosh1/SalsaTekila/gammichan",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     },
+     {
+      "handle": "ParadisLabs",
+      "weight": 0.1667,
+      "why": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     },
+     {
+      "handle": "FredaDuan",
+      "weight": 0.1667,
+      "why": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     }
+    ],
+    "notes": [],
+    "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者",
+    "merge": {
+     "version": "mango-merge-2026-10-07+seeds2",
+     "base_share": 0.5,
+     "added": [
+      "zephyr_z9",
+      "ParadisLabs",
+      "FredaDuan"
+     ]
+    }
+   }
+  },
+  {
+   "id": "crypto_macro_en",
+   "name": "crypto_macro_en",
+   "lang": "en",
+   "persona_id": "crypto_macro_en",
+   "persona_description": "English crypto with a macro angle: bitcoin, stablecoins, regulation, on-chain data",
+   "beats": [
+    "English crypto with a macro angle: bitcoin, stablecoins, regulation, on-chain data"
+   ],
+   "enabled": false,
+   "publishing_enabled": false,
+   "platform": "unbound",
+   "handle": null,
+   "binding_status": "logical_account_only",
+   "domain": "finance",
+   "fidelity_policy": "finance",
+   "formats": [
+    "post",
+    "long_post"
+   ],
+   "lanes": [
+    "deep_research"
+   ],
+   "selection_scope": "English crypto with a macro angle: bitcoin, stablecoins, regulation, on-chain data",
+   "donor_cluster": {
+    "cluster": "acct_crypto_macro_en",
+    "min_donors": 3,
+    "decided": "Fiona 2026-10-06 13:21",
+    "donors": [
+     {
+      "handle": "glassnode",
+      "weight": 0.126,
+      "why": "beat 86% of 171 originals, voice distinct 0.36"
+     },
+     {
+      "handle": "DTAPCAP",
+      "weight": 0.1245,
+      "why": "beat 69% of 176 originals, voice distinct 0.67"
+     },
+     {
+      "handle": "ki_young_ju",
+      "weight": 0.1005,
+      "why": "beat 73% of 112 originals, voice distinct 0.40"
+     },
+     {
+      "handle": "NateGeraci",
+      "weight": 0.0985,
+      "why": "beat 66% of 154 originals, voice distinct 0.44 (current donor)"
+     },
+     {
+      "handle": "RaoulGMI",
+      "weight": 0.0505,
+      "why": "beat 33% of 180 originals, voice distinct 0.40"
+     },
+     {
+      "handle": "sjdedic",
+      "weight": 0.1,
+      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     },
+     {
+      "handle": "amandacassatt",
+      "weight": 0.1,
+      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     },
+     {
+      "handle": "DoveyWan",
+      "weight": 0.1,
+      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     },
+     {
+      "handle": "econoar",
+      "weight": 0.1,
+      "why": "mango_follow 2026-10-07: followed by dov_wo/joyce24beats (Mango Labs team, 1 hop)",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     },
+     {
+      "handle": "lazyvillager1",
+      "weight": 0.1,
+      "why": "gap fill 2026-10-07: 1-hop following of existing en donors DaanCrypto/Pentosh1/SalsaTekila/gammichan",
+      "merged": "mango-merge-2026-10-07+seeds2"
+     }
+    ],
+    "notes": [],
+    "rule": "语言 donor 只负责表达方式；知识与推理来自事实包与人设问题，不来自这些作者",
+    "merge": {
+     "version": "mango-merge-2026-10-07+seeds2",
+     "base_share": 0.5,
+     "added": [
+      "sjdedic",
+      "amandacassatt",
+      "DoveyWan",
+      "econoar",
+      "lazyvillager1"
+     ]
+    }
+   }
   }
+ ],
+ "unassigned_personas": [
+  {
+   "persona_id": "trading",
+   "why": "no account was requested for it; it still serves the Evergreen trading-principle line and event reactivation"
+  }
+ ],
+ "distinctness": {
+  "rule": "no two accounts may ship pieces that share both the same primary event and the same lead claim on the same day",
+  "checked_by": "live/opportunities.py assign() and a similarity gate before the queue"
+ },
+ "lane_note": "All five accounts route by source fit and target language. Historical source timestamps remain visible in review.",
+ "language_distillation": {
+  "targets": "live/store/style_targets.json，由 live/style.py 从该作者真实帖子实测",
+  "enforced": "legacy generation only; localization_v1 does not enforce donor length or style ranges",
+  "measured_by": "ml/style_eval.py"
+ },
+ "localization_policy": {
+  "mode": "localization_v1",
+  "cross_language_only": true,
+  "body_attribution": "only necessary in-source attribution / identity context; no default footer",
+  "external_background_additions": false
+ }
 }

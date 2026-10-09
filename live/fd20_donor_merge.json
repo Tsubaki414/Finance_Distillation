@@ -670,6 +670,411 @@
    "posts": 216,
    "origin": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
    "verify_note": "deep scrape 216 originals (RapidAPI twitter241); promo_share 0.074 = max(LLM per-post read 0.074, regex 0.014); AI hardware supply chain (memory/HBM, packaging, optics, power) with earnings pre/post-call single-name reads; soft promo of own research workspace"
+  },
+  "0xCryptoChan": {
+   "lang": "zh",
+   "category": "crypto_btc_cycle",
+   "followers": 67612,
+   "promo_share": 0.0,
+   "posts": 145,
+   "origin": "pm_donors4 2026-10-09: PM lead for #7, bitcoin on-chain cycle analysis",
+   "verify_note": "tw4.py verify+deepen 8p, 145 originals; promo_share 0.000; last_original 2026-10-06; langs {'zh': 134, 'ja': 10, 'en': 1}"
+  },
+  "ximihoo1": {
+   "lang": "zh",
+   "category": "crypto_btc_cycle",
+   "followers": 17497,
+   "promo_share": 0.075,
+   "posts": 151,
+   "origin": "pm_donors4 2026-10-09: PM lead for #7, cycle rotation spot-only trader",
+   "verify_note": "tw4.py verify+deepen 8p, 151 originals; promo_share 0.075; last_original 2026-10-09; langs {'zh': 147, 'qme': 2, 'ja': 1}"
+  },
+  "BTC__Sunny": {
+   "lang": "zh",
+   "category": "crypto_btc_cycle",
+   "followers": 48322,
+   "promo_share": 0.0,
+   "posts": 158,
+   "origin": "pm_donors4 2026-10-09: PM lead for #7, BTC cycle and halving analysis",
+   "verify_note": "tw4.py verify+deepen 8p, 158 originals; promo_share 0.000; last_original 2026-10-09; langs {'zh': 158}"
+  },
+  "tomwanhh": {
+   "lang": "en",
+   "category": "crypto_research",
+   "followers": 17596,
+   "promo_share": 0.0,
+   "posts": 53,
+   "origin": "pm_donors4 2026-10-09: PM lead for #17, RWA/stablecoin data head @entropyadvisors",
+   "verify_note": "tw4.py verify+deepen 8p, 53 originals; promo_share 0.000; last_original 2026-10-07; langs {'en': 48, 'in': 3, 'qme': 1}"
+  },
+  "jdorman81": {
+   "lang": "en",
+   "category": "crypto_research",
+   "followers": 48369,
+   "promo_share": 0.025,
+   "posts": 94,
+   "origin": "pm_donors4 2026-10-09: PM lead for #17, Arca CIO, institutional digital assets",
+   "verify_note": "tw4.py verify+deepen 8p, 94 originals; promo_share 0.025; last_original 2026-10-06; langs {'en': 76, 'zxx': 18}"
+  },
+  "cuysheffield": {
+   "lang": "en",
+   "category": "crypto_research",
+   "followers": 38614,
+   "promo_share": 0.0,
+   "posts": 85,
+   "origin": "pm_donors4 2026-10-09: PM lead for #17, Visa Crypto Labs head, stablecoin/payments",
+   "verify_note": "tw4.py verify+deepen 8p, 85 originals; promo_share 0.000; last_original 2026-10-06; langs {'en': 77, 'zxx': 4, 'art': 3}"
+  },
+  "Time_HorizonX": {
+   "lang": "zh",
+   "category": "macro_zh",
+   "followers": 136816,
+   "promo_share": 0.0,
+   "posts": 144,
+   "origin": "pm_donors4 2026-10-09: PM lead for #21, data-driven global macro observer",
+   "verify_note": "tw4.py verify+deepen 8p, 144 originals; promo_share 0.000; last_original 2026-10-09; langs {'zh': 141, 'pt': 1, 'zxx': 1}"
+  },
+  "wangwatchworld": {
+   "lang": "zh",
+   "category": "macro_zh",
+   "followers": 252105,
+   "promo_share": 0.0,
+   "posts": 121,
+   "origin": "pm_donors4 2026-10-09: PM lead for #21, macro economics and commodities commentary",
+   "verify_note": "tw4.py verify+deepen 8p, 121 originals; promo_share 0.000; last_original 2026-10-09; langs {'zh': 114, 'zxx': 4, 'ja': 3}"
+  },
+  "viviennaBTC": {
+   "lang": "zh",
+   "category": "macro_zh",
+   "followers": 29573,
+   "promo_share": 0.025,
+   "posts": 143,
+   "origin": "pm_donors4 2026-10-09: PM lead for #21, macro/AI coding/bitcoin, since 2017",
+   "verify_note": "tw4.py verify+deepen 8p, 143 originals; promo_share 0.025; last_original 2026-10-07; langs {'zh': 118, 'zxx': 18, 'en': 5}"
+  },
+  "yuyy614893671": {
+   "lang": "zh",
+   "category": "macro_zh",
+   "followers": 71606,
+   "promo_share": 0.0,
+   "posts": 146,
+   "origin": "pm_donors4 2026-10-09: PM lead for #21, 15yr buyside macro/sector research",
+   "verify_note": "tw4.py verify+deepen 8p, 146 originals; promo_share 0.000; last_original 2026-10-09; langs {'zh': 123, 'ja': 10, 'zxx': 7}"
+  },
+  "tmel0211": {
+   "lang": "zh",
+   "category": "crypto_ai_crossover",
+   "followers": 51240,
+   "promo_share": 0.0,
+   "posts": 147,
+   "origin": "pm_donors4 2026-10-09: PM lead for #22, AI/crypto/embodied AI crossover analyst",
+   "verify_note": "tw4.py verify+deepen 8p, 147 originals; promo_share 0.000; last_original 2026-10-09; langs {'zh': 146, 'en': 1}"
+  },
+  "oragnes": {
+   "lang": "zh",
+   "category": "crypto_ai_crossover",
+   "followers": 76661,
+   "promo_share": 0.05,
+   "posts": 158,
+   "origin": "pm_donors4 2026-10-09: PM lead for #22, BTC holder, AI/crypto/embodied AI",
+   "verify_note": "tw4.py verify+deepen 8p, 158 originals; promo_share 0.050; last_original 2026-10-09; langs {'zh': 158}"
+  },
+  "DrcDAO": {
+   "lang": "zh",
+   "category": "crypto_ai_crossover",
+   "followers": 97997,
+   "promo_share": 0.025,
+   "posts": 146,
+   "origin": "pm_donors4 2026-10-09: verified for #22, AI/tech/crypto commentary, no promo",
+   "verify_note": "tw4.py verify+deepen 8p, 146 originals; promo_share 0.025; last_original 2026-10-08; langs {'zh': 135, 'zxx': 3, 'en': 2}"
+  },
+  "billtheinvestor": {
+   "lang": "zh",
+   "category": "crypto_ai_crossover",
+   "followers": 118614,
+   "promo_share": 0.025,
+   "posts": 144,
+   "origin": "pm_donors4 2026-10-09: verified for #22, crypto/AI commentary, no paid groups",
+   "verify_note": "tw4.py verify+deepen 8p, 144 originals; promo_share 0.025; last_original 2026-10-09; langs {'zh': 137, 'en': 3, 'ja': 3}"
+  },
+  "BTClaoying": {
+   "lang": "zh",
+   "category": "crypto_newbie",
+   "followers": 73534,
+   "promo_share": 0.0,
+   "posts": 158,
+   "origin": "pm_donors4 2026-10-09: PM lead for #23, experienced crypto avoiding mistakes",
+   "verify_note": "tw4.py verify+deepen 8p, 158 originals; promo_share 0.000; last_original 2026-10-09; langs {'zh': 148, 'ja': 7, 'zxx': 3}"
+  },
+  "KICKDENIM": {
+   "lang": "zh",
+   "category": "crypto_newbie",
+   "followers": 75187,
+   "promo_share": 0.025,
+   "posts": 154,
+   "origin": "pm_donors4 2026-10-09: verified for #23, long-term compounding, bitcoin/stocks/AI",
+   "verify_note": "tw4.py verify+deepen 8p, 154 originals; promo_share 0.025; last_original 2026-10-09; langs {'zh': 96, 'in': 27, 'en': 11}"
+  },
+  "NFTfafafa": {
+   "lang": "zh",
+   "category": "crypto_newbie",
+   "followers": 116209,
+   "promo_share": 0.025,
+   "posts": 147,
+   "origin": "pm_donors4 2026-10-09: verified for #23, crypto guides/tutorials for investors",
+   "verify_note": "tw4.py verify+deepen 8p, 147 originals; promo_share 0.025; last_original 2026-10-09; langs {'zh': 139, 'ja': 5, 'qst': 2}"
+  },
+  "EvanCrypto17": {
+   "lang": "zh",
+   "category": "crypto_newbie",
+   "followers": 8142,
+   "promo_share": 0.025,
+   "posts": 140,
+   "origin": "pm_donors4 2026-10-09: verified for #23, crypto vlogger, beginner-friendly web3",
+   "verify_note": "tw4.py verify+deepen 8p, 140 originals; promo_share 0.025; last_original 2026-10-09; langs {'zh': 135, 'ja': 4, 'qam': 1}"
+  },
+  "AltcoinSherpa": {
+   "lang": "en",
+   "category": "crypto_trader",
+   "followers": 263737,
+   "promo_share": 0.0,
+   "posts": 140,
+   "origin": "pm_donors4 2026-10-09: PM lead for #24, altcoin chart analysis since 2016",
+   "verify_note": "tw4.py verify+deepen 8p, 140 originals; promo_share 0.000; last_original 2026-10-09; langs {'en': 137, 'zxx': 2, 'sv': 1}"
+  },
+  "MatthewHyland_": {
+   "lang": "en",
+   "category": "crypto_trader",
+   "followers": 172784,
+   "promo_share": 0.0,
+   "posts": 107,
+   "origin": "pm_donors4 2026-10-09: PM lead for #24, alt/BTC relative strength analysis",
+   "verify_note": "tw4.py verify+deepen 8p, 107 originals; promo_share 0.000; last_original 2026-10-09; langs {'en': 102, 'qme': 2, 'und': 1}"
+  },
+  "damskotrades": {
+   "lang": "en",
+   "category": "crypto_trader",
+   "followers": 139345,
+   "promo_share": 0.05,
+   "posts": 88,
+   "origin": "pm_donors4 2026-10-09: PM lead for #24, altcoin charts and narrative trading",
+   "verify_note": "tw4.py verify+deepen 8p, 88 originals; promo_share 0.050; last_original 2026-10-09; langs {'en': 86, 'da': 1, 'it': 1}"
+  },
+  "inmortalcrypto": {
+   "lang": "en",
+   "category": "crypto_trader",
+   "followers": 232560,
+   "promo_share": 0.0,
+   "posts": 143,
+   "origin": "pm_donors4 2026-10-09: PM lead for #24, altcoin trading, @simetriagroup",
+   "verify_note": "tw4.py verify+deepen 8p, 143 originals; promo_share 0.000; last_original 2026-10-08; langs {'en': 141, 'es': 1, 'tl': 1}"
+  },
+  "Skylinee": {
+   "lang": "en",
+   "category": "crypto_trader",
+   "followers": 131439,
+   "promo_share": 0.025,
+   "posts": 136,
+   "origin": "pm_donors4 2026-10-09: PM lead for #24, narrative tracking @HuntersofWeb3",
+   "verify_note": "tw4.py verify+deepen 8p, 136 originals; promo_share 0.025; last_original 2026-10-09; langs {'en': 131, 'zxx': 4, 'cy': 1}"
+  },
+  "michaelbatnick": {
+   "lang": "en",
+   "category": "investing_philosophy",
+   "followers": 207715,
+   "promo_share": 0.0,
+   "posts": 46,
+   "origin": "pm_donors4 2026-10-09: PM lead for #25, long-distance reader, investing essays",
+   "verify_note": "tw4.py verify+deepen 8p, 46 originals; promo_share 0.000; last_original 2026-10-08; langs {'en': 45, 'zxx': 1}"
+  },
+  "jasonzweigwsj": {
+   "lang": "en",
+   "category": "investing_philosophy",
+   "followers": 235460,
+   "promo_share": 0.0,
+   "posts": 123,
+   "origin": "pm_donors4 2026-10-09: PM lead for #25, WSJ Intelligent Investor editor/author",
+   "verify_note": "tw4.py verify+deepen 8p, 123 originals; promo_share 0.000; last_original 2026-10-07; langs {'en': 105, 'zxx': 16, 'art': 1}"
+  },
+  "JLCollinsNH": {
+   "lang": "en",
+   "category": "investing_philosophy",
+   "followers": 31208,
+   "promo_share": 0.025,
+   "posts": 75,
+   "origin": "pm_donors4 2026-10-09: PM lead for #25, Simple Path to Wealth author",
+   "verify_note": "tw4.py verify+deepen 8p, 75 originals; promo_share 0.025; last_original 2026-10-08; langs {'en': 64, 'zxx': 9, 'es': 1}"
+  },
+  "baldguymoney": {
+   "lang": "en",
+   "category": "investing_philosophy",
+   "followers": 28874,
+   "promo_share": 0.0,
+   "posts": 111,
+   "origin": "pm_donors4 2026-10-09: PM lead for #25, personal finance / index investing",
+   "verify_note": "tw4.py verify+deepen 8p, 111 originals; promo_share 0.000; last_original 2026-10-09; langs {'en': 111}"
+  },
+  "Matt_Hougan": {
+   "lang": "en",
+   "category": "crypto_etf_flows",
+   "followers": 101789,
+   "promo_share": 0.0,
+   "posts": 91,
+   "origin": "pm_donors4 2026-10-09: PM lead for #26, Bitwise CIO, crypto ETF expert",
+   "verify_note": "tw4.py verify+deepen 8p, 91 originals; promo_share 0.000; last_original 2026-10-08; langs {'en': 83, 'art': 3, 'zxx': 2}"
+  },
+  "EliseFolso71390": {
+   "lang": "zh",
+   "category": "crypto_meme",
+   "followers": 11307,
+   "promo_share": 0.025,
+   "posts": 151,
+   "origin": "pm_donors4 2026-10-09: PM lead for #27, daily meme trading new-entrant teacher",
+   "verify_note": "tw4.py verify+deepen 8p, 151 originals; promo_share 0.025; last_original 2026-10-08; langs {'zh': 146, 'ja': 4, 'zxx': 1}"
+  },
+  "xiaofeilong99": {
+   "lang": "zh",
+   "category": "crypto_meme",
+   "followers": 17730,
+   "promo_share": 0.025,
+   "posts": 156,
+   "origin": "pm_donors4 2026-10-09: verified for #27, daily meme/dog hunting, AI+web3",
+   "verify_note": "tw4.py verify+deepen 8p, 156 originals; promo_share 0.025; last_original 2026-10-09; langs {'zh': 154, 'qme': 1, 'de': 1}"
+  },
+  "bi_9527zx": {
+   "lang": "zh",
+   "category": "crypto_meme",
+   "followers": 60594,
+   "promo_share": 0.05,
+   "posts": 144,
+   "origin": "pm_donors4 2026-10-09: verified for #27, AI+meme hunting, promo 0.10",
+   "verify_note": "tw4.py verify+deepen 8p, 144 originals; promo_share 0.050; last_original 2026-10-09; langs {'zh': 135, 'zxx': 4, 'ja': 3}"
+  },
+  "Airdrop_Guard": {
+   "lang": "zh",
+   "category": "crypto_airdrop",
+   "followers": 52760,
+   "promo_share": 0.2,
+   "posts": 155,
+   "origin": "pm_donors4 2026-10-09: PM lead for #28, CFA, airdrop analysis, promo 0.20",
+   "verify_note": "tw4.py verify+deepen 8p, 155 originals; promo_share 0.200; last_original 2026-10-09; langs {'zh': 153, 'en': 1, 'zxx': 1}"
+  },
+  "LumaoDoggie": {
+   "lang": "zh",
+   "category": "crypto_airdrop",
+   "followers": 18681,
+   "promo_share": 0.075,
+   "posts": 144,
+   "origin": "pm_donors4 2026-10-09: PM lead for #28, ex-dev, conservative airdrop strategy",
+   "verify_note": "tw4.py verify+deepen 8p, 144 originals; promo_share 0.075; last_original 2026-10-06; langs {'zh': 143, 'qme': 1}"
+  },
+  "Benjieming1Q84": {
+   "lang": "zh",
+   "category": "crypto_airdrop",
+   "followers": 61978,
+   "promo_share": 0.05,
+   "posts": 138,
+   "origin": "pm_donors4 2026-10-09: PM lead for #28, crypto/AI airdrop research",
+   "verify_note": "tw4.py verify+deepen 8p, 138 originals; promo_share 0.050; last_original 2026-10-09; langs {'zh': 132, 'zxx': 2, 'und': 1}"
+  },
+  "Boywus": {
+   "lang": "zh",
+   "category": "crypto_prediction",
+   "followers": 12473,
+   "promo_share": 0.05,
+   "posts": 157,
+   "origin": "pm_donors4 2026-10-09: verified for #29, HFT trader, prediction market commentary",
+   "verify_note": "tw4.py verify+deepen 8p, 157 originals; promo_share 0.050; last_original 2026-10-09; langs {'zh': 146, 'zxx': 5, 'en': 5}"
+  },
+  "ec_unoxx": {
+   "lang": "zh",
+   "category": "crypto_prediction",
+   "followers": 10391,
+   "promo_share": 0.05,
+   "posts": 141,
+   "origin": "pm_donors4 2026-10-09: verified for #29, on-chain detective, AI/prediction markets",
+   "verify_note": "tw4.py verify+deepen 8p, 141 originals; promo_share 0.050; last_original 2026-10-09; langs {'zh': 134, 'zxx': 3, 'ja': 1}"
+  },
+  "0xLoki_Zeng": {
+   "lang": "zh",
+   "category": "crypto_stable_yield",
+   "followers": 21243,
+   "promo_share": 0.025,
+   "posts": 151,
+   "origin": "pm_donors4 2026-10-09: PM lead for #30, stable yield/DeFi zh",
+   "verify_note": "tw4.py verify+deepen 8p, 151 originals; promo_share 0.025; last_original 2026-10-09; langs {'zh': 140, 'en': 5, 'zxx': 3}"
+  },
+  "akshaybd": {
+   "lang": "en",
+   "category": "crypto_ecosystem_sol_base",
+   "followers": 54847,
+   "promo_share": 0.0,
+   "posts": 120,
+   "origin": "pm_donors4 2026-10-09: PM lead for #31, Solana/Base ecosystem analyst",
+   "verify_note": "tw4.py verify+deepen 8p, 120 originals; promo_share 0.000; last_original 2026-10-06; langs {'en': 114, 'art': 1, 'da': 1}"
+  },
+  "gumsays": {
+   "lang": "en",
+   "category": "crypto_ecosystem_sol_base",
+   "followers": 67409,
+   "promo_share": 0.0,
+   "posts": 143,
+   "origin": "pm_donors4 2026-10-09: PM lead for #31, prev @SolanaFndn, Solana ecosystem",
+   "verify_note": "tw4.py verify+deepen 8p, 143 originals; promo_share 0.000; last_original 2026-10-09; langs {'en': 138, 'zxx': 2, 'es': 2}"
+  },
+  "Ga__ke": {
+   "lang": "en",
+   "category": "crypto_meme",
+   "followers": 188073,
+   "promo_share": 0.025,
+   "posts": 129,
+   "origin": "pm_donors4 2026-10-09: PM lead for #32, meme culture commentary, no shilling",
+   "verify_note": "tw4.py verify+deepen 8p, 129 originals; promo_share 0.025; last_original 2026-10-07; langs {'en': 113, 'qst': 3, 'art': 2}"
+  },
+  "tropoFarmer": {
+   "lang": "en",
+   "category": "crypto_meme",
+   "followers": 174163,
+   "promo_share": 0.0,
+   "posts": 127,
+   "origin": "pm_donors4 2026-10-09: PM lead for #32 and #33, web3/airdrop/meme commentator",
+   "verify_note": "tw4.py verify+deepen 8p, 127 originals; promo_share 0.000; last_original 2026-10-05; langs {'en': 114, 'zxx': 10, 'in': 2}"
+  },
+  "M_McDonough": {
+   "lang": "en",
+   "category": "crypto_prediction",
+   "followers": 59307,
+   "promo_share": 0.0,
+   "posts": 138,
+   "origin": "pm_donors4 2026-10-09: PM lead for #34, Bloomberg/Kalshi prediction market data head",
+   "verify_note": "tw4.py verify+deepen 8p, 138 originals; promo_share 0.000; last_original 2026-10-09; langs {'en': 134, 'fr': 1, 'cy': 1}"
+  },
+  "NateSilver538": {
+   "lang": "en",
+   "category": "crypto_prediction",
+   "followers": 3042080,
+   "promo_share": 0.0,
+   "posts": 151,
+   "origin": "pm_donors4 2026-10-09: PM lead for #34, Silver Bulletin, Polymarket adviser",
+   "verify_note": "tw4.py verify+deepen 8p, 151 originals; promo_share 0.000; last_original 2026-10-08; langs {'en': 149, 'eu': 1, 'no': 1}"
+  },
+  "shaundadevens": {
+   "lang": "en",
+   "category": "crypto_perp_dex",
+   "followers": 13230,
+   "promo_share": 0.025,
+   "posts": 143,
+   "origin": "pm_donors4 2026-10-09: verified for #35, Blockworks analyst, perp DEX coverage",
+   "verify_note": "tw4.py verify+deepen 8p, 143 originals; promo_share 0.025; last_original 2026-10-09; langs {'en': 132, 'zxx': 8, 'da': 2}"
+  },
+  "CL207": {
+   "lang": "en",
+   "category": "crypto_perp_dex",
+   "followers": 281743,
+   "promo_share": 0.025,
+   "posts": 153,
+   "origin": "pm_donors4 2026-10-09: verified for #35, ex-trading-desk, perp/macro analysis, 281k followers",
+   "verify_note": "tw4.py verify+deepen 8p, 153 originals; promo_share 0.025; last_original 2026-10-09; langs {'en': 146, 'zxx': 2, 'da': 1}"
   }
  },
  "accounts": {
@@ -861,10 +1266,6 @@
   },
   "crypto_btc_cycle_zh": {
    "donors": [
-    "thankUcrypto",
-    "BensonTWN",
-    "dapangdun",
-    "timotimo007",
     "KevinZbtc"
    ],
    "x_sources": {
@@ -1147,13 +1548,7 @@
    }
   },
   "crypto_research_en": {
-   "donors": [
-    "amandacassatt",
-    "sjdedic",
-    "0xLuo",
-    "ahboyash",
-    "econoar"
-   ],
+   "donors": [],
    "x_sources": {
     "CORE": [
      "VitalikButerin",
@@ -1387,5 +1782,112 @@
    "at": "2026-10-08 pm-voice donor review"
   }
  ],
- "removed_note": "2026-10-08 pm-voice donor review: off-topic donors removed (evidence: last-60-day theme mix + read of recent originals); replacements are proposals for the PM, not applied."
+ "removed_note": "2026-10-08 pm-voice donor review: off-topic donors removed (evidence: last-60-day theme mix + read of recent originals); replacements are proposals for the PM, not applied.",
+ "removed_pm_donors4": [
+  {
+   "account": "crypto_btc_cycle_zh",
+   "handle": "thankUcrypto",
+   "kind": "merged",
+   "reason": "forbidden 1&7 overlap: also in acct_crypto_macro_zh (#1)",
+   "at": "2026-10-09 pm_donors4"
+  },
+  {
+   "account": "crypto_btc_cycle_zh",
+   "handle": "BensonTWN",
+   "kind": "merged",
+   "reason": "forbidden 1&7 overlap: also in acct_crypto_macro_zh (#1) and acct_crypto_onchain_zh",
+   "at": "2026-10-09 pm_donors4"
+  },
+  {
+   "account": "crypto_btc_cycle_zh",
+   "handle": "dapangdun",
+   "kind": "merged",
+   "reason": "forbidden 1&7 overlap: also in acct_crypto_macro_zh (#1)",
+   "at": "2026-10-09 pm_donors4"
+  },
+  {
+   "account": "crypto_btc_cycle_zh",
+   "handle": "timotimo007",
+   "kind": "merged",
+   "reason": "forbidden 1&7 overlap: also in acct_crypto_macro_zh (#1)",
+   "at": "2026-10-09 pm_donors4"
+  },
+  {
+   "account": "crypto_research_en",
+   "handle": "sjdedic",
+   "kind": "merged",
+   "reason": "forbidden 11&17 overlap: also in acct_crypto_macro_en (#11)",
+   "at": "2026-10-09 pm_donors4"
+  },
+  {
+   "account": "crypto_research_en",
+   "handle": "econoar",
+   "kind": "merged",
+   "reason": "forbidden 11&17 overlap: also in acct_crypto_macro_en (#11) and acct_defi_narratives_en (#14)",
+   "at": "2026-10-09 pm_donors4"
+  },
+  {
+   "account": "crypto_research_en",
+   "handle": "amandacassatt",
+   "kind": "merged",
+   "reason": "forbidden 11&17 overlap: also in acct_crypto_macro_en (#11)",
+   "at": "2026-10-09 pm_donors4"
+  },
+  {
+   "account": "crypto_research_en",
+   "handle": "0xLuo",
+   "kind": "merged",
+   "reason": "forbidden 14&17 overlap: also in acct_defi_narratives_en (#14)",
+   "at": "2026-10-09 pm_donors4"
+  },
+  {
+   "account": "crypto_research_en",
+   "handle": "ahboyash",
+   "kind": "merged",
+   "reason": "forbidden 14&17 overlap: also in acct_defi_narratives_en (#14)",
+   "at": "2026-10-09 pm_donors4"
+  },
+  {
+   "account": "crypto_ai_crossover_zh",
+   "handle": "williamlab",
+   "kind": "merged",
+   "reason": "in 3 accounts (macro_zh + #22 + #23): exceeds 2-account max; removed from #22, kept in #23",
+   "at": "2026-10-09 pm_donors4"
+  },
+  {
+   "account": "crypto_alt_trader_en",
+   "handle": "IT_Tech_PL",
+   "kind": "merged",
+   "reason": "promo_share 0.36 > 0.25 (confirmed in dropped list)",
+   "at": "2026-10-09 pm_donors4"
+  },
+  {
+   "account": "crypto_stable_yield_zh",
+   "handle": "chenmo",
+   "kind": "merged",
+   "reason": "in 3 accounts (crypto_research_zh + crypto_altcoin_zh + #30): exceeds 2-account max",
+   "at": "2026-10-09 pm_donors4"
+  },
+  {
+   "account": "crypto_stable_yield_zh",
+   "handle": "0xAllen",
+   "kind": "merged",
+   "reason": "promo_share 0.27 > 0.25 (confirmed in dropped list)",
+   "at": "2026-10-09 pm_donors4"
+  },
+  {
+   "account": "crypto_meme_zh",
+   "handle": "scriptdotmoney",
+   "kind": "merged",
+   "reason": "last_original 2026-09-26 — outside 7-day meme lane window at review (2026-10-09)",
+   "at": "2026-10-09 pm_donors4"
+  },
+  {
+   "account": "crypto_meme_en",
+   "handle": "LouisCooper_",
+   "kind": "merged",
+   "reason": "last_original 2026-09-25, only 3 posts top_14d — outside 7-day meme lane window",
+   "at": "2026-10-09 pm_donors4"
+  }
+ ]
 }
