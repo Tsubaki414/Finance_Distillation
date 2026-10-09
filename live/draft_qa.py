@@ -194,6 +194,14 @@ def _known_name(word):
 
 
 _ACRONYM = re.compile(r'(?<![A-Za-z0-9_$#@.])(?:[A-Z][A-Z0-9]{1,5}s?|[A-Z][a-z]?[A-Z]{1,4})(?![A-Za-z0-9_])')   # ASCII edges: 的T3部门
+# Oct 9 night (HOLD review): a capitalised name followed by what it is - "SK Group", "QFEX perp venue", "XYZ Labs",
+# "ABC 交易所" - is a name the reader can place, not insider jargon (10-09: #19 SK Group, #33 QFEX held).
+_NAME_AFTER = re.compile(r'\s*(?:Group|Holdings?|Hynix|Inc\.?|Corp\.?|Co\.|Ltd\.?|Labs?|Capital|Bank|Securities|Telecom|'
+                         r'Energy|Motors?|Electronics|Pharma|Technologies|Systems|Partners|Ventures|Research|Foundation|'
+                         r'Protocol|Network|Finance|Exchange|Markets?|'
+                         r'(?:perp(?:etual)?s?\s+)?(?:venue|exchange|DEX|protocol|platform|chain|L1|L2|app|wallet|token|coin|'
+                         r'stablecoin|project|fund|ETF|stock|shares|index|lender|bridge|rollup|network|marketplace)s?)\b'
+                         r'|\s*(?:交易所|协议|公司|集团|平台|项目|公链|代币|基金|钱包|指数|银行|证券)')
 _GLOSS_AFTER = re.compile(r'\s*[（(][^)）]{2,}[)）]|\s*(?:—|-|,|，|：|:)?\s*(?:i\.e\.|meaning|which is|也就是|即|就是)')
 
 
@@ -212,7 +220,7 @@ def readability_findings(body, lang=None):
             continue
         if any(word in h for h in hits):          # already reported inside a rule / statute code
             continue
-        if _GLOSS_AFTER.match(text, m.end()):
+        if _GLOSS_AFTER.match(text, m.end()) or _NAME_AFTER.match(text, m.end()):
             continue
         if not text[:m.start()].strip() and text[m.end():m.end() + 1] == ':':   # 'RPM: ...' stock headline ticker
             continue

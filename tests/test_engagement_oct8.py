@@ -37,6 +37,8 @@ def src(handle='bigacct', pid='1', hours_before=2.0, likes=150, views=20000, fol
 
 @pytest.fixture(autouse=True)
 def engage_on(monkeypatch, tmp_path):
+    monkeypatch.setenv('FD_ENGAGE_FILL2', '0')   # Oct 9 night thresholds pinned off (legacy expectations)
+    monkeypatch.setenv('FD_ENGAGE_PICK_GATE', '0')
     monkeypatch.setenv('FD_ENGAGE', '1')
     monkeypatch.setenv('FD_SLOT_RULE', '0')   # Oct 8 mix (cold accounts 1 reply + 1 quote); slot rule: test_slot_rule_oct9
     monkeypatch.setenv('FD_ENGAGE_LOG', str(tmp_path / 'engage_log'))

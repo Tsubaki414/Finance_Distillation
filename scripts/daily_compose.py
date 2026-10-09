@@ -605,6 +605,87 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
     slots_done = day_slots(day) if slot_rule else {}
     engage_only_run = os.environ.get('FD_ENGAGE_ONLY') == '1'
 
+    # Oct 9 night (slot-2 fill rate): on 10-09 25-29 of 36 engagement picks were x-<id> posts that failed the target
+    # scoring (too_old / low_engagement) and still took the account's engagement slot, so a valid target in the same
+    # pool never got picked. An engagement pick must now be a live target at the account's earliest slot, and a target
+    # post / (account, author) pair already used today (earlier inbox rows or this plan) is skipped (one of our
+    # accounts per post). FD_ENGAGE_PICK_GATE=0: the old behaviour.
+    pick_gate = slot_rule and os.environ.get('FD_ENGAGE_PICK_GATE', '1') != '0'
+    eng_state, eng_taken, eng_memo = None, {}, {}
+    day_s = day.isoformat() if hasattr(day, 'isoformat') else str(day)
+    if pick_gate:
+        try:
+            earlier_rows = [r for r in compose_inbox.rows(day_s) if not r.get('superseded')]
+        except Exception:   # noqa: BLE001
+            earlier_rows = []
+        eng_state = engagement.DayState.from_rows(earlier_rows)
+        for r in earlier_rows:
+            if r.get('suggested_post_time_london'):
+                eng_taken.setdefault(r.get('account_id'), []).append(r['suggested_post_time_london'])
+    eng_ref = max([x for x in (ref, now) if x is not None])
+    lang_of = {a['id']: a.get('lang') for a in accounts}
+
+    engage_diag = {a['id']: Counter() for a in accounts}   # Oct 9 night: why an account got no engagement pick
+
+    def engage_assess(account, g):
+        src = g[0]['source']
+        k = (account, src.get('id'))
+        if k not in eng_memo:
+            slot = engagement.next_slot(day_s, eng_ref, eng_taken.get(account, ()))
+            eng_memo[k] = (engagement.assess(src, slot, account_lang=lang_of.get(account), own_handles=own_handles)
+                           if slot else {'quote_ok': False, 'reject': 'no_slot', 'score': 0.0})
+        return eng_memo[k]
+
+    def engage_live(account, g):
+        a = engage_assess(account, g)
+        if not a.get('quote_ok'):
+            return False
+        pid, handle = str(a.get('post_id')), str(a.get('handle') or '').lower()
+        if pid in eng_state.targets or (account, handle) in eng_state.authors:
+            return False
+        owner = engage_reserved().get(pid)
+        return owner is None or owner == account or any(slot_kind(p.get('source_id')) == 'engage' for p in plan[owner])
+
+    eng_reserve = {}
+
+    def engage_reserved():
+        """Oct 9 night: 10/36 accounts lost their only live target to an account that had others. Reserve targets by
+        max bipartite matching (scarce accounts first), so a shared target goes to whoever has no alternative."""
+        if 'm' in eng_reserve:
+            return eng_reserve['m']
+        eng_reserve['m'] = {}
+        if os.environ.get('FD_ENGAGE_MATCH', '1') == '0':
+            return eng_reserve['m']
+        opts = {}
+        for a in plan:
+            if (slots_done.get(a) or {}).get('engage', 0):
+                continue
+            ids = []
+            for g in pools.get(a) or ():
+                if slot_kind(g[0]['source'].get('id')) != 'engage':
+                    continue
+                ea = engage_assess(a, g)
+                pid, h = str(ea.get('post_id')), str(ea.get('handle') or '').lower()
+                if ea.get('quote_ok') and pid not in eng_state.targets and (a, h) not in eng_state.authors:
+                    ids.append((-float(ea.get('score') or 0), pid))
+            if ids:
+                opts[a] = [pid for _, pid in sorted(ids)]
+        match = {}
+
+        def augment(a, seen):
+            for pid in opts[a]:
+                if pid in seen:
+                    continue
+                seen.add(pid)
+                if pid not in match or augment(match[pid], seen):
+                    match[pid] = a
+                    return True
+            return False
+        for a in sorted(opts, key=lambda x: (len(opts[x]), x)):
+            augment(a, set())
+        eng_reserve['m'] = match
+        return match
+
     def slot_ok(account, g):
         if not slot_rule:
             return True
@@ -613,7 +694,20 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             return False
         have = (slots_done.get(account) or {}).get(kind, 0) + sum(
             1 for p in plan[account] if slot_kind(p.get('source_id')) == kind)
-        return have < 1
+        if have >= 1:
+            return False
+        return kind != 'engage' or not pick_gate or engage_live(account, g)
+
+    def engage_first(account, groups):
+        """With the gate on: the account's live engagement targets in score order (standalone order unchanged)."""
+        if not pick_gate:
+            return groups
+        mine = {pid for pid, a in engage_reserved().items() if a == account}
+        eng = sorted((g for g in groups if slot_kind(g[0]['source'].get('id')) == 'engage'),
+                     key=lambda g: (str(engage_assess(account, g).get('post_id')) not in mine,
+                                    -float(engage_assess(account, g).get('score') or 0)))
+        it = iter(eng)
+        return [next(it) if slot_kind(g[0]['source'].get('id')) == 'engage' else g for g in groups]
 
     def heat_of(g):
         mid = hot.motif_of(demo._key(g[0])) if hot is not None else None
@@ -644,17 +738,22 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                       | ({title_event(g[0]['source'].get('title'))} - {None}))
             if hot is not None and hot.motif_of(skey):   # FD_HOTSPOT: every source of one 母题 is one event
                 events.add(('motif', hot.motif_of(skey)))
+            ek = slot_kind(g[0]['source'].get('id')) == 'engage'
             if twins.twin_of(account) and twins.clash(account, events, packet_entities(g), event_takers, ent_takers):
+                ek and engage_diag[account].update(['twin'])
                 continue   # FD_TWIN_RULE: zh/en twins (27/32, 28/33, 29/34, 30/36) never take one event on one day
             takers = [t for e in events for t in event_takers.get(e, []) if t[2] == lang]
             if len({t[0] for t in takers}) >= MAX_ACCOUNTS_PER_EVENT or any(t[0] == account for t in takers):
+                ek and engage_diag[account].update(['event_cap'])
                 continue
             if div is not None and len({t[0] for e in events for t in event_takers.get(e, [])}) >= topic_div.MAX_TOTAL_PER_EVENT:
+                ek and engage_diag[account].update(['topic_div_cap'])
                 continue   # FD_TOPIC_DIV: one story at most 3 accounts across both languages (Polygon/TRON had 4)
             # one 母题 = a different lens per account in either language (FD_HOTSPOT); other events: per language
             lenses = {t[1] for t in takers} | {t[1] for e in events if e[0] == 'motif' for t in event_takers.get(e, [])}
             angle, why = angles.assign(lead, group_text(g), taken=lenses, boost=angle_boost(hot, account, lang, g))
             if lenses and (why == 'shared' or angle in lenses):
+                ek and engage_diag[account].update(['no_free_lens'])
                 continue
             return (g, events, angle, why, sorted({t[0] for t in takers}))
         return None
@@ -688,7 +787,14 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                     groups = diversity_order(account, groups, plan[account], event_takers, div)
                 groups = zh_hot_first(account, lang, groups)   # stable: lane_first below keeps on-lane first
                 groups = lane_first(next(x for x in accounts if x['id'] == account), groups, x_of[account])
-                groups = [g for g in groups if slot_ok(account, g)]
+                if slot_rule and not engage_diag[account].get('pool_engage'):
+                    eg = [g for g in groups if slot_kind(g[0]['source'].get('id')) == 'engage']
+                    engage_diag[account]['pool_engage'] = len(eg)
+                    if pick_gate:
+                        for g in eg:
+                            a_ = engage_assess(account, g)
+                            engage_diag[account]['live' if a_.get('quote_ok') else 'reject_' + str(a_.get('reject'))] += 1
+                groups = engage_first(account, [g for g in groups if slot_ok(account, g)])
                 pick = try_pick(account, lang, lead, groups)
             else:
                 motif, key = hot.assign[account]
@@ -701,6 +807,10 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             if pick is None:
                 continue
             g, events, angle, why, shared_with = pick
+            if pick_gate and slot_kind(g[0]['source'].get('id')) == 'engage':   # one of our accounts per target post
+                ea = engage_assess(account, g)
+                eng_state.targets[str(ea.get('post_id'))] = account
+                eng_state.authors.add((account, str(ea.get('handle') or '').lower()))
             for e in events:
                 event_takers.setdefault(e, []).append((account, angle, lang))
             if twins.twin_of(account):
@@ -778,6 +888,15 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                 p['engagement'] = _eng.pick_record(d)
                 if d.get('mode'):
                     p['post_format'].update(engage=d['mode'], engage_author=(d.get('assess') or {}).get('handle'))
+                    # Oct 9 night: a reply / quote is short (10-09 #14 quote got a 400-850 'long' band from the habit
+                    # card); it sits under / next to the target post, so it never needs a long body.
+                    cap_len = ENGAGE_MAX_LEN[d['mode']]['zh' if str(p.get('account_lang')) == 'zh' else 'en']
+                    lt = dict(p['post_format'].get('length_target') or {})
+                    lt['max'] = min(int(lt.get('max') or cap_len), cap_len)
+                    lt['min'] = min(int(lt.get('min') or 0), lt['max'] // 3)
+                    p['post_format'].update(length_target=lt, length='short' if d['mode'] == 'reply' else
+                                            ('medium' if p['post_format'].get('length') in ('long', 'thread')
+                                             else p['post_format'].get('length')), thread_parts=None)
             p['suggested_post_time_london'] = t.isoformat()
     # Oct 9: an x-<status id> post is licensed only as a reply / quote target; a pick of one that did not become an
     # engagement draft is dropped (never a standalone body source). FD_ENGAGE_ONLY=1 (engagement fill): only the
@@ -787,6 +906,20 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
         plan[account] = [p for p in plan[account]
                          if (p.get('post_format') or {}).get('engage') in ('reply', 'quote')
                          or (not engage_only and not registry.ENGAGE_SOURCE.match(str(p.get('source_id') or '')))]
+    if info is not None and slot_rule:
+        if pick_gate:   # accounts left without an engagement pick: live targets another account took first
+            for a in plan:
+                if any(slot_kind(p.get('source_id')) == 'engage' for p in plan[a]):
+                    engage_diag[a]['picked'] = 1
+                    continue
+                for g in pools.get(a) or ():
+                    if slot_kind(g[0]['source'].get('id')) != 'engage':
+                        continue
+                    ea = engage_assess(a, g)
+                    owner = eng_state.targets.get(str(ea.get('post_id')))
+                    if ea.get('quote_ok') and owner and owner != a:
+                        engage_diag[a]['lost_to_other_account'] += 1
+        info['engage_pick_diag'] = {a: dict(c) for a, c in engage_diag.items()}
     if div is not None and info is not None:
         info['topic_div'] = div['summary']
     if hot is not None:
@@ -798,6 +931,7 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
 
 
 ZH_HOT_MIN = float(os.environ.get('FD_ZH_HOT_MIN', '2.5'))
+ENGAGE_MAX_LEN = {'reply': {'zh': 90, 'en': 220}, 'quote': {'zh': 140, 'en': 320}}   # chars of the body
 
 
 def zh_hot_rule(lang, env=None):
@@ -1224,6 +1358,7 @@ def inbox_row(result, account_cfg, day, run_id):
                             ('model_error: ' if repair.get('result') == 'rewrite_error' else 'hard: ')
                             + ','.join(sorted({f['code'] for f in findings if f.get('level') == 'hard'}))
                             if result.get('draft_status') == 'needs_review' else None),
+            **({'hook_rewrite': result['hook_rewrite']} if result.get('hook_rewrite') else {}),
             **({'hard_repair': {k: repair.get(k) for k in ('result', 'kept', 'error')}
                                | {'first_codes': sorted({f['code'] for f in repair.get('first_findings') or []}),
                                   'retry_codes': sorted({f['code'] for f in repair.get('retry_findings') or []})}}
@@ -1448,9 +1583,49 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
             if r is not None:
                 results.append(r)
     # cross-account check on the whole day: shape / skeleton findings + claim arbitration (soft: losers HOLD)
-    from live import compose_shapes, lane_fit
+    from live import compose_shapes, hook_rewrite as hr, hook_voice as hv, lane_fit
     ok = [r for r in results if r.get('status') != 'error' and r.get('text')]
     compose_shapes.batch_findings(ok)
+    # Oct 9 hook1009: opener-repeat check then targeted first-line rewrite for weak/repeat openers.
+    if os.environ.get('FD_HOOK_DIVERSITY', '1') != '0':
+        _rewrite_max = int(os.environ.get('FD_HOOK_REWRITE_MAX', '12'))
+        _rw_count = 0
+        # batch_opener_findings expects rows sorted by suggested_post_time_london then id
+        _opener_rows = sorted(
+            [r for r in ok if r.get('body')],
+            key=lambda r: (r.get('plan', {}).get('suggested_post_time_london') or '', r.get('id') or ''))
+        _opener_input = [{'id': r.get('id', ''), 'account_id': r.get('account_id', ''),
+                          'lang': r.get('plan', {}).get('account_lang', 'zh'),
+                          'body': r.get('body', '')} for r in _opener_rows]
+        for _item in hv.batch_opener_findings(_opener_input):
+            _did = _item['id']
+            _finding = _item['finding']
+            _match = next((r for r in ok if r.get('id') == _did), None)
+            if _match is not None:
+                _match.setdefault('post_checks', [])
+                _match['post_checks'].append(_finding)
+                _match.setdefault('risks', [])
+                _match['risks'].append({**_finding, 'status': 'warning'})
+        # rewrite drafts that have opener_repeat or a residual weak_hook (after compose's own pass)
+        _avoid = list(hv.WEAK_OPENERS_ZH) + list(hv.WEAK_OPENERS_EN)
+        for r in ok:
+            if _rw_count >= _rewrite_max:
+                break
+            _codes = {f.get('code') for f in (r.get('post_checks') or []) if isinstance(f, dict)}
+            if not (_codes & {'opener_repeat', 'weak_hook'}):
+                continue
+            _lang = r.get('plan', {}).get('account_lang', 'zh')
+            # respect budget: skip if run budget is exhausted
+            with lock:
+                _est_now = 0.0 if flat_primary and not _ec_fails() else est
+                _budget_ok = spend['usd'] + _est_now <= args.budget_usd and not quota
+            if not _budget_ok:
+                break
+            _rw = hr.rewrite_first_line(client(), r, _avoid, _lang)
+            r['hook_rewrite'] = _rw
+            _rw_count += 1
+            if _rw.get('kept') and _rw.get('to') and not _rw.get('error'):
+                print(f'[hook_rewrite] {r.get("account_id")} rewritten: {_rw["from"]!r} -> {_rw["to"]!r}', flush=True)
     for r in ok:   # arbitration compares drafts of this Beijing day (not the sources' own dates) in one language
         r['day'], r['account_lang'] = args.day.isoformat(), r['plan']['account_lang']
         # Oct 8 evening (FD_LANE_FIT): a niche draft on broad news without a lane tie-in is held off_lane

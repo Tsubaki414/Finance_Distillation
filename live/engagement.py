@@ -65,10 +65,20 @@ DEFAULTS = {
     # Oct 9 (Fiona, perf review): slot rule - every account (not only cold ones) gets one engagement slot a day next
     # to its one standalone post; cold-start quotas still cap the modes.
     'engage_slots_per_day': 1,
+    # Oct 9 night (slot-2 fill rate): ZH posts of big ZH authors rarely reach 100 likes (10-09: @qinbafrank 148, most
+    # 30-65 likes on 10k-40k views), so the like floor is per language and views can stand in for likes; a quote may
+    # go up to quote_ext_max_age_h when the post is clearly high-traffic (replies stay <= reply_max_age_h).
+    'min_likes_by_lang': {'zh': 30}, 'huge_min_likes_by_lang': {'zh': 15},
+    'min_views_alt_by_lang': {'zh': 10000, 'en': 40000},
+    'quote_ext_max_age_h': 18, 'quote_ext_likes_by_lang': {'zh': 150, 'en': 500},
+    'quote_ext_views_by_lang': {'zh': 30000, 'en': 100000},
+    'search_min_faves_by_lang': {'zh': 20}, 'min_median_likes_by_lang': {'zh': 10},
+    # curated extra watchlist handles per account (thin lanes), on top of the cluster donors
+    'watchlist_extra': {},
 }
 HARD_CODES = frozenset({'engage_generic', 'engage_too_long', 'engage_mentions'})
-SOFT_CODES = frozenset({'engage_no_payload'})
-REPAIR_TRIGGER = frozenset({'engage_no_payload'})
+SOFT_CODES = frozenset({'engage_no_payload', 'engage_off_target'})
+REPAIR_TRIGGER = frozenset({'engage_no_payload', 'engage_off_target'})
 FIXES = {
     'engage_generic': ('This is a reply / quote under a big account: drop the generic praise or agreement '
                        '(great post / interesting take / 说得好 / 学到了 / 感谢分享); say the one thing the post is missing.'),
@@ -76,14 +86,21 @@ FIXES = {
     'engage_mentions': 'At most one @mention (X adds the replied-to handle itself); remove the others.',
     'engage_no_payload': ('Add one concrete thing the target post does not say: a number from the units, a '
                           'counter-point, or a specific observation - not agreement.'),
+    'engage_off_target': ('This reply / quote does not respond to the post it sits under. Open by naming that post\'s '
+                          'point in a few words of your own, stay on its topic, then add your one number / counter-point '
+                          '/ observation. Do not switch to another story.'),
 }
 PROMPT_RULE = {
-    'reply': ('This draft is a REPLY under {who}\'s post (the source). At most 2 sentences. Add exactly one thing the '
+    'reply': ('This draft is a REPLY under {who}\'s post (the source). At most 2 sentences. It must read right under '
+              'that post: start from the post\'s own point, named in a few words of your own (e.g. "Pullback as an '
+              'add zone? ..." / "说回调是加仓点，…"), stay on that topic (no other story), then add exactly one thing the '
               'post does not say: a number from the units, a counter-point, or a concrete observation. No praise, '
               'thanks or agreement filler ("great post", "说得好", "学到了"), no @mentions (X adds the handle), no '
               'links, no hashtags, no buy / sell call.'),
-    'quote': ('This draft QUOTES {who}\'s post (the source, shown as the quoted card). 1-3 short lines that add a '
-              'number from the units, a counter-point or a concrete observation; do not restate the post. No praise '
+    'quote': ('This draft QUOTES {who}\'s post (the source, shown as the quoted card). 1-3 short lines. Line 1 names '
+              'the quoted post\'s point in a few words of your own so the quote makes sense next to the card (do not '
+              'restate it at length); stay on that topic, then add a number from the units, a counter-point or a '
+              'concrete observation. No praise '
               'filler, at most one @mention, no links, no buy / sell call.'),
 }
 _CFG = None
@@ -113,6 +130,10 @@ def config():
         except (OSError, ValueError):
             raw = {}
         _CFG = {**DEFAULTS, **{k: v for k, v in raw.items() if k in DEFAULTS}}
+    if os.environ.get('FD_ENGAGE_FILL2', '1') == '0':   # Oct 9 night rollback: the 10-09 thresholds
+        return {**_CFG, 'min_likes_by_lang': {}, 'huge_min_likes_by_lang': {}, 'min_views_alt_by_lang': {},
+                'quote_ext_max_age_h': _CFG['quote_max_age_h'], 'search_min_faves_by_lang': {},
+                'min_median_likes_by_lang': {}, 'watchlist_extra': {}}
     return _CFG
 
 
@@ -163,6 +184,30 @@ def followers_of(handle, source=None):
     return f if f is not None else roster_followers().get(str(handle or '').lower().lstrip('@'))
 
 
+def by_lang(cfg, key, lang):
+    """Per-language override `<key>_by_lang` (zh / en) of a threshold, else the global `key` value (None if unset)."""
+    table = cfg.get(key + '_by_lang')
+    lang = str(lang or '')[:2]
+    if isinstance(table, dict) and lang in table:
+        return table[lang]
+    return cfg.get(key)
+
+
+def extended_quote(likes, views, lang, cfg):
+    """A clearly high-traffic post may be quoted up to quote_ext_max_age_h (Oct 9 night)."""
+    lk = by_lang(cfg, 'quote_ext_likes', lang) or 0
+    vw = by_lang(cfg, 'quote_ext_views', lang) or 0
+    return bool((lk and (likes or 0) >= lk) or (vw and (views or 0) >= vw))
+
+
+def max_age_h(assessed, mode, cfg=None):
+    cfg = cfg or config()
+    if mode == 'reply':
+        return cfg['reply_max_age_h']
+    return cfg.get('quote_ext_max_age_h', cfg['quote_max_age_h']) if (assessed or {}).get('extended') \
+        else cfg['quote_max_age_h']
+
+
 def assess(source, at, *, account_lang=None, on_lane=False, own_handles=(), cfg=None):
     """Score one X post as a quote / reply target for a draft posted at `at`. Pure; never raises on bad input."""
     cfg = cfg or config()
@@ -194,24 +239,31 @@ def assess(source, at, *, account_lang=None, on_lane=False, own_handles=(), cfg=
     out.update(followers=followers, likes=likes, views=views, reposts=m['reposts'], replies=m['replies'],
                age_h=round(age, 2), likes_per_h=round(lph, 1), views_per_h=round(vph, 1), hot=bool(hot),
                big=big, huge=huge, lang_match=lang_match)
+    plang = str(lang or account_lang or '')[:2]
+    min_likes = by_lang(cfg, 'min_likes', plang)
+    views_alt = by_lang(cfg, 'min_views_alt', plang) or 0
+    traffic_ok = (likes or 0) >= min_likes or (views_alt and (views or 0) >= views_alt)
+    extended = (cfg['quote_max_age_h'] < age <= cfg.get('quote_ext_max_age_h', cfg['quote_max_age_h'])
+                and extended_quote(likes, views, plang, cfg))
     reject = None
     if age < -0.05:
         reject = 'not_yet_posted'
-    elif age > cfg['quote_max_age_h']:
+    elif age > cfg['quote_max_age_h'] and not extended:
         reject = 'too_old'
     elif not have and not huge:
         reject = 'no_metrics'
     elif not (big or hot):
         reject = 'small_author'
-    elif have and (likes or 0) < cfg['min_likes'] and not huge:   # velocity waives the follower floor, not this
+    elif have and not traffic_ok and not huge:   # velocity waives the follower floor, not this
         reject = 'low_engagement'
-    elif have and huge and likes is not None and likes < cfg['huge_min_likes']:   # Oct 9: 7-like posts are pointless
+    elif have and huge and likes is not None and likes < by_lang(cfg, 'huge_min_likes', plang) \
+            and not (views_alt and (views or 0) >= views_alt):   # Oct 9: 7-like posts are pointless
         reject = 'low_engagement'
     score = (math.log10(max(followers or 1, 1)) + 1.5 * math.log10(1 + (likes or 0)) + 0.5 * math.log10(1 + (views or 0))
              + 0.5 * math.log10(1 + (m['reposts'] or 0) + (m['replies'] or 0)) + (1.0 if hot else 0.0)
              - 0.15 * max(age, 0) + (cfg['lane_bonus'] if on_lane else 0.0)
              - (0.0 if lang_match else cfg['other_language_penalty']))
-    out.update(score=round(score, 3), reject=reject, quote_ok=reject is None,
+    out.update(score=round(score, 3), reject=reject, quote_ok=reject is None, extended=bool(extended and not reject),
                reply_ok=reject is None and age <= cfg['reply_max_age_h'] and lang_match)
     out['why'] = why(out)
     return out
@@ -357,8 +409,7 @@ def plan_day(cands, *, day, ref, state=None, taken=None, own_handles=(), cfg=Non
                         x['mode'] == 'quote' for x in out[a].values()) else None)
             if mode is None or (mode == 'reply' and not s['reply_ok']):
                 continue
-            limit = _ts(c['source'].get('published_at')) + timedelta(
-                hours=cfg['reply_max_age_h' if mode == 'reply' else 'quote_max_age_h'])
+            limit = _ts(c['source'].get('published_at')) + timedelta(hours=max_age_h(s, mode, cfg))
             slot = next_slot(day, ref, taken.get(a, ()), cfg, not_after=limit)
             if slot is None:
                 continue
@@ -424,12 +475,60 @@ def sentences(text):
     return [p for p in (x.strip() for x in parts) if len(p) > 1]
 
 
-def findings(body, mode, lang='en'):
-    """Engagement-draft checks (HARD: engage_generic / engage_too_long / engage_mentions; SOFT: engage_no_payload)."""
+_STOP_EN = frozenset('''this that with from have been will would could should their there they them what when where
+which while about into over under just than then very much more most some such only also even still like your ours
+here were does dont doesn isnt arent post posts thread people thing things really going being make made time today
+week year years day days next last first back again'''.split())
+_WORD = re.compile(r"\$[A-Za-z]{2,10}\b|[A-Za-z][A-Za-z'-]{3,}|\d+(?:[.,]\d+)?[%kKmMbB]?")
+_CJK2 = re.compile(r'[\u4e00-\u9fff]{2,}')
+_ALIASES = {'btc': 'bitcoin', '$btc': 'bitcoin', 'eth': 'ethereum', '$eth': 'ethereum', 'ether': 'ethereum',
+            '$sol': 'solana', 'sol': 'solana', '比特币': 'bitcoin', '以太坊': 'ethereum', '大饼': 'bitcoin',
+            '姨太': 'ethereum'}
+
+
+def topic_tokens(text):
+    """Content tokens of a text: EN words >= 4 letters (no stopwords, crude stem), $tickers, numbers, CJK bigrams,
+    and coin aliases (BTC = bitcoin = 比特币)."""
+    text = str(text or '')
+    out = set()
+    for m in _WORD.finditer(text):
+        w = m.group(0).lower().strip("'")
+        if w in _STOP_EN:
+            continue
+        w = _ALIASES.get(w, w)
+        out.add(w[:-1] if len(w) > 4 and w.endswith('s') and not w.startswith('$') else w)
+    for m in _CJK2.finditer(text):
+        run = m.group(0)
+        for k, v in _ALIASES.items():
+            if k in run:
+                out.add(v)
+        out |= {run[i:i + 2] for i in range(len(run) - 1)}
+    out |= {_ALIASES[w.lower()] for w in re.findall(r'\b(?:btc|eth|sol)\b', text, re.I)}
+    return out
+
+
+_ZH_COMMON = frozenset('市场 我们 他们 这个 一个 没有 不是 就是 现在 今天 可以 还是 已经 如果 因为 所以 什么 怎么 时候 这种 '
+                       '自己 但是 只是 而是 觉得 其实 真的 可能 一些 这些 那些 还有 看到 出来 起来 一下 问题 东西'.split())
+
+
+def off_target(body, target_text):
+    """True when the draft shares no content token with the target post (it answers some other story)."""
+    t = topic_tokens(target_text) - _ZH_COMMON
+    if len(t) < 3:   # too little target text to judge
+        return False
+    return not (topic_tokens(body) - _ZH_COMMON) & t
+
+
+def findings(body, mode, lang='en', target_text=None):
+    """Engagement-draft checks (HARD: engage_generic / engage_too_long / engage_mentions; SOFT: engage_no_payload,
+    engage_off_target - Oct 9 night: the reply / quote must respond to the target post's own point)."""
     if not mode or not enabled():
         return []
     body = str(body or '')
     out = []
+    if target_text and off_target(body, target_text):
+        out.append({'code': 'engage_off_target', 'detail': 'shares no topic word with the target post: '
+                    + str(target_text)[:120]})
     m = (GENERIC_ZH if lang == 'zh' else GENERIC_EN).search(body) or GENERIC_EN.search(body)
     if m:
         out.append({'code': 'engage_generic', 'detail': f'generic filler "{m.group(0)}"'})
@@ -460,7 +559,9 @@ _TRAFFIC = None
 
 def donor_traffic(base=None):
     """{handle_lower: median likes} of each donor's newest (<= 60) original posts in live/donors/posts (local, not in
-    git; counts only). Donors with < 5 originals there are unknown (absent)."""
+    git; counts only). Donors with < 5 originals there are unknown (absent). Posts with likes 0 / missing are skipped:
+    older scrapes have no metrics (10-09: @chamath's newest 16 posts 260-5k likes, the 44 before all 0 -> median 0
+    dropped him and ~160 other donors from the watchlist)."""
     global _TRAFFIC
     if _TRAFFIC is not None and base is None:
         return _TRAFFIC
@@ -477,9 +578,12 @@ def donor_traffic(base=None):
                         p = json.loads(line)
                     except ValueError:
                         continue
-                    if p.get('rt') or p.get('reply'):
+                    if p.get('rt') or p.get('reply') or p.get('reply_to'):
                         continue
-                    likes.append(_int(p.get('likes')) or 0)
+                    n = _int(p.get('likes'))
+                    if not n:   # Oct 9 night: older scrapes carry likes 0 / none (no metrics) - not "no traffic"
+                        continue
+                    likes.append(n)
         except OSError:
             continue
         if len(likes) >= 5:
@@ -507,9 +611,11 @@ def subscriptions(accounts=None, cfg=None, exclude=(), traffic=None):
         return []
     skip = {str(h).lower() for h in exclude}
     traffic = donor_traffic() if traffic is None else traffic
-    floor = float(cfg.get('min_median_likes') or 0)
     by = {}
+    extra_cfg = cfg.get('watchlist_extra') or {}
+    known = {str(d.get('handle') or '').lower(): d for d in donors}
     for a in accounts:
+        floor = float(by_lang(cfg, 'min_median_likes', a.get('lang')) or 0)
         cl = _clusters(a)
         pool = [d for d in donors if d.get('persona_cluster') in cl and d.get('lang') == a.get('lang')
                 and (d.get('followers') or 0) >= cfg['min_followers'] and not d.get('promo_heavy')
@@ -518,11 +624,25 @@ def subscriptions(accounts=None, cfg=None, exclude=(), traffic=None):
                 and traffic.get(str(d.get('handle') or '').lower(), floor) >= floor]
         pool.sort(key=lambda d: (str(d.get('handle') or '').lower() not in traffic,
                                  -(traffic.get(str(d.get('handle') or '').lower()) or 0), -(d.get('followers') or 0)))
-        for d in pool[:int(cfg['targets_per_account'])]:
+        picked = pool[:int(cfg['targets_per_account'])]
+        # Oct 9 night: curated thin-lane watchlist (engagement.json watchlist_extra: {account: [handles]}), picked from
+        # the donor roster / Sirius breadth list by median likes; same language, not already fetched as an X source.
+        have = {str(d.get('handle') or '').lower() for d in picked}
+        for h in extra_cfg.get(a['id']) or ():
+            hl = str(h).lower().lstrip('@')
+            if hl in have or hl in skip:
+                continue
+            d = known.get(hl) or {'handle': str(h).lstrip('@'), 'followers': None}
+            if (d.get('lang') and d.get('lang') != a.get('lang')) or d.get('promo_heavy') \
+                    or (d.get('latest_post') and str(d['latest_post']) < '2026-09-28'):
+                continue
+            picked.append(d)
+            have.add(hl)
+        for d in picked:
             row = by.setdefault(d['handle'].lower(), {'handle': d['handle'], 'source_id': 'x_' + d['handle'],
                                                       'accounts': [], 'roles': ['ENGAGE'], 'tier': 'B',
                                                       'core': False, 'breadth': True, 'engage': True,
-                                                      'followers': d.get('followers'),
+                                                      'followers': d.get('followers'), 'lang': a.get('lang'),
                                                       'median_likes': traffic.get(d['handle'].lower())})
             row['accounts'].append(a['id'])
     return sorted(by.values(), key=lambda r: r['handle'].lower())

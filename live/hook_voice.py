@@ -20,16 +20,50 @@ import os
 import re
 from datetime import datetime, timedelta, timezone
 
-VERSION = 'hook-voice-v1'
+VERSION = 'hook-voice-v2'   # v2: explicit weak opener list (Oct 9 hook1009)
 STALE_DAYS = 3
 OFF_HIGH = 0.05            # latest close more than 5% under the 60-day high = "new high" is contradicted
-SOFT_CODES = frozenset({'weak_hook'})
+SOFT_CODES = frozenset({'weak_hook', 'opener_repeat'})
 HARD_CODES = frozenset({'unattributed_forecast', 'stale_market_claim'})
-REPAIR_TRIGGER = frozenset({'weak_hook'})   # soft codes that still get the one targeted rewrite
+REPAIR_TRIGGER = frozenset({'weak_hook', 'opener_repeat'})   # soft codes that still get the one targeted rewrite
+
+# Oct 9: explicit weak openers — fire as weak_hook even when a number is present in the first line.
+# ZH phrases that read like AI template / hedging / passive scroll (first-word match).
+WEAK_OPENERS_ZH = (
+    '我觉得', '我认为', '说实话', '老实说', '坦白说',
+    '扫了眼', '扫了一眼', '刚才看了', '刚看了', '刚刚看到',
+    '刷到', '看到一个', '今天看到', '注意到', '不得不说',
+    '讲真', '有一说一',
+)
+# '其实' is only weak as the very first word (其实XX is an opener hedge; 其实... in the middle is fine).
+_QISHI_FIRST = re.compile(r'^\W*其实')
+
+# EN phrases — case-insensitive prefix match.
+WEAK_OPENERS_EN = (
+    'I think', 'Honestly,', 'To be honest', 'Just saw', 'Was looking at',
+    'I noticed', 'Took a look', 'Scrolling', 'So I', 'Ngl',
+)
+
+_EXPLICIT_WEAK_ZH = re.compile(
+    r'^\W*(?:' + '|'.join(re.escape(p) for p in WEAK_OPENERS_ZH) + r')', re.UNICODE)
+
+# EN phrases may end in punctuation (e.g. 'Honestly,') so \b does not work reliably;
+# require word boundary only for purely alphabetic endings, else require space-or-end.
+def _build_en_weak_pattern():
+    parts = []
+    for phrase in WEAK_OPENERS_EN:
+        escaped = re.escape(phrase)
+        if phrase[-1].isalpha():
+            parts.append(escaped + r'\b')
+        else:
+            parts.append(escaped + r'(?=\s|$)')
+    return re.compile(r'^\W*(?:' + '|'.join(parts) + r')', re.I)
+
+_EXPLICIT_WEAK_EN = _build_en_weak_pattern()
 
 PROMPT_RULE = (
     'Hook and voice. Line 1 must carry a concrete number or named fact from the units, or a sharp first-person '
-    'observation in the persona\'s own voice (what I noticed / logged / checked) - never a generic opener such as '
+    'observation in the persona\'s own voice (the specific thing logged or checked, stated directly - not "I think / I noticed / Just saw / 我觉得 / 说实话 / 扫了眼 / 刚看了") - never a generic opener such as '
     '"Let\'s talk about", "Interesting times", "最近市场", "今天聊聊", "值得注意的是". Where the persona fits, write like '
     'someone keeping their own book: first person, what I am watching, what changed in my numbers. A forecast, price '
     'target or prediction that comes from a unit\'s speaker or the source is THEIR call: attribute it in the same '
@@ -37,7 +71,7 @@ PROMPT_RULE = (
     '"new high" / record / 新高 unless the units or reality lines show it is current as of the post time.')
 FIXES = {
     'weak_hook': ('Rewrite line 1 only: open on the most concrete number or named fact in the units, or on a sharp '
-                  'first-person observation (what I noticed / logged); no generic opener. Keep the rest.'),
+                  'first-person observation stated directly (no 我觉得 / 说实话 / 扫了眼 / 刚看了 / I think / I noticed); no generic opener. Keep the rest.'),
     'unattributed_forecast': ('The forecast / price target named in the detail is the source\'s call, not the account\'s: '
                               'attribute it in the same sentence ("<speaker> expects...", "据<来源>…", "<来源> 认为…"), '
                               'or drop it. Do not write it as your own prediction.'),
@@ -73,11 +107,35 @@ def first_line(body):
     return next((ln.strip() for ln in str(body or '').splitlines() if ln.strip()), '')
 
 
+def _explicit_weak_opener(first, lang):
+    """Return the matched weak opener phrase if the first line opens with one of the listed phrases, else None.
+
+    A first-person opener that is immediately followed by a concrete number / named fact in the same
+    first clause is still weak when it matches one of the explicit WEAK_OPENERS lists — the rule is
+    that those phrases read as AI template phrasing regardless of what follows.
+    Exception: first-person openers that are NOT on the explicit list (e.g. '我记了一笔：ETH 费率…')
+    are tested by hook_findings' existing number/entity path instead.
+    """
+    if lang == 'zh':
+        m = _EXPLICIT_WEAK_ZH.search(first) or _QISHI_FIRST.search(first)
+        if m:
+            return m.group(0).strip()
+    else:
+        m = _EXPLICIT_WEAK_EN.search(first)
+        if m:
+            return m.group(0).strip()
+    return None
+
+
 def hook_findings(body, lang):
-    """weak_hook when line 1 opens generically, or carries no number / specific named fact / first person."""
+    """weak_hook when line 1 opens with an explicit weak phrase or is generic with no number/named fact/first person."""
     first = first_line(body)
     if not first:
         return []
+    # Oct 9: explicit weak opener list always fires, even when a number follows in the same clause.
+    explicit = _explicit_weak_opener(first, lang)
+    if explicit:
+        return [{'code': 'weak_hook', 'detail': f'line 1 opens with weak phrase: "{explicit}"'}]
     rx = GENERIC_ZH if lang == 'zh' else GENERIC_EN
     m = rx.search(first)
     if m:
@@ -260,6 +318,79 @@ def stale_claim_findings(body, units, source=None, now=None, fetch=None):
                      'detail': f'"{m.group(0)}" stated as current, but {p[0]} is {p[3]:.0%} under its recent high '
                                f'(last {p[1]:,.2f} vs high {p[2]:,.2f})'}]
     return []
+
+
+def _normalize_opener(first_line_text, lang):
+    """Canonical opener key for repeat-detection (first 6 CJK chars or first 4 EN words after stripping
+    punctuation / @ / $). Returns '' when the line is empty."""
+    s = str(first_line_text or '').strip()
+    if not s:
+        return ''
+    # strip leading punctuation and social-media tokens
+    s = re.sub(r'^[\W@$#]+', '', s).strip()
+    if lang == 'zh':
+        cjk = re.sub(r'[^一-鿿㐀-䶿 0-⩭f]', '', s)
+        return cjk[:6]
+    else:
+        words = re.findall(r'\w+', s)
+        return ' '.join(words[:4]).lower()
+
+
+def batch_opener_findings(rows):
+    """SOFT opener_repeat check over one day's drafts.
+
+    rows: list of dicts with id, account_id, lang, body (the full draft body, not the post text).
+    Stable order within the batch must be by suggested_post_time_london then id (caller's responsibility).
+
+    Returns a list of finding dicts: {'id': draft_id, 'finding': {...}}.
+    Each finding has code 'opener_repeat', level 'soft', and a detail string.
+
+    Rules:
+      1. Same normalised opener used by >= 2 accounts: every draft after the first gets a finding.
+      2. Same weak-opener PHRASE used by >= 3 accounts in a day: every one of those drafts gets a
+         phrase-cluster finding (all of them, not just the later ones).
+    """
+    seen_openers = {}   # normalised key -> first account_id that used it
+    phrase_counts = {}  # weak-opener phrase -> list of (draft_id, account_id)
+    out = []
+
+    for row in rows:
+        body = str(row.get('body') or '')
+        lang = str(row.get('lang') or 'zh')
+        draft_id = row.get('id', '')
+        account_id = str(row.get('account_id', ''))
+        fl = first_line(body)
+        key = _normalize_opener(fl, lang)
+
+        # track weak-opener phrases for the 3-account rule
+        explicit = _explicit_weak_opener(fl, lang)
+        if explicit:
+            phrase_counts.setdefault(explicit, []).append((draft_id, account_id))
+
+        if not key:
+            continue
+        if key in seen_openers:
+            out.append({'id': draft_id, 'finding': {
+                'code': 'opener_repeat', 'level': 'soft',
+                'detail': f'opener "{key}" also used by {seen_openers[key]}'}})
+        else:
+            seen_openers[key] = account_id
+
+    # phrase-cluster rule: >= 3 accounts sharing a weak opener phrase
+    for phrase, hits in phrase_counts.items():
+        if len(hits) >= 3:
+            accounts_using = [a for _, a in hits]
+            for draft_id, account_id in hits:
+                # avoid double-appending if already flagged by key-repeat above
+                already = any(f['id'] == draft_id and f['finding']['code'] == 'opener_repeat'
+                              and f'phrase cluster' in f['finding']['detail']
+                              for f in out)
+                if not already:
+                    others = [a for a in accounts_using if a != account_id]
+                    out.append({'id': draft_id, 'finding': {
+                        'code': 'opener_repeat', 'level': 'soft',
+                        'detail': f'phrase cluster "{phrase}" used by {len(hits)} accounts including {others[0]}'}})
+    return out
 
 
 def findings(body, units, source=None, now=None, lang='en'):

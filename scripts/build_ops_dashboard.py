@@ -144,6 +144,9 @@ def media_of(row):
             'action': action_of(mode, target),
             # live/engagement.py (FD_ENGAGE): the target's numbers at selection; its slot is pinned in clamp_times
             'engage_meta': engage_meta(eng) if engaged else '', 'pinned': engaged,
+            # Oct 9 night: the target post's opening words + author, so ops can check the reply / quote fits it
+            'target_text': target_text(row) if engaged else '',
+            'target_author': (eng.get('author') or '') if engaged else '',
             'heat_led': bool(row.get('heat_led')),
             'lead': lead_score(row),
             # FD_HOTSPOT (live/hotspot.py): 「热点」 tag + the 母题 title
@@ -161,6 +164,13 @@ def media_of(row):
                        'updated': chart_time(m),
                        'credit': ', '.join(s.get('name') or '' for s in m.get('data_sources') or [])}
                       for m in row.get('media') or [] if m.get('path')]}
+
+
+def target_text(row, limit=140):
+    """The engagement target's opening words (the stored X source title; at most `limit` chars)."""
+    src = row.get('source') if isinstance(row.get('source'), dict) else {}
+    t = ' '.join(str(src.get('title') or '').split())
+    return t if len(t) <= limit else t[:limit - 1] + '…'
 
 
 def action_of(mode, target):
@@ -580,7 +590,7 @@ __BASECSS__
 .tgt{margin:0 0 14px;font-size:13px;color:var(--ink2)}.tgt summary{cursor:pointer;font-weight:600}
 .tgt table{border-collapse:collapse;margin-top:8px;width:100%}.tgt th,.tgt td{text-align:left;padding:4px 8px;border-bottom:1px solid var(--line,#e5e5e5);white-space:nowrap}
 .mode{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;font-size:12.5px;color:var(--ink2)}
-.act{font-size:13px;font-weight:600;line-height:1.5;color:var(--accent);border:1.5px solid var(--accent);border-radius:8px;padding:6px 10px;margin-bottom:10px;word-break:break-all}.act a{color:inherit}
+.act{font-size:13px;font-weight:600;line-height:1.5;color:var(--accent);border:1.5px solid var(--accent);border-radius:8px;padding:6px 10px;margin-bottom:10px;word-break:break-all}.act a{color:inherit}.act .tt{font-weight:400;color:var(--fg,inherit);opacity:.85;margin-top:4px;word-break:normal}
 .note{font-size:12.5px;line-height:1.5;color:var(--warn);background:var(--warnbg);border-radius:8px;padding:6px 10px;margin-bottom:10px}
 .note.mv{color:var(--info);background:var(--infobg);align-self:flex-start}
 .txt{white-space:pre-wrap;word-break:break-word;font-size:14.5px;line-height:1.75;color:var(--ink)}
@@ -708,7 +718,7 @@ function card(d,posted,slot){
   const imgs=(d.media||[]).map((m,i)=>{const u=esc(m.src||m.path),info=[m.credit?'数据：'+m.credit:'',m.updated?'图更新于 北京时间 '+m.updated:''].filter(Boolean).join(' · ');
     return `<div class="att"><a class="th" href="${u}" target="_blank" rel="noopener" title="打开大图"><img src="${u}" alt="${esc(m.alt)}" loading="lazy"></a><div class="lb"><b>${I.img}配图 ${i+1}</b>${info?`<small title="${esc(info)}">${esc(info)}</small>`:''}</div><a class="dl" href="${u}" download="${esc(m.path.split('/').pop())}" title="下载图片" aria-label="下载图片">${I.dl}</a></div>`}).join('');
   const total=multi?`共 ${d.parts.length} 段 · ${cnt(d.text,d.xw,d.lang)}`:cnt(d.text,d.xw,d.lang);
-  return `<div class="post${p?' posted':''}${ready?'':' notready'}${opened.has(d.id)?' open':''}" data-id="${esc(d.id)}"><div class="ph"><span class="pl">帖子 ${slot} ·</span><span class="tm" title="建议发出（北京时间）">${when(d.time)}</span>${st}</div>${d.note?`<div class="note${d.note.startsWith('改派自')?' mv':''}">${esc(d.note)}</div>`:''}${d.action&&d.target?`<div class="act">${d.mode==='reply'?'用 X 的「回复」发在这条帖子下面':'用 X 的「引用」转发这条帖子'}（不要单独发）：<a href="${esc(d.target)}" target="_blank" rel="noopener noreferrer">${esc(d.target)}</a></div>`:''}${mode}${body}${xp}${imgs}<div class="fill"></div><div class="cnt">${total}</div>
+  return `<div class="post${p?' posted':''}${ready?'':' notready'}${opened.has(d.id)?' open':''}" data-id="${esc(d.id)}"><div class="ph"><span class="pl">帖子 ${slot} ·</span><span class="tm" title="建议发出（北京时间）">${when(d.time)}</span>${st}</div>${d.note?`<div class="note${d.note.startsWith('改派自')?' mv':''}">${esc(d.note)}</div>`:''}${d.action&&d.target?`<div class="act">${d.mode==='reply'?'用 X 的「回复」发在这条帖子下面':'用 X 的「引用」转发这条帖子'}（不要单独发）：<a href="${esc(d.target)}" target="_blank" rel="noopener noreferrer">${esc(d.target)}</a>${d.target_text?`<div class="tt">原帖${d.target_author?' @'+esc(d.target_author):''}：「${esc(d.target_text)}」</div>`:''}</div>`:''}${mode}${body}${xp}${imgs}<div class="fill"></div><div class="cnt">${total}</div>
 <div class="foot">${ready?`<label class="done-l"><input type="checkbox" data-p="${esc(d.id)}" ${p?'checked':''}> 已发</label>`:'<span class="cnt">不可发：先改稿或等重写</span>'}<button class="cp" data-t="${esc(d.text)}">${COPY_SVG}<span>${multi?'复制全部':'一键复制'}</span></button></div></div>`;
 }
 // 展开正文 only where the text is cut (3 lines) or a thread has more parts

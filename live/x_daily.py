@@ -349,12 +349,29 @@ def gather(state, *, now, known=None, subs=None, rapid=None, apify=None, window_
         if engage is None and os.environ.get('RAPID_X_API_KEY'):
             from live import engagement, x_breadth
             ecfg = engagement.config()
-            engage = lambda esubs: x_breadth.fetch(  # noqa: E731
-                esubs, now=now, day=now.date().isoformat(), window_hours=min(window_hours, ecfg['quote_max_age_h']),
-                config={'daily_call_cap': ecfg['engage_daily_call_cap'], 'batch_size': 20,
-                        'pages_per_batch': ecfg['engage_pages_per_batch'],
-                        'query_suffix': f"min_faves:{int(ecfg['search_min_faves'])}" if ecfg.get('search_min_faves') else ''},
-                log_name='engage')
+            def _one(esubs, faves):
+                return x_breadth.fetch(
+                    esubs, now=now, day=now.date().isoformat(),
+                    window_hours=min(window_hours, max(ecfg['quote_max_age_h'], ecfg.get('quote_ext_max_age_h') or 0)),
+                    config={'daily_call_cap': ecfg['engage_daily_call_cap'], 'batch_size': 20,
+                            'pages_per_batch': ecfg['engage_pages_per_batch'],
+                            'query_suffix': f"min_faves:{int(faves)}" if faves else ''},
+                    log_name='engage')
+
+            def engage(esubs):   # Oct 9 night: one batched search per language (ZH posts: lower min_faves)
+                got, info = {}, {'by_lang': {}, 'run_handles': [], 'calls': 0, 'errors': []}
+                groups = {}
+                for sub in esubs:
+                    groups.setdefault(str(sub.get('lang') or 'en')[:2], []).append(sub)
+                for lg, subs in sorted(groups.items(), key=lambda kv: kv[0] != 'zh'):   # zh first: thin pool
+                    g, i = _one(subs, engagement.by_lang(ecfg, 'search_min_faves', lg))
+                    got.update(g or {})
+                    i = i or {}
+                    info['by_lang'][lg] = i
+                    info['run_handles'] += list(i.get('run_handles') or [])
+                    info['calls'] += int(i.get('calls') or 0)
+                    info['errors'] += list(i.get('errors') or [])
+                return got, info
         if engage is not None:
             try:
                 egot, engage_info = engage([s for s, _ in engage_subs])

@@ -905,7 +905,26 @@ JUDGE_CODES = ('archive_misrepresents', 'archive_fidelity_unchecked')
 
 _PREDICT = re.compile(r'预测|预言|预判|预计|看涨|看跌|喊单|喊[多空]|判断[^。！？\n]{0,8}(?:会|将|要)|'
                       r'\b(?:predict\w*|forecast\w*|called (?:for|it|the)|bet that|expected [^.!?]{0,25}\bto)\b', re.I)
-_CONDITION = re.compile(r'如果|若|假如|一旦|只要|要是|前提|除非|\bif\b|\bunless\b|\bonce\b|\bprovided\b|\bwhen\b', re.I)
+_CONDITION = re.compile(r'如果|若|假如|一旦|只要|要是|前提|除非|直到|\bif\b|\bunless\b|\bonce\b|\bprovided\b|\bwhen\b|'
+                        r'\buntil\b|\bas long as\b|\bso long as\b', re.I)
+_NUM_TOKEN = re.compile(r'\d+(?:[.,]\d+)?\s*[kK万]?')
+
+
+def _condition_kept(body, condition):
+    """Oct 9 night (HOLD review): the condition is kept when the draft has a condition word, or names the
+    condition's own level (10-09 #15: "meaningfully losing the $107,000 level" for "we meaningfully lose 107k")."""
+    if _CONDITION.search(body):
+        return True
+    def norm(tok):
+        t = tok.replace(',', '').replace(' ', '').lower()
+        mult = 1000 if t.endswith('k') else 10000 if t.endswith('万') else 1
+        try:
+            return float(t.rstrip('k万')) * mult
+        except ValueError:
+            return None
+    want = {norm(t) for t in _NUM_TOKEN.findall(str(condition or ''))} - {None, 0.0}
+    have = {norm(t) for t in _NUM_TOKEN.findall(str(body or ''))} - {None}
+    return bool(want) and want <= have
 
 
 def claim_findings(body, cand):
@@ -920,7 +939,7 @@ def claim_findings(body, cand):
         if hits:
             out.append({'code': 'archive_claim_type', 'level': 'hard',
                         'detail': f'the original is a {ctype}, the draft frames it as a prediction: {hits[:3]}'})
-    if ctype == 'conditional' and card.get('condition') and not _CONDITION.search(body):
+    if ctype == 'conditional' and card.get('condition') and not _condition_kept(body, card.get('condition')):
         out.append({'code': 'archive_condition_dropped', 'level': 'hard',
                     'detail': f"conditional claim told without its condition ({card.get('condition')[:80]})"})
     if card.get('data_tests_claim') and card.get('data_tests_claim') != 'tests_claim':
@@ -1109,6 +1128,14 @@ def compose(client, account_cfg, cands, day, judge=None):
         except Exception as exc:   # noqa: BLE001 - a rewrite that never came back is a model error hold
             result['hard_repair'] = {'result': 'rewrite_error', 'error': f'{type(exc).__name__}: {str(exc)[:200]}',
                                      'first_codes': sorted({f['code'] for f in hard})}
+    from live import editorial_style
+    fixed = editorial_style.autofix_if_only_cliche(body, account_cfg['lang'], found)
+    if fixed is not None:   # Oct 9 night: boilerplate-only HARD -> deterministic fix, not a HOLD
+        found2, rows2 = check(fixed, cand, account_cfg)
+        found2 += [f for f in found if f['code'] in JUDGE_CODES]   # judge verdicts carry over
+        if not any(f.get('level') == 'hard' for f in found2):
+            result['autofix'] = {'codes': ['editorial_cliche'], 'from': body[:80]}
+            body, found, rows = fixed, found2, rows2
     hard = sorted({f['code'] for f in found if f.get('level') == 'hard'})
     status = 'needs_review' if hard else 'draft_ready'
     return {**result, 'status': status, 'body': body, 'findings': found, 'span_grounding': rows, 'hard': hard}

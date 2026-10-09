@@ -1216,7 +1216,10 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
     findings += hook_voice.findings(body, units, source, now, persona.lang)
     if (shape or {}).get('engage'):   # Oct 8 (live/engagement.py): reply / quote draft under a big account
         from live import engagement as _eng
-        findings += _eng.findings(body, shape['engage'], persona.lang)
+        _sid = (source or {}).get('id')
+        _own = [u for u in units or () if not _sid or ((u.get('source') or {}).get('id') in (None, _sid))]
+        from live.hook_voice import _unit_texts as _ut
+        findings += _eng.findings(body, shape['engage'], persona.lang, target_text=_ut(_own or units, source))
     findings += contradiction_findings(body)
     findings += qa_levels.d_tier_findings(body)
     if frame and frame.get('never_name'):
@@ -2227,6 +2230,18 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                     text, findings, grounding, emo_findings = text_h, findings_h, grounding_h, emo_h
                 else:
                     hard_repair['kept'] = 'original'
+    # Oct 9 night (HOLD review): editorial_cliche from a fixable ZH boilerplate phrase is the only HARD finding left
+    # -> fix it in place (editorial_style.AUTOFIX_ZH) instead of holding the draft; FD_STYLE_AUTOFIX=0 turns it off.
+    import os as _os_fix
+    if _os_fix.environ.get('FD_STYLE_AUTOFIX', '1') != '0':
+        from live import editorial_style as _es
+        _fixed = _es.autofix_if_only_cliche(body, persona.lang, findings)
+        if _fixed is not None:
+            _t, _f, _g, _e = _final_qa(_fixed, ledger, label_stripped)
+            if not any(f['level'] == 'hard' for f in _f):
+                body, text, findings, grounding, emo_findings = _fixed, _t, _f, _g, _e
+                if hard_repair is not None:
+                    hard_repair['autofix'] = 'editorial_cliche'
     if stance and stance.get('stance_findings'):
         findings += qa_levels.classify(stance['stance_findings'], frame_found=True)
     input_view = (primary or {}).get('view') if stance else None

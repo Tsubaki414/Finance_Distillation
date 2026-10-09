@@ -97,6 +97,39 @@ def _sentences(body):
     return [s.strip() for s in re.split(r'(?<=[。！？!?\n])', body) if s.strip()]
 
 
+# Oct 9 night (HOLD review): ZH boilerplate with a safe deterministic fix. After compose's one targeted rewrite, a
+# draft whose ONLY remaining HARD code is editorial_cliche from these phrases is fixed in place instead of HELD
+# (10-09 #9 「整个板块的核心逻辑」). 不是X而是Y / 一方面…另一方面 / waiting lines need a real rewrite and stay HARD.
+AUTOFIX_ZH = (('核心逻辑', '逻辑'), ('其实这就是', '这就是'), ('这其实就是', '这就是'), ('本质上，', ''), ('本质上', ''),
+              ('值得注意的是，', ''), ('值得注意的是', ''), ('很显然，', ''), ('很显然', ''), ('显而易见，', ''),
+              ('众所周知，', ''), ('不难看出，', ''), ('毋庸置疑，', ''), ('归根结底，', ''), ('说到底，', ''),
+              ('大家都知道，', ''))
+
+
+def autofix(body, lang):
+    """(new_body, changed) with the AUTOFIX_ZH phrases replaced; EN / other text unchanged."""
+    if lang != 'zh' or not body:
+        return body, False
+    new = str(body)
+    for a, b in AUTOFIX_ZH:
+        new = new.replace(a, b)
+    return new, new != body
+
+
+def autofix_if_only_cliche(body, lang, found):
+    """When editorial_cliche is the only HARD finding left and the autofix clears it, return the fixed body (no
+    new HARD style finding); else None."""
+    hard_codes = {f.get('code') for f in found if f.get('level') == 'hard'}
+    if hard_codes != {'editorial_cliche'}:
+        return None
+    new, changed = autofix(body, lang)
+    if not changed:
+        return None
+    if any(f['code'] in HARD_CODES for f in findings(new, lang)):
+        return None
+    return new
+
+
 def hard(found):
     """The findings among `found` that still HOLD a draft (HARD_CODES)."""
     return [f for f in found if f.get('code') in HARD_CODES]

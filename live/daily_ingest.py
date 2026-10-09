@@ -594,8 +594,22 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
                 summary['x']['deferred']=len(pending)+len(x_plan['overflow'])
             step('x_extract',run_x)
         capped=False; extracted=0
+        # Oct 9 night: the 23:13 run stalled ~8 min CPU-bound inside one task (no log progress) and was killed, losing
+        # the whole run. Each task now has a wall-clock limit (FD_INGEST_TASK_TIMEOUT s, default 240; 0 = off): on
+        # expiry the task fails like any other (channel marked failed, run continues) and the stack is logged.
+        import os, signal, faulthandler, threading
+        task_limit=int(float(os.environ.get('FD_INGEST_TASK_TIMEOUT','240') or 0))
+        use_alarm=task_limit>0 and hasattr(signal,'SIGALRM') and threading.current_thread() is threading.main_thread()
+        class TaskTimeout(Exception): pass
+        def _on_alarm(signum,frame):
+            signal.alarm(20)   # re-arm: a retry loop that swallows the first raise gets another one
+            raise TaskTimeout(f'task exceeded {task_limit}s')
+        old_alarm=signal.signal(signal.SIGALRM,_on_alarm) if use_alarm else None
         for ch,s,units,adapter,keys,rank in tasks:   # v8: ingest_priority order (fair-share floor)
             t=time.monotonic()
+            if use_alarm:
+                faulthandler.dump_traceback_later(max(30,task_limit-15),exit=False,file=sys.stderr)
+                signal.alarm(task_limit)
             if capped or (units is None and extracted>=max_extract):
                 reason='deferred_cost_cap' if capped else 'deferred_max_extract'
                 ch['status']=reason; summary['deferred'].append(dict(id=s['id'],channel=ch['id'],status=reason));continue
@@ -627,8 +641,13 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
                 fails=state['channels'].setdefault(ch['id'],{'seen':[]}).setdefault('failed',{})
                 for k in keys: fails[k]=fails.get(k,0)+1
                 if ch['id'] not in summary['failing_channels']:summary['failing_channels'].append(ch['id'])
+            finally:
+                if use_alarm:
+                    signal.alarm(0); faulthandler.cancel_dump_traceback_later()
             ch['seconds']+=time.monotonic()-t
-            print(f"[extract] {ch['id']} {s['id']} {ch['status']} units={ch['units']}",file=sys.stderr,flush=True)
+            print(f"[extract] {ch['id']} {s['id']} {ch['status']} units={ch['units']} {time.monotonic()-t:.0f}s",file=sys.stderr,flush=True)
+        if use_alarm:
+            signal.signal(signal.SIGALRM,old_alarm or signal.SIG_DFL)
         summary['steps'].append(dict(id='extract',status='ok',extracted=extracted,deferred=len(summary['deferred'])))
         if 'client' in locals() and client is not None:
             summary['extract_calls']=extract_fallbacks(client)
