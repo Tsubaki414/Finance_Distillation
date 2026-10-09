@@ -63,7 +63,7 @@ _EXPLICIT_WEAK_EN = _build_en_weak_pattern()
 
 PROMPT_RULE = (
     'Hook and voice. Line 1 must carry a concrete number or named fact from the units, or a sharp first-person '
-    'observation in the persona\'s own voice (what I noticed / logged / checked) - never a generic opener such as '
+    'observation in the persona\'s own voice (the specific thing logged or checked, stated directly - not "I think / I noticed / Just saw / 我觉得 / 说实话 / 扫了眼 / 刚看了") - never a generic opener such as '
     '"Let\'s talk about", "Interesting times", "最近市场", "今天聊聊", "值得注意的是". Where the persona fits, write like '
     'someone keeping their own book: first person, what I am watching, what changed in my numbers. A forecast, price '
     'target or prediction that comes from a unit\'s speaker or the source is THEIR call: attribute it in the same '
@@ -71,7 +71,7 @@ PROMPT_RULE = (
     '"new high" / record / 新高 unless the units or reality lines show it is current as of the post time.')
 FIXES = {
     'weak_hook': ('Rewrite line 1 only: open on the most concrete number or named fact in the units, or on a sharp '
-                  'first-person observation (what I noticed / logged); no generic opener. Keep the rest.'),
+                  'first-person observation stated directly (no 我觉得 / 说实话 / 扫了眼 / 刚看了 / I think / I noticed); no generic opener. Keep the rest.'),
     'unattributed_forecast': ('The forecast / price target named in the detail is the source\'s call, not the account\'s: '
                               'attribute it in the same sentence ("<speaker> expects...", "据<来源>…", "<来源> 认为…"), '
                               'or drop it. Do not write it as your own prediction.'),
