@@ -322,8 +322,25 @@ def judge_findings(ask, body, cand):
     if out.get('faithful') is True and not issues:
         return []
     issues = issues or [{'type': 'unfaithful', 'detail': 'judge returned faithful=false without detail'}]
-    return [{'code': 'evergreen_misrepresents', 'level': 'hard',
-             'detail': [f"{i.get('type')}: {str(i.get('detail'))[:200]}" for i in issues]}]
+    # Oct 9 night (HOLD review, Fiona: HOLD only for fabrication / distortion / wrong numbers): an evergreen is told in
+    # the account's own voice with no attribution, so an added interpretive line or general concept with no number,
+    # date, name or advice (10-09 #3 「早期的注意力确实需要依靠故事来获取」, #9 CapEx / 供需 framing) is a soft
+    # `evergreen_added_view`; distorted ideas, stale facts, copied structure and added facts with numbers stay HARD.
+    soft = [i for i in issues if i.get('type') == 'added_claim' and not ADDED_FACT.search(str(i.get('detail') or ''))]
+    hard = [i for i in issues if i not in soft]
+    out = []
+    if hard:
+        out.append({'code': 'evergreen_misrepresents', 'level': 'hard',
+                    'detail': [f"{i.get('type')}: {str(i.get('detail'))[:200]}" for i in hard]})
+    if soft:
+        out.append({'code': 'evergreen_added_view', 'level': 'soft',
+                    'detail': [f"{i.get('type')}: {str(i.get('detail'))[:200]}" for i in soft]})
+    return out
+
+
+# a judge's added_claim detail that names a fact: numbers / %, dates, money, @handles, tickers, advice / trade calls
+ADDED_FACT = re.compile(r'\d|[%$¥€£]|@\w|\b(?:buy|sell|should|must|advice|recommend\w*|price|date|year|month)\b|'
+                        r'买入|卖出|建议|应该|必须|价格|日期|年|月|亿|万', re.I)
 
 
 FIXES = {'evergreen_verbatim': 'Copied wording: rebuild those sentences in your own words and order.',
@@ -371,6 +388,14 @@ def compose(client, account_cfg, cands, day, *, judge=None, past=(), config=None
         except Exception as exc:   # noqa: BLE001
             result['hard_repair'] = {'result': 'rewrite_error', 'error': f'{type(exc).__name__}: {str(exc)[:200]}',
                                      'first_codes': sorted({f['code'] for f in hard})}
+    fixed = editorial_style.autofix_if_only_cliche(body, account_cfg['lang'], found)
+    if fixed is not None:   # Oct 9 night: boilerplate-only HARD -> deterministic fix, not a HOLD
+        found2 = check(fixed, cand, account_cfg, past=past, config=config) + [   # judge verdicts carry over
+            f for f in found if f['code'] in ('evergreen_misrepresents', 'evergreen_added_view',
+                                              'evergreen_fidelity_unchecked')]
+        if not any(f.get('level') == 'hard' for f in found2):
+            result['autofix'] = {'codes': ['editorial_cliche'], 'from': body[:80]}
+            body, found = fixed, found2
     hard = sorted({f['code'] for f in found if f.get('level') == 'hard'})
     return {**result, 'status': 'needs_review' if hard else 'draft_ready', 'body': body, 'findings': found,
             'hard': hard}

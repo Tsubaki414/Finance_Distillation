@@ -56,6 +56,13 @@ BROAD_RX = re.compile(
     r'美联储|降息|加息|比特币|以太坊|ETF|美股|关税|非农|通胀|萨尔瓦多|黄金|美债|微策略', re.I)
 
 
+# Oct 9 night (HOLD review): 10-09 #27 「$CRH … 市值竟然才刚刚突破 100 万美元 … 链上底池」 was held off_lane because
+# "Robinhood" is a broad word; a $TICKER discussed by market cap / pool / liquidity / holders is the meme lane itself.
+MEME_TIE = re.compile(r'\$[A-Za-z][A-Za-z0-9]{1,9}\b[^。！？!?\n]{0,120}?(市值|底池|流动性|筹码|换手|持币地址|market ?cap|mcap|'
+                      r'liquidity|\bholders\b|\bLP\b)|(市值|底池|流动性|market ?cap|mcap|liquidity)[^。！？!?\n]{0,60}?\$[A-Za-z]{2,10}\b',
+                      re.I | re.S)
+
+
 def enabled(env=None):
     return (env if env is not None else os.environ).get('FD_LANE_FIT', '1') != '0'
 
@@ -86,7 +93,10 @@ def lane_hits(lane, text):
     rx = LANE_RX.get(lane)
     if rx is None:
         return []
-    return sorted({m.group(0).lower()[:40] for m in rx.finditer(text)})
+    hits = {m.group(0).lower()[:40] for m in rx.finditer(text)}
+    if lane == 'crypto_meme':   # Oct 9 night: a small $TICKER talked about by market cap / pool / holders is a meme coin
+        hits |= {'$ticker+' + m.group(1).lower()[:12] for m in MEME_TIE.finditer(text)}
+    return sorted(hits)
 
 
 def is_broad(text):
