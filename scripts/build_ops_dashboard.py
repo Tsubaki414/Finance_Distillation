@@ -338,10 +338,11 @@ def clamp_times(drafts, day, now=None):
     lo, hi = (base.replace(hour=h, minute=m) for h, m in (POST_START, POST_END))
     late = day >= POST_NOT_BEFORE_FROM and os.environ.get('FD_POST_NOT_BEFORE', '1') != '0'
     if late and now is not None:   # build time (main): nothing unposted is slotted before now + POST_LEAD
+        today = now.astimezone(BJT).date() == base.date()   # past days' files keep their times
         now = now.astimezone(BJT) + POST_LEAD
         now = now.replace(second=0, microsecond=0) + timedelta(minutes=(-now.minute) % 5)
-        if lo < now <= hi:
-            lo = now
+        if lo < now and (now <= hi or today):
+            lo = now   # Oct 9: past 22:59 too (lo > hi): every unposted slot then moves to 明天
     by_acct = {}
     for d in drafts:
         if d['time'] and late and d.get('decision') == 'published':
@@ -379,14 +380,35 @@ def clamp_times(drafts, day, now=None):
         t[-1] = min(t[-1], hi)
         for i in range(len(t) - 2, -1, -1):        # backward: pull late overflow earlier, gaps kept
             t[i] = min(t[i], t[i + 1] - POST_GAP)
-        if t[0] < lo:                              # > 30 slots cannot fit; never happens at 2-5 per account
-            raise ValueError(f'{len(t)} slots do not fit 08:00-22:59 at 30-minute spacing')
-        orig, nb = lead_first(orig, nb, t, {s: max(float(d.get('lead') or 0) for d in slots[s]) for s in orig})
+        lead = {s: max(float(d.get('lead') or 0) for d in slots[s]) for s in orig}
+        over = []
+        if t[0] < lo or lo > hi:
+            # Oct 9: late in the Beijing day (lo = now + lead) an account's unposted drafts may not fit before 22:59 at
+            # 30-minute spacing. Never fail the build: the best-lead drafts take the last valid slots, the rest move
+            # to 明天 (next day from 08:00, flagged `overflow`, a note on the card) with a warning on stderr.
+            fit = max(0, int((hi - lo) / POST_GAP) + 1) if lo <= hi else 0
+            t = [hi - POST_GAP * (fit - 1 - i) for i in range(fit)]
+            ext = t + [hi + POST_GAP * (j + 1) for j in range(len(orig) - fit)]
+            orig, nb = lead_first(orig, nb, ext, lead)
+            orig, over = orig[:fit], orig[fit:]
+            a_lo = lo
+            print(f'warning: {acct} on {day}: {len(orig) + len(over)} unposted slots do not fit '
+                  f'{lo:%H:%M}-{hi:%H:%M} at 30-minute spacing; {len(over)} moved to 明天', file=sys.stderr)
+        else:
+            orig, nb = lead_first(orig, nb, t, lead)
         if pins:
             t = avoid_pins(t, pins, a_lo, hi)
         for s, new in zip(orig, t):
             for d in slots[s]:
                 d['time'] = new.isoformat()
+        nxt = base + timedelta(days=1)
+        nxt = nxt.replace(hour=POST_START[0], minute=POST_START[1])
+        for j, s in enumerate(over):
+            for d in slots[s]:
+                d['time'] = (nxt + POST_GAP * j).isoformat()
+                d['overflow'] = True
+                tag = '明天：今天剩余时段放不下（同账号需间隔 30 分钟），顺延到明天这个时间'
+                d['note'] = f"{tag} · {d['note']}" if d.get('note') else tag
     drafts.sort(key=lambda d: (d['time'], d['id']))
     return drafts
 

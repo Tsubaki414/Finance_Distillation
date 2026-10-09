@@ -48,11 +48,35 @@ FALLBACK_MAX_TOKENS = int(os.environ.get('FD_FALLBACK_MAX_TOKENS', '4000'))
 PROVIDER_FAILS = {}
 PROVIDER_BREAKER_FAILS = int(os.environ.get('FD_PROVIDER_BREAKER_FAILS', '3'))
 PROVIDER_BREAKER_SECONDS = float(os.environ.get('FD_PROVIDER_BREAKER_SECONDS', '600'))
+# Oct 9 ~13:00 London: subrouter answers gemini-3-flash with HTTP 400 "antigravity auth missing project_id" while
+# gemini-3.1-pro-preview still works and micuapi (the same-model provider fallback) has no balance. Every flash stage
+# (stance / extract / extract_flash / view_enrich / hotspot tagging / review / archive) then re-runs the call on
+# subrouter's gemini-3.1-pro-preview (flat rate, recorded as a model fallback with the reason). After the first such
+# error the flash route is skipped for FD_FLASH_DEAD_SECONDS (1800) so a dead channel costs one call per process,
+# not one per item. FD_FLASH_PRO_FALLBACK=0 turns it off.
+FLASH_PRO_MODEL = 'gemini-3.1-pro-preview'
+FLASH_DEAD = {}   # subrouter base_url -> (monotonic time, reason)
+
+
+def flash_pro_fallback_on():
+    return os.environ.get('FD_FLASH_PRO_FALLBACK', '1') != '0'
+
+
+def is_flash_channel_error(exc):
+    """subrouter's dead flash channel (HTTP 400 'antigravity auth missing project_id'); other 400s are not it."""
+    text = str(exc).lower()
+    return 'project_id' in text and ('antigravity' in text or 'auth' in text)
+
+
+def flash_dead(base_url):
+    hit = FLASH_DEAD.get(base_url)
+    return hit if hit and time.monotonic() - hit[0] < float(os.environ.get('FD_FLASH_DEAD_SECONDS', '1800')) else None
 
 
 def reset_quota_breaker():
     QUOTA_TRIPPED.clear()
     PROVIDER_FAILS.clear()
+    FLASH_DEAD.clear()
 
 
 def quota_tripped():
@@ -269,6 +293,10 @@ class ErisedaiClient:
                 routed['base_url'] if routed else self.config['base_url'],
                 self._route_keys[stage] if routed else self.config['api_key'],
                 routed['api_key_env'] if routed else None)
+        flash_sub = (flash_pro_fallback_on() and routed is not None and stage_models.is_subrouter(routed['base_url'])
+                     and selected['model'].startswith('gemini-3-flash'))
+        if flash_sub and flash_dead(routed['base_url']):
+            return self._flash_pro(args, f"{selected['model']} skipped: {flash_dead(routed['base_url'])[1]}")
         try:
             try:
                 out = self._call(*args)
@@ -282,6 +310,9 @@ class ErisedaiClient:
             PROVIDER_FAILS.pop(key, None)
             return out
         except Exception as exc:
+            if flash_sub and is_flash_channel_error(exc):
+                FLASH_DEAD[routed['base_url']] = (time.monotonic(), str(exc)[:160])
+                return self._flash_pro(args, f"{selected['model']}: {exc}"[:300])
             # A provider fallback keeps the same Gemini model, so any primary failure except a budget refusal
             # (errors, 4xx/429/5xx, quota, transport, bad body, unexpected response model) moves to it.
             worthy = (not isinstance(exc, budget.BudgetExceeded)) if provider_fb else _fallback_worthy(exc)
@@ -293,6 +324,20 @@ class ErisedaiClient:
             if isinstance(exc, ProviderQuotaError):
                 QUOTA_TRIPPED[(stage, selected['model'])] = f'{selected["model"]}: {exc}'[:200]
             return self._fallback(stage, messages, max_tokens, fb, f'{selected["model"]}: {exc}'[:300])
+
+    def _flash_pro(self, args, reason):
+        """The flash call re-run on subrouter's gemini-3.1-pro-preview (same key, prompt, ceiling, thinking level)."""
+        stage, messages, limit, _model, temperature, base_url, secret, key_env = args
+        acc = self.stage_models.setdefault('accepted_response_models', {})
+        if FLASH_PRO_MODEL not in acc:
+            names = (FLASH_PRO_MODEL,) + stage_models.SUBROUTER_SAME_MODEL.get(FLASH_PRO_MODEL, ()) \
+                + tuple(stage_models.approved_alt_models(FLASH_PRO_MODEL))
+            acc[FLASH_PRO_MODEL] = [x for n in names for x in (n, f'{stage_models.SUBROUTER_VENDOR}/{n}')]
+        price = PROVIDER + '/' + FLASH_PRO_MODEL
+        if price not in budget.PRICES:
+            budget.PRICES[price] = (self.config['input_usd_per_million'], self.config['output_usd_per_million'])
+        return self._call(stage, messages, limit, FLASH_PRO_MODEL, temperature, base_url, secret, key_env,
+                          fallback_reason=reason, provider_fallback=False)
 
     def _fallback(self, stage, messages, max_tokens, fb, reason):
         if fb['base_url']:

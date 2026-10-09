@@ -171,7 +171,9 @@ def test_earlier_rows_of_the_day_count_and_warm_accounts_get_no_mode():
 def test_cold_window_is_thirty_days_from_first_day():
     assert E.is_cold('crypto_macro_zh', '2026-11-06')            # default first day 10-08
     assert not E.is_cold('crypto_macro_zh', '2026-11-07')
-    assert E.is_cold('crypto_meme_zh', '2027-01-01')             # not started yet = cold
+    # fd6af27 gave accounts 27-35 a first day (10-09); #36 crypto_stable_yield_en has none yet (null = cold)
+    assert E.is_cold('crypto_meme_zh', '2026-11-07') and not E.is_cold('crypto_meme_zh', '2026-11-08')
+    assert E.is_cold('crypto_stable_yield_en', '2027-01-01')     # not started yet = cold
 
 
 # ------------------------------------------------------------------ 4. draft checks + prompt
