@@ -34,6 +34,8 @@ def src(handle, pid, hours_before=2.0, likes=300, followers=120000):
 
 @pytest.fixture(autouse=True)
 def slot_rule_on(monkeypatch, tmp_path):
+    monkeypatch.setenv('FD_ENGAGE_FILL2', '0')   # Oct 9 night thresholds pinned off (legacy expectations)
+    monkeypatch.setenv('FD_ENGAGE_PICK_GATE', '0')
     monkeypatch.setenv('FD_ENGAGE', '1')
     monkeypatch.setenv('FD_SLOT_RULE', '1')
     monkeypatch.setenv('FD_ENGAGE_LOG', str(tmp_path / 'engage_log'))
