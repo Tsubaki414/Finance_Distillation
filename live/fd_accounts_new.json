@@ -8,7 +8,6 @@
    "id": "crypto_meme_zh",
    "lang": "zh",
    "name": "海带冲浪中🏄",
-   "handle": "HayleyPrescott3",
    "beat": "Meme 币 · 链上冲狗观察",
    "kind": "crypto",
    "status": "new",
@@ -90,26 +89,26 @@
     "EliseFolso71390": {
      "followers": 11307,
      "last_post": "2026-10-08",
-     "originals_scraped": 151,
+     "originals_scraped": 152,
      "posts_per_day_30d": 2.43,
      "promo_share_regex": 0.025
     },
     "xiaofeilong99": {
      "followers": 17730,
      "last_post": "2026-10-09",
-     "originals_scraped": 156,
-     "posts_per_day_30d": 4.93,
+     "originals_scraped": 157,
+     "posts_per_day_30d": 5.23,
      "promo_share_regex": 0.025
     },
     "bi_9527zx": {
      "followers": 60594,
      "last_post": "2026-10-09",
-     "originals_scraped": 144,
-     "posts_per_day_30d": 4.79,
+     "originals_scraped": 145,
+     "posts_per_day_30d": 4.17,
      "promo_share_regex": 0.05
     }
    },
-   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen",
+   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
    "x_sources": {
     "CORE": [
      "EinsteinYipie",
@@ -130,16 +129,20 @@
     ]
    },
    "lane_first": true,
-   "donors_removed": {
-    "scriptdotmoney": "last_original 2026-09-26 — outside 7-day meme lane activity window at time of review"
-   }
+   "donors_removed": [
+    {
+     "handle": "scriptdotmoney",
+     "reason": "no top-level original since 2026-09-26 (meme lane needs one within 7 days)",
+     "at": "2026-10-09 pm-donors5"
+    }
+   ],
+   "handle": "HayleyPrescott3"
   },
   {
    "no": 28,
    "id": "crypto_airdrop_zh",
    "lang": "zh",
    "name": "撸不动的小芋🍠",
-   "handle": "whatbrownsays",
    "beat": "空投 / 撸毛 · 积分与 TGE 攻略",
    "kind": "crypto",
    "status": "new",
@@ -229,26 +232,26 @@
     "Airdrop_Guard": {
      "followers": 52760,
      "last_post": "2026-10-09",
-     "originals_scraped": 155,
-     "posts_per_day_30d": 1.43,
+     "originals_scraped": 156,
+     "posts_per_day_30d": 1.63,
      "promo_share_regex": 0.2
     },
     "LumaoDoggie": {
      "followers": 18681,
      "last_post": "2026-10-06",
-     "originals_scraped": 144,
-     "posts_per_day_30d": 1.5,
+     "originals_scraped": 145,
+     "posts_per_day_30d": 1.6,
      "promo_share_regex": 0.075
     },
     "Benjieming1Q84": {
      "followers": 61978,
      "last_post": "2026-10-09",
-     "originals_scraped": 138,
-     "posts_per_day_30d": 7.36,
+     "originals_scraped": 139,
+     "posts_per_day_30d": 4.63,
      "promo_share_regex": 0.05
     }
    },
-   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen",
+   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
    "x_sources": {
     "CORE": [
      "VIP8888883",
@@ -272,14 +275,13 @@
     ]
    },
    "lane_first": true,
-   "donors_removed": {}
+   "handle": "whatbrownsays"
   },
   {
    "no": 29,
    "id": "crypto_prediction_zh",
    "lang": "zh",
    "name": "盘口老白",
-   "handle": "mollyepierson",
    "beat": "预测市场 · Polymarket 盘口解读",
    "kind": "crypto",
    "status": "new",
@@ -318,8 +320,8 @@
     "yummyuyu_",
     "Mumu_yay",
     "0xchubai",
-    "Boywus",
-    "ec_unoxx"
+    "web3houzi",
+    "JfwRk"
    ],
    "donor_evidence": {
     "MrRyanChi": {
@@ -357,22 +359,22 @@
      "posts_per_day_30d": 1.77,
      "promo_share_regex": 0.075
     },
-    "Boywus": {
-     "followers": 12473,
+    "web3houzi": {
+     "followers": 11750,
      "last_post": "2026-10-09",
-     "originals_scraped": 157,
-     "posts_per_day_30d": 1.64,
-     "promo_share_regex": 0.05
+     "originals_scraped": 111,
+     "posts_per_day_30d": 2.17,
+     "promo_share_regex": 0.1
     },
-    "ec_unoxx": {
-     "followers": 10391,
+    "JfwRk": {
+     "followers": 5693,
      "last_post": "2026-10-09",
-     "originals_scraped": 141,
-     "posts_per_day_30d": 1.07,
-     "promo_share_regex": 0.05
+     "originals_scraped": 74,
+     "posts_per_day_30d": 2.47,
+     "promo_share_regex": 0.1
     }
    },
-   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen",
+   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
    "x_sources": {
     "CORE": [
      "MrRyanChi",
@@ -398,14 +400,13 @@
     "0xScottBTC": "roster 2026-10-04 review: donor_fit radar (0.2 posts/day) - kept as a SECONDARY X source, not a voice donor"
    },
    "lane_first": true,
-   "donors_removed": {}
+   "handle": "mollyepierson"
   },
   {
    "no": 30,
    "id": "crypto_stable_yield_zh",
    "lang": "zh",
    "name": "慢龟存U🐢",
-   "handle": "QUEEN_NAE24",
    "beat": "稳定币理财 · 链上收益与风险",
    "kind": "crypto",
    "status": "new",
@@ -443,7 +444,9 @@
     "ChaseWang",
     "MengLayer",
     "0xLoki_Zeng",
-    "LumaoDoggie"
+    "LumaoDoggie",
+    "blockma",
+    "0xLin88"
    ],
    "donor_evidence": {
     "yuyue_chris": {
@@ -471,19 +474,32 @@
      "followers": 21243,
      "last_post": "2026-10-09",
      "originals_scraped": 151,
-     "posts_per_day_30d": 3.64,
+     "posts_per_day_30d": 4.0,
      "promo_share_regex": 0.025
     },
     "LumaoDoggie": {
      "followers": 18681,
      "last_post": "2026-10-06",
-     "originals_scraped": 144,
-     "posts_per_day_30d": 1.14,
-     "promo_share_regex": 0.075,
-     "note": "ex-dev, conservative DeFi yield strategy (Ethena USDe/Pendle/USD0++ in bio), zh"
+     "originals_scraped": 145,
+     "posts_per_day_30d": 1.6,
+     "promo_share_regex": 0.075
+    },
+    "blockma": {
+     "followers": 16398,
+     "last_post": "2026-10-06",
+     "originals_scraped": 81,
+     "posts_per_day_30d": 0.23,
+     "promo_share_regex": 0.025
+    },
+    "0xLin88": {
+     "followers": 5095,
+     "last_post": "2026-10-09",
+     "originals_scraped": 76,
+     "posts_per_day_30d": 2.53,
+     "promo_share_regex": 0.025
     }
    },
-   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen",
+   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
    "x_sources": {
     "CORE": [
      "yuyue_chris",
@@ -501,17 +517,25 @@
     "not_wired": []
    },
    "lane_first": true,
-   "donors_removed": {
-    "chenmo": "in 3 accounts (crypto_research_zh + crypto_altcoin_zh + #30) — exceeds 2-account max; removed from #30",
-    "0xAllen": "promo_share 0.27 > 0.25 (confirmed in fd20_donor_merge.json dropped list)"
-   }
+   "donors_removed": [
+    {
+     "handle": "chenmo",
+     "reason": "sat in 3 accounts (#3, #6, #30)",
+     "at": "2026-10-09 pm-donors5"
+    },
+    {
+     "handle": "0xAllen",
+     "reason": "promo_share 0.27 > 0.25",
+     "at": "2026-10-09 pm-donors5"
+    }
+   ],
+   "handle": "QUEEN_NAE24"
   },
   {
    "no": 31,
    "id": "sol_base_alpha_en",
    "lang": "en",
    "name": "Dax 🧃",
-   "handle": "angjo1214",
    "beat": "Solana / Base ecosystem alpha",
    "kind": "crypto",
    "status": "new",
@@ -558,7 +582,8 @@
     "BaseHubHB",
     "baseposting",
     "akshaybd",
-    "gumsays"
+    "gumsays",
+    "SolanaFloor"
    ],
    "donor_evidence": {
     "SolanaSensei": {
@@ -600,14 +625,21 @@
      "followers": 54847,
      "last_post": "2026-10-06",
      "originals_scraped": 120,
-     "posts_per_day_30d": 1.5,
+     "posts_per_day_30d": 1.6,
      "promo_share_regex": 0.0
     },
     "gumsays": {
      "followers": 67409,
      "last_post": "2026-10-09",
-     "originals_scraped": 143,
-     "posts_per_day_30d": 4.57,
+     "originals_scraped": 144,
+     "posts_per_day_30d": 4.77,
+     "promo_share_regex": 0.0
+    },
+    "SolanaFloor": {
+     "followers": 135102,
+     "last_post": "2026-10-09",
+     "originals_scraped": 79,
+     "posts_per_day_30d": 2.63,
      "promo_share_regex": 0.0
     }
    },
@@ -618,7 +650,7 @@
     "BaseHubHB": "Base daily recap, partnerships, tokenized-stock activity on Base (community media account)",
     "baseposting": "short Base headline posts (Coinbase / Base volume, Base Batches teams); very high frequency, the scrape covers only since 2026-09-16"
    },
-   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen",
+   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
    "x_sources": {
     "CORE": [
      "SolanaSensei",
@@ -652,14 +684,13 @@
     "jacqmelinek": "host, 2/12 ecosystem posts; event promotion"
    },
    "lane_first": true,
-   "donors_removed": {}
+   "handle": "angjo1214"
   },
   {
    "no": 32,
    "id": "crypto_meme_en",
    "lang": "en",
    "name": "tully 🐸",
-   "handle": "GrigioGirlPelin",
    "beat": "Memecoins · trenches and launchpads",
    "kind": "crypto",
    "status": "new",
@@ -698,6 +729,8 @@
     "sibeleth",
     "notthreadguy",
     "Ga__ke",
+    "frankdegods",
+    "MustStopMurad",
     "tropoFarmer"
    ],
    "donor_evidence": {
@@ -733,18 +766,32 @@
      "followers": 188073,
      "last_post": "2026-10-07",
      "originals_scraped": 129,
-     "posts_per_day_30d": 1.5,
+     "posts_per_day_30d": 1.87,
      "promo_share_regex": 0.025
+    },
+    "frankdegods": {
+     "followers": 536248,
+     "last_post": "2026-10-09",
+     "originals_scraped": 53,
+     "posts_per_day_30d": 1.77,
+     "promo_share_regex": 0.0
+    },
+    "MustStopMurad": {
+     "followers": 727564,
+     "last_post": "2026-10-08",
+     "originals_scraped": 61,
+     "posts_per_day_30d": 2.0,
+     "promo_share_regex": 0.0
     },
     "tropoFarmer": {
      "followers": 174163,
      "last_post": "2026-10-05",
-     "originals_scraped": 127,
-     "posts_per_day_30d": 1.5,
+     "originals_scraped": 128,
+     "posts_per_day_30d": 1.73,
      "promo_share_regex": 0.0
     }
    },
-   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen",
+   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
    "x_sources": {
     "CORE": [
      "Overdose_AI",
@@ -763,16 +810,20 @@
     ]
    },
    "lane_first": true,
-   "donors_removed": {
-    "LouisCooper_": "last_original 2026-09-25, only 3 posts top_14d — outside 7-day meme lane window"
-   }
+   "donors_removed": [
+    {
+     "handle": "LouisCooper_",
+     "reason": "no top-level original since 2026-09-25 (meme lane needs one within 7 days)",
+     "at": "2026-10-09 pm-donors5"
+    }
+   ],
+   "handle": "GrigioGirlPelin"
   },
   {
    "no": 33,
    "id": "crypto_airdrop_en",
    "lang": "en",
    "name": "tilda 🌾",
-   "handle": "onlyderinn",
    "beat": "Airdrops · points farming",
    "kind": "crypto",
    "status": "new",
@@ -812,7 +863,8 @@
     "pointfarmcap",
     "Omaofweb3",
     "0xbeiu",
-    "tropoFarmer"
+    "tropoFarmer",
+    "DefiIgnas"
    ],
    "donor_evidence": {
     "enesonchain": {
@@ -860,12 +912,19 @@
     "tropoFarmer": {
      "followers": 174163,
      "last_post": "2026-10-05",
-     "originals_scraped": 127,
-     "posts_per_day_30d": 1.5,
+     "originals_scraped": 128,
+     "posts_per_day_30d": 1.73,
      "promo_share_regex": 0.0
+    },
+    "DefiIgnas": {
+     "followers": 164173,
+     "last_post": "2026-10-03",
+     "originals_scraped": 76,
+     "posts_per_day_30d": 2.0,
+     "promo_share_regex": 0.1
     }
    },
-   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen",
+   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
    "x_sources": {
     "CORE": [
      "enesonchain",
@@ -886,14 +945,13 @@
     ]
    },
    "lane_first": true,
-   "donors_removed": {}
+   "handle": "onlyderinn"
   },
   {
    "no": 34,
    "id": "crypto_prediction_en",
    "lang": "en",
    "name": "Odessa Quill",
-   "handle": "rfan59258898",
    "beat": "Prediction markets · reading the odds",
    "kind": "crypto",
    "status": "new",
@@ -933,7 +991,8 @@
     "hosseeb",
     "cxo_no",
     "M_McDonough",
-    "NateSilver538"
+    "NateSilver538",
+    "BobbyAllyn"
    ],
    "donor_evidence": {
     "Atlantislq": {
@@ -975,18 +1034,25 @@
      "followers": 59307,
      "last_post": "2026-10-09",
      "originals_scraped": 138,
-     "posts_per_day_30d": 0.64,
+     "posts_per_day_30d": 0.63,
      "promo_share_regex": 0.0
     },
     "NateSilver538": {
      "followers": 3042080,
      "last_post": "2026-10-08",
      "originals_scraped": 151,
-     "posts_per_day_30d": 4.36,
+     "posts_per_day_30d": 5.03,
+     "promo_share_regex": 0.0
+    },
+    "BobbyAllyn": {
+     "followers": 16954,
+     "last_post": "2026-10-08",
+     "originals_scraped": 112,
+     "posts_per_day_30d": 0.8,
      "promo_share_regex": 0.0
     }
    },
-   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen",
+   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
    "x_sources": {
     "CORE": [
      "Atlantislq",
@@ -1007,14 +1073,13 @@
     ]
    },
    "lane_first": true,
-   "donors_removed": {}
+   "handle": "rfan59258898"
   },
   {
    "no": 35,
    "id": "crypto_perp_dex_en",
    "lang": "en",
    "name": "wes.hl",
-   "handle": "elifec21",
    "beat": "Perp DEXs · Hyperliquid ecosystem",
    "kind": "crypto",
    "status": "new",
@@ -1055,7 +1120,7 @@
     "crypto_notte",
     "MoneyPrinter0x",
     "shaundadevens",
-    "CL207"
+    "HansonBirringer"
    ],
    "donor_evidence": {
     "Defi_Warhol": {
@@ -1103,19 +1168,19 @@
     "shaundadevens": {
      "followers": 13230,
      "last_post": "2026-10-09",
-     "originals_scraped": 143,
-     "posts_per_day_30d": 1.0,
+     "originals_scraped": 144,
+     "posts_per_day_30d": 1.13,
      "promo_share_regex": 0.025
     },
-    "CL207": {
-     "followers": 281743,
-     "last_post": "2026-10-09",
-     "originals_scraped": 153,
-     "posts_per_day_30d": 0.57,
-     "promo_share_regex": 0.025
+    "HansonBirringer": {
+     "followers": 4648,
+     "last_post": "2026-10-08",
+     "originals_scraped": 116,
+     "posts_per_day_30d": 1.77,
+     "promo_share_regex": 0.0
     }
    },
-   "donors_checked": "2026-10-09 twitter241 via tw4.py verify+deepen",
+   "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
    "x_sources": {
     "CORE": [
      "Defi_Warhol",
@@ -1137,7 +1202,7 @@
     ]
    },
    "lane_first": true,
-   "donors_removed": {}
+   "handle": "elifec21"
   },
   {
    "no": 36,
@@ -1181,7 +1246,10 @@
     "0xc06",
     "Mars_DeFi",
     "Zun2025",
-    "Route2FI"
+    "Route2FI",
+    "DeFi_Andree",
+    "DeFi_Made_Here",
+    "MonetSupply"
    ],
    "donor_evidence": {
     "phtevenstrong": {
@@ -1218,6 +1286,27 @@
      "originals_scraped": 145,
      "posts_per_day_30d": 3.33,
      "promo_share_regex": 0.075
+    },
+    "DeFi_Andree": {
+     "followers": 13325,
+     "last_post": "2026-10-09",
+     "originals_scraped": 69,
+     "posts_per_day_30d": 2.07,
+     "promo_share_regex": 0.0
+    },
+    "DeFi_Made_Here": {
+     "followers": 46004,
+     "last_post": "2026-10-08",
+     "originals_scraped": 68,
+     "posts_per_day_30d": 0.27,
+     "promo_share_regex": 0.0
+    },
+    "MonetSupply": {
+     "followers": 33511,
+     "last_post": "2026-10-06",
+     "originals_scraped": 108,
+     "posts_per_day_30d": 0.23,
+     "promo_share_regex": 0.0
     }
    },
    "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",

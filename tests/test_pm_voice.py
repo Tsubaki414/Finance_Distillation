@@ -11,7 +11,10 @@ NOW = datetime(2026, 10, 8, 9, 0, tzinfo=timezone.utc)
 REMOVED = {'zh_us_stocks': {'huahuayjy', 'silverfang88'},
            'investing_philosophy': {'DoveyWan', 'lazyvillager1', 'Shaughnessy119'},
            'single_stock_deepdive_en': {'Shaughnessy119', 'DeFiMinty'},
-           'zh_longterm_investing': {'nbblock', 'yuyue_chris'}}
+           'zh_longterm_investing': {'nbblock', 'yuyue_chris'},
+           # Oct 9 pm-donors5: #7 / #17 lose the merged donors they shared with #1 / #11 / #14
+           'crypto_btc_cycle_zh': {'thankUcrypto', 'BensonTWN', 'dapangdun', 'timotimo007'},
+           'crypto_research_en': {'amandacassatt', 'sjdedic', 'econoar', '0xLuo', 'ahboyash'}}
 
 
 def test_mention_candidates_need_two_citing_donors_unless_roster_extra():

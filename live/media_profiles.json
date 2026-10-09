@@ -1,6 +1,6 @@
 {
  "version": 3,
- "built": "2026-10-08",
+ "built": "2026-10-09",
  "method": "media v3: image_rate = photo share of the donors' 40 most recent original posts; styles = the attributed source mix of a sample of recent donor images (each image traced to the site / app / page it came from), blended with the account family at 12 pseudo images. p_image = image_rate x share of donor images in a source we can produce (non-charts and article screenshots excluded). v2 = the Oct 8 numbers (FD_MEDIA_SOURCES=0). Aggregates only.",
  "families": {
   "crypto_en": {
@@ -333,8 +333,8 @@
   },
   "crypto_btc_cycle_zh": {
    "family": "crypto_zh",
-   "image_rate": 0.315,
-   "posts_seen": 400,
+   "image_rate": 0.456,
+   "posts_seen": 360,
    "sampled_images": 15,
    "chart_share": 0.43,
    "styles": {
@@ -350,7 +350,7 @@
    },
    "light_share": 0.536,
    "tall_share": 0.33,
-   "p_image": 0.135,
+   "p_image": 0.196,
    "v2": {
     "p_image": 0.168,
     "chart_share": 0.533,
@@ -673,8 +673,8 @@
   },
   "crypto_research_en": {
    "family": "crypto_en",
-   "image_rate": 0.335,
-   "posts_seen": 400,
+   "image_rate": 0.281,
+   "posts_seen": 320,
    "sampled_images": 15,
    "chart_share": 0.477,
    "styles": {
@@ -690,7 +690,7 @@
    },
    "light_share": 0.566,
    "tall_share": 0.029,
-   "p_image": 0.16,
+   "p_image": 0.134,
    "v2": {
     "p_image": 0.149,
     "chart_share": 0.446,
@@ -809,8 +809,8 @@
   },
   "zh_macro": {
    "family": "stocks_zh",
-   "image_rate": 0.215,
-   "posts_seen": 200,
+   "image_rate": 0.331,
+   "posts_seen": 360,
    "sampled_images": 0,
    "chart_share": 0.463,
    "styles": {
@@ -826,7 +826,7 @@
    },
    "light_share": 0.684,
    "tall_share": 0.316,
-   "p_image": 0.1,
+   "p_image": 0.153,
    "v2": {
     "p_image": 0.107,
     "chart_share": 0.5,
@@ -843,8 +843,8 @@
   },
   "crypto_ai_crossover_zh": {
    "family": "crypto_zh",
-   "image_rate": 0.215,
-   "posts_seen": 200,
+   "image_rate": 0.261,
+   "posts_seen": 360,
    "sampled_images": 0,
    "chart_share": 0.467,
    "styles": {
@@ -860,7 +860,7 @@
    },
    "light_share": 0.581,
    "tall_share": 0.326,
-   "p_image": 0.1,
+   "p_image": 0.122,
    "v2": {
     "p_image": 0.118,
     "chart_share": 0.55,
@@ -877,8 +877,8 @@
   },
   "crypto_newbie_zh": {
    "family": "crypto_zh",
-   "image_rate": 0.565,
-   "posts_seen": 200,
+   "image_rate": 0.511,
+   "posts_seen": 280,
    "sampled_images": 0,
    "chart_share": 0.467,
    "styles": {
@@ -894,7 +894,7 @@
    },
    "light_share": 0.581,
    "tall_share": 0.326,
-   "p_image": 0.264,
+   "p_image": 0.239,
    "v2": {
     "p_image": 0.311,
     "chart_share": 0.55,
@@ -911,8 +911,8 @@
   },
   "crypto_alt_trader_en": {
    "family": "crypto_en",
-   "image_rate": 0.48,
-   "posts_seen": 200,
+   "image_rate": 0.486,
+   "posts_seen": 360,
    "sampled_images": 0,
    "chart_share": 0.656,
    "styles": {
@@ -928,7 +928,7 @@
    },
    "light_share": 0.525,
    "tall_share": 0.066,
-   "p_image": 0.315,
+   "p_image": 0.319,
    "v2": {
     "p_image": 0.281,
     "chart_share": 0.585,
@@ -945,8 +945,8 @@
   },
   "longterm_investing_en": {
    "family": "stocks_en",
-   "image_rate": 0.145,
-   "posts_seen": 200,
+   "image_rate": 0.247,
+   "posts_seen": 360,
    "sampled_images": 0,
    "chart_share": 0.73,
    "styles": {
@@ -962,7 +962,7 @@
    },
    "light_share": 0.852,
    "tall_share": 0.074,
-   "p_image": 0.106,
+   "p_image": 0.18,
    "v2": {
     "p_image": 0.1,
     "chart_share": 0.688,
@@ -979,8 +979,8 @@
   },
   "crypto_etf_flows_en": {
    "family": "crypto_en",
-   "image_rate": 0.325,
-   "posts_seen": 200,
+   "image_rate": 0.316,
+   "posts_seen": 320,
    "sampled_images": 0,
    "chart_share": 0.656,
    "styles": {
@@ -996,7 +996,7 @@
    },
    "light_share": 0.525,
    "tall_share": 0.066,
-   "p_image": 0.213,
+   "p_image": 0.207,
    "v2": {
     "p_image": 0.19,
     "chart_share": 0.585,
@@ -1013,8 +1013,8 @@
   },
   "crypto_meme_zh": {
    "family": "crypto_zh",
-   "image_rate": 0.308,
-   "posts_seen": 240,
+   "image_rate": 0.45,
+   "posts_seen": 320,
    "sampled_images": 0,
    "chart_share": 0.467,
    "styles": {
@@ -1030,7 +1030,7 @@
    },
    "light_share": 0.581,
    "tall_share": 0.326,
-   "p_image": 0.144,
+   "p_image": 0.21,
    "v2": {
     "p_image": 0.17,
     "chart_share": 0.55,
@@ -1047,8 +1047,8 @@
   },
   "crypto_airdrop_zh": {
    "family": "crypto_zh",
-   "image_rate": 0.621,
-   "posts_seen": 240,
+   "image_rate": 0.594,
+   "posts_seen": 360,
    "sampled_images": 0,
    "chart_share": 0.467,
    "styles": {
@@ -1064,7 +1064,7 @@
    },
    "light_share": 0.581,
    "tall_share": 0.326,
-   "p_image": 0.29,
+   "p_image": 0.278,
    "v2": {
     "p_image": 0.341,
     "chart_share": 0.55,
@@ -1081,8 +1081,8 @@
   },
   "crypto_prediction_zh": {
    "family": "crypto_zh",
-   "image_rate": 0.385,
-   "posts_seen": 200,
+   "image_rate": 0.486,
+   "posts_seen": 280,
    "sampled_images": 0,
    "chart_share": 0.467,
    "styles": {
@@ -1098,7 +1098,7 @@
    },
    "light_share": 0.581,
    "tall_share": 0.326,
-   "p_image": 0.18,
+   "p_image": 0.227,
    "v2": {
     "p_image": 0.212,
     "chart_share": 0.55,
@@ -1115,8 +1115,8 @@
   },
   "crypto_stable_yield_zh": {
    "family": "crypto_zh",
-   "image_rate": 0.36,
-   "posts_seen": 200,
+   "image_rate": 0.289,
+   "posts_seen": 280,
    "sampled_images": 0,
    "chart_share": 0.467,
    "styles": {
@@ -1132,7 +1132,7 @@
    },
    "light_share": 0.581,
    "tall_share": 0.326,
-   "p_image": 0.168,
+   "p_image": 0.135,
    "v2": {
     "p_image": 0.198,
     "chart_share": 0.55,
@@ -1149,8 +1149,8 @@
   },
   "sol_base_alpha_en": {
    "family": "crypto_en",
-   "image_rate": 0.65,
-   "posts_seen": 200,
+   "image_rate": 0.556,
+   "posts_seen": 320,
    "sampled_images": 0,
    "chart_share": 0.656,
    "styles": {
@@ -1166,7 +1166,7 @@
    },
    "light_share": 0.525,
    "tall_share": 0.066,
-   "p_image": 0.426,
+   "p_image": 0.365,
    "v2": {
     "p_image": 0.38,
     "chart_share": 0.585,
@@ -1183,8 +1183,8 @@
   },
   "crypto_meme_en": {
    "family": "crypto_en",
-   "image_rate": 0.205,
-   "posts_seen": 200,
+   "image_rate": 0.241,
+   "posts_seen": 320,
    "sampled_images": 0,
    "chart_share": 0.656,
    "styles": {
@@ -1200,7 +1200,7 @@
    },
    "light_share": 0.525,
    "tall_share": 0.066,
-   "p_image": 0.134,
+   "p_image": 0.158,
    "v2": {
     "p_image": 0.12,
     "chart_share": 0.585,
@@ -1217,8 +1217,8 @@
   },
   "crypto_airdrop_en": {
    "family": "crypto_en",
-   "image_rate": 0.471,
-   "posts_seen": 240,
+   "image_rate": 0.481,
+   "posts_seen": 320,
    "sampled_images": 0,
    "chart_share": 0.656,
    "styles": {
@@ -1234,7 +1234,7 @@
    },
    "light_share": 0.525,
    "tall_share": 0.066,
-   "p_image": 0.309,
+   "p_image": 0.316,
    "v2": {
     "p_image": 0.275,
     "chart_share": 0.585,
@@ -1251,8 +1251,8 @@
   },
   "crypto_prediction_en": {
    "family": "crypto_en",
-   "image_rate": 0.445,
-   "posts_seen": 200,
+   "image_rate": 0.453,
+   "posts_seen": 320,
    "sampled_images": 0,
    "chart_share": 0.656,
    "styles": {
@@ -1268,7 +1268,7 @@
    },
    "light_share": 0.525,
    "tall_share": 0.066,
-   "p_image": 0.292,
+   "p_image": 0.297,
    "v2": {
     "p_image": 0.26,
     "chart_share": 0.585,
@@ -1285,8 +1285,8 @@
   },
   "crypto_perp_dex_en": {
    "family": "crypto_en",
-   "image_rate": 0.383,
-   "posts_seen": 240,
+   "image_rate": 0.416,
+   "posts_seen": 320,
    "sampled_images": 0,
    "chart_share": 0.656,
    "styles": {
@@ -1302,7 +1302,7 @@
    },
    "light_share": 0.525,
    "tall_share": 0.066,
-   "p_image": 0.251,
+   "p_image": 0.273,
    "v2": {
     "p_image": 0.224,
     "chart_share": 0.585,
@@ -1319,8 +1319,8 @@
   },
   "crypto_stable_yield_en": {
    "family": "crypto_en",
-   "image_rate": 0.57,
-   "posts_seen": 200,
+   "image_rate": 0.519,
+   "posts_seen": 320,
    "sampled_images": 0,
    "chart_share": 0.656,
    "styles": {
@@ -1336,7 +1336,7 @@
    },
    "light_share": 0.525,
    "tall_share": 0.066,
-   "p_image": 0.374,
+   "p_image": 0.34,
    "v2": {
     "p_image": 0.333,
     "chart_share": 0.585,
