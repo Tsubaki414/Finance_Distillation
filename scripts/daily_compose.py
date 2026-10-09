@@ -641,7 +641,50 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
         if not a.get('quote_ok'):
             return False
         pid, handle = str(a.get('post_id')), str(a.get('handle') or '').lower()
-        return pid not in eng_state.targets and (account, handle) not in eng_state.authors
+        if pid in eng_state.targets or (account, handle) in eng_state.authors:
+            return False
+        owner = engage_reserved().get(pid)
+        return owner is None or owner == account or any(slot_kind(p.get('source_id')) == 'engage' for p in plan[owner])
+
+    eng_reserve = {}
+
+    def engage_reserved():
+        """Oct 9 night: 10/36 accounts lost their only live target to an account that had others. Reserve targets by
+        max bipartite matching (scarce accounts first), so a shared target goes to whoever has no alternative."""
+        if 'm' in eng_reserve:
+            return eng_reserve['m']
+        eng_reserve['m'] = {}
+        if os.environ.get('FD_ENGAGE_MATCH', '1') == '0':
+            return eng_reserve['m']
+        opts = {}
+        for a in plan:
+            if (slots_done.get(a) or {}).get('engage', 0):
+                continue
+            ids = []
+            for g in pools.get(a) or ():
+                if slot_kind(g[0]['source'].get('id')) != 'engage':
+                    continue
+                ea = engage_assess(a, g)
+                pid, h = str(ea.get('post_id')), str(ea.get('handle') or '').lower()
+                if ea.get('quote_ok') and pid not in eng_state.targets and (a, h) not in eng_state.authors:
+                    ids.append((-float(ea.get('score') or 0), pid))
+            if ids:
+                opts[a] = [pid for _, pid in sorted(ids)]
+        match = {}
+
+        def augment(a, seen):
+            for pid in opts[a]:
+                if pid in seen:
+                    continue
+                seen.add(pid)
+                if pid not in match or augment(match[pid], seen):
+                    match[pid] = a
+                    return True
+            return False
+        for a in sorted(opts, key=lambda x: (len(opts[x]), x)):
+            augment(a, set())
+        eng_reserve['m'] = match
+        return match
 
     def slot_ok(account, g):
         if not slot_rule:
@@ -659,8 +702,10 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
         """With the gate on: the account's live engagement targets in score order (standalone order unchanged)."""
         if not pick_gate:
             return groups
+        mine = {pid for pid, a in engage_reserved().items() if a == account}
         eng = sorted((g for g in groups if slot_kind(g[0]['source'].get('id')) == 'engage'),
-                     key=lambda g: -float(engage_assess(account, g).get('score') or 0))
+                     key=lambda g: (str(engage_assess(account, g).get('post_id')) not in mine,
+                                    -float(engage_assess(account, g).get('score') or 0)))
         it = iter(eng)
         return [next(it) if slot_kind(g[0]['source'].get('id')) == 'engage' else g for g in groups]
 
