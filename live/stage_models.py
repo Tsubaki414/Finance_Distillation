@@ -29,6 +29,7 @@ SUBROUTER_HOST = 'subrouter.ai'
 SUBROUTER_PROVIDER = 'subrouter'
 # subrouter model ids for the pipeline's Gemini ids (/models checked Oct 8): gemini-3.1-pro-preview is listed as-is;
 # gemini-3-flash-preview is not (503 model_not_found) - its GA id gemini-3-flash is the same model family/tier.
+SUBROUTER_VENDOR = 'google'
 SUBROUTER_MODEL_MAP = {'gemini-3-flash-preview': 'gemini-3-flash'}
 FLAT_RATE_HOSTS = (SUBROUTER_HOST,)
 GEMINI_PROVIDERS = ('subrouter', 'relay', 'official')
@@ -121,6 +122,13 @@ def _apply_subrouter(table, only=None):
             rates_table.setdefault(sub_model, rates_table[model])
         if sub_model not in out['accepted_response_models']:
             out['accepted_response_models'][sub_model] = [sub_model]
+        # Oct 9: subrouter now echoes the vendor-prefixed id of the same model ("google/gemini-3.1-pro-preview");
+        # every compose call failed the response-model check and went to the paid micuapi fallback (~$0.3-1/draft).
+        # Only the exact "google/<requested id>" is added; a different channel ("gemini-pro-agent") stays refused.
+        acc = out['accepted_response_models'][sub_model] = list(out['accepted_response_models'][sub_model])
+        for name in (sub_model, model):
+            if f'{SUBROUTER_VENDOR}/{name}' not in acc:
+                acc.append(f'{SUBROUTER_VENDOR}/{name}')
     if rates_table:
         out['model_rates'] = rates_table
     return validate(out)

@@ -188,3 +188,16 @@ def test_subrouter_stages_limit():
     assert stage_models.route(t, 'compose')['base_url'] == stage_models.GEMINI_RELAY_BASE
     assert stage_models.fallback(t, 'compose') is None
     assert stage_models.route(t, 'stance')['base_url'] == stage_models.SUBROUTER_BASE
+
+
+def test_subrouter_accepts_vendor_prefixed_same_model_only():
+    from live import stage_models as sm
+    table = {'default': {'model': 'm', 'temperature': 0.0}, 'model_rates': {},
+             'stages': {'compose': {'model': 'gemini-3.1-pro-preview', 'temperature': 0.4,
+                                    'base_url': sm.GEMINI_RELAY_BASE, 'api_key_env': 'GEMINI_RELAY_API_KEY'}},
+             'accepted_response_models': {'gemini-3.1-pro-preview': ['gemini-3.1-pro-preview'], 'm': ['m']}}
+    out = sm._apply_subrouter(table)
+    acc = sm.accepted(out, out['stages']['compose']['model'])
+    assert 'google/gemini-3.1-pro-preview' in acc and 'gemini-3.1-pro-preview' in acc
+    assert 'gemini-pro-agent' not in acc
+    assert table['accepted_response_models']['gemini-3.1-pro-preview'] == ['gemini-3.1-pro-preview']   # input untouched
