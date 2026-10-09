@@ -19,7 +19,7 @@ printf 'START %s\n' "$(date -Is)"
 trap 'status=$?; printf "END %s exit_code=%s\n" "$(date -Is)" "$status"' EXIT
 H=$(TZ=Asia/Shanghai date +%-H)
 if (( H < 8 || H > 21 )); then echo "Beijing hour $H outside 08-21: skip"; exit 0; fi
-if pgrep -f "scripts/daily_compose.py" >/dev/null || pgrep -f "scripts/daily_ingest.py" >/dev/null; then
+if pgrep -f "python[0-9.]* scripts/daily_(compose|ingest)\.py" >/dev/null; then   # not a CC prompt mentioning them
     echo "another compose / ingest run is active: skip"; exit 0
 fi
 SUBROUTER_ENV="${FD_SUBROUTER_ENV:-$HOME/.secrets/subrouter.env}"

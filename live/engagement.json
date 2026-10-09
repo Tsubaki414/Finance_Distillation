@@ -22,10 +22,10 @@
  "lane_bonus": 0.5,
  "targets_per_account": 12,
  "engage_daily_call_cap": 30,
- "engage_pages_per_batch": 1,
+ "engage_pages_per_batch": 2,
  "engage_posts_per_handle": 2,
  "huge_min_likes": 20,
  "min_median_likes": 20,
- "search_min_faves": 30,
- "_note_oct9": "Oct 9: watchlist ranked by donor median likes (min_median_likes), 12 per account; huge authors need huge_min_likes; batched search adds min_faves:search_min_faves; call cap 30/day covers the nightly pull + 11:00 / 16:00 Beijing engage pulls (scripts/cron/engage_pull.sh)."
+ "search_min_faves": 50,
+ "_note_oct9": "Oct 9: watchlist ranked by donor median likes (min_median_likes), 12 per account; huge authors need huge_min_likes; batched search adds min_faves:search_min_faves (50; 2 pages per batch); call cap 30/day covers the nightly pull + 11:00 / 16:00 Beijing engage pulls (scripts/cron/engage_pull.sh)."
 }
