@@ -1313,6 +1313,7 @@ def inbox_row(result, account_cfg, day, run_id):
                             ('model_error: ' if repair.get('result') == 'rewrite_error' else 'hard: ')
                             + ','.join(sorted({f['code'] for f in findings if f.get('level') == 'hard'}))
                             if result.get('draft_status') == 'needs_review' else None),
+            **({'hook_rewrite': result['hook_rewrite']} if result.get('hook_rewrite') else {}),
             **({'hard_repair': {k: repair.get(k) for k in ('result', 'kept', 'error')}
                                | {'first_codes': sorted({f['code'] for f in repair.get('first_findings') or []}),
                                   'retry_codes': sorted({f['code'] for f in repair.get('retry_findings') or []})}}
@@ -1537,9 +1538,49 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
             if r is not None:
                 results.append(r)
     # cross-account check on the whole day: shape / skeleton findings + claim arbitration (soft: losers HOLD)
-    from live import compose_shapes, lane_fit
+    from live import compose_shapes, hook_rewrite as hr, hook_voice as hv, lane_fit
     ok = [r for r in results if r.get('status') != 'error' and r.get('text')]
     compose_shapes.batch_findings(ok)
+    # Oct 9 hook1009: opener-repeat check then targeted first-line rewrite for weak/repeat openers.
+    if os.environ.get('FD_HOOK_DIVERSITY', '1') != '0':
+        _rewrite_max = int(os.environ.get('FD_HOOK_REWRITE_MAX', '12'))
+        _rw_count = 0
+        # batch_opener_findings expects rows sorted by suggested_post_time_london then id
+        _opener_rows = sorted(
+            [r for r in ok if r.get('body')],
+            key=lambda r: (r.get('plan', {}).get('suggested_post_time_london') or '', r.get('id') or ''))
+        _opener_input = [{'id': r.get('id', ''), 'account_id': r.get('account_id', ''),
+                          'lang': r.get('plan', {}).get('account_lang', 'zh'),
+                          'body': r.get('body', '')} for r in _opener_rows]
+        for _item in hv.batch_opener_findings(_opener_input):
+            _did = _item['id']
+            _finding = _item['finding']
+            _match = next((r for r in ok if r.get('id') == _did), None)
+            if _match is not None:
+                _match.setdefault('post_checks', [])
+                _match['post_checks'].append(_finding)
+                _match.setdefault('risks', [])
+                _match['risks'].append({**_finding, 'status': 'warning'})
+        # rewrite drafts that have opener_repeat or a residual weak_hook (after compose's own pass)
+        _avoid = list(hv.WEAK_OPENERS_ZH) + list(hv.WEAK_OPENERS_EN)
+        for r in ok:
+            if _rw_count >= _rewrite_max:
+                break
+            _codes = {f.get('code') for f in (r.get('post_checks') or []) if isinstance(f, dict)}
+            if not (_codes & {'opener_repeat', 'weak_hook'}):
+                continue
+            _lang = r.get('plan', {}).get('account_lang', 'zh')
+            # respect budget: skip if run budget is exhausted
+            with lock:
+                _est_now = 0.0 if flat_primary and not _ec_fails() else est
+                _budget_ok = spend['usd'] + _est_now <= args.budget_usd and not quota
+            if not _budget_ok:
+                break
+            _rw = hr.rewrite_first_line(client(), r, _avoid, _lang)
+            r['hook_rewrite'] = _rw
+            _rw_count += 1
+            if _rw.get('kept') and _rw.get('to') and not _rw.get('error'):
+                print(f'[hook_rewrite] {r.get("account_id")} rewritten: {_rw["from"]!r} -> {_rw["to"]!r}', flush=True)
     for r in ok:   # arbitration compares drafts of this Beijing day (not the sources' own dates) in one language
         r['day'], r['account_lang'] = args.day.isoformat(), r['plan']['account_lang']
         # Oct 8 evening (FD_LANE_FIT): a niche draft on broad news without a lane tie-in is held off_lane
