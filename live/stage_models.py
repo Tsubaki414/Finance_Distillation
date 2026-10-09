@@ -7,6 +7,7 @@ A response model outside that list is an error, never a silent fallback.
 from __future__ import annotations
 
 import copy
+import os
 import json
 import math
 from pathlib import Path
@@ -32,6 +33,21 @@ SUBROUTER_PROVIDER = 'subrouter'
 SUBROUTER_VENDOR = 'google'
 # Oct 9: subrouter also serves gemini-3.1-pro-preview from its GA id (same model / tier, as gemini-3-flash for
 # gemini-3-flash-preview); accepted as that model. Other channels (gemini-pro-agent) stay refused.
+# Oct 9 11:00 London, Fiona approved: subrouter's "gemini-pro-agent" channel is accepted for gemini-3.1-pro-preview
+# while micuapi is out of balance. Env-gated (FD_SUBROUTER_ACCEPT_ALT=0 refuses it again); drafts it wrote carry
+# models=['gemini-pro-agent'] + alt_model in the inbox row so quality can be tracked.
+SUBROUTER_APPROVED_ALT = {'gemini-3.1-pro-preview': ('gemini-pro-agent',)}
+SUBROUTER_ALT_APPROVAL = 'Fiona 2026-10-09 11:00 London'
+
+
+def approved_alt_models(model=None):
+    if os.environ.get('FD_SUBROUTER_ACCEPT_ALT', '1') == '0':
+        return ()
+    if model is None:
+        return tuple(m for v in SUBROUTER_APPROVED_ALT.values() for m in v)
+    return SUBROUTER_APPROVED_ALT.get(model, ())
+
+
 SUBROUTER_SAME_MODEL = {'gemini-3.1-pro-preview': ('gemini-3.1-pro',)}
 SUBROUTER_MODEL_MAP = {'gemini-3-flash-preview': 'gemini-3-flash'}
 FLAT_RATE_HOSTS = (SUBROUTER_HOST,)
@@ -140,7 +156,7 @@ def _apply_subrouter(table, only=None):
         for name in (sub_model, model):
             if f'{SUBROUTER_VENDOR}/{name}' not in acc:
                 acc.append(f'{SUBROUTER_VENDOR}/{name}')
-        for name in SUBROUTER_SAME_MODEL.get(model, ()):
+        for name in SUBROUTER_SAME_MODEL.get(model, ()) + approved_alt_models(model):
             for n in (name, f'{SUBROUTER_VENDOR}/{name}'):
                 if n not in acc:
                     acc.append(n)

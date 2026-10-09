@@ -1144,7 +1144,8 @@ def inbox_row(result, account_cfg, day, run_id):
             'source': {'id': src.get('id'), 'source_id': src.get('source_id'), 'publisher': pick.get('publisher'),
                        'title': pick.get('title'), 'url': pick.get('url'), 'published_at': pick.get('published_at'),
                        'lang': pick.get('source_lang'), 'same_language': pick.get('same_language')},
-            'models': models, 'spend_usd': result.get('spend_usd'), 'publishable': False}
+            'models': models, 'alt_model': [m for m in models if m in stage_models.approved_alt_models()],
+            'spend_usd': result.get('spend_usd'), 'publishable': False}
 
 
 def main():

@@ -169,7 +169,7 @@ def test_draft_client_rejects_only_model_fallback():
 def test_wrong_response_model_retries_subrouter_once_then_falls_back(tmp_path):
     budget.set_cap(10.0)
     hosts = []
-    answers = iter(['gemini-pro-agent', 'gemini-3.1-pro-preview'])
+    answers = iter(['some-other-channel', 'gemini-3.1-pro-preview'])
 
     def handler(request):
         hosts.append(request.url.host)
@@ -178,7 +178,7 @@ def test_wrong_response_model_retries_subrouter_once_then_falls_back(tmp_path):
     out = client('compose', [{'role': 'user', 'content': 'hi'}], 1000)
     assert hosts == ['subrouter.ai', 'subrouter.ai'] and out['serving_provider'] == 'subrouter'
     hosts.clear()
-    answers = iter(['gemini-pro-agent', 'gemini-pro-agent'])
+    answers = iter(['some-other-channel', 'some-other-channel'])
     out = client('compose', [{'role': 'user', 'content': 'hi'}], 1000)
     assert hosts == ['subrouter.ai', 'subrouter.ai', 'www.micuapi.ai'] and out['provider_fallback']
 
@@ -199,7 +199,6 @@ def test_subrouter_accepts_vendor_prefixed_same_model_only():
     out = sm._apply_subrouter(table)
     acc = sm.accepted(out, out['stages']['compose']['model'])
     assert 'google/gemini-3.1-pro-preview' in acc and 'gemini-3.1-pro-preview' in acc
-    assert 'gemini-pro-agent' not in acc
     assert 'gemini-3.1-pro' in acc   # GA id of the same model
     assert table['accepted_response_models']['gemini-3.1-pro-preview'] == ['gemini-3.1-pro-preview']   # input untouched
 
@@ -209,3 +208,19 @@ def test_vendor_prefix_stripped_for_downstream_gemini_guards():
     assert sm.canonical_response_model('google/gemini-3.1-pro-preview') == 'gemini-3.1-pro-preview'
     assert sm.canonical_response_model('gemini-pro-agent') == 'gemini-pro-agent'
     assert sm.canonical_response_model(None) is None
+
+
+def test_gemini_pro_agent_accepted_only_while_approved(monkeypatch):
+    from live import stage_models as sm
+    table = {'default': {'model': 'm', 'temperature': 0.0}, 'model_rates': {},
+             'stages': {'compose': {'model': 'gemini-3.1-pro-preview', 'temperature': 0.4,
+                                    'base_url': sm.GEMINI_RELAY_BASE, 'api_key_env': 'GEMINI_RELAY_API_KEY'}},
+             'accepted_response_models': {'gemini-3.1-pro-preview': ['gemini-3.1-pro-preview'], 'm': ['m']}}
+    monkeypatch.delenv('FD_SUBROUTER_ACCEPT_ALT', raising=False)
+    out = sm._apply_subrouter(table)
+    assert 'gemini-pro-agent' in sm.accepted(out, 'gemini-3.1-pro-preview')
+    assert sm.approved_alt_models() == ('gemini-pro-agent',)
+    monkeypatch.setenv('FD_SUBROUTER_ACCEPT_ALT', '0')
+    out = sm._apply_subrouter(table)
+    assert 'gemini-pro-agent' not in sm.accepted(out, 'gemini-3.1-pro-preview')
+    assert sm.approved_alt_models() == ()
