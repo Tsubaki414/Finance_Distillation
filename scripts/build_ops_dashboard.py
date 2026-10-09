@@ -43,6 +43,11 @@ PULL_DAYS = 3
 OUT = Path('/workspace/x/dashboard/ops')
 BJT = ZoneInfo('Asia/Shanghai')
 POST_START, POST_END, POST_GAP = (8, 0), (22, 59), timedelta(minutes=30)
+# Oct 9: a draft is never slotted before it exists. From this inbox day on, every slot is >= its draft's stored_at +
+# POST_LEAD (5-minute grid), so a late run (10-09: the 23:13 London cron died with the box, compose re-run at 14:45
+# Beijing) spreads over what is left of 08:00-22:59 instead of showing times that have already passed. Earlier days
+# keep the plain full-window spread so published history does not move. FD_POST_NOT_BEFORE=0 turns it off.
+POST_LEAD, POST_NOT_BEFORE_FROM = timedelta(minutes=30), '2026-10-09'
 DAY_RE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
 URL_RE = re.compile(r'https?://\S+')
 # twitter-text v3 weighting: these code point ranges weigh 1, everything else (CJK, full-width punctuation, …, emoji)
@@ -285,31 +290,37 @@ def clamp_times(drafts, day):
     inside the segment comes from the original time of day plus a stable per-account offset, so accounts differ."""
     base = datetime.fromisoformat(day).replace(tzinfo=BJT)
     lo, hi = (base.replace(hour=h, minute=m) for h, m in (POST_START, POST_END))
-    span = (hi - lo).total_seconds() / 60
+    late = day >= POST_NOT_BEFORE_FROM and os.environ.get('FD_POST_NOT_BEFORE', '1') != '0'
     by_acct = {}
     for d in drafts:
         if d['time']:
             by_acct.setdefault(d['account_id'], {}).setdefault(d['time'], []).append(d)
     for acct, slots in by_acct.items():
         # engagement replies / quotes (live/engagement.py) keep their slot: it was timed to the target's hot window
-        pins = sorted({max(lo, min(hi, datetime.fromisoformat(s).astimezone(BJT))) for s, ds in slots.items()
-                       if any(d.get('pinned') for d in ds)})
+        def pin_at(s, ds):
+            return max(not_before(ds, lo, hi) if late else lo, min(hi, datetime.fromisoformat(s).astimezone(BJT)))
+        pins = sorted({pin_at(s, ds) for s, ds in slots.items() if any(d.get('pinned') for d in ds)})
         for s, ds in list(slots.items()):
             if any(d.get('pinned') for d in ds):
-                new = max(lo, min(hi, datetime.fromisoformat(s).astimezone(BJT)))
+                new = pin_at(s, ds)
                 for d in ds:
                     d['time'] = new.isoformat()
                 del slots[s]
         if not slots:
             continue
         orig = sorted(slots, key=datetime.fromisoformat)
-        seg = span / len(orig)
+        nb = [not_before(slots[s], lo, hi) for s in orig] if late else [lo] * len(orig)
+        if late:                                   # later-stored drafts take the later slots
+            order = sorted(range(len(orig)), key=lambda i: (nb[i], datetime.fromisoformat(orig[i])))
+            orig, nb = [orig[i] for i in order], [nb[i] for i in order]
+        a_lo = min(nb[0], hi - POST_GAP * (len(orig) - 1)) if late else lo
+        seg = (hi - a_lo).total_seconds() / 60 / len(orig)
         shift = int(hashlib.sha1(str(acct).encode()).hexdigest()[:8], 16) / 16 ** 8
         t = []
         for i, s in enumerate(orig):
             src = datetime.fromisoformat(s)
             frac = ((src.hour * 60 + src.minute) / 1440 + shift) % 1
-            t.append(lo + timedelta(minutes=int(i * seg + frac * seg)))
+            t.append(max(nb[i], a_lo + timedelta(minutes=int(i * seg + frac * seg))))
         for i in range(1, len(t)):                 # forward: keep order, open the gaps
             t[i] = max(t[i], t[i - 1] + POST_GAP)
         t[-1] = min(t[-1], hi)
@@ -318,12 +329,24 @@ def clamp_times(drafts, day):
         if t[0] < lo:                              # > 30 slots cannot fit; never happens at 2-5 per account
             raise ValueError(f'{len(t)} slots do not fit 08:00-22:59 at 30-minute spacing')
         if pins:
-            t = avoid_pins(t, pins, lo, hi)
+            t = avoid_pins(t, pins, a_lo, hi)
         for s, new in zip(orig, t):
             for d in slots[s]:
                 d['time'] = new.isoformat()
     drafts.sort(key=lambda d: (d['time'], d['id']))
     return drafts
+
+
+def not_before(drafts, lo, hi):
+    """Earliest slot for drafts sharing one original slot: newest stored_at + POST_LEAD, up to the next 5 minutes,
+    inside [lo, hi]; no stored_at -> lo."""
+    st = [datetime.fromisoformat(d['stored']).astimezone(BJT) for d in drafts if d.get('stored')]
+    if not st:
+        return lo
+    t = max(st) + POST_LEAD
+    t = t.replace(second=0, microsecond=0) + timedelta(minutes=1 if t.second or t.microsecond else 0)
+    t += timedelta(minutes=(-t.minute) % 5)
+    return max(lo, min(hi, t))
 
 
 def avoid_pins(t, pins, lo, hi):
