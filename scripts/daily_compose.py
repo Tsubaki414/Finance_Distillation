@@ -251,6 +251,12 @@ def source_gate_ok(account, group):
     if key not in _GATE:
         try:
             tier = registry.source_licence_tier(src.get('source_id'))
+            if tier not in registry.WRITABLE_TIERS:
+                # Oct 9: X breadth / engagement posts (source_id x-<status id>) carry a B unit tier but have no
+                # source_licence.json entry, so compose_source refused them ('post_type not allowed for licence
+                # tier', 10 first picks on 10-09); the account takes its next packet instead.
+                _GATE[key] = False
+                return False
             publisher = attribution_frame.publisher_name(src.get('source_id'))
             _GATE[key] = bool(source_display.display(src, lang, tier=tier, raw_name=publisher or src.get('publisher'),
                                                      check_licence=False)['ok'])

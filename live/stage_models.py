@@ -51,6 +51,14 @@ def is_subrouter(base_url):
     return bool(base_url) and urlsplit(base_url).hostname == SUBROUTER_HOST
 
 
+def canonical_response_model(name):
+    """The served model id without the vendor prefix subrouter echoes since Oct 9 ("google/gemini-3.1-pro-preview" ->
+    "gemini-3.1-pro-preview"), so the downstream "gemini-" guards see the model that answered. Other ids unchanged."""
+    if isinstance(name, str) and name.startswith(SUBROUTER_VENDOR + '/'):
+        return name[len(SUBROUTER_VENDOR) + 1:]
+    return name
+
+
 def is_flat_rate(base_url):
     """Flat-rate provider: calls are ledgered at a nominal cost but never count toward a spending cap."""
     return bool(base_url) and urlsplit(base_url).hostname in FLAT_RATE_HOSTS

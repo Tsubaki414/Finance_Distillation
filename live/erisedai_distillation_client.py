@@ -395,7 +395,7 @@ class ErisedaiClient:
             # Existing pipeline validates finish_reason/refusal before parsing or drafting.
             result = {'text': (content or '').strip(), 'model': model,
                       'provider': PROVIDER, 'serving_provider': serving, 'usage': data.get('usage'),
-                      'response_id': data.get('id'), 'response_model': data.get('model'),
+                      'response_id': data.get('id'), 'response_model': stage_models.canonical_response_model(data.get('model')),
                       'finish_reason': choice.get('finish_reason'), 'refusal': message.get('refusal'),
                       'model_fallback': model_fb, 'provider_fallback': bool(provider_fallback and fallback_reason),
                       **({'fallback_reason': fallback_reason} if fallback_reason else {})}

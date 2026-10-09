@@ -201,3 +201,10 @@ def test_subrouter_accepts_vendor_prefixed_same_model_only():
     assert 'google/gemini-3.1-pro-preview' in acc and 'gemini-3.1-pro-preview' in acc
     assert 'gemini-pro-agent' not in acc
     assert table['accepted_response_models']['gemini-3.1-pro-preview'] == ['gemini-3.1-pro-preview']   # input untouched
+
+
+def test_vendor_prefix_stripped_for_downstream_gemini_guards():
+    from live import stage_models as sm
+    assert sm.canonical_response_model('google/gemini-3.1-pro-preview') == 'gemini-3.1-pro-preview'
+    assert sm.canonical_response_model('gemini-pro-agent') == 'gemini-pro-agent'
+    assert sm.canonical_response_model(None) is None
