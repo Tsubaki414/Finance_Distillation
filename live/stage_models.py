@@ -30,6 +30,9 @@ SUBROUTER_PROVIDER = 'subrouter'
 # subrouter model ids for the pipeline's Gemini ids (/models checked Oct 8): gemini-3.1-pro-preview is listed as-is;
 # gemini-3-flash-preview is not (503 model_not_found) - its GA id gemini-3-flash is the same model family/tier.
 SUBROUTER_VENDOR = 'google'
+# Oct 9: subrouter also serves gemini-3.1-pro-preview from its GA id (same model / tier, as gemini-3-flash for
+# gemini-3-flash-preview); accepted as that model. Other channels (gemini-pro-agent) stay refused.
+SUBROUTER_SAME_MODEL = {'gemini-3.1-pro-preview': ('gemini-3.1-pro',)}
 SUBROUTER_MODEL_MAP = {'gemini-3-flash-preview': 'gemini-3-flash'}
 FLAT_RATE_HOSTS = (SUBROUTER_HOST,)
 GEMINI_PROVIDERS = ('subrouter', 'relay', 'official')
@@ -137,6 +140,10 @@ def _apply_subrouter(table, only=None):
         for name in (sub_model, model):
             if f'{SUBROUTER_VENDOR}/{name}' not in acc:
                 acc.append(f'{SUBROUTER_VENDOR}/{name}')
+        for name in SUBROUTER_SAME_MODEL.get(model, ()):
+            for n in (name, f'{SUBROUTER_VENDOR}/{name}'):
+                if n not in acc:
+                    acc.append(n)
     if rates_table:
         out['model_rates'] = rates_table
     return validate(out)

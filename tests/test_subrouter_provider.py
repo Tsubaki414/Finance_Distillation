@@ -200,6 +200,7 @@ def test_subrouter_accepts_vendor_prefixed_same_model_only():
     acc = sm.accepted(out, out['stages']['compose']['model'])
     assert 'google/gemini-3.1-pro-preview' in acc and 'gemini-3.1-pro-preview' in acc
     assert 'gemini-pro-agent' not in acc
+    assert 'gemini-3.1-pro' in acc   # GA id of the same model
     assert table['accepted_response_models']['gemini-3.1-pro-preview'] == ['gemini-3.1-pro-preview']   # input untouched
 
 
