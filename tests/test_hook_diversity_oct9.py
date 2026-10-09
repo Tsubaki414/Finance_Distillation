@@ -214,7 +214,7 @@ class TestRewriteFirstLine:
         row = self._row(body)
         exc_client = self._client(raise_exc=RuntimeError('quota exceeded'))
         result = hr.rewrite_first_line(exc_client, row, [], 'zh')
-        assert result['kept'] is True
+        assert result["kept"] is False   # kept = rewrite accepted
         assert 'error' in result
         assert row['body'] == body  # unchanged — exception path keeps original
 

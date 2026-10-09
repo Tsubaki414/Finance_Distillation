@@ -1224,6 +1224,7 @@ def inbox_row(result, account_cfg, day, run_id):
                             ('model_error: ' if repair.get('result') == 'rewrite_error' else 'hard: ')
                             + ','.join(sorted({f['code'] for f in findings if f.get('level') == 'hard'}))
                             if result.get('draft_status') == 'needs_review' else None),
+            **({'hook_rewrite': result['hook_rewrite']} if result.get('hook_rewrite') else {}),
             **({'hard_repair': {k: repair.get(k) for k in ('result', 'kept', 'error')}
                                | {'first_codes': sorted({f['code'] for f in repair.get('first_findings') or []}),
                                   'retry_codes': sorted({f['code'] for f in repair.get('retry_findings') or []})}}

@@ -60,7 +60,8 @@ def rewrite_first_line(
     row['text'] = row['body'] when body == text (same-language source, no attribution frame);
     when there is a frame, only the body part is swapped.
 
-    On any exception: logs one line, returns {'kept': True, 'error': str(exc)}.
+    kept=True only when the rewrite was accepted. On any exception: logs one line, returns {'kept': False, 'error': ...}
+    and the draft is unchanged.
     """
     body = str(row.get('body') or '')
     old_first = _first_line(body)
@@ -81,7 +82,7 @@ def rewrite_first_line(
     )
     messages = [{'role': 'user', 'content': prompt}]
     try:
-        resp = client('compose', messages, 256)
+        resp = client('compose', messages, 4000)   # pro model: thinking tokens count
         raw = (resp.get('text') or resp.get('content') or '').strip()
         # accept {"first_line": "..."} or bare text wrapped in json
         try:
@@ -93,10 +94,10 @@ def rewrite_first_line(
     except Exception as exc:  # noqa: BLE001
         import logging
         logging.warning('hook_rewrite: exception on %s: %s', row.get('id'), exc)
-        return {'from': old_first, 'to': '', 'reason': codes, 'kept': True, 'error': str(exc)[:200]}
+        return {'from': old_first, 'to': '', 'reason': codes, 'kept': False, 'error': str(exc)[:200]}
 
     if not new_first:
-        return {'from': old_first, 'to': '', 'reason': codes, 'kept': True, 'error': 'empty response'}
+        return {'from': old_first, 'to': '', 'reason': codes, 'kept': False, 'error': 'empty response'}
 
     # --- acceptance checks ---
 
