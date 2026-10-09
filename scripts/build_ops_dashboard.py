@@ -138,7 +138,10 @@ def media_of(row):
     mode = row.get('post_mode') or 'original'
     eng = row.get('engagement') if isinstance(row.get('engagement'), dict) else {}
     engaged = mode in ('quote', 'reply') and eng.get('mode') == mode
-    return {'mode': mode, 'target': row.get('quote_target_url') or row.get('reply_to_url') or '',
+    target = row.get('quote_target_url') or row.get('reply_to_url') or (eng.get('url') if engaged else '') or ''
+    return {'mode': mode, 'target': target,
+            # Oct 9 (Fiona): ops must post a real quote / reply - CSV column + a banner on the card
+            'action': action_of(mode, target),
             # live/engagement.py (FD_ENGAGE): the target's numbers at selection; its slot is pinned in clamp_times
             'engage_meta': engage_meta(eng) if engaged else '', 'pinned': engaged,
             'heat_led': bool(row.get('heat_led')),
@@ -160,15 +163,23 @@ def media_of(row):
                       for m in row.get('media') or [] if m.get('path')]}
 
 
+def action_of(mode, target):
+    """'回复 <url>' / '引用 <url>' for an engagement draft with a target post, else ''."""
+    if mode in ('reply', 'quote') and target:
+        return f"{'回复' if mode == 'reply' else '引用'} {target}"
+    return ''
+
+
 def lead_score(row):
     """Oct 9 perf review (/workspace/x/cc_jobs/perf_1008_REPORT.md): an account's first post of the day got ~10x the
     views of its second (10-08: median 127 vs 5), and zh posts on hot 母题 (heat >= 2.5) beat cold ones. clamp_times
     gives the account's first free slot to its strongest draft: hotspot 母题 (2 + heat) > heat-led > fresh standalone
     (0) > 回看 / 常青 (-1)."""
     hot = row.get('hotspot') or {}
-    if hot.get('heat') is not None:
+    heat = hot.get('heat') if hot.get('heat') is not None else row.get('motif_heat')   # motif_heat: any 母题 pick
+    if heat is not None:
         try:
-            return 2.0 + float(hot['heat'])
+            return 2.0 + float(heat)
         except (TypeError, ValueError):
             return 2.0
     if row.get('heat_led'):
@@ -423,10 +434,11 @@ def write_if_changed(path, data):
 def day_csv(drafts, names):
     buf = io.StringIO()
     w = csv.writer(buf, lineterminator='\n')
-    w.writerow(['account', 'time (北京时间)', 'text'])
+    w.writerow(['account', 'time (北京时间)', 'text', '引用/回复'])
     for d in drafts:
         if d['status'] == 'draft_ready' and d['text']:
-            w.writerow([names.get(d['account_id'], d['account_id']), d['time'][:16].replace('T', ' '), d['text']])
+            w.writerow([names.get(d['account_id'], d['account_id']), d['time'][:16].replace('T', ' '), d['text'],
+                        d.get('action') or ''])
     return ('﻿' + buf.getvalue()).encode('utf-8')
 
 
@@ -546,6 +558,7 @@ __BASECSS__
 .tgt{margin:0 0 14px;font-size:13px;color:var(--ink2)}.tgt summary{cursor:pointer;font-weight:600}
 .tgt table{border-collapse:collapse;margin-top:8px;width:100%}.tgt th,.tgt td{text-align:left;padding:4px 8px;border-bottom:1px solid var(--line,#e5e5e5);white-space:nowrap}
 .mode{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;font-size:12.5px;color:var(--ink2)}
+.act{font-size:13px;font-weight:600;line-height:1.5;color:var(--accent);border:1.5px solid var(--accent);border-radius:8px;padding:6px 10px;margin-bottom:10px;word-break:break-all}.act a{color:inherit}
 .note{font-size:12.5px;line-height:1.5;color:var(--warn);background:var(--warnbg);border-radius:8px;padding:6px 10px;margin-bottom:10px}
 .note.mv{color:var(--info);background:var(--infobg);align-self:flex-start}
 .txt{white-space:pre-wrap;word-break:break-word;font-size:14.5px;line-height:1.75;color:var(--ink)}
@@ -673,7 +686,7 @@ function card(d,posted,slot){
   const imgs=(d.media||[]).map((m,i)=>{const u=esc(m.src||m.path),info=[m.credit?'数据：'+m.credit:'',m.updated?'图更新于 北京时间 '+m.updated:''].filter(Boolean).join(' · ');
     return `<div class="att"><a class="th" href="${u}" target="_blank" rel="noopener" title="打开大图"><img src="${u}" alt="${esc(m.alt)}" loading="lazy"></a><div class="lb"><b>${I.img}配图 ${i+1}</b>${info?`<small title="${esc(info)}">${esc(info)}</small>`:''}</div><a class="dl" href="${u}" download="${esc(m.path.split('/').pop())}" title="下载图片" aria-label="下载图片">${I.dl}</a></div>`}).join('');
   const total=multi?`共 ${d.parts.length} 段 · ${cnt(d.text,d.xw,d.lang)}`:cnt(d.text,d.xw,d.lang);
-  return `<div class="post${p?' posted':''}${ready?'':' notready'}${opened.has(d.id)?' open':''}" data-id="${esc(d.id)}"><div class="ph"><span class="pl">帖子 ${slot} ·</span><span class="tm" title="建议发出（北京时间）">${when(d.time)}</span>${st}</div>${d.note?`<div class="note${d.note.startsWith('改派自')?' mv':''}">${esc(d.note)}</div>`:''}${mode}${body}${xp}${imgs}<div class="fill"></div><div class="cnt">${total}</div>
+  return `<div class="post${p?' posted':''}${ready?'':' notready'}${opened.has(d.id)?' open':''}" data-id="${esc(d.id)}"><div class="ph"><span class="pl">帖子 ${slot} ·</span><span class="tm" title="建议发出（北京时间）">${when(d.time)}</span>${st}</div>${d.note?`<div class="note${d.note.startsWith('改派自')?' mv':''}">${esc(d.note)}</div>`:''}${d.action&&d.target?`<div class="act">${d.mode==='reply'?'用 X 的「回复」发在这条帖子下面':'用 X 的「引用」转发这条帖子'}（不要单独发）：<a href="${esc(d.target)}" target="_blank" rel="noopener noreferrer">${esc(d.target)}</a></div>`:''}${mode}${body}${xp}${imgs}<div class="fill"></div><div class="cnt">${total}</div>
 <div class="foot">${ready?`<label class="done-l"><input type="checkbox" data-p="${esc(d.id)}" ${p?'checked':''}> 已发</label>`:'<span class="cnt">不可发：先改稿或等重写</span>'}<button class="cp" data-t="${esc(d.text)}">${COPY_SVG}<span>${multi?'复制全部':'一键复制'}</span></button></div></div>`;
 }
 // 展开正文 only where the text is cut (3 lines) or a thread has more parts
@@ -784,7 +797,7 @@ $('#csv').addEventListener('click',e=>{
   const day=daySel.value;if(!live[day])return;
   e.preventDefault();
   const names=Object.fromEntries(D.accounts.map(a=>[a.id,a.name])),q=v=>/[",\r\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;
-  const rows=[['account','time (北京时间)','text'],...(D.days[day]||[]).map(d=>eff(d,day)).filter(d=>d.status==='draft_ready'&&d.text).map(d=>[names[d.account_id]??d.account_id,d.time.slice(0,16).replace('T',' '),d.text])];
+  const rows=[['account','time (北京时间)','text','引用/回复'],...(D.days[day]||[]).map(d=>eff(d,day)).filter(d=>d.status==='draft_ready'&&d.text).map(d=>[names[d.account_id]??d.account_id,d.time.slice(0,16).replace('T',' '),d.text,d.action||''])];
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+rows.map(r=>r.map(v=>q(String(v??''))).join(',')).join('\n')+'\n'],{type:'text/csv'}));
   a.download='fd_'+day+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);
 });

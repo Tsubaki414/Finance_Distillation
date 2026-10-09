@@ -599,6 +599,39 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             event_takers.setdefault(e, []).append((acc, ang, lg))
     plan = {a: [] for a in pools}
     done = done or {}
+    # Oct 9 (Fiona, perf review): slot rule - per account and day 1 standalone + 1 engagement (reply / quote on an
+    # x-<id> target). Earlier ready drafts of the day count; FD_ENGAGE_ONLY fills take engagement picks only.
+    slot_rule = engagement.slot_rule()
+    slots_done = day_slots(day) if slot_rule else {}
+    engage_only_run = os.environ.get('FD_ENGAGE_ONLY') == '1'
+
+    def slot_ok(account, g):
+        if not slot_rule:
+            return True
+        kind = slot_kind(g[0]['source'].get('id'))
+        if kind == 'standalone' and engage_only_run:
+            return False
+        have = (slots_done.get(account) or {}).get(kind, 0) + sum(
+            1 for p in plan[account] if slot_kind(p.get('source_id')) == kind)
+        return have < 1
+
+    def heat_of(g):
+        mid = hot.motif_of(demo._key(g[0])) if hot is not None else None
+        try:
+            return float(hot.by_id[mid]['heat']['score']) if mid else None
+        except (KeyError, TypeError, ValueError):
+            return None
+
+    def zh_hot_first(account, lang, groups):
+        """Rule 3 (Oct 9): a zh account's standalone post goes to a hot 母题 (heat >= ZH_HOT_MIN) first."""
+        if not zh_hot_rule(lang) or hot is None:
+            return groups
+        return sorted(groups, key=lambda g: not ((heat_of(g) or 0) >= ZH_HOT_MIN))
+
+    def hot_on_lane(account):
+        test = lane_test(next(x for x in accounts if x['id'] == account), x_of[account])
+        return any((heat_of(g) or 0) >= ZH_HOT_MIN and slot_kind(g[0]['source'].get('id')) == 'standalone'
+                   and (test is None or test(g)) for g in pools[account])
 
     def try_pick(account, lang, lead, groups):
         mine = {tuple(p['source_key']) for p in plan[account]}
@@ -637,13 +670,25 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                     hot.record(account, hot.assign[account][0], decision='HOLD', reason='daily ceiling already reached')
                 continue
             lang = next(x['lang'] for x in accounts if x['id'] == account)
+            if _round is not None and slot_rule:
+                hg = next((g for g in pools[account] if tuple(demo._key(g[0])) == tuple(hot.assign[account][1])), None)
+                if hg is not None and not slot_ok(account, hg):
+                    hot.record(account, hot.assign[account][0], decision='HOLD', reason='slot rule: standalone slot taken')
+                    continue
+                if (hg is not None and zh_hot_rule(lang) and (heat_of(hg) or 0) < ZH_HOT_MIN
+                        and hot_on_lane(account)):
+                    hot.record(account, hot.assign[account][0], decision='HOLD',
+                               reason=f'zh hot-first: a 母题 with heat >= {ZH_HOT_MIN} is on-lane')
+                    continue
             lead = universes[account].get('angle_lead') or universes[account].get('angle_mix') or {}
             motif = None
             if _round is None:
                 groups = pools[account]
                 if div is not None:   # own sources first, a theme not yet used today, a story nobody took yet
                     groups = diversity_order(account, groups, plan[account], event_takers, div)
+                groups = zh_hot_first(account, lang, groups)   # stable: lane_first below keeps on-lane first
                 groups = lane_first(next(x for x in accounts if x['id'] == account), groups, x_of[account])
+                groups = [g for g in groups if slot_ok(account, g)]
                 pick = try_pick(account, lang, lead, groups)
             else:
                 motif, key = hot.assign[account]
@@ -676,6 +721,8 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                 'numbers': sum(len(r['unit'].get('numbers') or []) for r in g)})
             if div is not None:
                 plan[account][-1]['topic_div'] = div['info'](account, g)
+            if heat_of(g) is not None:
+                plan[account][-1]['motif_heat'] = heat_of(g)
             if account in heat_keys and heat_keys[account][0] == tuple(demo._key(g[0])):
                 plan[account][-1].update(heat_led=True, heat=heat_keys.pop(account)[1])
             if motif:
@@ -750,21 +797,67 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
     return plan, order
 
 
+ZH_HOT_MIN = float(os.environ.get('FD_ZH_HOT_MIN', '2.5'))
+
+
+def zh_hot_rule(lang, env=None):
+    """Oct 9 (Fiona, perf review): zh accounts lead with a hot 母题 (heat >= ZH_HOT_MIN) when one is on-lane;
+    FD_ZH_HOT_FIRST=0 turns it off. Re-check against the 10-08 metrics on 10-10."""
+    return lang == 'zh' and (env if env is not None else os.environ).get('FD_ZH_HOT_FIRST', '1') != '0'
+
+
+def slot_kind(source_id):
+    """'engage' for an x-<status id> post (licensed only as a reply / quote target), else 'standalone'."""
+    return 'engage' if registry.ENGAGE_SOURCE.match(str(source_id or '')) else 'standalone'
+
+
+def row_slot_kind(row):
+    """Slot of an inbox row: engagement (reply / quote draft) or standalone (incl. 回看 / 常青)."""
+    e = row.get('engagement') or {}
+    if (row.get('post_format') or {}).get('engage') in ('reply', 'quote') or e.get('mode') in ('reply', 'quote'):
+        return 'engage'
+    return 'standalone'
+
+
+def day_slots(day):
+    """{account: {'standalone': n, 'engage': n}} of the day's ready / published inbox rows (slot rule)."""
+    out = {}
+    try:
+        rows = compose_inbox.rows(day.isoformat() if hasattr(day, 'isoformat') else str(day))
+    except Exception:   # noqa: BLE001
+        rows = []
+    for r in rows:
+        if r.get('superseded') or r.get('held') or r.get('draft_status') != 'draft_ready' \
+                or not (r.get('text') or '').strip():
+            continue
+        k = out.setdefault(r.get('account_id'), {'standalone': 0, 'engage': 0})
+        k[row_slot_kind(r)] += 1
+    return out
+
+
 def lane_first(account_cfg, groups, x_handles):
     """Oct 8 (36 accounts): a narrow-lane account (row lane_first, the 10 new accounts: meme / airdrop / prediction /
     stablecoin yield / IPO / perp DEX) takes packets of its own X sources or its own lanes before general crypto /
     market news; stable, so the earlier order holds inside both halves. FD_LANE_FIRST=0 turns it off."""
+    on_lane = lane_test(account_cfg, x_handles)
+    if on_lane is None:
+        return groups
+    return sorted(groups, key=lambda g: not on_lane(g))
+
+
+def lane_test(account_cfg, x_handles):
+    """The lane_first on-lane predicate of a narrow-lane account; None = every packet counts as on-lane."""
     from live.jev_front import LANE_BEATS
     from live.x_daily import x_handle
     if not account_cfg.get('lane_first') or os.environ.get('FD_LANE_FIRST', '1') == '0':
-        return groups
+        return None
     lanes = {b for b in account_cfg.get('retrieval_beats') or () if b in LANE_BEATS}
     own = {h.lower() for h in x_handles or ()}
 
     def on_lane(g):
         h = x_handle(g[0]['source'])
         return bool(h and h.lower() in own) or any(lanes & set(r.get('tag_personas') or []) for r in g)
-    return sorted(groups, key=lambda g: not on_lane(g))
+    return on_lane
 
 
 def diversity_prepare(pools, accounts, x_of, day, ref, reuse=None):
@@ -824,7 +917,7 @@ def pick_prefs(account, day, ref, own_handles=(), account_lang=None):
     from live import cold_start, engagement
     cold = cold_start.is_cold(account, day)
     heavy = cold_start.image_heavy(account)
-    eng = engagement.enabled() and engagement.is_cold(account, day)
+    eng = engagement.enabled() and (engagement.is_cold(account, day) or engagement.slot_rule())
     slot = (engagement.next_slot(day, ref) or ref) if eng else None
 
     memo = {}
@@ -1139,6 +1232,7 @@ def inbox_row(result, account_cfg, day, run_id):
             **({'cold_start_quote': True} if pick.get('cold_start_quote') else {}),
             # Oct 8 (live/engagement.py): quote / reply target chosen (or refused) by the engagement scoring
             **({'engagement': pick['engagement']} if pick.get('engagement') else {}),
+            **({'motif_heat': pick['motif_heat']} if pick.get('motif_heat') is not None else {}),
             'arbitration': arb, 'findings': findings,
             'stance': {k: (result.get('stance') or {}).get(k) for k in ('decision', 'account_view', 'subject', 'direction')},
             'source': {'id': src.get('id'), 'source_id': src.get('source_id'), 'publisher': pick.get('publisher'),

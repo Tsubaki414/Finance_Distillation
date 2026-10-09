@@ -145,6 +145,7 @@ def test_enabled_all_and_narrowing_flags(monkeypatch):
 
 
 def test_gate_fill_and_slow_day_second_post(tmp_path, monkeypatch):
+    monkeypatch.setenv('FD_SLOT_RULE', '0')   # pre-Oct 9 gap rule; the slot rule: tests/test_slot_rule_oct9.py
     monkeypatch.delenv('FD_ARCHIVE', raising=False)
     monkeypatch.delenv('FD_ARCHIVE_ACCOUNTS', raising=False)
     cfg = {**CFG, 'slow_day_fresh_min': 2}

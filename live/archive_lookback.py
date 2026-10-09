@@ -160,6 +160,11 @@ def _ready_rows(day, account, base=None):
             and r.get('draft_status') == 'draft_ready' and (r.get('text') or '').strip()]
 
 
+def _engagement_row(r):
+    e = r.get('engagement') or {}
+    return (r.get('post_format') or {}).get('engage') in ('reply', 'quote') or e.get('mode') in ('reply', 'quote')
+
+
 def ready_regular(day, account, base=None):
     """Ready (not held, not superseded) non-回看 drafts of the account for the day."""
     return len(_ready_rows(day, account, base))
@@ -187,6 +192,12 @@ def gate(account, day, *, config, timely_planned=0, base=None):
         return False, 'FD_ARCHIVE off or account not enabled'
     if len(archive_rows(day, account, base)) >= config.get('per_day', 1):
         return False, f"already {config.get('per_day', 1)} 回看 draft(s) for {day}"
+    from live import engagement
+    if engagement.slot_rule():   # Oct 9 (Fiona): 回看 / 常青 only stands in for a missing standalone post
+        standalone = sum(1 for r in _ready_rows(day, account, base) if not _engagement_row(r))
+        if standalone + timely_planned:
+            return False, f'slot rule: {standalone} standalone ready + {timely_planned} timely planned'
+        return True, 'slot rule: no standalone draft ready'
     target = config.get('target_ready_per_day', 2)
     ready = ready_regular(day, account, base)
     if ready + timely_planned < target:

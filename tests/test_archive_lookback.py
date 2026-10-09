@@ -61,6 +61,7 @@ def test_windows_feb_first_then_year_ago():
 
 
 def test_gate_per_day_and_gap(tmp_path, monkeypatch):
+    monkeypatch.setenv('FD_SLOT_RULE', '0')   # pre-Oct 9 gap rule; the slot rule: tests/test_slot_rule_oct9.py
     monkeypatch.delenv('FD_ARCHIVE', raising=False)
     base = tmp_path / 'inbox'
     ok, why = al.gate('crypto_altcoin_zh', '2026-10-08', config=CFG, timely_planned=1, base=base)

@@ -349,6 +349,23 @@ def extract_flashes(db, selected, *, client, jev, budget, cost_cap_usd, flash_bu
     return stats,pending
 
 
+def keep_day_total(path, summary):
+    """Oct 9 (resumable nightly): a rerun on the same Beijing day keeps the earlier summary as <day>_runN.json and
+    carries its spend in cost_usd.day_total, so daily_compose.sh subtracts the whole day's ingest spend."""
+    path=Path(path); prev_total=0.0
+    if path.exists():
+        try:
+            prev=json.loads(path.read_text())
+            prev_total=float((prev.get('cost_usd') or {}).get('day_total',(prev.get('cost_usd') or {}).get('total') or 0) or 0)
+        except (OSError,ValueError,TypeError):
+            prev=None
+        n=1
+        while (path.parent/f'{path.stem}_run{n}.json').exists(): n+=1
+        try: path.rename(path.parent/f'{path.stem}_run{n}.json')
+        except OSError: pass
+    summary.setdefault('cost_usd',{})['day_total']=round(prev_total+float(summary['cost_usd'].get('total') or 0),6)
+
+
 def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_runs',
         inbox='/workspace/x/ingest_inbox', cost_cap_usd=10.0, channel_timeout=90, channel_timeouts=None,
         max_extract=60, max_source_chars=5000, extract_model=None, allow_nondefault_extract_model=False, per_channel_max=2, no_dashboard=False, dry_run=False, only=None,
@@ -665,5 +682,6 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
             summary['cost_usd'].update(total=total,jev=jev_cost,relay=total-jev_cost)
         budget.STORE,budget.LEDGER,budget.DISTILLATION_RUNS=old_budget
         summary.update(finished_at=datetime.now(timezone.utc).isoformat(),runtime_s=time.monotonic()-clock)
+        keep_day_total(runs_dir/(bjt_stamp(started)+'.json'),summary)
         atomic_json(runs_dir/(bjt_stamp(started)+'.json'),summary)
         fcntl.flock(lock,fcntl.LOCK_UN);lock.close()

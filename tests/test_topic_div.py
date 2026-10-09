@@ -72,6 +72,7 @@ def _select(monkeypatch, pools, accounts, div=True, per_lang=None):
         monkeypatch.setattr(dc, 'MAX_ACCOUNTS_PER_EVENT', per_lang)
     monkeypatch.setenv('FD_TOPIC_DIV', '1' if div else '0')
     monkeypatch.setenv('FD_HOTSPOT', '0')
+    monkeypatch.setenv('FD_SLOT_RULE', '0')   # 2 standalone picks / account (pre-Oct 9); slot rule: test_slot_rule_oct9
     monkeypatch.setenv('FD_HEAT', '0')
     monkeypatch.setenv('FD_X_BREADTH', '0')
     monkeypatch.setattr(dc, 'ContentStore', lambda: None)

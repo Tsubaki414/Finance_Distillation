@@ -62,6 +62,9 @@ DEFAULTS = {
     # the watchlist ranks donors by their typical likes (local donor posts) and drops known low-traffic ones; the
     # batched search only returns posts that already have search_min_faves likes (0 = no filter).
     'huge_min_likes': 20, 'min_median_likes': 20, 'search_min_faves': 30,
+    # Oct 9 (Fiona, perf review): slot rule - every account (not only cold ones) gets one engagement slot a day next
+    # to its one standalone post; cold-start quotas still cap the modes.
+    'engage_slots_per_day': 1,
 }
 HARD_CODES = frozenset({'engage_generic', 'engage_too_long', 'engage_mentions'})
 SOFT_CODES = frozenset({'engage_no_payload'})
@@ -89,6 +92,12 @@ _ROSTER = None
 
 def enabled(env=None):
     return (env if env is not None else os.environ).get('FD_ENGAGE', '1') != '0'
+
+
+def slot_rule(env=None):
+    """Oct 9: 1 standalone + 1 engagement slot per account and day (FD_SLOT_RULE=0: the old 2-standalone mix)."""
+    e = env if env is not None else os.environ
+    return enabled(e) and e.get('FD_SLOT_RULE', '1') != '0'
 
 
 def fetch_enabled(env=None):
@@ -265,7 +274,7 @@ class DayState:
     per-account quote / reply counts."""
 
     def __init__(self):
-        self.targets, self.authors, self.used = {}, set(), {}
+        self.targets, self.authors, self.used, self.ready = {}, set(), {}, {}
 
     @classmethod
     def from_rows(cls, rows):
@@ -280,6 +289,8 @@ class DayState:
             if not t:
                 continue
             st.take(r.get('account_id'), t[2], t[1], mode)
+            if r.get('draft_status') == 'draft_ready' and not r.get('held'):   # slot rule: ready ones fill the slot
+                st.ready[r.get('account_id')] = st.ready.get(r.get('account_id'), 0) + 1
         return st
 
     def take(self, account, post_id, handle, mode):
@@ -309,7 +320,11 @@ def plan_day(cands, *, day, ref, state=None, taken=None, own_handles=(), cfg=Non
     state = state or DayState()
     taken = {a: list(v) for a, v in (taken or {}).items()}
     langs = langs or {}
-    cold = cold if cold is not None else {a: is_cold(a, day, cfg) for a in cands}
+    slots = int(cfg['engage_slots_per_day']) if slot_rule() else None
+    if slots is not None:   # slot rule: every account has its (one) engagement slot, cold-start or not
+        cold = {a: True for a in cands}
+    elif cold is None:
+        cold = {a: is_cold(a, day, cfg) for a in cands}
     out = {a: {} for a in cands}
     first = {a: next_slot(day, ref, taken.get(a, ()), cfg) for a in cands}
     scored = []
@@ -324,6 +339,7 @@ def plan_day(cands, *, day, ref, state=None, taken=None, own_handles=(), cfg=Non
                 scored.append((s['score'], a, c))
     scored.sort(key=lambda x: (-x[0], x[1], x[2]['key']))
     left = {a: list(quotas(a, day, state, cfg)) for a in cands}
+    slot_left = {a: (slots - state.ready.get(a, 0)) if slots is not None else 99 for a in cands}
     for phase in ('reply', 'quote', 'reply2'):
         for score, a, c in scored:
             d = out[a][c['key']]
@@ -334,6 +350,8 @@ def plan_day(cands, *, day, ref, state=None, taken=None, own_handles=(), cfg=Non
             if pid in state.targets or (a, handle) in state.authors:
                 continue
             q, r, rmax = left[a]
+            if slot_left[a] <= 0:   # slot rule: the account's engagement slot is already filled today
+                continue
             mode = ('reply' if phase == 'reply' and r > 0 else 'quote' if phase == 'quote' and q > 0 else
                     'reply' if phase == 'reply2' and rmax > 0 and q == 0 and not any(
                         x['mode'] == 'quote' for x in out[a].values()) else None)
@@ -351,6 +369,7 @@ def plan_day(cands, *, day, ref, state=None, taken=None, own_handles=(), cfg=Non
             d.update(mode=mode, slot=slot, assess=s2, why=f'{mode}: {s2["why"]}')
             taken.setdefault(a, []).append(slot)
             state.take(a, pid, handle, mode)
+            slot_left[a] -= 1
             if mode == 'quote':
                 left[a][0] -= 1
             else:

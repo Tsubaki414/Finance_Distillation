@@ -13,6 +13,9 @@ mkdir -p "$(dirname "$LOG")"
 exec >> "$LOG" 2>&1
 printf 'START %s\n' "$(date -Is)"
 trap 'status=$?; printf "END %s exit_code=%s\n" "$(date -Is)" "$status"' EXIT
+# Oct 9: one compose at a time (nightly, reruns, engage pulls); a second one exits instead of duplicating drafts.
+exec 9>/workspace/x/compose_runs/.daily_compose.lock
+if ! flock -n 9; then echo "another daily_compose.sh holds the lock: skip"; exit 0; fi
 # Oct 8: subrouter (flat-rate Gemini relay) is the PRIMARY Gemini provider whenever SUBROUTER_API_KEY is set; micuapi
 # (GEMINI_RELAY_API_KEY) is the automatic same-model fallback. The key file is private (chmod 600, outside the repo,
 # never committed, printed or logged; only key NAMES are logged). FD_GEMINI_PROVIDER=relay forces micuapi only.
@@ -53,7 +56,8 @@ budget, total = float(sys.argv[1]), float(sys.argv[2])
 p = Path('/workspace/x/ingest_runs') / (datetime.now(ZoneInfo('Asia/Shanghai')).strftime('%Y%m%d') + '.json')
 spent = 0.0
 if p.exists() and time.time() - p.stat().st_mtime < 3 * 3600:
-    spent = float((json.loads(p.read_text()).get('cost_usd') or {}).get('total') or 0)
+    c = json.loads(p.read_text()).get('cost_usd') or {}
+    spent = float(c.get('day_total', c.get('total')) or 0)   # day_total: all ingest runs of the day (reruns)
 print(f'{max(0.5, min(budget, total - spent)):.2f}')
 PY
 )

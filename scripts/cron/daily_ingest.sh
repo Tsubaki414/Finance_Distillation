@@ -55,8 +55,31 @@ done
 if [[ $PREFLIGHT_ONLY == 1 ]]; then
     exec /workspace/fd_venv/bin/python scripts/daily_ingest_preflight.py "${preflight_args[@]}"
 fi
-/workspace/fd_venv/bin/python scripts/daily_ingest_preflight.py "${preflight_args[@]}" --failure-json "$RUN/$DAY.preflight_failed.json"
-/workspace/fd_venv/bin/python scripts/daily_ingest.py --no-dashboard "$@"
+# Oct 9 (resumable nightly; 10-08's 23:13 run died when the box was reprovisioned): a rerun skips the ingest when
+# this Beijing day already has an ok ingest summary finished < FD_INGEST_RESUME_H (4) hours ago and goes on to the
+# compose, which itself only fills what the day still lacks (slot rule / drafted-today counts). FD_INGEST_RESUME=0
+# always re-ingests (incremental: known sources are not re-extracted either way).
+SUMMARY="$RUN/$(TZ=Asia/Shanghai date +%Y%m%d).json"
+SKIP_INGEST=0
+if [[ "${FD_INGEST_RESUME:-1}" != "0" && -f "$SUMMARY" ]]; then
+    SKIP_INGEST=$(/workspace/fd_venv/bin/python - "$SUMMARY" "${FD_INGEST_RESUME_H:-4}" <<'PY' || echo 0
+import json, sys
+from datetime import datetime, timezone
+d = json.load(open(sys.argv[1]))
+try:
+    age = (datetime.now(timezone.utc) - datetime.fromisoformat(d['finished_at'])).total_seconds() / 3600
+except Exception:
+    age = 99
+print(1 if d.get('status') == 'ok' and age < float(sys.argv[2]) else 0)
+PY
+)
+fi
+if [[ "$SKIP_INGEST" == "1" ]]; then
+    echo "resume: ingest for this Beijing day already ok ($SUMMARY); skipping to compose"
+else
+    /workspace/fd_venv/bin/python scripts/daily_ingest_preflight.py "${preflight_args[@]}" --failure-json "$RUN/$DAY.preflight_failed.json"
+    /workspace/fd_venv/bin/python scripts/daily_ingest.py --no-dashboard "$@"
+fi
 # Oct 7 (fd20): chain the daily compose for the 20 main accounts. On by default; FD_DAILY_COMPOSE=0 turns it off.
 export FD_DAILY_COMPOSE="${FD_DAILY_COMPOSE:-1}"
 if [[ "${FD_DAILY_COMPOSE}" == "1" ]]; then bash scripts/cron/daily_compose.sh || echo "daily_compose failed: $?"; fi

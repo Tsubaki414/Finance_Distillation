@@ -36,7 +36,7 @@ def test_isolation_incremental_schema(tmp_path):
     assert client.seen==['good']
     assert set(('started_at','finished_at','runtime_s','steps','channels','new_units_by_persona',
                 'fresh_by_persona_before','fresh_by_persona_after','cost_usd','failing_channels','deferred')) <= r.keys()
-    assert set(r['cost_usd'])=={'relay','jev','total','cap'}
+    assert set(r['cost_usd'])=={'relay','jev','total','cap','day_total'}   # day_total: Oct 9 resumable nightly
     assert all(set(('id','status','new_items','units','seconds','error'))<=c.keys() for c in r['channels'])
     assert list((tmp_path/'runs').glob('[0-9]'*8+'.json'))
     run(**args, fetchers={'good':fetchers['good']}, extract=client, backup=lambda:None, refresh=lambda:None)

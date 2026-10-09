@@ -52,5 +52,5 @@ print('engage pull', d.get('status'), json.dumps({k: x.get(k) for k in ('posts_f
 print('cost', json.dumps(d.get('cost_usd')), 'failed steps', [s['id'] + ': ' + str(s.get('error'))[:160] for s in d.get('steps', []) if s.get('status') != 'ok'])
 PY
 FD_DAILY_COMPOSE=1 FD_ENGAGE_ONLY=1 FD_ARCHIVE=0 FD_FILL_ROUNDS="${FD_ENGAGE_FILL_ROUNDS:-1}" \
-    FD_DAILY_COMPOSE_PER_ACCOUNT="${FD_ENGAGE_PER_ACCOUNT:-4}" FD_DAILY_COMPOSE_BUDGET_USD="${FD_ENGAGE_FILL_USD:-1}" \
+    FD_DAILY_COMPOSE_PER_ACCOUNT="${FD_ENGAGE_PER_ACCOUNT:-2}" FD_DAILY_COMPOSE_BUDGET_USD="${FD_ENGAGE_FILL_USD:-1}" \
     bash scripts/cron/daily_compose.sh --day "$(TZ=Asia/Shanghai date +%F)" || echo "engage fill failed: $?"
