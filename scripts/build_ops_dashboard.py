@@ -291,8 +291,15 @@ def clamp_times(drafts, day):
     base = datetime.fromisoformat(day).replace(tzinfo=BJT)
     lo, hi = (base.replace(hour=h, minute=m) for h, m in (POST_START, POST_END))
     late = day >= POST_NOT_BEFORE_FROM and os.environ.get('FD_POST_NOT_BEFORE', '1') != '0'
+    if late:   # today: nothing still to post is slotted before build time + POST_LEAD (published rows keep theirs)
+        now = datetime.now(BJT) + POST_LEAD
+        now = now.replace(second=0, microsecond=0) + timedelta(minutes=(-now.minute) % 5)
+        if lo < now <= hi:
+            lo = now
     by_acct = {}
     for d in drafts:
+        if d['time'] and late and d.get('decision') == 'published':
+            continue   # already posted: its time stays as recorded
         if d['time']:
             by_acct.setdefault(d['account_id'], {}).setdefault(d['time'], []).append(d)
     for acct, slots in by_acct.items():
