@@ -1657,6 +1657,11 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             extra_phrases=_signature_lexicon(persona))
         hint = posting_habits.GUIDANCE + ' ' + language_habits.GUIDANCE
         payload['persona']['format_hint'] = hint
+        # Oct 10 (Fiona): per-account line-end punctuation habit from the donor cluster (live/line_end.py).
+        from live import line_end as _le_p
+        _le_habit = _le_p.prompt_habit(persona) if _le_p.enabled() else None
+        if _le_habit:
+            payload['persona']['line_end_habit'] = _le_habit
     import os
     variant = voice_prompt_variant if voice_prompt_variant is not None else os.environ.get('VOICE_PROMPT_VARIANT', 'v1')
     if variant not in ('v1', 'v2'):
@@ -2256,6 +2261,19 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                 body, text, findings, grounding, emo_findings = _fixed, _t, _f, _g, _e
                 if hard_repair is not None:
                     hard_repair['autofix'] = 'editorial_cliche'
+    # Oct 10 (Fiona): deterministic line-end post-processor -- trailing 。/. dropped per line at the account's donor
+    # rate (seeded by draft id); ? ! … and in-line / number / abbreviation periods untouched. FD_LINE_END=0 off.
+    from live import line_end as _le
+    line_end_info = None
+    if body and _le.enabled() and _le.profile(persona):
+        _le_body = _le.apply(body, persona, base['id'])
+        if _le_body != body:
+            line_end_info = {'stripped': sum(a != b for a, b in zip(body.split('\n'), _le_body.split('\n'))),
+                             'before': body}
+            if isinstance(value.get('thread'), list):
+                value = dict(value, thread=_le.apply_parts([str(x) for x in value['thread']], persona, base['id']))
+            body = _le_body
+            text = (frame['text'] + body) if frame['placement'] == 'lead' else (body + frame['text'])
     if stance and stance.get('stance_findings'):
         findings += qa_levels.classify(stance['stance_findings'], frame_found=True)
     input_view = (primary or {}).get('view') if stance else None
@@ -2312,6 +2330,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             **({'info_dump_retry': info_dump_retry} if info_dump_retry else {}),
             **({'structure_retry': structure_retry} if structure_retry else {}),
             **({'hard_repair': hard_repair} if hard_repair else {}),
+            **({'line_end': line_end_info} if line_end_info else {}),
             'span_grounding': {'version': span_grounding.VERSION,
                                'sentences': span_grounding.ground(body, chosen, source)[1]},
             **({'budget_skipped_retries': budget_skips} if budget_skips else {}),

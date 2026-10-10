@@ -324,6 +324,11 @@ def write_card(persona, posts_dir=None):
     card = build_card(persona, posts_dir=posts_dir)
     if persona.persona_id in ('zh_industry', 'en_industry'):
         card['industry_constraints'] = INDUSTRY_CONSTRAINTS[persona.lang]
+    from live import line_end   # Oct 10: line-end punctuation habit (aggregates from live/donors/line_end_stats.json)
+    le = line_end.profile(persona)
+    if le:
+        card['line_end'] = {k: le.get(k) for k in ('line_end_period_rate', 'final_line_period_rate', 'line_period_keep',
+                                                   'final_period_keep', 'line_end_mix', 'final_line_mix', 'by_lang')}
     (CARDS_DIR / (persona.persona_id + '.json')).write_text(
         json.dumps(card, ensure_ascii=False, indent=2) + '\n')
     return card

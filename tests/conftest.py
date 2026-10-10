@@ -22,3 +22,10 @@ def legacy_compose_without_hook_voice(monkeypatch):
     """live/hook_voice.py is default-on in the pipeline; the scripted legacy compose tests pin the payload / call
     sequence from before it (tests/test_hook_voice_oct8.py turns it back on)."""
     monkeypatch.setenv('FD_HOOK_VOICE', '0')
+
+
+@pytest.fixture(autouse=True)
+def legacy_compose_without_line_end(monkeypatch):
+    """live/line_end.py (Oct 10) is default-on in compose; scripted compose tests pin the exact model body
+    (tests/test_line_end_oct10.py turns it back on)."""
+    monkeypatch.setenv('FD_LINE_END', '0')
