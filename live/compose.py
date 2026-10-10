@@ -1582,7 +1582,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         fmt_info.setdefault('length_target', _ph.target_chars(persona.lang, fmt_info['length'],
                                                               parts=fmt_info.get('thread_parts')))
     nat_shape = None
-    if (use_shapes and fmt_info and not shape and not fmt_info.get('engage')
+    if (use_shapes and fmt_info and not shape and not fmt_info.get('engage') and not fmt_info.get('no_nat')
             and fmt_info.get('type') not in ('thread', 'quote_comment')
             and (post_type in JUDGMENT_TYPES or (stance and stance.get('account_view')))):
         # Oct 10 nat3: at 1 - (donor argument share + 10pp) a standalone post is a non-argument shape (one-line take,

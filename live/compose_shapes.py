@@ -145,19 +145,28 @@ def nonarg_target(shape_id, lang):
     return {'min': lo, 'max': hi}
 
 
+NONARG_SHORT_DEFAULT = 0.20   # Oct 10 17:30 PM: the short shapes run at the donor short-post rate (~20%), not >= 85%
+NONARG_SHORT_CAP = 0.25       # sanity ceiling on a donor rate (FD_NAT_SHORT_CAP overrides)
+
+
 def nonarg_share(persona, env=None):
-    """Share of this account's standalone posts that get a non-argument shape: 1 - (donor argument share + 10pp),
-    in [0, NONARG_MAX]. FD_NAT_PROMPT=0: 0."""
+    """Share of this account's standalone judgment posts that get a short non-argument shape: the account's donor
+    short-post rate (donor_rates short_post, default 0.20), capped at FD_NAT_SHORT_CAP (0.25). FD_NAT_PROMPT=0: 0.
+    (Until 17:30 Oct 10 this was a 0.85 floor; the forced one-liners read garbled.)"""
     env = os.environ if env is None else env
     if env.get('FD_NAT_PROMPT', '1') == '0':
         return 0.0
     try:
         from live import donor_rates as _dr
-        mix = (_dr.account_rates(persona.persona_id) or {}).get('shape_mix') or {}
+        rate = (_dr.account_rates(persona.persona_id) or {}).get('short_post')
     except Exception:   # noqa: BLE001
-        mix = {}
-    arg = float(mix.get('argument', 0.45)) if mix else 0.45
-    return round(max(NONARG_MIN, min(NONARG_MAX, 1.0 - (arg + ARG_MARGIN))), 3)
+        rate = None
+    try:
+        cap = float(env.get('FD_NAT_SHORT_CAP', NONARG_SHORT_CAP))
+    except ValueError:
+        cap = NONARG_SHORT_CAP
+    rate = NONARG_SHORT_DEFAULT if rate is None else float(rate)
+    return round(max(0.0, min(cap, rate)), 3)
 
 
 def pick_nonarg(persona, *, units=(), recent=(), seed='', env=None):

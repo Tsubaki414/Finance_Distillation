@@ -1958,6 +1958,18 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
     if os.environ.get('FD_HUMANIZE', '1') != '0':
         from live import humanize as _hum
         _hum.apply_batch(ok, client=client())
+    # Oct 10 17:30 (PM B): short non-argument shapes must read fluently (grammar + one complete thought): rewrite, or
+    # re-compose the post in a normal shape (post_format no_nat), else hold it (FD_FLUENCY, default 1)
+    from live import fluency as _flu
+    if _flu.enabled():
+        def _recompose(r):
+            pick = dict(r['plan'], post_format=dict(r['plan'].get('post_format') or {}, no_nat=True))
+            new = compose_one(client, r['account_id'], pick, args.day, records, spend, lock)
+            if new.get('body') and os.environ.get('FD_HUMANIZE', '1') != '0':
+                from live import humanize as _hum2
+                _hum2.apply_batch([new], client=client())
+            return new
+        _flu.apply_batch(ok, client, recompose=_recompose)
     for r in ok:   # arbitration compares drafts of this Beijing day (not the sources' own dates) in one language
         r['day'], r['account_lang'] = args.day.isoformat(), r['plan']['account_lang']
         # Oct 8 evening (FD_LANE_FIT): a niche draft on broad news without a lane tie-in is held off_lane
