@@ -107,7 +107,9 @@ def test_errors_fall_back_to_micuapi_same_model_and_count(tmp_path, status):
         return ok(json.loads(request.content)['model'])
     client = ErisedaiClient(tmp_path / 'calls', configuration=config(), transport=httpx.MockTransport(handler))
     out = client('stance', [{'role': 'user', 'content': 'hi'}], 1000)
-    assert hosts == ['subrouter.ai', 'www.micuapi.ai']
+    # Oct 10: availability errors (429 / 5xx) get FD_SUBROUTER_RETRIES (2) more subrouter tries first
+    retries = relay.subrouter_retries() if status in (429, 500, 503) else 0
+    assert hosts == ['subrouter.ai'] * (1 + retries) + ['www.micuapi.ai']
     assert out['response_model'] == 'gemini-3-flash-preview' and out['serving_provider'] == 'micuapi'
     assert out['provider_fallback'] and not out['model_fallback']   # DraftClient accepts it (same Gemini model)
     d = json.loads(budget.LEDGER.read_text())
@@ -129,7 +131,8 @@ def test_transport_error_falls_back_and_breaker_opens(tmp_path):
     client = ErisedaiClient(tmp_path / 'calls', configuration=config(), transport=httpx.MockTransport(handler))
     for _ in range(relay.PROVIDER_BREAKER_FAILS + 1):
         client('compose', [{'role': 'user', 'content': 'hi'}], 1000)
-    assert hosts.count('subrouter.ai') == relay.PROVIDER_BREAKER_FAILS   # last call skipped subrouter
+    # last call skipped subrouter; each failing call is 1 + FD_SUBROUTER_RETRIES subrouter tries (Oct 10)
+    assert hosts.count('subrouter.ai') == relay.PROVIDER_BREAKER_FAILS * (1 + relay.subrouter_retries())
     assert hosts.count('www.micuapi.ai') == relay.PROVIDER_BREAKER_FAILS + 1
 
 
@@ -137,7 +140,7 @@ def test_missing_micuapi_key_runs_subrouter_alone(tmp_path, monkeypatch):
     monkeypatch.delenv('GEMINI_RELAY_API_KEY')
     client = ErisedaiClient(tmp_path / 'calls', configuration=config(),
                             transport=httpx.MockTransport(lambda r: httpx.Response(503, json={'error': {'message': 'x'}})))
-    with pytest.raises(RuntimeError, match='Relay HTTP 503'):
+    with pytest.raises(RuntimeError, match='Relay HTTP 503'):   # PrimaryFailed (a RuntimeError) after the retries
         client('compose', [{'role': 'user', 'content': 'hi'}], 1000)
 
 

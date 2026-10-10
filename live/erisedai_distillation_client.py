@@ -58,6 +58,97 @@ FLASH_PRO_MODEL = 'gemini-3.1-pro-preview'
 FLASH_DEAD = {}   # subrouter base_url -> (monotonic time, reason)
 
 
+# Oct 10 17:30 (PM decision A): micuapi (the paid same-model provider fallback) is empty. Once a fallback answers
+# "insufficient quota" it is circuit-broken for the rest of the London day, in this process AND in later processes
+# of the day (engage fills, midday runs) through FD_PROVIDER_DEAD_FILE; the primary then runs alone. A flat-rate
+# primary (subrouter) failure that is an availability error (timeout / transport / 408 / 429 / 5xx / unusable body)
+# is retried on subrouter with backoff (FD_SUBROUTER_RETRIES, default 2; FD_SUBROUTER_BACKOFF seconds, default
+# "5,15") before any fallback; when the fallback is dead the error is raised as a plain per-draft failure (never
+# a quota error, so one draft never stops the run).
+FALLBACK_DEAD = {}   # fallback base_url -> (London date, reason)
+
+
+def _dead_file():
+    if os.environ.get('FD_PROVIDER_DEAD_FILE'):
+        return Path(os.environ['FD_PROVIDER_DEAD_FILE'])
+    if os.environ.get('PYTEST_CURRENT_TEST'):   # tests never touch the real day file
+        return None
+    return Path('/workspace/x/compose_runs/.provider_dead.json')
+
+
+def _london_day():
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    return datetime.now(ZoneInfo('Europe/London')).date().isoformat()
+
+
+def fallback_dead(base_url):
+    """(day, reason) when this fallback provider is circuit-broken today, else None."""
+    if not base_url:
+        return None
+    day = _london_day()
+    hit = FALLBACK_DEAD.get(base_url)
+    if hit and hit[0] == day:
+        return hit
+    try:
+        data = json.loads(_dead_file().read_text()) if _dead_file() else {}
+        hit = data.get(base_url)
+        if hit and hit[0] == day:
+            FALLBACK_DEAD[base_url] = tuple(hit)
+            return tuple(hit)
+    except (OSError, ValueError, TypeError):
+        pass
+    return None
+
+
+def mark_fallback_dead(base_url, reason):
+    if not base_url or os.environ.get('FD_FALLBACK_BREAKER', '1') == '0':
+        return
+    day = _london_day()
+    FALLBACK_DEAD[base_url] = (day, str(reason)[:160])
+    try:
+        f = _dead_file()
+        if f is None:
+            return
+        f.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            data = json.loads(f.read_text())
+        except (OSError, ValueError):
+            data = {}
+        data = {k: v for k, v in data.items() if v and v[0] == day}
+        data[base_url] = [day, str(reason)[:160]]
+        tmp = f.with_suffix('.tmp')
+        tmp.write_text(json.dumps(data))
+        tmp.replace(f)
+    except OSError:
+        pass
+
+
+def subrouter_retries():
+    try:
+        return max(0, int(os.environ.get('FD_SUBROUTER_RETRIES', '2')))
+    except ValueError:
+        return 2
+
+
+def subrouter_backoff(i):
+    try:
+        default = '0' if os.environ.get('PYTEST_CURRENT_TEST') else '5,15'
+        steps = [float(x) for x in os.environ.get('FD_SUBROUTER_BACKOFF', default).split(',') if x.strip()]
+    except ValueError:
+        steps = [5.0, 15.0]
+    return steps[min(i, len(steps) - 1)] if steps else 0.0
+
+
+class PrimaryFailed(RuntimeError):
+    """The primary failed (after retries) and no usable fallback is left: a per-draft failure."""
+
+
+def _scrub_quota(text):
+    return re.sub(r'额度不足|余额不足|insufficient[_ ]\w*quota|insufficient[_ ]quota|quota|RESOURCE_EXHAUSTED',
+                  '[fallback-empty]', str(text), flags=re.I)
+
+
 def flash_pro_fallback_on():
     return os.environ.get('FD_FLASH_PRO_FALLBACK', '1') != '0'
 
@@ -77,6 +168,7 @@ def reset_quota_breaker():
     QUOTA_TRIPPED.clear()
     PROVIDER_FAILS.clear()
     FLASH_DEAD.clear()
+    FALLBACK_DEAD.clear()
 
 
 def quota_tripped():
@@ -280,14 +372,18 @@ class ErisedaiClient:
         provider_fb = bool(fb and fb['provider_fallback'] and (stage in self._fallback_keys or not fb['base_url']))
         if fb is not None and fb['provider_fallback'] and not provider_fb:
             fb = None   # provider fallback configured but its key is missing: primary only
+        if fb is not None and fb['provider_fallback'] and fallback_dead(fb['base_url'] or self.config['base_url']):
+            fb, provider_fb = None, False   # Oct 10: fallback circuit-broken for the day (empty balance)
         tripped = QUOTA_TRIPPED.get((stage, selected['model']))
         if fb is not None and tripped:
-            return self._fallback(stage, messages, max_tokens, fb, f'quota breaker open: {tripped}'[:300])
+            return self._fallback_guarded(stage, messages, max_tokens, fb, f'quota breaker open: {tripped}'[:300],
+                                          RuntimeError(f'quota breaker open: {tripped}'))
         key = (stage, selected['model'], routed['base_url'] if routed else None)
         fails = PROVIDER_FAILS.get(key)
         if provider_fb and fails and fails[0] >= PROVIDER_BREAKER_FAILS and time.monotonic() - fails[1] < PROVIDER_BREAKER_SECONDS:
-            return self._fallback(stage, messages, max_tokens, fb,
-                                  f'provider breaker open: {fails[0]} consecutive {selected["model"]} failures: {fails[2]}'[:300])
+            return self._fallback_guarded(stage, messages, max_tokens, fb,
+                                          f'provider breaker open: {fails[0]} consecutive {selected["model"]} failures: {fails[2]}'[:300],
+                                          RuntimeError(f'{fails[0]} consecutive {selected["model"]} failures: {fails[2]}'))
         args = (stage, messages, stage_models.max_tokens(self.stage_models, stage) or max_tokens,
                 selected['model'], selected['temperature'],
                 routed['base_url'] if routed else self.config['base_url'],
@@ -299,7 +395,7 @@ class ErisedaiClient:
             return self._flash_pro(args, f"{selected['model']} skipped: {flash_dead(routed['base_url'])[1]}")
         try:
             try:
-                out = self._call(*args)
+                out = self._call_retrying(args, key)
             except ValueError as exc:
                 # Oct 8 smoke: subrouter occasionally answers a gemini-3.1-pro-preview request from another channel
                 # ("gemini-pro-agent"). Never accepted; on the flat-rate primary one free retry on the same provider
@@ -317,13 +413,41 @@ class ErisedaiClient:
             # (errors, 4xx/429/5xx, quota, transport, bad body, unexpected response model) moves to it.
             worthy = (not isinstance(exc, budget.BudgetExceeded)) if provider_fb else _fallback_worthy(exc)
             if fb is None or not worthy:
+                if fb is None and stage_models.is_flat_rate(args[5]) and _fallback_worthy(exc):
+                    raise PrimaryFailed(f'{selected["model"]} on subrouter failed after retries, no fallback: '
+                                        f'{_scrub_quota(exc)}'[:400]) from exc
                 raise
             if provider_fb:
                 n = (fails[0] if fails else 0) + 1
                 PROVIDER_FAILS[key] = (n, time.monotonic(), str(exc)[:120])
             if isinstance(exc, ProviderQuotaError):
                 QUOTA_TRIPPED[(stage, selected['model'])] = f'{selected["model"]}: {exc}'[:200]
-            return self._fallback(stage, messages, max_tokens, fb, f'{selected["model"]}: {exc}'[:300])
+            return self._fallback_guarded(stage, messages, max_tokens, fb, f'{selected["model"]}: {exc}'[:300], exc)
+
+    def _call_retrying(self, args, key):
+        """self._call on the primary; on a flat-rate primary (subrouter) availability errors get
+        subrouter_retries() more tries with backoff before the caller considers a fallback."""
+        tries = subrouter_retries() if stage_models.is_flat_rate(args[5]) else 0
+        for i in range(tries + 1):
+            try:
+                return self._call(*args)
+            except Exception as exc:   # noqa: BLE001
+                if i >= tries or isinstance(exc, (budget.BudgetExceeded, ProviderQuotaError, ValueError)) \
+                        or not _fallback_worthy(exc):
+                    raise
+                time.sleep(subrouter_backoff(i))
+
+    def _fallback_guarded(self, stage, messages, max_tokens, fb, reason, primary_exc):
+        """_fallback, except that an empty fallback balance circuit-breaks it for the day and the draft fails with the
+        primary's error (never a quota error)."""
+        try:
+            return self._fallback(stage, messages, max_tokens, fb, reason)
+        except ProviderQuotaError as exc:
+            if fb.get('provider_fallback'):
+                mark_fallback_dead(fb['base_url'] or self.config['base_url'], exc)
+                raise PrimaryFailed(f'primary failed ({_scrub_quota(primary_exc)}); fallback circuit-broken '
+                                    f'for the day (empty balance)'[:400]) from exc
+            raise
 
     def _flash_pro(self, args, reason):
         """The flash call re-run on subrouter's gemini-3.1-pro-preview (same key, prompt, ceiling, thinking level)."""

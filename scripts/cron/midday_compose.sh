@@ -3,7 +3,7 @@
 #   zh: 10:30 BJT = 03:30 London while BST (until Oct 25), 02:30 London after
 #   en: 19:30 BJT = 12:30 London while BST (until Oct 25), 11:30 London after
 #   The Beijing-hour gate below makes a routine fired at the wrong London hour exit harmlessly.
-# Usage: midday_compose.sh <zh|en>
+# Usage: midday_compose.sh [zh|en]   (no argument: zh for Beijing 09-12, en for 18-21, else skip)
 # Step 1: light ingest for the language (X + flashes, short window, own runs-dir).
 # Step 2: FD_MIDDAY=1 compose via daily_compose.sh so the dashboard rebuild/redeploy happens.
 #   Accounts of the wrong language are skipped by FD_MIDDAY_LANG.
@@ -15,9 +15,16 @@
 set -euo pipefail
 cd /workspace/fd_new/Finance_Distillation
 
-LANG_ARG="${1:-}"
+LANG_ARG="${1:-auto}"
+if [[ "$LANG_ARG" == "auto" ]]; then
+    # Oct 10: no argument -> language by Beijing hour (routines fire 10:33 / 19:33 Asia/Shanghai)
+    BH=$(TZ=Asia/Shanghai date +%-H)
+    if (( BH >= 9 && BH <= 12 )); then LANG_ARG=zh
+    elif (( BH >= 18 && BH <= 21 )); then LANG_ARG=en
+    else echo "midday_compose: Beijing hour $BH is outside both windows (zh 09-12, en 18-21): skip"; exit 0; fi
+fi
 if [[ "$LANG_ARG" != "zh" && "$LANG_ARG" != "en" ]]; then
-    echo "usage: midday_compose.sh <zh|en>"; exit 1
+    echo "usage: midday_compose.sh [zh|en]   (no argument: by Beijing hour)"; exit 1
 fi
 
 [[ "${FD_MIDDAY_COMPOSE:-1}" == "0" ]] && { echo "FD_MIDDAY_COMPOSE=0: midday compose off"; exit 0; }
