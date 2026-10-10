@@ -1025,6 +1025,32 @@ def day_engage_siblings(day, account, eng):
     return engage_sibling.siblings(_SIB_ROWS[day_s], {'account_id': account, 'engagement': eng})
 
 
+def is_engagement(r):
+    """True for a reply / quote draft (compose result: plan.engagement; inbox row: post_mode / engagement)."""
+    modes = ('reply', 'quote')
+    return (((r.get('plan') or {}).get('engagement') or {}).get('mode') in modes
+            or r.get('post_mode') in modes or (r.get('engagement') or {}).get('mode') in modes)
+
+
+def arbitration_pool(ok, inbox_rows, run_id, env=None):
+    """(eligible results, locked keepers) for the day's cross-account claim arbitration.
+
+    Oct 8: only drafts that can ship take part (a needs_review / off-lane draft never wins or loses a lane).
+    Oct 10: reply / quote drafts are exempt on both sides (FD_ARB_ENGAGE=1 restores the old behaviour). They react
+    to a target post inside its short window; holding one kills that slot. 10-10: crypto_etf_flows_en's reply to
+    @CryptoMichNL (19:58 BJT fill) was held DUPLICATED_BY_STRONGER_PERSONA against crypto_thesis_en's nightly
+    standalone ("structure intact") and never reached the ops CSV. Same-target sameness is engage_sibling's job."""
+    env = os.environ if env is None else env
+    exempt = env.get('FD_ARB_ENGAGE', '0') != '1'
+    eligible = [r for r in ok if r.get('draft_status') != 'needs_review' and not r.get('lane_fit')
+                and not (exempt and is_engagement(r))]
+    locked = [x for x in inbox_rows
+              if x.get('text') and not x.get('held') and not x.get('superseded')
+              and x.get('draft_status') == 'draft_ready' and x.get('run_id') != run_id
+              and not (exempt and is_engagement(x))]
+    return eligible, locked
+
+
 def engage_sibling_pass(ok, args, client, lock, spend, quota, est, flat_primary, ec_fails):
     """Oct 10 (shared targets): after compose, an engagement draft whose target post another of our accounts engages
     (earlier inbox rows of the day, or an earlier-slotted draft of this run) and that opens like it (same / near-same
@@ -1757,13 +1783,10 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
             r['lane_fit'] = lf
     # Oct 8: only drafts that can ship take part in arbitration - a needs_review draft (hard finding after its rewrite)
     # won the lane on 10-08 (crypto_onchain_en) and its duplicate was held too, so neither was publishable
-    eligible = [r for r in ok if r.get('draft_status') != 'needs_review' and not r.get('lane_fit')]
     # FD_ARB_SAME_LANG (default 1): only accounts of one language can duplicate each other (0 = cross-language too).
     # Oct 8 evening: FD_ARB_CONCLUSION (default 1) also holds a same-conclusion draft from a different source, and
     # today's ready drafts from earlier runs take part as fixed keepers (a fill round cannot repeat them).
-    locked = [x for x in compose_inbox.rows(args.day.isoformat())
-              if x.get('text') and not x.get('held') and not x.get('superseded')
-              and x.get('draft_status') == 'draft_ready' and x.get('run_id') != run_id]
+    eligible, locked = arbitration_pool(ok, compose_inbox.rows(args.day.isoformat()), run_id)
     arbitrated = ({id(r): r for r in compose.arbitrate_batch(
         eligible, same_language=os.environ.get('FD_ARB_SAME_LANG', '1') != '0',
         same_conclusion=os.environ.get('FD_ARB_CONCLUSION', '1') != '0', locked=locked)} if eligible else {})
