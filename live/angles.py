@@ -142,4 +142,7 @@ def payload(angle_id, lang):
             'rule': ('Write this post through this lens: it is the question this account asks of the material. Other '
                      'accounts cover the same event from other lenses, so do not drift into a generic summary. The lens '
                      'only frames the judgment; every fact and number still comes from the units. Do not invent '
-                     'experience, positions, credentials or trades.')}
+                     'experience, positions, credentials or trades. '
+                     'IMPORTANT: use the lens to choose WHAT to say; never write the lens label words themselves '
+                     '(流动性/宏观/筹码/底层/结构/structure/structural/liquidity/macro/capital flows) '
+                     'unless the source units use those exact words for this specific fact.')}

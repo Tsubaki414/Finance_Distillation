@@ -24,7 +24,9 @@ V3 = {
 def test_only_short_thread_ends_on_falsifier():
     assert [s for s, spec in cs.SHAPES.items() if spec['ending'] == cs.FALSIFIER] == ['short_thread']
     assert cs.SHAPES['data_punch']['max_number_lines'] == 3
-    assert all(spec['max_number_lines'] <= 2 for s, spec in cs.SHAPES.items() if s != 'data_punch')
+    # Oct 10 nat3: short_list also allows 3 number lines (a list of facts)
+    assert all(spec['max_number_lines'] <= 2 for s, spec in cs.SHAPES.items()
+               if s not in ('data_punch', 'short_list'))
 
 
 def test_persona_shapes_follow_donor_closings_and_length_mix():

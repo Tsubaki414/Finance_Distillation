@@ -28,17 +28,14 @@ from live import hook_voice as hv, hook_rewrite as hr
 
 class TestWeakOpenerDetection:
     # ZH positives (should fire weak_hook)
+    # Oct 10 nat3: 我觉得/我认为/刚刚看到/刚看了 intentionally removed from WEAK_OPENERS (observation-type first person allowed)
     @pytest.mark.parametrize('body', [
-        '我觉得这轮反弹没有持续性',
-        '我认为市场已经定价了降息预期',
         '说实话 ETH 这波涨得没有 BTC 扎实',
         '老实说，链上数据不支持这个方向',
         '坦白说今天的走势让我困惑',
         '扫了眼链上数据，借贷利率在涨',
         '扫了一眼 Dune，清算压力不小',
         '刚才看了一下 Kaito 的数据',
-        '刚看了一眼最新财报',
-        '刚刚看到 Binance 公告',
         '刷到这条新闻想说几句',
         '看到一个有意思的数据点',
         '今天看到一篇关于 DeFi 的研报',
@@ -53,23 +50,53 @@ class TestWeakOpenerDetection:
         assert findings, f'expected weak_hook for: {body!r}'
         assert findings[0]['code'] == 'weak_hook'
 
-    # EN positives
+    # ZH nat3: observation-type first person should NOT fire as weak_hook
     @pytest.mark.parametrize('body', [
-        'I think this rally is not sustainable',
+        '我觉得这轮反弹没有持续性',
+        '我认为市场已经定价了降息预期',
+        '刚刚看到 Binance 公告',
+        '刚看了一眼最新财报',
+    ])
+    def test_zh_nat3_observation_fp_allowed(self, body):
+        # These were intentionally removed from WEAK_OPENERS in nat3 (A3 fix: allow observation-type first person)
+        findings = hv.hook_findings(body, 'zh')
+        # Should NOT fire weak_hook (they may fire as generic or not at all, but not as a weak opener phrase)
+        weak_opener_findings = [f for f in findings if f.get('code') == 'weak_hook'
+                                and 'weak phrase' in f.get('detail', '')]
+        assert not weak_opener_findings, (
+            f'nat3: {body!r} should not fire weak_hook as a weak phrase; '
+            f'got {weak_opener_findings}')
+
+    # EN positives
+    # Oct 10 nat3: I think / I noticed / Just saw / Ngl intentionally removed (observation-type first person allowed)
+    @pytest.mark.parametrize('body', [
         'Honestly, the on-chain data is weak',
         'To be honest BTC looks heavy here',
-        'Just saw the FOMC minutes drop',
         'Was looking at Kaito scores and they moved',
-        'I noticed the funding rate flipped',
         'Took a look at the order book',
         'Scrolling through the charts tonight',
         'So I checked the TVL data just now',
-        'Ngl this liquidation cascade was ugly',
     ])
     def test_en_weak_openers_fire(self, body):
         findings = hv.hook_findings(body, 'en')
         assert findings, f'expected weak_hook for: {body!r}'
         assert findings[0]['code'] == 'weak_hook'
+
+    # EN nat3: observation-type first person should NOT fire as weak_hook
+    @pytest.mark.parametrize('body', [
+        'I think this rally is not sustainable',
+        'Just saw the FOMC minutes drop',
+        'I noticed the funding rate flipped',
+        'Ngl this liquidation cascade was ugly',
+    ])
+    def test_en_nat3_observation_fp_allowed(self, body):
+        # Intentionally removed from WEAK_OPENERS in nat3 (A3 fix)
+        findings = hv.hook_findings(body, 'en')
+        weak_opener_findings = [f for f in findings if f.get('code') == 'weak_hook'
+                                and 'weak phrase' in f.get('detail', '')]
+        assert not weak_opener_findings, (
+            f'nat3: {body!r} should not fire weak_hook as a weak phrase; '
+            f'got {weak_opener_findings}')
 
     # ZH negatives (must NOT fire weak_hook)
     def test_zh_number_opener_ok(self):

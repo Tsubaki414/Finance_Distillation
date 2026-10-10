@@ -13,10 +13,16 @@ rotates against the persona's recent history and the shapes already used in the 
 consecutive drafts per persona and drafts in one matrix batch do not share a shape, long and
 short alternate, and the conditional-falsifier ending stays a minority (only `short_thread`).
 Soft cross-draft checks (structure_repeat) back this up; they never hard-block.
+
+Oct 10 nat3: added non-argument shapes (one_line_take, quick_note, question_only, reaction,
+short_list). Shape weights per account now come from the donor shape mix (donor_rates.json).
+Argument shapes capped at donor argument share + 15pp. Formula-closer banned from ending rules;
+default ending is "just stop after the point" (ending family `none`).
 """
 from __future__ import annotations
 
 from hashlib import sha256
+import os
 import re
 
 # ending families
@@ -27,17 +33,17 @@ SHAPES = {
         'length': 'short', 'max_numbers': 0, 'max_number_lines': 0, 'ending': VERDICT,
         'line_breaks': 'one block or two lines; do NOT break after every sentence',
         'en': ('Take-only short post: the call plus one sharp supporting thought, no numbers at all. '
-               '2-3 sentences, may be a single block. End on a flat, committed verdict line.'),
+               '2-3 sentences, may be a single block. End with a flat, committed verdict — then stop.'),
         'zh': ('短观点：判断；一句说清为什么：哪个事实导致了这个判断；一句说清影响：对市场/读者有什么后果、谁受益谁吃亏，全文不出现数字。'
-               '3 句，可以一段写完，不必每句换行。结尾是一句干脆的定论。'),
+               '3 句，可以一段写完，不必每句换行。结尾是一句干脆的定论，然后停。'),
     },
     'one_number_punch': {
         'length': 'short', 'max_numbers': 1, 'max_number_lines': 1, 'ending': IMPLICATION,
         'line_breaks': 'two or three short lines',
         'en': ('One-number punch: the call, then the single number that carries it, then one line on '
-               'what that number means for the call. Exactly one number. Short.'),
+               'what that number means for the call. Exactly one number. Short. Stop after the point.'),
         'zh': ('一个数字定胜负：先判断；再用唯一一个最有分量的数字说清为什么：这个数字怎么导致了这个判断；'
-               '最后一句用大白话说清影响：对市场/读者有什么具体后果、谁受益谁吃亏、接下来盯什么。全文只用一个数字，短。'),
+               '最后一句用大白话说清影响：对市场/读者有什么具体后果、谁受益谁吃亏。全文只用一个数字，短，说完就停。'),
     },
     'contrarian_question': {
         'length': 'short', 'max_numbers': 1, 'max_number_lines': 1, 'ending': QUESTION,
@@ -52,17 +58,17 @@ SHAPES = {
         'length': 'medium', 'max_numbers': 1, 'max_number_lines': 1, 'ending': IMPLICATION,
         'line_breaks': 'short paragraphs of one or two sentences',
         'en': ('Thesis + mechanism: the call, then WHY it works - one causal mechanism in plain words '
-               '(how A drives B), at most one number. End on what it means (who gains or loses, what to watch).'),
+               '(how A drives B), at most one number. Stop after the consequence — no forward-watch closer.'),
         'zh': ('判断+机制：先判断，再用大白话讲清一个传导机制（A 怎么推动 B），最多一个数字。'
-               '结尾落在含义上（谁受益、具体后果或接下来盯什么）。'),
+               '说完后果就停，不要加「接下来盯/关键看/后续要盯」。'),
     },
     'data_punch': {
         'length': 'medium', 'max_numbers': 3, 'max_number_lines': 3, 'ending': VERDICT,
         'line_breaks': 'call, then data lines, then the landing line',
         'en': ('Data punch: the call, then two or three numbers that carry it (separate short lines are '
-               'fine here), then a blunt verdict line. The only shape that may stack number lines.'),
+               'fine here), then a blunt verdict line. The only shape that may stack number lines. Stop after the verdict.'),
         'zh': ('数据连击：先判断，再用两三个数字撑住（可以分行），数字前后用一句话说清它们为什么撑得住判断；'
-               '最后一句直接定性，并说清对市场/读者的影响。只有这个结构允许连续的数字行。'),
+               '最后一句直接定性。只有这个结构允许连续的数字行。说完就停，不要再加一句「接下来盯什么」。'),
     },
     'short_thread': {
         'length': 'long', 'max_numbers': 3, 'max_number_lines': 2, 'ending': FALSIFIER,
@@ -74,7 +80,83 @@ SHAPES = {
                '结尾：units 里有一个正文还没用过的具体数据/时间点/价位能推进论证时，点出它会怎样改变判断；'
                '没有就落在后果上。不写空泛的「除非…否则…依然成立」「当然也可能…」。'),
     },
+    # --- nat3 Oct 10: non-argument shapes ---
+    'one_line_take': {
+        'length': 'short', 'max_numbers': 1, 'max_number_lines': 1, 'ending': 'none',
+        'line_breaks': 'single line',
+        'en': ('One-liner: a single line — the point only, no evidence, no closer. May be a fragment, '
+               'a reaction, or a short blunt take. Just the one thing. Stop.'),
+        'zh': ('一句话：一行，只说这一个判断或反应，不用证据，不加结尾。可以是片段、感叹或短评。说完就停。'),
+    },
+    'quick_note': {
+        'length': 'short', 'max_numbers': 1, 'max_number_lines': 1, 'ending': 'none',
+        'line_breaks': '1-3 short lines',
+        'en': ('Quick note / observation: 1-3 short lines in first person, diary or observation voice. '
+               'What I just noticed or checked. No verdict required — stop when the observation is done.'),
+        'zh': ('随手记/观察：1-3 短行，第一人称，日记/观察口吻。我刚注意到/看到/查了一下。不需要结论，说完就停。'),
+    },
+    'question_only': {
+        'length': 'short', 'max_numbers': 1, 'max_number_lines': 1, 'ending': QUESTION,
+        'line_breaks': '1-2 lines',
+        'en': ('Genuine question to followers: state one fact or context, then ask one real question. '
+               'No answer, no opinion, no verdict — end on the question.'),
+        'zh': ('发问：提一个事实或背景，然后问一个真实的问题。不给答案，不加判断，以问句结尾。'),
+    },
+    'reaction': {
+        'length': 'short', 'max_numbers': 1, 'max_number_lines': 1, 'ending': 'none',
+        'line_breaks': '1-2 lines',
+        'en': ('Reaction: a short emotional or informal reaction to a fact — particle, emoji, fragment ok. '
+               '1-2 lines. First person. Stop.'),
+        'zh': ('反应：对一个事实的短促反应，可以用语气词、emoji、片段句。1-2 行，第一人称。说完就停。'),
+    },
+    'short_list': {
+        'length': 'short', 'max_numbers': 3, 'max_number_lines': 3, 'ending': 'none',
+        'line_breaks': '2-4 bare bullet lines',
+        'en': ('Short list: 2-4 bare bullet items, no conclusion line. Each item one concrete fact or '
+               'data point. No summary closer — just stop after the last item.'),
+        'zh': ('简单列表：2-4 条，每条一个具体事实或数据，不加结论行。最后一条之后直接停。'),
+    },
 }
+
+# Non-argument shape ids (used for weighting from donor shape mix)
+_NON_ARG_SHAPES = frozenset({'one_line_take', 'quick_note', 'question_only', 'reaction', 'short_list'})
+_ARG_SHAPES = frozenset(SHAPES) - _NON_ARG_SHAPES
+# Oct 10 nat3: a non-argument shape replaces the sampled post type with the donor type that carries it
+NONARG_TYPE = {'one_line_take': 'one_liner', 'reaction': 'one_liner', 'quick_note': 'quick_take',
+               'question_only': 'question', 'short_list': 'list_dump'}
+NONARG_MAX = 0.75          # never more than 3 in 4 posts non-argument
+ARG_MARGIN = 0.10          # argument posts at donor argument share + 10pp
+
+
+def nonarg_share(persona, env=None):
+    """Share of this account's standalone posts that get a non-argument shape: 1 - (donor argument share + 10pp),
+    in [0, NONARG_MAX]. FD_NAT_PROMPT=0: 0."""
+    env = os.environ if env is None else env
+    if env.get('FD_NAT_PROMPT', '1') == '0':
+        return 0.0
+    try:
+        from live import donor_rates as _dr
+        mix = (_dr.account_rates(persona.persona_id) or {}).get('shape_mix') or {}
+    except Exception:   # noqa: BLE001
+        mix = {}
+    arg = float(mix.get('argument', 0.45)) if mix else 0.45
+    return round(max(0.0, min(NONARG_MAX, 1.0 - (arg + ARG_MARGIN))), 3)
+
+
+def pick_nonarg(persona, *, units=(), recent=(), seed='', env=None):
+    """Deterministic coin (seed) at nonarg_share(); on heads the non-argument shape id for this post
+    (rotation via choose_shape), else None."""
+    share = nonarg_share(persona, env)
+    coin = int(sha256(f'{seed}|{getattr(persona, "persona_id", "")}|nonarg'.encode()).hexdigest()[:8], 16) / 0xFFFFFFFF
+    if share <= 0 or coin >= share:
+        return None
+    only = sorted(_NON_ARG_SHAPES)
+    if _numbers_in_units(units) < 2:
+        only = [s for s in only if s != 'short_list']
+    pick = choose_shape(persona, units=units, recent=recent, seed=seed, only=only)
+    return pick['id'] if pick['id'] in _NON_ARG_SHAPES else None
+
+
 LENGTH_BAND = {'short': (0.0, 0.35), 'medium': (0.3, 0.7), 'long': (0.6, 1.0)}
 # Closing-family keywords in signature cards (donor observations) -> ending families.
 _CLOSING_FAMILY = (
@@ -85,7 +167,13 @@ _CLOSING_FAMILY = (
 
 
 def persona_shapes(persona):
-    """{shape_id: weight} derived from donor data (closings -> endings, length_mix -> weights)."""
+    """{shape_id: weight} derived from donor data (closings -> endings, length_mix -> weights).
+
+    Oct 10 nat3: non-argument shapes added from donor_rates shape mix per account.
+    Argument shapes are unchanged from their length_mix weights; non-arg shapes are added
+    alongside them at lower weights (from donor shape mix). FD_NAT_PROMPT=0 reverts to
+    argument shapes only.
+    """
     sig = getattr(persona, 'signature_card', None) or {}
     endings = {IMPLICATION, VERDICT}
     for closing in sig.get('closings') or []:
@@ -101,8 +189,41 @@ def persona_shapes(persona):
     except Exception:
         mix = {}
     weight = {'short': mix.get('short', 0.4), 'medium': mix.get('medium', 0.35), 'long': mix.get('long', 0.25)}
-    return {sid: round(max(0.05, weight[spec['length']]), 3)
-            for sid, spec in SHAPES.items() if spec['ending'] in endings}
+
+    # argument shapes: same computation as before (preserved exactly)
+    arg_base = {sid: round(max(0.05, weight[spec['length']]), 3)
+                for sid, spec in SHAPES.items()
+                if sid not in _NON_ARG_SHAPES and spec['ending'] in endings}
+
+    if os.environ.get('FD_NAT_PROMPT', '1') == '0':
+        return arg_base
+
+    # non-arg shapes: add alongside, weighted from donor shape mix
+    try:
+        from live import donor_rates as _dr
+        rates = _dr.account_rates(persona.persona_id)
+        donor_shape_mix = (rates or {}).get('shape_mix') or {}
+    except Exception:
+        donor_shape_mix = {}
+
+    _donor_map = {
+        'personal': 'quick_note',
+        'one_liner': 'one_line_take',
+        'question': 'question_only',
+        'list': 'short_list',
+        'reaction': 'reaction',
+        'other': 'reaction',
+    }
+
+    out = dict(arg_base)
+    for sid in _NON_ARG_SHAPES:
+        shape_key = next((k for k, v in _donor_map.items() if v == sid), None)
+        if shape_key and shape_key in donor_shape_mix:
+            out[sid] = round(max(0.05, donor_shape_mix[shape_key] * 0.8), 3)
+        else:
+            out[sid] = 0.05   # small floor so shape is selectable
+
+    return out
 
 
 def _numbers_in_units(units):
@@ -148,6 +269,8 @@ def eligible_shapes(shapes, units, mechanisms=None):
             continue
         if sid == 'short_thread' and mech < THREAD_MIN_MECHANISMS:
             continue   # v4b zh_industry: 1 view + 1 fact padded into 4 paragraphs
+        if sid == 'short_list' and n < 2:
+            continue   # short_list needs multiple facts
         out[sid] = w
     return out
 
@@ -209,7 +332,8 @@ def choose_shape(persona, *, units=(), recent=(), batch=(), seed='', all_units=N
                         if source is not None and getattr(persona, 'lang', None) == 'zh' else (False, None))
     if research:
         base = {sid: (min(w, ZH_RESEARCH_SHORT_WEIGHT) if SHAPES[sid]['length'] == 'short' else w)
-                for sid, w in base.items() if sid != 'take_short'}
+                for sid, w in base.items()
+                if sid != 'take_short' and sid not in _NON_ARG_SHAPES}
     shapes = eligible_shapes(base, units, mechanisms=mech) or {'take_short': 1.0}
     if only:   # Oct 7: the sampled post type narrows the shapes (posting_habits.TYPE_SHAPES)
         fit = {sid: w for sid, w in shapes.items() if sid in only}
@@ -285,26 +409,42 @@ def payload_block(shape, lang, length_range):
     spec = SHAPES[shape['id']]
     length = shape.get('length') or spec['length']
     lo, hi = length_range['min'], length_range['max']
-    a, b = LENGTH_BAND[length]
+    a, b = LENGTH_BAND.get(length, LENGTH_BAND['medium'])
     target = {'min': int(lo + a * (hi - lo)), 'max': int(lo + b * (hi - lo))}
+    non_arg = shape['id'] in _NON_ARG_SHAPES
+    if non_arg:
+        # Non-argument shapes: target is always short (1 line or a few lines); ignore length_range
+        if lang == 'zh':
+            target = {'min': 0, 'max': 60}
+        else:
+            target = {'min': 0, 'max': 40}
     ending_rule = {
         # Fiona 10/06 13:30: a generic falsifier / "unless X reverses" closer is a hedge; it stays only with a
         # concrete new fact (live/hedge.py).
+        # Oct 10 nat3: all ending rules explicitly ban formula closers (接下来盯/Watch X etc.)
         FALSIFIER: ('End on a concrete trigger only if the units give a specific level, date or data print that is not '
                     'already in the post and moves the argument; otherwise end on what the call means. Never a generic '
-                    '"unless X reverses" restatement, a "could also..." caveat or a disclaimer.'),
-        VERDICT: 'End on a flat committed verdict. NO conditional ending (no if / unless / provided / '
-                 'only if / until / flips if / 只要 / 除非 / 若 / 如果 / 一旦 / 否则).',
-        IMPLICATION: 'End on what the call means (a concrete consequence, who gains or loses, what to watch next). '
-                     'Do not close on "the market has not priced it" / "not yet priced in". '
-                     'NO conditional ending (no if / unless / provided / until / 只要 / 除非 / 若 / 一旦).',
-        QUESTION: 'End on one pointed open question. NO conditional ending.',
-    }[spec['ending']]
+                    '"unless X reverses" restatement, a "could also..." caveat or a disclaimer. '
+                    'NEVER end with 接下来盯/关键看/后续要盯/Watch X/Expect X/The question is/time will tell — those are formula closers.'),
+        VERDICT: ('End on a flat committed verdict. NO conditional ending (no if / unless / provided / '
+                  'only if / until / flips if / 只要 / 除非 / 若 / 如果 / 一旦 / 否则). '
+                  'NEVER 接下来盯/关键看/Watch X/Expect X.'),
+        IMPLICATION: ('End on what the call means (a concrete consequence, who gains or loses). '
+                      'Do not close on "the market has not priced it" / "not yet priced in". '
+                      'NO conditional ending (no if / unless / provided / until / 只要 / 除非 / 若 / 一旦). '
+                      'NEVER 接下来盯/关键看/后续要盯/Watch X/Expect X — just stop after the consequence.'),
+        QUESTION: 'End on one pointed open question. NO conditional ending. No forward-watch closer.',
+        'none': ('Default ending: just stop after the point. No formula closer, no summary verdict, '
+                 'no forward-watch (接下来盯/关键看/Watch X/Expect X/time will tell). '
+                 'The post ends when the thought is done.'),
+    }.get(spec['ending'], 'Just stop after the point.')
+
     if lang == 'zh' and spec['ending'] == IMPLICATION:
         # zh_native: "what the call means" came back as a literal 这意味着 in every ZH draft.
-        ending_rule = ('结尾落在一个具体后果、条件或接下来要盯的东西上：谁受益谁吃亏、什么条件下会变；'
+        ending_rule = ('结尾落在一个具体后果或条件上：谁受益谁吃亏、什么条件下会变；'
                        '不要用「市场还没充分定价 / 定价还不够充分 / 尚未反映在估值」收尾；说法每篇换，不要固定用「这意味着」起头。'
-                       '不要用条件句结尾（只要 / 除非 / 若 / 一旦 / if / unless）。')
+                       '不要用条件句结尾（只要 / 除非 / 若 / 一旦 / if / unless）。'
+                       '绝对不要用「接下来盯/关键看/后续要盯」— 说完后果就停。')
     key = 'zh' if lang == 'zh' else 'en'
     structure = spec[key]
     if shape.get('length_override') and length == 'long':
@@ -313,13 +453,15 @@ def payload_block(shape, lang, length_range):
         structure += THREAD_NOTE[key]
     if key == 'zh' and shape.get('research_source') and shape['id'] == 'one_number_punch':
         structure += ZH_RESEARCH_PUNCH_NOTE
-    return {'id': shape['id'], 'structure': structure, 'length': length,
-            'length_target': target, 'max_numbers': shape.get('max_numbers', spec['max_numbers']),
-            'max_number_lines': shape.get('max_number_lines', spec['max_number_lines']),
-            'line_breaks': shape.get('line_breaks') or spec['line_breaks'],
-            'ending': spec['ending'], 'ending_rule': ending_rule,
-            'line1_rule': ('Line 1 is the unconditional call: no if / unless / provided / until / 若 / 只要 / '
-                           '除非 / 一旦 clause in line 1; stance.view.conditions is background, not line 1.')}
+    block = {'id': shape['id'], 'structure': structure, 'length': length,
+             'length_target': target, 'max_numbers': shape.get('max_numbers', spec['max_numbers']),
+             'max_number_lines': shape.get('max_number_lines', spec['max_number_lines']),
+             'line_breaks': shape.get('line_breaks') or spec['line_breaks'],
+             'ending': spec['ending'], 'ending_rule': ending_rule}
+    if not non_arg:
+        block['line1_rule'] = ('Line 1 is the unconditional call: no if / unless / provided / until / 若 / 只要 / '
+                               '除非 / 一旦 clause in line 1; stance.view.conditions is background, not line 1.')
+    return block
 
 
 # ---------------- structure detection (soft checks) ----------------
