@@ -30,7 +30,7 @@ import json
 import os
 import re
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -144,6 +144,8 @@ def media_of(row):
             'action': action_of(mode, target),
             # live/engagement.py (FD_ENGAGE): the target's numbers at selection; its slot is pinned in clamp_times
             'engage_meta': engage_meta(eng) if engaged else '', 'pinned': engaged,
+            # Oct 10: the target's reply / quote window closes here (published_at + 6h / 12h / 18h extended)
+            'engage_close': engage_close(row, eng, mode) if engaged else '',
             # Oct 9 night: the target post's opening words + author, so ops can check the reply / quote fits it
             'target_text': target_text(row) if engaged else '',
             'target_author': (eng.get('author') or '') if engaged else '',
@@ -171,6 +173,39 @@ def target_text(row, limit=140):
     src = row.get('source') if isinstance(row.get('source'), dict) else {}
     t = ' '.join(str(src.get('title') or '').split())
     return t if len(t) <= limit else t[:limit - 1] + '…'
+
+
+ENGAGE_MARGIN = timedelta(minutes=int(os.environ.get('FD_ENGAGE_SLOT_MARGIN_MIN', '20')))   # time for ops to post
+
+
+def engage_close(row, eng, mode):
+    """ISO time the engagement window of the target closes ('' when unknown): target published_at + the
+    live/engagement.py max age for this mode (reply 6h, quote 12h, 18h when the target qualified as extended)."""
+    from live import engagement
+    pub = (row.get('source') or {}).get('published_at')
+    try:
+        t = datetime.fromisoformat(str(pub).replace('Z', '+00:00'))
+        if t.tzinfo is None:
+            t = t.replace(tzinfo=timezone.utc)
+        cfg = engagement.config()
+        ext = engagement.extended_quote(eng.get('likes'), eng.get('views'), row.get('lang'), cfg)
+        return (t + timedelta(hours=float(engagement.max_age_h({'extended': ext}, mode, cfg)))).isoformat()
+    except (TypeError, ValueError, KeyError):
+        return ''
+
+
+def expire_engagement(d, slot):
+    """Mark an unposted engagement draft whose target window closes before `slot` + ENGAGE_MARGIN as expired
+    (out of the CSV / ready counts, back to the pool); True when expired."""
+    if not d.get('engage_close') or d.get('decision') == 'published' or d.get('status') != 'draft_ready':
+        return False
+    if slot + ENGAGE_MARGIN <= datetime.fromisoformat(d['engage_close']):
+        return False
+    d['status'], d['expired'] = 'expired', True
+    tag = f"已过期：目标帖的{'回复' if d.get('mode') == 'reply' else '引用'}窗口在北京时间 " \
+          f"{datetime.fromisoformat(d['engage_close']).astimezone(BJT):%H:%M} 关闭，排不进去，不要再发"
+    d['note'] = f"{tag} · {d['note']}" if d.get('note') else tag
+    return True
 
 
 def action_of(mode, target):
@@ -347,6 +382,7 @@ def clamp_times(drafts, day, now=None):
     base = datetime.fromisoformat(day).replace(tzinfo=BJT)
     lo, hi = (base.replace(hour=h, minute=m) for h, m in (POST_START, POST_END))
     late = day >= POST_NOT_BEFORE_FROM and os.environ.get('FD_POST_NOT_BEFORE', '1') != '0'
+    today_build = now is not None and now.astimezone(BJT).date() <= base.date()   # past days are history
     if late and now is not None:   # build time (main): nothing unposted is slotted before now + POST_LEAD
         today = now.astimezone(BJT).date() == base.date()   # past days' files keep their times
         now = now.astimezone(BJT) + POST_LEAD
@@ -363,13 +399,25 @@ def clamp_times(drafts, day, now=None):
         # engagement replies / quotes (live/engagement.py) keep their slot: it was timed to the target's hot window
         def pin_at(s, ds):
             return max(not_before(ds, lo, hi) if late else lo, min(hi, datetime.fromisoformat(s).astimezone(BJT)))
-        pins = sorted({pin_at(s, ds) for s, ds in slots.items() if any(d.get('pinned') for d in ds)})
+        # Oct 10: an engagement draft is only worth posting inside its target's window - at the slot it gets (the
+        # earliest one, lo, when its window closes before the planned slot) it must still be open, else it expires
+        def pin_eng(s, ds):
+            at = pin_at(s, ds)
+            closes = [datetime.fromisoformat(d['engage_close']) for d in ds if d.get('engage_close')]
+            if closes and at + ENGAGE_MARGIN > min(closes):
+                at = max(not_before(ds, lo, hi) if late else lo, lo)
+            return at
+        pins = []
         for s, ds in list(slots.items()):
             if any(d.get('pinned') for d in ds):
-                new = pin_at(s, ds)
+                new = pin_eng(s, ds)
+                expired = [expire_engagement(d, new) for d in ds] if (late and today_build) else [False]
                 for d in ds:
                     d['time'] = new.isoformat()
+                if not all(expired):
+                    pins.append(new)
                 del slots[s]
+        pins = sorted(set(pins))
         if not slots:
             continue
         orig = sorted(slots, key=datetime.fromisoformat)
@@ -647,7 +695,7 @@ __NAV__
 <script id="data" type="application/json">__DATA__</script>
 <script>
 let D=JSON.parse(document.getElementById('data').textContent),RAW=document.getElementById('data').textContent;
-const ST_LABEL={draft_ready:'可发',HOLD:'HOLD（暂缓）',superseded:'已替换（审稿退回）',needs_review:'待复核',blocked:'失败',skipped:'跳过'};
+const ST_LABEL={draft_ready:'可发',expired:'已过期（窗口已关）',HOLD:'HOLD（暂缓）',superseded:'已替换（审稿退回）',needs_review:'待复核',blocked:'失败',skipped:'跳过'};
 const COLORS=['#5b6475','#7a6a58','#4f6f68','#5f6b85','#76705a','#7a5c66','#556b7d','#6b5f7a','#5d7462','#735d55'];
 const $=s=>document.querySelector(s);const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 __SHARED__
