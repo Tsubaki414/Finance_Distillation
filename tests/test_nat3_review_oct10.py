@@ -68,3 +68,11 @@ def test_echo_op_needs_real_echo():
     assert eng.echo_op_findings('5.4% gone and nobody blinks', tgt, 'en')
     assert not eng.echo_op_findings('2400 is not even the low', tgt, 'en')
     assert not eng.echo_op_findings('5 straight days of this and funding is still positive', tgt, 'en')
+
+
+def test_moral_line_drop():
+    b = '台积电投产5.5倍光罩。\n客户还在排队\n这说明先进封装的话语权已经彻底转到了代工厂手里。'
+    assert h.drop_moral_line(b, 'zh')[0] == '台积电投产5.5倍光罩。\n客户还在排队'
+    assert h.drop_moral_line('Flows 5%.\nETF bid gone.\nBitcoin barely blinked', 'en')[1] == ''   # short punch
+    assert h.drop_moral_line('Flows 5%.\nETF bid gone.\nI think this one is a trap for late longs', 'en')[1] == ''
+    assert h.drop_moral_line('1/ a\n2/ b\n3/ the whole sector is mispriced now', 'en')[1] == ''

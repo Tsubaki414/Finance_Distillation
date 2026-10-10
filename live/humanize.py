@@ -67,7 +67,8 @@ _QUOTED_NAME = re.compile(r'["「『].*?["」』]|\$[A-Za-z]{2,10}\b|@[A-Za-z0-9
 
 # Droppable adverbs only (deleting them never breaks the sentence). Adjectives / predicates (离谱, 疯狂, massive,
 # insane, brutal, structural) count toward the cap metric but are never deleted.
-_DROP_ZH = re.compile(r'(简直|根本|硬生生|死死|狠狠|彻彻底底|直接(?=[\u4e00-\u9fff])(?!的))')
+_DROP_ZH = re.compile(r'(简直|根本|硬生生|死死|狠狠|彻彻底底|直接(?=[\u4e00-\u9fff])(?!的)|绝对(?=[是会要能不没就])|纯粹(?=[是就])|'
+                      r'实打实地?(?=[\u4e00-\u9fff])(?!的)|彻底(?=[\u4e00-\u9fff])(?![的了])|疯狂(?=[\u4e00-\u9fff])(?![了的]))')
 _DROP_EN = re.compile(r'\b(completely|entirely|absolutely|simply|clearly|massively|violently|aggressively|relentlessly|'
                       r'severely|strictly|fundamentally|structurally|wildly|totally|utterly|literally)\b (?!put\b|speaking\b)', re.I)
 
@@ -462,6 +463,25 @@ def drop_formula_closer(body: str):
     return '\n'.join(lines[:idx + 1]).rstrip(), removed
 
 
+def drop_moral_line(body: str, lang: str):
+    lines = [l for l in body.rstrip().split('\n')]
+    idx = [i for i, l in enumerate(lines) if l.strip()]
+    if len(idx) < 3 or re.match(r'^\s*\d+/', lines[idx[0]]):   # threads keep their parts
+        return body, ''
+    last = lines[idx[-1]].strip()
+    if re.search(r'\d|\$[A-Za-z]|[?？]', last) or (lang == 'zh' and re.search(r'[A-Za-z]{2,}', last)):
+        return body, ''
+    if lang != 'zh' and re.search(r'(?<!^)(?<![.!?] )\b[A-Z][a-z]+', last):
+        return body, ''
+    if len(re.sub(r'\s', '', last)) > (70 if lang == 'zh' else 160):
+        return body, ''
+    # a short punch ("Bitcoin barely blinked") or a first-person line is voice, not a moral
+    if (len(re.sub(r'\s', '', last)) < 16 if lang == 'zh' else len(last.split()) < 6) or \
+            re.search(r'我|俺|咱|\b(I|I\'m|my|me)\b', last):
+        return body, ''
+    return '\n'.join(lines[:idx[-1]]).rstrip(), last
+
+
 # ------------------------------------------------------------------ lens jargon detector
 
 _LENS_ZH = re.compile(r'流动性|宏观(?!经济数据|政策|背景)|底层(?!逻辑|技术)|筹码(?!分析)|结构(?!性机会)')
@@ -622,7 +642,8 @@ def _llm_rewrite(client: Any, row: dict, lang: str, donor_posts: list[str],
         f'Rules:\n'
         f'- Keep every number, name, and fact exactly as written\n'
         f'- No new facts, no invented positions or trades\n'
-        f'- Remove any formula closer (接下来盯/关键看/Watch X/Expect X/time will tell)\n'
+        f'- Remove any formula closer (接下来盯/关键看/Watch X/Expect X/time will tell) and any neat moral / summary last line\n'
+        f'- No intensifier adverbs (直接/根本/简直/绝对/completely/simply); emotion = one particle or fragment\n'
         f'- If there is lens jargon (流动性/structural/macro/capital flows/筹码/底层), remove it unless the source used it\n'
         f'- Match the voice of the donor examples below\n\n'
         f'Donor examples (real posts, ground truth for voice):\n{few_shot}\n\n'
@@ -684,6 +705,55 @@ def apply(row: dict, client: Any = None, lang: str | None = None,
     original_body = body
     raw_body = str(row.get('body') or '')
 
+    # --- LLM pass first (the deterministic steps below then clean up whatever the rewrite brings back) ---
+    llm_used = False
+    if (not reverted and llm_enabled() and client is not None
+            and _needs_llm(body, lang, rates)):
+        cap = llm_max()
+        if llm_count is not None:
+            if llm_count[0] >= cap:
+                pass  # skip
+            else:
+                llm_count[0] += 1
+                _do_llm = True
+        else:
+            _do_llm = True
+
+        if locals().get('_do_llm'):
+            try:
+                persona_id = ''
+                persona_name = account_id
+                from live import registry
+                p = registry.persona_for_account(account_id)
+                persona_id = p.persona_id
+                persona_name = p.name
+            except Exception:
+                pass
+            row['_donor_fp_rate'] = rates.get('first_person', 0)
+            donor_posts = _load_donor_posts(persona_id, lang)
+            if donor_posts:
+                new_body = _llm_rewrite(client, {**row, 'body': body}, lang, donor_posts, persona_name)
+                if new_body and new_body != body:
+                    if (_fidelity_ok(original_body, new_body) and _entities_ok(original_body, new_body)
+                            and len(new_body) <= max(len(body) * 1.15, len(body) + 20)):
+                        body = new_body
+                        llm_used = True
+                        all_changes.append('llm_rewrite')
+                    else:
+                        all_changes.append('REVERTED(llm): fidelity fail')
+
+    original_body = body   # LLM output (number-checked) is the baseline from here
+
+    # --- (0b) neat moral / summary last line (aphorism_verdict: 21 of 31 drafts on 10-10): a post of >= 3 lines whose
+    # last line carries no number, ticker or Latin name restates the call; cut it unless the draft falls inside the
+    # account's donor closer rate.
+    if _u(draft_id, 'moral') >= float(rates.get('formula_closer', 0.05) or 0.0):
+        cut, removed = drop_moral_line(body, lang)
+        if removed:
+            all_changes.append(f'dropped moral line: {removed[:60]!r}')
+            body = cut
+            original_body = body
+
     # --- (a) intensifiers ---
     donor_intens = rates.get('intensifier', 0.19)   # nat1010 donor median
     body, chg = _apply_intensifiers(body, lang, draft_id, donor_intens)
@@ -720,43 +790,6 @@ def apply(row: dict, client: Any = None, lang: str | None = None,
             body = body_pre_num   # revert to pre-texture
             all_changes = [c for c in all_changes if not c.startswith(('added', 'applied', 'zh alias'))]
             all_changes.append('REVERTED(texture): fidelity fail')
-
-    # --- LLM pass ---
-    llm_used = False
-    if (not reverted and llm_enabled() and client is not None
-            and _needs_llm(body, lang, rates)):
-        cap = llm_max()
-        if llm_count is not None:
-            if llm_count[0] >= cap:
-                pass  # skip
-            else:
-                llm_count[0] += 1
-                _do_llm = True
-        else:
-            _do_llm = True
-
-        if locals().get('_do_llm'):
-            try:
-                persona_id = ''
-                persona_name = account_id
-                from live import registry
-                p = registry.persona_for_account(account_id)
-                persona_id = p.persona_id
-                persona_name = p.name
-            except Exception:
-                pass
-            row['_donor_fp_rate'] = rates.get('first_person', 0)
-            donor_posts = _load_donor_posts(persona_id, lang)
-            if donor_posts:
-                new_body = _llm_rewrite(client, {**row, 'body': body}, lang, donor_posts, persona_name)
-                if new_body and new_body != body:
-                    if (_fidelity_ok(original_body, new_body) and _entities_ok(original_body, new_body)
-                            and len(new_body) <= max(len(body) * 1.15, len(body) + 20)):
-                        body = new_body
-                        llm_used = True
-                        all_changes.append('llm_rewrite')
-                    else:
-                        all_changes.append('REVERTED(llm): fidelity fail')
 
     row['body'] = body
     # also update row['text'] if it matches original body (no frame)
