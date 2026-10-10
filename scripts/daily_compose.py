@@ -217,14 +217,36 @@ def candidates(store, account, beats, lead, ref, x_handles=None, account_cfg=Non
     # The newest digest written within 36h (not an exact day match: it is London-dated, the drafting day is Beijing's).
     steer = set(delphi_digest.steer_tickers(delphi_digest.latest(now=ref)['units']))
 
+    # Oct 10 (FD_PERF_PRIORS, default on): perf-based topic × format multiplier applied to the freshness tiebreaker.
+    # A multiplier ≠ 1.0 re-ranks among otherwise equally fresh candidates; bounded [0.7, 1.4] by combined().
+    _perf_priors_on = os.environ.get('FD_PERF_PRIORS', '1') != '0'
+    _perf_pr = None
+    if _perf_priors_on:
+        try:
+            from live import perf_priors as _pp
+            _perf_pr = _pp.load()
+        except Exception:  # noqa: BLE001
+            _perf_pr = None
+
     def key(g):
         fit = len(top & set(angles.angles_of(group_text(g))))
         src = g[0]['source']
+        freshness = demo.group_freshness(g, ref.date().isoformat())
+        if _perf_pr:
+            from live import perf_priors as _pp2
+            _beat = next((r.get('beat') for r in g if r.get('beat')), None)
+            _mtype = None   # motif type not available here; topic_weight falls back to beat
+            _fmt = None     # format not determined at selection time; format_weight returns 1.0
+            _angle_ids = list(angles.top_angles(lead, 1))
+            _angle = _angle_ids[0] if _angle_ids else None
+            _mult = _pp2.combined(_perf_pr, next((a.get('lang') for a in [account_cfg] if a), 'zh'),
+                                   angle=_angle, beat=_beat, motif_type=_mtype, fmt=_fmt)
+            freshness = freshness * _mult
         return (not ({src.get('id'), src.get('title'), src.get('source_hash')} & reuse),
                 not prescreen.prescreen(account, g)['ok'], not demo.in_shelf(g, ref.date().isoformat()),
                 not timely(g, ref), not x_handle(g[0]['source']), packet_kind(g) != 'balanced',
                 bool(lane) and not any(lane & set(r.get('tag_personas') or []) for r in g), bool(demo.group_hook_repeat(g, recent)), demo.group_theme_repeat(g, recent),
-                -fit, not steered(g, steer), -demo.group_freshness(g, ref.date().isoformat()))
+                -fit, not steered(g, steer), -freshness)
     return sorted(options, key=key)
 
 
@@ -590,6 +612,30 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
         if info is not None:
             info['skipped_tried'] = skipped_tried
     lane_gate(pools, accounts, x_of, info)   # Oct 8 evening: niche accounts take on-lane packets only (FD_LANE_FIT)
+    # Oct 10 (FD_MIDDAY): fresh-source age filter — midday compose only touches sources ≤ FD_MIDDAY_MAX_AGE_H old.
+    if os.environ.get('FD_MIDDAY', '0') == '1':
+        _max_age_h = float(os.environ.get('FD_MIDDAY_MAX_AGE_H', '6'))
+        _midday_ref = now or datetime.now(timezone.utc)
+        _age_cutoff = _midday_ref - timedelta(hours=_max_age_h)
+        _skipped_stale = {}
+        for aid in list(pools):
+            kept = []
+            for g in pools[aid]:
+                src = g[0]['source']
+                pub = src.get('published_at')
+                try:
+                    pub_dt = datetime.fromisoformat(str(pub or '').replace('Z', '+00:00'))
+                    if pub_dt.tzinfo is None:
+                        pub_dt = pub_dt.replace(tzinfo=timezone.utc)
+                    if pub_dt >= _age_cutoff:
+                        kept.append(g)
+                    else:
+                        _skipped_stale[aid] = _skipped_stale.get(aid, 0) + 1
+                except (ValueError, AttributeError):
+                    pass   # unparseable date: exclude for midday freshness
+            pools[aid] = kept
+        if info is not None and _skipped_stale:
+            info['midday_skipped_stale'] = _skipped_stale
     if info is not None:
         info['pool_sizes'] = {aid: len(p) for aid, p in pools.items()}
     div = diversity_prepare(pools, accounts, x_of, day, ref, reuse) if topic_div.enabled() else None
@@ -1547,10 +1593,16 @@ def main():
                     help='with --select-only: still run (or reuse) the day\'s one flash 母题 merge call (FD_HOTSPOT, '
                          'relay, <= $0.30); without it a select-only plan uses a cached merge or deterministic clusters')
     ap.add_argument('--force', action='store_true', help='run even when FD_DAILY_COMPOSE is not 1')
+    ap.add_argument('--midday', action='store_true',
+                    help='Oct 10: midday fresh-news compose (FD_MIDDAY path) - compose from ≤FD_MIDDAY_MAX_AGE_H '
+                         'sources only for accounts whose today standalone is stale or absent; 1 standalone per '
+                         'account; set automatically when FD_MIDDAY=1')
     args = ap.parse_args()
     if args.now and args.now.tzinfo is None:
         ap.error('--now needs a UTC offset, e.g. 2026-10-07T23:13+01:00')
     args.day = args.day or drafting_day(args.now)
+    # Oct 10: FD_MIDDAY=1 activates the midday fresh-news path (also set by --midday)
+    args.midday = args.midday or os.environ.get('FD_MIDDAY', '0') == '1'
     # Oct 8 evening (live/hook_voice.py): a "new high" claim is checked against the latest price in real runs
     os.environ.setdefault('FD_STALE_PRICE', '1')
     if os.environ.get('FD_DAILY_COMPOSE') != '1' and not args.force and not args.select_only:
@@ -1561,6 +1613,50 @@ def main():
     if args.accounts:
         wanted = set(args.accounts.split(','))
         accounts = [a for a in accounts if a['id'] in wanted]
+    # Oct 10 (FD_MIDDAY): filter to accounts of the requested language (FD_MIDDAY_LANG) and to those whose current
+    # today standalone draft (not superseded, not held, not published) has published_at > 24 h before now, or that
+    # have no standalone today at all.  Accounts with a fresh, unposted standalone are skipped.
+    if args.midday:
+        _midday_lang = os.environ.get('FD_MIDDAY_LANG', '').strip()
+        if _midday_lang:
+            accounts = [a for a in accounts if a.get('lang') == _midday_lang]
+        _now_ts = (args.now or datetime.now(timezone.utc))
+        _max_age_h = float(os.environ.get('FD_MIDDAY_MAX_AGE_H', '6'))
+        _stale_cutoff = timedelta(hours=24)   # a nightly standalone is considered stale after 24 h
+
+        def _midday_needs_account(account_id):
+            """True when this account qualifies for a midday draft."""
+            for r in compose_inbox.rows(args.day.isoformat()):
+                if r.get('account_id') != account_id:
+                    continue
+                if r.get('superseded') or r.get('held') or r.get('draft_status') != 'draft_ready':
+                    continue
+                from live.registry import ENGAGE_SOURCE
+                if ENGAGE_SOURCE.match(str((r.get('source') or {}).get('id') or '')):
+                    continue   # engagement draft: ignore for standalone accounting
+                # check admin_decisions published flag
+                _day_s = args.day.isoformat()
+                try:
+                    import live.compose_inbox as _ci
+                    _row_src_pub = (r.get('source') or {}).get('published_at')
+                    if _row_src_pub:
+                        _pub_dt = datetime.fromisoformat(_row_src_pub.replace('Z', '+00:00'))
+                        if (_now_ts - _pub_dt) < _stale_cutoff:
+                            return False   # account has a fresh enough standalone today: skip it
+                except Exception:  # noqa: BLE001
+                    return False   # can't determine age: be conservative and skip
+                return True   # standalone exists but source is stale: qualify
+            return True   # no standalone today: qualify
+
+        accounts = [a for a in accounts if _midday_needs_account(a['id'])]
+        if not accounts:
+            print('FD_MIDDAY: no accounts qualify (all have fresh standalones for today); nothing done', flush=True)
+            return 0
+        print(f'FD_MIDDAY: {len(accounts)} account(s) qualify for midday compose', flush=True)
+        # Midday: only 1 standalone per account; no 回看/常青 or engagement
+        per_account = 1
+        os.environ['FD_ARCHIVE'] = '0'
+        os.environ['FD_ENGAGE_ONLY'] = '0'
     if not UNIVERSES.exists():
         raise SystemExit(f'{UNIVERSES} missing: run scripts/persona_factory.py first')
     universes = load_json(UNIVERSES)
