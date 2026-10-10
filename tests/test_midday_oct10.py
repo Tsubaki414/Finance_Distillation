@@ -272,7 +272,13 @@ def test_midday_script_off_flag():
 
 
 def test_midday_script_bad_lang():
-    """Missing or wrong lang arg exits non-zero."""
-    r = subprocess.run(['bash', str(MIDDAY_SCRIPT)],
+    """A wrong lang arg exits non-zero (Oct 10: no argument = by Beijing hour, see below)."""
+    r = subprocess.run(['bash', str(MIDDAY_SCRIPT), 'fr'],
                        capture_output=True, text=True, timeout=10)
     assert r.returncode != 0
+
+
+def test_midday_script_no_arg_picks_lang_by_beijing_hour():
+    src = MIDDAY_SCRIPT.read_text()
+    assert 'LANG_ARG="${1:-auto}"' in src and 'TZ=Asia/Shanghai date +%-H' in src
+    assert 'BH >= 9 && BH <= 12' in src and 'BH >= 18 && BH <= 21' in src
