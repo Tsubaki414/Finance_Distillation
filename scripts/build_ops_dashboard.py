@@ -274,7 +274,26 @@ def chart_time(m):
     return to_bjt(stamp)[11:16]
 
 
+def load_auto_published(day):
+    """posted_at times (北京时间 HH:MM) keyed by draft id from auto_published/<day>.json."""
+    p = ROOT / 'live/store/auto_published' / f'{day}.json'
+    try:
+        entries = json.loads(p.read_text())
+    except (OSError, ValueError):
+        return {}
+    out = {}
+    for e in (entries if isinstance(entries, list) else []):
+        did = e.get('draft_id')
+        if did and e.get('posted_at') and not e.get('dry_run'):
+            try:
+                out[did] = datetime.fromisoformat(e['posted_at']).astimezone(BJT).strftime('%H:%M')
+            except (ValueError, TypeError):
+                pass
+    return out
+
+
 def load_day(day_dir):
+    auto = load_auto_published(day_dir.name)
     drafts = []
     for f in sorted(day_dir.glob('*.json')):
         try:
@@ -284,14 +303,15 @@ def load_day(day_dir):
             continue
         body = (row.get('body') or '').strip()
         parts = parts_of(row, body)
+        did = row.get('id') or f.stem
         drafts.append({
-            'id': row.get('id') or f.stem, 'account_id': row.get('account_id'), 'name': row.get('name'),
+            'id': did, 'account_id': row.get('account_id'), 'name': row.get('name'),
             'lang': row.get('lang'), 'text': body, 'parts': parts,
             'parts_w': [x_weight(p) for p in parts] if parts else None,
             'chars': len(body), 'xw': x_weight(body),
             'time': to_bjt(row.get('suggested_post_time_london')), 'stored': to_bjt(row.get('stored_at')),
             'status': status_of(row),
-            'note': note_of(row), **media_of(row)})
+            'note': note_of(row), 'auto_posted_at': auto.get(did) or '', **media_of(row)})
     drafts.sort(key=lambda d: (d['time'], d['id']))
     return drafts
 
@@ -808,9 +828,13 @@ __BASECSS__
 .att .dl{display:inline-flex;color:var(--ink2);padding:7px;border-radius:8px;flex:none}.att .dl:hover{background:var(--line2);color:var(--ink)}.att .dl .ic{width:17px;height:17px}
 .fill{flex:1;min-height:6px}
 .cnt{font-size:11.5px;line-height:1.5;color:var(--faint);margin-top:10px;font-variant-numeric:tabular-nums}
-.foot{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:12px;border-top:1px solid var(--line);gap:10px}
+.foot{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:12px;border-top:1px solid var(--line);gap:10px;flex-wrap:wrap}
 .done-l{display:inline-flex;align-items:center;gap:9px;color:var(--ink2);font-size:13px;cursor:pointer;user-select:none}
 .done-l input{width:18px;height:18px;border-radius:5px}.done-l:has(input:checked){color:var(--accent);font-weight:600}
+.foot-r{display:inline-flex;align-items:center;gap:8px;margin-left:auto}
+.xob{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--ink2);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 12px;text-decoration:none;box-shadow:var(--shadow);white-space:nowrap;transition:background-color .15s,border-color .15s}
+.xob:hover{background:var(--sunk);border-color:var(--faint);color:var(--ink)}.xob .ic{width:13px;height:13px}
+.ap-time{font-size:11px;color:var(--accent);font-weight:600;white-space:nowrap}
 .cp{display:inline-flex;align-items:center;gap:8px;background:var(--pri);color:var(--pri-ink);border:1px solid var(--pri);border-radius:8px;padding:7px 14px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;box-shadow:0 1px 2px rgba(16,24,40,.12);transition:background-color .15s,transform .1s}
 .cp:hover{background:var(--pri-hover)}.cp:active,.cp1:active{transform:translateY(1px)}
 .cp.done{background:var(--accent-bg);border-color:var(--accent-line);color:var(--accent)}.cp .ic{width:15px;height:15px}
@@ -898,13 +922,34 @@ function avatar(a){
   const ch=[...String(a.name||a.id).replace(/^[^\p{L}\p{N}]+/u,'')][0]||'?';
   return `<div class="av" style="background:${hue(a.id)}">${esc(ch.toUpperCase())}</div>`;
 }
+// Build the x.com/intent/post URL for opening X's composer with pre-filled text.
+// standalone: text only; reply: in_reply_to=<status id> + text; quote: text + "\n" + target URL.
+// Uses the same body text as the copy button (draft body, no 来源 footer).
+// Thread: button on part 1 only; the rest go as replies from the same account.
+function intentUrl(d){
+  const base='https://x.com/intent/post';
+  // for threads, only part 1 is pre-filled; the others must be sent as self-replies
+  const text=d.parts&&d.parts.length>1?d.parts[0]:d.text;
+  const p=new URLSearchParams();
+  if(d.mode==='reply'&&d.target){
+    const m=d.target.match(/\/status\/(\d+)/);
+    if(m)p.set('in_reply_to',m[1]);
+    p.set('text',text);
+  }else if(d.mode==='quote'&&d.target){
+    p.set('text',text+'\n'+d.target);
+  }else{
+    p.set('text',text);
+  }
+  return base+'?'+p.toString();
+}
 function card(d,posted,slot){
   const ready=d.status==='draft_ready',p=ready&&posted,hold=d.status==='HOLD'||d.status==='superseded',lg=d.lang==='en'?'en':'zh-CN';
   const st=p?'<span class="st ok">已发</span>':hold?`<span class="st hold">${d.status==='HOLD'?'HOLD':'已替换'}</span>`:d.status==='draft_ready'?'<span class="st">待发出</span>':`<span class="st">${esc(ST_LABEL[d.status]||d.status)}</span>`;
   const multi=d.parts&&d.parts.length>1;
   let body;
   if(multi){
-    body=`<div class="parts">${d.parts.map((t,i)=>`<div class="part"><div class="pr"><span>${i+1}/${d.parts.length}</span><button class="cp1" data-t="${esc(t)}">复制</button></div><div class="txt${i?'':' clamp'}" lang="${lg}">${esc(t)}</div><div class="cnt">${cnt(t,d.parts_w[i],d.lang)}</div></div>`).join('')}</div>`;
+    body=`<div class="parts">${d.parts.map((t,i)=>`<div class="part"><div class="pr"><span>${i+1}/${d.parts.length}</span><button class="cp1" data-t="${esc(t)}">复制</button>${i===0?`<a class="xob" href="${esc(intentUrl(d))}" target="_blank" rel="noopener noreferrer" title="在当前登录的 X 账号里打开发帖框（第 1 段；其余段请在 X 里逐条回复）">在X打开${I.ext}</a>`:''}${d.auto_posted_at&&i===0?`<span class="ap-time">自动识别已发 ${d.auto_posted_at}</span>`:''}
+</div><div class="txt${i?'':' clamp'}" lang="${lg}">${esc(t)}</div><div class="cnt">${cnt(t,d.parts_w[i],d.lang)}</div></div>`).join('')}</div>`;
   }else body=`<div class="txt clamp" lang="${lg}">${esc(d.text)}</div>`;
   const xp=`<button class="xp" data-o="${esc(d.id)}" aria-expanded="${opened.has(d.id)}"><span>${opened.has(d.id)?'收起正文':multi?`展开全部 ${d.parts.length} 段`:'展开正文'}</span>${I.down}</button>`;
   const ML={quote:'引用',reply:'回复'};
@@ -913,8 +958,11 @@ function card(d,posted,slot){
   const imgs=(d.media||[]).map((m,i)=>{const u=esc(m.src||m.path),info=[m.credit?'数据：'+m.credit:'',m.updated?'图更新于 北京时间 '+m.updated:''].filter(Boolean).join(' · ');
     return `<div class="att"><a class="th" href="${u}" target="_blank" rel="noopener" title="打开大图"><img src="${u}" alt="${esc(m.alt)}" loading="lazy"></a><div class="lb"><b>${I.img}配图 ${i+1}</b>${info?`<small title="${esc(info)}">${esc(info)}</small>`:''}</div><a class="dl" href="${u}" download="${esc(m.path.split('/').pop())}" title="下载图片" aria-label="下载图片">${I.dl}</a></div>`}).join('');
   const total=multi?`共 ${d.parts.length} 段 · ${cnt(d.text,d.xw,d.lang)}`:cnt(d.text,d.xw,d.lang);
+  // auto_posted_at: set by auto_published.py when it detects a matching tweet (北京时间 HH:MM)
+  const apTime=d.auto_posted_at?`<span class="ap-time">自动识别已发 ${esc(d.auto_posted_at)}</span>`:'';
+  const xoBtn=`<a class="xob btn" href="${esc(intentUrl(d))}" target="_blank" rel="noopener noreferrer" title="在当前登录的 X 账号里打开发帖框${multi?' （第 1 段；其余段请在 X 里逐条回复）':''}">在X打开${I.ext}</a>`;
   return `<div class="post${p?' posted':''}${ready?'':' notready'}${opened.has(d.id)?' open':''}" data-id="${esc(d.id)}"><div class="ph"><span class="pl">帖子 ${slot} ·</span><span class="tm" title="建议发出（北京时间）">${when(d.time)}</span>${st}</div>${d.note?`<div class="note${d.note.startsWith('改派自')?' mv':''}">${esc(d.note)}</div>`:''}${d.action&&d.target?`<div class="act">${d.mode==='reply'?'用 X 的「回复」发在这条帖子下面':'用 X 的「引用」转发这条帖子'}（不要单独发）：<a href="${esc(d.target)}" target="_blank" rel="noopener noreferrer">${esc(d.target)}</a>${d.target_text?`<div class="tt">原帖${d.target_author?' @'+esc(d.target_author):''}：「${esc(d.target_text)}」</div>`:''}</div>`:''}${mode}${body}${xp}${imgs}<div class="fill"></div><div class="cnt">${total}</div>
-<div class="foot">${ready?`<label class="done-l"><input type="checkbox" data-p="${esc(d.id)}" ${p?'checked':''}> 已发</label>`:'<span class="cnt">不可发：先改稿或等重写</span>'}<button class="cp" data-t="${esc(d.text)}">${COPY_SVG}<span>${multi?'复制全部':'一键复制'}</span></button></div></div>`;
+<div class="foot">${ready?`<label class="done-l"><input type="checkbox" data-p="${esc(d.id)}" ${p?'checked':''}> 已发</label>${apTime}`:'<span class="cnt">不可发：先改稿或等重写</span>'}<div class="foot-r">${ready?xoBtn:''}<button class="cp" data-t="${esc(d.text)}">${COPY_SVG}<span>${multi?'复制全部':'一键复制'}</span></button></div></div></div>`;
 }
 // 展开正文 only where the text is cut (3 lines) or a thread has more parts
 function fitClamp(){

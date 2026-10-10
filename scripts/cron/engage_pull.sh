@@ -57,3 +57,7 @@ PY
 FD_DAILY_COMPOSE=1 FD_ENGAGE_ONLY=1 FD_ARCHIVE=0 FD_FILL_ROUNDS="${FD_ENGAGE_FILL_ROUNDS:-1}" \
     FD_DAILY_COMPOSE_PER_ACCOUNT="${FD_ENGAGE_PER_ACCOUNT:-2}" FD_DAILY_COMPOSE_BUDGET_USD="${FD_ENGAGE_FILL_USD:-1}" \
     bash scripts/cron/daily_compose.sh --day "$(TZ=Asia/Shanghai date +%F)" || echo "engage fill failed: $?"
+# Oct 10 (6b): auto-mark 已发 by matching posted tweets to today's unposted draft_ready drafts (non-fatal)
+if [[ "${FD_AUTOPUB:-1}" != "0" ]]; then
+    /workspace/fd_venv/bin/python scripts/auto_published.py --dry-run 2>&1 || echo "auto_published failed: $?"
+fi
