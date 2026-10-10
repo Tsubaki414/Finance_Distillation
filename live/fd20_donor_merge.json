@@ -1,5 +1,5 @@
 {
- "version": "mango-merge-2026-10-07+seeds2",
+ "version": "mango-merge-2026-10-07+seeds2+pm-donors7-2026-10-10",
  "note": "Adopted donors merged into the fd20 acct_<id> clusters by scripts/persona_factory.py (base donors keep 50% of the weight, adopted donors split 50%). Handles and aggregate metadata only; donor posts stay in the ignored live/donors/posts/. x_sources are account-scoped X sources for the fd20 universes (CORE from the Mango proposals, SECONDARY meme/perp/DeFi/onchain/chart sources); mega accounts (VitalikButerin, saylor, mert, zachxbt, star_okx) are sources only, never donors.",
  "rules": {
   "same_language": true,
@@ -1438,5 +1438,36 @@
    "at": "2026-10-09 pm-donors5"
   }
  ],
- "removed_note": "2026-10-08 pm-voice donor review: off-topic donors removed (evidence: last-60-day theme mix + read of recent originals); replacements are proposals for the PM, not applied."
+ "removed_note": "2026-10-08 pm-voice donor review: off-topic donors removed (evidence: last-60-day theme mix + read of recent originals); replacements are proposals for the PM, not applied.",
+ "added": [
+  {
+   "account": "investing_philosophy",
+   "handle": "ByrneHobart",
+   "kind": "merged",
+   "reason": "pm-donors7 2026-10-10: macro/finance essayist, Boom (Stripe Press) co-author; 155 originals, promo 0.000, active 2026-10-10; investing_philosophy beat fit (long-horizon thinking, market history, compounding); 0 prior accounts",
+   "at": "2026-10-10 pm-donors7"
+  },
+  {
+   "account": "investing_philosophy",
+   "handle": "dollarsanddata",
+   "kind": "merged",
+   "reason": "pm-donors7 2026-10-10: Nick Maggiulli, author Just Keep Buying; data-driven long-term wealth-building; 153 originals, promo 0.025, last post 2026-09-30; 0 prior accounts",
+   "at": "2026-10-10 pm-donors7"
+  },
+  {
+   "account": "crypto_prediction_zh",
+   "handle": "HhhhHannah",
+   "kind": "merged",
+   "reason": "pm-donors7 2026-10-10: prediction market analyst (Polymarket/predictdotfun); 160 originals, promo 0.075, active 2026-10-10; zh lang; 0 prior accounts",
+   "at": "2026-10-10 pm-donors7"
+  },
+  {
+   "account": "crypto_prediction_zh",
+   "handle": "7mood10061",
+   "kind": "merged",
+   "reason": "pm-donors7 2026-10-10: quantitative prediction market researcher (bio: 预测市场研究员); 160 originals, promo 0.050, active 2026-10-10; zh lang; 0 prior accounts",
+   "at": "2026-10-10 pm-donors7"
+  }
+ ],
+ "added_note": "2026-10-10 pm-donors7: 4 new donors added across 2 accounts (#18 investing_philosophy: +2 en donors; #29 crypto_prediction_zh: +2 zh donors). #23 crypto_newbie_zh and #30 crypto_stable_yield_zh remain at 7 — 15+ zh candidates verified over 100+ API calls; none cleared both >=150 originals AND <=0.25 promo_share AND on-lane content simultaneously. Rejected: dajingou1 (referral links in posts), waveking1314 (VIP-group meme trader, off-lane), CryptoPilot3226 (<150), webktsr (<150), CryptoYuXin (<150), Libaiwan168 (promo 0.222), nini_incrypto_ (promo 0.167). Negative evidence saved in /workspace/x/pm_donors7/state/."
 }
