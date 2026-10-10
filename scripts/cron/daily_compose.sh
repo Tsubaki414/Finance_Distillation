@@ -43,6 +43,45 @@ export FD_PACK_AUGMENT=1
 if [[ "${FD_FEEDBACK:-1}" != "0" ]]; then
     /workspace/fd_venv/bin/python scripts/feedback_priors.py --pull || echo "feedback priors failed (compose unaffected)"
 fi
+# Oct 10 (FD_PERF_DAILY, default on): fetch yesterday's perf and rebuild perf_priors.json; non-fatal.
+if [[ "${FD_PERF_DAILY:-1}" != "0" ]]; then
+    YESTERDAY=$(TZ=Asia/Shanghai date -d 'yesterday' +%F 2>/dev/null || TZ=Asia/Shanghai date -v-1d +%F)
+    PERF_OUT=/workspace/x/perf/daily
+    mkdir -p "$PERF_OUT"
+    /workspace/fd_venv/bin/python scripts/perf_review.py --fetch --days "$YESTERDAY" --max-requests 45 --out "$PERF_OUT" \
+        || echo "perf_review fetch failed (compose unaffected)"
+    # Append/dedupe to rolling perf.jsonl (keyed by draft id, keep latest metrics)
+    /workspace/fd_venv/bin/python - "$PERF_OUT/perf.jsonl" /workspace/x/perf/perf.jsonl <<'PY' || echo "perf append failed"
+import json, sys
+from pathlib import Path
+src, dst = Path(sys.argv[1]), Path(sys.argv[2])
+if not src.exists():
+    sys.exit(0)
+dst.parent.mkdir(parents=True, exist_ok=True)
+existing = {}
+if dst.exists():
+    for line in dst.read_text().splitlines():
+        try:
+            r = json.loads(line)
+            if r.get('id'):
+                existing[r['id']] = line
+        except ValueError:
+            pass
+for line in src.read_text().splitlines():
+    try:
+        r = json.loads(line)
+        if r.get('id'):
+            existing[r['id']] = line
+    except ValueError:
+        pass
+dst.write_text('\n'.join(existing.values()) + '\n' if existing else '')
+print(f'perf.jsonl: {len(existing)} rows')
+PY
+    /workspace/fd_venv/bin/python scripts/perf_priors.py \
+        --perf-jsonl /workspace/x/perf/perf.jsonl \
+        --out live/store/feedback/perf_priors.json \
+        || echo "perf_priors failed (compose unaffected)"
+fi
 BUDGET="${FD_DAILY_COMPOSE_BUDGET_USD:-25}"
 # Oct 8 evening: whole-day ring fence (Fiona: total daily <= $25). Tonight's ingest spend (flashes, lane flashes, X,
 # EXTRACT; summary /workspace/x/ingest_runs/<Beijing day>.json, written minutes ago by daily_ingest.sh) comes off the
