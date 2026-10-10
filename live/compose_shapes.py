@@ -125,7 +125,7 @@ _ARG_SHAPES = frozenset(SHAPES) - _NON_ARG_SHAPES
 NONARG_TYPE = {'one_line_take': 'one_liner', 'reaction': 'one_liner', 'quick_note': 'quick_take',
                'question_only': 'question', 'short_list': 'list_dump'}
 NONARG_MAX = 0.80          # never more than 4 in 5 posts non-argument
-NONARG_MIN = 0.60          # 10-10 measure: the donor_rates heuristic reads 40-60% "argument" where the blind
+NONARG_MIN = 0.70          # 10-10 measure: the donor_rates heuristic reads 40-60% "argument" where the blind
                            # classifier gives donors 26-27% claim-evidence-conclusion; at 0.37-0.58 the drafts stayed
                            # at 81% CEC, so at least 3 in 5 standalone posts take a non-argument shape
 ARG_MARGIN = 0.10          # argument posts at donor argument share + 10pp
