@@ -1584,8 +1584,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     nat_shape = None
     if (use_shapes and fmt_info and not shape and not fmt_info.get('engage')
             and fmt_info.get('type') not in ('thread', 'quote_comment')
-            and (post_type in JUDGMENT_TYPES or (stance and stance.get('account_view')))
-            and not (persona.lang == 'zh' and compose_shapes.research_source(source, units)[0])):
+            and (post_type in JUDGMENT_TYPES or (stance and stance.get('account_view')))):
         # Oct 10 nat3: at 1 - (donor argument share + 10pp) a standalone post is a non-argument shape (one-line take,
         # quick note, question, reaction, short list); its donor post type + the short bucket own the format.
         nat_shape = compose_shapes.pick_nonarg(persona, units=chosen, recent=recent_rows,
