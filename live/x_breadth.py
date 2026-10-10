@@ -271,6 +271,10 @@ class Client:
                 try:
                     with urllib.request.urlopen(req, timeout=self.timeout) as r:
                         entry['status'] = r.status
+                        for h in ('requests-limit', 'requests-remaining', 'requests-reset'):   # plan quota (Oct 10)
+                            v = r.headers.get(f'x-ratelimit-{h}')
+                            if v is not None:
+                                entry[f'rl_{h}'] = v
                         return json.load(r)
                 except Exception:
                     if attempt == 1:

@@ -653,10 +653,13 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
         if not a.get('quote_ok'):
             return False
         pid, handle = str(a.get('post_id')), str(a.get('handle') or '').lower()
-        if pid in eng_state.targets or (account, handle) in eng_state.authors:
+        if (account, handle) in eng_state.authors or not eng_state.open_for(pid, account, lang_of.get(account), assess=a):
             return False
         owner = engage_reserved().get(pid)
-        return owner is None or owner == account or any(slot_kind(p.get('source_id')) == 'engage' for p in plan[owner])
+        if owner is None or owner == account or any(slot_kind(p.get('source_id')) == 'engage' for p in plan[owner]):
+            return True
+        # Oct 10: a post reserved for another account can still carry this one when both may share it
+        return pid in eng_state.users and eng_state.open_for(pid, account, lang_of.get(account), assess=a)
 
     eng_reserve = {}
 
@@ -678,7 +681,8 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                     continue
                 ea = engage_assess(a, g)
                 pid, h = str(ea.get('post_id')), str(ea.get('handle') or '').lower()
-                if ea.get('quote_ok') and pid not in eng_state.targets and (a, h) not in eng_state.authors:
+                if ea.get('quote_ok') and (a, h) not in eng_state.authors and eng_state.open_for(
+                        pid, a, lang_of.get(a), assess=ea):
                     ids.append((-float(ea.get('score') or 0), pid))
             if ids:
                 opts[a] = [pid for _, pid in sorted(ids)]
@@ -822,9 +826,11 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                 continue
             g, events, angle, why, shared_with = pick
             if pick_gate and slot_kind(g[0]['source'].get('id')) == 'engage':   # one of our accounts per target post
-                ea = engage_assess(account, g)
-                eng_state.targets[str(ea.get('post_id'))] = account
-                eng_state.authors.add((account, str(ea.get('handle') or '').lower()))
+                ea = engage_assess(account, g)   # plan_day decides the mode (reply first when reply_ok)
+                fit = [m for m in (('reply', 'quote') if ea.get('reply_ok') else ('quote',))
+                       if eng_state.open_for(ea.get('post_id'), account, lang_of.get(account), m)]
+                eng_state.take(account, ea.get('post_id'), ea.get('handle') or '', fit[0] if fit else None,
+                               lang_of.get(account))
             for e in events:
                 event_takers.setdefault(e, []).append((account, angle, lang))
             if twins.twin_of(account):
@@ -931,7 +937,8 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                         continue
                     ea = engage_assess(a, g)
                     owner = eng_state.targets.get(str(ea.get('post_id')))
-                    if ea.get('quote_ok') and owner and owner != a:
+                    if ea.get('quote_ok') and owner and owner != a and not eng_state.open_for(
+                            ea.get('post_id'), a, lang_of.get(a), assess=ea):
                         engage_diag[a]['lost_to_other_account'] += 1
         info['engage_pick_diag'] = {a: dict(c) for a, c in engage_diag.items()}
     if div is not None and info is not None:

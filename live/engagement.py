@@ -75,6 +75,9 @@ DEFAULTS = {
     'search_min_faves_by_lang': {'zh': 20}, 'min_median_likes_by_lang': {'zh': 10},
     # curated extra watchlist handles per account (thin lanes), on top of the cluster donors
     'watchlist_extra': {},
+    # Oct 10 (Fiona, improvement #1): reply-first on fresh posts: + fresh_boost * (1 - age / fresh_h) while a reply is
+    # possible (same language, age <= fresh_h); windows unchanged
+    'fresh_boost': 1.0, 'fresh_h': 2,
 }
 HARD_CODES = frozenset({'engage_generic', 'engage_too_long', 'engage_mentions'})
 SOFT_CODES = frozenset({'engage_no_payload', 'engage_off_target'})
@@ -307,6 +310,8 @@ def assess(source, at, *, account_lang=None, on_lane=False, own_handles=(), cfg=
              + 0.5 * math.log10(1 + (m['reposts'] or 0) + (m['replies'] or 0)) + (1.0 if hot else 0.0)
              - 0.15 * max(age, 0) + (cfg['lane_bonus'] if on_lane else 0.0)
              - (0.0 if lang_match else cfg['other_language_penalty']))
+    if os.environ.get('FD_ENGAGE_FRESH', '1') != '0' and lang_match and 0 <= age <= float(cfg.get('fresh_h') or 0):
+        score += float(cfg.get('fresh_boost') or 0) * (1 - age / float(cfg['fresh_h']))
     out.update(score=round(score, 3), reject=reject, quote_ok=reject is None, extended=bool(extended and not reject),
                reply_ok=reject is None and age <= cfg['reply_max_age_h'] and lang_match)
     out['why'] = why(out)
@@ -371,6 +376,7 @@ class DayState:
 
     def __init__(self):
         self.targets, self.authors, self.used, self.ready = {}, set(), {}, {}
+        self.users = {}   # post id -> [(account, mode, lang)] (Oct 10: up to max_per_post() of our accounts per post)
 
     @classmethod
     def from_rows(cls, rows):
@@ -384,16 +390,57 @@ class DayState:
             t = _target({'url': url})
             if not t:
                 continue
-            st.take(r.get('account_id'), t[2], t[1], mode)
+            st.take(r.get('account_id'), t[2], t[1], mode, r.get('lang') or r.get('account_lang'))
             if r.get('draft_status') == 'draft_ready' and not r.get('held'):   # slot rule: ready ones fill the slot
                 st.ready[r.get('account_id')] = st.ready.get(r.get('account_id'), 0) + 1
         return st
 
-    def take(self, account, post_id, handle, mode):
-        self.targets[str(post_id)] = account
+    def take(self, account, post_id, handle, mode, lang=None):
+        self.targets.setdefault(str(post_id), account)   # first taker (diagnostics)
+        self.users.setdefault(str(post_id), []).append((account, mode, _lang2(lang or _ACCOUNT_LANG.get(account))))
         self.authors.add((account, str(handle).lower()))
-        u = self.used.setdefault(account, {'quote': 0, 'reply': 0})
-        u[mode] = u.get(mode, 0) + 1
+        if mode:
+            u = self.used.setdefault(account, {'quote': 0, 'reply': 0})
+            u[mode] = u.get(mode, 0) + 1
+
+    def open_for(self, post_id, account, lang=None, mode=None, assess=None):
+        """Can `account` still use this target post? Oct 10 (Fiona, improvement #1): up to max_per_post() of our
+        accounts per post, and a second one only if it differs in language (zh + en) or in mode (reply + quote) from
+        every account already on it - never two same-language replies, never twins (27/32 28/33 29/34 30/36), never
+        the same account twice. mode=None: some mode the assess dict allows (reply_ok / quote_ok) would fit."""
+        on = self.users.get(str(post_id)) or []
+        if not on and str(post_id) not in self.targets:
+            return True
+        if not on:   # legacy callers that set targets[...] directly
+            on = [(self.targets[str(post_id)], None, _lang2(_ACCOUNT_LANG.get(self.targets[str(post_id)])))]
+        if len(on) >= max_per_post():
+            return False
+        from live import twins
+        lg = _lang2(lang or _ACCOUNT_LANG.get(account))
+        if any(b == account or twins.TWIN.get(account) == b for b, _, _ in on):
+            return False
+        modes = [mode] if mode else [m for m in ('reply', 'quote')
+                                     if assess is None or assess.get(f'{m}_ok')]
+        return any(all(lb != lg or (mb is not None and mb != m) for _, mb, lb in on) for m in modes)
+
+
+_ACCOUNT_LANG = {}   # account -> 'zh' / 'en', filled by callers that know it (register_langs)
+
+
+def register_langs(langs):
+    _ACCOUNT_LANG.update({a: _lang2(l) for a, l in (langs or {}).items() if l})
+
+
+def _lang2(lang):
+    return str(lang or '')[:2].lower() or None
+
+
+def max_per_post():
+    """FD_ENGAGE_MAX_PER_POST (default 2; 1 = the old one-of-our-accounts-per-post rule)."""
+    try:
+        return max(1, int(os.environ.get('FD_ENGAGE_MAX_PER_POST', '2')))
+    except ValueError:
+        return 2
 
 
 def quotas(account, day, state, cfg=None):
@@ -416,6 +463,7 @@ def plan_day(cands, *, day, ref, state=None, taken=None, own_handles=(), cfg=Non
     state = state or DayState()
     taken = {a: list(v) for a, v in (taken or {}).items()}
     langs = langs or {}
+    register_langs(langs)
     slots = int(cfg['engage_slots_per_day']) if slot_rule() else None
     if slots is not None:   # slot rule: every account has its (one) engagement slot, cold-start or not
         cold = {a: True for a in cands}
@@ -443,7 +491,7 @@ def plan_day(cands, *, day, ref, state=None, taken=None, own_handles=(), cfg=Non
                 continue
             s = d['assess']
             pid, handle = s.get('post_id'), str(s.get('handle')).lower()
-            if pid in state.targets or (a, handle) in state.authors:
+            if (a, handle) in state.authors or not state.open_for(pid, a, langs.get(a), assess=s):
                 continue
             q, r, rmax = left[a]
             if slot_left[a] <= 0:   # slot rule: the account's engagement slot is already filled today
@@ -451,7 +499,7 @@ def plan_day(cands, *, day, ref, state=None, taken=None, own_handles=(), cfg=Non
             mode = ('reply' if phase == 'reply' and r > 0 else 'quote' if phase == 'quote' and q > 0 else
                     'reply' if phase == 'reply2' and rmax > 0 and q == 0 and not any(
                         x['mode'] == 'quote' for x in out[a].values()) else None)
-            if mode is None or (mode == 'reply' and not s['reply_ok']):
+            if mode is None or (mode == 'reply' and not s['reply_ok']) or not state.open_for(pid, a, langs.get(a), mode):
                 continue
             limit = _ts(c['source'].get('published_at')) + timedelta(hours=max_age_h(s, mode, cfg))
             slot = next_slot(day, ref, taken.get(a, ()), cfg, not_after=limit)
@@ -463,7 +511,7 @@ def plan_day(cands, *, day, ref, state=None, taken=None, own_handles=(), cfg=Non
                 continue
             d.update(mode=mode, slot=slot, assess=s2, why=f'{mode}: {s2["why"]}')
             taken.setdefault(a, []).append(slot)
-            state.take(a, pid, handle, mode)
+            state.take(a, pid, handle, mode, langs.get(a))
             slot_left[a] -= 1
             if mode == 'quote':
                 left[a][0] -= 1

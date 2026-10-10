@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Oct 9 (Fiona: ride big-account traffic): daytime engagement pull. Schedule at 03:00 and 09:00 London (11:00 / 16:00
-# Beijing), on top of the nightly daily_ingest.sh. Two steps, no publishing:
+# Oct 9 (Fiona: ride big-account traffic): daytime engagement pull. Oct 10: schedule every 2h 09:00-21:00 Beijing
+# (01:00-13:00 London in BST: 09/11/13/15/17/19/21 BJT, ~12 RapidAPI calls and ~10 min each, $0 so far: X extraction
+# of engage posts + subrouter fill), on top of the nightly daily_ingest.sh. Two steps, no publishing:
 #   1. fetch the ENGAGE watchlist only (live/engagement.subscriptions: high-traffic same-lane accounts; batched
 #      RapidAPI search with min_faves, shares engagement.json engage_daily_call_cap with the nightly) and extract the
 #      qualifying posts into the content store (X ring fence FD_ENGAGE_PULL_X_USD, cap FD_ENGAGE_PULL_CAP_USD);
@@ -19,6 +20,8 @@ printf 'START %s\n' "$(date -Is)"
 trap 'status=$?; printf "END %s exit_code=%s\n" "$(date -Is)" "$status"' EXIT
 H=$(TZ=Asia/Shanghai date +%-H)
 if (( H < 8 || H > 21 )); then echo "Beijing hour $H outside 08-21: skip"; exit 0; fi
+exec 9>/tmp/fd_engage_pull.lock   # Oct 10: every 2h; a pull still running (slow fill) makes the next one skip
+if ! flock -n 9; then echo "previous engage_pull still running: skip"; exit 0; fi
 if pgrep -f "python[0-9.]* scripts/daily_(compose|ingest)\.py" >/dev/null; then   # not a CC prompt mentioning them
     echo "another compose / ingest run is active: skip"; exit 0
 fi

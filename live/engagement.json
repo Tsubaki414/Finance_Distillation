@@ -21,7 +21,7 @@
  "other_language_penalty": 1.5,
  "lane_bonus": 0.5,
  "targets_per_account": 12,
- "engage_daily_call_cap": 42,
+ "engage_daily_call_cap": 120,
  "engage_pages_per_batch": 2,
  "engage_posts_per_handle": 2,
  "huge_min_likes": 20,
@@ -64,5 +64,6 @@
   ]
  },
  "_note_watchlist_extra": "Oct 9 night: curated thin-lane watchlists (#8 zh_industry, #9 zh_us_stocks, #10 zh_longterm_investing, #19 single_stock_deepdive_en, #21 zh_macro) from the donor roster by median likes (live donor posts, likes>0), same language, active since 09-28, not promo-heavy; added on top of the 12 cluster donors.",
- "_note_oct9_night": "Oct 9 night: per-language like floors (zh 30 likes, or >=10k views; en >=40k views stand in for 100 likes), quotes up to 18h when likes >= 150 zh / 500 en or views >= 30k zh / 100k en; zh search min_faves 20; donor median likes ignore posts with no like metrics; call cap 42/day (more watchlist handles, nightly + 11:10 + 16:10 Beijing pulls)."
+ "_note_oct9_night": "Oct 9 night: per-language like floors (zh 30 likes, or >=10k views; en >=40k views stand in for 100 likes), quotes up to 18h when likes >= 150 zh / 500 en or views >= 30k zh / 100k en; zh search min_faves 20; donor median likes ignore posts with no like metrics; call cap 42/day (more watchlist handles, nightly + 11:10 + 16:10 Beijing pulls).",
+ "_note_oct10": "Oct 10 (Fiona, improvement #1): engage_pull every 2h 09-21 BJT (7 pulls) + the nightly = 8 x ~12 calls (2 pages x 7 batches, zh+en) = ~96/day on the UTC-day call log; cap 120 leaves ~25% headroom. Calls log the x-ratelimit-requests-limit/remaining headers (live/store/x_breadth/<day>.engage.calls.jsonl)."
 }
