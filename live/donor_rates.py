@@ -27,7 +27,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 JSON = ROOT / 'donors' / 'donor_rates.json'
-POSTS_DIR = ROOT / 'donors' / 'donors' / 'posts'
+POSTS_DIR = ROOT / 'donors' / 'posts'
 
 MIN_POSTS = 30          # floor for per-account rates; below -> language fallback
 DONOR_K = 20            # most recent originals per donor

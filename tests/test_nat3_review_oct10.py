@@ -64,6 +64,7 @@ def test_author_cap():
 
 
 def test_echo_op_needs_real_echo():
-    tgt = 'BTC ETFs saw $681M outflows this week, the market is shaky'
-    assert eng.echo_op_findings('$681M out and nobody blinks', tgt, 'en')
+    tgt = 'BTC ETFs saw $681M outflows in 5 days, 5.4% of AUM, ETH lost 2400'
+    assert eng.echo_op_findings('5.4% gone and nobody blinks', tgt, 'en')
+    assert not eng.echo_op_findings('2400 is not even the low', tgt, 'en')
     assert not eng.echo_op_findings('5 straight days of this and funding is still positive', tgt, 'en')

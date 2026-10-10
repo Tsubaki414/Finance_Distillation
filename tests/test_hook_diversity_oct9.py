@@ -148,9 +148,9 @@ class TestBatchOpenerFindings:
 
     def test_same_weak_phrase_three_accounts_flags_all_three(self):
         rows = [
-            self._row('d1', 'acct_a', 'zh', '我觉得这波反弹没有持续性', '2026-10-09T10:00:00+01:00'),
-            self._row('d2', 'acct_b', 'zh', '我觉得市场在等 FOMC', '2026-10-09T10:30:00+01:00'),
-            self._row('d3', 'acct_c', 'zh', '我觉得 SOL 的链上数据更强', '2026-10-09T11:00:00+01:00'),
+            self._row('d1', 'acct_a', 'zh', '说实话这波反弹没有持续性', '2026-10-09T10:00:00+01:00'),
+            self._row('d2', 'acct_b', 'zh', '说实话市场在等 FOMC', '2026-10-09T10:30:00+01:00'),
+            self._row('d3', 'acct_c', 'zh', '说实话 SOL 的链上数据更强', '2026-10-09T11:00:00+01:00'),
         ]
         result = hv.batch_opener_findings(rows)
         ids = [r['id'] for r in result]

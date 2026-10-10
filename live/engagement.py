@@ -672,15 +672,23 @@ def echo_op_findings(body: str, target_text: str, lang: str) -> list:
     body_s = str(body or '')
     tgt = str(target_text or '')
 
-    # check: a target number with >= 2 significant digits appears in the reply (same value, any format)
-    body_vals = {round(float(v), 6) for v in numbers(body_s) if not isinstance(v, tuple)}
-    for v in numbers(tgt):
-        if isinstance(v, tuple):
+    # check: the reply restates the target's figures - two of them, or one precise one (a decimal or >= 3 significant
+    # digits). A single round level ("ETH 2400 ...") is a normal way to point at the post and stays allowed.
+    body_vals = {round(float(v[1] if isinstance(v, tuple) else v), 6) for v in numbers(body_s)}
+    echoed = []
+    for m in re.finditer(r'\d[\d,]*(?:\.\d+)?', tgt):
+        try:
+            v = float(m.group(0).replace(',', ''))
+        except ValueError:
             continue
-        digits = re.sub(r'[^0-9]', '', f'{float(v):g}').strip('0')
-        if len(digits) >= 2 and round(float(v), 6) in body_vals:
-            return [{'code': 'echo_op', 'level': 'soft',
-                     'detail': f'reply repeats the target\'s number {v:g}: replace with your own counter-point'}]
+        if v in echoed:
+            continue
+        if any(abs(b - v) < 1e-9 or (v and abs(b - v * k) < 1e-6 * max(1, v * k)) for b in body_vals
+               for k in (1, 1e3, 1e6, 1e9, 1e4, 1e8)):
+            echoed.append(v)
+    if len(echoed) >= 2 or any(v != int(v) or len(str(int(v)).strip('0')) >= 3 for v in echoed):
+        return [{'code': 'echo_op', 'level': 'soft',
+                 'detail': f'reply repeats the target\'s figures {echoed}: add your own point instead'}]
 
     # check: n-gram overlap
     if lang == 'en':
