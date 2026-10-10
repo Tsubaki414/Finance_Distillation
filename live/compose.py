@@ -1593,7 +1593,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         if nat_shape:
             kind = compose_shapes.NONARG_TYPE[nat_shape]
             fmt_info.update(type=kind, length='short', thread_parts=None, shapes=[nat_shape],
-                            length_target=_ph.target_chars(persona.lang, 'short'), nat_shape=nat_shape)
+                            length_target=compose_shapes.nonarg_target(nat_shape, persona.lang), nat_shape=nat_shape)
     if use_shapes and (post_type in JUDGMENT_TYPES or (stance and stance.get('account_view'))):
         if shape and shape in compose_shapes.SHAPES:
             spec = compose_shapes.SHAPES[shape]

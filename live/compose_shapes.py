@@ -124,8 +124,23 @@ _ARG_SHAPES = frozenset(SHAPES) - _NON_ARG_SHAPES
 # Oct 10 nat3: a non-argument shape replaces the sampled post type with the donor type that carries it
 NONARG_TYPE = {'one_line_take': 'one_liner', 'reaction': 'one_liner', 'quick_note': 'quick_take',
                'question_only': 'question', 'short_list': 'list_dump'}
-NONARG_MAX = 0.75          # never more than 3 in 4 posts non-argument
+NONARG_MAX = 0.80          # never more than 4 in 5 posts non-argument
+NONARG_MIN = 0.60          # 10-10 measure: the donor_rates heuristic reads 40-60% "argument" where the blind
+                           # classifier gives donors 26-27% claim-evidence-conclusion; at 0.37-0.58 the drafts stayed
+                           # at 81% CEC, so at least 3 in 5 standalone posts take a non-argument shape
 ARG_MARGIN = 0.10          # argument posts at donor argument share + 10pp
+
+
+NONARG_TARGET = {   # characters without whitespace; zh short post < 40 chars, en < 12 words (~70 chars) per the audit
+    'zh': {'one_line_take': (8, 36), 'reaction': (6, 30), 'question_only': (10, 45), 'quick_note': (15, 60),
+           'short_list': (20, 80)},
+    'en': {'one_line_take': (15, 70), 'reaction': (8, 60), 'question_only': (20, 90), 'quick_note': (30, 120),
+           'short_list': (40, 140)}}
+
+
+def nonarg_target(shape_id, lang):
+    lo, hi = NONARG_TARGET['zh' if lang == 'zh' else 'en'].get(shape_id, (8, 60))
+    return {'min': lo, 'max': hi}
 
 
 def nonarg_share(persona, env=None):
@@ -140,7 +155,7 @@ def nonarg_share(persona, env=None):
     except Exception:   # noqa: BLE001
         mix = {}
     arg = float(mix.get('argument', 0.45)) if mix else 0.45
-    return round(max(0.0, min(NONARG_MAX, 1.0 - (arg + ARG_MARGIN))), 3)
+    return round(max(NONARG_MIN, min(NONARG_MAX, 1.0 - (arg + ARG_MARGIN))), 3)
 
 
 def pick_nonarg(persona, *, units=(), recent=(), seed='', env=None):
@@ -428,11 +443,13 @@ def payload_block(shape, lang, length_range):
                     'NEVER end with 接下来盯/关键看/后续要盯/Watch X/Expect X/The question is/time will tell — those are formula closers.'),
         VERDICT: ('End on a flat committed verdict. NO conditional ending (no if / unless / provided / '
                   'only if / until / flips if / 只要 / 除非 / 若 / 如果 / 一旦 / 否则). '
-                  'NEVER 接下来盯/关键看/Watch X/Expect X.'),
+                  'NEVER 接下来盯/关键看/Watch X/Expect X. The verdict IS the point (it may come first); never add a '
+                  'separate neat moral / summary / aphorism line after it - stop on the last concrete thing.'),
         IMPLICATION: ('End on what the call means (a concrete consequence, who gains or loses). '
                       'Do not close on "the market has not priced it" / "not yet priced in". '
                       'NO conditional ending (no if / unless / provided / until / 只要 / 除非 / 若 / 一旦). '
-                      'NEVER 接下来盯/关键看/后续要盯/Watch X/Expect X — just stop after the consequence.'),
+                      'NEVER 接下来盯/关键看/后续要盯/Watch X/Expect X — just stop after the consequence; no neat '
+                      'moral / summary / aphorism line.'),
         QUESTION: 'End on one pointed open question. NO conditional ending. No forward-watch closer.',
         'none': ('Default ending: just stop after the point. No formula closer, no summary verdict, '
                  'no forward-watch (接下来盯/关键看/Watch X/Expect X/time will tell). '
