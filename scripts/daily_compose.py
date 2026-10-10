@@ -758,7 +758,13 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             if twins.twin_of(account) and twins.clash(account, events, packet_entities(g), event_takers, ent_takers):
                 ek and engage_diag[account].update(['twin'])
                 continue   # FD_TWIN_RULE: zh/en twins (27/32, 28/33, 29/34, 30/36) never take one event on one day
-            takers = [t for e in events for t in event_takers.get(e, []) if t[2] == lang]
+            share = set()   # Oct 10 (#1): accounts already on this target post that this one may share it with
+            if ek and pick_gate and engagement.max_per_post() > 1:
+                ea = engage_assess(account, g)
+                pid = str(ea.get('post_id'))
+                if pid in eng_state.users and eng_state.open_for(pid, account, lang_of.get(account), assess=ea):
+                    share = {u[0] for u in eng_state.users[pid]}
+            takers = [t for e in events for t in event_takers.get(e, []) if t[2] == lang and t[0] not in share]
             if len({t[0] for t in takers}) >= MAX_ACCOUNTS_PER_EVENT or any(t[0] == account for t in takers):
                 ek and engage_diag[account].update(['event_cap'])
                 continue
