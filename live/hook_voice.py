@@ -28,10 +28,12 @@ HARD_CODES = frozenset({'unattributed_forecast', 'stale_market_claim'})
 REPAIR_TRIGGER = frozenset({'weak_hook', 'opener_repeat'})   # soft codes that still get the one targeted rewrite
 
 # Oct 9: explicit weak openers — fire as weak_hook even when a number is present in the first line.
-# ZH phrases that read like AI template / hedging / passive scroll (first-word match).
+# Oct 10 nat3: removed observation-type first-person from both lists (我觉得/我看/刚看到/I think/ngl/imo)
+# — those are allowed and expected at the account's donor rate (A3 fix). Only AI-template / passive openers remain.
+# ZH: AI template / hedging / passive scroll (first-word match).
 WEAK_OPENERS_ZH = (
-    '我觉得', '我认为', '说实话', '老实说', '坦白说',
-    '扫了眼', '扫了一眼', '刚才看了', '刚看了', '刚刚看到',
+    '说实话', '老实说', '坦白说',
+    '扫了眼', '扫了一眼', '刚才看了',
     '刷到', '看到一个', '今天看到', '注意到', '不得不说',
     '讲真', '有一说一',
 )
@@ -39,9 +41,10 @@ WEAK_OPENERS_ZH = (
 _QISHI_FIRST = re.compile(r'^\W*其实')
 
 # EN phrases — case-insensitive prefix match.
+# Removed: 'I think', 'Ngl', 'Just saw', 'I noticed' — observation-type first-person allowed at donor rate.
 WEAK_OPENERS_EN = (
-    'I think', 'Honestly,', 'To be honest', 'Just saw', 'Was looking at',
-    'I noticed', 'Took a look', 'Scrolling', 'So I', 'Ngl',
+    'Honestly,', 'To be honest', 'Was looking at',
+    'Took a look', 'Scrolling', 'So I',
 )
 
 _EXPLICIT_WEAK_ZH = re.compile(
@@ -62,16 +65,20 @@ def _build_en_weak_pattern():
 _EXPLICIT_WEAK_EN = _build_en_weak_pattern()
 
 PROMPT_RULE = (
-    'Hook and voice. Line 1 must carry a concrete number or named fact from the units, or a sharp first-person '
-    'observation in the persona\'s own voice (the specific thing logged or checked, stated directly - not "I think / I noticed / Just saw / 我觉得 / 说实话 / 扫了眼 / 刚看了") - never a generic opener such as '
-    '"Let\'s talk about", "Interesting times", "最近市场", "今天聊聊", "值得注意的是". Where the persona fits, write like '
-    'someone keeping their own book: first person, what I am watching, what changed in my numbers. A forecast, price '
-    'target or prediction that comes from a unit\'s speaker or the source is THEIR call: attribute it in the same '
-    'sentence ("X expects...", "据X…", "X 认为…") and do not present it as your own view. Never call a level a '
-    '"new high" / record / 新高 unless the units or reality lines show it is current as of the post time.')
+    'Hook and voice. Line 1 must carry a concrete number or named fact from the units, or a first-person '
+    'observation in the persona\'s own voice (我看/我觉得/刚看到/看了下/盲猜/imo/I think/ngl are fine and expected when '
+    'the persona uses them — give the account\'s first-person donor rate in the payload; never a generic opener such as '
+    '"Let\'s talk about", "Interesting times", "最近市场", "今天聊聊", "值得注意的是", "说实话"). Where the persona fits, write like '
+    'someone keeping their own book: first person, what I am watching, what changed in my numbers. '
+    'Observation-type hedges (可能/大概/imo/probably) are allowed at the account\'s donor rate. '
+    'A forecast, price target or prediction that comes from a unit\'s speaker or the source is THEIR call: attribute it in the same '
+    'sentence ("X expects...", "据X…", "X 认为…") and do not present it as your own view. Invented trades, '
+    'positions, holdings, or personal returns stay banned (persona rule unchanged). '
+    'Never call a level a "new high" / record / 新高 unless the units or reality lines show it is current as of the post time.')
 FIXES = {
-    'weak_hook': ('Rewrite line 1 only: open on the most concrete number or named fact in the units, or on a sharp '
-                  'first-person observation stated directly (no 我觉得 / 说实话 / 扫了眼 / 刚看了 / I think / I noticed); no generic opener. Keep the rest.'),
+    'weak_hook': ('Rewrite line 1 only: open on the most concrete number or named fact in the units, or on a '
+                  'first-person observation stated directly (我看/我觉得/刚看到/I think/ngl are fine; no 说实话 / 扫了眼); '
+                  'no generic opener. Keep the rest.'),
     'unattributed_forecast': ('The forecast / price target named in the detail is the source\'s call, not the account\'s: '
                               'attribute it in the same sentence ("<speaker> expects...", "据<来源>…", "<来源> 认为…"), '
                               'or drop it. Do not write it as your own prediction.'),

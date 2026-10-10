@@ -80,12 +80,13 @@ DEFAULTS = {
     'fresh_boost': 1.0, 'fresh_h': 2,
 }
 HARD_CODES = frozenset({'engage_generic', 'engage_too_long', 'engage_mentions'})
-SOFT_CODES = frozenset({'engage_no_payload', 'engage_off_target', 'engage_sibling_repeat'})
-REPAIR_TRIGGER = frozenset({'engage_no_payload', 'engage_off_target', 'engage_sibling_repeat'})
+SOFT_CODES = frozenset({'engage_no_payload', 'engage_off_target', 'engage_sibling_repeat', 'echo_op'})
+REPAIR_TRIGGER = frozenset({'engage_no_payload', 'engage_off_target', 'engage_sibling_repeat', 'echo_op'})
 FIXES = {
     'engage_generic': ('This is a reply / quote under a big account: drop the generic praise or agreement '
                        '(great post / interesting take / 说得好 / 学到了 / 感谢分享); say the one thing the post is missing.'),
-    'engage_too_long': 'A reply is at most 2 sentences: keep the number or counter-point, cut the rest.',
+    'engage_too_long': ('A reply is 1-2 lines, at most 25 words (EN) / 50 chars (ZH): '
+                        'keep the counter-point or number, cut the rest.'),
     'engage_mentions': 'At most one @mention (X adds the replied-to handle itself); remove the others.',
     'engage_no_payload': ('Add one concrete thing the target post does not say: a number from the units, a '
                           'counter-point, or a specific observation - not agreement.'),
@@ -96,18 +97,22 @@ FIXES = {
     'engage_off_target': ('This reply / quote does not respond to the post it sits under. Open by naming that post\'s '
                           'point in a few words of your own, stay on its topic, then add your one number / counter-point '
                           '/ observation. Do not switch to another story.'),
+    'echo_op': ('This reply repeats the target post\'s own number or phrase back at them — that adds nothing. '
+                'Replace the echoed figure with your own counter-point, a different number from the units, '
+                'or a pointed question. Never restate what the target already said.'),
 }
 PROMPT_RULE = {
-    'reply': ('This draft is a REPLY under {who}\'s post (the source). At most 2 sentences. It must read right under '
-              'that post: start from the post\'s own point, named in a few words of your own (e.g. "Pullback as an '
-              'add zone? ..." / "说回调是加仓点，…"), stay on that topic (no other story), then add exactly one thing the '
-              'post does not say: a number from the units, a counter-point, or a concrete observation. No praise, '
-              'thanks or agreement filler ("great post", "说得好", "学到了"), no @mentions (X adds the handle), no '
-              'links, no hashtags, no buy / sell call.'),
-    'quote': ('This draft QUOTES {who}\'s post (the source, shown as the quoted card). 1-3 short lines. Line 1 names '
-              'the quoted post\'s point in a few words of your own so the quote makes sense next to the card (do not '
-              'restate it at length); stay on that topic, then add a number from the units, a counter-point or a '
-              'concrete observation. No praise '
+    'reply': ('This draft is a REPLY under {who}\'s post (the source). '
+              '1-2 lines (at most 2 sentences), at most 25 words (EN) / 50 characters (ZH). '
+              'React to the target\'s specific point: agree and add one thing, push back with a counterpoint, '
+              'ask a pointed question, or react informally. '
+              'Never restate the target\'s own numbers back at them — add what they did not say. '
+              'No praise, thanks or agreement filler ("great post", "说得好", "学到了"), '
+              'no @mentions (X adds the handle), no links, no hashtags, no buy / sell call.'),
+    'quote': ('This draft QUOTES {who}\'s post (the source, shown as the quoted card). 1-2 short lines. '
+              'Line 1 names the quoted post\'s point in a few words of your own so the quote makes sense '
+              'next to the card (do not restate it at length); stay on that topic, then add a number from '
+              'the units, a counter-point or a concrete observation. No praise '
               'filler, at most one @mention, no links, no buy / sell call.'),
 }
 _CFG = None
@@ -497,6 +502,8 @@ def plan_day(cands, *, day, ref, state=None, taken=None, own_handles=(), cfg=Non
             pid, handle = s.get('post_id'), str(s.get('handle')).lower()
             if (a, handle) in state.authors or not state.open_for(pid, a, langs.get(a), assess=s):
                 continue
+            if author_full(state, handle, a):   # Oct 10 nat3: <= FD_ENGAGE_AUTHOR_CAP of our accounts per author/day
+                continue
             q, r, rmax = left[a]
             if slot_left[a] <= 0:   # slot rule: the account's engagement slot is already filled today
                 continue
@@ -617,7 +624,7 @@ def off_target(body, target_text):
 
 def findings(body, mode, lang='en', target_text=None, siblings=None):
     """Engagement-draft checks (HARD: engage_generic / engage_too_long / engage_mentions; SOFT: engage_no_payload,
-    engage_off_target - Oct 9 night: the reply / quote must respond to the target post's own point)."""
+    engage_off_target, echo_op - Oct 9 night: the reply / quote must respond to the target post's own point)."""
     if not mode or not enabled():
         return []
     body = str(body or '')
@@ -628,14 +635,128 @@ def findings(body, mode, lang='en', target_text=None, siblings=None):
     m = (GENERIC_ZH if lang == 'zh' else GENERIC_EN).search(body) or GENERIC_EN.search(body)
     if m:
         out.append({'code': 'engage_generic', 'detail': f'generic filler "{m.group(0)}"'})
-    if mode == 'reply' and len(sentences(body)) > 2:
+    # Oct 10 nat3: reply length cap — 1-2 lines, ≤25 words en / ≤50 chars zh
+    if mode == 'reply' and os.environ.get('FD_REPLY_SHORT', '1') != '0':
+        if lang == 'zh':
+            body_stripped = re.sub(r'\s+', '', body)
+            if len(body_stripped) > 60:
+                out.append({'code': 'engage_too_long',
+                            'detail': f'reply {len(body_stripped)} chars (zh max 60); cut to 1-2 lines'})
+        else:
+            words = len(body.split())
+            if words > 30:
+                out.append({'code': 'engage_too_long',
+                            'detail': f'reply {words} words (en max 30); cut to 1-2 lines'})
+    if mode == 'reply' and len(sentences(body)) > 2 and not any(f['code'] == 'engage_too_long' for f in out):
         out.append({'code': 'engage_too_long', 'detail': f'{len(sentences(body))} sentences (reply max 2)'})
     if len(MENTION.findall(body)) > 1:
         out.append({'code': 'engage_mentions', 'detail': f'{len(MENTION.findall(body))} @mentions (max 1)'})
     if not (DIGIT.search(body) or COUNTER.search(body) or TICKER.search(body)):
         out.append({'code': 'engage_no_payload', 'detail': 'no number, counter-point or concrete observation'})
     out += sibling_findings(body, siblings)
+    # Oct 10 nat3: echo_op — reply repeats target's number or 3-gram / 6-char span
+    if mode == 'reply' and target_text and os.environ.get('FD_REPLY_SHORT', '1') != '0':
+        out += echo_op_findings(body, target_text, lang)
     return out
+
+
+_ECHO_STOP = frozenset('this that with from have will they their there what when which about just like more than been were into over also only'.split())
+
+
+def echo_op_findings(body: str, target_text: str, lang: str) -> list:
+    """SOFT echo_op: reply repeats the target's own number or a 3-gram (en) / 6-char (zh) span.
+    Fires only when FD_REPLY_SHORT != '0'. Returns a list of finding dicts (may be empty).
+    """
+    if os.environ.get('FD_REPLY_SHORT', '1') == '0':
+        return []
+    body_s = str(body or '')
+    tgt = str(target_text or '')
+
+    # check: the reply restates the target's figures - two of them, or one precise one (a decimal or >= 3 significant
+    # digits). A single round level ("ETH 2400 ...") is a normal way to point at the post and stays allowed.
+    body_vals = {round(float(v[1] if isinstance(v, tuple) else v), 6) for v in numbers(body_s)}
+    echoed = []
+    for m in re.finditer(r'\d[\d,]*(?:\.\d+)?', tgt):
+        try:
+            v = float(m.group(0).replace(',', ''))
+        except ValueError:
+            continue
+        if v in echoed:
+            continue
+        if any(abs(b - v) < 1e-9 or (v and abs(b - v * k) < 1e-6 * max(1, v * k)) for b in body_vals
+               for k in (1, 1e3, 1e6, 1e9, 1e4, 1e8)):
+            echoed.append(v)
+    if len(echoed) >= 2 or any(v != int(v) or len(str(int(v)).strip('0')) >= 3 for v in echoed):
+        return [{'code': 'echo_op', 'level': 'soft',
+                 'detail': f'reply repeats the target\'s figures {echoed}: add your own point instead'}]
+
+    # check: n-gram overlap
+    if lang == 'en':
+        tgt_words = re.findall(r"[a-z0-9$%.']+", tgt.lower())
+        body_words = re.findall(r"[a-z0-9$%.']+", body_s.lower())
+        tgt_3grams = {' '.join(tgt_words[i:i + 3]) for i in range(len(tgt_words) - 2)}
+        body_3grams = {' '.join(body_words[i:i + 3]) for i in range(len(body_words) - 2)}
+        shared = {g for g in tgt_3grams & body_3grams
+                  if sum(len(w) >= 4 and w not in _ECHO_STOP for w in g.split()) >= 2}
+        if shared:
+            ex = next(iter(shared))
+            return [{'code': 'echo_op', 'level': 'soft',
+                     'detail': f'reply echoes the target\'s phrase {ex!r}: react instead of restate'}]
+    else:
+        tgt_clean = re.sub(r'\s+', '', tgt)
+        body_clean = re.sub(r'\s+', '', body_s)
+        for i in range(len(tgt_clean) - 5):
+            span = tgt_clean[i:i + 6]
+            if span and span in body_clean:
+                return [{'code': 'echo_op', 'level': 'soft',
+                         'detail': f'reply echoes the target\'s phrase {span!r}: react instead of restate'}]
+    return []
+
+
+def author_cap(env=None):
+    env = os.environ if env is None else env
+    try:
+        return int(env.get('FD_ENGAGE_AUTHOR_CAP', '2'))
+    except (TypeError, ValueError):
+        return 2
+
+
+def author_full(state, handle, account, env=None):
+    """True when author_cap() other accounts of ours already target `handle` today (DayState.authors holds the
+    (account, author) pairs of earlier runs and of this plan). FD_ENGAGE_AUTHOR_CAP=0: no cap."""
+    cap = author_cap(env)
+    if cap <= 0:
+        return False
+    h = str(handle or '').lower().lstrip('@')
+    return len({a for a, x in state.authors if x.lstrip('@') == h and a != account}) >= cap
+
+
+def author_cap_exceeded(account_id: str, target_author: str, day_rows: list,
+                        cap: int | None = None) -> bool:
+    """True when >= cap of our accounts have already targeted this author today.
+
+    day_rows: list of existing inbox rows for this Beijing day.
+    cap: FD_ENGAGE_AUTHOR_CAP (default 2). Returns False when FD_ENGAGE_AUTHOR_CAP=0.
+    """
+    if cap is None:
+        try:
+            cap = int(os.environ.get('FD_ENGAGE_AUTHOR_CAP', '2'))
+        except (ValueError, TypeError):
+            cap = 2
+    if cap <= 0:
+        return False
+    author_low = str(target_author or '').lower().lstrip('@')
+    if not author_low:
+        return False
+    count = 0
+    for row in day_rows:
+        row_acct = str(row.get('account_id') or '')
+        if row_acct == account_id:
+            continue  # don't count this account against itself
+        eng = row.get('engagement') or {}
+        if str(eng.get('author') or '').lower().lstrip('@') == author_low:
+            count += 1
+    return count >= cap
 
 
 _NUM = re.compile(r'(\d[\d,]*(?:\.\d+)?)\s*(%|万亿|亿|万|千|百万|trillion|billion|million|thousand|[kmbt]\b)?', re.I)

@@ -1581,6 +1581,18 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         fmt_info.setdefault('shapes', list(_ph.TYPE_SHAPES.get(fmt_info['type'], ())))
         fmt_info.setdefault('length_target', _ph.target_chars(persona.lang, fmt_info['length'],
                                                               parts=fmt_info.get('thread_parts')))
+    nat_shape = None
+    if (use_shapes and fmt_info and not shape and not fmt_info.get('engage') and not fmt_info.get('no_nat')
+            and fmt_info.get('type') not in ('thread', 'quote_comment')
+            and (post_type in JUDGMENT_TYPES or (stance and stance.get('account_view')))):
+        # Oct 10 nat3: at 1 - (donor argument share + 10pp) a standalone post is a non-argument shape (one-line take,
+        # quick note, question, reaction, short list); its donor post type + the short bucket own the format.
+        nat_shape = compose_shapes.pick_nonarg(persona, units=chosen, recent=recent_rows,
+                                               seed=source.get('source_hash') or source.get('id') or '')
+        if nat_shape:
+            kind = compose_shapes.NONARG_TYPE[nat_shape]
+            fmt_info.update(type=kind, length='short', thread_parts=None, shapes=[nat_shape],
+                            length_target=compose_shapes.nonarg_target(nat_shape, persona.lang), nat_shape=nat_shape)
     if use_shapes and (post_type in JUDGMENT_TYPES or (stance and stance.get('account_view'))):
         if shape and shape in compose_shapes.SHAPES:
             spec = compose_shapes.SHAPES[shape]
