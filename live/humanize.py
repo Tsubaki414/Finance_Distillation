@@ -331,13 +331,17 @@ def _line_is_judgement(line: str, lang: str) -> bool:
     return bool(re.search(r'\b(is|are|was|were|will|would|could|should|think|believe|see|seems|expect|looks?)\b', t, re.I))
 
 
+_NEUTRAL_EMOJI = frozenset('👀🤔🧐😅🫠🙃😌🫡👇😂🤷🙏🤡😶🫢😮💀🥲😬🤣')
+
+
 def _apply_texture(body: str, lang: str, draft_id: str, rates: dict) -> tuple[str, list[str]]:
     """Add emoji, $ticker, zh aliases, en lowercase, zh particle at donor rates."""
     if os.environ.get('FD_HUMANIZE', '1') == '0':
         return body, []
     changes = []
     lines = body.split('\n')
-    top5 = rates.get('top5_emoji') or []
+    # only tone-neutral emoji (a 🚀 under a bearish line reads wrong); no flag halves / modifiers
+    top5 = [e for e in (rates.get('top5_emoji') or []) if e in _NEUTRAL_EMOJI]
     emoji_rate = rates.get('emoji', 0.0)
     ticker_rate = rates.get('ticker', 0.0)
     slang_rate = rates.get('slang', 0.0)
@@ -403,8 +407,12 @@ def _apply_texture(body: str, lang: str, draft_id: str, rates: dict) -> tuple[st
         if not re.search(r'[吧啊呢嘛哈]$', body):
             if _u(draft_id, 'particle') < particle_rate:
                 pick_p = '吧' if _u(draft_id, 'particle_pick') < 0.6 else '啊'
+                pick_p = '吧'   # 啊 / 呢 mid-post on a statement read odd; 吧 on the closing judgment is the donor habit
                 lines_body = body.split('\n')
+                last_i = max((k for k, l in enumerate(lines_body) if l.strip()), default=-1)
                 for i, ln in enumerate(lines_body):
+                    if i != last_i:
+                        continue
                     core = ln.rstrip()
                     stem = core.rstrip('。.')
                     if (not _line_is_judgement(stem, lang) or not stem or stem[-1] in '？?！!…~～）)」"'
