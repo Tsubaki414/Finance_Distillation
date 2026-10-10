@@ -1009,40 +1009,52 @@
    "donors": [
     {
      "handle": "MarkNewtonCMT",
-     "weight": 0.1475,
+     "weight": 0.1207,
      "why": "beat 50% of 111 originals, crypto 9%, voice distinct 0.54"
     },
     {
      "handle": "MebFaber",
-     "weight": 0.0995,
+     "weight": 0.0814,
      "why": "beat 47% of 135 originals, crypto 11%, voice distinct 0.07 (current donor) [below bar]"
     },
     {
      "handle": "GlobalMktObserv",
-     "weight": 0.09,
+     "weight": 0.0736,
      "why": "beat 31% of 144 originals, crypto 6%, voice distinct 0.47"
     },
     {
      "handle": "saxena_puru",
-     "weight": 0.0845,
+     "weight": 0.0691,
      "why": "beat 29% of 180 originals, voice distinct 0.37"
     },
     {
      "handle": "SJosephBurns",
-     "weight": 0.0785,
+     "weight": 0.0642,
      "why": "beat 29% of 136 originals, crypto 6%, voice distinct 0.39"
     },
     {
      "handle": "ThierryBorgeat",
-     "weight": 0.25,
+     "weight": 0.2045,
      "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT"
     },
     {
      "handle": "WillieDelwiche",
-     "weight": 0.25,
+     "weight": 0.2045,
      "merged": "mango-merge-2026-10-07+seeds2",
      "why": "gap fill 2026-10-07: 1-hop following of existing en donors TheChartReport/Mr_Derivatives/GlobalMktObserv/MarkNewtonCMT"
+    },
+    {
+     "handle": "ByrneHobart",
+     "weight": 0.0909,
+     "merged": "pm-donors7-2026-10-10",
+     "why": "pm-donors7 2026-10-10 twitter241 search/verify: macro/finance essayist, Boom (Stripe Press) co-author; 155 originals, promo 0.000, active 2026-10-10"
+    },
+    {
+     "handle": "dollarsanddata",
+     "weight": 0.0909,
+     "merged": "pm-donors7-2026-10-10",
+     "why": "pm-donors7 2026-10-10 twitter241 search/verify: Nick Maggiulli, author Just Keep Buying; long-term wealth-building investing philosophy; 153 originals, promo 0.025, last post 2026-09-30"
     }
    ],
    "bench": [
@@ -1057,6 +1069,13 @@
     "added": [
      "ThierryBorgeat",
      "WillieDelwiche"
+    ]
+   },
+   "donors7": {
+    "version": "pm-donors7-2026-10-10",
+    "added": [
+     "ByrneHobart",
+     "dollarsanddata"
     ]
    },
    "review": {
@@ -2463,37 +2482,56 @@
    "donors": [
     {
      "handle": "MrRyanChi",
-     "weight": 0.1429
+     "weight": 0.1111
     },
     {
      "handle": "akitabtc",
-     "weight": 0.1429
+     "weight": 0.1111
     },
     {
      "handle": "yummyuyu_",
-     "weight": 0.1429
+     "weight": 0.1111
     },
     {
      "handle": "Mumu_yay",
-     "weight": 0.1429
+     "weight": 0.1111
     },
     {
      "handle": "0xchubai",
-     "weight": 0.1429
+     "weight": 0.1111
     },
     {
      "handle": "web3houzi",
-     "weight": 0.1429,
+     "weight": 0.1111,
      "why": "pm-donors5 2026-10-09 twitter241 search/verify: Polymarket / Predict.fun market data and odds moves"
     },
     {
      "handle": "JfwRk",
-     "weight": 0.1429,
+     "weight": 0.1111,
      "why": "pm-donors5 2026-10-09 twitter241 search/verify: prediction-market industry: Kalshi / Polymarket features and odds quality"
+    },
+    {
+     "handle": "HhhhHannah",
+     "weight": 0.1111,
+     "merged": "pm-donors7-2026-10-10",
+     "why": "pm-donors7 2026-10-10 twitter241 search/verify: prediction market analyst (Polymarket/predictdotfun Dune data); 160 originals, promo 0.075, active 2026-10-10"
+    },
+    {
+     "handle": "7mood10061",
+     "weight": 0.1112,
+     "merged": "pm-donors7-2026-10-10",
+     "why": "pm-donors7 2026-10-10 twitter241 search/verify: quantitative prediction market researcher (预测市场研究员); 160 originals, promo 0.050, active 2026-10-10"
     }
    ],
    "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
-   "previous_cluster": "crypto_prediction"
+   "previous_cluster": "crypto_prediction",
+   "donors7": {
+    "version": "pm-donors7-2026-10-10",
+    "added": [
+     "HhhhHannah",
+     "7mood10061"
+    ]
+   }
   },
   "acct_crypto_stable_yield_zh": {
    "lang": "zh",
@@ -13740,6 +13778,34 @@
    "added": "2026-10-08",
    "origin": "accounts36 slate: sol_base_alpha_en donor",
    "verify_note": "2026-10-08 twitter241 /user + /user-tweets; 79 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "hhhhhannah": {
+   "handle": "HhhhHannah",
+   "lang": "zh",
+   "category": "crypto_prediction",
+   "persona_cluster": "acct_crypto_prediction_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 2606,
+   "latest_post": "2026-10-10",
+   "originals": 160,
+   "promo_share": 0.075,
+   "added": "pm-donors7-2026-10-10"
+  },
+  "7mood10061": {
+   "handle": "7mood10061",
+   "lang": "zh",
+   "category": "crypto_prediction",
+   "persona_cluster": "acct_crypto_prediction_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 3546,
+   "latest_post": "2026-10-10",
+   "originals": 160,
+   "promo_share": 0.05,
+   "added": "pm-donors7-2026-10-10"
   }
  }
 }

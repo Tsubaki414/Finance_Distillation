@@ -321,9 +321,25 @@
     "Mumu_yay",
     "0xchubai",
     "web3houzi",
-    "JfwRk"
+    "JfwRk",
+    "HhhhHannah",
+    "7mood10061"
    ],
    "donor_evidence": {
+    "HhhhHannah": {
+     "followers": 2606,
+     "last_post": "2026-10-10",
+     "originals_scraped": 160,
+     "posts_per_day_30d": 2.1,
+     "promo_share_regex": 0.075
+    },
+    "7mood10061": {
+     "followers": 3546,
+     "last_post": "2026-10-10",
+     "originals_scraped": 160,
+     "posts_per_day_30d": 5.47,
+     "promo_share_regex": 0.05
+    },
     "MrRyanChi": {
      "followers": 16889,
      "last_post": "2026-10-07",
