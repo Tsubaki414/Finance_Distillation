@@ -380,9 +380,13 @@ def clamp_times(drafts, day, now=None):
         now = now.replace(second=0, microsecond=0) + timedelta(minutes=(-now.minute) % 5)
         if lo < now and (now <= hi or today):
             lo = now   # Oct 9: past 22:59 too (lo > hi): every unposted slot then moves to 明天
+    v2 = slot_v2_on(day)
+    reqs, pin_list, fixed = [], [], []   # FD_SLOT_V2: per-account requests placed globally after the loop
     by_acct = {}
     for d in drafts:
         if d['time'] and late and d.get('decision') == 'published':
+            if v2:
+                fixed.append((datetime.fromisoformat(d['time']).astimezone(BJT), d['account_id']))
             continue   # already posted: its time stays as recorded
         if d['time']:
             by_acct.setdefault(d['account_id'], {}).setdefault(d['time'], []).append(d)
@@ -407,6 +411,11 @@ def clamp_times(drafts, day, now=None):
                     d['time'] = new.isoformat()
                 if not all(expired):
                     pins.append(new)
+                    if v2:
+                        closes = [datetime.fromisoformat(d['engage_close']) for d in ds if d.get('engage_close')]
+                        pin_list.append({'acct': acct, 'drafts': ds, 'at': new,
+                                         'lo': max(not_before(ds, lo, hi) if late else lo, lo),
+                                         'close': min(closes) - ENGAGE_MARGIN if closes else hi})
                 del slots[s]
         pins = sorted(set(pins))
         if not slots:
@@ -416,6 +425,11 @@ def clamp_times(drafts, day, now=None):
         if late:                                   # later-stored drafts take the later slots
             order = sorted(range(len(orig)), key=lambda i: (nb[i], datetime.fromisoformat(orig[i])))
             orig, nb = [orig[i] for i in order], [nb[i] for i in order]
+        if v2:
+            lang = next((d.get('lang') for ds in slots.values() for d in ds if d.get('lang')), '') or ''
+            reqs.append({'acct': acct, 'lang': lang, 'orig': orig, 'nb': nb, 'slots': slots,
+                         'lead': {s: max(float(d.get('lead') or 0) for d in slots[s]) for s in orig}})
+            continue
         a_lo = min(nb[0], hi - POST_GAP * (len(orig) - 1)) if late else lo
         seg = (hi - a_lo).total_seconds() / 60 / len(orig)
         shift = int(hashlib.sha1(str(acct).encode()).hexdigest()[:8], 16) / 16 ** 8
@@ -458,8 +472,150 @@ def clamp_times(drafts, day, now=None):
                 d['overflow'] = True
                 tag = '明天：今天剩余时段放不下（同账号需间隔 30 分钟），顺延到明天这个时间'
                 d['note'] = f"{tag} · {d['note']}" if d.get('note') else tag
+    if v2:
+        place_v2(base, lo, hi, reqs, pin_list, fixed, day)
     drafts.sort(key=lambda d: (d['time'], d['id']))
     return drafts
+
+
+# Oct 10 (Fiona item 4, FD_SLOT_V2, from inbox day SLOT_V2_FROM so published history keeps its times): EN accounts post
+# in the US morning (20:00-22:59 Beijing) when they fit, ZH accounts spread over the whole 08:00-22:59 day, and across
+# the matrix no more than BURST_MAX of our accounts fall inside any BURST_WIN window; minutes carry a stable per-draft
+# jitter, never :00 / :30. Hard rules kept: 08:00-22:59, >= 30 min per account, never before stored_at + POST_LEAD,
+# engagement slots inside their target window (expiry unchanged), overflow to 明天 only when the day cannot hold them.
+SLOT_V2_FROM = os.environ.get('FD_SLOT_V2_FROM', '2026-10-11')
+EN_START = (20, 0)
+BURST_MAX, BURST_WIN = 3, timedelta(minutes=10)
+BAD_MINUTES = (0, 30)
+
+
+def slot_v2_on(day):
+    return os.environ.get('FD_SLOT_V2', '1') != '0' and day >= SLOT_V2_FROM
+
+
+def _h01(*parts):
+    return int(hashlib.sha256('|'.join(map(str, parts)).encode()).hexdigest()[:8], 16) / 16 ** 8
+
+
+def burst_ok(c, acct, placed):
+    """True when slot c for `acct` keeps every BURST_WIN window at <= BURST_MAX distinct accounts."""
+    near = {(t, a) for t, a in placed if abs(t - c) < BURST_WIN and a != acct}
+    if len({a for _, a in near}) < BURST_MAX:
+        return True
+    for k in range(int(BURST_WIN.total_seconds() // 60)):
+        w0 = c - timedelta(minutes=k)
+        if len({a for t, a in near if w0 <= t < w0 + BURST_WIN}) + 1 > BURST_MAX:
+            return False
+    return True
+
+
+def _fits(c, acct, placed, mine, lo, hi):
+    return (lo <= c <= hi and c.minute not in BAD_MINUTES and all(abs(c - m) >= POST_GAP for m in mine)
+            and burst_ok(c, acct, placed))
+
+
+def _search(target, acct, placed, mine, lo, hi, prefer_late=False):
+    """Nearest feasible minute to `target` inside [lo, hi] (prefer_late: scan downward from hi first)."""
+    if lo > hi:
+        return None
+    if prefer_late:
+        c = hi
+        while c >= lo:
+            if _fits(c, acct, placed, mine, lo, hi):
+                return c
+            c -= timedelta(minutes=1)
+        return None
+    target = min(max(target, lo), hi)
+    span = int((hi - lo).total_seconds() // 60) + 1
+    for k in range(span + 1):
+        for c in (target + timedelta(minutes=k), target - timedelta(minutes=k)) if k else (target,):
+            if _fits(c, acct, placed, mine, lo, hi):
+                return c
+    return None
+
+
+def place_v2(base, lo, hi, reqs, pin_list, fixed, day):
+    placed = list(fixed)
+    mine = {}
+    for t, a in fixed:
+        mine.setdefault(a, []).append(t)
+    # 1. engagement pins: jitter, then the nearest feasible minute inside their own window (else keep the jittered time)
+    for p in sorted(pin_list, key=lambda p: (p['at'], p['acct'])):
+        acct, ds = p['acct'], p['drafts']
+        j = int(_h01('pin', ds[0]['id']) * 9) - 4
+        plo, phi = p['lo'], min(hi, p['close'])
+        want = p['at'] + timedelta(minutes=j)
+        c = _search(want, acct, placed, mine.get(acct, []), plo, phi) if plo <= phi else None
+        c = c or min(max(want, plo), max(plo, phi))
+        if c.minute in BAD_MINUTES and c + timedelta(minutes=1) <= max(plo, phi):
+            c += timedelta(minutes=1)
+        for d in ds:
+            d['time'] = c.isoformat()
+        placed.append((c, acct))
+        mine.setdefault(acct, []).append(c)
+    # 2. standalone slots: EN first (narrow evening window), then accounts with more slots, stable order by hash
+    en_lo = base.replace(hour=EN_START[0], minute=EN_START[1])
+    order = sorted(reqs, key=lambda r: (r['lang'] != 'en', -len(r['orig']), _h01('acct', r['acct'])))
+    spilled = 0
+    for r in order:
+        acct, orig, nb, n = r['acct'], r['orig'], r['nb'], len(r['orig'])
+        en = r['lang'] == 'en'
+        wlo = max(lo, en_lo) if en else lo
+        shift = _h01('shift', acct)
+        times, over = [], []
+        start = max(lo, nb[0]) if nb else lo
+        fit = max(0, int((hi - start) / POST_GAP) + 1) if start <= hi else 0
+        if fit < n:   # late build: the best-lead slots stay today (in not-before order), the rest go to 明天
+            best = sorted(range(n), key=lambda i: (-r['lead'].get(orig[i], 0.0), i))[:fit]
+            over = [orig[i] for i in range(n) if i not in best]
+            orig, nb = [orig[i] for i in sorted(best)], [nb[i] for i in sorted(best)]
+            n = len(orig)
+        for i, s in enumerate(orig):
+            cap = hi - POST_GAP * (n - 1 - i)   # leave room for this account's later slots
+            jit = _h01('jit', r['slots'][s][0]['id'])
+            seg = max(0.0, (hi - wlo).total_seconds() / 60 / n)
+            target = wlo + timedelta(minutes=int(i * seg + ((shift + 0.3 * jit) % 1) * seg))
+            floor_i = max(nb[i], times[-1] + POST_GAP) if times else nb[i]
+            c = _search(target, acct, placed, mine.get(acct, []), max(floor_i, wlo), cap)
+            if c is None and en:   # EN spill: the latest feasible minute before the evening window
+                c = _search(en_lo, acct, placed, mine.get(acct, []), max(floor_i, lo), min(cap, en_lo - timedelta(minutes=1)),
+                            prefer_late=True)
+                spilled += c is not None
+            if c is None:
+                c = _search(target, acct, placed, mine.get(acct, []), max(floor_i, lo), cap)
+            if c is None:   # the burst rule cannot be met: keep the hard rules, allow a 4th account in the window
+                c = next((x for x in (max(floor_i, lo) + timedelta(minutes=k) for k in range(int((cap - max(floor_i, lo)).total_seconds() // 60) + 1))
+                          if x.minute not in BAD_MINUTES and all(abs(x - m) >= POST_GAP for m in mine.get(acct, []))), None)
+                if c is not None:
+                    print(f'warning: slot v2 {day}: {acct} {c:%H:%M} breaks the {BURST_MAX}-per-10-min rule (no room)',
+                          file=sys.stderr)
+            if c is None:
+                over.append(s)
+                continue
+            times.append(c)
+            placed.append((c, acct))
+            mine.setdefault(acct, []).append(c)
+        keep = [s for s in orig if s not in over]
+        knb = [nb[orig.index(s)] for s in keep]
+        over = [s for s in r['orig'] if s in over]
+        keep, _ = lead_first(keep, knb, times, r['lead'])
+        for s, t in zip(keep, times):
+            for d in r['slots'][s]:
+                d['time'] = t.isoformat()
+        if over:
+            print(f'warning: {acct} on {day}: {len(over)} unposted slot(s) do not fit {lo:%H:%M}-{hi:%H:%M}; moved to 明天',
+                  file=sys.stderr)
+        nxt = (base + timedelta(days=1)).replace(hour=POST_START[0], minute=POST_START[1])
+        for j, s in enumerate(over):
+            t = nxt + POST_GAP * j + timedelta(minutes=1 + int(_h01('over', acct, j) * 20))
+            for d in r['slots'][s]:
+                d['time'] = t.isoformat()
+                d['overflow'] = True
+                tag = '明天：今天剩余时段放不下（同账号需间隔 30 分钟），顺延到明天这个时间'
+                d['note'] = f"{tag} · {d['note']}" if d.get('note') else tag
+    if spilled:
+        print(f'slot v2 {day}: {spilled} EN slot(s) placed before {EN_START[0]:02d}:{EN_START[1]:02d} (evening window full)',
+              file=sys.stderr)
 
 
 def not_before(drafts, lo, hi):
