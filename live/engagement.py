@@ -208,6 +208,50 @@ def max_age_h(assessed, mode, cfg=None):
         else cfg['quote_max_age_h']
 
 
+def row_mode(row):
+    """'reply' / 'quote' for an engagement inbox row, else None."""
+    e = row.get('engagement') if isinstance(row.get('engagement'), dict) else {}
+    m = (row.get('post_format') or {}).get('engage') or e.get('mode') or row.get('post_mode')
+    return m if m in ('reply', 'quote') else None
+
+
+def window_close(row, cfg=None):
+    """When the target's reply / quote window closes for an engagement inbox row (aware datetime, None when unknown):
+    target published_at + reply_max_age_h / quote_max_age_h, or quote_ext_max_age_h when the target qualified as
+    clearly high-traffic (extended_quote on its likes / views at selection). Shared by the ops slotter and the slot
+    rule (Oct 10)."""
+    mode = row_mode(row)
+    t = _ts((row.get('source') or {}).get('published_at')) if mode else None
+    if t is None:
+        return None
+    cfg = cfg or config()
+    e = row.get('engagement') if isinstance(row.get('engagement'), dict) else {}
+    ext = mode == 'quote' and extended_quote(e.get('likes'), e.get('views'), row.get('lang') or row.get('account_lang'), cfg)
+    try:
+        return t + timedelta(hours=float(max_age_h({'extended': ext}, mode, cfg)))
+    except (TypeError, ValueError, KeyError):
+        return None
+
+
+# the ops slotter's earliest slot is build time + 30 min lead, and it wants 20 min for ops to post (build_ops_dashboard)
+EXPIRE_LEAD = timedelta(minutes=int(os.environ.get('FD_ENGAGE_EXPIRE_LEAD_MIN', '50')))
+
+
+def is_published(decision):
+    """The /admin 已发 flag (same rule as build_ops_dashboard.is_published)."""
+    x = decision or {}
+    return bool(x) and (x.get('published') is True or (x.get('published') is not False and x.get('action') == 'published'))
+
+
+def slot_expired(row, now, published=False, cfg=None):
+    """An unposted engagement draft whose target window closes before it can still be posted (now + EXPIRE_LEAD):
+    it must not hold the account's engagement slot. Posted drafts always keep it."""
+    if published or row_mode(row) is None:
+        return False
+    close = window_close(row, cfg)
+    return close is not None and _ts(now) + EXPIRE_LEAD > close
+
+
 def assess(source, at, *, account_lang=None, on_lane=False, own_handles=(), cfg=None):
     """Score one X post as a quote / reply target for a draft posted at `at`. Pure; never raises on bad input."""
     cfg = cfg or config()

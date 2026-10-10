@@ -179,19 +179,10 @@ ENGAGE_MARGIN = timedelta(minutes=int(os.environ.get('FD_ENGAGE_SLOT_MARGIN_MIN'
 
 
 def engage_close(row, eng, mode):
-    """ISO time the engagement window of the target closes ('' when unknown): target published_at + the
-    live/engagement.py max age for this mode (reply 6h, quote 12h, 18h when the target qualified as extended)."""
+    """ISO time the target's engagement window closes ('' when unknown): live/engagement.window_close."""
     from live import engagement
-    pub = (row.get('source') or {}).get('published_at')
-    try:
-        t = datetime.fromisoformat(str(pub).replace('Z', '+00:00'))
-        if t.tzinfo is None:
-            t = t.replace(tzinfo=timezone.utc)
-        cfg = engagement.config()
-        ext = engagement.extended_quote(eng.get('likes'), eng.get('views'), row.get('lang'), cfg)
-        return (t + timedelta(hours=float(engagement.max_age_h({'extended': ext}, mode, cfg)))).isoformat()
-    except (TypeError, ValueError, KeyError):
-        return ''
+    t = engagement.window_close(row)
+    return t.isoformat() if t else ''
 
 
 def expire_engagement(d, slot):

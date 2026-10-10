@@ -46,7 +46,7 @@ import demo_matrix_compose as demo  # noqa: E402
 from voice_relay_check import evidence_source  # noqa: E402
 from live import (angles, anti_repeat, compose, compose_inbox, editorial_style, fd_accounts, news_hook,  # noqa: E402
                   posting_habits as ph, registry, source_prescreen as prescreen, source_routes, stage_models,
-                  topic_div, twins)
+                  topic_div, twins, engagement)
 from live.adapters import delphi_digest  # noqa: E402
 from live.content_store import ContentStore  # noqa: E402
 from live.retrieval import units_for_persona  # noqa: E402
@@ -974,13 +974,46 @@ def day_slots(day):
         rows = compose_inbox.rows(day.isoformat() if hasattr(day, 'isoformat') else str(day))
     except Exception:   # noqa: BLE001
         rows = []
+    day_s = day.isoformat() if hasattr(day, 'isoformat') else str(day)
+    decisions = admin_decisions(day_s)
+    now = datetime.now(timezone.utc)
     for r in rows:
         if r.get('superseded') or r.get('held') or r.get('draft_status') != 'draft_ready' \
                 or not (r.get('text') or '').strip():
             continue
+        # Oct 10: an unposted reply / quote whose target window has closed frees the engagement slot (marked expired)
+        if row_slot_kind(r) == 'engage' and engagement.slot_expired(
+                r, now, published=engagement.is_published(decisions.get(r.get('id')))):
+            expire_row(r, day_s, now)
+            continue
         k = out.setdefault(r.get('account_id'), {'standalone': 0, 'engage': 0})
         k[row_slot_kind(r)] += 1
     return out
+
+
+def admin_decisions(day_s):
+    """{draft id: /admin decision} pulled to live/store/admin_decisions/<day>.json ({} when absent)."""
+    try:
+        return json.loads((ROOT / 'live/store/admin_decisions' / f'{day_s}.json').read_text()).get('decisions') or {}
+    except (OSError, ValueError):
+        return {}
+
+
+def expire_row(r, day_s, now):
+    """Persist draft_status='expired' on an engagement inbox row whose window closed unposted (never fatal)."""
+    close = engagement.window_close(r)
+    r['draft_status'] = 'expired'
+    r['expired'] = {'at': now.isoformat(timespec='seconds'), 'window_close': close.isoformat() if close else None,
+                    'why': 'target window closed before it was posted (slot rule frees the engagement slot)'}
+    try:
+        p = compose_inbox._path(r['id'], day_s)
+        row = json.loads(p.read_text())
+        row.update(draft_status='expired', expired=r['expired'])
+        p.write_text(json.dumps(row, ensure_ascii=False, indent=1))
+        print(f"slot rule: {r.get('account_id')} engagement draft {r['id']} expired (window closed "
+              f"{r['expired']['window_close']}); engagement slot freed", flush=True)
+    except Exception as exc:   # noqa: BLE001
+        print(f"slot rule: could not mark {r.get('id')} expired: {exc}", flush=True)
 
 
 def lane_first(account_cfg, groups, x_handles):
