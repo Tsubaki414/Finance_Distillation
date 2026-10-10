@@ -80,8 +80,8 @@ DEFAULTS = {
     'fresh_boost': 1.0, 'fresh_h': 2,
 }
 HARD_CODES = frozenset({'engage_generic', 'engage_too_long', 'engage_mentions'})
-SOFT_CODES = frozenset({'engage_no_payload', 'engage_off_target'})
-REPAIR_TRIGGER = frozenset({'engage_no_payload', 'engage_off_target'})
+SOFT_CODES = frozenset({'engage_no_payload', 'engage_off_target', 'engage_sibling_repeat'})
+REPAIR_TRIGGER = frozenset({'engage_no_payload', 'engage_off_target', 'engage_sibling_repeat'})
 FIXES = {
     'engage_generic': ('This is a reply / quote under a big account: drop the generic praise or agreement '
                        '(great post / interesting take / 说得好 / 学到了 / 感谢分享); say the one thing the post is missing.'),
@@ -89,6 +89,10 @@ FIXES = {
     'engage_mentions': 'At most one @mention (X adds the replied-to handle itself); remove the others.',
     'engage_no_payload': ('Add one concrete thing the target post does not say: a number from the units, a '
                           'counter-point, or a specific observation - not agreement.'),
+    'engage_sibling_repeat': ('Another of our accounts already engages this same post (its draft is in '
+                              'post_format.engage_siblings). Open on a clearly different angle: a different lead fact '
+                              'from the units, or a counterpoint to that draft - never its first line, wording or lead '
+                              'number. Same facts as before, no new numbers.'),
     'engage_off_target': ('This reply / quote does not respond to the post it sits under. Open by naming that post\'s '
                           'point in a few words of your own, stay on its topic, then add your one number / counter-point '
                           '/ observation. Do not switch to another story.'),
@@ -611,7 +615,7 @@ def off_target(body, target_text):
     return not (topic_tokens(body) - _ZH_COMMON) & t
 
 
-def findings(body, mode, lang='en', target_text=None):
+def findings(body, mode, lang='en', target_text=None, siblings=None):
     """Engagement-draft checks (HARD: engage_generic / engage_too_long / engage_mentions; SOFT: engage_no_payload,
     engage_off_target - Oct 9 night: the reply / quote must respond to the target post's own point)."""
     if not mode or not enabled():
@@ -630,7 +634,70 @@ def findings(body, mode, lang='en', target_text=None):
         out.append({'code': 'engage_mentions', 'detail': f'{len(MENTION.findall(body))} @mentions (max 1)'})
     if not (DIGIT.search(body) or COUNTER.search(body) or TICKER.search(body)):
         out.append({'code': 'engage_no_payload', 'detail': 'no number, counter-point or concrete observation'})
+    out += sibling_findings(body, siblings)
     return out
+
+
+_NUM = re.compile(r'(\d[\d,]*(?:\.\d+)?)\s*(%|万亿|亿|万|千|百万|trillion|billion|million|thousand|[kmbt]\b)?', re.I)
+_MULT = {'%': 1, '万亿': 1e12, '亿': 1e8, '万': 1e4, '千': 1e3, '百万': 1e6, 'trillion': 1e12, 'billion': 1e9,
+         'million': 1e6, 'thousand': 1e3, 'k': 1e3, 'm': 1e6, 'b': 1e9, 't': 1e12}
+
+
+def numbers(text):
+    """Values of the numbers in text ($681M, 681 million, $681,000,000 and 6.81亿 are one value)."""
+    out = []
+    for m in _NUM.finditer(str(text or '')):
+        try:
+            v = float(m.group(1).replace(',', ''))
+        except ValueError:
+            continue
+        unit = (m.group(2) or '').lower()
+        out.append(round(v * _MULT.get(unit, 1), 6) if unit != '%' else ('%', v))
+    return out
+
+
+def first_line(text):
+    return next((ln.strip() for ln in str(text or '').splitlines() if ln.strip()), '')
+
+
+def _same_num(a, b):
+    if isinstance(a, tuple) or isinstance(b, tuple):
+        return a == b
+    return a == b or (a and b and abs(a - b) / max(abs(a), abs(b)) < 0.01)
+
+
+def sibling_findings(body, siblings):
+    """Oct 10 (shared targets): a second account on the same target post must not open like its sibling's draft -
+    same / near-same first line (token overlap >= 0.6 or containment) or the same lead number (first number of line
+    1). siblings: [{'account', 'text'}]. Soft engage_sibling_repeat (rewrite trigger)."""
+    if not siblings or os.environ.get('FD_ENGAGE_SIBLING', '1') == '0':
+        return []
+    f1 = first_line(body)
+    t1, n1 = topic_tokens(f1), numbers(f1)[:1]
+    for sib in siblings:
+        f2 = first_line(sib.get('text'))
+        if not f2:
+            continue
+        t2, n2 = topic_tokens(f2), numbers(f2)[:1]
+        a, b = re.sub(r'\W+', '', f1).lower(), re.sub(r'\W+', '', f2).lower()
+        overlap = len(t1 & t2) / max(1, min(len(t1), len(t2))) if t1 and t2 else 0
+        why = ('same first line' if a == b else
+               'near-same first line' if (len(b) >= 12 and (a in b or b in a)) or overlap >= 0.6 else
+               'same lead number' if n1 and n2 and _same_num(n1[0], n2[0]) else None)
+        if why:
+            return [{'code': 'engage_sibling_repeat',
+                     'detail': f"{why} as @{sib.get('account')}'s draft on this post: {f2[:120]}"}]
+    return []
+
+
+def sibling_rule(siblings):
+    """Compose prompt rule for an account whose target post is already engaged by another of our accounts."""
+    if not siblings or os.environ.get('FD_ENGAGE_SIBLING', '1') == '0':
+        return None
+    return ('Another of our accounts already engages this same post (post_format.engage_siblings: its draft). Readers '
+            'will see both under one post, so take a clearly different angle: lead with a different fact from the '
+            'units, or push back on that draft\'s point. Do not open with its first line, its wording or its lead '
+            'number.')
 
 
 def prompt_rule(mode, who):

@@ -914,6 +914,9 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                 p['engagement'] = _eng.pick_record(d)
                 if d.get('mode'):
                     p['post_format'].update(engage=d['mode'], engage_author=(d.get('assess') or {}).get('handle'))
+                    sibs = day_engage_siblings(day, account, p['engagement'])   # Oct 10: shared target post
+                    if sibs:
+                        p['post_format']['engage_siblings'] = sibs
                     # Oct 9 night: a reply / quote is short (10-09 #14 quote got a 400-850 'long' band from the habit
                     # card); it sits under / next to the target post, so it never needs a long body.
                     cap_len = ENGAGE_MAX_LEN[d['mode']]['zh' if str(p.get('account_lang')) == 'zh' else 'en']
@@ -1002,6 +1005,64 @@ def day_slots(day):
         k = out.setdefault(r.get('account_id'), {'standalone': 0, 'engage': 0})
         k[row_slot_kind(r)] += 1
     return out
+
+
+_SIB_ROWS = {}
+
+
+def day_engage_siblings(day, account, eng):
+    """Oct 10: the day's ready / posted drafts of OTHER accounts on this pick's target post (prompt input: the second
+    account on a shared post must take a different angle / opening)."""
+    from live import engage_sibling
+    day_s = day.isoformat() if hasattr(day, 'isoformat') else str(day)
+    if os.environ.get('FD_ENGAGE_SIBLING', '1') == '0' or not (eng or {}).get('url'):
+        return []
+    if day_s not in _SIB_ROWS:
+        try:
+            _SIB_ROWS[day_s] = [r for r in compose_inbox.rows(day_s) if not r.get('superseded')]
+        except Exception:   # noqa: BLE001
+            _SIB_ROWS[day_s] = []
+    return engage_sibling.siblings(_SIB_ROWS[day_s], {'account_id': account, 'engagement': eng})
+
+
+def engage_sibling_pass(ok, args, client, lock, spend, quota, est, flat_primary, ec_fails):
+    """Oct 10 (shared targets): after compose, an engagement draft whose target post another of our accounts engages
+    (earlier inbox rows of the day, or an earlier-slotted draft of this run) and that opens like it (same / near-same
+    first line or same lead number) gets ONE targeted rewrite on the compose client (subrouter); a rejected rewrite
+    keeps the draft with a soft engage_sibling_repeat warning (never a HOLD)."""
+    from live import engage_sibling, engagement as _eng
+    if os.environ.get('FD_ENGAGE_SIBLING', '1') == '0':
+        return
+    day_s = args.day.isoformat()
+    try:
+        earlier = [r for r in compose_inbox.rows(day_s) if not r.get('superseded')]
+    except Exception:   # noqa: BLE001
+        earlier = []
+
+    def view(r):
+        p = r.get('plan') or {}
+        return {'id': r.get('id'), 'account_id': r.get('account_id'), 'engagement': p.get('engagement'),
+                'draft_status': 'draft_ready', 'text': r.get('body') or r.get('text'),
+                'stored_at': p.get('suggested_post_time_london') or ''}
+    run = sorted([r for r in ok if ((r.get('plan') or {}).get('engagement') or {}).get('mode')
+                  and r.get('draft_status') == 'draft_ready'],
+                 key=lambda r: ((r.get('plan') or {}).get('suggested_post_time_london') or '', r.get('id') or ''))
+    for i, r in enumerate(run):
+        me = view(r)
+        sibs = engage_sibling.siblings(earlier + [view(x) for x in run[:i]], me)
+        found = _eng.sibling_findings(me['text'], sibs)
+        if not found:
+            continue
+        with lock:
+            budget_ok = spend['usd'] + (0.0 if flat_primary and not ec_fails() else est) <= args.budget_usd and not quota
+        res = (engage_sibling.rewrite(client(), r, sibs, (r.get('plan') or {}).get('account_lang') or 'en')
+               if budget_ok else {'kept': False, 'skipped': 'budget'})
+        r['engage_sibling'] = res
+        if not res.get('kept'):
+            r.setdefault('risks', []).append({**found[0], 'level': 'soft', 'status': 'warning'})
+        print(f"[engage_sibling] {r.get('account_id')} vs {sibs[0]['account']}: {found[0]['detail'][:80]!r} -> "
+              f"{'rewritten: ' + repr(res.get('to')) if res.get('kept') else res.get('reject') or res.get('error') or res.get('skipped')}",
+              flush=True)
 
 
 def admin_decisions(day_s):
@@ -1419,6 +1480,7 @@ def inbox_row(result, account_cfg, day, run_id):
                             + ','.join(sorted({f['code'] for f in findings if f.get('level') == 'hard'}))
                             if result.get('draft_status') == 'needs_review' else None),
             **({'hook_rewrite': result['hook_rewrite']} if result.get('hook_rewrite') else {}),
+            **({'engage_sibling': result['engage_sibling']} if result.get('engage_sibling') else {}),
             **({'hard_repair': {k: repair.get(k) for k in ('result', 'kept', 'error')}
                                | {'first_codes': sorted({f['code'] for f in repair.get('first_findings') or []}),
                                   'retry_codes': sorted({f['code'] for f in repair.get('retry_findings') or []})}}
@@ -1686,6 +1748,7 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
             _rw_count += 1
             if _rw.get('kept') and _rw.get('to') and not _rw.get('error'):
                 print(f'[hook_rewrite] {r.get("account_id")} rewritten: {_rw["from"]!r} -> {_rw["to"]!r}', flush=True)
+    engage_sibling_pass(ok, args, client, lock, spend, quota, est, flat_primary, _ec_fails)
     for r in ok:   # arbitration compares drafts of this Beijing day (not the sources' own dates) in one language
         r['day'], r['account_lang'] = args.day.isoformat(), r['plan']['account_lang']
         # Oct 8 evening (FD_LANE_FIT): a niche draft on broad news without a lane tie-in is held off_lane

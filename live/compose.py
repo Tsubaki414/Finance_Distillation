@@ -1226,7 +1226,8 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
         _sid = (source or {}).get('id')
         _own = [u for u in units or () if not _sid or ((u.get('source') or {}).get('id') in (None, _sid))]
         from live.hook_voice import _unit_texts as _ut
-        findings += _eng.findings(body, shape['engage'], persona.lang, target_text=_ut(_own or units, source))
+        findings += _eng.findings(body, shape['engage'], persona.lang, target_text=_ut(_own or units, source),
+                                  siblings=shape.get('engage_siblings'))
     findings += contradiction_findings(body)
     findings += qa_levels.d_tier_findings(body)
     if frame and frame.get('never_name'):
@@ -1604,6 +1605,11 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             if fmt_info.get('engage'):   # Oct 8 (live/engagement.py): reply / quote under a big account's post
                 from live import engagement as _eng
                 payload['post_format']['engage_rule'] = _eng.prompt_rule(fmt_info['engage'], fmt_info.get('engage_author'))
+                if fmt_info.get('engage_siblings') and _eng.sibling_rule(fmt_info['engage_siblings']):   # Oct 10
+                    payload['post_format']['engage_siblings'] = [
+                        {'account': x.get('account'), 'mode': x.get('mode'), 'draft': str(x.get('text') or '')[:400]}
+                        for x in fmt_info['engage_siblings']]
+                    payload['post_format']['engage_sibling_rule'] = _eng.sibling_rule(fmt_info['engage_siblings'])
         payload['composition_shape'] = shape_block
         if shape_block.get('length') == 'long' and not fmt_info:
             # v7: v5zh data_punch long came back at 114 chars vs target 277-399 - body_length.note said
@@ -2137,10 +2143,11 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     sig_texts = [str(x) for x in (sig.get('openings') or []) + (sig.get('closings') or [])] if sig else []
     qa_shape = ({**shape_info, 'length_target': shape_block['length_target'],
                  **({'post_format': fmt_info['type'], 'length': shape_block['length']} if fmt_info else {}),
-                 **({'engage': fmt_info['engage']} if fmt_info and fmt_info.get('engage') else {})}
+                 **({'engage': fmt_info['engage'], 'engage_siblings': fmt_info.get('engage_siblings')}
+                    if fmt_info and fmt_info.get('engage') else {})}
                 if shape_info and shape_block else shape_info)
     if fmt_info and fmt_info.get('engage') and not (qa_shape or {}).get('engage'):
-        qa_shape = {**(qa_shape or {}), 'engage': fmt_info['engage']}
+        qa_shape = {**(qa_shape or {}), 'engage': fmt_info['engage'], 'engage_siblings': fmt_info.get('engage_siblings')}
 
     def _ledger_ok(ledger):
         by_id = {u['unit_id']: u for u in chosen}
