@@ -219,35 +219,60 @@ def candidates(store, account, beats, lead, ref, x_handles=None, account_cfg=Non
 
     # Oct 10 (FD_PERF_PRIORS, default on): perf-based topic × format multiplier applied to the freshness tiebreaker.
     # A multiplier ≠ 1.0 re-ranks among otherwise equally fresh candidates; bounded [0.7, 1.4] by combined().
-    _perf_priors_on = os.environ.get('FD_PERF_PRIORS', '1') != '0'
-    _perf_pr = None
-    if _perf_priors_on:
-        try:
-            from live import perf_priors as _pp
-            _perf_pr = _pp.load()
-        except Exception:  # noqa: BLE001
-            _perf_pr = None
+    # Oct 10 fix (defect 4b): use the candidate group's own first angle (not the lead's top angle) so the weight
+    # actually differs between candidates and can re-rank them.
+    _perf_pr = perf_priors_for_select()
+    _perf_lang = (account_cfg or {}).get('lang') or 'zh'
 
     def key(g):
         fit = len(top & set(angles.angles_of(group_text(g))))
         src = g[0]['source']
         freshness = demo.group_freshness(g, ref.date().isoformat())
-        if _perf_pr:
-            from live import perf_priors as _pp2
-            _beat = next((r.get('beat') for r in g if r.get('beat')), None)
-            _mtype = None   # motif type not available here; topic_weight falls back to beat
-            _fmt = None     # format not determined at selection time; format_weight returns 1.0
-            _angle_ids = list(angles.top_angles(lead, 1))
-            _angle = _angle_ids[0] if _angle_ids else None
-            _mult = _pp2.combined(_perf_pr, next((a.get('lang') for a in [account_cfg] if a), 'zh'),
-                                   angle=_angle, beat=_beat, motif_type=_mtype, fmt=_fmt)
-            freshness = freshness * _mult
+        if _perf_pr:   # format is chosen after selection (biased there); here topic only
+            freshness = freshness * perf_record(_perf_pr, _perf_lang, g)['mult']
         return (not ({src.get('id'), src.get('title'), src.get('source_hash')} & reuse),
                 not prescreen.prescreen(account, g)['ok'], not demo.in_shelf(g, ref.date().isoformat()),
                 not timely(g, ref), not x_handle(g[0]['source']), packet_kind(g) != 'balanced',
                 bool(lane) and not any(lane & set(r.get('tag_personas') or []) for r in g), bool(demo.group_hook_repeat(g, recent)), demo.group_theme_repeat(g, recent),
                 -fit, not steered(g, steer), -freshness)
     return sorted(options, key=key)
+
+
+def perf_priors_for_select():
+    """Oct 10 fix: the perf priors selection applies ({} when FD_PERF_PRIORS=0, missing file or error)."""
+    if os.environ.get('FD_PERF_PRIORS', '1') == '0':
+        return {}
+    try:
+        from live import perf_priors
+        return perf_priors.load() or {}
+    except Exception:   # noqa: BLE001 - priors are advisory
+        return {}
+
+
+def group_topic(g):
+    """(angle, beat) a candidate group carries for perf topic weights: its own first angle and beat."""
+    ids = angles.angles_of(group_text(g)) if g else []
+    return (ids[0] if ids else None), next((r.get('beat') for r in (g or []) if r.get('beat')), None)
+
+
+def perf_record(priors, lang, g, fmt=None, base=None):
+    """plan['perf_priors']: topic / format keys, their weights and the combined (clamped) multiplier."""
+    from live import perf_priors
+    if base is not None:
+        angle, beat = base.get('angle'), base.get('beat')
+    else:
+        angle, beat = group_topic(g)
+    return {'topic': angle or beat or 'other', 'angle': angle, 'beat': beat, 'format': fmt,
+            'topic_w': round(perf_priors.topic_weight(priors, lang, angle, beat, None), 4),
+            'format_w': round(perf_priors.format_weight(priors, lang, fmt), 4),
+            'mult': round(perf_priors.combined(priors, lang, angle=angle, beat=beat, fmt=fmt), 4)}
+
+
+def biased_type_mix(priors, lang, mix, clamp=(0.7, 1.4)):
+    """The habit card's post_type_mix with each type's share times its perf format weight (clamped)."""
+    from live import perf_priors
+    lo, hi = clamp
+    return {k: v * max(lo, min(hi, perf_priors.format_weight(priors, lang, k))) for k, v in mix.items()}
 
 
 def stance_ready(account, group):
@@ -389,6 +414,16 @@ def drafted_today(day, ready_only=False):
     return out
 
 
+def midday_done(day, run_ids):
+    """Oct 10 fix: {account: ready drafts of THIS midday run} (its run ids); earlier rows of the day do not count."""
+    out = {}
+    for r in compose_inbox.rows(day.isoformat()):
+        if r.get('run_id') in run_ids and (r.get('text') or '').strip() and not r.get('held') \
+                and not r.get('superseded') and r.get('draft_status') == 'draft_ready':
+            out[r['account_id']] = out.get(r['account_id'], 0) + 1
+    return out
+
+
 def ready_events(day, accounts):
     """(event, account, angle, lang) for today's ready drafts, so a fill run respects the per-event cap."""
     lang = {a['id']: a['lang'] for a in accounts}
@@ -453,6 +488,50 @@ def supersede_previous(row, earlier):
         if rewrite or (src and (old.get('source') or {}).get('id') == src and (not row.get('held') or old.get('held'))):
             if compose_inbox.supersede(old['id'], by=row['id'], reason='rewrite' if rewrite else 'rerun'):
                 done.append(old['id'])
+    return done
+
+
+def midday_qualifies(rows, decisions, now):
+    """Oct 10 fix: does an account qualify for a midday draft? rows: that account's inbox rows of the day; decisions:
+    the day's /admin decisions ({draft id: decision}); now: aware datetime. Engagement rows (x-<id> source) never
+    count. Any standalone already published -> False (it posted). Otherwise True when every unposted ready standalone
+    (not held / superseded) has a source published_at at least 24 h before now, or a missing / unparseable date, or
+    there is none."""
+    from apply_admin_decisions import is_published
+    from live.registry import ENGAGE_SOURCE
+    standalone = [r for r in rows if not ENGAGE_SOURCE.match(str((r.get('source') or {}).get('id') or ''))]
+    if any(is_published(decisions.get(r.get('id'))) for r in standalone):
+        return False
+    for r in standalone:
+        if r.get('superseded') or r.get('held') or r.get('draft_status') != 'draft_ready':
+            continue
+        try:
+            pub = datetime.fromisoformat(str((r.get('source') or {}).get('published_at') or '').replace('Z', '+00:00'))
+        except ValueError:
+            continue   # missing / unparseable date: stale
+        if pub.tzinfo is None:
+            pub = pub.replace(tzinfo=timezone.utc)
+        if now - pub < timedelta(hours=24):
+            return False   # a fresh unposted standalone: keep it
+    return True
+
+
+def midday_supersede(row, earlier, decisions):
+    """Oct 10 fix (FD_MIDDAY_REPLACE): a ready (not held) midday draft soft-replaces its account's earlier unposted
+    ready standalone rows of the day (reason midday_fresh). Published rows and engagement rows are never touched."""
+    from apply_admin_decisions import is_published
+    from live.registry import ENGAGE_SOURCE
+    if not row.get('text') or row.get('held'):
+        return []
+    done = []
+    for old in earlier:
+        if (old.get('id') == row['id'] or old.get('account_id') != row['account_id'] or old.get('superseded')
+                or old.get('held') or old.get('draft_status') != 'draft_ready'
+                or is_published(decisions.get(old['id']))
+                or ENGAGE_SOURCE.match(str((old.get('source') or {}).get('id') or ''))):
+            continue
+        if compose_inbox.supersede(old['id'], by=row['id'], reason='midday_fresh'):
+            done.append(old['id'])
     return done
 
 
@@ -657,10 +736,13 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             event_takers.setdefault(e, []).append((acc, ang, lg))
     plan = {a: [] for a in pools}
     done = done or {}
+    _perf_pr = perf_priors_for_select()   # Oct 10 fix: {} when FD_PERF_PRIORS=0 / no file
     # Oct 9 (Fiona, perf review): slot rule - per account and day 1 standalone + 1 engagement (reply / quote on an
     # x-<id> target). Earlier ready drafts of the day count; FD_ENGAGE_ONLY fills take engagement picks only.
     slot_rule = engagement.slot_rule()
     slots_done = day_slots(day) if slot_rule else {}
+    if os.environ.get('FD_MIDDAY', '0') == '1':   # Oct 10 fix: a midday account's stale standalone frees its slot
+        slots_done = {a: {**k, 'standalone': 0} for a, k in slots_done.items()}
     engage_only_run = os.environ.get('FD_ENGAGE_ONLY') == '1'
 
     # Oct 9 night (slot-2 fill rate): on 10-09 25-29 of 36 engagement picks were x-<id> posts that failed the target
@@ -914,6 +996,9 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                            for v in [((rewrites or {}).get(account) or {}).get(k)] if k and v), None)
             if target:
                 plan[account][-1].update(rewrite_of=target['draft_id'], editor_note=target['note'])
+            # Oct 10 fix (4a): the applied perf multiplier, auditable in plan.json (format filled in below)
+            if _perf_pr:
+                plan[account][-1]['perf_priors'] = perf_record(_perf_pr, lang, g)
     # Oct 8 (live/engagement.py, FD_ENGAGE): cold accounts reply to / quote the best big-account targets among their
     # picks (1 reply + 1 quote, or 2 replies, a day), timed while the target is hot; other picks stay standalone and
     # never quote a target that fails the scoring.
@@ -944,8 +1029,13 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                          and 'quote_comment' in (c.get('post_type_mix') or {}))
                 # Oct 8 evening: cold-start accounts quote fresh hot X posts more often (COLD_QUOTE_SHARE)
                 force = 'quote_comment' if quote else None
+            if _perf_pr and not force:   # Oct 10 fix (4c): bias the habit card's type mix by the perf format weight
+                c['post_type_mix'] = biased_type_mix(_perf_pr, p.get('account_lang'), c.get('post_type_mix') or {})
             fmt = ph.choose_format(persona, recent=recent, seed=f'{day}|{account}|{p["source_id"]}', card=c,
                                    force_type=force)
+            if p.get('perf_priors'):
+                p['perf_priors'] = perf_record(_perf_pr, p.get('account_lang'), None, fmt=fmt['type'],
+                                               base=p['perf_priors'])
             if quote:
                 p['cold_start_quote'] = True
             recent.append({'post_format': fmt['type'], 'text': ''})
@@ -1616,39 +1706,16 @@ def main():
     # Oct 10 (FD_MIDDAY): filter to accounts of the requested language (FD_MIDDAY_LANG) and to those whose current
     # today standalone draft (not superseded, not held, not published) has published_at > 24 h before now, or that
     # have no standalone today at all.  Accounts with a fresh, unposted standalone are skipped.
+    # Oct 10 fix: uses midday_qualifies() (module-level) which checks ALL standalone rows and published flag.
     if args.midday:
         _midday_lang = os.environ.get('FD_MIDDAY_LANG', '').strip()
         if _midday_lang:
             accounts = [a for a in accounts if a.get('lang') == _midday_lang]
         _now_ts = (args.now or datetime.now(timezone.utc))
-        _max_age_h = float(os.environ.get('FD_MIDDAY_MAX_AGE_H', '6'))
-        _stale_cutoff = timedelta(hours=24)   # a nightly standalone is considered stale after 24 h
-
-        def _midday_needs_account(account_id):
-            """True when this account qualifies for a midday draft."""
-            for r in compose_inbox.rows(args.day.isoformat()):
-                if r.get('account_id') != account_id:
-                    continue
-                if r.get('superseded') or r.get('held') or r.get('draft_status') != 'draft_ready':
-                    continue
-                from live.registry import ENGAGE_SOURCE
-                if ENGAGE_SOURCE.match(str((r.get('source') or {}).get('id') or '')):
-                    continue   # engagement draft: ignore for standalone accounting
-                # check admin_decisions published flag
-                _day_s = args.day.isoformat()
-                try:
-                    import live.compose_inbox as _ci
-                    _row_src_pub = (r.get('source') or {}).get('published_at')
-                    if _row_src_pub:
-                        _pub_dt = datetime.fromisoformat(_row_src_pub.replace('Z', '+00:00'))
-                        if (_now_ts - _pub_dt) < _stale_cutoff:
-                            return False   # account has a fresh enough standalone today: skip it
-                except Exception:  # noqa: BLE001
-                    return False   # can't determine age: be conservative and skip
-                return True   # standalone exists but source is stale: qualify
-            return True   # no standalone today: qualify
-
-        accounts = [a for a in accounts if _midday_needs_account(a['id'])]
+        _midday_inbox_rows = compose_inbox.rows(args.day.isoformat())
+        _midday_decisions = admin_decisions(args.day.isoformat())
+        accounts = [a for a in accounts if midday_qualifies([r for r in _midday_inbox_rows if r.get('account_id') == a['id']],
+                                                            _midday_decisions, _now_ts)]
         if not accounts:
             print('FD_MIDDAY: no accounts qualify (all have fresh standalones for today); nothing done', flush=True)
             return 0
@@ -1672,7 +1739,8 @@ def main():
         fill = args.fill or rnd > 0
         accts = accounts
         if fill and rnd > 0:
-            ready = drafted_today(args.day, ready_only=True)
+            ready = (midday_done(args.day, state['run_ids']) if args.midday
+                     else drafted_today(args.day, ready_only=True))
             accts = [a for a in accounts if ready.get(a['id'], 0) < per_account]
             if not accts:
                 break
@@ -1751,7 +1819,8 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
     out = RUNS / args.day.isoformat() / run_id
     info = {}
     if fill:
-        done = drafted_today(args.day, ready_only=True)
+        # Oct 10 fix: midday counts only this run's own ready drafts (stale earlier rows do not fill the target)
+        done = midday_done(args.day, state['run_ids']) if args.midday else drafted_today(args.day, ready_only=True)
         rewrites = (rewrite_targets(args.day, load_json(args.rewrite_notes) if args.rewrite_notes else None)
                     if rnd == 0 else {})   # a rewrite gets one attempt per run
         reuse = {a: set(m) for a, m in rewrites.items()}
@@ -1761,7 +1830,14 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
                              reuse=reuse, rewrites=rewrites, now=args.now,
                              allow_model=not args.select_only or args.hotspot_merge, info=info, skip_sources=skip)
     else:
-        done = drafted_today(args.day)
+        # Oct 10 fix (defect 1): midday target is 1 NEW standalone per qualifying account regardless of earlier rows.
+        # Stale ready standalones of a qualifying account must not count toward done/ready — so for midday we pass
+        # done={}, letting select() treat every qualifying account as having 0 drafts today for capacity purposes.
+        # For a normal first round, done includes all today's drafted rows (any status) for the event/language cap.
+        if args.midday:
+            done = {}
+        else:
+            done = drafted_today(args.day)
         # Oct 8 evening: a first run on a day that already has drafts respects their events too (per-language cap)
         plan, order = select(accts, universes, args.day, per_account, done=done, now=args.now,
                              seed_events=ready_events(args.day, fd_accounts.rows(CONFIG)),
@@ -1777,6 +1853,13 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
         print(a['id'], [f"{'REWRITE ' if p.get('rewrite_of') else ''}{'HOT ' if p.get('hotspot') else ''}{p['suggested_post_time_london'][11:16]} {p['post_format']['type']} {p['angle']} "
                         f"{p['source_lang']}{'=' if p['same_language'] else '>'}{a['lang']} {str(p['title'])[:40]}"
                         for p in plan[a['id']]], flush=True)
+    # Oct 10 fix (defect 4a): one-line summary of applied perf multipliers per run.
+    if os.environ.get('FD_PERF_PRIORS', '1') != '0':
+        _pp_entries = [(a['id'], p.get('perf_priors'))
+                       for a in accts for p in plan[a['id']] if p.get('perf_priors')]
+        if _pp_entries:
+            print('perf_priors applied:', ' '.join(
+                f"{aid}:{pp['topic']}×{pp['mult']}" for aid, pp in _pp_entries), flush=True)
     for a in accts:
         state['last'][a['id']] = {'round': rnd, 'picks': len(plan[a['id']]), 'pool': (info.get('pool_sizes') or {}).get(a['id']),
                                   'skipped_tried': (info.get('skipped_tried') or {}).get(a['id'], 0)}
@@ -1907,6 +1990,11 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
         if row['text']:   # only real drafts enter the review inbox; failures stay in the run summary
             compose_inbox.add(row)
             supersede_previous(row, earlier)
+            # Oct 10 fix (defect 2): FD_MIDDAY_REPLACE — after a midday draft lands (not held), supersede
+            # that account's stale unposted standalone rows of the day (the ones that made it qualify).
+            # Never supersede a published row or an engagement row.
+            if args.midday and os.environ.get('FD_MIDDAY_REPLACE', '1') != '0':
+                midday_supersede(row, earlier, admin_decisions(args.day.isoformat()))
         rows.append(row)
         write_json(out / 'drafts' / f"{row['id']}.json", r)
         t = state['tally'][row['account_id']]

@@ -271,3 +271,63 @@ def test_hour_weight_bucket():
 def test_hour_weight_missing_returns_1():
     priors = {'weights': {'zh': {'hour': {}, 'format': {}, 'topic': {}}}}
     assert pp.hour_weight(priors, 'zh', 14) == 1.0
+
+
+# ── perf_record helper and plan annotation (defect 4a / 4b fix) ───────────────
+
+def test_perf_record_fields():
+    """perf_record() returns topic / angle / beat / format / topic_w / format_w / mult."""
+    priors = {'weights': {'zh': {'topic': {'macro_liquidity': 1.1}, 'format': {}, 'hour': {}}}}
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+    import daily_compose as dc
+    g = [{'source': {'id': 's1'}, 'unit_id': 'u1', 'unit': {}, 'beat': 'macro_liquidity'}]
+    rec = dc.perf_record(priors, 'zh', g, fmt=None)
+    assert set(rec.keys()) >= {'topic', 'angle', 'beat', 'format', 'topic_w', 'format_w', 'mult'}
+    # beat lookup because no text angle matched
+    assert rec['beat'] == 'macro_liquidity'
+    assert abs(rec['mult'] - rec['topic_w'] * rec['format_w']) < 1e-9
+
+
+def test_perf_record_uses_group_angle_not_lead():
+    """defect 4b fix: perf_record picks the group's own first angle, not a constant lead angle."""
+    priors = {'weights': {'zh': {'topic': {'price_structure': 1.2, 'macro_liquidity': 0.9},
+                                 'format': {}, 'hour': {}}}}
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+    import daily_compose as dc
+    from unittest.mock import patch
+    from live import angles
+    with patch.object(angles, 'angles_of', return_value=['price_structure']):
+        g = [{'source': {'id': 's1'}, 'unit_id': 'u1', 'unit': {}, 'beat': 'macro_liquidity'}]
+        rec = dc.perf_record(priors, 'zh', g)
+    assert rec['angle'] == 'price_structure'
+    assert abs(rec['topic_w'] - 1.2) < 1e-6  # group angle used, not beat
+
+
+def test_perf_priors_for_select_off():
+    """FD_PERF_PRIORS=0: perf_priors_for_select() returns {} without loading any file."""
+    import sys, os
+    from pathlib import Path
+    from unittest.mock import patch
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+    import daily_compose as dc
+    with patch.dict(os.environ, {'FD_PERF_PRIORS': '0'}):
+        result = dc.perf_priors_for_select()
+    assert result == {}
+
+
+def test_biased_type_mix_clamp():
+    """biased_type_mix() applies format weight to post_type_mix, clamped [0.7, 1.4]."""
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+    import daily_compose as dc
+    priors = {'weights': {'zh': {'format': {'standalone': 2.0, 'quick_take': 0.1},
+                                 'topic': {}, 'hour': {}}}}
+    mix = {'standalone': 1.0, 'quick_take': 1.0}
+    result = dc.biased_type_mix(priors, 'zh', mix)
+    assert result['standalone'] == 1.4   # clamped at upper bound
+    assert result['quick_take'] == 0.7   # clamped at lower bound

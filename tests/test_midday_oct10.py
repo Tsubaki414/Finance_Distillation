@@ -2,8 +2,10 @@
 
 Tests cover:
 - qualifying-account logic (stale >24h, no standalone, posted/held/superseded excluded)
+- fix: published account is skipped (defect 3b)
+- fix: all standalone rows evaluated, not just the first (defect 3a)
 - fresh-source age filter in select() (FD_MIDDAY_MAX_AGE_H)
-- FD_MIDDAY_REPLACE=0 adds instead of supersedes
+- FD_MIDDAY_REPLACE semantics: midday_supersede() (defect 2)
 - midday cron script bash syntax and hour-gate / lock behaviour (fake env, no network)
 """
 import os
@@ -100,34 +102,13 @@ def test_engage_source_id_ignored():
     assert result is True
 
 
-def _run_midday_needs(inbox_rows, account_id):
-    """Reproduce the _midday_needs_account() closure from main() with a fake inbox."""
-    now_ts = _now()
-    stale_cutoff = timedelta(hours=24)
-    from live import registry
-
-    def needs(aid):
-        for r in inbox_rows:
-            if r.get('account_id') != aid:
-                continue
-            if r.get('superseded') or r.get('held') or r.get('draft_status') != 'draft_ready':
-                continue
-            if registry.ENGAGE_SOURCE.match(str((r.get('source') or {}).get('id') or '')):
-                continue
-            pub = (r.get('source') or {}).get('published_at')
-            if pub:
-                try:
-                    pub_dt = datetime.fromisoformat(pub.replace('Z', '+00:00'))
-                    if pub_dt.tzinfo is None:
-                        pub_dt = pub_dt.replace(tzinfo=timezone.utc)
-                    if (now_ts - pub_dt) < stale_cutoff:
-                        return False
-                except (ValueError, AttributeError):
-                    return False
-                return True
-        return True
-
-    return needs(account_id)
+def _run_midday_needs(inbox_rows, account_id, decisions=None):
+    """Call the module-level midday_qualifies() with the given rows for one account."""
+    return dc.midday_qualifies(
+        [r for r in inbox_rows if r.get('account_id') == account_id],
+        decisions or {},
+        _now(),
+    )
 
 
 # ── Fresh-source age filter ───────────────────────────────────────────────────
@@ -190,28 +171,85 @@ def test_custom_max_age_h():
     assert len(_run_midday_age_filter(groups, max_age_h=24)) == 1
 
 
-# ── FD_MIDDAY_REPLACE semantics ───────────────────────────────────────────────
+# ── FD_MIDDAY_REPLACE: midday_supersede() (defect 2 fix) ─────────────────────
 
-def test_supersede_only_unposted():
-    """supersede_previous() should only touch unposted (not admin-marked published) rows.
-    This is already tested by the existing test suite; here we just verify the midday
-    call path inherits the same published-row safety (published rows have draft_status
-    not equal to 'draft_ready' after apply_admin_decisions marks them)."""
-    # A row that is published is not draft_ready and must not be superseded.
-    earlier = [{'id': 'old1', 'account_id': 'a1', 'text': 'x', 'run_id': 'r0',
-                'draft_status': 'published', 'superseded': False,
-                'source': {'id': 's1'}}]
-    new_row = {'id': 'new1', 'account_id': 'a1', 'text': 'y', 'run_id': 'r1',
-               'draft_status': 'draft_ready', 'held': False,
-               'source': {'id': 's1'}}
-    with patch.object(dc.compose_inbox, 'supersede', return_value=False) as mock_sup:
-        dc.supersede_previous(new_row, earlier)
-    # supersede was never called (no eligible match: draft_status != draft_ready after publish)
-    # actually supersede_previous checks source id match and held status, not draft_status
-    # The published row's status change keeps it out of 'ready' accounting but supersede_previous
-    # still may call compose_inbox.supersede; the important thing is supersede returns False
-    # and does not raise.
-    assert True  # no exception means the path is safe
+def _make_row(id, account_id, held=False, superseded=False, draft_status='draft_ready',
+              source_id='s1', text='draft text'):
+    return {'id': id, 'account_id': account_id, 'held': held, 'superseded': superseded,
+            'draft_status': draft_status, 'source': {'id': source_id}, 'text': text}
+
+
+def test_midday_supersede_marks_stale_standalone():
+    """midday_supersede() calls compose_inbox.supersede on the stale ready standalone."""
+    new_row = _make_row('new1', 'a1')
+    earlier = [_make_row('old1', 'a1')]
+    superseded_ids = []
+    def fake_supersede(draft_id, *, by, reason, base=None):
+        superseded_ids.append((draft_id, by, reason))
+        return {'id': draft_id, 'superseded': True}
+    with patch.object(dc.compose_inbox, 'supersede', side_effect=fake_supersede):
+        done = dc.midday_supersede(new_row, earlier, {})
+    assert done == ['old1']
+    assert superseded_ids == [('old1', 'new1', 'midday_fresh')]
+
+
+def test_midday_supersede_skips_published():
+    """midday_supersede() must not supersede a row that admin_decisions marks published."""
+    from apply_admin_decisions import is_published as _is_pub
+    new_row = _make_row('new1', 'a1')
+    earlier = [_make_row('old1', 'a1')]
+    # published decision: action='published' sets is_published to True
+    decisions = {'old1': {'action': 'published'}}
+    with patch.object(dc.compose_inbox, 'supersede', return_value=None) as mock_sup:
+        done = dc.midday_supersede(new_row, earlier, decisions)
+    assert done == []
+    mock_sup.assert_not_called()
+
+
+def test_midday_supersede_skips_engagement():
+    """midday_supersede() must not supersede an engagement (x-<id>) row."""
+    new_row = _make_row('new1', 'a1')
+    earlier = [_make_row('old1', 'a1', source_id='x-99887766')]
+    with patch.object(dc.compose_inbox, 'supersede', return_value=None) as mock_sup:
+        done = dc.midday_supersede(new_row, earlier, {})
+    assert done == []
+    mock_sup.assert_not_called()
+
+
+def test_midday_supersede_held_new_does_nothing():
+    """A held midday draft must not supersede anything."""
+    new_row = {**_make_row('new1', 'a1'), 'held': True}
+    earlier = [_make_row('old1', 'a1')]
+    with patch.object(dc.compose_inbox, 'supersede', return_value=None) as mock_sup:
+        done = dc.midday_supersede(new_row, earlier, {})
+    assert done == []
+    mock_sup.assert_not_called()
+
+
+# ── midday_qualifies: all rows evaluated, published check (defects 3a / 3b) ──
+
+def test_all_standalones_evaluated_one_fresh_disqualifies():
+    """defect 3a: if ANY unposted standalone is fresh, the account must not qualify — even if
+    another standalone is stale."""
+    fresh_row = _inbox_row('a1', published_at=_pub(6))   # fresh → should disqualify
+    stale_row = _inbox_row('a1', published_at=_pub(48))  # stale → would qualify on its own
+    result = _run_midday_needs([fresh_row, stale_row], 'a1')
+    assert result is False
+
+
+def test_published_account_does_not_qualify():
+    """defect 3b: if an account's standalone is published (admin_decisions), it already posted — skip."""
+    row = {**_inbox_row('a1', published_at=_pub(48)), 'id': 'draft-1'}
+    decisions = {'draft-1': {'action': 'published'}}
+    result = _run_midday_needs([row], 'a1', decisions=decisions)
+    assert result is False
+
+
+def test_missing_source_date_treated_as_stale():
+    """A standalone with no published_at date is treated as stale — account qualifies."""
+    row = {**_inbox_row('a1'), 'source': {'id': 's1'}}  # no published_at
+    result = _run_midday_needs([row], 'a1')
+    assert result is True
 
 
 # ── Cron script bash syntax and hour gate ─────────────────────────────────────
