@@ -1551,6 +1551,13 @@ def make_client(calls_dir):
     return (lambda: ec.ErisedaiClient(calls_dir, configuration=copy.deepcopy(config))), table
 
 
+def quota_block_after():
+    try:
+        return max(1, int(os.environ.get('FD_QUOTA_BLOCK_AFTER', '3')))
+    except ValueError:
+        return 3
+
+
 def _ec_fails():
     import live.erisedai_distillation_client as ec
     return bool(ec.PROVIDER_FAILS)
@@ -1886,6 +1893,8 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
     by_id = {a['id']: a for a in all_accounts}
     spent_before = spend['usd']
 
+    quota_hits = []
+
     def guarded(job):
         a, p = job
         with lock:
@@ -1899,8 +1908,12 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
                 return None
         r = compose_one(client, a['id'], p, args.day, records, spend, lock)
         if QUOTA_RX.search(str(r.get('error') or '')):
+            # Oct 10 (PM decision A): one draft's quota error never stops the run; only QUOTA_BLOCK_AFTER quota-failed
+            # drafts in this run (the primary itself is exhausted) stop starting new ones.
             with lock:
-                quota.setdefault('reason', 'Gemini quota / balance exhausted: ' + str(r['error'])[:160])
+                quota_hits.append(a['id'])
+                if len(quota_hits) >= quota_block_after():
+                    quota.setdefault('reason', 'Gemini quota / balance exhausted: ' + str(r['error'])[:160])
         print(f"[r{rnd} {a['id']}] {p['angle']} {p.get('packet', 'balanced')} {r.get('draft_status')} "
               f"${r['spend_usd']:.4f} {r['seconds']}s err={r.get('error')} | {(r.get('body') or '')[:90]!r}", flush=True)
         return r
