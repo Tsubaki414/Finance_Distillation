@@ -3,7 +3,7 @@
 Runs after hook_rewrite + engage_sibling_pass and before arbitration (daily_compose.py).
 Also called on the engage-only fill path.
 
-Flags: FD_HUMANIZE (default 1; 0 = skip entirely), FD_HUMANIZE_LLM (default 0 since Oct 10 17:30; 1 = run the capped LLM pass).
+Flags: FD_HUMANIZE (default 1; 0 = skip entirely), FD_HUMANIZE_LLM (default 1 after the Oct 10 20-draft guard check: 12 accepted, 0 fabricated numbers / names; 0 = skip).
 FD_HUMANIZE_LLM_MAX: max LLM rewrites per run (default 30).
 
 Deterministic transforms (seeded by draft id, per-account donor rates from donor_rates.py):
@@ -41,7 +41,7 @@ def enabled(env=None):
     return (env or os.environ).get('FD_HUMANIZE', '1') != '0'
 
 def llm_enabled(env=None):
-    return enabled(env) and (env or os.environ).get('FD_HUMANIZE_LLM', '0') == '1'   # PM 17:30: off until its guard is verified
+    return enabled(env) and (env or os.environ).get('FD_HUMANIZE_LLM', '1') != '0'   # on: 20-draft guard check 10-10 18:35, 12 accepted, 0 fabricated
 
 def llm_max(env=None):
     try:

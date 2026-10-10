@@ -1648,6 +1648,9 @@ def inbox_row(result, account_cfg, day, run_id):
                             ('model_error: ' if repair.get('result') == 'rewrite_error' else 'hard: ')
                             + ','.join(sorted({f['code'] for f in findings if f.get('level') == 'hard'}))
                             if result.get('draft_status') == 'needs_review' else None),
+            **({'nat_shape': (result.get('post_format') or {}).get('nat_shape')}
+               if isinstance(result.get('post_format'), dict) and result['post_format'].get('nat_shape') else {}),
+            **({'fluency': result['fluency']} if result.get('fluency') else {}),
             **({'hook_rewrite': result['hook_rewrite']} if result.get('hook_rewrite') else {}),
             **({'engage_sibling': result['engage_sibling']} if result.get('engage_sibling') else {}),
             **({'hard_repair': {k: repair.get(k) for k in ('result', 'kept', 'error')}

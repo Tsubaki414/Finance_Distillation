@@ -99,8 +99,10 @@ def test_no_nat_flag_disables_gate():
     assert 'no_nat=True' in dc and '_flu.apply_batch(ok, client, recompose=_recompose)' in dc
 
 
-def test_humanize_llm_off_by_default(monkeypatch):
+def test_humanize_llm_on_by_default_after_guard_check(monkeypatch):
     from live import humanize
     monkeypatch.delenv('FD_HUMANIZE_LLM', raising=False)
     monkeypatch.delenv('FD_HUMANIZE', raising=False)
-    assert humanize.enabled() and not humanize.llm_enabled()
+    assert humanize.enabled() and humanize.llm_enabled()
+    monkeypatch.setenv('FD_HUMANIZE_LLM', '0')
+    assert not humanize.llm_enabled()
