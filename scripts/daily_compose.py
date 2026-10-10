@@ -481,9 +481,21 @@ def hotspot_plan(store, pools, accounts, universes, day, ref, reuse=None, allow_
             if mid and not r.get('superseded') and not r.get('held'):
                 seed.setdefault(mid, []).append((r['account_id'], lang.get(r['account_id'])))
         factory = (lambda: hotspot.merge_client(RUNS / day.isoformat() / 'hotspot_calls')) if allow_model else None
+        from live import engagement
+        slot0 = engagement.next_slot(day.isoformat(), ref, ()) if ref is not None else None
+
+        def hot_engage_ok(a, g):
+            """Oct 10: an x-<id> member is only a reply / quote target; with the pick gate on it can carry the account's
+            hotspot only when it is a live target, else decide() takes the next member (10-10: 4 zh hot picks keyed on
+            stale X posts were dropped by the gate and their accounts got no 母题 first post)."""
+            src = g[0]['source']
+            if (slot_kind(src.get('id')) != 'engage' or not engagement.slot_rule()
+                    or os.environ.get('FD_ENGAGE_PICK_GATE', '1') == '0'):
+                return True
+            return bool(slot0) and bool(engagement.assess(src, slot0, account_lang=lang.get(a)).get('quote_ok'))
         return hotspot.plan_day(store, pools, accounts, universes, day.isoformat(), ref, text_of=group_text,
                                 key_of=lambda g: demo._key(g[0]), promo=X_PROMO_OPENER, led=led,
-                                ok=lambda a, g: prescreen.prescreen(a, g)['ok'] and timely(g, ref),
+                                ok=lambda a, g: prescreen.prescreen(a, g)['ok'] and timely(g, ref) and hot_engage_ok(a, g),
                                 merge_client_factory=factory, priors=feedback.load(), seed_takers=seed)
     except Exception as exc:   # noqa: BLE001 - hotspots are advisory; selection runs on without them
         print(f'hotspot: skipped ({type(exc).__name__}: {exc})', flush=True)
@@ -772,7 +784,9 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             if _round is not None and slot_rule:
                 hg = next((g for g in pools[account] if tuple(demo._key(g[0])) == tuple(hot.assign[account][1])), None)
                 if hg is not None and not slot_ok(account, hg):
-                    hot.record(account, hot.assign[account][0], decision='HOLD', reason='slot rule: standalone slot taken')
+                    why_ = ('slot rule: engagement target not live / slot taken' if slot_kind(hg[0]['source'].get('id')) == 'engage'
+                            else 'slot rule: standalone slot taken')
+                    hot.record(account, hot.assign[account][0], decision='HOLD', reason=why_)
                     continue
                 if (hg is not None and zh_hot_rule(lang) and (heat_of(hg) or 0) < ZH_HOT_MIN
                         and hot_on_lane(account)):
