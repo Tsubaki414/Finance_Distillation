@@ -123,6 +123,16 @@ def rewrite_first_line(
         return {'from': old_first, 'to': new_first, 'reason': codes, 'kept': False,
                 'reject': f'new hard codes: {sorted(added_hard)}'}
 
+    # 5 (Oct 10). the new first line must not repeat a later line of the draft (10-10 qa pass: a rewrite promoted line 2
+    # verbatim and the post said it twice)
+    def _norm(x):
+        return re.sub(r'\W+', '', str(x or '')).lower()
+    rest = [_norm(ln) for ln in body.splitlines() if ln.strip()][1:]
+    nf = _norm(new_first)
+    if nf and any(r and (nf == r or (len(r) >= 12 and (r in nf or nf in r))) for r in rest):
+        return {'from': old_first, 'to': new_first, 'reason': codes, 'kept': False,
+                'reject': 'repeats a later line'}
+
     # 4. length change <= 40%
     if old_first:
         change = abs(len(new_first) - len(old_first)) / max(1, len(old_first))

@@ -309,3 +309,12 @@ class TestDailyComposeWiring:
 
         assert len(rewrite_calls) == 1
         assert rows[0].get('hook_rewrite') is not None
+
+
+def test_rewrite_rejects_promoting_a_later_line():
+    from live import hook_rewrite
+    body = "It's been a long time since I've seen this.\n\nThe top 25 deployers spammed 770,000 tokens to farm $128 million.\n\nAre we surprised?"
+    row = {'id': 'x', 'body': body, 'text': body, 'post_checks': [{'code': 'opener_repeat'}]}
+    client = lambda *a, **k: {'text': '{"first_line": "The top 25 deployers spammed 770,000 tokens to farm $128 million."}'}
+    r = hook_rewrite.rewrite_first_line(client, row, [], 'en')
+    assert r['kept'] is False and r['reject'] == 'repeats a later line' and row['body'] == body
