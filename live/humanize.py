@@ -332,7 +332,7 @@ def _line_is_judgement(line: str, lang: str) -> bool:
     return bool(re.search(r'\b(is|are|was|were|will|would|could|should|think|believe|see|seems|expect|looks?)\b', t, re.I))
 
 
-_NEUTRAL_EMOJI = frozenset('👀🤔🧐😅🫠🙃😌🫡👇😂🤷🙏🤡😶🫢😮💀🥲😬🤣')
+_NEUTRAL_EMOJI = frozenset('👀🤔🧐😅🫠🙃😌🫡👇🤷🙏😶🫢😮🥲😬')
 
 
 def _apply_texture(body: str, lang: str, draft_id: str, rates: dict) -> tuple[str, list[str]]:
