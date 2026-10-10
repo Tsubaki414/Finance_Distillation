@@ -640,28 +640,38 @@
    "donors": [
     {
      "handle": "robin_j_brooks",
-     "weight": 0.242,
+     "weight": 0.1429,
      "why": "beat 73% of 75 originals, voice distinct 0.54"
     },
     {
      "handle": "elerianm",
-     "weight": 0.238,
+     "weight": 0.1429,
      "why": "beat 62% of 206 originals, crypto 7%, voice distinct 0.47"
     },
     {
      "handle": "GlobalMktObserv",
-     "weight": 0.21,
+     "weight": 0.1429,
      "why": "beat 58% of 144 originals, crypto 6%, voice distinct 0.47 (current donor)"
     },
     {
      "handle": "KobeissiLetter",
-     "weight": 0.177,
+     "weight": 0.1429,
      "why": "beat 49% of 199 originals, crypto 8%, voice distinct 0.38"
     },
     {
      "handle": "JeffSnider_EDU",
-     "weight": 0.133,
+     "weight": 0.1429,
      "why": "beat 34% of 140 originals, crypto 14%, voice distinct 0.59"
+    },
+    {
+     "handle": "MikeZaccardi",
+     "weight": 0.1429,
+     "why": "pm-donors8 2026-10-10 twitter241 search/verify: financial writer CFA/CMT, macro markets and charts, clean data-driven analysis, 0 promo"
+    },
+    {
+     "handle": "ekwufinance",
+     "weight": 0.1426,
+     "why": "pm-donors8 2026-10-10 twitter241 search/verify: geopolitics/macro/commodities analyst, 399 median likes, independent voice, 0 promo"
     }
    ],
    "bench": [],
@@ -2220,33 +2230,38 @@
    "donors": [
     {
      "handle": "CryptoKris666",
-     "weight": 0.1429
+     "weight": 0.125
     },
     {
      "handle": "eyuCrypto",
-     "weight": 0.1429
+     "weight": 0.125
     },
     {
      "handle": "jason_chen998",
-     "weight": 0.1429
+     "weight": 0.125
     },
     {
      "handle": "Meimeibtcc",
-     "weight": 0.1429
+     "weight": 0.125
     },
     {
      "handle": "williamlab",
-     "weight": 0.1429
+     "weight": 0.125
     },
     {
      "handle": "BTClaoying",
-     "weight": 0.1429,
+     "weight": 0.125,
      "why": "pm-donors5 2026-10-09 twitter241 search/verify: plain-language lessons from crypto losses for newcomers"
     },
     {
      "handle": "EvanCrypto17",
-     "weight": 0.1429,
+     "weight": 0.125,
      "why": "pm-donors5 2026-10-09 twitter241 search/verify: beginner-friendly explainers of news and products"
+    },
+    {
+     "handle": "Lioran88",
+     "weight": 0.125,
+     "why": "pm-donors8 2026-10-10 twitter241 search/verify: Web3 observer explaining blockchain mechanics, wallet security and on-chain narratives accessibly for beginners"
     }
    ],
    "origin": "persona_factory 2026-10-08 from the spare account row donors (equal weights)",
@@ -2538,35 +2553,40 @@
    "donors": [
     {
      "handle": "yuyue_chris",
-     "weight": 0.1429
+     "weight": 0.125
     },
     {
      "handle": "ChaseWang",
-     "weight": 0.1429
+     "weight": 0.125
     },
     {
      "handle": "MengLayer",
-     "weight": 0.1429
+     "weight": 0.125
     },
     {
      "handle": "0xLoki_Zeng",
-     "weight": 0.1429,
+     "weight": 0.125,
      "why": "pm-donors5 2026-10-09 twitter241 search/verify: U-denominated yield products, Infini / stablecoin savings"
     },
     {
      "handle": "LumaoDoggie",
-     "weight": 0.1429,
+     "weight": 0.125,
      "why": "pm-donors5 2026-10-09 twitter241 search/verify: Ethena / Pendle stablecoin yield strategy"
     },
     {
      "handle": "blockma",
-     "weight": 0.1429,
+     "weight": 0.125,
      "why": "pm-donors5 2026-10-09 twitter241 search/verify: Kernel Ventures researcher: stablecoin deposit protocols, LP yield"
     },
     {
      "handle": "0xLin88",
-     "weight": 0.1429,
+     "weight": 0.125,
      "why": "pm-donors5 2026-10-09 twitter241 search/verify: Pendle YT/PT and stablecoin vault yield accounting"
+    },
+    {
+     "handle": "Pilgrim6938",
+     "weight": 0.125,
+     "why": "pm-donors8 2026-10-10 twitter241 search/verify: DeFi yield analyst tracking Pendle, Tangent, fxSAVE, RWA yield narratives with skeptical fundamentals-after-hype voice"
     }
    ],
    "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
@@ -7131,24 +7151,14 @@
   "mikezaccardi": {
    "handle": "MikeZaccardi",
    "lang": "en",
-   "category": "market_data_charts",
-   "persona_cluster": "market_data_charts",
+   "category": "macro_markets",
+   "followers": 81219,
+   "promo_share": 0.0,
+   "posts": 156,
+   "origin": "pm-donors8 2026-10-10 twitter241 search: financial writer macro/markets/charts",
    "verified": true,
-   "donor_fit": "radar",
-   "promo_heavy": false,
-   "followers": 80966,
-   "latest_post": "2026-10-03",
-   "posts_per_day": 89.48,
-   "frequency": "daily+",
-   "median_chars": 118,
-   "style_tags": [
-    "short",
-    "chart/media-led"
-   ],
-   "tone": [
-    "measured",
-    "educational"
-   ]
+   "donor_fit": "voice",
+   "verify_note": "twitter241; 156 originals scraped; promo_share 0.000 regex; CFA/CMT financial writer, macro markets and chart analysis, very high photo share"
   },
   "mikulaja": {
    "handle": "mikulaja",
@@ -13806,6 +13816,42 @@
    "originals": 160,
    "promo_share": 0.05,
    "added": "pm-donors7-2026-10-10"
+  },
+  "lioran88": {
+   "handle": "Lioran88",
+   "lang": "zh",
+   "category": "crypto_web3_education",
+   "followers": 5497,
+   "promo_share": 0.05,
+   "posts": 155,
+   "origin": "pm-donors8 2026-10-10 twitter241 search: Web3/blockchain explainer account",
+   "verified": true,
+   "donor_fit": "voice",
+   "verify_note": "twitter241; 155 originals scraped; promo_share 0.050 regex; blockchain mechanics, wallet security, DeFi narratives explained in zh"
+  },
+  "pilgrim6938": {
+   "handle": "Pilgrim6938",
+   "lang": "zh",
+   "category": "crypto_defi_yield",
+   "followers": 14688,
+   "promo_share": 0.0,
+   "posts": 156,
+   "origin": "pm-donors8 2026-10-10 twitter241 search: stable yield / DeFi narrative analyst",
+   "verified": true,
+   "donor_fit": "voice",
+   "verify_note": "twitter241; 156 originals scraped; promo_share 0.000 regex; Pendle/fxSAVE/Tangent/RWA yield analysis, skeptical narratives-before-fundamentals voice"
+  },
+  "ekwufinance": {
+   "handle": "ekwufinance",
+   "lang": "en",
+   "category": "macro_geopolitics",
+   "followers": 54905,
+   "promo_share": 0.0,
+   "posts": 159,
+   "origin": "pm-donors8 2026-10-10 twitter241 search: geopolitics macro commodities",
+   "verified": true,
+   "donor_fit": "voice",
+   "verify_note": "twitter241; 159 originals scraped; promo_share 0.000 regex; geopolitics, macro, commodities; 399 median likes; independent researcher voice"
   }
  }
 }
