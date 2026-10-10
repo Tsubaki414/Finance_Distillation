@@ -1,5 +1,5 @@
 {
- "version": "mango-merge-2026-10-07+seeds2+pm-donors7-2026-10-10+pm-donors8-2026-10-10",
+ "version": "mango-merge-2026-10-07+seeds2+pm-donors7-2026-10-10+pm-donors8-2026-10-10+pm-donors9-2026-10-10",
  "note": "Adopted donors merged into the fd20 acct_<id> clusters by scripts/persona_factory.py (base donors keep 50% of the weight, adopted donors split 50%). Handles and aggregate metadata only; donor posts stay in the ignored live/donors/posts/. x_sources are account-scoped X sources for the fd20 universes (CORE from the Mango proposals, SECONDARY meme/perp/DeFi/onchain/chart sources); mega accounts (VitalikButerin, saylor, mert, zachxbt, star_okx) are sources only, never donors.",
  "rules": {
   "same_language": true,
@@ -679,7 +679,8 @@
     "thankUcrypto",
     "timotimo007",
     "Sea_Bitcoin",
-    "dapangdun"
+    "dapangdun",
+    "DL_W59"
    ],
    "x_sources": {
     "CORE": [
@@ -968,7 +969,8 @@
     "amandacassatt",
     "DoveyWan",
     "econoar",
-    "lazyvillager1"
+    "lazyvillager1",
+    "WhaleTwits"
    ],
    "x_sources": {
     "CORE": [
@@ -1254,7 +1256,30 @@
     "KobeissiLetter",
     "JeffSnider_EDU",
     "MikeZaccardi",
-    "ekwufinance"
+    "ekwufinance",
+    "macropaperr"
+   ]
+  },
+  "en_industry": {
+   "donors": [
+    "SKundojjala",
+    "Beth_Kindig",
+    "EconomyApp",
+    "aleabitoreddit",
+    "jpinsights",
+    "gregoryblotnick",
+    "bespokeinvest"
+   ]
+  },
+  "trading_shortterm": {
+   "donors": [
+    "OptionsHawk",
+    "SPXVIX",
+    "MarkNewtonCMT",
+    "TheChartReport",
+    "jasongoepfert",
+    "CheddarFlow",
+    "SRxTrades"
    ]
   }
  },
@@ -1518,7 +1543,77 @@
    "promo_share": 0.0,
    "last_post": "2026-10-07",
    "why": "Geopolitics/macro/commodities analyst, 399 median likes, independent voice, 0 promo; verified pm-donors8 2026-10-10"
+  },
+  {
+   "handle": "gregoryblotnick",
+   "cluster": "acct_en_industry",
+   "at": "pm-donors9-2026-10-10",
+   "originals": 158,
+   "promo": 0.025,
+   "last_post": "2026-10-07",
+   "followers": 22456,
+   "bio": "\"I saw under the sun that the race goes not to the swift…\" — equity research, investing frameworks, EN"
+  },
+  {
+   "handle": "bespokeinvest",
+   "cluster": "acct_en_industry",
+   "at": "pm-donors9-2026-10-10",
+   "originals": 152,
+   "promo": 0.0,
+   "last_post": "2026-10-09",
+   "followers": 267458,
+   "bio": "Bespoke Investment Group — financial markets research platform, EN; also in market_data_charts"
+  },
+  {
+   "handle": "CheddarFlow",
+   "cluster": "acct_trading_shortterm",
+   "at": "pm-donors9-2026-10-10",
+   "originals": 154,
+   "promo": 0.0,
+   "last_post": "2026-10-10",
+   "followers": 365916,
+   "bio": "Unusual options flow + dark pools + gamma exposure, EN"
+  },
+  {
+   "handle": "SRxTrades",
+   "cluster": "acct_trading_shortterm",
+   "at": "pm-donors9-2026-10-10",
+   "originals": 155,
+   "promo": 0.0,
+   "last_post": "2026-10-09",
+   "followers": 141396,
+   "bio": "Options + equities trader, volume and price action, EN"
+  },
+  {
+   "handle": "macropaperr",
+   "cluster": "acct_en_macro",
+   "at": "pm-donors9-2026-10-10",
+   "originals": 160,
+   "promo": 0.0,
+   "last_post": "2026-10-10",
+   "followers": 24331,
+   "bio": "Global capital markets simplified, macro headwinds, EN"
+  },
+  {
+   "handle": "WhaleTwits",
+   "cluster": "crypto_macro_en",
+   "at": "pm-donors9-2026-10-10",
+   "originals": 160,
+   "promo": 0.0,
+   "last_post": "2026-10-10",
+   "followers": 37953,
+   "bio": "Bitcoin since 2013, degen since 2019, macro since 2003, EN"
+  },
+  {
+   "handle": "DL_W59",
+   "cluster": "crypto_macro_zh",
+   "at": "pm-donors9-2026-10-10",
+   "originals": 157,
+   "promo": 0.0,
+   "last_post": "2026-10-09",
+   "followers": 22444,
+   "bio": "18-year trader, macro+US stocks, BTC cycle focus, ZH only"
   }
  ],
- "added_note": "2026-10-10 pm-donors7: 4 new donors added across 2 accounts (#18 investing_philosophy: +2 en donors; #29 crypto_prediction_zh: +2 zh donors). #23 crypto_newbie_zh and #30 crypto_stable_yield_zh remain at 7 — 15+ zh candidates verified over 100+ API calls; none cleared both >=150 originals AND <=0.25 promo_share AND on-lane content simultaneously. Rejected: dajingou1 (referral links in posts), waveking1314 (VIP-group meme trader, off-lane), CryptoPilot3226 (<150), webktsr (<150), CryptoYuXin (<150), Libaiwan168 (promo 0.222), nini_incrypto_ (promo 0.167). Negative evidence saved in /workspace/x/pm_donors7/state/. | pm-donors8 #23 crypto_newbie_zh: exhaustive search (240+ API calls, 10+ queries); only Lioran88 passed all bars. Rejected: qianyuwing (off-lane: BnsBot auto-posting tool), 0xGky (off-lane: AI/GitHub tools not crypto ed), lubijiaocheng (<150 originals), ohouhou717 (pure meme/jokes), Monica_xiaoM (promo 0.278), coiningbtc (<150 originals). #30 crypto_stable_yield_zh: only Pilgrim6938 passed; rejected: cryptolinda777 (<150), QUEEN_NAE24 (148 of 160 posts in EN not zh), off_thetarget (off-lane: short-term stock trading), Sa1ted___Fish (promo 0.2, mixed topic), _zheergen (off-lane: AI/quant tools). en_macro (at 5): MikeZaccardi and ekwufinance pass; realACollins 147 originals (<150); acct_trading_shortterm and acct_en_industry remain at 5 (no new passing candidates found in this pass)."
+ "added_note": "2026-10-10 pm-donors7: 4 new donors added across 2 accounts (#18 investing_philosophy: +2 en donors; #29 crypto_prediction_zh: +2 zh donors). #23 crypto_newbie_zh and #30 crypto_stable_yield_zh remain at 7 — 15+ zh candidates verified over 100+ API calls; none cleared both >=150 originals AND <=0.25 promo_share AND on-lane content simultaneously. Rejected: dajingou1 (referral links in posts), waveking1314 (VIP-group meme trader, off-lane), CryptoPilot3226 (<150), webktsr (<150), CryptoYuXin (<150), Libaiwan168 (promo 0.222), nini_incrypto_ (promo 0.167). Negative evidence saved in /workspace/x/pm_donors7/state/. | pm-donors8 #23 crypto_newbie_zh: exhaustive search (240+ API calls, 10+ queries); only Lioran88 passed all bars. Rejected: qianyuwing (off-lane: BnsBot auto-posting tool), 0xGky (off-lane: AI/GitHub tools not crypto ed), lubijiaocheng (<150 originals), ohouhou717 (pure meme/jokes), Monica_xiaoM (promo 0.278), coiningbtc (<150 originals). #30 crypto_stable_yield_zh: only Pilgrim6938 passed; rejected: cryptolinda777 (<150), QUEEN_NAE24 (148 of 160 posts in EN not zh), off_thetarget (off-lane: short-term stock trading), Sa1ted___Fish (promo 0.2, mixed topic), _zheergen (off-lane: AI/quant tools). en_macro (at 5): MikeZaccardi and ekwufinance pass; realACollins 147 originals (<150); acct_trading_shortterm and acct_en_industry remain at 5 (no new passing candidates found in this pass). | pm-donors9 acct_en_industry: gregoryblotnick (158, pass), bespokeinvest (152, pass); rejected: stevenfiorillo (143 <150), oguzerkan (124 <150), borrowed_ideas (120 <150), Bluekurtic (128 <150), LeifSoreide (136 <150), negligible_cap (132 <150), HolySmokas (126 <150), DrJStrategy (114 <150), 4Awesometweet (147 <150), alojoh (106 <150). acct_trading_shortterm: CheddarFlow (154, pass), SRxTrades (155, pass); rejected: VolSignals (83 <150), alphatrends (85 <150), LeifSoreide (136 <150), clintoptions (118 <150), sanglucci (128, promo 0.1 >0.25 on new40), RachelDashCS (119 <150), DrJStrategy (114 <150). acct_en_macro: macropaperr (160, pass); jsblokland (123 <150), charliebilello (68 <150). crypto_macro_en: WhaleTwits (160, pass); GertvanLagen (125 <150), iWantCoinNews (134 <150). crypto_macro_zh: DL_W59 (157, pass, ZH-only); paulxue1979 (20 <150)."
 }
