@@ -1775,6 +1775,10 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
             if _rw.get('kept') and _rw.get('to') and not _rw.get('error'):
                 print(f'[hook_rewrite] {r.get("account_id")} rewritten: {_rw["from"]!r} -> {_rw["to"]!r}', flush=True)
     engage_sibling_pass(ok, args, client, lock, spend, quota, est, flat_primary, _ec_fails)
+    # Oct 10 nat3: humanize post-processor (FD_HUMANIZE, default 1)
+    if os.environ.get('FD_HUMANIZE', '1') != '0':
+        from live import humanize as _hum
+        _hum.apply_batch(ok, client=client())
     for r in ok:   # arbitration compares drafts of this Beijing day (not the sources' own dates) in one language
         r['day'], r['account_lang'] = args.day.isoformat(), r['plan']['account_lang']
         # Oct 8 evening (FD_LANE_FIT): a niche draft on broad news without a lane tie-in is held off_lane
