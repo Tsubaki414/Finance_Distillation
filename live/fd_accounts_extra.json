@@ -189,7 +189,8 @@
     "Meimeibtcc",
     "williamlab",
     "BTClaoying",
-    "EvanCrypto17"
+    "EvanCrypto17",
+    "Lioran88"
    ],
    "x_sources": {
     "CORE": [
@@ -216,6 +217,13 @@
      "originals_scraped": 141,
      "posts_per_day_30d": 1.57,
      "promo_share_regex": 0.025
+    },
+    "Lioran88": {
+     "followers": 5497,
+     "last_post": "2026-10-10",
+     "originals_scraped": 155,
+     "posts_per_day_30d": 3.67,
+     "promo_share_regex": 0.05
     }
    }
   },
