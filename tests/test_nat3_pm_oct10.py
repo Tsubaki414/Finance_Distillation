@@ -47,7 +47,7 @@ GARBLED = '我看Zcash ETF首月超10亿美元，机构所谓变严只是换花�
 
 def test_fluent_passes_untouched():
     r = _row('Zcash ETF首月就超10亿美元，比我想的快。')
-    fluency.apply_batch([r], lambda: Judge([{'fluent': True, 'complete': True}]))
+    fluency.apply_batch([r], lambda: Judge([{'fluent': True, 'complete': True}] * fluency.VOTES))
     assert r['fluency']['action'] == 'pass' and r['body'].startswith('Zcash')
 
 
@@ -106,3 +106,22 @@ def test_humanize_llm_on_by_default_after_guard_check(monkeypatch):
     assert humanize.enabled() and humanize.llm_enabled()
     monkeypatch.setenv('FD_HUMANIZE_LLM', '0')
     assert not humanize.llm_enabled()
+
+
+def test_judge_language_follows_the_text():
+    assert fluency.text_lang(GARBLED, 'en') == 'zh'
+    assert fluency.text_lang('Robinhood buys $25 million BTC', 'zh') == 'en'
+    j = Judge([{'fluent': True, 'complete': True}])
+    fluency.judge(j, GARBLED, 'en')
+    assert 'Chinese (Simplified)' in j.prompts[0]
+    assert 'Chinese' in j.prompts[0]
+
+
+def test_second_vote_can_fail_a_first_pass():
+    fixed = 'Zcash ETF首月规模就超10亿美元。'
+    j = Judge([{'fluent': True, 'complete': True},
+               {'fluent': False, 'complete': True, 'issue': 'x', 'rewrite': fixed},
+               {'fluent': True, 'complete': True}])
+    r = _row('Zcash ETF首月超10亿美元。')
+    fluency.apply_batch([r], lambda: j)
+    assert r['fluency']['action'] == 'rewrite' and r['body'] == fixed

@@ -15,7 +15,8 @@ import os
 import re
 from typing import Any, Callable
 
-PROMPT = '''You are a strict native-speaker copy editor for short {lang_name} social posts about markets.
+PROMPT = '''You are a strict native-speaker copy editor for short {lang_name} social posts about markets. Short posts are
+where machine writing shows: be strict, a reader with no other context sees only this post.
 
 Post:
 <<<
@@ -23,16 +24,23 @@ Post:
 >>>
 
 Judge it on exactly two things:
-1. fluent: grammatical, natural {lang_name} a native finance poster would write; no garbled clause joins, no missing
-   verb / object, no word salad, no machine-translation feel. Casual style, fragments and slang are fine if a native
-   speaker would say them.
-2. complete: one complete thought a reader understands on its own (what is being said about what), not a dangling
-   half-sentence or a list of noun phrases with no point.
+1. fluent: grammatical, natural {lang_name} a native finance poster would actually write. FAIL it for: a number with
+   no measure noun (e.g. "首月超10亿美元" - 10亿美元 of what: 规模 / 流入 / 成交?), a vague phrase with no subject
+   ("所谓变严" - what got stricter?), two clauses jammed together whose link a reader cannot see, missing verb /
+   object ("won't move this cycle"), word salad, translation-ese, telegraphic noun piles. Casual style, fragments,
+   slang and particles are fine when a native speaker would say exactly that.
+2. complete: one complete thought a stranger understands on its own: what is being said about what.
+
+Example FAIL: "我看Zcash ETF首月超10亿美元，机构所谓变严只是换花样搞多元资产" (10亿美元 of what; what "变严"; how the two
+halves connect). Example PASS: "房贷利率卡在7.5%，美国楼市交易就好不了".
 
 If both hold, return {{"fluent": true, "complete": true, "issue": "", "rewrite": ""}}.
 Otherwise return fluent / complete as judged, a short issue, and "rewrite": a minimal fix that reads naturally,
-keeps every number, name, ticker and fact exactly, adds nothing new, keeps the same point and stays about as short.
+keeps every number, name, ticker and fact exactly, adds no new number / name / fact (a generic measure noun such as
+规模 / 流入 / volume is fine), keeps the same point and stays about as short.
 Return JSON only.'''
+
+VOTES = 2   # a post passes only when every vote passes (the judge is noisy on short zh lines)
 
 
 def enabled(env=None):
@@ -51,8 +59,19 @@ def _parse(text):
     return out if isinstance(out, dict) else None
 
 
+def text_lang(body: str, lang: str | None = None) -> str:
+    """The post's own language: zh when CJK characters make up >= 20% of its non-space characters, else en
+    (a zh account's draft is never judged as English, whatever the caller passed)."""
+    chars = re.sub(r'\s+', '', body or '')
+    if not chars:
+        return lang or 'zh'
+    cjk = len(re.findall(r'[\u4e00-\u9fff]', chars))
+    return 'zh' if cjk / len(chars) >= 0.2 else 'en'
+
+
 def judge(client: Any, body: str, lang: str) -> dict | None:
     """{'fluent','complete','issue','rewrite'} or None when the call / parse failed."""
+    lang = text_lang(body, lang)
     prompt = PROMPT.format(lang_name='Chinese (Simplified)' if lang == 'zh' else 'English', body=body)
     try:
         resp = client('compose', [{'role': 'user', 'content': prompt}], 4000)
@@ -98,7 +117,14 @@ def check_row(row: dict, client: Any, lang: str) -> dict:
     """Judge one nat-shape draft in place. Returns {'ok': bool, 'action': 'pass'|'rewrite'|'fallback'|'skip', ...};
     on 'fallback' the body is untouched and the caller re-composes in a normal shape."""
     body = row.get('body') or ''
-    v = judge(client, body, lang)
+    v = None
+    for _ in range(VOTES):
+        vote = judge(client, body, lang)
+        if vote is None:
+            continue
+        v = vote
+        if not (vote['fluent'] and vote['complete']):
+            break
     if v is None:
         return {'ok': True, 'action': 'skip', 'issue': 'judge unavailable'}
     if v['fluent'] and v['complete']:
