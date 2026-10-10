@@ -91,6 +91,7 @@ class CaptionFake(JudgmentFake):
 
 def test_compose_uses_sampled_format_with_anchors_and_image_needed(monkeypatch, tmp_path):
     _iso(monkeypatch, tmp_path)
+    monkeypatch.setenv('FD_NAT_PROMPT', '0')   # Oct 10: the non-argument gate may re-type a post; this test pins the type
     fake = CaptionFake(body='9月就业只增2.9万，美联储没理由再急着加息')
     fmt = {'type': 'chart_caption', 'length': 'short'}
     result = compose.compose_source(SOURCE, 'zh_macro', fake, post_type='judgment_take',
