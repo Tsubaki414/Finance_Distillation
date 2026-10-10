@@ -930,17 +930,10 @@ function intentUrl(d){
   const base='https://x.com/intent/post';
   // for threads, only part 1 is pre-filled; the others must be sent as self-replies
   const text=d.parts&&d.parts.length>1?d.parts[0]:d.text;
-  const p=new URLSearchParams();
-  if(d.mode==='reply'&&d.target){
-    const m=d.target.match(/\/status\/(\d+)/);
-    if(m)p.set('in_reply_to',m[1]);
-    p.set('text',text);
-  }else if(d.mode==='quote'&&d.target){
-    p.set('text',text+'\n'+d.target);
-  }else{
-    p.set('text',text);
-  }
-  return base+'?'+p.toString();
+  const q=[];   // encodeURIComponent (%20), not URLSearchParams ('+' for spaces)
+  if(d.mode==='reply'&&d.target){const m=d.target.match(/\/status\/(\d+)/);if(m)q.push('in_reply_to='+m[1]);}
+  q.push('text='+encodeURIComponent(d.mode==='quote'&&d.target?text+'\n'+d.target:text));
+  return base+'?'+q.join('&');
 }
 function card(d,posted,slot){
   const ready=d.status==='draft_ready',p=ready&&posted,hold=d.status==='HOLD'||d.status==='superseded',lg=d.lang==='en'?'en':'zh-CN';

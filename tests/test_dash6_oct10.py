@@ -236,31 +236,11 @@ class MatcherTests(unittest.TestCase):
 class PayloadTests(unittest.TestCase):
 
     def test_payload_shape(self):
-        d = _draft(id='draft-abc', account_id='acc1')
-        tw = _tweet(id='tweet-123', created='Sat Oct 10 10:00:00 +0000 2026')
-        tc = tweet_created_utc(tw)
-        url = 'https://x.com/handle/status/tweet-123'
-        payload = build_decision_payload('2026-10-10', d, tw, tc.isoformat(), url)
-        self.assertEqual(payload['action'], 'published')
-        self.assertTrue(payload['published'])
-        self.assertEqual(payload['day'], '2026-10-10')
-        self.assertEqual(payload['id'], 'draft-abc')
-        self.assertEqual(payload['account_id'], 'acc1')
-        self.assertIn('posted_at', payload)
-        self.assertIn('tweet_url', payload)
-        self.assertEqual(payload['source'], 'auto')
-
-    def test_payload_keeps_before_publish_from_prior_approve(self):
-        d = _draft(decision={'action': 'approve', 'text': None, 'note': ''})
-        tw = _tweet()
-        payload = build_decision_payload('2026-10-10', d, tw, '', '')
-        self.assertEqual(payload['before_publish'], 'approve')
-
-    def test_payload_keeps_admin_text(self):
-        d = _draft(decision={'action': 'edit', 'text': 'edited by admin', 'note': ''})
-        tw = _tweet()
-        payload = build_decision_payload('2026-10-10', d, tw, '', '')
-        self.assertEqual(payload['text'], 'edited by admin')
+        """Exactly what the ops page's 已发 tick POSTs; decisions.js keeps text / note / before_publish itself."""
+        d = _draft(id='draft-abc', account_id='acc1', decision={'action': 'edit', 'text': 'edited', 'note': ''})
+        payload = build_decision_payload('2026-10-10', d, _tweet(), '', '')
+        self.assertEqual(payload, {'day': '2026-10-10', 'id': 'draft-abc', 'account_id': 'acc1',
+                                   'action': 'published'})
 
 
 class DryRunAndEnvTests(unittest.TestCase):

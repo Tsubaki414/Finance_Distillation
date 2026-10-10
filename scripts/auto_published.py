@@ -232,25 +232,10 @@ def match_drafts_to_tweets(drafts, tweets):
 
 
 def build_decision_payload(day, draft, tweet, posted_at_iso, tweet_url):
-    """Build the POST body for /api/decisions, matching the ops page's published action."""
-    prev = draft.get('decision') or {}
-    before_publish = None
-    if prev.get('action') and prev['action'] not in ('published', 'clear', 'unpublish'):
-        before_publish = prev['action']
-    return {
-        'day': day,
-        'id': draft['id'],
-        'account_id': draft['account_id'],
-        'action': 'published',
-        'published': True,
-        'before_publish': before_publish,
-        'text': prev.get('text') or None,   # keep any admin-edited text
-        'note': prev.get('note') or '',
-        # extra fields for auto-mark provenance
-        'posted_at': posted_at_iso,
-        'tweet_url': tweet_url,
-        'source': 'auto',
-    }
+    """POST body for /api/decisions: exactly what the ops page's 已发 tick sends ({day, id, account_id, action}).
+    decisions.js nextDecision keeps the previous text / note / before_publish for a published flag and stores no
+    extra fields, so posted_at / tweet_url live in the local match log (live/store/auto_published/<day>.json)."""
+    return {'day': day, 'id': draft['id'], 'account_id': draft['account_id'], 'action': 'published'}
 
 
 def post_decision(api_url, payload):
@@ -318,7 +303,13 @@ def main(argv=None):
         if accounts.get(d['account_id'], {}).get('handle'):
             by_acct_day[(d['account_id'], d['day'])].append(d)
 
-    uid_cache = {}
+    uid_file = AUTO_LOG / 'uids.json'   # handle -> rest_id, so later runs spend no /user calls
+    try:
+        uid_cache = json.loads(uid_file.read_text())
+    except (OSError, ValueError):
+        uid_cache = {}
+    n_uids = len(uid_cache)
+    timelines = {}   # handle -> tweets: one /user-tweets call per account even with drafts on two days
     total_calls = 0
     all_matches = []
     all_log_entries = defaultdict(list)
@@ -332,7 +323,9 @@ def main(argv=None):
             print(f'hit max_calls={args.max_calls}: stopping')
             break
         try:
-            tweets = fetch_timeline(client, handle, uid_cache)
+            if handle not in timelines:
+                timelines[handle] = fetch_timeline(client, handle, uid_cache)
+            tweets = timelines[handle]
             total_calls = client.made
         except Exception as exc:
             print(f'{handle}: fetch error {exc}', file=sys.stderr)
@@ -365,6 +358,9 @@ def main(argv=None):
             all_log_entries[day].append(log_entry)
             all_matches.append(log_entry)
 
+    if len(uid_cache) > n_uids:
+        AUTO_LOG.mkdir(parents=True, exist_ok=True)
+        uid_file.write_text(json.dumps(uid_cache, indent=1, sort_keys=True) + '\n')
     for day, entries in all_log_entries.items():
         write_log(day, entries)
 
