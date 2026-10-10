@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Oct 9 (Fiona: ride big-account traffic): daytime engagement pull. Oct 10: schedule every 2h 09:00-21:00 Beijing
-# (01:00-13:00 London in BST: 09/11/13/15/17/19/21 BJT, ~12 RapidAPI calls and ~10 min each, $0 so far: X extraction
+# (09:10/11:10/13:10/15:10/17:10/19:10/21:10 BJT = 02:10-14:10 London in BST, 01:10-13:10 after Oct 25, ~12 RapidAPI calls and ~10 min each, $0 so far: X extraction
 # of engage posts + subrouter fill), on top of the nightly daily_ingest.sh. Two steps, no publishing:
 #   1. fetch the ENGAGE watchlist only (live/engagement.subscriptions: high-traffic same-lane accounts; batched
 #      RapidAPI search with min_faves, shares engagement.json engage_daily_call_cap with the nightly) and extract the
