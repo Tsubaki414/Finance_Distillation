@@ -11,19 +11,19 @@
    "donors": [
     {
      "handle": "Bitwux",
-     "weight": 0.195
+     "weight": 0.125
     },
     {
      "handle": "buereth",
-     "weight": 0.195
+     "weight": 0.125
     },
     {
      "handle": "mindaoyang",
-     "weight": 0.195
+     "weight": 0.125
     },
     {
      "handle": "nbblock",
-     "weight": 0.158
+     "weight": 0.125
     },
     {
      "handle": "Jason60704294",
@@ -31,11 +31,17 @@
     },
     {
      "handle": "0xzhaozhao",
-     "weight": 0.072
+     "weight": 0.125
     },
     {
      "handle": "0xBeyondLee",
-     "weight": 0.061
+     "weight": 0.125
+    },
+    {
+     "handle": "DL_W59",
+     "weight": 0.125,
+     "merged": "pm-donors9-2026-10-10",
+     "why": "157 originals, promo 0.0, ZH only, 18-year trader, macro+US stocks, BTC cycle focus"
     }
    ],
    "bench": [
@@ -516,31 +522,37 @@
    "donors": [
     {
      "handle": "NateGeraci",
-     "weight": 0.248
+     "weight": 0.125
     },
     {
      "handle": "zackvoell",
-     "weight": 0.247
+     "weight": 0.125
     },
     {
      "handle": "glassnode",
-     "weight": 0.223
+     "weight": 0.125
     },
     {
      "handle": "thedefiedge",
-     "weight": 0.124
+     "weight": 0.125
     },
     {
      "handle": "ki_young_ju",
-     "weight": 0.091
+     "weight": 0.125
     },
     {
      "handle": "intangiblecoins",
-     "weight": 0.047
+     "weight": 0.125
     },
     {
      "handle": "RyanWatkins_",
-     "weight": 0.02
+     "weight": 0.125
+    },
+    {
+     "handle": "WhaleTwits",
+     "weight": 0.125,
+     "merged": "pm-donors9-2026-10-10",
+     "why": "160 originals, promo 0.0, EN, Bitcoin since 2013, degen since 2019, macro since 2003"
     }
    ],
    "bench": [
@@ -640,38 +652,44 @@
    "donors": [
     {
      "handle": "robin_j_brooks",
-     "weight": 0.1429,
+     "weight": 0.125,
      "why": "beat 73% of 75 originals, voice distinct 0.54"
     },
     {
      "handle": "elerianm",
-     "weight": 0.1429,
+     "weight": 0.125,
      "why": "beat 62% of 206 originals, crypto 7%, voice distinct 0.47"
     },
     {
      "handle": "GlobalMktObserv",
-     "weight": 0.1429,
+     "weight": 0.125,
      "why": "beat 58% of 144 originals, crypto 6%, voice distinct 0.47 (current donor)"
     },
     {
      "handle": "KobeissiLetter",
-     "weight": 0.1429,
+     "weight": 0.125,
      "why": "beat 49% of 199 originals, crypto 8%, voice distinct 0.38"
     },
     {
      "handle": "JeffSnider_EDU",
-     "weight": 0.1429,
+     "weight": 0.125,
      "why": "beat 34% of 140 originals, crypto 14%, voice distinct 0.59"
     },
     {
      "handle": "MikeZaccardi",
-     "weight": 0.1429,
+     "weight": 0.125,
      "why": "pm-donors8 2026-10-10 twitter241 search/verify: financial writer CFA/CMT, macro markets and charts, clean data-driven analysis, 0 promo"
     },
     {
      "handle": "ekwufinance",
-     "weight": 0.1426,
+     "weight": 0.125,
      "why": "pm-donors8 2026-10-10 twitter241 search/verify: geopolitics/macro/commodities analyst, 399 median likes, independent voice, 0 promo"
+    },
+    {
+     "handle": "macropaperr",
+     "weight": 0.125,
+     "merged": "pm-donors9-2026-10-10",
+     "why": "160 originals, promo 0.0, EN, global capital markets simplified, macro headwinds"
     }
    ],
    "bench": [],
@@ -767,28 +785,40 @@
    "donors": [
     {
      "handle": "SKundojjala",
-     "weight": 0.269,
+     "weight": 0.1426,
      "why": "beat 92% of 155 originals, voice distinct 0.65"
     },
     {
      "handle": "Beth_Kindig",
-     "weight": 0.259,
+     "weight": 0.1429,
      "why": "beat 78% of 209 originals, crypto 10%, voice distinct 0.74"
     },
     {
      "handle": "EconomyApp",
-     "weight": 0.2,
+     "weight": 0.1429,
      "why": "beat 68% of 186 originals, voice distinct 0.59"
     },
     {
      "handle": "aleabitoreddit",
-     "weight": 0.151,
+     "weight": 0.1429,
      "why": "beat 63% of 198 originals, crypto 11%, voice distinct 0.28 (current donor) [below bar]"
     },
     {
      "handle": "jpinsights",
-     "weight": 0.121,
+     "weight": 0.1429,
      "why": "beat 49% of 86 originals, crypto 23%, voice distinct 0.56"
+    },
+    {
+     "handle": "gregoryblotnick",
+     "weight": 0.1429,
+     "merged": "pm-donors9-2026-10-10",
+     "why": "158 originals, promo 0.025, EN, individual equity research/investing frameworks"
+    },
+    {
+     "handle": "bespokeinvest",
+     "weight": 0.1429,
+     "merged": "pm-donors9-2026-10-10",
+     "why": "152 originals, promo 0.0, EN, financial markets research platform"
     }
    ],
    "bench": [
@@ -895,28 +925,40 @@
    "donors": [
     {
      "handle": "OptionsHawk",
-     "weight": 0.258,
+     "weight": 0.1426,
      "why": "beat 67% of 61 originals, voice distinct 0.50"
     },
     {
      "handle": "SPXVIX",
-     "weight": 0.216,
+     "weight": 0.1429,
      "why": "beat 67% of 79 originals, crypto 13%, voice distinct 0.19 (current donor) [below bar]"
     },
     {
      "handle": "MarkNewtonCMT",
-     "weight": 0.214,
+     "weight": 0.1429,
      "why": "beat 48% of 111 originals, crypto 9%, voice distinct 0.54"
     },
     {
      "handle": "TheChartReport",
-     "weight": 0.184,
+     "weight": 0.1429,
      "why": "beat 47% of 72 originals, voice distinct 0.47"
     },
     {
      "handle": "jasongoepfert",
-     "weight": 0.128,
+     "weight": 0.1429,
      "why": "beat 29% of 177 originals, voice distinct 0.39"
+    },
+    {
+     "handle": "CheddarFlow",
+     "weight": 0.1429,
+     "merged": "pm-donors9-2026-10-10",
+     "why": "154 originals, promo 0.0, EN, unusual options flow + dark pools + gamma exposure"
+    },
+    {
+     "handle": "SRxTrades",
+     "weight": 0.1429,
+     "merged": "pm-donors9-2026-10-10",
+     "why": "155 originals, promo 0.0, EN, options + equities trader, volume and price action"
     }
    ],
    "bench": [
@@ -3562,25 +3604,15 @@
   "bespokeinvest": {
    "handle": "bespokeinvest",
    "lang": "en",
-   "category": "market_data_charts",
-   "persona_cluster": "market_data_charts",
+   "category": "investing",
+   "persona_cluster": "acct_en_industry",
    "verified": true,
    "donor_fit": "voice",
    "promo_heavy": false,
-   "followers": 267527,
-   "latest_post": "2026-10-03",
-   "posts_per_day": 10.14,
-   "frequency": "daily+",
-   "median_chars": 108,
-   "style_tags": [
-    "short",
-    "chart/media-led"
-   ],
-   "tone": [
-    "measured",
-    "data-driven",
-    "terse"
-   ]
+   "followers": 267458,
+   "latest_post": "2026-10-09",
+   "originals_scraped": 152,
+   "promo_share": 0.0
   },
   "beth_kindig": {
    "handle": "Beth_Kindig",
@@ -13852,6 +13884,116 @@
    "verified": true,
    "donor_fit": "voice",
    "verify_note": "twitter241; 159 originals scraped; promo_share 0.000 regex; geopolitics, macro, commodities; 399 median likes; independent researcher voice"
+  },
+  "gregoryblotnick": {
+   "handle": "gregoryblotnick",
+   "lang": "en",
+   "category": "investing",
+   "persona_cluster": "acct_en_industry",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 22456,
+   "latest_post": "2026-10-07",
+   "originals_scraped": 158,
+   "promo_share": 0.025
+  },
+  "CheddarFlow": {
+   "verified": true,
+   "donor_fit": "voice",
+   "followers": 365916,
+   "last_post": "2026-10-10",
+   "originals_scraped": 154,
+   "promo_share": 0.0
+  },
+  "SRxTrades": {
+   "verified": true,
+   "donor_fit": "voice",
+   "followers": 141396,
+   "last_post": "2026-10-09",
+   "originals_scraped": 155,
+   "promo_share": 0.0
+  },
+  "macropaperr": {
+   "handle": "macropaperr",
+   "lang": "en",
+   "category": "macro",
+   "persona_cluster": "acct_en_macro",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 24331,
+   "latest_post": "2026-10-10",
+   "originals_scraped": 160,
+   "promo_share": 0.0
+  },
+  "WhaleTwits": {
+   "verified": true,
+   "donor_fit": "voice",
+   "followers": 37953,
+   "last_post": "2026-10-10",
+   "originals_scraped": 160,
+   "promo_share": 0.0
+  },
+  "DL_W59": {
+   "verified": true,
+   "donor_fit": "voice",
+   "followers": 22444,
+   "last_post": "2026-10-09",
+   "originals_scraped": 157,
+   "promo_share": 0.0
+  },
+  "cheddarflow": {
+   "handle": "CheddarFlow",
+   "lang": "en",
+   "category": "trading",
+   "persona_cluster": "acct_trading_shortterm",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 365916,
+   "latest_post": "2026-10-10",
+   "originals_scraped": 154,
+   "promo_share": 0.0
+  },
+  "srxtrades": {
+   "handle": "SRxTrades",
+   "lang": "en",
+   "category": "trading",
+   "persona_cluster": "acct_trading_shortterm",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 141396,
+   "latest_post": "2026-10-09",
+   "originals_scraped": 155,
+   "promo_share": 0.0
+  },
+  "whaletwits": {
+   "handle": "WhaleTwits",
+   "lang": "en",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 37953,
+   "latest_post": "2026-10-10",
+   "originals_scraped": 160,
+   "promo_share": 0.0
+  },
+  "dl_w59": {
+   "handle": "DL_W59",
+   "lang": "zh",
+   "category": "crypto_macro",
+   "persona_cluster": "crypto_macro_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 22444,
+   "latest_post": "2026-10-09",
+   "originals_scraped": 157,
+   "promo_share": 0.0
   }
  }
 }
