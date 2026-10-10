@@ -85,15 +85,17 @@ SHAPES = {
         'length': 'short', 'max_numbers': 1, 'max_number_lines': 1, 'ending': 'none',
         'line_breaks': 'single line',
         'en': ('One-liner: a single line — the point only, no evidence, no closer. May be a fragment, '
-               'a reaction, or a short blunt take. Just the one thing. Stop.'),
-        'zh': ('一句话：一行，只说这一个判断或反应，不用证据，不加结尾。可以是片段、感叹或短评。说完就停。'),
+               'a reaction, or a short blunt take. Just the one thing. No because / as / since / so clause: '
+               'state the take, not its reason. Stop.'),
+        'zh': ('一句话：一行，只说这一个判断或反应，不用证据，不加结尾。可以是片段、感叹或短评。'
+               '不要「因为/所以/毕竟/主要是」解释原因，只说看法本身。说完就停。'),
     },
     'quick_note': {
         'length': 'short', 'max_numbers': 1, 'max_number_lines': 1, 'ending': 'none',
         'line_breaks': '1-3 short lines',
         'en': ('Quick note / observation: 1-3 short lines in first person, diary or observation voice. '
-               'What I just noticed or checked. No verdict required — stop when the observation is done.'),
-        'zh': ('随手记/观察：1-3 短行，第一人称，日记/观察口吻。我刚注意到/看到/查了一下。不需要结论，说完就停。'),
+               'What I just noticed or checked. No verdict and no "this means" line — stop when the observation is done.'),
+        'zh': ('随手记/观察：1-3 短行，第一人称，日记/观察口吻。我刚注意到/看到/查了一下。不下结论，不写「说明/意味着」，说完就停。'),
     },
     'question_only': {
         'length': 'short', 'max_numbers': 1, 'max_number_lines': 1, 'ending': QUESTION,
@@ -125,7 +127,7 @@ _ARG_SHAPES = frozenset(SHAPES) - _NON_ARG_SHAPES
 NONARG_TYPE = {'one_line_take': 'one_liner', 'reaction': 'one_liner', 'quick_note': 'quick_take',
                'question_only': 'question', 'short_list': 'list_dump'}
 NONARG_MAX = 0.80          # never more than 4 in 5 posts non-argument
-NONARG_MIN = 0.70          # 10-10 measure: the donor_rates heuristic reads 40-60% "argument" where the blind
+NONARG_MIN = 0.85          # 10-10 measure: the donor_rates heuristic reads 40-60% "argument" where the blind
                            # classifier gives donors 26-27% claim-evidence-conclusion; at 0.37-0.58 the drafts stayed
                            # at 81% CEC, so at least 3 in 5 standalone posts take a non-argument shape
 ARG_MARGIN = 0.10          # argument posts at donor argument share + 10pp
