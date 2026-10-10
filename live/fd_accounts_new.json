@@ -462,7 +462,8 @@
     "0xLoki_Zeng",
     "LumaoDoggie",
     "blockma",
-    "0xLin88"
+    "0xLin88",
+    "Pilgrim6938"
    ],
    "donor_evidence": {
     "yuyue_chris": {
@@ -513,6 +514,13 @@
      "originals_scraped": 76,
      "posts_per_day_30d": 2.53,
      "promo_share_regex": 0.025
+    },
+    "Pilgrim6938": {
+     "followers": 14688,
+     "last_post": "2026-10-10",
+     "originals_scraped": 156,
+     "posts_per_day_30d": 4.13,
+     "promo_share_regex": 0.0
     }
    },
    "donors_checked": "2026-10-08 twitter241 /user + /user-tweets",
