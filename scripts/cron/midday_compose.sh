@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 # Oct 10: midday fresh-news compose. Two languages, independent invocations.
-#   zh: 10:30 BJT = 03:30 London BST (until Oct 25) / 02:30 London GMT (after Oct 25)
-#       cron: 30 2 * * * (BST: 30 3 * * *; switch after Oct 25)
-#   en: 19:30 BJT = 12:30 London BST (until Oct 25) / 11:30 London GMT (after Oct 25)
-#       cron: 30 11 * * * (BST: 30 12 * * *; switch after Oct 25)
+#   zh: 10:30 BJT = 03:30 London while BST (until Oct 25), 02:30 London after
+#   en: 19:30 BJT = 12:30 London while BST (until Oct 25), 11:30 London after
+#   The Beijing-hour gate below makes a routine fired at the wrong London hour exit harmlessly.
 # Usage: midday_compose.sh <zh|en>
 # Step 1: light ingest for the language (X + flashes, short window, own runs-dir).
 # Step 2: FD_MIDDAY=1 compose via daily_compose.sh so the dashboard rebuild/redeploy happens.
@@ -41,14 +40,7 @@ fi
 # Own lock; also skip when daily_compose.sh or daily_ingest.py is running
 exec 9>/tmp/fd_midday_compose_"${LANG_ARG}".lock
 if ! flock -n 9; then echo "previous midday_compose (${LANG_ARG}) still running: skip"; exit 0; fi
-if flock -n /workspace/x/compose_runs/.daily_compose.lock 2>/dev/null; then
-    # We could acquire the nightly lock; release it immediately (we just checked, we don't want to hold it)
-    exec 8>/workspace/x/compose_runs/.daily_compose.lock
-    if ! flock -n 8; then
-        echo "daily_compose.sh lock is held: skip"
-        exit 0
-    fi
-fi
+# daily_compose.sh takes /workspace/x/compose_runs/.daily_compose.lock itself and exits when it is held.
 if pgrep -f "python[0-9.]* scripts/daily_(compose|ingest)\.py" >/dev/null 2>&1; then
     echo "daily_compose or daily_ingest is running: skip"; exit 0
 fi

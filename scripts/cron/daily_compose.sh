@@ -44,10 +44,14 @@ if [[ "${FD_FEEDBACK:-1}" != "0" ]]; then
     /workspace/fd_venv/bin/python scripts/feedback_priors.py --pull || echo "feedback priors failed (compose unaffected)"
 fi
 # Oct 10 (FD_PERF_DAILY, default on): fetch yesterday's perf and rebuild perf_priors.json; non-fatal.
-if [[ "${FD_PERF_DAILY:-1}" != "0" ]]; then
-    YESTERDAY=$(TZ=Asia/Shanghai date -d 'yesterday' +%F 2>/dev/null || TZ=Asia/Shanghai date -v-1d +%F)
-    PERF_OUT=/workspace/x/perf/daily
+# Once per Beijing day (stamp file), and never from a midday / engagement-fill invocation of this script (engage_pull
+# runs it hourly): <= 45 RapidAPI requests a day.
+YESTERDAY=$(TZ=Asia/Shanghai date -d 'yesterday' +%F)
+PERF_OUT=/workspace/x/perf/daily
+PERF_STAMP="$PERF_OUT/.done_$YESTERDAY"
+if [[ "${FD_PERF_DAILY:-1}" != "0" && "${FD_MIDDAY:-0}" != "1" && "${FD_ENGAGE_ONLY:-0}" != "1" && ! -e "$PERF_STAMP" ]]; then
     mkdir -p "$PERF_OUT"
+    touch "$PERF_STAMP"
     /workspace/fd_venv/bin/python scripts/perf_review.py --fetch --days "$YESTERDAY" --max-requests 45 --out "$PERF_OUT" \
         || echo "perf_review fetch failed (compose unaffected)"
     # Append/dedupe to rolling perf.jsonl (keyed by draft id, keep latest metrics)
