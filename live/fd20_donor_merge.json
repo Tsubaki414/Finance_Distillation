@@ -670,6 +670,42 @@
    "posts": 216,
    "origin": "mango_follow seeds2 2026-10-07: followed by Moya_2025/0xYuxi (seeds2 donor_fit high)",
    "verify_note": "deep scrape 216 originals (RapidAPI twitter241); promo_share 0.074 = max(LLM per-post read 0.074, regex 0.014); AI hardware supply chain (memory/HBM, packaging, optics, power) with earnings pre/post-call single-name reads; soft promo of own research workspace"
+  },
+  "DL_W59": {
+   "lang": "zh",
+   "category": "crypto_macro",
+   "followers": 22444,
+   "promo_share": 0.0,
+   "posts": 157,
+   "origin": "pm-donors9 2026-10-10: zh crypto-macro search (only zh pass across 3 zh queries); top-up for crypto_macro_zh",
+   "verify_note": "deep scrape 157 originals (157/157 zh, last original 2026-10-09); promo_share 0.000; 18-year trader, macro + US stocks, BTC cycle focus; 0 prior accounts (cc_jobs/pm_donors9_REPORT.md, REVIEW.md). Meta backfilled 2026-10-10 after compose KeyError."
+  },
+  "WhaleTwits": {
+   "lang": "en",
+   "category": "crypto_macro",
+   "followers": 37953,
+   "promo_share": 0.0,
+   "posts": 160,
+   "origin": "pm-donors9 2026-10-10: en crypto-macro search; top-up for crypto_macro_en",
+   "verify_note": "deep scrape 160 originals (en 154, zxx 6; last original 2026-10-10); promo_share 0.000; Bitcoin since 2013 / macro since 2003, BTC + macro commentary; 0 prior accounts (cc_jobs/pm_donors9_REPORT.md, REVIEW.md). Meta backfilled 2026-10-10 after compose KeyError."
+  },
+  "ByrneHobart": {
+   "lang": "en",
+   "category": "investing_general",
+   "followers": 61875,
+   "promo_share": 0.0,
+   "posts": 155,
+   "origin": "pm-donors7 2026-10-10: top-up for investing_philosophy (macro/finance essayist, Boom co-author)",
+   "verify_note": "deep scrape 155 originals (en 145; last original 2026-10-10); promo_share 0.000; long-horizon thinking, market history, compounding (cc_jobs/pm_donors7_REPORT.md). Meta backfilled 2026-10-10: pm-donors7 tagged it merged in the roster but never listed it in accounts.investing_philosophy, so persona_factory would have stripped it."
+  },
+  "dollarsanddata": {
+   "lang": "en",
+   "category": "investing_general",
+   "followers": 190248,
+   "promo_share": 0.025,
+   "posts": 153,
+   "origin": "pm-donors7 2026-10-10: top-up for investing_philosophy (Nick Maggiulli, Just Keep Buying)",
+   "verify_note": "deep scrape 153 originals (en 152; last original 2026-09-30); promo_share 0.025; data-driven long-term wealth-building; also in longterm_investing_en (cc_jobs/pm_donors7_REPORT.md). Meta backfilled 2026-10-10 (same reason as ByrneHobart)."
   }
  },
  "accounts": {
@@ -1170,7 +1206,9 @@
   "investing_philosophy": {
    "donors": [
     "ThierryBorgeat",
-    "WillieDelwiche"
+    "WillieDelwiche",
+    "ByrneHobart",
+    "dollarsanddata"
    ],
    "x_sources": {
     "CORE": [

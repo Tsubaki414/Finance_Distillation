@@ -173,8 +173,13 @@ def merge_cluster(roster, account, merge):
                                 for d in c['donors'])
     have = {d['handle'].lower() for d in base}
     new = []
+    meta_of = merge.get('donors') or {}
     for h in adds:
-        meta = merge['donors'][h]
+        meta = meta_of.get(h)
+        if meta is None:   # account list names a donor with no donors{} entry: skip it, don't sink the nightly
+            print(f'WARN {account["id"]}: merged donor {h} has no donors{{}} meta in {MERGE.name}; skipped',
+                  file=sys.stderr)
+            continue
         if meta['lang'] != account['lang']:
             raise SystemExit(f'{account["id"]}: merged donor {h} is {meta["lang"]}, account is {account["lang"]}')
         if meta['promo_share'] > MERGE_MAX_PROMO:
@@ -195,7 +200,7 @@ def merge_cluster(roster, account, merge):
     share = BASE_SHARE if new else 1.0
     donors = [{**d, 'weight': round(d['weight'] / total * share, 4)} for d in base]
     donors += [{'handle': h, 'weight': round((1 - BASE_SHARE) / len(new), 4), 'merged': merge['version'],
-                'why': merge['donors'][h]['origin']} for h in new]
+                'why': meta_of[h]['origin']} for h in new]
     if donors == cluster['donors']:
         return False
     cluster['donors'] = donors
@@ -298,7 +303,7 @@ def main():
         if merge and merge_cluster(roster, account, merge):
             changed_roster = True
             merged.add('acct_' + aid)
-            row['merged'] = merge['accounts'][aid]['donors']
+            row['merged'] = ((merge.get('accounts') or {}).get(aid) or {}).get('donors') or []
         if emotion['personas'].get(aid) != account['emotion_tier']:
             if aid not in emotion['personas']:   # never retune an existing account's tier here
                 emotion['personas'][aid] = account['emotion_tier']
