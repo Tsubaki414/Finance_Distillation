@@ -44,7 +44,7 @@ _FW_EN = re.compile(
 )
 
 # CJK character range used for ZH key extraction
-_CJK = re.compile(r'[一-鿿㐀-䶿豈-﫿 0-⩭f]')
+_CJK = re.compile(r'[\u4e00-\u9fff\u3400-\u4dbf]')   # Oct 11 review: the old class also matched ASCII 0-9A-Za-z
 
 
 def _is_forward_watch(last_line: str, lang: str) -> bool:
@@ -97,7 +97,7 @@ def _day_str_in_window(day_str: str, today_bjt: date, window_days: int = 14) -> 
     except (ValueError, TypeError):
         return False
     delta = (today_bjt - d).days
-    return 1 <= delta < window_days + 1   # exclude today itself; include window_days back
+    return 0 <= delta < window_days + 1   # Oct 11 review: earlier drafts of the same day count too (the current one is excluded by id)
 
 
 # ------------------------------------------------------------------ inbox reader
@@ -270,6 +270,14 @@ def repair_last_line(row: dict, findings: list[dict]) -> dict:
     lang = str(lang)[:2].lower()
 
     new_body, removed = _fix_last_line(body, lang)
+    if (not removed or new_body == body) and 'closer_ngram_repeat' in codes:
+        # Oct 11 (account audit fix 4): a repeated closer is rejected even when it is not a formula / moral line -
+        # the last line goes when the post has >= 2 non-empty lines and that line carries no number / ticker
+        lines = [l for l in body.splitlines() if l.strip()]
+        last = _last_nonempty_line(body)
+        if len(lines) >= 2 and not re.search(r'\d|\$[A-Za-z]{2,10}\b', last):
+            idx = body.rstrip().rfind(last)
+            new_body, removed = body[:idx].rstrip(), last
 
     if not removed or new_body == body:
         return {'kept': False, 'removed': '', 'reason': codes}

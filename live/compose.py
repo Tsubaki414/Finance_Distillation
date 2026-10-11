@@ -1647,13 +1647,20 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         from live.stance import apply_stance_scrub
         stance = apply_stance_scrub(stance)
         payload['stance'] = stance
-        if stance.get('account_view'):
+        human_kind = (fmt_info or {}).get('kind')   # Oct 11 (live/post_kind.py): reaction / question / meme / diary ...
+        if stance.get('account_view') and human_kind:
+            # a human post kind is not a thesis post: the stance is background mood, kind_rule owns the shape
+            payload['evidence_budget'] = dict(EVIDENCE_BUDGET, max_numbers=1 if human_kind != 'industry_people' else 2)
+            payload['kind_note'] = (f'This post is KIND {human_kind} (post_format.kind_rule, HARD): stance.account_view '
+                                    'is only background for the mood - do not open with it, do not argue it, no '
+                                    'thesis line, no evidence chain.')
+        elif stance.get('account_view'):
             # Thesis first, thin evidence: lock the call and cap the numbers before writing.
             payload['thesis_lock'] = stance['account_view']
             payload['evidence_budget'] = dict(EVIDENCE_BUDGET)
             if shape_block:
                 payload['evidence_budget']['max_numbers'] = number_budget(shape_block)
-        if pack_balance(chosen)['pure_data'] and stance.get('account_view'):
+        if pack_balance(chosen)['pure_data'] and stance.get('account_view') and not human_kind:
             payload['pack_guidance'] = ('Line 1 must still be the account call from stance.account_view. '
                                         'Use facts as evidence; do not invent non-fact units.')
     from live import emotion_contract as ec
@@ -1946,7 +1953,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     # One retry shared across no_judgment / data_list / verbatim_line1; never hard-block.
     judgment_retry = None
     thesis_for_line1 = (payload.get('thesis_lock') or (stance or {}).get('account_view') or '')
-    if sig and (stance and stance.get('account_view') or post_type in JUDGMENT_TYPES):
+    if sig and (stance and stance.get('account_view') or post_type in JUDGMENT_TYPES) and not (fmt_info or {}).get('kind'):
+        # Oct 11: a human post kind (live/post_kind.py) has no judgment-first line 1 to repair
         j_findings = [f for f in judgment_findings(body, stance) if f['code'] in ('no_judgment', 'data_list')]
         j_findings += verbatim_line1_findings(body, stance, thesis_lock=thesis_for_line1)
         if j_findings:

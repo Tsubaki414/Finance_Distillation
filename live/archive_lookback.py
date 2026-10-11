@@ -667,6 +667,12 @@ def candidates(fetched, account_cfg, day, *, config, used=frozenset()):
                 continue
             if set(event_keys(c, c['subject']['key'])) & set(used):
                 continue
+            if os.environ.get('FD_ARCHIVE_AUDIT_GATE', '1') != '0' and os.environ.get('FD_STORY_DEDUPE', '1') != '0':
+                # Oct 11 account audit: a story already at its caps today (cached label / names only, no model call)
+                from live import story_dedupe
+                if story_dedupe.archive_ledger(day).check(account_cfg.get('id'), account_cfg.get('lang'),
+                                                          story_dedupe.story_of(c['text'])):
+                    continue
             out.append(c)
 
     crypto_account = editorial_style_is_crypto(account_cfg)
@@ -1496,6 +1502,21 @@ def run(account_ids, day, *, timely_planned=None, force=False, config=None, writ
         if off:
             row.update(held=True, hold_reason='off_lane: ' + off, draft_status='needs_review')
             hand_over(day, acc, result['cand'], off, chosen_variant)
+        if os.environ.get('FD_ARCHIVE_AUDIT_GATE', '1') != '0':
+            # Oct 11 account audit (live/story_dedupe.py): the composed draft's story vs today's caps + the account's
+            # topic allowlist (LLM label, cached); a capped story is held, an off-lane one held and handed over
+            from live import story_dedupe
+            why, st = story_dedupe.archive_gate(acc, row.get('body') or '', day, label_model=True,
+                                                off_lane_prefix=OFF_LANE)
+            row['story'] = {'keys': st['keys'][:12], 'tokens': st['tokens'][:10], 'label': st.get('label')}
+            if st.get('bucket'):
+                row['topic_bucket'] = st['bucket']
+            if why and not row.get('held'):
+                row.update(held=True, hold_reason=('off_lane: ' if why.startswith(OFF_LANE) else 'story: ') + why,
+                           draft_status='needs_review')
+                hand_over(day, acc, result['cand'], why, chosen_variant)
+            elif not row.get('held'):
+                story_dedupe.archive_taken(acc, st, day)
         taken |= {k for k in row['archive']['event_keys'] if k.startswith('x:')}
         info.update(variant=chosen_variant, draft_id=row['id'], held=row['held'], hold_reason=row['hold_reason'],
                     original_url=row['archive']['original_url'])

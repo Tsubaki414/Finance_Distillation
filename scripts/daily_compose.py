@@ -46,7 +46,7 @@ import demo_matrix_compose as demo  # noqa: E402
 from voice_relay_check import evidence_source  # noqa: E402
 from live import (angles, anti_repeat, compose, compose_inbox, editorial_style, fd_accounts, news_hook,  # noqa: E402
                   posting_habits as ph, registry, source_prescreen as prescreen, source_routes, stage_models,
-                  topic_div, twins, engagement)
+                  topic_div, twins, engagement, post_kind)
 from live.adapters import delphi_digest  # noqa: E402
 from live.content_store import ContentStore  # noqa: E402
 from live.retrieval import units_for_persona  # noqa: E402
@@ -410,6 +410,8 @@ def drafted_today(day, ready_only=False):
         if (r.get('text') or '').strip() and r.get('day') == day.isoformat():
             if ready_only and (r.get('held') or r.get('superseded') or r.get('draft_status') != 'draft_ready'):
                 continue
+            if r.get('slot') == 'diary':   # Oct 11: the diary slot is on top of --per-account / the ceiling
+                continue
             out[r['account_id']] = out.get(r['account_id'], 0) + 1
     return out
 
@@ -718,6 +720,154 @@ def fresh_pref(g, ref, env=None):
         return False
 
 
+def audit_context(day, pools, allow_model=False, info=None, motif_of=None):
+    """Oct 11 account audit fixes, shared by every select() round (main, fills, engagement-only fills):
+    story caps (live/story_dedupe.py), per-account topic allowlist + off-lane quota with handover (live/lane_allow.py on
+    top of lane_fit.reassign_target), 7-day story memory, weekly post-kind mix + diary slot (live/post_kind.py).
+    One labelling pass (live/story_label.py, cached, subrouter flash) per select when allow_model; never fatal."""
+    from live import lane_allow as la, lane_fit, story_dedupe as sd, story_label as sl
+    story_on, lane_on = sd.enabled(), la.enabled()
+    kind_on, diary_on = post_kind.enabled(), post_kind.diary_enabled()
+    engage_caps = os.environ.get('FD_STORY_ENGAGE', '1') != '0'
+    day_s = day.isoformat() if hasattr(day, 'isoformat') else str(day)
+    try:
+        hist = sd.history_rows(day) if (story_on or lane_on or kind_on) else []
+    except Exception:   # noqa: BLE001
+        hist = []
+    stats = {}
+    if story_on or lane_on:
+        t0 = time.time()
+        texts = [group_text(g) for p in pools.values() for g in p]
+        texts += [sd.row_text(r) for r in hist if not (r.get('story') or {}).get('keys')]
+        try:
+            _lab, stats = sl.label_many(texts, allow_model=allow_model or os.environ.get('FD_STORY_LLM_FORCE') == '1')
+        except Exception as exc:   # noqa: BLE001 - deterministic keys + keyword buckets stand on their own
+            stats = {'error': f'{type(exc).__name__}: {str(exc)[:160]}'}
+        stats['seconds'] = round(time.time() - t0, 1)
+        print(f"story labels: {json.dumps(stats)}", flush=True)
+    ledger = sd.ledger_for(day, rows=hist)
+    memo, offer_src, reassign_memo = {}, {}, {}
+    relax = [False]
+    offl_plan, plan_kinds, human_today = Counter(), {}, set()
+    skips, lane_off, handed, repeats, kinds, relaxed = {}, [], [], [], Counter(), []
+    for r in hist:
+        if r.get('day') == day_s and post_kind.is_human(post_kind.row_kind(r)):
+            human_today.add(r.get('account_id'))
+    lang_of = {aid: (c.get('lang') or '')[:2] for aid, c in la.mix().items()}
+
+    def story_of(g, _motif=None):
+        k = id(g)
+        if k not in memo:
+            src = g[0]['source']
+            m = motif_of(g) if motif_of else None
+            memo[k] = sd.story_of(group_text(g), src.get('title') or '', motif=f'{day_s}:{m}' if m else None)
+        return memo[k]
+
+    def offlane_n(account):
+        return la.offlane_used(account, hist) + offl_plan[account]
+
+    def offlane_today(account):
+        return offl_plan[account] > 0 or any(r.get('offlane_aside') and r.get('account_id') == account
+                                             and r.get('day') == day_s for r in hist)
+
+    def check(account, lang, st, ek):
+        if story_on and (engage_caps or not ek):
+            why = ledger.check(account, lang, st)
+            if why:
+                return why
+        if lane_on and not ek:
+            v = la.verdict(account, st.get('bucket'))
+            if relax[0] and v in ('off', 'offlane_ok') and \
+                    (la.cfg(account).get('donor_bucket_share') or {}).get(st.get('bucket'), 0) > 0:
+                return None   # 'relax' round: an account left with nothing takes a topic its donors do touch
+            if v == 'off':
+                return f"lane_off: {st.get('bucket')}"
+            if v == 'offlane_ok' and (offlane_n(account) >= la.quota(account) or offlane_today(account)):
+                return f"lane_off_quota: {st.get('bucket')}"
+        return None
+
+    def taken(account, lang, p, g, _motif, special):
+        st = story_of(g)
+        if story_on and ledger.repeat(account, st):
+            p['story_repeat'] = True
+            repeats.append(account)
+        ledger.add(account, lang, st)
+        p['story'] = {'keys': st['keys'][:12], 'tokens': st['tokens'][:10], 'label': st.get('label')}
+        if st.get('bucket'):
+            p['topic_bucket'] = st['bucket']
+        if lane_on and la.verdict(account, st.get('bucket')) == 'offlane_ok':
+            p['offlane_aside'] = True
+            offl_plan[account] += 1
+        if special == 'handover':
+            p['reassigned_from'] = offer_src.get(id(g))
+            handed.append({'from': p['reassigned_from'], 'to': account, 'bucket': st.get('bucket'),
+                           'title': str(p.get('title') or '')[:80]})
+        if special == 'diary':
+            p.update(kind='diary', slot='diary')
+        if special == 'relax':
+            p['lane_relaxed'] = True
+            relaxed.append(account)
+
+    def demote(account, groups):
+        if not story_on:
+            return groups
+        return sorted(groups, key=lambda g: ledger.repeat(account, story_of(g)))
+
+    def offers(account, lang):
+        out, seen = [], set()
+        for frm, g, bucket in lane_off:
+            if id(g) in seen or frm == account or lang_of.get(frm) != str(lang)[:2]:
+                continue
+            if id(g) not in reassign_memo:
+                try:
+                    t = lane_fit.reassign_target(group_text(g), lang)
+                except Exception:   # noqa: BLE001
+                    t = None
+                reassign_memo[id(g)] = (t or {}).get('account')
+            if reassign_memo[id(g)] == account or account in la.fit_accounts(bucket, lang, exclude={frm}):
+                seen.add(id(g))
+                offer_src.setdefault(id(g), frm)
+                out.append(g)
+        return out
+
+    def diary_due(account, picks):
+        if not diary_on or not post_kind.is_diary_account(account):
+            return False
+        if any(p.get('slot') == 'diary' for p in picks):
+            return False
+        return not any(r.get('slot') == 'diary' and r.get('account_id') == account and r.get('day') == day_s
+                       for r in hist)
+
+    def kind_for(account, p):
+        if not kind_on:
+            return None
+        if p.get('slot') == 'diary':
+            kinds['diary'] += 1
+            return 'diary'
+        mine = plan_kinds.setdefault(account, Counter())
+        counts = Counter(post_kind.week_counts(account, hist)) + mine
+        if account not in human_today and post_kind.needs_human(account, counts, day=day if hasattr(day, 'toordinal') else None):
+            k = post_kind.choose_kind(account, counts, text=p.get('title') or '', numbers=p.get('numbers') or 0)
+            mine[k] += 1
+            human_today.add(account)
+            kinds[k] += 1
+            return k
+        mine['a' if (p.get('numbers') or 0) >= 4 else 'c'] += 1
+        return None
+
+    def summary():
+        return {'story_dedupe': story_on, 'lane_allow': lane_on, 'post_kind': kind_on, 'diary_slot': diary_on,
+                'labels': stats, 'history_rows': len(hist),
+                'skips': {a: dict(c) for a, c in skips.items()},
+                'skips_total': dict(sum((c for c in skips.values()), Counter())),
+                'handovers': handed, 'lane_off_offered': len(lane_off), 'story_repeats': repeats,
+                'human_kinds': dict(kinds), 'offlane_asides': dict(offl_plan), 'lane_relaxed': relaxed}
+
+    return {'story_of': story_of, 'check': check, 'taken': taken, 'demote': demote, 'offers': offers,
+            'diary_due': diary_due, 'kind_for': kind_for, 'summary': summary, 'skips': skips, 'lane_off': lane_off,
+            'lane_on': lane_on, 'diary_on': diary_on, 'ledger': ledger, 'relax': relax}
+
+
 def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT, seed_events=(), reuse=None,
            rewrites=None, now=None, allow_model=False, info=None, skip_sources=None):
     """info: optional dict, filled with the FD_HOTSPOT day summary ('hotspot') for plan.json.
@@ -796,6 +946,11 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
     if div is not None and hot is not None:
         diversity_gate_hotspot(hot, div)
     heat_keys = apply_heat(pools, day, ref, reuse, skip=set(hot.assign) if hot else ())
+    # Oct 11 account audit (live/story_dedupe.py, live/lane_allow.py, live/post_kind.py): story caps across accounts,
+    # per-account topic allowlist + off-lane quota, 7-day story memory, weekly post-kind mix, diary slot
+    sctx = audit_context(day, pools, allow_model=allow_model, info=info,
+                         motif_of=(lambda g: hot.motif_of(demo._key(g[0]))) if hot is not None else None)
+    story_of_g = sctx['story_of']
     order = sorted(pools, key=lambda a: len(pools[a]))     # scarce accounts pick first in every round
     event_takers = {}            # event key (source key / hook / 母题) -> [(account, angle, lang)]
     ent_takers = {}              # twin rule: account -> named entities of its picks today (FD_TWIN_RULE)
@@ -941,6 +1096,8 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
         return any((heat_of(g) or 0) >= ZH_HOT_MIN and slot_kind(g[0]['source'].get('id')) == 'standalone'
                    and (test is None or test(g)) for g in pools[account])
 
+    diary_mode = [False]
+
     def try_pick(account, lang, lead, groups):
         mine = {tuple(p['source_key']) for p in plan[account]}
         for g in groups:
@@ -956,6 +1113,13 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             if twins.twin_of(account) and twins.clash(account, events, packet_entities(g), event_takers, ent_takers):
                 ek and engage_diag[account].update(['twin'])
                 continue   # FD_TWIN_RULE: zh/en twins (27/32, 28/33, 29/34, 30/36) never take one event on one day
+            st = story_of_g(g, hot.motif_of(skey) if hot is not None else None)
+            why_s = sctx['check'](account, lang, st, ek)
+            if why_s:
+                sctx['skips'].setdefault(account, Counter())[why_s.split(':')[0]] += 1
+                if why_s.startswith('lane_off'):
+                    sctx['lane_off'].append((account, g, st.get('bucket')))
+                continue
             share = set()   # Oct 10 (#1): accounts already on this target post that this one may share it with
             if ek and pick_gate and engagement.max_per_post() > 1:
                 ea = engage_assess(account, g)
@@ -963,6 +1127,11 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                 if pid in eng_state.users and eng_state.open_for(pid, account, lang_of.get(account), assess=ea):
                     share = {u[0] for u in eng_state.users[pid]}
             takers = [t for e in events for t in event_takers.get(e, []) if t[2] == lang and t[0] not in share]
+            if diary_mode[0]:   # Oct 11: a diary line may share today's packet; the story caps above still bind
+                if any(t[0] == account for t in takers):
+                    continue
+                angle, why = angles.assign(lead, group_text(g), taken=set(), boost=None)
+                return (g, events, angle, why, sorted({t[0] for t in takers}))
             if len({t[0] for t in takers}) >= MAX_ACCOUNTS_PER_EVENT or any(t[0] == account for t in takers):
                 ek and engage_diag[account].update(['event_cap'])
                 continue
@@ -982,14 +1151,25 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
     # slots go to the accounts the decision chose, each with its own lens; a pick that no longer fits (event cap / no
     # free lens / ceiling) is recorded as HOLD. Without hotspots the first round is empty.
     hot_round = [a for a in order if hot is not None and a in hot.assign]
-    for _round in [hot_round] + [None] * per_account:
-        for account in (order if _round is None else _round):
-            if len(plan[account]) + done.get(account, 0) >= cap or len(plan[account]) >= per_account:
-                if _round is not None:
+    # Oct 11: two extra rounds - 'handover' (picks another account's lane gate turned away go to a fitting account
+    # with a free slot) and 'diary' (diary-lane accounts: one extra daily diary slot)
+    # 'relax': an account still without a pick (and nothing drafted today) may take a topic its donors touch
+    extra_rounds = ([('handover',), ('relax',)] if sctx['lane_on'] else []) + ([('diary',)] if sctx['diary_on'] else [])
+    for _round in [hot_round] + [None] * per_account + extra_rounds:
+        special = _round[0] if isinstance(_round, tuple) else None
+        for account in (order if _round is None or special else _round):
+            if special == 'diary':
+                if not sctx['diary_due'](account, plan[account]) or \
+                        len(plan[account]) + done.get(account, 0) >= MAX_PER_ACCOUNT:
+                    continue
+            elif special == 'relax' and (plan[account] or done.get(account, 0)):
+                continue
+            elif len(plan[account]) + done.get(account, 0) >= cap or len(plan[account]) >= per_account:
+                if _round is not None and not special:
                     hot.record(account, hot.assign[account][0], decision='HOLD', reason='daily ceiling already reached')
                 continue
             lang = next(x['lang'] for x in accounts if x['id'] == account)
-            if _round is not None and slot_rule:
+            if _round is not None and not special and slot_rule:
                 hg = next((g for g in pools[account] if tuple(demo._key(g[0])) == tuple(hot.assign[account][1])), None)
                 if hg is not None and not slot_ok(account, hg):
                     why_ = ('slot rule: engagement target not live / slot taken' if slot_kind(hg[0]['source'].get('id')) == 'engage'
@@ -1003,11 +1183,29 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                     continue
             lead = universes[account].get('angle_lead') or universes[account].get('angle_mix') or {}
             motif = None
-            if _round is None:
+            if special == 'handover':
+                groups = [g for g in sctx['offers'](account, lang) if slot_ok(account, g)]
+                pick = try_pick(account, lang, lead, groups)
+            elif special == 'relax':
+                sctx['relax'][0] = True
+                try:
+                    pick = try_pick(account, lang, lead, [g for g in pools[account] if slot_ok(account, g)])
+                finally:
+                    sctx['relax'][0] = False
+            elif special == 'diary':
+                groups = sctx['demote'](account, [g for g in pools[account]
+                                                  if slot_kind(g[0]['source'].get('id')) == 'standalone'])
+                diary_mode[0] = True
+                try:
+                    pick = try_pick(account, lang, lead, groups)
+                finally:
+                    diary_mode[0] = False
+            elif _round is None:
                 groups = pools[account]
                 if div is not None:   # own sources first, a theme not yet used today, a story nobody took yet
                     groups = diversity_order(account, groups, plan[account], event_takers, div)
                 groups = zh_hot_first(account, lang, groups)   # stable: lane_first below keeps on-lane first
+                groups = sctx['demote'](account, groups)   # Oct 11: a story the account ran in the last 7 days goes last
                 groups = lane_first(next(x for x in accounts if x['id'] == account), groups, x_of[account])
                 if slot_rule and not engage_diag[account].get('pool_engage'):
                     eg = [g for g in groups if slot_kind(g[0]['source'].get('id')) == 'engage']
@@ -1071,6 +1269,8 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             # Oct 10 fix (4a): the applied perf multiplier, auditable in plan.json (format filled in below)
             if _perf_pr:
                 plan[account][-1]['perf_priors'] = perf_record(_perf_pr, lang, g)
+            sctx['taken'](account, lang, plan[account][-1], g, hot.motif_of(demo._key(g[0])) if hot is not None else None,
+                          special)
     # Oct 8 (live/engagement.py, FD_ENGAGE): cold accounts reply to / quote the best big-account targets among their
     # picks (1 reply + 1 quote, or 2 replies, a day), timed while the target is hot; other picks stay standalone and
     # never quote a target that fails the scoring.
@@ -1103,8 +1303,15 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                 force = 'quote_comment' if quote else None
             if _perf_pr and not force:   # Oct 10 fix (4c): bias the habit card's type mix by the perf format weight
                 c['post_type_mix'] = biased_type_mix(_perf_pr, p.get('account_lang'), c.get('post_type_mix') or {})
-            fmt = ph.choose_format(persona, recent=recent, seed=f'{day}|{account}|{p["source_id"]}', card=c,
-                                   force_type=force)
+            # Oct 11 (live/post_kind.py): weekly kind mix - a standalone pick may become a human kind
+            kind = None if (force or (d or {}).get('mode') or slot_kind(p.get('source_id')) == 'engage') \
+                else sctx['kind_for'](account, p)
+            if kind:
+                fmt = post_kind.post_format(kind, p.get('account_lang'))
+                p['kind'] = kind
+            else:
+                fmt = ph.choose_format(persona, recent=recent, seed=f'{day}|{account}|{p["source_id"]}', card=c,
+                                       force_type=force)
             if p.get('perf_priors'):
                 p['perf_priors'] = perf_record(_perf_pr, p.get('account_lang'), None, fmt=fmt['type'],
                                                base=p['perf_priors'])
@@ -1117,6 +1324,10 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                 t = ph.sample_post_time(card, day, seed=f'{account}|{p["source_id"]}', taken=times, min_gap_min=90)
                 times.append(t)
             p['post_format'] = {k: fmt[k] for k in ('type', 'length', 'thread_parts', 'length_target', 'shapes')}
+            if kind:
+                p['post_format'].update(kind=kind, kind_account=account, no_nat=True)
+            if p.get('offlane_aside'):
+                p['post_format']['offlane_aside'] = True
             if d is not None and (d.get('mode') or (d.get('assess') or {}).get('url')):
                 from live import engagement as _eng
                 p['engagement'] = _eng.pick_record(d)
@@ -1160,6 +1371,8 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
         info['engage_pick_diag'] = {a: dict(c) for a, c in engage_diag.items()}
     if div is not None and info is not None:
         info['topic_div'] = div['summary']
+    if info is not None:
+        info['audit_fixes'] = sctx['summary']()
     if hot is not None:
         hot.meta.pop('_feedback', None)
         hot.save()
@@ -1188,6 +1401,8 @@ def row_slot_kind(row):
     e = row.get('engagement') or {}
     if (row.get('post_format') or {}).get('engage') in ('reply', 'quote') or e.get('mode') in ('reply', 'quote'):
         return 'engage'
+    if row.get('slot') == 'diary':   # Oct 11: the diary-lane extra slot (live/post_kind.py) is its own slot
+        return 'diary'
     return 'standalone'
 
 
@@ -1211,7 +1426,7 @@ def day_slots(day):
             expire_row(r, day_s, now)
             continue
         k = out.setdefault(r.get('account_id'), {'standalone': 0, 'engage': 0})
-        k[row_slot_kind(r)] += 1
+        k[row_slot_kind(r)] = k.get(row_slot_kind(r), 0) + 1
     return out
 
 
@@ -1778,6 +1993,9 @@ def inbox_row(result, account_cfg, day, run_id):
                                   'retry_codes': sorted({f['code'] for f in repair.get('retry_findings') or []})}}
                if repair else {}),
             **({'lane_fit': result['lane_fit']} if result.get('lane_fit') else {}),
+            # Oct 11 account audit: story (dedupe / memory), topic bucket, human kind, off-lane aside, handover, slot
+            **{k: pick[k] for k in ('story', 'topic_bucket', 'kind', 'offlane_aside', 'reassigned_from', 'slot',
+                                    'story_repeat', 'lane_relaxed') if pick.get(k)},
             **({'stale_frame': result['stale_frame']} if result.get('stale_frame') else {}),
             # Oct 11: the humanize post-step's changes + the pre-humanize text (root-cause audits of line edits)
             **({'humanize': result['humanize']} if result.get('humanize') else {}),
@@ -2038,7 +2256,8 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
                     records.setdefault(r['unit_id'], r)
         state['records'] = records
     client, table, records = state['client'], state['table'], state['records']
-    jobs = [(a, p) for i in range(per_account) for a in accts if i < len(plan[a['id']]) for p in [plan[a['id']][i]]]
+    jobs = [(a, p) for i in range(MAX_PER_ACCOUNT) for a in accts if i < len(plan[a['id']]) for p in [plan[a['id']][i]]
+            if i < per_account or p.get('slot') == 'diary']   # Oct 11: the diary slot is on top of --per-account
     spend, lock, quota = state['spend'], state['lock'], state['quota']
     est = EST_PER_DRAFT_PRO if 'pro' in stage_models.for_stage(table, 'compose')['model'] else EST_PER_DRAFT
     # Oct 8: compose on flat-rate subrouter costs the run budget nothing (calls ledgered at nominal cost, 0 toward the
@@ -2135,7 +2354,7 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
         for r in ok:
             if not r.get('body'):
                 continue
-            _cn_findings = _cn.closer_findings(r)
+            _cn_findings = _cn.closer_findings(r, today_bjt=args.day)   # Oct 11 review: the drafting day, not the wall clock
             if _cn_findings:
                 r.setdefault('post_checks', [])
                 r['post_checks'].extend(_cn_findings)
@@ -2184,7 +2403,17 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
     for r in ok:   # arbitration compares drafts of this Beijing day (not the sources' own dates) in one language
         r['day'], r['account_lang'] = args.day.isoformat(), r['plan']['account_lang']
         # Oct 8 evening (FD_LANE_FIT): a niche draft on broad news without a lane tie-in is held off_lane
+        _kind = ((r.get('plan') or {}).get('post_format') or {}).get('kind')
+        _bio = post_kind.bio_findings(r.get('body') or '', r['plan']['account_lang'], _kind)
+        _dense = post_kind.density_findings(r.get('body') or '', r['plan']['account_lang'], _kind)
+        if _dense:   # SOFT: recorded for review / measurement only
+            r.setdefault('post_checks', []).extend(_dense)
+        if _bio:   # Oct 11: a human post kind never claims trades / P&L / places / family (PENDING persona facts)
+            r.setdefault('post_checks', []).extend(_bio)
+            r['draft_status'] = 'needs_review'
         lf = lane_fit.draft_check(by_id[r['account_id']], r.get('body') or '')
+        if (r.get('plan') or {}).get('offlane_aside'):   # Oct 11: a quota'd persona-consistent aside (lane_allow)
+            lf = {'ok': True, 'why': 'offlane_aside'}
         if lf['ok']:   # Oct 11: a BTC/ETH macro account's draft must be on its lane too (else HOLD + reassign hint)
             lf = lane_fit.macro_draft_check(by_id[r['account_id']], r.get('body') or '')
         if not lf['ok']:
