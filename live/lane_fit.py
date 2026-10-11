@@ -35,7 +35,7 @@ LANE_RX = {
         r'空投|撸毛|积分|交互|快照|测试网|女巫|领取|撸空投|tge|打新', re.I),
     'crypto_prediction': re.compile(
         r'polymarket|kalshi|prediction markets?|limitless|myriad|implied (?:probability|odds)|betting odds|'
-        r'预测市场|盘口|赔率|押注|概率盘|prediction market|预测盘|博彩|押|概率|市场隐含', re.I),
+        r'预测市场|盘口|赔率|押注|概率盘|预测盘|市场隐含概率', re.I),
     'crypto_perp': re.compile(
         r'\bperps?\b|perpetuals?|funding rates?|\bfunding\b|open interest|\bOI\b|liquidat\w*|leverag\w*|'
         r'hyperliquid|\bhype\b|\baster\b|\blighter\b|\bdydx\b|\bgmx\b|\bdrift\b|basis trade|long/short|'

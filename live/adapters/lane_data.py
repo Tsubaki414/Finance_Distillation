@@ -635,6 +635,7 @@ def tokenless_activity(*, transport=None, now=None, top=8):
 # ---------------------------------------------------------------- stablecoin supply lane (Oct 11)
 
 STABLE_DEPEG_BAND = (0.995, 1.005)   # price outside this range is a depeg signal
+STABLE_DEPEG_SANE = (0.5, 1.02)      # ... inside this one (see stablecoin_supply)
 _STABLE_SKIP = re.compile(r'test|demo|wrapped|^w[A-Z]', re.I)
 
 
@@ -681,6 +682,10 @@ def stablecoin_supply(*, transport=None, now=None, top=8, min_supply=1e9, depeg_
             continue
         price = float(price)
         if STABLE_DEPEG_BAND[0] <= price <= STABLE_DEPEG_BAND[1]:
+            continue
+        # > +2%: an accruing yield / treasury token (USYC ~1.14), not a depeg; < 0.5: a broken price feed more often
+        # than a real event - neither is stated as a depeg
+        if price > STABLE_DEPEG_SANE[1] or price < STABLE_DEPEG_SANE[0]:
             continue
         sym = a.get('symbol', '')
         dev = pct((price - 1.0) * 100, 3, True)
@@ -736,21 +741,23 @@ def geckoterminal_trending(*, transport=None, now=None, top=8, min_vol=50e3, min
             continue
         kept.append({'name': name, 'net': net, 'vol': vol, 'reserve': reserve,
                      'chg24': float(chg24), 'fdv': float(attrs.get('fdv_usd') or 0)})
-    # sort by abs 24h change, largest movers first
-    kept.sort(key=lambda p: -abs(p['chg24']))
+    # Aggregated per chain, never per token: a named micro-cap pool with a +300% day is a shill line, not a lane fact
+    # (module rule: names and numbers of protocols / sectors only, no ticker shill).
+    by_net = {}
+    for p in kept:
+        by_net.setdefault(p['net'], []).append(p)
     rows = []
-    for p in kept[:top]:
-        token = p['name'].split('/')[0].strip()
-        ch = pct(p['chg24'])
-        vol_s = money(p['vol'])
-        liq = money(p['reserve'])
-        fdv = f', FDV {money(p["fdv"])}' if p['fdv'] >= 1e4 else ''
+    for net, ps in sorted(by_net.items(), key=lambda kv: -sum(p['vol'] for p in kv[1]))[:top]:
+        vol_s = money(sum(p['vol'] for p in ps))
+        ups = sum(1 for p in ps if p['chg24'] > 0)
+        med = sorted(p['chg24'] for p in ps)[len(ps) // 2]
+        med_s = pct(med)
         rows.append(row(
-            f"GeckoTerminal trending pool {p['name']} on {p['net']}, {period}: 24h price change {ch}, "
-            f"24h volume {vol_s}, pool liquidity {liq}{fdv}.",
-            [(ch, f'{token} 24h price change'), (vol_s, f'{token} 24h volume')], period))
+            f"GeckoTerminal trending meme pools on {net}, {period}: {len(ps)} of the trending pools, combined 24h "
+            f"volume {vol_s}, {ups} of {len(ps)} up on the day, median 24h price change {med_s}.",
+            [(vol_s, f'{net} trending pools 24h volume'), (med_s, f'{net} trending pools median 24h change')], period))
     return result(rows, sid='geckoterminal_trending', publisher='GeckoTerminal', now=now,
-                  title='Trending meme pools by 24h price move (GeckoTerminal)',
+                  title='Trending meme pools by chain (GeckoTerminal)',
                   url='https://www.geckoterminal.com/trending-pools')
 
 

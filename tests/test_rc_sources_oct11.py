@@ -243,12 +243,12 @@ class TestGeckoTerminalTrending:
     def test_meme_pool_row_present(self):
         r = geckoterminal_trending(transport=_gt_transport)
         text = _original_text(r)
-        assert 'BONKINU' in text
+        assert 'BONKINU' not in text   # aggregated per chain, no token names
+        assert 'solana' in text
 
     def test_row_contains_24h_change_and_volume(self):
         r = geckoterminal_trending(transport=_gt_transport)
         text = _original_text(r)
-        assert 'BONKINU' in text
         assert '24h' in text
         assert '$' in text
 
@@ -363,3 +363,22 @@ class TestLaneWords:
     def test_prediction_flash_strict_matches_zh_odds(self):
         from live.adapters.lane_flashes import STRICT
         assert STRICT['crypto_prediction'].search('Polymarket 赔率显示概率盘走强')
+
+
+def test_prediction_words_not_bare_collateral_or_probability():
+    from live.lane_fit import lane_hits
+    from live.adapters.lane_flashes import STRICT
+    assert not lane_hits('crypto_prediction', '某银行抵押贷款违约概率上升')
+    assert not STRICT['crypto_prediction'].search('押注银行股反弹，盘口显示买盘强劲')
+    assert not STRICT['crypto_meme'].search('港股打新火热')
+
+
+def test_yield_token_above_peg_is_not_a_depeg():
+    import json as _j
+    from live.adapters.lane_data import stablecoin_supply
+    body = {'peggedAssets': [{'name': 'Circle USYC', 'symbol': 'USYC', 'pegType': 'peggedUSD', 'price': 1.1397,
+                              'circulating': {'peggedUSD': 2e9}, 'circulatingPrevDay': {'peggedUSD': 2e9},
+                              'circulatingPrevWeek': {'peggedUSD': 2e9}}]}
+    r = stablecoin_supply(transport=lambda u, _: (200, _j.dumps(body)))
+    text = ' '.join(s.get('original_text') or '' for s in r.get('sources', []))
+    assert 'depeg' not in text.lower()
