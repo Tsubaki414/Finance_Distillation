@@ -661,6 +661,19 @@ def format_block(persona, fmt, *, seed='', card=None, posts_dir=None):
                                       '(series, period, what to highlight), in the post language, from the units only.')
     if kind == 'quote_comment':
         block['quoted_rule'] = 'Return "quoted": the short headline / statement being quoted, from the units.'
+    # Oct 11 account audit (live/post_kind.py): a human post kind (reaction / question / industry_people / meme /
+    # diary) and a deliberate off-lane aside carry their own HARD rule
+    if fmt.get('kind') or fmt.get('offlane_aside'):
+        from live import post_kind as _pk
+        lang = 'zh' if zh else 'en'
+        kr = _pk.rule(fmt.get('kind'), lang, fmt.get('kind_account')) if fmt.get('kind') else None
+        if kr:
+            block['kind'] = fmt['kind']
+            block['kind_rule'] = kr
+            block['rule'] += (' kind_rule is HARD too and wins over composition_shape and the analysis framing.'
+                              if not zh else ' kind_rule 同样是硬性要求，优先于 composition_shape 和分析式写法。')
+        if fmt.get('offlane_aside'):
+            block['offlane_rule'] = _pk.OFFLANE_RULE[1 if zh else 0]
     return block
 
 
