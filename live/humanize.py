@@ -463,23 +463,48 @@ def drop_formula_closer(body: str):
     return '\n'.join(lines[:idx + 1]).rstrip(), removed
 
 
-def drop_moral_line(body: str, lang: str):
-    lines = [l for l in body.rstrip().split('\n')]
-    idx = [i for i, l in enumerate(lines) if l.strip()]
-    if len(idx) < 3 or re.match(r'^\s*\d+/', lines[idx[0]]):   # threads keep their parts
-        return body, ''
-    last = lines[idx[-1]].strip()
+def _moral_candidate(last: str, lang: str) -> bool:
+    """A neat moral / summary line: no number / ticker / question / name, not too long, not a short punch or first person."""
     if re.search(r'\d|\$[A-Za-z]|[?？]', last) or (lang == 'zh' and re.search(r'[A-Za-z]{2,}', last)):
-        return body, ''
+        return False
     if lang != 'zh' and re.search(r'(?<!^)(?<![.!?] )\b[A-Z][a-z]+', last):
-        return body, ''
+        return False
     if len(re.sub(r'\s', '', last)) > (70 if lang == 'zh' else 160):
-        return body, ''
+        return False
     # a short punch ("Bitcoin barely blinked") or a first-person line is voice, not a moral
     if (len(re.sub(r'\s', '', last)) < 16 if lang == 'zh' else len(last.split()) < 6) or \
             re.search(r'我|俺|咱|\b(I|I\'m|my|me)\b', last):
+        return False
+    return True
+
+
+_SENT_ZH = re.compile(r'(?<=[。！!])')
+_SENT_EN = re.compile(r'(?<=[.!])\s+(?=[A-Za-z])')
+
+
+def drop_moral_line(body: str, lang: str):
+    lines = [l for l in body.rstrip().split('\n')]
+    idx = [i for i, l in enumerate(lines) if l.strip()]
+    if not idx or re.match(r'^\s*\d+/', lines[idx[0]]):   # threads keep their parts
         return body, ''
-    return '\n'.join(lines[:idx[-1]]).rstrip(), last
+    if len(idx) >= 3:
+        last = lines[idx[-1]].strip()
+        if _moral_candidate(last, lang):
+            return '\n'.join(lines[:idx[-1]]).rstrip(), last
+        return body, ''
+    # Oct 11: 10-11 nightly, 23 of 41 drafts closed on an aphorism_verdict, most inside a 1-2 paragraph post where the
+    # line rule never looks. The last SENTENCE of a post of >= 3 sentences is checked with the same rule.
+    para = lines[idx[-1]]
+    rx = _SENT_ZH if lang == 'zh' else _SENT_EN
+    sents = [x for x in rx.split(para.strip()) if x.strip()]
+    total = sum(len([x for x in rx.split(lines[i].strip()) if x.strip()]) for i in idx)
+    if len(sents) < 2 or total < 3:
+        return body, ''
+    last = sents[-1].strip()
+    if not _moral_candidate(last, lang):
+        return body, ''
+    keep = ('' if lang == 'zh' else ' ').join(x.strip() for x in sents[:-1]).strip()
+    return '\n'.join(lines[:idx[-1]] + [keep]).rstrip(), last
 
 
 # ------------------------------------------------------------------ lens jargon detector

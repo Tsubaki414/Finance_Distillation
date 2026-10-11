@@ -151,3 +151,16 @@ def test_archive_fill_rows_are_humanized(monkeypatch):
     assert len(seen) == 1
     src = open('live/archive_lookback.py', encoding='utf-8').read()
     assert "humanize_row(row, acc)" in src
+
+
+def test_moral_last_sentence_cut_in_one_paragraph_posts():
+    from live.humanize import drop_moral_line
+    zh = '深度不足的品种一旦遭遇流动性抽离，盘面很容易失效。判断大级别走势，关键在趋势线的得失。频繁在震荡里猜顶底，反而容易两头失误。'
+    body, cut = drop_moral_line(zh, 'zh')
+    assert cut == '频繁在震荡里猜顶底，反而容易两头失误。' and body.endswith('关键在趋势线的得失。')
+    en = ('Trying to tag the exact wick usually leaves orders unfilled. Laddering limits across a range fills more '
+          'often. Patience usually beats precision when markets are noisy.')
+    body, cut = drop_moral_line(en, 'en')
+    assert cut.startswith('Patience') and body.endswith('fills more often.')
+    for keep in ('BTC 6万。', '两句话。第二句也很短吧。', 'One. I think this beats everything else in the market now.'):
+        assert drop_moral_line(keep, 'zh' if '话' in keep or '万' in keep else 'en')[1] == ''
