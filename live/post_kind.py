@@ -11,7 +11,7 @@ pick would break the targets it is written as a human kind that can use today's 
   extra daily diary slot, live/personas/posting_habits/account_mix.json diary_slot).
 Diary / personal posts carry NO biographical facts - only feelings / reactions about real market events in the units or
 about the account's own posting / chart-watching. No trades, positions, P&L, places, family, job, health (bio_findings
-HARD). FD_PERSONA_LIFE hook stays off.
+HARD). No persona life details (dropped for good 10-11).
 FD_POST_KIND=0 turns the mix off; FD_DIARY_SLOT=0 the diary slot.
 """
 from __future__ import annotations
@@ -33,10 +33,6 @@ def enabled(env=None):
 
 def diary_enabled(env=None):
     return (env if env is not None else os.environ).get('FD_DIARY_SLOT', '1') != '0' and enabled(env)
-
-
-def life_enabled(env=None):
-    return (env if env is not None else os.environ).get('FD_PERSONA_LIFE', '0') == '1'
 
 
 def is_diary_account(account):
@@ -185,11 +181,11 @@ RULES = {
                         '名字和事实，不传谣、不人身攻击。最多两个数字，不做行情分析。'),
     'diary': ('KIND diary: at most 3 short lines. ONE feeling or small observation about YOUR day of watching the market '
               'or your own posting / chart-watching habits ("refreshed the chart way too many times today", "told myself '
-              'no screens tonight. lasted 10 minutes"), with ONE real event from the units as a light backdrop in a few '
-              'words. No analysis, no "because"/"which means", no forecast, no level / target, no advice, no number '
+              'no screens tonight. lasted 10 minutes"); open with the feeling, not the event; ONE real event from the '
+              'units only as a light backdrop in a few words. No analysis, no "because"/"which means", no forecast, no level / target, no advice, no number '
               'needed. ' + NO_BIO_EN,
               '类型 diary：最多三行短句。只写一个感受或一个小观察——你自己今天看盘/刷推/发帖的状态（比如「今天又没忍住看盘」'
-              '「说好今晚不看盘，坚持了十分钟」），只用几个字把 units 里的一个真实事件当背景。不分析、不写「因为/所以/意味着」、'
+              '「说好今晚不看盘，坚持了十分钟」），先写感受、别用事件开头，只用几个字把 units 里的一个真实事件当背景。不分析、不写「因为/所以/意味着」、'
               '不预测、不报点位、不给建议，不需要数字，不要用「我看/我觉得」开头去下判断。' + NO_BIO_ZH),
 }
 OFFLANE_RULE = ('This post is a deliberate aside outside your usual lane (your donors post about this too): write it '
@@ -211,11 +207,6 @@ def rule(kind, lang, account=None):
     if kind not in RULES:
         return None
     text = RULES[kind][1 if lang == 'zh' else 0]
-    if kind == 'diary' and account and life_enabled():
-        facts = lane_allow.cfg(account).get('persona_life_details') or []
-        if facts:   # hook only, off; no persona life details are built (see audit_fixes_1011.md, 10-11)
-            text += (' 可以自然地带上这些固定人设事实（只限这些）：' if lang == 'zh' else
-                     ' You may mention only these fixed persona facts: ') + '; '.join(map(str, facts[:5]))
     return text
 
 

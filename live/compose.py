@@ -1641,6 +1641,20 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                           f"({shape_block['length_target']['min']}-{shape_block['length_target']['max']}); "
                           'fill it with a second piece of evidence or a further mechanism step, never by repeating.')
             payload['post_type_rules']['body_length'] = bl
+    if fmt_info is None and isinstance(post_format, dict) and post_format.get('kind') and post_format.get('length_target'):
+        fmt_info = dict(post_format)
+        fmt_info.setdefault('shapes', list(_ph.TYPE_SHAPES.get(fmt_info['type'], ())))
+    if (fmt_info or {}).get('kind') and 'kind_rule' not in (payload.get('post_format') or {}):
+        # Oct 11 eve: a human post kind on a data / non-judgment pick skipped the shapes branch above and lost its
+        # kind_rule (scratch: two diary picks came back as data analysis). The kind block always rides along.
+        payload['post_format'] = _ph.format_block(persona, fmt_info, seed=source.get('source_hash') or source.get('id') or '')
+        payload['post_type_rules']['body_length'] = dict(
+            payload['post_type_rules']['body_length'],
+            note='post_format.length_target wins over min/max here (this post is a ' + fmt_info['type'] + ').')
+        fmt_info['anchor_handles'] = [a['handle'] for a in payload['post_format'].get('anchor_posts') or []]
+        payload['evidence_budget'] = dict(EVIDENCE_BUDGET, max_numbers=1 if fmt_info['kind'] != 'industry_people' else 2)
+        payload['kind_note'] = (f'This post is KIND {fmt_info["kind"]} (post_format.kind_rule, HARD): the units are only '
+                                'the backdrop - no data rundown, no thesis line, no evidence chain.')
     if stance is not None:
         # Defense in depth: scrub supplied stance_output the same way stance_step does,
         # so dirty fixtures cannot teach banned cadence via thesis_lock.

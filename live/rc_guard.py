@@ -418,9 +418,29 @@ def _hard_codes(res, broken):
     return codes
 
 
+HUMAN_KINDS = ('reaction', 'question', 'industry_people', 'meme', 'diary')   # live/post_kind.HUMAN
+KIND_REWRITE = {
+    'en': 'This is a short personal post (KIND {k}): keep it a feeling / observation in at most 3 short lines; fix a '
+          'wrong fact by removing or softening it, never by adding numbers, data or analysis.',
+    'zh': '这是一条简短的个人感受帖（KIND {k}）：保持为感受/观察，最多三行短句；错误的事实直接删掉或说得更模糊，'
+          '绝不通过加数字、加数据或加分析来修正。'}
+
+
+def human_kind(row):
+    """Oct 11 eve: the post kind of a compose row (live/post_kind.py human kinds) or None."""
+    for pf in ((row.get('plan') or {}).get('post_format'), row.get('post_format')):
+        if isinstance(pf, dict) and pf.get('kind') in HUMAN_KINDS:
+            return pf['kind']
+    return None
+
+
 def final_check(row, client):
-    """Final QA on one compose result (in place). Returns the rc_qa record."""
+    """Final QA on one compose result (in place). Returns the rc_qa record.
+    Oct 11 eve: a human post kind (reaction / diary / ...) only needs the event as a light backdrop, so a missing
+    lead event does not fail it (scratch: the event rewrite turned diary lines back into data rundowns); wrong /
+    invented facts and broken text still do, and its rewrite removes rather than adds data."""
     body = row.get('body') or ''
+    kind = human_kind(row)
     if not body or row.get('status') == 'error':
         return None
     source = row.get('source') or {}
@@ -431,18 +451,24 @@ def final_check(row, client):
     if res is None:   # judge unavailable: deterministic truncation still holds the draft
         res = {'event_stated': True, 'fact_errors': [], 'broken': False}
         rec['judge'] = 'unavailable'
+    if kind and not res.get('event_stated'):
+        res = dict(res, event_stated=True)
+        rec['event_relaxed'] = kind
     if _failed(res, broken):
         before = body
         v = _ask(client, 'compose', REWRITE_PROMPT.format(
             problems='\n'.join(_problems(res, broken)), event=((event or {}).get('event') or 'none'),
             published=source.get('published_at') or 'unknown', title=str(source.get('title') or '')[:300],
-            src=source_text(source)[:3500], body=body[:3000]), 6000)
+            src=source_text(source)[:3500], body=body[:3000])
+            + ('\n' + KIND_REWRITE['zh' if re.search(r'[\u4e00-\u9fff]', body) else 'en'].format(k=kind) if kind else ''), 6000)
         new = str((v or {}).get('body') or '').strip()
         rec['rewrite'] = {'attempted': True, 'before': before, 'after': new or None}
         if new and new != before:
             # the rewrite may fix a wrong number, so only first-person / caveat / empty reasons veto it here
             veto = [r for r in edit_check(before, new, event) if not r.startswith(('number_dropped', 'event_dropped'))]
             res2 = None if veto else qa_check(client, source, event, new)
+            if kind and res2 is not None and not res2.get('event_stated'):
+                res2 = dict(res2, event_stated=True)
             broken2 = broken_text(new) + lookback_findings(new, event)
             rec['rewrite'].update(veto=veto, second=res2, second_broken=broken2)
             if res2 is not None and not _failed(res2, broken2):

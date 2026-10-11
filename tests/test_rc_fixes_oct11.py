@@ -230,3 +230,20 @@ def test_final_check_lookback_rewrite_then_hold(monkeypatch):
     row = {'account_id': 'a', 'body': 'Tether froze $2.76m.', 'event_fact': ev, 'source': {'title': 't'}}
     rec = g.final_check(row, FakeClient([ok, {'body': 'Looking back at last week: Tether froze $2.76m. Now issuers matter more.'}, ok]))
     assert rec['result'] == 'rewritten' and row['body'].startswith('Looking back')
+
+
+def test_final_human_kind_needs_no_event_but_facts_still_hold():
+    """Oct 11 eve: a diary / reaction only needs the event as a backdrop; a wrong fact still fails and its rewrite
+    removes rather than adds data."""
+    row = {'account_id': 'a', 'body': 'told myself no charts today. lasted ten minutes', 'source': SRC, 'event_fact': EV,
+           'plan': {'post_format': {'kind': 'diary'}}}
+    c = FakeClient([{'event_stated': False, 'fact_errors': [], 'broken': False}])
+    rec = g.final_check(row, c)
+    assert rec['result'] == 'pass' and rec['event_relaxed'] == 'diary' and len(c.calls) == 1
+    row = {'account_id': 'a', 'body': 'El Salvador is launching a stablecoin and I am tired.', 'source': SRC, 'event_fact': EV,
+           'plan': {'post_format': {'kind': 'reaction'}}}
+    bad = {'event_stated': False, 'fact_errors': ['states the denied report as fact'], 'broken': False}
+    c = FakeClient([bad, {'body': 'stablecoin rumours again and I am tired.'}, {'event_stated': False, 'fact_errors': [], 'broken': False}])
+    rec = g.final_check(row, c)
+    assert rec['result'] == 'rewritten' and 'KIND reaction' in str(c.calls[1])
+    assert g.human_kind({'plan': {'post_format': {'kind': 'data'}}}) is None

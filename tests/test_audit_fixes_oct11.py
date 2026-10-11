@@ -16,7 +16,7 @@ def _env(monkeypatch, tmp_path):
     sl._CACHE.clear()
     sl._LOADED.clear()
     for k in ('FD_STORY_DEDUPE', 'FD_LANE_ALLOW', 'FD_POST_KIND', 'FD_DIARY_SLOT', 'FD_STORY_PER_LANG_DAY',
-              'FD_STORY_72H', 'FD_PERSONA_LIFE', 'FD_TWIN_RULE'):
+              'FD_STORY_72H', 'FD_TWIN_RULE'):
         monkeypatch.delenv(k, raising=False)
 
 
@@ -201,8 +201,8 @@ def test_account_mix_has_no_text():
     data = json.loads(raw)
     for c in data['accounts'].values():
         assert set(c) <= {'lang', 'core', 'allow', 'offlane_ok', 'donor_bucket_share', 'weekly_14', 'offlane_per_week',
-                          'diary_slot', 'meme_lane', 'persona_life_details'}
-        assert c['persona_life_details'] == []   # PENDING Fiona's approval
+                          'diary_slot', 'meme_lane'}
+        assert 'persona_life_details' not in c
 
 
 # ---------------------------------------------------------------- post kinds
@@ -247,15 +247,6 @@ def test_post_format_and_rules():
         assert post_kind.rule(k, 'en')
         assert post_kind.rule(k, 'zh')
     assert 'never invent' in post_kind.rule('diary', 'en').lower()
-
-
-@needs_mix
-def test_persona_life_hook_off_by_default(monkeypatch):
-    monkeypatch.setitem(lane_allow.cfg('crypto_diary_zh'), 'persona_life_details', ['lives in Chengdu'])
-    assert 'Chengdu' not in post_kind.rule('diary', 'en', 'crypto_diary_zh')
-    monkeypatch.setenv('FD_PERSONA_LIFE', '1')
-    assert 'Chengdu' in post_kind.rule('diary', 'en', 'crypto_diary_zh')
-    monkeypatch.setitem(lane_allow.cfg('crypto_diary_zh'), 'persona_life_details', [])
 
 
 def test_diary_over_three_lines_is_flagged():

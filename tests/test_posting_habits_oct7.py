@@ -122,3 +122,18 @@ def test_compose_thread_parts_and_format_off_switch(monkeypatch, tmp_path):
     off = compose.compose_source(SOURCE, 'zh_macro', JudgmentFake(), post_type='judgment_take',
                                  extracted_units=[dict(u) for u in POOL], exemplars=False, emotion_contract=False, now=NOW)
     assert 'post_format' not in off      # fixture mode (emotion_contract=False) keeps the recorded payload
+
+
+def test_human_kind_on_data_take_still_gets_kind_rule(monkeypatch, tmp_path):
+    """Oct 11 eve: a diary / reaction pick on a data_take skipped the shapes branch and lost its kind_rule."""
+    _iso(monkeypatch, tmp_path)
+    monkeypatch.setenv('FD_NAT_PROMPT', '0')
+    from live import post_kind
+    fake = JudgmentFake(body='说好今天不看盘，结果又刷了一下午')
+    fmt = post_kind.post_format('diary', 'zh')
+    compose.compose_source(SOURCE, 'zh_macro', fake, post_type='data_take',
+                           extracted_units=[dict(u) for u in POOL], exemplars=False, emotion_contract=False,
+                           now=NOW, post_format=fmt)
+    payload = fake.payloads['compose'][0]
+    assert payload['post_format']['kind'] == 'diary' and '最多三行' in payload['post_format']['kind_rule']
+    assert payload['evidence_budget']['max_numbers'] == 1 and 'KIND diary' in payload['kind_note']

@@ -127,8 +127,6 @@ def build(audit, report):
             'offlane_per_week': max(1, min(3, t['offlane_per_week_audit'])),
             'diary_slot': aid in DIARY_SLOT, 'meme_lane': aid in MEME_LANES,
             # PENDING Fiona's approval: fixed, harmless persona life facts (city / routine / hobby) for diary posts.
-            # Empty = diary / personal posts carry no biographical facts at all. Used only with FD_PERSONA_LIFE=1.
-            'persona_life_details': [],
         }
     return out
 
