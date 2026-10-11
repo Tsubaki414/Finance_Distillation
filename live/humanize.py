@@ -817,20 +817,22 @@ def apply(row: dict, client: Any = None, lang: str | None = None,
         reverted = True
 
     if not reverted:
-        # --- (b) numbers ---
+        # --- (b) numbers (A9: FD_NAT_ROUND=0 disables) ---
+        from live.nat_tex import round_enabled as _round_enabled
         donor_precise = rates.get('precise_number', 0.10)
         # measure current precise share (use 0.5 as "has precise numbers" threshold — actually 1 post flag)
         # for the post-level rate we just use donor_precise vs a fixed "1.0 per-post if has precise"
         body_pre_num = body
-        body, chg = _apply_numbers(body, lang, draft_id,
-                                   precise_share=1.0,   # treat this post as having precise numbers
-                                   donor_precise_share=donor_precise)
-        all_changes += chg
+        if _round_enabled():
+            body, chg = _apply_numbers(body, lang, draft_id,
+                                       precise_share=1.0,   # treat this post as having precise numbers
+                                       donor_precise_share=donor_precise)
+            all_changes += chg
 
-        # fidelity guard after numbers
-        if chg and not _fidelity_ok(original_body, body):
-            body = body_pre_num
-            all_changes = [c for c in all_changes if not c.startswith('rounded')] + ['REVERTED(number): fidelity fail']
+            # fidelity guard after numbers
+            if chg and not _fidelity_ok(original_body, body):
+                body = body_pre_num
+                all_changes = [c for c in all_changes if not c.startswith('rounded')] + ['REVERTED(number): fidelity fail']
 
         # --- (c) texture ---
         body, chg = _apply_texture(body, lang, draft_id, rates, archive=archive)
@@ -841,6 +843,16 @@ def apply(row: dict, client: Any = None, lang: str | None = None,
             body = body_pre_num   # revert to pre-texture
             all_changes = [c for c in all_changes if not c.startswith(('added', 'applied', 'zh alias'))]
             all_changes.append('REVERTED(texture): fidelity fail')
+
+    # --- (d) nat_tex: A5 lens-jargon + A10 LLM-ism / em-dash (deterministic, soft-only) ---
+    from live.nat_tex import apply as _nat_tex_apply
+    body_pre_tex = body
+    body, chg = _nat_tex_apply(body, lang, draft_id, rates=rates)
+    all_changes += chg
+    if chg and not _fidelity_ok(original_body, body):
+        body = body_pre_tex
+        all_changes = [c for c in all_changes if not c.startswith(('jargon', 'llmism'))]
+        all_changes.append('REVERTED(nat_tex): fidelity fail')
 
     if archive:
         first = lambda t: next((l.strip() for l in (t or '').split('\n') if l.strip()), '')
