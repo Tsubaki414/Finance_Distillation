@@ -5464,6 +5464,38 @@
       "added": "2026-10-08"
     },
     {
+      "id": "defillama_stablecoin_supply",
+      "name": "DefiLlama Stablecoin Supply",
+      "type": "lane_data",
+      "publisher": "DefiLlama",
+      "url": "https://stablecoins.llama.fi/stablecoins",
+      "lang": "en",
+      "beat": "crypto_stable_yield",
+      "enabled": true,
+      "route_accounts": [
+        "crypto_stable_yield_zh",
+        "crypto_stable_yield_en"
+      ],
+      "adapter": "lane_data",
+      "note": "Oct 11 rc_sources: top stablecoin supply 1d/7d change + depeg alerts; FD_LANE_SRC_STABLECOIN_SUPPLY=0 to disable"
+    },
+    {
+      "id": "geckoterminal_trending",
+      "name": "GeckoTerminal Trending Pools",
+      "type": "lane_data",
+      "publisher": "GeckoTerminal",
+      "url": "https://api.geckoterminal.com/api/v2/networks/trending_pools",
+      "lang": "en",
+      "beat": "crypto_meme",
+      "enabled": true,
+      "route_accounts": [
+        "crypto_meme_zh",
+        "crypto_meme_en"
+      ],
+      "adapter": "lane_data",
+      "note": "Oct 11 rc_sources: trending meme pools by 24h price move (Solana/Base/BSC/ETH); FD_LANE_SRC_GT_TRENDING=0 to disable"
+    },
+    {
       "id": "defillama_perp_oi",
       "name": "DefiLlama",
       "type": "research",

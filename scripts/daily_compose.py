@@ -649,6 +649,75 @@ def support_index(store, ref):
         return None
 
 
+def _src_age_h(src, ref):
+    try:
+        t = datetime.fromisoformat(str(src.get('published_at') or '').replace('Z', '+00:00'))
+    except ValueError:
+        return None
+    t = t if t.tzinfo else t.replace(tzinfo=timezone.utc)
+    return (ref - t).total_seconds() / 3600.0
+
+
+LOOKBACK_PICKS = set()   # (account, source key) kept by fresh_gate's look-back fallback -> pick['lookback_frame']
+
+
+def fresh_gate(pools, ref, info=None, env=None):
+    """Oct 11 (FD_FRESH_GATE, default 1; quality_rootcause_1011 RC3: 39-40% of 10-10/11 originals had a source > 48 h
+    old at the slot, 'timely' was only a tag). Pool items expire when their source is older than FD_FRESH_MAX_H (48) h at
+    the estimated slot (selection ref + FD_FRESH_SLOT_LEAD_H, default 8: the nightly runs ~23:15 London, slots run to
+    16:00). A source without a parseable date stays (counted).
+    Look-back fallback (FD_FRESH_LOOKBACK, default 1): an account left with no fresh item keeps its
+    FD_FRESH_LOOKBACK_N (2) youngest expired items up to FD_FRESH_LOOKBACK_MAX_H (120) h; their picks carry
+    lookback_frame, compose gets a look-back frame rule and the final QA (live/rc_guard.lookback_findings, reusing
+    live/stale_frame.framed) needs a look-back word + a today tie: one rewrite, then HOLD."""
+    env = env if env is not None else os.environ
+    if env.get('FD_FRESH_GATE', '1') == '0':
+        return
+    try:
+        max_h = float(env.get('FD_FRESH_MAX_H', '48'))
+        lead = float(env.get('FD_FRESH_SLOT_LEAD_H', '8'))
+        lb_n = int(env.get('FD_FRESH_LOOKBACK_N', '2'))
+        lb_max = float(env.get('FD_FRESH_LOOKBACK_MAX_H', '120'))
+    except ValueError:
+        max_h, lead, lb_n, lb_max = 48.0, 8.0, 2, 120.0
+    lookback_on = env.get('FD_FRESH_LOOKBACK', '1') != '0'
+    dropped, undated, lookback = {}, {}, {}
+    for aid in list(pools):
+        kept, old = [], []
+        for g in pools[aid]:
+            age = _src_age_h(g[0]['source'], ref)
+            if age is None:
+                undated[aid] = undated.get(aid, 0) + 1
+                kept.append(g)
+            elif age + lead <= max_h:
+                kept.append(g)
+            else:
+                dropped[aid] = dropped.get(aid, 0) + 1
+                if age + lead <= lb_max:
+                    old.append((age, g))
+        if lookback_on and not kept and old:
+            for age, g in sorted(old, key=lambda x: x[0])[:max(0, lb_n)]:
+                kept.append(g)
+                LOOKBACK_PICKS.add((aid, tuple(demo._key(g[0]))))
+                lookback.setdefault(aid, []).append(round(age + lead, 1))
+        pools[aid] = kept
+    if info is not None:
+        info['fresh_gate'] = {'max_h': max_h, 'slot_lead_h': lead, 'dropped': dropped, 'undated_kept': undated,
+                              'lookback_kept_age_h': lookback}
+
+
+def fresh_pref(g, ref, env=None):
+    """True (sorts later) when the source is older than FD_FRESH_PREF_H (36) h at the estimated slot."""
+    env = env if env is not None else os.environ
+    if env.get('FD_FRESH_GATE', '1') == '0':
+        return False
+    age = _src_age_h(g[0]['source'], ref)
+    try:
+        return age is not None and age + float(env.get('FD_FRESH_SLOT_LEAD_H', '8')) > float(env.get('FD_FRESH_PREF_H', '36'))
+    except ValueError:
+        return False
+
+
 def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT, seed_events=(), reuse=None,
            rewrites=None, now=None, allow_model=False, info=None, skip_sources=None):
     """info: optional dict, filled with the FD_HOTSPOT day summary ('hotspot') for plan.json.
@@ -691,6 +760,7 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
         if info is not None:
             info['skipped_tried'] = skipped_tried
     lane_gate(pools, accounts, x_of, info)   # Oct 8 evening: niche accounts take on-lane packets only (FD_LANE_FIT)
+    fresh_gate(pools, ref, info)   # Oct 11: sources > 48 h old at the slot expire from the pool (FD_FRESH_GATE)
     # Oct 10 (FD_MIDDAY): fresh-source age filter — midday compose only touches sources ≤ FD_MIDDAY_MAX_AGE_H old.
     if os.environ.get('FD_MIDDAY', '0') == '1':
         _max_age_h = float(os.environ.get('FD_MIDDAY_MAX_AGE_H', '6'))
@@ -980,6 +1050,8 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                 **({'post_type': 'data_take'} if packet_kind(g) == 'data' else {}),
                 **({'support': x_support_summary(sup), 'support_records': sup['records']} if sup else {}),
                 'in_shelf': demo.in_shelf(g, ref.date().isoformat()), 'timely': timely(g, ref),
+                **({'lookback_frame': True, 'source_age_h': round(_src_age_h(src, ref) or 0, 1)}
+                   if (account, tuple(demo._key(g[0]))) in LOOKBACK_PICKS else {}),
                 **({'x_metrics': src['x_metrics']} if src.get('x_metrics') else {}),
                 'hooks': sorted(group_hooks(g)), 'angle': angle, 'angle_why': why, 'shared_event_with': shared_with,
                 'numbers': sum(len(r['unit'].get('numbers') or []) for r in g)})
@@ -1308,8 +1380,10 @@ def diversity_prepare(pools, accounts, x_of, day, ref, reuse=None):
                                 'off_spread': topic_div.off_spread(themes[0], profs.get(aid)),
                                 'base': (not ({g[0]['source'].get('id'), g[0]['source'].get('title'),
                                                g[0]['source'].get('source_hash')} & mine),
-                                         not prescreen.prescreen(aid, g)['ok'], not timely(g, ref))}
+                                         not prescreen.prescreen(aid, g)['ok'], not timely(g, ref)),
+                                'stale_pref': fresh_pref(g, ref)}
         pools[aid] = sorted(pools[aid], key=lambda g, aid=aid: (*meta[(aid, tuple(demo._key(g[0])))]['base'],
+                                                               meta[(aid, tuple(demo._key(g[0])))].get('stale_pref', False),
                                                                meta[(aid, tuple(demo._key(g[0])))]['tier']))
 
     def info(aid, g):
@@ -1485,7 +1559,11 @@ def diversity_order(account, groups, picked, event_takers, div):
         src = g[0]['source']
         evs = {('src',) + tuple(demo._key(g[0]))} | ({('srcid', src['id'])} if src.get('id') else set()) \
             | ({title_event(src.get('title'))} - {None})
-        return (*m['base'], *prefs(g)[:1], m['tier'] != 0, packet_kind(g) != 'balanced',
+        # Oct 11 (FD_FRESH_GATE / FD_SHARED_PENALTY): a source <= 36 h old at the slot first, and shared news that
+        # sits in >= 4 accounts' pools (tier 3; 94% bad on 10-08..11) after own-X / donor-adjacent / other packets
+        shared_pen = os.environ.get('FD_SHARED_PENALTY', '1') != '0' and m['tier'] >= 3
+        return (*m['base'], m.get('stale_pref', False), *prefs(g)[:1], m['tier'] != 0, shared_pen,
+                packet_kind(g) != 'balanced',
                 m['theme'] in used_themes and m['theme'] != 'other', m['tier'],
                 bool(evs & taken), *prefs(g)[1:], m['off_spread'], i)
     prefs = div.get('prefs', {}).get(account) or (lambda g: (False, False))
@@ -1622,11 +1700,16 @@ def compose_one(new_client, account, pick, day, store_records, spend, lock):
     try:
         # inside the guard: a span that no rebuilt paragraph contains (StopIteration) sank the whole Oct 7 run
         source, units = evidence_source(group)
+        # Oct 11 (live/rc_guard.py FD_EVENT_FACT): the source's lead event, on the shared client (not the per-draft caps)
+        from live import rc_guard
+        event_fact = rc_guard.derive_event(source, units, new_client(), lang) if rc_guard.event_enabled() else None
+        if pick.get('lookback_frame'):   # fresh_gate look-back fallback: frame it as an update / look-back
+            event_fact = dict(event_fact or {}, frame='lookback', age_h=pick.get('source_age_h'))
         result = compose.compose_source(
             source, account, dc, post_type=pick.get('post_type') or demo.judgment_type(account), extracted_units=units,
             exemplar_dir=POSTS, exemplar_tags_dir=TAGS, view_ledger=ViewLedger(account),
             now=post_time.astimezone(timezone.utc), post_format=dict(pick['post_format']), angle=angle,
-            editor_note=pick.get('editor_note'), reality=pick.get('reality'))
+            editor_note=pick.get('editor_note'), reality=pick.get('reality'), event_fact=event_fact)
     except budget.BudgetExceeded as exc:
         result = {'status': 'error', 'error': 'budget: ' + str(exc)[:200]}
     except Exception as exc:   # noqa: BLE001 - one bad packet must not sink the day
@@ -1698,6 +1781,8 @@ def inbox_row(result, account_cfg, day, run_id):
             **({'stale_frame': result['stale_frame']} if result.get('stale_frame') else {}),
             # Oct 11: the humanize post-step's changes + the pre-humanize text (root-cause audits of line edits)
             **({'humanize': result['humanize']} if result.get('humanize') else {}),
+            # Oct 11 (live/rc_guard.py): lead event fact, post-edit guard log (before/after), final source-vs-draft QA
+            **({k: result[k] for k in ('event_fact', 'edit_guard', 'rc_qa') if result.get(k)}),
             **({'cold_start_quote': True} if pick.get('cold_start_quote') else {}),
             # Oct 8 (live/engagement.py): quote / reply target chosen (or refused) by the engagement scoring
             **({'engagement': pick['engagement']} if pick.get('engagement') else {}),
@@ -2022,8 +2107,13 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
                 _budget_ok = spend['usd'] + _est_now <= args.budget_usd and not quota
             if not _budget_ok:
                 break
+            _before_rw = r.get('body') or ''
             _rw = hr.rewrite_first_line(client(), r, _avoid, _lang)
             r['hook_rewrite'] = _rw
+            from live import rc_guard as _rcg_h
+            if _rcg_h.guard_step(r, 'hook_rewrite', _before_rw, client=client(), llm=True):
+                _rw['kept'] = False
+                _rw['edit_guard_reverted'] = True
             _rw_count += 1
             if _rw.get('kept') and _rw.get('to') and not _rw.get('error'):
                 print(f'[hook_rewrite] {r.get("account_id")} rewritten: {_rw["from"]!r} -> {_rw["to"]!r}', flush=True)
@@ -2048,9 +2138,16 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
                           f'{_repair["removed"][:60]!r}', flush=True)
     engage_sibling_pass(ok, args, client, lock, spend, quota, est, flat_primary, _ec_fails)
     # Oct 10 nat3: humanize post-processor (FD_HUMANIZE, default 1)
+    from live import rc_guard as _rcg
+    _pre_hum = {id(r): r.get('body') or '' for r in ok}
     if os.environ.get('FD_HUMANIZE', '1') != '0':
         from live import humanize as _hum
         _hum.apply_batch(ok, client=client())
+    for r in ok:   # Oct 11 (FD_EDIT_GUARD): a humanize pass that drops a number / the event / a caveat, adds an invented
+        # first-person line or (LLM pass) flips a claim reverts as a whole
+        if _rcg.guard_step(r, 'humanize', _pre_hum.get(id(r)) or '', client=client(),
+                           llm=bool((r.get('humanize') or {}).get('llm'))):
+            r.setdefault('humanize', {})['edit_guard_reverted'] = True
     # Oct 10 17:30 (PM B): short non-argument shapes must read fluently (grammar + one complete thought): rewrite, or
     # re-compose the post in a normal shape (post_format no_nat), else hold it (FD_FLUENCY, default 1)
     from live import fluency as _flu
@@ -2062,7 +2159,18 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
                 from live import humanize as _hum2
                 _hum2.apply_batch([new], client=client())
             return new
+        _pre_flu = {id(r): r.get('body') or '' for r in ok}
         _flu.apply_batch(ok, client, recompose=_recompose)
+        for r in ok:   # Oct 11 (FD_EDIT_GUARD): a fluency REWRITE (not a re-compose) is pair-checked like humanize
+            if (r.get('fluency') or {}).get('action') == 'rewrite' and _rcg.guard_step(
+                    r, 'fluency', _pre_flu.get(id(r)) or '', client=client(), llm=True):
+                r['fluency']['edit_guard_reverted'] = True
+                r['draft_status'] = 'needs_review'   # back to the non-fluent text: HOLD it like fallback_failed
+                r.setdefault('post_checks', []).append({'code': 'short_not_fluent', 'level': 'hard',
+                                                        'detail': 'fluency rewrite reverted by edit_guard'})
+    # Oct 11 (live/rc_guard.py FD_RC_QA): final source-vs-draft QA - event stated, no wrong / invented fact, no
+    # truncated text; one targeted rewrite, then HOLD (needs_review + hard event_missing / fact_error / broken_text)
+    _rcg.final_batch(ok, client)
     for r in ok:   # arbitration compares drafts of this Beijing day (not the sources' own dates) in one language
         r['day'], r['account_lang'] = args.day.isoformat(), r['plan']['account_lang']
         # Oct 8 evening (FD_LANE_FIT): a niche draft on broad news without a lane tie-in is held off_lane

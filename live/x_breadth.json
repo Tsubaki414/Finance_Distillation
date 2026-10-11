@@ -960,6 +960,196 @@
     "defi_narratives_en": 0.7471
    },
    "originals_per_day": 1.03
+  },
+  "EliseFolso71390": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_meme_zh"
+   ],
+   "scores": {
+    "crypto_meme_zh": 1.0
+   },
+   "originals_per_day": null,
+   "note": "Oct 11 rc starved lane: account donor-roster handle, verified via X API users lookup (public, active)"
+  },
+  "xiaofeilong99": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_meme_zh"
+   ],
+   "scores": {
+    "crypto_meme_zh": 1.0
+   },
+   "originals_per_day": null,
+   "note": "Oct 11 rc starved lane: account donor-roster handle, verified via X API users lookup (public, active)"
+  },
+  "bi_9527zx": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_meme_zh"
+   ],
+   "scores": {
+    "crypto_meme_zh": 1.0
+   },
+   "originals_per_day": null,
+   "note": "Oct 11 rc starved lane: account donor-roster handle, verified via X API users lookup (public, active)"
+  },
+  "web3houzi": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_prediction_zh"
+   ],
+   "scores": {
+    "crypto_prediction_zh": 1.0
+   },
+   "originals_per_day": null,
+   "note": "Oct 11 rc starved lane: account donor-roster handle, verified via X API users lookup (public, active)"
+  },
+  "JfwRk": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_prediction_zh"
+   ],
+   "scores": {
+    "crypto_prediction_zh": 1.0
+   },
+   "originals_per_day": null,
+   "note": "Oct 11 rc starved lane: account donor-roster handle, verified via X API users lookup (public, active)"
+  },
+  "HhhhHannah": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_prediction_zh"
+   ],
+   "scores": {
+    "crypto_prediction_zh": 1.0
+   },
+   "originals_per_day": null,
+   "note": "Oct 11 rc starved lane: account donor-roster handle, verified via X API users lookup (public, active)"
+  },
+  "LumaoDoggie": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_stable_yield_zh"
+   ],
+   "scores": {
+    "crypto_stable_yield_zh": 1.0
+   },
+   "originals_per_day": null,
+   "note": "Oct 11 rc starved lane: account donor-roster handle, verified via X API users lookup (public, active)"
+  },
+  "blockma": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_stable_yield_zh"
+   ],
+   "scores": {
+    "crypto_stable_yield_zh": 1.0
+   },
+   "originals_per_day": null,
+   "note": "Oct 11 rc starved lane: account donor-roster handle, verified via X API users lookup (public, active)"
+  },
+  "0xLin88": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_stable_yield_zh"
+   ],
+   "scores": {
+    "crypto_stable_yield_zh": 1.0
+   },
+   "originals_per_day": null,
+   "note": "Oct 11 rc starved lane: account donor-roster handle, verified via X API users lookup (public, active)"
+  },
+  "Pilgrim6938": {
+   "lang": "zh",
+   "accounts": [
+    "crypto_stable_yield_zh"
+   ],
+   "scores": {
+    "crypto_stable_yield_zh": 1.0
+   },
+   "originals_per_day": null,
+   "note": "Oct 11 rc starved lane: account donor-roster handle, verified via X API users lookup (public, active)"
+  },
+  "DeFi_Andree": {
+   "lang": "en",
+   "accounts": [
+    "crypto_stable_yield_en"
+   ],
+   "scores": {
+    "crypto_stable_yield_en": 1.0
+   },
+   "originals_per_day": null,
+   "note": "Oct 11 rc starved lane: account donor-roster handle, verified via X API users lookup (public, active)"
+  },
+  "DeFi_Made_Here": {
+   "lang": "en",
+   "accounts": [
+    "crypto_stable_yield_en"
+   ],
+   "scores": {
+    "crypto_stable_yield_en": 1.0
+   },
+   "originals_per_day": null,
+   "note": "Oct 11 rc starved lane: account donor-roster handle, verified via X API users lookup (public, active)"
+  },
+  "MonetSupply": {
+   "lang": "en",
+   "accounts": [
+    "crypto_stable_yield_en"
+   ],
+   "scores": {
+    "crypto_stable_yield_en": 1.0
+   },
+   "originals_per_day": null,
+   "note": "Oct 11 rc starved lane: account donor-roster handle, verified via X API users lookup (public, active)"
   }
- }
+ },
+ "added_rc1011": [
+  {
+   "at": "2026-10-11T11:00:00+00:00",
+   "accounts": [
+    "crypto_meme_zh"
+   ],
+   "added": [
+    "EliseFolso71390",
+    "xiaofeilong99",
+    "bi_9527zx"
+   ]
+  },
+  {
+   "at": "2026-10-11T11:00:00+00:00",
+   "accounts": [
+    "crypto_prediction_zh"
+   ],
+   "added": [
+    "web3houzi",
+    "JfwRk",
+    "HhhhHannah"
+   ]
+  },
+  {
+   "at": "2026-10-11T11:00:00+00:00",
+   "accounts": [
+    "crypto_stable_yield_zh"
+   ],
+   "added": [
+    "LumaoDoggie",
+    "blockma",
+    "0xLin88",
+    "Pilgrim6938"
+   ]
+  },
+  {
+   "at": "2026-10-11T11:00:00+00:00",
+   "accounts": [
+    "crypto_stable_yield_en"
+   ],
+   "added": [
+    "DeFi_Andree",
+    "DeFi_Made_Here",
+    "MonetSupply"
+   ]
+  }
+ ]
 }

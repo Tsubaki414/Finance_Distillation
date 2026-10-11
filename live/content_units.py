@@ -297,6 +297,8 @@ def _unit(source, raw, index, by_id, text, licence_tier, require_view=False):
                 raise
             # A bad structured view never sinks the source: keep the grounded unit, drop the view.
             unit['view_error'] = str(exc)[:200]
+    from live.rc_guard import lead_event_fields   # Oct 11 (FD_EVENT_FACT): the source's lead event unit
+    unit.update(lead_event_fields(raw))
     unit['extract_version'] = VERSION if require_view else 'content-units-extract-v1'
     unit['unit_id'] = 'cu-' + digest([unit['source_hash'], unit['kind'],
                                      [(s['start'], s['end']) for s in resolved]])[:20]
@@ -345,7 +347,8 @@ def extract(source, client, *, licence_tier, publisher=None):
                           'published_at': source.get('published_at')},
                'paragraphs': [{'paragraph_id': p['paragraph_id'], 'text': p['exact_text']}
                               for p in paragraphs(source['original_text'])]}
-    messages, record = prompt_assembly.assemble('extract', EXTRACT, payload)
+    from live.rc_guard import event_prompt   # Oct 11 (FD_EVENT_FACT): + one lead_event unit per source
+    messages, record = prompt_assembly.assemble('extract', event_prompt(EXTRACT), payload)
     response = client('extract', messages, MAX_TOKENS)
     require(response.get('finish_reason') == 'stop', 'extract: incomplete/unknown finish_reason')
     require(not response.get('refusal'), 'extract: model refusal')
