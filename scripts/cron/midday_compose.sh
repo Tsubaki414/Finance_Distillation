@@ -58,6 +58,30 @@ if [[ -z "${SUBROUTER_API_KEY:-}" && -r "$SUBROUTER_ENV" ]]; then set -a; . "$SU
 for k in SUBROUTER_API_KEY; do
     if [[ -n "${!k:-}" ]]; then echo "key $k: set"; else echo "key $k: missing"; exit 2; fi
 done
+# Oct 11 fix (10-11 zh run: 121 flashes selected, 0 units, "runner: Existing REVIEW credential pair is not the
+# configured erisedai host"): the ingest's relay client needs the ACCOUNT_RELAY_* pair that daily_ingest.sh /
+# engage_pull.sh derive from RELAY_API_KEY; this script never set it, so flash EXTRACT never ran, every pool item was
+# older than FD_MIDDAY_MAX_AGE_H and the compose planned 0. Same mapping + the optional user key file, never printed.
+# FD_MIDDAY_RELAY_MAP=0: old behaviour.
+if [[ "${FD_MIDDAY_RELAY_MAP:-1}" != "0" ]]; then
+    KEYS_FILE="${FD_KEYS_FILE:-$HOME/.config/fd/keys.env}"
+    if [[ -r "$KEYS_FILE" ]]; then
+        while IFS='=' read -r k v; do
+            [[ "$k" =~ ^(RELAY_API_KEY|ACCOUNT_RELAY_API_KEY|ACCOUNT_RELAY_BASE_URL)$ ]] || continue
+            [[ -n "${!k:-}" ]] && continue
+            v="${v%\"}"; v="${v#\"}"; v="${v%\'}"; v="${v#\'}"
+            export "$k=$v"
+        done < "$KEYS_FILE"
+    fi
+    export ACCOUNT_CONTENT_PROVIDER=erisedai_relay
+    if [[ -n "${ACCOUNT_RELAY_API_KEY:-}" || -n "${RELAY_API_KEY:-}" ]]; then
+        export ACCOUNT_RELAY_BASE_URL="${ACCOUNT_RELAY_BASE_URL:-https://api.erisedai.com/v1}"
+        export ACCOUNT_RELAY_API_KEY="${ACCOUNT_RELAY_API_KEY:-${RELAY_API_KEY:-}}"
+        echo "key ACCOUNT_RELAY_API_KEY: set"
+    else
+        echo "key RELAY_API_KEY: missing (flash/X extract cannot run; compose uses the existing store only)"
+    fi
+fi
 # Midday compose uses subrouter only ($0 per draft); never the paid micuapi fallback
 unset GEMINI_RELAY_API_KEY
 
