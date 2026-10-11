@@ -186,7 +186,7 @@ def test_quota_is_1_to_3_and_fit_accounts():
         assert c['allow'], aid
     fit = lane_allow.fit_accounts('stablecoins_tether', 'zh')
     assert 'crypto_stable_yield_zh' in fit
-    assert 'crypto_meme_en' not in lane_allow.fit_accounts('trading_psychology_method', 'en')   # donor side topic
+    assert lane_allow.fit_accounts('trading_psychology_method', 'en') == []   # a style bucket is never handed over
     assert all(lane_allow.cfg(a)['lang'] == 'zh' for a in fit)
 
 

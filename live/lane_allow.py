@@ -18,6 +18,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PATH = ROOT / 'live' / 'personas' / 'posting_habits' / 'account_mix.json'   # local only (donor-derived), like the habit cards
 NEUTRAL = {'personal_life', 'culture_sports_other'}
+STYLE = {'trading_psychology_method', 'personal_finance_investing_philosophy'}   # how, not what: never a handover topic
 _MIX = {}
 
 
@@ -61,6 +62,8 @@ def offlane_used(account, rows):
 
 def fit_accounts(bucket, lang, exclude=(), accounts=None):
     """Same-language accounts whose core lane buckets hold the bucket (handover targets)."""
+    if bucket in STYLE:   # Oct 11 scratch compose: 'ratio spreads' (trading method) went to a crypto trader
+        return []
     out = []
     for aid, c in mix().items():
         if aid in exclude or str(c.get('lang') or '')[:2] != str(lang or '')[:2]:
