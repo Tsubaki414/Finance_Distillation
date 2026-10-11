@@ -1019,6 +1019,8 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
         return any((heat_of(g) or 0) >= ZH_HOT_MIN and slot_kind(g[0]['source'].get('id')) == 'standalone'
                    and (test is None or test(g)) for g in pools[account])
 
+    diary_mode = [False]
+
     def try_pick(account, lang, lead, groups):
         mine = {tuple(p['source_key']) for p in plan[account]}
         for g in groups:
@@ -1048,6 +1050,11 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                 if pid in eng_state.users and eng_state.open_for(pid, account, lang_of.get(account), assess=ea):
                     share = {u[0] for u in eng_state.users[pid]}
             takers = [t for e in events for t in event_takers.get(e, []) if t[2] == lang and t[0] not in share]
+            if diary_mode[0]:   # Oct 11: a diary line may share today's packet; the story caps above still bind
+                if any(t[0] == account for t in takers):
+                    continue
+                angle, why = angles.assign(lead, group_text(g), taken=set(), boost=None)
+                return (g, events, angle, why, sorted({t[0] for t in takers}))
             if len({t[0] for t in takers}) >= MAX_ACCOUNTS_PER_EVENT or any(t[0] == account for t in takers):
                 ek and engage_diag[account].update(['event_cap'])
                 continue
@@ -1102,7 +1109,11 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             elif special == 'diary':
                 groups = sctx['demote'](account, [g for g in pools[account]
                                                   if slot_kind(g[0]['source'].get('id')) == 'standalone'])
-                pick = try_pick(account, lang, lead, groups)
+                diary_mode[0] = True
+                try:
+                    pick = try_pick(account, lang, lead, groups)
+                finally:
+                    diary_mode[0] = False
             elif _round is None:
                 groups = pools[account]
                 if div is not None:   # own sources first, a theme not yet used today, a story nobody took yet

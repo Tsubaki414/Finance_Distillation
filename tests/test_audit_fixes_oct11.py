@@ -378,3 +378,16 @@ def test_select_diary_slot_and_kind(monkeypatch):
     assert len(ps) == 2 and ps[1]['slot'] == 'diary' and ps[1]['kind'] == 'diary'
     assert ps[1]['post_format']['kind'] == 'diary'
     assert info['audit_fixes']['human_kinds'].get('diary') == 1
+
+
+@needs_mix
+def test_diary_slot_may_share_a_packet_another_account_took(monkeypatch):
+    labels = {'BTC': lab('Bitcoin', 'price_move', '', 'Bitcoin drops', b='btc_price_market'),
+              'meme': lab('pump.fun', 'launches', '', 'pump.fun app', b='memecoins_launchpads')}
+    accts = [{'id': 'crypto_newbie_zh', 'lang': 'zh', 'retrieval_beats': []},
+             {'id': 'crypto_diary_zh', 'lang': 'zh', 'retrieval_beats': []}]
+    g, g2 = _g(1, 'BTC drops below 80k'), _g(2, 'meme launchpad pump.fun app')
+    plan, info = _sel(monkeypatch, {'crypto_newbie_zh': [g], 'crypto_diary_zh': [g2, g]}, accts, labels)
+    assert plan['crypto_newbie_zh'][0]['title'].startswith('BTC')
+    diary = [p for p in plan['crypto_diary_zh'] if p.get('slot') == 'diary']
+    assert len(diary) == 1 and diary[0]['title'].startswith('BTC')   # shares the packet newbie took
