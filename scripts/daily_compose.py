@@ -678,8 +678,9 @@ def audit_context(day, pools, allow_model=False, info=None, motif_of=None):
         print(f"story labels: {json.dumps(stats)}", flush=True)
     ledger = sd.ledger_for(day, rows=hist)
     memo, offer_src, reassign_memo = {}, {}, {}
+    relax = [False]
     offl_plan, plan_kinds, human_today = Counter(), {}, set()
-    skips, lane_off, handed, repeats, kinds = {}, [], [], [], Counter()
+    skips, lane_off, handed, repeats, kinds, relaxed = {}, [], [], [], Counter(), []
     for r in hist:
         if r.get('day') == day_s and post_kind.is_human(post_kind.row_kind(r)):
             human_today.add(r.get('account_id'))
@@ -707,6 +708,9 @@ def audit_context(day, pools, allow_model=False, info=None, motif_of=None):
                 return why
         if lane_on and not ek:
             v = la.verdict(account, st.get('bucket'))
+            if relax[0] and v in ('off', 'offlane_ok') and \
+                    (la.cfg(account).get('donor_bucket_share') or {}).get(st.get('bucket'), 0) > 0:
+                return None   # 'relax' round: an account left with nothing takes a topic its donors do touch
             if v == 'off':
                 return f"lane_off: {st.get('bucket')}"
             if v == 'offlane_ok' and (offlane_n(account) >= la.quota(account) or offlane_today(account)):
@@ -731,6 +735,9 @@ def audit_context(day, pools, allow_model=False, info=None, motif_of=None):
                            'title': str(p.get('title') or '')[:80]})
         if special == 'diary':
             p.update(kind='diary', slot='diary')
+        if special == 'relax':
+            p['lane_relaxed'] = True
+            relaxed.append(account)
 
     def demote(account, groups):
         if not story_on:
@@ -785,11 +792,11 @@ def audit_context(day, pools, allow_model=False, info=None, motif_of=None):
                 'skips': {a: dict(c) for a, c in skips.items()},
                 'skips_total': dict(sum((c for c in skips.values()), Counter())),
                 'handovers': handed, 'lane_off_offered': len(lane_off), 'story_repeats': repeats,
-                'human_kinds': dict(kinds), 'offlane_asides': dict(offl_plan)}
+                'human_kinds': dict(kinds), 'offlane_asides': dict(offl_plan), 'lane_relaxed': relaxed}
 
     return {'story_of': story_of, 'check': check, 'taken': taken, 'demote': demote, 'offers': offers,
             'diary_due': diary_due, 'kind_for': kind_for, 'summary': summary, 'skips': skips, 'lane_off': lane_off,
-            'lane_on': lane_on, 'diary_on': diary_on, 'ledger': ledger}
+            'lane_on': lane_on, 'diary_on': diary_on, 'ledger': ledger, 'relax': relax}
 
 
 def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT, seed_events=(), reuse=None,
@@ -1076,7 +1083,8 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
     hot_round = [a for a in order if hot is not None and a in hot.assign]
     # Oct 11: two extra rounds - 'handover' (picks another account's lane gate turned away go to a fitting account
     # with a free slot) and 'diary' (diary-lane accounts: one extra daily diary slot)
-    extra_rounds = ([('handover',)] if sctx['lane_on'] else []) + ([('diary',)] if sctx['diary_on'] else [])
+    # 'relax': an account still without a pick (and nothing drafted today) may take a topic its donors touch
+    extra_rounds = ([('handover',), ('relax',)] if sctx['lane_on'] else []) + ([('diary',)] if sctx['diary_on'] else [])
     for _round in [hot_round] + [None] * per_account + extra_rounds:
         special = _round[0] if isinstance(_round, tuple) else None
         for account in (order if _round is None or special else _round):
@@ -1084,6 +1092,8 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                 if not sctx['diary_due'](account, plan[account]) or \
                         len(plan[account]) + done.get(account, 0) >= MAX_PER_ACCOUNT:
                     continue
+            elif special == 'relax' and (plan[account] or done.get(account, 0)):
+                continue
             elif len(plan[account]) + done.get(account, 0) >= cap or len(plan[account]) >= per_account:
                 if _round is not None and not special:
                     hot.record(account, hot.assign[account][0], decision='HOLD', reason='daily ceiling already reached')
@@ -1106,6 +1116,12 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             if special == 'handover':
                 groups = [g for g in sctx['offers'](account, lang) if slot_ok(account, g)]
                 pick = try_pick(account, lang, lead, groups)
+            elif special == 'relax':
+                sctx['relax'][0] = True
+                try:
+                    pick = try_pick(account, lang, lead, [g for g in pools[account] if slot_ok(account, g)])
+                finally:
+                    sctx['relax'][0] = False
             elif special == 'diary':
                 groups = sctx['demote'](account, [g for g in pools[account]
                                                   if slot_kind(g[0]['source'].get('id')) == 'standalone'])
@@ -1896,7 +1912,7 @@ def inbox_row(result, account_cfg, day, run_id):
             **({'lane_fit': result['lane_fit']} if result.get('lane_fit') else {}),
             # Oct 11 account audit: story (dedupe / memory), topic bucket, human kind, off-lane aside, handover, slot
             **{k: pick[k] for k in ('story', 'topic_bucket', 'kind', 'offlane_aside', 'reassigned_from', 'slot',
-                                    'story_repeat') if pick.get(k)},
+                                    'story_repeat', 'lane_relaxed') if pick.get(k)},
             **({'stale_frame': result['stale_frame']} if result.get('stale_frame') else {}),
             # Oct 11: the humanize post-step's changes + the pre-humanize text (root-cause audits of line edits)
             **({'humanize': result['humanize']} if result.get('humanize') else {}),

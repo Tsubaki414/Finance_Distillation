@@ -399,3 +399,17 @@ def test_density_findings():
     assert post_kind.density_findings('Tether froze wallets. what would you do?', 'en', 'question') == []
     assert post_kind.density_findings('Tether froze wallets. Bad sign.', 'en', 'question')[0]['code'] == 'kind_question_no_question'
     assert post_kind.density_findings('BTC 80k, ETH 3k', 'en', None) == []
+
+
+@needs_mix
+def test_relax_round_keeps_an_account_with_only_donor_side_topics(monkeypatch):
+    for k in ('FD_POST_KIND', 'FD_DIARY_SLOT'):
+        monkeypatch.setenv(k, '0')
+    sh = lane_allow.cfg('crypto_meme_en')['donor_bucket_share']
+    side = next(b for b in sh if lane_allow.verdict('crypto_meme_en', b) == 'off')
+    labels = {'side': lab('Acme', 'launches', '', 'Acme launches thing', b=side),
+              'never': lab('Bank', 'policy', '', 'Bank policy', b='china_hk_markets')}
+    accts = [{'id': 'crypto_meme_en', 'lang': 'en', 'retrieval_beats': []}]
+    plan, info = _sel(monkeypatch, {'crypto_meme_en': [_g(1, 'never bank'), _g(2, 'side acme')]}, accts, labels)
+    p = plan['crypto_meme_en']
+    assert len(p) == 1 and p[0]['title'].startswith('side') and p[0]['lane_relaxed']
