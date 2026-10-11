@@ -189,3 +189,44 @@ def test_midday_maps_relay_key():
     sh = (ROOT / 'scripts' / 'cron' / 'midday_compose.sh').read_text(encoding='utf-8')
     i_map, i_ingest = sh.index('export ACCOUNT_RELAY_API_KEY='), sh.index('scripts/daily_ingest.py')
     assert i_map < i_ingest and 'FD_MIDDAY_RELAY_MAP' in sh
+
+
+# ---------------------------------------------------------------- freshness look-back fallback
+def test_fresh_gate_lookback_fallback():
+    import scripts.daily_compose as dc
+    ref = datetime(2026, 10, 11, 22, 15, tzinfo=timezone.utc)
+    dc.LOOKBACK_PICKS.clear()
+    pools = {'a': [_grp(100, ref), _grp(60, ref), _grp(80, ref), _grp(200, ref)], 'b': [_grp(10, ref), _grp(60, ref)]}
+    info = {}
+    dc.fresh_gate(pools, ref, info, env={})
+    assert [x[0]['source']['id'] for x in pools['a']] == ['s60', 's80']   # youngest 2 expired, <= 120 h at the slot
+    assert [x[0]['source']['id'] for x in pools['b']] == ['s10']          # has a fresh item: no fallback
+    assert info['fresh_gate']['lookback_kept_age_h'] == {'a': [68.0, 88.0]}
+    assert len(dc.LOOKBACK_PICKS) == 2
+    pools = {'a': [_grp(60, ref)]}
+    dc.fresh_gate(pools, ref, None, env={'FD_FRESH_LOOKBACK': '0'})
+    assert pools['a'] == []
+    dc.LOOKBACK_PICKS.clear()
+
+
+def test_lookback_payload_and_findings():
+    ev = {'event': 'Tether froze $2.76m', 'frame': 'lookback', 'age_h': 96}
+    blk = g.payload_block(ev)
+    assert 'frame_rule' in blk and '4 days' in blk['frame_rule'] and blk['event'] == 'Tether froze $2.76m'
+    assert 'frame_rule' in g.payload_block({'frame': 'lookback', 'age_h': 60})
+    assert g.payload_block({'event': 'x'}).get('frame_rule') is None
+    assert g.lookback_findings('Tether froze $2.76m.', ev)
+    assert g.lookback_findings('回看上周：Tether 冻结了276万美元，现在稳定币发行方的权力更清楚了。', ev) == []
+    assert g.lookback_findings('Tether froze $2.76m.', {'event': 'x'}) == []
+
+
+def test_final_check_lookback_rewrite_then_hold(monkeypatch):
+    monkeypatch.setenv('FD_RC_QA_HOLD', '1')
+    ok = {'event_stated': True, 'fact_errors': [], 'broken': False}
+    ev = {'event': 'Tether froze $2.76m', 'frame': 'lookback', 'age_h': 96}
+    row = {'account_id': 'a', 'body': 'Tether froze $2.76m.', 'event_fact': ev, 'source': {'title': 't'}}
+    rec = g.final_check(row, FakeClient([ok, {'body': 'Tether froze $2.76m again.'}, ok]))
+    assert rec['result'] == 'hold' and 'lookback_unframed' in rec['codes']
+    row = {'account_id': 'a', 'body': 'Tether froze $2.76m.', 'event_fact': ev, 'source': {'title': 't'}}
+    rec = g.final_check(row, FakeClient([ok, {'body': 'Looking back at last week: Tether froze $2.76m. Now issuers matter more.'}, ok]))
+    assert rec['result'] == 'rewritten' and row['body'].startswith('Looking back')

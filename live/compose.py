@@ -1539,7 +1539,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         payload['angle'] = dict(angle)
     # Oct 11 (live/rc_guard.py, FD_EVENT_FACT): the source's lead event (who did what, when, incl. denials) - line 1/2
     from live import rc_guard as _rcg
-    _ev_block = _rcg.payload_block(event_fact) if event_fact and _rcg.event_enabled() else None
+    _ev_block = (_rcg.payload_block(event_fact)
+                 if event_fact and (_rcg.event_enabled() or event_fact.get('frame')) else None)
     if _ev_block:
         payload['news_event'] = _ev_block
         base['event_fact'] = dict(event_fact)

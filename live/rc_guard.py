@@ -141,10 +141,32 @@ EVENT_RULE = ('HARD: news_event.event is what newly happened in this source. Lin
               'or unconfirmed report as fact. Older facts in the units are background to this event, never the news.')
 
 
+LOOKBACK_RULE = ('HARD: this source is {age} old - older than the 48 h news window. Frame the post as an update / '
+                 'look-back: say plainly that it happened earlier ("{days_zh}" / "earlier this week" / "回看" / "上周"), '
+                 'and tie it to now ("现在 / 如今 / now / as of today"). Never present it as today\'s news.')
+
+
 def payload_block(event):
-    if not event or not event.get('event'):
+    if not event or not (event.get('event') or event.get('frame')):
         return None
-    return {'event': event['event'], 'when': event.get('when'), 'caveat': event.get('caveat'), 'rule': EVENT_RULE}
+    out = {'event': event.get('event'), 'when': event.get('when'), 'caveat': event.get('caveat'), 'rule': EVENT_RULE}
+    if not event.get('event'):
+        out = {}
+    if event.get('frame') == 'lookback':
+        age_h = float(event.get('age_h') or 72)
+        out['frame_rule'] = LOOKBACK_RULE.format(age=f'{age_h / 24:.0f} days' if age_h >= 48 else f'{age_h:.0f} h',
+                                                 days_zh=f'{max(2, round(age_h / 24))}天前')
+    return out
+
+
+def lookback_findings(body, event):
+    """A fresh-gate look-back pick (event['frame'] == 'lookback', FD_FRESH_LOOKBACK) must read as an update / look-back:
+    live/stale_frame.framed -> (look-back word, today word); both needed."""
+    if not event or event.get('frame') != 'lookback':
+        return []
+    from live import stale_frame
+    back, today = stale_frame.framed(body)
+    return [] if back and today else ['lookback_unframed: ' + ('no look-back word' if not back else 'no today tie')]
 
 
 # -------------------------------------------------------------------------------------------- 2. post-edit guard
@@ -357,8 +379,17 @@ DRAFT:
 Return JSON only: {{"body": "<the rewritten post>"}}'''
 
 
+def _split(broken):
+    frame = [b for b in broken if str(b).startswith('lookback_unframed')]
+    return frame, [b for b in broken if b not in frame]
+
+
 def _problems(res, broken):
     p = []
+    frame, broken = _split(broken)
+    if frame:
+        p.append('- The source is older than 48 h but the post reads as today\'s news (' + '; '.join(frame) + '): frame it as '
+                 'an update / look-back (回看 / 上周 / 几天前 / earlier this week) and tie it to now (现在 / 如今 / now).')
     if not res.get('event_stated'):
         p.append('- The lead event is missing: state it in line 1 or 2 (keep any denial / caveat).')
     for e in res.get('fact_errors') or []:
@@ -375,6 +406,9 @@ def _failed(res, broken):
 
 def _hard_codes(res, broken):
     codes = []
+    frame, broken = _split(broken)
+    if frame:
+        codes.append('lookback_unframed')
     if not res.get('event_stated'):
         codes.append('event_missing')
     if res.get('fact_errors'):
@@ -391,7 +425,7 @@ def final_check(row, client):
         return None
     source = row.get('source') or {}
     event = row.get('event_fact')
-    broken = broken_text(body)
+    broken = broken_text(body) + lookback_findings(body, event)
     res = qa_check(client, source, event, body)
     rec = {'version': VERSION, 'first': res, 'first_broken': broken}
     if res is None:   # judge unavailable: deterministic truncation still holds the draft
@@ -409,7 +443,7 @@ def final_check(row, client):
             # the rewrite may fix a wrong number, so only first-person / caveat / empty reasons veto it here
             veto = [r for r in edit_check(before, new, event) if not r.startswith(('number_dropped', 'event_dropped'))]
             res2 = None if veto else qa_check(client, source, event, new)
-            broken2 = broken_text(new)
+            broken2 = broken_text(new) + lookback_findings(new, event)
             rec['rewrite'].update(veto=veto, second=res2, second_broken=broken2)
             if res2 is not None and not _failed(res2, broken2):
                 set_body(row, new)

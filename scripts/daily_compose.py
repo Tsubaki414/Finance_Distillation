@@ -658,23 +658,32 @@ def _src_age_h(src, ref):
     return (ref - t).total_seconds() / 3600.0
 
 
+LOOKBACK_PICKS = set()   # (account, source key) kept by fresh_gate's look-back fallback -> pick['lookback_frame']
+
+
 def fresh_gate(pools, ref, info=None, env=None):
     """Oct 11 (FD_FRESH_GATE, default 1; quality_rootcause_1011 RC3: 39-40% of 10-10/11 originals had a source > 48 h
     old at the slot, 'timely' was only a tag). Pool items expire when their source is older than FD_FRESH_MAX_H (48) h at
     the estimated slot (selection ref + FD_FRESH_SLOT_LEAD_H, default 8: the nightly runs ~23:15 London, slots run to
-    16:00). A source without a parseable date stays (counted). Old material reaches the inbox only through the framed
-    回看 / 常青 archive path (live/stale_frame.py checks its frame)."""
+    16:00). A source without a parseable date stays (counted).
+    Look-back fallback (FD_FRESH_LOOKBACK, default 1): an account left with no fresh item keeps its
+    FD_FRESH_LOOKBACK_N (2) youngest expired items up to FD_FRESH_LOOKBACK_MAX_H (120) h; their picks carry
+    lookback_frame, compose gets a look-back frame rule and the final QA (live/rc_guard.lookback_findings, reusing
+    live/stale_frame.framed) needs a look-back word + a today tie: one rewrite, then HOLD."""
     env = env if env is not None else os.environ
     if env.get('FD_FRESH_GATE', '1') == '0':
         return
     try:
         max_h = float(env.get('FD_FRESH_MAX_H', '48'))
         lead = float(env.get('FD_FRESH_SLOT_LEAD_H', '8'))
+        lb_n = int(env.get('FD_FRESH_LOOKBACK_N', '2'))
+        lb_max = float(env.get('FD_FRESH_LOOKBACK_MAX_H', '120'))
     except ValueError:
-        max_h, lead = 48.0, 8.0
-    dropped, undated = {}, {}
+        max_h, lead, lb_n, lb_max = 48.0, 8.0, 2, 120.0
+    lookback_on = env.get('FD_FRESH_LOOKBACK', '1') != '0'
+    dropped, undated, lookback = {}, {}, {}
     for aid in list(pools):
-        kept = []
+        kept, old = [], []
         for g in pools[aid]:
             age = _src_age_h(g[0]['source'], ref)
             if age is None:
@@ -684,9 +693,17 @@ def fresh_gate(pools, ref, info=None, env=None):
                 kept.append(g)
             else:
                 dropped[aid] = dropped.get(aid, 0) + 1
+                if age + lead <= lb_max:
+                    old.append((age, g))
+        if lookback_on and not kept and old:
+            for age, g in sorted(old, key=lambda x: x[0])[:max(0, lb_n)]:
+                kept.append(g)
+                LOOKBACK_PICKS.add((aid, tuple(demo._key(g[0]))))
+                lookback.setdefault(aid, []).append(round(age + lead, 1))
         pools[aid] = kept
     if info is not None:
-        info['fresh_gate'] = {'max_h': max_h, 'slot_lead_h': lead, 'dropped': dropped, 'undated_kept': undated}
+        info['fresh_gate'] = {'max_h': max_h, 'slot_lead_h': lead, 'dropped': dropped, 'undated_kept': undated,
+                              'lookback_kept_age_h': lookback}
 
 
 def fresh_pref(g, ref, env=None):
@@ -1033,6 +1050,8 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                 **({'post_type': 'data_take'} if packet_kind(g) == 'data' else {}),
                 **({'support': x_support_summary(sup), 'support_records': sup['records']} if sup else {}),
                 'in_shelf': demo.in_shelf(g, ref.date().isoformat()), 'timely': timely(g, ref),
+                **({'lookback_frame': True, 'source_age_h': round(_src_age_h(src, ref) or 0, 1)}
+                   if (account, tuple(demo._key(g[0]))) in LOOKBACK_PICKS else {}),
                 **({'x_metrics': src['x_metrics']} if src.get('x_metrics') else {}),
                 'hooks': sorted(group_hooks(g)), 'angle': angle, 'angle_why': why, 'shared_event_with': shared_with,
                 'numbers': sum(len(r['unit'].get('numbers') or []) for r in g)})
@@ -1684,6 +1703,8 @@ def compose_one(new_client, account, pick, day, store_records, spend, lock):
         # Oct 11 (live/rc_guard.py FD_EVENT_FACT): the source's lead event, on the shared client (not the per-draft caps)
         from live import rc_guard
         event_fact = rc_guard.derive_event(source, units, new_client(), lang) if rc_guard.event_enabled() else None
+        if pick.get('lookback_frame'):   # fresh_gate look-back fallback: frame it as an update / look-back
+            event_fact = dict(event_fact or {}, frame='lookback', age_h=pick.get('source_age_h'))
         result = compose.compose_source(
             source, account, dc, post_type=pick.get('post_type') or demo.judgment_type(account), extracted_units=units,
             exemplar_dir=POSTS, exemplar_tags_dir=TAGS, view_ledger=ViewLedger(account),
