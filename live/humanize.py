@@ -859,6 +859,19 @@ def apply(row: dict, client: Any = None, lang: str | None = None,
         if first(body) != first(_start_body):   # the 回看 header line is never changed or dropped
             body = _start_body
             all_changes = ['REVERTED(archive): header changed']
+    # Oct 11 (live/stale_frame.py): a draft whose body names an event > 30 days old keeps its look-back frame and
+    # today comparison - an LLM / closer / moral-line edit that drops either one reverts the whole humanize pass
+    if body != _start_body:
+        try:
+            from live import stale_frame
+            _day = row.get('day') or (row.get('plan') or {}).get('day')
+            if (stale_frame.enabled() and stale_frame.ok(_start_body, _day, archive)
+                    and not stale_frame.ok(body, _day, archive)):
+                body = _start_body
+                all_changes = ['REVERTED(frame): look-back frame / today comparison dropped']
+                llm_used = False
+        except Exception:   # noqa: BLE001 - the guard never blocks a draft
+            pass
     row['body'] = body
     # also update row['text'] if it matches original body (no frame)
     if row.get('text') == raw_body:
@@ -868,7 +881,8 @@ def apply(row: dict, client: Any = None, lang: str | None = None,
         if raw_body and raw_body in str(row.get('text') or ''):
             row['text'] = str(row['text']).replace(raw_body, body, 1)
 
-    row['humanize'] = {'changes': all_changes, 'llm': llm_used, 'reverted': reverted}
+    row['humanize'] = {'changes': all_changes, 'llm': llm_used, 'reverted': reverted,
+                       **({'before_text': _start_body} if body != _start_body else {})}   # Oct 11: audit trail
     return row
 
 

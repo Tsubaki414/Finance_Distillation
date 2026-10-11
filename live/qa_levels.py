@@ -17,6 +17,7 @@ from live.span_grounding import HARD_CODES as _GROUND_HARD, SOFT_CODES as _GROUN
 from live.risk_rules import HARD_CODES as _RISK_HARD
 from live.hook_voice import HARD_CODES as _HOOK_HARD, SOFT_CODES as _HOOK_SOFT, FIXES as _HOOK_FIXES
 from live.engagement import HARD_CODES as _ENG_HARD, SOFT_CODES as _ENG_SOFT, FIXES as _ENG_FIXES
+from live.stale_frame import HARD_CODES as _STALE_HARD, FIX as _STALE_FIX
 
 HARD = frozenset({
                   'licence_tier_not_allowed', 'd_tier_source_leak', 'quote_not_exact',
@@ -31,6 +32,8 @@ HARD = frozenset({
                   *_HOOK_HARD,
                   # Oct 8 (live/engagement.py): reply / quote drafts - generic praise, reply > 2 sentences, > 1 @mention
                   *_ENG_HARD,
+                  # Oct 11 (live/stale_frame.py): an event > 30 days old with no look-back frame + today comparison
+                  *_STALE_HARD,
                   # Oct 7: inspiration_only sources (Delphi digest) are never cited, quoted or counted
                   'inspiration_only_number', 'inspiration_only_text', 'inspiration_only_cited'})
 SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_units', 'period_not_in_units', 'number_metric_binding', 'number_words', 'no_judgment', 'data_list', 'no_disagreement', 'view_number_unbound', 'template_phrase', 'length_out_of_range', 'attribution_outside_frame',
@@ -141,6 +144,8 @@ FIXES.update(_GROUND_FIXES)
 from live.risk_rules import FIXES as _RISK_FIXES  # noqa: E402
 FIXES.update(_RISK_FIXES)
 # D tier (source_expansion.md §6): never in the publishing chain, never named in a post.
+FIXES['stale_event_unframed'] = _STALE_FIX   # Oct 11: rides the one targeted hard_repair rewrite
+
 D_TIER_NAMES = ('ReportGem', '环球报告', '慧博', '发现报告', '洞见研报', '三个皮匠', '进门财经', 'Alpha派', 'Scribd')
 
 

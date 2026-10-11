@@ -24,7 +24,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from live import compose_inbox, editorial_style  # noqa: E402
+from live import compose_inbox, editorial_style, fd_accounts, lane_fit, stale_frame  # noqa: E402
 
 VERDICTS = ('keep', 'rewrite', 'drop')
 
@@ -62,15 +62,28 @@ def recheck(day, base=None):
             continue
         fmt = (row.get('post_format') or {}).get('type')
         now = editorial_style.hard(editorial_style.findings(body, row.get('lang'), post_format=fmt))
+        # Oct 11: an event > 30 days old without a look-back frame + today comparison (live/stale_frame.py)
+        now += stale_frame.findings(body, row.get('lang'), day,
+                                    archive=str(row.get('post_kind') or '').startswith('archive'))
+        lane = None
+        if not row.get('engage_close') and row.get('post_mode') in (None, 'original'):
+            acc = fd_accounts.by_id().get(row.get('account_id'))
+            chk = lane_fit.macro_check(acc, body) if acc else {'ok': True}
+            if not chk['ok']:
+                lane = chk
         hard = {f.get('code') for f in row.get('findings') or [] if f.get('level') == 'hard'}
         style = set(editorial_style.CODES)
         ready = not row.get('held') and row.get('draft_status') == 'draft_ready'
         mark = {'at': at, 'version': editorial_style.VERSION, 'old_hard': sorted(hard),
                 'old_hold_reason': row.get('hold_reason'), 'old_draft_status': row.get('draft_status')}
         if ready and now:
-            row['findings'] = list(row.get('findings') or []) + [{'code': f['code'], 'level': 'hard'} for f in now]
+            row['findings'] = list(row.get('findings') or []) + [{'code': f['code'], 'level': 'hard',
+                                                                  **({'detail': f['detail']} if f.get('detail') else {})}
+                                                                 for f in now]
             row.update(held=True, draft_status='needs_review',
                        hold_reason='hard: ' + ','.join(sorted({f['code'] for f in now})), recheck=mark)
+        elif ready and lane:
+            row.update(held=True, lane_fit=lane, hold_reason='off_lane: ' + lane['detail'], recheck=mark)
         elif (not ready and not now and hard and hard <= style
               and (row.get('arbitration') or {}).get('status') != 'HOLD'):
             row['findings'] = [f for f in row['findings'] if f.get('code') not in hard]

@@ -63,6 +63,17 @@ MEME_TIE = re.compile(r'\$[A-Za-z][A-Za-z0-9]{1,9}\b[^。！？!?\n]{0,120}?(市
                       re.I | re.S)
 
 
+# Oct 11: the stablecoin account's positioning covers 脱锚和对手方风险 - a stablecoin issuer freezing / blacklisting /
+# seizing funds, a depeg or a reserve / redemption problem is on its lane without a yield word (10-11: the Tether freeze
+# lawsuit off 墨川.eth's BTC/ETH macro lane belongs here)
+STABLE_RISK_TIE = re.compile(
+    r'(?:stablecoins?|\busd[tc]\b|\btether\b|\bcircle\b|\bpyusd\b|稳定币|泰达)[^。！？!?\n]{0,160}?'
+    r'(?:froze|freez\w*|frozen|blacklist\w*|seiz\w*|depeg\w*|reserves?|redemptions?|counterparty|attestation|'
+    r'冻结|拉黑|黑名单|罚没|没收|脱锚|储备|赎回|对手方|兑付)|'
+    r'(?:froze|freez\w*|frozen|blacklist\w*|seiz\w*|depeg\w*|冻结|拉黑|黑名单|罚没|脱锚|赎回|兑付)[^。！？!?\n]{0,160}?'
+    r'(?:stablecoins?|\busd[tc]\b|\btether\b|\bcircle\b|稳定币|泰达)', re.I | re.S)
+
+
 def enabled(env=None):
     return (env if env is not None else os.environ).get('FD_LANE_FIT', '1') != '0'
 
@@ -96,6 +107,8 @@ def lane_hits(lane, text):
     hits = {m.group(0).lower()[:40] for m in rx.finditer(text)}
     if lane == 'crypto_meme':   # Oct 9 night: a small $TICKER talked about by market cap / pool / holders is a meme coin
         hits |= {'$ticker+' + m.group(1).lower()[:12] for m in MEME_TIE.finditer(text)}
+    if lane == 'crypto_stable_yield':   # Oct 11: issuer / counterparty risk of a stablecoin (freeze, depeg, reserves)
+        hits |= {'issuer_risk+' + m.group(0).lower()[:20] for m in STABLE_RISK_TIE.finditer(text)}
     return sorted(hits)
 
 
@@ -132,3 +145,110 @@ def draft_check(account_cfg, body):
         return {'ok': True, 'why': 'not_broad', 'lane': lane, 'hits': []}
     return {'ok': False, 'why': 'off_lane', 'lane': lane, 'hits': [],
             'detail': f'broad macro / BTC / ETF draft without a {lane} tie-in'}
+
+
+# ---------------------------------------------------------------- BTC/ETH macro lane + reassign (Oct 11)
+# 10-11 墨川.eth (crypto_macro_zh, 加密宏观 · BTC/ETH 大势判断) got a Tether wallet-freeze lawsuit (stablecoin compliance,
+# no BTC / ETH / macro link) because the beat gate lets the macro crypto accounts take any crypto packet. Rule now
+# (FD_MACRO_LANE, default 1): a BTC/ETH macro account (editorial_style.CRYPTO_MACRO_OK) takes a packet / archive pick /
+# draft only when it names BTC / ETH / the crypto market as a whole or a macro driver (rates, liquidity, dollar,
+# flows, cycle ...). Off-lane material is not dropped: reassign_target() names the same-language account whose own
+# lane fits it (a stablecoin compliance item -> crypto_stable_yield_<lang>), and the caller hands it over.
+
+MACRO_LANE_RX = re.compile(
+    r'\bbitcoin\b|\bbtc\b|\$btc|\bether(?:eum)?\b|\beth\b|\$eth|比特币|大饼|以太坊|以太|姨太|\bcrypto (?:market|prices?|cycle)|'
+    r'total (?:crypto )?market cap|加密(?:市场|大盘|总市值)|大盘|\betfs?\b|现货 ?etf|'
+    r'\bfed\b|\bfomc\b|federal reserve|rate (?:cut|hike)s?|interest rates?|\byields?\b|treasur(?:y|ies)|\bbonds?\b|'
+    r'liquidity|\bm2\b|\bdollar (?:index|strength|weakness|liquidity)|\b(?:strong|weak|us|u\.s\.) dollar\b|\bdxy\b|inflation|\bcpi\b|\bpce\b|payrolls?|recession|risk[- ](?:on|off|assets?)|'
+    r'macro|halving|(?:4|four)-year cycle|\bcycles?\b|\bbull (?:market|run)|\bbear market|\bnasdaq\b|s&p ?500|\bgold\b|'
+    r'美联储|降息|加息|利率|美债|国债|收益率|流动性|美元指数|(?<![\d万亿千百\s])美元|通胀|非农|衰退|风险资产|宏观|减半|周期|纳指|标普|黄金|资金面|'
+    r'资金流|净流入|净流出', re.I)
+
+# topic -> lane, for reassigning off-lane material (stablecoin issuer / compliance first: no yield word needed)
+STABLE_TOPIC_RX = re.compile(r'stablecoins?|\busd[tce]\b|\btether\b|\bcircle\b|\bpyusd\b|\busd1\b|\brlusd\b|\bdai\b|'
+                             r'genius act|\bmica\b|depeg|稳定币|泰达|脱锚|U本位', re.I)
+REASSIGN_LANES = ('crypto_stable_yield', 'crypto_prediction', 'crypto_meme', 'crypto_airdrop', 'crypto_perp',
+                  'crypto_ecosystem_sol_base')
+
+
+def macro_enabled(env=None):
+    return (env if env is not None else os.environ).get('FD_MACRO_LANE', '1') != '0' and enabled(env)
+
+
+def is_macro_account(account_cfg):
+    from live.editorial_style import CRYPTO_MACRO_OK
+    return ((account_cfg or {}).get('id') or '') in CRYPTO_MACRO_OK
+
+
+def macro_hits(text):
+    return sorted({m.group(0).lower()[:30] for m in MACRO_LANE_RX.finditer(str(text or ''))})
+
+
+def topic_lane(text):
+    """(lane, hits) of the niche lane the text is most about, or (None, [])."""
+    best, best_hits = None, []
+    for lane in REASSIGN_LANES:
+        hits = lane_hits(lane, text)
+        if lane == 'crypto_stable_yield':
+            hits = sorted(set(hits) | {m.group(0).lower() for m in STABLE_TOPIC_RX.finditer(str(text or ''))})
+        if len(hits) > len(best_hits):
+            best, best_hits = lane, hits
+    return best, best_hits
+
+
+def reassign_target(text, lang, accounts=None, exclude=()):
+    """Same-language account whose primary lane fits the text, or None. accounts default: the gated roster."""
+    lane, hits = topic_lane(text)
+    if not lane:
+        return None
+    if accounts is None:
+        from live import fd_accounts
+        accounts = fd_accounts.rows()
+    for a in accounts:
+        if a.get('id') in exclude or str(a.get('lang') or '')[:2] != str(lang or '')[:2]:
+            continue
+        if primary_lane(a) == lane:
+            return {'account': a['id'], 'lane': lane, 'hits': hits[:5]}
+    return None
+
+
+def macro_check(account_cfg, text, accounts=None):
+    """{'ok', 'why', 'hits', 'reassign'} for one packet / archive pick / draft of a BTC/ETH macro account (ok for
+    every other account)."""
+    if not macro_enabled() or not is_macro_account(account_cfg):
+        return {'ok': True, 'why': 'not_macro'}
+    hits = macro_hits(text)
+    if hits:
+        return {'ok': True, 'why': 'on_macro_lane', 'hits': hits[:5]}
+    target = reassign_target(text, account_cfg.get('lang'), accounts, exclude=(account_cfg.get('id'),))
+    return {'ok': False, 'why': 'off_lane', 'lane': 'btc_eth_macro', 'hits': [], 'reassign': target,
+            'detail': 'no BTC / ETH / crypto-market / macro driver for a BTC/ETH macro account'
+                      + (f" -> reassign to {target['account']} ({target['lane']})" if target else '')}
+
+
+def macro_draft_check(account_cfg, body, accounts=None):
+    return macro_check(account_cfg, body, accounts)
+
+
+def archive_check(account_cfg, text, accounts=None):
+    """Lane check of an archive (回看 / 常青) pick or draft (Oct 11): BTC/ETH macro accounts via macro_check; niche
+    accounts via packet_check (the pick comes from the account's own donors / X sources, so a non-broad pick passes)
+    with a reassign target - the fitting niche account, or the same-language BTC/ETH macro account for broad BTC /
+    ETH / macro material."""
+    chk = macro_check(account_cfg, text, accounts)
+    if not chk['ok'] or not is_niche(account_cfg):
+        return chk
+    chk = packet_check(account_cfg, text, own_x=True)
+    if chk['ok']:
+        return chk
+    lang = (account_cfg or {}).get('lang')
+    target = reassign_target(text, lang, accounts, exclude=(account_cfg.get('id'),))
+    if not target and is_broad(text):
+        if accounts is None:
+            from live import fd_accounts
+            accounts = fd_accounts.rows()
+        macro = next((a for a in accounts if is_macro_account(a) and str(a.get('lang'))[:2] == str(lang)[:2]
+                      and a.get('id') != account_cfg.get('id')), None)
+        target = {'account': macro['id'], 'lane': 'btc_eth_macro', 'hits': []} if macro else None
+    return {**chk, 'reassign': target,
+            'detail': f"archive pick off the {chk.get('lane')} lane" + (f" -> reassign to {target['account']}" if target else '')}

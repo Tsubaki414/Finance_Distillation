@@ -145,3 +145,11 @@ FD_ARCHIVE=0 ...                                                                
 misrepresentation. With `--judge`, it builds the claim card and re-runs the judge (flash).
 
 `scripts/daily_compose.py` calls `archive_lookback.fill_gaps(day, accounts=...)` at the end of a run.
+
+## Oct 11: frame + lane checks
+
+- `stale_event_unframed` (live/stale_frame.py) is HARD in both variants: an old dated event needs the look-back frame
+  and today's comparison; the humanize post-step reverts any edit that drops either.
+- Lane check of every pick and composed draft (`lane_fit.archive_check`): BTC/ETH macro accounts take BTC / ETH /
+  macro picks only; niche accounts take on-lane picks (a broad BTC pick goes to the macro account). An off-lane pick
+  is queued for the fitting account (`reassign/<day>.jsonl`, read for the day and the 2 days before) instead of dropped.

@@ -28,7 +28,7 @@ from live import archive_lookback as al
 VARIANT = 'evergreen'
 LABEL = '常青'
 HARD_CODES = ('evergreen_verbatim', 'evergreen_number', 'evergreen_dated', 'evergreen_dup_history',
-              'evergreen_misrepresents', 'evergreen_fidelity_unchecked', 'ungrounded_number')
+              'evergreen_misrepresents', 'evergreen_fidelity_unchecked', 'ungrounded_number', 'stale_event_unframed')
 
 # shape of a still-true idea: frameworks, checklists, lessons, explainers, threads
 POSITIVE_ZH = re.compile(r'原则|框架|逻辑|方法|教训|经验|清单|心法|规则|误区|新手|如何|怎么|为什么|本质|长期|风险|仓位|'
@@ -131,6 +131,9 @@ def eligible(post, account_cfg, config):
     ok, why = editorial_style.beat_gate(account_cfg, text)
     if not ok:
         return None, why
+    off = al.lane_reject(account_cfg, text)   # Oct 11: BTC/ETH macro accounts take on-lane picks only (reassign the rest)
+    if off:
+        return None, off
     score = evergreen_score(text)
     if score < ev.get('min_rule_score', 1.0):
         return None, f'rule score {score}'
@@ -186,7 +189,10 @@ def candidates(posts, account_cfg, day, *, config, used=frozenset(), taken=froze
     out = []
     for p in posts:
         c, _why = eligible(p, account_cfg, config)
-        if not c or f"x:{c['id']}" in used or f"x:{c['id']}" in taken:
+        if not c:
+            al.hand_over(day, account_cfg, p, _why, 'evergreen')
+            continue
+        if f"x:{c['id']}" in used or f"x:{c['id']}" in taken:
             continue
         if any(similarity(c['text'], t) >= ev.get('dup_similarity', 0.3) for t in past):
             continue
@@ -305,6 +311,8 @@ def check(body, cand, account_cfg, *, past=(), config=None):
         found.append({**f, 'level': 'hard' if f['code'] in editorial_style.HARD_CODES else 'soft'})
     from live import risk_rules   # Oct 8: contract address / guaranteed return / scam call / referral
     found += [{**f, 'level': 'hard'} for f in risk_rules.findings(body, lang)]
+    from live import stale_frame   # Oct 11: an evergreen retelling never presents an old dated event as news
+    found += stale_frame.findings(body, lang, archive=True)
     return found
 
 
@@ -343,7 +351,8 @@ ADDED_FACT = re.compile(r'\d|[%$¥€£]|@\w|\b(?:buy|sell|should|must|advice|re
                         r'买入|卖出|建议|应该|必须|价格|日期|年|月|亿|万', re.I)
 
 
-FIXES = {'evergreen_verbatim': 'Copied wording: rebuild those sentences in your own words and order.',
+FIXES = {'stale_event_unframed': 'Drop the old dated event: an evergreen post states the still-true idea without dates or news.',
+         'evergreen_verbatim': 'Copied wording: rebuild those sentences in your own words and order.',
          'evergreen_number': 'Drop prices, amounts, dates and numbers the source does not state as a rule.',
          'evergreen_dated': 'No today / this week / a-year-ago framing, no @handle: write it as a timeless idea.',
          'evergreen_dup_history': 'Too close to a recent post of the account: take a different angle or pick NONE.',

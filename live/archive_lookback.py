@@ -53,7 +53,7 @@ USER_AGENT = 'Mozilla/5.0 (compatible; fd-archive-lookback/1.0)'
 
 HARD_CODES = ('ungrounded_number', 'ungrounded_quote', 'archive_quote_not_verbatim', 'archive_framing',
               'archive_stale_as_current', 'archive_claim_type', 'archive_condition_dropped', 'archive_metric_untested',
-              'archive_misrepresents', 'archive_fidelity_unchecked')
+              'archive_misrepresents', 'archive_fidelity_unchecked', 'stale_event_unframed')
 
 
 def store_dir():
@@ -559,6 +559,73 @@ def subject_of(text, account_cfg):
     return None
 
 
+# ---------------------------------------------------------------- lane check + reassign (Oct 11)
+# A BTC/ETH macro account (墨川.eth, crypto_macro_zh ...) only takes archive picks that name BTC / ETH / the crypto
+# market or a macro driver (live/lane_fit.macro_check). An off-lane pick (a stablecoin compliance post) is not dropped:
+# it is queued for the same-language account whose lane fits it (crypto_stable_yield_zh), whose next archive run reads
+# it as extra material (reassigned_posts). Queue: <store>/reassign/<day>.jsonl, read for the day and the 2 days before.
+OFF_LANE = 'off_lane -> '
+
+
+def lane_reject(account_cfg, text):
+    """None when the pick is on the account's lane, else 'off_lane -> <target account or none>'."""
+    from live import lane_fit
+    chk = lane_fit.archive_check(account_cfg, text)
+    if chk['ok']:
+        return None
+    return OFF_LANE + ((chk.get('reassign') or {}).get('account') or 'none')
+
+
+def reassign_path(day):
+    return store_dir() / 'reassign' / f'{day}.jsonl'
+
+
+def hand_over(day, account_cfg, post, why, variant):
+    """Queue an off-lane pick for the account its lane fits (once per post and target)."""
+    if not str(why or '').startswith(OFF_LANE) or not post or not post.get('id'):
+        return None
+    to = str(why)[len(OFF_LANE):]
+    if not to or to == 'none':
+        return None
+    path = reassign_path(day)
+    seen = set()
+    if path.exists():
+        for line in path.read_text().splitlines():
+            try:
+                r = json.loads(line)
+            except ValueError:
+                continue
+            seen.add((r.get('to'), (r.get('post') or {}).get('id')))
+    if (to, post['id']) in seen:
+        return None
+    path.parent.mkdir(parents=True, exist_ok=True)
+    row = {'day': str(day), 'from': (account_cfg or {}).get('id'), 'to': to, 'variant': variant,
+           'at': _now().isoformat(timespec='seconds'), 'post': {k: v for k, v in post.items() if k != 'raw'}}
+    with path.open('a') as fh:
+        fh.write(json.dumps(row, ensure_ascii=False, default=str) + '\n')
+    return row
+
+
+def reassigned_posts(day, account, days_back=2):
+    """Posts other accounts handed to `account` (newest first, deduped by id)."""
+    day = date.fromisoformat(str(day))
+    out, seen = [], set()
+    for k in range(days_back + 1):
+        path = reassign_path((day - timedelta(days=k)).isoformat())
+        if not path.exists():
+            continue
+        for line in reversed(path.read_text().splitlines()):
+            try:
+                r = json.loads(line)
+            except ValueError:
+                continue
+            p = r.get('post') or {}
+            if r.get('to') == account and p.get('id') and p['id'] not in seen:
+                seen.add(p['id'])
+                out.append({**p, 'reassigned_from': r.get('from')})
+    return out
+
+
 def eligible(post, account_cfg, config):
     from live import editorial_style
     from live.x_daily import PROMO
@@ -577,6 +644,9 @@ def eligible(post, account_cfg, config):
     ok, why = editorial_style.beat_gate(account_cfg, text)
     if not ok:
         return None, why
+    off = lane_reject(account_cfg, text)   # Oct 11: BTC/ETH macro accounts take on-lane picks only (reassign the rest)
+    if off:
+        return None, off
     subj = subject_of(text, account_cfg)
     if not subj:
         return None, 'no subject with data today'
@@ -593,6 +663,7 @@ def candidates(fetched, account_cfg, day, *, config, used=frozenset()):
             seen.add(p['id'])
             c, _why = eligible(p, account_cfg, config)
             if not c:
+                hand_over(day, account_cfg, p, _why, 'then_vs_now')
                 continue
             if set(event_keys(c, c['subject']['key'])) & set(used):
                 continue
@@ -855,6 +926,8 @@ def check(body, cand, account_cfg):
         found.append({**f, 'level': 'hard' if f['code'] in editorial_style.HARD_CODES else 'soft'})
     from live import risk_rules   # Oct 8: contract address / guaranteed return / scam call / referral
     found += [{**f, 'level': 'hard'} for f in risk_rules.findings(body, lang)]
+    from live import stale_frame   # Oct 11: the old event keeps its look-back frame + today comparison
+    found += stale_frame.findings(body, lang, cand.get('day'), archive=True)
     return found, rows
 
 
@@ -1027,6 +1100,7 @@ def fixes_for(found):
     from live import editorial_style, span_grounding
     extra = {'archive_quote_not_verbatim': 'Quotes must be copied character for character from the candidate text in '
                                            'its own language; otherwise paraphrase without quotation marks.',
+             'stale_event_unframed': 'Keep the look-back frame (回看 / 去年 / 当时 / a year ago) and add the today comparison (现在 / 如今 / now) for the old date.',
              'archive_framing': 'First line: 回看｜… (ZH) / Look back: … (EN) with the month and year of the old post; '
                                 'say which numbers are from then and which are as of today.',
              'archive_stale_as_current': 'The old value is written as if it were current: date it as then, and use the '
@@ -1339,6 +1413,10 @@ def run(account_ids, day, *, timely_planned=None, force=False, config=None, writ
         handles = handles_for(aid, limit=config.get('max_handles_per_account', 10))
         made_before = rapid.made if rapid else 0
         posts, _calls = gather(aid, handles, day, config=config, client=rapid, allowance=per_account, refresh=refresh)
+        handed = [p for p in reassigned_posts(day, aid) if p['id'] not in {q['id'] for q in posts}]
+        posts = handed + posts   # Oct 11: picks other accounts' lane check handed to this account
+        if handed:
+            info['reassigned_in'] = len(handed)
         used = used_recently(aid, day, config.get('event_cooldown_days', 30))
         info.update(handles=[h for h, _r in handles], posts=len(posts),
                     rapid_calls=(rapid.made if rapid else 0) - made_before)
@@ -1411,6 +1489,13 @@ def run(account_ids, day, *, timely_planned=None, force=False, config=None, writ
         row['post_mode'] = 'original'
         row['gate'] = info.get('gate')
         humanize_row(row, acc)
+        if result['cand'].get('reassigned_from'):
+            row['reassigned_from'] = result['cand']['reassigned_from']
+        # Oct 11: the composed archive draft must be on a BTC/ETH macro account's lane too; else HOLD + hand the pick over
+        off = lane_reject(acc, row.get('body') or '') if not row.get('held') else None
+        if off:
+            row.update(held=True, hold_reason='off_lane: ' + off, draft_status='needs_review')
+            hand_over(day, acc, result['cand'], off, chosen_variant)
         taken |= {k for k in row['archive']['event_keys'] if k.startswith('x:')}
         info.update(variant=chosen_variant, draft_id=row['id'], held=row['held'], hold_reason=row['hold_reason'],
                     original_url=row['archive']['original_url'])

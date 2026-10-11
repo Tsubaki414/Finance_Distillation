@@ -1179,7 +1179,7 @@ def arbitration_pool(ok, inbox_rows, run_id, env=None):
     env = os.environ if env is None else env
     exempt = env.get('FD_ARB_ENGAGE', '0') != '1'
     eligible = [r for r in ok if r.get('draft_status') != 'needs_review' and not r.get('lane_fit')
-                and not (exempt and is_engagement(r))]
+                and not r.get('stale_frame') and not (exempt and is_engagement(r))]
     locked = [x for x in inbox_rows
               if x.get('text') and not x.get('held') and not x.get('superseded')
               and x.get('draft_status') == 'draft_ready' and x.get('run_id') != run_id
@@ -1414,6 +1414,37 @@ def lane_gate(pools, accounts, x_of, info=None):
     if not lane_fit.enabled():
         return {}
     rejects = {}
+    # Oct 11 (FD_MACRO_LANE): a BTC/ETH macro account keeps only packets that name BTC / ETH / the crypto market or a
+    # macro driver; an off-lane packet is handed to the same-language account whose lane fits it (10-11: the Tether
+    # freeze lawsuit went to 墨川.eth; it belongs to crypto_stable_yield_zh), not dropped
+    handed = set()
+    reassigned = {}
+    if lane_fit.macro_enabled():
+        for a in accounts:
+            aid = a['id']
+            if aid not in pools or not lane_fit.is_macro_account(a):
+                continue
+            kept, gone = [], []
+            for g in pools[aid]:
+                chk = lane_fit.macro_check(a, group_text(g))
+                if chk['ok']:
+                    kept.append(g)
+                    continue
+                gone.append(g)
+                to = (chk.get('reassign') or {}).get('account')
+                src = g[0]['source']
+                keys = {src.get('id'), src.get('title'), src.get('source_hash')} - {None, ''}
+                if to in pools and not any(keys & {x[0]['source'].get('id'), x[0]['source'].get('title'),
+                                                   x[0]['source'].get('source_hash')} for x in pools[to]) \
+                        and not (keys & used_sources(to)):
+                    pools[to].append(g)
+                    handed.add(id(g))
+                    reassigned.setdefault(aid, []).append({'to': to, 'title': str(src.get('title') or '')[:80]})
+            pools[aid] = kept
+            if gone:
+                rejects[aid] = {'lane': 'btc_eth_macro', 'rejected': len(gone), 'kept': len(kept),
+                                'samples': [str(g[0]['source'].get('title') or '')[:80] for g in gone[:5]],
+                                'reassigned': reassigned.get(aid, [])}
     for a in accounts:
         aid = a['id']
         if aid not in pools or not lane_fit.is_niche(a):
@@ -1421,6 +1452,9 @@ def lane_gate(pools, accounts, x_of, info=None):
         own = {h.lower() for h in x_of.get(aid) or ()}
         kept, gone = [], []
         for g in pools[aid]:
+            if id(g) in handed:   # reassigned to this account for its lane topic (lane_fit.topic_lane)
+                kept.append(g)
+                continue
             h = x_handle(g[0]['source'])
             chk = lane_fit.packet_check(a, group_text(g), own_x=bool(h and h.lower() in own))
             (kept if chk['ok'] else gone).append(g)
@@ -1639,11 +1673,14 @@ def inbox_row(result, account_cfg, day, run_id):
             'status': result.get('status'), 'error': result.get('error'), 'why': result.get('why'),
             # fix26: a HARD finding left after the one targeted rewrite (needs_review) is a HOLD, never ready
             'held': bool(arb.get('status') == 'HOLD' or result.get('status') == 'error' or not result.get('text')
-                         or result.get('draft_status') == 'needs_review' or result.get('lane_fit')),
+                         or result.get('draft_status') == 'needs_review' or result.get('lane_fit')
+                         or result.get('stale_frame')),
             # Sirius item 4: hard after the one targeted rewrite = HOLD; a rewrite the model / API never returned is a
             # model_error hold (retry path), not a content verdict
             'hold_reason': ('off_lane: ' + str((result.get('lane_fit') or {}).get('detail') or '')
                             if result.get('lane_fit') and result.get('draft_status') != 'needs_review' else
+                            'hard: stale_event_unframed'
+                            if result.get('stale_frame') and result.get('draft_status') != 'needs_review' else
                             'arbitration' if arb.get('status') == 'HOLD' else
                             ('model_error: ' if repair.get('result') == 'rewrite_error' else 'hard: ')
                             + ','.join(sorted({f['code'] for f in findings if f.get('level') == 'hard'}))
@@ -1658,6 +1695,9 @@ def inbox_row(result, account_cfg, day, run_id):
                                   'retry_codes': sorted({f['code'] for f in repair.get('retry_findings') or []})}}
                if repair else {}),
             **({'lane_fit': result['lane_fit']} if result.get('lane_fit') else {}),
+            **({'stale_frame': result['stale_frame']} if result.get('stale_frame') else {}),
+            # Oct 11: the humanize post-step's changes + the pre-humanize text (root-cause audits of line edits)
+            **({'humanize': result['humanize']} if result.get('humanize') else {}),
             **({'cold_start_quote': True} if pick.get('cold_start_quote') else {}),
             # Oct 8 (live/engagement.py): quote / reply target chosen (or refused) by the engagement scoring
             **({'engagement': pick['engagement']} if pick.get('engagement') else {}),
@@ -2008,8 +2048,16 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
         r['day'], r['account_lang'] = args.day.isoformat(), r['plan']['account_lang']
         # Oct 8 evening (FD_LANE_FIT): a niche draft on broad news without a lane tie-in is held off_lane
         lf = lane_fit.draft_check(by_id[r['account_id']], r.get('body') or '')
+        if lf['ok']:   # Oct 11: a BTC/ETH macro account's draft must be on its lane too (else HOLD + reassign hint)
+            lf = lane_fit.macro_draft_check(by_id[r['account_id']], r.get('body') or '')
         if not lf['ok']:
             r['lane_fit'] = lf
+        # Oct 11 (live/stale_frame.py): the final body (after humanize / fluency) may not present an event > 30 days
+        # old without a look-back frame + today comparison; compose QA already gave it the one targeted rewrite
+        from live import stale_frame
+        sf = stale_frame.findings(r.get('body') or '', r['plan']['account_lang'], args.day)
+        if sf:
+            r['stale_frame'] = sf[0]
     # Oct 8: only drafts that can ship take part in arbitration - a needs_review draft (hard finding after its rewrite)
     # won the lane on 10-08 (crypto_onchain_en) and its duplicate was held too, so neither was publishable
     # FD_ARB_SAME_LANG (default 1): only accounts of one language can duplicate each other (0 = cross-language too).

@@ -349,3 +349,26 @@ meme and airdrop accounts first. Nothing publishes automatically.
 - **Check**: `python scripts/check_fd_accounts.py [--accounts a,b] [--day D] [--json out]`, offline, no model calls.
   It reports config, donor topic spread, per-lane units, the post-gate packet pool, and one select over the whole
   roster with ops-page post times.
+
+## Old events and BTC/ETH macro lane (Oct 11, Fiona: 墨川.eth 10-11 22:37)
+
+- The draft 「稳定币随时面临单边切断的风险… 2025年9月24日 他们仅凭名单… 冻结了 276万美元」 was a standalone
+  `judgment_take` from a fresh source (Unchained, 2026-10-06, about a lawsuit filed 2026-10-05), not an archive draft.
+  The unit said only "in September 2025", the news hook (the lawsuit) never reached the post, and the macro crypto
+  beat-gate exception let a stablecoin-compliance packet into a BTC/ETH macro account. Humanize (LLM pass) added
+  「我看到」 and cut the consequence line; it did not remove a frame (there was none).
+- **Old-event check** (`live/stale_frame.py`, HARD `stale_event_unframed`, `FD_STALE_FRAME=0` off): an explicit date
+  > 30 days before the drafting day needs a look-back frame (回看 / 去年 / 当时 / 历史上 / 此前 / a year ago /
+  previously ...); archive (回看 / 常青) drafts also need a today comparison (现在 / 如今 / now / as of ...). Range
+  starts (「2026 年以来」, since 2021) and YoY periods are not events. Wired into compose QA (rides the one targeted
+  hard_repair rewrite, then HOLD), the final post-humanize check in `daily_compose` (HOLD), both archive checks, the
+  humanize post-step (an edit that drops the frame / today comparison reverts; `humanize.before_text` is now kept on
+  the inbox row) and `scripts/apply_inbox_audit.py --recheck`.
+- **BTC/ETH macro lane** (`live/lane_fit.macro_check`, `FD_MACRO_LANE=0` off): crypto_macro_zh / crypto_macro_en /
+  crypto_btc_cycle_zh / btc_cycles_en take a packet, archive pick or draft only when it names BTC / ETH / the crypto
+  market or a macro driver (rates, liquidity, dollar, flows, cycle ...). Off-lane material is reassigned, not dropped:
+  `lane_gate` hands the packet to the same-language account whose lane fits (`reassign_target`; a stablecoin issuer /
+  freeze / depeg item -> crypto_stable_yield_<lang>, whose lane now also takes stablecoin issuer / counterparty risk);
+  archive picks go to `<archive store>/reassign/<day>.jsonl` and the target's next archive run reads them
+  (`archive_lookback.reassigned_posts`). Niche accounts' archive picks get the same lane check (`archive_check`; broad
+  BTC / ETH picks go to the macro account). Composed drafts off the lane are HELD `off_lane: ... -> reassign to X`.

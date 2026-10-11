@@ -1219,6 +1219,8 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
     findings += risk_rules.findings(body, persona.lang)
     from live.draft_qa import stale_time_findings
     findings += stale_time_findings(body, units, now, persona.lang)
+    from live import stale_frame   # Oct 11: an event > 30 days old needs a look-back frame + today comparison (HARD)
+    findings += stale_frame.findings(body, persona.lang, now or (source or {}).get('published_at'))   # replay: source day
     from live import hook_voice   # Oct 8 evening: weak hook (soft, rewrite trigger), source forecast as own call, stale high
     findings += hook_voice.findings(body, units, source, now, persona.lang)
     if (shape or {}).get('engage'):   # Oct 8 (live/engagement.py): reply / quote draft under a big account
