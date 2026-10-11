@@ -1390,7 +1390,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                    exemplar_tags_dir=None, extracted_units=None, stance_output=None, voice_prompt_variant=None, now=None, view_ledger=None,
                    emotion_contract=None, pack_augment=None, shape=None, shape_batch=(), composition_shapes=None,
                    shape_batch_size=None, zh_register=None, post_format=None, angle=None, editor_note=None,
-                   reality=None):
+                   reality=None, event_fact=None):
     """Voice cards always use exemplars; other personas honor the retrieval override.
     angle: optional live/angles.payload() dict - the lens this account takes on the material (fd20 daily runner).
     reality: optional live/hotspot.reality() payload (FD_HOTSPOT pick): latest price + newest same-story reports, so
@@ -1537,6 +1537,12 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                          for u in chosen]}
     if angle:
         payload['angle'] = dict(angle)
+    # Oct 11 (live/rc_guard.py, FD_EVENT_FACT): the source's lead event (who did what, when, incl. denials) - line 1/2
+    from live import rc_guard as _rcg
+    _ev_block = _rcg.payload_block(event_fact) if event_fact and _rcg.event_enabled() else None
+    if _ev_block:
+        payload['news_event'] = _ev_block
+        base['event_fact'] = dict(event_fact)
     from live import hook_voice as _hv
     if _hv.enabled():   # Oct 8 evening: concrete line 1, bookkeeping first person, credit forecasts, no stale highs
         payload['hook_voice'] = _hv.PROMPT_RULE
@@ -1893,7 +1899,11 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     emo_findings = []
     if emotion_brief and emo_policy.get('soft_findings'):
         emo_findings = ec.emotion_findings(body, emotion_brief)
-    if emo_findings and emo_policy.get('emotion_retry'):
+    # Oct 11 (quality_rootcause_1011 RC4, FD_RC_DROP_NOOP_RETRY default 1): the emotion / structure regens kept the
+    # original in most tries (structure 73 of 109, emotion 45 of 45 attempted) - they are dropped; findings stay soft.
+    from live.rc_guard import drop_noop_retry as _dnr
+    _drop_noop = _dnr()
+    if emo_findings and emo_policy.get('emotion_retry') and not _drop_noop:
         note = ec.repair_instruction(emotion_brief, emo_findings)
         if note:
             retry_payload = dict(payload)
@@ -2088,7 +2098,10 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         return found
 
     first_structure = _structure(body, value.get('claim_ledger'))
-    if first_structure:
+    if first_structure and _drop_noop:
+        structure_retry = {'attempted': False, 'kept': 'original', 'first_findings': first_structure,
+                           'reject_reason': 'dropped_noop_retry'}
+    elif first_structure:
         from live.coherence import REPAIR
         parts = []
         for f in first_structure:
@@ -2282,6 +2295,11 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     line_end_info = None
     if body and _le.enabled() and _le.profile(persona):
         _le_body = _le.apply(body, persona, base['id'])
+        # Oct 11 (live/rc_guard.py FD_EDIT_GUARD): a line-end edit that loses a number / the event / a caveat reverts
+        _le_why = _rcg.edit_check(body, _le_body, event_fact) if (_le_body != body and _rcg.guard_enabled()) else []
+        if _le_why:
+            line_end_info = {'reverted': _le_why, 'before': body, 'after': _le_body}
+            _le_body = body
         if _le_body != body:
             line_end_info = {'stripped': sum(a != b for a, b in zip(body.split('\n'), _le_body.split('\n'))),
                              'before': body}

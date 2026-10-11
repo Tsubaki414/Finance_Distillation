@@ -73,7 +73,8 @@ def extract_batch(batch, client, *, licence_tier='B', depth=0, stats=None, promp
     stats.setdefault('prompt_tokens', 0); stats.setdefault('completion_tokens', 0)
     if not batch:
         return {}
-    messages, _ = prompt_assembly.assemble(STAGE, prompt or FLASH_EXTRACT, _payload(batch))
+    from live.rc_guard import event_prompt   # Oct 11 (FD_EVENT_FACT): + one lead_event unit per flash / post
+    messages, _ = prompt_assembly.assemble(STAGE, event_prompt(prompt or FLASH_EXTRACT), _payload(batch))
     max_tokens = min(MAX_TOKENS, PER_FLASH_TOKENS * len(batch) + 600)
     try:
         stats['calls'] += 1
