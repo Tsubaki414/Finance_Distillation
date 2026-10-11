@@ -258,6 +258,11 @@ def test_persona_life_hook_off_by_default(monkeypatch):
     monkeypatch.setitem(lane_allow.cfg('crypto_diary_zh'), 'persona_life_details', [])
 
 
+def test_diary_over_three_lines_is_flagged():
+    assert post_kind.density_findings('a\nb\nc\nd', 'en', 'diary')[0]['code'] == 'kind_diary_too_long'
+    assert post_kind.density_findings('a\nb\nc', 'en', 'diary') == []
+
+
 def test_bio_findings():
     assert post_kind.bio_findings('今天又没忍住看盘，比特币又跌了', 'zh', 'diary') == []
     assert post_kind.bio_findings('我刚买了一点 BTC', 'zh', 'diary')[0]['code'] == 'kind_invented_bio'

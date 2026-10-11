@@ -9,9 +9,9 @@ counted over the account's ready standalone drafts of the last 7 Beijing days pl
 pick would break the targets it is written as a human kind that can use today's material without heavy data:
   reaction (e), question (g), industry_people (d), meme (f, meme lanes only), diary (e; diary-lane accounts get one
   extra daily diary slot, live/personas/posting_habits/account_mix.json diary_slot).
-PENDING Fiona's approval for invented persona life details: diary / personal posts carry NO biographical facts - only
-feelings / reactions about real market events in the units or about the account's own posting / chart-watching. No
-trades, positions, P&L, places, family, job, health. Hook: account_mix persona_life_details + FD_PERSONA_LIFE=1 (off).
+Diary / personal posts carry NO biographical facts - only feelings / reactions about real market events in the units or
+about the account's own posting / chart-watching. No trades, positions, P&L, places, family, job, health (bio_findings
+HARD). FD_PERSONA_LIFE hook stays off.
 FD_POST_KIND=0 turns the mix off; FD_DIARY_SLOT=0 the diary slot.
 """
 from __future__ import annotations
@@ -152,7 +152,7 @@ _FORMAT = {   # kind -> posting_habits type, compose_shapes shape, length target
     'meme': ('one_liner', 'reaction', (8, 60), (15, 140)),
     'question': ('question', 'question_only', (12, 80), (25, 180)),
     'industry_people': ('quick_take', 'take_short', (30, 140), (60, 300)),
-    'diary': ('quick_take', 'take_short', (15, 110), (30, 240)),
+    'diary': ('one_liner', 'reaction', (12, 80), (25, 200)),
 }
 NO_BIO_EN = ('Never invent anything about yourself: no trades, buys / sells, positions, entries, P&L, gains or losses, '
              'places, travel, family, job, health or purchases. Feelings and observations only.')
@@ -183,13 +183,14 @@ RULES = {
                         '类型 industry_people（圈内八卦，不是分析）：写这件事里「人」的那一面——谁做了什么、说了什么'
                         '（创始人、团队、机构、大V、监管），圈里怎么看，哪里讽刺或有戏剧性，用聊天的口吻。只用 units 里有的'
                         '名字和事实，不传谣、不人身攻击。最多两个数字，不做行情分析。'),
-    'diary': ('KIND diary: a light first-person diary line about YOUR day of watching the market or your own posting / '
-              'chart-watching habits ("refreshed the chart way too many times today", "told myself no screens tonight. '
-              'lasted 10 minutes"), with ONE real event from the units as the backdrop in a few words. Mood, not '
-              'analysis; no number needed. ' + NO_BIO_EN,
-              '类型 diary：一句轻松的第一人称日记，写你自己今天看盘/刷推/发帖的状态（比如「今天又没忍住看盘」「说好今晚不看盘，'
-              '坚持了十分钟」），只用几个字把 units 里的一个真实事件当背景。写心情，不写分析，不需要数字，'
-              '不要用「我看/我觉得」开头去下判断。' + NO_BIO_ZH),
+    'diary': ('KIND diary: at most 3 short lines. ONE feeling or small observation about YOUR day of watching the market '
+              'or your own posting / chart-watching habits ("refreshed the chart way too many times today", "told myself '
+              'no screens tonight. lasted 10 minutes"), with ONE real event from the units as a light backdrop in a few '
+              'words. No analysis, no "because"/"which means", no forecast, no level / target, no advice, no number '
+              'needed. ' + NO_BIO_EN,
+              '类型 diary：最多三行短句。只写一个感受或一个小观察——你自己今天看盘/刷推/发帖的状态（比如「今天又没忍住看盘」'
+              '「说好今晚不看盘，坚持了十分钟」），只用几个字把 units 里的一个真实事件当背景。不分析、不写「因为/所以/意味着」、'
+              '不预测、不报点位、不给建议，不需要数字，不要用「我看/我觉得」开头去下判断。' + NO_BIO_ZH),
 }
 OFFLANE_RULE = ('This post is a deliberate aside outside your usual lane (your donors post about this too): write it '
                 'as a short personal take from your own vantage point, not as lane analysis, and do not pretend it is '
@@ -212,7 +213,7 @@ def rule(kind, lang, account=None):
     text = RULES[kind][1 if lang == 'zh' else 0]
     if kind == 'diary' and account and life_enabled():
         facts = lane_allow.cfg(account).get('persona_life_details') or []
-        if facts:   # approved fixed persona facts only (PENDING Fiona) - never anything else
+        if facts:   # hook only, off; no persona life details are built (see audit_fixes_1011.md, 10-11)
             text += (' 可以自然地带上这些固定人设事实（只限这些）：' if lang == 'zh' else
                      ' You may mention only these fixed persona facts: ') + '; '.join(map(str, facts[:5]))
     return text
@@ -240,6 +241,8 @@ def density_findings(body, lang, kind):
     out = []
     if nums > limit + (1 if kind == 'diary' else 0):
         out.append({'code': 'kind_too_dense', 'level': 'soft', 'detail': f'{kind} with {nums} numbers'})
+    if kind == 'diary' and len([ln for ln in b.splitlines() if ln.strip()]) > 3:
+        out.append({'code': 'kind_diary_too_long', 'level': 'soft', 'detail': 'diary over 3 lines'})
     if kind == 'question' and not re.search(r'[?？]\s*\S{0,3}\s*$', b.strip()):
         out.append({'code': 'kind_question_no_question', 'level': 'soft', 'detail': 'question kind does not end on a question'})
     return out
