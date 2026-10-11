@@ -26,51 +26,6 @@
     "jc_paretsx",
     "scottcharts"
    ]
-  },
-  {
-   "at": "2026-10-11T11:00:00+00:00",
-   "accounts": [
-    "crypto_meme_zh"
-   ],
-   "added": [
-    "EliseFolso71390",
-    "xiaofeilong99",
-    "bi_9527zx"
-   ]
-  },
-  {
-   "at": "2026-10-11T11:00:00+00:00",
-   "accounts": [
-    "crypto_prediction_zh"
-   ],
-   "added": [
-    "web3houzi",
-    "JfwRk",
-    "HhhhHannah"
-   ]
-  },
-  {
-   "at": "2026-10-11T11:00:00+00:00",
-   "accounts": [
-    "crypto_stable_yield_zh"
-   ],
-   "added": [
-    "LumaoDoggie",
-    "blockma",
-    "0xLin88",
-    "Pilgrim6938"
-   ]
-  },
-  {
-   "at": "2026-10-11T11:00:00+00:00",
-   "accounts": [
-    "crypto_stable_yield_en"
-   ],
-   "added": [
-    "DeFi_Andree",
-    "DeFi_Made_Here",
-    "MonetSupply"
-   ]
   }
  ],
  "exclude": {
@@ -1149,5 +1104,52 @@
    "originals_per_day": null,
    "note": "Oct 11 rc starved lane: account donor-roster handle, verified via X API users lookup (public, active)"
   }
- }
+ },
+ "added_rc1011": [
+  {
+   "at": "2026-10-11T11:00:00+00:00",
+   "accounts": [
+    "crypto_meme_zh"
+   ],
+   "added": [
+    "EliseFolso71390",
+    "xiaofeilong99",
+    "bi_9527zx"
+   ]
+  },
+  {
+   "at": "2026-10-11T11:00:00+00:00",
+   "accounts": [
+    "crypto_prediction_zh"
+   ],
+   "added": [
+    "web3houzi",
+    "JfwRk",
+    "HhhhHannah"
+   ]
+  },
+  {
+   "at": "2026-10-11T11:00:00+00:00",
+   "accounts": [
+    "crypto_stable_yield_zh"
+   ],
+   "added": [
+    "LumaoDoggie",
+    "blockma",
+    "0xLin88",
+    "Pilgrim6938"
+   ]
+  },
+  {
+   "at": "2026-10-11T11:00:00+00:00",
+   "accounts": [
+    "crypto_stable_yield_en"
+   ],
+   "added": [
+    "DeFi_Andree",
+    "DeFi_Made_Here",
+    "MonetSupply"
+   ]
+  }
+ ]
 }
