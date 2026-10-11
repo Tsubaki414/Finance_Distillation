@@ -158,30 +158,38 @@ NO_BIO_EN = ('Never invent anything about yourself: no trades, buys / sells, pos
              'places, travel, family, job, health or purchases. Feelings and observations only.')
 NO_BIO_ZH = '绝不编造自己的事：不写自己买卖、仓位、建仓、盈亏、去过哪里、家人、工作、身体、买了什么。只写感受和观察。'
 RULES = {
-    'reaction': ('KIND reaction: 1-2 short lines reacting like a person scrolling the feed to ONE fact from the units - '
-                 'surprise, eye-roll, relief, a dry aside. At most one number. No analysis chain, no forecast, no '
-                 '"watch X" closer, no moral. ' + NO_BIO_EN,
-                 '类型 reaction：像刷到这条消息的人一样，用一两句短话对 units 里的一个事实做出反应——惊讶、无语、松口气、'
-                 '吐槽一句。最多一个数字。不推理、不预测、不写「接下来盯」、不总结道理。' + NO_BIO_ZH),
+    'reaction': ('KIND reaction (a feeling, not a take): 1-2 short lines that are mostly YOUR FEELING about one fact from '
+                 'the units - surprise, eye-roll, relief, FOMO, boredom, "lol", "ngl", "welp", "bruh". Name the fact in a '
+                 'few words only. At most one number. No "because" / "as" / "which means" clause, no analysis, no '
+                 'forecast, no "watch X" closer, no moral. e.g. "ngl did not expect ETF demand to cool this fast. '
+                 'welp" / "everyone sitting on fat profits and nobody buying. classic". ' + NO_BIO_EN,
+                 '类型 reaction（情绪，不是观点）：一两句短话，主要写你看到 units 里某个事实时的情绪——惊了、无语、松口气、'
+                 '眼红、麻了、笑死、绷不住。事实只用几个字带过，最多一个数字。不写「因为/所以/意味着」，不分析、不预测、'
+                 '不写「接下来盯」、不总结道理。例：「ETF 资金说凉就凉，麻了」「大家都躺着赚，就是没人买，绷不住」。' + NO_BIO_ZH),
     'meme': ('KIND meme: a deadpan joke / meme-format line about ONE fact from the units in the lane\'s own slang '
-             '(e.g. "nobody: / devs:", "me refreshing the chart"). Irony, not analysis. No new claims, no fake quotes '
-             'or screenshots. ' + NO_BIO_EN,
-             '类型 meme：用这个圈子自己的梗和说法，对 units 里的一个事实来一句冷幽默/段子。是调侃不是分析。不编新事实、'
-             '不编别人说的话。' + NO_BIO_ZH),
-    'question': ('KIND question: one line with the fact, then a genuine question to followers (what would they do, '
-                 'how do they read it, have they used it). Not a rhetorical take; no answer after it.',
-                 '类型 question：一句话交代事实，然后真诚地问关注者一个问题（你们怎么看/会怎么做/用过没有）。'
-                 '不是反问式观点，问完不要自己回答。'),
-    'industry_people': ('KIND industry_people: the people side of the story - who did or said what (founder, team, '
-                        'fund, KOL, regulator), how the community took it, the irony or the drama. Only names and '
-                        'facts that are in the units; no rumours, no insults, nothing the units do not say.',
-                        '类型 industry_people：写这件事里「人」的那一面——谁做了什么、说了什么（创始人、团队、机构、'
-                        '大V、监管），圈里怎么看，哪里讽刺或有戏剧性。只用 units 里有的名字和事实，不传谣、不人身攻击。'),
-    'diary': ('KIND diary: a light first-person diary line about today in the market or about your own posting / '
-              'chart-watching habits (e.g. "refreshed the chart way too many times today"), anchored on ONE real '
-              'event from the units. Mood, not analysis. ' + NO_BIO_EN,
-              '类型 diary：一句轻松的第一人称日记，写今天的行情感受或自己刷盘/发帖的习惯（比如「今天又没忍住看盘」），'
-              '落在 units 里的一个真实事件上。写心情，不写分析。' + NO_BIO_ZH),
+             '(e.g. "nobody: / devs:", "me refreshing the chart", "ser, this is a casino"). Irony, not analysis; at most '
+             'one number. No new claims, no fake quotes or screenshots. ' + NO_BIO_EN,
+             '类型 meme：用这个圈子自己的梗和说法，对 units 里的一个事实来一句冷幽默/段子（比如「韭菜：我悟了。行情：你没有」）。'
+             '是调侃不是分析，最多一个数字。不编新事实、不编别人说的话。' + NO_BIO_ZH),
+    'question': ('KIND question: the fact in one short line, then a genuine question to followers (what would they do, '
+                 'how do they read it, have they used it) - the post ENDS with that question mark. Not a rhetorical take; '
+                 'no answer after it, no analysis before it. At most one number.',
+                 '类型 question：一句话交代事实，然后真诚地问关注者一个问题（你们怎么看/会怎么做/用过没有），'
+                 '整条以问号结尾。不是反问式观点，问完不要自己回答，前面也不要分析。最多一个数字。'),
+    'industry_people': ('KIND industry_people (gossip, not analysis): the people side of the story - who did or said '
+                        'what (founder, team, fund, KOL, regulator), how the community took it, the irony or the drama, '
+                        'in a chatty register. Only names and facts that are in the units; no rumours, no insults, '
+                        'nothing the units do not say. At most two numbers, no market analysis.',
+                        '类型 industry_people（圈内八卦，不是分析）：写这件事里「人」的那一面——谁做了什么、说了什么'
+                        '（创始人、团队、机构、大V、监管），圈里怎么看，哪里讽刺或有戏剧性，用聊天的口吻。只用 units 里有的'
+                        '名字和事实，不传谣、不人身攻击。最多两个数字，不做行情分析。'),
+    'diary': ('KIND diary: a light first-person diary line about YOUR day of watching the market or your own posting / '
+              'chart-watching habits ("refreshed the chart way too many times today", "told myself no screens tonight. '
+              'lasted 10 minutes"), with ONE real event from the units as the backdrop in a few words. Mood, not '
+              'analysis; no number needed. ' + NO_BIO_EN,
+              '类型 diary：一句轻松的第一人称日记，写你自己今天看盘/刷推/发帖的状态（比如「今天又没忍住看盘」「说好今晚不看盘，'
+              '坚持了十分钟」），只用几个字把 units 里的一个真实事件当背景。写心情，不写分析，不需要数字，'
+              '不要用「我看/我觉得」开头去下判断。' + NO_BIO_ZH),
 }
 OFFLANE_RULE = ('This post is a deliberate aside outside your usual lane (your donors post about this too): write it '
                 'as a short personal take from your own vantage point, not as lane analysis, and do not pretend it is '
@@ -220,6 +228,21 @@ BIO_RX = {
                      r'我的(?:仓位|持仓|老婆|老公|孩子|儿子|女儿|老板|公司|工位)|(?:赚了|亏了|浮盈|浮亏)\s*\d|'
                      r'我(?:在|刚到|刚回)(?:北京|上海|深圳|香港|杭州|成都|广州|新加坡|东京|纽约|伦敦|迪拜)'),
 }
+
+
+def density_findings(body, lang, kind):
+    """SOFT: a human kind that came back as analysis (numbers / causal chain / long)."""
+    if kind not in HUMAN:
+        return []
+    b = str(body or '')
+    nums = len(re.findall(r'\d+(?:[.,]\d+)?%?', b))
+    limit = 2 if kind == 'industry_people' else 1
+    out = []
+    if nums > limit + (1 if kind == 'diary' else 0):
+        out.append({'code': 'kind_too_dense', 'level': 'soft', 'detail': f'{kind} with {nums} numbers'})
+    if kind == 'question' and not re.search(r'[?？]\s*\S{0,3}\s*$', b.strip()):
+        out.append({'code': 'kind_question_no_question', 'level': 'soft', 'detail': 'question kind does not end on a question'})
+    return out
 
 
 def bio_findings(body, lang, kind):

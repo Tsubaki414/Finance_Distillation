@@ -2271,6 +2271,9 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
         # Oct 8 evening (FD_LANE_FIT): a niche draft on broad news without a lane tie-in is held off_lane
         _kind = ((r.get('plan') or {}).get('post_format') or {}).get('kind')
         _bio = post_kind.bio_findings(r.get('body') or '', r['plan']['account_lang'], _kind)
+        _dense = post_kind.density_findings(r.get('body') or '', r['plan']['account_lang'], _kind)
+        if _dense:   # SOFT: recorded for review / measurement only
+            r.setdefault('post_checks', []).extend(_dense)
         if _bio:   # Oct 11: a human post kind never claims trades / P&L / places / family (PENDING persona facts)
             r.setdefault('post_checks', []).extend(_bio)
             r['draft_status'] = 'needs_review'

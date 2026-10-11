@@ -391,3 +391,11 @@ def test_diary_slot_may_share_a_packet_another_account_took(monkeypatch):
     assert plan['crypto_newbie_zh'][0]['title'].startswith('BTC')
     diary = [p for p in plan['crypto_diary_zh'] if p.get('slot') == 'diary']
     assert len(diary) == 1 and diary[0]['title'].startswith('BTC')   # shares the packet newbie took
+
+
+def test_density_findings():
+    assert post_kind.density_findings('ngl did not expect that. welp', 'en', 'reaction') == []
+    assert post_kind.density_findings('BTC 80k, ETH 3k, SOL 150', 'en', 'reaction')[0]['code'] == 'kind_too_dense'
+    assert post_kind.density_findings('Tether froze wallets. what would you do?', 'en', 'question') == []
+    assert post_kind.density_findings('Tether froze wallets. Bad sign.', 'en', 'question')[0]['code'] == 'kind_question_no_question'
+    assert post_kind.density_findings('BTC 80k, ETH 3k', 'en', None) == []
