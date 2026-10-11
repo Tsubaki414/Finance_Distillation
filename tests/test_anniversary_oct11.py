@@ -111,7 +111,7 @@ def test_pick_packet_has_dated_data_and_frame(tmp_path, monkeypatch):
 
 def test_off_switch(monkeypatch):
     monkeypatch.setenv('FD_ANNIV', '0')
-    assert an.pick('2026-10-11', accounts=ACCTS, events=[EV], write=False) == []
+    assert an.pick('2026-10-11', accounts=ACCTS, events=[EV], write=False, base='/nonexistent/x') == []
     assert an.run('2026-10-11', write=False) == {'skipped': 'FD_ANNIV=0'}
 
 
@@ -121,8 +121,8 @@ GOOD_EN = ('One year ago today: the record liquidation day after the 100% China 
            'BTC closed at 112,774 on Oct 10, 2025. Today it sits near 83,000, down 26.4%.')
 
 
-def _packet():
-    return an.pick('2026-10-11', accounts=ACCTS, events=[EV], write=False, data_fns=DATA)[0]
+def _packet(base='/nonexistent/fd_anniv_test_inbox'):   # never the live inbox (it may hold today's anniversary rows)
+    return an.pick('2026-10-11', accounts=ACCTS, events=[EV], write=False, data_fns=DATA, base=base)[0]
 
 
 def test_check_frame_grounding_and_style():
