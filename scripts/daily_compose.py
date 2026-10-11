@@ -1910,6 +1910,16 @@ def main():
     write_json(out / 'fill_status.json', status)
     print('fill status', json.dumps({a: v['stopped'] for a, v in status['accounts'].items()}, ensure_ascii=False),
           flush=True)
+    # ---- 周年 hook (live/anniversary.py): FD_ANNIV (default on) - a curated event (live/event_calendar.json) with a
+    # 1/2/5/10-year anniversary within +-1 day gets a framed then-vs-now draft on <= 2 fitting accounts with a free slot;
+    # runs before 回看 so the filler sees it. Never fatal to the day.
+    if os.environ.get('FD_ANNIV', '1') != '0':
+        try:
+            from live import anniversary
+            summary['anniversary'] = anniversary.run(args.day.isoformat(), accounts=[a['id'] for a in accounts])
+        except Exception as exc:   # noqa: BLE001
+            summary['anniversary'] = {'error': f'{type(exc).__name__}: {str(exc)[:200]}'}
+    # ---- end 周年 hook
     # ---- 回看 hook (live/archive_lookback.py): FD_ARCHIVE (default on for its config's pilot accounts) gives an account
     # still short of ready drafts one look-back draft; never fatal to the day.
     if os.environ.get('FD_ARCHIVE', '1') != '0':

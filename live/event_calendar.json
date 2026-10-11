@@ -1,0 +1,4061 @@
+{
+ "version": "event-calendar-v1",
+ "note": "Curated anniversary / known-event calendar (live/anniversary.py). Every date is checked against its verify.url by scripts/verify_event_calendar.py; only status \"ok\" events are used.",
+ "events": [
+  {
+   "id": "btc_whitepaper",
+   "date": "2008-10-31",
+   "kind": "crypto",
+   "lane": "crypto_btc",
+   "title_en": "Satoshi Nakamoto publishes the Bitcoin whitepaper",
+   "title_zh": "中本聪发布比特币白皮书",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_btc_cycle_zh",
+    "btc_cycles_en",
+    "crypto_newbie_zh",
+    "crypto_diary_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Bitcoin"
+    },
+    {
+     "publisher": "bitcoin.org",
+     "url": "https://bitcoin.org/bitcoin.pdf"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Bitcoin",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "31 October 2008"
+   }
+  },
+  {
+   "id": "btc_genesis_block",
+   "date": "2009-01-03",
+   "kind": "crypto",
+   "lane": "crypto_btc",
+   "title_en": "Bitcoin genesis block mined",
+   "title_zh": "比特币创世区块诞生",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_btc_cycle_zh",
+    "btc_cycles_en",
+    "crypto_newbie_zh",
+    "crypto_diary_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Bitcoin"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Bitcoin",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "3 January 2009"
+   }
+  },
+  {
+   "id": "btc_first_tx_hal",
+   "date": "2009-01-12",
+   "kind": "crypto",
+   "lane": "crypto_btc",
+   "title_en": "First bitcoin transaction: Satoshi sends 10 BTC to Hal Finney",
+   "title_zh": "第一笔比特币转账：中本聪转给哈尔·芬尼 10 BTC",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_btc_cycle_zh",
+    "btc_cycles_en",
+    "crypto_newbie_zh",
+    "crypto_diary_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Hal_Finney"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Hal_Finney_(computer_scientist)"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Hal_Finney_(computer_scientist)",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "ok",
+    "match": "January 12, 2009"
+   }
+  },
+  {
+   "id": "btc_pizza_day",
+   "date": "2010-05-22",
+   "kind": "crypto",
+   "lane": "crypto_btc",
+   "title_en": "Bitcoin Pizza Day: 10,000 BTC for two pizzas",
+   "title_zh": "比特币披萨日：1 万枚 BTC 换两个披萨",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_btc_cycle_zh",
+    "btc_cycles_en",
+    "crypto_newbie_zh",
+    "crypto_diary_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Bitcoin"
+    },
+    {
+     "publisher": "bitcointalk.org",
+     "url": "https://bitcointalk.org/index.php?topic=137.0"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Bitcoin",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "22 May 2010"
+   }
+  },
+  {
+   "id": "btc_value_overflow",
+   "date": "2010-08-15",
+   "kind": "crypto",
+   "lane": "crypto_btc",
+   "title_en": "Bitcoin value overflow incident (184 billion BTC created, fixed by a fork)",
+   "title_zh": "比特币数值溢出漏洞（凭空生成 1840 亿枚，随后分叉修复）",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_btc_cycle_zh",
+    "btc_cycles_en",
+    "crypto_newbie_zh",
+    "crypto_diary_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    },
+    {
+     "publisher": "en.bitcoin.it",
+     "url": "https://en.bitcoin.it/wiki/Value_overflow_incident"
+    }
+   ],
+   "verify": {
+    "url": "https://en.bitcoin.it/wiki/Value_overflow_incident",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "ok",
+    "match": "August 15 2010"
+   }
+  },
+  {
+   "id": "mtgox_hack_2011",
+   "date": "2011-06-19",
+   "kind": "crypto",
+   "lane": "crypto_exchange_risk",
+   "title_en": "Mt. Gox hack: bitcoin briefly quoted at one cent on the exchange",
+   "title_zh": "Mt.Gox 被盗，站内比特币一度报价 1 美分",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_trader_zh",
+    "crypto_trader_en",
+    "crypto_newbie_zh",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_thesis_en",
+    "crypto_diary_zh"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Mt._Gox"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    },
+    {
+     "publisher": "en.bitcoin.it",
+     "url": "https://en.bitcoin.it/wiki/Mt._Gox"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/History_of_bitcoin",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "ok",
+    "match": "19 June 2011"
+   }
+  },
+  {
+   "id": "btc_halving_2012",
+   "date": "2012-11-28",
+   "kind": "crypto",
+   "lane": "crypto_btc",
+   "title_en": "First bitcoin halving (block 210,000): reward 50 -> 25 BTC",
+   "title_zh": "比特币第一次减半（区块 210000，奖励 50 -> 25）",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_btc_cycle_zh",
+    "btc_cycles_en",
+    "crypto_newbie_zh",
+    "crypto_diary_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Bitcoin"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    },
+    {
+     "publisher": "en.bitcoin.it",
+     "url": "https://en.bitcoin.it/wiki/Controlled_supply"
+    }
+   ],
+   "verify": {
+    "url": "https://en.bitcoin.it/wiki/Controlled_supply",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "ok",
+    "match": "2012-11-28"
+   }
+  },
+  {
+   "id": "silk_road_seized",
+   "date": "2013-10-02",
+   "kind": "crypto",
+   "lane": "crypto_policy",
+   "title_en": "FBI shuts down Silk Road",
+   "title_zh": "FBI 查封丝绸之路",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_etf_flows_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Silk_Road_(marketplace)"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Ross_Ulbricht"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Silk_Road_(marketplace)",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "date_not_found"
+   }
+  },
+  {
+   "id": "pboc_2013_notice",
+   "date": "2013-12-05",
+   "kind": "crypto",
+   "lane": "crypto_policy",
+   "title_en": "PBoC bars Chinese financial institutions from bitcoin business",
+   "title_zh": "中国人民银行等五部委发文，禁止金融机构开展比特币业务",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_etf_flows_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Legality_of_cryptocurrency_by_country_or_territory"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Legality_of_cryptocurrency_by_country_or_territory",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "5 December 2013"
+   }
+  },
+  {
+   "id": "mtgox_bankruptcy",
+   "date": "2014-02-28",
+   "kind": "crypto",
+   "lane": "crypto_exchange_risk",
+   "title_en": "Mt. Gox files for bankruptcy protection in Tokyo",
+   "title_zh": "Mt.Gox 在东京申请破产保护",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_trader_zh",
+    "crypto_trader_en",
+    "crypto_newbie_zh",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_thesis_en",
+    "crypto_diary_zh"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Mt._Gox"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Mt._Gox",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "28 February 2014"
+   }
+  },
+  {
+   "id": "eth_frontier",
+   "date": "2015-07-30",
+   "kind": "crypto",
+   "lane": "crypto_eth",
+   "title_en": "Ethereum mainnet (Frontier) goes live",
+   "title_zh": "以太坊主网（Frontier）上线",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "ETH",
+    "display": "ETH"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "defi_narratives_en",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_onchain_zh",
+    "crypto_onchain_en",
+    "crypto_altcoin_zh"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Ethereum"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Ethereum",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "30 July 2015"
+   }
+  },
+  {
+   "id": "dao_hack",
+   "date": "2016-06-17",
+   "kind": "crypto",
+   "lane": "crypto_security",
+   "title_en": "The DAO exploit drains about 3.6m ETH",
+   "title_zh": "The DAO 被攻击，约 360 万 ETH 被转走",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "ETH",
+    "display": "ETH"
+   },
+   "accounts": [
+    "defi_narratives_en",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_newbie_zh",
+    "crypto_altcoin_zh",
+    "crypto_onchain_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/The_DAO"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/The_DAO",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "June 17, 2016"
+   }
+  },
+  {
+   "id": "btc_halving_2016",
+   "date": "2016-07-09",
+   "kind": "crypto",
+   "lane": "crypto_btc",
+   "title_en": "Second bitcoin halving: reward 25 -> 12.5 BTC",
+   "title_zh": "比特币第二次减半（奖励 25 -> 12.5）",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_btc_cycle_zh",
+    "btc_cycles_en",
+    "crypto_newbie_zh",
+    "crypto_diary_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Bitcoin"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    },
+    {
+     "publisher": "en.bitcoin.it",
+     "url": "https://en.bitcoin.it/wiki/Controlled_supply"
+    }
+   ],
+   "verify": {
+    "url": "https://en.bitcoin.it/wiki/Controlled_supply",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "ok",
+    "match": "2016-07-09"
+   }
+  },
+  {
+   "id": "eth_dao_fork",
+   "date": "2016-07-20",
+   "kind": "crypto",
+   "lane": "crypto_eth",
+   "title_en": "Ethereum hard fork after The DAO; Ethereum Classic splits off",
+   "title_zh": "The DAO 事件后以太坊硬分叉，以太经典（ETC）分出",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "ETH",
+    "display": "ETH"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "defi_narratives_en",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_onchain_zh",
+    "crypto_onchain_en",
+    "crypto_altcoin_zh"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Ethereum_Classic"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Ethereum_Classic",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "20 July 2016"
+   }
+  },
+  {
+   "id": "bitfinex_hack",
+   "date": "2016-08-02",
+   "kind": "crypto",
+   "lane": "crypto_exchange_risk",
+   "title_en": "Bitfinex hack: about 120,000 BTC stolen",
+   "title_zh": "Bitfinex 被盗约 12 万枚 BTC",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_trader_zh",
+    "crypto_trader_en",
+    "crypto_newbie_zh",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_thesis_en",
+    "crypto_diary_zh"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/2016_Bitfinex_hack"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Bitfinex"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/2016_Bitfinex_hack",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "date_not_found"
+   }
+  },
+  {
+   "id": "bch_fork",
+   "date": "2017-08-01",
+   "kind": "crypto",
+   "lane": "crypto_btc",
+   "title_en": "Bitcoin Cash forks from bitcoin",
+   "title_zh": "比特币现金（BCH）从比特币分叉",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_btc_cycle_zh",
+    "btc_cycles_en",
+    "crypto_newbie_zh",
+    "crypto_diary_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Bitcoin_Cash"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Bitcoin_Cash",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "1 August 2017"
+   }
+  },
+  {
+   "id": "segwit_activation",
+   "date": "2017-08-24",
+   "kind": "crypto",
+   "lane": "crypto_btc",
+   "title_en": "SegWit activates on bitcoin",
+   "title_zh": "比特币隔离见证（SegWit）激活",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_btc_cycle_zh",
+    "btc_cycles_en",
+    "crypto_newbie_zh",
+    "crypto_diary_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/SegWit"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/SegWit",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "24 August 2017"
+   }
+  },
+  {
+   "id": "china_ico_ban",
+   "date": "2017-09-04",
+   "kind": "crypto",
+   "lane": "crypto_policy",
+   "title_en": "China bans ICOs",
+   "title_zh": "中国叫停 ICO（九四公告）",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_etf_flows_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Initial_coin_offering"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Initial_coin_offering",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "September 4, 2017"
+   }
+  },
+  {
+   "id": "cboe_btc_futures",
+   "date": "2017-12-10",
+   "kind": "crypto",
+   "lane": "crypto_etf",
+   "title_en": "Cboe launches the first US bitcoin futures",
+   "title_zh": "Cboe 上线美国首个比特币期货",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_etf_flows_en",
+    "crypto_macro_en",
+    "crypto_macro_zh",
+    "crypto_onchain_zh",
+    "crypto_research_en",
+    "btc_cycles_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Bitcoin_futures"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Bitcoin_futures",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "date_not_found"
+   }
+  },
+  {
+   "id": "btc_peak_2017",
+   "date": "2017-12-17",
+   "kind": "crypto",
+   "lane": "crypto_btc",
+   "title_en": "Bitcoin peaks near $20,000 in the 2017 bull run",
+   "title_zh": "2017 年牛市比特币见顶，接近 2 万美元",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_btc_cycle_zh",
+    "btc_cycles_en",
+    "crypto_newbie_zh",
+    "crypto_diary_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/History_of_bitcoin",
+    "status": "ok",
+    "match": "17 December 2017",
+    "checked_at": "2026-10-11T11:58:38+00:00"
+   }
+  },
+  {
+   "id": "coincheck_hack",
+   "date": "2018-01-26",
+   "kind": "crypto",
+   "lane": "crypto_exchange_risk",
+   "title_en": "Coincheck hack: about $530m of NEM stolen",
+   "title_zh": "Coincheck 被盗约 5.3 亿美元 NEM",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_trader_zh",
+    "crypto_trader_en",
+    "crypto_newbie_zh",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_thesis_en",
+    "crypto_diary_zh"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Coincheck"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/List_of_cryptocurrency_exchange_hacks"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Coincheck",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "date_not_found",
+    "errors": [
+     "https://en.wikipedia.org/wiki/List_of_cryptocurrency_exchange_hacks: KeyError: 'parse'"
+    ]
+   }
+  },
+  {
+   "id": "libra_announced",
+   "date": "2019-06-18",
+   "kind": "crypto",
+   "lane": "stablecoins",
+   "title_en": "Facebook announces Libra",
+   "title_zh": "Facebook 公布 Libra 稳定币计划",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_stable_yield_zh",
+    "crypto_stable_yield_en",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_macro_zh",
+    "crypto_macro_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Diem_(digital_currency)"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Diem_(digital_currency)",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "June 18, 2019"
+   }
+  },
+  {
+   "id": "black_thursday_2020",
+   "date": "2020-03-12",
+   "kind": "crypto",
+   "lane": "crypto_leverage",
+   "title_en": "Black Thursday: bitcoin falls about 40% in two days; MakerDAO liquidation crisis",
+   "title_zh": "312 黑色星期四：比特币两天跌约四成，MakerDAO 清算危机",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_trader_zh",
+    "crypto_trader_en",
+    "crypto_perp_dex_en",
+    "crypto_alt_trader_en",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_btc_cycle_zh",
+    "btc_cycles_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/MakerDAO"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/2020_stock_market_crash"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/2020_stock_market_crash",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "ok",
+    "match": "12 March 2020"
+   }
+  },
+  {
+   "id": "btc_halving_2020",
+   "date": "2020-05-11",
+   "kind": "crypto",
+   "lane": "crypto_btc",
+   "title_en": "Third bitcoin halving: reward 12.5 -> 6.25 BTC",
+   "title_zh": "比特币第三次减半（奖励 12.5 -> 6.25）",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_btc_cycle_zh",
+    "btc_cycles_en",
+    "crypto_newbie_zh",
+    "crypto_diary_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Bitcoin"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    },
+    {
+     "publisher": "en.bitcoin.it",
+     "url": "https://en.bitcoin.it/wiki/Controlled_supply"
+    }
+   ],
+   "verify": {
+    "url": "https://en.bitcoin.it/wiki/Controlled_supply",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "ok",
+    "match": "2020-05-11"
+   }
+  },
+  {
+   "id": "mstr_first_buy",
+   "date": "2020-08-11",
+   "kind": "crypto",
+   "lane": "crypto_institutions",
+   "title_en": "MicroStrategy makes its first bitcoin purchase (21,454 BTC, $250m)",
+   "title_zh": "MicroStrategy 首次买入比特币（21454 枚，2.5 亿美元）",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_research_en",
+    "crypto_research_zh",
+    "crypto_etf_flows_en",
+    "crypto_macro_en",
+    "crypto_macro_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Strategy_Inc."
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Michael_Saylor"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Strategy_Inc.",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "date_not_found"
+   }
+  },
+  {
+   "id": "beacon_chain",
+   "date": "2020-12-01",
+   "kind": "crypto",
+   "lane": "crypto_eth",
+   "title_en": "Ethereum Beacon Chain launches",
+   "title_zh": "以太坊信标链上线",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "ETH",
+    "display": "ETH"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "defi_narratives_en",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_onchain_zh",
+    "crypto_onchain_en",
+    "crypto_altcoin_zh"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Ethereum"
+    },
+    {
+     "publisher": "ethereum.org",
+     "url": "https://ethereum.org/en/ethereum-forks/"
+    },
+    {
+     "publisher": "ethereum.org",
+     "url": "https://ethereum.org/en/history/"
+    }
+   ],
+   "verify": {
+    "url": "https://ethereum.org/en/ethereum-forks/",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "ok",
+    "match": "December 1, 2020"
+   }
+  },
+  {
+   "id": "gamestop_squeeze",
+   "date": "2021-01-28",
+   "kind": "macro",
+   "lane": "us_stocks",
+   "title_en": "GameStop short squeeze: Robinhood restricts buying",
+   "title_zh": "GameStop 逼空：Robinhood 限制买入",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "GME",
+    "display": "GME"
+   },
+   "accounts": [
+    "zh_us_stocks",
+    "single_stock_deepdive_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "zh_longterm_investing",
+    "longterm_investing_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/GameStop_short_squeeze"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/GameStop_short_squeeze",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "January 28, 2021"
+   }
+  },
+  {
+   "id": "tesla_btc_buy",
+   "date": "2021-02-08",
+   "kind": "crypto",
+   "lane": "crypto_institutions",
+   "title_en": "Tesla discloses a $1.5bn bitcoin purchase",
+   "title_zh": "特斯拉披露买入 15 亿美元比特币",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_research_en",
+    "crypto_research_zh",
+    "crypto_etf_flows_en",
+    "crypto_macro_en",
+    "crypto_macro_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Tesla,_Inc."
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/History_of_bitcoin",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "ok",
+    "match": "8 February 2021"
+   }
+  },
+  {
+   "id": "beeple_christies",
+   "date": "2021-03-11",
+   "kind": "crypto",
+   "lane": "memecoins_nft",
+   "title_en": "Beeple's NFT sells for $69m at Christie's",
+   "title_zh": "Beeple 的 NFT 在佳士得拍出 6900 万美元",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "ETH",
+    "display": "ETH"
+   },
+   "accounts": [
+    "crypto_meme_zh",
+    "crypto_meme_en",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Everydays:_the_First_5000_Days"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Beeple"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Beeple",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "ok",
+    "match": "March 11, 2021"
+   }
+  },
+  {
+   "id": "archegos",
+   "date": "2021-03-26",
+   "kind": "macro",
+   "lane": "us_stocks",
+   "title_en": "Archegos Capital collapse: banks dump block trades",
+   "title_zh": "Archegos 爆仓，投行大宗抛售",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_us_stocks",
+    "single_stock_deepdive_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "zh_longterm_investing",
+    "longterm_investing_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Archegos_Capital_Management"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Archegos_Capital_Management",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "March 26, 2021"
+   }
+  },
+  {
+   "id": "coinbase_listing",
+   "date": "2021-04-14",
+   "kind": "crypto",
+   "lane": "crypto_institutions",
+   "title_en": "Coinbase lists on Nasdaq",
+   "title_zh": "Coinbase 在纳斯达克上市",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_research_en",
+    "crypto_research_zh",
+    "crypto_etf_flows_en",
+    "crypto_macro_en",
+    "crypto_macro_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Coinbase"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Coinbase",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "April 14, 2021"
+   }
+  },
+  {
+   "id": "tesla_btc_suspend",
+   "date": "2021-05-12",
+   "kind": "crypto",
+   "lane": "crypto_btc",
+   "title_en": "Tesla suspends bitcoin payments",
+   "title_zh": "特斯拉暂停比特币支付",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_btc_cycle_zh",
+    "btc_cycles_en",
+    "crypto_newbie_zh",
+    "crypto_diary_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Tesla,_Inc."
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/History_of_bitcoin",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "ok",
+    "match": "12 May 2021"
+   }
+  },
+  {
+   "id": "china_mining_crackdown",
+   "date": "2021-05-21",
+   "kind": "crypto",
+   "lane": "crypto_policy",
+   "title_en": "China's State Council vows to crack down on bitcoin mining",
+   "title_zh": "国务院金融委提出打击比特币挖矿和交易",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_etf_flows_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Bitcoin_protocol"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Bitcoin_protocol",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "date_not_found"
+   }
+  },
+  {
+   "id": "el_salvador_tender",
+   "date": "2021-09-07",
+   "kind": "crypto",
+   "lane": "crypto_policy",
+   "title_en": "Bitcoin becomes legal tender in El Salvador",
+   "title_zh": "比特币在萨尔瓦多成为法定货币",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_etf_flows_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Bitcoin_in_El_Salvador"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Bitcoin_in_El_Salvador",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "September 7, 2021"
+   }
+  },
+  {
+   "id": "eip1559_london",
+   "date": "2021-08-05",
+   "kind": "crypto",
+   "lane": "crypto_eth",
+   "title_en": "Ethereum London upgrade (EIP-1559) goes live",
+   "title_zh": "以太坊伦敦升级（EIP-1559）上线",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "ETH",
+    "display": "ETH"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "defi_narratives_en",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_onchain_zh",
+    "crypto_onchain_en",
+    "crypto_altcoin_zh"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Ethereum"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Ethereum",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "near: cond was \"london\", which took effect on 5 august. the london upgrade included ethereum i"
+   }
+  },
+  {
+   "id": "poly_network_hack",
+   "date": "2021-08-10",
+   "kind": "crypto",
+   "lane": "crypto_security",
+   "title_en": "Poly Network hack: about $610m taken, later returned",
+   "title_zh": "Poly Network 被盗约 6.1 亿美元（后归还）",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "ETH",
+    "display": "ETH"
+   },
+   "accounts": [
+    "defi_narratives_en",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_newbie_zh",
+    "crypto_altcoin_zh",
+    "crypto_onchain_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Poly_Network_exploit"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Poly_Network_exploit",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "August 10, 2021"
+   }
+  },
+  {
+   "id": "china_ban_2021",
+   "date": "2021-09-24",
+   "kind": "crypto",
+   "lane": "crypto_policy",
+   "title_en": "PBoC declares all crypto transactions illegal",
+   "title_zh": "人民银行宣布虚拟货币相关业务属非法金融活动",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_etf_flows_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Cryptocurrency_in_China"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Legality_of_cryptocurrency_by_country_or_territory"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Legality_of_cryptocurrency_by_country_or_territory",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "ok",
+    "match": "24 September 2021"
+   }
+  },
+  {
+   "id": "bito_launch",
+   "date": "2021-10-19",
+   "kind": "crypto",
+   "lane": "crypto_etf",
+   "title_en": "ProShares BITO, the first US bitcoin futures ETF, starts trading",
+   "title_zh": "美国首只比特币期货 ETF（ProShares BITO）上市",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_etf_flows_en",
+    "crypto_macro_en",
+    "crypto_macro_zh",
+    "crypto_onchain_zh",
+    "crypto_research_en",
+    "btc_cycles_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/ProShares"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/ProShares",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "date_not_found"
+   }
+  },
+  {
+   "id": "btc_ath_2021",
+   "date": "2021-11-10",
+   "kind": "crypto",
+   "lane": "crypto_btc",
+   "title_en": "Bitcoin hits its 2021 high near $69,000",
+   "title_zh": "比特币创下 2021 年高点，接近 6.9 万美元",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_btc_cycle_zh",
+    "btc_cycles_en",
+    "crypto_newbie_zh",
+    "crypto_diary_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    }
+   ],
+   "verify": {
+    "method": "price_extreme",
+    "provider": "binance",
+    "symbol": "BTCUSDT",
+    "extreme": "max",
+    "from": "2021-01-01",
+    "to": "2021-12-31",
+    "url": "https://en.wikipedia.org/wiki/History_of_bitcoin",
+    "status": "ok",
+    "match": "max BTCUSDT 69000.0 on 2021-11-10",
+    "checked_at": "2026-10-11T11:58:38+00:00"
+   }
+  },
+  {
+   "id": "taproot",
+   "date": "2021-11-14",
+   "kind": "crypto",
+   "lane": "crypto_btc",
+   "title_en": "Taproot activates on bitcoin",
+   "title_zh": "比特币 Taproot 升级激活",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_btc_cycle_zh",
+    "btc_cycles_en",
+    "crypto_newbie_zh",
+    "crypto_diary_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Bitcoin"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    },
+    {
+     "publisher": "en.bitcoin.it",
+     "url": "https://en.bitcoin.it/wiki/Taproot"
+    }
+   ],
+   "verify": {
+    "url": "https://en.bitcoin.it/wiki/Taproot",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "ok",
+    "match": "November 14, 2021"
+   }
+  },
+  {
+   "id": "ronin_hack",
+   "date": "2022-03-29",
+   "kind": "crypto",
+   "lane": "crypto_security",
+   "title_en": "Ronin bridge hack (about $620m) disclosed",
+   "title_zh": "Ronin 跨链桥被盗约 6.2 亿美元（当日披露）",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "ETH",
+    "display": "ETH"
+   },
+   "accounts": [
+    "defi_narratives_en",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_newbie_zh",
+    "crypto_altcoin_zh",
+    "crypto_onchain_en"
+   ],
+   "sources": [
+    {
+     "publisher": "CoinDesk",
+     "url": "https://www.coindesk.com/tech/2022/03/29/axie-infinitys-ronin-network-suffers-625m-exploit"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Axie_Infinity"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Sky_Mavis"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Lazarus_Group"
+    }
+   ],
+   "verify": {
+    "url": "https://www.coindesk.com/tech/2022/03/29/axie-infinitys-ronin-network-suffers-625m-exploit",
+    "status": "ok",
+    "method": "manual_webfetch",
+    "match": "Published Mar 29, 2022 - The gaming-focused Ronin network announced Tuesday a loss of over $625 million in USDC and ether",
+    "checked_at": "2026-10-11T11:58:38+00:00"
+   }
+  },
+  {
+   "id": "ust_depeg",
+   "date": "2022-05-09",
+   "kind": "crypto",
+   "lane": "stablecoins",
+   "title_en": "TerraUSD (UST) loses its dollar peg; LUNA collapses within days",
+   "title_zh": "UST 脱锚，LUNA 几天内归零",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_stable_yield_zh",
+    "crypto_stable_yield_en",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_macro_zh",
+    "crypto_macro_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Terra_(blockchain)"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Terra_(blockchain)",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "9 May 2022"
+   }
+  },
+  {
+   "id": "celsius_pause",
+   "date": "2022-06-12",
+   "kind": "crypto",
+   "lane": "crypto_exchange_risk",
+   "title_en": "Celsius freezes withdrawals",
+   "title_zh": "Celsius 暂停提现",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_trader_zh",
+    "crypto_trader_en",
+    "crypto_newbie_zh",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_thesis_en",
+    "crypto_diary_zh"
+   ],
+   "sources": [
+    {
+     "publisher": "TechCrunch",
+     "url": "https://techcrunch.com/2022/06/12/crypto-lender-celsius-pauses-withdrawals-transfers-citing-extreme-market-conditions/"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Celsius_Network"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Alex_Mashinsky"
+    }
+   ],
+   "verify": {
+    "url": "https://techcrunch.com/2022/06/12/crypto-lender-celsius-pauses-withdrawals-transfers-citing-extreme-market-conditions/",
+    "status": "ok",
+    "method": "manual_webfetch",
+    "match": "June 12, 2022 - Celsius Network ... told customers Sunday evening that it is pausing withdrawals, swap and transfers between accounts",
+    "checked_at": "2026-10-11T11:58:38+00:00"
+   }
+  },
+  {
+   "id": "the_merge",
+   "date": "2022-09-15",
+   "kind": "crypto",
+   "lane": "crypto_eth",
+   "title_en": "The Merge: Ethereum moves to proof of stake",
+   "title_zh": "以太坊合并（The Merge），转向权益证明",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "ETH",
+    "display": "ETH"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "defi_narratives_en",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_onchain_zh",
+    "crypto_onchain_en",
+    "crypto_altcoin_zh"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Ethereum"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Ethereum",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "15 September 2022"
+   }
+  },
+  {
+   "id": "coindesk_alameda",
+   "date": "2022-11-02",
+   "kind": "crypto",
+   "lane": "crypto_exchange_risk",
+   "title_en": "CoinDesk reports on Alameda's FTT-heavy balance sheet",
+   "title_zh": "CoinDesk 曝光 Alameda 资产负债表大量是 FTT",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_trader_zh",
+    "crypto_trader_en",
+    "crypto_newbie_zh",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_thesis_en",
+    "crypto_diary_zh"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Bankruptcy_of_FTX"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Bankruptcy_of_FTX",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "2 November 2022"
+   }
+  },
+  {
+   "id": "ftx_bankruptcy",
+   "date": "2022-11-11",
+   "kind": "crypto",
+   "lane": "crypto_exchange_risk",
+   "title_en": "FTX files for Chapter 11 bankruptcy",
+   "title_zh": "FTX 申请破产",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_trader_zh",
+    "crypto_trader_en",
+    "crypto_newbie_zh",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_thesis_en",
+    "crypto_diary_zh"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Bankruptcy_of_FTX"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Bankruptcy_of_FTX",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "near: cy” from an unspecified company between november 11–12, 2022. sources told bloomberg that t"
+   }
+  },
+  {
+   "id": "btc_low_2022",
+   "date": "2022-11-21",
+   "kind": "crypto",
+   "lane": "crypto_btc",
+   "title_en": "Bitcoin bottoms near $15,500 after FTX",
+   "title_zh": "FTX 之后比特币探底，约 1.55 万美元",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_btc_cycle_zh",
+    "btc_cycles_en",
+    "crypto_newbie_zh",
+    "crypto_diary_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    }
+   ],
+   "verify": {
+    "method": "price_extreme",
+    "provider": "binance",
+    "symbol": "BTCUSDT",
+    "extreme": "min",
+    "from": "2022-01-01",
+    "to": "2023-06-30",
+    "url": "https://en.wikipedia.org/wiki/History_of_bitcoin",
+    "status": "ok",
+    "match": "min BTCUSDT 15476.0 on 2022-11-21",
+    "checked_at": "2026-10-11T11:58:38+00:00"
+   }
+  },
+  {
+   "id": "svb_collapse",
+   "date": "2023-03-10",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Silicon Valley Bank fails; USDC depegs the next day",
+   "title_zh": "硅谷银行倒闭，次日 USDC 脱锚",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Collapse_of_Silicon_Valley_Bank"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Collapse_of_Silicon_Valley_Bank",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "March 10, 2023"
+   }
+  },
+  {
+   "id": "credit_suisse_ubs",
+   "date": "2023-03-19",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "UBS agrees to take over Credit Suisse",
+   "title_zh": "瑞银同意收购瑞信",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Acquisition_of_Credit_Suisse_by_UBS"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Acquisition_of_Credit_Suisse_by_UBS",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "19 March 2023"
+   }
+  },
+  {
+   "id": "shapella",
+   "date": "2023-04-12",
+   "kind": "crypto",
+   "lane": "crypto_eth",
+   "title_en": "Ethereum Shapella upgrade enables staking withdrawals",
+   "title_zh": "以太坊上海升级（Shapella），质押可提取",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "ETH",
+    "display": "ETH"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "defi_narratives_en",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_onchain_zh",
+    "crypto_onchain_en",
+    "crypto_altcoin_zh"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Ethereum"
+    },
+    {
+     "publisher": "ethereum.org",
+     "url": "https://ethereum.org/en/ethereum-forks/"
+    },
+    {
+     "publisher": "ethereum.org",
+     "url": "https://ethereum.org/en/history/"
+    }
+   ],
+   "verify": {
+    "url": "https://ethereum.org/en/ethereum-forks/",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "ok",
+    "match": "Apr 12, 2023"
+   }
+  },
+  {
+   "id": "first_republic",
+   "date": "2023-05-01",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "First Republic Bank seized and sold to JPMorgan",
+   "title_zh": "第一共和银行被接管并出售给摩根大通",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/First_Republic_Bank"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/First_Republic_Bank",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "May 1, 2023"
+   }
+  },
+  {
+   "id": "sec_sues_binance",
+   "date": "2023-06-05",
+   "kind": "crypto",
+   "lane": "crypto_policy",
+   "title_en": "SEC sues Binance and Changpeng Zhao",
+   "title_zh": "SEC 起诉币安和赵长鹏",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_etf_flows_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Binance"
+    },
+    {
+     "publisher": "sec.gov",
+     "url": "https://www.sec.gov/news/press-release/2023-101"
+    }
+   ],
+   "verify": {
+    "url": "https://www.sec.gov/news/press-release/2023-101",
+    "status": "ok",
+    "method": "manual_webfetch",
+    "match": "2023-101 Washington D.C., June 5, 2023 - The Securities and Exchange Commission today charged Binance Holdings Ltd.",
+    "checked_at": "2026-10-11T11:58:38+00:00"
+   }
+  },
+  {
+   "id": "blackrock_btc_filing",
+   "date": "2023-06-15",
+   "kind": "crypto",
+   "lane": "crypto_etf",
+   "title_en": "BlackRock files for a spot bitcoin ETF",
+   "title_zh": "贝莱德提交现货比特币 ETF 申请",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_etf_flows_en",
+    "crypto_macro_en",
+    "crypto_macro_zh",
+    "crypto_onchain_zh",
+    "crypto_research_en",
+    "btc_cycles_en"
+   ],
+   "sources": [
+    {
+     "publisher": "CoinDesk",
+     "url": "https://www.coindesk.com/business/2023/06/15/blackrocks-ishares-files-paperwork-for-spot-bitcoin-etf"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/IShares_Bitcoin_Trust"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/IShares_Bitcoin_Trust_ETF"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/BlackRock"
+    }
+   ],
+   "verify": {
+    "url": "https://www.coindesk.com/business/2023/06/15/blackrocks-ishares-files-paperwork-for-spot-bitcoin-etf",
+    "status": "ok",
+    "method": "manual_webfetch",
+    "match": "2023-06-15: BlackRock iShares files S-1 for iShares Bitcoin Trust (SEC EDGAR S-1 received 06/15/2023)",
+    "checked_at": "2026-10-11T11:58:38+00:00"
+   }
+  },
+  {
+   "id": "ripple_ruling",
+   "date": "2023-07-13",
+   "kind": "crypto",
+   "lane": "crypto_policy",
+   "title_en": "Court rules XRP sales on exchanges were not securities offerings",
+   "title_zh": "法院裁定 XRP 在交易所的销售不构成证券发行",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_etf_flows_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Ripple_Labs"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Ripple_Labs",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "July 13, 2023"
+   }
+  },
+  {
+   "id": "grayscale_win",
+   "date": "2023-08-29",
+   "kind": "crypto",
+   "lane": "crypto_etf",
+   "title_en": "Grayscale wins its appeal against the SEC over a spot bitcoin ETF",
+   "title_zh": "灰度诉 SEC 胜诉（现货比特币 ETF）",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_etf_flows_en",
+    "crypto_macro_en",
+    "crypto_macro_zh",
+    "crypto_onchain_zh",
+    "crypto_research_en",
+    "btc_cycles_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Grayscale_Investments"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Grayscale_Investments",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "August 29, 2023"
+   }
+  },
+  {
+   "id": "binance_settlement",
+   "date": "2023-11-21",
+   "kind": "crypto",
+   "lane": "crypto_exchange_risk",
+   "title_en": "Binance pleads guilty and pays $4.3bn; CZ steps down",
+   "title_zh": "币安认罪并支付 43 亿美元，赵长鹏卸任 CEO",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_trader_zh",
+    "crypto_trader_en",
+    "crypto_newbie_zh",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_thesis_en",
+    "crypto_diary_zh"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Changpeng_Zhao"
+    },
+    {
+     "publisher": "justice.gov",
+     "url": "https://www.justice.gov/opa/pr/binance-and-ceo-plead-guilty-federal-charges-4b-resolution"
+    }
+   ],
+   "verify": {
+    "url": "https://www.justice.gov/opa/pr/binance-and-ceo-plead-guilty-federal-charges-4b-resolution",
+    "status": "ok",
+    "method": "manual_webfetch",
+    "match": "Tuesday, November 21, 2023 - Binance ... pleaded guilty today and has agreed to pay over $4 billion ... Zhao ... has resigned as CEO",
+    "checked_at": "2026-10-11T11:58:38+00:00"
+   }
+  },
+  {
+   "id": "spot_btc_etf_approval",
+   "date": "2024-01-10",
+   "kind": "crypto",
+   "lane": "crypto_etf",
+   "title_en": "SEC approves US spot bitcoin ETFs",
+   "title_zh": "SEC 批准美国现货比特币 ETF",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_etf_flows_en",
+    "crypto_macro_en",
+    "crypto_macro_zh",
+    "crypto_onchain_zh",
+    "crypto_research_en",
+    "btc_cycles_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/IShares_Bitcoin_Trust"
+    },
+    {
+     "publisher": "sec.gov",
+     "url": "https://www.sec.gov/news/statement/gensler-statement-spot-bitcoin-011023"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/IShares_Bitcoin_Trust_ETF"
+    }
+   ],
+   "verify": {
+    "url": "https://www.sec.gov/news/statement/gensler-statement-spot-bitcoin-011023",
+    "method": "manual_webfetch",
+    "status": "ok",
+    "match": "Washington D.C. Jan. 10, 2024 - Today, the Commission approved the listing and trading of a number of spot bitcoin exchange-traded product (ETP) shares.",
+    "checked_at": "2026-10-11T11:58:38+00:00"
+   }
+  },
+  {
+   "id": "dencun",
+   "date": "2024-03-13",
+   "kind": "crypto",
+   "lane": "crypto_eth",
+   "title_en": "Ethereum Dencun upgrade (proto-danksharding) goes live",
+   "title_zh": "以太坊坎昆升级（Dencun）上线",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "ETH",
+    "display": "ETH"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "defi_narratives_en",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_onchain_zh",
+    "crypto_onchain_en",
+    "crypto_altcoin_zh"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Ethereum"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Ethereum",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "13 March 2024"
+   }
+  },
+  {
+   "id": "btc_halving_2024",
+   "date": "2024-04-20",
+   "kind": "crypto",
+   "lane": "crypto_btc",
+   "title_en": "Fourth bitcoin halving: reward 6.25 -> 3.125 BTC",
+   "title_zh": "比特币第四次减半（奖励 6.25 -> 3.125）",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_btc_cycle_zh",
+    "btc_cycles_en",
+    "crypto_newbie_zh",
+    "crypto_diary_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Bitcoin"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    },
+    {
+     "publisher": "en.bitcoin.it",
+     "url": "https://en.bitcoin.it/wiki/Controlled_supply"
+    }
+   ],
+   "verify": {
+    "url": "https://en.bitcoin.it/wiki/Controlled_supply",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "ok",
+    "match": "2024-04-20"
+   }
+  },
+  {
+   "id": "eth_etf_19b4",
+   "date": "2024-05-23",
+   "kind": "crypto",
+   "lane": "crypto_etf",
+   "title_en": "SEC approves rule changes for spot ether ETFs",
+   "title_zh": "SEC 批准现货以太坊 ETF 的 19b-4",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "ETH",
+    "display": "ETH"
+   },
+   "accounts": [
+    "crypto_etf_flows_en",
+    "crypto_macro_en",
+    "crypto_macro_zh",
+    "crypto_onchain_zh",
+    "crypto_research_en",
+    "btc_cycles_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Ethereum"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Ethereum",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "date_not_found"
+   }
+  },
+  {
+   "id": "eth_etf_trading",
+   "date": "2024-07-23",
+   "kind": "crypto",
+   "lane": "crypto_etf",
+   "title_en": "US spot ether ETFs start trading",
+   "title_zh": "美国现货以太坊 ETF 开始交易",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "ETH",
+    "display": "ETH"
+   },
+   "accounts": [
+    "crypto_etf_flows_en",
+    "crypto_macro_en",
+    "crypto_macro_zh",
+    "crypto_onchain_zh",
+    "crypto_research_en",
+    "btc_cycles_en"
+   ],
+   "sources": [
+    {
+     "publisher": "CNBC",
+     "url": "https://www.cnbc.com/2024/07/23/ether-etfs-first-day-of-trading.html"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Ethereum"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    }
+   ],
+   "verify": {
+    "url": "https://www.cnbc.com/2024/07/23/ether-etfs-first-day-of-trading.html",
+    "status": "ok",
+    "method": "manual_webfetch",
+    "match": "Published Tue, Jul 23 2024 - Ether exchange-traded funds officially began trading in the U.S. on Tuesday",
+    "checked_at": "2026-10-11T11:58:38+00:00"
+   }
+  },
+  {
+   "id": "yen_carry_crash",
+   "date": "2024-08-05",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Yen carry-trade unwind: Nikkei falls 12% in a day, bitcoin drops below $50k",
+   "title_zh": "日元套息交易平仓：日经单日跌 12%，比特币跌破 5 万",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Reuters",
+     "url": "https://www.reuters.com/markets/asia/japans-nikkei-sees-biggest-rout-since-1987-black-monday-2024-08-05/"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/2024_Japanese_stock_market_crash"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/August_2024_stock_market_crash"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/2024_stock_market_crash"
+    }
+   ],
+   "verify": {
+    "url": "https://www.reuters.com/markets/asia/japans-nikkei-sees-biggest-rout-since-1987-black-monday-2024-08-05/",
+    "status": "ok",
+    "method": "manual_webfetch",
+    "match": "August 5, 2024: Nikkei 225 fell 12.4% to 31,458.42, worst since 1987; bitcoin fell to about $49,053 (Kitco 2024-08-05)",
+    "checked_at": "2026-10-11T11:58:38+00:00"
+   }
+  },
+  {
+   "id": "fed_cut_2024",
+   "date": "2024-09-18",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Fed cuts rates by 50bp, its first cut since 2020",
+   "title_zh": "美联储降息 50 个基点，2020 年以来首次降息",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Federal_funds_rate"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Federal_funds_rate",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "Sep 18, 2024"
+   }
+  },
+  {
+   "id": "btc_100k",
+   "date": "2024-12-05",
+   "kind": "crypto",
+   "lane": "crypto_btc",
+   "title_en": "Bitcoin crosses $100,000 for the first time",
+   "title_zh": "比特币首次突破 10 万美元",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_btc_cycle_zh",
+    "btc_cycles_en",
+    "crypto_newbie_zh",
+    "crypto_diary_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/History_of_bitcoin",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "5 December 2024"
+   }
+  },
+  {
+   "id": "bybit_hack",
+   "date": "2025-02-21",
+   "kind": "crypto",
+   "lane": "crypto_exchange_risk",
+   "title_en": "Bybit hack: about $1.5bn of ETH stolen",
+   "title_zh": "Bybit 被盗约 15 亿美元 ETH",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "ETH",
+    "display": "ETH"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_trader_zh",
+    "crypto_trader_en",
+    "crypto_newbie_zh",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_thesis_en",
+    "crypto_diary_zh"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Bybit"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Bybit",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "February 21, 2025"
+   }
+  },
+  {
+   "id": "btc_reserve_eo",
+   "date": "2025-03-06",
+   "kind": "crypto",
+   "lane": "crypto_policy",
+   "title_en": "US executive order creates a Strategic Bitcoin Reserve",
+   "title_zh": "美国行政令设立战略比特币储备",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_etf_flows_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Strategic_Bitcoin_Reserve"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Strategic_Bitcoin_Reserve",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "March 6, 2025"
+   }
+  },
+  {
+   "id": "liberation_day",
+   "date": "2025-04-02",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "\"Liberation Day\" tariffs announced",
+   "title_zh": "美国宣布“解放日”关税",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Liberation_Day_tariffs"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Liberation_Day_tariffs",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "April 2, 2025"
+   }
+  },
+  {
+   "id": "pectra",
+   "date": "2025-05-07",
+   "kind": "crypto",
+   "lane": "crypto_eth",
+   "title_en": "Ethereum Pectra upgrade goes live",
+   "title_zh": "以太坊 Pectra 升级上线",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "ETH",
+    "display": "ETH"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "defi_narratives_en",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_onchain_zh",
+    "crypto_onchain_en",
+    "crypto_altcoin_zh"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Ethereum"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Ethereum",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "7 May 2025"
+   }
+  },
+  {
+   "id": "genius_act",
+   "date": "2025-07-18",
+   "kind": "crypto",
+   "lane": "stablecoins",
+   "title_en": "GENIUS Act (US stablecoin law) signed",
+   "title_zh": "美国稳定币法案 GENIUS Act 签署",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_stable_yield_zh",
+    "crypto_stable_yield_en",
+    "crypto_research_zh",
+    "crypto_research_en",
+    "crypto_macro_zh",
+    "crypto_macro_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/GENIUS_Act"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/GENIUS_Act",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "July 18, 2025"
+   }
+  },
+  {
+   "id": "btc_ath_2025",
+   "date": "2025-10-06",
+   "kind": "crypto",
+   "lane": "crypto_btc",
+   "title_en": "Bitcoin record high near $126,000",
+   "title_zh": "比特币创历史新高，约 12.6 万美元",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_btc_cycle_zh",
+    "btc_cycles_en",
+    "crypto_newbie_zh",
+    "crypto_diary_zh",
+    "crypto_thesis_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/History_of_bitcoin"
+    },
+    {
+     "publisher": "news.bitcoin.com",
+     "url": "https://news.bitcoin.com/crypto-news/bitcoin-price-one-year-after-19-billion-liquidation-crash/"
+    }
+   ],
+   "verify": {
+    "url": "https://news.bitcoin.com/crypto-news/bitcoin-price-one-year-after-19-billion-liquidation-crash/",
+    "status": "ok",
+    "match": "Oct. 6, 2025",
+    "checked_at": "2026-10-11T11:58:38+00:00"
+   }
+  },
+  {
+   "id": "crash_2025_10_10",
+   "date": "2025-10-10",
+   "kind": "crypto",
+   "lane": "crypto_leverage",
+   "title_en": "Record crypto liquidation day: more than $19bn liquidated after the 100% China tariff threat",
+   "title_zh": "加密史上最大清算日：100% 对华关税威胁后超 190 亿美元被强平",
+   "subject": {
+    "kind": "price",
+    "asset": "crypto",
+    "symbol": "BTC",
+    "display": "BTC"
+   },
+   "accounts": [
+    "crypto_trader_zh",
+    "crypto_trader_en",
+    "crypto_perp_dex_en",
+    "crypto_alt_trader_en",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "crypto_btc_cycle_zh",
+    "btc_cycles_en"
+   ],
+   "sources": [
+    {
+     "publisher": "coindesk.com",
+     "url": "https://www.coindesk.com/research/market-spotlight-the-19-billion-liquidation-that-shook-crypto"
+    },
+    {
+     "publisher": "news.bitcoin.com",
+     "url": "https://news.bitcoin.com/crypto-news/bitcoin-price-one-year-after-19-billion-liquidation-crash/"
+    },
+    {
+     "publisher": "galaxy.com",
+     "url": "https://www.galaxy.com/insights/research/10-10-anniversary-crypto-liquidation-19-billion-bitcoin-binance-hyperliquid-2026"
+    },
+    {
+     "publisher": "cnn.com",
+     "url": "https://www.cnn.com/2025/10/11/business/trump-tariffs-crypto-selloff"
+    }
+   ],
+   "verify": {
+    "url": "https://news.bitcoin.com/crypto-news/bitcoin-price-one-year-after-19-billion-liquidation-crash/",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "Oct. 10, 2025"
+   },
+   "facts": [
+    "Trump posted the 100% China tariff threat on Truth Social at 20:50 UTC on Oct 10, 2025 (Galaxy Research)",
+    "More than $19bn of leveraged positions were liquidated in 24 hours across about 1.6 million accounts, roughly 87% of them longs (CoinGlass via Bitcoin.com / Galaxy)",
+    "$3.21bn was liquidated in a single minute at 21:15 UTC; BTC fell from $122,574 to $104,782 (Bitcoin.com, CoinGlass data)",
+    "Total perpetual futures open interest fell 43%, from $217bn to $123bn, in a day (CoinDesk Research)",
+    "The Nasdaq fell 3.6% and the S&P 500 2.7% that day (Galaxy Research)",
+    "USDe briefly traded at about $0.65 on Binance (Galaxy Research / CoinDesk Research)",
+    "BTC had set a record near $126,080 on Oct 6, 2025, four days earlier (Bitcoin.com)"
+   ],
+   "facts_zh": [
+    "2025年10月10日 20:50 UTC，特朗普在 Truth Social 发帖威胁对中国加征100%关税（Galaxy）",
+    "24小时内超过190亿美元杠杆仓位被强平，约160万个账户，约87%是多头（CoinGlass，经 Bitcoin.com / Galaxy）",
+    "21:15 UTC 一分钟内清算32.1亿美元；BTC 从122574美元跌到104782美元（Bitcoin.com，CoinGlass 数据）",
+    "永续合约总持仓一天内下降43%，从2170亿美元降到1230亿美元（CoinDesk Research）",
+    "当天纳指跌3.6%，标普500跌2.7%（Galaxy）",
+    "USDe 在币安一度跌到约0.65美元（Galaxy / CoinDesk Research）",
+    "四天前的10月6日 BTC 创下约126080美元的历史新高（Bitcoin.com）"
+   ]
+  },
+  {
+   "id": "black_thursday_1929",
+   "date": "1929-10-24",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Black Thursday: the Wall Street Crash of 1929 begins",
+   "title_zh": "1929 年黑色星期四：华尔街股灾开始",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^DJI",
+    "display": "Dow",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Wall_Street_crash_of_1929"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Wall_Street_crash_of_1929",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "October 24, 1929"
+   }
+  },
+  {
+   "id": "black_tuesday_1929",
+   "date": "1929-10-29",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Black Tuesday 1929",
+   "title_zh": "1929 年黑色星期二",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^DJI",
+    "display": "Dow",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Wall_Street_crash_of_1929"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Wall_Street_crash_of_1929",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "October 29, 1929"
+   }
+  },
+  {
+   "id": "nixon_shock",
+   "date": "1971-08-15",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Nixon shock: dollar convertibility into gold suspended",
+   "title_zh": "尼克松冲击：美元暂停兑换黄金",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "DX-Y.NYB",
+    "display": "Dollar index (DXY)",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Nixon_shock"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Nixon_shock",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "August 15, 1971"
+   }
+  },
+  {
+   "id": "black_monday_1987",
+   "date": "1987-10-19",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Black Monday: the Dow falls 22.6% in a day",
+   "title_zh": "1987 年黑色星期一：道指单日跌 22.6%",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^DJI",
+    "display": "Dow",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Black_Monday_(1987)"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Black_Monday_(1987)",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "October 19, 1987"
+   }
+  },
+  {
+   "id": "black_wednesday_1992",
+   "date": "1992-09-16",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Black Wednesday: the pound leaves the ERM",
+   "title_zh": "黑色星期三：英镑退出欧洲汇率机制",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "DX-Y.NYB",
+    "display": "Dollar index (DXY)",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Black_Wednesday"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Black_Wednesday",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "16 September 1992"
+   }
+  },
+  {
+   "id": "thai_baht_float",
+   "date": "1997-07-02",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Thailand floats the baht; the Asian financial crisis begins",
+   "title_zh": "泰铢放弃固定汇率，亚洲金融危机爆发",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "DX-Y.NYB",
+    "display": "Dollar index (DXY)",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1997_Asian_financial_crisis"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/1997_Asian_financial_crisis",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "2 July 1997"
+   }
+  },
+  {
+   "id": "russia_default_1998",
+   "date": "1998-08-17",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Russia devalues the ruble and defaults on domestic debt",
+   "title_zh": "俄罗斯卢布贬值并对内债违约",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "DX-Y.NYB",
+    "display": "Dollar index (DXY)",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1998_Russian_financial_crisis"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/1998_Russian_financial_crisis",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "17 August 1998"
+   }
+  },
+  {
+   "id": "ltcm_bailout",
+   "date": "1998-09-23",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "LTCM bailout organised by the New York Fed",
+   "title_zh": "纽约联储牵头救助 LTCM",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Long-Term_Capital_Management"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Long-Term_Capital_Management",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "September 23, 1998"
+   }
+  },
+  {
+   "id": "dotcom_peak",
+   "date": "2000-03-10",
+   "kind": "macro",
+   "lane": "us_stocks",
+   "title_en": "Nasdaq Composite dot-com peak",
+   "title_zh": "互联网泡沫时期纳斯达克见顶",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^IXIC",
+    "display": "Nasdaq Composite",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_us_stocks",
+    "single_stock_deepdive_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "zh_longterm_investing",
+    "longterm_investing_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Dot-com_bubble"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Dot-com_bubble",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "March 10, 2000"
+   }
+  },
+  {
+   "id": "bnp_freeze_2007",
+   "date": "2007-08-09",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "BNP Paribas freezes three funds; the credit crunch starts",
+   "title_zh": "法巴冻结三只基金，信贷危机开始",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Financial_crisis_of_2007–2008"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Financial_crisis_of_2007–2008",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "August 9, 2007"
+   }
+  },
+  {
+   "id": "bear_stearns",
+   "date": "2008-03-16",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "JPMorgan agrees to buy Bear Stearns with Fed backing",
+   "title_zh": "摩根大通在美联储支持下收购贝尔斯登",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Bear_Stearns"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Bear_Stearns",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "March 16, 2008"
+   }
+  },
+  {
+   "id": "fannie_freddie",
+   "date": "2008-09-07",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Fannie Mae and Freddie Mac placed into conservatorship",
+   "title_zh": "房利美和房地美被政府接管",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Federal_takeover_of_Fannie_Mae_and_Freddie_Mac"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Federal_takeover_of_Fannie_Mae_and_Freddie_Mac",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "near: prior gse support measures [ edit ] the september 7 conservatorship was termed by the econo"
+   }
+  },
+  {
+   "id": "lehman",
+   "date": "2008-09-15",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Lehman Brothers files for bankruptcy",
+   "title_zh": "雷曼兄弟申请破产",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Bankruptcy_of_Lehman_Brothers"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Bankruptcy_of_Lehman_Brothers",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "September 15, 2008"
+   }
+  },
+  {
+   "id": "aig_rescue",
+   "date": "2008-09-16",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Fed rescues AIG with an $85bn loan",
+   "title_zh": "美联储以 850 亿美元贷款救助 AIG",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/American_International_Group"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/American_International_Group",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "September 16, 2008"
+   }
+  },
+  {
+   "id": "tarp_signed",
+   "date": "2008-10-03",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "TARP ($700bn bank rescue) signed into law",
+   "title_zh": "7000 亿美元问题资产救助计划（TARP）签署",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Troubled_Asset_Relief_Program"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Troubled_Asset_Relief_Program",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "October 3, 2008"
+   }
+  },
+  {
+   "id": "qe1",
+   "date": "2008-11-25",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Fed announces its first quantitative easing programme",
+   "title_zh": "美联储宣布第一轮量化宽松",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Quantitative_easing"
+    },
+    {
+     "publisher": "federalreserve.gov",
+     "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20081125b.htm"
+    }
+   ],
+   "verify": {
+    "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20081125b.htm",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "ok",
+    "match": "November 25, 2008"
+   }
+  },
+  {
+   "id": "fed_zero_2008",
+   "date": "2008-12-16",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Fed cuts rates to 0-0.25%",
+   "title_zh": "美联储把利率降到 0-0.25%",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Federal_funds_rate"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Federal_funds_rate",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "Dec 16, 2008"
+   }
+  },
+  {
+   "id": "spx_bottom_2009",
+   "date": "2009-03-09",
+   "kind": "macro",
+   "lane": "us_stocks",
+   "title_en": "S&P 500 hits its financial-crisis low",
+   "title_zh": "S&P 500 触及金融危机低点",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_us_stocks",
+    "single_stock_deepdive_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "zh_longterm_investing",
+    "longterm_investing_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Financial_crisis_of_2007–2008"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Great_Recession"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/S%26P_500"
+    }
+   ],
+   "verify": {
+    "method": "price_extreme",
+    "provider": "yahoo",
+    "symbol": "^GSPC",
+    "extreme": "min_close",
+    "from": "2008-01-01",
+    "to": "2012-12-31",
+    "url": "https://en.wikipedia.org/wiki/Financial_crisis_of_2007–2008",
+    "status": "ok",
+    "match": "min_close ^GSPC 676.530029296875 on 2009-03-09",
+    "checked_at": "2026-10-11T11:58:38+00:00"
+   }
+  },
+  {
+   "id": "flash_crash_2010",
+   "date": "2010-05-06",
+   "kind": "macro",
+   "lane": "us_stocks",
+   "title_en": "The 2010 Flash Crash",
+   "title_zh": "2010 年美股闪崩",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^DJI",
+    "display": "Dow",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_us_stocks",
+    "single_stock_deepdive_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "zh_longterm_investing",
+    "longterm_investing_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/2010_flash_crash"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/2010_flash_crash",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "May 6, 2010"
+   }
+  },
+  {
+   "id": "us_downgrade_2011",
+   "date": "2011-08-05",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "S&P downgrades the US credit rating from AAA",
+   "title_zh": "标普下调美国 AAA 评级",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/United_States_federal_government_credit-rating_downgrades"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/United_States_federal_government_credit-rating_downgrades",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "August 5, 2011"
+   }
+  },
+  {
+   "id": "draghi_whatever",
+   "date": "2012-07-26",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Draghi: the ECB will do \"whatever it takes\"",
+   "title_zh": "德拉吉：欧央行将“不惜一切代价”",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Mario_Draghi"
+    },
+    {
+     "publisher": "ecb.europa.eu",
+     "url": "https://www.ecb.europa.eu/press/key/date/2012/html/sp120726.en.html"
+    }
+   ],
+   "verify": {
+    "url": "https://www.ecb.europa.eu/press/key/date/2012/html/sp120726.en.html",
+    "status": "ok",
+    "method": "manual_webfetch",
+    "match": "Speech by Mario Draghi ... Global Investment Conference in London 26 July 2012 ... the ECB is ready to do whatever it takes to preserve the euro",
+    "checked_at": "2026-10-11T11:58:38+00:00"
+   }
+  },
+  {
+   "id": "taper_tantrum",
+   "date": "2013-05-22",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Bernanke taper remarks set off the taper tantrum",
+   "title_zh": "伯南克暗示缩减购债，引发“缩减恐慌”",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^TNX",
+    "display": "US 10y yield",
+    "unit": "%"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/2013_taper_tantrum"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Taper_tantrum"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/2013_taper_tantrum",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "date_not_found",
+    "errors": [
+     "https://en.wikipedia.org/wiki/2013_taper_tantrum: KeyError: 'parse'"
+    ]
+   }
+  },
+  {
+   "id": "snb_franc_cap",
+   "date": "2015-01-15",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Swiss National Bank scraps the franc cap",
+   "title_zh": "瑞士央行取消瑞郎汇率上限",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "DX-Y.NYB",
+    "display": "Dollar index (DXY)",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Swiss_franc"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Swiss_franc",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "15 January 2015"
+   }
+  },
+  {
+   "id": "yuan_deval_2015",
+   "date": "2015-08-11",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "China devalues the yuan",
+   "title_zh": "人民币“8·11”汇改贬值",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "DX-Y.NYB",
+    "display": "Dollar index (DXY)",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/2015–2016_Chinese_stock_market_turbulence"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Renminbi"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/2015_Chinese_stock_market_crash"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Renminbi",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "ok",
+    "match": "11 August 2015"
+   }
+  },
+  {
+   "id": "fed_hike_2015",
+   "date": "2015-12-16",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Fed raises rates for the first time since 2006",
+   "title_zh": "美联储 2006 年以来首次加息",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Federal_funds_rate"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Federal_funds_rate",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "Dec 16, 2015"
+   }
+  },
+  {
+   "id": "brexit_vote",
+   "date": "2016-06-23",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "UK votes to leave the EU",
+   "title_zh": "英国公投脱欧",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "DX-Y.NYB",
+    "display": "Dollar index (DXY)",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/2016_United_Kingdom_European_Union_membership_referendum"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/2016_United_Kingdom_European_Union_membership_referendum",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "23 June 2016"
+   }
+  },
+  {
+   "id": "volmageddon",
+   "date": "2018-02-05",
+   "kind": "macro",
+   "lane": "us_stocks",
+   "title_en": "Volmageddon: the VIX spikes and short-volatility products collapse",
+   "title_zh": "“波动率末日”：VIX 飙升，做空波动率产品崩盘",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_us_stocks",
+    "single_stock_deepdive_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "zh_longterm_investing",
+    "longterm_investing_en"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/February_2018_stock_market_correction"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/2018_stock_market_correction"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/VIX"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/VIX",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "ok",
+    "match": "February 5, 2018"
+   }
+  },
+  {
+   "id": "repo_spike_2019",
+   "date": "2019-09-17",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "US repo rates spike; the Fed injects liquidity",
+   "title_zh": "美国回购利率飙升，美联储注入流动性",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Repurchase_agreement"
+    },
+    {
+     "publisher": "newyorkfed.org",
+     "url": "https://www.newyorkfed.org/markets/opolicy/operating_policy_190917"
+    }
+   ],
+   "verify": {
+    "url": "https://www.newyorkfed.org/markets/opolicy/operating_policy_190917",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "ok",
+    "match": "September 17, 2019"
+   }
+  },
+  {
+   "id": "covid_crash_mar16",
+   "date": "2020-03-16",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "COVID crash: the Dow falls about 13% in a day",
+   "title_zh": "新冠股灾：道指单日跌约 13%",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/2020_stock_market_crash"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/2020_stock_market_crash",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "near: 352.60 −9.99% 21,200.62 black monday ii 16 march −2,997.10 −12.93% 20,188.52 17–21 febru"
+   }
+  },
+  {
+   "id": "wti_negative",
+   "date": "2020-04-20",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "WTI oil futures settle below zero",
+   "title_zh": "WTI 原油期货跌成负价",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "CL=F",
+    "display": "WTI crude",
+    "unit": "USD"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/2020_Russia–Saudi_Arabia_oil_price_war"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/2020_Russia–Saudi_Arabia_oil_price_war",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "20 April 2020"
+   }
+  },
+  {
+   "id": "fed_hike_2022",
+   "date": "2022-03-16",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Fed starts its 2022 hiking cycle",
+   "title_zh": "美联储开启 2022 年加息周期",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Federal_funds_rate"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Federal_funds_rate",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "Mar 16, 2022"
+   }
+  },
+  {
+   "id": "uk_mini_budget",
+   "date": "2022-09-23",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "UK mini-budget sets off the gilt crisis",
+   "title_zh": "英国“迷你预算”引发英债危机",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "GBPUSD=X",
+    "display": "GBP/USD",
+    "unit": "USD"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/September_2022_United_Kingdom_mini-budget"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/September_2022_United_Kingdom_mini-budget",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "23 September 2022"
+   }
+  },
+  {
+   "id": "boj_negative_end",
+   "date": "2024-03-19",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "Bank of Japan ends negative interest rates",
+   "title_zh": "日本央行结束负利率",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "DX-Y.NYB",
+    "display": "Dollar index (DXY)",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Bank_of_Japan"
+    },
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Kazuo_Ueda"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Kazuo_Ueda",
+    "checked_at": "2026-10-11T11:57:00+00:00",
+    "status": "ok",
+    "match": "19 March 2024"
+   }
+  },
+  {
+   "id": "tariff_pause_2025",
+   "date": "2025-04-09",
+   "kind": "macro",
+   "lane": "macro",
+   "title_en": "90-day tariff pause: US stocks have one of their best days on record",
+   "title_zh": "关税暂停 90 天，美股迎来史上最强单日之一",
+   "subject": {
+    "kind": "price",
+    "asset": "stock",
+    "symbol": "^GSPC",
+    "display": "S&P 500",
+    "unit": "pts"
+   },
+   "accounts": [
+    "zh_macro",
+    "crypto_macro_zh",
+    "crypto_macro_en",
+    "market_data_charts",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "zh_longterm_investing",
+    "zh_us_stocks"
+   ],
+   "sources": [
+    {
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Liberation_Day_tariffs"
+    }
+   ],
+   "verify": {
+    "url": "https://en.wikipedia.org/wiki/Liberation_Day_tariffs",
+    "checked_at": "2026-10-11T11:55:18+00:00",
+    "status": "ok",
+    "match": "April 9, 2025"
+   }
+  }
+ ]
+}
