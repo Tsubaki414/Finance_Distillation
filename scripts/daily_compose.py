@@ -1671,6 +1671,20 @@ def inbox_row(result, account_cfg, day, run_id):
             'spend_usd': result.get('spend_usd'), 'publishable': False}
 
 
+def subrouter_guard(args, env=None):
+    """Oct 11: without SUBROUTER_API_KEY the Gemini stages route to the paid micuapi relay (a manual run from a shell
+    that had not sourced ~/.secrets/subrouter.env did exactly that). Refuse to start unless FD_ALLOW_NO_SUBROUTER=1.
+    --select-only makes no model calls and is allowed. Returns the error text, or None."""
+    env = os.environ if env is None else env
+    if getattr(args, 'select_only', False) or (env.get('SUBROUTER_API_KEY') or '').strip():
+        return None
+    if env.get('FD_ALLOW_NO_SUBROUTER') == '1':
+        return None
+    return ('daily_compose: SUBROUTER_API_KEY is not set, so every Gemini call would go to the paid micuapi relay. '
+            'Refusing to start. Source ~/.secrets/subrouter.env (scripts/cron/daily_compose.sh does) or set '
+            'FD_ALLOW_NO_SUBROUTER=1 to run without subrouter on purpose.')
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--day', type=date.fromisoformat, default=None,
@@ -1708,6 +1722,10 @@ def main():
     if os.environ.get('FD_DAILY_COMPOSE') != '1' and not args.force and not args.select_only:
         print('FD_DAILY_COMPOSE is not 1: daily compose is off; nothing done')
         return 0
+    err = subrouter_guard(args)
+    if err:
+        print(err, file=sys.stderr)
+        return 2
     per_account = max(1, min(MAX_PER_ACCOUNT, args.per_account))
     accounts = fd_accounts.rows(CONFIG)   # Oct 8: 36-account roster, FD_ACCOUNTS_EXTRA / FD_ACCOUNTS_NEW gates
     if args.accounts:

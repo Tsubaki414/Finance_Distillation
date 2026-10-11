@@ -376,6 +376,7 @@ def test_main_loops_fill_rounds_until_targets_or_no_candidates(dc, monkeypatch, 
     monkeypatch.setattr(dc, 'RUNS', tmp_path)
     monkeypatch.setattr(dc, 'DASHBOARD', tmp_path / 'dash')
     monkeypatch.setenv('FD_DAILY_COMPOSE', '1')
+    monkeypatch.setenv('SUBROUTER_API_KEY', 'test-key')   # Oct 11 guard: no key = refuse to start
     monkeypatch.setenv('FD_ARCHIVE', '0')
     monkeypatch.setenv('FD_FILL_ROUNDS', '3')
     accts = [{'id': 'a', 'lang': 'en'}, {'id': 'b', 'lang': 'en'}]
