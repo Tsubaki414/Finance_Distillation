@@ -332,7 +332,7 @@ def _line_is_judgement(line: str, lang: str) -> bool:
     return bool(re.search(r'\b(is|are|was|were|will|would|could|should|think|believe|see|seems|expect|looks?)\b', t, re.I))
 
 
-_NEUTRAL_EMOJI = frozenset('👀🤔🧐😅🫠🙃😌🫡👇🤷🙏😶🫢😮🥲😬')
+_NEUTRAL_EMOJI = frozenset('👀🤔🧐😅🫠🙃😌🫡🤷🙏😶🫢😮🥲😬')   # no 👇: it points at nothing at the end of a post
 
 
 def _apply_texture(body: str, lang: str, draft_id: str, rates: dict) -> tuple[str, list[str]]:
@@ -487,15 +487,17 @@ def drop_moral_line(body: str, lang: str):
     idx = [i for i, l in enumerate(lines) if l.strip()]
     if not idx or re.match(r'^\s*\d+/', lines[idx[0]]):   # threads keep their parts
         return body, ''
+    rx = _SENT_ZH if lang == 'zh' else _SENT_EN
     if len(idx) >= 3:
         last = lines[idx[-1]].strip()
-        if _moral_candidate(last, lang):
-            return '\n'.join(lines[:idx[-1]]).rstrip(), last
-        return body, ''
+        if len([x for x in rx.split(last) if x.strip()]) < 2:
+            if _moral_candidate(last, lang):
+                return '\n'.join(lines[:idx[-1]]).rstrip(), last
+            return body, ''
+        # Oct 11: a multi-sentence last paragraph is never cut whole (it carries facts); only its last sentence below
     # Oct 11: 10-11 nightly, 23 of 41 drafts closed on an aphorism_verdict, most inside a 1-2 paragraph post where the
     # line rule never looks. The last SENTENCE of a post of >= 3 sentences is checked with the same rule.
     para = lines[idx[-1]]
-    rx = _SENT_ZH if lang == 'zh' else _SENT_EN
     sents = [x for x in rx.split(para.strip()) if x.strip()]
     total = sum(len([x for x in rx.split(lines[i].strip()) if x.strip()]) for i in idx)
     if len(sents) < 2 or total < 3:

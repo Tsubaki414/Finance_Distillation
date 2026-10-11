@@ -1,7 +1,6 @@
 """Tests for compose_shapes.py new shapes (nat3 Oct 10 2026)."""
 import os
 import sys
-sys.path.insert(0, '/workspace/fd_new/wt_nat3')
 
 import pytest
 from live import compose_shapes as cs

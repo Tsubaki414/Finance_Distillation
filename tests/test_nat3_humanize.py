@@ -1,7 +1,6 @@
 """Tests for live/humanize.py (nat3 Oct 10 2026)."""
 import os
 import sys
-sys.path.insert(0, '/workspace/fd_new/wt_nat3')
 
 import pytest
 from unittest.mock import patch

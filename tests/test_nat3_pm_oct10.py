@@ -164,3 +164,12 @@ def test_moral_last_sentence_cut_in_one_paragraph_posts():
     assert cut.startswith('Patience') and body.endswith('fills more often.')
     for keep in ('BTC 6万。', '两句话。第二句也很短吧。', 'One. I think this beats everything else in the market now.'):
         assert drop_moral_line(keep, 'zh' if '话' in keep or '万' in keep else 'en')[1] == ''
+
+
+def test_multi_sentence_last_paragraph_loses_only_its_last_sentence():
+    from live.humanize import drop_moral_line, _NEUTRAL_EMOJI
+    b = ('第一段事实。\n\n第二段事实。\n\n他们同时还在推别的项目，试图把单一账本和多个共享账本等架构全都包揽进去。'
+         '不管技术怎么变，最终结算权他们是一点不肯放。')
+    body, cut = drop_moral_line(b, 'zh')
+    assert cut.startswith('不管技术怎么变') and '他们同时还在推别的项目' in body
+    assert '👇' not in _NEUTRAL_EMOJI
