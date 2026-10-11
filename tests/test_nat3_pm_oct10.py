@@ -173,3 +173,34 @@ def test_multi_sentence_last_paragraph_loses_only_its_last_sentence():
     body, cut = drop_moral_line(b, 'zh')
     assert cut.startswith('不管技术怎么变') and '他们同时还在推别的项目' in body
     assert '👇' not in _NEUTRAL_EMOJI
+
+
+ARCHIVE_BODY = ('Look back: Oct 2025.\n\nIn October 2025, @Omaofweb3 noted that "$BTC reached a new ath of $125k".\n\n'
+                'On 2025-10-05, BTC closed at $123,482. As of 2026-10-11, it sits at $82,989, down 32.8%.\n\n'
+                'When broad token prices pull back this heavily, secondary liquidity for farmed distributions shrinks.')
+
+
+def test_archive_drafts_keep_header_casing_no_llm_no_emoji(monkeypatch):
+    from live import humanize
+    rates = {'all_lower': 0.9, 'emoji': 0.9, 'top5_emoji': ['👀', '🤔'], 'formula_closer': 0.0, 'lang': 'en'}
+    calls = []
+    row = {'id': 'arc-1-crypto_airdrop_en-1', 'account_id': 'crypto_airdrop_en', 'post_kind': 'archive_lookback',
+           'body': ARCHIVE_BODY, 'text': ARCHIVE_BODY}
+    monkeypatch.setenv('FD_HUMANIZE_LLM', '1')
+    humanize.apply(row, client=lambda *a: calls.append(a) or {'text': ARCHIVE_BODY.lower()}, lang='en', rates=rates)
+    assert row['body'].startswith('Look back: Oct 2025.') and 'BTC closed' in row['body'] and not calls
+    assert not humanize._EMO.search(row['body'])
+    assert humanize.is_archive({'id': 'evg-x'}) and humanize.is_archive({'label': '回看'})
+    assert not humanize.is_archive({'id': 'compose-1', 'body': 'BTC up'})
+
+
+def test_emoji_only_at_donor_rate_15pct_and_not_on_serious_tone():
+    from live import humanize
+    hi = {'emoji': 0.99, 'top5_emoji': ['👀']}
+    lo = {'emoji': 0.10, 'top5_emoji': ['👀']}
+    casual = 'BTC up again\nfunny how fast this moves'
+    assert humanize._EMO.search(humanize._apply_texture(casual, 'en', 'd1', hi)[0])
+    assert not humanize._EMO.search(humanize._apply_texture(casual, 'en', 'd1', lo)[0])
+    assert humanize.serious_tone('Bitget hack drained $40M')
+    assert not humanize._EMO.search(humanize._apply_texture('Bitget hack drained wallets\nugh', 'en', 'd1', hi)[0])
+    assert humanize.serious_tone('One. Two. Three. Four.')

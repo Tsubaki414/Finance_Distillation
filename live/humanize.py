@@ -335,8 +335,30 @@ def _line_is_judgement(line: str, lang: str) -> bool:
 _NEUTRAL_EMOJI = frozenset('👀🤔🧐😅🫠🙃😌🫡🤷🙏😶🫢😮🥲😬')   # no 👇: it points at nothing at the end of a post
 
 
-def _apply_texture(body: str, lang: str, draft_id: str, rates: dict) -> tuple[str, list[str]]:
-    """Add emoji, $ticker, zh aliases, en lowercase, zh particle at donor rates."""
+EMOJI_MIN_DONOR_RATE = 0.15   # Oct 11 PM: no texture emoji unless the account's donors use emoji in >= 15% of posts
+_SERIOUS = re.compile(r'hack|exploit|stolen|drain|liquidat|bankrupt|insolven|lawsuit|fraud|sanction|war\b|attack|'
+                      r'crash|collapse|death|died|killed|victim|scam|security|custody|被黑|黑客|盗|爆仓|清算|破产|暴雷|'
+                      r'诈骗|起诉|制裁|战争|袭击|崩盘|安全|托管|死亡', re.I)
+
+
+def is_archive(row: dict) -> bool:
+    """回看 / archive / evergreen drafts (live/archive_lookback, archive_evergreen): fixed header + attribution format."""
+    rid = str(row.get('id') or '')
+    kind = str(row.get('post_kind') or row.get('post_type') or '')
+    return (rid.startswith(('arc-', 'evg-')) or kind.startswith('archive') or row.get('label') == '回看'
+            or bool(re.match(r'\s*(Look back:|回看)', str(row.get('body') or row.get('text') or ''))))
+
+
+def serious_tone(body: str, archive: bool = False) -> bool:
+    """No playful texture: archive / evergreen explainers, risk topics (hacks, liquidations, lawsuits, war ...), and
+    long explanatory posts (>= 4 sentences)."""
+    if archive or _SERIOUS.search(body or ''):
+        return True
+    return len(re.findall(r'[.!?。！？](?:\s|$)', body or '')) >= 4
+
+
+def _apply_texture(body: str, lang: str, draft_id: str, rates: dict, archive: bool = False) -> tuple[str, list[str]]:
+    """Add emoji, $ticker, zh aliases, en lowercase, zh particle at donor rates. archive: no emoji, no lowercase."""
     if os.environ.get('FD_HUMANIZE', '1') == '0':
         return body, []
     changes = []
@@ -351,8 +373,8 @@ def _apply_texture(body: str, lang: str, draft_id: str, rates: dict) -> tuple[st
 
     # (a) emoji: at most 1, appended to the last non-empty line, at donor rate
     already_has_emoji = bool(_EMO.search(body))
-    if (not already_has_emoji and top5 and
-            _u(draft_id, 'emoji') < emoji_rate):
+    if (not already_has_emoji and top5 and emoji_rate >= EMOJI_MIN_DONOR_RATE and not serious_tone(body, archive)
+            and _u(draft_id, 'emoji') < emoji_rate):
         pick = top5[int(_u(draft_id, 'emoji_pick') * len(top5))]
         # append to last non-empty line
         for i in range(len(lines) - 1, -1, -1):
@@ -394,7 +416,7 @@ def _apply_texture(body: str, lang: str, draft_id: str, rates: dict) -> tuple[st
         body = re.sub(r'(大饼|姨太|U) (?=[\u4e00-\u9fff])', r'\1', body)
 
     # (d) en lowercase: lowercase the whole post at donor all_lower rate
-    if lang == 'en' and lowercase_rate >= 0.30:
+    if lang == 'en' and lowercase_rate >= 0.30 and not archive:
         if _u(draft_id, 'lowercase') < lowercase_rate:
             new_body = re.sub(r"[A-Za-z][A-Za-z']*", lambda m: m.group(0) if m.group(0).isupper() and len(m.group(0)) > 1
                               else m.group(0).lower(), body)
@@ -703,6 +725,8 @@ def apply(row: dict, client: Any = None, lang: str | None = None,
         return row
 
     account_id = row.get('account_id') or ''
+    archive = is_archive(row)   # Oct 11: 回看 / archive drafts keep header + casing; no LLM pass, no emoji
+    _start_body = row.get('body') or ''
     draft_id = row.get('id') or account_id
 
     # resolve lang
@@ -734,7 +758,7 @@ def apply(row: dict, client: Any = None, lang: str | None = None,
 
     # --- LLM pass first (the deterministic steps below then clean up whatever the rewrite brings back) ---
     llm_used = False
-    if (not reverted and llm_enabled() and client is not None
+    if (not reverted and not archive and llm_enabled() and client is not None
             and _needs_llm(body, lang, rates)):
         cap = llm_max()
         if llm_count is not None:
@@ -809,7 +833,7 @@ def apply(row: dict, client: Any = None, lang: str | None = None,
             all_changes = [c for c in all_changes if not c.startswith('rounded')] + ['REVERTED(number): fidelity fail']
 
         # --- (c) texture ---
-        body, chg = _apply_texture(body, lang, draft_id, rates)
+        body, chg = _apply_texture(body, lang, draft_id, rates, archive=archive)
         all_changes += chg
 
         # fidelity guard after texture
@@ -818,6 +842,11 @@ def apply(row: dict, client: Any = None, lang: str | None = None,
             all_changes = [c for c in all_changes if not c.startswith(('added', 'applied', 'zh alias'))]
             all_changes.append('REVERTED(texture): fidelity fail')
 
+    if archive:
+        first = lambda t: next((l.strip() for l in (t or '').split('\n') if l.strip()), '')
+        if first(body) != first(_start_body):   # the 回看 header line is never changed or dropped
+            body = _start_body
+            all_changes = ['REVERTED(archive): header changed']
     row['body'] = body
     # also update row['text'] if it matches original body (no frame)
     if row.get('text') == raw_body:
