@@ -31,7 +31,7 @@ BUCKETS = ("btc_price_market", "eth_altcoins_price", "stablecoins_tether", "cryp
 ACTIONS = ('buys', 'sells', 'launches', 'lists', 'delists', 'freezes', 'hacked', 'sues', 'approves', 'files',
            'rejects', 'partners', 'integrates', 'acquires', 'raises', 'invests', 'pays', 'price_move', 'flows',
            'data', 'policy', 'statement', 'earnings', 'outage', 'other')
-BATCH = 40
+BATCH = 15   # 40 came back truncated (flash reasoning eats the token budget) on 10-11 13:30
 _LOCK = threading.Lock()
 
 PROMPT = """Label each post / news packet (finance, crypto, stocks). For each item return:
@@ -40,7 +40,8 @@ PROMPT = """Label each post / news packet (finance, crypto, stocks). For each it
 - a: what happened, one of: {actions}
 - o: a second entity or asset if the story is a pairing (e.g. for "USDT launches on Polygon via TRON bridge" e=Tether a=integrates o=Polygon), else ""
 - k: the underlying story in 3-7 English words, entity + event (e.g. "Tether freezes USDT wallets", "Robinhood buys BTC for treasury"). The same real-world event must get the same e/a/o and nearly the same k whatever the language or angle of the post.
-Return ONLY JSON: {{"<id>": {{"b":"...","e":"...","a":"...","o":"...","k":"..."}}, ...}}
+Return ONLY one line per item, fields separated by " | ", no header, no JSON, no extra text:
+<id> | <b> | <e> | <a> | <o or -> | <k>
 
 ITEMS:
 {items}"""
@@ -104,33 +105,49 @@ def clean_label(lab):
             'k': str(lab.get('k') or '').strip()[:80]}
 
 
+def parse_lines(t):
+    out = {}
+    for line in str(t or '').splitlines():
+        parts = [x.strip() for x in line.strip().strip('`').split('|')]
+        if len(parts) < 6 or not parts[0]:
+            continue
+        h = parts[0].strip('[]')
+        o = parts[4] if parts[4] not in ('-', '""', "''", 'none', 'None') else ''
+        out[h] = {'b': parts[1], 'e': parts[2], 'a': parts[3], 'o': o, 'k': ' | '.join(parts[5:])}
+    return out
+
+
 def get(text, path=None):
     return _load(path).get(text_key(text))
 
 
-def _call(items, model, timeout=120):
+def _call(items, model, timeout=60):
     import requests
     key = os.environ.get('SUBROUTER_API_KEY')
     base = (os.environ.get('SUBROUTER_BASE_URL') or 'https://subrouter.ai/v1').rstrip('/')
     if not key:
         raise RuntimeError('SUBROUTER_API_KEY not set')
-    body = '\n\n'.join(f'[{i}]\n{t}' for i, t in items)
+    ids = {str(n + 1): h for n, (h, _t) in enumerate(items)}   # short ids: the model mangles 20-hex ones
+    body = '\n\n'.join(f'[{n + 1}]\n{t}' for n, (_h, t) in enumerate(items))
     msg = PROMPT.format(buckets=', '.join(BUCKETS), actions=', '.join(ACTIONS), items=body)
     last = None
-    for _ in range(2):
+    for _ in range(1):   # the halves retry in label_many covers a bad batch
         try:
             r = requests.post(base + '/chat/completions', headers={'Authorization': 'Bearer ' + key},
                               json={'model': model, 'messages': [{'role': 'user', 'content': msg}],
-                                    'max_tokens': 8000, 'temperature': 0}, timeout=timeout)
-            t = r.json()['choices'][0]['message']['content']
-            t = t[t.find('{'):t.rfind('}') + 1]
-            return json.loads(t)
+                                    'max_tokens': 12000, 'temperature': 0,
+                                    'reasoning_effort': 'low'}, timeout=timeout)   # default: ~11.5k reasoning tokens, truncated
+            t = r.json()['choices'][0]['message']['content'] or ''
+            out = {ids[k]: v for k, v in parse_lines(t).items() if k in ids}
+            if not out:
+                raise ValueError(f'no label lines in {t[:80]!r}')
+            return out
         except Exception as exc:   # noqa: BLE001
             last = exc
     raise RuntimeError(f'story label call failed: {type(last).__name__}: {str(last)[:160]}')
 
 
-def label_many(texts, *, allow_model=True, path=None, workers=4, model=None, caller=None):
+def label_many(texts, *, allow_model=True, path=None, workers=6, model=None, caller=None):
     """{text_key: label} for every text (cached or freshly labelled). caller(items) -> raw dict (tests)."""
     cache = _load(path)
     keys = {}
@@ -147,8 +164,16 @@ def label_many(texts, *, allow_model=True, path=None, workers=4, model=None, cal
         def job(b):
             try:
                 return b, call(b), None
-            except Exception as exc:   # noqa: BLE001
-                return b, {}, exc
+            except Exception as exc:   # noqa: BLE001 - one retry as two halves (a truncated / bad JSON batch)
+                if len(b) < 4 or caller is not None:
+                    return b, {}, exc
+                out, err = {}, exc
+                for half in (b[:len(b) // 2], b[len(b) // 2:]):
+                    try:
+                        out.update(call(half))
+                    except Exception as exc2:   # noqa: BLE001
+                        err = exc2
+                return b, out, (err if not out else None)
         new = {}
         with cf.ThreadPoolExecutor(max(1, workers)) as ex:
             for b, res, err in ex.map(job, batches):
