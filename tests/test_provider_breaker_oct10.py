@@ -99,3 +99,14 @@ def test_one_quota_draft_does_not_block_the_run(monkeypatch):
     from scripts import daily_compose
     monkeypatch.delenv('FD_QUOTA_BLOCK_AFTER', raising=False)
     assert daily_compose.quota_block_after() == 3
+
+
+def test_dead_mark_survives_london_midnight_for_24h(tmp_path, monkeypatch):
+    import time as _t
+    url = 'https://www.micuapi.ai/v1'
+    (tmp_path / 'dead.json').write_text(json.dumps({url: ['2000-01-01', 'old day', _t.time() - 3600]}))
+    relay.FALLBACK_DEAD.clear()
+    assert relay.fallback_dead(url)                      # set 1h ago on another date: still dead
+    (tmp_path / 'dead.json').write_text(json.dumps({url: ['2000-01-01', 'old', _t.time() - 25 * 3600]}))
+    relay.FALLBACK_DEAD.clear()
+    assert relay.fallback_dead(url) is None              # older than 24h: retried

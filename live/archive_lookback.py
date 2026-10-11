@@ -1410,6 +1410,7 @@ def run(account_ids, day, *, timely_planned=None, force=False, config=None, writ
             row['media_plan'] = {'wanted': 'none', 'status': 'text_only'}
         row['post_mode'] = 'original'
         row['gate'] = info.get('gate')
+        humanize_row(row, acc)
         taken |= {k for k in row['archive']['event_keys'] if k.startswith('x:')}
         info.update(variant=chosen_variant, draft_id=row['id'], held=row['held'], hold_reason=row['hold_reason'],
                     original_url=row['archive']['original_url'])
@@ -1504,6 +1505,23 @@ def timely_planned_for(day, accounts=None):
     plan, _order = dc.select(all_accounts, json.loads(UNIVERSES.read_text()), date.fromisoformat(str(day)), 2)
     return {a: sum(1 for p in picks if p.get('timely')) for a, picks in plan.items()
             if accounts is None or a in accounts}
+
+
+def humanize_row(row, acc):
+    """Oct 11: archive / evergreen drafts (fill path) skipped the nat3 humanize post-step, so 7 of the 10-11 fill drafts
+    kept formula closers and intensifiers. Deterministic pass only (closer cut, intensifier cap, rounding, texture;
+    its own number-fidelity guard); never blocks a draft. FD_HUMANIZE=0 skips it."""
+    if not row.get('body') or row.get('held'):
+        return row
+    try:
+        from live import humanize
+        if not humanize.enabled():
+            return row
+        lang = 'zh' if str(acc.get('lang') or row.get('account_lang') or 'zh').startswith('zh') else 'en'
+        humanize.apply(row, client=None, lang=lang)
+    except Exception as exc:   # noqa: BLE001
+        row['humanize'] = {'changes': [], 'error': str(exc)[:200]}
+    return row
 
 
 def fill_gaps(day, *, accounts=None, log=print):

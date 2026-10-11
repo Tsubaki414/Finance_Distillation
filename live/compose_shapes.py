@@ -134,9 +134,9 @@ ARG_MARGIN = 0.10          # argument posts at donor argument share + 10pp
 
 
 NONARG_TARGET = {   # characters without whitespace; zh short post < 40 chars, en < 12 words (~70 chars) per the audit
-    'zh': {'one_line_take': (8, 36), 'reaction': (6, 30), 'question_only': (10, 45), 'quick_note': (15, 60),
+    'zh': {'one_line_take': (8, 36), 'reaction': (6, 30), 'question_only': (10, 45), 'quick_note': (15, 38),
            'short_list': (20, 80)},
-    'en': {'one_line_take': (15, 70), 'reaction': (8, 60), 'question_only': (20, 90), 'quick_note': (30, 120),
+    'en': {'one_line_take': (15, 70), 'reaction': (8, 60), 'question_only': (20, 90), 'quick_note': (25, 75),
            'short_list': (40, 140)}}
 
 
@@ -169,10 +169,41 @@ def nonarg_share(persona, env=None):
     return round(max(0.0, min(cap, rate)), 3)
 
 
-def pick_nonarg(persona, *, units=(), recent=(), seed='', env=None):
-    """Deterministic coin (seed) at nonarg_share(); on heads the non-argument shape id for this post
+NAT_ELIGIBLE_DEFAULT = 0.5   # share of standalone posts that reach the gate (not thread / quote / engagement)
+NAT_GATE_MAX = 0.6
+
+
+def gate_share(persona, eligible=None, env=None):
+    """Oct 11: the donor short-post rate is a share of ALL standalone posts, but only the gate-eligible ones (about half:
+    threads, quote comments and replies never reach it) can take a short shape. The 10-11 nightly ran the rate on the
+    eligible ones only and got 3 short shapes in 35 drafts (9%). Per-eligible probability = rate / eligible share
+    (eligible from the format's type weights, else FD_NAT_ELIGIBLE / 0.5), at most NAT_GATE_MAX."""
+    env = os.environ if env is None else env
+    rate = nonarg_share(persona, env)
+    if rate <= 0:
+        return 0.0
+    try:
+        el = float(eligible) if eligible else float(env.get('FD_NAT_ELIGIBLE', NAT_ELIGIBLE_DEFAULT))
+    except (TypeError, ValueError):
+        el = NAT_ELIGIBLE_DEFAULT
+    el = min(1.0, max(0.2, el))
+    return round(min(NAT_GATE_MAX, rate / el), 3)
+
+
+def eligible_share(type_weights):
+    """Share of the format's type weights that can reach the gate (not thread / quote_comment), or None."""
+    if not isinstance(type_weights, dict) or not type_weights:
+        return None
+    total = sum(float(v) for v in type_weights.values())
+    if total <= 0:
+        return None
+    return sum(float(v) for k, v in type_weights.items() if k not in ('thread', 'quote_comment')) / total
+
+
+def pick_nonarg(persona, *, units=(), recent=(), seed='', env=None, eligible=None):
+    """Deterministic coin (seed) at gate_share(); on heads the non-argument shape id for this post
     (rotation via choose_shape), else None."""
-    share = nonarg_share(persona, env)
+    share = gate_share(persona, eligible, env)
     coin = int(sha256(f'{seed}|{getattr(persona, "persona_id", "")}|nonarg'.encode()).hexdigest()[:8], 16) / 0xFFFFFFFF
     if share <= 0 or coin >= share:
         return None

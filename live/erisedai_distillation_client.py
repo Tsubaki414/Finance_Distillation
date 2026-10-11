@@ -82,18 +82,34 @@ def _london_day():
     return datetime.now(ZoneInfo('Europe/London')).date().isoformat()
 
 
+def _dead_hours():
+    try:
+        return float(os.environ.get('FD_FALLBACK_DEAD_HOURS', '24'))
+    except ValueError:
+        return 24.0
+
+
+def _still_dead(hit):
+    """A mark is live for FD_FALLBACK_DEAD_HOURS (24) from when it was set (Oct 11: a London-date key reset at midnight
+    in the middle of the 23:13 nightly, and 4 calls went to micuapi, $1.15, before it answered empty again)."""
+    if not hit:
+        return False
+    if len(hit) >= 3 and hit[2]:
+        return time.time() - float(hit[2]) < _dead_hours() * 3600
+    return hit[0] == _london_day()
+
+
 def fallback_dead(base_url):
-    """(day, reason) when this fallback provider is circuit-broken today, else None."""
+    """(day, reason, epoch) when this fallback provider is circuit-broken, else None."""
     if not base_url:
         return None
-    day = _london_day()
     hit = FALLBACK_DEAD.get(base_url)
-    if hit and hit[0] == day:
+    if _still_dead(hit):
         return hit
     try:
         data = json.loads(_dead_file().read_text()) if _dead_file() else {}
         hit = data.get(base_url)
-        if hit and hit[0] == day:
+        if _still_dead(hit):
             FALLBACK_DEAD[base_url] = tuple(hit)
             return tuple(hit)
     except (OSError, ValueError, TypeError):
@@ -104,8 +120,8 @@ def fallback_dead(base_url):
 def mark_fallback_dead(base_url, reason):
     if not base_url or os.environ.get('FD_FALLBACK_BREAKER', '1') == '0':
         return
-    day = _london_day()
-    FALLBACK_DEAD[base_url] = (day, str(reason)[:160])
+    day, now = _london_day(), time.time()
+    FALLBACK_DEAD[base_url] = (day, str(reason)[:160], now)
     try:
         f = _dead_file()
         if f is None:
@@ -115,8 +131,8 @@ def mark_fallback_dead(base_url, reason):
             data = json.loads(f.read_text())
         except (OSError, ValueError):
             data = {}
-        data = {k: v for k, v in data.items() if v and v[0] == day}
-        data[base_url] = [day, str(reason)[:160]]
+        data = {k: v for k, v in data.items() if _still_dead(v)}
+        data[base_url] = [day, str(reason)[:160], now]
         tmp = f.with_suffix('.tmp')
         tmp.write_text(json.dumps(data))
         tmp.replace(f)

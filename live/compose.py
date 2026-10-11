@@ -1588,7 +1588,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         # Oct 10 nat3: at 1 - (donor argument share + 10pp) a standalone post is a non-argument shape (one-line take,
         # quick note, question, reaction, short list); its donor post type + the short bucket own the format.
         nat_shape = compose_shapes.pick_nonarg(persona, units=chosen, recent=recent_rows,
-                                               seed=source.get('source_hash') or source.get('id') or '')
+                                               seed=source.get('source_hash') or source.get('id') or '',
+                                               eligible=compose_shapes.eligible_share(fmt_info.get('type_weights')))
         if nat_shape:
             kind = compose_shapes.NONARG_TYPE[nat_shape]
             fmt_info.update(type=kind, length='short', thread_parts=None, shapes=[nat_shape],

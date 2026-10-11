@@ -24,7 +24,10 @@ def test_pick_nonarg_rate_near_20pct(monkeypatch):
     from live import donor_rates
     monkeypatch.setattr(donor_rates, 'account_rates', lambda pid, path=None: {'short_post': 0.20})
     monkeypatch.setattr(compose_shapes, 'choose_shape', lambda *a, **k: {'id': 'one_line_take'})
+    # Oct 11: the rate is of ALL standalone posts; only ~half reach the gate, so per eligible post 0.20 / 0.5 = 0.40
     hits = sum(1 for i in range(1000) if compose_shapes.pick_nonarg(_p(), seed=f's{i}', env={}))
+    assert 340 <= hits <= 460
+    hits = sum(1 for i in range(1000) if compose_shapes.pick_nonarg(_p(), seed=f's{i}', env={}, eligible=1.0))
     assert 150 <= hits <= 250
 
 
@@ -125,3 +128,26 @@ def test_second_vote_can_fail_a_first_pass():
     r = _row('Zcash ETF首月超10亿美元。')
     fluency.apply_batch([r], lambda: j)
     assert r['fluency']['action'] == 'rewrite' and r['body'] == fixed
+
+
+def test_gate_share_and_eligible_share(monkeypatch):
+    from live import donor_rates
+    monkeypatch.setattr(donor_rates, 'account_rates', lambda pid, path=None: {'short_post': 0.20})
+    assert compose_shapes.eligible_share({'thread': 1, 'quote_comment': 1, 'quick_take': 2}) == 0.5
+    assert compose_shapes.eligible_share(None) is None
+    assert compose_shapes.gate_share(_p(), 0.5, env={}) == 0.4
+    assert compose_shapes.gate_share(_p(), 0.1, env={}) == compose_shapes.NAT_GATE_MAX   # floor 0.2 -> 1.0 -> cap
+    assert compose_shapes.gate_share(_p(), None, env={'FD_NAT_PROMPT': '0'}) == 0.0
+
+
+def test_archive_fill_rows_are_humanized(monkeypatch):
+    from live import archive_lookback, humanize
+    seen = []
+    monkeypatch.setattr(humanize, 'apply', lambda row, client=None, lang=None, **k: seen.append((client, lang)) or row)
+    row = {'body': 'x', 'text': 'x', 'held': False}
+    archive_lookback.humanize_row(row, {'lang': 'en'})
+    assert seen == [(None, 'en')]
+    archive_lookback.humanize_row({'body': 'x', 'held': True}, {'lang': 'zh'})
+    assert len(seen) == 1
+    src = open('live/archive_lookback.py', encoding='utf-8').read()
+    assert "humanize_row(row, acc)" in src
