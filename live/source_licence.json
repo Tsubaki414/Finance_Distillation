@@ -3875,6 +3875,20 @@
       "no_reproduction": true,
       "quote_allowed": false,
       "attribution_required": true
+    },
+    "defillama_stablecoin_supply": {
+      "tier": "B",
+      "basis": "DefiLlama free open API (stablecoins.llama.fi/stablecoins); no key; paraphrase numbers with attribution",
+      "aliases": [
+        "DefiLlama stablecoins"
+      ]
+    },
+    "geckoterminal_trending": {
+      "tier": "B",
+      "basis": "GeckoTerminal public REST API (api.geckoterminal.com/api/v2); no key; paraphrase numbers with attribution",
+      "aliases": [
+        "GeckoTerminal"
+      ]
     }
   }
 }

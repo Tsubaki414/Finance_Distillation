@@ -6,11 +6,15 @@ Public, key-free, read-only JSON endpoints turned into dated, numbered fact line
 names and numbers only: never a contract address, wallet, ticker shill or reproduced text.
 
 Sources (terms checked Oct 8, recorded in live/source_licence.json, tier B = cite the publisher, paraphrase numbers):
-  DefiLlama   free open API (api.llama.fi / yields.llama.fi / stablecoins.llama.fi; no key; pro-only endpoints such as
-              /overview/derivatives and /emissions return 402 and are not used)
-  Hyperliquid public info API (POST api.hyperliquid.xyz/info, documented, no key)
-  Polymarket  public Gamma API (gamma-api.polymarket.com, documented read API, no key)
-  CoinGecko   public API categories endpoint (no key, attribution "CoinGecko")
+  DefiLlama       free open API (api.llama.fi / yields.llama.fi / stablecoins.llama.fi; no key; pro-only endpoints such
+                  as /overview/derivatives and /emissions return 402 and are not used)
+  Hyperliquid     public info API (POST api.hyperliquid.xyz/info, documented, no key)
+  Polymarket      public Gamma API (gamma-api.polymarket.com, documented read API, no key)
+  CoinGecko       public API categories endpoint (no key, attribution "CoinGecko")
+  GeckoTerminal   public REST API (api.geckoterminal.com, documented, no key; attribution "GeckoTerminal")
+  Kalshi          public trade-api v2 (/markets endpoint, no key) — DROPPED: volume_24h_fp and all price fields
+                  return "0.00" for every market without authentication; data is unusable.
+  DexScreener     token-boosts endpoint — DROPPED: reflects paid promotional budgets, not organic trading data.
 
 Rate limits / caching: every URL is fetched at most once per CACHE_TTL_S (disk cache under live/store/lane_cache,
 shared by all fetchers in a run: the yields / protocols / fees bodies feed several sources), >= MIN_GAP_S between
@@ -40,6 +44,7 @@ LLAMA = 'https://api.llama.fi'
 YIELDS = 'https://yields.llama.fi/pools'
 STABLE_ALL = 'https://stablecoins.llama.fi/stablecoincharts/all'
 STABLE_CHAINS = 'https://stablecoins.llama.fi/stablecoinchains'
+STABLE_LIST = 'https://stablecoins.llama.fi/stablecoins?includePrices=true'
 OI = LLAMA + '/overview/open-interest?excludeTotalDataChart=true&excludeTotalDataChartBreakdown=true'
 FEES = LLAMA + '/overview/fees?excludeTotalDataChart=true&excludeTotalDataChartBreakdown=true'
 DEXS = LLAMA + '/overview/dexs/{chain}?excludeTotalDataChart=true&excludeTotalDataChartBreakdown=true'
@@ -50,6 +55,7 @@ HL_INFO = 'https://api.hyperliquid.xyz/info'
 PM_MARKETS = 'https://gamma-api.polymarket.com/markets?order=volume24hr&ascending=false&closed=false&limit=200'
 PM_CRYPTO = 'https://gamma-api.polymarket.com/events?tag_slug=crypto&order=volume24hr&ascending=false&closed=false&limit=40'
 CG_CATEGORIES = 'https://api.coingecko.com/api/v3/coins/categories'
+GT_TRENDING = 'https://api.geckoterminal.com/api/v2/networks/trending_pools'
 
 
 # ---------------------------------------------------------------- transport + cache
@@ -626,6 +632,130 @@ def tokenless_activity(*, transport=None, now=None, top=8):
                   url='https://defillama.com/derivatives')
 
 
+# ---------------------------------------------------------------- stablecoin supply lane (Oct 11)
+
+STABLE_DEPEG_BAND = (0.995, 1.005)   # price outside this range is a depeg signal
+_STABLE_SKIP = re.compile(r'test|demo|wrapped|^w[A-Z]', re.I)
+
+
+def stablecoin_supply(*, transport=None, now=None, top=8, min_supply=1e9, depeg_min=250e6):
+    """DefiLlama stablecoins: top stablecoins by circulating supply with 1d/7d change and depeg alerts.
+
+    Adds supply-change facts for the largest USD-pegged stablecoins (USDT, USDC, USDS, USDe, …) plus a
+    depeg row for any coin whose price has moved outside 0.995–1.005. Route: crypto_stable_yield_zh/en.
+    FD_LANE_SRC_STABLECOIN_SUPPLY=0 disables only this fetcher.
+    """
+    import os
+    if os.environ.get('FD_LANE_SRC_STABLECOIN_SUPPLY', '1') == '0':
+        return _fail(0)
+    st, data = get_json(STABLE_LIST, transport=transport)
+    if st != 200 or not isinstance(data, dict):
+        return _fail(st)
+    period = snapshot(now)[0]
+    assets = [a for a in (data.get('peggedAssets') or [])
+              if a.get('pegType') == 'peggedUSD'
+              and float((a.get('circulating') or {}).get('peggedUSD') or 0) >= min_supply
+              and not _STABLE_SKIP.search(a.get('symbol') or '')]
+    # sort by current circulating supply
+    assets.sort(key=lambda a: -float((a.get('circulating') or {}).get('peggedUSD') or 0))
+    rows = []
+    # 1. supply change rows for the top N
+    for a in assets[:top]:
+        cur = float((a.get('circulating') or {}).get('peggedUSD') or 0)
+        prev_day = float((a.get('circulatingPrevDay') or {}).get('peggedUSD') or 0)
+        prev_week = float((a.get('circulatingPrevWeek') or {}).get('peggedUSD') or 0)
+        if not cur:
+            continue
+        d1 = pct((cur - prev_day) / prev_day * 100) if prev_day else '+0.0%'
+        d7 = pct((cur - prev_week) / prev_week * 100) if prev_week else '+0.0%'
+        sup = money(cur)
+        name, sym = a.get('name', ''), a.get('symbol', '')
+        rows.append(row(
+            f"DefiLlama stablecoin supply {sym} ({name}), {period}: circulating {sup} ({d1} 1d, {d7} 7d).",
+            [(sup, f'{sym} circulating supply'), (d1, f'{sym} 1d supply change')], period))
+    # 2. depeg alert rows for any coin with price outside the band (min supply to avoid noise)
+    for a in assets:
+        price = a.get('price')
+        cur = float((a.get('circulating') or {}).get('peggedUSD') or 0)
+        if price is None or cur < depeg_min:
+            continue
+        price = float(price)
+        if STABLE_DEPEG_BAND[0] <= price <= STABLE_DEPEG_BAND[1]:
+            continue
+        sym = a.get('symbol', '')
+        dev = pct((price - 1.0) * 100, 3, True)
+        rows.append(row(
+            f"DefiLlama stablecoin depeg signal {sym}, {period}: price ${price:.4f} ({dev} from peg); "
+            f"circulating supply {money(cur)}.",
+            [(f'${price:.4f}', f'{sym} price'), (money(cur), f'{sym} circulating supply')], period))
+    return result(rows, sid='defillama_stablecoin_supply', publisher='DefiLlama', now=now,
+                  title='Stablecoin circulating supply and depeg alerts',
+                  url='https://defillama.com/stablecoins')
+
+
+# ---------------------------------------------------------------- meme trending pools lane (Oct 11)
+
+GT_TRENDING = 'https://api.geckoterminal.com/api/v2/networks/trending_pools'
+# networks where meme activity is concentrated
+_GT_MEME_NETS = {'solana', 'base', 'bsc', 'ethereum', 'ton', 'sui', 'avalanche', 'tron'}
+_GT_SKIP = re.compile(r'\b(USDT|USDC|WETH|WBTC|WSOL|WBNB|ETH|BTC|BNB|SOL)\s*/\s*(USDT|USDC|WETH|ETH|BNB|SOL)\b', re.I)
+
+
+def geckoterminal_trending(*, transport=None, now=None, top=8, min_vol=50e3, min_reserve=20e3):
+    """GeckoTerminal trending pools: meme-network pools with the biggest 24h price moves and volume.
+
+    Filters to Solana / Base / BSC / ETH and other meme-active chains; drops pure stablecoin pairs and
+    pools with trivial volume/reserves. Each row is one pool: token name, chain, 24h price change, 24h
+    volume, pool reserve (liquidity). Route: crypto_meme_zh/en.
+    FD_LANE_SRC_GT_TRENDING=0 disables only this fetcher.
+    """
+    import os
+    if os.environ.get('FD_LANE_SRC_GT_TRENDING', '1') == '0':
+        return _fail(0)
+    st, data = get_json(GT_TRENDING, transport=transport)
+    if st != 200 or not isinstance(data, dict):
+        return _fail(st)
+    period = snapshot(now)[0]
+    pools = data.get('data') or []
+    kept = []
+    for p in pools:
+        attrs = p.get('attributes') or {}
+        rels = p.get('relationships') or {}
+        net = (rels.get('network') or {}).get('data', {}).get('id', '')
+        if net not in _GT_MEME_NETS:
+            continue
+        name = attrs.get('name', '')
+        if _GT_SKIP.search(name):
+            continue
+        vol = float((attrs.get('volume_usd') or {}).get('h24') or 0)
+        reserve = float(attrs.get('reserve_in_usd') or 0)
+        if vol < min_vol or reserve < min_reserve:
+            continue
+        chg24 = attrs.get('price_change_percentage', {}).get('h24')
+        if chg24 is None:
+            continue
+        kept.append({'name': name, 'net': net, 'vol': vol, 'reserve': reserve,
+                     'chg24': float(chg24), 'fdv': float(attrs.get('fdv_usd') or 0)})
+    # sort by abs 24h change, largest movers first
+    kept.sort(key=lambda p: -abs(p['chg24']))
+    rows = []
+    for p in kept[:top]:
+        token = p['name'].split('/')[0].strip()
+        ch = pct(p['chg24'])
+        vol_s = money(p['vol'])
+        liq = money(p['reserve'])
+        fdv = f', FDV {money(p["fdv"])}' if p['fdv'] >= 1e4 else ''
+        rows.append(row(
+            f"GeckoTerminal trending pool {p['name']} on {p['net']}, {period}: 24h price change {ch}, "
+            f"24h volume {vol_s}, pool liquidity {liq}{fdv}.",
+            [(ch, f'{token} 24h price change'), (vol_s, f'{token} 24h volume')], period))
+    return result(rows, sid='geckoterminal_trending', publisher='GeckoTerminal', now=now,
+                  title='Trending meme pools by 24h price move (GeckoTerminal)',
+                  url='https://www.geckoterminal.com/trending-pools')
+
+
+# ---------------------------------------------------------------- TGE / airdrop lane
+
 TGE_RX = re.compile(r'airdrop|launch (?:a |its )?token|token launch|\bFDV\b|\bTGE\b|public sale|\bICO\b|points', re.I)
 PM_TGE = 'https://gamma-api.polymarket.com/events?tag_slug=crypto&order=volume24hr&ascending=false&closed=false&limit=100'
 
@@ -684,11 +814,13 @@ def polymarket_tge(*, transport=None, now=None, top=6):
 FETCHERS = {
     'defillama_yield_movers': yield_movers,
     'defillama_pendle_stable': pendle_stable,
+    'defillama_stablecoin_supply': stablecoin_supply,   # Oct 11: supply + depeg
     'defillama_perp_oi': perp_oi,
     'hyperliquid_perps': hyperliquid_perps,
     'hyperliquid_meme_perps': hyperliquid_meme,
     'defillama_launchpads': launchpads,
     'coingecko_meme_sectors': meme_sectors,
+    'geckoterminal_trending': geckoterminal_trending,   # Oct 11: trending meme pools
     'polymarket_movers': polymarket_movers,
     'polymarket_crypto': polymarket_crypto,
     'defillama_prediction_oi': prediction_oi,

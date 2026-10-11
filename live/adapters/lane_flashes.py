@@ -61,13 +61,14 @@ def parse_rss(body):
 # Flash classification is stricter than lane_fit.LANE_RX (智能合约 is not a perp, 押注银行 is not a prediction market,
 # a gold / oil tick with 杠杆 in it is not a perp story); lane_fit still re-checks every packet at selection.
 STRICT = {
-    'crypto_prediction': re.compile(r'polymarket|kalshi|prediction markets?|预测市场', re.I),
+    'crypto_prediction': re.compile(r'polymarket|kalshi|prediction markets?|预测市场|预测盘|赔率|押注|概率盘|盘口|博彩', re.I),
     'crypto_airdrop': re.compile(r'airdrops?|空投|\btge\b|代币生成事件|撸毛|测试网|testnets?|女巫|sybil|快照|snapshot|'
                                  r'积分(?:计划|活动|赛季|系统|奖励)|points? (?:program|season|campaign|system)|'
                                  r'season ?[1-9] (?:points|rewards|airdrop)', re.I),
     # lane words only: a single coin name (DOGE in a list of shorted majors) is not a memecoin story
     'crypto_meme': re.compile(r'memecoins?|meme ?coins?|meme ?币|迷因|土狗|金狗|冲狗|pump\.?fun|four\.meme|letsbonk|bonk\.fun|'
-                              r'发射台|launchpads?|\bmemes?\b|打狗|内盘|外盘', re.I),
+                              r'发射台|launchpads?|\bmemes?\b|打狗|打新|内盘|外盘|trending pool|geckoterminal|dexscreener|'
+                              r'发射平台|trenches|degen|rug pull|pump and dump', re.I),
     'crypto_stable_yield': None,   # lane_fit.LANE_RX (stablecoin word next to a yield word)
     'crypto_ecosystem_sol_base': None,   # beat_rules.LANE_REQUIRES (Solana / Base by name)
     'crypto_perp': re.compile(r'永续|\bperps?\b|perpetuals?|资金费率|funding rates?|持仓量|open interest|爆仓|liquidat\w*|'

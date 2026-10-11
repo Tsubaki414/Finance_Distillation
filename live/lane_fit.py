@@ -35,17 +35,19 @@ LANE_RX = {
         r'空投|撸毛|积分|交互|快照|测试网|女巫|领取|撸空投|tge|打新', re.I),
     'crypto_prediction': re.compile(
         r'polymarket|kalshi|prediction markets?|limitless|myriad|implied (?:probability|odds)|betting odds|'
-        r'预测市场|盘口|赔率|押注|概率盘', re.I),
+        r'预测市场|盘口|赔率|押注|概率盘|prediction market|预测盘|博彩|押|概率|市场隐含', re.I),
     'crypto_perp': re.compile(
         r'\bperps?\b|perpetuals?|funding rates?|\bfunding\b|open interest|\bOI\b|liquidat\w*|leverag\w*|'
         r'hyperliquid|\bhype\b|\baster\b|\blighter\b|\bdydx\b|\bgmx\b|\bdrift\b|basis trade|long/short|'
         r'short squeeze|long squeeze|\bcvd\b|derivatives?|永续|合约|资金费率|持仓量|爆仓|清算|杠杆|多空比|插针|逼空|强平', re.I),
     'crypto_stable_yield': re.compile(
         r'yield-bearing|\busde\b|\bsusde\b|\bsdai\b|\bsusds\b|\busdy\b|\bsyrup|\busd0\b|ethena|pendle|'
-        r'(?:stablecoins?|\busd[tc]\b|\bdai\b|\bpyusd\b|稳定币|U本位).{0,60}?'
-        r'(?:yields?|apy|apr|savings|earn|vault|lending|interest|rate|收益|年化|理财|利率|生息|活期|定期|脱锚|depeg)|'
-        r'(?:yields?|apy|apr|savings|earn|vault|lending|interest|收益|年化|理财|利率|生息|脱锚|depeg).{0,60}?'
-        r'(?:stablecoins?|\busd[tc]\b|\bdai\b|\bpyusd\b|稳定币|U本位)', re.I | re.S),
+        r'(?:stablecoins?|\busd[tc]\b|\bdai\b|\bpyusd\b|稳定币|U本位|泰达|USDT|USDC|USDS|USDe).{0,60}?'
+        r'(?:yields?|apy|apr|savings|earn|vault|lending|interest|rate|收益|年化|理财|利率|生息|活期|定期|脱锚|depeg|sUSDS|sUSDe|RWA|rwas?|circulating supply|supply change)|'
+        r'(?:yields?|apy|apr|savings|earn|vault|lending|interest|收益|年化|理财|利率|生息|脱锚|depeg|circulating supply|supply change).{0,60}?'
+        r'(?:stablecoins?|\busd[tc]\b|\bdai\b|\bpyusd\b|稳定币|U本位|泰达|USDT|USDC|USDS|USDe)|'
+        r'\bsusds\b|\bsusde\b|sky money|sUSDS|sUSDe|Ethena|ethena|稳定币收益|生息稳定币|稳定币年化|稳定币理财|RWA收益|tokenized treasury|tokenised treasury',
+        re.I | re.S),
 }
 
 # Broad macro / BTC / ETF / big-brand news: allowed for a niche account only when the draft ties it to the lane.
