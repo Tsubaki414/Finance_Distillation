@@ -2027,6 +2027,25 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
             _rw_count += 1
             if _rw.get('kept') and _rw.get('to') and not _rw.get('error'):
                 print(f'[hook_rewrite] {r.get("account_id")} rewritten: {_rw["from"]!r} -> {_rw["to"]!r}', flush=True)
+    # Oct 11 closer-ngram (A2): per-account formula-closer n-gram memory — soft only, no HOLD.
+    # Detects recurring closer keys (14-day window) and forward-watch stacks (last 5).
+    # FD_CLOSER_NGRAM=0 disables entirely.
+    if os.environ.get('FD_CLOSER_NGRAM', '1') != '0':
+        from live import closer_ngram as _cn
+        for r in ok:
+            if not r.get('body'):
+                continue
+            _cn_findings = _cn.closer_findings(r)
+            if _cn_findings:
+                r.setdefault('post_checks', [])
+                r['post_checks'].extend(_cn_findings)
+                r.setdefault('risks', [])
+                r['risks'].extend({**f, 'status': 'warning'} for f in _cn_findings)
+                _repair = _cn.repair_last_line(r, _cn_findings)
+                r['closer_ngram'] = {'findings': [f['code'] for f in _cn_findings], **_repair}
+                if _repair.get('kept'):
+                    print(f'[closer_ngram] {r.get("account_id")} last-line trimmed: '
+                          f'{_repair["removed"][:60]!r}', flush=True)
     engage_sibling_pass(ok, args, client, lock, spend, quota, est, flat_primary, _ec_fails)
     # Oct 10 nat3: humanize post-processor (FD_HUMANIZE, default 1)
     if os.environ.get('FD_HUMANIZE', '1') != '0':
