@@ -872,6 +872,10 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
            rewrites=None, now=None, allow_model=False, info=None, skip_sources=None):
     """info: optional dict, filled with the FD_HOTSPOT day summary ('hotspot') for plan.json.
     skip_sources: {account: source ids / titles / hashes} this account already tried today and must not retry."""
+    import os as _os
+    if _os.environ.get('FD_SELECT_PERF', '1') != '0':
+        from live.charts import clear_select_run_cache
+        clear_select_run_cache()
     store = ContentStore()
     ref = selection_ref(day, now)
     x_of = {a['id']: [x['handle'] for x in universes[a['id']].get('x_sources') or [] if x.get('enabled', True)]

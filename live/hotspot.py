@@ -121,14 +121,24 @@ def numbers(text):
 def entities(text):
     """Lower-case names: known tickers / coins (live/charts.subjects_in), $CASHTAGS, capitalised Latin words outside
     the stop list, and frequent zh names folded to their English form."""
-    from live.charts import subjects_in
+    from live.charts import subjects_in, _TOKEN_NAMES
+    import os
     text = str(text or '')
     out = {s.lower() for s in subjects_in(text)}
     out |= {m.lower() for m in re.findall(r'\$([A-Za-z]{2,10})\b', text)}
-    for w in re.findall(r'(?<![\w@#$])([A-Z][A-Za-z0-9&.\-]{2,})', text):
-        w = w.strip('.-')
-        if w and w.lower() not in STOP and not w.isdigit() and not subjects_in(w):   # Solana -> SOL already counted
-            out.add(w.lower())
+    if os.environ.get('FD_SELECT_PERF', '1') != '0':
+        # Fast path: skip a capitalised word if it is in _TOKEN_NAMES (already covered as a ticker name).
+        # subjects_in(w) for a single word returns non-empty iff w.lower() is in _TOKEN_NAMES,
+        # so this is O(1) per token instead of O(symbols).
+        for w in re.findall(r'(?<![\w@#$])([A-Z][A-Za-z0-9&.\-]{2,})', text):
+            w = w.strip('.-')
+            if w and w.lower() not in STOP and not w.isdigit() and w.lower() not in _TOKEN_NAMES:
+                out.add(w.lower())
+    else:
+        for w in re.findall(r'(?<![\w@#$])([A-Z][A-Za-z0-9&.\-]{2,})', text):
+            w = w.strip('.-')
+            if w and w.lower() not in STOP and not w.isdigit() and not subjects_in(w):   # Solana -> SOL already counted
+                out.add(w.lower())
     out |= {en for zh, en in ZH_ALIAS.items() if zh in text}
     return out
 

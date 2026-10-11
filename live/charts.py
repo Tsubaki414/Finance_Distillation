@@ -18,6 +18,7 @@ price range.
 from __future__ import annotations
 
 import csv
+import functools
 import hashlib
 import io
 import json
@@ -88,18 +89,49 @@ NOT_TICKERS = {'AI', 'US', 'USD', 'ETF', 'CEO', 'CFO', 'GDP', 'CPI', 'PCE', 'FED
                'CFTC', 'API', 'DEX', 'CEX', 'L1', 'L2', 'RWA', 'DCA', 'PE', 'EPS', 'YOY', 'QOQ', 'UTC', 'BJT', 'OK'}
 
 
+# ------------------------------------------------------------------ perf caches (FD_SELECT_PERF, default on)
+# Pre-compile every _hits pattern once at import; keyed by sym (crypto) or disp (stock).
+# _hits uses the compiled list instead of rebuilding strings on every call.
+# subjects_in / pick_subject add an lru_cache layer across the select run.
+# Kill switch: FD_SELECT_PERF=0 bypasses all caches and restores original behaviour exactly.
+
+def _build_compiled_hits() -> dict:
+    out: dict = {}
+    for sym, (en, zh, _cg) in CRYPTO.items():
+        pats = [re.compile(rf'(?<![A-Za-z0-9])\$?{re.escape(sym)}(?![A-Za-z0-9])')]
+        pats += [re.compile(rf'(?<![A-Za-z]){p}(?![A-Za-z])', re.I) for p in en]
+        pats += [re.compile(re.escape(z)) for z in zh]
+        out[sym] = pats
+    for _ysym, (disp, en, zh) in STOCKS.items():
+        pats = [re.compile(rf'(?<![A-Za-z0-9])\$?{re.escape(disp)}(?![A-Za-z0-9])')]
+        pats += [re.compile(rf'(?<![A-Za-z]){p}(?![A-Za-z])', re.I) for p in en]
+        pats += [re.compile(re.escape(z)) for z in zh]
+        out[disp] = pats
+    return out
+
+_COMPILED_HITS: dict = _build_compiled_hits()
+
+
 def _hits(text, sym, en, zh):
     """(mentions, first position) of one subject: the symbol (case-sensitive, optional $), EN names, ZH names."""
+    if os.environ.get('FD_SELECT_PERF', '1') != '0':
+        compiled = _COMPILED_HITS.get(sym)
+        if compiled is not None:
+            starts = [m.start() for pat in compiled for m in pat.finditer(text)]
+            return len(starts), min(starts, default=10 ** 9)
     pats = [(rf'(?<![A-Za-z0-9])\$?{re.escape(sym)}(?![A-Za-z0-9])', 0)] + \
         [(rf'(?<![A-Za-z]){p}(?![A-Za-z])', re.I) for p in en] + [(re.escape(z), 0) for z in zh]
     starts = [m.start() for p, flags in pats for m in re.finditer(p, text, flags)]
     return len(starts), min(starts, default=10 ** 9)
 
 
-def pick_subject(text):
-    """The draft's main ticker: {'asset': 'crypto'|'stock', 'symbol', 'display'} or None. Most mentions wins,
-    ties go to the first mentioned. Unknown $CASHTAGS count as stocks (Yahoo decides whether they exist)."""
-    text = text or ''
+def _subjects_in_impl(text: str) -> frozenset:
+    out = frozenset(sym for sym, (en, zh, _cg) in CRYPTO.items() if _hits(text, sym, en, zh)[0])
+    out |= frozenset(disp for disp, en, zh in STOCKS.values() if _hits(text, disp, en, zh)[0])
+    return out
+
+
+def _pick_subject_impl(text: str):
     found = []
     for sym, (en, zh, _cg) in CRYPTO.items():
         n, first = _hits(text, sym, en, zh)
@@ -121,12 +153,60 @@ def pick_subject(text):
     return {'asset': asset, 'symbol': sym, 'display': disp}
 
 
+_subjects_in_cached = functools.lru_cache(maxsize=4096)(_subjects_in_impl)
+_pick_subject_cached = functools.lru_cache(maxsize=4096)(_pick_subject_impl)
+
+# _TOKEN_NAMES: lowercase strings that, when forming a standalone capitalised word, indicate the word
+# is already covered by a known ticker/symbol — used by hotspot.entities() to avoid O(symbols)
+# subjects_in calls per token.  Built from: plain (no-metachar) single-word EN name patterns,
+# ZH literals, and the symbol/display names themselves.
+def _build_token_names() -> frozenset:
+    simple = re.compile(r'^[a-zA-Z0-9]+$')
+    names: set = set()
+    for sym, (en, zh, _) in CRYPTO.items():
+        names.add(sym.lower())
+        for p in en:
+            if simple.match(p):
+                names.add(p.lower())
+        for z in zh:
+            names.add(z)
+    for _ysym, (disp, en, zh) in STOCKS.items():
+        names.add(disp.lower())
+        for p in en:
+            if simple.match(p):
+                names.add(p.lower())
+        for z in zh:
+            names.add(z)
+    return frozenset(names)
+
+_TOKEN_NAMES: frozenset = _build_token_names()
+
+
+def clear_select_run_cache() -> None:
+    """Flush per-run caches. Call once at the start of each select() run so memory does not accumulate
+    across daily rounds and identical-text hits within a single run stay fast."""
+    _subjects_in_cached.cache_clear()
+    _pick_subject_cached.cache_clear()
+
+
 def subjects_in(text):
     """Every known crypto / stock symbol the text mentions (by symbol, $cashtag or name) - used by live/heat.py."""
     text = text or ''
-    out = {sym for sym, (en, zh, _cg) in CRYPTO.items() if _hits(text, sym, en, zh)[0]}
-    out |= {disp for disp, en, zh in STOCKS.values() if _hits(text, disp, en, zh)[0]}
-    return out
+    if os.environ.get('FD_SELECT_PERF', '1') == '0':
+        out = {sym for sym, (en, zh, _cg) in CRYPTO.items() if _hits(text, sym, en, zh)[0]}
+        out |= {disp for disp, en, zh in STOCKS.values() if _hits(text, disp, en, zh)[0]}
+        return out
+    return set(_subjects_in_cached(text))
+
+
+def pick_subject(text):
+    """The draft's main ticker: {'asset': 'crypto'|'stock', 'symbol', 'display'} or None. Most mentions wins,
+    ties go to the first mentioned. Unknown $CASHTAGS count as stocks (Yahoo decides whether they exist)."""
+    text = text or ''
+    if os.environ.get('FD_SELECT_PERF', '1') == '0':
+        return _pick_subject_impl(text)
+    result = _pick_subject_cached(text)
+    return dict(result) if result is not None else None
 
 
 # FRED series: id -> (EN patterns, ZH literals, title, unit, start)
