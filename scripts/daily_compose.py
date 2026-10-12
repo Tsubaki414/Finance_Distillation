@@ -751,6 +751,13 @@ def audit_context(day, pools, allow_model=False, info=None, motif_of=None):
     relax = [False]
     offl_plan, plan_kinds, human_today = Counter(), {}, set()
     skips, lane_off, handed, repeats, kinds, relaxed = {}, [], [], [], Counter(), []
+    # Oct 12 (FD_HUMAN_MIX_TUNE): the drafting day's own rows count as history, so a --fill round does not re-gate an
+    # account the first round already served (before this, hist excludes today: week_counts + human_today both ignored it).
+    if kind_on and post_kind.tune_enabled() and day_s not in {r.get('day') for r in hist}:
+        try:
+            hist = hist + [r for r in compose_inbox.rows(day_s) if sd.counts(r)]
+        except Exception:   # noqa: BLE001
+            pass
     for r in hist:
         if r.get('day') == day_s and post_kind.is_human(post_kind.row_kind(r)):
             human_today.add(r.get('account_id'))
@@ -839,7 +846,19 @@ def audit_context(day, pools, allow_model=False, info=None, motif_of=None):
         return not any(r.get('slot') == 'diary' and r.get('account_id') == account and r.get('day') == day_s
                        for r in hist)
 
-    def kind_for(account, p):
+    def kind_budget(planned):
+        """Oct 12 (FD_HUMAN_MIX_TUNE): how many human-kind picks this pass may hold - the donor human share of the
+        standalone picks planned so far. needs_human() alone cannot pace the catch-up: once the week-day gate is
+        dropped every behind account claims a slot and the 10-12 run of 9 standalone picks came back 9/9 reactions
+        (the switch's own failure mode, measured). The cap keeps the day's mix at the donor share while the deficit
+        ordering decides who gets the slots; the weekly target still governs each account. None when the tune is off."""
+        if not post_kind.tune_enabled() or not planned:
+            return None
+        accts = list(pools)
+        share = sum(post_kind.targets(a)['human_share'] for a in accts) / max(1, len(accts))
+        return max(1, int(round(share * planned)))
+
+    def kind_for(account, p, planned=0):
         if not kind_on:
             return None
         if p.get('slot') == 'diary':
@@ -847,6 +866,24 @@ def audit_context(day, pools, allow_model=False, info=None, motif_of=None):
             return 'diary'
         mine = plan_kinds.setdefault(account, Counter())
         counts = Counter(post_kind.week_counts(account, hist)) + mine
+        if post_kind.tune_enabled():
+            # the week-day is a priority, not a gate: any behind account may carry a human kind, and the day's budget
+            # keeps the mix near the donor share instead of letting all of them land at once
+            if account not in human_today and post_kind.needs_human(
+                    account, counts, since_human=post_kind.days_since_human(account, hist, day)):
+                budget = kind_budget(planned)
+                if budget is None or sum(kinds.values()) < budget:
+                    # a diary-lane account keeps 'diary' for its own daily diary slot (Oct 11): a regular standalone
+                    # pick of that account takes one of the other human kinds
+                    excl = ('diary',) if p.get('slot') != 'diary' and post_kind.is_diary_account(account) else ()
+                    k = post_kind.choose_kind(account, counts, text=p.get('title') or '',
+                                              numbers=p.get('numbers') or 0, exclude=excl)
+                    mine[k] += 1
+                    human_today.add(account)
+                    kinds[k] += 1
+                    return k
+            mine['a' if (p.get('numbers') or 0) >= 4 else 'c'] += 1
+            return None
         if account not in human_today and post_kind.needs_human(account, counts, day=day if hasattr(day, 'toordinal') else None):
             k = post_kind.choose_kind(account, counts, text=p.get('title') or '', numbers=p.get('numbers') or 0)
             mine[k] += 1
@@ -1309,8 +1346,12 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             if _perf_pr and not force:   # Oct 10 fix (4c): bias the habit card's type mix by the perf format weight
                 c['post_type_mix'] = biased_type_mix(_perf_pr, p.get('account_lang'), c.get('post_type_mix') or {})
             # Oct 11 (live/post_kind.py): weekly kind mix - a standalone pick may become a human kind
+            # Oct 12 (FD_HUMAN_MIX_TUNE): the day's standalone picks (this run's plan plus what earlier runs drafted)
+            # set the human budget, so a fill round continues the day's mix instead of starting a fresh one.
+            def _standalone_so_far():
+                return sum(1 for v in plan.values() for x in v if not (x.get('post_format') or {}).get('engage'))
             kind = None if (force or (d or {}).get('mode') or slot_kind(p.get('source_id')) == 'engage') \
-                else sctx['kind_for'](account, p)
+                else sctx['kind_for'](account, p, planned=_standalone_so_far())
             if kind:
                 fmt = post_kind.post_format(kind, p.get('account_lang'))
                 p['kind'] = kind
@@ -1331,6 +1372,8 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             p['post_format'] = {k: fmt[k] for k in ('type', 'length', 'thread_parts', 'length_target', 'shapes')}
             if kind:
                 p['post_format'].update(kind=kind, kind_account=account, no_nat=True)
+                if fmt.get('kind_locked'):   # Oct 12 (FD_HUMAN_MIX_TUNE): keep the kind's own shape to compose
+                    p['post_format']['kind_locked'] = True
             if p.get('offlane_aside'):
                 p['post_format']['offlane_aside'] = True
             if d is not None and (d.get('mode') or (d.get('assess') or {}).get('url')):
@@ -1999,8 +2042,11 @@ def inbox_row(result, account_cfg, day, run_id):
                if repair else {}),
             **({'lane_fit': result['lane_fit']} if result.get('lane_fit') else {}),
             # Oct 11 account audit: story (dedupe / memory), topic bucket, human kind, off-lane aside, handover, slot
-            **{k: pick[k] for k in ('story', 'topic_bucket', 'kind', 'offlane_aside', 'reassigned_from', 'slot',
+            **{k: pick[k] for k in ('story', 'topic_bucket', 'offlane_aside', 'reassigned_from', 'slot',
                                     'story_repeat', 'lane_relaxed') if pick.get(k)},
+            # Oct 12 (FD_HUMAN_MIX_TUNE): the pick's post kind as a first-class row field, so the mix counters and the
+            # reviewer never depend on the legacy post_format guess (row_kind reads 'kind' first either way).
+            **({'kind': pick['kind']} if pick.get('kind') else {}),
             **({'stale_frame': result['stale_frame']} if result.get('stale_frame') else {}),
             # Oct 11: the humanize post-step's changes + the pre-humanize text (root-cause audits of line edits)
             **({'humanize': result['humanize']} if result.get('humanize') else {}),
@@ -2442,6 +2488,14 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
         _dense = post_kind.density_findings(r.get('body') or '', r['plan']['account_lang'], _kind)
         if _dense:   # SOFT: recorded for review / measurement only
             r.setdefault('post_checks', []).extend(_dense)
+        # Oct 12 (FD_HUMAN_MIX_TUNE): the text came back as a data / news take where the pick asked for a feeling /
+        # question / gossip line - SOFT flag for review, plus the kind's own format restored on the row so the
+        # reviewer never sees a mislabelled draft. Never a HOLD.
+        _relab = post_kind.was_relabelled(r.get('body') or '', r['plan']['account_lang'], _kind)
+        if _relab:
+            r.setdefault('post_checks', []).extend(_relab)
+        if _kind and post_kind.relocked(r['plan'], _kind):
+            r['plan']['kind_relocked'] = True
         if _bio:   # Oct 11: a human post kind never claims trades / P&L / places / family (PENDING persona facts)
             r.setdefault('post_checks', []).extend(_bio)
             r['draft_status'] = 'needs_review'

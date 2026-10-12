@@ -12,10 +12,19 @@ pick would break the targets it is written as a human kind that can use today's 
 Diary / personal posts carry NO biographical facts - only feelings / reactions about real market events in the units or
 about the account's own posting / chart-watching. No trades, positions, P&L, places, family, job, health (bio_findings
 HARD). No persona life details (dropped for good 10-11).
-FD_POST_KIND=0 turns the mix off; FD_DIARY_SLOT=0 the diary slot.
+FD_POST_KIND=0 turns the mix off; FD_DIARY_SLOT=0 the diary slot; FD_HUMAN_MIX_TUNE=0 the Oct 12 catch-up (below).
+
+Oct 12 (FD_HUMAN_MIX_TUNE, default on): the calendar weekday was a gate, and the measured reason human kinds never
+reached the inbox - on 10-12 only 10/36 accounts had that day as one of their human weekdays, and 8 of the 11 first
+standalone picks were dropped by that gate alone (0 by the weekly count). `needs_human` now treats the weekday as a
+priority: an account behind its weekly target owes a human post once due_gap days have passed without one, and the
+day's human slots are capped at the donor share (scripts/daily_compose.py kind_budget) so the catch-up paces instead of
+landing 9/9 reactions on one day. The drafting day's own rows count as history too, so a --fill round does not re-gate
+an account the first round already served.
 """
 from __future__ import annotations
 
+import datetime
 import os
 import re
 
@@ -29,6 +38,11 @@ MIN_HUMAN_WEEK = 2
 
 def enabled(env=None):
     return (env if env is not None else os.environ).get('FD_POST_KIND', '1') != '0'
+
+
+def tune_enabled(env=None):
+    """Oct 12 catch-up + explicit kind persistence (FD_HUMAN_MIX_TUNE=0 restores the Oct 11 behaviour exactly)."""
+    return (env if env is not None else os.environ).get('FD_HUMAN_MIX_TUNE', '1') != '0'
 
 
 def diary_enabled(env=None):
@@ -98,16 +112,76 @@ def human_days(account):
     return {(off + round(i * 7 / k)) % 7 for i in range(k)}
 
 
-def needs_human(account, counts, day=None):
+def due_gap(account):
+    """Days after which the account owes its next human post: the gap the account posted its human kinds at, 7 /
+    human_per_week (3 for the 2-a-week accounts, 2 for the 3-a-week ones)."""
+    return max(1, int(round(7.0 / max(1, human_per_week(account)))))
+
+
+def needs_human(account, counts, day=None, since_human=None):
     """True when the next standalone post should be a human kind: fewer human posts in the last 7 days than the
-    account's weekly target (human_per_week: >= 2, the donor human share, enough to keep a+b+c <= donor + 15pp) and
-    today is one of its spread-out human days (day=None: no spreading)."""
+    account's weekly target (human_per_week: >= 2, the donor human share, enough to keep a+b+c <= donor + 15pp).
+    day=None: no spreading at all. since_human: days since the account's last human-kind row (None = none in window).
+    With FD_HUMAN_MIX_TUNE (Oct 12, default on) the calendar weekday is a *priority*, not a gate: once the account has
+    posted no human kind for due_gap days it takes one on its next standalone pick, instead of losing the whole week to
+    a weekday on which it happened to have no pick (on 10-12, 8 of 11 first standalone picks were dropped by that gate
+    alone, 0 by the weekly count). The weekly target still caps the week, so an account that already has its human posts
+    is never pushed past it - only one that fell behind catches up. With the switch off: the weekday gate, Oct 11.
+    """
     if not enabled() or not lane_allow.cfg(account):
         return False
     human = sum(v for k, v in counts.items() if is_human(k))
     if human >= human_per_week(account):
         return False
-    return day is None or day.toordinal() % 7 in human_days(account)
+    if day is None:
+        return True
+    if day.toordinal() % 7 in human_days(account):
+        return True
+    if not tune_enabled():
+        return False
+    return since_human is None or since_human >= due_gap(account)
+
+
+def human_priority(account, counts, day):
+    """Sort key for the kind pass: the account's spread day first, then the biggest deficit
+    (target - have) / target. Only meaningful while needs_human() is true."""
+    if day is None or not hasattr(day, 'toordinal'):
+        return (0.0, 0.0)
+    t = targets(account)
+    w = t['weekly']
+    have = {L: sum(v for k, v in counts.items() if LETTER.get(k, k) == L) for L in 'defg'}
+    need = max((w.get(L, 0) - have[L]) for L in 'defg') / t['n']
+    return (1.0 if day.toordinal() % 7 in human_days(account) else 0.0, round(max(0.0, need), 4))
+
+
+def days_since_human(account, rows, day):
+    """Days since the account's most recent human-kind row inside `rows` (None when it has none). `rows` is the
+    7-day history the planner already loaded."""
+    if day is None or not hasattr(day, 'toordinal'):
+        return None
+    best = None
+    for r in rows:
+        if r.get('account_id') != account or not is_human(row_kind(r)):
+            continue
+        try:
+            d = _row_day(r)
+        except (TypeError, ValueError):
+            continue
+        if d is None:
+            continue
+        delta = day.toordinal() - d.toordinal()
+        if 0 <= delta <= 6 and (best is None or delta < best):
+            best = delta
+    return best
+
+
+def _row_day(r):
+    v = r.get('day')
+    if hasattr(v, 'toordinal'):
+        return v
+    if not v:
+        return None
+    return datetime.date.fromisoformat(str(v)[:10])
 
 
 PEOPLE_RX = re.compile(r'\b(?:ceo|founder|co-?founder|cto|team|kol|influencer|said|says|told|tweeted|posted|'
@@ -115,31 +189,41 @@ PEOPLE_RX = re.compile(r'\b(?:ceo|founder|co-?founder|cto|team|kol|influencer|sa
                        r'表示|回应|喊话|发文|道歉|离职|互撕|吵|大V|KOL', re.I)
 
 
-def choose_kind(account, counts, text='', numbers=0):
-    """The human kind with the biggest deficit vs the donor weekly target that fits this material."""
+def choose_kind(account, counts, text='', numbers=0, exclude=()):
+    """The human kind with the biggest deficit vs the donor weekly target that fits this material.
+    exclude: kinds this pick must not take (the planner passes 'diary' while the account's dedicated diary slot is
+    still to come, so one account does not get two diary posts in a day)."""
     w = targets(account)['weekly']
     c = lane_allow.cfg(account)
     have = {L: sum(v for k, v in counts.items() if LETTER.get(k, k) == L) for L in 'defg'}
     total = max(1, sum(counts.values()) + 1)
     n = max(1, sum(w.values()))
+    skip = ({'diary'} if 'diary' in exclude else set()) | ({'reaction'} if 'reaction' in exclude else set())
     options = []
     for L in 'defg':
         deficit = w.get(L, 0) / n - have[L] / total
         options.append((deficit, w.get(L, 0), L))
     for _d, _w, L in sorted(options, reverse=True):
         if L == 'd':
+            if 'industry_people' in exclude:
+                continue
             if PEOPLE_RX.search(str(text or '')):
                 return 'industry_people'
             continue
         if L == 'f':
+            if 'meme' in exclude:
+                continue
             if c.get('meme_lane'):
                 return 'meme'
             continue
         if L == 'g':
+            if 'question' in exclude:
+                continue
             return 'question'
         if L == 'e':
-            return 'diary' if (c.get('diary_slot') or w.get('e', 0) >= 3) and numbers < 6 else 'reaction'
-    return 'reaction'
+            diary_ok = (c.get('diary_slot') or w.get('e', 0) >= 3) and numbers < 6 and 'diary' not in skip
+            return 'diary' if diary_ok else 'reaction'
+    return 'reaction' if 'reaction' not in skip else 'question'
 
 
 # ---------------------------------------------------------------- compose format + prompt rules
@@ -196,11 +280,53 @@ OFFLANE_RULE = ('This post is a deliberate aside outside your usual lane (your d
 
 
 def post_format(kind, lang):
-    """post_format dict for a human kind (daily_compose sets it on the pick; compose keeps it, no nat3 re-sample)."""
+    """post_format dict for a human kind (daily_compose sets it on the pick; compose keeps it, no nat3 re-sample).
+    With FD_HUMAN_MIX_TUNE the pick is also marked `kind_locked` so compose's shape re-sampling / fluency re-compose
+    never turns it back into a data / news take (see `relocked()`)."""
     t, shape, zh, en = _FORMAT[kind]
     lo, hi = zh if lang == 'zh' else en
-    return {'type': t, 'length': 'short', 'thread_parts': None, 'shapes': [shape],
-            'length_target': {'min': lo, 'max': hi}, 'kind': kind, 'no_nat': True}
+    fmt = {'type': t, 'length': 'short', 'thread_parts': None, 'shapes': [shape],
+           'length_target': {'min': lo, 'max': hi}, 'kind': kind, 'no_nat': True}
+    if tune_enabled():
+        fmt['kind_locked'] = True
+    return fmt
+
+
+def relocked(row, kind):
+    """FD_HUMAN_MIX_TUNE: a human-kind row whose final text came back as a data / news take - the kind's own format is
+    restored (short, single shape, never list_dump / chart_caption / news_flash) so the reviewer never sees a
+    mislabelled row. Returns True when the format had to be changed. Deterministic, no model call."""
+    if not tune_enabled() or kind not in HUMAN or not isinstance(row, dict):
+        return False
+    fmt = row.get('post_format')
+    if not isinstance(fmt, dict):
+        return False
+    want = _FORMAT[kind]
+    bad = (fmt.get('type') != want[0] or list(fmt.get('shapes') or []) != [want[1]]
+           or fmt.get('kind') != kind)
+    if not bad:
+        return False
+    lang = str(row.get('lang') or row.get('account_lang') or 'en')[:2]
+    lo, hi = want[2] if lang == 'zh' else want[3]
+    prev = dict(fmt.get('length_target') or {})
+    fmt.update(type=want[0], length='short', thread_parts=None, shapes=[want[1]], kind=kind,
+               length_target={'min': int(prev.get('min') or lo), 'max': int(prev.get('max') or hi)},
+               no_nat=True, kind_locked=True, kind_relocked=True)
+    return True
+
+
+def was_relabelled(body, lang, kind):
+    """FD_HUMAN_MIX_TUNE SOFT post-hoc flag: the text reads as an analysis take (>= 4 numbers / a stacked data dump)
+    where the pick asked for a feeling / question / gossip line. Recorded on the row for review, never a HOLD."""
+    if not tune_enabled() or kind not in HUMAN:
+        return []
+    b = str(body or '')
+    nums = len(re.findall(r'\d+(?:[.,]\d+)?%?', b))
+    limit = 2 if kind == 'industry_people' else 1
+    if nums > max(limit + 1, 3):
+        return [{'code': 'kind_read_as_data_take', 'level': 'soft',
+                 'detail': f'{kind} came back with {nums} numbers (data / news take)'}]
+    return []
 
 
 def rule(kind, lang, account=None):

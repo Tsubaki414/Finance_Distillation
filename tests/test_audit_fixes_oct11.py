@@ -207,16 +207,28 @@ def test_account_mix_has_no_text():
 
 # ---------------------------------------------------------------- post kinds
 @needs_mix
-def test_needs_human_floor_cap_and_spread():
+def test_needs_human_floor_cap_and_spread(monkeypatch):
     from datetime import timedelta
     assert post_kind.needs_human('crypto_diary_zh', {'c': 5})          # < 2 human posts this week (no spreading)
     assert not post_kind.needs_human('single_stock_deepdive_en', {'a': 3, 'b': 2, 'reaction': 2, 'question': 1})
-    # spread over the week: exactly human_per_week() of 7 days are human days
+    # spread over the week: exactly human_per_week() of 7 days are human days.
+    # Oct 12 (FD_HUMAN_MIX_TUNE): the weekday is a priority rather than a gate, so with the tuning on an account that
+    # is behind also qualifies on the days it has no weekday and no human post yet (since_human unset -> due now);
+    # the weekday-only count is the Oct 11 behaviour and is what the kill switch restores.
     days = [date(2026, 10, 12) + timedelta(days=i) for i in range(7)]
+    monkeypatch.setenv('FD_HUMAN_MIX_TUNE', '0')
     for aid in ('crypto_diary_zh', 'single_stock_deepdive_en', 'crypto_meme_en'):
         hits = sum(post_kind.needs_human(aid, {'c': 5}, day=d) for d in days)
         assert hits == post_kind.human_per_week(aid)
         assert 2 <= hits <= 4
+    monkeypatch.delenv('FD_HUMAN_MIX_TUNE')
+    # the catch-up never turns one weekday into a second human post: a human kind posted today clears it
+    d_off = next(d for d in days if d.toordinal() % 7 not in post_kind.human_days('crypto_meme_en'))
+    assert not post_kind.needs_human('crypto_meme_en', {'diary': 1, 'c': 4}, day=d_off, since_human=0)
+    # ... but once the account is due_gap days past its last one it qualifies on any day ...
+    assert post_kind.needs_human('crypto_meme_en', {'c': 5}, day=d_off, since_human=post_kind.due_gap('crypto_meme_en'))
+    # ... and never past its weekly target, however long it has been silent
+    assert not post_kind.needs_human('crypto_meme_en', {'diary': 4}, day=d_off, since_human=6)
     # the weekly human count keeps a+b+c within the donor share + 15pp
     for aid in lane_allow.mix():
         t = post_kind.targets(aid)
@@ -371,8 +383,11 @@ def test_select_diary_slot_and_kind(monkeypatch):
     pools = {'crypto_diary_zh': [_g(1, 'BTC drops below 80k'), _g(2, 'meme launchpad pump.fun app')]}
     plan, info = _sel(monkeypatch, pools, accts, labels)
     ps = plan['crypto_diary_zh']
-    assert len(ps) == 2 and ps[1]['slot'] == 'diary' and ps[1]['kind'] == 'diary'
-    assert ps[1]['post_format']['kind'] == 'diary'
+    # Oct 12 (FD_HUMAN_MIX_TUNE): the first pick of a behind account may itself be a human kind (that is the point of
+    # the tuning), so the diary slot is located rather than assumed to be ps[1].
+    diary = [p for p in ps if p.get('slot') == 'diary']
+    assert len(diary) == 1 and diary[0]['kind'] == 'diary'
+    assert diary[0]['post_format']['kind'] == 'diary'
     assert info['audit_fixes']['human_kinds'].get('diary') == 1
 
 
