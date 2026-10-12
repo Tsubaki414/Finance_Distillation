@@ -42,6 +42,10 @@ RECIPES = {
 }
 # Thesis-locked packs: at most this many facts next to the one primary view / mechanism.
 JUDGMENT_MAX_FACTS = 2
+# Oct 12 (live/explainer_mix.py): soft codes that describe the explainer format itself (numbered list, 4-5 numbers,
+# hook line instead of a call) and so never apply to an explainer draft
+EXPLAINER_EXEMPT = frozenset({'research_summary', 'info_dump', 'data_list', 'no_judgment', 'verbatim_line1',
+                              'missing_implication'})
 # Evidence budget sent with every stance-led compose (thesis first, thin evidence).
 # PM relax 2026-10-05 eve: 2 -> 3 numbers (2 was too tight for a real call + levels).
 EVIDENCE_BUDGET = {'max_numbers': 3, 'unused_units_ok': True}
@@ -1584,7 +1588,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     _fmt_switch = emotion_contract if emotion_contract is not None else (_os_shape.environ.get('FD_EMOTION_CONTRACT', '1') != '0')
     if (use_shapes and post_format is not False and getattr(persona, 'donor_weights', None)
             and (isinstance(post_format, dict) or (_fmt_switch and _os_shape.environ.get('FD_POST_FORMAT', '1') != '0'))
-            and (post_type in JUDGMENT_TYPES or (stance and stance.get('account_view')))):
+            and (post_type in JUDGMENT_TYPES or (stance and stance.get('account_view'))
+                 or (isinstance(post_format, dict) and post_format.get('explainer')))):
         fmt_info = (dict(post_format) if isinstance(post_format, dict) else
                     _ph.choose_format(persona, recent=recent_rows, seed=source.get('source_hash') or source.get('id') or ''))
         fmt_info.setdefault('shapes', list(_ph.TYPE_SHAPES.get(fmt_info['type'], ())))
@@ -1633,6 +1638,10 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                         for x in fmt_info['engage_siblings']]
                     payload['post_format']['engage_sibling_rule'] = _eng.sibling_rule(fmt_info['engage_siblings'])
         payload['composition_shape'] = shape_block
+        if (fmt_info or {}).get('explainer') and isinstance(shape_block, dict):
+            # Oct 12 (live/explainer_mix.py): the explainer rule owns structure + number count
+            shape_block.update(max_numbers=5, max_number_lines=5,
+                               structure=payload['post_format'].get('explainer_rule') or shape_block.get('structure'))
         if shape_block.get('length') == 'long' and not fmt_info:
             # v7: v5zh data_punch long came back at 114 chars vs target 277-399 - body_length.note said
             # "short is fine, do not pad" and LONG_NOTE said "stop early". The long band now wins.
@@ -1641,6 +1650,24 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                           f"({shape_block['length_target']['min']}-{shape_block['length_target']['max']}); "
                           'fill it with a second piece of evidence or a further mechanism step, never by repeating.')
             payload['post_type_rules']['body_length'] = bl
+    if fmt_info is not None and fmt_info.get('explainer'):
+        if 'explainer_rule' not in (payload.get('post_format') or {}):
+            # a data_take explainer skipped the shapes branch above: the explainer block still rides along
+            payload['post_format'] = _ph.format_block(persona, fmt_info,
+                                                      seed=source.get('source_hash') or source.get('id') or '')
+            payload['post_type_rules']['body_length'] = dict(
+                payload['post_type_rules']['body_length'],
+                note='post_format.length_target wins over min/max here (this post is an explainer).')
+            fmt_info['anchor_handles'] = [a['handle'] for a in payload['post_format'].get('anchor_posts') or []]
+        # Oct 12 (Fiona; live/explainer_mix.py): numbered steps need concrete numbers - up to 5, all from the units
+        payload['evidence_budget'] = dict(payload.get('evidence_budget') or EVIDENCE_BUDGET, max_numbers=5)
+        payload['explainer_note'] = ('This post is KIND explainer (post_format.explainer_rule, HARD): hook line on '
+                                     "today's event, then numbered steps with concrete numbers from the units, then "
+                                     'one landing line. It overrides "the first line IS the call" and the 3-number '
+                                     'cap; every other rule (facts only from units, no first-hand claims) stands.')
+    if fmt_info is not None and fmt_info.get('opener'):
+        payload['opener_note'] = ('post_format.opener_rule is assigned for this post and overrides the default '
+                                  'opening rule ("never open with a question" / no 🚨 headline) for line 1 only.')
     if fmt_info is None and isinstance(post_format, dict) and post_format.get('kind') and post_format.get('length_target'):
         fmt_info = dict(post_format)
         fmt_info.setdefault('shapes', list(_ph.TYPE_SHAPES.get(fmt_info['type'], ())))
@@ -1674,6 +1701,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             payload['evidence_budget'] = dict(EVIDENCE_BUDGET)
             if shape_block:
                 payload['evidence_budget']['max_numbers'] = number_budget(shape_block)
+            if (fmt_info or {}).get('explainer'):   # Oct 12: explainer steps carry up to 5 unit numbers
+                payload['evidence_budget']['max_numbers'] = 5
         if pack_balance(chosen)['pure_data'] and stance.get('account_view') and not human_kind:
             payload['pack_guidance'] = ('Line 1 must still be the account call from stance.account_view. '
                                         'Use facts as evidence; do not invent non-fact units.')
@@ -1967,7 +1996,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     # One retry shared across no_judgment / data_list / verbatim_line1; never hard-block.
     judgment_retry = None
     thesis_for_line1 = (payload.get('thesis_lock') or (stance or {}).get('account_view') or '')
-    if sig and (stance and stance.get('account_view') or post_type in JUDGMENT_TYPES) and not (fmt_info or {}).get('kind'):
+    if sig and (stance and stance.get('account_view') or post_type in JUDGMENT_TYPES) and not (fmt_info or {}).get('kind') \
+            and not (fmt_info or {}).get('explainer'):   # Oct 12: an explainer opens on its hook, not a call
         # Oct 11: a human post kind (live/post_kind.py) has no judgment-first line 1 to repair
         j_findings = [f for f in judgment_findings(body, stance) if f['code'] in ('no_judgment', 'data_list')]
         j_findings += verbatim_line1_findings(body, stance, thesis_lock=thesis_for_line1)
@@ -2011,7 +2041,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     # if the rewrite regresses hard guards or fails to clear the dump codes.
     info_dump_retry = None
     thesis_locked = bool(payload.get('thesis_lock') or (stance and stance.get('account_view')))
-    if post_type in JUDGMENT_TYPES or thesis_locked:
+    if (post_type in JUDGMENT_TYPES or thesis_locked) and not (fmt_info or {}).get('explainer'):
+        # Oct 12: an explainer's numbered steps are the format, not a 信息罗列 dump (live/explainer_mix.py)
         n_budget = (payload.get('evidence_budget') or {}).get('max_numbers') or EVIDENCE_BUDGET['max_numbers']
         dump_findings = list(info_dump_findings(body, post_type, thesis_locked=thesis_locked, budget_numbers=n_budget))
         dump_findings += summary_findings(body, persona.lang)
@@ -2239,6 +2270,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                                            frame_found=True)
         findings += qa_levels.classify(
             verbatim_line1_findings(body, stance, thesis_lock=payload.get('thesis_lock')), frame_found=True)
+        if (fmt_info or {}).get('explainer'):   # Oct 12: list / numbers / hook-first ARE the explainer format
+            findings = [f for f in findings if f.get('code') not in EXPLAINER_EXEMPT]
         return text, findings, grounding, emo_findings
 
     ledger = value.get('claim_ledger')
