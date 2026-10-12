@@ -47,7 +47,10 @@ def test_post_format_and_block():
 
     class P:
         lang, persona_id = 'zh', 'acct_zh_macro'
-    blk = ph.format_block(P(), f, card={'per_type_habits': {}, 'punctuation': {}}, posts_dir='/nonexistent')
+    import importlib
+    import live.posting_habits as _ph
+    importlib.reload(_ph)   # some earlier suites leave posting_habits in a state that drops kind blocks (pre-existing)
+    blk = _ph.format_block(P(), f, card={'per_type_habits': {}, 'punctuation': {}}, posts_dir='/nonexistent')
     assert blk['kind'] == 'explainer' and '亲测' in blk['explainer_rule'] and '200' in blk['explainer_rule']
 
 
