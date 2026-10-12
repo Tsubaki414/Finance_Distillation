@@ -46,11 +46,33 @@ def _path(draft_id, day=None, base=None):
     return hits[-1]
 
 
+def hold_status_sync_enabled(env=None):
+    return (env if env is not None else os.environ).get('FD_HOLD_STATUS_SYNC', '1') != '0'
+
+
+def sync_hold_status(row, env=None):
+    """Oct 12 (FD_HOLD_STATUS_SYNC, default 1): a HELD new row is never left draft_status='draft_ready'.
+
+    10-12: 29 inbox rows were held=True but draft_ready, because the compose-path holds (off_lane lane fit,
+    arbitration losers, stale_frame in daily_compose.inbox_row; off-path rescans) set only held / hold_reason. Every
+    row written through add() passes here: held, not superseded, draft_status draft_ready / empty -> needs_review,
+    publishable False, hold_reason kept. Never changes which rows are held; other statuses (blocked, not_suitable,
+    expired ...) and superseded rows are left alone. In place; returns the row. FD_HOLD_STATUS_SYNC=0: no-op."""
+    if not hold_status_sync_enabled(env) or not row.get('held') or row.get('superseded'):
+        return row
+    if row.get('draft_status') in ('draft_ready', None, ''):
+        row['hold_status_from'] = row.get('draft_status')
+        row['draft_status'] = 'needs_review'
+    row['publishable'] = False
+    return row
+
+
 def add(row, base=None):
     """Store one draft row (needs id, day, account_id, text). Returns the stored row."""
     for key in ('id', 'day', 'account_id', 'text'):
         if not row.get(key) and key != 'text':
             raise ValueError(f'inbox row needs {key}')
+    sync_hold_status(row)
     stored = {**row, 'text_hash': text_hash(row.get('text')), 'review_status': row.get('review_status', 'pending'),
               'publishable': False, 'publishing_enabled': False, 'reviews': list(row.get('reviews') or []),
               'stored_at': row.get('stored_at') or _now()}
