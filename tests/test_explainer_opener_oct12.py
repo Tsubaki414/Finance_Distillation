@@ -139,3 +139,10 @@ def test_opener_class():
     assert om.opener_class('DefiLlama：TVL 120亿', 'zh') == 'source_label'
     assert om.opener_class('🚨 CPI HOT', 'en') == 'breaking'
     assert om.opener_class('Funding is negative.', 'en') == 'assertion'
+
+
+def test_split_steps():
+    b = '拆解：\n\n1. 做市商回流，深度高75%。2. 以太坊深度翻倍至420万美元。3. 现货周均2790亿美元。'
+    out = xm.split_steps(b)
+    assert '\n\n2. 以太坊' in out and '\n\n3. 现货' in out and '420万' in out
+    assert xm.split_steps('涨了2.5%。') == '涨了2.5%。'

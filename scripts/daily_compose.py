@@ -2503,6 +2503,12 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
         if _fh:
             r.setdefault('post_checks', []).extend(_fh)
             r['draft_status'] = 'needs_review'
+        if _pf.get('explainer') and r.get('body'):
+            _sb = _xm.split_steps(r['body'])
+            if _sb != r['body']:
+                if r.get('text') and r['body'] in r['text']:
+                    r['text'] = r['text'].replace(r['body'], _sb, 1)
+                r['body'] = _sb
         _xf = _xm.body_findings(r.get('body') or '', r['plan']['account_lang'], _pf)
         if _xf:
             r.setdefault('post_checks', []).extend(_xf)

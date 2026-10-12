@@ -149,3 +149,9 @@ def body_findings(body, lang, fmt):
     if len(re.findall(r'\d+(?:[.,]\d+)?', b)) < 2:
         out.append({'code': 'explainer_no_numbers', 'level': 'soft', 'detail': 'fewer than 2 numbers'})
     return out
+
+
+def split_steps(body):
+    """Deterministic: put numbered steps that a later pass glued onto one line back on their own lines."""
+    out = re.sub(r'(?<=[。．.!！；;])\s*(?=(?:[2-9]|1[0-9])\s*[.、）)]\s*\S)', '\n\n', str(body or ''))
+    return out
