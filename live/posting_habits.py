@@ -674,6 +674,20 @@ def format_block(persona, fmt, *, seed='', card=None, posts_dir=None):
                               if not zh else ' kind_rule 同样是硬性要求，优先于 composition_shape 和分析式写法。')
         if fmt.get('offlane_aside'):
             block['offlane_rule'] = _pk.OFFLANE_RULE[1 if zh else 0]
+    # Oct 12 (Fiona; live/explainer_mix.py, live/opener_mix.py): explainer slot + assigned opener carry HARD rules
+    if fmt.get('explainer'):
+        from live import explainer_mix as _xm
+        block['kind'] = 'explainer'
+        block['explainer_rule'] = _xm.rule('zh' if zh else 'en')
+        block['structure'] = block['explainer_rule']
+        block['rule'] += (' explainer_rule is HARD too and wins over composition_shape and the one-call framing.'
+                          if not zh else ' explainer_rule 同样是硬性要求，优先于 composition_shape 和单句判断式写法。')
+    if fmt.get('opener'):
+        from live import opener_mix as _om
+        r = _om.rule(fmt['opener'], 'zh' if zh else 'en')
+        if r:
+            block['opener_rule'] = r
+            block['rule'] += ' opener_rule is HARD for line 1 of this post.'
     return block
 
 

@@ -1,0 +1,240 @@
+{
+ "version": 1,
+ "built_by": "scripts/build_explainer_share.py",
+ "accounts": {
+  "btc_cycles_en": {
+   "lang": "en",
+   "donor_posts": 1826,
+   "explainer_posts": 8,
+   "share": 0.0044
+  },
+  "crypto_ai_crossover_zh": {
+   "lang": "zh",
+   "donor_posts": 1469,
+   "explainer_posts": 146,
+   "share": 0.0994
+  },
+  "crypto_airdrop_en": {
+   "lang": "en",
+   "donor_posts": 1071,
+   "explainer_posts": 47,
+   "share": 0.0439
+  },
+  "crypto_airdrop_zh": {
+   "lang": "zh",
+   "donor_posts": 1368,
+   "explainer_posts": 154,
+   "share": 0.1126
+  },
+  "crypto_alt_trader_en": {
+   "lang": "en",
+   "donor_posts": 1332,
+   "explainer_posts": 15,
+   "share": 0.0113
+  },
+  "crypto_altcoin_zh": {
+   "lang": "zh",
+   "donor_posts": 1967,
+   "explainer_posts": 113,
+   "share": 0.0574
+  },
+  "crypto_btc_cycle_zh": {
+   "lang": "zh",
+   "donor_posts": 1687,
+   "explainer_posts": 72,
+   "share": 0.0427
+  },
+  "crypto_diary_zh": {
+   "lang": "zh",
+   "donor_posts": 1975,
+   "explainer_posts": 118,
+   "share": 0.0597
+  },
+  "crypto_etf_flows_en": {
+   "lang": "en",
+   "donor_posts": 1091,
+   "explainer_posts": 11,
+   "share": 0.0101
+  },
+  "crypto_macro_en": {
+   "lang": "en",
+   "donor_posts": 2082,
+   "explainer_posts": 46,
+   "share": 0.0221
+  },
+  "crypto_macro_zh": {
+   "lang": "zh",
+   "donor_posts": 2025,
+   "explainer_posts": 201,
+   "share": 0.0993
+  },
+  "crypto_meme_en": {
+   "lang": "en",
+   "donor_posts": 885,
+   "explainer_posts": 9,
+   "share": 0.0102
+  },
+  "crypto_meme_zh": {
+   "lang": "zh",
+   "donor_posts": 1162,
+   "explainer_posts": 38,
+   "share": 0.0327
+  },
+  "crypto_newbie_zh": {
+   "lang": "zh",
+   "donor_posts": 1501,
+   "explainer_posts": 74,
+   "share": 0.0493
+  },
+  "crypto_onchain_en": {
+   "lang": "en",
+   "donor_posts": 1793,
+   "explainer_posts": 51,
+   "share": 0.0284
+  },
+  "crypto_onchain_zh": {
+   "lang": "zh",
+   "donor_posts": 1903,
+   "explainer_posts": 139,
+   "share": 0.073
+  },
+  "crypto_perp_dex_en": {
+   "lang": "en",
+   "donor_posts": 1060,
+   "explainer_posts": 53,
+   "share": 0.05
+  },
+  "crypto_prediction_en": {
+   "lang": "en",
+   "donor_posts": 939,
+   "explainer_posts": 13,
+   "share": 0.0138
+  },
+  "crypto_prediction_zh": {
+   "lang": "zh",
+   "donor_posts": 1256,
+   "explainer_posts": 70,
+   "share": 0.0557
+  },
+  "crypto_research_en": {
+   "lang": "en",
+   "donor_posts": 1133,
+   "explainer_posts": 42,
+   "share": 0.0371
+  },
+  "crypto_research_zh": {
+   "lang": "zh",
+   "donor_posts": 1936,
+   "explainer_posts": 153,
+   "share": 0.079
+  },
+  "crypto_stable_yield_en": {
+   "lang": "en",
+   "donor_posts": 933,
+   "explainer_posts": 124,
+   "share": 0.1329
+  },
+  "crypto_stable_yield_zh": {
+   "lang": "zh",
+   "donor_posts": 1065,
+   "explainer_posts": 62,
+   "share": 0.0582
+  },
+  "crypto_thesis_en": {
+   "lang": "en",
+   "donor_posts": 1898,
+   "explainer_posts": 115,
+   "share": 0.0606
+  },
+  "crypto_trader_en": {
+   "lang": "en",
+   "donor_posts": 1890,
+   "explainer_posts": 24,
+   "share": 0.0127
+  },
+  "crypto_trader_zh": {
+   "lang": "zh",
+   "donor_posts": 1946,
+   "explainer_posts": 136,
+   "share": 0.0699
+  },
+  "defi_narratives_en": {
+   "lang": "en",
+   "donor_posts": 1876,
+   "explainer_posts": 340,
+   "share": 0.1812
+  },
+  "en_industry": {
+   "lang": "en",
+   "donor_posts": 1252,
+   "explainer_posts": 199,
+   "share": 0.1589
+  },
+  "en_macro": {
+   "lang": "en",
+   "donor_posts": 1294,
+   "explainer_posts": 32,
+   "share": 0.0247
+  },
+  "investing_philosophy": {
+   "lang": "en",
+   "donor_posts": 1729,
+   "explainer_posts": 16,
+   "share": 0.0093
+  },
+  "longterm_investing_en": {
+   "lang": "en",
+   "donor_posts": 1118,
+   "explainer_posts": 6,
+   "share": 0.0054
+  },
+  "market_data_charts": {
+   "lang": "en",
+   "donor_posts": 1897,
+   "explainer_posts": 9,
+   "share": 0.0047
+  },
+  "single_stock_deepdive_en": {
+   "lang": "en",
+   "donor_posts": 1527,
+   "explainer_posts": 312,
+   "share": 0.2043
+  },
+  "sol_base_alpha_en": {
+   "lang": "en",
+   "donor_posts": 1094,
+   "explainer_posts": 89,
+   "share": 0.0814
+  },
+  "trading_shortterm": {
+   "lang": "en",
+   "donor_posts": 1090,
+   "explainer_posts": 11,
+   "share": 0.0101
+  },
+  "zh_industry": {
+   "lang": "zh",
+   "donor_posts": 1970,
+   "explainer_posts": 126,
+   "share": 0.064
+  },
+  "zh_longterm_investing": {
+   "lang": "zh",
+   "donor_posts": 1592,
+   "explainer_posts": 127,
+   "share": 0.0798
+  },
+  "zh_macro": {
+   "lang": "zh",
+   "donor_posts": 1509,
+   "explainer_posts": 126,
+   "share": 0.0835
+  },
+  "zh_us_stocks": {
+   "lang": "zh",
+   "donor_posts": 1532,
+   "explainer_posts": 36,
+   "share": 0.0235
+  }
+ }
+}

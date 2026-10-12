@@ -1281,6 +1281,16 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
     # never quote a target that fails the scoring.
     eng = engagement_plan(plan, accounts, pools, day, ref, now, own_handles, info) if engagement.enabled() else None
     # post type + length (habit card, rotation inside the day) + suggested post time (habit card hours)
+    # Oct 12 (Fiona; live/explainer_mix.py FD_EXPLAINER, live/opener_mix.py FD_OPENER_MIX): explainer slot + openers
+    from live import explainer_mix, opener_mix
+    _xm_rows = []
+    if explainer_mix.enabled():
+        try:
+            _xm_rows = compose_inbox.rows(day.isoformat() if hasattr(day, 'isoformat') else str(day))
+        except Exception:   # noqa: BLE001
+            _xm_rows = []
+    _xm_today = Counter()
+    _op_plan = opener_mix.Planner()
     for account, picks in plan.items():
         persona = registry.persona_for_account(account)
         card = ph.load_card(persona)
@@ -1329,6 +1339,20 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                 t = ph.sample_post_time(card, day, seed=f'{account}|{p["source_id"]}', taken=times, min_gap_min=90)
                 times.append(t)
             p['post_format'] = {k: fmt[k] for k in ('type', 'length', 'thread_parts', 'length_target', 'shapes')}
+            if not kind and not force and not (d or {}).get('mode') and slot_kind(p.get('source_id')) != 'engage':
+                _lg = p.get('account_lang')
+                _ds = day.isoformat() if hasattr(day, 'isoformat') else str(day)
+                if (explainer_mix.enabled() and fmt.get('type') in explainer_mix.REPLACEABLE
+                        and explainer_mix.account_allowed(account, _lg, _ds) and explainer_mix.pick_ok(p)
+                        and _xm_today[account] + explainer_mix.done_today(account, _xm_rows, _ds)
+                        < explainer_mix.EXPLAINER_PER_DAY):
+                    _xm_today[account] += 1
+                    p['post_format'] = explainer_mix.post_format(_lg)
+                    p['explainer'] = True
+                else:
+                    _op = opener_mix.Planner.assign(_op_plan, account, _lg, p, fmt, t)
+                    if _op:
+                        p['post_format']['opener'] = _op
             if kind:
                 p['post_format'].update(kind=kind, kind_account=account, no_nat=True)
             if p.get('offlane_aside'):
@@ -2002,6 +2026,10 @@ def inbox_row(result, account_cfg, day, run_id):
             **{k: pick[k] for k in ('story', 'topic_bucket', 'kind', 'offlane_aside', 'reassigned_from', 'slot',
                                     'story_repeat', 'lane_relaxed') if pick.get(k)},
             **({'stale_frame': result['stale_frame']} if result.get('stale_frame') else {}),
+            # Oct 12 (Fiona): explainer slot + assigned opener + deterministic opener fixes
+            **({'explainer': True} if pick.get('explainer') else {}),
+            **({'opener': pick['post_format']['opener']} if (pick.get('post_format') or {}).get('opener') else {}),
+            **({'opener_fix': result['opener_fix']} if result.get('opener_fix') else {}),
             # Oct 11: the humanize post-step's changes + the pre-humanize text (root-cause audits of line edits)
             **({'humanize': result['humanize']} if result.get('humanize') else {}),
             # Oct 11 (live/rc_guard.py): lead event fact, post-edit guard log (before/after), final source-vs-draft QA
@@ -2458,6 +2486,32 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
         sf = stale_frame.findings(r.get('body') or '', r['plan']['account_lang'], args.day)
         if sf:
             r['stale_frame'] = sf[0]
+        # Oct 12 (Fiona; live/opener_mix.py FD_OPENER_MIX): banned openers (我看 / 我觉得 / source labels, unassigned or
+        # stale 🚨 BREAKING) stripped deterministically; invented first-hand claims HARD on every draft; explainer SOFT
+        from live import explainer_mix as _xm, opener_mix as _om
+        _pf = (r.get('plan') or {}).get('post_format') or {}
+        _age = _om.source_age_h((r.get('source') or {}).get('published_at') or r['plan'].get('published_at'),
+                                r['plan'].get('suggested_post_time_london'))
+        _nb, _och = _om.fix_opener(r.get('body') or '', r['plan']['account_lang'], _pf.get('opener'), _age)
+        if _och:
+            _old_body = r.get('body') or ''
+            r['body'] = _nb
+            if r.get('text') and _old_body and _old_body in r['text']:
+                r['text'] = r['text'].replace(_old_body, _nb, 1)
+            r['opener_fix'] = _och
+        _fh = _om.first_hand_findings(r.get('body') or '', r['plan']['account_lang'])
+        if _fh:
+            r.setdefault('post_checks', []).extend(_fh)
+            r['draft_status'] = 'needs_review'
+        if _pf.get('explainer') and r.get('body'):
+            _sb = _xm.split_steps(r['body'])
+            if _sb != r['body']:
+                if r.get('text') and r['body'] in r['text']:
+                    r['text'] = r['text'].replace(r['body'], _sb, 1)
+                r['body'] = _sb
+        _xf = _xm.body_findings(r.get('body') or '', r['plan']['account_lang'], _pf)
+        if _xf:
+            r.setdefault('post_checks', []).extend(_xf)
     # Oct 8: only drafts that can ship take part in arbitration - a needs_review draft (hard finding after its rewrite)
     # won the lane on 10-08 (crypto_onchain_en) and its duplicate was held too, so neither was publishable
     # FD_ARB_SAME_LANG (default 1): only accounts of one language can duplicate each other (0 = cross-language too).
