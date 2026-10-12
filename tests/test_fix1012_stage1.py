@@ -64,8 +64,10 @@ def test_fresh_hold_archive_exempt_from_age(monkeypatch):
                      'published_at': '2025-10-04T00:00:00+00:00'},
              body='常青：仓位管理的第一道防线是账户物理隔离', text='常青：仓位管理的第一道防线是账户物理隔离')
     fresh_hold.apply(r, env={})
-    assert r['held'] is False
-    assert r['fresh_hold'].get('archive') is True
+    # Oct 12 (Fiona): 常青 framing is not 回看 framing - an old unframed evergreen row is held on age
+    assert r['held'] is True
+    held, _, detail = fresh_hold.check(r, env={'FD_FRESH_ARCHIVE_EXPLICIT': '0'})
+    assert held is False and detail.get('archive') is True
 
 
 def test_fresh_hold_archive_unframed_is_held():
@@ -265,3 +267,15 @@ def test_archive_path_calls_both_gates():
 def test_final_sweep_present():
     src = (ROOT / 'scripts' / 'daily_compose.py').read_text()
     assert "summary['final_gates']" in src
+
+
+def test_archive_evergreen_unframed_old_is_held():
+    from live import fresh_hold
+    row = {'id': 'evg-x', 'post_type': 'archive_evergreen', 'lang': 'zh', 'day': '2026-10-12',
+           'body': '市场流动性匮乏时，盲目补仓容易被套', 'text': 'x',
+           'source': {'published_at': '2025-02-06T11:54:00+00:00'}}
+    held, reason, _ = fresh_hold.check(row) if hasattr(fresh_hold, 'check') else fresh_hold.evaluate(row)
+    assert held
+    row['body'] = '回看｜' + row['body']
+    held, reason, _ = fresh_hold.check(row) if hasattr(fresh_hold, 'check') else fresh_hold.evaluate(row)
+    assert not held
