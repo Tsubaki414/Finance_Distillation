@@ -70,6 +70,9 @@ def main(argv=None):
         print(f'No match log at {LOG}', file=sys.stderr)
         return 1
 
+    import fcntl
+    lock = open(LOG.parent / f'.{LOG.stem}.lock', 'w')   # same lock as auto_published.write_log
+    fcntl.flock(lock, fcntl.LOCK_EX)
     log = json.loads(LOG.read_text())
     to_replay = [e for e in log if e.get('tweet_url') and e.get('error')]
     already_marked = [e for e in log if e.get('marked')]
@@ -107,7 +110,9 @@ def main(argv=None):
             n_err += 1
 
     if not args.dry_run:
-        LOG.write_text(json.dumps(log, ensure_ascii=False, indent=2) + '\n')
+        tmp = LOG.with_suffix('.tmp-replay')
+        tmp.write_text(json.dumps(log, ensure_ascii=False, indent=2) + '\n')
+        tmp.replace(LOG)
         print(f'Updated {LOG}: {n_ok} marked, {n_err} errors')
 
     if not args.dry_run and not args.skip_perf and n_ok > 0:

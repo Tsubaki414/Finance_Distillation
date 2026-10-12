@@ -258,17 +258,28 @@ def tweet_url_from(tweet, handle):
 
 
 def write_log(day, entries):
+    """Append this run's entries to live/store/auto_published/<day>.json under an exclusive lock, so concurrent
+    runs (or the replay script) cannot drop each other's entries. Each run is also kept verbatim in
+    <day>.runs/<UTC stamp>-<pid>.json as an append-only backup."""
+    import fcntl
     AUTO_LOG.mkdir(parents=True, exist_ok=True)
     path = AUTO_LOG / f'{day}.json'
-    existing = []
-    try:
-        existing = json.loads(path.read_text())
-    except (OSError, ValueError):
-        pass
-    existing.extend(entries)
-    tmp = path.with_suffix('.tmp')
-    tmp.write_text(json.dumps(existing, ensure_ascii=False, indent=2) + '\n')
-    tmp.replace(path)
+    runs = AUTO_LOG / f'{day}.runs'
+    runs.mkdir(exist_ok=True)
+    stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S')
+    (runs / f'{stamp}-{os.getpid()}.json').write_text(json.dumps(entries, ensure_ascii=False, indent=2) + '\n')
+    with open(AUTO_LOG / f'.{day}.lock', 'w') as lk:
+        fcntl.flock(lk, fcntl.LOCK_EX)
+        existing = []
+        try:
+            existing = json.loads(path.read_text())
+        except (OSError, ValueError):
+            if path.exists():   # unreadable log: keep it aside instead of overwriting
+                path.replace(path.with_suffix(f'.corrupt-{stamp}.json'))
+        existing.extend(entries)
+        tmp = path.with_suffix(f'.tmp{os.getpid()}')
+        tmp.write_text(json.dumps(existing, ensure_ascii=False, indent=2) + '\n')
+        tmp.replace(path)
 
 
 def main(argv=None):
