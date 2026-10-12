@@ -1521,6 +1521,30 @@ def run(account_ids, day, *, timely_planned=None, force=False, config=None, writ
         info.update(variant=chosen_variant, draft_id=row['id'], held=row['held'], hold_reason=row['hold_reason'],
                     original_url=row['archive']['original_url'])
         if write:
+            # Oct 12 (live/fresh_hold.py FD_FRESH_HOLD + live/one_per_story.py FD_ONE_PER_STORY): the archive path
+            # writes its rows here, not through daily_compose's final loop, so the same last-line gates run here too.
+            # Archive rows are exempt from the 48 h age rule but must stay framed (stale_frame, archive=True); an
+            # account that already drafted this story today keeps the earlier row.
+            try:
+                from live import fresh_hold, one_per_story
+                _key = one_per_story.story_key(row)
+                if _key and one_per_story.enabled():
+                    _prior = next((x for x in compose_inbox.rows(day.isoformat(), base=inbox_base)
+                                   if x.get('account_id') == aid and one_per_story.story_key(x) == _key
+                                   and str(x.get('id')) != str(row.get('id'))
+                                   and str(x.get('text') or '').strip()
+                                   and not x.get('superseded') and not x.get('published')), None)
+                    if _prior is not None and not row.get('held'):
+                        row['held'] = True
+                        row['hold_reason'] = (f'dup_story: same account already drafted this story today '
+                                              f'({_prior.get("id")})')
+                        row['dup_story_of'] = _prior.get('id')
+                        if row.get('draft_status') == 'draft_ready':
+                            row['draft_status'] = 'needs_review'
+                        info.update(held=row['held'], hold_reason=row['hold_reason'])
+                fresh_hold.apply(row, log=log)
+            except Exception as exc:   # noqa: BLE001 - a broken gate never sinks the day
+                log(f'[{aid}] final gates skipped ({type(exc).__name__}: {exc})')
             compose_inbox.add(row, base=inbox_base)
             record_use(aid, day, row['archive']['event_keys'], row['id'], status=row['draft_status'],
                        variant=chosen_variant)
@@ -1616,17 +1640,47 @@ def timely_planned_for(day, accounts=None):
 def humanize_row(row, acc):
     """Oct 11: archive / evergreen drafts (fill path) skipped the nat3 humanize post-step, so 7 of the 10-11 fill drafts
     kept formula closers and intensifiers. Deterministic pass only (closer cut, intensifier cap, rounding, texture;
-    its own number-fidelity guard); never blocks a draft. FD_HUMANIZE=0 skips it."""
+    its own number-fidelity guard); never blocks a draft. FD_HUMANIZE=0 skips it.
+
+    Oct 12: also applies per-donor line-end period removal (live/line_end.py, FD_LINE_END) — previously the archive
+    path skipped this step entirely, leaving trailing-period habits unmatched on archive drafts.
+    """
     if not row.get('body') or row.get('held'):
         return row
+    lang = 'zh' if str(acc.get('lang') or row.get('account_lang') or 'zh').startswith('zh') else 'en'
     try:
         from live import humanize
         if not humanize.enabled():
             return row
-        lang = 'zh' if str(acc.get('lang') or row.get('account_lang') or 'zh').startswith('zh') else 'en'
         humanize.apply(row, client=None, lang=lang)
     except Exception as exc:   # noqa: BLE001
         row['humanize'] = {'changes': [], 'error': str(exc)[:200]}
+    # Oct 12: per-donor line-end period removal (was only in compose.py main path, not archive fill path).
+    # Apply after humanize so the fidelity guard in humanize has already run.
+    try:
+        from live import line_end as _le
+        if _le.enabled():
+            body = row.get('body') or ''
+            from live import registry as _reg
+            try:
+                p = _reg.persona_for_account(row.get('account_id') or acc.get('id') or '')
+                pid = p.persona_id
+            except Exception:
+                pid = row.get('account_id') or acc.get('id') or ''
+            seed = row.get('id') or pid
+            new_body = _le.apply(body, pid, seed, lang=lang)
+            if new_body != body:
+                le_info = row.get('line_end') or {}
+                le_info['before'] = body
+                le_info['source'] = 'humanize_row'
+                row['line_end'] = le_info
+                row['body'] = new_body
+                if row.get('text') == body:
+                    row['text'] = new_body
+                elif body and body in str(row.get('text') or ''):
+                    row['text'] = str(row['text']).replace(body, new_body, 1)
+    except Exception as exc:   # noqa: BLE001
+        pass   # line_end is never fatal
     return row
 
 
