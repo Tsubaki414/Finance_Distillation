@@ -34,6 +34,12 @@ CODE_UNFRAMED = 'archive_unframed'
 
 ARCHIVE_ID = re.compile(r'^(?:arc|evg)-', re.I)
 ARCHIVE_KIND = re.compile(r'^archive', re.I)
+EXPLICIT_FRAME = re.compile(r'\s*(回看|回顾|Look(ing)? back|Lookback|Throwback)', re.I)
+
+
+def explicit_frame_required(env: dict | None = None) -> bool:
+    """FD_FRESH_ARCHIVE_EXPLICIT=0 restores 'any archive row without dated language passes'."""
+    return (env or os.environ).get('FD_FRESH_ARCHIVE_EXPLICIT', '1') != '0'
 
 
 def enabled(env: dict | None = None) -> bool:
@@ -96,7 +102,10 @@ def check(row: dict, env: dict | None = None) -> tuple[bool, str | None, dict]:
         if f:
             detail = dict(f[0])
             return True, f'{CODE_UNFRAMED}: ' + str(detail.get('detail') or '')[:160], detail
-        return False, None, {'archive': True, 'framed': True}
+        # Fiona 12 Oct: archive material is exempt from the 48 h rule ONLY when explicitly framed as 回看
+        # (body opens with 回看 / Look back). Unframed 常青/evergreen rows fall through to the age check.
+        if EXPLICIT_FRAME.match(body) or not explicit_frame_required(env):
+            return False, None, {'archive': True, 'framed': True}
 
     age = source_age_h(row)
     pub = (row.get('source') or {}).get('published_at')
