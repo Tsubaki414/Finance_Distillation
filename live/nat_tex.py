@@ -1,11 +1,13 @@
 """Deterministic naturalness post-processors: A5 lens-jargon, A9 number rounding guard,
-A10 EN LLM-ism / em-dash (nat-tex, Oct 10 2026).
+A10 EN LLM-ism / em-dash (nat-tex, Oct 10 2026),
+A11 ZH AI-template + opener tics (nat-tex, Oct 12 2026).
 
 Called from live/humanize.apply() after all existing transforms.
 Kill switches (default 1 = on):
-  FD_NAT_JARGON=0   — skip A5 jargon rewrite
-  FD_NAT_ROUND=0    — skip A9 number rounding (gate in humanize.py)
-  FD_NAT_LLMISM=0   — skip A10 LLM-ism / em-dash rewrite
+  FD_NAT_JARGON=0    — skip A5 jargon rewrite
+  FD_NAT_ROUND=0     — skip A9 number rounding (gate in humanize.py)
+  FD_NAT_LLMISM=0    — skip A10 LLM-ism / em-dash rewrite
+  FD_NAT_OPENER=0    — skip A11 opener-tic + ZH AI-template rewrite
 
 All transforms are soft-only: they never HOLD or block a draft.
 No paid LLM calls; all deterministic regex rewrites.
@@ -27,6 +29,10 @@ def round_enabled(env: dict | None = None) -> bool:
 
 def llmism_enabled(env: dict | None = None) -> bool:
     return (env or os.environ).get('FD_NAT_LLMISM', '1') != '0'
+
+def opener_enabled(env: dict | None = None) -> bool:
+    """A11: FD_NAT_OPENER=0 skips the opener-tic + ZH AI-template rewrite."""
+    return (env or os.environ).get('FD_NAT_OPENER', '1') != '0'
 
 # ------------------------------------------------------------------ deterministic seed helper
 
@@ -277,12 +283,132 @@ def apply_llmism(body: str, lang: str, draft_id: str,
     return new_body, changes
 
 
+# ================================================================== A11 — opener tics + ZH AI-template ban
+#
+# Audit (oct12 draft scan, 10-11+10-12 inbox + fd_draft_history):
+#   EN: "ngl" 11 drafts across 4 accounts, "i'm" 14, "i think" 22 all openers
+#   ZH: "往往…" "真正的…" "不是X而是Y" AI-template patterns
+#
+# Kill switch: FD_NAT_OPENER=0 disables the whole step.
+# Soft only — rewrites, never HOLDs.
+
+# Banned EN openers: exact first-word/phrase match (case-insensitive, stripped of punctuation).
+# Each entry is (compiled_pattern_for_first_line, replacement_or_None).
+# replacement=None means delete the opener phrase and capitalise what follows.
+_OPENER_BAN_EN: list[tuple[re.Pattern[str], str | None]] = [
+    # "ngl" — "not gonna lie" filler opener
+    (re.compile(r'^ngl\b[,\s]*', re.I), None),
+    # "idk" — "I don't know" filler opener
+    (re.compile(r'^idk\b[,\s]*', re.I), None),
+    # "tbh" — "to be honest" filler opener
+    (re.compile(r'^tbh\b[,\s]*', re.I), None),
+    # "honestly" as a sentence opener filler
+    (re.compile(r'^honestly[,\s]+', re.I), None),
+    # "look," as a filler opener
+    (re.compile(r'^look[,\s]+(?=[A-Z])', re.I), None),
+    # "listen," as a filler opener
+    (re.compile(r'^listen[,\s]+(?=[A-Z])', re.I), None),
+]
+
+# Banned ZH AI-template patterns (anywhere in text, capped at 1 removal per pattern per post).
+_AITEMPLATE_ZH: list[tuple[re.Pattern[str], str]] = [
+    # 往往 used as an assertion amplifier at start of clause
+    (re.compile(r'往往(?=[是在会有这那一]|[^\w]|$)'), ''),
+    # 真正的X / 真正在X — "the real X" template
+    (re.compile(r'真正(?:的|在|是)'), ''),
+    # 不是X，而是Y — "not X but Y" ZH AI template. Reorder to "Y，不是X" (keeps both halves + the contrast,
+    # drops the template rhythm). Bounded groups so a long clause never gets reshuffled.
+    (re.compile(r'不是([^，。！？；\n]{1,24})[，,]\s*而是([^，。！？；\n]{1,24})'), r'\2，不是\1'),
+    # 某种意义上 — "in a sense" padding
+    (re.compile(r'(?:从)?某种意义上(?:来说|讲)?[，,]?\s*'), ''),
+    # 值得注意的是 — "it is worth noting that" padding
+    (re.compile(r'值得注意的是[，,]?\s*'), ''),
+    # 毫无疑问 — "undoubtedly" filler
+    (re.compile(r'毫无疑问[，,]?\s*'), ''),
+    # 不可否认 — "undeniably" filler
+    (re.compile(r'不可否认(?:的是)?[，,]?\s*'), ''),
+]
+
+# EN AI-template patterns handled here (complement to A10 llmism list — ZH-common EN bleed-throughs)
+_AITEMPLATE_EN: list[tuple[re.Pattern[str], str]] = [
+    # "not X but Y" / "not X, it's Y" — opener variants already in llmism; catch mid-sentence too
+    (re.compile(r"\bit['']s not about\b", re.I), "the question is"),
+    # "at the end of the day" padding
+    (re.compile(r'\bat the end of the day[,.]?\s*', re.I), ''),
+    # "the bottom line" padding opener
+    (re.compile(r'\bthe bottom line(?:\s+is)?\s*[:\-]?\s*', re.I), ''),
+    # "needless to say" padding
+    (re.compile(r'\bneedless to say[,.]?\s*', re.I), ''),
+]
+
+
+def _fix_sentence_start(text: str) -> str:
+    """Capitalise the first letter of `text` after stripping leading punctuation/spaces."""
+    text = re.sub(r'^[\s,，、。：:\-–—]+', '', text)
+    if text and text[0].islower():
+        text = text[0].upper() + text[1:]
+    return text
+
+
+def apply_opener(body: str, lang: str, draft_id: str) -> tuple[str, list[str]]:
+    """A11: ban opener tics (EN) and ZH AI-template phrases.
+
+    Soft only — never HOLDs. Rewrites are seeded by draft_id.
+    Returns (new_body, list_of_change_notes).
+    """
+    if not opener_enabled():
+        return body, []
+
+    changes: list[str] = []
+
+    if lang == 'en':
+        # EN opener tic: apply to the first non-empty line only
+        lines = body.split('\n')
+        first_nonempty = next((i for i, l in enumerate(lines) if l.strip()), None)
+        if first_nonempty is not None:
+            original_line = lines[first_nonempty]
+            new_line = original_line
+            for rx, replacement in _OPENER_BAN_EN:
+                m = rx.match(new_line.lstrip())
+                if m:
+                    stripped = new_line.lstrip()
+                    remainder = stripped[m.end():]
+                    if replacement is None:
+                        new_line = _fix_sentence_start(remainder)
+                    else:
+                        new_line = replacement + remainder
+                        new_line = _fix_sentence_start(new_line)
+                    new_line = re.sub(r'  +', ' ', new_line).strip()
+                    changes.append(f'opener: removed banned EN opener {m.group(0)!r:.30}')
+                    break   # one tic per post is enough
+            lines[first_nonempty] = new_line
+            body = '\n'.join(lines)
+
+        # EN AI-template
+        for rx, replacement in _AITEMPLATE_EN:
+            prev = body
+            body = rx.sub(replacement, body, count=1)
+            if body != prev:
+                body = re.sub(r'  +', ' ', body)
+                changes.append(f'opener: EN template {rx.pattern!r:.50}')
+
+    elif lang == 'zh':
+        for rx, replacement in _AITEMPLATE_ZH:
+            prev = body
+            body = rx.sub(replacement, body, count=1)
+            if body != prev:
+                body = re.sub(r'  +', ' ', body)
+                changes.append(f'opener: ZH template {rx.pattern!r:.40}')
+
+    return body, changes
+
+
 # ================================================================== combined entry point
 
 def apply(body: str, lang: str, draft_id: str,
           rates: dict[str, Any] | None = None,
           donor_jargon_budget: int | None = None) -> tuple[str, list[str]]:
-    """Run A5 + A10 in sequence. A9 (FD_NAT_ROUND) is guarded in humanize.py.
+    """Run A5 + A10 + A11 in sequence. A9 (FD_NAT_ROUND) is guarded in humanize.py.
 
     Returns (new_body, all_changes).
     """
@@ -297,6 +423,10 @@ def apply(body: str, lang: str, draft_id: str,
 
     # A10 — LLM-isms (EN only)
     body, chg = apply_llmism(body, lang, draft_id, rates=rates)
+    all_changes += chg
+
+    # A11 — opener tics + ZH AI-template (Oct 12)
+    body, chg = apply_opener(body, lang, draft_id)
     all_changes += chg
 
     return body, all_changes

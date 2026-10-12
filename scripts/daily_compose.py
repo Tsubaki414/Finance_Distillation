@@ -45,6 +45,7 @@ sys.path[:0] = [str(ROOT / 'scripts'), str(ROOT)]
 import demo_matrix_compose as demo  # noqa: E402
 from voice_relay_check import evidence_source  # noqa: E402
 from live import (angles, anti_repeat, compose, compose_inbox, editorial_style, fd_accounts, news_hook,  # noqa: E402
+                  one_per_story,
                   posting_habits as ph, registry, source_prescreen as prescreen, source_routes, stage_models,
                   topic_div, twins, engagement, post_kind)
 from live.adapters import delphi_digest  # noqa: E402
@@ -2151,6 +2152,35 @@ def main():
         except Exception as exc:   # noqa: BLE001
             summary['archive'] = {'error': f'{type(exc).__name__}: {str(exc)[:200]}'}
     # ---- end 回看 hook
+    # Oct 12 (FD_ONE_PER_STORY / FD_FRESH_HOLD): whole-day sweep after every round and the 回看 / 周年 hooks have
+    # written. Catches same-account same-story duplicates that no single round could see (the 10-12 audit found
+    # crypto_btc_cycle_zh with 4 drafts off one ChainCatcher article across the nightly + fill rounds) and re-checks
+    # the freshness gate on rows written by paths outside run_round. Idempotent; never un-holds; never publishes.
+    try:
+        from live import one_per_story as _ops, fresh_hold as _fh
+        if _ops.enabled() or _fh.enabled():
+            _day_rows = compose_inbox.rows(args.day.isoformat())
+            _dup = _ops.apply(_day_rows, log=print) if _ops.enabled() else []
+            _fh_held, _seen = 0, set()
+            for _r in _day_rows:
+                _was_held, _was_reason = _r.get('held'), _r.get('hold_reason')
+                _fh.apply(_r, log=print)
+                _changed = (_r.get('held'), _r.get('hold_reason')) != (_was_held, _was_reason)
+                if _changed:
+                    _fh_held += 1
+                if _changed or _r.get('dup_story_of'):
+                    _seen.add(_r.get('id'))
+                    compose_inbox.add(_r)
+            for _h in _dup:
+                if _h['id'] in _seen:
+                    continue   # already written above
+                _row = next((x for x in _day_rows if x.get('id') == _h['id']), None)
+                if _row is not None:
+                    compose_inbox.add(_row)
+            summary['final_gates'] = {'one_per_story_held': len(_dup), 'fresh_hold_rows': _fh_held,
+                                     'one_per_story': _dup[:20]}
+    except Exception as exc:   # noqa: BLE001 - the sweep never sinks a finished day
+        summary['final_gates'] = {'error': f'{type(exc).__name__}: {str(exc)[:200]}'}
     write_json(out / 'summary.json', summary)
     from backend.compose_inbox import render
     page = DASHBOARD / f'fd20_review_{args.day.isoformat()}.html'
@@ -2455,8 +2485,30 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
                                  replies_given=replies.get(row['account_id'], 0),
                                  own_handles=[a.get('handle') for a in all_accounts])
             replies[row['account_id']] = replies.get(row['account_id'], 0) + (row.get('post_mode') == 'reply')
+        # Oct 12 (live/one_per_story.py FD_ONE_PER_STORY): one draft per account per story per day - an account that
+        # already has a row for this story today (any earlier round, ready or held) keeps that one; this row is held.
+        if row['text'] and one_per_story.enabled():
+            _key = one_per_story.story_key(row)
+            _prior = next((x for x in earlier if x.get('account_id') == row['account_id']
+                           and one_per_story.story_key(x) == _key
+                           and str(x.get('id')) != str(row.get('id'))
+                           and str(x.get('text') or '').strip()
+                           and not x.get('superseded') and not x.get('published')), None)
+            if _prior is not None and not row['held']:
+                row['held'] = True
+                row['hold_reason'] = f'dup_story: same account already drafted this story today ({_prior.get("id")})'
+                row['dup_story_of'] = _prior.get('id')
+                if row.get('draft_status') == 'draft_ready':
+                    row['draft_status'] = 'needs_review'
         if row['text']:   # only real drafts enter the review inbox; failures stay in the run summary
+            # Oct 12 (live/fresh_hold.py FD_FRESH_HOLD): the last point before the inbox - a news / original draft
+            # whose source is > 48 h old at the slot (or has no parseable publish time) is HELD, not written ready.
+            # Covers the paths the pool-time fresh_gate cannot: undated sources, the FD_FRESH_LOOKBACK re-insert,
+            # and every other route into this loop. Archive / 回看 rows are gated on framing instead of age.
+            from live import fresh_hold
+            fresh_hold.apply(row, log=print)
             compose_inbox.add(row)
+            earlier.append(row)   # Oct 12: so a second same-story row in this same loop sees the first one
             supersede_previous(row, earlier)
             # Oct 10 fix (defect 2): FD_MIDDAY_REPLACE — after a midday draft lands (not held), supersede
             # that account's stale unposted standalone rows of the day (the ones that made it qualify).
