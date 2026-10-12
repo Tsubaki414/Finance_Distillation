@@ -1684,11 +1684,24 @@ def humanize_row(row, acc):
     return row
 
 
-def fill_gaps(day, *, accounts=None, log=print):
+def fill_gaps(day, *, accounts=None, log=print, skip=None):
     """Hook for scripts/daily_compose.py: after the day's drafts are in, 回看 for enabled accounts (of `accounts`, the
-    run's accounts) still short of ready drafts. No selection re-run: the inbox already reflects the fresh material."""
+    run's accounts) still short of ready drafts. No selection re-run: the inbox already reflects the fresh material.
+    skip: {account: reason} left out (Oct 12, live/archive_fallback.py: fresh standalone candidates still in its pool);
+    listed under 'fallback_skipped' in the returned summary."""
     config = load_config()
     ids = [a for a in enabled_accounts(config) if accounts is None or a in accounts]
     if not ids:
         return {'skipped': 'FD_ARCHIVE=0 or no enabled account in this run'}
+    if skip is not None:
+        skipped = {a: skip[a] for a in ids if a in skip}
+        for a, why in skipped.items():
+            log(f'[{a}] skip: {why}')
+        ids = [a for a in ids if a not in skipped]
+        if not ids:
+            return {'skipped': 'every enabled account has fresh standalone candidates (FD_ARCHIVE_FALLBACK_ONLY)',
+                    'fallback_skipped': skipped}
+        out = run(ids, day, timely_planned={a: 0 for a in ids}, config=config, log=log)
+        out['fallback_skipped'] = skipped
+        return out
     return run(ids, day, timely_planned={a: 0 for a in ids}, config=config, log=log)

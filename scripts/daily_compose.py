@@ -494,6 +494,24 @@ def supersede_previous(row, earlier):
     return done
 
 
+def archive_yield_map(day):
+    """Oct 12 (live/archive_fallback.py FD_ARCHIVE_FALLBACK_ONLY): {account: archive row ids} whose standalone slot a
+    fresh pick may take ({} when the switch is off)."""
+    from live import archive_fallback
+    if not archive_fallback.enabled():
+        return {}
+    from apply_admin_decisions import is_published
+    day_s = day.isoformat() if hasattr(day, 'isoformat') else str(day)
+    decisions = admin_decisions(day_s)
+    return archive_fallback.displaceable(compose_inbox.rows(day_s),
+                                         published=lambda r: is_published(decisions.get(r.get('id'))))
+
+
+def without_yield(counts, arc_yield):
+    """Ready-draft counts with the yieldable archive rows taken out (they do not fill an account in a --fill)."""
+    return {a: n - len(arc_yield.get(a) or ()) for a, n in counts.items()} if arc_yield else counts
+
+
 def midday_qualifies(rows, decisions, now):
     """Oct 10 fix: does an account qualify for a midday draft? rows: that account's inbox rows of the day; decisions:
     the day's /admin decisions ({draft id: decision}); now: aware datetime. Engagement rows (x-<id> source) never
@@ -907,9 +925,10 @@ def audit_context(day, pools, allow_model=False, info=None, motif_of=None):
 
 
 def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT, seed_events=(), reuse=None,
-           rewrites=None, now=None, allow_model=False, info=None, skip_sources=None):
+           rewrites=None, now=None, allow_model=False, info=None, skip_sources=None, archive_yield=None):
     """info: optional dict, filled with the FD_HOTSPOT day summary ('hotspot') for plan.json.
-    skip_sources: {account: source ids / titles / hashes} this account already tried today and must not retry."""
+    skip_sources: {account: source ids / titles / hashes} this account already tried today and must not retry.
+    archive_yield: {account: archive row ids} whose standalone slot is open to a fresh pick (live/archive_fallback.py)."""
     import os as _os
     if _os.environ.get('FD_SELECT_PERF', '1') != '0':
         from live.charts import clear_select_run_cache
@@ -979,6 +998,10 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             info['midday_skipped_stale'] = _skipped_stale
     if info is not None:
         info['pool_sizes'] = {aid: len(p) for aid, p in pools.items()}
+        from live import archive_fallback
+        if archive_fallback.enabled():   # Oct 12: post-gate standalone pool (FD_ARCHIVE_FALLBACK_ONLY archive hook)
+            info['standalone_pool_sizes'] = {aid: sum(1 for g in p if slot_kind(g[0]['source'].get('id')) != 'engage')
+                                             for aid, p in pools.items()}
     div = diversity_prepare(pools, accounts, x_of, day, ref, reuse) if topic_div.enabled() else None
     own_handles = [r.get('handle') for r in fd_accounts.rows(CONFIG) if r.get('handle')]
     if div is not None:   # Oct 8 evening: cold-start quote targets / chartable packets first among equals
@@ -1016,6 +1039,11 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
     slots_done = day_slots(day) if slot_rule else {}
     if os.environ.get('FD_MIDDAY', '0') == '1':   # Oct 10 fix: a midday account's stale standalone frees its slot
         slots_done = {a: {**k, 'standalone': 0} for a, k in slots_done.items()}
+    if archive_yield:   # Oct 12 (FD_ARCHIVE_FALLBACK_ONLY): an unreviewed archive row does not hold the slot in a fill
+        slots_done = {a: ({**k, 'standalone': max(0, k.get('standalone', 0) - len(archive_yield[a]))}
+                          if archive_yield.get(a) else k) for a, k in slots_done.items()}
+        if info is not None:
+            info['archive_yield'] = {a: list(ids) for a, ids in archive_yield.items()}
     engage_only_run = os.environ.get('FD_ENGAGE_ONLY') == '1'
 
     # Oct 9 night (slot-2 fill rate): on 10-09 25-29 of 36 engagement picks were x-<id> posts that failed the target
@@ -2212,7 +2240,7 @@ def main():
         accts = accounts
         if fill and rnd > 0:
             ready = (midday_done(args.day, state['run_ids']) if args.midday
-                     else drafted_today(args.day, ready_only=True))
+                     else without_yield(drafted_today(args.day, ready_only=True), archive_yield_map(args.day)))
             accts = [a for a in accounts if ready.get(a['id'], 0) < per_account]
             if not accts:
                 break
@@ -2243,8 +2271,11 @@ def main():
     # still short of ready drafts one look-back draft; never fatal to the day.
     if os.environ.get('FD_ARCHIVE', '1') != '0':
         try:
-            from live import archive_lookback
-            summary['archive'] = archive_lookback.fill_gaps(args.day.isoformat(), accounts=[a['id'] for a in accounts])
+            from live import archive_fallback, archive_lookback
+            # Oct 12 (FD_ARCHIVE_FALLBACK_ONLY): no archive draft for an account with fresh standalone candidates left
+            _skip = archive_fallback.skip_accounts(state['last']) if archive_fallback.enabled() else None
+            summary['archive'] = archive_lookback.fill_gaps(args.day.isoformat(), accounts=[a['id'] for a in accounts],
+                                                            **({'skip': _skip} if _skip is not None else {}))
         except Exception as exc:   # noqa: BLE001
             summary['archive'] = {'error': f'{type(exc).__name__}: {str(exc)[:200]}'}
     # ---- end 回看 hook
@@ -2329,9 +2360,12 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
     state['run_ids'].append(run_id)
     out = RUNS / args.day.isoformat() / run_id
     info = {}
+    # Oct 12 (FD_ARCHIVE_FALLBACK_ONLY): in a --fill round / midday compose an unreviewed archive row yields its slot
+    arc_yield = archive_yield_map(args.day) if (fill or args.midday) else {}
     if fill:
         # Oct 10 fix: midday counts only this run's own ready drafts (stale earlier rows do not fill the target)
-        done = midday_done(args.day, state['run_ids']) if args.midday else drafted_today(args.day, ready_only=True)
+        done = (midday_done(args.day, state['run_ids']) if args.midday
+                else without_yield(drafted_today(args.day, ready_only=True), arc_yield))
         rewrites = (rewrite_targets(args.day, load_json(args.rewrite_notes) if args.rewrite_notes else None)
                     if rnd == 0 else {})   # a rewrite gets one attempt per run
         reuse = {a: set(m) for a, m in rewrites.items()}
@@ -2339,7 +2373,8 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
         plan, order = select(accts, universes, args.day, per_account, done=done, cap=per_account,
                              seed_events=ready_events(args.day, fd_accounts.rows(CONFIG)),
                              reuse=reuse, rewrites=rewrites, now=args.now,
-                             allow_model=not args.select_only or args.hotspot_merge, info=info, skip_sources=skip)
+                             allow_model=not args.select_only or args.hotspot_merge, info=info, skip_sources=skip,
+                             archive_yield=arc_yield)
     else:
         # Oct 10 fix (defect 1): midday target is 1 NEW standalone per qualifying account regardless of earlier rows.
         # Stale ready standalones of a qualifying account must not count toward done/ready — so for midday we pass
@@ -2352,7 +2387,8 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
         # Oct 8 evening: a first run on a day that already has drafts respects their events too (per-language cap)
         plan, order = select(accts, universes, args.day, per_account, done=done, now=args.now,
                              seed_events=ready_events(args.day, fd_accounts.rows(CONFIG)),
-                             allow_model=not args.select_only or args.hotspot_merge, info=info)
+                             allow_model=not args.select_only or args.hotspot_merge, info=info,
+                             archive_yield=arc_yield)
     write_json(out / 'plan.json', {'day': args.day.isoformat(), 'day_basis': 'Asia/Shanghai calendar date',
                                    'selection_ref': selection_ref(args.day, args.now).isoformat(), 'pick_order': order, 'per_account': per_account,
                                    'fill': fill, 'round': rnd, 'drafted_earlier_today': done,
@@ -2374,6 +2410,9 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
     for a in accts:
         state['last'][a['id']] = {'round': rnd, 'picks': len(plan[a['id']]), 'pool': (info.get('pool_sizes') or {}).get(a['id']),
                                   'skipped_tried': (info.get('skipped_tried') or {}).get(a['id'], 0)}
+        if 'standalone_pool_sizes' in info:   # Oct 12: fresh standalone candidates this round did not use up
+            state['last'][a['id']]['standalone_left'] = max(0, (info['standalone_pool_sizes'].get(a['id']) or 0) - sum(
+                1 for p in plan[a['id']] if slot_kind(p.get('source_id')) != 'engage'))
     if args.select_only:
         return None
     if state['client'] is None:
@@ -2640,6 +2679,15 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
             compose_inbox.add(row)
             earlier.append(row)   # Oct 12: so a second same-story row in this same loop sees the first one
             supersede_previous(row, earlier)
+            # Oct 12 (live/archive_fallback.py FD_ARCHIVE_FALLBACK_ONLY): a fresh ready standalone takes the slot of
+            # the account's unreviewed, unpublished archive row (superseded, reason archive_fallback)
+            if arc_yield.get(row['account_id']):
+                from live import archive_fallback
+                from apply_admin_decisions import is_published
+                _dec = admin_decisions(args.day.isoformat())
+                if archive_fallback.supersede_for(row, arc_yield[row['account_id']],
+                                                  published=lambda x: is_published(_dec.get(x.get('id')))):
+                    arc_yield.pop(row['account_id'], None)
             # Oct 10 fix (defect 2): FD_MIDDAY_REPLACE — after a midday draft lands (not held), supersede
             # that account's stale unposted standalone rows of the day (the ones that made it qualify).
             # Never supersede a published row or an engagement row.
