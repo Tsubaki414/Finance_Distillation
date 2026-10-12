@@ -994,6 +994,12 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
                          motif_of=(lambda g: hot.motif_of(demo._key(g[0]))) if hot is not None else None)
     story_of_g = sctx['story_of']
     order = sorted(pools, key=lambda a: len(pools[a]))     # scarce accounts pick first in every round
+    # Oct 12 (live/offlane_repick.py FD_OFFLANE_REPICK): today's off_lane HOLDs bar the same (account, source) from
+    # every round (handover offers included), and an account with >= 2 of them takes no more off-lane-risk picks
+    from live import offlane_repick
+    from live.x_daily import x_handle
+    repick = offlane_repick.day_state(compose_inbox.rows(day.isoformat())) if offlane_repick.enabled() else None
+    repick_skips = {}
     event_takers = {}            # event key (source key / hook / 母题) -> [(account, angle, lang)]
     ent_takers = {}              # twin rule: account -> named entities of its picks today (FD_TWIN_RULE)
     for e, acc, ang, lg in seed_events:
@@ -1146,7 +1152,17 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             skey = demo._key(g[0])
             if skey in mine:
                 continue
-            events = ({('src',) + tuple(skey)} | {('hook', h) for h in group_hooks(g)}
+            if repick:
+                if offlane_repick.held_before(repick, account, g[0]['source']):
+                    repick_skips.setdefault(account, Counter())['held_off_lane_today'] += 1
+                    continue
+                if offlane_repick.blocked(repick, account):
+                    _h = x_handle(g[0]['source'])
+                    if offlane_repick.risky(next(x for x in accounts if x['id'] == account), group_text(g),
+                                            own_x=bool(_h and _h.lower() in {h.lower() for h in x_of[account]})):
+                        repick_skips.setdefault(account, Counter())['blocked_risky'] += 1
+                        continue
+            events =({('src',) + tuple(skey)} | {('hook', h) for h in group_hooks(g)}
                       | ({('srcid', g[0]['source']['id'])} if g[0]['source'].get('id') else set())
                       | ({title_event(g[0]['source'].get('title'))} - {None}))
             if hot is not None and hot.motif_of(skey):   # FD_HOTSPOT: every source of one 母题 is one event
@@ -1209,6 +1225,9 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
             elif len(plan[account]) + done.get(account, 0) >= cap or len(plan[account]) >= per_account:
                 if _round is not None and not special:
                     hot.record(account, hot.assign[account][0], decision='HOLD', reason='daily ceiling already reached')
+                continue
+            if special in offlane_repick.RISK_ROUNDS and repick and offlane_repick.blocked(repick, account):
+                repick_skips.setdefault(account, Counter())['blocked_' + special] += 1
                 continue
             lang = next(x['lang'] for x in accounts if x['id'] == account)
             if _round is not None and not special and slot_rule:
@@ -1445,6 +1464,9 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
         info['topic_div'] = div['summary']
     if info is not None:
         info['audit_fixes'] = sctx['summary']()
+        if repick is not None:
+            info['offlane_repick'] = {'holds_today': {a: len(v['holds']) for a, v in repick.items()},
+                                      'skipped': {a: dict(c) for a, c in repick_skips.items()}}
     if hot is not None:
         hot.meta.pop('_feedback', None)
         hot.save()
