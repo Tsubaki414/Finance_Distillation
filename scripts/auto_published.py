@@ -243,7 +243,12 @@ def post_decision(api_url, payload):
     req = urllib.request.Request(api_url, data=data, method='POST',
                                  headers={'Content-Type': 'application/json', 'Cache-Control': 'no-store'})
     with urllib.request.urlopen(req, timeout=30) as r:
-        return json.loads(r.read().decode())
+        body = r.read().decode()
+        result = json.loads(body)
+        # Surface a Blob-store-suspended error explicitly so it doesn't look like a code bug
+        if isinstance(result, dict) and 'Blob' in str(result.get('error', '')):
+            raise urllib.error.URLError(f"Vercel Blob store suspended — reactivate in Vercel dashboard before auto-publishing can mark decisions: {result['error']}")
+        return result
 
 
 def tweet_url_from(tweet, handle):
