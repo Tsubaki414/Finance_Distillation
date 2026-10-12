@@ -120,7 +120,11 @@ if [[ "${FD_OPS_DEPLOY:-1}" == "1" ]]; then
     OPS=${FD_OPS_DIR:-/workspace/x/dashboard/ops}
     VERCEL=$(command -v vercel || echo /home/box/.local/bin/vercel)
     if [[ -x "$VERCEL" && -d "$OPS/.vercel" ]]; then
-        (cd "$OPS" && timeout 300 "$VERCEL" deploy --prod --yes) || echo "ops dashboard redeploy failed (compose result unaffected)"
+        # Oct 12: one auto-retry after 20 s (the deploy once failed with 'Not authorized' and succeeded on retry).
+        (cd "$OPS" && timeout 300 "$VERCEL" deploy --prod --yes) \
+            || { echo "ops dashboard redeploy attempt 1 failed; retrying in 20 s"; sleep 20; \
+                 (cd "$OPS" && timeout 300 "$VERCEL" deploy --prod --yes) \
+                     || echo "ops dashboard redeploy failed on retry (compose result unaffected)"; }
     else
         echo "ops dashboard redeploy skipped: vercel CLI or $OPS/.vercel missing"
     fi
