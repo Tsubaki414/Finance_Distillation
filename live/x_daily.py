@@ -24,6 +24,7 @@ import os
 import re
 import time
 import urllib.parse
+import urllib.error
 import urllib.request
 from collections import Counter
 from datetime import datetime, timedelta, timezone
@@ -166,12 +167,17 @@ class RapidClient:
         self.made += 1
         url = f'https://{HOST}{path}?{urllib.parse.urlencode(params)}'
         req = urllib.request.Request(url, headers={'x-rapidapi-key': self.key, 'x-rapidapi-host': HOST})
-        for attempt in range(2):
+        for attempt in range(5):   # 429 (rate limit) backs off 5/10/20/40s, honouring Retry-After
             try:
                 with urllib.request.urlopen(req, timeout=self.timeout) as r:
                     return json.load(r)
+            except urllib.error.HTTPError as exc:
+                if attempt == 4 or (exc.code != 429 and attempt >= 1):
+                    raise
+                ra = exc.headers.get('Retry-After') if exc.code == 429 else None
+                time.sleep(min(float(ra), 60) if ra and ra.isdigit() else (5 * 2 ** attempt if exc.code == 429 else 2))
             except Exception:
-                if attempt == 1:
+                if attempt >= 1:
                     raise
                 time.sleep(2)
 
