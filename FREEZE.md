@@ -50,3 +50,8 @@ Backup of the pre-change files: /workspace/x/backups/code_0737/.
   25 / FD_DAILY_TOTAL_USD 25 (script defaults). Ingest steps of the daytime runs keep their own caps
   (FD_MIDDAY_INGEST_USD 0.4, FD_ENGAGE_PULL_CAP_USD 0.5).
 Backup: /workspace/x/backups/code_0756/.
+
+## 2026-10-13 08:40 daytime fill (Fiona 08:02/08:15)
+- live/source_licence.json: +4 tier-B manual sources (beincrypto, fxstreet, meta_ai_research, amazon_science) for the morning manual ingest.
+- scripts/oneoff_hand_rows_1013.py: one-off, wrote 4 strategy explainers (Fiona-verified in-house backtest numbers) + 3 Morris_LT evergreen translations via compose_inbox.add. Not scheduled.
+- Fill compose stopped after round 0: 5/6 held (83% > 60% stop rule); the 1 ready row held on screen (garbled).

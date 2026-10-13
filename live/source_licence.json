@@ -3889,6 +3889,48 @@
       "aliases": [
         "GeckoTerminal"
       ]
+    },
+    "manual_beincrypto": {
+      "tier": "B",
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "basis": "news site; facts only, paraphrase with attribution (Fiona 2026-10-13 08:02 manual add)",
+      "aliases": [
+        "BeInCrypto"
+      ]
+    },
+    "manual_fxstreet": {
+      "tier": "B",
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "basis": "market analysis; paraphrase with attribution (Fiona 2026-10-13 08:02 manual add)",
+      "aliases": [
+        "FXStreet",
+        "FP Markets"
+      ]
+    },
+    "manual_meta_ai_research": {
+      "tier": "B",
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "basis": "company research blog; facts only, paraphrase with attribution (Fiona 2026-10-13 08:02 manual add)",
+      "aliases": [
+        "Meta AI"
+      ]
+    },
+    "manual_amazon_science": {
+      "tier": "B",
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "basis": "company research blog; facts only, paraphrase with attribution (Fiona 2026-10-13 08:02 manual add)",
+      "aliases": [
+        "Amazon Science",
+        "AWS"
+      ]
     }
   }
 }
