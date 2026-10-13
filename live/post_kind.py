@@ -234,14 +234,14 @@ _FORMAT = {   # kind -> posting_habits type, compose_shapes shape, length target
     'industry_people': ('quick_take', 'take_short', (30, 140), (60, 300)),
     'diary': ('one_liner', 'reaction', (12, 80), (25, 200)),
 }
-NO_BIO_EN = ('Never invent anything about yourself: no trades, buys / sells, positions, entries, P&L, gains or losses, '
+NO_BIO_EN = ('Only about a REAL current event or market move from the units. Never invent anything about yourself: no hometown, animals, life story, trades, buys / sells, positions, entries, P&L, gains or losses, '
              'places, travel, family, job, health or purchases. Feelings and observations only.')
-NO_BIO_ZH = '绝不编造自己的事：不写自己买卖、仓位、建仓、盈亏、去过哪里、家人、工作、身体、买了什么。只写感受和观察。'
+NO_BIO_ZH = '只围绕 units 里真实的当下事件或行情。绝不编造自己的事：不写所在城市、宠物、个人经历，不写自己买卖、仓位、建仓、盈亏、去过哪里、家人、工作、身体、买了什么。只写感受和观察。'
 RULES = {
     'reaction': ('KIND reaction (a feeling, not a take): 1-2 short lines that are mostly YOUR FEELING about one fact from '
-                 'the units - surprise, eye-roll, relief, FOMO, boredom, "lol", "ngl", "welp", "bruh". Name the fact in a '
+                 'the units - surprise, eye-roll, relief, FOMO, boredom, "lol", "welp", "bruh" (never open with ngl / idk / tbh). Name the fact in a '
                  'few words only. At most one number. No "because" / "as" / "which means" clause, no analysis, no '
-                 'forecast, no "watch X" closer, no moral. e.g. "ngl did not expect ETF demand to cool this fast. '
+                 'forecast, no "watch X" closer, no moral. e.g. "did not expect ETF demand to cool this fast. '
                  'welp" / "everyone sitting on fat profits and nobody buying. classic". ' + NO_BIO_EN,
                  '类型 reaction（情绪，不是观点）：一两句短话，主要写你看到 units 里某个事实时的情绪——惊了、无语、松口气、'
                  '眼红、麻了、笑死、绷不住。事实只用几个字带过，最多一个数字。不写「因为/所以/意味着」，不分析、不预测、'
@@ -265,11 +265,11 @@ RULES = {
                         '名字和事实，不传谣、不人身攻击。最多两个数字，不做行情分析。'),
     'diary': ('KIND diary: at most 3 short lines. ONE feeling or small observation about YOUR day of watching the market '
               'or your own posting / chart-watching habits ("refreshed the chart way too many times today", "told myself '
-              'no screens tonight. lasted 10 minutes"); open with the feeling, not the event; ONE real event from the '
+              'no screens tonight. lasted about five minutes"); open with the feeling, not the event; ONE real event from the '
               'units only as a light backdrop in a few words. No analysis, no "because"/"which means", no forecast, no level / target, no advice, no number '
               'needed. ' + NO_BIO_EN,
               '类型 diary：最多三行短句。只写一个感受或一个小观察——你自己今天看盘/刷推/发帖的状态（比如「今天又没忍住看盘」'
-              '「说好今晚不看盘，坚持了十分钟」），先写感受、别用事件开头，只用几个字把 units 里的一个真实事件当背景。不分析、不写「因为/所以/意味着」、'
+              '「说好今晚不看盘，没坚持住」），先写感受、别用事件开头，只用几个字把 units 里的一个真实事件当背景。不分析、不写「因为/所以/意味着」、'
               '不预测、不报点位、不给建议，不需要数字，不要用「我看/我觉得」开头去下判断。' + NO_BIO_ZH),
 }
 OFFLANE_RULE = ('This post is a deliberate aside outside your usual lane (your donors post about this too): write it '
@@ -340,10 +340,10 @@ def rule(kind, lang, account=None):
 BIO_RX = {
     'en': re.compile(r"\bI(?:'m| am| was)? (?:just )?(?:bought|sold|longed|shorted|aped|entered|closed|added|trimmed|"
                      r"took profit|went long|went short)\b|\bmy (?:bag|bags|position|positions|entry|stack|portfolio|"
-                     r"p&l|pnl|wife|husband|kids?|son|daughter|boss|job|office|flight)\b|\b(?:i'm|i am) (?:up|down) "
+                     r"p&l|pnl|wife|husband|kids?|son|daughter|boss|job|office|flight|cat|dog|puppy|kitten)\b|\b(?:i'm|i am) (?:up|down) "
                      r"\d|\bI (?:made|lost) \$?\d|\bjust (?:landed|got back) (?:in|from)\b", re.I),
     'zh': re.compile(r'我(?:刚|今天|昨天)?(?:买了|卖了|梭哈|加仓|减仓|清仓|建仓|开了?多|开了?空|止损|止盈|抄底了|上车了|下车了)|'
-                     r'我的(?:仓位|持仓|老婆|老公|孩子|儿子|女儿|老板|公司|工位)|(?:赚了|亏了|浮盈|浮亏)\s*\d|'
+                     r'我的(?:仓位|持仓|老婆|老公|孩子|儿子|女儿|老板|公司|工位|猫|狗)|我家(?:猫|狗|主子)|(?:赚了|亏了|浮盈|浮亏)\s*\d|'
                      r'我(?:在|刚到|刚回)(?:北京|上海|深圳|香港|杭州|成都|广州|新加坡|东京|纽约|伦敦|迪拜)'),
 }
 

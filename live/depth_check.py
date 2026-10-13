@@ -46,10 +46,13 @@ def findings(body, lang, post_kind=None, env=None):
     """[] when the body shows depth (or check off / archive row); else one finding dict."""
     if not enabled(env) or not (body or '').strip():
         return []
+    # Oct 13: human / life-feel kinds (reaction, question, diary, meme, industry_people) are feelings, not relays
+    if post_kind in ('reaction', 'question', 'diary', 'meme', 'industry_people'):
+        return []
     if post_kind in ('archive_lookback', 'anniversary') or re.match(r'^\s*(?:回看|Look back)', body, re.I):
         return []
     rx = MARKERS['zh' if str(lang)[:2] == 'zh' else 'en']
     if rx.search(body):
         return []
-    return [{'code': CODE, 'severity': 'hard',
+    return [{'code': CODE, 'severity': 'hard', 'level': 'hard',
              'detail': 'pure news relay: no comparison, affected party or what-to-watch beyond the source'}]

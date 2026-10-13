@@ -40,3 +40,8 @@ def legacy_select_without_audit_fixes(monkeypatch, tmp_path):
         monkeypatch.setenv(k, '0')
     monkeypatch.setenv('FD_STORY_STORE', str(tmp_path / 'story_labels'))
     monkeypatch.setenv('FD_STORY_LLM', '0')
+
+# Oct 13: compose-time prevention (live/compose_prevent.py) adds a repair call; legacy fixture suites run with it off.
+# tests/test_compose_prevent.py turns it on explicitly.
+import os as _os
+_os.environ.setdefault("FD_COMPOSE_PREVENT", "0")

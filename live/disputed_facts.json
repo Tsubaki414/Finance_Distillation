@@ -1,0 +1,5 @@
+{"_note": "Oct 13 (Fiona): known source conflicts; compose must not state the disputed figure or must hedge it. Drop entries once resolved.",
+ "items": [
+  {"match": "CPI", "fact": "US CPI release day this week: CoinDesk says Thursday, other sources say Wednesday"},
+  {"match": "KOSPI|韩国|Korea", "fact": "KOSPI drop size: one source 6%, others about 5%"}
+ ]}

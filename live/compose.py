@@ -1905,10 +1905,25 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
         if shown:
             payload['style_exemplars'] = shown
             payload['style_exemplar_rule'] = EXEMPLAR_RULE
+    # Oct 13 (Fiona 08:42, live/compose_prevent.py): prevention rules ride the prompt before writing.
+    from live import compose_prevent as _cp
+    _cp_on = _cp.enabled()
+    _cp_ev = _evidence_text(chosen, source) if _cp_on else ''
+    if _cp_on:
+        payload['prevention'] = _cp.prompt_block(persona.lang, _cp_ev, _cp.disputed_for(_cp_ev + ' ' + str(source.get('title') or '')))
     value, response = _ask(client, 'compose', system_prompt, payload, MAX_TOKENS, assembly)
     body = value.get('body')
     require(isinstance(body, str) and body.strip(), 'compose: body required')
     body = body.strip()
+    prevent_info = None
+    if _cp_on:
+        _cp_strat = bool((fmt_info or {}).get('explainer')) or 'strategy' in str(post_type or '')
+        _cp_found = _cp.findings(body, persona.lang, _cp_ev, _cp_strat)
+        if _cp_found:   # one sentence-level repair pass, never a full regen
+            body, prevent_info = _cp.repair(body, persona.lang, _cp_ev, _cp_found,
+                                            lambda sys_, pl: _ask(client, 'compose', sys_, pl, 4000, assembly)[0], _cp_strat)
+        else:
+            prevent_info = {'found': [], 'applied': 0, 'remaining': []}
     # Soft thesis/grounding repair (EN + ZH): sentence-level check + fixed repair instructions
     # by reason code. Retry once on trigger; never hard-block / stall the pipeline.
     from live import thesis_grounding as tg
@@ -2411,6 +2426,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                     'soft warnings only; persona voice draft'),
             **({'certainty_retry': certainty_retry} if certainty_retry else {}),
             **({'grounding_retry': grounding_retry} if grounding_retry else {}),
+            **({'compose_prevent': prevent_info} if prevent_info else {}),
             **({'thesis_grounding': {'decision': grounding.get('decision'),
                                      'reason_codes': grounding.get('reason_codes'),
                                      'repair_instruction': grounding.get('repair_instruction')}} if grounding else {}),

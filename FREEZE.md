@@ -55,3 +55,20 @@ Backup: /workspace/x/backups/code_0756/.
 - live/source_licence.json: +4 tier-B manual sources (beincrypto, fxstreet, meta_ai_research, amazon_science) for the morning manual ingest.
 - scripts/oneoff_hand_rows_1013.py: one-off, wrote 4 strategy explainers (Fiona-verified in-house backtest numbers) + 3 Morris_LT evergreen translations via compose_inbox.add. Not scheduled.
 - Fill compose stopped after round 0: 5/6 held (83% > 60% stop rule); the 1 ready row held on screen (garbled).
+
+## 2026-10-13 08:43-09:20 London — compose-time PREVENTION, life-feel rules, fill fixes (Fiona 08:42 / 08:52)
+- live/compose_prevent.py (FD_COMPOSE_PREVENT, default 1; 0 = off): prompt block on every compose — figure whitelist
+  extracted from the source/units (only those figures allowed), banned openers (ngl/idk/tbh, 我看, meta openers) with
+  2-3 good opener examples per language, the whole "not X but Y" family (不是X而是Y / 原因不在X，是Y / 与其说X不如说Y /
+  it's not X, it's Y), no empty step labels, jargon explained on first use, verbatim-only quotes, keep >= 1 source
+  insight / no invented opinions, 2-3 key figures only, one genuine human reaction, no NFA/不构成投资建议 except on
+  strategy/explainer posts; live/disputed_facts.json (CPI day, KOSPI drop size) -> hedge-or-omit rule.
+  Cheap rule checks right after generation; ONE sentence-level repair call ([prevent_repair], own per-draft
+  allowance in DraftClient, never a full regen). Post-draft review unchanged as the safety net. Row field compose_prevent.
+- live/post_kind.py: life-feel rules — real current events only; no hometown/animals/life story; reaction examples
+  no longer teach "ngl"; diary examples carry no invented numbers; BIO_RX also catches pets.
+- live/depth_check.py: human kinds (reaction/question/diary/meme/industry_people) exempt; finding carries level=hard
+  (rows held as bare "hard: " were this). scripts/daily_compose.py passes post_format.kind to it.
+- scripts/daily_compose.py one_per_story: the draft being rewritten (rewrite_of) no longer counts as a prior same-story row.
+- tests/conftest.py: FD_COMPOSE_PREVENT=0 for legacy fixture suites; tests/test_compose_prevent.py.
+Backup: /workspace/x/backups/code_0843/.

@@ -1967,6 +1967,15 @@ class DraftClient:
             raise RuntimeError(f'stage {stage} is not part of daily compose')
         if stage == 'compose' and '[hard_repair]' in json.dumps(messages[-1:], ensure_ascii=False, default=str):
             return self._hard_repair(stage, messages, max_tokens)
+        if stage == 'compose' and '[prevent_repair]' in json.dumps(messages, ensure_ascii=False, default=str)[:4000]:
+            # Oct 13 (live/compose_prevent.py): its own single sentence-repair call, outside the compose cap
+            if getattr(self, 'prevent_left', 1) <= 0:
+                raise budget.BudgetExceeded('per-draft cap: prevent_repair call not run')
+            self.prevent_left = 0
+            r = self.inner(stage, messages, max_tokens)
+            if r.get('model_fallback') or not str(r.get('response_model') or '').startswith('gemini-'):
+                raise RuntimeError(f'non-Gemini response {r.get("response_model")}')
+            return r
         if self.left[stage] <= 0:
             if QUOTA_RX.search(self.last_error):   # the cap was used up by quota failures: report the quota
                 raise RuntimeError(self.last_error)
@@ -2108,6 +2117,8 @@ def inbox_row(result, account_cfg, day, run_id):
             **({'nat_shape': (result.get('post_format') or {}).get('nat_shape')}
                if isinstance(result.get('post_format'), dict) and result['post_format'].get('nat_shape') else {}),
             **({'fluency': result['fluency']} if result.get('fluency') else {}),
+            **({'compose_prevent': {k: result['compose_prevent'].get(k) for k in ('found', 'applied', 'remaining', 'error')}}
+               if isinstance(result.get('compose_prevent'), dict) else {}),
             **({'hook_rewrite': result['hook_rewrite']} if result.get('hook_rewrite') else {}),
             **({'engage_sibling': result['engage_sibling']} if result.get('engage_sibling') else {}),
             **({'hard_repair': {k: repair.get(k) for k in ('result', 'kept', 'error')}
@@ -2624,7 +2635,7 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
         _fh = _om.first_hand_findings(r.get('body') or '', r['plan']['account_lang'])
         # Oct 13 (Fiona; live/depth_check.py FD_DEPTH_CHECK): a pure news relay is held like a first-hand claim
         from live import depth_check as _dc
-        _fh = _fh + _dc.findings(r.get('body') or '', r['plan']['account_lang'], r['plan'].get('post_kind'))
+        _fh = _fh + _dc.findings(r.get('body') or '', r['plan']['account_lang'], r['plan'].get('post_kind') or _kind)
         if _fh:
             r.setdefault('post_checks', []).extend(_fh)
             r['draft_status'] = 'needs_review'
@@ -2671,6 +2682,7 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
             _prior = next((x for x in earlier if x.get('account_id') == row['account_id']
                            and one_per_story.story_key(x) == _key
                            and str(x.get('id')) != str(row.get('id'))
+                           and str(x.get('id')) != str(row.get('rewrite_of') or '')   # Oct 13: the draft being rewritten
                            and str(x.get('text') or '').strip()
                            and not x.get('superseded') and not x.get('published')), None)
             if _prior is not None and not row['held']:
