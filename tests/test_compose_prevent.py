@@ -41,3 +41,7 @@ def test_not_x_family_nfa_and_numbers():
     assert any('disclaimer_on_commentary' in x['codes'] for x in cp.findings('BTC fell 7.2%. Not financial advice.', 'en', EV))
     assert not cp.findings('BTC fell 7.2%. Not financial advice.', 'en', EV, strategy=True)
     assert any(c.startswith('too_many_numbers') for x in cp.findings('7.2% 61,400 1.1 7.2 61400 1.1B', 'en', EV) for c in x['codes'])
+
+
+def test_list_markers_not_flagged():
+    assert not cp.findings('BTC fell 7.2%\n1. 情绪：杠杆太高\n2. 承接：看下方', 'zh', EV)

@@ -117,6 +117,8 @@ def findings(body, lang, evidence_text, strategy=False):
     seen_jargon = set()
     for i, s in enumerate(sentences(body)):
         codes = []
+        if re.fullmatch(r'\s*(?:\d{1,2}|[一二三四五六七八九十]|[a-z])\s*[.、)）]\s*', s, re.I):
+            continue   # a bare list marker split off by the sentence splitter ("1." before its step text)
         for m in _NUM.finditer(s):
             tok = m.group(0).strip()
             lit = re.sub(r'[^\d.]', '', tok)

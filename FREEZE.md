@@ -107,3 +107,4 @@ Backup: /workspace/x/backups/code_0920/. No compose files touched.
   account_source_universes: en_macro universe created (09:12 commit had only reached zh_macro);
   tests/test_account_sources expected set updated accordingly.
 - Not added: Bruegel (JS challenge page), Brookings / CFR / Tax Policy Center / PIIE (no usable feed or 403/404), AEI (skipped: partisan lean).
+- 09:25 fix: bare list markers ("1.") split off by the sentence splitter are no longer flagged empty_step_label / number_not_in_source (false positives in the first fill batch).
