@@ -1,0 +1,232 @@
+{
+  "note": "Oct 13 thin lanes: free, no-key analysis feeds for SUPPLY-bound accounts (fresh standalone packets < 3 per run, measured by /workspace/x/thin_lanes/measure_pool.py over 10-11..10-13). Merged into the daily path by live/thin_lane_src.py only while FD_THIN_LANE_SRC != 0; source_registry.json / source_licence.json are unchanged. Rows use the source_registry.json newsletter shape (adapter feed; route_accounts / route_beats scope them like Four Pillars, deterministic tags, no Jev). Checked from this box 2026-10-13 ~11:00 London: HTTP 200, items inside 48 h, full text in the feed (or full_only picks the feed's full-text items).",
+  "switch": "FD_THIN_LANE_SRC",
+  "added": "2026-10-13",
+  "sources": [
+    {
+      "id": "thin_cryptoslate_btc",
+      "name": "CryptoSlate",
+      "type": "newsletter",
+      "enabled": true,
+      "adapter": "feed",
+      "feed_url": "https://cryptoslate.com/news/bitcoin/feed/",
+      "author": "CryptoSlate",
+      "source_type": "newsletter",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_btc_cycle_zh"
+      ],
+      "route_beats": [
+        "crypto_macro_zh",
+        "crypto_onchain"
+      ],
+      "fetch_limit": 3,
+      "endpoint_status": "HTTP 200 RSS, full text (content:encoded 3-15k chars), 7 items in 48 h (2026-10-13 10:00 London)",
+      "note": "Bitcoin desk analysis (options positioning, cost-basis zones, fund flows, policy); BTC cycle lane"
+    },
+    {
+      "id": "thin_cryptoslate_macro",
+      "name": "CryptoSlate",
+      "type": "newsletter",
+      "enabled": true,
+      "adapter": "feed",
+      "feed_url": "https://cryptoslate.com/feed/",
+      "author": "CryptoSlate",
+      "source_type": "newsletter",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_macro_zh"
+      ],
+      "route_beats": [
+        "crypto_macro_zh"
+      ],
+      "fetch_limit": 3,
+      "topic_filter": "\\b(?:fed|fomc|rate (?:cut|hike)s?|inflation|cpi|treasur(?:y|ies)|yields?|dollar|imf|bis|liquidity|macro|etf (?:flows?|inflows?|outflows?)|stablecoin market|tariffs?)\\b",
+      "endpoint_status": "HTTP 200 RSS, full text, 10 items in 48 h (2026-10-13 10:00 London)",
+      "note": "macro-tagged CryptoSlate analysis only (topic_filter); crypto x macro lane"
+    },
+    {
+      "id": "thin_panews_deep",
+      "name": "PANews",
+      "type": "newsletter",
+      "enabled": true,
+      "adapter": "feed",
+      "feed_url": "https://www.panewslab.com/rss.xml",
+      "author": "PANews",
+      "source_type": "newsletter",
+      "source_language": "zh",
+      "lang": "zh",
+      "route_accounts": [
+        "crypto_newbie_zh"
+      ],
+      "route_beats": [
+        "crypto_macro_zh",
+        "crypto_defi"
+      ],
+      "full_only": true,
+      "fetch_limit": 3,
+      "topic_filter": "^(?!PA日报|Asia Market Daily|华尔街早报)(?!.{0,80}?(?:圆满落幕|盛大开幕|峰会|大会|活动))[\\s\\S]*?(?:比特币|以太坊|BTC|ETH|加密|链上|稳定币|DeFi|代币|交易所|Meme|空投|Solana|钱包|公链|币圈|山寨)",
+      "endpoint_status": "HTTP 200 RSS, 60 items in 48 h of which ~10 full-text deep pieces (2026-10-13 10:00 London)",
+      "note": "zh deep articles only (full_only skips the flash items; topic_filter keeps crypto pieces, drops the daily digests and event / summit recaps)"
+    },
+    {
+      "id": "thin_unchained",
+      "name": "Unchained",
+      "type": "newsletter",
+      "enabled": true,
+      "adapter": "feed",
+      "feed_url": "https://unchainedcrypto.com/feed/",
+      "author": "Unchained",
+      "source_type": "newsletter",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_research_zh"
+      ],
+      "route_beats": [
+        "crypto_defi"
+      ],
+      "fetch_limit": 3,
+      "endpoint_status": "HTTP 200 RSS, full text (2-3k chars), 10 items in 48 h (2026-10-13 10:00 London)",
+      "note": "Laura Shin's Unchained: interview-led analysis of protocols, tokens, stablecoins; sector / narrative reading"
+    },
+    {
+      "id": "thin_beincrypto_trading",
+      "name": "BeInCrypto",
+      "type": "newsletter",
+      "enabled": true,
+      "adapter": "feed",
+      "feed_url": "https://beincrypto.com/feed/",
+      "author": "BeInCrypto",
+      "source_type": "newsletter",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_trader_zh"
+      ],
+      "route_beats": [
+        "crypto_perp",
+        "trading_shortterm"
+      ],
+      "fetch_limit": 3,
+      "topic_filter": "\\b(?:liquidat\\w*|options?|futures|funding rates?|open interest|short(?:s|ed)?|longs?|leverage\\w*|support|resistance|whales?|traders?|derivatives|breakout|rally|sell-?off)\\b",
+      "endpoint_status": "HTTP 200 RSS, full text (2-4k chars), 11 of 12 items full in 48 h (2026-10-13 10:00 London)",
+      "note": "market-structure / positioning analysis (options, liquidations, leverage, whale positioning); trader lane"
+    },
+    {
+      "id": "thin_klement",
+      "name": "Klement on Investing",
+      "type": "newsletter",
+      "enabled": true,
+      "adapter": "feed",
+      "feed_url": "https://klementoninvesting.substack.com/feed",
+      "author": "Joachim Klement",
+      "source_type": "newsletter",
+      "source_language": "en",
+      "route_accounts": [
+        "longterm_investing_en"
+      ],
+      "route_beats": [
+        "investing_philosophy"
+      ],
+      "fetch_limit": 2,
+      "endpoint_status": "HTTP 200 RSS, full text, daily, 2 items in 48 h (2026-10-13 10:00 London)",
+      "note": "CFA research-driven long-term investing / behavioural finance notes (daily)"
+    },
+    {
+      "id": "thin_humbledollar",
+      "name": "HumbleDollar",
+      "type": "newsletter",
+      "enabled": true,
+      "adapter": "feed",
+      "feed_url": "https://humbledollar.com/feed/",
+      "author": "HumbleDollar",
+      "source_type": "newsletter",
+      "source_language": "en",
+      "route_accounts": [
+        "longterm_investing_en"
+      ],
+      "route_beats": [
+        "investing_philosophy"
+      ],
+      "fetch_limit": 2,
+      "full_only": true,
+      "endpoint_status": "HTTP 200 RSS, 3 items in 48 h, 2 full text (2026-10-13 10:00 London)",
+      "note": "Jonathan Clements' personal-finance / long-term investing essays"
+    }
+  ],
+  "licence": {
+    "thin_cryptoslate_btc": {
+      "tier": "B",
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "basis": "public crypto analysis feed; paraphrase with attribution, no reproduction (thin lanes 2026-10-13)",
+      "aliases": [
+        "CryptoSlate"
+      ]
+    },
+    "thin_cryptoslate_macro": {
+      "tier": "B",
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "basis": "public crypto analysis feed; paraphrase with attribution, no reproduction (thin lanes 2026-10-13)",
+      "aliases": [
+        "CryptoSlate"
+      ]
+    },
+    "thin_panews_deep": {
+      "tier": "B",
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "basis": "public zh crypto media feed (deep articles); paraphrase with attribution, no reproduction (thin lanes 2026-10-13)",
+      "aliases": [
+        "PANews",
+        "PA News"
+      ]
+    },
+    "thin_unchained": {
+      "tier": "B",
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "basis": "public crypto analysis feed; paraphrase with attribution, no reproduction (thin lanes 2026-10-13)",
+      "aliases": [
+        "Unchained",
+        "Laura Shin"
+      ]
+    },
+    "thin_beincrypto_trading": {
+      "tier": "B",
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "basis": "public crypto market analysis feed; paraphrase with attribution, no reproduction (thin lanes 2026-10-13)",
+      "aliases": [
+        "BeInCrypto"
+      ]
+    },
+    "thin_klement": {
+      "tier": "B",
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "basis": "public investing newsletter feed; paraphrase with attribution, no reproduction (thin lanes 2026-10-13)",
+      "aliases": [
+        "Klement on Investing",
+        "Joachim Klement"
+      ]
+    },
+    "thin_humbledollar": {
+      "tier": "B",
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "basis": "public personal-finance essay feed; paraphrase with attribution, no reproduction (thin lanes 2026-10-13)",
+      "aliases": [
+        "HumbleDollar",
+        "Jonathan Clements"
+      ]
+    }
+  }
+}
