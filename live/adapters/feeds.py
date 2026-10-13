@@ -75,13 +75,22 @@ def fetch_newsletter(feed, *, limit=1, min_chars=800, transport=None):
         rows = [{'url': l['url'], 'title': l['title'], 'text': '', 'content_complete': False} for l in links]
     else:
         topic = feed.get('topic_filter')
+        # Oct 13 (thin lanes, opt-in per row): full_only skips the feed's short flash items before the limit applies, so
+        # a mixed flash + analysis feed (PANews: ~100 items / 48 h, ~10 full) yields its analysis pieces, scanning the
+        # newest max(20 x limit, 60) items; fetch_limit overrides the caller's limit.
+        full_only = bool(feed.get('full_only'))
+        limit = int(feed.get('fetch_limit') or limit)
         rows, error = fetch_feed({'id': feed['id'], 'author': feed.get('name'), 'url': feed['feed_url']},
-                                 limit=max(limit * 6, 12) if topic else limit,
+                                 limit=max(limit * 20, 60) if full_only else max(limit * 6, 12) if topic else limit,
                                  **({'transport': transport} if transport is not None else {}))
         if topic and not error:
             # Oct 13: registry topic_filter (regex on title + feed text) keeps general feeds on the account angle.
             rx = re.compile(topic, re.I)
-            rows = [r for r in rows if rx.search((r.get('title') or '') + ' ' + (r.get('text') or ''))][:limit]
+            rows = [r for r in rows if rx.search((r.get('title') or '') + ' ' + (r.get('text') or ''))]
+        if full_only and not error:
+            rows = [r for r in rows if r.get('content_complete') and len(r.get('text') or '') >= min_chars]
+        if topic or full_only:
+            rows = rows[:limit]
     if error:
         return {'status': error, 'sources': []}
     sources, short, page_notes = [], 0, []

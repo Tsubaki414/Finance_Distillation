@@ -17,22 +17,32 @@ CONFIDENCE = 0.75
 RULE = 'source-routes-v1'
 
 
-@lru_cache(maxsize=4)
-def _routes(path=str(REGISTRY)):
+@lru_cache(maxsize=8)
+def _routes(path=str(REGISTRY), thin=False):
+    from live import thin_lane_src
     out = {}
-    for row in json.loads(Path(path).read_text()).get('sources') or []:
+    rows = json.loads(Path(path).read_text()).get('sources') or []
+    if thin:   # Oct 13 (FD_THIN_LANE_SRC): thin-lane sources from live/thin_lane_sources.json
+        rows = thin_lane_src.merged_registry_rows(rows)
+    for row in rows:
         if row.get('route_accounts') and row.get('enabled', True):
             out[row['id']] = {'accounts': tuple(row['route_accounts']), 'beats': tuple(row.get('route_beats') or ())}
     return out
 
 
 def route(source_id, path=None):
-    return _routes(str(path or REGISTRY)).get(source_id)
+    from live import thin_lane_src
+    return _routes(str(path or REGISTRY), path is None and thin_lane_src.enabled()).get(source_id)
 
 
 def allowed(source, account, path=None):
-    """False only for a routed source offered to an account outside its route."""
-    r = route((source or {}).get('source_id'), path)
+    """False only for a routed source offered to an account outside its route, or a thin-lane source while
+    FD_THIN_LANE_SRC=0 (its already stored units go to no account)."""
+    from live import thin_lane_src
+    sid = (source or {}).get('source_id')
+    if path is None and thin_lane_src.blocked(sid):
+        return False
+    r = route(sid, path)
     return r is None or account in r['accounts']
 
 

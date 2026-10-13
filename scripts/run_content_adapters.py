@@ -25,7 +25,8 @@ ODD_LOTS = ('https://www.omnycontent.com/d/playlist/e73c998e-6e60-432f-8610-ae21
 
 
 def newsletter_feeds():
-    rows = json.loads((ROOT / 'live/source_registry.json').read_text())['sources']
+    from live import thin_lane_src   # Oct 13 (FD_THIN_LANE_SRC): thin-lane feeds from live/thin_lane_sources.json
+    rows = thin_lane_src.merged_registry_rows(json.loads((ROOT / 'live/source_registry.json').read_text())['sources'])
     return [r for r in rows if r.get('type') in ('newsletter', 'wechat')
             and (r.get('feed_url') or (r.get('page_fetch') or {}).get('listing_url')) and not r.get('fetch_blocked')]
 

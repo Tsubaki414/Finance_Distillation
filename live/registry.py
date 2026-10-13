@@ -217,7 +217,8 @@ def persona_for_account(account_id, personas=None):
 
 
 def _licence():
-    return json.loads(LICENCE.read_text())['tiers']
+    from live import thin_lane_src   # Oct 13 (FD_THIN_LANE_SRC): thin-lane source tiers
+    return thin_lane_src.merged_licence(json.loads(LICENCE.read_text())['tiers'])
 
 
 def source_licence_tier(source_id):

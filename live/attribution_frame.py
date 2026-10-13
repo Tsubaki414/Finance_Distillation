@@ -37,7 +37,8 @@ REGISTRY_FILE = Path(__file__).with_name('source_registry.json')
 
 
 def publisher_name(source_id):
-    for row in json.loads(REGISTRY_FILE.read_text()).get('sources', []):
+    from live import thin_lane_src
+    for row in thin_lane_src.merged_registry_rows(json.loads(REGISTRY_FILE.read_text()).get('sources', [])):
         if row.get('id') == source_id:
             return row.get('name')
     return None
@@ -49,8 +50,8 @@ OTHER_ATTRIBUTION = re.compile(r'据[^，。,.；;]{1,24}(?:报道|称|消息|�
 
 
 def aliases(source_id):
-    from live import registry
-    entry = json.loads(registry.LICENCE.read_text())['tiers'].get(source_id) or {}
+    from live import registry, thin_lane_src
+    entry = thin_lane_src.merged_licence(json.loads(registry.LICENCE.read_text())['tiers']).get(source_id) or {}
     return list(entry.get('aliases') or [])
 
 
