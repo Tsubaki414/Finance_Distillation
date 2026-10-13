@@ -225,7 +225,7 @@
       "fetch_limit": 3,
       "topic_filter": "^(?!PA日报|Asia Market Daily|华尔街早报)(?!.{0,80}?(?:圆满落幕|盛大开幕|峰会|大会|活动))[^\\n]{0,80}?(?:Meme|迷因|土狗|空投|撸毛|积分|TGE|测试网|打新|稳定币|生息|理财|RWA|USDe|Ethena|Pendle|脱锚|Launchpad|发射台|[Pp]ump\\.?fun)",
       "endpoint_status": "HTTP 200 RSS, ~100 items in 48 h of which ~10 full-text deep pieces; checked from this box 2026-10-13 ~17:30 London",
-      "note": "same PANews feed as thin_panews_deep (crypto_newbie_zh), but only the deep pieces whose title is on the meme / airdrop / stablecoin-yield lanes, routed to the three zh niche accounts (a piece both rows take is stored once, under the row ingest reaches first)"
+      "note": "same PANews feed as thin_panews_deep (crypto_newbie_zh), but only the deep pieces whose title is on the meme / airdrop / stablecoin-yield lanes, routed to the three zh niche accounts (a piece matching both rows' filters can be fetched by both; overlap is limited to meme / airdrop / stablecoin-yield deep pieces)"
     }
   ],
   "licence": {
