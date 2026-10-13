@@ -60,6 +60,8 @@ PY
 # drafts, <= FD_AUTOPUB_MAX_CALLS) matched to today's / yesterday's unposted draft_ready drafts (similarity >= 0.88)
 # -> POST /api/decisions action=published, like the 已发 tick; match log live/store/auto_published/<day>.json. Runs
 # before the fill so its dashboard rebuild shows the marks. FD_AUTOPUB=0 off, FD_AUTOPUB_DRY=1 matches only. Non-fatal.
+# Oct 13: 数据监测 - one /user-tweets call per own account (count 40), local store only; auto_published reuses it.
+/workspace/fd_venv/bin/python scripts/post_monitor.py --fetch 2>&1 || echo "post_monitor fetch failed: $?"
 if [[ "${FD_AUTOPUB:-1}" != "0" ]]; then
     DRY=(); [[ "${FD_AUTOPUB_DRY:-0}" == "1" ]] && DRY=(--dry-run)
     /workspace/fd_venv/bin/python scripts/auto_published.py "${DRY[@]}" 2>&1 || echo "auto_published failed: $?"

@@ -156,6 +156,13 @@ def perf_raw_uid(handle):
 def fetch_timeline(client, handle, uid_cache):
     """Fetch recent tweets for handle; returns list of post dicts from scrape_donor_posts.timeline_posts."""
     from scripts.scrape_donor_posts import timeline_posts
+    try:   # Oct 13: reuse the 数据监测 fetch made minutes earlier in the same engage pull (no extra call)
+        from scripts.post_monitor import cached_timeline
+        cached = cached_timeline(handle)
+        if cached is not None:
+            return cached
+    except Exception:
+        pass
     uid = uid_cache.get(handle.lower()) or perf_raw_uid(handle)
     if not uid:
         user = client.get('/user', username=handle)['result']['data']['user']['result']

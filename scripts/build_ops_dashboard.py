@@ -747,7 +747,7 @@ NAV_CSS = ('.topnav{display:inline-flex;gap:2px;background:var(--surface);border
            'padding:6px 14px;border-radius:7px;transition:background-color .15s,color .15s}'
            '.topnav a:hover{background:var(--sunk)}'
            '.topnav a[aria-current=page]{background:var(--accent-bg);color:var(--accent)}')
-NAV_LINKS = (('/', '运营看板'), ('/admin', '审稿后台'))
+NAV_LINKS = (('/', '运营看板'), ('/admin', '审稿后台'), ('/monitor', '数据监测'))
 
 
 def nav_html(current):
@@ -1139,6 +1139,11 @@ def main():
     if not args.no_admin:
         import build_admin_console
         build_admin_console.build(args.inbox, args.out)
+    try:   # Oct 13: 数据监测 page from live/store/post_monitor (fetched by scripts/post_monitor.py --fetch)
+        import post_monitor
+        post_monitor.build_page(args.out)
+    except Exception as exc:
+        print(f'monitor page failed: {exc}')
     return 0
 
 

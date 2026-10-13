@@ -114,6 +114,11 @@ echo "compose budget \$${BUDGET} (day total cap \$${FD_DAILY_TOTAL_USD:-25} minu
 /workspace/fd_venv/bin/python -c "import sys; from ml import budget; d=budget._load(); s=float(d.get('spent_usd') or 0); c=float(d.get('cap_usd') or 0); n=s+float(sys.argv[1])+1.0; budget.set_cap(n) if n>c else None; print(f'ledger cap {c:.2f} -> {max(n,c):.2f} (spent {s:.2f})')" "$BUDGET"
 /workspace/fd_venv/bin/python scripts/daily_compose.py --per-account "${FD_DAILY_COMPOSE_PER_ACCOUNT:-2}" \
     --budget-usd "$BUDGET" "$@"
+# Oct 13 (Fiona): no account two days without a post - accounts with no 已发 yesterday and no ready draft today get
+# a fresh fill round, then a 常青 evergreen draft (scripts/idle_guard.py; FD_IDLE_GUARD=0 off). Non-fatal.
+/workspace/fd_venv/bin/python scripts/idle_guard.py || echo "idle guard failed (compose result unaffected)"
+# Oct 13: 数据监测 fetch (skips if fetched < 25 min ago, e.g. by the engage pull that called us). Non-fatal.
+/workspace/fd_venv/bin/python scripts/post_monitor.py --fetch 2>&1 || echo "post_monitor fetch failed: $?"
 # Rebuild the operator copy-paste dashboard (static HTML + per-day CSV); system python3 has PIL for avatar thumbnails.
 /workspace/fd_venv/bin/python scripts/build_ops_dashboard.py || echo "ops dashboard rebuild failed (compose result unaffected)"
 # Redeploy the static ops page to Vercel (project fd-ops-dashboard, linked in the ops dir). Non-fatal; skip with
