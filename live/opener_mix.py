@@ -132,6 +132,9 @@ def _strip_first(body, rx, guard=None):
     return out, m.group(0).strip()
 
 
+_EN_FILLER = re.compile(r'^\s*(?:ngl|idk|tbh)\b[\s,.:;!\-–—]*', re.I)
+
+
 def fix_opener(body, lang, opener=None, source_age=None):
     """(new_body, changes). zh: strip 我看/我觉得 + source-label openers. en: strip an unassigned or stale 🚨/BREAKING."""
     if not enabled() or not body:
@@ -149,6 +152,13 @@ def fix_opener(body, lang, opener=None, source_age=None):
                 continue
             break
     else:
+        # Oct 13 (Fiona): ngl / idk / tbh filler openers are banned here, at the final EN opener step (humanize can
+        # re-introduce them after nat_tex ran). Stripped deterministically; the next word is capitalised.
+        m = _EN_FILLER.match(str(body))
+        if m:
+            rest = str(body)[m.end():]
+            body = rest[:1].upper() + rest[1:]
+            changes.append(f'opener: stripped filler {m.group(0).strip()!r}')
         first = next((l for l in str(body).split('\n') if l.strip()), '')
         if re.match(r'^\s*(?:🚨|BREAKING\b)', first, re.I):
             fresh = source_age is not None and source_age < BREAKING_MAX_AGE_H

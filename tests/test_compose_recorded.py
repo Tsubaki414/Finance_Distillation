@@ -16,6 +16,8 @@ FIXTURE = Path(__file__).parent / 'fixtures' / 'recorded' / 'compose_libertystre
 
 
 class RecordedComposeTests(unittest.TestCase):
+    # Oct 13: the recording predates the depth rule (FD_DEPTH_CHECK); replay the prompt it was recorded with
+    @patch.dict('os.environ', {'FD_DEPTH_CHECK': '0'})
     def test_recorded_compose_passes_post_checks(self):
         data = json.loads((FIXTURE / 'input.json').read_text())
         client = RecordedClient(load_calls(FIXTURE / 'calls.jsonl'))

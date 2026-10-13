@@ -1808,6 +1808,8 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                                        else (_os.environ.get('FD_ZH_REGISTER', '1') != '0'
                                              and bool(sig or persona.voice_card)))
     system_prompt = COMPOSE + '\n' + zr.SYSTEM_ZH if use_zh else COMPOSE
+    from live import depth_check as _depth
+    system_prompt += _depth.prompt_rule()   # Oct 13: depth requirement (FD_DEPTH_CHECK)
     zh_anchor_texts = []
     opening = None
     if use_zh:

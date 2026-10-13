@@ -2389,6 +2389,9 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
                              seed_events=ready_events(args.day, fd_accounts.rows(CONFIG)),
                              allow_model=not args.select_only or args.hotspot_merge, info=info,
                              archive_yield=arc_yield)
+    # Oct 13 (Fiona; live/one_per_story.cap_plan, FD_STORY_CAP_SELECT): one story across accounts, before drafting
+    info['story_cap_dropped'] = one_per_story.cap_plan(plan, order, compose_inbox.rows(args.day.isoformat()),
+                                                       log=lambda m: print(m, flush=True))
     write_json(out / 'plan.json', {'day': args.day.isoformat(), 'day_basis': 'Asia/Shanghai calendar date',
                                    'selection_ref': selection_ref(args.day, args.now).isoformat(), 'pick_order': order, 'per_account': per_account,
                                    'fill': fill, 'round': rnd, 'drafted_earlier_today': done,
@@ -2615,6 +2618,9 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
                 r['text'] = r['text'].replace(_old_body, _nb, 1)
             r['opener_fix'] = _och
         _fh = _om.first_hand_findings(r.get('body') or '', r['plan']['account_lang'])
+        # Oct 13 (Fiona; live/depth_check.py FD_DEPTH_CHECK): a pure news relay is held like a first-hand claim
+        from live import depth_check as _dc
+        _fh = _fh + _dc.findings(r.get('body') or '', r['plan']['account_lang'], r['plan'].get('post_kind'))
         if _fh:
             r.setdefault('post_checks', []).extend(_fh)
             r['draft_status'] = 'needs_review'

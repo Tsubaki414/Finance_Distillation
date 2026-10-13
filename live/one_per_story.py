@@ -102,3 +102,62 @@ def apply_day(day: str, base: Path | None = None, env: dict | None = None, log=N
             if write:
                 compose_inbox.add(r, base=base) if base else compose_inbox.add(r)
     return {'day': str(day), 'rows': len(rows), 'changed': changed, 'held': held}
+
+
+# ---------------------------------------------------------------- Oct 13: cross-account cap at SELECTION time
+# Fiona (10-13): do not spend tokens drafting a story that a later gate will hold. One pick per story across all
+# accounts of the day, decided before any model call. Story keys of a pick: its canonical source key (URL > source
+# id > title, as story_key) plus its day motif keys ('motif:<day>:<id>' from the story labeller). Today's ready
+# inbox rows lock their keys first; then picks are taken in pick_order, round-robin, first come first kept.
+# Kill switch: FD_STORY_CAP_SELECT=0.
+
+def select_cap_enabled(env: dict | None = None) -> bool:
+    return (env or os.environ).get('FD_STORY_CAP_SELECT', '1') != '0'
+
+
+def pick_keys(pick: dict) -> set:
+    keys = set()
+    k = story_key({'source': {'url': pick.get('url'), 'source_id': pick.get('source_id'), 'title': pick.get('title')}}
+                  if 'source' not in pick else pick)
+    if k:
+        keys.add(k)
+    for s in ((pick.get('story') or {}).get('keys') or []):
+        if str(s).startswith('motif:'):
+            keys.add(str(s))
+    return keys
+
+
+def cap_plan(plan: dict, order: list, existing_rows=(), env: dict | None = None, log=None) -> list:
+    """Drop picks whose story is already taken (today's ready rows, or an earlier pick of another account).
+    plan is modified in place; returns [(account, title, key)] dropped."""
+    if not select_cap_enabled(env):
+        return []
+    taken = {}
+    for r in existing_rows or ():
+        if r.get('superseded') or r.get('held') or r.get('draft_status') != 'draft_ready':
+            continue
+        for k in pick_keys(r):
+            taken.setdefault(k, r.get('account_id'))
+    accts = [a for a in (order or []) if a in plan] + [a for a in plan if a not in (order or [])]
+    kept = {a: [] for a in plan}
+    from live import depth_check as _dc   # Oct 13: analysis sources before headline/flash sources (stable)
+    queues = {a: sorted(plan[a], key=lambda p: _dc.enabled(env) and _dc.is_headline_source(p)) for a in plan}
+    dropped = []
+    while any(queues.values()):
+        for a in accts:
+            if not queues[a]:
+                continue
+            p = queues[a].pop(0)
+            ks = pick_keys(p)
+            hit = next((k for k in ks if taken.get(k) not in (None, a)), None)
+            if hit:
+                dropped.append((a, str(p.get('title'))[:60], hit))
+                if log:
+                    log(f'[{a}] story cap: skip pick (story taken by {taken[hit]}: {hit[:60]})')
+                continue
+            for k in ks:
+                taken.setdefault(k, a)
+            kept[a].append(p)
+    for a in plan:
+        plan[a][:] = kept[a]
+    return dropped
