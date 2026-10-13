@@ -18,6 +18,10 @@ Match log -> live/store/auto_published/<day>.json.
 FD_AUTOPUB=0: skip entirely.
 FD_AUTOPUB_MAX_CALLS: max /user-tweets calls per run (default 40).
 """
+import sys as _sys
+from pathlib import Path as _P
+_sys.path.insert(0, str(_P(__file__).resolve().parents[1]))
+from live.admin_token import auth_headers as _fd_auth_headers  # Oct 13: writes need the admin token
 import argparse
 import json
 import os
@@ -241,7 +245,7 @@ def build_decision_payload(day, draft, tweet, posted_at_iso, tweet_url):
 def post_decision(api_url, payload):
     data = json.dumps(payload, ensure_ascii=False).encode()
     req = urllib.request.Request(api_url, data=data, method='POST',
-                                 headers={'Content-Type': 'application/json', 'Cache-Control': 'no-store'})
+                                 headers={**_fd_auth_headers(), 'Content-Type': 'application/json', 'Cache-Control': 'no-store'})
     with urllib.request.urlopen(req, timeout=30) as r:
         body = r.read().decode()
         result = json.loads(body)

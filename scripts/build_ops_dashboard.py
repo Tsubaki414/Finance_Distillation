@@ -1006,15 +1006,24 @@ function render(){
   fitClamp();
   $('#nAll').textContent=all;$('#nDone').textContent=done;$('#nTodo').textContent=all-done;
 }
+function fdTok(ask){let t=localStorage.getItem('fd_admin_token')||'';if(!t||ask){t=(prompt('写入需要管理口令（只存本机浏览器）')||'').trim();if(t)localStorage.setItem('fd_admin_token',t)}return t}
+async function fdPost(payload){   // Oct 13: writes need the admin token; read-only without it
+  for(const ask of [false,true]){
+    const t=fdTok(ask);if(!t)throw new Error('只读：未输入管理口令');
+    const r=await fetch('/api/decisions',{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json','Authorization':'Bearer '+t},body:JSON.stringify(payload)});
+    if(r.status===401){localStorage.removeItem('fd_admin_token');continue}
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    return await r.json();
+  }
+  throw new Error('管理口令错误');
+}
 async function pushPosted(day,d,on){
   const L=live[day],x=L?L[d.id]||null:null;
   if(!on&&L&&!isPublished(x))return true;   // nothing shared to undo
   // unticking a decision that is only 已发 clears it; anything else (an admin's edit / approve) keeps it: unpublish
   const action=on?'published':x&&x.action==='published'&&!x.text&&!x.before_publish?'clear':'unpublish';
   try{
-    const r=await fetch('/api/decisions',{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify({day,id:d.id,account_id:d.account_id,action})});
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    const j=await r.json();if(live[day])live[day][d.id]=j.decision;return true;
+    const j=await fdPost({day,id:d.id,account_id:d.account_id,action});if(live[day])live[day][d.id]=j.decision;return true;
   }catch(e){syncErr=String(e.message||e);return false}
 }
 async function setPosted(id,on){

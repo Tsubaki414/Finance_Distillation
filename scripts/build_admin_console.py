@@ -376,11 +376,20 @@ async function load(){
   dec=Object.assign(next,pending(day));
   if(editing())dirty=true;else render();
 }
+function fdTok(ask){let t=localStorage.getItem('fd_admin_token')||'';if(!t||ask){t=(prompt('写入需要管理口令（只存本机浏览器）')||'').trim();if(t)localStorage.setItem('fd_admin_token',t)}return t}
+async function fdPost(payload){   // Oct 13: writes need the admin token; read-only without it
+  for(const ask of [false,true]){
+    const t=fdTok(ask);if(!t)throw new Error('只读：未输入管理口令');
+    const r=await fetch('/api/decisions',{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json','Authorization':'Bearer '+t},body:JSON.stringify(payload)});
+    if(r.status===401){localStorage.removeItem('fd_admin_token');continue}
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    return await r.json();
+  }
+  throw new Error('管理口令错误');
+}
 async function post(d){
   try{
-    const r=await fetch('/api/decisions',{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
-    if(!r.ok)throw new Error(r.status);
-    return (await r.json()).decision||null;
+    return (await fdPost(d)).decision||null;
   }catch(e){return null}
 }
 async function decide(d,action,extra){

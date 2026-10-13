@@ -8,8 +8,12 @@
 //   approve|published|hold|rewrite|edit|clear (older readers only look at `action`); `published` (bool) is the flag
 //   and `before_publish` the action unpublish restores. Blobs written before the flag existed have no `published`
 //   key: action 'published' alone means published.
-// No auth: the site is unlisted by choice (noindex on both pages).
+// Oct 13 (Fiona, aixbt dashboard-breach lesson): reads stay public (the ops page is read-only without a token);
+// every POST (approve/hold/edit/published/...) needs the admin token (FD_ADMIN_TOKEN Vercel env; box copy in
+// ~/.secrets/fd_admin.env) as `Authorization: Bearer <token>` or `x-fd-admin-token`. No env -> all writes refused
+// (fail closed). Every write attempt (accepted or refused) is logged to private blob audit/<day>/<ts>-<rand>.json.
 import { get, list, put } from '@vercel/blob';
+import { createHash, timingSafeEqual, randomBytes } from 'node:crypto';
 
 const DAY = /^\d{4}-\d{2}-\d{2}$/;
 const ID = /^[A-Za-z0-9_.-]{1,100}$/;
@@ -66,7 +70,30 @@ async function body(req) {
   return JSON.parse(Buffer.concat(chunks).toString('utf8') || '{}');
 }
 
-export { isPublished, nextDecision };
+function tokenOk(req) {
+  const want = process.env.FD_ADMIN_TOKEN || '';
+  if (want.length < 16) return false;
+  const h = req.headers || {};
+  let got = String(h['x-fd-admin-token'] || '');
+  const a = String(h.authorization || '');
+  if (!got && a.toLowerCase().startsWith('bearer ')) got = a.slice(7).trim();
+  const d = x => createHash('sha256').update(String(x)).digest();
+  return !!got && timingSafeEqual(d(got), d(want));
+}
+
+async function audit(req, b, ok, status) {
+  try {
+    const at = new Date().toISOString();
+    const h = req.headers || {};
+    const rec = { at, ok, status, action: b && b.action, day: b && b.day, id: b && b.id, account_id: b && b.account_id,
+      has_text: !!(b && typeof b.text === 'string' && b.text), ip: String(h['x-forwarded-for'] || '').split(',')[0].trim(),
+      ua: String(h['user-agent'] || '').slice(0, 200) };
+    await put(`audit/${at.slice(0, 10)}/${at.replace(/[:.]/g, '-')}-${randomBytes(3).toString('hex')}.json`, JSON.stringify(rec),
+      { access: 'private', addRandomSuffix: false, contentType: 'application/json' });
+  } catch (e) { /* logging never blocks a decision */ }
+}
+
+export { isPublished, nextDecision, tokenOk };
 
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
@@ -85,7 +112,9 @@ export default async function handler(req, res) {
       return res.status(200).json({ day, decisions: out });
     }
     if (req.method === 'POST') {
-      const b = await body(req);
+      let b = {};
+      try { b = await body(req); } catch (e) { b = {}; }
+      if (!tokenOk(req)) { await audit(req, b, false, 401); return res.status(401).json({ error: 'admin token required' }); }
       if (!DAY.test(b.day || '') || !ID.test(b.id || '') || !ACTIONS.has(b.action)) return res.status(400).json({ error: 'bad request' });
       const path = `decisions/${b.day}/${b.id}.json`;
       const prev = await readBlob(path).catch(() => null);
@@ -93,6 +122,7 @@ export default async function handler(req, res) {
       await put(path, JSON.stringify(decision), {
         access: 'private', addRandomSuffix: false, allowOverwrite: true, contentType: 'application/json',
       });
+      await audit(req, b, true, 200);
       return res.status(200).json({ ok: true, decision });
     }
     res.setHeader('Allow', 'GET, POST');

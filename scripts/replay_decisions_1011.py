@@ -17,6 +17,10 @@ PREREQUISITE: Blob store must be reactivated first. Test with:
     -H 'Content-Type: application/json' \\
     -d '{"day":"2026-10-11","id":"test-probe","account_id":"test","action":"approve"}' | grep -v suspended
 """
+import sys as _sys
+from pathlib import Path as _P
+_sys.path.insert(0, str(_P(__file__).resolve().parents[1]))
+from live.admin_token import auth_headers as _fd_auth_headers  # Oct 13: writes need the admin token
 import argparse
 import json
 import os
@@ -39,7 +43,7 @@ def probe_blob(api_url):
         data = json.dumps({'day': '2026-10-11', 'id': '_probe_replay', 'account_id': 'test',
                            'action': 'approve'}, ensure_ascii=False).encode()
         req = urllib.request.Request(api_url, data=data, method='POST',
-                                     headers={'Content-Type': 'application/json'})
+                                     headers={**_fd_auth_headers(), 'Content-Type': 'application/json'})
         with urllib.request.urlopen(req, timeout=15) as r:
             resp = json.loads(r.read().decode())
         if 'Blob' in str(resp.get('error', '')):
@@ -54,7 +58,7 @@ def probe_blob(api_url):
 def post_decision(api_url, payload):
     data = json.dumps(payload, ensure_ascii=False).encode()
     req = urllib.request.Request(api_url, data=data, method='POST',
-                                 headers={'Content-Type': 'application/json', 'Cache-Control': 'no-store'})
+                                 headers={**_fd_auth_headers(), 'Content-Type': 'application/json', 'Cache-Control': 'no-store'})
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.loads(r.read().decode())
 
