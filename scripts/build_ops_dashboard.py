@@ -108,7 +108,8 @@ def parts_of(row, body):
 
 
 def status_of(row):
-    if row.get('superseded'):
+    # Oct 13: withdrawn / superseded drafts never show as 待发出 (any of the three markers is enough)
+    if row.get('superseded') or row.get('withdrawn') or row.get('superseded_by'):
         return 'superseded'
     if row.get('held') or (row.get('arbitration') or {}).get('status') == 'HOLD':
         return 'HOLD'
@@ -342,6 +343,8 @@ def apply_decisions(drafts, decisions):
         act, text = x.get('action'), x.get('text')
         d['published'] = is_published(x)
         if act not in ('approve', 'published', 'hold', 'rewrite', 'edit'):
+            continue
+        if d.get('status') == 'superseded' and act != 'published':   # a stale approve never revives a withdrawn draft
             continue
         d['base'] = {k: d.get(k) for k in BASE_KEYS}
         d['decision'] = act
@@ -908,6 +911,7 @@ function eff(d,day){
   const b=d.base||d,x=L[d.id]||null,act=x&&x.action;
   const e={...d,...b,base:undefined,published:isPublished(x),decision:'',edited:false};
   if(!['approve','published','hold','rewrite','edit'].includes(act))return e;
+  if(e.status==='superseded'&&act!=='published')return e;   // withdrawn drafts stay 已替换
   e.decision=act;const t=String(x.text||'').trim();
   if(t&&t!==b.text){e.text=t;e.edited=true;e.chars=[...t].length;e.xw=xw(t);
     if(e.parts){e.parts=t.split(/\n\s*\n/).map(p=>p.trim()).filter(Boolean);e.parts_w=e.parts.map(xw)}}
