@@ -52,23 +52,17 @@ MORRIS = {s['selection_id'].split('-')[0]: s['source'] for s in MORRIS}
 TR = [
  ('investing_philosophy', 'M01', '12:10', '''In a linear world, effort matters more than direction. In a power-law world, direction matters more than effort
 
-In the real world, direction × method × execution × luck decide the result together
-
-(translated from @Morris_LT)'''),
+In the real world, direction × method × execution × luck decide the result together'''),
  ('investing_philosophy', 'M05', '17:30', '''The first principle of wealth is accumulation
 Of opportunity, insight
 Of getting things done, focus
 Of success, trial and error
 Of competition, difference
 Of profit, cost control
-Of management, drawing out people's potential
-
-(translated from @Morris_LT)'''),
+Of management, drawing out people's potential'''),
  ('longterm_investing_en', 'M08', '12:40', '''For most people, getting rich once in a lifetime is enough
 
-So once your age and your savings have built up, put risk control first. You can slow down how fast you earn, but never let an appetite for gambling make you poor again after the accumulation is done
-
-(translated from @Morris_LT)'''),
+So once your age and your savings have built up, put risk control first. You can slow down how fast you earn, but never let an appetite for gambling make you poor again after the accumulation is done'''),
 ]
 accts = {a['id']: a for a in fd_accounts.rows('/workspace/fd_new/Finance_Distillation/live/fd20_accounts.json')}
 dry = '--dry' in sys.argv
@@ -108,7 +102,7 @@ for aid, mid, hhmm, body in TR:
                       'archive': {'variant': 'evergreen', 'original_url': s['url'], 'original_post_id': s['url'].rsplit('/',1)[-1],
                                   'handle': 'Morris_LT', 'role': 'donor', 'posted_at': s['published_at'],
                                   'original_text': s['original_text'], 'mode': 'translate_light_edit'},
-                      'attribution_line': 'translated from @Morris_LT',
+                      'attribution_line': None,
                       'source': {'id': s['id'], 'source_id': 'x_Morris_LT', 'publisher': '@Morris_LT', 'title': s['original_text'][:80],
                                  'url': s['url'], 'published_at': s['published_at'], 'lang': 'zh', 'same_language': False},
                       'draft_status': 'draft_ready', 'held': False, 'post_mode': 'original',

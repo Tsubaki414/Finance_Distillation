@@ -2085,9 +2085,9 @@ def inbox_row(result, account_cfg, day, run_id):
             'name': account_cfg['name'], 'beat': account_cfg['beat'], 'lang': account_cfg['lang'],
             # same-language material needs no attribution line (Oct 7 rule): the body is the post; cross-language
             # drafts keep the compose credit frame. The frame is kept on the row for the reviewer either way.
-            'text': (result.get('body') if pick.get('same_language') else result.get('text')) or '',
+            'text': result.get('body') or '',   # Oct 13 (Fiona): own view, never a credit line in text
             'body': result.get('body') or '', 'attribution_frame': result.get('attribution_frame'),
-            'attribution_line': 'omitted (same-language source)' if pick.get('same_language') else 'kept',
+            'attribution_line': None,
             'post_type': result.get('post_type'), 'post_format': pick['post_format'],
             'suggested_post_time_london': pick['suggested_post_time_london'], 'angle': result.get('angle'),
             'angle_why': pick['angle_why'], 'shared_event_with': pick['shared_event_with'],

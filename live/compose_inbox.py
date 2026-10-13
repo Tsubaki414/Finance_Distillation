@@ -73,6 +73,8 @@ def add(row, base=None):
         if not row.get(key) and key != 'text':
             raise ValueError(f'inbox row needs {key}')
     sync_hold_status(row)
+    from live import own_voice_strip
+    own_voice_strip.clean_row(row)   # Oct 13: no attribution line / @handle in any draft type
     stored = {**row, 'text_hash': text_hash(row.get('text')), 'review_status': row.get('review_status', 'pending'),
               'publishable': False, 'publishing_enabled': False, 'reviews': list(row.get('reviews') or []),
               'stored_at': row.get('stored_at') or _now()}
