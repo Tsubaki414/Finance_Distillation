@@ -5883,6 +5883,138 @@
       ],
       "note": "Oct 8 evening: public RSS of crypto flash desks, items with a lane word only; cheap batched flash EXTRACT in its own ring fence (FD_LANE_FLASH_BUDGET_USD, default $0.25/run); FD_LANE_FLASHES=0 stops it",
       "added": "2026-10-08"
+    },
+    {
+      "id": "taxfoundation",
+      "name": "Tax Foundation",
+      "type": "newsletter",
+      "enabled": true,
+      "adapter": "feed",
+      "feed_url": "https://taxfoundation.org/feed/",
+      "author": "Tax Foundation",
+      "source_type": "newsletter",
+      "source_language": "en",
+      "route_accounts": [
+        "zh_macro",
+        "en_macro"
+      ],
+      "route_beats": [
+        "tariffs"
+      ],
+      "persona_hints": [
+        "macro"
+      ],
+      "endpoint_status": "HTTP 200 RSS, 20 items, newest 2026-10-12 (checked 2026-10-13 09:20 London)",
+      "note": "Fiona 10-13 09:12: policy-that-moves-markets analysis source (tariff tracker / trade-tax analysis); market impact only",
+      "added": "2026-10-13"
+    },
+    {
+      "id": "primary_ustr",
+      "name": "USTR press releases",
+      "feed_url": "https://ustr.gov/rss.xml",
+      "allowed_hosts": [
+        "ustr.gov",
+        "www.ustr.gov"
+      ],
+      "type": "official",
+      "enabled": true,
+      "adapter": "official",
+      "content_role": "context_only",
+      "source_language": "en",
+      "max_documents_per_poll": 3,
+      "context_refresh_hours": 24,
+      "coverage": "bounded_current_official_discovery_window",
+      "quality_status": "publisher_identity_known_not_fact_verified",
+      "endpoint_status": "HTTP 200 RSS, newest 2026-10-09 (checked 2026-10-13)",
+      "note": "Fiona 10-13 09:12: tier-A fact-check reference for zh_macro/en_macro; never a content candidate",
+      "added": "2026-10-13"
+    },
+    {
+      "id": "primary_fedreg_tariff",
+      "name": "Federal Register: documents matching 'tariff'",
+      "feed_url": "https://www.federalregister.gov/api/v1/documents.rss?conditions%5Bterm%5D=tariff",
+      "allowed_hosts": [
+        "www.federalregister.gov"
+      ],
+      "type": "official",
+      "enabled": false,
+      "adapter": "official",
+      "content_role": "context_only",
+      "source_language": "en",
+      "max_documents_per_poll": 3,
+      "context_refresh_hours": 24,
+      "coverage": "bounded_current_official_discovery_window",
+      "quality_status": "publisher_identity_known_not_fact_verified",
+      "endpoint_status": "HTTP 200 RSS, 200 items (checked 2026-10-13)",
+      "note": "Fiona 10-13 09:12: tier-A fact-check reference for zh_macro/en_macro; never a content candidate",
+      "added": "2026-10-13",
+      "disabled_reason": "2026-10-13: feed index parses (RSS 200) but every federalregister.gov document page returns a \"Request Access\" stub to non-browser clients, so no release body can be captured; not worked around"
+    },
+    {
+      "id": "primary_ofac",
+      "name": "OFAC actions via Federal Register (agency feed)",
+      "feed_url": "https://www.federalregister.gov/api/v1/documents.rss?conditions%5Bagencies%5D%5B%5D=foreign-assets-control-office",
+      "allowed_hosts": [
+        "www.federalregister.gov"
+      ],
+      "type": "official",
+      "enabled": false,
+      "adapter": "official",
+      "content_role": "context_only",
+      "source_language": "en",
+      "max_documents_per_poll": 3,
+      "context_refresh_hours": 24,
+      "coverage": "bounded_current_official_discovery_window",
+      "quality_status": "publisher_identity_known_not_fact_verified",
+      "endpoint_status": "HTTP 200 RSS, newest 2026-10-13; ofac.treasury.gov/rss.xml lists programs not actions (checked 2026-10-13)",
+      "note": "Fiona 10-13 09:12: tier-A fact-check reference for zh_macro/en_macro; never a content candidate",
+      "added": "2026-10-13",
+      "disabled_reason": "2026-10-13: feed index parses (RSS 200) but every federalregister.gov document page returns a \"Request Access\" stub to non-browser clients, so no release body can be captured; not worked around"
+    },
+    {
+      "id": "primary_bis",
+      "name": "BIS export controls via Federal Register (agency feed)",
+      "feed_url": "https://www.federalregister.gov/api/v1/documents.rss?conditions%5Bagencies%5D%5B%5D=industry-and-security-bureau",
+      "allowed_hosts": [
+        "www.federalregister.gov"
+      ],
+      "type": "official",
+      "enabled": false,
+      "adapter": "official",
+      "content_role": "context_only",
+      "source_language": "en",
+      "max_documents_per_poll": 3,
+      "context_refresh_hours": 24,
+      "coverage": "bounded_current_official_discovery_window",
+      "quality_status": "publisher_identity_known_not_fact_verified",
+      "endpoint_status": "HTTP 200 RSS, 7 items, newest 2026-09-30; bis.gov has no RSS (checked 2026-10-13)",
+      "note": "Fiona 10-13 09:12: tier-A fact-check reference for zh_macro/en_macro; never a content candidate",
+      "added": "2026-10-13",
+      "disabled_reason": "2026-10-13: feed index parses (RSS 200) but every federalregister.gov document page returns a \"Request Access\" stub to non-browser clients, so no release body can be captured; not worked around"
+    },
+    {
+      "id": "primary_mofcom",
+      "name": "China MOFCOM news releases",
+      "index_url": "https://www.mofcom.gov.cn/",
+      "allowed_hosts": [
+        "www.mofcom.gov.cn"
+      ],
+      "document_path_patterns": [
+        "/syxwfb/art/[0-9]{4}/art_[0-9a-f]+\\.html"
+      ],
+      "type": "official",
+      "enabled": true,
+      "adapter": "official",
+      "content_role": "context_only",
+      "source_language": "zh",
+      "max_documents_per_poll": 3,
+      "context_refresh_hours": 24,
+      "coverage": "bounded_current_official_discovery_window",
+      "quality_status": "publisher_identity_known_not_fact_verified",
+      "endpoint_status": "HTTP 200 HTML index with /syxwfb/art/2026/art_*.html links; no RSS (checked 2026-10-13)",
+      "note": "Fiona 10-13 09:12: tier-A fact-check reference; never a content candidate",
+      "added": "2026-10-13",
+      "body_selector": ".art-con"
     }
   ],
   "reference_pool_zh": {

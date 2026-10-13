@@ -72,3 +72,17 @@ Backup: /workspace/x/backups/code_0756/.
 - scripts/daily_compose.py one_per_story: the draft being rewritten (rewrite_of) no longer counts as a prior same-story row.
 - tests/conftest.py: FD_COMPOSE_PREVENT=0 for legacy fixture suites; tests/test_compose_prevent.py.
 Backup: /workspace/x/backups/code_0843/.
+
+## 2026-10-13 09:30 London — 'policy that moves markets' sources for zh_macro / en_macro (Fiona 09:12)
+Config only (live/source_registry.json, live/source_licence.json, live/account_source_universes.json); no code, no compose files.
+Backup: /workspace/x/backups/sources_0915/. Polymarket/Kalshi excluded (Fiona).
+- Added, analysis (tier B, SECONDARY, topic_match on tariff/trade/sanction/export-control terms, route_accounts zh_macro+en_macro):
+  taxfoundation (https://taxfoundation.org/feed/). NOTE: RSS is summary-only, so feeds.fetch_newsletter returns
+  radar_only (0 full-text candidates) until a page-fetch adapter exists.
+- Added, official fact-check (tier A, context_only, EVENT_ONLY; never content candidates): primary_ustr (ustr.gov/rss.xml),
+  primary_mofcom (mofcom.gov.cn index, /syxwfb/art/*.html, body .art-con). primary_fed was already subscribed.
+- Added but DISABLED: primary_fedreg_tariff, primary_ofac, primary_bis (Federal Register RSS parses, document pages answer
+  'Request Access' to non-browser clients).
+- Not added (no parseable feed/listing): PIIE (no RSS, 404s), Global Trade Alert (no RSS), CSIS (rss.xml stale, 2016 items),
+  Reuters Markets (HTTP 401).
+- 48h freshness and depth rules unchanged.

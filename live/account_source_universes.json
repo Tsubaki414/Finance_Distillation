@@ -341,6 +341,90 @@
           "audit_status": "bounded_agent_audit_pending_human",
           "basis": "User-confirmed initial source world; not a fabricated human source-quality label",
           "audit_decision": "Conservative restriction from bounded content audit; no new source activation."
+        },
+        {
+          "id": "taxfoundation",
+          "source_id": "taxfoundation",
+          "role": "SECONDARY",
+          "enabled": true,
+          "topic_scope": [
+            "tariff",
+            "tariffs",
+            "trade",
+            "duty",
+            "duties",
+            "export control",
+            "sanction",
+            "customs",
+            "section 301",
+            "section 232",
+            "关税",
+            "贸易",
+            "出口管制",
+            "制裁"
+          ],
+          "candidate_policy": "topic_match",
+          "audit_ref": "FREEZE.md 2026-10-13 09:12",
+          "audit_status": "fiona_approved_2026-10-13",
+          "basis": "Fiona 10-13: policy-that-moves-markets analysis source, market impact only"
+        },
+        {
+          "id": "primary_ustr",
+          "source_id": "primary_ustr",
+          "role": "EVENT_ONLY",
+          "enabled": true,
+          "topic_scope": [],
+          "candidate_policy": "daily",
+          "audit_ref": "FREEZE.md 2026-10-13 09:12",
+          "audit_status": "fiona_approved_2026-10-13",
+          "basis": "Fiona 10-13: policy-that-moves-markets fact-check reference (context only)"
+        },
+        {
+          "id": "primary_fedreg_tariff",
+          "source_id": "primary_fedreg_tariff",
+          "role": "EVENT_ONLY",
+          "enabled": false,
+          "topic_scope": [],
+          "candidate_policy": "daily",
+          "audit_ref": "FREEZE.md 2026-10-13 09:12",
+          "audit_status": "fiona_approved_2026-10-13",
+          "basis": "Fiona 10-13: policy-that-moves-markets fact-check reference (context only)",
+          "disabled_reason": "federalregister.gov blocks non-browser document fetch (2026-10-13)"
+        },
+        {
+          "id": "primary_ofac",
+          "source_id": "primary_ofac",
+          "role": "EVENT_ONLY",
+          "enabled": false,
+          "topic_scope": [],
+          "candidate_policy": "daily",
+          "audit_ref": "FREEZE.md 2026-10-13 09:12",
+          "audit_status": "fiona_approved_2026-10-13",
+          "basis": "Fiona 10-13: policy-that-moves-markets fact-check reference (context only)",
+          "disabled_reason": "federalregister.gov blocks non-browser document fetch (2026-10-13)"
+        },
+        {
+          "id": "primary_bis",
+          "source_id": "primary_bis",
+          "role": "EVENT_ONLY",
+          "enabled": false,
+          "topic_scope": [],
+          "candidate_policy": "daily",
+          "audit_ref": "FREEZE.md 2026-10-13 09:12",
+          "audit_status": "fiona_approved_2026-10-13",
+          "basis": "Fiona 10-13: policy-that-moves-markets fact-check reference (context only)",
+          "disabled_reason": "federalregister.gov blocks non-browser document fetch (2026-10-13)"
+        },
+        {
+          "id": "primary_mofcom",
+          "source_id": "primary_mofcom",
+          "role": "EVENT_ONLY",
+          "enabled": true,
+          "topic_scope": [],
+          "candidate_policy": "daily",
+          "audit_ref": "FREEZE.md 2026-10-13 09:12",
+          "audit_status": "fiona_approved_2026-10-13",
+          "basis": "Fiona 10-13: policy-that-moves-markets fact-check reference (context only)"
         }
       ],
       "shared_primary_access": "Macro primary releases and market facts relevant to this account"
