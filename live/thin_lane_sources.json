@@ -1,5 +1,5 @@
 {
-  "note": "Oct 13 thin lanes: free, no-key analysis feeds for SUPPLY-bound accounts (fresh standalone packets < 3 per run, measured by /workspace/x/thin_lanes/measure_pool.py over 10-11..10-13). Merged into the daily path by live/thin_lane_src.py only while FD_THIN_LANE_SRC != 0; source_registry.json / source_licence.json are unchanged. Rows use the source_registry.json newsletter shape (adapter feed; route_accounts / route_beats scope them like Four Pillars, deterministic tags, no Jev). Checked from this box 2026-10-13 ~11:00 London: HTTP 200, items inside 48 h, full text in the feed (or full_only picks the feed's full-text items).",
+  "note": "Oct 13 thin lanes: free, no-key analysis feeds for SUPPLY-bound accounts (fresh standalone packets < 3 per run, measured by /workspace/x/thin_lanes/measure_pool.py over 10-11..10-13). Merged into the daily path by live/thin_lane_src.py only while FD_THIN_LANE_SRC != 0; source_registry.json / source_licence.json are unchanged. Rows use the source_registry.json newsletter shape (adapter feed; route_accounts / route_beats scope them like Four Pillars, deterministic tags, no Jev). Checked from this box 2026-10-13 ~11:00 London: HTTP 200, items inside 48 h, full text in the feed (or full_only picks the feed's full-text items). Oct 13 evening (thin lanes 2): three rows for the lane_fit-bound niche accounts (stablecoin yield, airdrop, meme), same switch.",
   "switch": "FD_THIN_LANE_SRC",
   "added": "2026-10-13",
   "sources": [
@@ -151,6 +151,81 @@
       "full_only": true,
       "endpoint_status": "HTTP 200 RSS, 3 items in 48 h, 2 full text (2026-10-13 10:00 London)",
       "note": "Jonathan Clements' personal-finance / long-term investing essays"
+    },
+    {
+      "id": "thin_stablecoin_insider",
+      "name": "Stablecoin Insider",
+      "type": "newsletter",
+      "enabled": true,
+      "adapter": "feed",
+      "feed_url": "https://stablecoininsider.org/feed/",
+      "author": "Stablecoin Insider",
+      "source_type": "newsletter",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_stable_yield_en",
+        "crypto_stable_yield_zh"
+      ],
+      "route_beats": [
+        "crypto_stable_yield",
+        "crypto_defi"
+      ],
+      "fetch_limit": 3,
+      "topic_filter": "^(?!How to )[^\\n]{0,150}?(?:yields?|apy|savings|earn\\w*|interest|lending|vaults?|rwas?|tokeni[sz]ed|treasur\\w*|t-bills?|money market|reserves?|redemptions?|depeg\\w*|attestations?|freez\\w*|supply|balances?|banks?|issuers?|tether|usdt|usdc|usde|pyusd|rlusd)",
+      "endpoint_status": "HTTP 200 RSS (Ghost), full text 11-27k chars, 11 items in 48 h; checked from this box 2026-10-13 ~17:30 London",
+      "note": "stablecoin-only analysis site (issuers, reserves, yield-bearing / RWA products, adoption); topic_filter keeps the stablecoin-product / yield / reserve / issuer pieces and drops SDK how-tos"
+    },
+    {
+      "id": "thin_airdropalert",
+      "name": "AirdropAlert",
+      "type": "newsletter",
+      "enabled": true,
+      "adapter": "feed",
+      "feed_url": "https://airdropalert.com/feed/",
+      "author": "AirdropAlert",
+      "source_type": "newsletter",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_airdrop_en",
+        "crypto_airdrop_zh",
+        "crypto_meme_en",
+        "crypto_meme_zh"
+      ],
+      "route_beats": [
+        "crypto_airdrop",
+        "crypto_meme"
+      ],
+      "fetch_limit": 3,
+      "topic_filter": "^[^\\n]{0,150}?(?:airdrops?|points?|\\btge\\b|farm\\w*|testnets?|claim\\w*|snapshot|eligib\\w*|retroactive|season|shutdown|memecoins?|\\bmemes?\\b|pump\\.?fun|launchpads?|degen|review|\\bvs\\b)",
+      "endpoint_status": "HTTP 200 RSS (WordPress), full text 6-10k chars, 10 items in 48 h; checked from this box 2026-10-13 ~17:30 London",
+      "note": "long-running airdrop tracker's editorial desk: protocol reviews / points-program and airdrop analysis, meme-app and memecoin mechanics explainers; topic_filter drops its general BTC / exchange news; lane_fit picks airdrop vs meme per account"
+    },
+    {
+      "id": "thin_panews_niche",
+      "name": "PANews",
+      "type": "newsletter",
+      "enabled": true,
+      "adapter": "feed",
+      "feed_url": "https://www.panewslab.com/rss.xml",
+      "author": "PANews",
+      "source_type": "newsletter",
+      "source_language": "zh",
+      "lang": "zh",
+      "route_accounts": [
+        "crypto_airdrop_zh",
+        "crypto_meme_zh",
+        "crypto_stable_yield_zh"
+      ],
+      "route_beats": [
+        "crypto_airdrop",
+        "crypto_meme",
+        "crypto_stable_yield"
+      ],
+      "full_only": true,
+      "fetch_limit": 3,
+      "topic_filter": "^(?!PA日报|Asia Market Daily|华尔街早报)(?!.{0,80}?(?:圆满落幕|盛大开幕|峰会|大会|活动))[^\\n]{0,80}?(?:Meme|迷因|土狗|空投|撸毛|积分|TGE|测试网|打新|稳定币|生息|理财|RWA|USDe|Ethena|Pendle|脱锚|Launchpad|发射台|[Pp]ump\\.?fun)",
+      "endpoint_status": "HTTP 200 RSS, ~100 items in 48 h of which ~10 full-text deep pieces; checked from this box 2026-10-13 ~17:30 London",
+      "note": "same PANews feed as thin_panews_deep (crypto_newbie_zh), but only the deep pieces whose title is on the meme / airdrop / stablecoin-yield lanes, routed to the three zh niche accounts (a piece both rows take is stored once, under the row ingest reaches first)"
     }
   ],
   "licence": {
@@ -226,6 +301,36 @@
       "aliases": [
         "HumbleDollar",
         "Jonathan Clements"
+      ]
+    },
+    "thin_stablecoin_insider": {
+      "tier": "B",
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "basis": "public crypto analysis feed; paraphrase with attribution, no reproduction (thin lanes 2 2026-10-13)",
+      "aliases": [
+        "Stablecoin Insider"
+      ]
+    },
+    "thin_airdropalert": {
+      "tier": "B",
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "basis": "public crypto analysis feed; paraphrase with attribution, no reproduction (thin lanes 2 2026-10-13)",
+      "aliases": [
+        "AirdropAlert"
+      ]
+    },
+    "thin_panews_niche": {
+      "tier": "B",
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "basis": "public crypto analysis feed; paraphrase with attribution, no reproduction (thin lanes 2 2026-10-13)",
+      "aliases": [
+        "PANews"
       ]
     }
   }
