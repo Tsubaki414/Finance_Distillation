@@ -3983,6 +3983,19 @@
         "MOFCOM",
         "商务部"
       ]
+    },
+    "atlantic_econographics": {
+      "tier": "B",
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "basis": "think-tank geoeconomics analysis; paraphrase with attribution (Fiona 2026-10-13 09:16)",
+      "aliases": [
+        "Atlantic Council",
+        "GeoEconomics Center",
+        "EconoGraphics",
+        "大西洋理事会"
+      ]
     }
   }
 }

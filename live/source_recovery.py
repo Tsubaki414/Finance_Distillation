@@ -20,12 +20,28 @@ class NoRedirect(HTTPRedirectHandler):
     def redirect_request(self,*args,**kwargs):return None
 
 
+# Oct 13 (FREEZE.md): the box resolves every public hostname to its fixed egress proxy (fake-IP DNS, 198.18.0.1 in
+# the RFC 2544 benchmarking range), so the private-address guard rejected every official fetch. Exactly the listed
+# proxy addresses are accepted, and only when ALL addresses of an allow-listed HTTPS host are proxy addresses
+# (a host resolving to the proxy plus a real private IP is still rejected). Other private/loopback/link-local
+# addresses stay denied. FD_EGRESS_PROXY_IPS (comma list) overrides; set it to '' to restore the strict check.
+EGRESS_PROXY_IPS_DEFAULT='198.18.0.1'
+
+
+def egress_proxy_ips():
+    import os
+    raw=os.environ.get('FD_EGRESS_PROXY_IPS',EGRESS_PROXY_IPS_DEFAULT)
+    return {ipaddress.ip_address(x.strip()) for x in raw.split(',') if x.strip()}
+
+
 def validate_url(url,allowed_hosts):
     u=urlparse(url)
     if u.scheme!='https' or u.username or u.password or u.port not in (None,443) or u.hostname not in allowed_hosts:
         raise ValueError('URL outside configured HTTPS recovery hosts')
-    for item in socket.getaddrinfo(u.hostname,443,type=socket.SOCK_STREAM):
-        if not ipaddress.ip_address(item[4][0]).is_global:raise ValueError('Non-public recovery address')
+    addrs={ipaddress.ip_address(item[4][0]) for item in socket.getaddrinfo(u.hostname,443,type=socket.SOCK_STREAM)}
+    if all(a.is_global for a in addrs):return
+    if addrs and addrs<=egress_proxy_ips():return
+    raise ValueError('Non-public recovery address')
     return u
 
 

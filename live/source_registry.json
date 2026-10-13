@@ -5904,9 +5904,16 @@
       "persona_hints": [
         "macro"
       ],
-      "endpoint_status": "HTTP 200 RSS, 20 items, newest 2026-10-12 (checked 2026-10-13 09:20 London)",
+      "endpoint_status": "HTTP 200 RSS, 20 items, newest 2026-10-12 (checked 2026-10-13 09:20 London); page_fetch verified 2026-10-13 (article[id^=post-], ~8-15k chars, robots allows)",
       "note": "Fiona 10-13 09:12: policy-that-moves-markets analysis source (tariff tracker / trade-tax analysis); market impact only",
-      "added": "2026-10-13"
+      "added": "2026-10-13",
+      "page_fetch": {
+        "allowed_hosts": [
+          "taxfoundation.org"
+        ],
+        "body_selector": "article[id^=\"post-\"]"
+      },
+      "topic_filter": "tariff|trade (?:war|deal|policy|deficit)|duties|customs|export control|sanction|section 301|section 232|de minimis|geoeconom|sovereign debt|debt ceiling|关税|贸易|出口管制|制裁"
     },
     {
       "id": "primary_ustr",
@@ -6015,6 +6022,34 @@
       "note": "Fiona 10-13 09:12: tier-A fact-check reference; never a content candidate",
       "added": "2026-10-13",
       "body_selector": ".art-con"
+    },
+    {
+      "id": "atlantic_econographics",
+      "name": "Atlantic Council GeoEconomics Center (EconoGraphics)",
+      "type": "newsletter",
+      "enabled": true,
+      "adapter": "feed",
+      "feed_url": "https://www.atlanticcouncil.org/category/blogs/econographics/feed/",
+      "link_hosts": [
+        "www.atlanticcouncil.org"
+      ],
+      "author": "Atlantic Council GeoEconomics Center",
+      "source_type": "newsletter",
+      "source_language": "en",
+      "route_accounts": [
+        "zh_macro",
+        "en_macro"
+      ],
+      "route_beats": [
+        "tariffs"
+      ],
+      "persona_hints": [
+        "macro"
+      ],
+      "topic_filter": "tariff|trade (?:war|deal|policy|deficit)|duties|customs|export control|sanction|section 301|section 232|de minimis|geoeconom|sovereign debt|debt ceiling|关税|贸易|出口管制|制裁|imf|dollar|currency|reserve|cbdc|china.{0,20}econom|g20|g7",
+      "endpoint_status": "HTTP 200 RSS with content:encoded full text, 100 items, newest 2026-10-12; robots allows all (checked 2026-10-13)",
+      "note": "Fiona 10-13 09:16: replacement policy-analysis source (geoeconomics: sanctions, trade, dollar, IMF); market impact only",
+      "added": "2026-10-13"
     }
   ],
   "reference_pool_zh": {

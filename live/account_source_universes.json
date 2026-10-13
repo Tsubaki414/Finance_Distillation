@@ -425,6 +425,36 @@
           "audit_ref": "FREEZE.md 2026-10-13 09:12",
           "audit_status": "fiona_approved_2026-10-13",
           "basis": "Fiona 10-13: policy-that-moves-markets fact-check reference (context only)"
+        },
+        {
+          "id": "atlantic_econographics",
+          "source_id": "atlantic_econographics",
+          "role": "SECONDARY",
+          "enabled": true,
+          "topic_scope": [
+            "tariff",
+            "tariffs",
+            "trade",
+            "duty",
+            "duties",
+            "export control",
+            "sanction",
+            "customs",
+            "section 301",
+            "section 232",
+            "关税",
+            "贸易",
+            "出口管制",
+            "制裁",
+            "IMF",
+            "dollar",
+            "geoeconomic",
+            "美元"
+          ],
+          "candidate_policy": "topic_match",
+          "audit_ref": "FREEZE.md 2026-10-13 09:16",
+          "audit_status": "fiona_approved_2026-10-13",
+          "basis": "Fiona 10-13: policy-that-moves-markets analysis source, market impact only"
         }
       ],
       "shared_primary_access": "Macro primary releases and market facts relevant to this account"
@@ -2575,6 +2605,139 @@
       ],
       "shared_primary_access": "Project docs/announcements needed to check a selected airdrop/TGE candidate",
       "pilot": "p0_crypto_pilot_2026-10-06"
+    },
+    {
+      "account_id": "en_macro",
+      "mode": "current",
+      "shared_primary_access": "Macro primary releases and market facts relevant to this account",
+      "subscriptions": [
+        {
+          "id": "primary_fed",
+          "source_id": "primary_fed",
+          "role": "CORE",
+          "enabled": true,
+          "topic_scope": [],
+          "candidate_policy": "daily",
+          "audit_ref": "docs/SOURCE_DISCOVERY_REVIEW.md",
+          "audit_status": "bounded_agent_audit_pending_human",
+          "basis": "User-confirmed initial source world; not a fabricated human source-quality label"
+        },
+        {
+          "id": "taxfoundation",
+          "source_id": "taxfoundation",
+          "role": "SECONDARY",
+          "enabled": true,
+          "topic_scope": [
+            "tariff",
+            "tariffs",
+            "trade",
+            "duty",
+            "duties",
+            "export control",
+            "sanction",
+            "customs",
+            "section 301",
+            "section 232",
+            "关税",
+            "贸易",
+            "出口管制",
+            "制裁"
+          ],
+          "candidate_policy": "topic_match",
+          "audit_ref": "FREEZE.md 2026-10-13 09:12",
+          "audit_status": "fiona_approved_2026-10-13",
+          "basis": "Fiona 10-13: policy-that-moves-markets analysis source, market impact only"
+        },
+        {
+          "id": "primary_ustr",
+          "source_id": "primary_ustr",
+          "role": "EVENT_ONLY",
+          "enabled": true,
+          "topic_scope": [],
+          "candidate_policy": "daily",
+          "audit_ref": "FREEZE.md 2026-10-13 09:12",
+          "audit_status": "fiona_approved_2026-10-13",
+          "basis": "Fiona 10-13: policy-that-moves-markets fact-check reference (context only)"
+        },
+        {
+          "id": "primary_fedreg_tariff",
+          "source_id": "primary_fedreg_tariff",
+          "role": "EVENT_ONLY",
+          "enabled": false,
+          "topic_scope": [],
+          "candidate_policy": "daily",
+          "audit_ref": "FREEZE.md 2026-10-13 09:12",
+          "audit_status": "fiona_approved_2026-10-13",
+          "basis": "Fiona 10-13: policy-that-moves-markets fact-check reference (context only)",
+          "disabled_reason": "federalregister.gov blocks non-browser document fetch (2026-10-13)"
+        },
+        {
+          "id": "primary_ofac",
+          "source_id": "primary_ofac",
+          "role": "EVENT_ONLY",
+          "enabled": false,
+          "topic_scope": [],
+          "candidate_policy": "daily",
+          "audit_ref": "FREEZE.md 2026-10-13 09:12",
+          "audit_status": "fiona_approved_2026-10-13",
+          "basis": "Fiona 10-13: policy-that-moves-markets fact-check reference (context only)",
+          "disabled_reason": "federalregister.gov blocks non-browser document fetch (2026-10-13)"
+        },
+        {
+          "id": "primary_bis",
+          "source_id": "primary_bis",
+          "role": "EVENT_ONLY",
+          "enabled": false,
+          "topic_scope": [],
+          "candidate_policy": "daily",
+          "audit_ref": "FREEZE.md 2026-10-13 09:12",
+          "audit_status": "fiona_approved_2026-10-13",
+          "basis": "Fiona 10-13: policy-that-moves-markets fact-check reference (context only)",
+          "disabled_reason": "federalregister.gov blocks non-browser document fetch (2026-10-13)"
+        },
+        {
+          "id": "primary_mofcom",
+          "source_id": "primary_mofcom",
+          "role": "EVENT_ONLY",
+          "enabled": true,
+          "topic_scope": [],
+          "candidate_policy": "daily",
+          "audit_ref": "FREEZE.md 2026-10-13 09:12",
+          "audit_status": "fiona_approved_2026-10-13",
+          "basis": "Fiona 10-13: policy-that-moves-markets fact-check reference (context only)"
+        },
+        {
+          "id": "atlantic_econographics",
+          "source_id": "atlantic_econographics",
+          "role": "SECONDARY",
+          "enabled": true,
+          "topic_scope": [
+            "tariff",
+            "tariffs",
+            "trade",
+            "duty",
+            "duties",
+            "export control",
+            "sanction",
+            "customs",
+            "section 301",
+            "section 232",
+            "关税",
+            "贸易",
+            "出口管制",
+            "制裁",
+            "IMF",
+            "dollar",
+            "geoeconomic",
+            "美元"
+          ],
+          "candidate_policy": "topic_match",
+          "audit_ref": "FREEZE.md 2026-10-13 09:16",
+          "audit_status": "fiona_approved_2026-10-13",
+          "basis": "Fiona 10-13: policy-that-moves-markets analysis source, market impact only"
+        }
+      ],
+      "note": "2026-10-13 (Fiona 09:12/09:16): created for the policy-that-moves-markets sources; nightly routing via source_registry route_accounts"
     }
   ],
   "publishing_enabled": false

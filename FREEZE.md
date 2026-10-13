@@ -86,3 +86,24 @@ Backup: /workspace/x/backups/sources_0915/. Polymarket/Kalshi excluded (Fiona).
 - Not added (no parseable feed/listing): PIIE (no RSS, 404s), Global Trade Alert (no RSS), CSIS (rss.xml stale, 2016 items),
   Reuters Markets (HTTP 401).
 - 48h freshness and depth rules unchanged.
+
+## 2026-10-13 09:50 London — page fetch, official context capture, proxy-IP check, replacement analysis source (09:16 decision)
+Backup: /workspace/x/backups/code_0920/. No compose files touched.
+- live/adapters/page_fetch.py (new): bounded article-page fetch for summary-only feeds / HTML listings. Registry opt-in
+  `page_fetch` {allowed_hosts, body_selector, listing_url, link_patterns}; HTTPS allow-listed hosts only (redirects
+  re-checked), robots.txt honoured, 20 s timeout, login/'Request Access'/JS-challenge pages skipped (never bypassed).
+  Ingest still registers only tier A/B sources. live/adapters/feeds.fetch_newsletter uses it for incomplete items,
+  supports listing-only rows, and a registry `topic_filter` regex (keeps general feeds on the account angle).
+  scripts/run_content_adapters.newsletter_feeds also accepts listing-only rows.
+- live/source_recovery.validate_url: the box resolves public hosts to its fixed egress proxy 198.18.0.1 (fake-IP DNS),
+  which failed every official fetch (incl. existing primary_fed). Exactly the listed proxy IPs are accepted, only when
+  ALL resolved addresses are proxy IPs; any other private/loopback address still fails. FD_EGRESS_PROXY_IPS overrides
+  ('' = strict). tests/test_oct13_page_fetch.py.
+- scripts/capture_official_context.py (new) + scripts/cron/daily_ingest.sh: nightly official context capture for
+  zh_macro / en_macro before the ingest (no model calls, no candidates; non-fatal; FD_OFFICIAL_CONTEXT=0 skips).
+  Store: runs/account_sources_v1/store/source_context.sqlite3. Log: /workspace/x/ingest_runs/<day>.official_context.json.
+- Sources: taxfoundation gets page_fetch (selector article[id^="post-"]) + tariff/trade topic_filter;
+  + atlantic_econographics (Atlantic Council GeoEconomics Center, full-text RSS, tier B, route zh_macro/en_macro).
+  account_source_universes: en_macro universe created (09:12 commit had only reached zh_macro);
+  tests/test_account_sources expected set updated accordingly.
+- Not added: Bruegel (JS challenge page), Brookings / CFR / Tax Policy Center / PIIE (no usable feed or 403/404), AEI (skipped: partisan lean).

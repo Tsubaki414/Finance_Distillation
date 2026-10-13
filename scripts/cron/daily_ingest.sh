@@ -79,6 +79,12 @@ fi
 if [[ "$SKIP_INGEST" == "1" ]]; then
     echo "resume: ingest for this Beijing day already ok ($SUMMARY); skipping to compose"
 else
+    # Oct 13 (FREEZE.md): official fact-check context (USTR, MOFCOM, Fed, ...) for zh_macro / en_macro before the
+    # ingest. No model calls, no candidates; non-fatal. FD_OFFICIAL_CONTEXT=0 skips it.
+    if [[ "${FD_OFFICIAL_CONTEXT:-1}" == "1" ]]; then
+        timeout 300 /workspace/fd_venv/bin/python scripts/capture_official_context.py --accounts zh_macro en_macro \
+            > "$RUN/$DAY.official_context.json" || echo "official context capture failed: $? (ingest unaffected)"
+    fi
     /workspace/fd_venv/bin/python scripts/daily_ingest_preflight.py "${preflight_args[@]}" --failure-json "$RUN/$DAY.preflight_failed.json"
     /workspace/fd_venv/bin/python scripts/daily_ingest.py --no-dashboard "$@"
 fi

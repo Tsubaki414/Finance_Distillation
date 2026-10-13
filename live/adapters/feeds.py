@@ -67,13 +67,35 @@ def _iso(value):
 def fetch_newsletter(feed, *, limit=1, min_chars=800, transport=None):
     """feed: source_registry row (id, name, feed_url). Uses the existing RSS reader."""
     from live.analysis_corpus import fetch_feed
-    rows, error = fetch_feed({'id': feed['id'], 'author': feed.get('name'), 'url': feed['feed_url']},
-                             limit=limit, **({'transport': transport} if transport is not None else {}))
+    pf0 = feed.get('page_fetch') or {}
+    if not feed.get('feed_url') and pf0.get('listing_url'):
+        # Oct 13: HTML-listing site (no RSS): article links from the listing page, bodies via page_fetch below.
+        from live.adapters import page_fetch
+        links, error = page_fetch.listing_links(pf0, transport=transport, limit=limit)
+        rows = [{'url': l['url'], 'title': l['title'], 'text': '', 'content_complete': False} for l in links]
+    else:
+        topic = feed.get('topic_filter')
+        rows, error = fetch_feed({'id': feed['id'], 'author': feed.get('name'), 'url': feed['feed_url']},
+                                 limit=max(limit * 6, 12) if topic else limit,
+                                 **({'transport': transport} if transport is not None else {}))
+        if topic and not error:
+            # Oct 13: registry topic_filter (regex on title + feed text) keeps general feeds on the account angle.
+            rx = re.compile(topic, re.I)
+            rows = [r for r in rows if rx.search((r.get('title') or '') + ' ' + (r.get('text') or ''))][:limit]
     if error:
         return {'status': error, 'sources': []}
-    sources, short = [], 0
+    sources, short, page_notes = [], 0, []
+    pf = feed.get('page_fetch') or None
     for r in rows:
         text = r.get('text') or ''
+        if (not r.get('content_complete') or len(text) < min_chars) and pf and r.get('url'):
+            # Oct 13: summary-only feed opted in to a bounded article-page fetch (live/adapters/page_fetch.py).
+            from live.adapters import page_fetch
+            full, perr = page_fetch.article_text(r['url'], pf, transport=transport)
+            page_notes.append({'url': r['url'], 'status': perr or 'ok'})
+            if full and len(full) >= min_chars:
+                r = {**r, 'text': full, 'content_complete': True, 'body_basis': 'page_fetch'}
+                text = full
         if not r.get('content_complete') or len(text) < min_chars:
             short += 1
             continue
@@ -85,5 +107,5 @@ def fetch_newsletter(feed, *, limit=1, min_chars=800, transport=None):
                                           lang=feed.get('lang') or feed.get('source_language') or 'en',
                                           extra={'persona_hint': feed.get('persona_hint')}))
     return {'status': 'ok' if sources else ('radar_only' if short else 'empty'), 'sources': sources,
-            'items': len(rows), 'summary_only_items': short,
+            'items': len(rows), 'summary_only_items': short, 'page_fetch': page_notes,
             'radar_titles': [r.get('title', '') for r in rows if not r.get('content_complete') or len(r.get('text') or '') < min_chars]}
