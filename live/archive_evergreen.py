@@ -20,6 +20,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import os
 import re
 from datetime import date, timedelta
 
@@ -189,6 +190,14 @@ def candidates(posts, account_cfg, day, *, config, used=frozenset(), taken=froze
     out = []
     for p in posts:
         c, _why = eligible(p, account_cfg, config)
+        if c and os.environ.get('FD_PRE_EVERGREEN_LANE', '1') != '0':
+            # Oct 13 07:56 (Fiona): the post-draft archive gate (topic allowlist + story caps) runs BEFORE drafting
+            # too, rule-only (no label call), so an off-lane / capped evergreen pick is skipped and handed over
+            from live import story_dedupe
+            _gw, _st = story_dedupe.archive_gate(account_cfg, c['text'], day, label_model=False,
+                                                 off_lane_prefix=al.OFF_LANE)
+            if _gw:
+                c, _why = None, _gw
         if not c:
             al.hand_over(day, account_cfg, p, _why, 'evergreen')
             continue

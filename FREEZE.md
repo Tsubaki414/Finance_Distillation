@@ -35,3 +35,18 @@ Backup of the pre-change files: /workspace/x/backups/code_<stamp>/.
   test_research_sources fourpillars, test_fix1012_stage1 archive_humanize line_end, test_x_daily only_x
   (order-dependent / environment; fail identically on a8a1393).
 Backup of the pre-change files: /workspace/x/backups/code_0737/.
+
+## 2026-10-13 07:56 London — evergreen freshness exemption, pre-draft evergreen lane gate, daytime caps (Fiona)
+- live/fresh_hold.py: 常青 / evergreen rows (archive.variant 'evergreen' or evg-* ids) are exempt from the 48 h
+  stale_source hold (they still pass stale_frame). Kill switch FD_FRESH_EVERGREEN_EXEMPT=0 (restores the Oct 12 rule).
+  tests/test_fix1012_stage1.py updated to the new rule (old rule asserted behind the kill switch).
+- live/predraft_filter.py: FD_PRE_FRESH skips evergreen picks explicitly.
+- live/archive_evergreen.candidates: story_dedupe.archive_gate (topic allowlist + story caps, rule-only, no label
+  call) runs BEFORE drafting; an off-lane / capped evergreen pick is skipped and handed over. FD_PRE_EVERGREEN_LANE=0.
+- Fallback-only behaviour unchanged (FD_ARCHIVE_FALLBACK_ONLY): evergreen still runs only when the account has no
+  fresh standalone candidate.
+- Caps (~/.config/fd/provider.env, loaded by provider_env.sh): FD_MIDDAY_USD=1.5 per midday run (script default
+  also 1 -> 1.5), FD_ENGAGE_FILL_USD=1 per engage fill run (unchanged default). Nightly stays FD_DAILY_COMPOSE_BUDGET_USD
+  25 / FD_DAILY_TOTAL_USD 25 (script defaults). Ingest steps of the daytime runs keep their own caps
+  (FD_MIDDAY_INGEST_USD 0.4, FD_ENGAGE_PULL_CAP_USD 0.5).
+Backup: /workspace/x/backups/code_0756/.

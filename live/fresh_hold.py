@@ -71,6 +71,16 @@ def is_archive_row(row: dict) -> bool:
                 or str(row.get('draft_origin') or '') == 'archive')
 
 
+def evergreen_exempt(env: dict | None = None) -> bool:
+    return (env if env is not None else os.environ).get('FD_FRESH_EVERGREEN_EXEMPT', '1') != '0'
+
+
+def is_evergreen_row(row: dict) -> bool:
+    """常青 rows: archive.variant 'evergreen' (arc-* ids from the archive fill path) or evg-* ids."""
+    return (str((row.get('archive') or {}).get('variant') or '') == 'evergreen'
+            or str(row.get('id') or '').startswith('evg-'))
+
+
 def source_age_h(row: dict) -> float | None:
     """Age of the row's source at the draft's scheduled slot, in hours (None when either side is unparseable)."""
     src = row.get('source') or {}
@@ -106,6 +116,11 @@ def check(row: dict, env: dict | None = None) -> tuple[bool, str | None, dict]:
         # (body opens with 回看 / Look back). Unframed 常青/evergreen rows fall through to the age check.
         if EXPLICIT_FRAME.match(body) or not explicit_frame_required(env):
             return False, None, {'archive': True, 'framed': True}
+        # Oct 13 07:56 (Fiona): 常青 / evergreen rows are timeless by design - exempt from the 48 h hold (they only run
+        # as a fallback when the account has no fresh candidate: FD_ARCHIVE_FALLBACK_ONLY). FD_FRESH_EVERGREEN_EXEMPT=0
+        # restores the age check for them.
+        if is_evergreen_row(row) and evergreen_exempt(env):
+            return False, None, {'archive': True, 'evergreen': True}
 
     age = source_age_h(row)
     pub = (row.get('source') or {}).get('published_at')

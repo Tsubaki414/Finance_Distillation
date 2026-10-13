@@ -63,8 +63,12 @@ def test_fresh_hold_archive_exempt_from_age(monkeypatch):
              source={'id': 'x-123', 'url': 'https://x.com/a/status/1', 'title': 't',
                      'published_at': '2025-10-04T00:00:00+00:00'},
              body='常青：仓位管理的第一道防线是账户物理隔离', text='常青：仓位管理的第一道防线是账户物理隔离')
-    fresh_hold.apply(r, env={})
-    # Oct 12 (Fiona): 常青 framing is not 回看 framing - an old unframed evergreen row is held on age
+    # Oct 13 07:56 (Fiona): 常青 rows are exempt from the 48 h hold by default (fallback-only material)
+    fresh_hold.apply(dict(r), env={})
+    held, _, detail = fresh_hold.check(r, env={})
+    assert held is False and detail.get('evergreen') is True
+    # Oct 12 rule (old unframed evergreen row held on age) remains behind FD_FRESH_EVERGREEN_EXEMPT=0
+    fresh_hold.apply(r, env={'FD_FRESH_EVERGREEN_EXEMPT': '0'})
     assert r['held'] is True
     held, _, detail = fresh_hold.check(r, env={'FD_FRESH_ARCHIVE_EXPLICIT': '0'})
     assert held is False and detail.get('archive') is True
@@ -274,7 +278,10 @@ def test_archive_evergreen_unframed_old_is_held():
     row = {'id': 'evg-x', 'post_type': 'archive_evergreen', 'lang': 'zh', 'day': '2026-10-12',
            'body': '市场流动性匮乏时，盲目补仓容易被套', 'text': 'x',
            'source': {'published_at': '2025-02-06T11:54:00+00:00'}}
-    held, reason, _ = fresh_hold.check(row) if hasattr(fresh_hold, 'check') else fresh_hold.evaluate(row)
+    # Oct 13 07:56 (Fiona): exempt by default; the Oct 12 age hold only with FD_FRESH_EVERGREEN_EXEMPT=0
+    held, reason, _ = fresh_hold.check(row, env={})
+    assert not held
+    held, reason, _ = fresh_hold.check(row, env={'FD_FRESH_EVERGREEN_EXEMPT': '0'})
     assert held
     row['body'] = '回看｜' + row['body']
     held, reason, _ = fresh_hold.check(row) if hasattr(fresh_hold, 'check') else fresh_hold.evaluate(row)

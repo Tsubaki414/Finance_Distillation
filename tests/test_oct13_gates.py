@@ -106,3 +106,48 @@ def test_official_primary_subrouter_provider_fallback():
     assert stage_models.fallback(t, 'compose') is None
     t = stage_models.from_env(stage_models.load(), {'FD_GEMINI_PROVIDER': 'official'})
     assert stage_models.fallback(t, 'compose') is None
+
+
+# ---- Oct 13 07:56: evergreen exempt from the 48 h hold; pre-draft lane gate for evergreen picks
+from live import fresh_hold
+
+
+def _evg_row(**kw):
+    r = {'id': 'arc-1-acct-9', 'post_kind': 'archive_lookback', 'text': '风险管理先于收益。仓位决定你能活多久。',
+         'body': '风险管理先于收益。仓位决定你能活多久。', 'archive': {'variant': 'evergreen'}, 'lang': 'zh',
+         'day': '2026-10-13', 'source': {'published_at': '2025-01-01T00:00:00+00:00'},
+         'suggested_post_time_london': '2026-10-13T08:00:00+01:00', 'draft_status': 'draft_ready'}
+    r.update(kw)
+    return r
+
+
+def test_evergreen_exempt_from_fresh_hold(monkeypatch):
+    from live import stale_frame
+    monkeypatch.setattr(stale_frame, 'findings', lambda *a, **k: [])
+    hold, why, det = fresh_hold.check(_evg_row(), env={})
+    assert not hold and det.get('evergreen')
+    hold, why, _ = fresh_hold.check(_evg_row(), env={'FD_FRESH_EVERGREEN_EXEMPT': '0'})
+    assert hold and why.startswith('stale_source')
+    # then_vs_now (not evergreen) without a 回看 frame still falls through to the age check
+    hold, _, _ = fresh_hold.check(_evg_row(archive={'variant': 'then_vs_now'}), env={})
+    assert hold
+
+
+def test_predraft_fresh_exempts_evergreen():
+    p = _pick(published_at='2025-01-01T00:00:00+00:00', archive={'variant': 'evergreen'})
+    assert pf.reason(p, env={}) is None
+
+
+def test_evergreen_lane_gate_predraft(monkeypatch):
+    from live import archive_evergreen as ae, story_dedupe, archive_lookback as al
+    monkeypatch.setattr(ae, 'eligible', lambda p, a, c: ({**p, 'text': p['text'], 'rule_score': 2.0}, 'ok'))
+    monkeypatch.setattr(story_dedupe, 'archive_gate', lambda *a, **k: ('off_lane -> crypto_prediction_zh', {}))
+    handed = []
+    monkeypatch.setattr(al, 'hand_over', lambda day, acc, p, why, v: handed.append(why))
+    posts = [{'id': '1', 'handle': 'h', 'text': 'x', 'engagement': 1}]
+    out = ae.candidates(posts, {'id': 'crypto_onchain_zh', 'lang': 'zh'}, '2026-10-13', config={})
+    assert out == [] and handed == ['off_lane -> crypto_prediction_zh']
+    monkeypatch.setenv('FD_PRE_EVERGREEN_LANE', '0')
+    handed.clear()
+    ae.candidates(posts, {'id': 'crypto_onchain_zh', 'lang': 'zh'}, '2026-10-13', config={})
+    assert handed == []

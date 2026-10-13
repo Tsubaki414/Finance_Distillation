@@ -46,7 +46,9 @@ def reason(pick, ref=None, max_age_h=None, env=None):
     """Why this pick would be held, or None to keep it."""
     env = env if env is not None else os.environ
     max_age_h = float(max_age_h or env.get('FD_PRE_FRESH_H', 48))
-    if on('FD_PRE_FRESH', env):
+    evergreen = (str((pick.get('archive') or {}).get('variant') or pick.get('variant') or '') == 'evergreen'
+                 or str(pick.get('id') or pick.get('source_id') or '').startswith('evg-'))
+    if on('FD_PRE_FRESH', env) and not evergreen:   # Oct 13 07:56 (Fiona): 常青 exempt from the 48 h rule
         pub = _ts(pick.get('published_at'))
         at = _ts(pick.get('suggested_post_time_london')) or ref
         if pub is None:
