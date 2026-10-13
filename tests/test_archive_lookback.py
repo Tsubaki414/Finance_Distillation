@@ -116,9 +116,10 @@ def test_then_now_and_data_lines():
     assert short is None                               # history does not reach the old date
 
 
-GOOD = ('回看｜2025年2月，@kiki520_eth 写过“130 一线有人接”。\n'
-        '当时 SOL 收在 144.33 美元，今天是 115.52 美元，跌了 20.0%。\n'
-        '一年多过去，支撑位的说法没有挡住下跌，山寨轮动更要看 SOL 自己。')
+# Oct 13 (Fiona): own voice - no 回看 header, no @handle, no quoted / attributed past view
+GOOD = ('SOL 去年2月还在 144.33 美元，现在 115.52 美元。\n'
+        '一年多下来跌掉两成，山寨轮动还是得先看 SOL 自己能不能站稳。')
+ATTRIBUTED = '去年2月有人说“130 一线有人接”。\n' + GOOD
 
 
 def test_check_good_draft_has_no_hard_findings():
@@ -128,15 +129,35 @@ def test_check_good_draft_has_no_hard_findings():
 
 
 @pytest.mark.parametrize('body,code', [
-    (GOOD.replace('130 一线有人接', '130 一线一定守得住'), 'archive_quote_not_verbatim'),
-    (GOOD.replace('回看｜', ''), 'archive_framing'),
+    (GOOD + '“130 一线一定守得住”', 'archive_quote_not_verbatim'),
+    (GOOD.replace('去年2月', '之前').replace('一年多下来', ''), 'archive_framing'),
+    ('回看｜2025年2月\n' + GOOD, 'archive_header'),
+    ('Look back: Feb 2025\n' + GOOD, 'archive_header'),
+    ('@kiki520_eth ' + GOOD, 'archive_handle'),
+    (ATTRIBUTED, 'archive_quoted_view'),
+    (ATTRIBUTED, 'archive_attribution'),
+    (GOOD.replace('一年多下来', '我当时就说过，一年多下来'), 'archive_invented_biography'),
+    (GOOD + '这一跌幅印证了当时的谨慎态度', 'archive_robotic'),
+    (GOOD + '不是SOL不行，而是山寨整体失血', 'archive_not_x_but_y'),
+    (GOOD + '不构成投资建议', 'archive_disclaimer'),
     (GOOD.replace('115.52', '99.10'), 'ungrounded_number'),
-    (GOOD.replace('一年多过去', '我早就说过，一年多过去'), 'fabricated_experience'),
-    ('回看｜2025年2月 @kiki520_eth 说 130 一线有人接。今天 SOL 144.33 美元，还在原地。', 'archive_stale_as_current'),
+    (GOOD.replace('一年多下来', '我早就说过，一年多下来'), 'fabricated_experience'),
+    ('去年2月 SOL 说 130 一线有人接。今天 SOL 144.33 美元，还在原地。', 'archive_stale_as_current'),
 ])
 def test_check_hard_codes(body, code):
     found, _ = al.check(body, _cand(), ZH)
     assert code in {f['code'] for f in found if f['level'] == 'hard'}, found
+
+
+def test_voice_strip_removes_header_and_handles():
+    from live import archive_voice as av
+    assert av.strip('回看｜2025年10月\n\n' + GOOD) == GOOD
+    assert '@' not in av.strip('Look back: Feb 2025. @TXMCtrades posted it. BTC is lower now.')
+    assert not av.findings(GOOD, 'zh')
+    en = "BTC was around $107k last October. It's $82k now, and honestly the chop feels heavier than the drop."
+    assert not av.findings(en, 'en'), av.findings(en, 'en')
+    assert {'archive_header', 'archive_handle', 'archive_robotic'} <= {f['code'] for f in av.findings(
+        'Looking back | Feb 2025\n@CryptoPainter said BTC would rip. BTC fell, a decline of 15.7%.', 'en')}
 
 
 class FakeClient:
@@ -152,19 +173,24 @@ class FakeClient:
 
 
 def test_compose_one_targeted_rewrite_then_ready():
-    bad = GOOD.replace('回看｜', '')
-    fc = FakeClient([bad, GOOD])
+    fc = FakeClient([ATTRIBUTED, GOOD])
     r = al.compose(fc, ZH, [_cand()], '2026-10-08')
     assert r['status'] == 'draft_ready' and r['body'] == GOOD and r['attempts'] == 2
-    assert r['hard_repair']['first_codes'] == ['archive_framing'] and r['hard_repair']['retry_codes'] == []
+    assert 'archive_quoted_view' in r['hard_repair']['first_codes'] and r['hard_repair']['retry_codes'] == []
     note = json.loads(fc.messages[1][-1]['content'])['editor_note']
-    assert note.startswith('[hard_repair]') and 'archive_framing' in note
+    assert note.startswith('[hard_repair]') and 'archive_quoted_view' in note
+    payload = json.loads(fc.messages[0][-1]['content'])
+    assert 'author' not in payload['candidates'][0] and '@' not in json.dumps(payload['candidates'])
+
+
+def test_compose_strips_header_and_handle_without_rewrite():
+    r = al.compose(FakeClient(['回看｜2025年2月\n' + GOOD]), ZH, [_cand()], '2026-10-08')
+    assert r['status'] == 'draft_ready' and r['body'] == GOOD and r['attempts'] == 1 and r['voice_strip']
 
 
 def test_compose_still_hard_after_rewrite_is_held():
-    bad = GOOD.replace('回看｜', '')
-    r = al.compose(FakeClient([bad, bad]), ZH, [_cand()], '2026-10-08')
-    assert r['status'] == 'needs_review' and r['hard'] == ['archive_framing'] and r['attempts'] == 2
+    r = al.compose(FakeClient([ATTRIBUTED, ATTRIBUTED]), ZH, [_cand()], '2026-10-08')
+    assert r['status'] == 'needs_review' and 'archive_quoted_view' in r['hard'] and r['attempts'] == 2
 
 
 def test_compose_none_pick():

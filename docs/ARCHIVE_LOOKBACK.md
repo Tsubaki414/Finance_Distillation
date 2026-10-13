@@ -153,3 +153,14 @@ misrepresentation. With `--judge`, it builds the claim card and re-runs the judg
 - Lane check of every pick and composed draft (`lane_fit.archive_check`): BTC/ETH macro accounts take BTC / ETH /
   macro picks only; niche accounts take on-lane picks (a broad BTC pick goes to the macro account). An off-lane pick
   is queued for the fitting account (`reassign/<day>.jsonl`, read for the day and the 2 days before) instead of dropped.
+
+## Oct 13 — own voice (Fiona; `FD_ARCHIVE_VOICE`, default on)
+
+Archive / then-vs-now drafts no longer use the `回看｜YYYY年M月` / `Look back: Mon YYYY` header and never name,
+@-mention or quote the seed post's author. The post is the account's own present-tense take ("BTC 去年10月还在10.8万，
+现在8.3万……" + a genuine reaction); no invented biography ("我当时就说" / "I called it"), 2-3 figures max, no robotic
+closers (印证了 / 跌幅达 / "a decline of"), no 不是X而是Y, no NFA. `live/archive_voice.py` checks this right after
+generation (HARD codes `archive_header`, `archive_handle`, `archive_quoted_view`, `archive_attribution`,
+`archive_invented_biography`, `archive_robotic`, `archive_not_x_but_y`, `archive_disclaimer`,
+`archive_too_many_numbers`); `strip()` removes a header line / @handles deterministically, the rest goes to the one
+targeted rewrite, then HOLD. The writer payload no longer carries the author handle.

@@ -36,7 +36,7 @@ def test_quote_posts_and_diary_posts_are_not_lookback_candidates():
 
 def test_claim_type_prediction_framing_is_hard():
     c = {**_cand(), 'claim': CARD_REC}
-    body = GOOD.replace('写过', '预测')
+    body = GOOD.replace('一年多下来', '有人预测过，一年多下来')
     codes = {f['code'] for f in al.check(body, c, ZH)[0] if f['level'] == 'hard'}
     assert 'archive_claim_type' in codes
     assert 'archive_claim_type' not in {f['code'] for f in al.check(GOOD, c, ZH)[0]}
@@ -46,9 +46,8 @@ def test_claim_type_prediction_framing_is_hard():
 
 def test_conditional_needs_its_condition_and_metric_must_test_claim():
     cond = {**_cand(), 'claim': {**CARD_REC, 'claim_type': 'conditional', 'condition': '如果解锁前没跌破'}}
-    assert 'archive_condition_dropped' in {f['code'] for f in al.check(GOOD, cond, ZH)[0]}
-    kept = GOOD.replace('写过', '写过：如果解锁前没跌破，')
-    assert 'archive_condition_dropped' not in {f['code'] for f in al.check(kept, cond, ZH)[0]}
+    # Oct 13: own-voice posts never retell the seed's claim, so its condition is not required any more
+    assert 'archive_condition_dropped' not in {f['code'] for f in al.check(GOOD, cond, ZH)[0]}
     ctx = {**_cand(), 'claim': {**CARD_REC, 'data_tests_claim': 'context_only'}}
     assert 'archive_metric_untested' in {f['code'] for f in al.check(GOOD, ctx, ZH)[0] if f['level'] == 'hard'}
 
