@@ -2392,6 +2392,10 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
     # Oct 13 (Fiona; live/one_per_story.cap_plan, FD_STORY_CAP_SELECT): one story across accounts, before drafting
     info['story_cap_dropped'] = one_per_story.cap_plan(plan, order, compose_inbox.rows(args.day.isoformat()),
                                                        log=lambda m: print(m, flush=True))
+    # Oct 13 07:37 (Fiona; live/predraft_filter.py FD_PREDRAFT): drop picks that would be held, before any model call
+    from live import predraft_filter
+    info['predraft_dropped'] = predraft_filter.apply(plan, selection_ref(args.day, args.now),
+                                                     log=lambda m: print(m, flush=True))
     write_json(out / 'plan.json', {'day': args.day.isoformat(), 'day_basis': 'Asia/Shanghai calendar date',
                                    'selection_ref': selection_ref(args.day, args.now).isoformat(), 'pick_order': order, 'per_account': per_account,
                                    'fill': fill, 'round': rnd, 'drafted_earlier_today': done,

@@ -12,6 +12,8 @@
 # Skips when another compose run is active or the Beijing hour is outside 08-21. FD_ENGAGE_PULL=0 turns it off.
 set -euo pipefail
 cd /workspace/fd_new/Finance_Distillation
+# Oct 13 (Fiona): official Gemini primary for every scheduled run (provider env + key; see provider_env.sh)
+. scripts/cron/provider_env.sh
 [[ "${FD_ENGAGE_PULL:-1}" == "0" ]] && { echo "FD_ENGAGE_PULL=0: off"; exit 0; }
 RUN=/workspace/x/engage_runs
 mkdir -p "$RUN"

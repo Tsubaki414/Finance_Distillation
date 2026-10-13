@@ -18,3 +18,20 @@ Fiona wants no tokens wasted on drafts that a later gate holds, and depth from t
   pure headline relay (needs_review). Archive / 回看 rows exempt.
 - tests/test_oct13_gates.py; tests/test_compose_recorded.py pins FD_DEPTH_CHECK=0 (recorded prompt).
 Backup of the pre-change files: /workspace/x/backups/code_<stamp>/.
+
+## 2026-10-13 07:37 London — official Gemini default for all scheduled runs + pre-draft filters (Fiona approved)
+- scripts/cron/provider_env.sh, sourced by daily_ingest.sh / daily_compose.sh / midday_compose.sh / engage_pull.sh
+  right after `cd`: loads ~/.config/fd/provider.env (FD_GEMINI_PROVIDER=official, FD_ALLOW_NO_SUBROUTER=1; no
+  secrets) and ~/.secrets/gemini.env (GEMINI_API_KEY, chmod 600, never printed). Already-set variables win.
+- live/stage_models._official_subrouter_fallback: with provider official and SUBROUTER_API_KEY set, every native
+  Gemini stage gets subrouter as a PROVIDER fallback (same model family); a subrouter 402 circuit-breaks it for the
+  day (existing fallback_dead). Kill switch FD_OFFICIAL_SUBROUTER_FALLBACK=0.
+- live/predraft_filter.py (FD_PREDRAFT master; FD_PRE_FRESH / FD_PRE_LOOKBACK / FD_PRE_FACTS / FD_PRE_BTC_TVN, all
+  default on), applied in daily_compose after the story cap and before any model call; BTC then-vs-now cap
+  (FD_PRE_BTC_TVN_MAX=1/day across accounts) in live/archive_lookback.run, checked before the X gather.
+- Replay of the 10-13 run (42 compose picks + archive rows): 10 compose picks skipped, all 10 had been held
+  (0 ready lost), $1.42 of $6.01 compose spend; BTC cap would skip 4 of 5 BTC then-vs-now rows (3 of them ready).
+- Pre-existing test failures (unchanged by this commit): test_stage_model_overrides compose_goes_to_second_relay,
+  test_research_sources fourpillars, test_fix1012_stage1 archive_humanize line_end, test_x_daily only_x
+  (order-dependent / environment; fail identically on a8a1393).
+Backup of the pre-change files: /workspace/x/backups/code_0737/.

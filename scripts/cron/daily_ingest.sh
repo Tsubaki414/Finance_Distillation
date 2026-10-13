@@ -2,6 +2,8 @@
 set -euo pipefail
 export FD_PACK_AUGMENT=1
 cd /workspace/fd_new/Finance_Distillation
+# Oct 13 (Fiona): official Gemini primary for every scheduled run (provider env + key; see provider_env.sh)
+. scripts/cron/provider_env.sh
 # `--preflight`: local checks only (relay config, EXTRACT route + key presence), printed to stdout; no ingest, no spend.
 PREFLIGHT_ONLY=0
 if [[ "${1:-}" == "--preflight" ]]; then PREFLIGHT_ONLY=1; shift; fi

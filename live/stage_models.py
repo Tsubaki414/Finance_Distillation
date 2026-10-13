@@ -125,7 +125,35 @@ def apply_gemini_provider(table, environ=None):
     for stage, entry in (out.get('stages') or {}).items():
         if entry.get('base_url') and is_gemini_route(entry['base_url']) and entry['base_url'].rstrip('/') != base_url:
             entry.update(base_url=base_url, api_key_env=key_env)
+    if provider == 'official' and (env.get('SUBROUTER_API_KEY') or '').strip() \
+            and env.get('FD_OFFICIAL_SUBROUTER_FALLBACK', '1') != '0':
+        out = _official_subrouter_fallback(out)
     return validate(out)
+
+
+def _official_subrouter_fallback(table):
+    """Oct 13 07:37 (Fiona): official Gemini is primary for every scheduled run; subrouter is a PROVIDER fallback
+    (same model family, subrouter id via SUBROUTER_MODEL_MAP). A subrouter 402 / empty balance circuit-breaks the
+    fallback for the day (client fallback_dead), so the draft fails with official's own error. Kill switch:
+    FD_OFFICIAL_SUBROUTER_FALLBACK=0."""
+    out = copy.deepcopy(table)
+    out['accepted_response_models'] = dict(out.get('accepted_response_models') or {})
+    for stage, entry in (out.get('stages') or {}).items():
+        if not (entry.get('base_url') and is_gemini_native(entry['base_url'])) or entry.get('fallback'):
+            continue
+        sub_model = SUBROUTER_MODEL_MAP.get(entry['model'], entry['model'])
+        fb = {'model': sub_model, 'temperature': entry.get('temperature', 0.0), 'base_url': SUBROUTER_BASE,
+              'api_key_env': 'SUBROUTER_API_KEY', 'provider_fallback': True}
+        if entry.get('max_tokens'):
+            fb['max_tokens'] = entry['max_tokens']
+        entry['fallback'] = fb
+        acc = list(out['accepted_response_models'].get(sub_model) or [sub_model])
+        for name in (sub_model, entry['model']) + SUBROUTER_SAME_MODEL.get(entry['model'], ()):
+            for n in (name, f'{SUBROUTER_VENDOR}/{name}'):
+                if n not in acc:
+                    acc.append(n)
+        out['accepted_response_models'][sub_model] = acc
+    return out
 
 
 def _apply_subrouter(table, only=None):

@@ -14,6 +14,8 @@
 # Both steps are skipped when FD_MIDDAY_COMPOSE=0.
 set -euo pipefail
 cd /workspace/fd_new/Finance_Distillation
+# Oct 13 (Fiona): official Gemini primary for every scheduled run (provider env + key; see provider_env.sh)
+. scripts/cron/provider_env.sh
 
 LANG_ARG="${1:-auto}"
 if [[ "$LANG_ARG" == "auto" ]]; then

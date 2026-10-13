@@ -1412,10 +1412,17 @@ def run(account_ids, day, *, timely_planned=None, force=False, config=None, writ
         todo.append(aid)
     per_account = min(config.get('rapid_max_calls_per_account_day', 4), math.ceil(call_cap / max(1, len(todo))))
     taken = set()
+    btc_made = []   # Oct 13: then_vs_now drafts made this run (BTC cap)
     quota_stop = None
     for aid in todo:
         acc = accounts[aid]
         info = summary['accounts'][aid]
+        from live import predraft_filter as _pf0   # Oct 13: BTC cap reached and no other variant -> no X pull either
+        if (set(variants) <= {'then_vs_now'} and _pf0.btc_tvn_max() is not None
+                and _pf0.btc_tvn_today(archive_rows(day, None, inbox_base)) + len(btc_made) >= _pf0.btc_tvn_max()):
+            info['then_vs_now'] = {'status': 'pre_btc_tvn: BTC then-vs-now cap reached (no gather)'}
+            log(f'[{aid}] predraft skip: BTC then-vs-now cap reached')
+            continue
         handles = handles_for(aid, limit=config.get('max_handles_per_account', 10))
         made_before = rapid.made if rapid else 0
         posts, _calls = gather(aid, handles, day, config=config, client=rapid, allowance=per_account, refresh=refresh)
@@ -1427,7 +1434,14 @@ def run(account_ids, day, *, timely_planned=None, force=False, config=None, writ
         info.update(handles=[h for h, _r in handles], posts=len(posts),
                     rapid_calls=(rapid.made if rapid else 0) - made_before)
         result, chosen_variant = None, None
+        from live import predraft_filter as _pf   # Oct 13 07:37 (Fiona): BTC then-vs-now cap across accounts
+        _btc_max = _pf.btc_tvn_max()
+        _btc_n = (_pf.btc_tvn_today(archive_rows(day, None, inbox_base)) + len(btc_made)) if _btc_max is not None else 0
         for variant in variant_order(aid, day, variants, todo):
+            if variant == 'then_vs_now' and _btc_max is not None and _btc_n >= _btc_max:
+                info['then_vs_now'] = {'status': f'pre_btc_tvn: BTC then-vs-now cap {_btc_max}/day reached'}
+                log(f"[{aid}] predraft skip then_vs_now: BTC cap {_btc_max}/day reached")
+                continue
             if spend + config.get('compose_reserve_per_draft_usd', 0.3) > usd_cap:
                 info['skipped'] = f'model budget: ${spend:.3f} spent of ${usd_cap:.2f} for this run / day'
                 log(f"[{aid}] {info['skipped']}")
@@ -1456,6 +1470,8 @@ def run(account_ids, day, *, timely_planned=None, force=False, config=None, writ
             if result and result.get('body') and 'cand' in result:
                 result['spend_usd'] = cost
                 chosen_variant = variant
+                if variant == 'then_vs_now':
+                    btc_made.append(aid)
                 break
             if quota_stop:
                 break

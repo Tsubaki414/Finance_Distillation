@@ -52,3 +52,57 @@ def test_analysis_sources_ranked_first():
                   {'url': 'https://m/2', 'source_id': 'ch140_moontower', 'title': 'm'}]}
     one_per_story.cap_plan(plan, ['a'], env={})
     assert plan['a'][0]['source_id'] == 'ch140_moontower'
+
+
+# ---- Oct 13 07:37: pre-draft filters + official provider with subrouter provider fallback
+from live import predraft_filter as pf, stage_models
+
+REF = '2026-10-13T01:35:00+00:00'
+
+
+def _pick(**kw):
+    base = {'source_id': 'x-1', 'published_at': '2026-10-12T20:00:00+00:00', 'numbers': 3, 'unit_ids': ['a', 'b'],
+            'title': 'BTC ETF flows', 'suggested_post_time_london': '2026-10-13T08:00:00+01:00'}
+    base.update(kw)
+    return base
+
+
+def test_pre_fresh():
+    assert pf.reason(_pick(published_at='2026-10-10T00:00:00+00:00'), env={}).startswith('pre_fresh')
+    assert pf.reason(_pick(), env={}) is None
+    assert pf.reason(_pick(published_at='2026-10-10T00:00:00+00:00'), env={'FD_PRE_FRESH': '0'}) is None
+
+
+def test_pre_lookback_and_facts():
+    assert pf.reason(_pick(title='再看上周五推文'), env={}).startswith('pre_lookback')
+    assert pf.reason(_pick(source_id='em-flash-1', numbers=0), env={}).startswith('pre_facts')
+    assert pf.reason(_pick(numbers=0, unit_ids=['a']), env={}).startswith('pre_facts')
+    assert pf.reason(_pick(numbers=0, unit_ids=['a', 'b', 'c']), env={}) is None   # a view post with reasoning
+
+
+def test_apply_and_master_switch():
+    plan = {'a': [_pick(), _pick(source_id='lf-x', numbers=0)], 'b': [_pick(published_at='2026-10-01T00:00:00Z')]}
+    dropped = pf.apply(plan, env={})
+    assert len(plan['a']) == 1 and plan['b'] == [] and len(dropped) == 2
+    plan = {'b': [_pick(published_at='2026-10-01T00:00:00Z')]}
+    assert pf.apply(plan, env={'FD_PREDRAFT': '0'}) == [] and len(plan['b']) == 1
+
+
+def test_btc_tvn_count():
+    row = {'draft_status': 'draft_ready', 'archive': {'variant': 'then_vs_now', 'then_vs_now': {'label': 'BTC'}}}
+    assert pf.btc_tvn_today([row, {**row, 'held': True}]) == 1
+    assert pf.btc_tvn_max({}) == 1 and pf.btc_tvn_max({'FD_PRE_BTC_TVN': '0'}) is None
+
+
+def test_official_primary_subrouter_provider_fallback():
+    t = stage_models.from_env(stage_models.load(), {'FD_GEMINI_PROVIDER': 'official', 'SUBROUTER_API_KEY': 'x'})
+    for st in ('compose', 'stance', 'extract', 'extract_flash'):
+        fb = stage_models.fallback(t, st)
+        assert stage_models.is_gemini_native(t['stages'][st]['base_url'])
+        assert fb and fb['provider_fallback'] and stage_models.is_subrouter(fb['base_url'])
+        assert stage_models.model_fallback(t, st) is None
+    t = stage_models.from_env(stage_models.load(), {'FD_GEMINI_PROVIDER': 'official', 'SUBROUTER_API_KEY': 'x',
+                                                    'FD_OFFICIAL_SUBROUTER_FALLBACK': '0'})
+    assert stage_models.fallback(t, 'compose') is None
+    t = stage_models.from_env(stage_models.load(), {'FD_GEMINI_PROVIDER': 'official'})
+    assert stage_models.fallback(t, 'compose') is None

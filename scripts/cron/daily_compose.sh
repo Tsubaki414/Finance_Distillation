@@ -4,6 +4,8 @@
 # FD_GEMINI_MODEL switches every Gemini stage (default gemini-3-flash-preview). No Opus fallback.
 set -euo pipefail
 cd /workspace/fd_new/Finance_Distillation
+# Oct 13 (Fiona): official Gemini primary for every scheduled run (provider env + key; see provider_env.sh)
+. scripts/cron/provider_env.sh
 if [[ "${FD_DAILY_COMPOSE:-0}" != "1" ]]; then echo "FD_DAILY_COMPOSE is not 1: compose off"; exit 0; fi
 # Log name only: London date of the run. The drafting day (inbox / CSV / media / dashboard) is the Beijing date,
 # computed in daily_compose.py: the 23:13 London run on 10-07 logs to 2026-10-07.cron.log and drafts 2026-10-08.
