@@ -42,17 +42,53 @@ def prompt_rule(env=None):
     return ('\n' + PROMPT) if enabled(env) else ''
 
 
-def findings(body, lang, post_kind=None, env=None):
+# Oct 13 09:21 (Fiona): a reaction / question / life-feel post passes when it carries at least one ATTRIBUTABLE source
+# insight (a causal / implication sentence that overlaps the source text) plus a genuine reaction; a pure headline
+# relay (no insight, or no reaction) is still held.
+REACTION = {
+    'en': re.compile(r"\?|\b(?:watching|wary|hesitant|hesitat\w*|unsure|not sure|surpris\w*|wild|welp|bruh|lol|"
+                     r"can't believe|curious|wonder\w*|nervous|uneasy|feels?|honestly|wow|ouch|yikes|ugh|"
+                     r"stayed up|staying up|refresh\w*)\b", re.I),
+    'zh': re.compile(r'[?？]|绷不住|麻了|无语|惊了|笑死|犹豫|还在看|盯盘|熬夜|看不懂|有点悬|心里没底|慌|吓|离谱|太荒谬|'
+                     r'怎么看|你们|说实话|服了|唉|哎|真挺|有点|难受|爽'),
+}
+INSIGHT = {
+    'en': re.compile(r"\b(?:because|since|so\b|which|implies|implying|means|meaning|signals?|suggests?|shows?|"
+                     r"driven by|thanks to|due to|as a result|reflects?|why|while|despite|even as|decoupl\w*)\b", re.I),
+    'zh': re.compile(r'因为|所以|导致|引发|原因|说明|意味着|反映|看出|带崩|拖累|推动|靠|由于|于是|结果|背后|脱钩|分化'),
+}
+
+
+def _toks(text):
+    words = {w.lower() for w in re.findall(r'[A-Za-z][A-Za-z0-9$%.-]{2,}|\d[\d.,%]*', text or '')}
+    cjk = re.sub(r'[^\u4e00-\u9fff]', '', text or '')
+    return words | {cjk[i:i + 2] for i in range(len(cjk) - 1)}
+
+
+def attributable_insight(body, lang, source_text=None):
+    """A sentence with a causal / implication move that shares >= 2 tokens with the source (any such sentence when
+    no source text is given)."""
+    rx = INSIGHT['zh' if str(lang)[:2] == 'zh' else 'en']
+    src = _toks(source_text) if source_text else None
+    for s in re.split(r'(?<=[。！？!?.])\s+|\n+', body or ''):
+        if s.strip() and rx.search(s) and (src is None or len(_toks(s) & src) >= 2):
+            return s.strip()
+    return None
+
+
+def findings(body, lang, post_kind=None, env=None, source_text=None):
     """[] when the body shows depth (or check off / archive row); else one finding dict."""
     if not enabled(env) or not (body or '').strip():
         return []
-    # Oct 13: human / life-feel kinds (reaction, question, diary, meme, industry_people) are feelings, not relays
-    if post_kind in ('reaction', 'question', 'diary', 'meme', 'industry_people'):
-        return []
     if post_kind in ('archive_lookback', 'anniversary') or re.match(r'^\s*(?:回看|Look back)', body, re.I):
         return []
-    rx = MARKERS['zh' if str(lang)[:2] == 'zh' else 'en']
-    if rx.search(body):
+    lg = 'zh' if str(lang)[:2] == 'zh' else 'en'
+    if MARKERS[lg].search(body):
+        return []
+    reaction = REACTION[lg].search(body)
+    if reaction and (post_kind in ('reaction', 'question', 'diary', 'meme', 'industry_people')
+                     or attributable_insight(body, lg, source_text)):
         return []
     return [{'code': CODE, 'severity': 'hard', 'level': 'hard',
-             'detail': 'pure news relay: no comparison, affected party or what-to-watch beyond the source'}]
+             'detail': 'pure news relay: no attributable source insight + reaction, comparison, affected party or '
+                       'what-to-watch beyond the source'}]

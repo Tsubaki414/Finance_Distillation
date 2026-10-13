@@ -45,3 +45,12 @@ def test_not_x_family_nfa_and_numbers():
 
 def test_list_markers_not_flagged():
     assert not cp.findings('BTC fell 7.2%\n1. 情绪：杠杆太高\n2. 承接：看下方', 'zh', EV)
+
+
+def test_final_recheck_codes_and_jargon():
+    codes = {f['code'] for f in cp.final_findings('ngl open interest slid hard. Not financial advice.', 'en')}
+    assert {'prevent_banned_opener', 'prevent_disclaimer_on_commentary', 'prevent_jargon_unexplained'} <= codes
+    assert not cp.final_findings('Open interest (total open futures bets) slid to $333.6m. Still watching.', 'en')
+    assert any(c['code'] == 'prevent_not_x_but_y' for c in cp.final_findings('原因不在美联储，是流动性', 'zh'))
+    f = cp.final_repair_found('Open interest slid. Wild.', 'en')
+    assert f and 'jargon_unexplained' in f[0]['codes'][0]

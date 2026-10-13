@@ -2380,6 +2380,21 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                 value = dict(value, thread=_le.apply_parts([str(x) for x in value['thread']], persona, base['id']))
             body = _le_body
             text = (frame['text'] + body) if frame['placement'] == 'lead' else (body + frame['text'])
+    # Oct 13 09:21 (Fiona): the prevention rule checks re-run on the FINAL body after every retry / rewrite stage
+    # above; one sentence-level repair if the first-pass repair was not used, else HARD findings (post-draft hold).
+    if _cp_on and body:
+        _cp_left = _cp.final_repair_found(body, persona.lang, _cp_strat)
+        if _cp_left and not (prevent_info or {}).get('found'):
+            _nb, _ri = _cp.repair(body, persona.lang, _cp_ev, _cp_left,
+                                  lambda sys_, pl: _ask(client, 'compose', sys_, pl, 4000, assembly)[0], _cp_strat)
+            if _nb != body:
+                body = _nb
+                text = (frame['text'] + body) if frame['placement'] == 'lead' else (body + frame['text'])
+            prevent_info = dict(prevent_info or {}, final_repair=_ri)
+        _cp_hard = _cp.final_findings(body, persona.lang, _cp_strat)
+        if _cp_hard:
+            findings += _cp_hard
+            prevent_info = dict(prevent_info or {}, final_remaining=[f['code'] for f in _cp_hard])
     if stance and stance.get('stance_findings'):
         findings += qa_levels.classify(stance['stance_findings'], frame_found=True)
     input_view = (primary or {}).get('view') if stance else None

@@ -39,8 +39,8 @@ _EMPTY_LABEL = re.compile(r'^\s*(?:\d+|[一二三四五六七八九十]+)\s*[.�
 _QUOTE = re.compile(r'[“"「『]([^”"」』\n]{6,})[”"」』]')
 _NUM = re.compile(r'(?<![\w.])[$€£¥]?\d[\d,]*(?:\.\d+)?\s*(?:%|bp|bps|[kKmMbBtT](?![a-z])|万亿|亿|万|倍|美元|点)?')
 _SENT = re.compile(r'(?:[^。！？!?\n.]|\.(?=\d))+(?:[。！？!?]+|\.+(?!\d)|\n|$)')
-JARGON = ['funding rate', 'basis', 'open interest', 'OI', 'CPI', 'PCE', 'FOMC', 'dot plot', 'term premium',
-          'liquidation', 'perp', 'ETF', 'TGA', 'RRP', '资金费率', '基差', '未平仓', '爆仓', '缩表', '点阵图', '期限溢价']
+JARGON = ['funding rate', 'open interest', 'OI', 'term premium', 'perp', 'perps', 'dot plot', 'TGA', 'RRP',
+          'basis trade', '资金费率', '基差', '未平仓', '缩表', '点阵图', '期限溢价', '永续合约']
 
 
 def enabled(env=None):
@@ -194,3 +194,44 @@ def disputed_for(text):
     except Exception:
         return []
     return [i['fact'] for i in items if re.search(i['match'], text or '', re.I)]
+
+
+# ---------------------------------------------------------------- final-body re-check (Oct 13 09:21, Fiona)
+FINAL_CODES = ('banned_opener', 'not_x_but_y', 'disclaimer_on_commentary', 'jargon_unexplained')
+_EXPLAIN = re.compile(r'^\s*(?:[（(]|[,，]?\s*(?:i\.e\.|aka|meaning|which is|that is|basically|也就是|即|就是|指的?是)|[—–-]\s|[:：])', re.I)
+
+
+def jargon_findings(body, lang):
+    """First use of a listed jargon term with no plain-words gloss right after it."""
+    out = []
+    for term in JARGON:
+        rx = re.compile((r'(?<![A-Za-z])' + re.escape(term) + r'(?![A-Za-z])') if term.isascii() else re.escape(term),
+                        0 if term.isupper() or not term.isascii() else re.I)
+        m = rx.search(body or '')
+        if m and not _EXPLAIN.match((body or '')[m.end():m.end() + 30]):
+            out.append(term)
+    return out
+
+
+def final_findings(body, lang, strategy=False):
+    """HARD post-check dicts for the rules that later stages can re-break (no number check here: the existing
+    ungrounded_number check owns the final body)."""
+    out = []
+    for f in findings(body, lang, '', strategy):
+        for c in f['codes']:
+            if c in FINAL_CODES:
+                out.append({'code': 'prevent_' + c, 'level': 'hard', 'severity': 'hard', 'detail': f['sentence'][:160]})
+    for t in jargon_findings(body, lang):
+        out.append({'code': 'prevent_jargon_unexplained', 'level': 'hard', 'severity': 'hard', 'detail': t})
+    return out
+
+
+def final_repair_found(body, lang, strategy=False):
+    """The final re-check findings in repair() shape ({'sentence', 'codes'}) for one sentence-level repair."""
+    out = [f for f in findings(body, lang, '', strategy) if any(c in FINAL_CODES for c in f['codes'])]
+    out = [dict(f, codes=[c for c in f['codes'] if c in FINAL_CODES]) for f in out]
+    for t in jargon_findings(body, lang):
+        sent = next((x for x in sentences(body) if t.lower() in x.lower()), None)
+        if sent:
+            out.append({'sentence': sent.strip(), 'codes': [f'jargon_unexplained:{t} (add a few plain words right after it)']})
+    return out

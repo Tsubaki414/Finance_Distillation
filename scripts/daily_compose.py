@@ -2635,7 +2635,15 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
         _fh = _om.first_hand_findings(r.get('body') or '', r['plan']['account_lang'])
         # Oct 13 (Fiona; live/depth_check.py FD_DEPTH_CHECK): a pure news relay is held like a first-hand claim
         from live import depth_check as _dc
-        _fh = _fh + _dc.findings(r.get('body') or '', r['plan']['account_lang'], r['plan'].get('post_kind') or _kind)
+        _src_d = r.get('source') or {}
+        _fh = _fh + _dc.findings(r.get('body') or '', r['plan']['account_lang'], r['plan'].get('post_kind') or _kind,
+                                 source_text=' '.join(str(_src_d.get(k) or '') for k in ('title', 'original_text', 'text', 'summary')).strip() or None)
+        # Oct 13 09:21 (Fiona): the prevention rule checks re-run on the FINAL body (after humanize / fluency / opener /
+        # every retry): a banned opener, not-X-but-Y, unexplained jargon or a disclaimer on commentary left here is HARD
+        from live import compose_prevent as _cpf
+        if _cpf.enabled():
+            _fh = _fh + _cpf.final_findings(r.get('body') or '', r['plan']['account_lang'],
+                                            strategy=bool(_pf.get('explainer')))
         if _fh:
             r.setdefault('post_checks', []).extend(_fh)
             r['draft_status'] = 'needs_review'

@@ -108,3 +108,16 @@ Backup: /workspace/x/backups/code_0920/. No compose files touched.
   tests/test_account_sources expected set updated accordingly.
 - Not added: Bruegel (JS challenge page), Brookings / CFR / Tax Policy Center / PIIE (no usable feed or 403/404), AEI (skipped: partisan lean).
 - 09:25 fix: bare list markers ("1.") split off by the sentence splitter are no longer flagged empty_step_label / number_not_in_source (false positives in the first fill batch).
+
+## 2026-10-13 09:21 London — depth relax + final-body prevention re-check (Fiona 09:21)
+- live/depth_check.py: a post passes when it carries >= 1 ATTRIBUTABLE source insight (causal / implication sentence
+  sharing >= 2 tokens with the source title/text) plus a genuine reaction (watching / wary / hesitant / question mark /
+  绷不住 / 犹豫 / 你们怎么看 ...). Human kinds need a reaction (no longer blanket-exempt). Pure headline relays still
+  HELD. scripts/daily_compose.py passes the source text.
+- live/compose_prevent.py final_findings / final_repair_found + live/compose.py: the banned-opener / not-X-but-Y /
+  jargon (first use, no gloss) / NFA checks re-run on the FINAL compose body after every retry / rewrite stage; one
+  sentence repair if the first-pass repair was unused, else HARD prevent_* findings (held). scripts/daily_compose.py
+  re-runs the same checks after humanize / fluency / opener fix (HARD prevent_*).
+- Jargon list narrowed to terms needing a gloss (funding rate, open interest/OI, perp, term premium, dot plot, TGA, RRP,
+  basis trade, 资金费率, 基差, 未平仓, 缩表, 点阵图, 期限溢价, 永续合约).
+- tests/test_depth_relax_1013.py, tests/test_compose_prevent.py (+final re-check). Backup: /workspace/x/backups/code_0921/.
