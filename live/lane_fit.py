@@ -108,7 +108,7 @@ def lane_hits(lane, text):
         return []
     hits = {m.group(0).lower()[:40] for m in rx.finditer(text)}
     if lane == 'crypto_meme':   # Oct 9 night: a small $TICKER talked about by market cap / pool / holders is a meme coin
-        hits |= {'$ticker+' + m.group(1).lower()[:12] for m in MEME_TIE.finditer(text)}
+        hits |= {'$ticker+' + (m.group(1) or m.group(2)).lower()[:12] for m in MEME_TIE.finditer(text)}  # Oct 13: 2nd alternative fills group(2)
     if lane == 'crypto_stable_yield':   # Oct 11: issuer / counterparty risk of a stablecoin (freeze, depeg, reserves)
         hits |= {'issuer_risk+' + m.group(0).lower()[:20] for m in STABLE_RISK_TIE.finditer(text)}
     return sorted(hits)
