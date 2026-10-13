@@ -8,7 +8,8 @@ Flow (behind FD_HOTSPOT, default 1; FD_HOTSPOT=0 = the selection is exactly the 
               news hook, shared significant number + shared entity, >= 2 shared rare entities, CJK headline overlap -
               union-find; then at most ONE flash call a day (relay, cost cap $0.30, cached per day) that may merge
               clusters on the same story across languages and writes a neutral zh / en title
-  heat        breadth (distinct publishers, sources, accounts whose own pool holds a member) + public heat inputs
+  heat        breadth (distinct publishers, sources, accounts whose own pool holds a member, + Oct 13 distinct KOL
+              clusters live/kol_clusters.py, FD_KOL_CLUSTER_W) + public heat inputs
               (live/heat.py cache: Google Trends / 东方财富 / B站 / Reddit) + recency; pool = 'hotspot' when >= 2
               publishers (or 1 publisher with public heat), else 'discovery' (recorded, never written)
   decision    per account, for each top hotspot 母题: IGNORE when no member is in the account's own candidate pool
@@ -32,6 +33,8 @@ import os
 import re
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+
+from live import kol_clusters
 
 ROOT = Path(__file__).resolve().parents[1]
 WINDOW_H = 36
@@ -470,7 +473,9 @@ def build_motifs(mats, groups_idx, ref, titles=None, day=None):
         latest = max(m['_t'] for m in ms)
         h_in, terms = heat.score(text, signals) if signals else (0.0, [])
         h_in = min(3.0, h_in)
-        breadth = math.log2(1 + len(pubs)) + 0.5 * math.log2(1 + len(ms)) + reach_weight() * math.log2(1 + len(accts))
+        kcl = kol_clusters.clusters(ms)   # Oct 13: distinct KOL types alongside the author count
+        breadth = math.log2(1 + len(pubs)) + 0.5 * math.log2(1 + len(ms)) + reach_weight() * math.log2(1 + len(accts)) \
+            + kol_clusters.weight() * math.log2(1 + len(kcl))
         recency = math.exp(-max(0.0, (ref - latest).total_seconds()) / 3600 / 12)
         score = round(breadth + 0.5 * h_in + recency, 3)
         t = (titles or {}).get(cid) or {}
@@ -485,7 +490,7 @@ def build_motifs(mats, groups_idx, ref, titles=None, day=None):
             'title_zh': t.get('zh') or '', 'title_en': t.get('en') or '', 'title_by': 'flash' if t else 'lead_source',
             'event_time': ms[0]['published_at'], 'latest_time': max(ms, key=lambda m: m['_t'])['published_at'],
             'source_count': len(ms), 'publisher_count': len(pubs), 'account_source_count': len(accts),
-            'accounts': accts, 'type': topics[0], 'topics': topics,
+            'accounts': accts, 'type': topics[0], 'topics': topics, 'kol_clusters': kcl, 'cluster_count': len(kcl),
             'heat': {'score': score, 'breadth': round(breadth, 3), 'public_heat': round(h_in, 3),
                      'public_terms': terms[:6], 'recency': round(recency, 3)},
             'pool': 'hotspot' if hot_pool(ms, pubs, h_in, accts) else 'discovery',
