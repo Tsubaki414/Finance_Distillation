@@ -29,7 +29,7 @@ from ml import budget
 PROVIDER = 'erisedai_relay'
 DEFAULT_MODEL = 'claude-opus-5'
 RESPONSE_FORMAT = {'type': 'json_object'}
-TIMEOUT = httpx.Timeout(180.0, connect=15.0, write=30.0, pool=15.0)
+TIMEOUT = httpx.Timeout(float(os.environ.get('FD_RELAY_TIMEOUT_S', '300')), connect=15.0, write=30.0, pool=15.0)
 # Explicit, non-library User-Agent on every relay / Gemini call: Cloudflare in front of www.micuapi.ai answers
 # error 1010 to library default agents (Python-urllib; Oct 7).
 USER_AGENT = 'Mozilla/5.0 (compatible; fd-distillation/1.0)'
@@ -142,14 +142,14 @@ def mark_fallback_dead(base_url, reason):
 
 def subrouter_retries():
     try:
-        return max(0, int(os.environ.get('FD_SUBROUTER_RETRIES', '2')))
+        return max(0, int(os.environ.get('FD_SUBROUTER_RETRIES', '4')))
     except ValueError:
         return 2
 
 
 def subrouter_backoff(i):
     try:
-        default = '0' if os.environ.get('PYTEST_CURRENT_TEST') else '5,15'
+        default = '0' if os.environ.get('PYTEST_CURRENT_TEST') else '10,30,60,90'
         steps = [float(x) for x in os.environ.get('FD_SUBROUTER_BACKOFF', default).split(',') if x.strip()]
     except ValueError:
         steps = [5.0, 15.0]
@@ -388,6 +388,8 @@ class ErisedaiClient:
         provider_fb = bool(fb and fb['provider_fallback'] and (stage in self._fallback_keys or not fb['base_url']))
         if fb is not None and fb['provider_fallback'] and not provider_fb:
             fb = None   # provider fallback configured but its key is missing: primary only
+        if fb is not None and fb['provider_fallback'] and os.environ.get('FD_DISABLE_PROVIDER_FALLBACK') == '1':
+            fb, provider_fb = None, False   # Oct 14 (Fiona): erisedai/micuapi fallback empty - subrouter only
         if fb is not None and fb['provider_fallback'] and fallback_dead(fb['base_url'] or self.config['base_url']):
             fb, provider_fb = None, False   # Oct 10: fallback circuit-broken for the day (empty balance)
         tripped = QUOTA_TRIPPED.get((stage, selected['model']))
