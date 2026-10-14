@@ -2900,6 +2900,338 @@
    ],
    "origin": "persona_factory 2026-10-08 from the new account row donors (equal weights)",
    "previous_cluster": "crypto_ecosystem_sol_base"
+  },
+  "acct_options_vol_zh": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "Leoninweb3",
+     "weight": 0.2
+    },
+    {
+     "handle": "Maxandzero",
+     "weight": 0.2
+    },
+    {
+     "handle": "LuYao_Trader",
+     "weight": 0.2
+    },
+    {
+     "handle": "xiaoxiaoyuyanji",
+     "weight": 0.2
+    },
+    {
+     "handle": "Michael_QQQ2025",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new12 account row donors (equal weights)",
+   "previous_cluster": "crypto_perp"
+  },
+  "acct_funding_arb_zh": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "Ru7Longcrypto",
+     "weight": 0.2
+    },
+    {
+     "handle": "zhamomo666",
+     "weight": 0.2
+    },
+    {
+     "handle": "Boywus",
+     "weight": 0.2
+    },
+    {
+     "handle": "traderwanwan",
+     "weight": 0.2
+    },
+    {
+     "handle": "dongdongRobin",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new12 account row donors (equal weights)",
+   "previous_cluster": "crypto_perp"
+  },
+  "acct_overseas_flash_zh": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "james_x",
+     "weight": 0.2
+    },
+    {
+     "handle": "hebi555",
+     "weight": 0.2
+    },
+    {
+     "handle": "colinwu",
+     "weight": 0.2
+    },
+    {
+     "handle": "suwanyu7777",
+     "weight": 0.2
+    },
+    {
+     "handle": "hsn8086",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new12 account row donors (equal weights)",
+   "previous_cluster": "crypto_macro_en"
+  },
+  "acct_hk_us_ipo_zh": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "BigbirdflyChan",
+     "weight": 0.2
+    },
+    {
+     "handle": "ShuYu622",
+     "weight": 0.2
+    },
+    {
+     "handle": "Walden779",
+     "weight": 0.2
+    },
+    {
+     "handle": "Dahuzi_eth",
+     "weight": 0.2
+    },
+    {
+     "handle": "shirleyusy",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new12 account row donors (equal weights)",
+   "previous_cluster": "zh_us_stock_commentary"
+  },
+  "acct_ai_techstocks_zh": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "op7418",
+     "weight": 0.2
+    },
+    {
+     "handle": "cryptoxiao",
+     "weight": 0.2
+    },
+    {
+     "handle": "FinanceYF5",
+     "weight": 0.2
+    },
+    {
+     "handle": "AODHLG",
+     "weight": 0.2
+    },
+    {
+     "handle": "sixpanny159920",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new12 account row donors (equal weights)",
+   "previous_cluster": "industry_ai_capex"
+  },
+  "acct_exchange_perks_zh": {
+   "lang": "zh",
+   "donors": [
+    {
+     "handle": "Nazarick_eth",
+     "weight": 0.1667
+    },
+    {
+     "handle": "luckybb88",
+     "weight": 0.1667
+    },
+    {
+     "handle": "0x_xifeng",
+     "weight": 0.1667
+    },
+    {
+     "handle": "ziyourenya",
+     "weight": 0.1667
+    },
+    {
+     "handle": "0xduyan",
+     "weight": 0.1667
+    },
+    {
+     "handle": "yaoyaogm",
+     "weight": 0.1667
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new12 account row donors (equal weights)",
+   "previous_cluster": "crypto_airdrop"
+  },
+  "acct_options_vol_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "GreeksLive",
+     "weight": 0.2
+    },
+    {
+     "handle": "QCPgroup",
+     "weight": 0.2
+    },
+    {
+     "handle": "hansolar21",
+     "weight": 0.2
+    },
+    {
+     "handle": "0xTindorr",
+     "weight": 0.2
+    },
+    {
+     "handle": "HangukQuant",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new12 account row donors (equal weights)",
+   "previous_cluster": "crypto_perp"
+  },
+  "acct_yield_arb_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "0xThoor",
+     "weight": 0.2
+    },
+    {
+     "handle": "PendleIntern",
+     "weight": 0.2
+    },
+    {
+     "handle": "MeshClans",
+     "weight": 0.2
+    },
+    {
+     "handle": "phtevenstrong",
+     "weight": 0.2
+    },
+    {
+     "handle": "0xc06",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new12 account row donors (equal weights)",
+   "previous_cluster": "crypto_stable_yield"
+  },
+  "acct_crypto_equities_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "Flowslikeosmo",
+     "weight": 0.2
+    },
+    {
+     "handle": "ZeusRWA",
+     "weight": 0.2
+    },
+    {
+     "handle": "lex_node",
+     "weight": 0.2
+    },
+    {
+     "handle": "0xLTR",
+     "weight": 0.2
+    },
+    {
+     "handle": "virtualbacon",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new12 account row donors (equal weights)",
+   "previous_cluster": "crypto_onchain"
+  },
+  "acct_macro_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "NickTimiraos",
+     "weight": 0.1667
+    },
+    {
+     "handle": "LizAnnSonders",
+     "weight": 0.1667
+    },
+    {
+     "handle": "Web3Niels",
+     "weight": 0.1667
+    },
+    {
+     "handle": "gordonliao",
+     "weight": 0.1667
+    },
+    {
+     "handle": "MerlinOnWeb3",
+     "weight": 0.1667
+    },
+    {
+     "handle": "AnnaEconomist",
+     "weight": 0.1667
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new12 account row donors (equal weights)",
+   "previous_cluster": "macro_rates_en"
+  },
+  "acct_onchain_daily_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "Slappjakke",
+     "weight": 0.2
+    },
+    {
+     "handle": "Hercules_Defi",
+     "weight": 0.2
+    },
+    {
+     "handle": "0xJeff",
+     "weight": 0.2
+    },
+    {
+     "handle": "therationalroot",
+     "weight": 0.2
+    },
+    {
+     "handle": "Darkfost_Coc",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new12 account row donors (equal weights)",
+   "previous_cluster": "crypto_onchain"
+  },
+  "acct_asia_news_en": {
+   "lang": "en",
+   "donors": [
+    {
+     "handle": "Tiger_Research_",
+     "weight": 0.2
+    },
+    {
+     "handle": "ellazhang516",
+     "weight": 0.2
+    },
+    {
+     "handle": "100y_eth",
+     "weight": 0.2
+    },
+    {
+     "handle": "hyeon__dev",
+     "weight": 0.2
+    },
+    {
+     "handle": "tomwanhh",
+     "weight": 0.2
+    }
+   ],
+   "origin": "persona_factory 2026-10-08 from the new12 account row donors (equal weights)",
+   "previous_cluster": "crypto_macro_zh"
   }
  },
  "donors": {
@@ -14020,6 +14352,838 @@
    "promo_share": 0.0,
    "origin": "pm-donors9 2026-10-10: zh crypto-macro search (only zh pass across 3 zh queries); top-up for crypto_macro_zh",
    "verify_note": "deep scrape 157 originals (157/157 zh, last original 2026-10-09); promo_share 0.000; 18-year trader, macro + US stocks, BTC cycle focus; 0 prior accounts (cc_jobs/pm_donors9_REPORT.md, REVIEW.md). Meta backfilled 2026-10-10 after compose KeyError."
+  },
+  "leoninweb3": {
+   "handle": "Leoninweb3",
+   "lang": "zh",
+   "category": "crypto_perp",
+   "persona_cluster": "acct_options_vol_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 92158,
+   "latest_post": "2026-10-13",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: options_vol_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 19 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "maxandzero": {
+   "handle": "Maxandzero",
+   "lang": "zh",
+   "category": "crypto_perp",
+   "persona_cluster": "acct_options_vol_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 8826,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: options_vol_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 21 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "luyao_trader": {
+   "handle": "LuYao_Trader",
+   "lang": "zh",
+   "category": "crypto_perp",
+   "persona_cluster": "acct_options_vol_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 92493,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: options_vol_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 21 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "xiaoxiaoyuyanji": {
+   "handle": "xiaoxiaoyuyanji",
+   "lang": "zh",
+   "category": "crypto_perp",
+   "persona_cluster": "acct_options_vol_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 17434,
+   "latest_post": "2026-10-13",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: options_vol_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 23 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "ru7longcrypto": {
+   "handle": "Ru7Longcrypto",
+   "lang": "zh",
+   "category": "crypto_perp",
+   "persona_cluster": "acct_funding_arb_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 41110,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: funding_arb_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 14 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "zhamomo666": {
+   "handle": "zhamomo666",
+   "lang": "zh",
+   "category": "crypto_perp",
+   "persona_cluster": "acct_funding_arb_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 30830,
+   "latest_post": "2026-10-08",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: funding_arb_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 20 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "boywus": {
+   "handle": "Boywus",
+   "lang": "zh",
+   "category": "crypto_perp",
+   "persona_cluster": "acct_funding_arb_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 12547,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: funding_arb_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 19 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "traderwanwan": {
+   "handle": "traderwanwan",
+   "lang": "zh",
+   "category": "crypto_perp",
+   "persona_cluster": "acct_funding_arb_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 13132,
+   "latest_post": "2026-10-07",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: funding_arb_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 20 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "dongdongrobin": {
+   "handle": "dongdongRobin",
+   "lang": "zh",
+   "category": "crypto_perp",
+   "persona_cluster": "acct_funding_arb_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 5257,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: funding_arb_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 16 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "james_x": {
+   "handle": "james_x",
+   "lang": "zh",
+   "category": "crypto_macro_en",
+   "persona_cluster": "acct_overseas_flash_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 45702,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: overseas_flash_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 19 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "hebi555": {
+   "handle": "hebi555",
+   "lang": "zh",
+   "category": "crypto_macro_en",
+   "persona_cluster": "acct_overseas_flash_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 420218,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: overseas_flash_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 20 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "colinwu": {
+   "handle": "colinwu",
+   "lang": "zh",
+   "category": "crypto_macro_en",
+   "persona_cluster": "acct_overseas_flash_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 81877,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: overseas_flash_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 18 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "suwanyu7777": {
+   "handle": "suwanyu7777",
+   "lang": "zh",
+   "category": "crypto_macro_en",
+   "persona_cluster": "acct_overseas_flash_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 10880,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: overseas_flash_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 19 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "hsn8086": {
+   "handle": "hsn8086",
+   "lang": "zh",
+   "category": "crypto_macro_en",
+   "persona_cluster": "acct_overseas_flash_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 121522,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: overseas_flash_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 20 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "bigbirdflychan": {
+   "handle": "BigbirdflyChan",
+   "lang": "zh",
+   "category": "zh_us_stock_commentary",
+   "persona_cluster": "acct_hk_us_ipo_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 21152,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: hk_us_ipo_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 14 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "shuyu622": {
+   "handle": "ShuYu622",
+   "lang": "zh",
+   "category": "zh_us_stock_commentary",
+   "persona_cluster": "acct_hk_us_ipo_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 29517,
+   "latest_post": "2026-10-13",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: hk_us_ipo_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 16 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "walden779": {
+   "handle": "Walden779",
+   "lang": "zh",
+   "category": "zh_us_stock_commentary",
+   "persona_cluster": "acct_hk_us_ipo_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 23842,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: hk_us_ipo_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 21 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "dahuzi_eth": {
+   "handle": "Dahuzi_eth",
+   "lang": "zh",
+   "category": "zh_us_stock_commentary",
+   "persona_cluster": "acct_hk_us_ipo_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 135666,
+   "latest_post": "2026-10-12",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: hk_us_ipo_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 21 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "op7418": {
+   "handle": "op7418",
+   "lang": "zh",
+   "category": "industry_ai_capex",
+   "persona_cluster": "acct_ai_techstocks_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 180496,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: ai_techstocks_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 20 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "cryptoxiao": {
+   "handle": "cryptoxiao",
+   "lang": "zh",
+   "category": "industry_ai_capex",
+   "persona_cluster": "acct_ai_techstocks_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 34679,
+   "latest_post": "2026-10-10",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: ai_techstocks_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 13 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "financeyf5": {
+   "handle": "FinanceYF5",
+   "lang": "zh",
+   "category": "industry_ai_capex",
+   "persona_cluster": "acct_ai_techstocks_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 192554,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: ai_techstocks_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 21 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "aodhlg": {
+   "handle": "AODHLG",
+   "lang": "zh",
+   "category": "industry_ai_capex",
+   "persona_cluster": "acct_ai_techstocks_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 24188,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: ai_techstocks_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 11 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "sixpanny159920": {
+   "handle": "sixpanny159920",
+   "lang": "zh",
+   "category": "industry_ai_capex",
+   "persona_cluster": "acct_ai_techstocks_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 9385,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: ai_techstocks_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 17 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "nazarick_eth": {
+   "handle": "Nazarick_eth",
+   "lang": "zh",
+   "category": "crypto_airdrop",
+   "persona_cluster": "acct_exchange_perks_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 44460,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: exchange_perks_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 20 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "luckybb88": {
+   "handle": "luckybb88",
+   "lang": "zh",
+   "category": "crypto_airdrop",
+   "persona_cluster": "acct_exchange_perks_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 51709,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: exchange_perks_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 17 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "0x_xifeng": {
+   "handle": "0x_xifeng",
+   "lang": "zh",
+   "category": "crypto_airdrop",
+   "persona_cluster": "acct_exchange_perks_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 28233,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: exchange_perks_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 21 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "ziyourenya": {
+   "handle": "ziyourenya",
+   "lang": "zh",
+   "category": "crypto_airdrop",
+   "persona_cluster": "acct_exchange_perks_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 12299,
+   "latest_post": "2026-10-07",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: exchange_perks_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 21 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "0xduyan": {
+   "handle": "0xduyan",
+   "lang": "zh",
+   "category": "crypto_airdrop",
+   "persona_cluster": "acct_exchange_perks_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 6760,
+   "latest_post": "2026-10-13",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: exchange_perks_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 18 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "yaoyaogm": {
+   "handle": "yaoyaogm",
+   "lang": "zh",
+   "category": "crypto_airdrop",
+   "persona_cluster": "acct_exchange_perks_zh",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 19308,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: exchange_perks_zh donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 14 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "greekslive": {
+   "handle": "GreeksLive",
+   "lang": "en",
+   "category": "crypto_perp",
+   "persona_cluster": "acct_options_vol_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 18454,
+   "latest_post": "2026-10-08",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: options_vol_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 18 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "qcpgroup": {
+   "handle": "QCPgroup",
+   "lang": "en",
+   "category": "crypto_perp",
+   "persona_cluster": "acct_options_vol_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 28379,
+   "latest_post": "2026-10-12",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: options_vol_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 20 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "hansolar21": {
+   "handle": "hansolar21",
+   "lang": "en",
+   "category": "crypto_perp",
+   "persona_cluster": "acct_options_vol_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 32694,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: options_vol_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 18 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "0xtindorr": {
+   "handle": "0xTindorr",
+   "lang": "en",
+   "category": "crypto_perp",
+   "persona_cluster": "acct_options_vol_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 44044,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: options_vol_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 20 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "hangukquant": {
+   "handle": "HangukQuant",
+   "lang": "en",
+   "category": "crypto_perp",
+   "persona_cluster": "acct_options_vol_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 27330,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: options_vol_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 18 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "0xthoor": {
+   "handle": "0xThoor",
+   "lang": "en",
+   "category": "crypto_stable_yield",
+   "persona_cluster": "acct_yield_arb_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 91970,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: yield_arb_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 17 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "pendleintern": {
+   "handle": "PendleIntern",
+   "lang": "en",
+   "category": "crypto_stable_yield",
+   "persona_cluster": "acct_yield_arb_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 23879,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: yield_arb_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 10 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "meshclans": {
+   "handle": "MeshClans",
+   "lang": "en",
+   "category": "crypto_stable_yield",
+   "persona_cluster": "acct_yield_arb_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 7557,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: yield_arb_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 8 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "flowslikeosmo": {
+   "handle": "Flowslikeosmo",
+   "lang": "en",
+   "category": "crypto_onchain",
+   "persona_cluster": "acct_crypto_equities_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 92867,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_equities_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 10 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "zeusrwa": {
+   "handle": "ZeusRWA",
+   "lang": "en",
+   "category": "crypto_onchain",
+   "persona_cluster": "acct_crypto_equities_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 26672,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_equities_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 15 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "lex_node": {
+   "handle": "lex_node",
+   "lang": "en",
+   "category": "crypto_onchain",
+   "persona_cluster": "acct_crypto_equities_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 78282,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_equities_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 10 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "0xltr": {
+   "handle": "0xLTR",
+   "lang": "en",
+   "category": "crypto_onchain",
+   "persona_cluster": "acct_crypto_equities_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 39376,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_equities_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 18 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "virtualbacon": {
+   "handle": "virtualbacon",
+   "lang": "en",
+   "category": "crypto_onchain",
+   "persona_cluster": "acct_crypto_equities_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 234050,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: crypto_equities_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 19 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "web3niels": {
+   "handle": "Web3Niels",
+   "lang": "en",
+   "category": "macro_rates_en",
+   "persona_cluster": "acct_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 64716,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: macro_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 20 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "gordonliao": {
+   "handle": "gordonliao",
+   "lang": "en",
+   "category": "macro_rates_en",
+   "persona_cluster": "acct_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 12141,
+   "latest_post": "2026-10-13",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: macro_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 11 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "merlinonweb3": {
+   "handle": "MerlinOnWeb3",
+   "lang": "en",
+   "category": "macro_rates_en",
+   "persona_cluster": "acct_macro_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 71756,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: macro_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 20 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "slappjakke": {
+   "handle": "Slappjakke",
+   "lang": "en",
+   "category": "crypto_onchain",
+   "persona_cluster": "acct_onchain_daily_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 59090,
+   "latest_post": "2026-10-13",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: onchain_daily_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 14 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "hercules_defi": {
+   "handle": "Hercules_Defi",
+   "lang": "en",
+   "category": "crypto_onchain",
+   "persona_cluster": "acct_onchain_daily_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 42308,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: onchain_daily_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 14 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "0xjeff": {
+   "handle": "0xJeff",
+   "lang": "en",
+   "category": "crypto_onchain",
+   "persona_cluster": "acct_onchain_daily_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 80785,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: onchain_daily_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 18 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "tiger_research_": {
+   "handle": "Tiger_Research_",
+   "lang": "en",
+   "category": "crypto_macro_zh",
+   "persona_cluster": "acct_asia_news_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 9694,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: asia_news_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 20 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "ellazhang516": {
+   "handle": "ellazhang516",
+   "lang": "en",
+   "category": "crypto_macro_zh",
+   "persona_cluster": "acct_asia_news_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 41172,
+   "latest_post": "2026-10-13",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: asia_news_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 17 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "100y_eth": {
+   "handle": "100y_eth",
+   "lang": "en",
+   "category": "crypto_macro_zh",
+   "persona_cluster": "acct_asia_news_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 20785,
+   "latest_post": "2026-10-10",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: asia_news_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 10 originals scraped; promo_share = regex share of the 40 newest originals"
+  },
+  "hyeon__dev": {
+   "handle": "hyeon__dev",
+   "lang": "en",
+   "category": "crypto_macro_zh",
+   "persona_cluster": "acct_asia_news_en",
+   "verified": true,
+   "donor_fit": "voice",
+   "promo_heavy": false,
+   "followers": 5918,
+   "latest_post": "2026-10-14",
+   "posts_per_day": null,
+   "promo_share": 0.0,
+   "added": "2026-10-08",
+   "origin": "accounts36 slate: asia_news_en donor",
+   "verify_note": "2026-10-14 new12_donors_v4; 18 originals scraped; promo_share = regex share of the 40 newest originals"
   }
  }
 }

@@ -364,7 +364,7 @@ def routed_data_packets(groups, account, account_cfg):
     from live import x_support
     from live.x_daily import x_handle
     from voice_relay_check import has_valid_view
-    if not (account_cfg or {}).get('lane_first') or os.environ.get('FD_LANE_DATA', '1') == '0':
+    if not ((account_cfg or {}).get('lane_first') or (account_cfg or {}).get('lane_data')) or os.environ.get('FD_LANE_DATA', '1') == '0':
         return []
     out = []
     for g in groups:

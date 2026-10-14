@@ -68,7 +68,7 @@ def _wait(url):
     _LAST[host] = time.monotonic()
 
 
-def get_json(url, *, transport=None, body=None, timeout=60, ttl=CACHE_TTL_S):
+def get_json(url, *, transport=None, body=None, timeout=60, ttl=CACHE_TTL_S, ua=None):
     """(status, parsed JSON or None). body (dict) makes it a POST (Hyperliquid info). Disk-cached for ttl seconds
     unless a test transport is given; a failed fetch falls back to a cached body younger than 4 x ttl."""
     key = hashlib.sha1((url + json.dumps(body or {}, sort_keys=True)).encode()).hexdigest()[:20]
@@ -87,7 +87,7 @@ def get_json(url, *, transport=None, body=None, timeout=60, ttl=CACHE_TTL_S):
     _wait(url)
     try:
         import httpx
-        headers = {'User-Agent': common.DEFAULT_UA, 'Accept': 'application/json'}
+        headers = {'User-Agent': ua or common.DEFAULT_UA, 'Accept': 'application/json'}
         r = (httpx.post(url, json=body, headers=headers, timeout=timeout) if body is not None
              else httpx.get(url, headers=headers, timeout=timeout, follow_redirects=True))
         st, text = r.status_code, r.text
@@ -816,6 +816,141 @@ def polymarket_tge(*, transport=None, now=None, top=6):
                   title='Polymarket token-launch odds (FDV, airdrop, TGE timing)', url=PM_TGE)
 
 
+
+# ---------------------------------------------------------------- Oct 14: accounts 37-48 (options / funding desks)
+
+DERIBIT = 'https://www.deribit.com/api/v2/public'
+
+
+def deribit_options(*, transport=None, now=None):
+    """Deribit public API (no key): BTC / ETH option open interest, put/call OI ratio, 24h option volume, and the DVOL
+    index (last vs 24h ago)."""
+    now_ = _now(now)
+    period = snapshot(now)[0]
+    rows, reqs = [], 0
+    for cur in ('BTC', 'ETH'):
+        st, data = get_json(f'{DERIBIT}/get_book_summary_by_currency?currency={cur}&kind=option', transport=transport, ttl=1800)
+        reqs += 1
+        if st == 200 and isinstance(data, dict) and isinstance(data.get('result'), list):
+            res = data['result']
+            def oi(side):
+                return sum(float(r.get('open_interest') or 0) for r in res if str(r.get('instrument_name', '')).endswith('-' + side))
+            calls, puts = oi('C'), oi('P')
+            idx = next((float(r.get('underlying_price') or r.get('estimated_delivery_price') or 0) for r in res if r.get('underlying_price')), 0)
+            vol = sum(float(r.get('volume') or 0) for r in res)
+            if calls + puts > 0 and idx:
+                tot = money((calls + puts) * idx)
+                pcr = f'{puts / calls:.2f}' if calls else 'n/a'
+                v = money(vol * idx)
+                rows.append(row(f'Deribit {cur} options, {period}: open interest {tot} notional, put/call OI ratio {pcr}, '
+                                f'24h option volume {v}.', [(tot, f'{cur} options open interest'), (pcr, f'{cur} put/call ratio'),
+                                                            (v, f'{cur} 24h options volume')], period))
+        end = int(now_.timestamp() * 1000)
+        st, data = get_json(f'{DERIBIT}/get_volatility_index_data?currency={cur}&resolution=3600&start_timestamp={end - 26 * 3600 * 1000}&end_timestamp={end}',
+                            transport=transport, ttl=1800)
+        reqs += 1
+        pts = ((data or {}).get('result') or {}).get('data') if st == 200 and isinstance(data, dict) else None
+        if pts and len(pts) >= 2:
+            last, first = float(pts[-1][4]), float(pts[0][4])
+            lv, ch = f'{last:.1f}', pct((last / first - 1) * 100 if first else 0)
+            rows.append(row(f'Deribit {cur} DVOL implied volatility index, {period}: {lv}, {ch} over 24h.',
+                            [(lv, f'{cur} DVOL'), (ch, f'{cur} DVOL 24h change')], period))
+    if not rows:
+        return _fail(0, reqs)
+    return result(rows, sid='deribit_options', publisher='Deribit', now=now, requests=reqs,
+                  title='Deribit BTC / ETH options: open interest, put/call, DVOL', url='https://www.deribit.com/statistics/BTC/options-open-interest')
+
+
+def cex_funding(*, transport=None, now=None):
+    """BTC / ETH perpetual funding on Binance, OKX and Bybit (public, no key), annualised from the 8h rate."""
+    period = snapshot(now)[0]
+    rows, reqs = [], 0
+    for coin in ('BTC', 'ETH'):
+        rates = {}
+        st, d = get_json(f'https://fapi.binance.com/fapi/v1/premiumIndex?symbol={coin}USDT', transport=transport, ttl=1800)
+        reqs += 1
+        if st == 200 and isinstance(d, dict) and d.get('lastFundingRate') is not None:
+            rates['Binance'] = float(d['lastFundingRate'])
+        st, d = get_json(f'https://www.okx.com/api/v5/public/funding-rate?instId={coin}-USDT-SWAP', transport=transport, ttl=1800)
+        reqs += 1
+        try:
+            rates['OKX'] = float(d['data'][0]['fundingRate'])
+        except (TypeError, KeyError, IndexError, ValueError):
+            pass
+        st, d = get_json(f'https://api.bybit.com/v5/market/tickers?category=linear&symbol={coin}USDT', transport=transport, ttl=1800)
+        reqs += 1
+        try:
+            rates['Bybit'] = float(d['result']['list'][0]['fundingRate'])
+        except (TypeError, KeyError, IndexError, ValueError):
+            pass
+        if not rates:
+            continue
+        parts, nums = [], []
+        for ex, r in rates.items():
+            a = pct(r * 3 * 365 * 100, 1)
+            parts.append(f'{ex} {a}')
+            nums.append((a, f'{ex} {coin} funding annualised'))
+        rows.append(row(f'{coin} perpetual funding, {period}, annualised from the current 8h rate: ' + ', '.join(parts) + '.', nums, period))
+    if not rows:
+        return _fail(0, reqs)
+    return result(rows, sid='cex_funding', publisher='Binance / OKX / Bybit', now=now, requests=reqs,
+                  title='BTC / ETH perpetual funding across Binance, OKX, Bybit', url='https://www.binance.com/en/futures/funding-history')
+
+
+NASDAQ_UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36'   # api.nasdaq.com stalls on bot UAs
+
+
+def _mcap(s):
+    try:
+        return float(str(s).replace('$', '').replace(',', '') or 0)
+    except ValueError:
+        return 0.0
+
+
+def nasdaq_ipos(*, transport=None, now=None, top=6):
+    """Nasdaq public IPO calendar (api.nasdaq.com, no key): this month's priced and upcoming US IPOs."""
+    now_ = _now(now)
+    period = snapshot(now)[0]
+    st, data = get_json(f'https://api.nasdaq.com/api/ipo/calendar?date={now_:%Y-%m}', transport=transport, ttl=3 * 3600, timeout=25, ua=NASDAQ_UA)
+    d = (data or {}).get('data') if st == 200 and isinstance(data, dict) else None
+    if not d:
+        return _fail(st)
+    rows = []
+    up = (((d.get('upcoming') or {}).get('upcomingTable') or {}).get('rows')) or []
+    for r in up[:top]:
+        px, amt = r.get('proposedSharePrice') or '', r.get('dollarValueOfSharesOffered') or ''
+        if amt:
+            rows.append(row(f"US IPO upcoming, {period}: {r.get('companyName')} ({r.get('proposedTickerSymbol')}, {r.get('proposedExchange')}), "
+                            f"expected {r.get('expectedPriceDate')}, price range {px}, offer size {amt}.", [(amt, 'IPO offer size'), (px, 'IPO price range')], period))
+    pr = sorted(((d.get('priced') or {}).get('rows')) or [], key=lambda r: -_mcap(r.get('dollarValueOfSharesOffered')))
+    for r in pr[:top]:
+        px, amt = r.get('proposedSharePrice') or '', r.get('dollarValueOfSharesOffered') or ''
+        if amt:
+            rows.append(row(f"US IPO priced {r.get('pricedDate')}: {r.get('companyName')} ({r.get('proposedTickerSymbol')}, {r.get('proposedExchange')}) "
+                            f"at ${px} per share, raising {amt}.", [(amt, 'IPO proceeds'), ('$' + px, 'IPO price')], period))
+    return result(rows, sid='nasdaq_ipos', publisher='Nasdaq', now=now,
+                  title='Nasdaq IPO calendar: priced and upcoming US IPOs', url='https://www.nasdaq.com/market-activity/ipos')
+
+
+def nasdaq_earnings(*, transport=None, now=None, top=8):
+    """Nasdaq public earnings calendar for the drafting (Beijing) day: the largest reporters with consensus EPS."""
+    day = snapshot(now)[1]
+    period = snapshot(now)[0]
+    st, data = get_json(f'https://api.nasdaq.com/api/calendar/earnings?date={day}', transport=transport, ttl=3 * 3600, timeout=25, ua=NASDAQ_UA)
+    rs = (((data or {}).get('data') or {}).get('rows')) if st == 200 and isinstance(data, dict) else None
+    if not rs:
+        return _fail(st)
+    rows = []
+    for r in sorted(rs, key=lambda r: -_mcap(r.get('marketCap')))[:top]:
+        eps, last = r.get('epsForecast') or '', r.get('lastYearEPS') or ''
+        when = {'time-pre-market': 'before the open', 'time-after-hours': 'after the close'}.get(r.get('time'), 'time not given')
+        if eps:
+            rows.append(row(f"Earnings on {day}: {r.get('name')} ({r.get('symbol')}) reports {when}, quarter {r.get('fiscalQuarterEnding')}, "
+                            f"consensus EPS {eps} vs {last} a year ago.", [(eps, f"{r.get('symbol')} consensus EPS"), (last, f"{r.get('symbol')} EPS a year ago")], period))
+    return result(rows, sid='nasdaq_earnings', publisher='Nasdaq', now=now,
+                  title=f'Nasdaq earnings calendar {day}: largest reporters', url='https://www.nasdaq.com/market-activity/earnings')
+
+
 # ---------------------------------------------------------------- registry of fetchers
 
 FETCHERS = {
@@ -837,4 +972,8 @@ FETCHERS = {
     'defillama_tokenless': tokenless_tvl,
     'defillama_tokenless_activity': tokenless_activity,
     'polymarket_tge': polymarket_tge,
+    'deribit_options': deribit_options,   # Oct 14: options_vol_zh / options_vol_en
+    'cex_funding': cex_funding,           # Oct 14: funding_arb_zh / yield_arb_en
+    'nasdaq_ipos': nasdaq_ipos,           # Oct 14: hk_us_ipo_zh
+    'nasdaq_earnings': nasdaq_earnings,   # Oct 14: ai_techstocks_zh / crypto_equities_en / macro_en
 }

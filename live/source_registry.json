@@ -5420,7 +5420,8 @@
       "source_language": "en",
       "route_accounts": [
         "crypto_stable_yield_zh",
-        "crypto_stable_yield_en"
+        "crypto_stable_yield_en",
+        "exchange_perks_zh"
       ],
       "route_beats": [
         "crypto_stable_yield"
@@ -5437,7 +5438,9 @@
       "source_language": "en",
       "route_accounts": [
         "crypto_stable_yield_zh",
-        "crypto_stable_yield_en"
+        "crypto_stable_yield_en",
+        "yield_arb_en",
+        "exchange_perks_zh"
       ],
       "route_beats": [
         "crypto_stable_yield"
@@ -5455,7 +5458,8 @@
       "source_language": "en",
       "route_accounts": [
         "crypto_stable_yield_zh",
-        "crypto_stable_yield_en"
+        "crypto_stable_yield_en",
+        "yield_arb_en"
       ],
       "route_beats": [
         "crypto_stable_yield"
@@ -5474,7 +5478,8 @@
       "enabled": true,
       "route_accounts": [
         "crypto_stable_yield_zh",
-        "crypto_stable_yield_en"
+        "crypto_stable_yield_en",
+        "onchain_daily_en"
       ],
       "adapter": "lane_data",
       "note": "Oct 11 rc_sources: top stablecoin supply 1d/7d change + depeg alerts; FD_LANE_SRC_STABLECOIN_SUPPLY=0 to disable"
@@ -5504,7 +5509,8 @@
       "api_url": "https://api.llama.fi/overview/open-interest",
       "source_language": "en",
       "route_accounts": [
-        "crypto_perp_dex_en"
+        "crypto_perp_dex_en",
+        "funding_arb_zh"
       ],
       "route_beats": [
         "crypto_perp"
@@ -5521,7 +5527,9 @@
       "api_url": "https://api.hyperliquid.xyz/info",
       "source_language": "en",
       "route_accounts": [
-        "crypto_perp_dex_en"
+        "crypto_perp_dex_en",
+        "funding_arb_zh",
+        "yield_arb_en"
       ],
       "route_beats": [
         "crypto_perp"
@@ -6050,6 +6058,79 @@
       "endpoint_status": "HTTP 200 RSS with content:encoded full text, 100 items, newest 2026-10-12; robots allows all (checked 2026-10-13)",
       "note": "Fiona 10-13 09:16: replacement policy-analysis source (geoeconomics: sanctions, trade, dollar, IMF); market impact only",
       "added": "2026-10-13"
+    },
+    {
+      "id": "deribit_options",
+      "name": "Deribit",
+      "type": "research",
+      "enabled": true,
+      "adapter": "lane_data",
+      "api_url": "https://www.deribit.com/api/v2/public",
+      "source_language": "en",
+      "route_accounts": [
+        "options_vol_zh",
+        "options_vol_en"
+      ],
+      "route_beats": [
+        "crypto_perp"
+      ],
+      "note": "Oct 14 (accounts 37-48): BTC/ETH option OI, put/call OI ratio, 24h volume, DVOL; public API, no key; structured, no model call, cached",
+      "added": "2026-10-14"
+    },
+    {
+      "id": "cex_funding",
+      "name": "Binance / OKX / Bybit",
+      "type": "research",
+      "enabled": true,
+      "adapter": "lane_data",
+      "api_url": "https://fapi.binance.com/fapi/v1/premiumIndex",
+      "source_language": "en",
+      "route_accounts": [
+        "funding_arb_zh",
+        "yield_arb_en"
+      ],
+      "route_beats": [
+        "crypto_perp"
+      ],
+      "note": "Oct 14 (accounts 37-48): BTC/ETH perp funding annualised on Binance, OKX, Bybit; public endpoints, no key; structured, no model call, cached",
+      "added": "2026-10-14"
+    },
+    {
+      "id": "nasdaq_ipos",
+      "name": "Nasdaq",
+      "type": "research",
+      "enabled": true,
+      "adapter": "lane_data",
+      "api_url": "https://api.nasdaq.com/api",
+      "source_language": "en",
+      "route_accounts": [
+        "hk_us_ipo_zh"
+      ],
+      "route_beats": [
+        "zh_us_stock_commentary"
+      ],
+      "note": "Oct 14 (accounts 37-48): Nasdaq public IPO calendar, priced + upcoming US IPOs; no key; structured, cached",
+      "added": "2026-10-14"
+    },
+    {
+      "id": "nasdaq_earnings",
+      "name": "Nasdaq",
+      "type": "research",
+      "enabled": true,
+      "adapter": "lane_data",
+      "api_url": "https://api.nasdaq.com/api",
+      "source_language": "en",
+      "route_accounts": [
+        "ai_techstocks_zh",
+        "crypto_equities_en",
+        "macro_en",
+        "hk_us_ipo_zh"
+      ],
+      "route_beats": [
+        "single_stock_deepdive_en"
+      ],
+      "note": "Oct 14 (accounts 37-48): Nasdaq public earnings calendar for the drafting day, largest reporters + consensus EPS; no key; structured, cached",
+      "added": "2026-10-14"
     }
   ],
   "reference_pool_zh": {

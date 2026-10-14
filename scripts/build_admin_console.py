@@ -423,7 +423,7 @@ function counts(day){
 function tables(day){
   const cs=counts(day);
   $('#accts').innerHTML='<tr><th>账号</th><th class="n">可发</th><th class="n">审后可发</th><th class="n">HOLD</th><th class="n">全部</th><th class="n">已处理</th></tr>'+
-    cs.map(c=>`<tr class="clk ${c.eff>=D.target?'met':'short'}" data-a="${esc(c.a.id)}"><td>${esc(c.a.name)} <span class="mono" style="color:var(--faint)">${esc(c.a.lang||'')}${{new:' · 新号',spare_active:' · 备用号'}[c.a.status]||''}</span></td><td class="n">${c.ready}</td><td class="n r">${c.eff}/${D.target}</td><td class="n">${c.hold}</td><td class="n">${c.total}</td><td class="n">${c.dec}</td></tr>`).join('');
+    cs.map(c=>`<tr class="clk ${c.eff>=D.target?'met':'short'}" data-a="${esc(c.a.id)}"><td>${esc(c.a.name)} <span class="mono" style="color:var(--faint)">${esc(c.a.lang||'')}${{new:' · 新号',new12:' · 新号',spare_active:' · 备用号'}[c.a.status]||''}</span></td><td class="n">${c.ready}</td><td class="n r">${c.eff}/${D.target}</td><td class="n">${c.hold}</td><td class="n">${c.total}</td><td class="n">${c.dec}</td></tr>`).join('');
   const rs=D.runs[day]||[];const tot=rs.reduce((s,r)=>s+r.spend,0);
   $('#runs').innerHTML='<tr><th>run</th><th>模型</th><th class="n">花费 $</th><th class="n">稿/可发</th><th class="n">HOLD</th><th class="n">错误</th></tr>'+
     rs.map(r=>`<tr class="clk" data-r="${esc(r.run)}"><td class="mono">${esc(r.run)}</td><td class="mono">${esc((r.compose_model?[r.compose_model]:r.models).join(', ')||'-')}</td><td class="n">${r.spend.toFixed(2)}${r.spend_src==='drafts'?'*':''}${r.budget?` <span style="color:var(--faint)">/ ${r.budget}</span>`:''}</td><td class="n">${r.drafts}/${r.ready}</td><td class="n">${r.held??'-'}</td><td class="n">${r.errors||''}</td></tr>`).join('')+

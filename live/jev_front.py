@@ -65,7 +65,7 @@ def _fd20_beats():
     primary first). Only accounts without their own beat are added; routing still speaks the 10 Jev beats."""
     try:
         from live import fd_accounts   # Oct 8: all 36 roster rows (a mapping only; the groups are gated elsewhere)
-        rows = fd_accounts.load(groups=('main', 'spare', 'new'))
+        rows = fd_accounts.load(groups=('main', 'spare', 'new', 'new12'))
     except (OSError, ValueError, KeyError):
         return {}
     # an account whose first beat is a crypto sub-beat maps to its first Jev beat (sub-beats are not Jev beats)

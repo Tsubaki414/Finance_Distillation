@@ -19,10 +19,12 @@ LIVE = Path(__file__).resolve().parent
 MAIN = LIVE / 'fd20_accounts.json'
 EXTRA = LIVE / 'fd_accounts_extra.json'
 NEW = LIVE / 'fd_accounts_new.json'
+NEW12 = LIVE / 'fd_accounts_new12.json'   # Oct 14: accounts 37-48, FD_ACCOUNTS_NEW12 (default 1)
 # group -> (file, gate env var, status written on rows without one)
 GROUPS = (('main', MAIN, None, 'main'),
           ('spare', EXTRA, 'FD_ACCOUNTS_EXTRA', 'spare_active'),
-          ('new', NEW, 'FD_ACCOUNTS_NEW', 'new'))
+          ('new', NEW, 'FD_ACCOUNTS_NEW', 'new'),
+          ('new12', NEW12, 'FD_ACCOUNTS_NEW12', 'new12'))
 
 
 def _read(path):

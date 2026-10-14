@@ -240,7 +240,7 @@ def persona_raw(account, cluster):
                      'from': 'FD_accounts_final_v2.xlsx main row %d; plan_crypto.json donors' % account['no']}
                     if account.get('group', 'main') == 'main' else
                     {'created_by': 'scripts/persona_factory.py', 'created': '2026-10-08', 'status': account.get('status'),
-                     'from': f"account no {account['no']} ({account['group']}): live/fd_accounts_{'extra' if account['group'] == 'spare' else 'new'}.json donors"}),
+                     'from': f"account no {account['no']} ({account['group']}): live/fd_accounts_{ {'spare': 'extra', 'new12': 'new12'}.get(account['group'], 'new') }.json donors"}),
     }
 
 

@@ -996,7 +996,7 @@ function render(){
     const open=expanded.has(a.id),lim=2,vis=open?cards:cards.slice(0,lim);
     const more=cards.length>lim?`<button class="more" data-x="${esc(a.id)}">${open?'收起':`展开全部 ${cards.length} 条`}</button>`:'';
     const cells=vis.map((d,i)=>card(d,isPosted(d),i+1)).join('')+'<div class="blank" aria-hidden="true">—</div>'.repeat(vis.length?vis.length%2:2);
-    out.push(`<section class="row"><div class="side"><div class="who">${avatar(a)}<div><h2>${esc(a.name)}</h2><div class="pf">X${a.lang?` · ${a.lang==='zh'?'中文':'English'}`:''}</div></div></div><div class="hd">${esc(a.handle?(a.handle.startsWith('@')?a.handle:'@'+a.handle):'@待填')}</div>${a.beat?`<div class="bt">${esc(a.beat)}</div>`:''}${{new:'<div class="st">新号</div>',spare_active:'<div class="st">备用号启用</div>'}[a.status]||''}<span class="pill">待发 <b>${rd.length-nDone}/${rd.length}</b></span>${more}</div>
+    out.push(`<section class="row"><div class="side"><div class="who">${avatar(a)}<div><h2>${esc(a.name)}</h2><div class="pf">X${a.lang?` · ${a.lang==='zh'?'中文':'English'}`:''}</div></div></div><div class="hd">${esc(a.handle?(a.handle.startsWith('@')?a.handle:'@'+a.handle):'@待填')}</div>${a.beat?`<div class="bt">${esc(a.beat)}</div>`:''}${{new:'<div class="st">新号</div>',new12:'<div class="st">新号</div>',spare_active:'<div class="st">备用号启用</div>'}[a.status]||''}<span class="pill">待发 <b>${rd.length-nDone}/${rd.length}</b></span>${more}</div>
 <div class="grid">${cells}</div></section>`);
   }
   const TH='<div class="thead"><div><b>账号</b></div><div class="ph2"><div><b>帖子 1</b>建议发出 · 北京时间</div><div><b>帖子 2</b>建议发出 · 北京时间</div></div></div>';

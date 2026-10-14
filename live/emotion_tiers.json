@@ -73,6 +73,18 @@
     "crypto_prediction_en": "mid",
     "crypto_perp_dex_en": "high",
     "crypto_stable_yield_en": "mid",
-    "sol_base_alpha_en": "mid"
+    "sol_base_alpha_en": "mid",
+    "options_vol_zh": "mid",
+    "funding_arb_zh": "mid",
+    "overseas_flash_zh": "mid",
+    "hk_us_ipo_zh": "mid",
+    "ai_techstocks_zh": "mid",
+    "exchange_perks_zh": "mid",
+    "options_vol_en": "mid",
+    "yield_arb_en": "mid",
+    "crypto_equities_en": "mid",
+    "macro_en": "mid",
+    "onchain_daily_en": "mid",
+    "asia_news_en": "mid"
   }
 }

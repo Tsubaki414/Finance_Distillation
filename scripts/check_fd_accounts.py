@@ -115,7 +115,7 @@ def main():
     from live.x_daily import x_handle
     roster_all = fd_accounts.load()
     checked = ([a for a in roster_all if a['id'] in set(args.accounts.split(','))] if args.accounts
-               else [a for a in roster_all if a.get('group') in ('spare', 'new')])
+               else [a for a in roster_all if a.get('group') in ('spare', 'new', 'new12')])
     day = date.fromisoformat(args.day) if args.day else date.today() + timedelta(days=1)
     now = datetime(day.year, day.month, day.day, 0, 13, tzinfo=LONDON) - timedelta(hours=1)   # the 23:13 London run
     ref = dc.selection_ref(day, now)
