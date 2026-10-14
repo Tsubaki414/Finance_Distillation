@@ -582,7 +582,7 @@ def apply_heat(pools, day, ref, reuse=None, skip=()):
             pool, group_text, signals, already_led=account in led,
             ok=lambda g, a=account: prescreen.prescreen(a, g)['ok'] and timely(g, ref))
         if info:
-            out[account] = (tuple(demo._key(pools[account][0])), info)
+            out[account] = (tuple(demo._key(pools[account][0][0])), info)
     return out
 
 
