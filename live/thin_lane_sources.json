@@ -1,5 +1,5 @@
 {
-  "note": "Oct 13 thin lanes: free, no-key analysis feeds for SUPPLY-bound accounts (fresh standalone packets < 3 per run, measured by /workspace/x/thin_lanes/measure_pool.py over 10-11..10-13). Merged into the daily path by live/thin_lane_src.py only while FD_THIN_LANE_SRC != 0; source_registry.json / source_licence.json are unchanged. Rows use the source_registry.json newsletter shape (adapter feed; route_accounts / route_beats scope them like Four Pillars, deterministic tags, no Jev). Checked from this box 2026-10-13 ~11:00 London: HTTP 200, items inside 48 h, full text in the feed (or full_only picks the feed's full-text items). Oct 13 evening (thin lanes 2): three rows for the lane_fit-bound niche accounts (stablecoin yield, airdrop, meme), same switch.",
+  "note": "Oct 13 thin lanes: free, no-key analysis feeds for SUPPLY-bound accounts (fresh standalone packets < 3 per run, measured by /workspace/x/thin_lanes/measure_pool.py over 10-11..10-13). Merged into the daily path by live/thin_lane_src.py only while FD_THIN_LANE_SRC != 0; source_registry.json / source_licence.json are unchanged. Rows use the source_registry.json newsletter shape (adapter feed; route_accounts / route_beats scope them like Four Pillars, deterministic tags, no Jev). Checked from this box 2026-10-13 ~11:00 London: HTTP 200, items inside 48 h, full text in the feed (or full_only picks the feed's full-text items). Oct 13 evening (thin lanes 2): three rows for the lane_fit-bound niche accounts (stablecoin yield, airdrop, meme), same switch. Oct 14 (meme EN): two English full-text feeds with named-author memecoin market analysis for crypto_meme_en only (title / lede topic_filter on meme words), same switch.",
   "switch": "FD_THIN_LANE_SRC",
   "added": "2026-10-13",
   "sources": [
@@ -226,6 +226,49 @@
       "topic_filter": "^(?!PA日报|Asia Market Daily|华尔街早报)(?!.{0,80}?(?:圆满落幕|盛大开幕|峰会|大会|活动))[^\\n]{0,80}?(?:Meme|迷因|土狗|空投|撸毛|积分|TGE|测试网|打新|稳定币|生息|理财|RWA|USDe|Ethena|Pendle|脱锚|Launchpad|发射台|[Pp]ump\\.?fun)",
       "endpoint_status": "HTTP 200 RSS, ~100 items in 48 h of which ~10 full-text deep pieces; checked from this box 2026-10-13 ~17:30 London",
       "note": "same PANews feed as thin_panews_deep (crypto_newbie_zh), but only the deep pieces whose title is on the meme / airdrop / stablecoin-yield lanes, routed to the three zh niche accounts (a piece matching both rows' filters can be fetched by both; overlap is limited to meme / airdrop / stablecoin-yield deep pieces)"
+    },
+    {
+      "id": "thin_cryptoticker_meme",
+      "name": "CryptoTicker",
+      "type": "newsletter",
+      "enabled": true,
+      "adapter": "feed",
+      "feed_url": "https://cryptoticker.io/en/feed/",
+      "author": "CryptoTicker",
+      "source_type": "newsletter",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_meme_en"
+      ],
+      "route_beats": [
+        "crypto_meme"
+      ],
+      "full_only": true,
+      "fetch_limit": 3,
+      "topic_filter": "^[^\\n]{0,200}?(?:memecoins?|meme ?coins?|\\bmemes?\\b|dogecoin|\\bdoge\\b|shiba inu|\\bshib\\b|\\bpepe\\b|\\bbonk\\b|\\bwif\\b|pump\\.?fun|letsbonk|launchpads?|trenches|\\bdegen|\\brug(?:s|ged| ?pulls?)?\\b|\\bpnut\\b)",
+      "endpoint_status": "HTTP 200 RSS (WordPress), full text 11-15k chars, 45 items in 48 h of which 5 pass topic_filter and all 5 pass crypto_meme_en lane_fit on title + summary; checked from this box 2026-10-14 ~13:00 London",
+      "note": "named-author desk writing data-led pieces on DOGE / SHIB etc. (large-holder share, custody, index inclusion, levels); general feed (~25 items/day), so full_only widens the scan to the newest 60 items and the title / lede topic_filter (lane_fit's own meme words, plus 'Shiba Inu') keeps only memecoin pieces"
+    },
+    {
+      "id": "thin_coinjournal_meme",
+      "name": "CoinJournal",
+      "type": "newsletter",
+      "enabled": true,
+      "adapter": "feed",
+      "feed_url": "https://coinjournal.net/feed/",
+      "author": "CoinJournal",
+      "source_type": "newsletter",
+      "source_language": "en",
+      "route_accounts": [
+        "crypto_meme_en"
+      ],
+      "route_beats": [
+        "crypto_meme"
+      ],
+      "fetch_limit": 2,
+      "topic_filter": "^[^\\n]{0,200}?(?:memecoins?|meme ?coins?|\\bmemes?\\b|dogecoin|\\bdoge\\b|shiba inu|\\bshib\\b|\\bpepe\\b|\\bbonk\\b|\\bwif\\b|pump\\.?fun|letsbonk|launchpads?|trenches|\\bdegen|\\brug(?:s|ged| ?pulls?)?\\b|\\bpnut\\b)",
+      "endpoint_status": "HTTP 200 RSS (WordPress), full text ~3k chars, 9 items / ~5 days, 6 in 48 h of which 1 passes topic_filter and crypto_meme_en lane_fit; checked from this box 2026-10-14 ~13:00 London",
+      "note": "low-volume market-analysis feed; its memecoin pieces are Dogecoin positioning reads (ETF flows, whale balances, levels); title / lede topic_filter keeps only those"
     }
   ],
   "licence": {
@@ -331,6 +374,26 @@
       "basis": "public crypto analysis feed; paraphrase with attribution, no reproduction (thin lanes 2 2026-10-13)",
       "aliases": [
         "PANews"
+      ]
+    },
+    "thin_cryptoticker_meme": {
+      "tier": "B",
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "basis": "public crypto analysis feed; paraphrase with attribution, no reproduction (meme EN 2026-10-14)",
+      "aliases": [
+        "CryptoTicker"
+      ]
+    },
+    "thin_coinjournal_meme": {
+      "tier": "B",
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "basis": "public crypto analysis feed; paraphrase with attribution, no reproduction (meme EN 2026-10-14)",
+      "aliases": [
+        "CoinJournal"
       ]
     }
   }
