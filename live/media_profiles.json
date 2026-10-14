@@ -1350,6 +1350,198 @@
     "light_share": 0.458,
     "tall_share": 0.083
    }
+  },
+  "options_vol_zh": {
+   "family": "crypto_zh",
+   "image_rate": 0.537,
+   "posts_seen": 164,
+   "chart_share": 0.467,
+   "styles": {
+    "tv_drawn": 0.077,
+    "tv_widget": 0.038,
+    "mobile": 0.308,
+    "table": 0.115,
+    "panel": 0.212
+   },
+   "light_share": 0.581,
+   "tall_share": 0.326,
+   "p_image": 0.251
+  },
+  "funding_arb_zh": {
+   "family": "crypto_zh",
+   "image_rate": 0.455,
+   "posts_seen": 110,
+   "chart_share": 0.467,
+   "styles": {
+    "tv_drawn": 0.077,
+    "tv_widget": 0.038,
+    "mobile": 0.308,
+    "table": 0.115,
+    "panel": 0.212
+   },
+   "light_share": 0.581,
+   "tall_share": 0.326,
+   "p_image": 0.212
+  },
+  "overseas_flash_zh": {
+   "family": "crypto_zh",
+   "image_rate": 0.281,
+   "posts_seen": 96,
+   "chart_share": 0.467,
+   "styles": {
+    "tv_drawn": 0.077,
+    "tv_widget": 0.038,
+    "mobile": 0.308,
+    "table": 0.115,
+    "panel": 0.212
+   },
+   "light_share": 0.581,
+   "tall_share": 0.326,
+   "p_image": 0.131
+  },
+  "hk_us_ipo_zh": {
+   "family": "stocks_zh",
+   "image_rate": 0.214,
+   "posts_seen": 112,
+   "chart_share": 0.463,
+   "styles": {
+    "tv_drawn": 0.182,
+    "tv_widget": 0.045,
+    "mobile": 0.227,
+    "table": 0.0,
+    "panel": 0.364
+   },
+   "light_share": 0.684,
+   "tall_share": 0.316,
+   "p_image": 0.099
+  },
+  "ai_techstocks_zh": {
+   "family": "stocks_zh",
+   "image_rate": 0.439,
+   "posts_seen": 82,
+   "chart_share": 0.463,
+   "styles": {
+    "tv_drawn": 0.182,
+    "tv_widget": 0.045,
+    "mobile": 0.227,
+    "table": 0.0,
+    "panel": 0.364
+   },
+   "light_share": 0.684,
+   "tall_share": 0.316,
+   "p_image": 0.203
+  },
+  "exchange_perks_zh": {
+   "family": "crypto_zh",
+   "image_rate": 0.622,
+   "posts_seen": 111,
+   "chart_share": 0.467,
+   "styles": {
+    "tv_drawn": 0.077,
+    "tv_widget": 0.038,
+    "mobile": 0.308,
+    "table": 0.115,
+    "panel": 0.212
+   },
+   "light_share": 0.581,
+   "tall_share": 0.326,
+   "p_image": 0.29
+  },
+  "options_vol_en": {
+   "family": "crypto_en",
+   "image_rate": 0.526,
+   "posts_seen": 114,
+   "chart_share": 0.656,
+   "styles": {
+    "tv_drawn": 0.254,
+    "tv_widget": 0.111,
+    "mobile": 0.048,
+    "table": 0.048,
+    "panel": 0.46
+   },
+   "light_share": 0.525,
+   "tall_share": 0.066,
+   "p_image": 0.345
+  },
+  "yield_arb_en": {
+   "family": "crypto_en",
+   "image_rate": 0.609,
+   "posts_seen": 138,
+   "chart_share": 0.656,
+   "styles": {
+    "tv_drawn": 0.254,
+    "tv_widget": 0.111,
+    "mobile": 0.048,
+    "table": 0.048,
+    "panel": 0.46
+   },
+   "light_share": 0.525,
+   "tall_share": 0.066,
+   "p_image": 0.399
+  },
+  "crypto_equities_en": {
+   "family": "crypto_en",
+   "image_rate": 0.222,
+   "posts_seen": 72,
+   "chart_share": 0.656,
+   "styles": {
+    "tv_drawn": 0.254,
+    "tv_widget": 0.111,
+    "mobile": 0.048,
+    "table": 0.048,
+    "panel": 0.46
+   },
+   "light_share": 0.525,
+   "tall_share": 0.066,
+   "p_image": 0.146
+  },
+  "macro_en": {
+   "family": "stocks_en",
+   "image_rate": 0.392,
+   "posts_seen": 171,
+   "chart_share": 0.73,
+   "styles": {
+    "tv_drawn": 0.207,
+    "tv_widget": 0.0,
+    "mobile": 0.0,
+    "table": 0.069,
+    "panel": 0.586
+   },
+   "light_share": 0.852,
+   "tall_share": 0.074,
+   "p_image": 0.286
+  },
+  "onchain_daily_en": {
+   "family": "crypto_en",
+   "image_rate": 0.473,
+   "posts_seen": 148,
+   "chart_share": 0.656,
+   "styles": {
+    "tv_drawn": 0.254,
+    "tv_widget": 0.111,
+    "mobile": 0.048,
+    "table": 0.048,
+    "panel": 0.46
+   },
+   "light_share": 0.525,
+   "tall_share": 0.066,
+   "p_image": 0.31
+  },
+  "asia_news_en": {
+   "family": "crypto_en",
+   "image_rate": 0.524,
+   "posts_seen": 105,
+   "chart_share": 0.656,
+   "styles": {
+    "tv_drawn": 0.254,
+    "tv_widget": 0.111,
+    "mobile": 0.048,
+    "table": 0.048,
+    "panel": 0.46
+   },
+   "light_share": 0.525,
+   "tall_share": 0.066,
+   "p_image": 0.344
   }
  }
 }

@@ -569,7 +569,6 @@
     "no_referral_or_invite_links"
    ],
    "donors": [
-    "0xdahua",
     "BigbirdflyChan",
     "ShuYu622",
     "Walden779",
@@ -648,7 +647,6 @@
    "donors_checked": "2026-10-14 new12_donors_v4",
    "x_sources": {
     "CORE": [
-     "0xdahua",
      "BigbirdflyChan",
      "ShuYu622",
      "Walden779",
@@ -665,14 +663,6 @@
    "lane_first": false,
    "lane_data": true,
    "donor_evidence": {
-    "0xdahua": {
-     "followers": 32613,
-     "last_post": "2026-10-04",
-     "originals_scraped": 21,
-     "posts_per_day_30d": null,
-     "promo_share_regex": 0.0,
-     "lang_major": "zh"
-    },
     "BigbirdflyChan": {
      "followers": 21152,
      "last_post": "2026-10-14",
@@ -722,6 +712,9 @@
      "promotion_without_evidence",
      "political_commentary"
     ]
+   },
+   "donor_dropped": {
+    "0xdahua": "roster verdict exclude (promo-heavy, Oct 8) kept: neither donor nor X source; also inactive since 2026-10-04"
    }
   },
   {

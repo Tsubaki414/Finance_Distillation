@@ -129,6 +129,7 @@ def test_enabled_all_and_narrowing_flags(monkeypatch):
     assert shipped['enabled_accounts'] == 'all' and shipped['per_day'] == 1
     monkeypatch.delenv('FD_ACCOUNTS_EXTRA', raising=False)
     monkeypatch.delenv('FD_ACCOUNTS_NEW', raising=False)
+    monkeypatch.setenv('FD_ACCOUNTS_NEW12', '0')   # Oct 14: +12 accounts (37-48) when on
     ids = al.enabled_accounts(shipped, {})   # Oct 8: 20 mains + 6 spares + 10 new (live/fd_accounts.py)
     assert len(ids) == 36 and 'single_stock_deepdive_en' in ids and 'crypto_meme_zh' in ids
     monkeypatch.setenv('FD_ACCOUNTS_EXTRA', '0')

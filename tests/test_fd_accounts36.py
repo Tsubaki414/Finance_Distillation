@@ -18,6 +18,7 @@ from live import beat_rules, editorial_style, fd_accounts, qa_levels, registry, 
 def _gates(monkeypatch):
     monkeypatch.delenv('FD_ACCOUNTS_EXTRA', raising=False)
     monkeypatch.delenv('FD_ACCOUNTS_NEW', raising=False)
+    monkeypatch.setenv('FD_ACCOUNTS_NEW12', '0')   # Oct 14: the 12 accounts 37-48 are covered by test_fd_accounts48.py
 
 
 # ---------------------------------------------------------------- roster
@@ -28,9 +29,9 @@ def test_roster_groups_and_gates():
     assert [r['no'] for r in rows] == list(range(1, 37))
     assert {r['group'] for r in rows[:20]} == {'main'} and {r['group'] for r in rows[20:26]} == {'spare'}
     assert {r['status'] for r in rows[26:]} == {'new'} and {r['status'] for r in rows[20:26]} == {'spare_active'}
-    assert len(fd_accounts.load({'FD_ACCOUNTS_NEW': '0'})) == 26
-    assert len(fd_accounts.load({'FD_ACCOUNTS_EXTRA': '0'})) == 30
-    assert [r['id'] for r in fd_accounts.load({'FD_ACCOUNTS_EXTRA': '0', 'FD_ACCOUNTS_NEW': '0'})] == \
+    assert len(fd_accounts.load({'FD_ACCOUNTS_NEW': '0', 'FD_ACCOUNTS_NEW12': '0'})) == 26
+    assert len(fd_accounts.load({'FD_ACCOUNTS_EXTRA': '0', 'FD_ACCOUNTS_NEW12': '0'})) == 30
+    assert [r['id'] for r in fd_accounts.load({'FD_ACCOUNTS_EXTRA': '0', 'FD_ACCOUNTS_NEW': '0', 'FD_ACCOUNTS_NEW12': '0'})] == \
         [r['id'] for r in json.loads(fd_accounts.MAIN.read_text())['accounts']]
     assert sum(r['lang'] == 'zh' for r in rows[26:]) == 4   # 4 zh / 6 en new accounts since Oct 8 b
     assert rows[30]['id'] == 'sol_base_alpha_en' and 'zh_hk_ipo' not in {r['id'] for r in rows}
@@ -200,7 +201,7 @@ def test_defillama_yields_adapter():
 def test_lane_sources_are_routed_and_licensed():
     from live import source_routes
     for sid, accounts, beat in (('polymarket_markets', {'crypto_prediction_zh', 'crypto_prediction_en'}, 'crypto_prediction'),
-                                ('defillama_yields', {'crypto_stable_yield_zh', 'crypto_stable_yield_en'}, 'crypto_stable_yield')):
+                                ('defillama_yields', {'crypto_stable_yield_zh', 'crypto_stable_yield_en', 'exchange_perks_zh'}, 'crypto_stable_yield')):
         r = source_routes.route(sid)
         assert set(r['accounts']) == accounts and r['beats'] == (beat,)
         assert registry.source_licence_tier(sid) == 'B'
