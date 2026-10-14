@@ -30,10 +30,23 @@ candidate (first in the normal order) moved into that window, phase 'persona_min
 personas first, placed right after the window's timely items. The window stays exactly N long: each move pushes out the last window item whose
 persona keeps another slot (never another persona_minimum item); pushed-out items follow the window
 in their original order. If nothing can be pushed out, no more minimums. fit=None -> order above.
+
+thin-lane extract priority (Oct 14, FD_THIN_EXTRACT_PRI, default 1). On the 10-13 -> 10-14 nightly ingest 9 of the
+10 `newsletters:thin_*` channels (live/thin_lane_sources.json) gathered items but were all `deferred_max_extract`:
+they had no persona hint (-> '_unmapped', the back of 'rest') and were 'standard'. With the switch on:
+  - a thin-lane item (bare channel id or source_id starting 'thin_', or an id listed in thin_lane_sources.json) maps
+    to that row's `route_beats` (the persona/beat ids the freshness report counts), before channels.json /
+    source_registry.json / stored-unit hints;
+  - it is 'timely', so it rides the timely persona round-robin ahead of fair-share/rest (a prior-run deferred
+    thin item stays first inside its persona, as for every timely item).
+max_extract, the cost cap and fit are unchanged; for a one-off catch-up an operator may pass a higher max_extract
+on the command line - the default is not raised. FD_THIN_EXTRACT_PRI=0 restores the pre-Oct-14 order exactly
+(thin items back to unmapped/standard).
 """
 from __future__ import annotations
 
 import json
+import os
 import re
 from collections import Counter
 from functools import lru_cache
@@ -113,12 +126,48 @@ def _store_personas(store=str(ROOT / 'live/store/content_units')):
     return out
 
 
+THIN_SWITCH = 'FD_THIN_EXTRACT_PRI'
+
+
+def thin_priority_enabled(env=None):
+    return (env if env is not None else os.environ).get(THIN_SWITCH, '1') != '0'
+
+
+@lru_cache(maxsize=1)
+def _thin_routes():
+    """thin-lane source id -> route_beats (live/thin_lane_sources.json; independent of FD_THIN_LANE_SRC)."""
+    try:
+        from live import thin_lane_src
+        rows = thin_lane_src._load(str(thin_lane_src.PATH)).get('sources') or []
+    except Exception:
+        return {}
+    return {r['id']: _split(r.get('route_beats')) for r in rows if r.get('id')}
+
+
+def _thin_id(channel_id, source=None):
+    """The thin-lane source id of a channel/source, or None."""
+    routes = _thin_routes()
+    for key in (_PREFIX.sub('', str(channel_id or '')), str((source or {}).get('source_id') or '')):
+        if key and (key in routes or key.startswith('thin_')):
+            return key
+    return None
+
+
+def is_thin(channel_id, source=None, env=None):
+    """True for a thin-lane item while FD_THIN_EXTRACT_PRI is on."""
+    return thin_priority_enabled(env) and _thin_id(channel_id, source) is not None
+
+
 def channel_personas(channel_id, source=None):
-    """Personas a channel/source feeds. Hints from channels.json / source_registry.json, then the
-    persona tags of that source's stored units; [UNKNOWN] when nothing is known."""
+    """Personas a channel/source feeds. Thin-lane route_beats (FD_THIN_EXTRACT_PRI), hints from channels.json /
+    source_registry.json, then the persona tags of that source's stored units; [UNKNOWN] when nothing is known."""
     table = _hint_table()
     cid = str(channel_id or '')
     bare = _PREFIX.sub('', cid)
+    if is_thin(cid, source):
+        beats = _thin_routes().get(_thin_id(cid, source))
+        if beats:
+            return list(beats)
     for key in (cid, bare, str((source or {}).get('source_id') or ''), bare + '_research'):
         if key and table.get(key):
             return list(table[key])
@@ -164,6 +213,8 @@ def timeliness(channel_id, source=None):
     if cid.startswith(TRANSCRIPT_CHANNELS) or sid.startswith(TRANSCRIPT_CHANNELS) \
             or _TRANSCRIPT.search(str(source.get('title') or '')):
         return 'transcript'
+    if is_thin(channel_id, source):   # Oct 14 (FD_THIN_EXTRACT_PRI): thin-lane feeds sit with timely
+        return 'timely'
     if cid.startswith(TIMELY_CHANNELS) or sid.startswith(TIMELY_CHANNELS) \
             or any(k in cid or k in sid for k in TIMELY_KEYS):
         return 'timely'
