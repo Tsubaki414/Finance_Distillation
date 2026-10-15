@@ -1357,11 +1357,11 @@
    "posts_seen": 164,
    "chart_share": 0.467,
    "styles": {
-    "tv_drawn": 0.077,
-    "tv_widget": 0.038,
-    "mobile": 0.308,
-    "table": 0.115,
-    "panel": 0.212
+    "tv_drawn": 0.103,
+    "tv_widget": 0.051,
+    "mobile": 0.411,
+    "table": 0.153,
+    "panel": 0.283
    },
    "light_share": 0.581,
    "tall_share": 0.326,
@@ -1373,11 +1373,11 @@
    "posts_seen": 110,
    "chart_share": 0.467,
    "styles": {
-    "tv_drawn": 0.077,
-    "tv_widget": 0.038,
-    "mobile": 0.308,
-    "table": 0.115,
-    "panel": 0.212
+    "tv_drawn": 0.103,
+    "tv_widget": 0.051,
+    "mobile": 0.411,
+    "table": 0.153,
+    "panel": 0.283
    },
    "light_share": 0.581,
    "tall_share": 0.326,
@@ -1389,11 +1389,11 @@
    "posts_seen": 96,
    "chart_share": 0.467,
    "styles": {
-    "tv_drawn": 0.077,
-    "tv_widget": 0.038,
-    "mobile": 0.308,
-    "table": 0.115,
-    "panel": 0.212
+    "tv_drawn": 0.103,
+    "tv_widget": 0.051,
+    "mobile": 0.411,
+    "table": 0.153,
+    "panel": 0.283
    },
    "light_share": 0.581,
    "tall_share": 0.326,
@@ -1405,11 +1405,11 @@
    "posts_seen": 112,
    "chart_share": 0.463,
    "styles": {
-    "tv_drawn": 0.182,
-    "tv_widget": 0.045,
-    "mobile": 0.227,
+    "tv_drawn": 0.222,
+    "tv_widget": 0.055,
+    "mobile": 0.278,
     "table": 0.0,
-    "panel": 0.364
+    "panel": 0.445
    },
    "light_share": 0.684,
    "tall_share": 0.316,
@@ -1421,11 +1421,11 @@
    "posts_seen": 82,
    "chart_share": 0.463,
    "styles": {
-    "tv_drawn": 0.182,
-    "tv_widget": 0.045,
-    "mobile": 0.227,
+    "tv_drawn": 0.222,
+    "tv_widget": 0.055,
+    "mobile": 0.278,
     "table": 0.0,
-    "panel": 0.364
+    "panel": 0.445
    },
    "light_share": 0.684,
    "tall_share": 0.316,
@@ -1437,11 +1437,11 @@
    "posts_seen": 111,
    "chart_share": 0.467,
    "styles": {
-    "tv_drawn": 0.077,
-    "tv_widget": 0.038,
-    "mobile": 0.308,
-    "table": 0.115,
-    "panel": 0.212
+    "tv_drawn": 0.103,
+    "tv_widget": 0.051,
+    "mobile": 0.411,
+    "table": 0.153,
+    "panel": 0.283
    },
    "light_share": 0.581,
    "tall_share": 0.326,
@@ -1453,11 +1453,11 @@
    "posts_seen": 114,
    "chart_share": 0.656,
    "styles": {
-    "tv_drawn": 0.254,
-    "tv_widget": 0.111,
-    "mobile": 0.048,
-    "table": 0.048,
-    "panel": 0.46
+    "tv_drawn": 0.276,
+    "tv_widget": 0.121,
+    "mobile": 0.052,
+    "table": 0.052,
+    "panel": 0.499
    },
    "light_share": 0.525,
    "tall_share": 0.066,
@@ -1469,11 +1469,11 @@
    "posts_seen": 138,
    "chart_share": 0.656,
    "styles": {
-    "tv_drawn": 0.254,
-    "tv_widget": 0.111,
-    "mobile": 0.048,
-    "table": 0.048,
-    "panel": 0.46
+    "tv_drawn": 0.276,
+    "tv_widget": 0.121,
+    "mobile": 0.052,
+    "table": 0.052,
+    "panel": 0.499
    },
    "light_share": 0.525,
    "tall_share": 0.066,
@@ -1485,11 +1485,11 @@
    "posts_seen": 72,
    "chart_share": 0.656,
    "styles": {
-    "tv_drawn": 0.254,
-    "tv_widget": 0.111,
-    "mobile": 0.048,
-    "table": 0.048,
-    "panel": 0.46
+    "tv_drawn": 0.276,
+    "tv_widget": 0.121,
+    "mobile": 0.052,
+    "table": 0.052,
+    "panel": 0.499
    },
    "light_share": 0.525,
    "tall_share": 0.066,
@@ -1501,11 +1501,11 @@
    "posts_seen": 171,
    "chart_share": 0.73,
    "styles": {
-    "tv_drawn": 0.207,
+    "tv_drawn": 0.24,
     "tv_widget": 0.0,
     "mobile": 0.0,
-    "table": 0.069,
-    "panel": 0.586
+    "table": 0.08,
+    "panel": 0.68
    },
    "light_share": 0.852,
    "tall_share": 0.074,
@@ -1517,11 +1517,11 @@
    "posts_seen": 148,
    "chart_share": 0.656,
    "styles": {
-    "tv_drawn": 0.254,
-    "tv_widget": 0.111,
-    "mobile": 0.048,
-    "table": 0.048,
-    "panel": 0.46
+    "tv_drawn": 0.276,
+    "tv_widget": 0.121,
+    "mobile": 0.052,
+    "table": 0.052,
+    "panel": 0.499
    },
    "light_share": 0.525,
    "tall_share": 0.066,
@@ -1533,11 +1533,11 @@
    "posts_seen": 105,
    "chart_share": 0.656,
    "styles": {
-    "tv_drawn": 0.254,
-    "tv_widget": 0.111,
-    "mobile": 0.048,
-    "table": 0.048,
-    "panel": 0.46
+    "tv_drawn": 0.276,
+    "tv_widget": 0.121,
+    "mobile": 0.052,
+    "table": 0.052,
+    "panel": 0.499
    },
    "light_share": 0.525,
    "tall_share": 0.066,

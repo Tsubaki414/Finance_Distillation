@@ -167,6 +167,7 @@ def test_select_switch_off_has_no_new_plan_keys(monkeypatch):
 
 # ---------------------------------------------------------------- part 2: fill round reopens the slot
 def test_archive_row_blocks_fresh_pick_without_yield(monkeypatch):
+    monkeypatch.setenv('FD_SECOND_STANDALONE', '0')   # Oct 15: legacy one-standalone slot pinned
     arc = _arc('z')
     _dc_, plan, _info = _sel(monkeypatch, {ACCT: [_g(1, 'Alpha news one')]}, inbox=[arc], done={ACCT: 1})
     assert plan[ACCT] == []                                    # old behaviour: the archive row holds the slot

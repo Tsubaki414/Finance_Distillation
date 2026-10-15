@@ -1045,6 +1045,7 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
         if info is not None:
             info['archive_yield'] = {a: list(ids) for a, ids in archive_yield.items()}
     engage_only_run = os.environ.get('FD_ENGAGE_ONLY') == '1'
+    second_standalone_on = os.environ.get('FD_SECOND_STANDALONE', '1') != '0'   # Oct 15
 
     # Oct 9 night (slot-2 fill rate): on 10-09 25-29 of 36 engagement picks were x-<id> posts that failed the target
     # scoring (too_old / low_engagement) and still took the account's engagement slot, so a valid target in the same
@@ -1140,8 +1141,24 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
         have = (slots_done.get(account) or {}).get(kind, 0) + sum(
             1 for p in plan[account] if slot_kind(p.get('source_id')) == kind)
         if have >= 1:
-            return False
+            # Oct 15 (Fiona, FD_SECOND_STANDALONE, default on): an account with its 1 standalone ready and NO engagement
+            # target (none live in the pool, no engage row today, no reserved target) may take a 2nd original standalone
+            # from fresh material; every other gate (freshness, story caps, lane, QA) still applies to the pick.
+            return (kind == 'standalone' and have < 2 and second_standalone_on and not engage_only_run
+                    and no_engage_target(account))
         return kind != 'engage' or not pick_gate or engage_live(account, g)
+
+    def no_engage_target(account):
+        eng_have = (slots_done.get(account) or {}).get('engage', 0) + sum(
+            1 for p in plan[account] if slot_kind(p.get('source_id')) == 'engage')
+        if eng_have:
+            return False
+        if account in engage_reserved().values():
+            return False
+        for eg in pools.get(account) or ():
+            if slot_kind(eg[0]['source'].get('id')) == 'engage' and (not pick_gate or engage_live(account, eg)):
+                return False
+        return True
 
     def engage_first(account, groups):
         """With the gate on: the account's live engagement targets in score order (standalone order unchanged)."""
