@@ -2076,6 +2076,7 @@ def compose_one(new_client, account, pick, day, store_records, spend, lock):
     post_time = datetime.fromisoformat(pick['suggested_post_time_london'])
     angle = angles.payload(pick['angle'], lang)
     started = time.monotonic()
+    units = None
     try:
         # inside the guard: a span that no rebuilt paragraph contains (StopIteration) sank the whole Oct 7 run
         source, units = evidence_source(group)
@@ -2093,6 +2094,8 @@ def compose_one(new_client, account, pick, day, store_records, spend, lock):
         result = {'status': 'error', 'error': 'budget: ' + str(exc)[:200]}
     except Exception as exc:   # noqa: BLE001 - one bad packet must not sink the day
         result = {'status': 'error', 'error': f'{type(exc).__name__}: {str(exc)[:300]}'}
+    if persist_units_enabled() and 'units' not in result and units is not None:
+        result = dict(result, units=units)   # Oct 15 FD_COMPOSE_PERSIST_UNITS: error / early paths keep the evidence
     cost = call_cost(dc.paths)
     with lock:
         spend['usd'] += cost
@@ -2104,9 +2107,35 @@ def compose_one(new_client, account, pick, day, store_records, spend, lock):
     return result
 
 
+# Oct 15 (FD_COMPOSE_PERSIST_UNITS, default on; 0 = the slim title-only source and no units on the row): the inbox row
+# keeps the evidence units the draft used and the source's own text fields, so a later depth re-check (inbox_depth_rescan)
+# can ground against more than the title. Only keys present on the pre-strip source are copied; nothing is invented.
+PERSIST_SOURCE_TEXT_KEYS = ('original_text', 'text', 'summary')
+PERSIST_TEXT_MAX = 8000
+
+
+def persist_units_enabled(env=None):
+    return (env if env is not None else os.environ).get('FD_COMPOSE_PERSIST_UNITS', '1') != '0'
+
+
+def persisted_units(units):
+    """The compose units as plain JSON (non-dict items and unserialisable values dropped / stringified)."""
+    if not isinstance(units, list):
+        return None
+    out = [json.loads(json.dumps(u, ensure_ascii=False, default=str)) for u in units if isinstance(u, dict)]
+    return out or None
+
+
+def persisted_source_text(src):
+    return {k: src[k][:PERSIST_TEXT_MAX] for k in PERSIST_SOURCE_TEXT_KEYS
+            if isinstance(src.get(k), str) and src[k].strip()}
+
+
 def inbox_row(result, account_cfg, day, run_id):
     pick = result['plan']
     src = result.get('source') or {}
+    persist = persist_units_enabled()
+    kept_units = persisted_units(result.get('units')) if persist else None
     findings = [{'code': f.get('code'), 'level': f.get('level')} for f in (result.get('post_checks') or [])
                 if isinstance(f, dict)]
     arb = result.get('arbitration') or {}
@@ -2182,7 +2211,9 @@ def inbox_row(result, account_cfg, day, run_id):
             'stance': {k: (result.get('stance') or {}).get(k) for k in ('decision', 'account_view', 'subject', 'direction')},
             'source': {'id': src.get('id'), 'source_id': src.get('source_id'), 'publisher': pick.get('publisher'),
                        'title': pick.get('title'), 'url': pick.get('url'), 'published_at': pick.get('published_at'),
-                       'lang': pick.get('source_lang'), 'same_language': pick.get('same_language')},
+                       'lang': pick.get('source_lang'), 'same_language': pick.get('same_language'),
+                       **(persisted_source_text(src) if persist else {})},
+            **({'units': kept_units} if kept_units else {}),
             'models': models, 'alt_model': [m for m in models if m in stage_models.approved_alt_models()],
             'spend_usd': result.get('spend_usd'), 'publishable': False}
 
