@@ -19,7 +19,7 @@ from live import prompt_assembly
 from live.distillation import ContractError, require
 from live.distillation_source import digest, paragraphs
 from live.fidelity import METRICS, metric_name
-from live.model_json import parse_object
+from live.model_json import parse_object, parse_units_object, robust_extract_on
 from live.numeric_fidelity import RANGE, inventory
 
 VERSION = 'content-units-extract-v2'
@@ -331,6 +331,29 @@ def validate_units(source, value, licence_tier):
     return validate_units_partial(source, value, licence_tier)[0]
 
 
+STRICT_RETRY = ('Your previous answer was not one JSON object of the form {"units": [...]}. Answer again with '
+                'exactly one JSON object {"units": [...]} - no list around it, no code fence, nothing before or after it.')
+
+
+def _parse_robust(client, messages, response):
+    """FD_THIN_EXTRACT_ROBUST: tolerant parse (model_json.parse_units_object); if it still fails, at most one stricter
+    retry of the same call. Returns (response actually used, value)."""
+    for attempt in (0, 1):
+        try:
+            value = parse_units_object(response.get('text', ''))
+            if isinstance(value, dict) and isinstance(value.get('units'), list):
+                return response, value
+            error = ValueError('Expected one JSON object')
+        except ValueError as exc:
+            error = exc
+        if attempt:
+            break
+        response = client('extract', list(messages) + [{'role': 'user', 'content': STRICT_RETRY}], MAX_TOKENS)
+        require(response.get('finish_reason') == 'stop', 'extract: incomplete/unknown finish_reason')
+        require(not response.get('refusal'), 'extract: model refusal')
+    raise ContractError('extract: ' + str(error)) from error
+
+
 def extract(source, client, *, licence_tier, publisher=None):
     """Run EXTRACT once. Returns {'units', 'prompt_assembly', 'response', 'span_match_rate'}."""
     if licence_tier not in USAGE:
@@ -352,10 +375,13 @@ def extract(source, client, *, licence_tier, publisher=None):
     response = client('extract', messages, MAX_TOKENS)
     require(response.get('finish_reason') == 'stop', 'extract: incomplete/unknown finish_reason')
     require(not response.get('refusal'), 'extract: model refusal')
-    try:
-        value = parse_object(response.get('text', ''), repair_quotes=True)
-    except ValueError as exc:
-        raise ContractError('extract: ' + str(exc)) from exc
+    if robust_extract_on():
+        response, value = _parse_robust(client, messages, response)
+    else:
+        try:
+            value = parse_object(response.get('text', ''), repair_quotes=True)
+        except ValueError as exc:
+            raise ContractError('extract: ' + str(exc)) from exc
     units, dropped = validate_units_partial(source, value, licence_tier, require_view=True)
     # A placeholder speaker ("media", "unknown", ...) names nobody: credit the publisher / author instead
     # (extract A/B 10/6: Gemini wrote speaker "media" for 华尔街见闻 facts).

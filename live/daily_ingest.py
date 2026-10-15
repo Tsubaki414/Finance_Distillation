@@ -101,6 +101,32 @@ def extract_client(directory, *, model=None, allow_nondefault=False):
     return client
 
 
+def extract_request_timeout(task_limit=None):
+    """Oct 15 (FD_THIN_EXTRACT_ROBUST): per-request read timeout of the document EXTRACT client, in seconds, or None
+    (HEAD: the relay's 300 s, longer than the 240 s task limit). 10-15 nightly: 6 extract calls (4 thin_* items) hung
+    on subrouter with no response headers until the task alarm, so the client's own retry never ran. 210 completed
+    extract calls 10-10..10-15: p99 59 s, max 97 s. Default min(110, (task limit - 20) / 2): a hung request is cut
+    and retried once (after the 10 s subrouter backoff) inside one task. FD_EXTRACT_CALL_TIMEOUT_S overrides."""
+    import os
+    from live.model_json import robust_extract_on
+    if not robust_extract_on():
+        return None
+    if os.environ.get('FD_EXTRACT_CALL_TIMEOUT_S'):
+        value=float(os.environ['FD_EXTRACT_CALL_TIMEOUT_S'])
+        return value if value>0 else None
+    if task_limit is None:
+        task_limit=int(float(os.environ.get('FD_INGEST_TASK_TIMEOUT','240') or 0))
+    return min(110.0,(task_limit-20)/2) if task_limit>60 else 110.0
+
+
+def set_extract_request_timeout(client, task_limit=None):
+    seconds=extract_request_timeout(task_limit)
+    if seconds is not None and client is not None:
+        import httpx
+        client.request_timeout=httpx.Timeout(seconds,connect=15.0,write=30.0,pool=15.0)
+    return seconds
+
+
 def extract_fit(*, cost_cap_usd, flash_budget_usd, max_extract, extract_model=None, injected=False, est_usd_per_doc=None):
     """Paid document extracts expected to fit: min(max_extract, docs budget // est $/doc) (persona_minimum window).
 
@@ -550,6 +576,7 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
             summary['extract_model']=xplan['model']
             summary['extract_fallback_model']=xplan['fallback']
             jev=jev or JevReviewClient(budget.STORE.parent/'jev_calls')
+            set_extract_request_timeout(client)
             def extract(s):
                 return content_units.extract(s,client,licence_tier=registry.source_licence_tier(s['source_id']),publisher=s.get('publisher'))['units']
         if jev is not None:
