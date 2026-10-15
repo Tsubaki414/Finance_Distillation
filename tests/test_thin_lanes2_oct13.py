@@ -55,7 +55,8 @@ def test_phase1_rows_unchanged():
     cur = json.loads(thin_lane_src.PATH.read_text())
     assert cur['sources'][:len(old['sources'])] == old['sources']
     assert {k: v for k, v in cur['licence'].items() if k in {r['id'] for r in old['sources']}} == old['licence']
-    assert [r['id'] for r in cur['sources'][len(old['sources']):]] == list(NEW)
+    # Oct 14: later rows (meme EN) may follow; these three stay right after the phase-1 rows
+    assert [r['id'] for r in cur['sources'][len(old['sources']):]][:len(NEW)] == list(NEW)
 
 
 def test_new_rows_routed_only_to_their_accounts(monkeypatch):
