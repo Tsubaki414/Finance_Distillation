@@ -76,7 +76,86 @@ def attributable_insight(body, lang, source_text=None):
     return None
 
 
-def findings(body, lang, post_kind=None, env=None, source_text=None):
+# Oct 15 (FD_DEPTH_HOLD_CAL, default on; =0 is the exact Oct 13 behaviour): ~20 of 10-15's held drafts were
+# data_take / judgment_take posts with post_kind None (the reaction-kind exemption never applies), a source figure and
+# an own take line ("I think this'll break … retest", "并没有改变主线", "looks nice on paper") that neither MARKERS nor
+# INSIGHT list, while the attributable-insight overlap needs >= 2 tokens of an often title-only source. A take post
+# now also passes when ALL hold: (1) a concrete figure (number / level / %, dates and list markers ignored) that the
+# units or source text carry; (2) a judgment line (stance / forecast / evaluation token below) in (3) a body of >= 2
+# sentences, the judgment sentence not a copy of the source (< 70% of its tokens in the source / units). A headline
+# or flash relay (one sentence, or facts only, or the source's own sentence restated, or a reported-speech claim
+# "X says / 表示 …") is still held.
+TAKE_KINDS = ('data_take', 'judgment_take', 'contrarian_take', 'view_relay', 'earnings_take', 'insight', 'reaction')
+JUDGE = {
+    'en': re.compile(r"\b(?:I think|I'd (?:say|argue|bet)|I suspect|I doubt|I'm (?:skeptical|not convinced)|my (?:read|take|bet)|"
+                     r"to me|looks? (?:like|nice|cheap|expensive|fragile|weak|strong|stretched|overdone)|on paper|"
+                     r"likely|unlikely|probably|eventually|will (?:retest|break|hold|stay|struggle|fade|bounce|follow|"
+                     r"need)|won't|wouldn't|isn't|aren't|doesn't|don't|no longer|not (?:enough|stalling|holding|the|a|just)|"
+                     r"keeps? (?:stepping|buying|selling|draining|bleeding)|stepping in|holding back|leaves? the door|"
+                     r"before anyone|baseline|the real|what matters|bullish|bearish|fragile|reckless|overdone|overpriced|"
+                     r"contained|shatter\w*|draining|pretend\w*|absorb\w*|exposes?|proves?|usually follows|"
+                     r"hold the bag|the point)\b", re.I),
+    'zh': re.compile(r'我觉得|我看|在我看来|感觉|估计|大概率|恐怕|看来|显然|挺明显|并没有|没有改变|不会|难以|很难|还得看|得看|'
+                     r'才是|更重要|说白了|本质上|无非|值得|小心|警惕|当傻子|太难看|挺悬|靠不住|水分|比想象|过热|撑不住|'
+                     r'扛不住|接不住|不等于|割韭菜|老鼠仓'),
+}
+# a reported-speech sentence relays the source's (or an official's) claim - never the post's own judgment line
+REPORTED = {
+    'en': re.compile(r"\b(?:says?|said|notes?|noted|reports?|reported|according to|told|warns?|warned|claims?|claimed|"
+                     r"argues?|argued|expects?|expected|announced|stated|per)\b", re.I),
+    'zh': re.compile(r'表示|(?<![名对])称|(?<!小)说(?!白了)|认为|指出|(?<!数)据|报道|透露|预计|预期|警告|宣布|发布|公布|强调|提到'),
+}
+_DATE = re.compile(r'\b(?:19|20)\d\d[-/]\d{1,2}[-/]\d{1,2}\b|(?:19|20)\d\d\s*年|\d{1,2}\s*月(?:\s*\d{1,2}\s*日)?|'
+                   r'\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2}(?:st|nd|rd|th)?(?:,\s*\d{4})?|'
+                   r'\b(?:19|20)\d\d\b|^\s*\d{1,2}\s*[.、)]', re.I | re.M)
+
+
+def cal_enabled(env=None):
+    return (env if env is not None else os.environ).get('FD_DEPTH_HOLD_CAL', '1') != '0'
+
+
+def units_text(units):
+    """Statements, exact source spans and number texts of compose units (any missing field is skipped)."""
+    out = []
+    for u in units or []:
+        if not isinstance(u, dict):
+            continue
+        out.append(str(u.get('statement') or ''))
+        out += [str(s.get('exact_text') or '') if isinstance(s, dict) else str(s) for s in u.get('source_spans') or []]
+        out += [str(n.get('text') or '') if isinstance(n, dict) else str(n) for n in u.get('numbers') or []]
+    return ' '.join(x for x in out if x).strip() or None
+
+
+def _figures(text):
+    return {n.replace(',', '').rstrip('.') for n in re.findall(r'\d[\d,]*(?:\.\d+)?', _DATE.sub(' ', text or ''))}
+
+
+def _sentences(body):
+    return [s.strip() for s in re.split(r'(?<=[。！？!?])|(?<=\.)\s+|\n+', body or '') if s and s.strip()]
+
+
+def grounded_take(body, lang, ground_text=None):
+    """The judgment sentence when the body carries a grounded figure + an own judgment line (see FD_DEPTH_HOLD_CAL);
+    None otherwise. ground_text: source text + units text (None = no grounding text: never passes)."""
+    if not ground_text:
+        return None
+    figs = _figures(body) & _figures(ground_text)
+    if not figs:
+        return None
+    sents = _sentences(body)
+    if len(sents) < 2:
+        return None
+    lg = 'zh' if str(lang)[:2] == 'zh' else 'en'
+    rx, src = JUDGE[lg], _toks(ground_text)
+    for s in sents:
+        if rx.search(s) and not REPORTED[lg].search(s):
+            t = _toks(s)
+            if t and len(t & src) / len(t) < 0.7:
+                return s
+    return None
+
+
+def findings(body, lang, post_kind=None, env=None, source_text=None, post_type=None, units=None):
     """[] when the body shows depth (or check off / archive row); else one finding dict."""
     if not enabled(env) or not (body or '').strip():
         return []
@@ -89,6 +168,10 @@ def findings(body, lang, post_kind=None, env=None, source_text=None):
     if reaction and (post_kind in ('reaction', 'question', 'diary', 'meme', 'industry_people')
                      or attributable_insight(body, lg, source_text)):
         return []
+    if cal_enabled(env) and (post_type in TAKE_KINDS or post_kind in TAKE_KINDS):
+        ground = ' '.join(x for x in (source_text, units_text(units)) if x).strip() or None
+        if grounded_take(body, lg, ground):
+            return []
     return [{'code': CODE, 'severity': 'hard', 'level': 'hard',
              'detail': 'pure news relay: no attributable source insight + reaction, comparison, affected party or '
                        'what-to-watch beyond the source'}]
