@@ -56,3 +56,66 @@ def parse_object(raw, *, repair_quotes=False, unwrap_singleton=False):
     if not isinstance(value, dict):
         raise ValueError('Expected one JSON object')
     return value
+
+
+def robust_extract_on():
+    """FD_THIN_EXTRACT_ROBUST (default on; 0 = HEAD behaviour): tolerant EXTRACT units parsing, one stricter
+    retry, a per-request timeout on the ingest extract client."""
+    import os
+    return os.environ.get('FD_THIN_EXTRACT_ROBUST', '1') != '0'
+
+
+def _strip_fence(raw):
+    raw = raw.strip()
+    for head in ('```json', '```JSON', '```'):
+        if raw.startswith(head) and raw.endswith('```') and len(raw) > len(head) + 3:
+            return raw[len(head):-3].strip()
+    return raw
+
+
+def parse_units_object(raw):
+    """EXTRACT output -> {"units": [...]}. Oct 15 (FD_THIN_EXTRACT_ROBUST): the realistic off-contract shapes seen
+    in the 10-10..10-15 extract calls are taken as-is, never filled in:
+      [{"units": [...]}]                       a list wrapper (5 calls on 10-15; 4 channels failed)
+      ```json{...}```                          a fence without the newlines
+      {"units": [...]}}]}                      stray closing brackets after one complete object
+      {"units": [a]} {"units": [b]}            concatenated objects / a list of several {"units"} objects
+    Several objects are only combined when every one of them is exactly {"units": [...]} (their units are
+    concatenated in order). Anything else raises ValueError like parse_object."""
+    raw = _strip_fence(raw)
+    try:
+        value = _loads(raw)
+    except json.JSONDecodeError:
+        value = None
+    if value is None:
+        decoder, values, pos = json.JSONDecoder(), [], 0
+        while pos < len(raw):
+            while pos < len(raw) and raw[pos] in ' \t\r\n,':
+                pos += 1
+            if pos >= len(raw):
+                break
+            if not values and raw[pos] not in '{[':
+                raise ValueError('Expected one JSON object')
+            if values and set(raw[pos:].strip()) <= set(']}'):
+                break   # trailing closers after a complete value
+            try:
+                item, pos = decoder.raw_decode(raw, pos)
+            except json.JSONDecodeError:
+                raise ValueError('Expected one JSON object') from None
+            values.append(item)
+        if not values:
+            raise ValueError('Expected one JSON object')
+        value = values if len(values) > 1 else values[0]
+    if isinstance(value, dict):
+        return value
+    items = value if isinstance(value, list) else []
+    flat = []
+    for item in items:
+        flat.extend(item if isinstance(item, list) else [item])
+    if not flat or not all(isinstance(x, dict) for x in flat):
+        raise ValueError('Expected one JSON object')
+    if len(flat) == 1:
+        return flat[0]
+    if not all(set(x) == {'units'} and isinstance(x['units'], list) for x in flat):
+        raise ValueError('Expected one JSON object')
+    return {'units': [u for x in flat for u in x['units']]}

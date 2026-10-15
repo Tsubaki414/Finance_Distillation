@@ -538,7 +538,7 @@ class ErisedaiClient:
         try:
             reservation = budget.reserve(budget_model, messages, max_tokens, call_id,
                                          counts_toward_cap=not flat, provider=serving)
-            with httpx.Client(timeout=TIMEOUT, trust_env=False, follow_redirects=False,
+            with httpx.Client(timeout=getattr(self, 'request_timeout', None) or TIMEOUT, trust_env=False, follow_redirects=False,
                               transport=self.transport) as client:
                 record['model_call_attempts'] = 1
                 if native:
