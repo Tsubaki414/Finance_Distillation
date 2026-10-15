@@ -2654,7 +2654,8 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
         from live import depth_check as _dc
         _src_d = r.get('source') or {}
         _fh = _fh + _dc.findings(r.get('body') or '', r['plan']['account_lang'], r['plan'].get('post_kind') or _kind,
-                                 source_text=' '.join(str(_src_d.get(k) or '') for k in ('title', 'original_text', 'text', 'summary')).strip() or None)
+                                 source_text=' '.join(str(_src_d.get(k) or '') for k in ('title', 'original_text', 'text', 'summary')).strip() or None,
+                                 post_type=r.get('post_type'), units=r.get('units'))   # Oct 15 FD_DEPTH_HOLD_CAL
         # Oct 13 09:21 (Fiona): the prevention rule checks re-run on the FINAL body (after humanize / fluency / opener /
         # every retry): a banned opener, not-X-but-Y, unexplained jargon or a disclaimer on commentary left here is HARD
         from live import compose_prevent as _cpf
