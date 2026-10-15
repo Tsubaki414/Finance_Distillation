@@ -37,7 +37,9 @@ REGISTRY_FILE = Path(__file__).with_name('source_registry.json')
 
 
 def publisher_name(source_id):
-    from live import thin_lane_src
+    from live import thin_lane_src, video_src
+    if video_src.is_video_source(source_id):
+        return video_src.DISPLAY_NAME
     for row in thin_lane_src.merged_registry_rows(json.loads(REGISTRY_FILE.read_text()).get('sources', [])):
         if row.get('id') == source_id:
             return row.get('name')
@@ -88,6 +90,9 @@ def render(post_type, source, post_types=None, speaker=None, lang=None):
     spec = table['post_types'][post_type]
     if table['frames'][spec['frame']]['placement'] == 'none':
         return None
+    from live import video_src
+    if video_src.is_video_source(source):   # Oct 15: idea material, own voice, nothing credited
+        return video_src.frame()
     values = _fields(source, speaker)
     if post_type == 'contrarian_take':
         values['speaker'] = (speaker or '').strip()
@@ -157,7 +162,7 @@ def check(post_type, text, frame, licence_tier, post_types=None):
     if needs_frame and not found:
         flag('missing_attribution_frame', f'{post_type} requires its attribution frame at the declared place')
     named = [n for n in (frame or {}).get('names', []) if n.casefold() in body.casefold()]
-    if PROVENANCE.search(body) or INLINE_PROVENANCE.search(body) or (frame and frame['text'] in body) or named:
+    if PROVENANCE.search(body) or INLINE_PROVENANCE.search(body) or (frame and frame['text'] and frame['text'] in body) or named:
         flag('provenance_in_body', 'Source named or linked outside the attribution frame')
     if spec['voice'] == 'persona' and OTHER_ATTRIBUTION.search(body):
         flag('attribution_outside_frame', 'Attribution to a source outside the frame')

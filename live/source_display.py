@@ -66,6 +66,10 @@ def display(source, lang, *, tier=None, raw_name=None, check_licence=True):
         out['reason'] = f'licence tier {tier!r} is not creditable (A/B only)'
         return out
     lang = 'en' if lang == 'en' else 'zh'
+    from live import video_src
+    if video_src.is_video_source(source):   # Oct 15: own-voice idea material: nothing is credited, so no name is needed
+        out.update(ok=True, name='', policy='own_voice', never_name=never + [video_src.DISPLAY_NAME])
+        return out
     if is_sell_side(source) and cfg.get('sell_side_credit', 'generic') == 'generic':
         from live.attribution_frame import aliases
         out.update(ok=True, name=cfg['generic']['sell_side'][lang], policy='generic_sell_side')

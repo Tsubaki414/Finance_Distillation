@@ -18,6 +18,7 @@ from live.risk_rules import HARD_CODES as _RISK_HARD
 from live.hook_voice import HARD_CODES as _HOOK_HARD, SOFT_CODES as _HOOK_SOFT, FIXES as _HOOK_FIXES
 from live.engagement import HARD_CODES as _ENG_HARD, SOFT_CODES as _ENG_SOFT, FIXES as _ENG_FIXES
 from live.stale_frame import HARD_CODES as _STALE_HARD, FIX as _STALE_FIX
+from live.video_src import HARD_CODES as _VIDEO_HARD
 
 HARD = frozenset({
                   'licence_tier_not_allowed', 'd_tier_source_leak', 'quote_not_exact',
@@ -34,6 +35,8 @@ HARD = frozenset({
                   *_ENG_HARD,
                   # Oct 11 (live/stale_frame.py): an event > 30 days old with no look-back frame + today comparison
                   *_STALE_HARD,
+                  # Oct 15 (live/video_src.py): video-idea material is rewritten in own voice, nothing credited
+                  *_VIDEO_HARD,
                   # Oct 7: inspiration_only sources (Delphi digest) are never cited, quoted or counted
                   'inspiration_only_number', 'inspiration_only_text', 'inspiration_only_cited'})
 SOFT = frozenset({'stale_time_word', 'stale_number_as_current', 'number_not_in_units', 'period_not_in_units', 'number_metric_binding', 'number_words', 'no_judgment', 'data_list', 'no_disagreement', 'view_number_unbound', 'template_phrase', 'length_out_of_range', 'attribution_outside_frame',

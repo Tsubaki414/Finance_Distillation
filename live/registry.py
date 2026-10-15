@@ -221,8 +221,13 @@ def _licence():
     return thin_lane_src.merged_licence(json.loads(LICENCE.read_text())['tiers'])
 
 
+def _licence_entry(source_id):
+    from live import video_src   # Oct 15 (FD_VIDEO_SRC): the video-idea source has its own entry (flag off -> none)
+    return _licence().get(source_id) or video_src.licence_entries().get(source_id)
+
+
 def source_licence_tier(source_id):
-    entry = _licence().get(source_id)
+    entry = _licence_entry(source_id)
     tier = entry and entry.get('tier')
     return tier if tier in LICENCE_TIERS else None
 
@@ -251,4 +256,4 @@ def post_types_for_tier(tier, post_types=None):
 
 
 def source_no_reproduction(source_id):
-    return _licence().get(source_id, {}).get("no_reproduction") is True
+    return (_licence_entry(source_id) or {}).get("no_reproduction") is True

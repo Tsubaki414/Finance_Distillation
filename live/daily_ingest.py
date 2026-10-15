@@ -402,7 +402,8 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
         x=True, x_budget_usd=None, x_window_hours=None, x_max=None, x_per_source_max=None, x_batch_size=None,
         x_rapid=None, x_apify=None, x_subs=None, x_extract_batch=None, x_llm=None,
         fetchers=None, extract=None, jev=None, backup=None, refresh=None, state_path=None,
-        lane_flashes=True, lane_flash_budget_usd=None, lane_flash_fetch=None):
+        lane_flashes=True, lane_flash_budget_usd=None, lane_flash_fetch=None,
+        video=True, video_bg=None, video_llm=None, video_extract_batch=None, video_dir=None):
     from ml import budget
     from live import content_store, jev_front, registry
     from scripts.run_content_adapters import filter_known, ingest_batches
@@ -517,6 +518,17 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
                                                   original_outlet=x.get('original_outlet'),echo=len(x.get('also_reported_by') or []),
                                                   lead_hook=x.get('lead_hook',False),text=x['original_text'][:60])
                                              for x in flash_plan['selected'][:15]])
+        # Oct 15 (FD_VIDEO_SRC): the video-idea source. Fetch + yt-dlp + whisper run in a DETACHED child started here, in
+        # parallel with everything below (no LLM, own wall-clock budget FD_VIDEO_BUDGET_S, default 600 s); the step
+        # after x_extract waits for what is left of it (FD_VIDEO_WAIT_S, default 120 s), then cuts idea units.
+        from live import video_src
+        video_handle=None
+        if (video and video_src.enabled() and (not only or 'video' in only)
+                and (fetchers is None or video_bg is not None)):
+            def start_video():
+                nonlocal video_handle
+                video_handle=video_bg() if video_bg is not None else video_src.start_background(now=started,out_dir=video_dir,state_file=state_path)
+            step('video_start',start_video)
         # Oct 8 evening: crypto flash desks filtered to the niche lanes (no LLM here; own ring fence below).
         lane_plan=None
         from live import lane_sources
@@ -620,6 +632,18 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
                 summary['x'].update(stats)
                 summary['x']['deferred']=len(pending)+len(x_plan['overflow'])
             step('x_extract',run_x)
+        if video_handle is not None:
+            def run_video():
+                res=video_src.wait_background(video_handle)
+                video_src.merge_result(state,res)
+                summary['video_src']=dict(collect=res)
+                srcs=video_src.pending_sources(video_dir,now=started,seen=(state.get('video_src') or {}).get('seen') or ())
+                if srcs and video_src.enabled():
+                    vclient=video_llm or flash_client(budget.STORE.parent/'video_calls')
+                    summary['video_src'].update(video_src.extract(db,srcs,client=vclient,budget=budget,cost_cap_usd=cost_cap_usd,
+                                                                  fence_usd=video_src.budget_usd(),
+                                                                  state=state,now=started,extract_batch=video_extract_batch))
+            step('video_src',run_video)
         capped=False; extracted=0
         # Oct 9 night: the 23:13 run stalled ~8 min CPU-bound inside one task (no log progress) and was killed, losing
         # the whole run. Each task now has a wall-clock limit (FD_INGEST_TASK_TIMEOUT s, default 240; 0 = off): on

@@ -50,6 +50,7 @@ from live import (angles, anti_repeat, compose, compose_inbox, editorial_style, 
                   topic_div, twins, engagement, post_kind)
 from live.adapters import delphi_digest  # noqa: E402
 from live.content_store import ContentStore  # noqa: E402
+from live import video_src  # noqa: E402
 from live.retrieval import units_for_persona  # noqa: E402
 from live.view_ledger import ViewLedger  # noqa: E402
 from ml import budget  # noqa: E402
@@ -188,6 +189,9 @@ def candidates(store, account, beats, lead, ref, x_handles=None, account_cfg=Non
     reuse = set(reuse or ())
     used = used_sources(account) - reuse
     recent = anti_repeat.load_recent(account)
+    from live import video_src   # Oct 15 (FD_VIDEO_SRC): idea material, <= 1 draft / account / 7 days, 48 h from the post
+    video_blocked = video_src.weekly_blocked(account, ref) \
+        if account in video_src.accounts() and video_src.enabled() else True
     seen, groups = set(), {}
     for beat in beats:
         for record in units_for_persona(store, beat, max_age_days=MAX_AGE_DAYS, as_of=ref):
@@ -202,10 +206,20 @@ def candidates(store, account, beats, lead, ref, x_handles=None, account_cfg=Non
                 continue
             if not source_routes.allowed(src, account):   # account-scoped research sources (Four Pillars)
                 continue
+            if video_src.is_video_source(src) and (video_blocked or not video_src.fresh_enough(src, ref)):
+                continue
             groups.setdefault(demo._key(record), []).append(record)
     gated = list(groups.values())
-    if account_cfg:
-        gated = [g for g in gated if editorial_style.beat_gate(account_cfg, group_text(g))[0]]
+    if account_cfg:   # the video-idea source is money / mindset material: no crypto beat gate for it
+        gated = [g for g in gated if video_src.is_video_source(g[0]['source'])
+                 or editorial_style.beat_gate(account_cfg, group_text(g))[0]]
+    _vids = [g for g in gated if video_src.is_video_source(g[0]['source']) and demo.balanced(g)]   # fact + view, like any packet
+    if len(_vids) > 1:   # one video-idea packet per account per call (the weekly cap counts drafts afterwards)
+        # newest first; each routed account starts at its own index so two accounts do not offer the same packet
+        _vids.sort(key=lambda g: video_src._created(g[0]['source'].get('published_at')) or ref, reverse=True)
+        _slot = video_src.accounts().index(account) if account in video_src.accounts() else 0
+        _keep = _vids[_slot % len(_vids)]
+        gated = [g for g in gated if g is _keep or not video_src.is_video_source(g[0]['source'])]
     extra = own_x_packets(gated, support) if support is not None else []
     extra += routed_data_packets(gated, account, account_cfg)
     options = demo.ranked_balanced(gated, now=ref.date().isoformat())
@@ -232,6 +246,7 @@ def candidates(store, account, beats, lead, ref, x_handles=None, account_cfg=Non
         if _perf_pr:   # format is chosen after selection (biased there); here topic only
             freshness = freshness * perf_record(_perf_pr, _perf_lang, g)['mult']
         return (not ({src.get('id'), src.get('title'), src.get('source_hash')} & reuse),
+                not video_src.is_video_source(src),   # Oct 15: the weekly video-idea slot goes first (<= 1 packet, cap above)
                 not prescreen.prescreen(account, g)['ok'], not demo.in_shelf(g, ref.date().isoformat()),
                 not timely(g, ref), not x_handle(g[0]['source']), packet_kind(g) != 'balanced',
                 bool(lane) and not any(lane & set(r.get('tag_personas') or []) for r in g), bool(demo.group_hook_repeat(g, recent)), demo.group_theme_repeat(g, recent),
@@ -1182,7 +1197,8 @@ def select(accounts, universes, day, per_account, done=None, cap=MAX_PER_ACCOUNT
         """Rule 3 (Oct 9): a zh account's standalone post goes to a hot 母题 (heat >= ZH_HOT_MIN) first."""
         if not zh_hot_rule(lang) or hot is None:
             return groups
-        return sorted(groups, key=lambda g: not ((heat_of(g) or 0) >= ZH_HOT_MIN))
+        # Oct 15: the weekly video-idea packet (candidates() offers at most one) keeps its place ahead of hot packets
+        return sorted(groups, key=lambda g: not (video_src.is_video_source(g[0]['source']) or (heat_of(g) or 0) >= ZH_HOT_MIN))
 
     def hot_on_lane(account):
         test = lane_test(next(x for x in accounts if x['id'] == account), x_of[account])

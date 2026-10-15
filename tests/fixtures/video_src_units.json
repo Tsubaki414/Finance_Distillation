@@ -1,0 +1,323 @@
+[
+ {
+  "unit_id": "cu-0e0f6450ed4dbc750bac",
+  "unit": {
+   "kind": "fact",
+   "statement": "沟通的本质是从某个角度来讲其实就是示弱。",
+   "source_spans": [
+    {
+     "source_hash": "3aee7d7777ef9268cfbb7fd24687d25362363d0e273ab6c2aeae961ac31d9b5a",
+     "paragraph_id": "P3",
+     "start": 451,
+     "end": 470,
+     "exact_text": "沟通的本质从某个角度来讲，其实就是示弱",
+     "typography_normalized": false
+    }
+   ],
+   "numbers": [],
+   "speaker": "author",
+   "speaker_type": "author",
+   "freshness_class": "current",
+   "licence_tier": "B",
+   "usage": "paraphrase",
+   "source_id": "video_idea_zh",
+   "source_hash": "3aee7d7777ef9268cfbb7fd24687d25362363d0e273ab6c2aeae961ac31d9b5a",
+   "published_at": "2026-10-14T12:23:00+00:00",
+   "adapter": "video_idea",
+   "lead_event": true,
+   "event_date": "2026-10-14",
+   "extract_version": "content-units-extract-v2+video-idea-v1",
+   "unit_id": "cu-0e0f6450ed4dbc750bac",
+   "no_reproduction": true,
+   "quote_allowed": false,
+   "attribution_required": true,
+   "as_of": "2026-10-14",
+   "as_of_source": "source_published",
+   "date_unknown": false,
+   "freshness_flags": [],
+   "published_at_norm": "2026-10-14"
+  },
+  "licence_tier": "B",
+  "attribution": {
+   "publisher": "FD想法素材",
+   "speaker": "author",
+   "speaker_type": "author",
+   "usage": "paraphrase"
+  },
+  "source": {
+   "id": "video-2110345625938309227",
+   "source_id": "video_idea_zh",
+   "publisher": "FD想法素材",
+   "author_name": "",
+   "title": "idea material 309227",
+   "url": "video-transcript://2110345625938309227",
+   "published_at": "2026-10-14T12:23:00+00:00",
+   "source_hash": "3aee7d7777ef9268cfbb7fd24687d25362363d0e273ab6c2aeae961ac31d9b5a",
+   "adapter": "video_idea",
+   "truncated": false,
+   "source_language": "zh"
+  },
+  "personas": [],
+  "prescreen": null,
+  "stored_at": "2026-10-15T13:03:50.826468+00:00",
+  "persona_tags": {
+   "investing_philosophy": {
+    "verdict": "relevant",
+    "confidence": 0.75,
+    "rule": "source-routes-v1:video_idea_zh"
+   },
+   "crypto_macro_zh": {
+    "verdict": "relevant",
+    "confidence": 0.75,
+    "rule": "source-routes-v1:video_idea_zh"
+   }
+  },
+  "tag_personas": [
+   "crypto_macro_zh",
+   "investing_philosophy"
+  ]
+ },
+ {
+  "unit_id": "cu-388140429bf46eb752cd",
+  "unit": {
+   "kind": "view",
+   "statement": "对话中习惯性打断别人讲话反映出说话者认知水平较低。",
+   "source_spans": [
+    {
+     "source_hash": "3aee7d7777ef9268cfbb7fd24687d25362363d0e273ab6c2aeae961ac31d9b5a",
+     "paragraph_id": "P2",
+     "start": 403,
+     "end": 428,
+     "exact_text": "打断别人讲话，其实本身就是一个，认知很低的一个行动",
+     "typography_normalized": false
+    }
+   ],
+   "numbers": [],
+   "speaker": "author",
+   "speaker_type": "author",
+   "freshness_class": "current",
+   "licence_tier": "B",
+   "usage": "paraphrase",
+   "source_id": "video_idea_zh",
+   "source_hash": "3aee7d7777ef9268cfbb7fd24687d25362363d0e273ab6c2aeae961ac31d9b5a",
+   "published_at": "2026-10-14T12:23:00+00:00",
+   "adapter": "video_idea",
+   "view": {
+    "direction": "neutral",
+    "subject": "打断别人讲话的认知评价",
+    "conviction": "high",
+    "reasoning": [
+     "认知很低的一个行动"
+    ],
+    "horizon": "unspecified",
+    "support": [
+     {
+      "span_index": 0,
+      "quote": "打断别人讲话，其实本身就是一个，认知很低的一个行动"
+     }
+    ]
+   },
+   "extract_version": "content-units-extract-v2+video-idea-v1",
+   "unit_id": "cu-388140429bf46eb752cd",
+   "no_reproduction": true,
+   "quote_allowed": false,
+   "attribution_required": true,
+   "as_of": "2026-10-14",
+   "as_of_source": "source_published",
+   "date_unknown": false,
+   "freshness_flags": [],
+   "published_at_norm": "2026-10-14"
+  },
+  "licence_tier": "B",
+  "attribution": {
+   "publisher": "FD想法素材",
+   "speaker": "author",
+   "speaker_type": "author",
+   "usage": "paraphrase"
+  },
+  "source": {
+   "id": "video-2110345625938309227",
+   "source_id": "video_idea_zh",
+   "publisher": "FD想法素材",
+   "author_name": "",
+   "title": "idea material 309227",
+   "url": "video-transcript://2110345625938309227",
+   "published_at": "2026-10-14T12:23:00+00:00",
+   "source_hash": "3aee7d7777ef9268cfbb7fd24687d25362363d0e273ab6c2aeae961ac31d9b5a",
+   "adapter": "video_idea",
+   "truncated": false,
+   "source_language": "zh"
+  },
+  "personas": [],
+  "prescreen": null,
+  "stored_at": "2026-10-15T13:03:51.005223+00:00",
+  "persona_tags": {
+   "investing_philosophy": {
+    "verdict": "relevant",
+    "confidence": 0.75,
+    "rule": "source-routes-v1:video_idea_zh"
+   },
+   "crypto_macro_zh": {
+    "verdict": "relevant",
+    "confidence": 0.75,
+    "rule": "source-routes-v1:video_idea_zh"
+   }
+  },
+  "tag_personas": [
+   "crypto_macro_zh",
+   "investing_philosophy"
+  ]
+ },
+ {
+  "unit_id": "cu-1a21ce69d98be7019a05",
+  "unit": {
+   "kind": "mechanism",
+   "statement": "公开自己掌握的他人把柄会摧毁这一防御性武器并失去信任。",
+   "source_spans": [
+    {
+     "source_hash": "3aee7d7777ef9268cfbb7fd24687d25362363d0e273ab6c2aeae961ac31d9b5a",
+     "paragraph_id": "P11",
+     "start": 2381,
+     "end": 2414,
+     "exact_text": "核武器是防御型武器，你一旦把它拿出来用了，这个武器就一点用都没有了",
+     "typography_normalized": false
+    }
+   ],
+   "numbers": [],
+   "speaker": "author",
+   "speaker_type": "author",
+   "freshness_class": "current",
+   "licence_tier": "B",
+   "usage": "paraphrase",
+   "source_id": "video_idea_zh",
+   "source_hash": "3aee7d7777ef9268cfbb7fd24687d25362363d0e273ab6c2aeae961ac31d9b5a",
+   "published_at": "2026-10-14T12:23:00+00:00",
+   "adapter": "video_idea",
+   "extract_version": "content-units-extract-v2+video-idea-v1",
+   "unit_id": "cu-1a21ce69d98be7019a05",
+   "no_reproduction": true,
+   "quote_allowed": false,
+   "attribution_required": true,
+   "as_of": "2026-10-14",
+   "as_of_source": "source_published",
+   "date_unknown": false,
+   "freshness_flags": [],
+   "published_at_norm": "2026-10-14"
+  },
+  "licence_tier": "B",
+  "attribution": {
+   "publisher": "FD想法素材",
+   "speaker": "author",
+   "speaker_type": "author",
+   "usage": "paraphrase"
+  },
+  "source": {
+   "id": "video-2110345625938309227",
+   "source_id": "video_idea_zh",
+   "publisher": "FD想法素材",
+   "author_name": "",
+   "title": "idea material 309227",
+   "url": "video-transcript://2110345625938309227",
+   "published_at": "2026-10-14T12:23:00+00:00",
+   "source_hash": "3aee7d7777ef9268cfbb7fd24687d25362363d0e273ab6c2aeae961ac31d9b5a",
+   "adapter": "video_idea",
+   "truncated": false,
+   "source_language": "zh"
+  },
+  "personas": [],
+  "prescreen": null,
+  "stored_at": "2026-10-15T13:03:51.179985+00:00",
+  "persona_tags": {
+   "investing_philosophy": {
+    "verdict": "relevant",
+    "confidence": 0.75,
+    "rule": "source-routes-v1:video_idea_zh"
+   },
+   "crypto_macro_zh": {
+    "verdict": "relevant",
+    "confidence": 0.75,
+    "rule": "source-routes-v1:video_idea_zh"
+   }
+  },
+  "tag_personas": [
+   "crypto_macro_zh",
+   "investing_philosophy"
+  ]
+ },
+ {
+  "unit_id": "cu-c96b2bbfa540d8853738",
+  "unit": {
+   "kind": "mechanism",
+   "statement": "真诚道歉作为一种能量下放是强者化解风险和整合关系的顶级智慧。",
+   "source_spans": [
+    {
+     "source_hash": "3aee7d7777ef9268cfbb7fd24687d25362363d0e273ab6c2aeae961ac31d9b5a",
+     "paragraph_id": "P16",
+     "start": 3593,
+     "end": 3602,
+     "exact_text": "道歉是一种顶级智慧",
+     "typography_normalized": false
+    }
+   ],
+   "numbers": [],
+   "speaker": "author",
+   "speaker_type": "author",
+   "freshness_class": "current",
+   "licence_tier": "B",
+   "usage": "paraphrase",
+   "source_id": "video_idea_zh",
+   "source_hash": "3aee7d7777ef9268cfbb7fd24687d25362363d0e273ab6c2aeae961ac31d9b5a",
+   "published_at": "2026-10-14T12:23:00+00:00",
+   "adapter": "video_idea",
+   "extract_version": "content-units-extract-v2+video-idea-v1",
+   "unit_id": "cu-c96b2bbfa540d8853738",
+   "no_reproduction": true,
+   "quote_allowed": false,
+   "attribution_required": true,
+   "as_of": "2026-10-14",
+   "as_of_source": "source_published",
+   "date_unknown": false,
+   "freshness_flags": [],
+   "published_at_norm": "2026-10-14"
+  },
+  "licence_tier": "B",
+  "attribution": {
+   "publisher": "FD想法素材",
+   "speaker": "author",
+   "speaker_type": "author",
+   "usage": "paraphrase"
+  },
+  "source": {
+   "id": "video-2110345625938309227",
+   "source_id": "video_idea_zh",
+   "publisher": "FD想法素材",
+   "author_name": "",
+   "title": "idea material 309227",
+   "url": "video-transcript://2110345625938309227",
+   "published_at": "2026-10-14T12:23:00+00:00",
+   "source_hash": "3aee7d7777ef9268cfbb7fd24687d25362363d0e273ab6c2aeae961ac31d9b5a",
+   "adapter": "video_idea",
+   "truncated": false,
+   "source_language": "zh"
+  },
+  "personas": [],
+  "prescreen": null,
+  "stored_at": "2026-10-15T13:03:51.362789+00:00",
+  "persona_tags": {
+   "investing_philosophy": {
+    "verdict": "relevant",
+    "confidence": 0.75,
+    "rule": "source-routes-v1:video_idea_zh"
+   },
+   "crypto_macro_zh": {
+    "verdict": "relevant",
+    "confidence": 0.75,
+    "rule": "source-routes-v1:video_idea_zh"
+   }
+  },
+  "tag_personas": [
+   "crypto_macro_zh",
+   "investing_philosophy"
+  ]
+ }
+]

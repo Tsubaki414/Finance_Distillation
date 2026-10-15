@@ -1236,6 +1236,8 @@ def post_checks(post_type, body, text, frame, licence_tier, units, persona, post
                                   siblings=shape.get('engage_siblings'))
     findings += contradiction_findings(body)
     findings += qa_levels.d_tier_findings(body)
+    from live import video_src   # Oct 15 (FD_VIDEO_SRC): idea material, own voice, no credit / verbatim / return claims
+    findings += video_src.findings(body, source, units, persona.lang)
     if frame and frame.get('never_name'):
         from live.source_display import never_name_findings
         findings += qa_levels.classify(never_name_findings(text, frame['never_name']), frame_found=True)

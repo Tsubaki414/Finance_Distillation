@@ -18,12 +18,14 @@ RULE = 'source-routes-v1'
 
 
 @lru_cache(maxsize=8)
-def _routes(path=str(REGISTRY), thin=False):
-    from live import thin_lane_src
+def _routes(path=str(REGISTRY), thin=False, video=False):
+    from live import thin_lane_src, video_src
     out = {}
     rows = json.loads(Path(path).read_text()).get('sources') or []
     if thin:   # Oct 13 (FD_THIN_LANE_SRC): thin-lane sources from live/thin_lane_sources.json
         rows = thin_lane_src.merged_registry_rows(rows)
+    if video:   # Oct 15 (FD_VIDEO_SRC): the daily video-idea source, routed to its two accounts
+        rows = list(rows) + [r for r in video_src.registry_rows() if r['id'] not in {x.get('id') for x in rows}]
     for row in rows:
         if row.get('route_accounts') and row.get('enabled', True):
             out[row['id']] = {'accounts': tuple(row['route_accounts']), 'beats': tuple(row.get('route_beats') or ())}
@@ -31,17 +33,20 @@ def _routes(path=str(REGISTRY), thin=False):
 
 
 def route(source_id, path=None):
-    from live import thin_lane_src
-    return _routes(str(path or REGISTRY), path is None and thin_lane_src.enabled()).get(source_id)
+    from live import thin_lane_src, video_src
+    return _routes(str(path or REGISTRY), path is None and thin_lane_src.enabled(),
+                   path is None and video_src.enabled()).get(source_id)
 
 
 def allowed(source, account, path=None):
     """False only for a routed source offered to an account outside its route, or a thin-lane source while
     FD_THIN_LANE_SRC=0 (its already stored units go to no account)."""
-    from live import thin_lane_src
+    from live import thin_lane_src, video_src
     sid = (source or {}).get('source_id')
     if path is None and thin_lane_src.blocked(sid):
         return False
+    if path is None and video_src.is_video_source(sid) and not video_src.enabled():
+        return False   # FD_VIDEO_SRC=0: already stored video-idea units go to no account
     r = route(sid, path)
     return r is None or account in r['accounts']
 

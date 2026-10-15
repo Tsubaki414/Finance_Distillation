@@ -38,6 +38,7 @@ def main():
     parser.add_argument('--x-per-source-max',type=int,default=None)
     parser.add_argument('--x-lang',choices=('en','zh'),default=None,help='fetch only X sources subscribed by at least one account of this language')
     parser.add_argument('--x-engage-only',action='store_true',help='Oct 9: fetch only the ENGAGE watchlist (big same-lane accounts, batched search) - the 11:00 / 16:00 Beijing engagement pulls')
+    parser.add_argument('--no-video',dest='video',action='store_false',help='Oct 15: skip the video-idea source (FD_VIDEO_SRC=0 does the same)')
     parser.add_argument('--no-dashboard',action='store_true')
     parser.add_argument('--dry-run',action='store_true')
     parser.add_argument('--only',nargs='+')
