@@ -258,10 +258,29 @@ def compute():
                      'drafts_pending': len(tdrafts) - len(posted_today),
                      'unmatched_7d': sum(1 for r in counted if r['match'] == 'unmatched'),
                      'views_24h': sum(r['views'] or 0 for r in posts if r['created_utc'] >= (now - timedelta(hours=24)).isoformat()),
-                     'views_7d': sum(r['views'] or 0 for r in posts if r['day'] in days7)})
+                     'views_7d': sum(r['views'] or 0 for r in posts if r['day'] in days7),
+                     # Oct 15: all-48 roster rows, honest status, likes / posts / lane for the last 7 Beijing days
+                     'no': a.get('no'), 'group': a.get('group') or 'main', 'beat': a.get('beat') or '',
+                     'lane': (a.get('retrieval_beats') or [''])[0],
+                     'likes_7d': sum(r['likes'] or 0 for r in posts if r['day'] in days7),
+                     'posts_7d': sum(per_day.values()),
+                     'metrics_posts_7d': sum(1 for r in counted if r['day'] in days7 and r['views'] is not None),
+                     'status': ('no_handle' if not h else 'no_fetch' if not pd.get('fetched_at') else
+                                'no_posts' if not posts else 'ok')})
         all_posts += posts
     with_h = [r for r in rows if r['handle'] and r['fetched_at']]
-    summary = {'accounts': len(with_h), 'posted_today': sum(1 for r in with_h if r['today_posts']),
+    top = sorted((p for p in all_posts if p['kind'] != 'thread' and p['day'] in days7 and p.get('views') is not None),
+                 key=lambda p: -(p['views'] or 0))[:10]
+    lanes = {}
+    for r in rows:
+        L = lanes.setdefault(r['lane'] or '-', {'lane': r['lane'] or '-', 'accounts': 0, 'tracked': 0, 'posts_7d': 0,
+                                                 'views_7d': 0, 'likes_7d': 0})
+        L['accounts'] += 1
+        L['tracked'] += 1 if (r['handle'] and r['fetched_at']) else 0
+        L['posts_7d'] += r['posts_7d']; L['views_7d'] += r['views_7d']; L['likes_7d'] += r['likes_7d']
+    summary = {'accounts': len(with_h), 'accounts_total': len(rows), 'tracked': len(with_h),
+               'untracked': [r['id'] for r in rows if not (r['handle'] and r['fetched_at'])],
+               'likes_7d': sum(r['likes_7d'] for r in with_h), 'posted_today': sum(1 for r in with_h if r['today_posts']),
                'posted_yesterday': sum(1 for r in with_h if r['yesterday_posts']),
                'idle': [r['handle'] for r in with_h if (r['idle_days'] or 0) >= 2],
                'views_24h': sum(r['views_24h'] for r in with_h), 'views_7d': sum(r['views_7d'] for r in with_h),
@@ -277,7 +296,8 @@ def compute():
     except (OSError, ValueError, KeyError, IndexError):
         pass
     out = {'fetched_at': max(fetched, default=''), 'built_at': now.isoformat(), 'days': days7,
-           'summary': summary, 'accounts': rows, 'posts': all_posts,
+           'summary': summary, 'accounts': rows, 'posts': all_posts, 'top_posts': top,
+           'lanes': sorted(lanes.values(), key=lambda x: -x['views_7d']),
            'drafts_posted': [{'id': d['id'], 'day': d['day'], 'account_id': d['account_id'], 'url': d['posted']}
                              for d in drafts if d.get('posted')]}
     STORE.mkdir(parents=True, exist_ok=True)
@@ -299,20 +319,32 @@ td.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
 .tx{max-width:360px;white-space:normal;color:var(--ink2)}h2{font-size:15px;margin:26px 0 10px}
 .scroll{overflow-x:auto}a{color:var(--accent)}</style></head><body><div class="wrap">__NAV__
 <header><div class="logo">FD</div><div class="ttl"><h1>数据监测 · 账号实际发帖</h1><p id="sub"></p></div><div class="stats" id="stats"></div></header>
-<div id="idle"></div><h2>账号（近 7 天，北京日）</h2><div class="scroll"><table id="acc"></table></div>
+<div id="asof"></div><div id="idle"></div>
+<h2>分赛道汇总（近 7 天）</h2><div class="scroll"><table id="lanes"></table></div>
+<h2>热门帖子 Top 10（近 7 天，按浏览）</h2><div class="scroll"><table id="top"></table></div>
+<h2>全部账号（近 7 天，北京日）</h2><div class="scroll"><table id="acc"></table></div>
 <h2>帖子明细 <select id="fa"><option value="">全部账号</option></select> <select id="fm"><option value="">全部</option><option value="matched">匹配草稿</option><option value="unmatched">非我们草稿</option></select></h2>
 <div class="scroll"><table id="posts"></table></div></div>
 <script>const D=__DATA__;
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmt=n=>n==null?'-':n>=10000?(n/10000).toFixed(1)+'万':String(n);
 const S=D.summary,t=s=>s?new Date(s).toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false}).slice(0,-3):'-';
-document.getElementById('sub').textContent=`数据来源 X 公开时间线（twitter241，每号最新 40 条）· 抓取于 ${t(D.fetched_at)} 北京时间 · 每 2 小时随蹭流量拉取 + 夜间生成自动更新`;
-document.getElementById('stats').innerHTML=[['今日已发账号',S.posted_today+'/'+S.accounts,'ok'],['昨日已发账号',S.posted_yesterday+'/'+S.accounts,''],['闲置 2 天+',S.idle.length,S.idle.length?'hd':'ok'],['24h 浏览',fmt(S.views_24h),''],['7 天浏览',fmt(S.views_7d),''],['今日草稿已发',S.drafts_posted_today+'/'+S.drafts_today,'wn']].map(([a,b,c])=>`<span class="stat ${c}"><small>${a}</small><b>${b}</b></span>`).join('');
+const ageMin=D.fetched_at?Math.round((Date.parse(D.built_at)-Date.parse(D.fetched_at))/60000):null;
+const ageTxt=ageMin==null?'无':ageMin<90?ageMin+' 分钟前':(ageMin/60).toFixed(1)+' 小时前';
+document.getElementById('sub').textContent=`数据截至 ${t(D.fetched_at)} 北京时间（${ageTxt}）· 页面生成于 ${t(D.built_at)} · 来源 X 公开时间线（每号最新 40 条）· 约每小时随引用/回复拉取与夜间生成更新`;
+const stale=ageMin==null||ageMin>180, un=S.untracked||[];
+document.getElementById('asof').innerHTML=(stale?`<p class="idle">⚠ 数据已过期：最近一次抓取 ${ageTxt}（超过 3 小时），数字可能偏低。</p>`:'')+(un.length?`<p class="um">⚠ ${un.length}/${S.accounts_total} 个账号尚未接入 X 账号（没有 handle，无法抓取已发帖）：这些账号显示“未接入”，不是 0 播放。接入后才会有数据。</p>`:'')+`<p style="color:var(--mute);font-size:12px">已接入 ${S.tracked}/${S.accounts_total} 个账号 · 浏览/点赞为抓取时的累计值，刚发出的帖子数字还会继续涨；“-”表示暂无数据。</p>`;
+document.getElementById('stats').innerHTML=[['已接入账号',S.tracked+'/'+S.accounts_total,un.length?'wn':'ok'],['今日已发账号',S.posted_today+'/'+S.tracked,'ok'],['昨日已发账号',S.posted_yesterday+'/'+S.tracked,''],['闲置 2 天+',S.idle.length,S.idle.length?'hd':'ok'],['7 天浏览',fmt(S.views_7d),''],['7 天点赞',fmt(S.likes_7d),''],['今日草稿已发',S.drafts_posted_today+'/'+S.drafts_today,'wn']].map(([a,b,c])=>`<span class="stat ${c}"><small>${a}</small><b>${b}</b></span>`).join('');
 document.getElementById('idle').innerHTML=S.idle.length?`<p class="idle">闲置（今天和昨天都没发）：${S.idle.map(h=>'@'+esc(h)).join('、')}</p>`:'';
+document.getElementById('lanes').innerHTML=`<tr><th>赛道（首选 beat）</th><th>账号数</th><th>已接入</th><th>帖子 7d</th><th>浏览 7d</th><th>点赞 7d</th></tr>`+D.lanes.map(l=>`<tr><td>${esc(l.lane)}</td><td class="n">${l.accounts}</td><td class="n">${l.tracked}</td><td class="n">${l.tracked?l.posts_7d:'-'}</td><td class="n">${l.tracked?fmt(l.views_7d):'-'}</td><td class="n">${l.tracked?fmt(l.likes_7d):'-'}</td></tr>`).join('');
+const nm={};D.accounts.forEach(r=>nm[r.id]=r.name);
+document.getElementById('top').innerHTML=D.top_posts.length?`<tr><th>账号</th><th>发出 北京</th><th>浏览</th><th>赞</th><th>内容</th><th>X</th></tr>`+D.top_posts.map(p=>`<tr><td>${esc(nm[p.account_id]||p.handle)}</td><td>${p.bjt}</td><td class="n">${fmt(p.views)}</td><td class="n">${fmt(p.likes)}</td><td class="tx">${esc(p.text.slice(0,100))}</td><td><a href="${esc(p.url)}" target="_blank" rel="noopener">打开</a></td></tr>`).join(''):'<tr><td>暂无带浏览数据的帖子</td></tr>';
 const days=D.days.map(d=>d.slice(5));
 const grid=r=>{const p=r.per_day;return p.map((n,i)=>{let gap=false;if(!n){let a=i,b=i;while(a>0&&!p[a-1])a--;while(b<p.length-1&&!p[b+1])b++;gap=b-a>=1}return `<span class="g${n?'':gap?' gap':' z'}" title="${D.days[i]}">${n}</span>`}).join('')};
-const A=[...D.accounts].sort((a,b)=>(b.idle_days??-1)-(a.idle_days??-1)||a.handle.localeCompare(b.handle));
-document.getElementById('acc').innerHTML=`<tr><th>账号</th><th>handle</th><th>最后发帖 北京 / 伦敦</th><th>${days.map(d=>`<span class="g z" style="background:none">${d.slice(3)}</span>`).join('')}</th><th>连续未发(天)</th><th>今日草稿 已发/待发</th><th>非草稿帖 7d</th><th>浏览 24h</th><th>浏览 7d</th></tr>`+A.map(r=>`<tr><td>${esc(r.name)}</td><td>${r.handle?`<a href="https://x.com/${esc(r.handle)}" target="_blank" rel="noopener">@${esc(r.handle)}</a>`:'<span class="idle">无 handle</span>'}</td><td>${esc(r.last_bjt||'-')} / ${esc(r.last_lon||'-')}</td><td>${grid(r)}</td><td class="n ${r.idle_days>=2?'idle':''}">${r.idle_days??'-'}</td><td class="n">${r.drafts_posted} / ${r.drafts_pending}</td><td class="n">${r.unmatched_7d}</td><td class="n">${fmt(r.views_24h)}</td><td class="n">${fmt(r.views_7d)}</td></tr>`).join('');
+const ST={no_handle:'未接入（无 handle）',no_fetch:'已配置，尚未抓取',no_posts:'已接入，近 7 天无已发帖',ok:''};
+const A=[...D.accounts].sort((a,b)=>(a.no||99)-(b.no||99));
+const off=r=>r.status==='no_handle'||r.status==='no_fetch';
+document.getElementById('acc').innerHTML=`<tr><th>#</th><th>账号</th><th>handle</th><th>状态</th><th>最后发帖 北京 / 伦敦</th><th>${days.map(d=>`<span class="g z" style="background:none">${d.slice(3)}</span>`).join('')}</th><th>连续未发(天)</th><th>今日草稿 已发/待发</th><th>帖子 7d</th><th>浏览 7d</th><th>点赞 7d</th><th>浏览 24h</th></tr>`+A.map(r=>{const e=off(r),v=x=>e?'<span style="color:var(--faint)">未接入</span>':(r.status==='no_posts'?'-':x);return `<tr><td class="n">${r.no??''}</td><td>${esc(r.name)}${r.group==='new12'?' <span class="mt">新号</span>':''}</td><td>${r.handle?`<a href="https://x.com/${esc(r.handle)}" target="_blank" rel="noopener">@${esc(r.handle)}</a>`:'<span class="um">无 handle</span>'}</td><td>${r.status==='ok'?'':`<span class="${e?'um':''}">${ST[r.status]}</span>`}</td><td>${esc(r.last_bjt||'-')} / ${esc(r.last_lon||'-')}</td><td>${e?'-':grid(r)}</td><td class="n ${r.idle_days>=2?'idle':''}">${r.idle_days??'-'}</td><td class="n">${r.drafts_posted} / ${r.drafts_pending}</td><td class="n">${v(r.posts_7d)}</td><td class="n">${v(fmt(r.views_7d))}</td><td class="n">${v(fmt(r.likes_7d))}</td><td class="n">${v(fmt(r.views_24h))}</td></tr>`}).join('');
 const fa=document.getElementById('fa'),fm=document.getElementById('fm');fa.innerHTML+=A.filter(r=>r.handle).map(r=>`<option value="${esc(r.handle)}">@${esc(r.handle)}</option>`).join('');
 const KD={original:'原创',reply:'回复',quote:'引用',thread:'串'};
 function rp(){const P=D.posts.filter(p=>(!fa.value||p.handle===fa.value)&&(!fm.value||(fm.value==='unmatched'?p.match==='unmatched':p.match!=='unmatched'))).sort((a,b)=>b.created_utc.localeCompare(a.created_utc));
@@ -330,7 +362,7 @@ def build_page(out_dir):
     (Path(out_dir) / 'monitor').mkdir(parents=True, exist_ok=True)
     (Path(out_dir) / 'monitor/index.html').write_text(page)
     s = data['summary']
-    print(f"monitor page: {s['accounts']} accounts, posted today {s['posted_today']}, idle {len(s['idle'])}")
+    print(f"monitor page: {s['accounts_total']} accounts listed, {s['accounts']} tracked, posted today {s['posted_today']}, idle {len(s['idle'])}")
 
 
 def main(argv=None):
