@@ -37,6 +37,8 @@ else
     if [[ -n "${!GKEY:-}" ]]; then echo "key $GKEY: set"; else echo "key $GKEY: missing"; exit 2; fi
 fi
 export FD_PACK_AUGMENT=1
+# Oct 16 (Fiona): mind-map fill tier (last tier after fresh + 回看/常青; live/mindmap/fill.py, docs/MINDMAP_FILL.md). 0 = off.
+export FD_MINDMAP_FILL="${FD_MINDMAP_FILL:-1}"
 /workspace/fd_venv/bin/python scripts/persona_factory.py >/dev/null   # refresh universes (no model calls)
 # Feedback loop (FD_FEEDBACK, default 1): /admin decisions of the last days (已发 flag included) -> per-account soft
 # priors by angle / 母题 type / post_kind / format / media + stats.json for the /admin 反馈闭环 panel + edit diffs
