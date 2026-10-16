@@ -25,7 +25,9 @@ def enabled(env=None):
 
 
 def is_archive(row):
-    return row.get('post_kind') == POST_KIND or str(row.get('id') or '').startswith(('arc-', 'evg-'))
+    # Oct 16: mind-map fill rows (post_kind 'mindmap', the last fill tier) yield their slot to a fresh standalone like 回看 rows
+    return (row.get('post_kind') in (POST_KIND, 'mindmap')
+            or str(row.get('id') or '').startswith(('arc-', 'evg-', 'mm-')))
 
 
 def is_standalone(row):

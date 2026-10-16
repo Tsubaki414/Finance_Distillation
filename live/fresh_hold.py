@@ -100,6 +100,11 @@ def check(row: dict, env: dict | None = None) -> tuple[bool, str | None, dict]:
     if not str(row.get('text') or row.get('body') or '').strip():
         return False, None, {'skipped': 'no text'}
 
+    if str(row.get('post_kind') or row.get('post_type') or '') == 'mindmap' or str(row.get('id') or '').startswith('mm-'):
+        # Oct 16 (Fiona): mind-map fill rows summarise long-form blogs / transcripts / books: freshness-exempt like 常青
+        # (the source is dated in row['source'] and credited in the image footer).
+        return False, None, {'mindmap': True, 'exempt': 'freshness'}
+
     if is_archive_row(row):
         # Archive material is deliberately old: gate it on framing, not on age.
         try:

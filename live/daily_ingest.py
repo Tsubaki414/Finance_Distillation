@@ -403,7 +403,7 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
         x_rapid=None, x_apify=None, x_subs=None, x_extract_batch=None, x_llm=None,
         fetchers=None, extract=None, jev=None, backup=None, refresh=None, state_path=None,
         lane_flashes=True, lane_flash_budget_usd=None, lane_flash_fetch=None,
-        video=True, video_bg=None, video_llm=None, video_extract_batch=None, video_dir=None):
+        video=True, longform=True, video_bg=None, video_llm=None, video_extract_batch=None, video_dir=None):
     from ml import budget
     from live import content_store, jev_front, registry
     from scripts.run_content_adapters import filter_known, ingest_batches
@@ -529,6 +529,11 @@ def run(*, store=ROOT/'live/store/content_units', runs_dir='/workspace/x/ingest_
                 nonlocal video_handle
                 video_handle=video_bg() if video_bg is not None else video_src.start_background(now=started,out_dir=video_dir,state_file=state_path)
             step('video_start',start_video)
+        # Oct 16 (FD_LONGFORM_SRC, default 1): long-form blog posts + YouTube transcripts for the mind-map fill tier
+        # (live/longform_src.py). Detached child, no LLM, own wall-clock budget; this ingest never waits for it.
+        from live import longform_src
+        if longform and longform_src.enabled() and (not only or 'longform' in only) and fetchers is None:
+            step('longform_start',lambda: longform_src.start_background())
         # Oct 8 evening: crypto flash desks filtered to the niche lanes (no LLM here; own ring fence below).
         lane_plan=None
         from live import lane_sources

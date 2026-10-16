@@ -2354,6 +2354,17 @@ def main():
         except Exception as exc:   # noqa: BLE001
             summary['archive'] = {'error': f'{type(exc).__name__}: {str(exc)[:200]}'}
     # ---- end 回看 hook
+    # ---- mind-map hook (live/mindmap/fill.py): FD_MINDMAP_FILL=1 (default OFF) - LAST fill tier. An account that still has
+    # no ready standalone after the fresh rounds and the 回看 / 常青 hook gets a mind map of a stored long-form source
+    # (blog / video transcript / book summary; live/longform_src.py). Never fatal to the day.
+    if (os.environ.get('FD_MINDMAP_FILL', '0') == '1' and not args.select_only and not args.midday
+            and os.environ.get('FD_ENGAGE_ONLY', '0') != '1'):
+        try:
+            from live.mindmap import fill as _mm_fill
+            summary['mindmap'] = _mm_fill.fill_gaps(args.day.isoformat(), accounts=[a['id'] for a in accounts])
+        except Exception as exc:   # noqa: BLE001
+            summary['mindmap'] = {'error': f'{type(exc).__name__}: {str(exc)[:200]}'}
+    # ---- end mind-map hook
     # Oct 12 (FD_ONE_PER_STORY / FD_FRESH_HOLD): whole-day sweep after every round and the 回看 / 周年 hooks have
     # written. Catches same-account same-story duplicates that no single round could see (the 10-12 audit found
     # crypto_btc_cycle_zh with 4 drafts off one ChainCatcher article across the nightly + fill rounds) and re-checks
