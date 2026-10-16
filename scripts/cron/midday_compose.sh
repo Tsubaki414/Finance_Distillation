@@ -50,8 +50,14 @@ fi
 exec 9>/tmp/fd_midday_compose_"${LANG_ARG}".lock
 if ! flock -n 9; then echo "previous midday_compose (${LANG_ARG}) still running: skip"; exit 0; fi
 # daily_compose.sh takes /workspace/x/compose_runs/.daily_compose.lock itself and exits when it is held.
-if pgrep -f "python[0-9.]* scripts/daily_(compose|ingest)\.py" >/dev/null 2>&1; then
-    echo "daily_compose or daily_ingest is running: skip"; exit 0
+# Oct 16 (lanes; FD_LANES=0 = old behaviour): a running daily_compose of another lane no longer blocks midday; only a
+# running daily_ingest.py (content-store writer) defers it.
+if [[ "${FD_LANES:-1}" == "0" ]]; then
+    if pgrep -f "python[0-9.]* scripts/daily_(compose|ingest)\.py" >/dev/null 2>&1; then
+        echo "daily_compose or daily_ingest is running: skip"; exit 0
+    fi
+elif pgrep -f "python[0-9.]* scripts/daily_ingest\.py" >/dev/null 2>&1; then
+    echo "daily_ingest is running: skip"; exit 0
 fi
 
 # Key checks (never print values)

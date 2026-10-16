@@ -24,8 +24,17 @@ H=$(TZ=Asia/Shanghai date +%-H)
 if (( H < 8 || H > 21 )); then echo "Beijing hour $H outside 08-21: skip"; exit 0; fi
 exec 9>/tmp/fd_engage_pull.lock   # Oct 10: every 2h; a pull still running (slow fill) makes the next one skip
 if ! flock -n 9; then echo "previous engage_pull still running: skip"; exit 0; fi
-if pgrep -f "python[0-9.]* scripts/daily_(compose|ingest)\.py" >/dev/null; then   # not a CC prompt mentioning them
-    echo "another compose / ingest run is active: skip"; exit 0
+# Oct 16 (Fiona: independent lanes; FD_LANES=0 = old behaviour): a running daily_compose (nightly / fill / idle guard /
+# midday) no longer blocks this pull - its fill takes only the engage lane lock inside daily_compose.sh and shares the
+# inbox / ledgers through live/lanes.py. Only a running daily_ingest.py (it rewrites the content store) still defers us.
+if [[ "${FD_LANES:-1}" == "0" ]]; then
+    if pgrep -f "python[0-9.]* scripts/daily_(compose|ingest)\.py" >/dev/null; then   # not a CC prompt mentioning them
+        echo "another compose / ingest run is active: skip"; exit 0
+    fi
+elif pgrep -f "python[0-9.]* scripts/daily_ingest\.py" >/dev/null; then
+    echo "daily_ingest is running (content store writer): skip"; exit 0
+elif pgrep -f "python[0-9.]* scripts/daily_compose\.py" >/dev/null; then
+    echo "a daily_compose of another lane is running: engage lane continues in parallel"
 fi
 SUBROUTER_ENV="${FD_SUBROUTER_ENV:-$HOME/.secrets/subrouter.env}"
 if [[ -z "${SUBROUTER_API_KEY:-}" && -r "$SUBROUTER_ENV" ]]; then set -a; . "$SUBROUTER_ENV"; set +a; fi

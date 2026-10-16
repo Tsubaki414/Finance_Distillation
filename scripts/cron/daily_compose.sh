@@ -16,8 +16,29 @@ exec >> "$LOG" 2>&1
 printf 'START %s\n' "$(date -Is)"
 trap 'status=$?; printf "END %s exit_code=%s\n" "$(date -Is)" "$status"' EXIT
 # Oct 9: one compose at a time (nightly, reruns, engage pulls); a second one exits instead of duplicating drafts.
-exec 9>/workspace/x/compose_runs/.daily_compose.lock
-if ! flock -n 9; then echo "another daily_compose.sh holds the lock: skip"; exit 0; fi
+# Oct 16 (Fiona: independent lanes, FD_LANES=0 = the old single global lock): one lock PER LANE, so a long main
+# compose no longer makes the engage pull / midday fresh / fill skip. Lane = FD_LANE, else engage (FD_ENGAGE_ONLY=1),
+# midday (FD_MIDDAY=1), else main. main keeps the historic .daily_compose.lock file (a pre-lane compose still running
+# keeps excluding a second main). Shared state is protected inside the python (live/lanes.py), not by this lock.
+LANE="${FD_LANE:-}"
+if [[ -z "$LANE" ]]; then
+    if [[ "${FD_ENGAGE_ONLY:-0}" == "1" ]]; then LANE=engage; elif [[ "${FD_MIDDAY:-0}" == "1" ]]; then LANE=midday; else LANE=main; fi
+fi
+export FD_LANE="$LANE"
+LOCKDIR=/workspace/x/compose_runs
+LOCKFILE="$LOCKDIR/.daily_compose.lock"
+if [[ "${FD_LANES:-1}" != "0" ]]; then
+    case "$LANE" in
+        main) ;;
+        midday) LOCKFILE="$LOCKDIR/.lane_midday_${FD_MIDDAY_LANG:-all}.lock" ;;
+        *) LOCKFILE="$LOCKDIR/.lane_${LANE}.lock" ;;
+    esac
+fi
+echo "lane: $LANE (lock ${LOCKFILE##*/}, FD_LANES=${FD_LANES:-1})"
+exec 9>"$LOCKFILE"
+if ! flock -n 9; then echo "another daily_compose.sh of lane $LANE holds the lock: skip"; exit 0; fi
+# Oct 16: one latency row per model call (account, stage, seconds, status) next to the printed [latency] lines.
+export FD_LATENCY_JSONL="${FD_LATENCY_JSONL:-$LOCKDIR/latency_$(TZ=Asia/Shanghai date +%F).jsonl}"
 # Oct 8: subrouter (flat-rate Gemini relay) is the PRIMARY Gemini provider whenever SUBROUTER_API_KEY is set; micuapi
 # (GEMINI_RELAY_API_KEY) is the automatic same-model fallback. The key file is private (chmod 600, outside the repo,
 # never committed, printed or logged; only key NAMES are logged). FD_GEMINI_PROVIDER=relay forces micuapi only.
@@ -121,6 +142,11 @@ echo "compose budget \$${BUDGET} (day total cap \$${FD_DAILY_TOTAL_USD:-25} minu
 /workspace/fd_venv/bin/python scripts/idle_guard.py || echo "idle guard failed (compose result unaffected)"
 # Oct 13: 数据监测 fetch (skips if fetched < 25 min ago, e.g. by the engage pull that called us). Non-fatal.
 /workspace/fd_venv/bin/python scripts/post_monitor.py --fetch 2>&1 || echo "post_monitor fetch failed: $?"
+# Oct 16 (lanes): dashboard rebuild + Vercel deploy are one-at-a-time across lanes (blocking wait, <= 25 min).
+if [[ "${FD_LANES:-1}" != "0" ]]; then
+    exec 8>"$LOCKDIR/.dashboard.lock"
+    flock -w 1500 8 || echo "dashboard lock busy after 25 min: rebuilding anyway"
+fi
 # Rebuild the operator copy-paste dashboard (static HTML + per-day CSV); system python3 has PIL for avatar thumbnails.
 /workspace/fd_venv/bin/python scripts/build_ops_dashboard.py || echo "ops dashboard rebuild failed (compose result unaffected)"
 # Redeploy the static ops page to Vercel (project fd-ops-dashboard, linked in the ops dir). Non-fatal; skip with
