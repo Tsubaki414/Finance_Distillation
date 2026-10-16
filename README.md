@@ -282,6 +282,15 @@ flowchart LR
 
 ---
 
+## 14a. 10-16 更新
+
+- **软性 AI 味评分**（`live/slop_score.py`，`FD_SLOP_SCORE`，默认开）：每个「AI 味」特征累计进同一个单帖分数，强 2 / 中 1 / 弱 0.5；总分达到阈值（`FD_SLOP_THRESHOLD`，默认 3.0）先做一次改写重试（确定性删改 + humanize LLM 改写），仍超阈值则 HOLD（硬质检项 `ai_slop_score`，needs_review，不会发布）。引号内文字和带数字的句子对弱词汇类特征豁免。回滚：`FD_SLOP_SCORE=0`。
+- **视频转写语义切块**（`live/video_src.py`，`FD_VIDEO_CHUNK`，默认开）：转写按段落 / 时间戳切成约 6000 字的块，块间重叠 400 字，每个来源最多 8 块；每个来源花费上限 `FD_VIDEO_SOURCE_USD`（默认 0.06），单次 extract 总时长 `FD_VIDEO_EXTRACT_S`（默认 240 秒）。`verify_units` 会丢弃数字或公司名在转写原文中找不到的内容单元，以及含个人姓名的单元。回滚：`FD_VIDEO_CHUNK=0`（恢复旧的 8000 字截断、每条转写一次调用）。
+- **relay 修复**（`live/stage_models.py`、`live/erisedai_distillation_client.py`）：`subrouter_model()` 把 `gemini-3.1-pro-preview` 映射为 `gemini-3.1-pro`，请求带 `stream:false`；relay 仍返回 SSE 时抛 `RelaySSEError`，不在同一模型上重试（provider 兜底仍可走）。回滚：`FD_SUBROUTER_PRO_ID=preview`。
+- **账号 handle 补齐**：`live/fd_accounts_new.json` 和 `live/fd_accounts_new12.json` 里的账号都已填 handle，共 48 个账号全部有 handle，运营看板跟踪 48/48。
+
+---
+
 ## 15. 手动运行
 
 在 box 上（venv：`/workspace/fd_venv`；脚本会自己从 `~/.secrets/subrouter.env` 读 key）：
