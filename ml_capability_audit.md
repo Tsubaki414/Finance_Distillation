@@ -4,18 +4,13 @@
 
 ## 结论先行
 
-你的归类成立。当前**实际进入生成路径**的能力是：
+仓库包含真实训练过的经典 ML：TF-IDF + 逻辑回归、嵌入 + 逻辑回归、KMeans、PCA，有 fit、时间切分和 bootstrap。它们用于离线诊断、作者风格识别和画像分析。
 
-> deterministic rule + descriptive statistics + LLM prompting + evidence ledger prototype
+当前进入成稿路径的是：
 
-**不是 ML distillation pipeline。**
+> deterministic rule + descriptive statistics + LLM prompting + evidence ledger
 
-需要区分两件被混为一谈的事：
-
-1. **仓库里确实存在真实的、训练过的 classical ML**（TF-IDF+LogisticRegression、embedding+LogisticRegression、KMeans、PCA），有 fit、有时间切分、有 bootstrap。这部分是真的。
-2. **但它们全部位于离线诊断分支，没有一个进入 S1 的生成路径。** S1 那一格的 prompt 里没有任何 donor 名、post_id 或帖子正文（下方 §14 有实证）。
-
-所以"有 ML"与"ML 参与了蒸馏"是两个命题，前者成立，后者不成立。
+即 ML 负责离线分析与画像，成稿环节由规则、检索和 LLM 提示完成。S1 的 prompt 中不含 donor 名、post_id 或帖子正文（见 §14）。
 
 ## 逐项盘点
 
