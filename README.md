@@ -4,7 +4,7 @@ FD 是 Mango Labs 的 **X（Twitter）多账号金融内容流水线**：每天�
 
 - **系统不会自动发帖。** 它只产出草稿、建议发帖时间和配图，并在发帖后自动识别「已发」。
 - 当前开发分支：`fd-phase0`（`main` 是 Phase 0 之前的冻结快照）。
-- 本 README 描述 2026-10-10 的系统现状（HEAD ≈ `eb418a9`）。更细的设计见 `docs/`（`PIPELINE_AS_BUILT.md`、`HOTSPOT.md`、`TOPIC_DIVERSITY.md`、`MEDIA_SOURCES.md`、`ARCHIVE_LOOKBACK.md`、`DELPHI_DIGEST.md`、`RUNBOOK.md`）。
+- 本 README 描述 2026-10-16 的系统现状（10-10 之后的主要变化：独立 lane、命名实体保留、思维导图补位层、长文来源，见第 3、4、7、14 节）。更细的设计见 `docs/`（`PIPELINE_AS_BUILT.md`、`HOTSPOT.md`、`TOPIC_DIVERSITY.md`、`MEDIA_SOURCES.md`、`ARCHIVE_LOOKBACK.md`、`DELPHI_DIGEST.md`、`LANES.md`、`MINDMAP_FILL.md`、`RUNBOOK.md`）。
 
 ---
 
@@ -94,8 +94,21 @@ flowchart LR
 
 - **出稿日 = 北京日期**：伦敦 23:13 那次跑出的是第二天北京日期的稿，08:00 第一个发帖时段前上看板。
 - **夜间可续跑**：当天北京日的 ingest 已成功且不到 4 小时，重跑会跳过 ingest 直接 compose（`FD_INGEST_RESUME`）；compose 只补当天缺的槽位。
-- **互斥**：`daily_compose.sh` 持有 flock，同时只有一个 compose；`engage_pull.sh` / `midday_compose.sh` 发现别的 compose / ingest 在跑就跳过。engage_pull 只在北京 08–21 点执行，midday 只在北京 09–12（zh）/ 18–21（en）点执行。
+- **互斥（10-16 起按 lane 分锁）**：`daily_compose.sh` 每个 lane 一把 flock（见下「独立 lane」），同一 lane 同时只有一个 compose；`engage_pull.sh` / `midday_compose.sh` **只在 `daily_ingest.py` 在跑时跳过**（它改写内容库），**不再因为有 compose 在跑而跳过**。engage_pull 只在北京 08–21 点执行，midday 只在北京 09–12（zh）/ 18–21（en）点执行。
+- **例程只负责启动脚本**：例程不再自己判断「compose 在跑就跳过 / 杀掉」，直接运行 `engage_pull.sh` / `midday_compose.sh [zh|en]`，是否跳过由脚本决定（见 `docs/LANES.md`「Routine prompt change」）。`FD_LANES=0` 恢复旧行为（单把全局锁 + pgrep 跳过）。
 - **夜间顺序**：ingest → feedback_priors（/admin 决定）→ 每天一次 perf_review（昨天的阅读量）+ perf_priors → compose → 配图 → 重建看板 → `vercel deploy --prod`。
+
+### 独立 lane（`FD_LANES`，默认 1；`docs/LANES.md`）
+
+起因：一次 4 小时以上的主 compose 会让白天互动抓取、午间新鲜稿全部被跳过。现在：
+
+- **lane 与锁**（`live/lanes.py`）：`main`（`.daily_compose.lock`）、`engage`、`midday`（按 zh / en 分锁）、`fill`、`mindmap`，各自一把 flock；lane 由 `FD_LANE` 指定，否则按 `FD_ENGAGE_ONLY` / `FD_MIDDAY` 推断。补槽 / 思维导图用 `scripts/lane_fill.py --lane fill|mindmap`，不占主锁。
+- **单次模型调用超时** `FD_CALL_TIMEOUT_S`（默认 180 秒，且不超过该账号剩余时间）；**单账号总时限** `FD_ACCOUNT_TIMEOUT_S`（默认 900 秒，另有 `FD_ACCOUNT_GRACE_S` 30 秒宽限），超时后不再重试 / 兜底，该行记为 `error: account_timeout`。
+- **延迟日志**：每次调用打印 `[latency] account= stage= seconds= status=`；设置 `FD_LATENCY_JSONL` 时另写 json 行（cron 默认写 `/workspace/x/compose_runs/latency_<北京日期>.jsonl`）。
+- **跨 lane 认领**：选题阶段先在 `locks/claims_<日期>.json` 认领 `账号:来源` 和互动目标帖（2 小时 TTL，只有别的 lane 的认领才会挡），写 inbox 时在日锁内再查一次「每号每天同一故事一条」；inbox 文件原子写、读改写加锁，各 ledger 追加加锁。
+- **全天花费账本**：`locks/spend_<日期>.json` 汇总所有 lane 的付费花费，每篇付费稿前对照 `FD_DAILY_TOTAL_USD`（25）；subrouter 仍记 $0。
+- **回滚**：`FD_LANES=0`（单全局锁、pgrep 跳过、无时限 / 认领 / 延迟日志）。已知残余（软上限可被并发 lane 略微超出等）见 `docs/LANES.md`。
+
 - 日志：`/workspace/x/ingest_runs/`、`/workspace/x/compose_runs/`、`/workspace/x/engage_runs/`、`/workspace/x/midday_runs/`（文件名用伦敦日期）。
 
 ---
@@ -109,7 +122,8 @@ flowchart LR
 - **X**：各号自己的 X 源 + donor 相邻账号（`live/x_breadth.json`），RapidAPI twitter241 批量搜索，有每日调用上限。
 - **结构化数据**（免 key、不调模型）：DefiLlama（稳定币收益、perp OI、预测市场、Sol/Base 链）、Hyperliquid、Polymarket、CoinGecko meme 板块。
 - **研究源**：Four Pillars（RSS + X）。**Delphi Digital** 只作选题参考：内容不进内容库、不进写作提示；草稿若引用 Delphi、用其标题措辞或用其独有数字会被 HOLD（`live/licence_rules.py`）。
-- **授权分级**：内容单元带日期和授权等级（A 一手 / B 转述），只有 A/B 进内容库；互动目标帖按 B + 不得复制原文处理。
+- **授权分级**：内容单元带日期和授权等级（A 一手 / B 转述），只有 A/B 进内容库；互动目标帖按 B + 不得复制原文处理。`manual_finvaulta`（人工添加的 Finvaulta 研报摘要站）在 `live/source_licence.json` 里是 B 级、只写事实：不得复制原文、不得引语、需署名（`no_reproduction` / `quote_allowed=false` / `attribution_required`）。
+- **长文来源（long-form）**：`daily_ingest` 的 `longform_start` 步骤起一个分离的子进程（`python -m live.longform_src collect`，不调模型、不等待；`FD_LONGFORM_SRC=0` 或 `--no-longform` 关闭），按 `live/longform_sources.json`（11 个博客、7 个 YouTube 频道）抓博客 RSS 和 YouTube 字幕 / 音频转写，存到 `/workspace/x/longform_src/`（`FD_LONGFORM_DIR`，不进 git）。`<目录>/books/*.txt`（可附同名 `.json` 元数据）里手工放的书籍摘要和 `FD_VIDEO_SRC` 转写一起进池，供思维导图使用。详见 `docs/MINDMAP_FILL.md`。
 - 规模（10-10）：内容单元约 5.5k 条（`live/store/content_units/units.jsonl`，本地，不进 git）。
 
 ---
@@ -144,7 +158,19 @@ flowchart LR
 - **兜底链 + 熔断**（`live/erisedai_distillation_client.py`）：subrouter 可用性错误先重试 2 次（退避 5s / 15s）→ 再落到 micuapi（同模型，付费）。连续 3 次失败熔断 10 分钟；micuapi 一旦回「额度不足」，**当天（伦敦日）**所有进程都不再用它（`/workspace/x/compose_runs/.provider_dead.json`）。单篇失败不会中断整轮。白天 engage / midday 只用 subrouter（脚本里 unset 付费 key）。
 - **预算**：全天（ingest + compose）≤ **$25**：`FD_DAILY_COMPOSE_BUDGET_USD=25` 减去当晚 ingest 实花（`FD_DAILY_TOTAL_USD=25`）。subrouter 调用照记 token 和名义费用，但记 $0、不占预算；只有付费兜底和 ingest 计费。
 - **写法规则**：第一句要有判断或具体事实 / 第一人称观察；第三方预测要写明是谁说的；不说过期的「新高」（`live/hook_voice.py`）；首行弱时由 `live/hook_rewrite.py` 改写首行。
+- **命名实体保留**（`FD_KEEP_ENTITIES`，运行时默认开，`=0` 关；pytest 下默认关）：extract 让每个内容单元带 `entities[]`（公司 / 股票 / ticker / 基金 / 产品名，逐字取自引用片段、保持原文语言，如 `中际旭创`），并把缺失的实体补进 statement；compose 提示要求写具体名字而不是「光模块龙头」之类类别词；选中的素材包不足 3 个实体时，从同一来源再补最多 2 个带名字的单元（`live/content_units.py`、`live/compose.py`）。
+- **inbox 行保留证据**（`FD_COMPOSE_PERSIST_UNITS`，默认开，`=0` 关）：成稿所用的内容单元和来源原文字段（`original_text` / `text` / `summary`，各截 8000 字）写进 inbox 行，出错路径也保留，供之后的深度复核（`inbox_depth_rescan`）使用。
 - **回看 / 常青**（`FD_ARCHIVE`）：没有原创素材时，可写「回看」（一年前的说法 vs 现在的数据）或「常青」（donor 仍成立的高互动观点，用自己口吻重述），见 `docs/ARCHIVE_LOOKBACK.md`。
+
+### 思维导图补位层（`FD_MINDMAP_FILL`，`docs/MINDMAP_FILL.md`）
+
+思维导图**不是账号**，是一种帖型（`post_kind=mindmap`，看板标签「思维导图」），是补槽逻辑的**最后一层**：顺序为 ① 当天新鲜稿 + 互动稿 → ② 回看 / 常青 → ③ 思维导图。
+
+- **只做兜底**：账号当天仍没有可用的原创稿（未 HOLD、未被替换、非互动；回看稿算原创，回复稿不算）才补；之后若来了新鲜原创稿，导图行让出槽位（`live/archive_fallback.py`）。钩子在 `scripts/daily_compose.py` 回看钩子之后（`live/mindmap/fill.py`）。
+- **开关与上限**：`FD_MINDMAP_FILL` 代码默认 0，夜间 `daily_compose.sh` 设为 1；每北京日最多 `FD_MINDMAP_MAX_PER_DAY`=4 张、每号每天 1 张；每轮模型花费 `FD_MINDMAP_BUDGET_USD`=1.0；每号最多试 `FD_MINDMAP_ATTEMPTS`=3 个来源；每个来源最多给 `FD_MINDMAP_ITEM_MAX_USES`=3 个账号；每轮最多 12 次来源尝试 / 1500 秒；`FD_MINDMAP_ACCOUNTS` 可限定账号。
+- **选源**：按来源主题与账号赛道匹配（`topic_fits`），同语言来源优先、再按新旧；视频转写只给 `FD_VIDEO_SRC` 的账号。
+- **生成与检查**（`live/mindmap/gen.py`、`render.py`）：一次 Gemini 调用出树 + 文案，每个 L2–L4 节点带原文摘录，摘录或数字不在原文里的节点被删，删掉超过 25% 判 HARD `mm_unsupported`；模型可对不相关的来源选择 skip；渲染成「纸色」风格 PNG，自检节点重叠 / 溢出。出处（作者、标题、日期、来源）只写在图片页脚和行里的 `mindmap.attribution`，文案本身不带署名行。
+- **不会被机器发布**：导图行 `publishable: False`，和其他草稿一样只放看板、由人工发帖；不过硬检查的行 HOLD + `needs_review`；导图行不受新鲜度规则限制。
 
 ### 自然度（naturalness）与通顺检查
 
@@ -241,7 +267,15 @@ flowchart LR
 | `FD_MIDDAY_COMPOSE` | 1 | 午间新鲜稿（`FD_MIDDAY_MAX_AGE_H=6` 素材最大小时数；`FD_MIDDAY_REPLACE=1` 替换当天未发的旧原创） |
 | `FD_SUBROUTER_RETRIES` / `FD_SUBROUTER_BACKOFF` | 2 / `5,15` | subrouter 重试次数 / 退避秒数 |
 | `FD_FALLBACK_BREAKER` | 1 | 付费兜底额度不足时当天熔断 |
-| `FD_DAILY_COMPOSE_BUDGET_USD` / `FD_DAILY_TOTAL_USD` | 25 / 25 | compose 预算 / 全天总上限 |
+| `FD_DAILY_COMPOSE_BUDGET_USD` / `FD_DAILY_TOTAL_USD` | 25 / 25 | compose 预算 / 全天总上限（10-16 起另有跨 lane 全天花费账本） |
+| `FD_LANES` | 1 | 独立 lane；`=0` 回滚到单全局锁 + pgrep 跳过 |
+| `FD_CALL_TIMEOUT_S` | 180 | 单次模型调用硬超时（秒） |
+| `FD_ACCOUNT_TIMEOUT_S` / `FD_ACCOUNT_GRACE_S` | 900 / 30 | 单账号 compose 总时限 / 宽限（秒） |
+| `FD_LATENCY_JSONL` | cron 自动设置 | 调用延迟 json 行的输出路径 |
+| `FD_KEEP_ENTITIES` | 1（pytest 下 0） | extract / compose 保留命名实体 |
+| `FD_COMPOSE_PERSIST_UNITS` | 1 | inbox 行保留内容单元和来源原文 |
+| `FD_MINDMAP_FILL` | 0（夜间脚本设 1） | 思维导图补位层；另有 `FD_MINDMAP_MAX_PER_DAY`=4、`FD_MINDMAP_BUDGET_USD`=1.0、`FD_MINDMAP_ATTEMPTS`=3 |
+| `FD_LONGFORM_SRC` | 1 | 长文来源抓取（`FD_LONGFORM_DIR`、`FD_LONGFORM_CONFIG`、`FD_LONGFORM_BUDGET_S`） |
 
 更早的开关（都默认开）：`FD_HOTSPOT`、`FD_TOPIC_DIV`、`FD_LANE_FIT`、`FD_HOOK_VOICE`、`FD_ENGAGE`、`FD_ZH_HOT_FIRST`、`FD_TWIN_RULE`、`FD_ARCHIVE`、`FD_MEDIA_SOURCES`、`FD_FEEDBACK`、`FD_INGEST_RESUME`、`FD_FLASH_PRO_FALLBACK`。
 
@@ -310,3 +344,5 @@ bash scripts/run_tests.sh                       # 全量（pytest，项目 venv�
 | `scripts/daily_compose.py` | 选题 + 成稿 + 质检 + 仲裁主流程 |
 | `scripts/build_ops_dashboard.py`、`scripts/build_admin_console.py`、`scripts/ops_admin/` | 看板、/admin、决定 API |
 | `scripts/cron/` | 例程调用的 shell 入口 |
+| `live/lanes.py`、`scripts/lane_fill.py`、`docs/LANES.md` | 独立 lane：锁、超时、认领、花费账本、延迟日志 |
+| `live/mindmap/`、`live/longform_src.py`、`live/longform_sources.json`、`docs/MINDMAP_FILL.md` | 思维导图补位层与长文来源 |
