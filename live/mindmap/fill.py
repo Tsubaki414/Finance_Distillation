@@ -69,9 +69,9 @@ def ledger_rows():
 def record_use(day, account, item_id, draft_id, **extra):
     p = store_dir() / 'ledger.jsonl'
     p.parent.mkdir(parents=True, exist_ok=True)
-    with p.open('a') as f:
-        f.write(json.dumps({'day': str(day), 'account': account, 'item': item_id, 'draft': draft_id, **extra},
-                           ensure_ascii=False) + '\n')
+    from live import lanes   # Oct 16: flock'd append
+    lanes.locked_append(p, json.dumps({'day': str(day), 'account': account, 'item': item_id, 'draft': draft_id, **extra},
+                                      ensure_ascii=False))
 
 
 # ---------------------------------------------------------------- account / source fit

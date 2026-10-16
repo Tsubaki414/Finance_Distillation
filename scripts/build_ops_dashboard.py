@@ -675,7 +675,7 @@ def avoid_pins(t, pins, lo, hi):
 def write_if_changed(path, data):
     if path.exists() and path.read_bytes() == data:
         return False
-    tmp = path.with_suffix(path.suffix + '.tmp')
+    tmp = path.with_suffix(path.suffix + f'.{os.getpid()}.tmp')   # Oct 16: unique per process (lanes rebuild concurrently)
     tmp.write_bytes(data)
     tmp.replace(path)
     return True

@@ -76,8 +76,8 @@ def load_json(path):
 
 
 def write_json(path, value):
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
+    from live import lanes   # Oct 16: atomic (every lane's compose runs this refresh; a reader never sees half a file)
+    lanes.atomic_write_text(path, json.dumps(value, ensure_ascii=False, indent=2) + '\n')
 
 
 def post_count(handle):

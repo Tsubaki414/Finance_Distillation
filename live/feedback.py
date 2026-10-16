@@ -139,13 +139,18 @@ def build(decided):
     return {'accounts': out, 'edits': edits}
 
 
+def _atomic(path, text):   # Oct 16: atomic write (lanes refresh priors concurrently)
+    from live import lanes
+    lanes.atomic_write_text(path, text)
+
+
 def write(result, store=None):
     store = Path(store or store_dir())
     store.mkdir(parents=True, exist_ok=True)
     priors = {'version': 'feedback-v1', 'built_at': datetime.now(timezone.utc).isoformat(timespec='seconds'),
               'rule': 'approve|published = approved; hold|rewrite = not; Beta(1,1) smoothing; soft prior only',
               'accounts': result['accounts']}
-    (store / 'priors.json').write_text(json.dumps(priors, ensure_ascii=False, indent=2) + '\n')
+    _atomic(store / 'priors.json', json.dumps(priors, ensure_ascii=False, indent=2) + '\n')
     ex = store / 'style_examples'
     ex.mkdir(exist_ok=True)
     by_acct = {}
@@ -408,11 +413,11 @@ def write_v2(result, store=None, now=None):
             f'>= {MIN_ACCOUNT_N} scored drafts and the key >= {MIN_N}, by at most +-{MAX_SHIFT}; soft prior only')
     priors = {'version': 'feedback-v2', 'built_at': built, 'rule': rule,
               'min': {'account': MIN_ACCOUNT_N, 'key': MIN_N, 'max_shift': MAX_SHIFT}, 'accounts': result['priors']}
-    (store / 'priors.json').write_text(json.dumps(priors, ensure_ascii=False, indent=2) + '\n')
+    _atomic(store / 'priors.json', json.dumps(priors, ensure_ascii=False, indent=2) + '\n')
     stats = {'version': 'feedback-stats-v1', 'built_at': built, 'rule': rule, 'score': SCORE,
              **result['stats'], 'active_multipliers': _multipliers(result['priors']),
              'edit_examples': len(result['edits'])}   # counts only: edit texts stay in style_examples/ (local)
-    (store / 'stats.json').write_text(json.dumps(stats, ensure_ascii=False, indent=2) + '\n')
+    _atomic(store / 'stats.json', json.dumps(stats, ensure_ascii=False, indent=2) + '\n')
     ex = store / 'style_examples'
     ex.mkdir(exist_ok=True)
     by_acct = {}

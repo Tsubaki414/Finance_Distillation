@@ -17,6 +17,8 @@ from difflib import SequenceMatcher
 from hashlib import sha256
 from pathlib import Path
 
+from live import lanes   # Oct 16: atomic writes + short per-day lock (FD_LANES=0: plain writes, no lock)
+
 ROOT = Path(__file__).resolve().parents[1]
 DECISIONS = ('approve', 'minor_edit', 'major_edit', 'reject')
 _ID = re.compile(r'^[A-Za-z0-9_.-]+$')
@@ -67,6 +69,24 @@ def sync_hold_status(row, env=None):
     return row
 
 
+def _write(path, row):
+    text = json.dumps(row, ensure_ascii=False, indent=2, default=str) + '\n'
+    if lanes.enabled():
+        lanes.atomic_write_text(path, text)
+    else:
+        path.write_text(text)
+
+
+def _rmw_lock(path):
+    """Per-file read-modify-write lock (supersede / review of one draft file; add of the same id). Separate lock file
+    name from the day inbox lock daily_compose holds, so the two never nest on one file."""
+    import contextlib
+    if not lanes.enabled():
+        return contextlib.nullcontext()
+    import zlib
+    return lanes.day_lock(path.parent.name, 'row%02d' % (zlib.crc32(path.stem.encode()) % 64))   # 64 buckets, not a file per row
+
+
 def add(row, base=None):
     """Store one draft row (needs id, day, account_id, text). Returns the stored row."""
     for key in ('id', 'day', 'account_id', 'text'):
@@ -80,7 +100,8 @@ def add(row, base=None):
               'stored_at': row.get('stored_at') or _now()}
     path = _path(stored['id'], stored['day'], base)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(stored, ensure_ascii=False, indent=2, default=str) + '\n')
+    with _rmw_lock(path):
+        _write(path, stored)
     return stored
 
 
@@ -114,11 +135,12 @@ def supersede(draft_id, *, by, reason, base=None):
     """Soft-replace a draft by a newer one (rerun / rewrite of the same source): the old file stays, marked superseded
     and held, with superseded_by pointing at the new draft. Never deletes; human-reviewed drafts are left alone."""
     path = _path(draft_id, base=base)
-    row = json.loads(path.read_text())
-    if row.get('superseded') or row.get('review_status', 'pending') != 'pending':
-        return None
-    row.update(superseded=True, held=True, superseded_by=by, superseded_reason=reason, superseded_at=_now())
-    path.write_text(json.dumps(row, ensure_ascii=False, indent=2, default=str) + '\n')
+    with _rmw_lock(path):
+        row = json.loads(path.read_text())   # re-read inside the lock: a review that landed meanwhile is kept
+        if row.get('superseded') or row.get('review_status', 'pending') != 'pending':
+            return None
+        row.update(superseded=True, held=True, superseded_by=by, superseded_reason=reason, superseded_at=_now())
+        _write(path, row)
     return row
 
 
@@ -129,6 +151,11 @@ def review(draft_id, *, decision, reviewer, reason, text, expected_hash, base=No
     if not (reviewer or '').strip() or not (reason or '').strip():
         raise ValueError('reviewer and reason are required')
     path = _path(draft_id, base=base)
+    with _rmw_lock(path):
+        return _review_locked(path, draft_id, decision, reviewer, reason, text, expected_hash)
+
+
+def _review_locked(path, draft_id, decision, reviewer, reason, text, expected_hash):
     row = json.loads(path.read_text())
     current = row.get('reviewed_text', row.get('text') or '')
     if expected_hash != text_hash(current):
@@ -147,5 +174,5 @@ def review(draft_id, *, decision, reviewer, reason, text, expected_hash, base=No
     if changed:
         row['reviewed_text'] = text
     row['publishable'] = False   # approval is a label; publishing stays manual and outside this system
-    path.write_text(json.dumps(row, ensure_ascii=False, indent=2, default=str) + '\n')
+    _write(path, row)
     return entry

@@ -45,3 +45,11 @@ def legacy_select_without_audit_fixes(monkeypatch, tmp_path):
 # tests/test_compose_prevent.py turns it on explicitly.
 import os as _os
 _os.environ.setdefault("FD_COMPOSE_PREVENT", "0")
+
+
+@pytest.fixture(autouse=True)
+def isolated_lane_locks(tmp_path, monkeypatch):
+    """Oct 16 (lanes): lock / claim / spend-ledger files of live/lanes.py go to the test's tmp dir, never /workspace/x."""
+    monkeypatch.setenv('FD_LANE_LOCK_DIR', str(tmp_path / 'lane_locks'))
+    monkeypatch.delenv('FD_LANES', raising=False)
+    monkeypatch.delenv('FD_LATENCY_JSONL', raising=False)

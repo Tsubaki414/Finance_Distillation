@@ -106,15 +106,17 @@ def record_draft(persona_id, text, *, meta=None):
         hooks = []
     if hooks:
         row['news_hooks'] = hooks
-    rows = load_recent(persona_id, 29) + [row]
-    for directory in (HISTORY_DIR, FALLBACK_DIR):
-        path = _path(persona_id, directory)
-        try:
-            directory.mkdir(parents=True, exist_ok=True)
-            path.write_text(''.join(json.dumps(r, ensure_ascii=False) + '\n' for r in rows))
-            return True
-        except OSError:
-            continue
+    from live import lanes   # Oct 16: read-modify-write of the per-persona history under a lock + atomic replace
+    with lanes.day_lock('all', 'antirepeat_' + re.sub(r'[^A-Za-z0-9_.-]', '_', str(persona_id))[:60], timeout=60):
+        rows = load_recent(persona_id, 29) + [row]
+        for directory in (HISTORY_DIR, FALLBACK_DIR):
+            path = _path(persona_id, directory)
+            try:
+                directory.mkdir(parents=True, exist_ok=True)
+                lanes.atomic_write_text(path, ''.join(json.dumps(r, ensure_ascii=False) + '\n' for r in rows))
+                return True
+            except OSError:
+                continue
     return False  # Storage failure must never stall compose.
 
 

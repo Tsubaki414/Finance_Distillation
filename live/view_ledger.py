@@ -149,8 +149,8 @@ class ViewLedger:
                  'unit_ids': list(unit_ids), 'source_ids': list(source_ids), 'draft_id': draft_id,
                  'created_at': datetime.now(timezone.utc).isoformat(timespec='seconds')}
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        with self.path.open('a') as fh:
-            fh.write(json.dumps(entry, ensure_ascii=False) + '\n')
+        from live import lanes   # Oct 16: flock'd append (two lanes composing for one account)
+        lanes.locked_append(self.path, json.dumps(entry, ensure_ascii=False))
         return entry
 
     def current(self):

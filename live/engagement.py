@@ -956,6 +956,12 @@ def write_log(day, entries, run_id=None, base=None):
     d = Path(base or log_dir())
     d.mkdir(parents=True, exist_ok=True)
     path = d / f'{day}.json'
+    from live import lanes   # Oct 16: read-merge-write under a day lock, unique temp name (two lanes log targets)
+    with lanes.day_lock(day, 'engagelog', timeout=60):
+        return _write_log_locked(path, day, entries, run_id)
+
+
+def _write_log_locked(path, day, entries, run_id):
     try:
         cur = json.loads(path.read_text())
     except (OSError, ValueError):
@@ -969,9 +975,8 @@ def write_log(day, entries, run_id=None, base=None):
         else:
             seen[k] = len(cur['targets'])
             cur['targets'].append(e)
-    tmp = path.with_suffix('.json.tmp')
-    tmp.write_text(json.dumps(cur, ensure_ascii=False, indent=1, default=str) + '\n')
-    tmp.replace(path)
+    from live import lanes
+    lanes.atomic_write_text(path, json.dumps(cur, ensure_ascii=False, indent=1, default=str) + '\n')
     return path
 
 

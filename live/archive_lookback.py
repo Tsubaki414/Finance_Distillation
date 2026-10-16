@@ -99,8 +99,8 @@ def _now():
 
 def _jsonl(path, row):
     path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open('a') as f:
-        f.write(json.dumps(row, ensure_ascii=False, default=str) + '\n')
+    from live import lanes   # Oct 16: flock'd append
+    lanes.locked_append(path, json.dumps(row, ensure_ascii=False, default=str))
 
 
 def _read_jsonl(path):
@@ -601,8 +601,8 @@ def hand_over(day, account_cfg, post, why, variant):
     path.parent.mkdir(parents=True, exist_ok=True)
     row = {'day': str(day), 'from': (account_cfg or {}).get('id'), 'to': to, 'variant': variant,
            'at': _now().isoformat(timespec='seconds'), 'post': {k: v for k, v in post.items() if k != 'raw'}}
-    with path.open('a') as fh:
-        fh.write(json.dumps(row, ensure_ascii=False, default=str) + '\n')
+    from live import lanes   # Oct 16: flock'd append
+    lanes.locked_append(path, json.dumps(row, ensure_ascii=False, default=str))
     return row
 
 
@@ -1646,7 +1646,7 @@ def recheck(day, *, base=None, accounts_path=None, log=print, ask=None):
         row.setdefault('rechecks', []).append({'at': _now().isoformat(timespec='seconds'), 'before': list(before),
                                                'hard': hard, 'version': load_config().get('version')})
         path = compose_inbox._path(row['id'], row['day'], base)
-        path.write_text(json.dumps(row, ensure_ascii=False, indent=2, default=str) + '\n')
+        compose_inbox._write(path, row)   # Oct 16: atomic
         out.append({'id': row['id'], 'before': before, 'hard': hard})
         log(f"[{row['account_id']}] recheck {row['id']}: {before} -> {'held ' + ','.join(hard) if hard else 'ready'}")
     return out

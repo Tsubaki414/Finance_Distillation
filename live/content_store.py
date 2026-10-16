@@ -112,7 +112,10 @@ class ContentStore:
         if self.path.exists():
             for line in self.path.read_text().splitlines():
                 if line.strip():
-                    r = json.loads(line)
+                    try:
+                        r = json.loads(line)
+                    except ValueError:
+                        continue   # Oct 16 (lanes): a torn last line of a concurrent append is skipped, not fatal
                     self._rows[r['unit_id']] = r
 
         suppressed = self.root / "suppressed.jsonl"
@@ -224,7 +227,8 @@ class ContentStore:
 
     def add(self, source, units, *, adapter, personas=None, prescreen=None):
         added = duplicate = duplicate_count = 0
-        with self.path.open('a') as fh:
+        lines = []
+        if True:
             for u in units:
                 if u.get('licence_tier') not in WRITABLE:
                     raise ValueError(f'unit {u.get("unit_id")}: tier {u.get("licence_tier")!r} is not writable')
@@ -240,9 +244,12 @@ class ContentStore:
                 if any(duplicate_content(row, rec) for row in self._rows.values()):
                     duplicate_count += 1
                     continue
-                fh.write(json.dumps(rec, ensure_ascii=False) + '\n')
+                lines.append(json.dumps(rec, ensure_ascii=False) + '\n')
                 self._rows[u['unit_id']] = dict(rec, persona_tags={}, tag_personas=[])
                 added += 1
+        if lines:   # Oct 16 (lanes): one flock'd write for the batch (concurrent ingests no longer interleave rows)
+            from live import lanes
+            lanes.locked_append(self.path, ''.join(lines))
         return {'added': added, 'duplicate': duplicate, 'duplicate_content': duplicate_count}
 
     def units(self, *, persona=None, tier=None, adapter=None):
