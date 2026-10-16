@@ -504,13 +504,20 @@ _SENT_ZH = re.compile(r'(?<=[。！!])')
 _SENT_EN = re.compile(r'(?<=[.!])\s+(?=[A-Za-z])')
 
 
+def _short_post_ok(first_line: str, lang: str) -> bool:
+    """Oct 16 (FD_SLOP_SCORE): a post under 3 lines / sentences may also lose a neat moral last line, provided the
+    remaining first line is a real statement (>= 8 zh chars / 25 en chars)."""
+    from live import slop_score
+    return slop_score.enabled() and len(re.sub(r'\s', '', first_line)) >= (8 if lang == 'zh' else 25)
+
+
 def drop_moral_line(body: str, lang: str):
     lines = [l for l in body.rstrip().split('\n')]
     idx = [i for i, l in enumerate(lines) if l.strip()]
     if not idx or re.match(r'^\s*\d+/', lines[idx[0]]):   # threads keep their parts
         return body, ''
     rx = _SENT_ZH if lang == 'zh' else _SENT_EN
-    if len(idx) >= 3:
+    if len(idx) >= 3 or (len(idx) == 2 and _short_post_ok(lines[idx[0]], lang)):
         last = lines[idx[-1]].strip()
         if len([x for x in rx.split(last) if x.strip()]) < 2:
             if _moral_candidate(last, lang):
@@ -523,7 +530,10 @@ def drop_moral_line(body: str, lang: str):
     sents = [x for x in rx.split(para.strip()) if x.strip()]
     total = sum(len([x for x in rx.split(lines[i].strip()) if x.strip()]) for i in idx)
     if len(sents) < 2 or total < 3:
-        return body, ''
+        # Oct 16 (FD_SLOP_SCORE): a 2-sentence single-paragraph post also loses a neat moral last sentence
+        # (the first sentence must stay a real statement)
+        if not (len(sents) == 2 and total == 2 and _short_post_ok(sents[0], lang)):
+            return body, ''
     last = sents[-1].strip()
     if not _moral_candidate(last, lang):
         return body, ''
@@ -671,7 +681,7 @@ def _is_original_post(p: dict) -> bool:
 
 
 def _llm_rewrite(client: Any, row: dict, lang: str, donor_posts: list[str],
-                 persona_name: str) -> str | None:
+                 persona_name: str, extra_issues: str = '') -> str | None:
     """Single subrouter call; returns rewritten body or None on failure."""
     body = row.get('body') or ''
     few_shot = '\n---\n'.join(f'[donor] {t[:400]}' for t in donor_posts[:3])
@@ -683,6 +693,8 @@ def _llm_rewrite(client: Any, row: dict, lang: str, donor_posts: list[str],
     if _first_person_count(body, lang) == 0 and (row.get('_donor_fp_rate', 0) or 0) >= 0.35:
         issues.append('no first-person voice despite high donor rate')
 
+    if extra_issues:   # Oct 16 (FD_SLOP_SCORE): the slop retry names the template sentences
+        issues.append(extra_issues)
     issues_str = '; '.join(issues) if issues else 'reads like a template'
     prompt = (
         f'Rewrite the following {lang} finance post to sound like a real person.\n\n'

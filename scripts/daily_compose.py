@@ -2759,6 +2759,21 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
         if _cpf.enabled():
             _fh = _fh + _cpf.final_findings(r.get('body') or '', r['plan']['account_lang'],
                                             strategy=bool(_pf.get('explainer')))
+        # Oct 16 (live/slop_score.py FD_SLOP_SCORE, default on): soft AI-slop score on the FINAL body. Stacked tells over
+        # the threshold get ONE rewrite retry (deterministic cuts + the humanize LLM rewrite); still over -> HOLD.
+        from live import slop_score as _ss
+        if _ss.enabled() and r.get('body') and r.get('draft_status') != 'not_suitable':
+            _pre_ss = r.get('body') or ''
+            _ssf, _ssi = _ss.gate(r, r['plan']['account_lang'], client=client())
+            if _ssi and _ssi.get('retried') and _rcg.guard_step(r, 'slop_retry', _pre_ss, client=client(),
+                                                                llm=bool(_ssi.get('llm'))):
+                _ssi['edit_guard_reverted'] = True   # the retry lost a fact: back to the original text, which is over
+                _ssf = [_ss.finding(_ss.score(r.get('body') or '', r['plan']['account_lang']))]
+            if _ssi:
+                r['slop_score'] = _ssi
+                if _ssi.get('retried'):
+                    print(f'[slop_score] {r.get("account_id")} retried {_ssi["score"]} -> {_ssi["after"]}', flush=True)
+            _fh = _fh + _ssf
         if _fh:
             r.setdefault('post_checks', []).extend(_fh)
             r['draft_status'] = 'needs_review'

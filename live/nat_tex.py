@@ -229,6 +229,32 @@ def _donor_emdash_rate(rates: dict[str, Any]) -> float:
     return float(rates.get('emdash_rate', 0.10))
 
 
+_ZH_DASH = re.compile(r'\s*——+\s*')
+
+
+def compress_dashes(body: str, lang: str, keep: int = 1) -> tuple[str, list[str]]:
+    """Oct 16 (FD_SLOP_SCORE): keep at most `keep` dash(es) per post. zh: 「——」 -> 「，」; en: em-dash -> ', '.
+    Quoted text is untouched; deterministic, soft-only."""
+    quotes = []
+
+    def _stash(m):
+        quotes.append(m.group(0))
+        return f'\x00{len(quotes) - 1}\x00'
+    work = re.sub(r'[“"「『][^”"」』\n]{4,}[”"」』]', _stash, body or '')
+    rx = _ZH_DASH if lang == 'zh' else _EMDASH_RX
+    n = len(rx.findall(work))
+    if n <= keep:
+        return body, []
+    count = [0]
+
+    def _swap(m):
+        count[0] += 1
+        return m.group(0) if count[0] <= keep else ('，' if lang == 'zh' else ', ')
+    work = rx.sub(_swap, work)
+    work = re.sub(r'\x00(\d+)\x00', lambda m: quotes[int(m.group(1))], work)
+    return work, [f'slop: reduced {"——" if lang == "zh" else "em-dash"} ({n} -> {keep})']
+
+
 def apply_llmism(body: str, lang: str, draft_id: str,
                  rates: dict[str, Any] | None = None) -> tuple[str, list[str]]:
     """A10: EN-only. Remove LLM stock phrases; reduce em-dash toward donor rate.
@@ -238,6 +264,10 @@ def apply_llmism(body: str, lang: str, draft_id: str,
     if not llmism_enabled():
         return body, []
     if lang != 'en':
+        # Oct 16 (FD_SLOP_SCORE): zh 「——」 is an AI-prose tell too (<= 1 per post)
+        from live import slop_score
+        if lang == 'zh' and slop_score.enabled():
+            return compress_dashes(body, 'zh')
         return body, []
 
     changes: list[str] = []
