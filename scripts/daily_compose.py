@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures as cf
+import contextlib
 import copy
 import json
 import os
@@ -51,6 +52,7 @@ from live import (angles, anti_repeat, compose, compose_inbox, editorial_style, 
 from live.adapters import delphi_digest  # noqa: E402
 from live.content_store import ContentStore  # noqa: E402
 from live import video_src  # noqa: E402
+from live import lanes  # noqa: E402  Oct 16: lane locks, claims, deadlines (FD_LANES=0 = pre-lane behaviour)
 from live.retrieval import units_for_persona  # noqa: E402
 from live.view_ledger import ViewLedger  # noqa: E402
 from ml import budget  # noqa: E402
@@ -1685,9 +1687,10 @@ def expire_row(r, day_s, now):
                     'why': 'target window closed before it was posted (slot rule frees the engagement slot)'}
     try:
         p = compose_inbox._path(r['id'], day_s)
-        row = json.loads(p.read_text())
-        row.update(draft_status='expired', expired=r['expired'])
-        p.write_text(json.dumps(row, ensure_ascii=False, indent=1))
+        with compose_inbox._rmw_lock(p):   # Oct 16: re-read + atomic write (another lane may have touched the row)
+            row = json.loads(p.read_text())
+            row.update(draft_status='expired', expired=r['expired'])
+            compose_inbox._write(p, row)
         print(f"slot rule: {r.get('account_id')} engagement draft {r['id']} expired (window closed "
               f"{r['expired']['window_close']}); engagement slot freed", flush=True)
     except Exception as exc:   # noqa: BLE001
@@ -2077,28 +2080,49 @@ def compose_one(new_client, account, pick, day, store_records, spend, lock):
     angle = angles.payload(pick['angle'], lang)
     started = time.monotonic()
     units = None
-    try:
-        # inside the guard: a span that no rebuilt paragraph contains (StopIteration) sank the whole Oct 7 run
-        source, units = evidence_source(group)
-        # Oct 11 (live/rc_guard.py FD_EVENT_FACT): the source's lead event, on the shared client (not the per-draft caps)
-        from live import rc_guard
-        event_fact = rc_guard.derive_event(source, units, new_client(), lang) if rc_guard.event_enabled() else None
-        if pick.get('lookback_frame'):   # fresh_gate look-back fallback: frame it as an update / look-back
-            event_fact = dict(event_fact or {}, frame='lookback', age_h=pick.get('source_age_h'))
-        result = compose.compose_source(
-            source, account, dc, post_type=pick.get('post_type') or demo.judgment_type(account), extracted_units=units,
-            exemplar_dir=POSTS, exemplar_tags_dir=TAGS, view_ledger=ViewLedger(account),
-            now=post_time.astimezone(timezone.utc), post_format=dict(pick['post_format']), angle=angle,
-            editor_note=pick.get('editor_note'), reality=pick.get('reality'), event_fact=event_fact)
-    except budget.BudgetExceeded as exc:
-        result = {'status': 'error', 'error': 'budget: ' + str(exc)[:200]}
-    except Exception as exc:   # noqa: BLE001 - one bad packet must not sink the day
-        result = {'status': 'error', 'error': f'{type(exc).__name__}: {str(exc)[:300]}'}
+
+    def _work():
+        nonlocal source, units
+        try:
+            # inside the guard: a span that no rebuilt paragraph contains (StopIteration) sank the whole Oct 7 run
+            source, units = evidence_source(group)
+            # Oct 11 (live/rc_guard.py FD_EVENT_FACT): the source's lead event, on the shared client (not the per-draft caps)
+            from live import rc_guard
+            event_fact = rc_guard.derive_event(source, units, new_client(), lang) if rc_guard.event_enabled() else None
+            if pick.get('lookback_frame'):   # fresh_gate look-back fallback: frame it as an update / look-back
+                event_fact = dict(event_fact or {}, frame='lookback', age_h=pick.get('source_age_h'))
+            return compose.compose_source(
+                source, account, dc, post_type=pick.get('post_type') or demo.judgment_type(account), extracted_units=units,
+                exemplar_dir=POSTS, exemplar_tags_dir=TAGS, view_ledger=ViewLedger(account),
+                now=post_time.astimezone(timezone.utc), post_format=dict(pick['post_format']), angle=angle,
+                editor_note=pick.get('editor_note'), reality=pick.get('reality'), event_fact=event_fact)
+        except budget.BudgetExceeded as exc:
+            return {'status': 'error', 'error': 'budget: ' + str(exc)[:200]}
+        except lanes.DeadlineExceeded as exc:
+            return {'status': 'error', 'error': 'account_timeout: ' + str(exc)[:200]}
+        except Exception as exc:   # noqa: BLE001 - one bad packet must not sink the day
+            return {'status': 'error', 'error': f'{type(exc).__name__}: {str(exc)[:300]}'}
+
+    if lanes.enabled():
+        # Oct 16: one stuck call / account cannot hold the round for hours (10-16: a single draft took 64 min, p95 25 min).
+        # The work runs in a helper thread with a total deadline; every model call inside is capped to what is left of it.
+        limit = lanes.account_timeout_s()
+        try:
+            result = lanes.run_with_deadline(_work, limit + lanes.grace_s(), what=f'compose {account}',
+                                             ctx={'account': account, 'deadline': time.monotonic() + limit})
+        except lanes.DeadlineExceeded as exc:
+            result = {'status': 'error', 'error': 'account_timeout: ' + str(exc)[:200]}
+        if str(result.get('error') or '').startswith('account_timeout'):
+            print(f'[lanes] account_timeout account={account} limit={limit:.0f}s', flush=True)
+    else:
+        result = _work()
     if persist_units_enabled() and 'units' not in result and units is not None:
         result = dict(result, units=units)   # Oct 15 FD_COMPOSE_PERSIST_UNITS: error / early paths keep the evidence
     cost = call_cost(dc.paths)
     with lock:
         spend['usd'] += cost
+    if cost and lanes.enabled():
+        lanes.spend_add(day.isoformat(), lanes.lane_name(), cost)   # cross-lane day ledger (flock + atomic)
     result = dict(result, account_id=account, source=source, plan=pick, retry_log=log, spend_usd=cost,
                   call_records=dc.paths, seconds=round(time.monotonic() - started, 1), angle=angle)
     if pick.get('support'):
@@ -2143,7 +2167,7 @@ def inbox_row(result, account_cfg, day, run_id):
     models = sorted({(r or {}).get('response_model') for r in (result.get('model_responses') or [])
                      if isinstance(r, dict)} - {None})
     return {'id': (result.get('id') or f'err-{run_id[:6]}-{account_cfg["id"]}-{pick["source_id"]}').replace('/', '_')[:80],
-            'day': day.isoformat(), 'run_id': run_id, 'account_id': account_cfg['id'], 'no': account_cfg['no'],
+            'day': day.isoformat(), 'run_id': run_id, 'compose_lane': lanes.lane_name(), 'account_id': account_cfg['id'], 'no': account_cfg['no'],
             'name': account_cfg['name'], 'beat': account_cfg['beat'], 'lang': account_cfg['lang'],
             # same-language material needs no attribution line (Oct 7 rule): the body is the post; cross-language
             # drafts keep the compose credit frame. The frame is kept on the row for the reviewer either way.
@@ -2369,6 +2393,10 @@ def main():
     # written. Catches same-account same-story duplicates that no single round could see (the 10-12 audit found
     # crypto_btc_cycle_zh with 4 drafts off one ChainCatcher article across the nightly + fill rounds) and re-checks
     # the freshness gate on rows written by paths outside run_round. Idempotent; never un-holds; never publishes.
+    # Oct 16 (lanes): the sweep re-reads and rewrites whole rows, so it runs inside the day inbox lock (no lost update
+    # against another lane's add / supersede). No model call inside.
+    _sweep_lock = lanes.day_lock(args.day.isoformat(), 'inbox') if lanes.enabled() else contextlib.nullcontext()
+    _sweep_lock.__enter__()
     try:
         from live import one_per_story as _ops, fresh_hold as _fh
         if _ops.enabled() or _fh.enabled():
@@ -2394,6 +2422,7 @@ def main():
                                      'one_per_story': _dup[:20]}
     except Exception as exc:   # noqa: BLE001 - the sweep never sinks a finished day
         summary['final_gates'] = {'error': f'{type(exc).__name__}: {str(exc)[:200]}'}
+    _sweep_lock.__exit__(None, None, None)
     write_json(out / 'summary.json', summary)
     from backend.compose_inbox import render
     page = DASHBOARD / f'fd20_review_{args.day.isoformat()}.html'
@@ -2478,6 +2507,11 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
     # Oct 13 (Fiona; live/one_per_story.cap_plan, FD_STORY_CAP_SELECT): one story across accounts, before drafting
     info['story_cap_dropped'] = one_per_story.cap_plan(plan, order, compose_inbox.rows(args.day.isoformat()),
                                                        log=lambda m: print(m, flush=True))
+    # Oct 16 (lanes): reserve this round's picks across lanes (one story per account, one reply / quote target per post);
+    # a pick another live lane already holds is dropped before any model call. FD_LANES=0: off.
+    if lanes.enabled() and not args.select_only:
+        info['lane_claim_dropped'] = lanes.claim_plan(args.day.isoformat(), plan, lanes.lane_name(), run_id,
+                                                      log=lambda m: print(m, flush=True))
     # Oct 13 07:37 (Fiona; live/predraft_filter.py FD_PREDRAFT): drop picks that would be held, before any model call
     from live import predraft_filter
     info['predraft_dropped'] = predraft_filter.apply(plan, selection_ref(args.day, args.now),
@@ -2542,6 +2576,11 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
             if spend['usd'] + est_now > args.budget_usd:
                 skipped.append({'account_id': a['id'], 'source_id': p['source_id'],
                                 'reason': f'run budget: ${spend["usd"]:.3f} spent of ${args.budget_usd}'})
+                return None
+            if lanes.enabled() and est_now and not lanes.day_has_room(args.day.isoformat(), est_now):
+                skipped.append({'account_id': a['id'], 'source_id': p['source_id'],
+                                'reason': f'run budget: day total across lanes ${lanes.spend_total(args.day.isoformat()):.3f} '
+                                          f'of ${lanes.day_cap()}'})
                 return None
         r = compose_one(client, a['id'], p, args.day, records, spend, lock)
         if QUOTA_RX.search(str(r.get('error') or '')):
@@ -2745,67 +2784,71 @@ def run_round(args, accts, all_accounts, universes, per_account, fill, rnd, stat
     for r in results:
         match = next((x for x in arbitrated.values() if x.get('id') and x.get('id') == r.get('id')), None)
         final.append(match or r)
-    rows = []
-    earlier = compose_inbox.rows(args.day.isoformat())
-    replies = {}
-    for old in earlier:
-        if old.get('post_mode') == 'reply' and not old.get('superseded'):
-            replies[old['account_id']] = replies.get(old['account_id'], 0) + 1
-    for r in final:
-        row = inbox_row(r, by_id[r['account_id']], args.day, run_id)
-        if row['text'] and os.environ.get('FD_DRAFT_MEDIA', '1') != '0':
-            from live import draft_media
-            draft_media.annotate(row, by_id[r['account_id']], charts_on=not row['held'],
-                                 replies_given=replies.get(row['account_id'], 0),
-                                 own_handles=[a.get('handle') for a in all_accounts])
-            replies[row['account_id']] = replies.get(row['account_id'], 0) + (row.get('post_mode') == 'reply')
-        # Oct 12 (live/one_per_story.py FD_ONE_PER_STORY): one draft per account per story per day - an account that
-        # already has a row for this story today (any earlier round, ready or held) keeps that one; this row is held.
-        if row['text'] and one_per_story.enabled():
-            _key = one_per_story.story_key(row)
-            _prior = next((x for x in earlier if x.get('account_id') == row['account_id']
-                           and one_per_story.story_key(x) == _key
-                           and str(x.get('id')) != str(row.get('id'))
-                           and str(x.get('id')) != str(row.get('rewrite_of') or '')   # Oct 13: the draft being rewritten
-                           and str(x.get('text') or '').strip()
-                           and not x.get('superseded') and not x.get('published')), None)
-            if _prior is not None and not row['held']:
-                row['held'] = True
-                row['hold_reason'] = f'dup_story: same account already drafted this story today ({_prior.get("id")})'
-                row['dup_story_of'] = _prior.get('id')
-                if row.get('draft_status') == 'draft_ready':
-                    row['draft_status'] = 'needs_review'
-        if row['text']:   # only real drafts enter the review inbox; failures stay in the run summary
-            # Oct 12 (live/fresh_hold.py FD_FRESH_HOLD): the last point before the inbox - a news / original draft
-            # whose source is > 48 h old at the slot (or has no parseable publish time) is HELD, not written ready.
-            # Covers the paths the pool-time fresh_gate cannot: undated sources, the FD_FRESH_LOOKBACK re-insert,
-            # and every other route into this loop. Archive / 回看 rows are gated on framing instead of age.
-            from live import fresh_hold
-            fresh_hold.apply(row, log=print)
-            compose_inbox.add(row)
-            earlier.append(row)   # Oct 12: so a second same-story row in this same loop sees the first one
-            supersede_previous(row, earlier)
-            # Oct 12 (live/archive_fallback.py FD_ARCHIVE_FALLBACK_ONLY): a fresh ready standalone takes the slot of
-            # the account's unreviewed, unpublished archive row (superseded, reason archive_fallback)
-            if arc_yield.get(row['account_id']):
-                from live import archive_fallback
-                from apply_admin_decisions import is_published
-                _dec = admin_decisions(args.day.isoformat())
-                if archive_fallback.supersede_for(row, arc_yield[row['account_id']],
-                                                  published=lambda x: is_published(_dec.get(x.get('id')))):
-                    arc_yield.pop(row['account_id'], None)
-            # Oct 10 fix (defect 2): FD_MIDDAY_REPLACE — after a midday draft lands (not held), supersede
-            # that account's stale unposted standalone rows of the day (the ones that made it qualify).
-            # Never supersede a published row or an engagement row.
-            if args.midday and os.environ.get('FD_MIDDAY_REPLACE', '1') != '0':
-                midday_supersede(row, earlier, admin_decisions(args.day.isoformat()))
-        rows.append(row)
-        write_json(out / 'drafts' / f"{row['id']}.json", r)
-        t = state['tally'][row['account_id']]
-        t['attempts'] += 1
-        t['ready' if row['text'] and not row['held'] else
-          'held:' + (row.get('hold_reason') or 'held') if row['text'] else
-          'not_suitable' if r.get('draft_status') == 'not_suitable' else 'error'] += 1
+    # Oct 16 (lanes): the read-check-write of the inbox (one story per account per day, supersede, midday replace) is one
+    # short critical section across lanes (no model call inside); `earlier` is re-read inside it, so a row another lane
+    # wrote while this round composed is seen. FD_LANES=0: no lock.
+    with (lanes.day_lock(args.day.isoformat(), "inbox") if lanes.enabled() else contextlib.nullcontext()):
+        rows = []
+        earlier = compose_inbox.rows(args.day.isoformat())
+        replies = {}
+        for old in earlier:
+            if old.get('post_mode') == 'reply' and not old.get('superseded'):
+                replies[old['account_id']] = replies.get(old['account_id'], 0) + 1
+        for r in final:
+            row = inbox_row(r, by_id[r['account_id']], args.day, run_id)
+            if row['text'] and os.environ.get('FD_DRAFT_MEDIA', '1') != '0':
+                from live import draft_media
+                draft_media.annotate(row, by_id[r['account_id']], charts_on=not row['held'],
+                                     replies_given=replies.get(row['account_id'], 0),
+                                     own_handles=[a.get('handle') for a in all_accounts])
+                replies[row['account_id']] = replies.get(row['account_id'], 0) + (row.get('post_mode') == 'reply')
+            # Oct 12 (live/one_per_story.py FD_ONE_PER_STORY): one draft per account per story per day - an account that
+            # already has a row for this story today (any earlier round, ready or held) keeps that one; this row is held.
+            if row['text'] and one_per_story.enabled():
+                _key = one_per_story.story_key(row)
+                _prior = next((x for x in earlier if x.get('account_id') == row['account_id']
+                               and one_per_story.story_key(x) == _key
+                               and str(x.get('id')) != str(row.get('id'))
+                               and str(x.get('id')) != str(row.get('rewrite_of') or '')   # Oct 13: the draft being rewritten
+                               and str(x.get('text') or '').strip()
+                               and not x.get('superseded') and not x.get('published')), None)
+                if _prior is not None and not row['held']:
+                    row['held'] = True
+                    row['hold_reason'] = f'dup_story: same account already drafted this story today ({_prior.get("id")})'
+                    row['dup_story_of'] = _prior.get('id')
+                    if row.get('draft_status') == 'draft_ready':
+                        row['draft_status'] = 'needs_review'
+            if row['text']:   # only real drafts enter the review inbox; failures stay in the run summary
+                # Oct 12 (live/fresh_hold.py FD_FRESH_HOLD): the last point before the inbox - a news / original draft
+                # whose source is > 48 h old at the slot (or has no parseable publish time) is HELD, not written ready.
+                # Covers the paths the pool-time fresh_gate cannot: undated sources, the FD_FRESH_LOOKBACK re-insert,
+                # and every other route into this loop. Archive / 回看 rows are gated on framing instead of age.
+                from live import fresh_hold
+                fresh_hold.apply(row, log=print)
+                compose_inbox.add(row)
+                earlier.append(row)   # Oct 12: so a second same-story row in this same loop sees the first one
+                supersede_previous(row, earlier)
+                # Oct 12 (live/archive_fallback.py FD_ARCHIVE_FALLBACK_ONLY): a fresh ready standalone takes the slot of
+                # the account's unreviewed, unpublished archive row (superseded, reason archive_fallback)
+                if arc_yield.get(row['account_id']):
+                    from live import archive_fallback
+                    from apply_admin_decisions import is_published
+                    _dec = admin_decisions(args.day.isoformat())
+                    if archive_fallback.supersede_for(row, arc_yield[row['account_id']],
+                                                      published=lambda x: is_published(_dec.get(x.get('id')))):
+                        arc_yield.pop(row['account_id'], None)
+                # Oct 10 fix (defect 2): FD_MIDDAY_REPLACE — after a midday draft lands (not held), supersede
+                # that account's stale unposted standalone rows of the day (the ones that made it qualify).
+                # Never supersede a published row or an engagement row.
+                if args.midday and os.environ.get('FD_MIDDAY_REPLACE', '1') != '0':
+                    midday_supersede(row, earlier, admin_decisions(args.day.isoformat()))
+            rows.append(row)
+            write_json(out / 'drafts' / f"{row['id']}.json", r)
+            t = state['tally'][row['account_id']]
+            t['attempts'] += 1
+            t['ready' if row['text'] and not row['held'] else
+              'held:' + (row.get('hold_reason') or 'held') if row['text'] else
+              'not_suitable' if r.get('draft_status') == 'not_suitable' else 'error'] += 1
     for x in skipped:
         state['tally'][x['account_id']]['skipped:' + ('quota' if 'quota' in x['reason'] else 'budget')] += 1
     counts = {a['id']: {'drafts': sum(1 for x in rows if x['account_id'] == a['id'] and x['text']),

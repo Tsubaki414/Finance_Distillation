@@ -25,6 +25,7 @@ from live import stage_models
 from live.distillation_source import digest, now
 from live.writer_backend import ProviderQuotaError, _dotenv
 from ml import budget
+from live import lanes   # Oct 16: per-call wall-clock deadline + latency line (FD_LANES=0 off)
 
 PROVIDER = 'erisedai_relay'
 DEFAULT_MODEL = 'claude-opus-5'
@@ -376,6 +377,8 @@ class ErisedaiClient:
                 self._fallback_keys[stage] = value.strip()
 
     def __call__(self, stage, messages, max_tokens):
+        if lanes.enabled():
+            lanes.call_budget_s()   # raises DeadlineExceeded once this account's compose deadline has passed
         fb = stage_models.fallback(self.stage_models, stage)
         if stage in self._route_missing:
             return self._fallback(stage, messages, max_tokens, fb, self._route_missing[stage])
@@ -424,6 +427,8 @@ class ErisedaiClient:
             PROVIDER_FAILS.pop(key, None)
             return out
         except Exception as exc:
+            if isinstance(exc, lanes.DeadlineExceeded):
+                raise   # the account's compose deadline passed: no fallback, no retry
             if flash_sub and is_flash_channel_error(exc):
                 FLASH_DEAD[routed['base_url']] = (time.monotonic(), str(exc)[:160])
                 return self._flash_pro(args, f"{selected['model']}: {exc}"[:300])
@@ -450,10 +455,13 @@ class ErisedaiClient:
             try:
                 return self._call(*args)
             except Exception as exc:   # noqa: BLE001
-                if i >= tries or isinstance(exc, (budget.BudgetExceeded, ProviderQuotaError, ValueError)) \
+                if i >= tries or isinstance(exc, (budget.BudgetExceeded, ProviderQuotaError, ValueError, lanes.DeadlineExceeded)) \
                         or not _fallback_worthy(exc):
                     raise
-                time.sleep(subrouter_backoff(i))
+                wait = subrouter_backoff(i)
+                if lanes.enabled() and lanes.time_left() is not None:
+                    wait = min(wait, max(0.0, lanes.time_left()))
+                time.sleep(wait)
 
     def _fallback_guarded(self, stage, messages, max_tokens, fb, reason, primary_exc):
         """_fallback, except that an empty fallback balance circuit-breaks it for the day and the draft fails with the
@@ -538,16 +546,28 @@ class ErisedaiClient:
         try:
             reservation = budget.reserve(budget_model, messages, max_tokens, call_id,
                                          counts_toward_cap=not flat, provider=serving)
-            with httpx.Client(timeout=getattr(self, 'request_timeout', None) or TIMEOUT, trust_env=False, follow_redirects=False,
-                              transport=self.transport) as client:
-                record['model_call_attempts'] = 1
-                if native:
-                    response = client.post(f'{base_url}/models/{model}:generateContent',
+            def _post():
+                with httpx.Client(timeout=getattr(self, 'request_timeout', None) or TIMEOUT, trust_env=False,
+                                  follow_redirects=False, transport=self.transport) as client:
+                    record['model_call_attempts'] = 1
+                    if native:
+                        return client.post(f'{base_url}/models/{model}:generateContent',
                                            headers={'x-goog-api-key': secret, 'User-Agent': USER_AGENT}, json=payload)
-                else:
-                    response = client.post(base_url + '/chat/completions',
-                                           headers={'Authorization': 'Bearer ' + secret, 'User-Agent': USER_AGENT},
-                                           json=payload)
+                    return client.post(base_url + '/chat/completions',
+                                       headers={'Authorization': 'Bearer ' + secret, 'User-Agent': USER_AGENT},
+                                       json=payload)
+            if lanes.enabled():
+                # Oct 16: httpx timeouts are per phase (a slow-drip body never trips them); this is a hard wall-clock cap
+                # per call, shrunk to what the account's compose deadline leaves.
+                try:
+                    response = lanes.run_with_deadline(_post, lanes.call_budget_s(), what=f'{stage} call')
+                except lanes.DeadlineExceeded:
+                    if lanes.time_left() is not None and lanes.time_left() <= 0:
+                        raise
+                    record['http_status'] = 'deadline'
+                    raise httpx.ReadTimeout('call wall-clock deadline') from None
+            else:
+                response = _post()
             record['http_status'] = response.status_code
             if native and not response.is_success:
                 # Official Gemini API: a rejected request (429 / 5xx / 4xx) is not billed.
@@ -613,5 +633,9 @@ class ErisedaiClient:
                 raise RuntimeError('Relay usage settlement failed; reservation retained') from None
             finally:
                 record.update(finished_at=now(), latency_seconds=round(time.monotonic() - started, 3))
+                if lanes.enabled():
+                    lanes.log_latency(stage, time.monotonic() - started,
+                                      record['status'] + ('' if record['status'] == 'completed' else
+                                                          ':' + str(record.get('error_type') or record.get('http_status') or '?')))
                 save()
                 self.calls.append({'stage': stage, 'path': str(path), 'status': record['status']})
