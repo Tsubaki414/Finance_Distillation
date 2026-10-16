@@ -316,6 +316,36 @@ ENTITY_RULE_COMPOSE = ('Units list entities: names exactly as the source writes 
                        'a category word ("optical module leaders", "domestic chip names") when the name is available.')
 
 
+ENTITY_PACK_MIN = 3    # distinct named entities (speaker / publisher excluded) a pack should carry
+ENTITY_PACK_ADD = 2    # at most this many extra same-source units
+
+
+def _pack_names(units):
+    names = []
+    for u in units:
+        sp = str(u.get('speaker') or '').casefold()
+        for e in u.get('entities') or []:
+            if e.casefold() != sp and e not in names and e not in str(u.get('speaker') or ''):
+                names.append(e)
+    return names
+
+
+def add_entity_units(chosen, units):
+    """FD_KEEP_ENTITIES: the pack picked by view / pick_units can hold only number units while the units that NAME the
+    stocks stay out (10-16 GS run: 3 units, zero names -> a post about "export leaders" with no leader). When the pack
+    names fewer than ENTITY_PACK_MIN entities, append up to ENTITY_PACK_ADD not-yet-chosen units of the same source
+    that carry the most names. Returns (pack, [added unit_ids])."""
+    if not _entities_on() or len(_pack_names(chosen)) >= ENTITY_PACK_MIN:
+        return chosen, []
+    have = {u['unit_id'] for u in chosen}
+    sources = {u.get('source_hash') for u in chosen}
+    pool = [u for u in units if u['unit_id'] not in have and u.get('source_hash') in sources and _pack_names([u])
+            and u.get('kind') in ('fact', 'view', 'mechanism')]
+    pool.sort(key=lambda u: -len(_pack_names([u])))
+    added = pool[:ENTITY_PACK_ADD]
+    return list(chosen) + added, [u['unit_id'] for u in added]
+
+
 def _entities_on():
     from live import content_units
     return content_units.keep_entities_enabled()
@@ -1527,6 +1557,7 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
     elif stance is not None and stance.get('account_view') and post_type not in JUDGMENT_TYPES:
         # Thesis-locked non-judgment post (e.g. a supplied stance for view_relay): same thin pack.
         chosen = trim_judgment_pack(chosen, now=now, keep=[primary])
+    chosen, base['entity_units_added'] = add_entity_units(chosen, units)   # FD_KEEP_ENTITIES
     try:
         frame = attribution_frame.render(post_type, source, post_types, speaker=primary['speaker'], lang=persona.lang)
     except ValueError as exc:

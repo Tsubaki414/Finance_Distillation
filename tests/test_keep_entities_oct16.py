@@ -116,3 +116,27 @@ def test_default_on_in_runs_off_under_pytest(monkeypatch):
     assert not cu.keep_entities_enabled({'PYTEST_CURRENT_TEST': 'x'})
     assert cu.keep_entities_enabled({})
     assert not cu.keep_entities_enabled({'FD_KEEP_ENTITIES': '0'})
+
+
+def _u(i, ents, speaker='高盛', kind='fact'):
+    return {'unit_id': f'cu-{i}', 'kind': kind, 'source_hash': 'h', 'speaker': speaker, 'entities': ents}
+
+
+def test_pack_without_names_gets_named_units_added():
+    chosen = [_u(1, []), _u(2, ['MSCI中国'])]
+    pool = chosen + [_u(3, ['高盛', '中际旭创', '新易盛', '天孚通信']), _u(4, ['寒武纪', '中芯国际']), _u(5, ['腾讯'])]
+    pack, added = compose.add_entity_units(chosen, pool)
+    assert added == ['cu-3', 'cu-4'] and [u['unit_id'] for u in pack] == ['cu-1', 'cu-2', 'cu-3', 'cu-4']
+
+
+def test_pack_already_naming_enough_untouched_and_flag_off(monkeypatch):
+    chosen = [_u(1, ['A股甲', 'B股乙', 'C股丙'])]
+    assert compose.add_entity_units(chosen, chosen + [_u(2, ['x1', 'x2'])]) == (chosen, [])
+    monkeypatch.setenv('FD_KEEP_ENTITIES', '0')
+    assert compose.add_entity_units([_u(1, [])], [_u(1, []), _u(2, ['中际旭创'])])[1] == []
+
+
+def test_other_source_units_never_added():
+    chosen = [_u(1, [])]
+    other = dict(_u(2, ['中际旭创']), source_hash='other')
+    assert compose.add_entity_units(chosen, chosen + [other])[1] == []
