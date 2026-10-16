@@ -376,3 +376,50 @@ def test_anti_repeat_history_loses_no_row_under_concurrency(tmp_path, monkeypatc
     [t.join() for t in ts]
     ids = {r.get('draft_id') for r in anti_repeat.load_recent('acct', 29)}
     assert len(ids) == 20   # 4 lanes x 5 drafts, none lost (unlocked read-modify-write loses some)
+
+
+# ---------------------------------------------------------------- the shell lock block of daily_compose.sh
+def _lock_snippet():
+    import re
+    from pathlib import Path
+    src = (Path(__file__).resolve().parents[1] / 'scripts/cron/daily_compose.sh').read_text()
+    m = re.search(r'^LANE="\$\{FD_LANE:-\}".*?^if ! flock -n 9;.*?fi$', src, re.S | re.M)
+    assert m
+    return m.group(0)
+
+
+def _run_lock(tmp_path, env, hold=0):
+    import subprocess
+    script = _lock_snippet() + f'\necho GOT; sleep {hold}\n'
+    e = {**os.environ, 'FD_LANE_LOCK_DIR': str(tmp_path / 'ld'), 'PATH': os.environ['PATH']}
+    for k in ('FD_LANE', 'FD_ENGAGE_ONLY', 'FD_MIDDAY', 'FD_MIDDAY_LANG', 'FD_LANES'):
+        e.pop(k, None)
+    e.update(env)
+    return subprocess.Popen(['bash', '-c', script], env=e, stdout=subprocess.PIPE, text=True)
+
+
+def test_shell_lanes_run_in_parallel_and_same_lane_skips(tmp_path):
+    main = _run_lock(tmp_path, {}, hold=3)                         # the nightly compose holds the main lock
+    time.sleep(0.5)
+    eng = _run_lock(tmp_path, {'FD_ENGAGE_ONLY': '1'}, hold=2)
+    mid = _run_lock(tmp_path, {'FD_MIDDAY': '1', 'FD_MIDDAY_LANG': 'zh'}, hold=2)
+    time.sleep(0.5)
+    eng2 = _run_lock(tmp_path, {'FD_ENGAGE_ONLY': '1'})            # same lane while engage runs
+    main2 = _run_lock(tmp_path, {})                                # a second main while main runs
+    o_eng2, o_main2 = eng2.communicate(timeout=20)[0], main2.communicate(timeout=20)[0]
+    o_eng, o_mid = eng.communicate(timeout=20)[0], mid.communicate(timeout=20)[0]
+    assert 'lane: engage' in o_eng and 'GOT' in o_eng              # engage was not blocked by the running main
+    assert 'lane: midday' in o_mid and 'GOT' in o_mid
+    assert 'holds the lock: skip' in o_eng2 and 'GOT' not in o_eng2
+    assert 'holds the lock: skip' in o_main2 and 'GOT' not in o_main2
+    main.communicate(timeout=20)
+    assert 'GOT' in _run_lock(tmp_path, {'FD_ENGAGE_ONLY': '1'}).communicate(timeout=20)[0]   # released afterwards
+
+
+def test_shell_rollback_flag_restores_single_global_lock(tmp_path):
+    main = _run_lock(tmp_path, {'FD_LANES': '0'}, hold=3)
+    time.sleep(0.5)
+    eng = _run_lock(tmp_path, {'FD_LANES': '0', 'FD_ENGAGE_ONLY': '1'})
+    out = eng.communicate(timeout=20)[0]
+    assert 'holds the lock: skip' in out and 'GOT' not in out          # old behaviour: engage skipped while main runs
+    main.communicate(timeout=20)

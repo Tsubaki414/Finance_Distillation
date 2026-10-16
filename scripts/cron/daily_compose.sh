@@ -25,7 +25,8 @@ if [[ -z "$LANE" ]]; then
     if [[ "${FD_ENGAGE_ONLY:-0}" == "1" ]]; then LANE=engage; elif [[ "${FD_MIDDAY:-0}" == "1" ]]; then LANE=midday; else LANE=main; fi
 fi
 export FD_LANE="$LANE"
-LOCKDIR=/workspace/x/compose_runs
+LOCKDIR="${FD_LANE_LOCK_DIR:-/workspace/x/compose_runs}"
+mkdir -p "$LOCKDIR"
 LOCKFILE="$LOCKDIR/.daily_compose.lock"
 if [[ "${FD_LANES:-1}" != "0" ]]; then
     case "$LANE" in
