@@ -1,6 +1,6 @@
 # Finance Distillation（FD）
 
-FD 是 Mango Labs 的 **X（Twitter）多账号金融内容流水线**：每天从公开、合规的来源（新闻快讯、研报、官方数据、链上数据、同赛道 X 大号）抓素材，按 36 个账号各自的人设和 donor 文风（donor = 我们学习文风的真实 X 博主）写成草稿，经质检后放到运营看板，由运营同事**人工发帖**。
+FD 是 Mango Labs 的 **X（Twitter）多账号金融内容流水线**：每天从公开、合规的来源（新闻快讯、研报、官方数据、链上数据、同赛道 X 大号）抓素材，按 48 个账号各自的人设和 donor 文风（donor = 我们学习文风的真实 X 博主）写成草稿，经质检后放到运营看板，由运营同事**人工发帖**。
 
 - **系统不会自动发帖。** 它只产出草稿、建议发帖时间和配图，并在发帖后自动识别「已发」。
 - 当前开发分支：`fd-phase0`（`main` 是 Phase 0 之前的冻结快照）。
@@ -8,9 +8,9 @@ FD 是 Mango Labs 的 **X（Twitter）多账号金融内容流水线**：每天�
 
 ---
 
-## 1. 36 个账号
+## 1. 48 个账号
 
-账号表在 `live/fd20_accounts.json`（1–20 号主号）、`live/fd_accounts_extra.json`（21–26 号备用号，`FD_ACCOUNTS_EXTRA`）、`live/fd_accounts_new.json`（27–36 号新号，`FD_ACCOUNTS_NEW`），统一由 `live/fd_accounts.py` 的 `rows()` 读取。handle 是公开 X 账号名。
+账号表在 `live/fd20_accounts.json`（1–20 号主号）、`live/fd_accounts_extra.json`（21–26 号备用号，`FD_ACCOUNTS_EXTRA`）、`live/fd_accounts_new.json`（27–36 号新号，`FD_ACCOUNTS_NEW`）、`live/fd_accounts_new12.json`（37–48 号新号，`FD_ACCOUNTS_NEW12`，默认开，设 0 回滚），统一由 `live/fd_accounts.py` 的 `rows()` 读取。handle 是公开 X 账号名。
 
 | # | 人设名 | 账号 id（lane） | 语言 | 赛道 | X handle |
 |---|---|---|---|---|---|
@@ -49,9 +49,23 @@ FD 是 Mango Labs 的 **X（Twitter）多账号金融内容流水线**：每天�
 | 33 | tilda 🌾 | `crypto_airdrop_en` | en | Airdrops · points | @onlyderinn |
 | 34 | Odessa Quill | `crypto_prediction_en` | en | Prediction markets | @rfan59258898 |
 | 35 | wes.hl | `crypto_perp_dex_en` | en | Perp DEX · Hyperliquid | @elifec21 |
-| 36 | Maren Holt | `crypto_stable_yield_en` | en | Stablecoin yield | 待填 |
+| 36 | Maren Holt | `crypto_stable_yield_en` | en | Stablecoin yield | @aleyna_3506 |
+| 37 | Kiro 柯洛 | `options_vol_zh` | zh | BTC/ETH 期权与波动率 · 趋势与交易感受 | @AmanSin72249857 |
+| 38 | 杰哥Jay | `funding_arb_zh` | zh | 资金费率/基差套利 · 现货+永续 · HL vs 币安 | @OLFBoR3hwGrx7MS |
+| 39 | Momo莫莫🐱 | `overseas_flash_zh` | zh | 海外热帖转述 · 短评 + 数字 + 一行背景 | @QKkevin1 |
+| 40 | Kiki柴柴 | `hk_us_ipo_zh` | zh | 港股/美股 · IPO 日历 · 热门个股 | @W0piebNG7LY521A |
+| 41 | 芋圆Yuan | `ai_techstocks_zh` | zh | AI 与科技股 · 英伟达/云厂商财报 · AI×加密 | @Ahmad61291953 |
+| 42 | Nana奈奈 | `exchange_perks_zh` | zh | 交易所活动 · Launchpool · 链上理财 · 新手低风险上手 | @chelsea_yaw |
+| 43 | Rafe Kolar | `options_vol_en` | en | Crypto options & vol · BTC trend · macro prints | @ibra451960 |
+| 44 | Callum Reyes | `yield_arb_en` | en | Funding/basis arb · spot+perp · HL vs Binance | @marklak2007 |
+| 45 | Teddy Marsh | `crypto_equities_en` | en | Crypto stocks · MSTR/COIN/miners · treasury companies · ETF flows | @xT0fWUwGajPfEjE |
+| 46 | Clara Voss | `macro_en` | en | CPI/FOMC/jobs previews and recaps with charts | @MilanZoric6 |
+| 47 | dino.onchain 🦕 | `onchain_daily_en` | en | Daily onchain chart + short read | @kate_river_ |
+| 48 | Iris Hale | `asia_news_en` | en | Chinese/Korean/Japanese crypto news for English readers | @princess_ppkin |
 
-**双胞胎账号（twins）**：27/32、28/33、29/34、30/36 是同一赛道的中英一对，同一天不能写同一个故事（`live/twins.py`，`FD_TWIN_RULE`）。
+**双胞胎账号（twins）**：27/32、28/33、29/34、30/36 是同一赛道的中英一对，同一天不能写同一个故事（`live/twins.py`，`FD_TWIN_RULE`）。37–48 号虽有中英同类赛道（如期权波动率 37/43、资金费率套利 38/44），但 `live/twins.py` 的 `PAIRS` 只登记上面 4 对，新增 12 号不在双胞胎规则内。
+
+**新增 37–48 号接入情况（按代码核实）**：`live/fd_accounts.py` 的 `rows()` 默认包含 `new12` 组（`FD_ACCOUNTS_NEW12`，默认 1），`scripts/daily_compose.py`、`live/x_daily.py` 等都读 `rows()`，所以 23:13 例程（`daily_ingest.sh` → `daily_compose.sh`）在默认配置下会把这 12 个号一并纳入抓取和成稿；donor 名单 `roster.json` 已有它们各自的 `acct_<id>` 簇。设 `FD_ACCOUNTS_NEW12=0` 即全部移除。赛道取自 `fd_accounts_new12.json` 的 `beat`。
 
 ---
 
@@ -143,7 +157,7 @@ flowchart LR
 
 ## 6. donor 与人设
 
-- **donor 名单**：`live/donors/roster.json`（约 500 个 donor，36 个号各有一个 `acct_<id>` 簇，每簇 8–10 人；同一 donor 最多进 2 个号，twins 之间不重叠）。donor 扩充走单独分支，**合并前必须有书面 REVIEW 报告**。
+- **donor 名单**：`live/donors/roster.json`（约 500 个 donor，48 个号各有一个 `acct_<id>` 簇，每簇 8–10 人；同一 donor 最多进 2 个号，twins 之间不重叠）。donor 扩充走单独分支，**合并前必须有书面 REVIEW 报告**。
 - **人设卡**：`live/personas/<id>.json`；招牌写法 `signature_cards/`（开场 / 收尾 / 禁忌）；文风 `voice_cards/`；发帖习惯 `posting_habits/`、语言习惯 `language_habits/`。这些卡由 `scripts/persona_factory.py` 从 donor 数据生成，**只在本地，不进 git**。
 - **文风统计**（只存聚合数字，进 git）：
   - `live/donors/style_stats.json`：385 个 donor、约 6.2 万帖的帖型 / 句长 / 钩子标签；
@@ -345,7 +359,7 @@ bash scripts/run_tests.sh                       # 全量（pytest，项目 venv�
 
 | 路径 | 内容 |
 |---|---|
-| `live/fd20_accounts.json` 等 3 个账号文件 / `live/fd_accounts.py` | 36 号账号表 |
+| `live/fd20_accounts.json` 等 4 个账号文件 / `live/fd_accounts.py` | 48 号账号表（4 个账号文件） |
 | `live/personas/` | 人设卡（各类卡本地生成） |
 | `live/donors/roster.json`、`style_stats.json`、`donor_rates.json`、`line_end_stats.json` | donor 名单与聚合统计 |
 | `live/stage_models.json` / `.py` | 各阶段模型、subrouter 映射 |
