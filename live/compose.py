@@ -309,6 +309,18 @@ def length_of(text):
     return len(re.sub(r'\s+', '', text))
 
 
+# Oct 16 (FD_KEEP_ENTITIES): units carry entities[] (company / ticker / product names verbatim from the source spans).
+ENTITY_RULE_COMPOSE = ('Units list entities: names exactly as the source writes them. When a post is about a list, '
+                       'portfolio, pick or ranking, name the concrete stocks / products that carry the point (the ones '
+                       'the source highlights, not all) in the source\'s own spelling; never replace a named entity with '
+                       'a category word ("optical module leaders", "domestic chip names") when the name is available.')
+
+
+def _entities_on():
+    from live import content_units
+    return content_units.keep_entities_enabled()
+
+
 def eligible(post_type, units):
     if post_type in JUDGMENT_TYPES and not any(u['kind'] == 'fact' and u['usage'] != 'topic_only' for u in units):
         return []
@@ -1537,12 +1549,15 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
                           **({'date_label': date_label(u, persona.lang)}
                              if u.get('historical') and date_label(u, persona.lang) else {}),
                           **({'view':u['view']} if 'view' in u else {}),
+                          **({'entities': list(u['entities'])} if u.get('entities') and _entities_on() else {}),
                           **({'quote_allowed': False, 'usage': 'paraphrase'} if u.get('quote_allowed') is False else {}),
                           'source_spans': [s['exact_text'] for s in u['source_spans']],
                           'numbers': [{k: n[k] for k in ('text', 'metric', 'period', 'span_ref')} for n in u['numbers']]}
                          for u in chosen]}
     if angle:
         payload['angle'] = dict(angle)
+    if _entities_on() and any(u.get('entities') for u in payload['units']):
+        payload['entity_rule'] = ENTITY_RULE_COMPOSE
     # Oct 11 (live/rc_guard.py, FD_EVENT_FACT): the source's lead event (who did what, when, incl. denials) - line 1/2
     from live import rc_guard as _rcg
     _ev_block = (_rcg.payload_block(event_fact)
@@ -1858,6 +1873,9 @@ def compose_source(source, account_id, client, *, post_type=None, exemplars=None
             elif isinstance(zh_units, dict) and isinstance(zh_units.get(u['unit_id']), str):
                 u['statement_en'] = u['statement']
                 u['statement'] = zh_units[u['unit_id']]
+                _miss = [e for e in (u.get('entities') or []) if e not in u['statement']]
+                if _miss:   # FD_KEEP_ENTITIES: a translated statement keeps the source's names
+                    u['statement'] += '（涉及：' + '、'.join(_miss) + '）'
     if isinstance(payload.get('stance'), dict) and 'zh_units' in payload['stance']:
         payload['stance'] = {k: v for k, v in payload['stance'].items() if k != 'zh_units'}
     retrieval = persona.raw.get('exemplar_retrieval') or {}

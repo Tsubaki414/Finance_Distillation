@@ -4421,6 +4421,16 @@
       "no_reproduction": false,
       "quote_allowed": false,
       "attribution_required": true
+    },
+    "manual_finvaulta": {
+      "tier": "B",
+      "no_reproduction": true,
+      "quote_allowed": false,
+      "attribution_required": true,
+      "basis": "public research-summary site (Goldman Sachs note summaries); facts only, paraphrase with attribution, no quotes or charts (Fiona 2026-10-16 manual add)",
+      "aliases": [
+        "Finvaulta"
+      ]
     }
   }
 }
