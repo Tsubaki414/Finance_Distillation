@@ -168,6 +168,7 @@ flowchart LR
 
 - **只做兜底**：账号当天仍没有可用的原创稿（未 HOLD、未被替换、非互动；回看稿算原创，回复稿不算）才补；之后若来了新鲜原创稿，导图行让出槽位（`live/archive_fallback.py`）。钩子在 `scripts/daily_compose.py` 回看钩子之后（`live/mindmap/fill.py`）。
 - **开关与上限**：`FD_MINDMAP_FILL` 代码默认 0，夜间 `daily_compose.sh` 设为 1；每北京日最多 `FD_MINDMAP_MAX_PER_DAY`=4 张、每号每天 1 张；每轮模型花费 `FD_MINDMAP_BUDGET_USD`=1.0；每号最多试 `FD_MINDMAP_ATTEMPTS`=3 个来源；每个来源最多给 `FD_MINDMAP_ITEM_MAX_USES`=3 个账号；每轮最多 12 次来源尝试 / 1500 秒；`FD_MINDMAP_ACCOUNTS` 可限定账号。
+- **账号调性闸（10-16 Fiona「账号调性决定」）**：① 只回复 / 引用、没有原创的账号**不补**（`gate` 返回 reply-only）；只有真正没有原创、也没有回复 / 引用行的账号才补。② 只有 `live/mindmap_accounts.json` 的 `eligible` 名单（分析 / 科普 / 长期型人设）里的账号可做导图，名单外和未知账号一律不做；交易 / 套利 / 空投 / 期权 / 福利 / meme 等账号不在名单内；环境变量 `FD_MINDMAP_ACCOUNTS`（csv）设置后**覆盖**名单。③ 来源主题与账号赛道不符（用 `live/lane_fit` 检查来源标题 / 主题，如比特币周期号拿到台积电财报）→ 行 HOLD，`hold_reason=off_lane`。
 - **选源**：按来源主题与账号赛道匹配（`topic_fits`），同语言来源优先、再按新旧；视频转写只给 `FD_VIDEO_SRC` 的账号。
 - **生成与检查**（`live/mindmap/gen.py`、`render.py`）：一次 Gemini 调用出树 + 文案，每个 L2–L4 节点带原文摘录，摘录或数字不在原文里的节点被删，删掉超过 25% 判 HARD `mm_unsupported`；模型可对不相关的来源选择 skip；渲染成「纸色」风格 PNG，自检节点重叠 / 溢出。出处（作者、标题、日期、来源）只写在图片页脚和行里的 `mindmap.attribution`，文案本身不带署名行。
 - **不会被机器发布**：导图行 `publishable: False`，和其他草稿一样只放看板、由人工发帖；不过硬检查的行 HOLD + `needs_review`；导图行不受新鲜度规则限制。

@@ -1,0 +1,18 @@
+{
+  "version": "2026-10-16",
+  "rule": "Fiona 16 Oct: the mind-map fallback is gated by account tone (账号调性). Only accounts whose persona is analytical / educational / long-term may get a map. Unknown accounts are NOT eligible. FD_MINDMAP_ACCOUNTS (csv) overrides this list.",
+  "eligible": [
+    "crypto_macro_zh",
+    "crypto_research_zh",
+    "crypto_btc_cycle_zh",
+    "crypto_newbie_zh",
+    "zh_longterm_investing",
+    "crypto_macro_en",
+    "btc_cycles_en",
+    "crypto_research_en",
+    "investing_philosophy",
+    "longterm_investing_en",
+    "single_stock_deepdive_en"
+  ],
+  "excluded_tones": "hype / trader / arb / airdrop / options / perks / meme / prediction / flash-news / diary accounts"
+}

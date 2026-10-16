@@ -127,7 +127,9 @@ def test_gate_tiers(tmp_path):
     aid = 'investing_philosophy'
     assert fill.gate(aid, '2026-10-16', base=base)[0] is True                         # empty day -> fill
     compose_inbox.add(_row(aid, 'reply-1', post_format={'engage': 'reply'}), base=base)
-    assert fill.gate(aid, '2026-10-16', base=base)[0] is True                         # replies are not a standalone
+    ok, why = fill.gate(aid, '2026-10-16', base=base)
+    assert ok is False and 'reply-only' in why                                        # Oct 16: reply-only account is not filled
+    aid = 'btc_cycles_en'
     compose_inbox.add(_row(aid, 'compose-1', held=True, draft_status='needs_review'), base=base)
     assert fill.gate(aid, '2026-10-16', base=base)[0] is True                         # held does not count
     compose_inbox.add(_row(aid, 'arc-1', post_kind='archive_lookback'), base=base)
@@ -327,3 +329,48 @@ def test_caption_numbers_must_be_in_source():
     assert gen.caption_findings('A fund charging 1.5% gives up a third.', 'en', SOURCE) == []
     codes = [c for c, _ in gen.caption_findings('A fund charging 9.9% gives up a third.', 'en', SOURCE)]
     assert codes == ['mm_caption_number']
+
+
+def test_reply_only_not_filled_but_absent_is_(tmp_path):
+    base = tmp_path / 'inbox'
+    assert fill.gate('btc_cycles_en', '2026-10-16', base=base)[0] is True             # genuinely absent -> fill
+    compose_inbox.add(_row('btc_cycles_en', 'q-1', post_format={'engage': 'quote'}), base=base)
+    assert fill.gate('btc_cycles_en', '2026-10-16', base=base)[0] is False
+    compose_inbox.add(_row('zh_macro', 'h-1', held=True, draft_status='needs_review'), base=base)
+    assert fill.gate('zh_macro', '2026-10-16', base=base)[0] is True                  # only a held row: still absent
+
+
+def test_tone_list_and_env_override(monkeypatch, tmp_path):
+    assert fill.eligible('investing_philosophy')[0] and fill.eligible('crypto_btc_cycle_zh')[0]
+    for aid in ('crypto_trader_zh', 'funding_arb_zh', 'crypto_airdrop_en', 'options_vol_en', 'exchange_perks_zh', 'brand_new_account'):
+        assert fill.eligible(aid)[0] is False, aid                                      # hype / trader / unknown -> no
+    monkeypatch.setenv('FD_MINDMAP_ACCOUNTS', 'crypto_trader_zh')
+    assert fill.eligible('crypto_trader_zh')[0] and not fill.eligible('investing_philosophy')[0]
+    monkeypatch.delenv('FD_MINDMAP_ACCOUNTS')
+    assert fill.tone_accounts(tmp_path / 'missing.json') == set()
+    assert fill.eligible('investing_philosophy', path=tmp_path / 'missing.json')[0] is False
+
+
+def test_run_skips_ineligible_account(tmp_path):
+    _pool(tmp_path)
+    acct = {**ACCT_EN, 'id': 'crypto_trader_en', 'beat': 'Crypto trading'}
+    out = fill.run(['crypto_trader_en'], '2026-10-16', inbox_base=tmp_path / 'inbox', media_out=tmp_path / 'm', runs_dir=tmp_path / 'r',
+                   ask=lambda m: (tree(), {}), renderer=fake_render, accounts=[acct], pool_items=longform_src.pool(base=tmp_path / 'lf', config={}))
+    assert out['made'] == 0 and 'tone' in out['accounts']['crypto_trader_en']['skip']
+
+
+def test_off_lane_source_is_held(tmp_path):
+    _pool(tmp_path, 1)
+    d = tmp_path / 'lf' / '20261015' / 'blog-t-0.json'
+    meta = json.loads(d.read_text())
+    meta.update({'topic': 'general', 'title': '台积电：只吃饼不画饼，当得了带头大哥吗？', 'lang': 'zh'})
+    d.write_text(json.dumps(meta))
+    acct = {'id': 'crypto_btc_cycle_zh', 'lang': 'en', 'beat': 'Bitcoin cycles', 'name': 'B', 'no': 7}
+    assert fill.lane_check(acct, meta)['ok'] is False
+    assert fill.lane_check(acct, {'title': 'Bitcoin halving cycle and liquidity', 'topic': 'crypto'})['ok'] is True
+    base = tmp_path / 'inbox'
+    out = fill.run(['crypto_btc_cycle_zh'], '2026-10-16', inbox_base=base, media_out=tmp_path / 'm', runs_dir=tmp_path / 'r',
+                   ask=lambda m: (tree(), {'response_model': 'gemini-test'}), renderer=fake_render, accounts=[acct],
+                   pool_items=longform_src.pool(base=tmp_path / 'lf', config={}))
+    r = compose_inbox.rows('2026-10-16', base=base)[0]
+    assert out['made'] == 1 and r['held'] is True and r['hold_reason'] == 'off_lane' and r['draft_status'] == 'needs_review'

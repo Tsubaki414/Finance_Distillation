@@ -7,10 +7,15 @@ has NO ready standalone row after (1) and (2) (the same slot rule as the archive
 archive row does). Mind maps are not an account; they are a post type (post_kind 'mindmap').
 
 Switch: FD_MINDMAP_FILL=1 (default OFF). Caps: FD_MINDMAP_MAX_PER_DAY (4 maps / Beijing day), 1 per account and day,
-FD_MINDMAP_BUDGET_USD (1.0 model spend per run), FD_MINDMAP_ACCOUNTS (csv allow-list), FD_MINDMAP_ATTEMPTS (3 sources
+FD_MINDMAP_BUDGET_USD (1.0 model spend per run), FD_MINDMAP_ACCOUNTS (csv; OVERRIDES the tone list), FD_MINDMAP_ATTEMPTS (3 sources
 tried per account). Rows: post_kind / post_type 'mindmap', media[0] kind 'mindmap' (PNG, 2400 px wide), caption = row text,
 credit + source recorded in row['mindmap'] and the image footer, freshness-exempt (live/fresh_hold.py), yieldable to a fresh
 standalone (live/archive_fallback.py). Never publishes.
+
+Oct 16 (Fiona, 'account tone decides'): (a) an account that has only reply / quote rows is NOT filled (the fill is for a
+genuinely absent standalone, not for a reply-only day); (b) only accounts in live/mindmap_accounts.json (analytical /
+educational / long-term personas) are eligible, unknown accounts are not, FD_MINDMAP_ACCOUNTS overrides; (c) a map whose
+source topic is off the account's lane (live/lane_fit) is held 'off_lane'.
 """
 from __future__ import annotations
 
@@ -72,6 +77,41 @@ def record_use(day, account, item_id, draft_id, **extra):
     from live import lanes   # Oct 16: flock'd append
     lanes.locked_append(p, json.dumps({'day': str(day), 'account': account, 'item': item_id, 'draft': draft_id, **extra},
                                       ensure_ascii=False))
+
+
+# ---------------------------------------------------------------- account tone gate (Oct 16)
+
+TONE_FILE = ROOT / 'live' / 'mindmap_accounts.json'
+
+
+def tone_accounts(path=None):
+    """Account ids whose persona tone allows a mind map (analytical / educational / long-term). Missing / bad file -> none."""
+    try:
+        return {str(x) for x in json.loads(Path(path or TONE_FILE).read_text()).get('eligible', [])}
+    except (OSError, ValueError, AttributeError):
+        return set()
+
+
+def eligible(account_id, env=None, path=None):
+    """(ok, why). FD_MINDMAP_ACCOUNTS (csv) overrides the tone list; an account in neither is not eligible."""
+    raw = (env if env is not None else os.environ).get('FD_MINDMAP_ACCOUNTS', '')
+    allow = {x.strip() for x in raw.split(',') if x.strip()}
+    if allow:
+        return (account_id in allow), ('FD_MINDMAP_ACCOUNTS' if account_id in allow else 'not in FD_MINDMAP_ACCOUNTS')
+    if account_id in tone_accounts(path):
+        return True, 'tone list'
+    return False, 'tone: not in live/mindmap_accounts.json (unknown / hype / trader tone)'
+
+
+def lane_check(acct, item):
+    """Topic fit of the SOURCE (its title + topic tag, not the generated map) vs the account's lane, via live/lane_fit.
+    {'ok', 'why', 'detail'}; ok when lane_fit has no objection."""
+    from live import lane_fit
+    text = f"{item.get('title') or ''} {item.get('topic') if item.get('topic') not in (None, 'general') else ''}".strip()
+    chk = lane_fit.macro_check(acct, text)
+    if chk.get('ok') and lane_fit.is_niche(acct):
+        chk = lane_fit.packet_check(acct, text)
+    return chk
 
 
 # ---------------------------------------------------------------- account / source fit
@@ -141,6 +181,11 @@ def ready_standalone(day, account, base=None):
             if archive_fallback._ready(r) and archive_fallback.is_standalone(r)]
 
 
+def archive_fallback_standalone(row):
+    from live import archive_fallback
+    return archive_fallback.is_standalone(row)
+
+
 def gate(account, day, *, base=None, made_today=0):
     """(run?, reason)."""
     from live import compose_inbox
@@ -149,7 +194,10 @@ def gate(account, day, *, base=None, made_today=0):
     rows = compose_inbox.rows(str(day), account=account, base=base)
     if any(is_mindmap(r) and not r.get('superseded') for r in rows):
         return False, 'already has its mind map for the day'
+    reply_only = [r for r in rows if not r.get('superseded') and not r.get('held') and not archive_fallback_standalone(r)]
     ready = ready_standalone(day, account, base)
+    if reply_only and not ready:
+        return False, f'reply-only account ({len(reply_only)} reply / quote row(s), no standalone): not filled (Fiona 16 Oct)'
     if ready:
         return False, f'slot rule: {len(ready)} ready standalone draft(s) (fresh / archive) already fill the slot'
     return True, 'no ready standalone draft after the fresh + archive tiers'
@@ -217,7 +265,6 @@ def run(account_ids, day, *, inbox_base=None, media_out=None, runs_dir=None, ask
     roster = {a['id']: a for a in (accounts or fd_accounts.rows(al.ACCOUNTS))}
     budget = float(budget_usd if budget_usd is not None else os.environ.get('FD_MINDMAP_BUDGET_USD', 1.0))
     summary = {'day': day.isoformat(), 'run_id': run_id, 'accounts': {}, 'model_usd': 0.0, 'made': 0}
-    allow = {x.strip() for x in os.environ.get('FD_MINDMAP_ACCOUNTS', '').split(',') if x.strip()}
     state = {'client': None}
 
     def default_ask(messages):
@@ -261,8 +308,9 @@ def run(account_ids, day, *, inbox_base=None, media_out=None, runs_dir=None, ask
             break
         info = summary['accounts'].setdefault(aid, {})
         acct = roster.get(aid)
-        if acct is None or (allow and aid not in allow):
-            info['skip'] = 'not in roster / FD_MINDMAP_ACCOUNTS'
+        ok_acct, why_acct = eligible(aid)
+        if acct is None or not ok_acct:
+            info['skip'] = 'not in roster' if acct is None else why_acct
             continue
         if not force:
             ok, why = gate(aid, day, base=inbox_base, made_today=made_today)
@@ -337,6 +385,11 @@ def run(account_ids, day, *, inbox_base=None, media_out=None, runs_dir=None, ask
                 fresh_hold.apply(row, log=log)
             except Exception:   # noqa: BLE001
                 pass
+            lchk = lane_check(acct, item)
+            if not lchk.get('ok') and not row.get('held'):
+                row.update({'held': True, 'hold_reason': 'off_lane', 'draft_status': 'needs_review', 'status': 'held',
+                            'hold_detail': lchk.get('detail') or 'source topic off the account lane'})
+                info['tries'][-1]['off_lane'] = True
             if write:
                 compose_inbox.add(row, base=inbox_base)
             record_use(day, aid, item['id'], row['id'], status='made')

@@ -12,6 +12,18 @@ pipeline. Mind maps are **not an account**; they are a post type used as the **l
 
 Hook: `scripts/daily_compose.py` after the 回看 hook and before the final one-per-story / fresh-hold sweep.
 
+## Account tone gate (Oct 16, Fiona: "don't fill reply-only accounts; account tone (账号调性) decides")
+
+- **Reply-only accounts are not filled.** `fill.gate` refuses when the account has any live (not superseded / held) reply or
+  quote row and no ready standalone. Only an account with no standalone *and* no engagement rows for the day is filled.
+- **Tone allow list**: `live/mindmap_accounts.json` (`eligible`) lists the analytical / educational / long-term accounts
+  (macro, research, BTC-cycle, newbie education, long-term investing, single-stock deep dive). Hype / trader / arb /
+  airdrop / options / perks / meme / prediction / flash accounts are not in it. **Unknown accounts are not eligible.**
+  `FD_MINDMAP_ACCOUNTS` (csv), when set, overrides the file. A missing / unreadable file means nobody is eligible.
+- **Topic fit**: besides `topic_fits`, `fill.lane_check` runs `live/lane_fit` (`macro_check`, `packet_check` for niche
+  accounts) on the source title + topic. An off-lane source (e.g. a TSMC earnings map on a bitcoin-cycle account) still
+  yields a row, but it is held: `held=true`, `hold_reason='off_lane'`, `draft_status='needs_review'`.
+
 ## Flags
 | env | default | meaning |
 |---|---|---|
