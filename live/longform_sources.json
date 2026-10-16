@@ -1,0 +1,28 @@
+{
+  "version": "longform-sources-v1",
+  "note": "Long-form (blog / video transcript / book-summary) material for the nightly ingest step live/longform_src.py and the mind-map fill tier (live/mindmap/fill.py). Edit this list to add or drop a source; FD_LONGFORM_CONFIG points at another file. Blog feeds reuse feeds already in live/source_registry.json (id = registry id where one exists). `topic`: crypto | investing | macro | ai | general (general fits any account). `lang`: language of the source text. YouTube: `channel_id` (RSS videos.xml, no yt-dlp listing) or `handle` (yt-dlp flat listing); transcripts come from the channel's own or auto captions only (no ASR in this step: no captions = skipped).",
+  "defaults": {"max_new_per_source": 2, "max_age_days": 21, "min_chars": 2500, "max_chars": 60000, "min_video_s": 360, "max_video_s": 5400},
+  "blogs": [
+    {"id": "lynalden", "name": "Lyn Alden", "feed": "https://www.lynalden.com/feed/", "lang": "en", "topic": "macro"},
+    {"id": "damodaran", "name": "Aswath Damodaran (Musings on Markets)", "feed": "https://aswathdamodaran.blogspot.com/feeds/posts/default", "lang": "en", "topic": "investing"},
+    {"id": "hayes", "name": "Arthur Hayes (Crypto Trader Digest)", "feed": "https://cryptohayes.substack.com/feed", "lang": "en", "topic": "crypto"},
+    {"id": "wolfstreet", "name": "Wolf Street", "feed": "https://wolfstreet.com/feed/", "lang": "en", "topic": "macro"},
+    {"id": "netinterest", "name": "Net Interest (Marc Rubinstein)", "feed": "https://www.netinterest.co/feed", "lang": "en", "topic": "investing"},
+    {"id": "overshoot", "name": "The Overshoot (Matthew C. Klein)", "feed": "https://theovershoot.co/feed", "lang": "en", "topic": "macro"},
+    {"id": "moontower", "name": "Moontower (Kris Abdelmessih)", "feed": "https://moontowermeta.com/rss/", "lang": "en", "topic": "trading"},
+    {"id": "doomberg", "name": "Doomberg", "feed": "https://newsletter.doomberg.com/feed", "lang": "en", "topic": "macro"},
+    {"id": "vitalik", "name": "Vitalik Buterin", "feed": "https://vitalik.eth.limo/feed.xml", "lang": "en", "topic": "crypto"},
+    {"id": "farnam", "name": "Farnam Street", "feed": "https://fs.blog/feed/", "lang": "en", "topic": "investing"},
+    {"id": "dolphin", "name": "海豚研究", "feed": "https://wechat2rss.bestblogs.dev/feed/60b1f9007c87ab75cd83314bf5cfede30addd40a.xml", "lang": "zh", "topic": "investing"}
+  ],
+  "youtube": [
+    {"id": "yt_coinbureau", "name": "Coin Bureau", "channel_id": "UCqK_GSMbpiV8spgD3ZGloSw", "lang": "en", "topic": "crypto"},
+    {"id": "yt_bankless", "name": "Bankless", "channel_id": "UCAl9Ld79qaZxp9JzEOwd3aA", "lang": "en", "topic": "crypto"},
+    {"id": "yt_realvision", "name": "Real Vision", "channel_id": "UCGXWKlq1Oxr3ddEtmKhAkPg", "lang": "en", "topic": "macro"},
+    {"id": "yt_patrickboyle", "name": "Patrick Boyle", "channel_id": "UCOIi9OLSpXRsX-wp2u26fsA", "lang": "en", "topic": "investing"},
+    {"id": "yt_plainbagel", "name": "The Plain Bagel", "channel_id": "UCFCEuCsyWP0YkP3CZ3Mr01Q", "lang": "en", "topic": "investing"},
+    {"id": "yt_colintalks", "name": "Colin Talks Crypto", "channel_id": "UCnqJ2HjWhm7MbhgFHLUENfQ", "lang": "en", "topic": "crypto"},
+    {"id": "yt_meitou", "name": "美投讲美股", "channel_id": "UCBUH38E0ngqvmTqdchWunwQ", "lang": "zh", "topic": "investing"}
+  ],
+  "x_video": {"enabled": true, "dir": "/workspace/x/video_src", "name": "X video (FD_VIDEO_SRC)", "lang": "zh", "topic": "investing", "credit": "X 视频"}
+}
