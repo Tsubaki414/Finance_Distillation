@@ -157,6 +157,21 @@ def subrouter_backoff(i):
     return steps[min(i, len(steps) - 1)] if steps else 0.0
 
 
+class RelaySSEError(ValueError):
+    """The relay answered with an SSE body (text/event-stream or 'data:' prefix) although stream:false was sent.
+    A ValueError: _call_retrying never retries it against the same model; the provider fallback may still run."""
+
+
+def _is_sse(response):
+    try:
+        ctype = (response.headers.get('content-type') or '').lower()
+        if 'text/event-stream' in ctype:
+            return True
+        return response.text.lstrip().startswith('data:')
+    except Exception:   # noqa: BLE001
+        return False
+
+
 class PrimaryFailed(RuntimeError):
     """The primary failed (after retries) and no usable fallback is left: a per-draft failure."""
 
@@ -483,10 +498,13 @@ class ErisedaiClient:
             names = (FLASH_PRO_MODEL,) + stage_models.SUBROUTER_SAME_MODEL.get(FLASH_PRO_MODEL, ()) \
                 + tuple(stage_models.approved_alt_models(FLASH_PRO_MODEL))
             acc[FLASH_PRO_MODEL] = [x for n in names for x in (n, f'{stage_models.SUBROUTER_VENDOR}/{n}')]
-        price = PROVIDER + '/' + FLASH_PRO_MODEL
+        pro = stage_models.subrouter_model(FLASH_PRO_MODEL)
+        if pro not in acc:
+            acc[pro] = list(acc[FLASH_PRO_MODEL])
+        price = PROVIDER + '/' + pro
         if price not in budget.PRICES:
             budget.PRICES[price] = (self.config['input_usd_per_million'], self.config['output_usd_per_million'])
-        return self._call(stage, messages, limit, FLASH_PRO_MODEL, temperature, base_url, secret, key_env,
+        return self._call(stage, messages, limit, pro, temperature, base_url, secret, key_env,
                           fallback_reason=reason, provider_fallback=False)
 
     def _fallback(self, stage, messages, max_tokens, fb, reason):
@@ -516,6 +534,7 @@ class ErisedaiClient:
         payload = ({'model': model, 'messages': copy.deepcopy(messages),
                     'max_tokens': max_tokens, 'temperature': temperature,
                     'response_format': copy.deepcopy(RESPONSE_FORMAT),
+                    **({'stream': False} if stage_models.is_subrouter(base_url) else {}),
                     **_relay_reasoning(base_url, stage_models.thinking_level(self.stage_models, stage))} if not native
                    else gemini_payload(messages, max_tokens, temperature,
                                        stage_models.thinking_level(self.stage_models, stage)))
@@ -572,6 +591,10 @@ class ErisedaiClient:
             if native and not response.is_success:
                 # Official Gemini API: a rejected request (429 / 5xx / 4xx) is not billed.
                 record['usage'] = {'prompt_tokens': 0, 'completion_tokens': 0, 'basis': 'gemini error response, not billed'}
+            if _is_sse(response):
+                record['response_excerpt'] = _safe(response.text, secret)[:1000]
+                raise RelaySSEError('Relay returned an SSE stream (text/event-stream) instead of JSON; '
+                                    'not retried on the same model')
             try:
                 data = response.json()
             except (json.JSONDecodeError, UnicodeDecodeError):

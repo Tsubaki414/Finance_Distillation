@@ -57,7 +57,7 @@ def test_provider_selection():
         fb = stage_models.fallback(sub, stage)
         assert fb['provider_fallback'] and fb['base_url'] == stage_models.GEMINI_RELAY_BASE
         assert stage_models.model_fallback(sub, stage) is None
-    assert stage_models.for_stage(sub, 'compose')['model'] == 'gemini-3.1-pro-preview'
+    assert stage_models.for_stage(sub, 'compose')['model'] == 'gemini-3.1-pro'   # Oct 16: GA id (preview id served as SSE)
     assert stage_models.fallback(sub, 'compose')['model'] == 'gemini-3.1-pro-preview'
     # subrouter has no gemini-3-flash-preview id: GA gemini-3-flash on subrouter, the preview id on micuapi
     assert stage_models.for_stage(sub, 'stance')['model'] == 'gemini-3-flash'
@@ -79,7 +79,7 @@ def test_subrouter_serves_and_does_not_count_toward_cap(tmp_path):
         return ok(body['model'])
     client = ErisedaiClient(tmp_path / 'calls', configuration=config(), transport=httpx.MockTransport(handler))
     out = client('compose', [{'role': 'user', 'content': 'hi'}], 1000)
-    assert seen == [('https://subrouter.ai/v1/chat/completions', 'Bearer ' + SUB_KEY, 'gemini-3.1-pro-preview', 'medium')]
+    assert seen == [('https://subrouter.ai/v1/chat/completions', 'Bearer ' + SUB_KEY, 'gemini-3.1-pro', 'medium')]
     assert out['serving_provider'] == 'subrouter' and not out['model_fallback'] and not out['provider_fallback']
     rec = json.loads(next((tmp_path / 'calls').glob('*.json')).read_text())
     assert rec['provider'] == 'subrouter' and rec['cost_counts_toward_cap'] is False
@@ -221,9 +221,9 @@ def test_gemini_pro_agent_accepted_only_while_approved(monkeypatch):
              'accepted_response_models': {'gemini-3.1-pro-preview': ['gemini-3.1-pro-preview'], 'm': ['m']}}
     monkeypatch.delenv('FD_SUBROUTER_ACCEPT_ALT', raising=False)
     out = sm._apply_subrouter(table)
-    assert 'gemini-pro-agent' in sm.accepted(out, 'gemini-3.1-pro-preview')
+    assert 'gemini-pro-agent' in sm.accepted(out, 'gemini-3.1-pro')
     assert sm.approved_alt_models() == ('gemini-pro-agent',)
     monkeypatch.setenv('FD_SUBROUTER_ACCEPT_ALT', '0')
     out = sm._apply_subrouter(table)
-    assert 'gemini-pro-agent' not in sm.accepted(out, 'gemini-3.1-pro-preview')
+    assert 'gemini-pro-agent' not in sm.accepted(out, 'gemini-3.1-pro')
     assert sm.approved_alt_models() == ()

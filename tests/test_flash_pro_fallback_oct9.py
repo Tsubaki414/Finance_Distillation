@@ -64,10 +64,10 @@ def test_every_flash_stage_falls_back_to_pro_on_subrouter(tmp_path, stage):
     seen = []
     out = _client(tmp_path, seen)(stage, [{'role': 'user', 'content': 'hi'}], 1000)
     assert seen == [('https://subrouter.ai/v1/chat/completions', 'gemini-3-flash'),
-                    ('https://subrouter.ai/v1/chat/completions', 'gemini-3.1-pro-preview')]
+                    ('https://subrouter.ai/v1/chat/completions', 'gemini-3.1-pro')]
     assert out['model_fallback'] and not out['provider_fallback'] and out['serving_provider'] == 'subrouter'
     rec = [json.loads(p.read_text()) for p in (tmp_path / 'calls').glob('*.json')]
-    pro = [r for r in rec if r['model'] == 'gemini-3.1-pro-preview']
+    pro = [r for r in rec if r['model'] == 'gemini-3.1-pro']
     assert pro and 'project_id' in pro[0]['fallback_reason'] and pro[0]['cost_counts_toward_cap'] is False
     assert json.loads(budget.LEDGER.read_text())['spent_usd'] == 0.0
 
@@ -77,7 +77,7 @@ def test_dead_channel_is_skipped_after_the_first_error(tmp_path):
     client = _client(tmp_path, seen)
     for _ in range(3):
         client('stance', [{'role': 'user', 'content': 'hi'}], 1000)
-    assert [m for _, m in seen] == ['gemini-3-flash'] + ['gemini-3.1-pro-preview'] * 3
+    assert [m for _, m in seen] == ['gemini-3-flash'] + ['gemini-3.1-pro'] * 3
 
 
 def test_other_400s_and_switch_off_do_not_fall_back(tmp_path, monkeypatch):
@@ -97,4 +97,4 @@ def test_other_400s_and_switch_off_do_not_fall_back(tmp_path, monkeypatch):
 def test_compose_on_pro_is_untouched(tmp_path):
     seen = []
     _client(tmp_path, seen)('compose', [{'role': 'user', 'content': 'hi'}], 1000)
-    assert [m for _, m in seen] == ['gemini-3.1-pro-preview']
+    assert [m for _, m in seen] == ['gemini-3.1-pro']

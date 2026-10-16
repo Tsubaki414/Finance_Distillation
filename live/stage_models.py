@@ -50,6 +50,18 @@ def approved_alt_models(model=None):
 
 SUBROUTER_SAME_MODEL = {'gemini-3.1-pro-preview': ('gemini-3.1-pro',)}
 SUBROUTER_MODEL_MAP = {'gemini-3-flash-preview': 'gemini-3-flash'}
+# Oct 16 ~12:00 BST: subrouter answers 'gemini-3.1-pro-preview' as SSE (text/event-stream) backed by gemini-3.8-flash-n
+# ("Relay returned invalid JSON"). Its GA id 'gemini-3.1-pro' returns JSON with response model gemini-3.1-pro.
+# Rollback: FD_SUBROUTER_PRO_ID=preview sends the old id again.
+SUBROUTER_PRO_MAP = {'gemini-3.1-pro-preview': 'gemini-3.1-pro'}
+
+
+def subrouter_model(model, environ=None):
+    """The model id sent to subrouter for the pipeline's Gemini id."""
+    env = environ if environ is not None else os.environ
+    if env.get('FD_SUBROUTER_PRO_ID', '') != 'preview' and model in SUBROUTER_PRO_MAP:
+        return SUBROUTER_PRO_MAP[model]
+    return SUBROUTER_MODEL_MAP.get(model, model)
 FLAT_RATE_HOSTS = (SUBROUTER_HOST,)
 GEMINI_PROVIDERS = ('subrouter', 'relay', 'official')
 # Oct 7 (Fiona): official Gemini credits depleted (402); the micuapi relay serves the same Gemini model names.
@@ -141,7 +153,7 @@ def _official_subrouter_fallback(table):
     for stage, entry in (out.get('stages') or {}).items():
         if not (entry.get('base_url') and is_gemini_native(entry['base_url'])) or entry.get('fallback'):
             continue
-        sub_model = SUBROUTER_MODEL_MAP.get(entry['model'], entry['model'])
+        sub_model = subrouter_model(entry['model'])
         fb = {'model': sub_model, 'temperature': entry.get('temperature', 0.0), 'base_url': SUBROUTER_BASE,
               'api_key_env': 'SUBROUTER_API_KEY', 'provider_fallback': True}
         if entry.get('max_tokens'):
@@ -166,7 +178,7 @@ def _apply_subrouter(table, only=None):
         if entry.get('fallback') or (only is not None and stage not in only):
             continue   # a documented model fallback stays as configured (no nested fallback); stage not selected
         model = entry['model']
-        sub_model = SUBROUTER_MODEL_MAP.get(model, model)
+        sub_model = subrouter_model(model)
         fb = {'model': model, 'temperature': entry.get('temperature', 0.0), 'base_url': GEMINI_RELAY_BASE,
               'api_key_env': 'GEMINI_RELAY_API_KEY', 'provider_fallback': True}
         for k in ('rates', 'max_tokens'):
@@ -182,8 +194,9 @@ def _apply_subrouter(table, only=None):
         # Only the exact "google/<requested id>" is added; a different channel ("gemini-pro-agent") stays refused.
         acc = out['accepted_response_models'][sub_model] = list(out['accepted_response_models'][sub_model])
         for name in (sub_model, model):
-            if f'{SUBROUTER_VENDOR}/{name}' not in acc:
-                acc.append(f'{SUBROUTER_VENDOR}/{name}')
+            for n in (name, f'{SUBROUTER_VENDOR}/{name}'):
+                if n not in acc:
+                    acc.append(n)
         for name in SUBROUTER_SAME_MODEL.get(model, ()) + approved_alt_models(model):
             for n in (name, f'{SUBROUTER_VENDOR}/{name}'):
                 if n not in acc:
