@@ -18,6 +18,13 @@ Hard rules (enforced in code, not only in prompts):
     what is left of the budget (collect_background); videos that do not fit are skipped and retried next run;
   - X API: one /user-tweets page per call, calls spaced >= 2.1 s apart (<= 28 calls / min), max MAX_PAGES (3) pages.
 
+Oct 16 (FD_VIDEO_CHUNK, default on): a transcript is no longer cut at MAX_SOURCE_CHARS. It is split at paragraph / timestamp
+/ sentence boundaries into chunks of ~CHUNK_CHARS with a small overlap (CHUNK_OVERLAP), every chunk gets its own EXTRACT
+call (same prompt, same ring fence), unit spans are shifted back to full-transcript offsets and merged (deduped by unit id).
+Caps: MAX_CHUNKS per source, PER_SOURCE_USD per source, EXTRACT_WALL_S wall clock per extract() run (the 600 s BUDGET_S
+of the transcription step is unchanged). A deterministic check (verify_units) drops units whose numbers / company names are
+not in the transcript and units that name a person. FD_VIDEO_CHUNK=0 restores the old 8000-char cut, one call per transcript.
+
 Switch: FD_VIDEO_SRC (default 1; =0 removes the registry row / licence / route, so no fetch and the stored units are
 offered to no account). FD_VIDEO_ACCOUNTS overrides the two accounts (comma list).
 """
@@ -51,7 +58,13 @@ WAIT_S = 120
 CALL_GAP_S = 2.1
 WEEK_DAYS = 7
 VERBATIM_CHARS = 12
-MAX_SOURCE_CHARS = 8000
+MAX_SOURCE_CHARS = 8000     # legacy hard cut, only used when FD_VIDEO_CHUNK=0
+CHUNK_CHARS = 6000
+CHUNK_OVERLAP = 400
+MAX_CHUNKS = 8
+MAX_TOTAL_CHARS = 60000    # same ceiling as longform_src max_chars
+PER_SOURCE_USD = 0.06
+EXTRACT_WALL_S = 240
 BUDGET_USD = 0.20
 VERSION_TAG = 'video-idea-v1'
 OUT_DIR = Path('/workspace/x/video_src')
@@ -75,6 +88,17 @@ HARD_CODES = frozenset({'video_attribution', 'video_verbatim', 'video_contrast',
 
 def enabled(env=None):
     return (env if env is not None else os.environ).get('FD_VIDEO_SRC', '1') != '0'
+
+
+def chunking(env=None):
+    return (env if env is not None else os.environ).get('FD_VIDEO_CHUNK', '1') != '0'
+
+
+def _env_num(name, default, cast=float, env=None):
+    try:
+        return cast((env if env is not None else os.environ).get(name, default))
+    except ValueError:
+        return default
 
 
 def budget_usd(env=None):
@@ -453,7 +477,8 @@ def pending_sources(out_dir=None, *, now, seen=()):
             txt = day / meta['transcript_file']
             if sid in seen or not txt.exists():
                 continue
-            text = txt.read_text()[:MAX_SOURCE_CHARS]
+            text = txt.read_text()
+            text = text[:MAX_TOTAL_CHARS] if chunking() else text[:MAX_SOURCE_CHARS]
             created = _created(meta.get('created'))
             sources.append({'id': sid, 'source_id': SOURCE_ID, 'source_hash': digest(text), 'original_text': text,
                             'author_name': '', 'publisher': DISPLAY_NAME, 'title': f'idea material {meta["id"][-6:]}',
@@ -463,6 +488,223 @@ def pending_sources(out_dir=None, *, now, seen=()):
                             'also_reported_by': [], 'video_meta': {k: meta.get(k) for k in ('likes', 'duration_s')}})
     sources.sort(key=lambda s: s.get('published_at') or '', reverse=True)
     return sources
+
+
+# ---------------------------------------------------------------- semantic chunking (FD_VIDEO_CHUNK)
+
+_SPLITS = (re.compile(r'\n[ \t]*\n'), re.compile(r'\n'), re.compile(r'(?<=[。！？!?；;.])[ \t]*'))
+
+
+def _atoms(text, a, b, target, level=0):
+    """Contiguous (start, end) pieces of text[a:b], each <= target where a boundary exists: blank line, then line
+    (timestamp lines), then sentence end, then a hard cut."""
+    if b - a <= target:
+        return [(a, b)]
+    if level >= len(_SPLITS):
+        return [(i, min(i + target, b)) for i in range(a, b, target)]
+    cuts, last = [], a
+    for m in _SPLITS[level].finditer(text, a, b):
+        if last < m.end() < b:
+            cuts.append(m.end())
+            last = m.end()
+    out, prev = [], a
+    for c in cuts + [b]:
+        out.extend(_atoms(text, prev, c, target, level + 1))
+        prev = c
+    return out
+
+
+def chunk_spans(text, target=None, overlap=None, max_chunks=None):
+    """Chunk the transcript at paragraph / timestamp / sentence boundaries -> [(start, end)] offsets into text.
+    Each chunk holds ~target chars; the next one re-opens with the last whole pieces of the previous one that fit in
+    `overlap` chars. A text <= target is one chunk (0..len). At most max_chunks chunks."""
+    target = int(target or _env_num('FD_VIDEO_CHUNK_CHARS', CHUNK_CHARS, int))
+    overlap = CHUNK_OVERLAP if overlap is None else int(overlap)
+    max_chunks = int(max_chunks or _env_num('FD_VIDEO_MAX_CHUNKS', MAX_CHUNKS, int))
+    if len(text) <= target:
+        return [(0, len(text))]
+    atoms = _atoms(text, 0, len(text), max(300, overlap))   # boundary candidates: paragraph / line / sentence pieces
+    chunks, i = [], 0
+    while i < len(atoms):
+        j, size = i, 0
+        while j < len(atoms) and (j == i or size + atoms[j][1] - atoms[j][0] <= target):
+            size += atoms[j][1] - atoms[j][0]
+            j += 1
+        chunks.append((atoms[i][0], atoms[j - 1][1]))
+        if j >= len(atoms):
+            break
+        k, back = j, 0
+        while k > i + 1 and back + atoms[k - 1][1] - atoms[k - 1][0] <= overlap:
+            k -= 1
+            back += atoms[k][1] - atoms[k][0]
+        i = max(k, i + 1)
+    out = []
+    for a, b in chunks[:max_chunks]:
+        seg = text[a:b]
+        a2 = a + len(seg) - len(seg.lstrip())
+        b2 = b - (len(seg) - len(seg.rstrip()))
+        if b2 > a2:
+            out.append((a2, b2))
+    return out
+
+
+def _shift_units(units, full_text, offset, full_hash):
+    """Chunk-relative unit spans -> full-transcript offsets (spans, view support), full source hash, new unit id."""
+    from live.distillation_source import digest, paragraphs
+    paras = paragraphs(full_text)
+
+    def pid(pos):
+        for p in paras:
+            if p['start'] <= pos <= p['end']:
+                return p['paragraph_id']
+        return None
+
+    def fix(o):
+        if isinstance(o, dict):
+            if 'source_hash' in o:
+                o['source_hash'] = full_hash
+            if isinstance(o.get('start'), int) and isinstance(o.get('end'), int):
+                o['start'] += offset
+                o['end'] += offset
+                if 'paragraph_id' in o:
+                    o['paragraph_id'] = pid(o['start']) or o['paragraph_id']
+            for v in o.values():
+                if isinstance(v, (dict, list)):
+                    fix(v)
+        elif isinstance(o, list):
+            for v in o:
+                fix(v)
+    for u in units:
+        fix(u)
+        u['unit_id'] = 'cu-' + digest([u['source_hash'], u['kind'], [(s['start'], s['end']) for s in u['source_spans']]])[:20]
+    return units
+
+
+def merge_units(unit_lists):
+    """Concatenate per-chunk units; overlap repeats (same unit id or same statement) are kept once."""
+    out, ids, stmts = [], set(), set()
+    for units in unit_lists:
+        for u in units:
+            key = re.sub(r'\s+', '', str(u.get('statement') or ''))
+            if u.get('unit_id') in ids or key in stmts:
+                continue
+            ids.add(u.get('unit_id'))
+            stmts.add(key)
+            out.append(u)
+    return out
+
+
+# ---------------------------------------------------------------- deterministic source check (numbers / names)
+
+_CN_DIGIT = {'零': 0, '〇': 0, '一': 1, '二': 2, '两': 2, '三': 3, '四': 4, '五': 5, '六': 6, '七': 7, '八': 8, '九': 9}
+_CN_UNIT = {'十': 10, '百': 100, '千': 1000}
+_MULT = {'万': 1e4, '亿': 1e8, '千': 1e3, 'k': 1e3, 'K': 1e3, 'm': 1e6, 'M': 1e6, 'bn': 1e9, 'B': 1e9}
+_DIGITS = re.compile(r'(?<![\d.])(\d[\d,]*(?:\.\d+)?)\s*(万|亿|千|bn|[kKmMB](?![A-Za-z])|%|％)?')
+_CN_NUM = re.compile(r'[零〇一二两三四五六七八九十百千]+(?:点[零〇一二三四五六七八九]+)?[万亿]?')
+ORG_CN = re.compile(r'[\u4e00-\u9fffA-Za-z0-9]{2,8}?(?:公司|集团|银行|基金|证券|交易所|控股|航空|汽车)')
+LATIN_NAME = re.compile(r"\b[A-Z][A-Za-z0-9&'.\-]*(?:\s+[A-Z][A-Za-z0-9&'.\-]*)*")
+ORG_LATIN_SUFFIX = re.compile(r'\b(?:Inc|Corp|Corporation|Co|Ltd|LLC|Group|Bank|Capital|Holdings|Technologies|Motors|Airlines|Labs|Fund|Exchange)\b')
+PERSON_CN = re.compile(r'[\u4e00-\u9fff]{1,3}(?:先生|女士|博士|教授|总统|首相|创始人)')
+LATIN_STOP = frozenset('A An The This That These Those It Its In On At As Of To For And But Or If When While With Without By From Not No '
+                       'So Then There Here We You I He She They My Our Your Their Is Are Was Were Be Do Does Did'.split())
+
+
+def _cn_int(s):
+    total, cur, seen = 0, 0, False
+    for ch in s:
+        if ch in _CN_DIGIT:
+            cur, seen = _CN_DIGIT[ch], True
+        elif ch in _CN_UNIT:
+            total += (cur or 1) * _CN_UNIT[ch]
+            cur, seen = 0, True
+        else:
+            return None
+    return total + cur if seen else None
+
+
+def number_tokens(text, *, min_cn=True):
+    """[(token, {candidate values})] for the numbers written in text: digits (with , . and a 万 亿 千 k m bn % suffix)
+    and Chinese numerals (single bare digits like 三 are ignored when min_cn: too common in prose)."""
+    text = str(text or '')
+    out = []
+    for m in _DIGITS.finditer(text):
+        v = float(m.group(1).replace(',', ''))
+        cands = {round(v, 6)}
+        if m.group(2) in _MULT:
+            cands.add(round(v * _MULT[m.group(2)], 6))
+        out.append((m.group(0).strip(), cands))
+    for m in _CN_NUM.finditer(text):
+        tok = m.group(0)
+        mult = 1.0
+        body = tok
+        if body[-1] in '万亿':
+            mult, body = _MULT[body[-1]], body[:-1]
+        head, _, frac = body.partition('点')
+        v = _cn_int(head) if head else None
+        if v is None or (min_cn and len(tok) == 1 and tok in _CN_DIGIT):
+            continue
+        v = float(v) + (float('0.' + ''.join(str(_CN_DIGIT[c]) for c in frac)) if frac else 0)
+        out.append((tok, {round(v * mult, 6)}))
+    return out
+
+
+def number_values(text):
+    return {v for _, c in number_tokens(text, min_cn=False) for v in c}
+
+
+def _name_pieces(text):
+    out = [('org', m.group(0)) for m in ORG_CN.finditer(text)]
+    out += [('person', m.group(0)) for m in PERSON_CN.finditer(text)]
+    for m in LATIN_NAME.finditer(text):
+        words = [w for w in m.group(0).split() if w not in LATIN_STOP]
+        name = ' '.join(words)
+        if not words or len(name) < 3:
+            continue
+        # 2+ capitalised words without a company suffix = a personal name; one capitalised word = company / product
+        out.append(('org' if ORG_LATIN_SUFFIX.search(name) or len(words) == 1 else 'person', name))
+    return out
+
+
+def _fold_cf(t):
+    return re.sub(r'\s+', ' ', str(t or '').translate({0x2018: 39, 0x2019: 39, 0x201c: 34, 0x201d: 34})).casefold()
+
+
+def verify_units(units, source_text):
+    """Deterministic check of extracted units against the transcript text. A unit is DROPPED when
+      - it names an individual (personal-name shape): no individual names reach drafts ('person_name');
+      - a number in its statement / numbers[] / view text is not a number written in the transcript ('number_not_in_source');
+      - a company-like name in it is not in the transcript ('name_not_in_source').
+    -> (kept, [{'unit_id', 'reason', 'detail'}])"""
+    src = _fold_cf(source_text)
+    src_nums = number_values(source_text)
+    kept, flagged = [], []
+    for u in units or ():
+        view = u.get('view') if isinstance(u.get('view'), dict) else {}
+        texts = [str(u.get('statement') or '').split(' [named in source:')[0], str(view.get('subject') or ''),
+                 *[str(r) for r in view.get('reasoning') or ()]]
+        texts += [str(n.get('text') or '') for n in u.get('numbers') or () if isinstance(n, dict)]
+        blob = '\n'.join(texts)
+        names = _name_pieces(blob) + _name_pieces(' '.join(str(e) for e in u.get('entities') or ()))
+        reason = detail = None
+        for kind, name in names:
+            if kind == 'person':
+                reason, detail = 'person_name', name
+                break
+        if not reason:
+            for tok, cands in number_tokens(blob):
+                if not cands & src_nums:
+                    reason, detail = 'number_not_in_source', tok
+                    break
+        if not reason:
+            for _, name in names:
+                if _fold_cf(name) not in src:
+                    reason, detail = 'name_not_in_source', name
+                    break
+        if reason:
+            flagged.append({'unit_id': u.get('unit_id'), 'reason': reason, 'detail': detail})
+        else:
+            kept.append(u)
+    return kept, flagged
 
 
 BAD_UNIT = re.compile(r'作者|博主|视频|演讲|讲者|主播|本期|这期|他说|她说')
@@ -481,7 +723,7 @@ def clean_units(units):
     return kept, len(units or ()) - len(kept)
 
 
-def extract(db, sources, *, client, budget, cost_cap_usd, fence_usd, state, now, extract_batch=None):
+def extract(db, sources, *, client, budget, cost_cap_usd, fence_usd, state, now, extract_batch=None, clock=time.monotonic):
     """Batched cheap EXTRACT (VIDEO_EXTRACT prompt) in its own ring fence; units tagged with the route beats."""
     from live import flash_extract, source_routes
     from live.distillation import ContractError
@@ -494,31 +736,70 @@ def extract(db, sources, *, client, budget, cost_cap_usd, fence_usd, state, now,
     budget.set_cap(fence)
     stats = dict(selected=len(sources), extracted=0, with_units=0, units_added=0, calls=0, prompt_tokens=0,
                  completion_tokens=0, dropped_units=0, failed_flashes=[], budget_usd=float(fence_usd), deferred_budget=0)
+    t0 = clock()
+    wall_s = _env_num('FD_VIDEO_EXTRACT_S', EXTRACT_WALL_S)
+    per_source = _env_num('FD_VIDEO_SOURCE_USD', PER_SOURCE_USD)
+    use_chunks = chunking()
+    stats.update(chunks=0, chunks_deferred=0, chunk_units=0, flagged_units=0, flagged={})
     try:
-        for i in range(0, len(sources)):   # one transcript per call: batched answers merged flashes (10-15 pilot)
-            group = sources[i:i + 1]
-            try:
-                result = extract_batch(group, client, licence_tier='B', stats=stats, prompt=_prompt(), version_tag=VERSION_TAG)
-            except budget.BudgetExceeded:
+        for i in range(0, len(sources)):   # one transcript per call (or one call per chunk): batched answers merged flashes
+            src = sources[i]
+            full = str(src.get('original_text') or '')
+            spans = chunk_spans(full) if use_chunks else [(0, len(full))]
+            full_hash = src.get('source_hash')
+            src_start, units_in, failed_here, partial, out_of_budget = budget.spent(), [], 0, False, False
+            for k, (c0, c1) in enumerate(spans):
+                if k and (budget.spent() - src_start >= per_source or clock() - t0 >= wall_s):
+                    stats['chunks_deferred'] += len(spans) - k   # per-source cost cap / wall clock: rest of the source is skipped
+                    partial = True
+                    break
+                if len(spans) == 1 and (c0, c1) == (0, len(full)):
+                    group = [src]
+                else:
+                    from live.distillation_source import digest
+                    chunk = full[c0:c1]
+                    group = [dict(src, id=f"{src['id']}#c{k}", original_text=chunk, source_hash=digest(chunk))]
+                try:
+                    result = extract_batch(group, client, licence_tier='B', stats=stats, prompt=_prompt(), version_tag=VERSION_TAG)
+                except budget.BudgetExceeded:
+                    stats['deferred_budget'] += 1
+                    out_of_budget = True
+                    break
+                except ContractError:
+                    failed_here += 1
+                    stats['failed_flashes'] += [group[0]['id']]
+                    continue
+                stats['chunks'] += 1
+                got = result.get(group[0]['id']) or []
+                if group[0] is not src:
+                    got = _shift_units(got, full, c0, full_hash)
+                units_in.append(got)
+            if out_of_budget and not any(units_in):
                 stats['deferred_budget'] = len(sources) - i
                 break
-            except ContractError:
-                stats['failed_flashes'] += [s['id'] for s in group]
-                continue
-            stats['extracted'] += len(group)
-            for src in group:
-                units, dropped = clean_units(result.get(src['id']) or [])
-                stats['filtered_units'] = stats.get('filtered_units', 0) + dropped
-                if src['id'] in (stats['failed_flashes'] or []):
-                    continue
-                attempts[src['id']] = attempts.get(src['id'], 0) + 1
-                if units or attempts[src['id']] >= 2:   # an empty answer is retried once on the next run
-                    seen.add(src['id'])
-                if units:
-                    stats['with_units'] += 1
-                    added = db.add(src, units, adapter=ADAPTER)['added']
-                    stats['units_added'] += added
-                    db.set_persona_tags(source_routes.tags_for(units, SOURCE_ID), .7)
+            if failed_here == len(spans):
+                continue   # every call failed: not seen, retried next run (as before)
+            stats['extracted'] += 1
+            merged = merge_units(units_in)
+            stats['chunk_units'] += len(merged)
+            units, dropped = clean_units(merged)
+            stats['filtered_units'] = stats.get('filtered_units', 0) + dropped
+            if use_chunks:
+                units, flagged = verify_units(units, full)
+                stats['flagged_units'] += len(flagged)
+                for f in flagged:
+                    stats['flagged'][f['reason']] = stats['flagged'].get(f['reason'], 0) + 1
+            attempts[src['id']] = attempts.get(src['id'], 0) + 1
+            if (units or attempts[src['id']] >= 2) and not out_of_budget:   # an empty answer is retried once on the next run
+                seen.add(src['id'])
+            if units:
+                stats['with_units'] += 1
+                added = db.add(src, units, adapter=ADAPTER)['added']
+                stats['units_added'] += added
+                db.set_persona_tags(source_routes.tags_for(units, SOURCE_ID), .7)
+            if out_of_budget:
+                stats['deferred_budget'] = len(sources) - i
+                break
     finally:
         budget.set_cap(cost_cap_usd)
         st['seen'] = sorted(seen)[-500:]
